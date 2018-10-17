@@ -33,20 +33,17 @@ import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 
 public class RegUtility {
+    private static String TAG = "RegUtility";
+
     private static long createAccountStartTime;
 
     private static UIFlow uiFlow;
@@ -227,7 +224,7 @@ public class RegUtility {
 
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
         String flowType = abTestClientInterface.getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
-                ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
+                ABTestClientInterface.UPDATETYPE.APP_UPDATE);
         if (flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())) {
             return UIFlow.FLOW_B;
         }
@@ -287,46 +284,6 @@ public class RegUtility {
 
     private static String[] defaultSupportedHomeCountries = new String[]{"RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
 
-
-    /**
-     * @param serverResponse
-     * @return error Message
-     * @since 1.0.0
-     */
-    public static String getErrorMessageFromInvalidField(JSONObject serverResponse) {
-        try {
-            JSONObject jsonObject = (JSONObject) serverResponse.get(RegConstants.INVALID_FIELDS);
-            if (jsonObject != null) {
-                jsonObject.keys();
-                List<String> keys = new ArrayList<String>();
-                Iterator<?> i = jsonObject.keys();
-                do {
-                    String k = i.next().toString();
-                    keys.add(k);
-                } while (i.hasNext());
-
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int j = 0; j < keys.size(); j++) {
-                    JSONArray jsonObject1 = (JSONArray) jsonObject.opt(keys.get(j));
-                    stringBuilder.append(jsonObject1.getString(0)).append("\n");
-                }
-                return stringBuilder.toString();
-            }
-        } catch (Exception e) {
-            //NOP
-        }
-        return null;
-    }
-
-    public static String getTaggingErrorDescription(JSONObject serverResponse) {
-
-        try {
-            return serverResponse.getString("error_description");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
 
     /**
      * @return List of Supported Countries
@@ -407,7 +364,7 @@ public class RegUtility {
                 countryName = mContext.getApplicationContext().getString(identifier);
 
             } catch (Exception resourcesNotFoundException) {
-                RLog.d(RLog.EXCEPTION, resourcesNotFoundException.getMessage());
+                RLog.d(TAG, "getCountry"+ resourcesNotFoundException.getMessage());
             }
         }
 

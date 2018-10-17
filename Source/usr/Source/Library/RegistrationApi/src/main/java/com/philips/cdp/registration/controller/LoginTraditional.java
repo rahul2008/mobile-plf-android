@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
@@ -29,7 +30,6 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
 
-
     private Context mContext;
 
     private LoginHandler mLoginHandler;
@@ -44,7 +44,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
 
     private HSDPLoginService mHsdpLoginService;
 
-    private final static String TAG = LoginTraditional.class.getSimpleName();
+    private final static String TAG = "LoginTraditional";
 
     public LoginTraditional(LoginHandler loginHandler, Context context,
                             UpdateUserRecordHandler updateUserRecordHandler, String email, String password) {
@@ -53,7 +53,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
         mUpdateUserRecordHandler = updateUserRecordHandler;
         mEmail = email;
         mPassword = password;
-        mUser = new User(mContext);
+        //mUser = new User(mContext);
+        getUser();
         mHsdpLoginService = new HSDPLoginService(mContext);
     }
 
@@ -94,7 +95,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
         final RegistrationConfiguration registrationConfiguration = RegistrationConfiguration.getInstance();
         RLog.d(TAG, "onSuccess : isHSDPSkipLoginConfigurationAvailable : " + registrationConfiguration.isHSDPSkipLoginConfigurationAvailable());
         RLog.d(TAG, "onSuccess : isHsdpFlow : " + registrationConfiguration.isHsdpFlow());
-        if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
+        if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow() && (getUser().isEmailVerified() || getUser().isMobileVerified())) {
             loginIntoHsdp();
         } else {
             ThreadUtils.postInMainThread(mContext, () -> mLoginHandler.onLoginSuccess());
@@ -103,10 +104,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
 
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
         try {
-            RLog.e(TAG, "onFailure : error Description :" + error.captureApiError.error_description);
-            RLog.e(TAG, "onFailure : error code :" + error.captureApiError.code);
+            RLog.e(TAG, "onFailure : is called error: "+error.captureApiError.raw_response);
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(error.captureApiError, mContext);
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
@@ -114,8 +113,11 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
             ThreadUtils.postInMainThread(mContext, () ->
                     mLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         } catch (Exception e) {
-            RLog.e("Login failed :", "exception :" + e.getMessage());
-            RLog.d(TAG, "onFailure : is called" + e.getMessage());
+            RLog.e(TAG, "onFailure: exception :" + e.getMessage());
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+            userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
     }
 
@@ -142,7 +144,13 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
 
     public void loginIntoHsdp() {
         RLog.d(TAG, "loginIntoHsdp : is called");
-        String emailOrMobile = mHsdpLoginService.getUserEmailOrMobile(mUser);
-        mHsdpLoginService.hsdpLogin(mUser.getAccessToken(), emailOrMobile, mLoginHandler);
+        String emailOrMobile = mHsdpLoginService.getUserEmailOrMobile(getUser());
+        mHsdpLoginService.hsdpLogin(getUser().getAccessToken(), emailOrMobile, mLoginHandler);
     }
+
+    @VisibleForTesting
+    User getUser() {
+        return new User(mContext);
+    }
+
 }

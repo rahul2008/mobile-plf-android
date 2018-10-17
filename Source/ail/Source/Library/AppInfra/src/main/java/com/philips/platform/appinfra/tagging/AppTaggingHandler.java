@@ -18,8 +18,8 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
-import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -183,7 +183,7 @@ public class AppTaggingHandler {
         String mUTCTimestamp = null;
         if (mAppInfra != null && mAppInfra.getTime() != null) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z", Locale.ENGLISH);
-            dateFormat.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+            dateFormat.setTimeZone(TimeZone.getTimeZone(TimeInterface.UTC));
             mUTCTimestamp = dateFormat.format(mAppInfra.getTime().getUTCTime());
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
                     AppInfraLogEventID.AI_TAGGING, "Tagging" + mUTCTimestamp);
@@ -318,8 +318,8 @@ public class AppTaggingHandler {
         mAppInfra.getSecureStorage().storeValueForKey(AIL_PRIVACY_CONSENT, String.valueOf(valueContent), getSecureStorageErrorValue());
     }
 
-    private SecureStorage.SecureStorageError getSecureStorageErrorValue() {
-        return new SecureStorage.SecureStorageError();
+    private SecureStorageInterface.SecureStorageError getSecureStorageErrorValue() {
+        return new SecureStorageInterface.SecureStorageError();
     }
 
     void trackWithInfo(String pageName, String key, String value, boolean isTrackPage) {

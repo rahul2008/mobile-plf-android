@@ -213,7 +213,6 @@ public class PaymentControllerTest {
         address.setCountryIsocode("US");
         address.setRegionIsoCode("US-CA");
         address.setLine1("Line1");
-        address.setLine2("Line2");
         address.setPostalCode("92821");
         address.setTown("California");
         address.setPhone1("+1877-682-8207");

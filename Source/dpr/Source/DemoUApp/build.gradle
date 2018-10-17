@@ -1,12 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
+
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "devicepairingUApp"
+archivesBaseName = strings.dpruapp.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -25,9 +30,7 @@ android {
         ]
 
     }
-    lintOptions {
-        abortOnError false
-    }
+    
     buildTypes {
         release {
             minifyEnabled false
@@ -39,25 +42,23 @@ android {
             debuggable true
         }
     }
-
-
 }
 
 dependencies {
     if (directdependencies) {
-        implementation project(':AppInfra')
-        implementation project(':uid')
-        implementation project(':catk')
-        implementation project(':csw')
-        implementation project(':pif')
-        implementation project(':dataServices')
-        implementation project(':dataServicesUApp')
-        implementation project(':uAppFwLib')
-        implementation project(':registrationApi')
-        implementation project(':commlib')
-        implementation project(':commlib-api')
-        implementation project(':commlib-lan')
-        implementation project(':cloudcontroller')
+        implementation project(strings.ail.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.catk.projectName)
+        implementation project(strings.csw.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.dsc.projectName)
+        implementation project(strings.dscuapp.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.cml.projectName)
+        implementation project(strings.cmlapi.projectName)
+        implementation project(strings.cmllan.projectName)
+        implementation project(strings.clc.projectName)
     } else {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.uid

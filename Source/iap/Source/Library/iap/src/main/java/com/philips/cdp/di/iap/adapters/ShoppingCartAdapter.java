@@ -319,9 +319,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         setCountArrow(mContext, isStockAvailable);
         mOutOfStock.onOutOfStock(isStockAvailable);
         if(!isStockAvailable){
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + stocklevel + " left");
+            //shoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
+            //shoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + stocklevel + " left");
+            shoppingCartProductHolder.out_of_stock.setVisibility(View.VISIBLE);
+            mOutOfStock.onOutOfStock(false);
+            shoppingCartProductHolder.out_of_stock.setText(mContext.getString(R.string.iap_out_of_stock));
+            shoppingCartProductHolder.out_of_stock.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
+
         }
+        else{
+            shoppingCartProductHolder.out_of_stock.setVisibility(View.GONE);
+        }
+
     }
 
     private void getNetworkImage(final ShoppingCartProductHolder shoppingCartProductHolder, final String imageURL) {
@@ -414,6 +423,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
+        Label mDeliveryDescriprion;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -435,6 +445,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryVia = itemView.findViewById(R.id.delivery_via_ups);
             mDeliveryDescriprion = itemView.findViewById(R.id.iap_delivery_mode_description);
             mDeliveryUpsVal = itemView.findViewById(R.id.delivery_ups_val);
+            mDeliveryDescriprion = itemView.findViewById(R.id.iap_delivery_mode_description);
             mExtraOption = itemView.findViewById(R.id.extra_option);
             mEditIcon = itemView.findViewById(R.id.edit_icon);
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
@@ -443,6 +454,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             summary_delivery_container= itemView.findViewById(R.id.summary_delivery_container);
             mAppliedVoucherCode = itemView.findViewById(R.id.voucherLabel);
             mVoucherContainer = itemView.findViewById(R.id.voucher_container);
+            summary_delivery_container= itemView.findViewById(R.id.summary_delivery_container);
         }
     }
 

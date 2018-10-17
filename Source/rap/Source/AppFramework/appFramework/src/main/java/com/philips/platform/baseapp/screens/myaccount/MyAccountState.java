@@ -1,6 +1,7 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +23,7 @@ import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -72,7 +74,7 @@ public class MyAccountState extends BaseState{
         if (isHybrisAvailable) {
             profileItems = new String[]{"MYA_My_details", "MYA_My_orders"};
         } else {
-            profileItems = new String[]{"MYA_My_details","MYA_Marketing_Optin"};
+            profileItems = new String[]{"MYA_My_details", "MYA_Marketing_Optin"};
         }
         String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
@@ -98,7 +100,9 @@ public class MyAccountState extends BaseState{
                     }
                     if(null != baseState){
                         baseState.init(fragmentLauncher.getFragmentActivity().getApplicationContext());
-                        baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
+                        final Handler handler = new Handler();
+                        BaseState finalBaseState = baseState;
+                        handler.postDelayed(() -> finalBaseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity())), 2000);
                     }
                     return true;
                 }

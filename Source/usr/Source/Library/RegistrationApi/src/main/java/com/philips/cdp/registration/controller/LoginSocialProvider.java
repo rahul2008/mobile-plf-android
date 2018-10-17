@@ -35,6 +35,8 @@ import org.json.JSONObject;
 
 public class LoginSocialProvider extends HSDPLoginService implements Jump.SignInResultHandler, JumpFlowDownloadStatusListener {
 
+    private final static String TAG = "LoginSocialProvider";
+
     private Context mContext;
 
     private SocialLoginProviderHandler mSocialLoginProviderHandler;
@@ -43,7 +45,9 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-    private final static String TAG = LoginSocialProvider.class.getSimpleName();
+    private Activity mActivity;
+
+    private String mProviderName;
 
     public LoginSocialProvider(SocialLoginProviderHandler socialLoginProviderHandler, Context context,
                                UpdateUserRecordHandler updateUserRecordHandler) {
@@ -65,104 +69,80 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
             String emailorMobile = getUserEmailOrMobile(user);
             RLog.d(TAG, "onSuccess : from LoginSocialProvider is called");
             hsdpLogin(user.getAccessToken(), emailorMobile, mSocialLoginProviderHandler);
-//            HsdpUser hsdpUser = new HsdpUser(mContext);
-//
-//            String emailorMobile;
-//            if (FieldsValidator.isValidEmail(user.getEmail())) {
-//                emailorMobile = user.getEmail();
-//            } else {
-//                emailorMobile = user.getMobile();
-//            }
-//            hsdpUser.login(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
-//                    new SocialLoginHandler() {
-//
-//                        @Override
-//                        public void onLoginSuccess() {
-//                            ThreadUtils.postInMainThread(mContext, () ->
-//                                    mSocialLoginHandler.onLoginSuccess());
-//                        }
-//
-//                        @Override
-//                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-//                            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-//                            ThreadUtils.postInMainThread(mContext, () ->
-//                                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-//                        }
-//                    });
-
         } else {
             ThreadUtils.postInMainThread(mContext, mSocialLoginProviderHandler::onLoginSuccess);
         }
 
     }
 
-//    @Override
-//    public void onCode(String code) {
-//        RLog.d(TAG, "onCode : is called");
-//    }
-
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-        if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
-                && error.captureApiError.isMergeFlowError()) {
-            String emailId = null;
-            if (null != error.auth_info) {
-                JRDictionary profile = error.auth_info.getAsDictionary("profile");
-                if (profile != null) {
-                    emailId = profile.getAsString("email");
+        try {
+            if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
+                    && error.captureApiError.isMergeFlowError()) {
+                RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
+
+                String emailId = null;
+                if (null != error.auth_info) {
+                    JRDictionary profile = error.auth_info.getAsDictionary("profile");
+                    if (profile != null) {
+                        emailId = profile.getAsString("email");
+                    }
                 }
+                mMergeToken = error.captureApiError.getMergeToken();
+                final String existingProvider = error.captureApiError
+                        .getExistingAccountIdentityProvider();
+                String conflictingIdentityProvider = error.captureApiError
+                        .getConflictingIdentityProvider();
+                String conflictingIdpNameLocalized = JRProvider
+                        .getLocalizedName(conflictingIdentityProvider);
+                String existingIdpNameLocalized = JRProvider
+                        .getLocalizedName(conflictingIdentityProvider);
+                String finalEmailId = emailId;
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mSocialLoginProviderHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
+                                conflictingIdentityProvider, conflictingIdpNameLocalized,
+                                existingIdpNameLocalized, finalEmailId));
+                userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
+                userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+                RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = " + error.captureApiError.code);
+            } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
+                    && error.captureApiError.isTwoStepRegFlowError()) {
+                RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
+
+
+                JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
+                String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
+                                socialRegistrationToken));
+                userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
+                userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+                RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = " + error.captureApiError.code);
+            } else if (error.reason == SignInError.FailureReason.AUTHENTICATION_CANCELLED_BY_USER) {
+                userRegistrationFailureInfo.setErrorCode(ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER);
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                //   AUTHENTICATION_CANCELLED_BY_USER
+
+                RLog.e(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
+
+            } else {
+                userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+
+                RLog.e(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
             }
-            mMergeToken = error.captureApiError.getMergeToken();
-            final String existingProvider = error.captureApiError
-                    .getExistingAccountIdentityProvider();
-            String conflictingIdentityProvider = error.captureApiError
-                    .getConflictingIdentityProvider();
-            String conflictingIdpNameLocalized = JRProvider
-                    .getLocalizedName(conflictingIdentityProvider);
-            String existingIdpNameLocalized = JRProvider
-                    .getLocalizedName(conflictingIdentityProvider);
-            String finalEmailId = emailId;
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialLoginProviderHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
-                            conflictingIdentityProvider, conflictingIdpNameLocalized,
-                            existingIdpNameLocalized, finalEmailId));
-            userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
-            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = " + error.captureApiError.code);
-        } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
-                && error.captureApiError.isTwoStepRegFlowError()) {
-
-            JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
-            String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
-                            socialRegistrationToken));
-            userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
-            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            RLog.e(TAG, "onFailure : userRegistrationFailureInfo.setErrorCode = " + error.captureApiError.code);
-        } else if (error.reason == SignInError.FailureReason.AUTHENTICATION_CANCELLED_BY_USER) {
-            userRegistrationFailureInfo.setErrorCode(ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER);
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-            //   AUTHENTICATION_CANCELLED_BY_USER
-
-            RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
-
-        } else {
+            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+        } catch (Exception e) {
+            RLog.e(TAG, "onFailure : is called : Exception : " + e.getMessage());
             userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
             ThreadUtils.postInMainThread(mContext, () ->
                     mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-
-            RLog.d(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
-
         }
-        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
-
-    private Activity mActivity;
-    private String mProviderName;
 
     public void loginSocial(final Activity activity, final String providerName, final String mergeToken) {
         RLog.d(TAG, "loginSocial : is called");

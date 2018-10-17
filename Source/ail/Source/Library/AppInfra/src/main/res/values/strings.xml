@@ -8,7 +8,7 @@
 <resources>
     <string name="library_name" translatable="false">AppInfraLib</string>
     <string name="localized_commercial_app_name" translatable="false">AppInfra</string>
-    <string name="ail_fullLocale" translatable="false">en-US</string>
+    <string name="ail_fullLocale">en-US</string>
     <string name="ail_locale">en</string>
     <string name="ail_cloud_consent_title" translatable="false">Enable Cloud logging</string>
     <string name="ail_cloud_consent_help" translatable="false">Used to enable cloud logging</string>

@@ -50,7 +50,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
     private final ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener;
     public static final String OTP_REGEX = "[0-9]{1,6}";
     public static final int SMS_PERMISSION_CODE = 1000;
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = "SMSBroadCastReceiver";
 
     public SMSBroadCastReceiver(ReceiveAndRegisterOTPListener mReceiveAndRegisterOTPListener) {
 
@@ -59,7 +59,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        RLog.i(TAG, "SMS onRecieve is Called");
+        RLog.i(TAG, "onRecieve : SMS received");
         getDataFromIntent(context, intent);
 
     }
@@ -129,7 +129,7 @@ public class SMSBroadCastReceiver extends BroadcastReceiver {
         try {
             mReceiveAndRegisterOTPListener.getActivityContext().unregisterReceiver(mReceiveAndRegisterOTPListener.getSMSBroadCastReceiver());
         } catch (Exception e) {
-            RLog.i(TAG, " ReceiveAndRegisterOTPListener is not set");
+            RLog.e(TAG, "unRegisterReceiver: ReceiveAndRegisterOTPListener is not set"+e.getMessage());
         }
     }
 

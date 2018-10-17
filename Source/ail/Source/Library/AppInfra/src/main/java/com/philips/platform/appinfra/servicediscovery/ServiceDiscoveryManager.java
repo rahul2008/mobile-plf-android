@@ -20,12 +20,10 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.appidentity.AppIdentityManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
@@ -52,9 +50,7 @@ import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.*;
 public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     private static final long serialVersionUID = -2933379998466934303L;
-    public static final String AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION = "ail.servicediscovery.homecountryChanged";
     public static final String SD_DATA_CHANGE_ACTION = "com.philips.platform.appinfra.SERVICE_DISCOVERY_DATA_CHANGE";
-    public static final String AIL_HOME_COUNTRY = "ail.servicediscovery.homeCountry";
     private static final String COUNTRY = "country";
     private static final String COUNTRY_SOURCE = "country_source";
     private static final String URL_TAG_TEST = "apps%2b%2benv%2btest";
@@ -306,7 +302,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         switch (aisdurlType) {
             case AISDURLTypePlatform:
                 sector = "B2C";
-                final AppIdentityManager appIdentityManager = new AppIdentityManager(mAppInfra);
+                final AppIdentityInterface appIdentityManager = mAppInfra.getAppIdentity();
                 microSiteId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
                         ("servicediscovery.platformMicrositeId", "appinfra", error);
                 appIdentityManager.validateMicrositeId(microSiteId);
@@ -330,7 +326,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 }
                 appIdentityManager.validateServiceDiscoveryEnv(environment);
                 environment = getSDBaseURLForEnvironment(environment);
-                checkArgumentException(microSiteId, environment);
                 break;
 
             case AISDURLTypeProposition:
@@ -809,7 +804,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             }
         }
         final SecureStorageInterface mSecureStorageInterface = mAppInfra.getSecureStorage();
-        final SecureStorage.SecureStorageError mSecureStorageError = getSecureStorageError();
+        final SecureStorageInterface.SecureStorageError mSecureStorageError = getSecureStorageError();
 
         mSecureStorageInterface.storeValueForKey(COUNTRY, country, mSecureStorageError);
 
@@ -817,7 +812,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         this.mCountry = country;
         this.mCountrySourceType = countrySource;
         if (mSecureStorageError != null && !TextUtils.isEmpty(mSecureStorageError.getErrorMessage()))
-            trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_STORE_FAILED);
+            trackErrorAction(SERVICE_DISCOVERY, SD_SET_HOME_COUNTRY_STORE_FAILED + ":"+mSecureStorageError.getErrorMessage());
 
     }
 

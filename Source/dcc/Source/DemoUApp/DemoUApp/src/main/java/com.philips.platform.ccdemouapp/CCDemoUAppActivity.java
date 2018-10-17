@@ -311,7 +311,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
                 DigitalCareConfigManager.getInstance().invokeDigitalCare(uiLauncher, productsSelection);*/
 
                 final ActivityLauncher activityLauncher =
-                        new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),
+                        new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),
                                         themeHelper.getThemeResourceId(), null);
 
             activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);

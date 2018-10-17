@@ -7,10 +7,9 @@ package com.philips.cdp.cloudcontroller.api.pairing;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
-
-import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.ICPCallbackHandler;
 import com.philips.cdp.cloudcontroller.ICPEventListener;
+import com.philips.cdp.cloudcontroller.api.CloudController;
 import com.philips.cdp.cloudcontroller.api.util.LogConstants;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
@@ -18,10 +17,13 @@ import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
+import com.philips.icpinterface.data.PairingReceivedRelationships;
 import com.philips.icpinterface.data.PairingRelationship;
-
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class DefaultPairingController implements PairingController, ICPEventListener {
 
@@ -29,7 +31,9 @@ public class DefaultPairingController implements PairingController, ICPEventList
     private static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
 
     private final CloudController mCloudController;
+    @Deprecated
     private PairingCallback mPairingCallback;
+    private final Map<Integer, PairingCallback> callbacks = new ConcurrentSkipListMap<>();
 
     public DefaultPairingController(@NonNull CloudController cloudController) {
         mCloudController = cloudController;
@@ -50,8 +54,30 @@ public class DefaultPairingController implements PairingController, ICPEventList
 
                 break;
             case Commands.PAIRING_REMOVE_RELATIONSHIP:
-                mPairingCallback.onRelationshipRemove();
+                mPairingCallback.onRelationshipRemove(status);
 
+                break;
+            case Commands.PAIRING_GET_RELATIONSHIPS:
+                final Collection<PairingRelation> relationships = new ArrayList<>();
+
+                for (int i = 0; i < pairingService.getNumberOfRelationsReturned(); i++) {
+                    PairingReceivedRelationships receivedRelationship = pairingService.getReceivedRelationsAtIndex(i);
+                    PairingReceivedRelationships.PairingEntity pairingRcvdRelEntityFrom = receivedRelationship.pairingRcvdRelEntityFrom;
+                    PairingReceivedRelationships.PairingEntity pairingRcvdRelEntityTo = receivedRelationship.pairingRcvdRelEntityTo;
+                    PairingEntity trustor =
+                        new PairingEntity(pairingRcvdRelEntityFrom.PairingEntityProvider, pairingRcvdRelEntityFrom.PairingEntityId, pairingRcvdRelEntityFrom.PairingEntityType,
+                            null);
+                    PairingEntity trustee =
+                        new PairingEntity(pairingRcvdRelEntityTo.PairingEntityProvider, pairingRcvdRelEntityTo.PairingEntityId, pairingRcvdRelEntityTo.PairingEntityType, null);
+
+                    relationships.add(new PairingRelation(trustor, trustee, receivedRelationship.pairingRcvdRelRelationType));
+                }
+
+                PairingCallback callback = callbacks.get(obj.getMessageId());
+                if (callback != null) {
+                    callback.onRelationshipGet(relationships);
+                    callbacks.remove(obj.getMessageId());
+                }
                 break;
             case Commands.PAIRING_ADD_PERMISSIONS:
                 mPairingCallback.onPermissionsAdd();
@@ -96,8 +122,10 @@ public class DefaultPairingController implements PairingController, ICPEventList
         PairingEntitiyReference trustorInternalRepresentation = relationship.getTrustorEntity() == null ? null : convertPairingEntity(relationship.getTrustorEntity());
         PairingEntitiyReference trusteeInternalRepresentation = relationship.getTrusteeEntity() == null ? null : convertPairingEntity(relationship.getTrusteeEntity());
 
-        pairingService.addRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, null,
-                getPairingRelationshipData(relationship.getType(), PAIRING_PERMISSIONS.toArray(new String[PAIRING_PERMISSIONS.size()])), pairingInfo);
+        Set<String> permissions = relationship.getPermissions();
+        PairingRelationship pairingRelationship = getPairingRelationshipData(relationship.getType(), permissions.toArray(new String[permissions.size()]));
+
+        pairingService.addRelationshipRequest(trustorInternalRepresentation, trusteeInternalRepresentation, null, pairingRelationship, pairingInfo);
 
         pairingService.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
         status = pairingService.executeCommand();
@@ -138,10 +166,42 @@ public class DefaultPairingController implements PairingController, ICPEventList
     }
 
     /**
+     * Method getRelationships - get all relationships
+     *
+     * @param callback the callback
+     */
+    @Override
+    public void getRelationships(@NonNull PairingCallback callback) {
+        if (!mCloudController.isSignOn()) {
+            return;
+        }
+
+        int iMaxPermissions = 5;
+        int iMaxRelationships = 5;
+        int iPermIndex = 0;
+
+        PairingService pairingService = createPairingService(this);
+        int status = pairingService.getRelationshipRequest(null, null, true, true, 0, iMaxPermissions, iMaxRelationships, iPermIndex);
+
+        if (Errors.SUCCESS != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+            return;
+        }
+        pairingService.setPairingServiceCommand(Commands.PAIRING_GET_RELATIONSHIPS);
+        status = pairingService.executeCommand();
+
+        callbacks.put(pairingService.getMessageId(), callback);
+
+        if (Errors.REQUEST_PENDING != status) {
+            Log.d(LogConstants.PAIRING, "Request Invalid/Failed Status: " + status);
+        }
+    }
+
+    /**
      * Method addPermission- adds permission to a existing relationship
      *
      * @param relationType String
-     * @param permission   String[]
+     * @param permission String[]
      */
     @Override
     public void addPermission(String relationType, String[] permission, PairingEntity trustee, @NonNull PairingCallback callback) {
@@ -169,7 +229,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * Method getPermission-get permissions of a existing relationship
      *
      * @param relationType String
-     * @param permission   String[]
+     * @param permission String[]
      */
     @Override
     public void getPermission(String relationType, String[] permission, PairingEntity trustee, PermissionListener permissionListener, @NonNull PairingCallback callback) {
@@ -202,7 +262,7 @@ public class DefaultPairingController implements PairingController, ICPEventList
      * Method removePermission-remove permission from a existing relationship
      *
      * @param relationType String
-     * @param permission   String[]
+     * @param permission String[]
      */
     @Override
     public void removePermission(String relationType, String[] permission, PairingEntity trustee, @NonNull PairingCallback callback) {
@@ -230,9 +290,6 @@ public class DefaultPairingController implements PairingController, ICPEventList
 
     /**
      * add pairing info
-     *
-     * @param secretKey
-     * @return
      */
     private PairingInfo getPairingInfo(String secretKey) {
         PairingInfo pairingTypeInfo = new PairingInfo();
@@ -245,13 +302,8 @@ public class DefaultPairingController implements PairingController, ICPEventList
 
     /**
      * add pairingRelationshipData
-     *
-     * @param permission
-     * @param relationshipType
-     * @return
      */
-    private PairingRelationship getPairingRelationshipData(
-            String relationshipType, String[] permission) {
+    private PairingRelationship getPairingRelationshipData(String relationshipType, String[] permission) {
         PairingRelationship pairingRelationshipData = new PairingRelationship();
         pairingRelationshipData.pairingRelationshipIsAllowDelegation = false;
         pairingRelationshipData.pairingRelationshipMetadata = null;

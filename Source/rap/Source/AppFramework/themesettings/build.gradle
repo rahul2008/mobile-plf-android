@@ -1,46 +1,19 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     dependencies {
         classpath builddeps.buildinfoextractor
     }
 }
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-    }
-}
-
+archivesBaseName = strings.tse.artifactName
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -55,6 +28,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -64,25 +38,18 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     testOptions {
         unitTests.returnDefaultValues = true
     }
-
-
 }
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
-
     implementation deps.support.appcompatv7
-
     implementation deps.support.recyclerview
 
     if (directdependencies) {
-        implementation project(':uid')
+        implementation project(strings.uid.projectName)
     } else {
         implementation philipsdeps.uid
     }
@@ -90,8 +57,8 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
-
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

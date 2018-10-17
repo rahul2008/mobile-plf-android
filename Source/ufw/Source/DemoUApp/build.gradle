@@ -1,61 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = "uAppFwLibUApp"
+archivesBaseName = strings.ufwuapp.artifactName
 
-def support_version = versions.support
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven {
-            url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-    }
-}
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 }
 
 android {
@@ -68,38 +24,30 @@ android {
         targetSdkVersion versions.target
         versionCode 1
         versionName version
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-    }
-    
-    lintOptions {
-        abortOnError false
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation deps.calligraphy
-    implementation deps.support.annotations
-    implementation deps.shamanland_fonticon
-    implementation deps.support.cardview
-    implementation deps.support.recyclerview
-    implementation deps.multidex
-    implementation deps.support.appcompatv7
-    implementation deps.support.design
     implementation deps.gson
-
-
+    implementation deps.multidex
+    implementation deps.shamanland_fonticon
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation deps.support.cardview
+    implementation deps.support.design
+    implementation deps.support.recyclerview
 
     if (directdependencies) {
-        implementation project(':uikitLib')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-        implementation project(':uid')
+        implementation project(strings.uit.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.uid.projectName)
     } else {
-        implementation (philipsdeps.uikitLib) {
+        implementation(philipsdeps.uikitLib) {
             exclude group: 'com.android.support'
         }
         implementation philipsdeps.uAppFwLib
@@ -107,5 +55,5 @@ dependencies {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

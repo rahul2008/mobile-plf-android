@@ -19,7 +19,7 @@ import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 class ReferenceNodeDeviceDefinition implements SHNDeviceDefinitionInfo.SHNDeviceDefinition {
     @Override
     public SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral) {
-        SHNDeviceImpl shnDevice = new SHNDeviceImpl(shnCentral.getBTDevice(deviceAddress), shnCentral, shnDeviceDefinitionInfo.getDeviceTypeName());
+        SHNDeviceImpl shnDevice = new SHNDeviceImpl.Builder(shnCentral.getBTDevice(deviceAddress), shnCentral, shnDeviceDefinitionInfo.getDeviceTypeName()).build();
 
         final SHNServiceDiCommStreaming shnServiceDiCommStreaming = new SHNServiceDiCommStreaming();
         shnDevice.registerService(shnServiceDiCommStreaming);

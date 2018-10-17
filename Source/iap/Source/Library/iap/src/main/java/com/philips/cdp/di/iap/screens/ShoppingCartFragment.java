@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -241,6 +240,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             addFragment(voucherFragment, VoucherFragment.TAG, true);
         }
     }
+
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
@@ -270,7 +270,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                addFragment(DLSAddressFragment.createInstance(bundle, AnimationType.NONE),
+                addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
                         AddressSelectionFragment.TAG,true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;

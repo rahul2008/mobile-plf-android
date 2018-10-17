@@ -4,17 +4,25 @@ import android.app.Activity;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.errors.NotificationMessage;
+import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.events.EventListener;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.philips.cdp.registration.ui.utils.RegConstants.NOTIFICATION;
+
 public class URNotification {
+
+    private static final String TAG = "URNotification";
 
     private final Activity mActivity;
     private NotificationType mNotificationType = NotificationType.NOTIFICATION_BAR;
     private NotificationBarView notificationBarView;
     private URNotificationInterface notificationInterface;
+
 
     public interface URNotificationInterface {
         void notificationInlineMsg(String msg);
@@ -44,7 +52,7 @@ public class URNotification {
     }
 
     public URNotification(Activity mActivity, URNotificationInterface notificationInterface) {
-        RLog.d("URNotification", "URNotification");
+        RLog.d(TAG, "URNotification");
         this.mActivity = mActivity;
         this.notificationInterface = notificationInterface;
     }
@@ -56,20 +64,23 @@ public class URNotification {
 
         if (mNotificationType == NotificationType.NOTIFICATION_BAR) {
             if (notificationBarView != null) return;
-            RLog.d("URNotification", "URNotification : new NotificationBarView");
+            RLog.d(TAG, "URNotification : new NotificationBarView");
             notificationBarView = new NotificationBarView(mActivity);
         }
         switch (mNotificationType) {
 
             case INLINE:
-                RLog.d("URNotification", "Notifying Inline message with :" + notificationMessage.getMessage());
+                RLog.d(TAG, "URNotification : INLINE : showError :" + notificationMessage.getMessage());
                 notificationInterface.notificationInlineMsg(notificationMessage.getMessage());
                 break;
 
             case NOTIFICATION_BAR:
-                RLog.d("URNotification", "URNotification : NOTIFICATION_BAR : showError");
-                if (!notificationBarView.isNotificationBarViewShowing())
+                RLog.d(TAG, "URNotification : NOTIFICATION_BAR : showError");
+                if (!notificationBarView.isNotificationBarViewShowing()) {
+//                    if (!isNetworkError)
+
                     notificationBarView.showError(notificationMessage.getMessage(), notificationMessage.getTitle(), mActivity.findViewById(R.id.usr_reg_root_layout));
+                }
                 break;
         }
     }
@@ -77,10 +88,11 @@ public class URNotification {
     public void hideNotification() {
         switch (mNotificationType) {
             case NOTIFICATION_BAR:
-                if (notificationBarView != null && notificationBarView.isNotificationBarViewShowing()) {
+                if (notificationBarView != null) {
                     notificationBarView.hidePopup();
-                    RLog.d("URNotification", "URNotification : hideNotification");
+                    RLog.d(TAG, "URNotification : hideNotification");
                     notificationBarView = null;
+
 
                 }
         }

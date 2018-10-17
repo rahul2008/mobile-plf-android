@@ -89,11 +89,13 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
             this.view.showConfirmRevokeConsentDialog(confirmDialogTextResources, new ConfirmDialogView.ConfirmDialogResultHandler() {
                 @Override
                 public void onOkClicked() {
+                    tagRevokeConsentPopUpClicked(true);
                     postConsentChange(definition, false);
                 }
 
                 @Override
                 public void onCancelClicked() {
+                    tagRevokeConsentPopUpClicked(false);
                     responseHandler.handleResponse(true);
                 }
             });
@@ -160,5 +162,12 @@ public class PermissionPresenter implements PermissionContract.Presenter, FetchC
         info.put(CswConstants.Tagging.SPECIAL_EVENTS, (consentGiven ? CswConstants.Tagging.CONSENT_ACCEPTED : CswConstants.Tagging.CONSENT_REJECTED));
         info.put(CswConstants.Tagging.CONSENT_TYPE, TaggingUtils.join(definition.getTypes()));
         return info;
+    }
+
+    public void tagRevokeConsentPopUpClicked(boolean action) {
+        final Map<String, String> info = new HashMap<>();
+        info.put(CswConstants.Tagging.IN_APP_NOTIFICATION, CswConstants.Tagging.REVOKE_CONSENT_POPUP);
+        info.put(CswConstants.Tagging.IN_APP_NOTIFICATION_RESPONSE, action ? CswConstants.Tagging.Action.ACTION_YES : CswConstants.Tagging.Action.ACTION_CANCEL);
+        appTaggingInterface.trackActionWithInfo(SEND_DATA, info);
     }
 }

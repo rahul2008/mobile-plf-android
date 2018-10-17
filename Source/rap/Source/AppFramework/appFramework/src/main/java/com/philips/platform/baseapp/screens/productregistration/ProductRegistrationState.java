@@ -129,9 +129,21 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         PRLaunchInput prodRegLaunchInput;
         prodRegLaunchInput = new PRLaunchInput(getProductList(), true);
         prodRegLaunchInput.setProdRegUiListener(this);
+
+        boolean isCountryIndia = getApplicationContext().getAppInfra()
+                .getServiceDiscovery().getHomeCountry().equalsIgnoreCase("IN");
+
+        RALog.d(TAG,"isCountryIndia "+isCountryIndia);
+
+        if (isCountryIndia) {
+            prodRegLaunchInput.setMandatoryProductRegistration(true);
+        } else{
+            prodRegLaunchInput.setMandatoryProductRegistration(false);
+            prodRegLaunchInput.setMandatoryRegisterButtonText("sample text");
+
+
+        }
         new PRInterface().launch(fragmentLauncher,prodRegLaunchInput);
     }
-
-
 
 }

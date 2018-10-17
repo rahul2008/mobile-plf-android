@@ -9,6 +9,7 @@ public class AppStates {
     /**
      * Each state has a string value defined.
      */
+    public static final String COOKIES_CONSENT = "cookies_consent";
     public static final String WELCOME = "welcome";
     public static final String SUPPORT = "support";
     public static final String SPLASH = "splash";

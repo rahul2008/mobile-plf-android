@@ -11,7 +11,7 @@ import io.reactivex.Completable;
 
 public class UpdateJanRainUserProfile implements UpdateUserProfile {
 
-    private String TAG = UpdateJanRainUserProfile.class.getSimpleName();
+    private String TAG = "UpdateJanRainUserProfile";
 
     private static final String JANRAIN_UPDATE_EMAIL_KEY = "email";
     private static final String EDIT_PROFILE_FORM_NAME = "editProfileForm";
@@ -29,8 +29,8 @@ public class UpdateJanRainUserProfile implements UpdateUserProfile {
 
                 @Override
                 public void onFailure(CaptureApiError e) {
-                    RLog.e(TAG, "updateUserEmail : onFailure");
-                    emitter.onError(new Throwable(e.error));
+                    RLog.e(TAG, "updateUserEmail : onFailure : error " + e.raw_response);
+                    emitter.onError(new Throwable(e.error_description));
                 }
             };
             updateUserEmail(emailId, callback);
@@ -40,11 +40,11 @@ public class UpdateJanRainUserProfile implements UpdateUserProfile {
     void updateUserEmail(String emailId, CaptureApiRequestCallback captureApiRequestCallback) {
         CaptureRecord currentUser = Jump.getSignedInUser();
         try {
-            RLog.d(TAG, "updating User Email with provided email");
+            RLog.d(TAG, "updateUserEmail : initiated");
             currentUser.put(JANRAIN_UPDATE_EMAIL_KEY, emailId);
             Capture.updateUserProfile(currentUser, EDIT_PROFILE_FORM_NAME, captureApiRequestCallback);
         } catch (JSONException e) {
-            RLog.e(TAG, "Exception while updating User Email with provided email" + e.getMessage());
+            RLog.e(TAG, "updateUserEmail : Exception while updating User Email with provided email" + e.getMessage());
         }
     }
 }

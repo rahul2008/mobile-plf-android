@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.screens;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cdp.di.iap.R;
@@ -109,7 +108,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             } else {
                 hideProgressBar();
                 addFragment(
-                        DLSAddressFragment.createInstance(new Bundle(), AnimationType.NONE), DLSAddressFragment.TAG,true);
+                        AddressFragment.createInstance(new Bundle(), AnimationType.NONE), AddressFragment.TAG,true);
             }
         }
     }
@@ -186,7 +185,6 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         addressFields.setFirstName(address.getFirstName());
         addressFields.setLastName(address.getLastName());
         addressFields.setLine1(address.getLine1());
-        addressFields.setLine2(address.getLine2());
         addressFields.setPhone1(address.getPhone1());
         addressFields.setPhone2(address.getPhone2());
         addressFields.setPostalCode(address.getPostalCode());

@@ -17,7 +17,7 @@ public interface AILCloudLogDao {
     @Query("select count(*) from AILCloudLogData where status in ('Error','New')")
     LiveData<Integer> getNumberOfRows();
 
-    @Query("select * FROM AILCloudLogData where status in ('Error','New') order by logTime LIMIT :maxlimit")
+    @Query("select * FROM AILCloudLogData where status in ('New') order by logTime LIMIT :maxlimit")
     List<AILCloudLogData> getOldestRowsWithMaxLimit(int maxlimit);
 
 

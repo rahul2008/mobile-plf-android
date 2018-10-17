@@ -21,6 +21,7 @@ public class PRDemoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Config.setDebugLogging(true);
         setContentView(R.layout.activity_prdemoapp);
         findViewById(R.id.launch_pr_demo_app_button).setOnClickListener(new View.OnClickListener() {
             @Override

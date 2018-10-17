@@ -22,12 +22,12 @@ public class AppIdentityManager implements AppIdentityInterface {
         // At any call after the constructor, appInfra can be presumed to be complete.
     }
 
-
+    @Override
     public void validateServiceDiscoveryEnv(String serviceDiscoveryEnvironment) {
         mAppIdentityManagerHelper.serviceDiscoveryEnvValidate(serviceDiscoveryEnvironment);
     }
 
-
+    @Override
     public void validateMicrositeId(String micrositeId) {
         mAppIdentityManagerHelper.micrositeIdValidation(micrositeId);
     }

@@ -38,13 +38,14 @@
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"Off",
+      "logLevel":"Info",
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
-      "cloudLogEnabled":false,
+      "cloudLogEnabled":true,
       "cloudBatchLimit":5,
-      "componentLevelLogEnabled":false,
+      "componentLevelLogEnabled":true,
       "componentIds": [
+        "usr"
       ]
     },
     "logging.debugConfig":{
@@ -81,5 +82,10 @@
   },
   "dataservices": {
     "supportedMomentTypes": ["Temperature", "SleepSession", "sleepSession", "Note"]
+  },
+  "pairingRelationshipType": {
+    "STAGING": "urn:cdp|datareceiver_stg",
+    "DEVELOPMENT": "urn:cdp|datareceiver_dev",
+    "TEST": "urn:cdp|datareceiver_dev"
   }
 }

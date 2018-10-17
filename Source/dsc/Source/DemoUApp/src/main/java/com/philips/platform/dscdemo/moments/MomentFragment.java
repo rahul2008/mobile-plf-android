@@ -118,7 +118,6 @@ public class MomentFragment extends DSBaseFragment
         mTvInsights = view.findViewById(R.id.tv_insights);
         mTvSyncByDateRange = view.findViewById(R.id.tv_sync_by_date_range);
         mTvgdprFeatures = view.findViewById(R.id.tv_gdpr_features);
-        TextView mTvLogout = view.findViewById(R.id.tv_logout);
 
         mTvAddMomentType.setOnClickListener(this);
         mTvLatestMoment.setOnClickListener(this);
@@ -128,7 +127,6 @@ public class MomentFragment extends DSBaseFragment
         mTvCharacteristics.setOnClickListener(this);
         mTvSettings.setOnClickListener(this);
         mTvInsights.setOnClickListener(this);
-        mTvLogout.setOnClickListener(this);
         return view;
     }
 
@@ -208,8 +206,6 @@ public class MomentFragment extends DSBaseFragment
         } else if (i == R.id.tv_set_characteristics) {
             CharacteristicsFragment characteristicsFragment = new CharacteristicsFragment();
             showFragment(characteristicsFragment);
-        } else if (i == R.id.tv_logout) {
-            logOut();
         } else if (i == R.id.tv_insights) {
             InsightFragment insightFragment = new InsightFragment();
             showFragment(insightFragment);
@@ -351,36 +347,6 @@ public class MomentFragment extends DSBaseFragment
         public void onFailure(Exception exception) {
             MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.error_deleting_expired_moments));
         }
-    }
-
-    public void logOut() {
-        User user = new User(getContext());
-        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) return;
-
-        user.logout(new LogoutHandler() {
-            @Override
-            public void onLogoutSuccess() {
-
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
-                        if (getActivity() != null)
-                            getActivity().finish();
-                    }
-                });
-            }
-
-            @Override
-            public void onLogoutFailure(int i, String s) {
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, "Logout Failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
     }
 
     private boolean isOnline() {

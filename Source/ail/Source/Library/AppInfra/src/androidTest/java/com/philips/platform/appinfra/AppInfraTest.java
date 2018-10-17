@@ -2,7 +2,6 @@ package com.philips.platform.appinfra;
 
 import android.content.Context;
 import android.util.Log;
-
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
@@ -58,11 +57,6 @@ public class AppInfraTest extends AppInfraInstrumentation {
 		    }
 	    };
 	    mAppInfra = new AppInfra.Builder().setConfig(configInterface).build(context);
-	    Object abTestConfig = ABTestClientManager.getAbtestConfig(configInterface, mAppInfra);
-
-	    if(abTestConfig == null) {
-			assertTrue(mAppInfra.getAbTesting() == null);
-		}
 
 	    String languagePackConfig = LanguagePackManager.getLanguagePackConfig(configInterface,mAppInfra);
 	    if(languagePackConfig == null) {
@@ -92,12 +86,6 @@ public class AppInfraTest extends AppInfraInstrumentation {
 		    }
 	    };
 	    mAppInfra = new AppInfra.Builder().setConfig(configInterface).build(context);
-
-	    Object abTestConfig = ABTestClientManager.getAbtestConfig(configInterface, mAppInfra);
-	    if(abTestConfig != null) {
-		    mAppInfra.setAbTesting(new ABTestClientManager(mAppInfra));
-	    }
-	    assertNotNull(mAppInfra.getAbTesting());
 
 	    String languagePackConfig = LanguagePackManager.getLanguagePackConfig(configInterface,mAppInfra);
         if(languagePackConfig != null) {

@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.R;
 import com.philips.platform.referenceapp.utils.PNLog;
@@ -31,8 +32,8 @@ public class RegistrationIntentService extends IntentService {
             InstanceID instanceID = InstanceID.getInstance(this);
             String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            PushNotificationManager.getInstance().saveToken(token,getApplicationContext());
-            PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext());
+            PushNotificationManager.getInstance().saveToken(token,new SecureStorageInterface.SecureStorageError());
+            PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext(),new SecureStorageInterface.SecureStorageError());
             PNLog.i(TAG, "GCM Registration Token: " + token);
 
         } catch (IOException e) {

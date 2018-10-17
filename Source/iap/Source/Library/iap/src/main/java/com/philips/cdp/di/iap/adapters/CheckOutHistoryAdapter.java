@@ -172,6 +172,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     String deliveryMethod = data.getDeliveryMode().getName();
                     String deliveryModeDescription=data.getDeliveryMode().getDescription();
 
+                    String deliveryModeDescription=data.getDeliveryMode().getDescription();
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
@@ -189,6 +190,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
+
                     shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);

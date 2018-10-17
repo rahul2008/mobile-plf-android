@@ -25,8 +25,7 @@ import java.util.Map;
  */
 
 public class URRestClientStringRequest extends StringRequest {
-    public static final String TAG = URRestClientStringRequest.class
-            .getSimpleName();
+    public static final String TAG = "URRestClientStringRequest";
     private static int DEFAULT_TIMEOUT_MS = 30000;//30 SECONDS
     private String mBody = "";
     private Response.Listener<String> mResponseListener;
@@ -99,7 +98,7 @@ public class URRestClientStringRequest extends StringRequest {
     protected VolleyError parseNetworkError(VolleyError volleyError) {
         if (volleyError.networkResponse != null && volleyError.networkResponse.data != null) {
             final String message = new String(volleyError.networkResponse.data);
-            RLog.e(TAG, "parseNetworkError =" + message);
+            RLog.e(TAG, "parseNetworkError: volleyError message" + message);
             volleyError = new VolleyError(message);
         }
 

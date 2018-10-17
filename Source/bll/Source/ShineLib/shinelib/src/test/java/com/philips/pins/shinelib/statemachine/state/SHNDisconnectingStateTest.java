@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.statemachine.state;
 
 import com.philips.pins.shinelib.SHNCentral;
@@ -23,10 +28,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
@@ -101,9 +104,7 @@ public class SHNDisconnectingStateTest {
     public void whenStateIsChangedToNotReady_thenTagIsSentWithProperData() throws Exception {
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        SHNCentral centralMock = mock(SHNCentral.class);
-        when(centralMock.getShnCentralState()).thenReturn(SHNCentralStateNotReady);
-        state.onStateUpdated(centralMock);
+        state.onStateUpdated(SHNCentralStateNotReady);
 
         verifyStatic(SHNTagger.class, times(1));
         SHNTagger.sendTechnicalError(captor.capture());

@@ -7,10 +7,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "commlib-lan"
+archivesBaseName = strings.cmllan.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -34,36 +35,9 @@ android {
             buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 
-task generateJavadocPublicApi(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${projectDir}/../../../Documents/External/${project.name}-api/")
-
-    include {
-        if (it.isDirectory) {
-            return true
-        }
-        return true //it.file.text.contains("* @publicApi")
-    }
-
-    options {
-        memberLevel = JavadocMemberLevel.PUBLIC
-        links("http://docs.oracle.com/javase/7/docs/api/")
-        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
-        docEncoding = 'UTF-8'
-        encoding = 'UTF-8'
-        charSet = 'UTF-8'
-    }
-
-    failOnError false
-}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
     compileOnly deps.support.annotations
@@ -71,12 +45,12 @@ dependencies {
     implementation deps.gson
 
     if (directdependencies) {
-        implementation project(':commlib-api')
+        implementation project(strings.cmlapi.projectName)
     } else {
         implementation philipsdeps.commlib_api
     }
 
-    testImplementation project(':commlib-testutils')
+    testImplementation project(strings.cmltu.projectName)
 
     testImplementation deps.junit
     testImplementation deps.assertj

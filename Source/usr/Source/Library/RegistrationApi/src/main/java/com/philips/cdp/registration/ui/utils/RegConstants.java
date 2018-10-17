@@ -146,7 +146,7 @@ public class RegConstants {
 
     public static final String HTTPS_CONST = "https://";
 
-    public static final String COMPONENT_TAGS_ID = "PhilipsRegistration";
+    public static final String COMPONENT_TAGS_ID = "usr";
 
     public static final String SUCCESS_STATE_RESPONSE = "stat";
 
@@ -178,4 +178,5 @@ public class RegConstants {
 
     public static final int CAMPAIGN_ID_UNAVAILABLE = 412;
     public static final int UNKNOWN_ERROR_ID = -500;
+    public static final String NOTIFICATION = "NOTIFICATION";
 }

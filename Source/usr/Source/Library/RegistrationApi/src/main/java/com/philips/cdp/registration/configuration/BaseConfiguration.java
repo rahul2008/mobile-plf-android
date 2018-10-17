@@ -24,7 +24,7 @@ public class BaseConfiguration {
 
     private static final String DEFAULT_PROPERTY_KEY = "default";
 
-    private static final String TAG = BaseConfiguration.class.getSimpleName();
+    private static final String TAG = "BaseConfiguration";
 
     @Inject
     protected AppInfraWrapper appInfraWrapper;
@@ -39,11 +39,9 @@ public class BaseConfiguration {
             return null;
         }
         if (property instanceof String) {
-            RLog.i(TAG, "getConfigPropertyValue : property " + property);
             return (String) property;
         }
         if (property instanceof Map) {
-            RLog.i(TAG, "getConfigPropertyValue : getPropertyValueFromMap " + getPropertyValueFromMap((Map) property));
             return getPropertyValueFromMap((Map) property);
         }
         return null;
@@ -55,7 +53,7 @@ public class BaseConfiguration {
         if (propertyValue == null || propertyValue.isEmpty()) {
             propertyValue = (String) property.get(DEFAULT_PROPERTY_KEY);
         }
-        RLog.i(TAG, "getPropertyValueFromMap : propertyValue " + propertyValue);
+        RLog.d(TAG, "getPropertyValueFromMap : propertyValue " + propertyValue);
         return propertyValue;
     }
 

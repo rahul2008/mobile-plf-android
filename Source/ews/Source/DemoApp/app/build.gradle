@@ -1,71 +1,24 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
+        classpath builddeps.cdpSCM
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = "ewsApp"
-
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-
-        flatDir {
-            dirs 'libs'
-        }
-    }
-}
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -91,7 +44,6 @@ artifactory {
     }
     clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
-
 
 publishing {
     publications {
@@ -131,6 +83,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     dataBinding {
         enabled = true
     }
@@ -143,6 +96,7 @@ android {
             keyPassword "philips"
         }
     }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -156,9 +110,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions {
-        abortOnError false
-    }
 
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -168,8 +119,6 @@ android {
             output.outputFile = new File(output.outputFile.parent, newName)
         }
     }
-
-
 }
 
 def gitBranch() {
@@ -186,21 +135,24 @@ def getMyVersionCode() {
     buildNumber
 }
 
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    // Philips Dependencies
-    implementation project(':ewsUApp')
-    implementation "com.android.support:support-annotations:${versions.support}"
-    implementation "com.android.support:animated-vector-drawable:${versions.support}"
-    implementation "com.android.support:cardview-v7:${versions.support}"
-    implementation deps.multidex
-    implementation "com.android.support:design:${versions.support}"
-    implementation deps.support.appcompatv7
+
     annotationProcessor deps.dagger.compiler
+
+    // Philips Dependencies
+    implementation project(strings.ewsuapp.projectName)
+
+    // 3rd party deps
+    implementation deps.constraintlayout
     implementation deps.dagger.dagger
     implementation deps.greenrobot
-    implementation deps.constraintlayout
+    implementation deps.multidex
+    implementation deps.support.animvecdraw
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation deps.support.cardview
+    implementation deps.support.design
 }
 
 

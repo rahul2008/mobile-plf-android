@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +19,8 @@ import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.demo.R;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 

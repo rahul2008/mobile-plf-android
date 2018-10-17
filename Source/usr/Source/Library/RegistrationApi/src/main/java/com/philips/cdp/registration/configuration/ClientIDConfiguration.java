@@ -7,6 +7,9 @@ import java.util.Map;
 
 public class ClientIDConfiguration {
 
+    private final String TAG = "ClientIDConfiguration";
+
+
     private final String DEV_CAPTURE_DOMAIN = "https://philips.dev.janraincapture.com";
 
     private final String TEST_CAPTURE_DOMAIN = "https://philips-test.dev.janraincapture.com";
@@ -66,8 +69,8 @@ public class ClientIDConfiguration {
         map.putAll(addCaptureIdGlobalURLMapping());
         map.putAll(addCaptureIdRussianURLMapping());
         map.putAll(addCaptureIdChinaURLMapping());
-        RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain : " + domain);
-        RLog.d(RLog.SERVICE_DISCOVERY, "Capture Domain Map : " + map.get(domain));
+        RLog.d(TAG, "getCaptureId: Capture Domain : " + domain);
+        RLog.d(TAG, "getCaptureId : Capture Domain Map : " + map.get(domain));
         return map.get(domain);
     }
 
@@ -111,8 +114,8 @@ public class ClientIDConfiguration {
         map.putAll(addEngageIdGlobalURLMapping());
         map.putAll(addEngageIdRussianURLMapping());
         map.putAll(addEngageIdChinaURLMapping());
-        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
-        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
+        RLog.d(TAG, "Engagedi Domain : " + domain);
+        RLog.d(TAG, "Engagedi Domain Map :" + map.get(domain));
         return map.get(domain);
     }
 
@@ -158,8 +161,8 @@ public class ClientIDConfiguration {
         map.putAll(addResetPasswordGlobalURLMapping());
         map.putAll(addResetPasswordRussianURLMapping());
         map.putAll(addResetPasswordChinaURLMapping());
-        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain : " + domain);
-        RLog.d(RLog.SERVICE_DISCOVERY, "Engagedi Domain Map :" + map.get(domain));
+        RLog.d(TAG, "ResetPasswordClientId Domain : " + domain);
+        RLog.d(TAG, "ResetPasswordClientId Domain Map :" + map.get(domain));
         return map.get(domain);
     }
 

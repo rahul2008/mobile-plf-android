@@ -1,73 +1,24 @@
-apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-
-archivesBaseName = "product-registration-lib"
-
-def coverageSourceDirs = [
-        '../product-registration-lib/src/main/java'
-]
-buildscript {
-    apply from: projectDir.absolutePath + '/../../../../../build-support/gradle/versions.gradle'
-
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-        classpath builddeps.jruby_gradle
-    }
-}
-
-
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-//apply from: 'localization.gradle'
+apply plugin: 'com.android.library'
 
-allprojects {
-    repositories {
-        maven {
-            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-	    
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-        flatDir {
-            dirs 'libs'
-        }        
+archivesBaseName = strings.prg.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+        classpath builddeps.jruby_gradle
     }
 }
 
@@ -94,7 +45,7 @@ android {
         targetSdkVersion versions.target
         multiDexEnabled true
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.cdp.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         manifestPlaceholders = [
@@ -114,7 +65,6 @@ android {
         }
     }
 
-
     dexOptions {
         javaMaxHeapSize "4g"
         jumboMode true
@@ -133,13 +83,8 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
     testOptions {
         unitTests.returnDefaultValues = true
-        unitTests.includeAndroidResources = true
         unitTests.all {
             jvmArgs '-noverify'
             jacoco {
@@ -147,36 +92,32 @@ android {
             }
         }
     }
-
-
 }
 
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.support.appcompatv7
-    implementation deps.gson
+
     implementation deps.calligraphy
-    implementation deps.volley
+    implementation deps.gson
     implementation deps.libphonenumber
-
-
+    implementation deps.support.appcompatv7
+    implementation deps.volley
 
     if (directdependencies) {
-        implementation project(':registrationApi')
-        implementation project(':prx')
-        implementation project(':uid')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-
+        implementation project(strings.usr.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.registrationApi
         implementation philipsdeps.prx
-        implementation (philipsdeps.uid) {
+        implementation(philipsdeps.uid) {
             exclude group: 'com.android.support'
         }
     }
@@ -187,18 +128,14 @@ dependencies {
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
     description 'Run findbugs'
     group 'verification'
     ignoreFailures = true
     classes = fileTree('build/intermediates/classes/debug')
     source = fileTree('src/main/java')
     classpath = files()
-
     effort = 'max'
-
     excludeFilter = file("findbugs-exclude.xml")
-
     reports {
         xml.enabled = true
         html.enabled = false
@@ -206,13 +143,11 @@ task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 }
 
 task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
     description 'Run pmd'
     group 'verification'
     ignoreFailures = true
     ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
     source = fileTree('src/main/java')
-
     reports {
         xml.enabled = true
         html.enabled = false

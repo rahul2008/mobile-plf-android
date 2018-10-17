@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.cloudcontroller.api.CloudController;
+import com.philips.cdp.cloudcontroller.api.Errors;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.api.pairing.PairingRelation;
@@ -44,7 +45,8 @@ public class PairingHandler<T extends Appliance> {
 
     private CloudController cloudController;
 
-    private String currentRelationshipType;
+    @VisibleForTesting
+    String currentRelationshipType;
     private PairingListener<T> pairingListener;
     private String secretKey;
 
@@ -67,8 +69,13 @@ public class PairingHandler<T extends Appliance> {
         }
 
         @Override
-        public void onRelationshipRemove() {
-            handleRelationshipRemove();
+        public void onRelationshipRemove(int status) {
+            handleRelationshipRemove(status);
+        }
+
+        @Override
+        public void onRelationshipGet(@NonNull Collection<PairingRelation> relationships) {
+            // NOP
         }
 
         @Override
@@ -168,6 +175,8 @@ public class PairingHandler<T extends Appliance> {
 
                     currentRelationshipType = PAIRING_NOTIFY_RELATIONSHIP;
                     PairingRelation notifyPairingRelation = new PairingRelation(null, new PairingEntity(PAIRING_REFERENCEPROVIDER, mAppliance.getNetworkNode().getCppId(), mAppliance.getDeviceType(), null), PAIRING_NOTIFY_RELATIONSHIP);
+                    notifyPairingRelation.addPermission(PairingController.PERMISSION_PUSH);
+
                     cloudController.getPairingController().addRelationship(notifyPairingRelation, mPairingCallback);
                 }
             } else {
@@ -189,8 +198,12 @@ public class PairingHandler<T extends Appliance> {
         return pairingRelation.getTrustorEntity() != null && pairingRelation.getTrustorEntity().type.equals(USER_ENTITY_TYPE);
     }
 
-    private void handleRelationshipRemove() {
-        DICommLog.i(DICommLog.PAIRING, "RemoveRelation call-SUCCESS");
+    private void handleRelationshipRemove(int status) {
+        DICommLog.i(DICommLog.PAIRING, String.format("Handle RemoveRelation and status is [%d]", status));
+        if (status != Errors.SUCCESS) {
+            notifyFailure();
+            return;
+        }
 
         if (PAIRING_DI_COMM_RELATIONSHIP.equalsIgnoreCase(currentRelationshipType)) {
             switch (entityState) {
@@ -242,8 +255,8 @@ public class PairingHandler<T extends Appliance> {
             switch (entityState) {
                 case PURIFIER:
                     DICommLog.i(DICommLog.PAIRING, "DATA_ACCESS Relationship removed successfully - Pairing removed successfully");
-
                     notifyListenerSuccess();
+
                     break;
                 case APP:
                 case DATA_ACCESS:
@@ -295,7 +308,10 @@ public class PairingHandler<T extends Appliance> {
                 getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
+        pairingRelation.addPermission(PairingController.PERMISSION_RESPONSE);
+        pairingRelation.addPermission(PairingController.PERMISSION_CHANGE);
 
+        resetPairingAttempts(mAppliance.getNetworkNode().getCppId());
         startPairingPortTask(pairingRelation);
     }
 
@@ -316,6 +332,8 @@ public class PairingHandler<T extends Appliance> {
                 getDICommApplianceEntity(),
                 PAIRING_DI_COMM_RELATIONSHIP
         );
+        pairingRelation.addPermission(PairingController.PERMISSION_RESPONSE);
+        pairingRelation.addPermission(PairingController.PERMISSION_CHANGE);
 
         startPairingPortTask(pairingRelation);
     }
@@ -434,9 +452,13 @@ public class PairingHandler<T extends Appliance> {
             startPairingPortTask(pairingRelation);
         } else {
             mAppliance.getNetworkNode().setPairedState(NOT_PAIRED);
-            if (pairingListener != null) {
-                pairingListener.onPairingFailed(mAppliance);
-            }
+            notifyFailure();
+        }
+    }
+
+    private void notifyFailure() {
+        if (pairingListener != null) {
+            pairingListener.onPairingFailed(mAppliance);
         }
     }
 

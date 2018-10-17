@@ -52,6 +52,7 @@ public class PairDeviceStateTest {
     private void givenThereIsADevice() {
         when(pairDevice.getDeviceID()).thenReturn(DUMMY_DEVICE_ID);
         when(pairDevice.getDeviceType()).thenReturn(DUMMY_DEVICE_TYPE);
+        when(pairDevice.getRelationshipType()).thenReturn(DUMMY_RELATIONSHIP_TYPE);
     }
 
     private void givenDataServiceManager() {
@@ -66,7 +67,7 @@ public class PairDeviceStateTest {
     private void thenPairDeviceIsCalled() {
         verify(dataServicesManager, times(1)).pairDevices(anyString(),
                 anyString(), ArgumentMatchers.<String>anyList(), ArgumentMatchers.<String>anyList(),
-                eq("urn:cdp|datareceiver_stg"), any(DevicePairingListener.class));
+                eq(DUMMY_RELATIONSHIP_TYPE), any(DevicePairingListener.class));
     }
 
     private void thenOnInternetErrorIsCalled() {
@@ -92,4 +93,5 @@ public class PairDeviceStateTest {
     private PairDeviceState pairDeviceState;
     private static final String DUMMY_DEVICE_ID = "1";
     private static final String DUMMY_DEVICE_TYPE = "DEVICE_TYPE";
+    private static final String DUMMY_RELATIONSHIP_TYPE = "URN:CDP|SDADADA";
 }

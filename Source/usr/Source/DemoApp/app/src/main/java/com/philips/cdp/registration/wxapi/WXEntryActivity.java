@@ -15,8 +15,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.util.Arrays;
-
 //This class is tightly coupled with package name .Don't modify package or refactor
 //Make sure keep this class in Progaurd
 
@@ -72,10 +70,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 String weChatCode = sendResp.code;
                 sendMessage(error_code, weChatCode);
             } catch (Exception e) {
-                RLog.e(TAG, Arrays.toString(e.getStackTrace()));
+                RLog.e(TAG,"onResp: Exception" + e.getMessage());
             }
         }else{
-            RLog.e(TAG, "WeChat response error code : "+error_code);
+            RLog.e(TAG, "onResp : WeChat response error code : "+error_code);
         }
 
     }

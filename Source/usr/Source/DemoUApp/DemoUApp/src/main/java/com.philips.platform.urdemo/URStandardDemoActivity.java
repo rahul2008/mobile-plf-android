@@ -72,6 +72,8 @@ import static android.view.View.VISIBLE;
 public class URStandardDemoActivity extends UIDActivity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler, HSDPAuthenticationListener {
 
+    private String TAG = "URStandardDemoActivity";
+
     private final String HSDP_UUID_SHOULD_UPLOAD = "hsdpUUIDUpload";
     private final String HSDP_SKIP_HSDP_LOGIN = "skipHSDPLogin";
     private Context mContext;
@@ -305,9 +307,9 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private void updateAuthoriseHSDP() {
         final UserLoginState userLoginState = mUser.getUserLoginState();
-        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : updateAuthoriseHSDP :UserLoginState :" + mUser.getUserLoginState());
+        RLog.d(TAG, " : updateAuthoriseHSDP :UserLoginState :" + mUser.getUserLoginState());
         if (userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
-            RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : updateAuthoriseHSDP : making  HSDP call");
+            RLog.d(TAG, " : updateAuthoriseHSDP : making  HSDP call");
             //make HSDP login call
             mUser.authorizeHSDP(this);
 
@@ -338,7 +340,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     }
 
     private void registerationWithAccountSettingButtonEnableOnUserSignedIn() {
-        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN)
+        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN || mUser.getUserLoginState() == UserLoginState.PENDING_HSDP_LOGIN)
             mBtnRegistrationWithAccountSettings.setEnabled(true);
         else
             mBtnRegistrationWithAccountSettings.setEnabled(false);
@@ -412,11 +414,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
         CoppaExtension coppaExtension;
-        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
+        ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
         URInterface urInterface = new URInterface();
         int i = v.getId();
         if (i == R.id.btn_registration_with_account) {
-            RLog.d(RLog.ONCLICK, "Logout");
+            RLog.d(TAG, "Logout");
 
             HsdpUser hsdpUser = new HsdpUser(mContext);
             if (RegistrationConfiguration.getInstance().isHsdpFlow() && null != hsdpUser.getHsdpUserRecord()) {
@@ -437,17 +439,17 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } else if (i == R.id.btn_registration_with_hsdp) {
             UserLoginState userLoginState = mUser.getUserLoginState();
             if (userLoginState == UserLoginState.PENDING_HSDP_LOGIN) {
-                RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : updateAuthoriseHSDP(true)");
+                RLog.d(TAG, " : updateAuthoriseHSDP(true)");
                 updateAuthoriseHSDP();
             } else {
                 showToast(userLoginState.name());
-                RLog.d(RLog.ONCLICK, "RegistrationSampleActivity :HSDP button Clicked with userLoginState  without user signedin:" + userLoginState);
+                RLog.d(TAG, " :HSDP button Clicked with userLoginState  without user signedin:" + userLoginState);
             }
         } else if (i == R.id.btn_registration_with_hsdp_status) {
             UserLoginState userLoginState = mUser.getUserLoginState();
             showToast("User Login State : " + userLoginState);
         } else if (i == R.id.btn_refresh_user) {
-            RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Refresh User ");
+            RLog.d(TAG, " : Refresh User ");
             handleRefreshAccessToken();
 
         } else if (i == R.id.btn_refresh_token) {
@@ -535,7 +537,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private void launchRegisteration(ActivityLauncher activityLauncher, URInterface urInterface) {
         URLaunchInput urLaunchInput;
-        RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+        RLog.d(TAG, " : Registration");
         urLaunchInput = new URLaunchInput();
         urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -546,7 +548,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private void marketingOptIn(ActivityLauncher activityLauncher, URInterface urInterface) {
         URLaunchInput urLaunchInput;
-        RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+        RLog.d(TAG, " : Registration");
         urLaunchInput = new URLaunchInput();
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
@@ -561,11 +563,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
             case FLOW_A:
                 Toast.makeText(mContext, "UI Flow Type A", Toast.LENGTH_LONG).show();
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
+                RLog.d(TAG, "UI Flow Type A");
                 break;
             case FLOW_B:
                 Toast.makeText(mContext, "UI Flow Type B", Toast.LENGTH_LONG).show();
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                RLog.d(TAG, "UI Flow Type B");
                 break;
             default:
                 break;
@@ -690,50 +692,50 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
+        RLog.d(TAG, " : onUserRegistrationComplete");
         activity.finish();
         showToast("HSDP Skip login status : " + RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable());
     }
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
-        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
+        RLog.d(TAG, " : onPrivacyPolicyClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.philips.com"));
         activity.startActivity(browserIntent);
     }
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
+        RLog.d(TAG, " : onTermsAndConditionClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.philips.com"));
         activity.startActivity(browserIntent);
     }
 
     @Override
     public void onUserLogoutSuccess() {
-        RLog.d(RLog.HSDP, "RegistrationSampleActivity : onUserLogoutSuccess");
+        RLog.d(TAG, " : onUserLogoutSuccess");
     }
 
     @Override
     public void onUserLogoutFailure() {
-        RLog.d(RLog.HSDP, "  RegistrationSampleActivity : onUserLogoutFailure");
+        RLog.d(TAG, "  : onUserLogoutFailure");
     }
 
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
-        RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onUserLogoutSuccessWithInvalidAccessToken");
+        RLog.d(TAG, "  : onUserLogoutSuccessWithInvalidAccessToken");
         showToast("onUserLogoutSuccessWithInvalidAccessToken ");
     }
 
     @Override
     public void onHSDPLoginSuccess() {
-        RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onHSDPLoginSuccess");
+        RLog.d(TAG, "  : onHSDPLoginSuccess");
         showToast("HSDP Login Success ");
     }
 
     @Override
     public void onHSDPLoginFailure(int errorCode, String msg) {
-        RLog.d(RLog.HSDP, "RegistrationSampleActivity  : onHSDPLoginFailure with " + msg);
+        RLog.d(TAG, "  : onHSDPLoginFailure with " + msg);
         showToast("HSDPLogin Failure with error code : " + errorCode + " and reason :" + msg);
     }
 
@@ -759,7 +761,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onRefreshLoginSessionSuccess() {
         dimissDialog();
-        RLog.d(RLog.HSDP, "RegistrationSampleActivity Access token: " + mUser.getHsdpAccessToken());
+        RLog.d(TAG, " Access token: " + mUser.getHsdpAccessToken());
         showToast("Success to refresh hsdp access token");
     }
 

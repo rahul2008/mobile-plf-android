@@ -14,8 +14,6 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
 /**
  * Interface for User Registration Initialization and launch of UI
  */
@@ -47,7 +45,6 @@ public class URDemouAppInterface implements UappInterface {
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, URStandardDemoActivity.class);
-            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
     }

@@ -28,26 +28,6 @@ public class AIKManager implements AIKMInterface {
     private final AppInfra appInfra;
     private final transient AiKmHelper aiKmHelper;
 
-    public enum KError {
-
-        INVALID_INDEX_URL("Invalid index url found from service discovery"),
-        DATA_NOT_FOUND("Data not found for provided index in AIKMAP.json"),
-        INVALID_JSON("AIKMap.json is an invalid JSON"),
-        NO_KINDEX_URL_FOUND("No Kindex URL found"),
-        CONVERT_ERROR("Error while converting the value"),
-        JSON_FILE_NOT_FOUND("AIKMap.json file not found in assets folder");
-
-        private final String description;
-
-        KError(final String description) {
-            this.description = description;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
-
     public AIKManager(AppInfra mAppInfra) {
         this.appInfra = mAppInfra;
         aiKmHelper = new AiKmHelper(mAppInfra);
@@ -126,7 +106,7 @@ public class AIKManager implements AIKMInterface {
         try {
             aiKmHelper.init(appInfra);
         } catch (AIKMJsonFileNotFoundException | JSONException e) {
-            aikmResponse.setkError(KError.JSON_FILE_NOT_FOUND);
+            aikmResponse.setkError(AIKMResponse.KError.JSON_FILE_NOT_FOUND);
             return aikmResponse;
         }
         return aiKmHelper.getServiceExtension(serviceId, url, aikmResponse);

@@ -92,6 +92,7 @@
                         android:layout_height="wrap_content"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="textPassword"
+                        android:longClickable="false"
                         android:maxLines="1"
                         app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width" />
                 </com.philips.platform.uid.view.widget.InputValidationLayout>

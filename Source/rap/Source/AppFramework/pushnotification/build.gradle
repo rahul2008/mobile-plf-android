@@ -1,9 +1,15 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
+
 apply from: "../scripts/task_reporting_logging.gradle"
 apply from: "../scripts/flavors_pushnotification.gradle"
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     dependencies {
@@ -12,47 +18,11 @@ buildscript {
     }
 }
 
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-apply plugin: 'cdpSCM'
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-import com.philips.cdp.cdpSCM
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = project.name
-
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
-    }
-}
+archivesBaseName = strings.pnf.artifactName
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
+
     publish {
         repository {
             repoKey = objcdp.getArtifactoryPublishRepoKey()
@@ -72,11 +42,11 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 android {
-
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
@@ -88,31 +58,27 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
-
 }
-
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation deps.support.appcompatv7
     implementation deps.play_services_gcm
-    implementation deps.firebase_core
+    implementation (deps.firebase_core) {
+        exclude group: 'com.google.firebase', module: 'firebase-iid'
+    }
 
     if (directdependencies) {
-       implementation project(':AppInfra')
+        implementation project(strings.ail.projectName)
     } else {
-       implementation (philipsdeps.AppInfra) {
+        implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
     }
 
     testImplementation deps.json
     testImplementation deps.junit
-    testImplementation deps.mockito
     testImplementation deps.opengl
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
@@ -124,7 +90,9 @@ dependencies {
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_shadows_multidex
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }
+
 apply plugin: 'com.google.gms.google-services'

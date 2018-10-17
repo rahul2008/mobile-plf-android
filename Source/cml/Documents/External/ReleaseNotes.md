@@ -15,11 +15,14 @@ Version {next}
 
 ### Breaking Changes
 * Removed BufferedWriter out from DiCommLog
+* Calling `getPortProperties` on a Port will no longer implicitly call `reloadProperties` on the port.
 
 ### Defects solved
+* \#145509 - Fix for the bug where the remote getProps requests for the Floorcare vaccum cleaner were failing. The json for the requests needed to be edited.
 * \#146816 AppIdProvider now posts notifications on the main thread
 * \#123749 Discovery callback are now posted to main thread
 * \#144890 RemoteRequests are correctly parsed again
+* \#152690 Fixed the Notify relationship to have push permission
 
 ### Residual anomalies
 * N/A
@@ -106,7 +109,7 @@ Version 1801
 * N/A
 
 ### Breaking Changes
-* N/A
+* Input AppVersion for EUI64 retrieval is now actually fetched from KpsConfigurationInfo interface, not taking versionCode from AndroidManifest anymore.
 
 ### Defects solved
 * 116716 Device properly disconnects when invoking `BleCommunicationStrategy#disableCommunication()`
@@ -114,6 +117,7 @@ Version 1801
 * 116302 Added missing API to revoke pairing relations to `PairingPort`
 * 123173 Fixed a null pointer exception in `LanRequest`
 * 127703 Most of the time the app doesn’t stop the communication with the device after calling `disableCommunication()` method
+* 148756 Fix for bug where Cloud communication fails (pairing relationships lost) after app update
 
 ### Residual anomalies
 * N/A

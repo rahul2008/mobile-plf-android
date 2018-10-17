@@ -59,8 +59,8 @@ public class SHNGattConnectingState extends SHNConnectingState {
     }
 
     @Override
-    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
+    public void onStateUpdated(@NonNull SHNCentral.State state) {
+        if (state == SHNCentralStateNotReady) {
             shouldRetryConnecting = false;
             handleGattDisconnectEvent();
         }
@@ -74,7 +74,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
 
         if (SHNCentralStateReady.equals(sharedResources.getShnCentral().getShnCentralState())) {
-            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
+            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback(), sharedResources.getConnectionPriority()));
         } else {
             final String errorMsg = "Not ready for connection to the peripheral, Bluetooth is not on.";
 
@@ -115,7 +115,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
 
         if (shouldRetryConnecting) {
             SHNLogger.d(logTag, "Retrying to connect GATT in SHNGattConnectingState");
-            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback()));
+            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback(), sharedResources.getConnectionPriority()));
         } else {
             final String errorMsg = "Bluetooth GATT disconnected, not retrying to connect.";
 

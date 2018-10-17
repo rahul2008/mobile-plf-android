@@ -1,8 +1,14 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+    
     defaultConfig {
         applicationId "com.philips.platform.appinfra"
         minSdkVersion versions.minsdk
@@ -16,12 +22,14 @@ android {
             }
         }
     }
+    
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"

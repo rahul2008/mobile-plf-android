@@ -34,7 +34,7 @@ import org.json.JSONObject;
 
 public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
-    private final static String TAG = LoginSocialNativeProvider.class.getSimpleName();
+    private final static String TAG = "LoginSocialNativeProvider";
     private Context mContext;
     private SocialLoginProviderHandler mSocialLoginProviderHandler;
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
@@ -67,9 +67,10 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
 
     @Override
     public void onFailure(SignInError error) {
-        RLog.d(TAG, "onFailure : is called");
-        if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
-                && error.captureApiError.isMergeFlowError()) {
+        try {
+            if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
+                    && error.captureApiError.isMergeFlowError()) {
+                RLog.e(TAG, "onFailure : is called error: " + error.captureApiError.raw_response);
 
             RLog.d(TAG, "onFailure : isMergeFlowError");
             String emailId = null;
@@ -91,22 +92,36 @@ public class LoginSocialNativeProvider extends HSDPLoginService implements Jump.
                     conflictingIdentityProvider, conflictingIdpNameLocalized,
                     existingIdpNameLocalized, finalEmailId));
 
-        } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
-                && error.captureApiError.isTwoStepRegFlowError()) {
-            RLog.d(TAG, "onFailure : isTwoStepRegFlowError");
-            JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
-            String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
-            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
-                    socialRegistrationToken));
+            } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
+                    && error.captureApiError.isTwoStepRegFlowError()) {
+                RLog.e(TAG, "onFailure : isTwoStepRegFlowError"+ error.captureApiError.raw_response);
+                JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
+                String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
+                ThreadUtils.postInMainThread(mContext, () -> mSocialLoginProviderHandler.onLoginFailedWithTwoStepError(prefilledRecord,
+                        socialRegistrationToken));
+            } else if (error.reason == SignInError.FailureReason.AUTHENTICATION_CANCELLED_BY_USER) {
+                UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+                userRegistrationFailureInfo.setErrorCode(ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER);
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                //   AUTHENTICATION_CANCELLED_BY_USER
+                RLog.e(TAG, "onFailure : loginSocial : is cancelled" + error.reason);
 
-        } else {
-            RLog.d(TAG, "onFailure : else is called");
-//            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-//            userRegistrationFailureInfo.setErrorDescription();
-//            userRegistrationFailureInfo.setErrorCode(ErrorCodes.NETWORK_ERROR);
-//            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-
+            }else {
+                RLog.e(TAG, "onFailure : else is called");
+                loginFailed();
+            }
+        } catch (Exception e) {
+            RLog.e(TAG, "onFailure : is called exception" + e.getMessage());
+            loginFailed();
         }
+    }
+
+    private void loginFailed() {
+        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+        userRegistrationFailureInfo.setErrorCode(ErrorCodes.UNKNOWN_ERROR);
+        ThreadUtils.postInMainThread(mContext, () ->
+                mSocialLoginProviderHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }
 
     private Activity mActivity;

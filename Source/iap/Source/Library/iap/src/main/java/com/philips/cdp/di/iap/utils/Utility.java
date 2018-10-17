@@ -38,10 +38,7 @@ import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 public class Utility {
     public static final String TAG = Utility.class.getName();
     private static AlertDialogFragment alertDialogFragment;
-    public static boolean isShippingAddressFilled=false;
-    public static boolean isBillingAddressFilled=false;
-    public static boolean isAddressFilledFromDeliveryAddress=false;
-    public static boolean isDelvieryFirstTimeUser=false;
+    public static boolean isDelvieryFirstTimeUser = false;
 
     public static void hideKeypad(Activity pContext) {
         if(pContext == null){
@@ -103,10 +100,7 @@ public class Utility {
         StringBuilder sb = new StringBuilder();
 
         final String line1 = address.getLine1();
-        final String line2 = address.getLine2();
-
         appendAddressWithNewLineIfNotNull(sb, line1);
-        appendAddressWithNewLineIfNotNull(sb, line2);
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
         appendAddressWithNewLineIfNotNull(sb, address.getRegionName()+" "+address.getPostalCode());
         appendAddressWithNewLineIfNotNull(sb, address.getCountry());
@@ -138,11 +132,6 @@ public class Utility {
         if (isNotNullNorEmpty(addresses.getLine1())) {
             fields.setLine1(addresses.getLine1());
         }
-
-        if (isNotNullNorEmpty(addresses.getLine2())) {
-            fields.setLine2(addresses.getLine2());
-        }
-
         if (isNotNullNorEmpty(addresses.getTown())) {
             fields.setTown(addresses.getTown());
         }
@@ -199,11 +188,6 @@ public class Utility {
         if (isNotNullNorEmpty(address.getLine1())) {
             fields.setLine1(address.getLine1());
         }
-
-        if (isNotNullNorEmpty(address.getLine2())) {
-            fields.setLine2(address.getLine2());
-        }
-
         if (isNotNullNorEmpty(address.getTown())) {
             fields.setTown(address.getTown());
         }
@@ -245,8 +229,6 @@ public class Utility {
         if (!TextUtils.isEmpty(pErrorString)) {
             builder.setTitle(pErrorString);
         }
-
-
         builder.setPositiveButton(positiveBtnText, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

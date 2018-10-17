@@ -6,6 +6,7 @@
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 
 import com.philips.pins.shinelib.utility.BleScanRecord;
 
@@ -81,4 +82,11 @@ public interface SHNDeviceDefinitionInfo {
      * @return true when the AdvertisementData matches what is expected for a device handled by the plugin, false otherwise
      */
     boolean matchesOnAdvertisedData(BluetoothDevice bluetoothDevice, BleScanRecord bleScanRecord, int rssi);
+
+    /**
+     * Specifies the connection priority for the connection.
+     *
+     * @return the connection priority - either {@link BluetoothGatt#CONNECTION_PRIORITY_BALANCED} or {@link BluetoothGatt#CONNECTION_PRIORITY_HIGH} or {@link BluetoothGatt#CONNECTION_PRIORITY_LOW_POWER} which will be used for the connection
+     */
+    int getConnectionPriority();
 }

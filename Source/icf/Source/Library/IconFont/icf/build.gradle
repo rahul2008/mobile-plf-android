@@ -1,58 +1,21 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply plugin: 'com.android.library'
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-archivesBaseName = "IconFont"
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+archivesBaseName = strings.icf.artifactName
 
 buildscript {
-    repositories {
-        maven { url repos.jcenter
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-    }
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath(builddeps.cdpSCM)
-    }
-}
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-}
-
-
-allprojects {
-    repositories {
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url objcdp.getArtifactoryUrl()
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        apply plugin: 'com.jfrog.artifactory'
-        group = 'com.philips.cdp'
+        classpath builddeps.cdpSCM
     }
 }
 
@@ -70,21 +33,17 @@ task zipDocuments(type: Zip) {
 }
 //=======To zip and upload "Documents/External" ==ENDS=============
 
-
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
+
     defaultConfig {
         multiDexEnabled true
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
         versionCode 1
-        versionName version +  "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
     buildTypes {
@@ -92,24 +51,22 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
         }
     }
-
-
 }
 
-configurations {
-
-}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.gson
+
+    testImplementation deps.junit
+
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testImplementation deps.junit
-    implementation deps.gson
 }
+
 tasks.withType(Test) {
     ignoreFailures = true
 }

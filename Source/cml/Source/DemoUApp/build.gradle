@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-archivesBaseName = "commlib-demouapp"
+archivesBaseName = strings.cmluapp.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -31,10 +32,6 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
             buildConfigField "String", "LIBRARY_VERSION", "\"${version}\""
         }
-    }
-
-    lintOptions {
-        abortOnError false
     }
 }
 
@@ -73,15 +70,15 @@ dependencies {
     compileOnly deps.support.annotations
 
     if (directdependencies) {
-        implementation project(':commlib')
-        implementation project(':commlib-ble')
-        implementation project(':commlib-api')
-        implementation project(':commlib-lan')
-        implementation project(':commlib-cloud')
-        implementation project(':cloudcontroller')
-        implementation project(':cloudcontroller-api')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
+        implementation project(strings.cml.projectName)
+        implementation project(strings.cmlble.projectName)
+        implementation project(strings.cmlapi.projectName)
+        implementation project(strings.cmllan.projectName)
+        implementation project(strings.ccl.projectName)
+        implementation project(strings.clc.projectName)
+        implementation project(strings.cca.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.cloudcontroller
         implementation philipsdeps.commlib

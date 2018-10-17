@@ -11,6 +11,7 @@ package com.philips.cdp.registration.app.tagging;
 
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 
 public class AppTaggingErrors {
@@ -31,60 +32,58 @@ public class AppTaggingErrors {
 
     private static final String FAILURE_FORGOT_PASSWORD_ERROR = "forgot password network error";
 
-    private final static int NETWORK_ERROR_CODE = 111;
-
     private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
-
-    private final static int INVALID_CREDENTIALS_CODE = 210;
 
     private final static int EMAIL_NOT_VERIFIED_CODE = 112;
 
-    private final static int FORGOT_PASSWORD_FAILURE_ERROR_CODE = 212;
+    //private final static int FORGOT_PASSWORD_FAILURE_ERROR_CODE = 212;
 
 
-    public static void trackActionForgotPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo,String flowType) {
+    public static void trackActionForgotPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo, String flowType) {
         switch (userRegistrationFailureInfo.getErrorCode()) {
 
-            case NETWORK_ERROR_CODE:
+            case ErrorCodes.NETWORK_ERROR:
                 trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD_ERROR);
                 break;
-            case FORGOT_PASSWORD_FAILURE_ERROR_CODE:
-                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.USER_ERROR, EMAIL_ADDRESS_NOT_EXIST_ERROR);
+            case ErrorCodes.JANRAIN_EMAIL_ADDRESS_NOT_AVAILABLE:
+//                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+//                        AppTagingConstants.USER_ERROR, EMAIL_ADDRESS_NOT_EXIST_ERROR);
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION + ":" + AppTagingConstants.FAILURE_FORGOT_PASSWORD + ":"
+                        + flowType + ":" + userRegistrationFailureInfo.getErrorCode() + ":" + userRegistrationFailureInfo.getErrorTagging());
                 break;
 
             default:
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.FAILURE_FORGOT_PASSWORD+":"
-                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorTagging());
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.USER_REGISTRATION + ":" + AppTagingConstants.FAILURE_FORGOT_PASSWORD + ":"
+                        + flowType + ":" + userRegistrationFailureInfo.getErrorCode() + ":" + userRegistrationFailureInfo.getErrorTagging());
                 break;
         }
     }
 
-    public static void trackActionResendNetworkFailure(UserRegistrationFailureInfo userRegistrationFailureInfo,String flowType) {
+    public static void trackActionResendNetworkFailure(UserRegistrationFailureInfo userRegistrationFailureInfo, String flowType) {
         switch (userRegistrationFailureInfo.getErrorCode()) {
 
-            case NETWORK_ERROR_CODE:
+            case ErrorCodes.NETWORK_ERROR:
                 trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, RESEND_VERIFICATION_NETWORK_ERROR);
                 break;
 
             default:
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.FAILURE_RESEND_EMAIL+":"
-                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorTagging());
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.USER_REGISTRATION + ":" + AppTagingConstants.FAILURE_RESEND_EMAIL + ":"
+                        + flowType + ":" + userRegistrationFailureInfo.getErrorCode() + ":" + userRegistrationFailureInfo.getErrorTagging());
                 break;
         }
     }
 
-    static void trackActionForErrorMapping(String sendData, String technicalError,
+    public static void trackActionForErrorMapping(String sendData, String technicalError,
                                                    String technicalRegistrationError) {
         AppTagging.trackAction(sendData, technicalError, technicalRegistrationError);
     }
 
-    public static void trackActionLoginError(UserRegistrationFailureInfo userRegistrationFailureInfo,String flowType) {
+    public static void trackActionLoginError(UserRegistrationFailureInfo userRegistrationFailureInfo, String flowType) {
 
         switch (userRegistrationFailureInfo.getErrorCode()) {
-            case NETWORK_ERROR_CODE:
+            case ErrorCodes.NETWORK_ERROR:
                 trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_LOGINING_USER);
                 break;
@@ -92,9 +91,25 @@ public class AppTaggingErrors {
                 trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.USER_ERROR, EMAIL_IS_NOT_VERIFIED);
                 break;
+                //URX Errors
+            case ErrorCodes.URX_INVALID_PHONENUMBER:
+            case ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED:
+                //Janrain Errors
+            case ErrorCodes.JANRAIN_WRONG_USERID_PASSWORD:
+            case ErrorCodes.JANRAIN_WRONG_USERID_PASSWORD_SOCIAL:
+            case ErrorCodes.JANRAIN_EMAIL_ADDRESS_NOT_AVAILABLE:
+            case ErrorCodes.JANRAIN_WRONG_PASSWORD:
+            case ErrorCodes.JANRAIN_CONNECTION_LOST_ENITY_ALREADY_EXIST:
+            case ErrorCodes.JANRAIN_ATTRIBUTE_CONSTRAINT_LENGHT_VIOLATION:
+            case ErrorCodes.JANRAIN_USER_ALREADY_EXIST:
+            case ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION:
+            case ErrorCodes.JANRAIN_VERIFICATION_CODE_EXPIRED:
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION + ":" + AppTagingConstants.LOGIN_FAILED + ":"
+                        + flowType + ":" + userRegistrationFailureInfo.getErrorCode() + ":" + userRegistrationFailureInfo.getErrorTagging());
+                break;
             default:
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.LOGIN_FAILED+":"
-                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorTagging());
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.USER_REGISTRATION + ":" + AppTagingConstants.LOGIN_FAILED + ":"
+                        + flowType + ":" + userRegistrationFailureInfo.getErrorCode() + ":" + userRegistrationFailureInfo.getErrorTagging());
                 break;
         }
 
@@ -103,22 +118,38 @@ public class AppTaggingErrors {
     public static void trackActionRegisterError(UserRegistrationFailureInfo userRegistrationFailureInfo, String flowType) {
 
         switch (userRegistrationFailureInfo.getErrorCode()) {
-            case NETWORK_ERROR_CODE:
+            case ErrorCodes.NETWORK_ERROR:
                 trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                         AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_REGISTRING_USER);
                 break;
-            case EMAIL_ADDRESS_ALREADY_USE_CODE:
-                if (RegistrationHelper.getInstance().isMobileFlow()){
+
+            case ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION:
+                if (RegistrationHelper.getInstance().isMobileFlow()) {
                     trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                             AppTagingConstants.USER_ERROR, MOBILE_ALREADY_IN_USE);
-                }else{
+                } else {
                     trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
                             AppTagingConstants.USER_ERROR, EMAIL_ALREADY_IN_USE);
                 }
                 break;
+                 //URX Errors
+            case ErrorCodes.URX_INVALID_PHONENUMBER:
+            case ErrorCodes.URX_SMS_ACCOUNT_ALREADY_VERIFIED:
+                //Janrain Errors
+            case ErrorCodes.JANRAIN_WRONG_USERID_PASSWORD:
+            case ErrorCodes.JANRAIN_WRONG_USERID_PASSWORD_SOCIAL:
+            case ErrorCodes.JANRAIN_EMAIL_ADDRESS_NOT_AVAILABLE:
+            case ErrorCodes.JANRAIN_WRONG_PASSWORD:
+            case ErrorCodes.JANRAIN_CONNECTION_LOST_ENITY_ALREADY_EXIST:
+            case ErrorCodes.JANRAIN_ATTRIBUTE_CONSTRAINT_LENGHT_VIOLATION:
+            case ErrorCodes.JANRAIN_USER_ALREADY_EXIST:
+            case ErrorCodes.JANRAIN_VERIFICATION_CODE_EXPIRED:
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION + ":" + AppTagingConstants.REGISTRATION_FAILED + ":"
+                        + flowType + ":" + userRegistrationFailureInfo.getErrorCode() + ":" + userRegistrationFailureInfo.getErrorTagging());
+                break;
             default:
-                AppTagging.trackAction(AppTagingConstants.SEND_DATA,AppTagingConstants.USER_ERROR, AppTagingConstants.USER_REGISTRATION+":"+AppTagingConstants.REGISTRATION_FAILED+":"
-                        +flowType+":"+userRegistrationFailureInfo.getErrorCode()+":"+userRegistrationFailureInfo.getErrorTagging());
+                AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.USER_REGISTRATION + ":" + AppTagingConstants.REGISTRATION_FAILED + ":"
+                        + flowType + ":" + userRegistrationFailureInfo.getErrorCode() + ":" + userRegistrationFailureInfo.getErrorTagging());
                 break;
         }
 

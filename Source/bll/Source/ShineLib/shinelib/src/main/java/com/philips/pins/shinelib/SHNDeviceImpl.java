@@ -6,11 +6,13 @@
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
@@ -33,7 +35,13 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     private static final String TAG = "SHNDeviceImpl";
     private SHNDeviceStateMachine stateMachine;
-    private SHNDeviceResources sharedResources;
+    @VisibleForTesting
+    SHNDeviceResources sharedResources;
+    private BTDevice btDevice;
+    private SHNCentral shnCentral;
+    private String deviceTypeName;
+    private int connectionPriority;
+    private SHNBondInitiator shnBondInitiator;
 
     private StateChangedListener<SHNDeviceState> stateChangedListener = new StateChangedListener<SHNDeviceState>() {
         @Override
@@ -53,17 +61,44 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         NONE, PERIPHERAL, APP
     }
 
-    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
-        this(btDevice, shnCentral, deviceTypeName, SHNBondInitiator.NONE);
+    public static class Builder {
+        //Required parameters
+        private BTDevice btDevice;
+        private SHNCentral shnCentral;
+        private String deviceTypeName;
+
+        //Optional Parameters
+        private int connectionPriority = BluetoothGatt.CONNECTION_PRIORITY_BALANCED;
+        private SHNBondInitiator shnBondInitiator = SHNBondInitiator.NONE;
+
+        public Builder(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
+            this.btDevice = btDevice;
+            this.shnCentral = shnCentral;
+            this.deviceTypeName = deviceTypeName;
+        }
+
+        public Builder withConnectionPriority(int priority) {
+            this.connectionPriority = priority;
+            return this;
+        }
+
+        public Builder withBondInitiator(@NonNull SHNBondInitiator initiator) {
+            this.shnBondInitiator = initiator;
+            return this;
+        }
+
+        public SHNDeviceImpl build() {
+            return new SHNDeviceImpl(this);
+        }
     }
 
-    @Deprecated
-    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, boolean deviceBondsDuringConnect) {
-        this(btDevice, shnCentral, deviceTypeName, deviceBondsDuringConnect ? SHNBondInitiator.PERIPHERAL : SHNBondInitiator.NONE);
-    }
-
-    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator) {
-        sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback);
+    private SHNDeviceImpl(Builder builder) {
+        btDevice = builder.btDevice;
+        shnCentral = builder.shnCentral;
+        deviceTypeName = builder.deviceTypeName;
+        connectionPriority = builder.connectionPriority;
+        shnBondInitiator = builder.shnBondInitiator;
+        sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback, connectionPriority);
         stateMachine = new SHNDeviceStateMachine(sharedResources);
         stateMachine.addStateListener(stateChangedListener);
 
@@ -191,8 +226,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
-    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        stateMachine.getState().onStateUpdated(shnCentral);
+    public void onStateUpdated(@NonNull SHNCentral shnCentral, @NonNull SHNCentral.State state) {
+        stateMachine.getState().onStateUpdated(state);
     }
 
     public void registerService(SHNService shnService) {

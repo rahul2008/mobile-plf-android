@@ -9,14 +9,12 @@
 package com.philips.platform.appinfra.servicediscovery.model;
 
 
-import com.philips.platform.appinfra.aikm.AIKManager;
-
 import java.util.Map;
 @SuppressWarnings("unchecked")
 public class AIKMResponse {
 
     private Map<?,?> kMap;
-    private AIKManager.KError kError;
+    private KError kError;
 
     public Map<?,?> getkMap() {
         return kMap;
@@ -26,11 +24,31 @@ public class AIKMResponse {
         this.kMap = kMap;
     }
 
-    public AIKManager.KError getkError() {
+    public KError getkError() {
         return kError;
     }
 
-    public void setkError(AIKManager.KError kError) {
+    public void setkError(KError kError) {
         this.kError = kError;
+    }
+
+    public enum KError {
+
+        INVALID_INDEX_URL("Invalid index url found from service discovery"),
+        DATA_NOT_FOUND("Data not found for provided index in AIKMAP.json"),
+        INVALID_JSON("AIKMap.json is an invalid JSON"),
+        NO_KINDEX_URL_FOUND("No Kindex URL found"),
+        CONVERT_ERROR("Error while converting the value"),
+        JSON_FILE_NOT_FOUND("AIKMap.json file not found in assets folder");
+
+        private final String description;
+
+        KError(final String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 }
