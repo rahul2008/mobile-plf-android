@@ -358,8 +358,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void showNumberChangeTechincalError(int errorCode) {
         trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-        //String errorMsg = RegChinaUtil.getErrorMsgDescription(errorCodeString, context);
-//        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
         updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         enableUpdateButton();
     }

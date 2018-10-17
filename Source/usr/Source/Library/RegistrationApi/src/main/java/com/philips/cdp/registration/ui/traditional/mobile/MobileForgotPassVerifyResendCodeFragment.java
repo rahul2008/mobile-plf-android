@@ -31,11 +31,11 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
-import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.CountDownEvent;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
@@ -70,7 +70,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCES
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNICAL_ERROR;
 
 public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFragment implements
-        MobileForgotPassVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
+        MobileForgotPassVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener {
 
     private String TAG = "MobileForgotPassVerifyResendCodeFragment";
 
@@ -375,15 +375,15 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         AppTagging.trackMultipleActions(SEND_DATA, map);
     }
 
-    @Override
-    public void onCounterEventReceived(String event, long timeLeft) {
+    @Subscribe
+    public void onCountDownEvent(CountDownEvent event) {
         int progress = 100;
-        if (event.equals(RegConstants.COUNTER_FINISH)) {
+        if (event.getEvent().equals(RegConstants.COUNTER_FINISH)) {
             usrMobileverificationResendsmstimerProgress.setSecondaryProgress(progress);
             usrMobileverificationResendsmstimerProgress.setText(getResources().getString(R.string.USR_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
         } else {
-            updateResendTime(timeLeft);
+            updateResendTime(event.getTimeleft());
         }
     }
 
