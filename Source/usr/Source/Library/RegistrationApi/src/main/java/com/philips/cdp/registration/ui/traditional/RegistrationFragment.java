@@ -77,8 +77,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private static final String TAG = "RegistrationFragment";
 
-    private URNotification notification;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
