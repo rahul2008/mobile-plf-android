@@ -8,7 +8,7 @@
     android:text="Expander content Line one"
     android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
     fontPath="fonts/centralesansbook.ttf"
-    style="@style/Base.AlertDialog.AppCompat.Light"
+    android:textSize="16sp"
     />
 
 </LinearLayout>
