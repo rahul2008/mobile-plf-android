@@ -404,7 +404,7 @@ public class AddressBillingView
             if (billingAddressFields != null) {
                 addressPresenter.setBillingAddressFields(billingAddressFields);
                 addressContractor.setBillingAddressFilledStatus(true);
-                if(addressContractor.isShippingAddressFilled() || addressContractor.isAddressFilledFromDeliveryAddress()) {
+                if(addressContractor.getShippingAddressView().getVisibility() == View.GONE || addressContractor.isShippingAddressFilled() || addressContractor.isAddressFilledFromDeliveryAddress()) {
                     addressPresenter.setContinueButtonState(true);
                 }
                 else
@@ -418,7 +418,6 @@ public class AddressBillingView
             }
         } else {
             addressContractor.setBillingAddressFilledStatus(false);
-            addressPresenter.setContinueButtonState(false);
         }
         return false;
     }
