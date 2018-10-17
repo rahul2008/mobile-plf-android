@@ -74,5 +74,7 @@
     <item name="uid_tab_notification_badge" type="id"/>
     <item name="uid_expander" type="id"/>
     <item name="uid_expander_view_title" type="id"/>
+    <item name="uid_expander_title_bottom_divider" type="id"/>
     <item name="uid_expander_view_content" type="id"/>
+    <item name="uid_expander_content_bottom_divider" type="id"/>
 </resources>
