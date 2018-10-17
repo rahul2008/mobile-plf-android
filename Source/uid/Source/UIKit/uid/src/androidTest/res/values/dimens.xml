@@ -183,16 +183,4 @@
     <!--Bottom Tab Bar-->
     <dimen name="tablayout_height">56dp</dimen>
 
-    <!--Expander panel-->
-    <dimen name="uid_expander_view_title_margin_start_end">16dp</dimen>
-    <dimen name="uid_expander_view_title_margin_top_bottom">12dp</dimen>
-    <dimen name="uid_expander_view_content_margin_start_end">16dp</dimen>
-    <dimen name="uid_expander_view_content_margin_bottom">16dp</dimen>
-    <dimen name="uid_expander_title_icon_margin_end">12dp</dimen>
-    <dimen name="uid_expander_title_text_margin_end">12dp</dimen>
-    <dimen name="uid_expander_title_text_size">16dp</dimen>
-    <dimen name="uid_expander_title_icon_font_size">24dp</dimen>
-    <dimen name="uid_expander_title_chevron_font_size">24dp</dimen>
-    <dimen name="uid_expander_title_text_max_lines">3</dimen>
-
 </resources>
