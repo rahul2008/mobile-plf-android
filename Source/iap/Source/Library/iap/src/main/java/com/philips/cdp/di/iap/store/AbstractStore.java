@@ -213,4 +213,19 @@ public abstract class AbstractStore implements StoreListener {
     public String getPhoneContactUrl(final String category) {
         return null;
     }
+
+    @Override
+    public String getApplyVoucherUrl() {
+        return null;
+    }
+
+    @Override
+    public String getDeleteVoucherUrl(String voucherId) {
+        return null;
+    }
+
+    @Override
+    public String getAppliedVoucherUrl() {
+        return null;
+    }
 }

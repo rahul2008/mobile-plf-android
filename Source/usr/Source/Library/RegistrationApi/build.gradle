@@ -7,12 +7,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-archivesBaseName = "registrationApi"
+archivesBaseName = strings.usr.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -95,10 +96,7 @@ dependencies {
     annotationProcessor deps.butterknife
     annotationProcessor deps.butterknife_compiler
     annotationProcessor deps.dagger.compiler
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    implementation deps.apache
     implementation deps.butterknife
     implementation deps.calligraphy
     implementation deps.constraintlayout
@@ -116,21 +114,19 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.volley
     implementation deps.wechat
-
     if (directdependencies) {
-        implementation project(':uid')
-        implementation project(':uAppFwLib')
-        implementation project(':jump')
-        implementation project(':hsdp')
-        implementation project(':pif')
-        implementation project(':AppInfra')
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.hsdp.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uid
         implementation philipsdeps.uAppFwLib
-        implementation project(':jump')
-        implementation project(':hsdp')
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.hsdp.projectName)
     }
-
     testImplementation deps.junit
     testImplementation deps.mockito
     // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
@@ -138,12 +134,14 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:3.4-rc2'
     testImplementation 'org.robolectric:robolectric-utils:3.4-rc2'
     testImplementation 'org.robolectric:robolectric-junit:3.4-rc2'
-
     androidTestImplementation deps.mockito_android
     androidTestImplementation deps.android_testrules
     androidTestImplementation deps.android_testrunner
     androidTestImplementation deps.junit
     androidTestImplementation deps.uiautomator
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

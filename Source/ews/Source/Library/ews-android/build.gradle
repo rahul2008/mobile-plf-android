@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "ews-android"
+archivesBaseName = strings.ews.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -68,12 +69,12 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     if (directdependencies) {
-        implementation project(':uikitLib')
-        implementation project(':commlib-lan')
-        implementation project(':uid')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-        implementation project(':commlib-api')
+        implementation project(strings.uit.projectName)
+        implementation project(strings.cmllan.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.cmlapi.projectName)
     } else {
         implementation philipsdeps.uikitLib
         implementation philipsdeps.commlib_lan

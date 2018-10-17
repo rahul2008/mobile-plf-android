@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.csw.BuildConfig;
+import com.philips.platform.csw.CswConstants;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswSettings;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -208,6 +210,13 @@ public class PermissionPresenterTest {
     }
 
     @Test
+    public void testTagsActionWhenRevokeConsentPopupIsShown() {
+        boolean revokeAction = true;
+        whenRevokePopUpDismisses(revokeAction);
+        thenTaggingIsInvoked(revokeAction);
+    }
+
+    @Test
     public void test_givenDefinitionHasNoRevokeWarning_andToggleChanged_consentGiven_thenShouldCallStoreConsentState() {
         givenCswComponent();
         ConsentDefinition oldDefinition = new ConsentDefinition(0, 0, CONSENT_TYPES, 1);
@@ -359,6 +368,10 @@ public class PermissionPresenterTest {
         presenter.trackPageName();
     }
 
+    private void whenRevokePopUpDismisses(boolean action) {
+        presenter.tagRevokeConsentPopUpClicked(action);
+    }
+
     private void thenErrorIsShown(boolean goBack, int titleRes, ConsentError error) {
         verify(mockView).showErrorDialog(goBack, titleRes, error);
     }
@@ -387,5 +400,10 @@ public class PermissionPresenterTest {
 
     private void thenAdapterCreateConsentFailedIsCalled() {
         verify(mockAdapter).onCreateConsentFailed(anyInt(), eq(givenError));
+    }
+
+    private void thenTaggingIsInvoked(boolean action) {
+        String revokeAction = action ? CswConstants.Tagging.Action.ACTION_YES : CswConstants.Tagging.Action.ACTION_CANCEL;
+        thenActionIsTagged("sendData", ImmutableMap.of(CswConstants.Tagging.IN_APP_NOTIFICATION, CswConstants.Tagging.REVOKE_CONSENT_POPUP, CswConstants.Tagging.IN_APP_NOTIFICATION_RESPONSE, revokeAction));
     }
 }

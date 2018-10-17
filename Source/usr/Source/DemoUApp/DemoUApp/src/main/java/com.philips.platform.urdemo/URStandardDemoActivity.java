@@ -340,7 +340,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     }
 
     private void registerationWithAccountSettingButtonEnableOnUserSignedIn() {
-        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN)
+        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN || mUser.getUserLoginState() == UserLoginState.PENDING_HSDP_LOGIN)
             mBtnRegistrationWithAccountSettings.setEnabled(true);
         else
             mBtnRegistrationWithAccountSettings.setEnabled(false);
@@ -414,7 +414,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
         CoppaExtension coppaExtension;
-        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
+        ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
         URInterface urInterface = new URInterface();
         int i = v.getId();
         if (i == R.id.btn_registration_with_account) {

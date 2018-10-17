@@ -19,6 +19,9 @@ public class ProdRegConstants {
     public static final String PROD_REG_FIRST_IMAGE_ID = "prod_reg_first_image_id";
     public static final String PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE = "prod_reg_first_no_thanks_btn_visible";
 
+    public static final String PROD_REG_FIRST_REG_BTN_TEXT = "prod_reg_first_reg_btn_text";
+
+
     public static final String PROD_REG_OTHER_IMAGE_ID = "prod_reg_other_image_id";
     public static final String PROD_REG_PRODUCT = "product";
     public static final String PROD_REG_PRODUCT_SUMMARY = "product_summary";

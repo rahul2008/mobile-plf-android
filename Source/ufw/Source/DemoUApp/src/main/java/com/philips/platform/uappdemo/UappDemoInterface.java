@@ -35,11 +35,10 @@ public class UappDemoInterface implements UappInterface {
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
 
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(context, LaunchActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent intent = new Intent(((ActivityLauncher) uiLauncher).getActivityContext(), LaunchActivity.class);
             UappDemoInterface.THEME_CONFIGURATION = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
             UappDemoInterface.DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
-            context.startActivity(intent);
+            ((ActivityLauncher) uiLauncher).getActivityContext().startActivity(intent);
         }
     }
 

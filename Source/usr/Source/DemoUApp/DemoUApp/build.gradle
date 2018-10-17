@@ -6,8 +6,9 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = "UserRegistrationUApp"
+archivesBaseName = strings.usruapp.artifactName
 
 buildscript {
     dependencies {
@@ -72,11 +73,11 @@ dependencies {
     implementation deps.greenrobot
 
     if (directdependencies) {
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-        implementation project(':uid')
-        implementation project(':registrationApi')
-        implementation project(':jump')
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.jmp.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra

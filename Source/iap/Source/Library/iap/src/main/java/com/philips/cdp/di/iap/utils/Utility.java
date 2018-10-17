@@ -22,6 +22,10 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import  com.philips.cdp.di.iap.response.orders.Address;
+import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.text.ParseException;
@@ -34,10 +38,7 @@ import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 public class Utility {
     public static final String TAG = Utility.class.getName();
     private static AlertDialogFragment alertDialogFragment;
-    public static boolean isShippingAddressFilled=false;
-    public static boolean isBillingAddressFilled=false;
-    public static boolean isAddressFilledFromDeliveryAddress=false;
-    public static boolean isDelvieryFirstTimeUser=false;
+    public static boolean isDelvieryFirstTimeUser = false;
 
     public static void hideKeypad(Activity pContext) {
         if(pContext == null){
@@ -99,10 +100,7 @@ public class Utility {
         StringBuilder sb = new StringBuilder();
 
         final String line1 = address.getLine1();
-        final String line2 = address.getLine2();
-
         appendAddressWithNewLineIfNotNull(sb, line1);
-        appendAddressWithNewLineIfNotNull(sb, line2);
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
         appendAddressWithNewLineIfNotNull(sb, address.getRegionName()+" "+address.getPostalCode());
         appendAddressWithNewLineIfNotNull(sb, address.getCountry());
@@ -134,11 +132,6 @@ public class Utility {
         if (isNotNullNorEmpty(addresses.getLine1())) {
             fields.setLine1(addresses.getLine1());
         }
-
-        if (isNotNullNorEmpty(addresses.getLine2())) {
-            fields.setLine2(addresses.getLine2());
-        }
-
         if (isNotNullNorEmpty(addresses.getTown())) {
             fields.setTown(addresses.getTown());
         }
@@ -195,11 +188,6 @@ public class Utility {
         if (isNotNullNorEmpty(address.getLine1())) {
             fields.setLine1(address.getLine1());
         }
-
-        if (isNotNullNorEmpty(address.getLine2())) {
-            fields.setLine2(address.getLine2());
-        }
-
         if (isNotNullNorEmpty(address.getTown())) {
             fields.setTown(address.getTown());
         }
@@ -232,6 +220,8 @@ public class Utility {
     public static void showActionDialog(final Context context, String positiveBtnText, String negativeBtnText,
                                         String pErrorString, String descriptionText, final FragmentManager pFragmentManager, final AlertListener alertListener) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context);
+        builder.setDialogType(DialogConstants.TYPE_ALERT);
+        
         if (!TextUtils.isEmpty(descriptionText)) {
             builder.setMessage(descriptionText);
         }
@@ -364,4 +354,30 @@ public class Utility {
         return imageArrow;
     }
 
-}
+    public static boolean isVoucherEnable() {
+
+        AppConfigurationInterface mConfigInterface = CartModelContainer.getInstance().getAppInfraInstance().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+
+        try {
+            final  Object voucherCodeEnabledObject =  mConfigInterface.getPropertyForKey("voucherCode.enable", "IAP", configError);
+
+
+            if (voucherCodeEnabledObject != null) {
+                if (voucherCodeEnabledObject instanceof Boolean) {
+                    final Boolean propositionEnabled = (Boolean) voucherCodeEnabledObject;
+                    if (configError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError && propositionEnabled) {
+                        return true;
+                    }
+                } else {
+                    IAPLog.e(IAPLog.LOG,"voucherCode.enable instance should be boolean value true or false");
+                }
+            }
+        } catch (IllegalArgumentException illegalArgumentException) {
+            IAPLog.e(IAPLog.LOG, "IllegalArgumentException while voucherCode enable");
+        }
+        return false;
+    }
+
+    }
+

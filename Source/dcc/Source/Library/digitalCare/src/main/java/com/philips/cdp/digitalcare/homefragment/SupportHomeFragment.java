@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -472,7 +471,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         ActivityLauncher uiLauncher = (ActivityLauncher) DigitalCareConfigManager.getInstance().
                 getUiLauncher();
-        uiLauncher = new ActivityLauncher(uiLauncher.getScreenOrientation(), uiLauncher.getDlsThemeConfiguration(), uiLauncher.getUiKitTheme(), null);
+        uiLauncher = new ActivityLauncher(getActivity(),uiLauncher.getScreenOrientation(), uiLauncher.getDlsThemeConfiguration(), uiLauncher.getUiKitTheme(), null);
         uiLauncher.setCustomAnimation(DigitalCareConfigManager.getInstance().getUiLauncher().
                         getEnterAnimation(),
                 DigitalCareConfigManager.getInstance().getUiLauncher().getExitAnimation());

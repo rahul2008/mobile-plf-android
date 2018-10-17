@@ -82,8 +82,8 @@ public class SHNDisconnectingState extends SHNDeviceState {
     }
 
     @Override
-    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
+    public void onStateUpdated(@NonNull SHNCentral.State state) {
+        if (state == SHNCentralStateNotReady) {
             final String errorMsg = "Not ready for connection to the peripheral.";
 
             SHNLogger.e(logTag, errorMsg);

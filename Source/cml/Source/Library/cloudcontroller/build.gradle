@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-archivesBaseName = "cloudcontroller"
+archivesBaseName = strings.clc.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -36,12 +37,12 @@ dependencies {
     compileOnly deps.support.annotations
 
     if (directdependencies) {
-        implementation project(':cloudcontroller-api')
+        implementation project(strings.cca.projectName)
     } else {
         implementation philipsdeps.cloudcontroller_api
     }
 
-    testImplementation project(':commlib-testutils')
+    testImplementation project(strings.cmltu.projectName)
 
     testImplementation deps.junit
     testImplementation deps.assertj

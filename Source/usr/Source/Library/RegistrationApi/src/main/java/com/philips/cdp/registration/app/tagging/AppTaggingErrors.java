@@ -75,7 +75,7 @@ public class AppTaggingErrors {
         }
     }
 
-    private static void trackActionForErrorMapping(String sendData, String technicalError,
+    public static void trackActionForErrorMapping(String sendData, String technicalError,
                                                    String technicalRegistrationError) {
         AppTagging.trackAction(sendData, technicalError, technicalRegistrationError);
     }

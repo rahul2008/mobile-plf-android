@@ -63,8 +63,6 @@ pipeline {
             }
         }
 
-
-
         stage('Lint+Jacoco') {
             when {
                 expression { return params.buildType == 'TICS' }
@@ -151,7 +149,7 @@ pipeline {
                 sh '''#!/bin/bash -le
                     ./gradlew :referenceApp:printArtifactoryApkPath
                     apkname=`xargs < apkname.txt`
-                    PSRA_APK_NAME=${apkname/.apk/._PSRA.apk}
+                    PSRA_APK_NAME=${apkname/.apk/_PSRA.apk}
                     curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
                 '''
             }
@@ -169,9 +167,9 @@ pipeline {
         }
 
         stage('TICS') {
-           when {
-               expression { return params.buildType == 'TICS' }
-          }
+            when {
+                expression { return params.buildType == 'TICS' }
+            }
             steps {
                 script {
                     echo "Running TICS..."
@@ -179,6 +177,27 @@ pipeline {
                         /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
                         /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
                     """
+                }
+            }
+        }
+
+        stage('Upload Cucumber results to TFS') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                    anyOf { branch 'develop'; }
+                }
+            }
+            steps {
+                script {
+                    build(job: 'Platform-Infrastructure/CucumberToTfs/master',
+                            parameters: [
+                                    string(name: 'JenkinsProjectName', value: env.JOB_NAME),
+                                    string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
+                                    string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
+                                    string(name: 'TestSuitePath', value: 'Android/Automated Tests')
+                            ], wait: false)
                 }
             }
         }
@@ -193,11 +212,14 @@ pipeline {
             steps {
                 script {
                     APK_NAME = readFile("apkname.txt").trim()
+                    if (params.buildType == 'PSRA') {
+                        APK_NAME=APK_NAME.replace('.apk', '_PSRA.apk')
+                    }
                     echo "APK_NAME = ${APK_NAME}"
 
                     def jobBranchName = "release_platform_1802.0.0"
                     if (BranchName =~ /develop.*/) {
-                       jobBranchName = "develop"
+                        jobBranchName = "develop"
                     }
                     echo "BranchName changed to ${jobBranchName}"
 
@@ -580,7 +602,17 @@ def PublishUnitTestsResults() {
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap Release UnitTest'])
 
+    for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Source/Library/${lib}/build/reports/tests/testReleaseUnitTest", reportFiles: 'index.html', reportName: "cml $lib unit test release"])
+    }
 
+    def cucumber_path = 'Source/cml/Source/Library/commlib-integration-tests/build/cucumber-reports'
+    if (fileExists("$cucumber_path/report.json")) {
+        step([$class: 'CucumberReportPublisher', jsonReportDirectory: cucumber_path, fileIncludePattern: '*.json'])
+        archiveArtifacts artifacts: cucumber_path+'/*.json', fingerprint: true, onlyIfSuccessful: true
+    } else {
+        echo 'No Cucumber result found, nothing to publish.'
+    }
 }
 
 def PublishJavaDocs(){
@@ -603,16 +635,9 @@ def PublishJavaDocs(){
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ths/Documents/External/telehealth-api", reportFiles: 'index.html', reportName: "Telehealth Library API documentation"])
 
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/uid/Documents/External/uid-api", reportFiles: 'index.html', reportName: "UID Library API documentation"])
-    for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Source/Library/${lib}/build/reports/tests/testReleaseUnitTest", reportFiles: 'index.html', reportName: "cml $lib unit test release"])
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Documents/External/$lib-api", reportFiles: 'index.html', reportName: "cml $lib API documentation"])
-    }
 
-    def cucumber_path = 'Source/cml/Source/Library/commlib-integration-tests/build/cucumber-reports'
-    if (fileExists("$cucumber_path/report.json")) {
-        step([$class: 'CucumberReportPublisher', jsonReportDirectory: cucumber_path, fileIncludePattern: '*.json'])
-    } else {
-        echo 'No Cucumber result found, nothing to publish.'
+    for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Documents/External/$lib-api", reportFiles: 'index.html', reportName: "cml $lib API documentation"])
     }
 }
 

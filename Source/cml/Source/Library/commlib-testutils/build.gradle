@@ -5,6 +5,7 @@
 
 apply plugin: 'com.android.library'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -15,7 +16,7 @@ buildscript {
     }
 }
 
-archivesBaseName = "commlib-testutils"
+archivesBaseName = strings.cmltu.artifactName
 group = 'com.philips.cdp'
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')

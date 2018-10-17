@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -123,7 +124,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     testImplementation deps.junit
-    implementation project(':uAppFwLibUApp')
+    implementation project(strings.ufwuapp.projectName)
 }
 
 tasks.withType(Test) {

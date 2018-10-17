@@ -94,9 +94,6 @@ public class RegistrationHelper {
      *
      */
     public void initializeUserRegistration(final Context context) {
-        RLog.init();
-        AppTagging.init();
-
         if (mLocale == null) {
             String languageCode;
             String countryCode;
@@ -118,31 +115,25 @@ public class RegistrationHelper {
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         //   generateKeyAndMigrateData(context);
         refreshNTPOffset();
-        final Runnable runnable = new Runnable() {
-
-            @Override
-            public void run() {
-                deleteLegacyDIProfileFile(context);
-                if (networkUtility.isNetworkAvailable()) {
-                    RLog.i(TAG, "initializeUserRegistration :" +
-                            " initializeEnvironment for Locale: " + mLocale);
-                    UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
-                } else {
-                    if (UserRegistrationInitializer.getInstance().
-                            getJumpFlowDownloadStatusListener() != null) {
-                        UserRegistrationInitializer.getInstance().
-                                getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
-                        RLog.e(TAG, "initializeUserRegistration: onFlowDownloadFailure due Network is not Available");
-                    }
+        final Runnable runnable = () -> {
+            deleteLegacyDIProfileFile(context);
+            if (networkUtility.isNetworkAvailable()) {
+                RLog.i(TAG, "initializeUserRegistration :" +
+                        " initializeEnvironment for Locale: " + mLocale);
+                UserRegistrationInitializer.getInstance().initializeEnvironment(context, mLocale);
+            } else {
+                if (UserRegistrationInitializer.getInstance().
+                        getJumpFlowDownloadStatusListener() != null) {
+                    UserRegistrationInitializer.getInstance().
+                            getJumpFlowDownloadStatusListener().onFlowDownloadFailure();
+                    RLog.e(TAG, "initializeUserRegistration: onFlowDownloadFailure due Network is not Available");
                 }
             }
         };
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                android.os.Process.setThreadPriority(android.os.Process.
-                        THREAD_PRIORITY_MORE_FAVORABLE);
-                runnable.run();
-            }
+        Thread thread = new Thread(() -> {
+            android.os.Process.setThreadPriority(android.os.Process.
+                    THREAD_PRIORITY_MORE_FAVORABLE);
+            runnable.run();
         });
         thread.start();
     }

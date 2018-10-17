@@ -56,12 +56,49 @@ public class NetworkUtility {
         }
     }
 
+    public void showErrorDialogPayment(Context context, FragmentManager pFragmentManager,
+                                       String pButtonText, String pErrorString, String pErrorDescription,final AlertListener alertListener) {
+
+        //Track pop up
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
+        if (!((Activity) context).isFinishing()) {
+            showDLSDialogForPayment(UIDHelper.getPopupThemedContext(context), pButtonText, pErrorString, pErrorDescription, pFragmentManager,alertListener);
+        }
+    }
+
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
         if (context == null) return;
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
             showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     getErrorTitleMessageFromErrorCode(context, error.getIAPErrorCode()),
+                    getErrorDescriptionMessageFromErrorCode(context, error));
+        }
+    }
+    public void showPaymentMessage( String title,String description, FragmentManager pFragmentManager, Context context,final AlertListener alertListener) {
+        if (context == null) return;
+        showErrorDialogPayment(context, pFragmentManager, context.getString(R.string.iap_ok),
+                title,
+                description,alertListener);
+    }
+
+    public void showVoucherSuccessMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
+        if (context == null) return;
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
+                    "Successful",
+                    "Vouchers Applied Successfully");
+        }
+    }
+
+    public void showVoucherErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
+        if (context == null) return;
+        if (msg.obj instanceof IAPNetworkError) {
+            IAPNetworkError error = (IAPNetworkError) msg.obj;
+            showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
+                    "Unsuccessful",
                     getErrorDescriptionMessageFromErrorCode(context, error));
         }
     }
@@ -119,6 +156,31 @@ public class NetworkUtility {
                         setPositiveButton(pButtonText, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
+                            }
+                        });
+
+        builder.setTitle(pErrorString);
+        if (alertDialogFragment != null) {
+            dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
+        }
+        alertDialogFragment = builder.create();
+        if(alertDialogFragment==null) {
+            alertDialogFragment = builder.setCancelable(false).create();
+        }
+
+        if (!alertDialogFragment.isVisible()) {
+            alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+        }
+
+    }
+    void showDLSDialogForPayment(final Context context, String pButtonText, String pErrorString, String pErrorDescription, final FragmentManager pFragmentManager,final AlertListener alertListener) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
+                .setMessage(pErrorDescription).
+                        setPositiveButton(pButtonText, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertListener.onPositiveBtnClick();
                                 dismissAlertFragmentDialog(alertDialogFragment,pFragmentManager);
                             }
                         });

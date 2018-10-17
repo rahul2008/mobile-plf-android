@@ -38,11 +38,10 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         mContext = context;
     }
 
-    public void refreshAndUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
+    public void refreshAndUpdateUser(final RefreshUserHandler handler, final User user) {
         RLog.d(TAG, "refreshAndUpdateUser");
         refreshUserHandler = handler;
         this.user = user;
-        this.password = password;
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated() && UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RLog.d(TAG, "refreshAndUpdateUser : not isJumpInitializated and isRegInitializationInProgress");
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
@@ -57,10 +56,10 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             return;
         }
 
-        refreshUpdateUser(handler, user, password);
+        refreshUpdateUser(handler, user);
     }
 
-    private void refreshUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
+    private void refreshUpdateUser(final RefreshUserHandler handler, final User user) {
         if (Jump.getSignedInUser() == null) {
             RLog.e(TAG, "refreshUpdateUser : Jump.getSignedInUser() is NULL");
             handler.onRefreshUserFailed(0);
@@ -118,7 +117,8 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             public void onFailure(CaptureAPIError failureParam) {
                 try{
                     RLog.e(TAG, "onFailure : refreshUpdateUser error " + failureParam.captureApiError.raw_response);
-                if (failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
+
+                if (failureParam.captureApiError !=  null && failureParam.captureApiError.code == 414 && failureParam.captureApiError.error.equalsIgnoreCase("access_token_expired")) {
 
                     user.refreshLoginSession(new RefreshLoginSessionHandler() {
                         @Override
@@ -150,7 +150,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
     @Override
     public void onFlowDownloadSuccess() {
         RLog.e(TAG, "onFlowDownloadSuccess is called");
-        refreshAndUpdateUser(refreshUserHandler, user, password);
+        refreshAndUpdateUser(refreshUserHandler, user);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
     }

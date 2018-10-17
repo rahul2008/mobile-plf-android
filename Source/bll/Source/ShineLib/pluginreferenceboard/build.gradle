@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-archivesBaseName = "pluginreferenceboard"
+archivesBaseName = strings.prf.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -29,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation project(':bluelib')
+    implementation project(strings.bll.projectName)
 
     testImplementation deps.junit
     testImplementation deps.mockito

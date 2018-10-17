@@ -105,7 +105,7 @@ public class IAPServiceDiscoveryWrapperTest {
         iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
         iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
         iapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mock(UiLauncher.class), mock(IAPHandler.class), mock(IAPLaunchInput.class), mock(IAPListener.class), "productCartCount");
-        iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
+//        iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
     }
 
     @Test

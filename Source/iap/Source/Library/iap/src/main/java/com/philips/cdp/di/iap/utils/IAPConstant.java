@@ -24,6 +24,11 @@ public class IAPConstant {
     public static final String IAP_EDIT_DELIVERY_MODE = "IAP_EDIT_DELIVERY_MODE";
     public static final String IAP_DELETE_PRODUCT_CONFIRM = "IAP_DELETE_PRODUCT_CONFIRM";
 
+    //Cart Vouchers
+    public static final String IAP_APPLY_VOUCHER = "IAP_APPLY_VOUCHER";
+    public static final String IAP_DELETE_VOUCHER = "IAP_DELETE_VOUCHER";
+    public static final String IAP_VOUCHER_CODE = "IAP_VOUCHER_CODE";
+
     //Product
     public static final String PRODUCT_TITLE = "PRODUCT_TITLE";
     public static final String PRODUCT_CTN = "PRODUCT_CTN";
@@ -130,4 +135,6 @@ public class IAPConstant {
 
     //For handling 307 - Temporary redirect
     public static final int HTTP_REDIRECT = 307;
+
+
 }

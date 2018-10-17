@@ -11,7 +11,6 @@ import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
@@ -41,6 +40,7 @@ import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
@@ -163,7 +163,7 @@ public class AppFrameworkApplication extends Application {
             RALog.d(PushNotificationManager.TAG, "Push notification is enabled");
             pushNotificationManager = PushNotificationManager.getInstance();
             pushNotificationManager.init(appInfra, getDataServiceState());
-            pushNotificationManager.startPushNotificationRegistration(getApplicationContext());
+            pushNotificationManager.startPushNotificationRegistration(getApplicationContext(), new SecureStorageInterface.SecureStorageError());
             connectivityChangeReceiver = new ConnectivityChangeReceiver();
             registerReceiver(connectivityChangeReceiver,
                     new IntentFilter(

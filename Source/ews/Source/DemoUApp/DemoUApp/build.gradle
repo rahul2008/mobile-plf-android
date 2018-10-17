@@ -6,8 +6,9 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = "ewsUApp"
+archivesBaseName = strings.ewsuapp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -63,11 +64,11 @@ def getMyVersionCode() {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Philips Dependencies
-    implementation project(':ews-android')
-    implementation project(':uid')
-    implementation project(':uAppFwLib')
-    implementation project(':AppInfra')
-    implementation project(':commlib-api')
+    implementation project(strings.ews.projectName)
+    implementation project(strings.uid.projectName)
+    implementation project(strings.ufw.projectName)
+    implementation project(strings.ail.projectName)
+    implementation project(strings.cmlapi.projectName)
     annotationProcessor deps.dagger.compiler
 
     implementation deps.constraintlayout
