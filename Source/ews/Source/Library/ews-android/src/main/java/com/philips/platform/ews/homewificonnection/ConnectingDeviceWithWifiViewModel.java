@@ -271,7 +271,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private void showConnectionUnsuccessful() {
         removeTimeoutRunnable();
         if (startConnectionModel != null) {
-            navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(startConnectionModel.getDeviceName(), startConnectionModel.getHomeWiFiSSID());
+            navigator.navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(startConnectionModel.getDeviceName(), startConnectionModel.getHomeWiFiSSID());
         }
     }
 

@@ -62,7 +62,7 @@ public class SecondSetupStepsViewModelTest {
     @Test
     public void itShouldShowChooseCurrentStateScreenWhenNoButtonIsClicked() throws Exception {
         subject.onNoButtonClicked();
-        verify(navigatorMock).navigateToResetConnectionTroubleShootingScreen();
+        verify(navigatorMock).navigateToResetConnectionTroubleshootingScreen();
     }
 
     @Test

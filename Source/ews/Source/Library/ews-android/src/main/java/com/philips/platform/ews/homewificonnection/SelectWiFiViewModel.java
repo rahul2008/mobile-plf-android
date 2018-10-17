@@ -81,7 +81,7 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
     }
 
     public void onNetworkNotListedButtonClicked() {
-        navigator.navigateToNetworkNotListedTroubleShootingScreen();
+        navigator.navigateToNetworkNotListedTroubleshootingScreen();
     }
 
     public void cleanUp() {

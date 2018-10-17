@@ -51,7 +51,7 @@ public class Navigator {
         pushFragment(new SelectWiFiFragment());
     }
 
-    public void navigateToNetworkNotListedTroubleShootingScreen() {
+    public void navigateToNetworkNotListedTroubleshootingScreen() {
         pushFragment(new NetworkNotListedFragment());
     }
 
@@ -63,15 +63,15 @@ public class Navigator {
         pushFragment(new ConnectionSuccessfulFragment());
     }
 
-    public void navigateToResetConnectionTroubleShootingScreen() {
+    public void navigateToResetConnectionTroubleshootingScreen() {
         pushFragment(new ResetConnectionTroubleshootingFragment());
     }
 
-    public void navigateToResetDeviceTroubleShootingScreen() {
+    public void navigateToResetDeviceTroubleshootingScreen() {
         pushFragment(new ResetDeviceTroubleshootingFragment());
     }
 
-    public void navigateToConnectToWrongPhoneTroubleShootingScreen() {
+    public void navigateToConnectToWrongPhoneTroubleshootingScreen() {
         pushFragment(new ConnectToWrongPhoneTroubleshootingFragment());
     }
 
@@ -79,7 +79,7 @@ public class Navigator {
         pushFragment(new SetupAccessPointModeTroubleshootingFragment());
     }
 
-    public void navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(@NonNull String deviceName, @NonNull String wifiSSID) {
+    public void navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(@NonNull String deviceName, @NonNull String wifiSSID) {
         pushFragment(WifiConnectionUnsuccessfulFragment.newInstance(deviceName, wifiSSID));
     }
 

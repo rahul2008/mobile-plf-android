@@ -48,14 +48,14 @@ public class ResetConnectionTroubleshootingViewModelTest {
     public void itShouldNavigateToResetDeviceTroubleShootingScreenWhenYesClicked() throws Exception {
         subject.onYesButtonClicked();
 
-        verify(mockNavigator).navigateToResetDeviceTroubleShootingScreen();
+        verify(mockNavigator).navigateToResetDeviceTroubleshootingScreen();
     }
 
     @Test
     public void itShouldNavigateToConnectToWrongPhoneTroubleShootingScreenWhenNoClicked() throws Exception {
         subject.onNoButtonClicked();
 
-        verify(mockNavigator).navigateToConnectToWrongPhoneTroubleShootingScreen();
+        verify(mockNavigator).navigateToConnectToWrongPhoneTroubleshootingScreen();
     }
 
     @Test

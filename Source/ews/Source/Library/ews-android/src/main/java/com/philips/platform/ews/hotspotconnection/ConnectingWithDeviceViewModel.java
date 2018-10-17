@@ -130,7 +130,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
 
     void onHelpNeeded() {
         ewsTagger.trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
-        navigator.navigateToResetConnectionTroubleShootingScreen();
+        navigator.navigateToResetConnectionTroubleshootingScreen();
     }
 
     void onHelpNotNeeded() {

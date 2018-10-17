@@ -98,7 +98,7 @@ public class SecondSetupStepsViewModel {
 
     public void onNoButtonClicked() {
         tapWifiNotBlinking();
-        navigator.navigateToResetConnectionTroubleShootingScreen();
+        navigator.navigateToResetConnectionTroubleshootingScreen();
     }
 
     private void tapWifiNotBlinking() {
