@@ -397,6 +397,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Button deleteBtn;
         View shoppingCartView;
         View viewBottomSpace;
+        Label out_of_stock;
 
         ShoppingCartProductHolder(final View shoppingCartView) {
             super(shoppingCartView);
@@ -406,6 +407,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTvActualPrice = shoppingCartView.findViewById(R.id.actual_price);
             mQuantityLayout = shoppingCartView.findViewById(R.id.quantity_count_layout);
             mTvAfterDiscountPrice = shoppingCartView.findViewById(R.id.after_discount_price);
+            out_of_stock = shoppingCartView.findViewById(R.id.out_of_stock);
             mTvQuantity = shoppingCartView.findViewById(R.id.quantity_val);
             mIvOptions = shoppingCartView.findViewById(R.id.right_arrow);
             deleteBtn = shoppingCartView.findViewById(R.id.delete_btn);
@@ -427,7 +429,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
-        Label mDeliveryDescriprion;
         LinearLayout mPriceContainer;
         RelativeLayout mDeliveryUPSParcelContainer;
         RelativeLayout mVoucherContainer;

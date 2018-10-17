@@ -301,5 +301,6 @@ FedEx(parcel postage)</string>
   <string name="iap_delete_confirmation_messsage">Your Applied voucher will be removed from your shopping cart. Are you sure?</string>
   <string name="iap_total_discount">Total Discount</string>
   <string name="iap_voucher_code">Voucher Code:</string>
+  <string name="iap_shipping_cost">Shipping cost</string>
 
 </resources>
