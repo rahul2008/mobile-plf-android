@@ -131,7 +131,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         RLog.d(TAG, "onStop");
         wasAppInBackground = true;
         accountActivationPresenter.unRegisterListener();
-        getRegistrationFragment().stopCountDownTimer();
+       // getRegistrationFragment().stopCountDownTimer();
     }
 
     @Override
