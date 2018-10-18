@@ -145,4 +145,8 @@ public class FirebaseOnBoardingTourFragment extends OnBoardingTourFragment imple
         }
     }
 
+    protected void setCurrent(){
+        pager.setCurrentItem(pager.getAdapter().getCount() - 1,false);
+    }
+
 }

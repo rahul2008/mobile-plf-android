@@ -6,9 +6,7 @@
 
 package com.philips.platform.ths.onboarding;
 
-import android.os.Bundle;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -32,7 +30,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import static com.philips.platform.ths.onboardingtour.OnBoardingTourPresenter.ARG_PAGER_FLOW;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyInt;
@@ -120,25 +117,6 @@ public class OnBoardingFragmentTest {
         final View viewById = mOnBoardingFragment.getView().findViewById(R.id.btn_continue);
 
         assertThat(viewById.getVisibility()).isEqualTo(View.GONE);
-    }
-
-    @Test
-    public void shouldAlignAgreeButton_DependingOnFragmentArguments() throws Exception {
-        THSManager.getInstance().setOnBoradingABFlow(THSConstants.THS_ONBOARDING_ABFLOW2);
-
-        mOnBoardingFragment = new TestOnBoardingFragment();
-        mOnBoardingFragment.setActionBarListener(actionBarListenerMock);
-        Bundle args = new Bundle();
-        args.putBoolean(ARG_PAGER_FLOW, false);
-        mOnBoardingFragment.setArguments(args);
-        SupportFragmentTestUtil.startFragment(mOnBoardingFragment);
-
-        mOnBoardingFragment.onBoardingPresenter = onBoardingPresenterMock;
-        mOnBoardingFragment.setFragmentLauncher(fragmentLauncherMock);
-        final View viewById = mOnBoardingFragment.getView().findViewById(R.id.btn_continue);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewById.getLayoutParams();
-
-        assertThat(params.getRule(RelativeLayout.BELOW)).isEqualTo(0);
     }
 
     @Test

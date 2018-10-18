@@ -82,4 +82,11 @@ public class FirebaseOnBoardingTourFragmentTest {
     public void shouldReturnTrue_OnExit() throws Exception {
         assertThat(firebaseOnboardingTourFragment.handleBackEvent()).isTrue();
     }
+
+    @Test
+    public void test_setCurrent() throws Exception {
+        firebaseOnboardingTourFragment.setCurrent();
+        assert firebaseOnboardingTourFragment.pager.getCurrentItem()==4;
+    }
+
 }

@@ -86,10 +86,10 @@ public class THSConstants {
     // start of tags
     public static final String THS_INIT_PAGE = "TH_00_00a Welcome";
     public static final String THS_WELCOME = "TH_00_00 Welcome";
+    public static final String THS_EDIT_DETAILS = "TH_00_01b Edit details";
     public static final String THS_ADD_DETAILS = "TH_00_01 Add details";
-    public static final String THS_CONFIRM_T_AND_C = "TH_00_02 Confirm T&C";
-    public static final String THS_TERMS_AND_CONDITION = "TH_99_05 Onboarding";
-    public static final String THS_TERMS_AND_CONDITION_alt = "TH_99_05_alt Onboarding";
+
+    public static final String THS_TERMS_AND_CONDITION = "TH_00_06 Terms & Conditions";
     public static final String THS_SELECT_PATIENT = "TH_00_03 Select patient";
 
     public static final String THS_PRACTICE_PAGE = "TH_01 _01 Home with practices";
@@ -139,7 +139,6 @@ public class THSConstants {
     public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "TH_03_03a Pick a time";
     public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "TH_03_06b Appointment confirmed";
 
-    public static final String ON_BOARDING_START = "TH_99_00";
     public static final String ON_BOARDING_PAGE_1 = "TH_99_01";
     public static final String ON_BOARDING_PAGE_2 = "TH_99_02";
     public static final String ON_BOARDING_PAGE_3 = "TH_99_03";

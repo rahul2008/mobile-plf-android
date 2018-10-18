@@ -15,7 +15,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
@@ -27,13 +26,10 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static com.philips.platform.ths.onboardingtour.OnBoardingTourPresenter.ARG_PAGER_FLOW;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -121,9 +117,7 @@ public class OnBoardingTourPresenterTest {
     }
 
     private void verifyOnBoardingLaunched() {
-        verify(onBoardingTourFragmentMock).addFragment(any(OnBoardingFragment.class),eq(OnBoardingFragment.TAG),bundleCaptor.capture(),anyBoolean());
-
-        assertThat(bundleCaptor.getValue().getBoolean(ARG_PAGER_FLOW)).isEqualTo(false);
+        verify(onBoardingTourFragmentMock).setCurrent();
     }
 
 }

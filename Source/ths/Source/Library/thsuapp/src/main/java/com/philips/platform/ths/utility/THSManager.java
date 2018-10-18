@@ -1195,6 +1195,9 @@ public class THSManager{
     public void getPractices(final Context context, final THSPracticesListCallback THSPracticesListCallback) throws AWSDKInstantiationException {
 
         AmwellLog.i(AmwellLog.LOG,"getPractices in THSManager Called");
+        if(getConsumer(context)==null){
+            THSPracticesListCallback.onPracticesListFetchError(null);
+        }
         getAwsdk(context).getPracticeProvidersManager().getPractices(getConsumer(context), new SDKCallback<List<Practice>, SDKError>() {
             @Override
             public void onResponse(List<Practice> practices, SDKError sdkError) {
@@ -3341,6 +3344,9 @@ public class THSManager{
     }
 
     public String getOnBoradingABFlow() {
+        if(onBoradingABFlow.isEmpty() || onBoradingABFlow==null){
+            setOnBoradingABFlow(THSConstants.THS_ONBOARDING_ABFLOW2);
+        }
         return onBoradingABFlow;
     }
 

@@ -5,11 +5,8 @@
 */
 package com.philips.platform.ths.onboardingtour;
 
-import android.os.Bundle;
-
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.onboarding.OnBoardingFragment;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
@@ -23,6 +20,7 @@ import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_2;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_3;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_4;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_5;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 
@@ -30,7 +28,6 @@ public class OnBoardingTourPresenter implements THSBasePresenter {
     public static final String TAG = OnBoardingTourPresenter.class.getSimpleName();
 
     private OnBoardingTourFragment onBoardingTourFragment;
-    public static final String ARG_PAGER_FLOW = "isFromPager";
 
     OnBoardingTourPresenter(OnBoardingTourFragment onBoardingTourFragment) {
         this.onBoardingTourFragment = onBoardingTourFragment;
@@ -104,12 +101,7 @@ public class OnBoardingTourPresenter implements THSBasePresenter {
     }
 
     private void launchTermsAndConditionsScreen() {
-        String pageTitle = onBoardingTourFragment.getOnBoardingTourPagerAdapter().getPageTitle(onBoardingTourFragment.getPagePosition());
-        THSTagUtils.doTrackActionWithInfo(pageTitle,THS_SPECIAL_EVENT,"skipOnboarding");
-        onBoardingTourFragment.popSelfBeforeTransition();
-        OnBoardingFragment onBoardingFragment = new OnBoardingFragment();
-        Bundle args = new Bundle();
-        args.putBoolean(ARG_PAGER_FLOW, false);
-        onBoardingTourFragment.addFragment(onBoardingFragment, OnBoardingFragment.TAG, args, false);
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"skipOnboarding");
+        onBoardingTourFragment.setCurrent();
     }
 }

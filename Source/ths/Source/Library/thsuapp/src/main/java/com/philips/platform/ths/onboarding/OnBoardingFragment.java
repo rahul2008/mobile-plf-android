@@ -22,6 +22,8 @@ import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITION;
+
 
 @SuppressWarnings("serial")
 public class OnBoardingFragment extends THSBaseFragment implements View.OnClickListener {
@@ -29,16 +31,11 @@ public class OnBoardingFragment extends THSBaseFragment implements View.OnClickL
     public static final String TAG = OnBoardingFragment.class.getSimpleName();
     protected OnBoardingPresenter onBoardingPresenter;
     private RelativeLayout relativeLayout;
-    private boolean isPagerFlow = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Bundle arguments = getArguments();
-        if (arguments != null) {
-            isPagerFlow = arguments.getBoolean(OnBoardingTourPresenter.ARG_PAGER_FLOW, true);
-        }
-
         onBoardingPresenter = new OnBoardingPresenter(this);
 
     }
@@ -53,15 +50,10 @@ public class OnBoardingFragment extends THSBaseFragment implements View.OnClickL
         link_termsAndConditions.setOnClickListener(this);
         relativeLayout = view.findViewById(R.id.onboarding_view);
 
-        if (!THSManager.getInstance().getOnBoradingABFlow().equalsIgnoreCase(THSConstants.THS_ONBOARDING_ABFLOW1)&& isPagerFlow) {
+        if (THSManager.getInstance().getOnBoradingABFlow().equalsIgnoreCase(THSConstants.THS_ONBOARDING_ABFLOW2)) {
             btn_agree_and_continue.setVisibility(View.GONE);
         }
-        else if(!THSManager.getInstance().getOnBoradingABFlow().equalsIgnoreCase(THSConstants.THS_ONBOARDING_ABFLOW1) && !isPagerFlow){
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btn_agree_and_continue.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.BELOW, 0);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            btn_agree_and_continue.setLayoutParams(layoutParams);
-        }
+
         ActionBarListener actionBarListener = getActionBarListener();
         if (actionBarListener != null) {
             actionBarListener.updateActionBar(R.string.ths_Welcome_nav_title, false);
@@ -99,5 +91,7 @@ public class OnBoardingFragment extends THSBaseFragment implements View.OnClickL
         hideProgressBar();
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
+        //Removing the below tag as per analytics teams request. Keeping it commented in case its required in future
+        //THSTagUtils.doTrackPageWithInfo(THS_TERMS_AND_CONDITION,null,null);
     }
 }

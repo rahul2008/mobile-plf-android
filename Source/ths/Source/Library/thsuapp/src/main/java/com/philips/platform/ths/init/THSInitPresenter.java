@@ -24,14 +24,12 @@ import com.philips.platform.ths.settings.THSScheduledVisitsFragment;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CONSUMER_DETAILS;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_INITIALIZATION;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTIC_CONSUMER_EXIST_CHECK;
-import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_START;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVICE_DISCOVERY_CANNOT_FIND_LOCALE;
 
 public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack<Void, THSSDKError>, THSCheckConsumerExistsCallback<Boolean, THSSDKError>, THSLoginCallBack<THSAuthentication, THSSDKError>, THSGetConsumerObjectCallBack {
@@ -149,7 +147,6 @@ public class THSInitPresenter implements THSBasePresenter, THSInitializeCallBack
 
     private void launchOnBoardingScreen() {
         mThsInitFragment.popSelfBeforeTransition();
-        THSTagUtils.doTrackPageWithInfo(ON_BOARDING_START, null, null);
         if(THSManager.getInstance().getOnBoradingABFlow().equalsIgnoreCase(THSConstants.THS_ONBOARDING_ABFLOW1) ){
             mThsInitFragment.addFragment(new OnBoardingTourFragment(), OnBoardingTourFragment.TAG, null, true);
         }

@@ -167,4 +167,8 @@ public class OnBoardingTourFragment extends THSBaseFragment implements View.OnCl
     public int getPagePosition() {
         return pagePosition;
     }
+
+    protected void setCurrent(){
+        pager.setCurrentItem(pager.getAdapter().getCount() - 1,false);
+    }
 }

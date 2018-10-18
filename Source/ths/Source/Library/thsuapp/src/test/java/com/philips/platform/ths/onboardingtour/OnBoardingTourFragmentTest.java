@@ -198,4 +198,10 @@ public class OnBoardingTourFragmentTest {
         verify(mOnBoardingTourPresenterMock).onEvent(anyInt());
     }
 
+    @Test
+    public void test_setCurrent() throws Exception {
+        mOnBoardingTourFragment.setCurrent();
+        assert mOnBoardingTourFragment.pager.getCurrentItem()==4;
+    }
+
 }

@@ -50,6 +50,7 @@ import java.util.Locale;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_FETCH_STATES;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_DETAILS;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_ENROLLMENT_MISSING;
+import static com.philips.platform.ths.utility.THSConstants.THS_EDIT_DETAILS;
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
@@ -392,7 +393,11 @@ public class THSRegistrationFragment extends THSBaseFragment implements View.OnC
 
     public void onResume() {
         super.onResume();
-        THSTagUtils.doTrackPageWithInfo(THS_ADD_DETAILS, null, null);
+        if(isLaunchedFromEditDetails){
+            THSTagUtils.doTrackPageWithInfo(THS_EDIT_DETAILS, null, null);
+        }else {
+            THSTagUtils.doTrackPageWithInfo(THS_ADD_DETAILS, null, null);
+        }
     }
 
     @Override

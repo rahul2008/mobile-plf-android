@@ -15,10 +15,9 @@ import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.net.URL;
 
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
-import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITION;
 import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITIONS;
-import static com.philips.platform.ths.utility.THSConstants.THS_TERMS_AND_CONDITION_alt;
 
 /**
  * Created by philips on 10/25/17.
@@ -38,9 +37,9 @@ public class OnBoardingPresenter implements THSBasePresenter {
 
         if(componentID==R.id.btn_continue){
             if(THSManager.getInstance().getOnBoradingABFlow().equalsIgnoreCase(THSConstants.THS_ONBOARDING_ABFLOW1) ){
-                THSTagUtils.doTrackActionWithInfo(THS_TERMS_AND_CONDITION, THS_SPECIAL_EVENT, "agreesToTermsAndConditions");
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "agreesToTermsAndConditions");
             }else {
-                THSTagUtils.doTrackActionWithInfo(THS_TERMS_AND_CONDITION_alt, THS_SPECIAL_EVENT, "agreesToTermsAndConditions");
+                THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "agreesToTermsAndConditions");
             }
             onBoardingFragment.popSelfBeforeTransition();
             if (THSManager.getInstance().isReturningUser()) {
