@@ -326,7 +326,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     private void handleRefreshUserFailed(int error) {
         RLog.d(TAG, "onRefreshUserFailed");
-        if (error == RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED) {
+        if (error == ErrorCodes.HSDP_ACTIVATE_ACCOUNT_FAILED) {
             verificationError(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
             hideActivateSpinner();
             activateButtonEnable(true);

@@ -8,6 +8,7 @@ import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -23,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.annotation.Config;
 
-import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
+import static com.philips.cdp.registration.errors.ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -148,14 +149,14 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testUpdateReceivingMarketingEmail_failure_invalid_refresh_token() {
-        presenter.onUpdateFailedWithError(Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE));
+        presenter.onUpdateFailedWithError(ErrorCodes.HSDP_INPUT_ERROR_1151);
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).replaceWithHomeFragment();
     }
 
     @Test
     public void testUpdateReceivingMarketingEmail_failure_to_connect() {
-        presenter.onUpdateFailedWithError(RegConstants.FAILURE_TO_CONNECT);
+        presenter.onUpdateFailedWithError(ErrorCodes.UNKNOWN_ERROR);
         verify(mockContract).failedToConnectToServer();
     }
 
@@ -182,7 +183,7 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testLoginFailedWithError_is_china_flow() {
-        userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
+        userRegistrationFailureInfo.setErrorCode(JANRAIN_INVALID_DATA_FOR_VALIDATION);
         RegistrationSettingsURL.setMobileFlow(true);
         presenter.onLoginFailedWithError(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
@@ -191,7 +192,7 @@ public class AlmostDonePresenterTest {
 
     @Test
     public void testLoginFailedWithError_email_flow() {
-        userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
+        userRegistrationFailureInfo.setErrorCode(JANRAIN_INVALID_DATA_FOR_VALIDATION);
         RegistrationSettingsURL.setMobileFlow(false);
         presenter.onLoginFailedWithError(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
@@ -232,7 +233,7 @@ public class AlmostDonePresenterTest {
     @Test
     public void testContinueSocialProviderLoginFailure_emailAlreadyInUse_mobile() {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
-        userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
+        userRegistrationFailureInfo.setErrorCode(JANRAIN_INVALID_DATA_FOR_VALIDATION);
         RegistrationSettingsURL.setMobileFlow(true);
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).phoneNumberAlreadyInuseError();
@@ -241,7 +242,7 @@ public class AlmostDonePresenterTest {
     @Test
     public void testContinueSocialProviderLoginFailure_emailAlreadyInUse_email() {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
-        userRegistrationFailureInfo.setErrorCode(EMAIL_ADDRESS_ALREADY_USE_CODE);
+        userRegistrationFailureInfo.setErrorCode(JANRAIN_INVALID_DATA_FOR_VALIDATION);
         RegistrationSettingsURL.setMobileFlow(false);
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).emailAlreadyInuseError();

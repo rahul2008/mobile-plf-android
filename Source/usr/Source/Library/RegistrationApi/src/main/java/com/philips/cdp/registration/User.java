@@ -363,7 +363,7 @@ public class User {
                     RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
                     refreshUserSession.refreshUserSession();
                 } else {
-                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(RegConstants.FAILURE_TO_CONNECT));
+                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.UNKNOWN_ERROR));
                 }
             }
         }).start();
@@ -844,8 +844,8 @@ public class User {
 
             @Override
             public void onLogoutFailure(int responseCode, String message) {
-                if (responseCode == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
-                        || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+                if (responseCode == ErrorCodes.HSDP_INPUT_ERROR_1009
+                        || responseCode == ErrorCodes.HSDP_INPUT_ERROR_1151) {
                     clearData();
                     RLog.e(TAG, "onLogoutFailure logout INVALID_ACCESS_TOKEN_CODE and INVALID_REFRESH_TOKEN_CODE:" + responseCode);
                     if (logoutHandler != null) {

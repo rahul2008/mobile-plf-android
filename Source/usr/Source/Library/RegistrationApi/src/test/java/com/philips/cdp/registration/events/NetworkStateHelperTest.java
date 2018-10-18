@@ -2,16 +2,16 @@ package com.philips.cdp.registration.events;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static junit.framework.Assert.assertNotNull;
-
-public class NetworkStateHelperTest extends RegistrationApiInstrumentationBase {
+@RunWith(MockitoJUnitRunner.class)
+public class NetworkStateHelperTest extends TestCase {
     @Mock
     NetworkStateHelper mNetworkStateHelper;
 
@@ -23,8 +23,8 @@ public class NetworkStateHelperTest extends RegistrationApiInstrumentationBase {
         super.setUp();
         assertNotNull(mNetworkStateHelper.getInstance());
         mNetworkStateHelper = mNetworkStateHelper.getInstance();
-        context = getInstrumentation().getTargetContext();
     }
+
     @Test
     public void testGetInstance() throws Exception {
         assertNotNull(mNetworkStateHelper);
@@ -38,9 +38,9 @@ public class NetworkStateHelperTest extends RegistrationApiInstrumentationBase {
 
         mNetworkStateHelper.registerEventNotification(observer);
 
-            mNetworkStateHelper.unregisterEventNotification(observer);
+        mNetworkStateHelper.unregisterEventNotification(observer);
 
-                mNetworkStateHelper.notifyEventOccurred(true);
-                mNetworkStateHelper.notifyEventOccurred(false);
+        mNetworkStateHelper.notifyEventOccurred(true);
+        mNetworkStateHelper.notifyEventOccurred(false);
     }
 }

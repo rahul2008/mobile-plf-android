@@ -8,11 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
-/**
- * Created by philips on 12/3/17.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class UpdateUserTest {
 
