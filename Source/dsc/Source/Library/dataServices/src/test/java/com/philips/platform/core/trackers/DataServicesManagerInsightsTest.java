@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class DataServicesManagerInsightsTest {
@@ -38,6 +39,12 @@ public class DataServicesManagerInsightsTest {
     public void createInsightIsActive() {
         Insight insight = manager.createInsight("INSIGHT_TYPE");
         assertFalse(insight.getSynchronisationData().isInactive());
+    }
+
+    @Test
+    public void createInsightLastModifiedIsNull() {
+        Insight insight = manager.createInsight("INSIGHT_TYPE");
+        assertNull(insight.getSynchronisationData().getLastModified());
     }
 
     @Test
