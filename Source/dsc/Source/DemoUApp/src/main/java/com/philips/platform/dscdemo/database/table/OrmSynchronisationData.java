@@ -84,6 +84,11 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
     }
 
     @Override
+    public void setLastModified(DateTime lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    @Override
     public String toString() {
         return "[OrmSynchronisationData, guid=" + guid + ", inactive=" + inactive + ", lastModified=" + lastModified + ", version=" + version + "]";
     }

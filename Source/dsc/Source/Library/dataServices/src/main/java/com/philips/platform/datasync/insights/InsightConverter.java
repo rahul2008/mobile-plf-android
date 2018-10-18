@@ -44,10 +44,7 @@ public class InsightConverter {
                 Insight appInsight = dataCreator.createInsight();
 
                 if(appInsight==null)return appInsightList ;
-                appInsight.setGUId(uCoreInsight.getGuid());
-                appInsight.setLastModified(uCoreInsight.getLastModified());
-                appInsight.setInactive(uCoreInsight.isInactive());
-                appInsight.setVersion(uCoreInsight.getVersion());
+
                 appInsight.setRuleId(uCoreInsight.getRuleId());
                 appInsight.setSubjectId(uCoreInsight.getSubjectId());
                 appInsight.setMomentId(uCoreInsight.getMomentId());
@@ -124,7 +121,7 @@ public class InsightConverter {
     }
 
     private void addSynchronisationData(@NonNull final Insight insight, @NonNull final UCoreInsight uCoreInsight) {
-        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(insight.getGUId(), uCoreInsight.isInactive(), new DateTime(uCoreInsight.getLastModified()), uCoreInsight.getVersion());
+        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(uCoreInsight.getGuid(), uCoreInsight.isInactive(), new DateTime(uCoreInsight.getLastModified()), uCoreInsight.getVersion());
         insight.setSynchronisationData(synchronisationData);
     }
 }

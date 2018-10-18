@@ -13,6 +13,7 @@ import com.philips.platform.dscdemo.database.EmptyForeignCollection;
 import com.philips.platform.dscdemo.database.annotations.DatabaseConstructor;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -25,18 +26,6 @@ public class OrmInsight implements Insight, Serializable {
 
     @DatabaseField(generatedId = true)
     private int id;
-
-    @DatabaseField
-    private String guid;
-
-    @DatabaseField
-    private String last_modified;
-
-    @DatabaseField
-    private boolean inactive;
-
-    @DatabaseField
-    private int version;
 
     @DatabaseField
     private String rule_id;
@@ -79,23 +68,23 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public void setGUId(String GU_ID) {
-        this.guid = GU_ID;
+    public void setGUId(String guid) {
+        this.synchronisationData.setGuid(guid);
     }
 
     @Override
     public void setLastModified(String lastModified) {
-        this.last_modified = lastModified;
+        this.synchronisationData.setLastModified(DateTime.parse(lastModified, ISODateTimeFormat.dateTime()));
     }
 
     @Override
     public void setInactive(boolean inactive) {
-        this.inactive = inactive;
+        this.synchronisationData.setInactive(inactive);
     }
 
     @Override
     public void setVersion(int version) {
-        this.version = version;
+        this.synchronisationData.setVersion(version);
     }
 
     @Override
@@ -140,22 +129,23 @@ public class OrmInsight implements Insight, Serializable {
 
     @Override
     public String getGUId() {
-        return guid;
+        return this.synchronisationData.getGuid();
     }
 
     @Override
     public String getLastModified() {
-        return last_modified;
+        DateTime lastModified = this.synchronisationData.getLastModified();
+        return (lastModified == null ? null : lastModified.toString(ISODateTimeFormat.dateTime()));
     }
 
     @Override
     public boolean isInactive() {
-        return inactive;
+        return this.synchronisationData.isInactive();
     }
 
     @Override
     public int getVersion() {
-        return version;
+        return this.synchronisationData.getVersion();
     }
 
     @Override
@@ -251,6 +241,6 @@ public class OrmInsight implements Insight, Serializable {
 
     @Override
     public String toString() {
-        return "[OrmInsight, InsightID = " + guid + ", MomentID = " + moment_id + ", Title = " + title;
+        return "[OrmInsight, InsightID = " + this.synchronisationData.getGuid() + ", MomentID = " + moment_id + ", Title = " + title;
     }
 }
