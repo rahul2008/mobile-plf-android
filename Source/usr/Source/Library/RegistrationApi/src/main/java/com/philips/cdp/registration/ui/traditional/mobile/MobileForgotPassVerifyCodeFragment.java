@@ -141,7 +141,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
         setDescription();
-        Handler handler = new Handler();
         handleVerificationCode();
         return view;
     }
@@ -163,12 +162,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     private void handleVerificationCode() {
         RxTextView.textChangeEvents(verificationCodeValidationEditText)
-                .subscribe(new Consumer<TextViewTextChangeEvent>() {
-                    @Override
-                    public void accept(TextViewTextChangeEvent aBoolean) throws Exception {
-                        decideToEnableVerifyButton();
-                    }
-                });
+                .subscribe(aBoolean -> decideToEnableVerifyButton());
     }
 
     private void decideToEnableVerifyButton() {
