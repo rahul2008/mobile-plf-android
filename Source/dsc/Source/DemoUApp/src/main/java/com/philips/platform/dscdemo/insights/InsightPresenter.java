@@ -9,14 +9,8 @@ import android.widget.EditText;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.dscdemo.DemoAppManager;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.database.DatabaseHelper;
 import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.Collections;
 
@@ -27,7 +21,6 @@ public class InsightPresenter {
 
     private final DBRequestListener<Insight> dbRequestListener;
     private DataServicesManager mDataServices;
-//    private DatabaseHelper databaseHelper;
 
     private EditText mEtInsightType;
     private EditText mEtRuleId;
@@ -35,7 +28,6 @@ public class InsightPresenter {
 
     InsightPresenter(Context context, DBRequestListener<Insight> dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
-        //databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();®®
         mContext = context;
         this.dbRequestListener = dbRequestListener;
     }
@@ -51,16 +43,6 @@ public class InsightPresenter {
         mEtRuleId = dialog.findViewById(R.id.et_insight_rule);
         mSaveInsightButton = dialog.findViewById(R.id.btn_save_insight);
 
-        // after update
-
-//        if (addOrUpdate == UPDATE) {®
-//            final MomentHelper helper = new MomentHelper();
-//            mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
-//            mLocation.setText(helper.getNotes(moment));
-//            mPhase.setText(helper.getTime(moment));
-//            mSaveInsightButton.setText(R.string.update);
-//        }
-
         mSaveInsightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -72,10 +54,6 @@ public class InsightPresenter {
                 mDataServices.saveInsights(Collections.singletonList(insight), dbRequestListener);
             }
         });
-
-//        textChageListener(mPhase);
-//        textChageListener(mTemperature);
-//        textChageListener(mLocation);
 
         dialog.show();
     }
