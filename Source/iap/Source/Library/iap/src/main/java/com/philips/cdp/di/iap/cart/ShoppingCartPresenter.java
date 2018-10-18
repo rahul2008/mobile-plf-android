@@ -27,9 +27,11 @@ import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.carts.PromotionEntity;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -56,6 +58,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     private CartsEntity mCurrentCartData = null;
     private AddressController mAddressController;
+    private final static String  PROMOTION = "US-freeshipping";
 
     public ShoppingCartPresenter() {
     }
@@ -386,6 +389,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         String ctn;
         for (EntriesEntity entry : entries) {
             ctn = entry.getProduct().getCode();
+            applyPromotion(cartsEntity);
             ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
             cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
@@ -415,6 +419,20 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             products.add(cartItem);
         }
         return products;
+    }
+    public void applyPromotion(CartsEntity cartsEntity) {
+        List<AppliedOrderPromotionEntity> appliedOrderPromotions = cartsEntity.getAppliedOrderPromotions();
+        if(appliedOrderPromotions!=null && appliedOrderPromotions.size()!=0){
+            for(int i=0;i< appliedOrderPromotions.size() ;i++ ) {
+                PromotionEntity promotion = appliedOrderPromotions.get(i).getPromotion();
+                if(promotion !=null && promotion.getCode().equalsIgnoreCase(PROMOTION)) {
+                    String currentDeliveryCost = cartsEntity.getDeliveryMode().getDeliveryCost().getFormattedValue();
+                    String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
+                    cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
+                    break;
+                }
+            }
+        }
     }
 
     @Override

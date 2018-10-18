@@ -45,8 +45,8 @@
     <!-- Firmware update capability -->
     <string name="bll_firmware_update">Firmware update</string>
     <string name="bll_deploy">Deploy</string>
-    <string name="bll_abort">Abort Upload</string>
-    <string name="bll_start_upload">Start Upload</string>
+    <string name="bll_cancel_firmware_upgrade">Cancel</string>
+    <string name="bll_start_upload">Upload</string>
     <string name="bll_upload_result">Upload Result:</string>
     <string name="bll_upload_state">Upload State:</string>
     <string name="bll_firmware_state">Firmware State:</string>
@@ -57,4 +57,6 @@
     <string name="bll_deploy_finished">"onDeployFinished: "</string>
     <string name="bll_retrieving">Retrieving</string>
     <string name="bll_error">ERROR</string>
+    <string name="bll_resume_if_possible">Resume if possible</string>
+    <string name="bll_fw_get">Get</string>
 </resources>

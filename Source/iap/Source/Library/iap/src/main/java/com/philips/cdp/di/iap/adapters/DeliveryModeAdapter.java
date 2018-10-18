@@ -49,6 +49,9 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             holder.deliveryModeName.setText(modes.getName());
         holder.deliveryModeDescription.setText(modes.getDescription());
 
+        mSelectedIndex = 0;
+        holder.deliveryRadioBtnToggle.setChecked(true);
+
         //TODO :Cost is not in server response so value setting to 0.0.Report to Hybris.
         DeliveryCost deliveryCost = modes.getDeliveryCost();
         if (deliveryCost != null) {

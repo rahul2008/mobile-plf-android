@@ -109,7 +109,7 @@ Version 1801
 * N/A
 
 ### Breaking Changes
-* N/A
+* Input AppVersion for EUI64 retrieval is now actually fetched from KpsConfigurationInfo interface, not taking versionCode from AndroidManifest anymore.
 
 ### Defects solved
 * 116716 Device properly disconnects when invoking `BleCommunicationStrategy#disableCommunication()`
