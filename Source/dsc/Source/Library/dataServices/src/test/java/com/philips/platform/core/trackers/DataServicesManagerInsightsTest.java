@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DataServicesManagerInsightsTest {
@@ -30,7 +31,13 @@ public class DataServicesManagerInsightsTest {
     @Test
     public void createInsightAssignsGUID() {
         Insight insight = manager.createInsight("INSIGHT_TYPE");
-        assertIsGUID(insight.getGUId());
+        assertIsGUID(insight.getSynchronisationData().getGuid());
+    }
+
+    @Test
+    public void createInsightIsActive() {
+        Insight insight = manager.createInsight("INSIGHT_TYPE");
+        assertFalse(insight.getSynchronisationData().isInactive());
     }
 
     @Test

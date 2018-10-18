@@ -30,6 +30,7 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -731,7 +732,9 @@ public class DataServicesManager {
 
     public Insight createInsight(final String type) {
         final Insight insight = dataCreator.createInsight();
-        insight.setGUId(UUID.randomUUID().toString());
+        String guid = UUID.randomUUID().toString();
+        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(guid, false, DateTime.now(), -1);
+        insight.setSynchronisationData(synchronisationData);
         insight.setType(type);
 
         return insight;
