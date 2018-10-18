@@ -54,19 +54,29 @@ public class WiFiConnectivityManager {
         connectToNetwork(ssid);
     }
 
+    public void connectMobileToHomeWiFiNetwork(final String homeWiFiSSID, final String homeWiFiPassword) {
+        wiFiUtil.forgetHotSpotNetwork(homeWiFiSSID);
+        if (TextUtil.isEmpty(homeWiFiPassword)) {
+            configureOpenNetwork(homeWiFiSSID);
+        } else {
+            configureSecuredNetwork(homeWiFiSSID, homeWiFiPassword);
+        }
+        connectToNetwork(homeWiFiSSID);
+    }
+
     public void connectToApplianceHotspotNetwork(final String deviceHotspotSSID) {
         wiFiUtil.forgetHotSpotNetwork(deviceHotspotSSID);
-        configureOpenNetwork();
+        configureOpenNetwork(DEVICE_SSID);
 
         if (!TextUtil.isEmpty(wiFiUtil.getCurrentWiFiSSID())) {
             connectToNetwork(DEVICE_SSID);
         }
     }
 
-    private void configureOpenNetwork() {
+    private void configureOpenNetwork(String ssid) {
         ewsLogger.d(EWS_STEPS, "1.1 Configuring open network");
         WifiConfiguration wfc = new WifiConfiguration();
-        wfc.SSID = "\"" + DEVICE_SSID + "\"";
+        wfc.SSID = "\"" + ssid + "\"";
         wfc.status = WifiConfiguration.Status.ENABLED;
         wfc.priority = 40;
         wfc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
@@ -84,6 +94,28 @@ public class WiFiConnectivityManager {
         wifiManager.saveConfiguration();
     }
 
+    private void configureSecuredNetwork(String ssid, String password) {
+        ewsLogger.d(EWS_STEPS, "1.1 Configuring secured network");
+        WifiConfiguration wfc = new WifiConfiguration();
+        wfc.SSID = "\"" + ssid + "\"";
+        wfc.preSharedKey  = "\"" + password + "\"";
+        wfc.hiddenSSID = true;
+        wfc.status = WifiConfiguration.Status.ENABLED;
+        wfc.priority = 40;
+        wfc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+        wfc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+        wfc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+        wfc.allowedAuthAlgorithms.clear();
+        wfc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        wfc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+        wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+        wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+        wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+        wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+
+        wifiManager.addNetwork(wfc);
+        wifiManager.saveConfiguration();
+    }
 
     private void connectToNetwork(@NonNull final String ssid) {
         ewsLogger.d(EWS_STEPS, "Trying to connect to network " + ssid);
@@ -95,7 +127,7 @@ public class WiFiConnectivityManager {
     private Runnable runnable;
 
     private void tryToConnectToNetwork(@NonNull final String ssid) {
-       runnable = new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 ScanResult accessPoint;
