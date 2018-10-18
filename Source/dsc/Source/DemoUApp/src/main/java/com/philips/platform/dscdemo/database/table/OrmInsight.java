@@ -26,7 +26,7 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String guid;
 
     @DatabaseField

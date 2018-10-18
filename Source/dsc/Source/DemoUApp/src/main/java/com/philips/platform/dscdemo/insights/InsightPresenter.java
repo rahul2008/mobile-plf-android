@@ -49,7 +49,6 @@ public class InsightPresenter {
                 dialog.dismiss();
                 Insight insight = mDataServices.createInsight(mEtInsightType.getText().toString());
                 insight.setRuleId(mEtRuleId.getText().toString());
-                insight.setSynchronisationData(new OrmSynchronisationData(insight.getGUId(), false, null, 0));
 
                 mDataServices.saveInsights(Collections.singletonList(insight), dbRequestListener);
             }
