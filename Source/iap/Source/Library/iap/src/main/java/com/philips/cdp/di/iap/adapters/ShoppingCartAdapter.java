@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -208,6 +209,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
+                    String deliveryModeDescription=data.getDeliveryMode().getDescription();
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
@@ -227,6 +229,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
 
 
+                    shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
@@ -238,7 +241,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     });
 
                 } else {
-                  //  shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
+                    shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
                     mIsFreeDelivery = true;
                 }
@@ -317,9 +320,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         setCountArrow(mContext, isStockAvailable);
         mOutOfStock.onOutOfStock(isStockAvailable);
         if(!isStockAvailable){
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + stocklevel + " left");
+            //shoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
+            //shoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + stocklevel + " left");
+            shoppingCartProductHolder.out_of_stock.setVisibility(View.VISIBLE);
+            mOutOfStock.onOutOfStock(false);
+            shoppingCartProductHolder.out_of_stock.setText(mContext.getString(R.string.iap_out_of_stock));
+            shoppingCartProductHolder.out_of_stock.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
+
         }
+        else{
+            shoppingCartProductHolder.out_of_stock.setVisibility(View.GONE);
+        }
+
     }
 
     private void getNetworkImage(final ShoppingCartProductHolder shoppingCartProductHolder, final String imageURL) {
@@ -356,11 +368,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (visibility) {
             shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
+            shoppingCartFooter.summary_delivery_container.setVisibility(View.VISIBLE);
         }
         else
         {
             shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
+            shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
         }
     }
 
@@ -384,6 +398,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Button deleteBtn;
         View shoppingCartView;
         View viewBottomSpace;
+        Label out_of_stock;
 
         ShoppingCartProductHolder(final View shoppingCartView) {
             super(shoppingCartView);
@@ -393,6 +408,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTvActualPrice = shoppingCartView.findViewById(R.id.actual_price);
             mQuantityLayout = shoppingCartView.findViewById(R.id.quantity_count_layout);
             mTvAfterDiscountPrice = shoppingCartView.findViewById(R.id.after_discount_price);
+            out_of_stock = shoppingCartView.findViewById(R.id.out_of_stock);
             mTvQuantity = shoppingCartView.findViewById(R.id.quantity_val);
             mIvOptions = shoppingCartView.findViewById(R.id.right_arrow);
             deleteBtn = shoppingCartView.findViewById(R.id.delete_btn);
@@ -410,6 +426,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
+        Label mDeliveryDescriprion;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -418,6 +435,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RelativeLayout mVoucherContainer;
         Label mAppliedVoucherCode;
 
+        GridLayout summary_delivery_container;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -428,6 +446,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTotalCost = itemView.findViewById(R.id.total_cost_val);
             mDeliveryVia = itemView.findViewById(R.id.delivery_via_ups);
             mDeliveryUpsVal = itemView.findViewById(R.id.delivery_ups_val);
+            mDeliveryDescriprion = itemView.findViewById(R.id.iap_delivery_mode_description);
             mExtraOption = itemView.findViewById(R.id.extra_option);
             mEditIcon = itemView.findViewById(R.id.edit_icon);
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
@@ -435,6 +454,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mDeliveryUPSParcelContainer = itemView.findViewById(R.id.delivery_ups_parcel_container);
             mAppliedVoucherCode = itemView.findViewById(R.id.voucherLabel);
             mVoucherContainer = itemView.findViewById(R.id.voucher_container);
+            summary_delivery_container= itemView.findViewById(R.id.summary_delivery_container);
         }
     }
 

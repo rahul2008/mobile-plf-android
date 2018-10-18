@@ -99,7 +99,9 @@ public class DeviceInformationFragment extends Fragment {
             public void onError(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType deviceInformationType, @NonNull final SHNResult error) {
                 SHNLogger.e(TAG, "Error reading device information: " + error.name());
 
-                setTextByViewId(getString(R.string.bll_unknown), textViewId);
+                if (isAdded()) {
+                    setTextByViewId(getString(R.string.bll_unknown), textViewId);
+                }
             }
         });
     }

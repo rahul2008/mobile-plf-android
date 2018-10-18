@@ -35,14 +35,10 @@ public class SHNFirmwareInfo {
     }
 
     private String version;
-    private String deviceCloudComponentName;
-    private String deviceCloudComponentVersion;
     private SHNFirmwareState state;
 
-    public SHNFirmwareInfo(String version, String deviceCloudComponentName, String deviceCloudComponentVersion, SHNFirmwareState state) {
+    public SHNFirmwareInfo(String version, SHNFirmwareState state) {
         this.version = version;
-        this.deviceCloudComponentName = deviceCloudComponentName;
-        this.deviceCloudComponentVersion = deviceCloudComponentVersion;
         this.state = state;
     }
 
@@ -51,20 +47,6 @@ public class SHNFirmwareInfo {
      */
     public String getVersion() {
         return version;
-    }
-
-    /**
-     * @return a string representation of the device cloud component name for the being uploaded or already uploaded firmware image.
-     */
-    public String getDeviceCloudComponentName() {
-        return deviceCloudComponentName;
-    }
-
-    /**
-     * @return a string representation of the device cloud component version for the being uploaded or already uploaded firmware image.
-     */
-    public String getDeviceCloudComponentVersion() {
-        return deviceCloudComponentVersion;
     }
 
     /**

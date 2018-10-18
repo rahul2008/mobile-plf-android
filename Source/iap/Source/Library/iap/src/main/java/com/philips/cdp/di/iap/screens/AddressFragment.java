@@ -77,7 +77,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
         tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
 
-        updateCheckoutStepNumber();
+        updateCheckoutStepNumber("1");
 
         mBtnContinue = rootView.findViewById(R.id.btn_continue);
         mBtnCancel = rootView.findViewById(R.id.btn_cancel);
@@ -94,10 +94,10 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
     private void upDateUi(boolean isChecked) {
         Bundle bundle = getArguments();
-        updateCheckoutStepNumber(); // for default
+        updateCheckoutStepNumber("1"); // for default
         if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
-                updateCheckoutStepNumber();
+                updateCheckoutStepNumber("2");
                 checkBox.setVisibility(View.VISIBLE);
                 checkBox.setChecked(true);
                 enableView(billingView);
@@ -108,14 +108,14 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         }
 
         if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            updateCheckoutStepNumber();
+            updateCheckoutStepNumber("1");
             checkBox.setVisibility(View.GONE);
             HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
             addressShippingView.updateFields(mAddressFieldsHashmap);
         }
 
         if (null != bundle && bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
-            updateCheckoutStepNumber();
+            updateCheckoutStepNumber("2");
             checkBox.setVisibility(View.VISIBLE);
             if (!isChecked) {
                 //((AddressBillingView) billingFragment).disableAllFields();
@@ -139,8 +139,8 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         }
     }
 
-    private void updateCheckoutStepNumber() {
-        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), "2"));
+    private void updateCheckoutStepNumber(String checkoutSteps) {
+        tv_checkOutSteps.setText(String.format(mContext.getString(R.string.iap_checkout_steps), checkoutSteps));
     }
 
 
