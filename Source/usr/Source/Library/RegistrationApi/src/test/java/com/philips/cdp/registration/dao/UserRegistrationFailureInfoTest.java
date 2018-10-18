@@ -22,7 +22,7 @@ public class UserRegistrationFailureInfoTest extends TestCase {
 
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
     }

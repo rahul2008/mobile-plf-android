@@ -18,11 +18,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class DIUserProfileTest extends TestCase {
 
-    DIUserProfile diUserProfile;
+    private DIUserProfile diUserProfile;
 
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
         diUserProfile = new DIUserProfile();
     }
