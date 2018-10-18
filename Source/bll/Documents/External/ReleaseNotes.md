@@ -4,7 +4,7 @@ BlueLib(/ShineLib) for Android - Release Notes
 Version {next}
 ------------
 ### Functionality Delivered
-N/A
+* \#150633 Firmware upgrade capability now supports resuming a previously started firmware upload
 
 ### Backwards Compatibility
 N/A
