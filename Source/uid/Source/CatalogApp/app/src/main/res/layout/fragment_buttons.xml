@@ -19,6 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
             android:orientation="vertical">
             <!--With Icon layout-->
             <LinearLayout
@@ -461,31 +462,44 @@
                 android:orientation="horizontal">
 
                 <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/circularImageButtonLarge"
-                    style="@style/UIDCircularButtonLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:uidAccent="true"
-                    android:layout_marginEnd="@dimen/layout_margin_left_right"
-                    android:layout_marginStart="@dimen/layout_margin_left_right"
-                    android:enabled="@{frag.isButtonsEnabled}"
-                    android:text="@string/dls_message"
-                    app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
-                    />
-
-                <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/circularImageButtonSmall"
+                    android:id="@+id/circularButtonRegular"
                     style="@style/UIDCircularButtonRegular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:uidAccent="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:enabled="@{frag.isButtonsEnabled}"
-                    android:text="@string/dls_message"
-                    app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+                    android:text="@string/dls_message"/>
 
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/circularAccentButtonRegular"
+                    style="@style/UIDCircularButtonRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    app:uidAccent="true"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/dls_message"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/circularButtonLarge"
+                    style="@style/UIDCircularButtonLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/dls_message"/>
+
+                <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/circularAccentButtonLarge"
+                    style="@style/UIDCircularButtonLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    app:uidAccent="true"
+                    android:enabled="@{frag.isButtonsEnabled}"
+                    android:text="@string/dls_message"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

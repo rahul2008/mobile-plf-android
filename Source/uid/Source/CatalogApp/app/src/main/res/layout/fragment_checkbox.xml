@@ -93,48 +93,6 @@
                     android:layout_marginStart="@dimen/layout_margin_left_right"
                     android:enabled="@{frag.isCheckBoxEnabled}"
                     android:text="@string/checkbox_check_item_4"/>
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
-                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
-                    android:layout_marginTop="@dimen/layout_margin_top"
-                    android:text="buttons_circular_small"/>
-
-
-                <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/circularImageButtonSmall"
-                    style="@style/UIDCircularButtonRegular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/layout_margin_left_right"
-                    android:layout_marginStart="@dimen/layout_margin_left_right"
-                    app:uidAccent="true"
-                    android:text="@string/dls_message"/>
-
-
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
-                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/button_label_margin_bottom"
-                    android:layout_marginTop="@dimen/layout_margin_top"
-                    android:text="buttons_circular_big"/>
-
-
-                <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/circularButtonBig"
-                    style="@style/UIDCircularButtonLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/layout_margin_left_right"
-                    android:layout_marginStart="@dimen/layout_margin_left_right"
-                    app:uidAccent="true"
-                    android:text="@string/dls_message"
-                    />
-
 
             </LinearLayout>
         </LinearLayout>
