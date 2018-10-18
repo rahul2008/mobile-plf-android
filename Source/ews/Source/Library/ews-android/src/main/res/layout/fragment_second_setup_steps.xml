@@ -67,13 +67,13 @@
                 app:uidComponentType="Primary" />
 
             <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDExtraWideIconQuietButton.Center"
                 android:id="@+id/ews_02_02_button_verify_ready_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_between_button_margin"
                 android:onClick="@{() -> viewModel.onNoButtonClicked()}"
-                android:text="@{viewModel.noButton}"
-                app:uidComponentType="Secondary" />
+                android:text="@{viewModel.noButton}" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

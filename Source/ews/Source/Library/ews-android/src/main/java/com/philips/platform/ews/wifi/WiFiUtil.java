@@ -48,6 +48,10 @@ public class WiFiUtil {
         return lastWifiSSid;
     }
 
+    public void setHomeWiFiSSID(@NonNull final String selectedHomeWiFiSSID) {
+        lastWifiSSid = selectedHomeWiFiSSID;
+    }
+
     public String getConnectedWiFiSSID() {
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {

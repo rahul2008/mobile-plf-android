@@ -33,10 +33,11 @@ public class PRDemoAppuAppInterface implements UappInterface {
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(context, MainActivity.class);
-            PRDemoAppuAppInterface.THEME_CONFIGURATION = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
-            PRDemoAppuAppInterface.DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
-            context.startActivity(intent);
+            ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
+            Intent intent = new Intent(activityLauncher.getActivityContext(), MainActivity.class);
+            PRDemoAppuAppInterface.THEME_CONFIGURATION = activityLauncher.getDlsThemeConfiguration();
+            PRDemoAppuAppInterface.DLS_THEME = activityLauncher.getUiKitTheme();
+            activityLauncher.getActivityContext().startActivity(intent);
         }
     }
 }

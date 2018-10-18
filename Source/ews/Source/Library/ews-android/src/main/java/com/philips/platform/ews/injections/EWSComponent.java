@@ -6,15 +6,16 @@
 package com.philips.platform.ews.injections;
 
 import com.philips.platform.ews.base.BaseTroubleShootingViewModel;
-import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulViewModel;
 import com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiViewModel;
+import com.philips.platform.ews.homewificonnection.SelectWiFiViewModel;
 import com.philips.platform.ews.hotspotconnection.ConnectingWithDeviceViewModel;
 import com.philips.platform.ews.settingdeviceinfo.ConnectWithPasswordViewModel;
 import com.philips.platform.ews.setupsteps.FirstSetupStepsViewModel;
 import com.philips.platform.ews.setupsteps.SecondSetupStepsViewModel;
 import com.philips.platform.ews.startconnectwithdevice.StartConnectWithDeviceViewModel;
 import com.philips.platform.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingViewModel;
+import com.philips.platform.ews.troubleshooting.networknotlisted.NetworkNotListedViewModel;
 import com.philips.platform.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingViewModel;
 import com.philips.platform.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingViewModel;
 import com.philips.platform.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingViewModel;
@@ -40,6 +41,10 @@ public interface EWSComponent {
 
     ConnectingWithDeviceViewModel connectingWithDeviceViewModel();
 
+    SelectWiFiViewModel selectWiFiViewModel();
+
+    NetworkNotListedViewModel networkNotListedViewModel();
+
     ConnectingDeviceWithWifiViewModel connectingDeviceWithWifiViewModel();
 
     WIFIConnectionUnsuccessfulViewModel wIFIConnectionUnsuccessfulViewModel();
@@ -47,8 +52,6 @@ public interface EWSComponent {
     WrongWifiNetworkViewModel wrongWifiNetworkViewModel();
 
     StartConnectWithDeviceViewModel ewsGettingStartedViewModel();
-
-    ConfirmWifiNetworkViewModel confirmWifiNetworkViewModel();
 
     FirstSetupStepsViewModel firstSetupStepsViewModel();
 

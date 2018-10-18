@@ -14,7 +14,6 @@
 -keepclasseswithmembernames public class com.janrain.android.JumpConfig {*;}
 -dontwarn com.janrain.android.**
 
--keep public class com.philips.cdp.security.SecureStorage {*;}
 
 -dontwarn android.webkit.WebView
 -dontwarn android.net.http.SslError

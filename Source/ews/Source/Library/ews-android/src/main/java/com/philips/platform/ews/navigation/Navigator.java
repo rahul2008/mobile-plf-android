@@ -5,15 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkFragment;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
+import com.philips.platform.ews.homewificonnection.SelectWiFiFragment;
 import com.philips.platform.ews.hotspotconnection.ConnectingWithDeviceFragment;
 import com.philips.platform.ews.settingdeviceinfo.ConnectWithPasswordFragment;
 import com.philips.platform.ews.setupsteps.FirstSetupStepsFragment;
 import com.philips.platform.ews.setupsteps.SecondSetupStepsFragment;
 import com.philips.platform.ews.startconnectwithdevice.StartConnectWithDeviceFragment;
 import com.philips.platform.ews.troubleshooting.connecttowrongphone.ConnectToWrongPhoneTroubleshootingFragment;
+import com.philips.platform.ews.troubleshooting.networknotlisted.NetworkNotListedFragment;
 import com.philips.platform.ews.troubleshooting.resetconnection.ResetConnectionTroubleshootingFragment;
 import com.philips.platform.ews.troubleshooting.resetdevice.ResetDeviceTroubleshootingFragment;
 import com.philips.platform.ews.troubleshooting.setupaccesspointmode.SetupAccessPointModeTroubleshootingFragment;
@@ -38,16 +39,20 @@ public class Navigator {
         pushFragment(new StartConnectWithDeviceFragment());
     }
 
-    public void navigateToHomeNetworkConfirmationScreen() {
-        pushFragment(new ConfirmWifiNetworkFragment());
-    }
-
     public void navigateToDevicePoweredOnConfirmationScreen() {
         pushFragment(new FirstSetupStepsFragment());
     }
 
     public void navigateToCompletingDeviceSetupScreen() {
         pushFragment(new SecondSetupStepsFragment());
+    }
+
+    public void navigateToSelectWiFiScreen() {
+        pushFragment(new SelectWiFiFragment());
+    }
+
+    public void navigateToNetworkNotListedTroubleShootingScreen() {
+        pushFragment(new NetworkNotListedFragment());
     }
 
     public void navigateToConnectToDeviceWithPasswordScreen(String friendlyName) {

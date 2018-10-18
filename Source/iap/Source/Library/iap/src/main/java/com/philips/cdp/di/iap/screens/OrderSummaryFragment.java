@@ -141,6 +141,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
+        //    mAddressController.setDeliveryMode(CartModelContainer.getInstance().getDeliveryModes().get(0).getCode());
+        mAddressController.getDeliveryModes();
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
     }
 
@@ -181,7 +183,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         unregisterEventNotification();
     }
 
-     private void unregisterEventNotification(){
+    private void unregisterEventNotification(){
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
@@ -247,7 +249,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onEventReceived(final String event) {
         hideProgressBar();
-       if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
+        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mPayNowBtn.setEnabled(!Boolean.valueOf(event));
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER))) {
             startProductDetailFragment();
@@ -385,18 +387,21 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onGetDeliveryModes(Message msg) {
+        hideProgressBar();
         if ((msg.obj instanceof IAPNetworkError)) {
             updateCartDetails(mShoppingCartAPI);
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             updateCartDetails(mShoppingCartAPI);
         }
     }
 
     @Override
-        public void onSetDeliveryMode(Message msg) {
+    public void onSetDeliveryMode(Message msg) {
+
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             updateCartOnResume();
         } else {
@@ -420,7 +425,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         createCustomProgressBar(mParentLayout,BIG);
         updateCartDetails(mShoppingCartAPI);
-       // mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+        // mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
 
         /*final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         mSelectedDeliveryMode = deliveryModes.get(position);
@@ -521,5 +526,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onGetCartUpdate() {
         hideProgressBar();
     }
+
 
 }
