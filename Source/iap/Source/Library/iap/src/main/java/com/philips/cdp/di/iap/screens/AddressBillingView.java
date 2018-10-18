@@ -418,6 +418,7 @@ public class AddressBillingView
             }
         } else {
             addressContractor.setBillingAddressFilledStatus(false);
+            addressPresenter.setContinueButtonState(false);
         }
         return false;
     }
