@@ -123,7 +123,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         Label label1 = new Label(getContext());
         label1.setText("customise Expander content");
         label1.setLayoutParams(paramsLabel);
-        expanderFour.setExpanderContentView(label1);
+        expanderFour.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
 
 //        expanderFour.getTitleLabel().setText("customise Expander title new"); // this line will throw null pntr exception
 
