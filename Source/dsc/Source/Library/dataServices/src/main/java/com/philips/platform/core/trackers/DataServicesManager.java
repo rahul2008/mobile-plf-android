@@ -733,7 +733,7 @@ public class DataServicesManager {
     public Insight createInsight(final String type) {
         final Insight insight = dataCreator.createInsight();
         String guid = UUID.randomUUID().toString();
-        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(guid, false, null, -1);
+        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(guid, false, null, 0);
         insight.setSynchronisationData(synchronisationData);
         insight.setType(type);
 

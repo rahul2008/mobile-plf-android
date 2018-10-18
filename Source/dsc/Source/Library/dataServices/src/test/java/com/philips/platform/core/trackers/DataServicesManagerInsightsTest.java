@@ -48,6 +48,12 @@ public class DataServicesManagerInsightsTest {
     }
 
     @Test
+    public void createInsightVersionIsZero() {
+        Insight insight = manager.createInsight("INSIGHT_TYPE");
+        assertEquals(0, insight.getSynchronisationData().getVersion());
+    }
+
+    @Test
     public void saveEmptyListOfInsightsPostsEventOnBus() {
         manager.saveInsights(Collections.emptyList(), dbListener);
         assertEquals(InsightsSaveRequest.class, eventing.postedEvent.getClass());
