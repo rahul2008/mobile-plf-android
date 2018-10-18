@@ -78,64 +78,54 @@ public class ExpanderFragmentOne extends  BaseFragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //expanderOne.setExpanderTitle("Short title");
-        expanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
+
+        expanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_star));
+        expanderOne.setExpanderTitle("Single line title");
         expanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
         expanderOne.setExpanderDelegate(mUidExpanderListener);
        ;
-      //  expanderOne.setTitleImage(getActivity().getResources().getDrawable(R.drawable.alert_dialog_icon));
-       // RelativeLayout relativeLayout = inflater.inflate(R.layout.fragment_expander_content_default_layout, null, false);
-
-
-
-      /*  ViewStub viee = expanderOne.findViewById(R.id.uid_expander_view_content);
-        viee.setLayoutResource(R.layout.fragment_expander_content_default_layout);
-        RelativeLayout rl= (RelativeLayout) viee.inflate();*/
 
        //View contentView = getLayoutInflater().inflate(R.layout.fragment_expander_content_default_layout, relativeLayout, false);
-        expanderTwo.setExpanderTitle("Long title: Life has got all those twists and turns. You've got to hold on tight and off you go. With the right kind of coaching and determination you can accomplish anything. ");
-        expanderTwo.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_circleplay));
+        expanderTwo.setExpanderTitle("Single line title");
+        expanderTwo.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_personportrait));
         expanderTwo.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
-        expanderTwo.setSeparatorVisible(false);
 
+
+      /*  expanderTwo.setSeparatorVisible(false);
         Log.v("isExpand",""+expanderTwo.isExpanded());
         expanderTwo.expand(true);
         Log.v("isExpand",""+expanderTwo.isExpanded());
         //expanderTwo.getTitleLabel().setText("customise Expander content new");
+*/
 
-
-
-      /*  LayoutInflater layoutInflater = (LayoutInflater)
-                getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        rl.addView(1, layoutInflater.inflate(R.layout.fragment_expander_content_default_layout, this, false) );*/
-        expanderThree.setExpanderTitle("title with empty content");
-        expanderThree.getTitleLabel().setText("title with empty content (new)");
+        //Expandder 3
+        expanderThree.setExpanderTitle("Multiple line title which a bit longer");
+        expanderThree.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_balloonspeech));
+        expanderThree.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
+       // expanderThree.getTitleLabel().setText("title with empty content (new)");
 
 
 
 
 
         // expander 4
-        expanderFour.setExpanderTitle("Expander dynamic layout title");
+        expanderFour.setExpanderTitle("Multiple line title which a bit longer in this and can hold additional information");
+        expanderFour.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
         RelativeLayout rl = new RelativeLayout(getActivity());
         ViewGroup.LayoutParams lp =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
-
         Label label = new Label(getContext());
         label.setText("customise Expander title");
         RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        paramsLabel.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        //label.setGravity(Gravity.CENTER);
+        paramsLabel.addRule(RelativeLayout.CENTER_VERTICAL);
         label.setLayoutParams(paramsLabel);
         rl.addView(label);
-        expanderFour.setExpanderCustomPanelView(rl);
+      //  expanderFour.setExpanderCustomPanelView(rl);
         Label label1 = new Label(getContext());
         label1.setText("customise Expander content");
         label1.setLayoutParams(paramsLabel);
         expanderFour.setExpanderContentView(label1);
-        expanderFour.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
-        expanderFour.setExpanderContentView(label1);
-//        expanderFour.getTitleLabel().setText("customise Expander title new");
+
+//        expanderFour.getTitleLabel().setText("customise Expander title new"); // this line will throw null pntr exception
 
     }
 }

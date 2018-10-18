@@ -5,7 +5,7 @@
 <com.philips.platform.uid.view.widget.Label
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:text="Expander content Line one"
+    android:text="This is a secondary content that can go inside expander and the information length can change from context to context"
     android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
     fontPath="fonts/centralesansbook.ttf"
     android:textSize="16sp"
