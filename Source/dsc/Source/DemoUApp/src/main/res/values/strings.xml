@@ -88,6 +88,12 @@
     <!--Insights-->
     <string name="insights">Insights</string>
 
+    <!--Insight Create-->
+    <string name="create_insight">Create Insight</string>
+    <string name="insight_type">Enter Insight Type</string>
+    <string name="insight_rule">Enter Rule Id</string>
+    <string name="save_insight">Save Insight</string>
+
     <!--Characteristics-->
     <string name="characteristics">User Characteristics</string>
     <string name="set_characteristics">User Characteristics</string>

@@ -29,37 +29,37 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField(canBeNull = false)
     private String guid;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String last_modified;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private boolean inactive;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private int version;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String rule_id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String subjectID;
 
-    @DatabaseField()
+    @DatabaseField
     private String moment_id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String type;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String time_stamp;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String title;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private int program_min_version;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private int program_max_version;
 
     @DatabaseField
@@ -71,7 +71,7 @@ public class OrmInsight implements Insight, Serializable {
     @ForeignCollectionField(eager = true)
     private ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
 
-    @DatabaseField()
+    @DatabaseField
     private DateTime expirationDate;
 
     @DatabaseConstructor

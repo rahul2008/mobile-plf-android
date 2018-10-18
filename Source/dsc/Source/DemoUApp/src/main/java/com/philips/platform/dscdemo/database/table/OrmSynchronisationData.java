@@ -31,7 +31,7 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
     @DatabaseField
     private boolean inactive;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private DateTime lastModified;
 
     @DatabaseField
