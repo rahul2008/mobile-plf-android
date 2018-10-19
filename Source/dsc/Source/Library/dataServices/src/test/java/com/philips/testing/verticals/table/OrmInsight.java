@@ -23,14 +23,6 @@ public class OrmInsight implements Insight, Serializable {
 
     private int id;
 
-    private String guid;
-
-    private String last_modified;
-
-    private boolean inactive;
-
-    private int version;
-
     private String rule_id;
 
     private String subjectID;
@@ -56,31 +48,12 @@ public class OrmInsight implements Insight, Serializable {
     List<OrmInsightMetaData> ormInsightMetaDatas = new ArrayList<>();
 
     public OrmInsight() {
+        synchronisationData = new OrmSynchronisationData(null, false, null, -1);
     }
 
     @Override
     public String toString() {
-        return "[OrmInsight, InsightID = " + guid + ", MomentID = " + moment_id + ", Title = " + title;
-    }
-
-    @Override
-    public void setGUId(String GU_ID) {
-        this.guid = GU_ID;
-    }
-
-    @Override
-    public void setLastModified(String lastModified) {
-        this.last_modified = lastModified;
-    }
-
-    @Override
-    public void setInactive(boolean inactive) {
-        this.inactive = inactive;
-    }
-
-    @Override
-    public void setVersion(int version) {
-        this.version = version;
+        return "[OrmInsight, InsightID = " + synchronisationData.getGuid() + ", MomentID = " + moment_id + ", Title = " + title;
     }
 
     @Override
@@ -121,26 +94,6 @@ public class OrmInsight implements Insight, Serializable {
     @Override
     public void setProgram_maxVersion(int program_maxversion) {
         this.program_max_version = program_maxversion;
-    }
-
-    @Override
-    public String getGUId() {
-        return guid;
-    }
-
-    @Override
-    public String getLastModified() {
-        return last_modified;
-    }
-
-    @Override
-    public boolean isInactive() {
-        return inactive;
-    }
-
-    @Override
-    public int getVersion() {
-        return version;
     }
 
     @Override

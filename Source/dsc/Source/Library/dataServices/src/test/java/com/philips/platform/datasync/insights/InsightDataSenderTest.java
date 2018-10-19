@@ -12,6 +12,7 @@ import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -138,8 +139,8 @@ public class InsightDataSenderTest {
 
         when(mInsightMock.getSynchronisationData()).thenReturn(synchronisationDataMock);
         when(mInsightMock.getSynchronisationData().getGuid()).thenReturn("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
-        when(mInsightMock.isInactive()).thenReturn(true);
-        when(mInsightMock.getLastModified()).thenReturn("2018-10-23T10:11:12.123Z");
+        when(mInsightMock.getSynchronisationData().isInactive()).thenReturn(true);
+        when(mInsightMock.getSynchronisationData().getLastModified()).thenReturn(DateTime.parse("2018-10-23T10:11:12.123Z"));
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);

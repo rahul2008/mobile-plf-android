@@ -68,26 +68,6 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public void setGUId(String guid) {
-        this.synchronisationData.setGuid(guid);
-    }
-
-    @Override
-    public void setLastModified(String lastModified) {
-        this.synchronisationData.setLastModified(DateTime.parse(lastModified, ISODateTimeFormat.dateTime()));
-    }
-
-    @Override
-    public void setInactive(boolean inactive) {
-        this.synchronisationData.setInactive(inactive);
-    }
-
-    @Override
-    public void setVersion(int version) {
-        this.synchronisationData.setVersion(version);
-    }
-
-    @Override
     public void setRuleId(String ruleId) {
         this.rule_id = ruleId;
     }
@@ -125,27 +105,6 @@ public class OrmInsight implements Insight, Serializable {
     @Override
     public void setProgram_maxVersion(int program_maxversion) {
         this.program_max_version = program_maxversion;
-    }
-
-    @Override
-    public String getGUId() {
-        return this.synchronisationData.getGuid();
-    }
-
-    @Override
-    public String getLastModified() {
-        DateTime lastModified = this.synchronisationData.getLastModified();
-        return (lastModified == null ? null : lastModified.toString(ISODateTimeFormat.dateTime()));
-    }
-
-    @Override
-    public boolean isInactive() {
-        return this.synchronisationData.isInactive();
-    }
-
-    @Override
-    public int getVersion() {
-        return this.synchronisationData.getVersion();
     }
 
     @Override

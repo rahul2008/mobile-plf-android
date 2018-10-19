@@ -13,6 +13,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -84,10 +85,10 @@ public class InsightConverter {
 
         for (Insight insight : insightList) {
             UCoreInsight uCoreInsight = new UCoreInsight();
-            uCoreInsight.setGuid(insight.getGUId());
-            uCoreInsight.setLastModified(insight.getLastModified());
-            uCoreInsight.setInactive(insight.isInactive());
-            uCoreInsight.setVersion(insight.getVersion());
+            uCoreInsight.setGuid(insight.getSynchronisationData().getGuid());
+            uCoreInsight.setLastModified(insight.getSynchronisationData().getLastModified().toString(ISODateTimeFormat.dateTime()));
+            uCoreInsight.setInactive(insight.getSynchronisationData().isInactive());
+            uCoreInsight.setVersion(insight.getSynchronisationData().getVersion());
             uCoreInsight.setRuleId(insight.getRuleId());
             uCoreInsight.setSubjectId(insight.getSubjectId());
             uCoreInsight.setMomentId(insight.getMomentId());

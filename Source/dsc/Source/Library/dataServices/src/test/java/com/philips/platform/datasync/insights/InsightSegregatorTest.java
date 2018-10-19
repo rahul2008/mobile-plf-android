@@ -16,6 +16,7 @@ import com.philips.testing.verticals.table.OrmInsightMetaData;
 import com.philips.testing.verticals.table.OrmSynchronisationData;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -68,11 +69,10 @@ public class InsightSegregatorTest {
 
         SynchronisationData synchronisationData = new OrmSynchronisationData("aefe5623-a7ac-4b4a-b789-bdeaf23add9f", false, new DateTime(), 1);
         appInsight.setSynchronisationData(synchronisationData);
-
-        appInsight.setGUId("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
-        appInsight.setLastModified("2017-03-21T10:19:51.706Z");
-        appInsight.setInactive(false);
-        appInsight.setVersion(1);
+        appInsight.getSynchronisationData().setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        appInsight.getSynchronisationData().setLastModified(DateTime.parse("2017-03-21T10:19:51.706Z", ISODateTimeFormat.dateTime()));
+        appInsight.getSynchronisationData().setInactive(false);
+        appInsight.getSynchronisationData().setVersion(1);
         appInsight.setRuleId("ruleID");
         appInsight.setSubjectId("subjectID");
         appInsight.setMomentId("momentID");
@@ -96,10 +96,10 @@ public class InsightSegregatorTest {
     public void putInsightForSYncTest() throws SQLException {
         List<Insight> insightList = new ArrayList<>();
         OrmInsight insight = new OrmInsight();
-        insight.setGUId("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
-        insight.setLastModified("2017-03-21T10:19:51.706Z");
-        insight.setInactive(false);
-        insight.setVersion(2);
+        insight.getSynchronisationData().setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        insight.getSynchronisationData().setLastModified(DateTime.parse("2017-03-21T10:19:51.706Z", ISODateTimeFormat.dateTime()));
+        insight.getSynchronisationData().setInactive(false);
+        insight.getSynchronisationData().setVersion(2);
         insight.setRuleId("ruleID");
         insight.setSubjectId("subjectID");
         insight.setMomentId("momentID");
