@@ -7,23 +7,65 @@
 
     <LinearLayout
         android:id="@+id/ll_save_insight_props"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:gravity="center"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_insight_type"
-            android:layout_width="wrap_content"
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_id"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/insight_type" />
+            android:text="@string/insight_id_label" />
 
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_id_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_last_modified"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/insight_last_modified_label" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_last_modified_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_expiration_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/insight_expiration_date_label" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_expiration_date_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_moment_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/insight_moment_id_label" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_moment_id_value"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/label_insight_rule_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/insight_rule_id_label" />
 
         <EditText
             android:id="@+id/et_insight_rule"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/insight_rule" />
 
@@ -31,12 +73,12 @@
 
     <LinearLayout
         android:id="@+id/ll_save_insight"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_save_insight_props"
-        android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical">
 
         <Button
@@ -48,8 +90,6 @@
             android:text="@string/save_insight" />
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

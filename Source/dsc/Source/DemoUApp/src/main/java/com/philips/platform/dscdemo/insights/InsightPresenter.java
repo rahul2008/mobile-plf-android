@@ -10,7 +10,7 @@ import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.R;
-import com.philips.platform.dscdemo.database.table.OrmSynchronisationData;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.Collections;
 
@@ -22,7 +22,10 @@ public class InsightPresenter {
     private final DBRequestListener<Insight> dbRequestListener;
     private DataServicesManager mDataServices;
 
-    private EditText mEtInsightType;
+    private Label insightId;
+    private Label lastModified;
+    private Label expirationDate;
+    private Label momentId;
     private EditText mEtRuleId;
     private Button mSaveInsightButton;
 
@@ -39,7 +42,10 @@ public class InsightPresenter {
 
         dialog.setTitle(mContext.getResources().getString(R.string.create_insight));
 
-        mEtInsightType = dialog.findViewById(R.id.et_insight_type);
+        insightId = dialog.findViewById(R.id.label_insight_id);
+        lastModified = dialog.findViewById(R.id.label_insight_last_modified);
+        expirationDate = dialog.findViewById(R.id.label_insight_expiration_date);
+        momentId = dialog.findViewById(R.id.label_insight_moment_id);
         mEtRuleId = dialog.findViewById(R.id.et_insight_rule);
         mSaveInsightButton = dialog.findViewById(R.id.btn_save_insight);
 
@@ -47,7 +53,7 @@ public class InsightPresenter {
             @Override
             public void onClick(final View v) {
                 dialog.dismiss();
-                Insight insight = mDataServices.createInsight(mEtInsightType.getText().toString());
+                Insight insight = mDataServices.createInsight("AppGenerated");
                 insight.setRuleId(mEtRuleId.getText().toString());
 
                 mDataServices.saveInsights(Collections.singletonList(insight), dbRequestListener);

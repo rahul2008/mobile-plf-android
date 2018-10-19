@@ -90,7 +90,11 @@
 
     <!--Insight Create-->
     <string name="create_insight">Create Insight</string>
-    <string name="insight_type">Enter Insight Type</string>
+    <string name="insight_id_label">Insight ID:</string>
+    <string name="insight_last_modified_label">Last Modified:</string>
+    <string name="insight_expiration_date_label">Expiration Date:</string>
+    <string name="insight_moment_id_label">Moment ID:</string>
+    <string name="insight_rule_id_label">Rule ID:</string>
     <string name="insight_rule">Enter Rule Id</string>
     <string name="save_insight">Save Insight</string>
 
