@@ -16,7 +16,7 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmSynchronisationData implements SynchronisationData, Serializable {
+public class TestSynchronisationData implements SynchronisationData, Serializable {
 
     private static final long serialVersionUID = 11L;
 
@@ -28,7 +28,7 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
 
     private int version;
 
-    public OrmSynchronisationData(final String guid, final boolean inactive, final DateTime lastModified, final int version) {
+    public TestSynchronisationData(final String guid, final boolean inactive, final DateTime lastModified, final int version) {
         this.guid = guid;
         this.inactive = inactive;
         this.lastModified = lastModified;
@@ -77,6 +77,6 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
 
     @Override
     public String toString() {
-        return "[OrmSynchronisationData, guid=" + guid + ", inactive=" + inactive + ", lastModified=" + lastModified + ", version=" + version + "]";
+        return "[TestSynchronisationData, guid=" + guid + ", inactive=" + inactive + ", lastModified=" + lastModified + ", version=" + version + "]";
     }
 }

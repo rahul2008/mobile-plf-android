@@ -6,7 +6,7 @@
 
 package com.philips.testing.verticals.table;
 
-import com.philips.platform.core.datatypes.MeasurementDetail;
+import com.philips.platform.core.datatypes.MomentDetail;
 
 import java.io.Serializable;
 
@@ -14,23 +14,22 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmMeasurementDetail implements MeasurementDetail, Serializable {
+public class TestMomentDetail implements MomentDetail, Serializable {
 
     private static final long serialVersionUID = 11L;
 
     private int id;
 
-    private OrmMeasurementDetailType type;
+    private TestMomentDetailType type;
 
     private String value;
 
-    private OrmMeasurement ormMeasurement;
+    private TestMoment testMoment;
 
 
-    public OrmMeasurementDetail(final OrmMeasurementDetailType type, final OrmMeasurement ormMeasurement) {
+    public TestMomentDetail(final TestMomentDetailType type, final TestMoment testMoment) {
         this.type = type;
-        this.ormMeasurement = ormMeasurement;
-        this.id = -1;
+        this.testMoment = testMoment;
     }
 
     @Override
@@ -54,12 +53,12 @@ public class OrmMeasurementDetail implements MeasurementDetail, Serializable {
     }
 
     @Override
-    public OrmMeasurement getMeasurement() {
-        return ormMeasurement;
+    public TestMoment getMoment() {
+        return testMoment;
     }
 
     @Override
     public String toString() {
-        return "[OrmMeasurementDetail, id=" + id + ", ormMeasurementDetailType=" + type + ", value=" + value + ", ormMeasurement=" + ormMeasurement + "]";
+        return "[TestMomentDetail, id=" + id + ", ormMomentDetailType=" + type + ", value=" + value + ", testMoment=" + testMoment + "]";
     }
 }

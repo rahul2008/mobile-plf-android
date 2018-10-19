@@ -25,7 +25,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmMoment implements Moment, Serializable {
+public class TestMoment implements Moment, Serializable {
 
     private static final long serialVersionUID = 11L;
     public static final String NO_ID = "No ID";
@@ -35,20 +35,20 @@ public class OrmMoment implements Moment, Serializable {
 
     private String subjectId;
 
-    private OrmMomentType type;
+    private TestMomentType type;
 
     private DateTime dateTime = new DateTime();
 
     private boolean synced;
 
-    List<OrmMomentDetail> ormMomentDetails = new ArrayList<>();
+    List<TestMomentDetail> testMomentDetails = new ArrayList<>();
 
-    List<OrmMeasurementGroup> ormMeasurementGroups = new ArrayList<>();
+    List<TestMeasurementGroup> testMeasurementGroups = new ArrayList<>();
 
-    private OrmSynchronisationData synchronisationData;
+    private TestSynchronisationData synchronisationData;
     private DateTime expirationDate;
 
-    public OrmMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final OrmMomentType type, DateTime expirationDate) {
+    public TestMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final TestMomentType type, DateTime expirationDate) {
         this.creatorId = creatorId;
         this.subjectId = subjectId;
         this.expirationDate = expirationDate;
@@ -109,49 +109,49 @@ public class OrmMoment implements Moment, Serializable {
     }
 
    /* @Override
-    public Collection<? extends OrmMeasurement> getMeasurements() {
-        return ormMeasurements;
+    public Collection<? extends TestMeasurement> getMeasurements() {
+        return testMeasurements;
     }
 
     @Override
     public void addMeasurement(final Measurement measurement) {
-        ormMeasurements.add((OrmMeasurement) measurement);
+        testMeasurements.add((TestMeasurement) measurement);
     }*/
 
     @Override
-    public Collection<? extends OrmMeasurementGroup> getMeasurementGroups() {
-        return ormMeasurementGroups;
+    public Collection<? extends TestMeasurementGroup> getMeasurementGroups() {
+        return testMeasurementGroups;
     }
 
     @Override
     public void addMeasurementGroup(final MeasurementGroup measurementGroup) {
-        ormMeasurementGroups.add((OrmMeasurementGroup) measurementGroup);
+        testMeasurementGroups.add((TestMeasurementGroup) measurementGroup);
     }
 
     @Override
-    public Collection<? extends OrmMomentDetail> getMomentDetails() {
-        return ormMomentDetails;
+    public Collection<? extends TestMomentDetail> getMomentDetails() {
+        return testMomentDetails;
     }
 
     @Override
     public void addMomentDetail(final MomentDetail momentDetail) {
-        ormMomentDetails.add((OrmMomentDetail) momentDetail);
+        testMomentDetails.add((TestMomentDetail) momentDetail);
     }
 
     @Override
     @Nullable
-    public OrmSynchronisationData getSynchronisationData() {
+    public TestSynchronisationData getSynchronisationData() {
         return synchronisationData;
     }
 
     @Override
     public void setSynchronisationData(SynchronisationData synchronisationData) {
-        this.synchronisationData = (OrmSynchronisationData) synchronisationData;
+        this.synchronisationData = (TestSynchronisationData) synchronisationData;
     }
 
     @Override
     public String toString() {
-        return "[OrmMoment, id=" + id + ", creatorId=" + creatorId + ", subjectId=" + subjectId + ", ormMomentType=" + type + ", dateTime=" + dateTime + "]";
+        return "[TestMoment, id=" + id + ", creatorId=" + creatorId + ", subjectId=" + subjectId + ", ormMomentType=" + type + ", dateTime=" + dateTime + "]";
     }
 
     public boolean isSynced() {

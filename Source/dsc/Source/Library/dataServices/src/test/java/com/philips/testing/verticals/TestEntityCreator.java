@@ -1,9 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
-* in whole or in part is prohibited without the prior written
-* consent of the copyright holder.
-*/
-package com.philips.platform.verticals;
+package com.philips.testing.verticals;
 
 import android.support.annotation.NonNull;
 
@@ -19,7 +14,8 @@ import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SynchronisationData;
-import com.philips.testing.verticals.OrmTypeCheckingMock;
+import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.verticals.OrmCharacteristics;
 import com.philips.testing.verticals.datatyes.MeasurementDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementType;
@@ -43,84 +39,58 @@ import com.philips.testing.verticals.table.TestSynchronisationData;
 
 import org.joda.time.DateTime;
 
-public class VerticalCreater implements BaseAppDataCreator {
+import javax.inject.Singleton;
+
+public class TestEntityCreator implements BaseAppDataCreator{
+
+    private final UuidGenerator uuidGenerator;
+
+    @Singleton
+    public TestEntityCreator(UuidGenerator uuidGenerator) {
+        this.uuidGenerator = uuidGenerator;
+    }
+
     @NonNull
     @Override
-    public TestMoment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type, DateTime expirationDate) {
+    public Moment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type, DateTime expirationDate) {
         final TestMomentType testMomentType = new TestMomentType(MomentType.getIDFromDescription(type), type);
+
         return new TestMoment(creatorId, subjectId, testMomentType, expirationDate);
     }
 
     @NonNull
     @Override
     public MomentDetail createMomentDetail(@NonNull String type, @NonNull Moment moment) {
-        try {
-            TestMomentDetailType testMomentDetailType = new TestMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
-            return new TestMomentDetail(testMomentDetailType, OrmTypeCheckingMock.checkOrmType(moment, TestMoment.class));
-        } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            //Debug Log
-        }
-        return null;
+        return createMomentDetail(type, (TestMoment) moment);
     }
 
     @Override
     public Measurement createMeasurement(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
-        try {
-            TestMeasurementType testMeasurementType = new TestMeasurementType(MeasurementType.getIDFromDescription(type),
-                    type,
-                    MeasurementType.getUnitFromDescription(type));
-
-            return new TestMeasurement(testMeasurementType, OrmTypeCheckingMock.checkOrmType(measurementGroup, TestMeasurementGroup.class));
-        } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            //Debug Log
-        }
-        return null;
+        return createMeasurement(type, (TestMeasurementGroup) measurementGroup);
     }
 
     @NonNull
     @Override
     public MeasurementDetail createMeasurementDetail(@NonNull String type, @NonNull Measurement measurement) {
-        TestMeasurementDetailType testMeasurementDetailType = new TestMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
-        try {
-            return new TestMeasurementDetail(testMeasurementDetailType, OrmTypeCheckingMock.checkOrmType(measurement, TestMeasurement.class));
-        } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            //Debug Log
-        }
-        return null;
+        return createMeasurementDetail(type, (TestMeasurement) measurement);
     }
 
     @NonNull
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
-        try {
-            return new TestMeasurementGroup(OrmTypeCheckingMock.checkOrmType(measurementGroup, TestMeasurementGroup.class));
-        } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            //Debug Log
-        }
-        return null;
+        return createMeasurementGroup((TestMeasurementGroup) measurementGroup);
     }
 
     @NonNull
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
-        try {
-            return new TestMeasurementGroup(OrmTypeCheckingMock.checkOrmType(moment, TestMoment.class));
-        } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            //Debug Log
-        }
-        return null;
+        return createMeasurementGroup((TestMoment) moment);
     }
 
     @NonNull
     @Override
     public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
-        TestMeasurementGroupDetailType testMeasurementGroupDetailType = new TestMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
-        try {
-            return new TestMeasurementGroupDetail(testMeasurementGroupDetailType, OrmTypeCheckingMock.checkOrmType(measurementGroup, TestMeasurementGroup.class));
-        } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            //Debug Log
-        }
-        return null;
+        return createMeasurementGroupDetail(type, (TestMeasurementGroup) measurementGroup);
     }
 
     @NonNull
@@ -138,12 +108,7 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
-        try {
-            return new OrmCharacteristics(type, value, OrmTypeCheckingMock.checkOrmType(characteristics, OrmCharacteristics.class));
-        } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            //Debug Log
-        }
-        return null;
+        return new OrmCharacteristics(type, value, (OrmCharacteristics) characteristics);
     }
 
     @NonNull
@@ -153,6 +118,48 @@ public class VerticalCreater implements BaseAppDataCreator {
     }
 
     @NonNull
+    public TestMomentDetail createMomentDetail(@NonNull final String type,
+                                               @NonNull final TestMoment moment) {
+        TestMomentDetailType testMomentDetailType = new TestMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
+        return new TestMomentDetail(testMomentDetailType, moment);
+    }
+
+    @NonNull
+    public TestMeasurement createMeasurement(@NonNull final String type,
+                                             @NonNull final TestMeasurementGroup testMeasurementGroup) {
+        TestMeasurementType testMeasurementType = new TestMeasurementType(MeasurementType.getIDFromDescription(type),
+                type,
+                MeasurementType.getUnitFromDescription(type));
+        return new TestMeasurement(testMeasurementType, testMeasurementGroup);
+    }
+
+    @NonNull
+    public TestMeasurementDetail createMeasurementDetail(@NonNull final String type,
+                                                         @NonNull final TestMeasurement measurement) {
+        TestMeasurementDetailType testMeasurementDetailType = new TestMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
+        return new TestMeasurementDetail(testMeasurementDetailType, measurement);
+    }
+
+    @NonNull
+    public TestMeasurementGroup createMeasurementGroup(@NonNull TestMoment testMoment) {
+        return new TestMeasurementGroup(testMoment);
+    }
+
+
+    @NonNull
+    public TestMeasurementGroup createMeasurementGroup(@NonNull TestMeasurementGroup testMeasurementGroup) {
+        return new TestMeasurementGroup(testMeasurementGroup);
+    }
+
+    @NonNull
+    public TestMeasurementGroupDetail createMeasurementGroupDetail(@NonNull final String type,
+                                                                   @NonNull final TestMeasurementGroup measurementGroup) {
+        TestMeasurementGroupDetailType testMeasurementGroupDetailType = new TestMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
+        return new TestMeasurementGroupDetail(testMeasurementGroupDetailType, measurementGroup);
+    }
+
+    //Insight
+    @NonNull
     @Override
     public Insight createInsight() {
         return new TestInsight();
@@ -161,11 +168,6 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
-        try {
-            return new TestInsightMetaData(key, value, OrmTypeCheckingMock.checkOrmType(insight, TestInsight.class));
-        } catch (OrmTypeCheckingMock.OrmTypeException e) {
-            //Debug Log
-        }
-        return null;
+        return new TestInsightMetaData(key, value, (TestInsight) insight);
     }
 }

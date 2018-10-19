@@ -7,15 +7,15 @@ import java.io.Serializable;
 /**
  * Created by 310218660 on 11/17/2016.
  */
-public class OrmMeasurementGroupDetail implements MeasurementGroupDetail, Serializable {
+public class TestMeasurementGroupDetail implements MeasurementGroupDetail, Serializable {
 
     private static final long serialVersionUID = 11L;
     private int id;
 
-    private OrmMeasurementGroupDetailType type;
+    private TestMeasurementGroupDetailType type;
 
     private String value;
-    private OrmMeasurementGroup ormMeasurementGroup;
+    private TestMeasurementGroup testMeasurementGroup;
 
 
     @Override
@@ -23,9 +23,9 @@ public class OrmMeasurementGroupDetail implements MeasurementGroupDetail, Serial
         return id;
     }
 
-    public OrmMeasurementGroupDetail(final OrmMeasurementGroupDetailType type, final OrmMeasurementGroup ormMeasurementGroup) {
+    public TestMeasurementGroupDetail(final TestMeasurementGroupDetailType type, final TestMeasurementGroup testMeasurementGroup) {
         this.type = type;
-        this.ormMeasurementGroup = ormMeasurementGroup;
+        this.testMeasurementGroup = testMeasurementGroup;
         this.id = -1;
     }
 
@@ -45,12 +45,12 @@ public class OrmMeasurementGroupDetail implements MeasurementGroupDetail, Serial
     }
 
     @Override
-    public OrmMeasurementGroup getOrmMeasurementGroup() {
-        return ormMeasurementGroup;
+    public TestMeasurementGroup getTestMeasurementGroup() {
+        return testMeasurementGroup;
     }
 
     @Override
     public String toString() {
-        return "[OrmMeasurementDetail, id=" + id + ", ormMeasurementDetailType=" + type + ", value=" + value + ", ormMeasurement=" + ormMeasurementGroup + "]";
+        return "[TestMeasurementDetail, id=" + id + ", ormMeasurementDetailType=" + type + ", value=" + value + ", ormMeasurement=" + testMeasurementGroup + "]";
     }
 }

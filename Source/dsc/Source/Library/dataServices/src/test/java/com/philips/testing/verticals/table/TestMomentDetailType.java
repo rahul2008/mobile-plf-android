@@ -12,7 +12,7 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmMomentType implements Serializable {
+public class TestMomentDetailType implements Serializable {
     private static final long serialVersionUID = 11L;
 
     private int id;
@@ -20,7 +20,7 @@ public class OrmMomentType implements Serializable {
     private String description;
 
 
-    public OrmMomentType(final int id, final String momentType) {
+    public TestMomentDetailType(final int id, final String momentType) {
         this.id = id;
         this.description = momentType;
     }
@@ -31,6 +31,6 @@ public class OrmMomentType implements Serializable {
 
     @Override
     public String toString() {
-        return "[OrmMomentType, id=" + id + ", description=" + description + "]";
+        return "[TestMomentDetailType, id=" + id + ", description=" + description + "]";
     }
 }

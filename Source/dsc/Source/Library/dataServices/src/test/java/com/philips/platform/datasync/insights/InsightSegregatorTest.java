@@ -11,9 +11,9 @@ import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.testing.verticals.table.OrmInsight;
-import com.philips.testing.verticals.table.OrmInsightMetaData;
-import com.philips.testing.verticals.table.OrmSynchronisationData;
+import com.philips.testing.verticals.table.TestInsight;
+import com.philips.testing.verticals.table.TestInsightMetaData;
+import com.philips.testing.verticals.table.TestSynchronisationData;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -44,7 +44,7 @@ public class InsightSegregatorTest {
     @Mock
     DBDeletingInterface mDBDeletingInterface;
     @Mock
-    private OrmInsight mOrmInsight;
+    private TestInsight mTestInsight;
     @Mock
     DBRequestListener mDBRequestListener;
 
@@ -65,9 +65,9 @@ public class InsightSegregatorTest {
 
     @Test
     public void processInsightTest() throws SQLException {
-        Insight appInsight = new OrmInsight();
+        Insight appInsight = new TestInsight();
 
-        SynchronisationData synchronisationData = new OrmSynchronisationData("aefe5623-a7ac-4b4a-b789-bdeaf23add9f", false, new DateTime(), 1);
+        SynchronisationData synchronisationData = new TestSynchronisationData("aefe5623-a7ac-4b4a-b789-bdeaf23add9f", false, new DateTime(), 1);
         appInsight.setSynchronisationData(synchronisationData);
         appInsight.getSynchronisationData().setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
         appInsight.getSynchronisationData().setLastModified(DateTime.parse("2017-03-21T10:19:51.706Z", ISODateTimeFormat.dateTime()));
@@ -82,7 +82,7 @@ public class InsightSegregatorTest {
         appInsight.setProgram_maxVersion(2);
         appInsight.setProgram_minVersion(1);
 
-        InsightMetadata insightMetadata = new OrmInsightMetaData("avg", "200", (OrmInsight) appInsight);
+        InsightMetadata insightMetadata = new TestInsightMetaData("avg", "200", (TestInsight) appInsight);
         appInsight.addInsightMetaData(insightMetadata);
 
         List<Insight> insightList = new ArrayList<>();
@@ -95,7 +95,7 @@ public class InsightSegregatorTest {
     @Test
     public void putInsightForSYncTest() throws SQLException {
         List<Insight> insightList = new ArrayList<>();
-        OrmInsight insight = new OrmInsight();
+        TestInsight insight = new TestInsight();
         insight.getSynchronisationData().setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
         insight.getSynchronisationData().setLastModified(DateTime.parse("2017-03-21T10:19:51.706Z", ISODateTimeFormat.dateTime()));
         insight.getSynchronisationData().setInactive(false);

@@ -6,9 +6,7 @@ import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.testing.verticals.OrmCreatorTest;
+import com.philips.testing.verticals.TestEntityCreator;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -20,8 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import retrofit.converter.GsonConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -37,7 +33,7 @@ public class InsightConverterTest {
     @Before
     public void setUp() {
         initMocks(this);
-        BaseAppDataCreator mBaseAppDataCreator = new OrmCreatorTest(new UuidGenerator());
+        BaseAppDataCreator mBaseAppDataCreator = new TestEntityCreator(new UuidGenerator());
         DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mInsightConverter = new InsightConverter();
         mInsightConverter.dataCreator = mBaseAppDataCreator;
