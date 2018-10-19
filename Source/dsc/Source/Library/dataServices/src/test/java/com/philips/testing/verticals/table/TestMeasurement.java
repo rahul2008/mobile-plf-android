@@ -22,12 +22,12 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrmMeasurement implements Measurement, Serializable {
+public class TestMeasurement implements Measurement, Serializable {
     private static final long serialVersionUID = 11L;
 
     private int id;
 
-    private OrmMeasurementType type;
+    private TestMeasurementType type;
 
     private String value;
 
@@ -35,13 +35,13 @@ public class OrmMeasurement implements Measurement, Serializable {
 
     private DateTime dateTime = new DateTime();
 
-    private OrmMeasurementGroup ormMeasurementGroup;
+    private TestMeasurementGroup testMeasurementGroup;
 
-    List<OrmMeasurementDetail> ormMeasurementDetails = new ArrayList<>();
+    List<TestMeasurementDetail> testMeasurementDetails = new ArrayList<>();
 
-    public OrmMeasurement(final OrmMeasurementType type, final OrmMeasurementGroup ormMeasurementGroup) {
+    public TestMeasurement(final TestMeasurementType type, final TestMeasurementGroup testMeasurementGroup) {
         this.type = type;
-        this.ormMeasurementGroup = ormMeasurementGroup;
+        this.testMeasurementGroup = testMeasurementGroup;
         this.id = -1;
     }
 
@@ -76,23 +76,23 @@ public class OrmMeasurement implements Measurement, Serializable {
     }
 
     @Override
-    public Collection<? extends OrmMeasurementDetail> getMeasurementDetails() {
-        return ormMeasurementDetails;
+    public Collection<? extends TestMeasurementDetail> getMeasurementDetails() {
+        return testMeasurementDetails;
     }
 
     @Override
     public void addMeasurementDetail(final MeasurementDetail measurementDetail) {
-        ormMeasurementDetails.add((OrmMeasurementDetail) measurementDetail);
+        testMeasurementDetails.add((TestMeasurementDetail) measurementDetail);
     }
 
    /* @Override
-    public OrmMoment getMoments() {
+    public TestMoment getMoments() {
         return ormMoment;
     }*/
 
     @Override
-    public OrmMeasurementGroup getMeasurementGroup() {
-        return ormMeasurementGroup;
+    public TestMeasurementGroup getMeasurementGroup() {
+        return testMeasurementGroup;
     }
 
     @Override
@@ -107,6 +107,6 @@ public class OrmMeasurement implements Measurement, Serializable {
 
     @Override
     public String toString() {
-        return "[OrmMeasurement, id=" + id + ", OrmMeasurementType=" + type + ", value=" + value + ", dateTime=" + dateTime + ", ormMoment=" + ormMeasurementGroup + "]";
+        return "[TestMeasurement, id=" + id + ", TestMeasurementType=" + type + ", value=" + value + ", dateTime=" + dateTime + ", ormMoment=" + testMeasurementGroup + "]";
     }
 }

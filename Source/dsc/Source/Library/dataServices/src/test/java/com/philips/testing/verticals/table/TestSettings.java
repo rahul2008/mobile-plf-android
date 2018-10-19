@@ -10,7 +10,7 @@ import com.philips.platform.core.datatypes.Settings;
 
 import java.io.Serializable;
 
-public class OrmSettings implements Settings, Serializable {
+public class TestSettings implements Settings, Serializable {
 
     public static final long serialVersionUID = 11L;
 
@@ -20,10 +20,10 @@ public class OrmSettings implements Settings, Serializable {
     private String unit;
     private String timeZone;
 
-    public OrmSettings() {
+    public TestSettings() {
     }
 
-    public OrmSettings(final String unit, final String locale, final String timeZone) {
+    public TestSettings(final String unit, final String locale, final String timeZone) {
         this.unit = unit;
         this.locale = locale;
         this.timeZone = timeZone;

@@ -11,7 +11,7 @@ import com.philips.platform.core.datatypes.InsightMetadata;
 
 import java.io.Serializable;
 
-public class OrmInsightMetaData implements InsightMetadata, Serializable {
+public class TestInsightMetaData implements InsightMetadata, Serializable {
 
     public static final long serialVersionUID = 11L;
 
@@ -21,15 +21,15 @@ public class OrmInsightMetaData implements InsightMetadata, Serializable {
 
     private String meta_value;
 
-    private OrmInsight ormInsight;
+    private TestInsight testInsight;
 
-    OrmInsightMetaData() {
+    TestInsightMetaData() {
     }
 
-    public OrmInsightMetaData(@NonNull final String meta_key, @NonNull final String meta_value, OrmInsight ormInsight) {
+    public TestInsightMetaData(@NonNull final String meta_key, @NonNull final String meta_value, TestInsight testInsight) {
         this.meta_key = meta_key;
         this.meta_value = meta_value;
-        this.ormInsight = ormInsight;
+        this.testInsight = testInsight;
     }
 
     @Override
@@ -54,6 +54,6 @@ public class OrmInsightMetaData implements InsightMetadata, Serializable {
 
     @Override
     public Insight getInsight() {
-        return ormInsight;
+        return testInsight;
     }
 }

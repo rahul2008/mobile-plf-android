@@ -17,19 +17,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class OrmInsight implements Insight, Serializable {
+public class TestInsight implements Insight, Serializable {
 
     public static final long serialVersionUID = 11L;
 
     private int id;
-
-    private String guid;
-
-    private String last_modified;
-
-    private boolean inactive;
-
-    private int version;
 
     private String rule_id;
 
@@ -51,36 +43,17 @@ public class OrmInsight implements Insight, Serializable {
 
     private DateTime expiration_date;
 
-    private OrmSynchronisationData synchronisationData;
+    private TestSynchronisationData synchronisationData;
 
-    List<OrmInsightMetaData> ormInsightMetaDatas = new ArrayList<>();
+    List<TestInsightMetaData> testInsightMetaData = new ArrayList<>();
 
-    public OrmInsight() {
+    public TestInsight() {
+        synchronisationData = new TestSynchronisationData(null, false, null, -1);
     }
 
     @Override
     public String toString() {
-        return "[OrmInsight, InsightID = " + guid + ", MomentID = " + moment_id + ", Title = " + title;
-    }
-
-    @Override
-    public void setGUId(String GU_ID) {
-        this.guid = GU_ID;
-    }
-
-    @Override
-    public void setLastModified(String lastModified) {
-        this.last_modified = lastModified;
-    }
-
-    @Override
-    public void setInactive(boolean inactive) {
-        this.inactive = inactive;
-    }
-
-    @Override
-    public void setVersion(int version) {
-        this.version = version;
+        return "[TestInsight, InsightID = " + synchronisationData.getGuid() + ", MomentID = " + moment_id + ", Title = " + title;
     }
 
     @Override
@@ -121,26 +94,6 @@ public class OrmInsight implements Insight, Serializable {
     @Override
     public void setProgram_maxVersion(int program_maxversion) {
         this.program_max_version = program_maxversion;
-    }
-
-    @Override
-    public String getGUId() {
-        return guid;
-    }
-
-    @Override
-    public String getLastModified() {
-        return last_modified;
-    }
-
-    @Override
-    public boolean isInactive() {
-        return inactive;
-    }
-
-    @Override
-    public int getVersion() {
-        return version;
     }
 
     @Override
@@ -186,13 +139,13 @@ public class OrmInsight implements Insight, Serializable {
 
     @Nullable
     @Override
-    public OrmSynchronisationData getSynchronisationData() {
+    public TestSynchronisationData getSynchronisationData() {
         return synchronisationData;
     }
 
     @Override
     public void setSynchronisationData(SynchronisationData synchronisationData) {
-        this.synchronisationData = (OrmSynchronisationData) synchronisationData;
+        this.synchronisationData = (TestSynchronisationData) synchronisationData;
     }
 
     @Override
@@ -216,13 +169,13 @@ public class OrmInsight implements Insight, Serializable {
     }
 
     @Override
-    public Collection<? extends OrmInsightMetaData> getInsightMetaData() {
-        return ormInsightMetaDatas;
+    public Collection<? extends TestInsightMetaData> getInsightMetaData() {
+        return testInsightMetaData;
     }
 
     @Override
     public void addInsightMetaData(InsightMetadata insightMetadata) {
-        ormInsightMetaDatas.add((OrmInsightMetaData) insightMetadata);
+        testInsightMetaData.add((TestInsightMetaData) insightMetadata);
     }
 
     @Override

@@ -8,7 +8,7 @@ package com.philips.platform.datasync.settings;
 
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.datasync.spy.DBFetchingInterfaceSpy;
-import com.philips.testing.verticals.table.OrmSettings;
+import com.philips.testing.verticals.table.TestSettings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,9 +26,9 @@ public class SettingsSegregatorTest {
 
     @Test
     public void putSettingsForSyncAddsSettingsToDataToSyncMap() throws Exception {
-        givenSettingsToSync(ormSettings);
+        givenSettingsToSync(testSettings);
         whenSelectingSettingsToSync();
-        thenDataToSyncContains(Settings.class, ormSettings);
+        thenDataToSyncContains(Settings.class, testSettings);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class SettingsSegregatorTest {
         thenDataToSyncDoesNotContain(Settings.class);
     }
 
-    private void givenSettingsToSync(final OrmSettings... settingsToSync) {
+    private void givenSettingsToSync(final TestSettings... settingsToSync) {
         db.settingsToSync = Arrays.asList(settingsToSync);
     }
 
@@ -50,7 +50,7 @@ public class SettingsSegregatorTest {
         settingsSegregator.putSettingsForSync(dataToSync);
     }
 
-    private void thenDataToSyncContains(final Class<?> klazz, final OrmSettings... expectedSettings) {
+    private void thenDataToSyncContains(final Class<?> klazz, final TestSettings... expectedSettings) {
         assertEquals(Arrays.asList(expectedSettings), dataToSync.get(klazz));
     }
 
@@ -69,5 +69,5 @@ public class SettingsSegregatorTest {
     private DBFetchingInterfaceSpy db;
 
     private Map<Class, List<?>> dataToSync;
-    private OrmSettings ormSettings = new OrmSettings("Metric", "en_US", null);
+    private TestSettings testSettings = new TestSettings("Metric", "en_US", null);
 }
