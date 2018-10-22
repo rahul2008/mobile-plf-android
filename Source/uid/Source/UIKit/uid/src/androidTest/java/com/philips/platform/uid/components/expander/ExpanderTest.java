@@ -7,6 +7,7 @@ import android.support.test.rule.ActivityTestRule;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.Expander;
 
 import org.junit.Before;
@@ -110,6 +111,13 @@ public class ExpanderTest {
     }
 
 
+  /*  @Test
+    public void verifyExpanderBackgroundColor(){
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidcontent);
+        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.hasSameStateListBackgroundDrawableStateColor(new int[]{android.R.attr.state_enabled},color)));
+
+    }*/
+
     // returns Relative layout which is ViewGroup for Title panel view
     private ViewInteraction getExpanderTitlePanel() {
         return onView(withId(com.philips.platform.uid.R.id.uid_expander_view_title));
@@ -130,5 +138,8 @@ public class ExpanderTest {
         return onView(withId(com.philips.platform.uid.R.id.uid_expander_title_bottom_divider));
     }
 
+    private ViewInteraction getExpanderContainer(){
+        return onView(withId(com.philips.platform.uid.R.id.uid_expander));
+    }
 
 }
