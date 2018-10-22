@@ -212,7 +212,9 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
     }
 
     public void setBillingAddressAndOpenOrderSummary() {
+        if(addressContractor.getShippingAddressFields()!=null)
         CartModelContainer.getInstance().setShippingAddressFields(addressContractor.getShippingAddressFields());
+        if(addressContractor.getBillingAddressFields()!=null)
         CartModelContainer.getInstance().setBillingAddress(addressContractor.getBillingAddressFields());
         addressContractor.hideProgressbar();
         addressContractor.addOrderSummaryFragment();
@@ -280,7 +282,7 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
 
     String addressWithNewLineIfNull( String code) {
         if (!TextUtils.isEmpty(code)) {
-            return code.replaceAll("null", " ");
+            return code.replaceAll("null", " ").trim();
         }
         return null;
     }

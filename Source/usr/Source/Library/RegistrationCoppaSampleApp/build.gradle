@@ -32,15 +32,13 @@ archivesBaseName = "RegistrationCoppaSampleApp"
 
 allprojects {
     repositories {
-        maven {
-            url repos.releaseexternal
+        maven { url repos.releaseexternal
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url objcdp.getArtifactoryUrl()
+        maven { url objcdp.getArtifactoryUrl()
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"

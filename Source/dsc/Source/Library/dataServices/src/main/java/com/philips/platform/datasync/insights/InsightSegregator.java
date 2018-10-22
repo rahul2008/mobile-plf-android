@@ -81,10 +81,10 @@ public class InsightSegregator {
         for (Insight insight : insights) {
             final Insight insightInDatabase = getOrmInsightFromDatabase(insight);
             if (insightInDatabase == null) {
-                if (!insight.isInactive()) {
+                if (!insight.getSynchronisationData().isInactive()) {
                     SynchronisationData synchronisationData =
-                            mBaseAppDataCreator.createSynchronisationData(insight.getGUId(), insight.isInactive(),
-                                    new DateTime(insight.getTimeStamp()), insight.getVersion());
+                            mBaseAppDataCreator.createSynchronisationData(insight.getSynchronisationData().getGuid(), insight.getSynchronisationData().isInactive(),
+                                    new DateTime(insight.getTimeStamp()), insight.getSynchronisationData().getVersion());
                     insight.setSynchronisationData(synchronisationData);
                     insight.setSynced(true);
                     insightsToCreate.add(insight);

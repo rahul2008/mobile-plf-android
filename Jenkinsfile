@@ -280,7 +280,7 @@ def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
+        ./gradlew clean --refresh-dependencies --full-stacktrace assembleRelease \
             :AppInfra:cC \
             :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \

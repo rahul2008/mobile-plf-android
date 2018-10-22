@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -29,9 +28,6 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.errors.NotificationMessage;
-import com.philips.cdp.registration.events.CounterHelper;
-import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -40,6 +36,7 @@ import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
+import com.philips.cdp.registration.ui.utils.CountDownEvent;
 import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
@@ -56,11 +53,10 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 
 
-public class RegistrationFragment extends Fragment implements NetworkStateListener, BackEventListener, CounterListener {
+public class RegistrationFragment extends Fragment implements NetworkStateListener, BackEventListener {
 
     @Inject
     NetworkUtility networkUtility;
-    private Context mContext;
 
     private FragmentManager mFragmentManager;
 
@@ -70,9 +66,8 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private RegistrationLaunchMode mRegistrationLaunchMode;
 
     RegistrationContentConfiguration registrationContentConfiguration;
-    private static long RESEND_DISABLED_DURATION = 60 * 1000;
-    private static final long INTERVAL = 1 * 1000;
-    static public MyCountDownTimer myCountDownTimer;
+
+    public MyCountDownTimer myCountDownTimer;
 
     private int titleResourceID = -99;
 
@@ -82,11 +77,9 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private static final String TAG = "RegistrationFragment";
 
-    private URNotification notification;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
         RLog.d(TAG, "onCreate");
 
 
@@ -98,24 +91,11 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
         }
-
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_FINISH, this);
-        myCountDownTimer = new MyCountDownTimer(RESEND_DISABLED_DURATION, INTERVAL);
-
-        super.onCreate(savedInstanceState);
+        myCountDownTimer = new MyCountDownTimer(60 * 1000, 1000);
     }
 
     public RegistrationContentConfiguration getContentConfiguration() {
         return registrationContentConfiguration;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
     }
 
     @Override
@@ -441,11 +421,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.d(TAG, "onNetWorkStateReceived : is called" + isOnline);
-//        if (isOnline) {
-//            hideNotificationBarView();
-//        } else {
-//            showNotificationBarOnNetworkNotAvailable();
-//        }
         if (!isOnline && !UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
             UserRegistrationInitializer.getInstance().resetInitializationState();
         }
@@ -459,22 +434,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                     "onNetWorkStateReceived : Janrain reinitialization with locale : "
                             + RegistrationHelper.getInstance().getLocale());
         }
-    }
-
-    public void hideNotificationBarView() {
-        if (notification != null)
-            notification.hideNotification();
-    }
-
-    public void showNotificationBarOnNetworkNotAvailable() {
-
-        new Handler().postDelayed(() -> {
-            notification = new URNotification(this.getParentActivity(), msg -> {
-                // NOP
-            });
-            notification.showNotification(
-                    new NotificationMessage(mContext.getResources().getString(R.string.USR_Title_NoInternetConnection_Txt), mContext.getResources().getString(R.string.USR_Network_ErrorMsg)));
-        }, 100);
     }
 
     public Activity getParentActivity() {
@@ -505,10 +464,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     int mPreviousResourceId = -99;
 
-    public void setPreviousResourceId(int previousResourceId) {
-        mPreviousResourceId = previousResourceId;
-    }
-
     public int getPreviousResourceId() {
         return mPreviousResourceId;
     }
@@ -518,12 +473,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void setCurrentTitleResource(int currentTitleResource) {
         this.currentTitleResource = currentTitleResource;
     }
-
-    public int getCurrentTitleResource() {
-        return currentTitleResource;
-
-    }
-
 
     private void setCounterState(boolean isCounting) {
         this.isCounterRunning = isCounting;
@@ -549,29 +498,21 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         myCountDownTimer.cancel();
     }
 
-    @Override
-    public void onCounterEventReceived(String event, long timeLeft) {
-        if (event.equals(RegConstants.COUNTER_TICK)) {
-            setCounterState(true);
-        } else {
-            setCounterState(false);
-        }
-    }
-
-
     public class MyCountDownTimer extends CountDownTimer {
-        public MyCountDownTimer(long startTime, long interval) {
+        MyCountDownTimer(long startTime, long interval) {
             super(startTime, interval);
         }
 
         @Override
         public void onTick(long timeLeft) {
-            CounterHelper.getInstance().notifyCounterEventOccurred(RegConstants.COUNTER_TICK, timeLeft);
+            RLog.d(TAG, "onTick COUNTER_TICK : timeLeft : " + timeLeft);
+            EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_TICK, timeLeft));
+            setCounterState(true);
         }
 
         @Override
         public void onFinish() {
-            CounterHelper.getInstance().notifyCounterEventOccurred(RegConstants.COUNTER_FINISH, 0);
+            EventBus.getDefault().post(new CountDownEvent(RegConstants.COUNTER_FINISH, 0));
             setCounterState(false);
         }
     }
@@ -580,16 +521,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         RLog.d(TAG, "getNotificationContentView : isCalled");
         View view = View.inflate(getContext(), R.layout.reg_notification_bg_accent, null);
         ((TextView) view.findViewById(R.id.uid_notification_title)).setText(title + " " + message);
-//        ((TextView) view.findViewById(R.id.uid_notification_content)).setText(message);
         view.findViewById(R.id.uid_notification_title).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_content).setVisibility(View.VISIBLE);
         view.findViewById(R.id.uid_notification_icon).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.uid_notification_icon).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new NotificationBarHandler());
-            }
-        });
+        view.findViewById(R.id.uid_notification_icon).setOnClickListener(v -> EventBus.getDefault().post(new NotificationBarHandler()));
         return view;
     }
 

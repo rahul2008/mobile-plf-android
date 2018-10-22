@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.themesettings.ThemeHelper;
+import com.squareup.leakcanary.LeakCanary;
 
 
 import java.io.UnsupportedEncodingException;
@@ -60,7 +61,7 @@ public class URDemoApplication extends Application {
         defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         themeConfiguration = getThemeConfig();//new ThemeConfiguration(this, colorRange, contentColor, navigationColor, accentRange);
         UIDHelper.init(themeConfiguration);
-    //    LeakCanary.install(this);
+        LeakCanary.install(this);
         mRegistrationSampleApplication = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);

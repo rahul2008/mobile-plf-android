@@ -27,10 +27,9 @@ import org.json.JSONObject;
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
     private String TAG = "RefreshandUpdateUserHandler";
 
-    public UpdateUserRecordHandler mUpdateUserRecordHandler;
+    private UpdateUserRecordHandler mUpdateUserRecordHandler;
     private Context mContext;
     private User user;
-    private String password;
     private RefreshUserHandler refreshUserHandler;
 
     public RefreshandUpdateUserHandler(UpdateUserRecordHandler updateUserRecordHandler, Context context) {
