@@ -11,6 +11,7 @@ package com.philips.cdp.registration.ui.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -39,6 +40,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static com.philips.cdp.registration.ui.utils.RegConstants.MICROSITE_ID;
 
 
 public class RegUtility {
@@ -376,6 +379,5 @@ public class RegUtility {
 
         return "USR_Country_" + mSelectedCountryCode;
     }
-
 
 }

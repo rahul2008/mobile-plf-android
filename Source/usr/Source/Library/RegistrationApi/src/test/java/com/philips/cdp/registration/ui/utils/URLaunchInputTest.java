@@ -1,8 +1,11 @@
 package com.philips.cdp.registration.ui.utils;
 
+import android.app.Activity;
+
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;
@@ -10,7 +13,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by philips on 11/30/17.
@@ -23,18 +30,13 @@ public class URLaunchInputTest {
     @Mock
     private LoggingInterface mockLoggingInterface;
 
-    URLaunchInput urLaunchInput;
-    /*@Mock
-    private RegistrationFunction registrationFunctionMock;*/
+    private URLaunchInput urLaunchInput;
+
     @Mock
     private UserRegistrationUIEventListener userRegListenerMock;
- /*   @Mock
-    private RegistrationLaunchMode registrationLunchModeMock;*/
+
     @Mock
     private RegistrationContentConfiguration regConfigMock;
-
-  /*  @Mock
-    private UIFlow uiFlowMock;*/
 
     @Before
     public void setUp() throws Exception {
@@ -47,65 +49,81 @@ public class URLaunchInputTest {
     }
 
     @Test
-    public void isAddtoBackStack() throws Exception {
+    public void isAddtoBackStack() {
         urLaunchInput.isAddtoBackStack();
     }
 
     @Test
-    public void enableAddtoBackStack() throws Exception {
+    public void enableAddtoBackStack() {
         urLaunchInput.enableAddtoBackStack(true);
     }
 
     @Test
-    public void getRegistrationFunction() throws Exception {
+    public void getRegistrationFunction() {
         urLaunchInput.getRegistrationFunction();
     }
-/*
-    @Test
-    public void setRegistrationFunction() throws Exception {
-        urLaunchInput.setRegistrationFunction(registrationFunctionMock);
-    }*/
 
     @Test
-    public void setUserRegistrationUIEventListener() throws Exception {
+    public void setUserRegistrationUIEventListener() {
         urLaunchInput.setUserRegistrationUIEventListener(userRegListenerMock);
     }
 
     @Test
-    public void getUserRegistrationUIEventListener() throws Exception {
+    public void getUserRegistrationUIEventListener() {
         urLaunchInput.getUserRegistrationUIEventListener();
     }
 
     @Test
-    public void getEndPointScreen() throws Exception {
+    public void getEndPointScreen() {
         urLaunchInput.getEndPointScreen();
     }
 
 
-
-  /*  @Test
-    public void setEndPointScreen() throws Exception {
-        urLaunchInput.setEndPointScreen(registrationLunchModeMock);
-    }*/
-
     @Test
-    public void setRegistrationContentConfiguration() throws Exception {
+    public void setRegistrationContentConfiguration() {
         urLaunchInput.setRegistrationContentConfiguration(regConfigMock);
     }
 
     @Test
-    public void getRegistrationContentConfiguration() throws Exception {
+    public void getRegistrationContentConfiguration() {
         urLaunchInput.getRegistrationContentConfiguration();
     }
-/*
-    @Test
-    public void setUIFlow() throws Exception {
-        urLaunchInput.setUIFlow(uiFlowMock);
-    }*/
 
     @Test
-    public void getUIflow() throws Exception {
+    public void getUIflow() {
         urLaunchInput.getUIflow();
+    }
+
+    @Test
+    public void testURLaunch(){
+
+        UserRegistrationUIEventListener mUserRegistrationUIEventListener = new UserRegistrationUIEventListener() {
+            @Override
+            public void onUserRegistrationComplete(Activity activity) {
+
+            }
+
+            @Override
+            public void onPrivacyPolicyClick(Activity activity) {
+
+            }
+
+            @Override
+            public void onTermsAndConditionClick(Activity activity) {
+
+            }
+        };
+        urLaunchInput.setUserRegistrationUIEventListener(mUserRegistrationUIEventListener);
+        assertNotNull(urLaunchInput.getUserRegistrationUIEventListener());
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
+        assertNotNull(urLaunchInput.getRegistrationFunction());
+
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        assertNotNull(urLaunchInput.getRegistrationFunction());
+        urLaunchInput.enableAddtoBackStack(true);
+        assertTrue(urLaunchInput.isAddtoBackStack());
+        urLaunchInput.enableAddtoBackStack(false);
+        assertFalse(urLaunchInput.isAddtoBackStack());
     }
 
 }

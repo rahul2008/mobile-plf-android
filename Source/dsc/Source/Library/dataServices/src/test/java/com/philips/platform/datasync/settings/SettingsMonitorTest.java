@@ -11,7 +11,7 @@ import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
-import com.philips.testing.verticals.OrmCreatorTest;
+import com.philips.testing.verticals.TestEntityCreator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -85,7 +85,7 @@ public class SettingsMonitorTest {
     @Captor
     private ArgumentCaptor<Event> eventArgumentCaptor;
 
-    private OrmCreatorTest verticalDataCreater;
+    private TestEntityCreator verticalDataCreater;
     private ErrorHandlerImplTest errorHandlerImplTest;
 
     @Mock
@@ -96,7 +96,7 @@ public class SettingsMonitorTest {
     public void setUp() {
         initMocks(this);
 
-        verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
+        verticalDataCreater = new TestEntityCreator(new UuidGenerator());
         errorHandlerImplTest = new ErrorHandlerImplTest();
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
         settingsMonitor = new SettingsMonitor(settingsDataSenderMock, settingsDataFetcherMock);

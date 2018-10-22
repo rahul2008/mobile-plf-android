@@ -20,9 +20,9 @@ import com.philips.platform.core.events.MomentDeleteRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmInsight;
-import com.philips.testing.verticals.table.OrmMoment;
-import com.philips.testing.verticals.table.OrmMomentType;
+import com.philips.testing.verticals.table.TestInsight;
+import com.philips.testing.verticals.table.TestMoment;
+import com.philips.testing.verticals.table.TestMomentType;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -39,7 +39,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -402,7 +401,7 @@ public class DeletingMonitorTest {
     }
 
     private void givenMomentToDelete() throws SQLException {
-        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
+        moment = new TestMoment(CREATOR_ID, SUBJECT_ID, new TestMomentType(-1, MomentType.TEMPERATURE), NOW);
     }
 
     private void givenMomentsDeletedInApp() throws SQLException {
@@ -411,7 +410,7 @@ public class DeletingMonitorTest {
     }
 
     private void givenInsightToDelete() {
-        insight = new OrmInsight();
+        insight = new TestInsight();
         insightList.add(insight);
     }
 }

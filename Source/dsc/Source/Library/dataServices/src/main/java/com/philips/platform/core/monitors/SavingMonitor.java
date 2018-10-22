@@ -13,6 +13,7 @@ import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.events.CharacteristicsBackendSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
+import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.core.events.MomentSaveRequest;
 import com.philips.platform.core.events.MomentsSaveRequest;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
@@ -30,35 +31,42 @@ public class SavingMonitor extends EventMonitor {
     @NonNull
     private final DBDeletingInterface dbDeletingInterface;
 
-    @NonNull
-    private final DBUpdatingInterface dbUpdatingInterface;
-
+    @Deprecated
     public SavingMonitor(@NonNull DBSavingInterface dbInterface, @NonNull DBDeletingInterface dbDeletingInterface, @NonNull DBUpdatingInterface dbUpdatingInterface) {
         this.dbInterface = dbInterface;
         this.dbDeletingInterface = dbDeletingInterface;
-        this.dbUpdatingInterface = dbUpdatingInterface;
+    }
+
+    public SavingMonitor(@NonNull DBSavingInterface dbInterface, @NonNull DBDeletingInterface dbDeletingInterface) {
+        this.dbInterface = dbInterface;
+        this.dbDeletingInterface = dbDeletingInterface;
     }
 
     //Moments
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentSaveRequest momentSaveRequest) throws SQLException {
-        boolean saved = dbInterface.saveMoment(momentSaveRequest.getMoment(), momentSaveRequest.getDbRequestListener());
-        if (saved) {
-            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoments()));
-        } else {
+        boolean savedSuccessfully = dbInterface.saveMoment(momentSaveRequest.getMoment(), momentSaveRequest.getDbRequestListener());
+        if (!savedSuccessfully) {
             dbInterface.postError(new Exception("Failed to insert"), momentSaveRequest.getDbRequestListener());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final MomentsSaveRequest momentSaveRequest) throws SQLException {
-        boolean saved = dbInterface.saveMoments(momentSaveRequest.getMoments(), momentSaveRequest.getDbRequestListener());
-        if (saved) {
-            //eventing.post(new MomentChangeEvent(momentSaveRequest.getReferenceId(), momentSaveRequest.getMoments()));
-        } else {
+        boolean savedSuccessfully = dbInterface.saveMoments(momentSaveRequest.getMoments(), momentSaveRequest.getDbRequestListener());
+        if (!savedSuccessfully) {
             dbInterface.postError(new Exception("Failed to insert"), momentSaveRequest.getDbRequestListener());
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBackGround(final InsightsSaveRequest insightsSaveRequest) throws SQLException {
+        final boolean savedSuccessfully = dbInterface.saveInsights(insightsSaveRequest.getInsights(), insightsSaveRequest.getDbRequestListener());
+        if (!savedSuccessfully) {
+            dbInterface.postError(new Exception("Failed to insert"), insightsSaveRequest.getDbRequestListener());
+        }
+    }
+
     //Settings
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final DatabaseSettingsSaveRequest databaseSettingsSaveRequest) throws SQLException {
@@ -66,8 +74,8 @@ public class SavingMonitor extends EventMonitor {
         dbInterface.saveSyncBit(SyncType.SETTINGS, true);
         dbInterface.saveSettings(databaseSettingsSaveRequest.getSettings(), databaseSettingsSaveRequest.getDbRequestListener());
     }
-
     //Characteristics
+
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackGround(final UserCharacteristicsSaveRequest userCharacteristicsSaveRequest) throws SQLException {
         if (userCharacteristicsSaveRequest.getUserCharacteristicsList() == null)
@@ -84,6 +92,4 @@ public class SavingMonitor extends EventMonitor {
         eventing.post(new CharacteristicsBackendSaveRequest(CharacteristicsBackendSaveRequest.RequestType.UPDATE,
                 userCharacteristicsSaveRequest.getUserCharacteristicsList()));
     }
-
-
 }
