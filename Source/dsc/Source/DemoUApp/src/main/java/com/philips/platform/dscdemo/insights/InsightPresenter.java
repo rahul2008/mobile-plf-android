@@ -57,6 +57,7 @@ public class InsightPresenter {
         this.momentId.setText(insight.getMomentId());
         final DateTime expirationDate = insight.getExpirationDate();
         this.expirationDate.setText(expirationDate != null ? expirationDate.toString(ISODateTimeFormat.dateTime()) : "never expires");
+        mEtRuleId.setText(insight.getRuleId());
 
         mSaveInsightButton.setOnClickListener(new View.OnClickListener() {
             @Override

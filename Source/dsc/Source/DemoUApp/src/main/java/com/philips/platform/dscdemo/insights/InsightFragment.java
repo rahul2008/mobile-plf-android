@@ -77,7 +77,7 @@ public class InsightFragment extends DSBaseFragment
 
         mDataServicesManager = DataServicesManager.getInstance();
 
-        mInsightAdapter = new InsightAdapter(mInsightList, this);
+        mInsightAdapter = new InsightAdapter(mInsightList, this, new InsightOnClickListener());
 
         mNoInsights = view.findViewById(R.id.tv_no_insights);
         mInsightsRecyclerView = view.findViewById(R.id.insight_recycler_view);
@@ -219,6 +219,13 @@ public class InsightFragment extends DSBaseFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    private class InsightOnClickListener implements InsightAdapter.OnItemClickListener {
+        @Override
+        public void onItemClicked(final Insight insight) {
+            mInsightPresenter.createOrUpdate(insight);
+        }
     }
 }
 

@@ -27,10 +27,16 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
 
     private List<? extends Insight> mInsightList;
     private final DBRequestListener<Insight> mDBRequestListener;
+    private final OnItemClickListener clickListener;
 
-    InsightAdapter(ArrayList<? extends Insight> insightList, DBRequestListener<Insight> dbRequestListener) {
+    public interface OnItemClickListener {
+        void onItemClicked(Insight insight);
+    }
+
+    InsightAdapter(ArrayList<? extends Insight> insightList, DBRequestListener<Insight> dbRequestListener, OnItemClickListener clickListener) {
         this.mDBRequestListener = dbRequestListener;
         this.mInsightList = insightList;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -65,6 +71,8 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
                 notifyDataSetChanged();
             }
         });
+
+        holder.bind(insight, clickListener);
     }
 
     @NonNull
@@ -98,6 +106,15 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
             mRuleID = view.findViewById(R.id.rule_id);
             mExpirationDate = view.findViewById(R.id.expiration_date);
             mDeleteInsight = view.findViewById(R.id.btn_delete_insight);
+        }
+
+        public void bind(final Insight item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    listener.onItemClicked(item);
+                }
+            });
         }
     }
 }
