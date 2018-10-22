@@ -203,38 +203,52 @@
             style="@style/UIDLabel.Header"
             android:text="@string/buttons_circular"/>
 
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.Header"
+            android:text="@string/buttons_circular"/>
+
         <LinearLayout
             android:id="@+id/groupCircularButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/layout_margin_left_right"
             android:gravity="center"
             android:orientation="horizontal">
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/circularImageButtonLarge"
+                android:id="@+id/circularButtonRegular"
+                style="@style/UIDCircularButtonRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:text="@string/dls_message"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/circularAccentButtonRegular"
+                style="@style/UIDCircularButtonRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                app:uidAccent="true"
+                android:text="@string/dls_message"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/circularButtonLarge"
+                style="@style/UIDCircularButtonLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:text="@string/dls_message"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/circularAccentButtonLarge"
                 style="@style/UIDCircularButtonLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:text="@string/dls_message"
                 app:uidAccent="true"
-                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"
-                />
-
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/circularImageButtonRegular"
-                style="@style/UIDCircularButtonRegular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginEnd="@dimen/uid_searchbox_layout_margin"
-                android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:text="@string/dls_message"
-                app:uidAccent="true"
-                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
-
+                android:text="@string/dls_message"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

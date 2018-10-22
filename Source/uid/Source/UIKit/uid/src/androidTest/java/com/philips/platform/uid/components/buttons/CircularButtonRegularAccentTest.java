@@ -2,19 +2,14 @@ package com.philips.platform.uid.components.buttons;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.util.Xml;
 
-import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.test.R;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
-import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.Button;
@@ -22,14 +17,13 @@ import com.philips.platform.uid.view.widget.Button;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.xmlpull.v1.XmlPullParser;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class CircularButtonRegularTest {
+public class CircularButtonRegularAccentTest {
 
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class);
@@ -70,46 +64,46 @@ public class CircularButtonRegularTest {
     }
 
     @Test
-    public void verifyCBRegularNormalBackgroundColor(){
-       int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryNormalBackgroundColor);
+    public void verifyCBRegularNormalBackgroundAcentColor(){
+        int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentNormalBackgroundColor);
         getButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
-    public void verifyCBRegularPressedBackgroundColor(){
-        int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryPressedBackgroundColor);
-        getButton().check(matches(FunctionDrawableMatchers
+    public void verifyCBRegularPressedBackgroundAccentColor(){
+       int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentPressedBackgroundColor);
+       getButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 0, expectedColor)));
     }
 
     @Test
-    public void verifyCBRegularDisabledBackgroundColor(){
-        int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryDisabledBackgroundColor);
+    public void verifyCBRegularDisabledBackgroundAccentColor(){
+        int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentDisabledBackgroundColor);
         getButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 1, expectedColor)));
     }
 
     @Test
     public void verifyCBRegularNormalIconColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryNormalTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentNormalTextColor);
 
         getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyCBRegularPressedIconColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryNormalTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentNormalTextColor);
         getButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
     }
 
     @Test
     public void verifyCBRegularDisabledIconColor() {
-        final int disabledTextColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryDisabledTextColor);
+        final int disabledTextColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentDisabledTextColor);
         getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
     }
 
     private ViewInteraction getButton() {
-        return onView(withId(com.philips.platform.uid.test.R.id.circularButtonRegular));
+        return onView(withId(com.philips.platform.uid.test.R.id.circularAccentButtonRegular));
     }
 }

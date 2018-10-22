@@ -9,7 +9,7 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import android.util.TypedValue;
 
-import com.philips.platform.uid.R;
+import com.philips.platform.uid.test.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
@@ -47,30 +47,32 @@ public class CircularButtonLargeTest {
 
     @Test
     public void verifyCircularButtonLargeWidth() {
-        int expectedWidth = resources.getDimensionPixelSize(R.dimen.circular_button_large_height_width);
+        int expectedWidth = resources.getDimensionPixelSize(R.dimen.uid_circular_button_large_height_width);
         getButton().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
     public void verifyCircularButtonLargeHeight() {
-        int expectedHeight = resources.getDimensionPixelSize(R.dimen.circular_button_large_height_width);
+        int expectedHeight = resources.getDimensionPixelSize(R.dimen.uid_circular_button_large_height_width);
         getButton().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
     public void verifyCircularButtonIconLargeSize() {
-        int expectedIconSize = resources.getDimensionPixelSize(R.dimen.circular_button_text_size);
+        int expectedIconSize = resources.getDimensionPixelSize(R.dimen.uid_circular_button_text_size);
         getButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedIconSize)));
     }
 
     @Test
+    public void verifyCircularButtonCornerRadius() {
+        float radius = (float) Math.floor(resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_large_radius));
+        getButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
+
+    }
+
+    @Test
     public void verifyCBLargeNormalBackgroundColor(){
-        UIDTestUtils.waitFor(resources, 1000);
-        int expectedColor;
-        if(isAccentButton())
-            expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentNormalBackgroundColor);
-        else
-            expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryNormalBackgroundColor);
+        int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryNormalBackgroundColor);
         getButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
@@ -78,24 +80,14 @@ public class CircularButtonLargeTest {
 
   @Test
     public void verifyCBLargePressedBackgroundColor(){
-      UIDTestUtils.waitFor(resources, 1000);
-      int expectedColor;
-      if(isAccentButton())
-          expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentPressedBackgroundColor);
-      else
-          expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryPressedBackgroundColor);
+      int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryPressedBackgroundColor);
       getButton().check(matches(FunctionDrawableMatchers
               .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 0, expectedColor)));
     }
 
      @Test
     public void verifyCBLargeDisabledBackgroundColor(){
-         UIDTestUtils.waitFor(resources, 1000);
-         int expectedColor;
-         if(isAccentButton())
-             expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentDisabledBackgroundColor);
-         else
-             expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryDisabledBackgroundColor);
+        int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryDisabledBackgroundColor);
         getButton().check(matches(FunctionDrawableMatchers
                 .isSameColorFromColorListWithReflection(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, 1, expectedColor)));
     }
@@ -119,13 +111,6 @@ public class CircularButtonLargeTest {
     }
 
     private ViewInteraction getButton() {
-        return onView(withId(com.philips.platform.uid.test.R.id.circularImageButtonLarge));
-    }
-
-    private boolean isAccentButton(){
-        Button  button = (Button) activity.findViewById(com.philips.platform.uid.test.R.id.circularImageButtonLarge);
-        if(button != null)
-            return button.isAccentButton();
-        return false;
+        return onView(withId(com.philips.platform.uid.test.R.id.circularButtonLarge));
     }
 }

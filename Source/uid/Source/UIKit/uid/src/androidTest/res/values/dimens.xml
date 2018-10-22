@@ -185,5 +185,14 @@
 
     <dimen name="uid_searchbox_layout_margin">8dp</dimen>
 
+    <!--Circular Button-->
+    <dimen name="uid_circular_button_large_height_width">56dp</dimen>
+    <dimen name="uid_circular_button_regular_height_width">42dp</dimen>
+    <dimen name="uid_circular_button_large_radius">28dp</dimen>
+    <dimen name="uid_circular_button_regular_radius">21dp</dimen>
+    <dimen name="uid_circular_button_regular_min_width">21dp</dimen>
+    <dimen name="uid_circular_button_elevation">3dp</dimen>
+    <dimen name="uid_circular_button_text_size">24dp</dimen>
+
 
 </resources>
