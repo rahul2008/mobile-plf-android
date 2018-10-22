@@ -59,7 +59,7 @@ public class FirebaseOnBoardingTourFragment extends OnBoardingTourFragment imple
         View view = inflater.inflate(R.layout.ths_firebase_on_boarding_tour_fragment, container, false);
         ActionBarListener actionBarListener = getActionBarListener();
         if (actionBarListener != null) {
-            actionBarListener.updateActionBar(R.string.ths_Welcome_nav_title, false);
+            actionBarListener.updateActionBar(R.string.ths_Welcome_nav_title, true);
         }
 
         pager = view.findViewById(R.id.welcome_pager);
@@ -128,7 +128,7 @@ public class FirebaseOnBoardingTourFragment extends OnBoardingTourFragment imple
 
     public boolean handleBackEvent() {
         THSTagUtils.doExitToPropositionWithCallBack();
-        return true;
+        return false;
     }
 
     public OnBoardingTourPagerAdapter getOnBoardingTourPagerAdapter() {

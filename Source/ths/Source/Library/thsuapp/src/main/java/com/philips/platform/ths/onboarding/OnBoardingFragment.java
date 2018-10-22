@@ -56,7 +56,7 @@ public class OnBoardingFragment extends THSBaseFragment implements View.OnClickL
 
         ActionBarListener actionBarListener = getActionBarListener();
         if (actionBarListener != null) {
-            actionBarListener.updateActionBar(R.string.ths_Welcome_nav_title, false);
+            actionBarListener.updateActionBar(R.string.ths_Welcome_nav_title, true);
         }
         return view;
     }
@@ -84,7 +84,7 @@ public class OnBoardingFragment extends THSBaseFragment implements View.OnClickL
     @Override
     public boolean handleBackEvent() {
         THSTagUtils.doExitToPropositionWithCallBack();
-        return true;
+        return false;
     }
 
     public void showTermsAndConditions(String url) {

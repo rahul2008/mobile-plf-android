@@ -98,6 +98,6 @@ public class OnBoardingTourPageFragment extends THSBaseFragment {
 
     public boolean handleBackEvent() {
         THSTagUtils.doExitToPropositionWithCallBack();
-        return true;
+        return false;
     }
 }

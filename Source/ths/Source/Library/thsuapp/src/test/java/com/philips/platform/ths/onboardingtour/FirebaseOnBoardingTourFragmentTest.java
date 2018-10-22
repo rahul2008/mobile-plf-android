@@ -80,7 +80,7 @@ public class FirebaseOnBoardingTourFragmentTest {
 
     @Test
     public void shouldReturnTrue_OnExit() throws Exception {
-        assertThat(firebaseOnboardingTourFragment.handleBackEvent()).isTrue();
+        assertThat(firebaseOnboardingTourFragment.handleBackEvent()).isFalse();
     }
 
     @Test
