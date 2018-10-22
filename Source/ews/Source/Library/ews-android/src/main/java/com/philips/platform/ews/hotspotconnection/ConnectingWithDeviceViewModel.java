@@ -110,7 +110,9 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
     }
 
     void connectToHotSpot() {
-        if (wiFiUtil.isHomeWiFiEnabled()) {
+        if(wiFiUtil.isConnectedToPhilipsSetup()) {
+            onPhoneConnectedToHotspotWifi();
+        } else if (wiFiUtil.isHomeWiFiEnabled()) {
             if (fragmentCallback != null) {
                 fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
             } else {
@@ -179,7 +181,7 @@ public class ConnectingWithDeviceViewModel implements DeviceFriendlyNameFetcher.
 
     @Override
     public void onFriendlyNameFetchingSuccess(@NonNull String friendlyName) {
-        navigator.navigateToSelectWiFiScreen();
+        navigator.navigateToSelectWiFiScreen(friendlyName);
     }
 
     @Override

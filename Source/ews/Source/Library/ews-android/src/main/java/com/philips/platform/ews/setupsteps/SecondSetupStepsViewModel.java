@@ -122,8 +122,4 @@ public class SecondSetupStepsViewModel {
         ewsLogger.d(EWS_STEPS, "Step 1 : Trying to connect to appliance hot spot");
         startConnection();
     }
-
-    public void showPasswordEntryScreenEvent() {
-        navigator.navigateToSelectWiFiScreen();
-    }
 }

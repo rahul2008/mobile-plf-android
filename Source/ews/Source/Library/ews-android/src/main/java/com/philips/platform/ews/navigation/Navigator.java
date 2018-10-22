@@ -47,8 +47,8 @@ public class Navigator {
         pushFragment(new SecondSetupStepsFragment());
     }
 
-    public void navigateToSelectWiFiScreen() {
-        pushFragment(new SelectWiFiFragment());
+    public void navigateToSelectWiFiScreen(String friendlyName) {
+        pushFragment(SelectWiFiFragment.newInstance(friendlyName));
     }
 
     public void navigateToNetworkNotListedTroubleshootingScreen() {

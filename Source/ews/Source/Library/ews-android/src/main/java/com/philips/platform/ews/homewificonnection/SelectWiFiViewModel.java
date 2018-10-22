@@ -38,6 +38,8 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
     private final ApplianceAccessManager applianceAccessManager;
     @NonNull
     protected final Navigator navigator;
+    @NonNull
+    private static String deviceFriendlyName;
 
     @Inject
     SelectWiFiViewModel(@NonNull final Navigator navigator,
@@ -64,6 +66,10 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
         applianceAccessManager.fetchWiFiNetworks(fetchWiFiNetworksCallBack);
     }
 
+    public void setDeviceFriendlyName(@NonNull String deviceFriendlyName) {
+        this.deviceFriendlyName = deviceFriendlyName;
+    }
+
     @Override
     public void onWifiNodeSelected(@NonNull final String selectedSSID) {
         this.selectedSSID = selectedSSID;
@@ -77,7 +83,7 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
 
     public void onContinueButtonClicked() {
         wiFiUtil.setHomeWiFiSSID(selectedSSID);
-        navigator.navigateToConnectToDeviceWithPasswordScreen("");
+        navigator.navigateToConnectToDeviceWithPasswordScreen(deviceFriendlyName);
     }
 
     public void onNetworkNotListedButtonClicked() {
