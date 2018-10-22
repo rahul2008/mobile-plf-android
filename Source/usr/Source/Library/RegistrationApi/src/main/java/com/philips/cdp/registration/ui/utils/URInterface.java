@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -179,7 +180,11 @@ public class URInterface implements UappInterface {
                     getOrientationValue());
 
             registrationIntent.putExtras(bundle);
-            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            if ((Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)) {
+                registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            } else {
+                registrationIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            }
             RegistrationHelper.getInstance().
                     getUrSettings().getContext().startActivity(registrationIntent);
         }
