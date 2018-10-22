@@ -35,7 +35,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/uid_expander_title_text"
         fontPath="fonts/centralesansmedium.ttf"
-        android:minHeight="24dp"
+        android:minHeight="@dimen/uid_expander_view_title_min_height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/uid_expander_title_icon"

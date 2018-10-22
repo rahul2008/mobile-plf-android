@@ -3,6 +3,7 @@ package com.philips.platform.uid.components.expander;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -53,19 +54,18 @@ public class ExpanderTitlePanelDefaultTest {
     }
 
     @Test
-    public void verifyIconColor(){
+    public void verifyIconColor() {
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemSecondaryNormalIconColor);
         getExpanderTitlePanelIcon().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
-
+    @Test
+    public void verifyIconDefaultVisibiulity() {
+        getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
+    }
 
     // Chevron tests
 
-    @Test
-    public void verifyChevronTextTypeface() {
-        getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.isSameTypeface(activity, TestConstants.FONT_PATH_CS_MEDIUM)));
-    }
 
     @Test
     public void verifyChevronFontSize() {
@@ -74,7 +74,7 @@ public class ExpanderTitlePanelDefaultTest {
     }
 
     @Test
-    public void verifyChevronColor(){
+    public void verifyChevronColor() {
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemSecondaryNormalIconColor);
         getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
@@ -86,11 +86,18 @@ public class ExpanderTitlePanelDefaultTest {
     @Test
     public void verifyTitleTextEndMargin() {
         int expectedEndMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_title_text_margin_end);
-        getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedEndMargin)));
+        getExpanderTitlePanelText().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedEndMargin)));
     }
 
     @Test
-    public void verifyTitleTextColor(){
+    public void verifyTitleTextMinHeight() {
+        int expectedMinHeight = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_min_height);
+        getExpanderTitlePanelText().check(matches(ViewPropertiesMatchers.isSameViewMinHeight(expectedMinHeight)));
+    }
+
+
+    @Test
+    public void verifyTitleTextColor() {
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemPrimaryNormalTextColor);
         getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
@@ -106,6 +113,7 @@ public class ExpanderTitlePanelDefaultTest {
         int expectedFontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_expander_title_text_size);
         getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
+
 
 
 
