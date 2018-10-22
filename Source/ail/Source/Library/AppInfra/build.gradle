@@ -108,7 +108,6 @@ dependencies {
     testImplementation deps.robolectric
     testImplementation deps.assertj
     testImplementation deps.junit
-    implementation deps.junit
     testImplementation deps.powermock_core
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
