@@ -118,7 +118,8 @@ public class InsightFragment extends DSBaseFragment
     public void onClick(final View v) {
         int clickedView = v.getId();
         if (clickedView == R.id.add_button) {
-            mInsightPresenter.createInsight();
+            final Insight insight = mDataServicesManager.createInsight("AppGenerated");
+            mInsightPresenter.createOrUpdate(insight);
         }
     }
 
