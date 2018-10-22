@@ -203,7 +203,7 @@ public class HappyFlowContentConfiguration implements Parcelable {
             setUpVerifyScreenTitle = R.string.label_ews_verify_ready_title_default;
             setUpVerifyScreenQuestion = R.string.label_ews_verify_ready_question_default;
             setUpVerifyScreenYesButton = R.string.button_ews_verify_ready_yes_default;
-            setUpVerifyScreenNoButton = R.string.button_ews_verify_ready_no_default;
+            setUpVerifyScreenNoButton = R.string.button_ews_select_wifi_having_issues;
             setUpVerifyScreenImage = R.drawable.power_button_default;
         }
 

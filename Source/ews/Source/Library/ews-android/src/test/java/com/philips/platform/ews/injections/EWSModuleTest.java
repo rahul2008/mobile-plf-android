@@ -129,7 +129,7 @@ public class EWSModuleTest {
 
     @Test
     public void provideSecondSetupStepsViewModel() throws Exception {
-        assertNotNull(subject.provideSecondSetupStepsViewModel(mockNavigator, mockPermissionHandler, mockHappyFlowContentConfiguration, mockStringProvider, mockBaseContentConfiguration, mockEWSTagger, mockEWSLogger));
+        assertNotNull(subject.provideSecondSetupStepsViewModel(mockNavigator, mockHappyFlowContentConfiguration, mockStringProvider, mockBaseContentConfiguration, mockEWSTagger, mockEWSLogger));
     }
 
     @Test

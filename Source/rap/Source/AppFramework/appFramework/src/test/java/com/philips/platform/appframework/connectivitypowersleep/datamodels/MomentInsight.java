@@ -16,25 +16,6 @@ import java.util.Collection;
 
 public class MomentInsight implements Insight {
     private String title;
-    @Override
-    public void setGUId(String s) {
-
-    }
-
-    @Override
-    public void setLastModified(String s) {
-
-    }
-
-    @Override
-    public void setInactive(boolean b) {
-
-    }
-
-    @Override
-    public void setVersion(int i) {
-
-    }
 
     @Override
     public void setRuleId(String s) {
@@ -73,26 +54,6 @@ public class MomentInsight implements Insight {
     @Override
     public void setProgram_maxVersion(int i) {
 
-    }
-
-    @Override
-    public String getGUId() {
-        return null;
-    }
-
-    @Override
-    public String getLastModified() {
-        return null;
-    }
-
-    @Override
-    public boolean isInactive() {
-        return false;
-    }
-
-    @Override
-    public int getVersion() {
-        return 0;
     }
 
     @Override

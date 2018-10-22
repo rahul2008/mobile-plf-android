@@ -41,9 +41,9 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     private void refreshSession() {
         if (!UserRegistrationInitializer.getInstance().isRefreshUserSessionInProgress()) {
             CaptureRecord captureRecord = Jump.getSignedInUser();
-            RLog.d(TAG,"refreshSession : if : false isRefreshUserSessionInProgress");
+            RLog.d(TAG, "refreshSession : if : false isRefreshUserSessionInProgress");
             if (captureRecord == null) {
-                RLog.d(TAG,"refreshSession : captureRecord is null");
+                RLog.d(TAG, "refreshSession : captureRecord is null");
                 return;
             }
             UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(true);
@@ -51,12 +51,12 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
         } else {
             ThreadUtils.postInMainThread(mContext, () ->
                     mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress("Refresh already scheduled"));
-            RLog.d(TAG,"refreshSession : else : true isRefreshUserSessionInProgress");
+            RLog.d(TAG, "refreshSession : else : true isRefreshUserSessionInProgress");
         }
     }
 
     private void refreshHsdpAccessToken() {
-        RLog.d(TAG,"refreshHsdpAccessToken : is called");
+        RLog.d(TAG, "refreshHsdpAccessToken : is called");
         final HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.refreshToken(new RefreshLoginSessionHandler() {
             @Override
@@ -64,15 +64,15 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
                 UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
                 ThreadUtils.postInMainThread(mContext, () ->
                         mRefreshLoginSessionHandler.onRefreshLoginSessionSuccess());
-                RLog.d(TAG,"refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionSuccess is called");
+                RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionSuccess is called");
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
-                RLog.d(TAG,"refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionFailedWithError is called");
+                RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionFailedWithError is called");
                 UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
-                if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
-                        || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+                if (error == ErrorCodes.HSDP_INPUT_ERROR_1009
+                        || error == ErrorCodes.HSDP_INPUT_ERROR_1151) {
 
                     clearData();
                     RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
@@ -83,7 +83,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
 
             @Override
             public void onRefreshLoginSessionInProgress(String message) {
-                RLog.d(TAG,"refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionInProgress is called");
+                RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionInProgress is called");
                 ThreadUtils.postInMainThread(mContext, () ->
                         mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message));
             }
@@ -137,8 +137,8 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
 
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
-        RLog.d(TAG, "onRefreshLoginSessionFailedWithError : error"+error);
-        if (error == Integer.parseInt(RegConstants.INVALID_JANRAIN_NO_ACCESS_GRANT_CODE)) {
+        RLog.d(TAG, "onRefreshLoginSessionFailedWithError : error" + error);
+        if (error == ErrorCodes.JANRAIN_UNAUTHORIZED_USER) {
             clearData();
             RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
         }

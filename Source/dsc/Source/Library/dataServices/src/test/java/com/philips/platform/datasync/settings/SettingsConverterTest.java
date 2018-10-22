@@ -9,8 +9,8 @@ package com.philips.platform.datasync.settings;
 import com.philips.platform.core.BaseAppDataCreator;
 import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.testing.verticals.OrmCreatorTest;
-import com.philips.testing.verticals.table.OrmSettings;
+import com.philips.testing.verticals.TestEntityCreator;
+import com.philips.testing.verticals.table.TestSettings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -118,10 +118,10 @@ public class SettingsConverterTest {
 
     @Before
     public void setUp() {
-        verticalDataCreator = new OrmCreatorTest(new UuidGenerator());
+        verticalDataCreator = new TestEntityCreator(new UuidGenerator());
         settingsConverter = new SettingsConverter(verticalDataCreator);
         dtoSettings = new UCoreSettings();
-        appSettings = new OrmSettings();
+        appSettings = new TestSettings();
     }
 
     private UCoreSettings dtoSettings;

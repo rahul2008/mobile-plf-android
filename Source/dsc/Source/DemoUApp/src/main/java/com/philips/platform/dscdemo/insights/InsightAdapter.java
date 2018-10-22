@@ -17,6 +17,9 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.R;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +44,11 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
         final Insight insight = mInsightList.get(position);
         String expirationDateValue = getExpirationDateValue(insight);
 
-        holder.mInsightID.setText(insight.getGUId());
+        final DateTime lastModified = insight.getSynchronisationData().getLastModified();
+
+        holder.mInsightID.setText(insight.getSynchronisationData().getGuid());
         holder.mMomentID.setText(insight.getMomentId());
-        holder.mLastModified.setText(insight.getLastModified());
+        holder.mLastModified.setText(lastModified == null ? "" : lastModified.toString(ISODateTimeFormat.dateTime()));
         holder.mRuleID.setText(insight.getRuleId());
         holder.mExpirationDate.setText(expirationDateValue);
 

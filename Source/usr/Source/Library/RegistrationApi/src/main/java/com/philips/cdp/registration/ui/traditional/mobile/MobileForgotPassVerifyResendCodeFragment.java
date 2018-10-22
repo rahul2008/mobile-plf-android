@@ -31,12 +31,11 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
-import com.philips.cdp.registration.events.CounterHelper;
-import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.CountDownEvent;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
@@ -71,9 +70,9 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCES
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNICAL_ERROR;
 
 public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFragment implements
-        MobileForgotPassVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
+        MobileForgotPassVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener {
 
-    private String TAG ="MobileForgotPassVerifyResendCodeFragment";
+    private String TAG = "MobileForgotPassVerifyResendCodeFragment";
 
     @BindView(R2.id.btn_reg_resend_update)
     ProgressBarButton resendSMSButton;
@@ -115,7 +114,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
 
         registerInlineNotificationListener(this);
         mobileVerifyResendCodePresenter = new MobileForgotPassVerifyResendCodePresenter(this);
@@ -143,10 +142,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
             enableResendButton();
         }
         phoneNumberChange();
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_FINISH, this);
         return view;
     }
 
@@ -186,8 +181,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     public void onDestroy() {
         super.onDestroy();
         mobileVerifyResendCodePresenter.cleanUp();
-        CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_TICK, this);
-        CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_FINISH, this);
     }
 
     @Override
@@ -234,8 +227,13 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
         hidePopup();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -290,17 +288,14 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public void showSMSSpecifedError(int errorCode) {
         trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-        // errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
         updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         enableResendButton();
-        // String errorMsg = RegChinaUtil.getErrorMsgDescription(id, context);
-//        showSmsResendTechincalError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
     }
 
 
     @OnClick(R2.id.btn_reg_resend_update)
     public void verifyClicked() {
-        RLog.i(TAG,TAG + ".verify Clicked" );
+        RLog.i(TAG, TAG + ".verify Clicked");
         showProgressDialog();
         getRegistrationFragment().hideKeyBoard();
         hidePopup();
@@ -312,7 +307,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
-        RLog.i(TAG,TAG + ".thanksBtn Clicked" );
+        RLog.i(TAG, TAG + ".thanksBtn Clicked");
 
         hidePopup();
         getRegistrationFragment().onBackPressed();
@@ -372,13 +367,6 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         handleResendVerificationEmailSuccess();
     }
 
-//    @Override
-//    public void showSmsResendTechincalError(String errorCodeString) {
-//        trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-//        errorMessage.setError(errorCodeString);
-//        enableResendButton();
-//    }
-
     @Override
     public void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<>();
@@ -387,15 +375,15 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         AppTagging.trackMultipleActions(SEND_DATA, map);
     }
 
-    @Override
-    public void onCounterEventReceived(String event, long timeLeft) {
+    @Subscribe
+    public void onCountDownEvent(CountDownEvent event) {
         int progress = 100;
-        if (event.equals(RegConstants.COUNTER_FINISH)) {
+        if (event.getEvent().equals(RegConstants.COUNTER_FINISH)) {
             usrMobileverificationResendsmstimerProgress.setSecondaryProgress(progress);
             usrMobileverificationResendsmstimerProgress.setText(getResources().getString(R.string.USR_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
         } else {
-            updateResendTime(timeLeft);
+            updateResendTime(event.getTimeleft());
         }
     }
 

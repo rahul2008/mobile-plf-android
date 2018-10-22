@@ -19,14 +19,6 @@ public interface Insight extends BaseAppData, Serializable {
 
     String INSIGHT_NEVER_SYNCED_AND_DELETED_GUID = "-1";
 
-    void setGUId(String GUId);
-
-    void setLastModified(String lastModified);
-
-    void setInactive(boolean inactive);
-
-    void setVersion(int version);
-
     void setRuleId(String ruleId);
 
     void setSubjectId(String subjectId);
@@ -42,14 +34,6 @@ public interface Insight extends BaseAppData, Serializable {
     void setProgram_minVersion(int program_minversion);
 
     void setProgram_maxVersion(int program_maxversion);
-
-    String getGUId();
-
-    String getLastModified();
-
-    boolean isInactive();
-
-    int getVersion();
 
     String getRuleId();
 

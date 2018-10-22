@@ -7,7 +7,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.testing.verticals.OrmCreatorTest;
+import com.philips.testing.verticals.TestEntityCreator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class UserCharacteristicsConverterTest {
     public void setUp() {
         initMocks(this);
 
-        verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
+        verticalDataCreater = new TestEntityCreator(new UuidGenerator());
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
         userCharacteristicsConvertor = new UserCharacteristicsConverter();
         userCharacteristicsConvertor.dataCreator = verticalDataCreater;
