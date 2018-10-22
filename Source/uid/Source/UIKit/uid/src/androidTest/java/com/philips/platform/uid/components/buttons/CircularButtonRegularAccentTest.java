@@ -40,25 +40,31 @@ public class CircularButtonRegularAccentTest {
     }
 
     @Test
-    public void verifyCircularButtonRegularWidth() {
+    public void verifyCBRegularWidth() {
         int expectedWidth = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_regular_height_width);
         getButton().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
-    public void verifyCircularButtonRegularHeight() {
+    public void verifyCBRegularHeight() {
         int expectedHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_regular_height_width);
         getButton().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
-    public void verifyCircularButtonIconRegularSize() {
-        int expectedIconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_text_size);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedIconSize)));
+    public void verifyCBRegularIconHeight() {
+        int expectedIconHeight = resources.getDimensionPixelSize(com.philips.platform.uid.R.dimen.uid_imagebutton_image_size);
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
-    public void verifyCircularButtonCornerRadius() {
+    public void verifyCBRegularIconWidth() {
+        int expectedIconWidth = resources.getDimensionPixelSize(com.philips.platform.uid.R.dimen.uid_imagebutton_image_size);
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
+    }
+
+    @Test
+    public void verifyCBCornerRadius() {
         float radius = (float) Math.floor(resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_regular_radius));
         getButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
     }
@@ -88,19 +94,19 @@ public class CircularButtonRegularAccentTest {
     public void verifyCBRegularNormalIconColor() {
         final int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentNormalTextColor);
 
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
-    }
-
-    @Test
-    public void verifyCBRegularPressedIconColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentNormalTextColor);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableColor(0,android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyCBRegularDisabledIconColor() {
         final int disabledTextColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonAccentDisabledTextColor);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableColor(0,-android.R.attr.enabled, disabledTextColor)));
+    }
+
+    @Test
+    public void verufyCBLargeShadowLevel(){
+        int expectedElevation = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_elevation);
+        getButton().check(matches(ViewPropertiesMatchers.isSameElevation(expectedElevation)));
     }
 
     private ViewInteraction getButton() {

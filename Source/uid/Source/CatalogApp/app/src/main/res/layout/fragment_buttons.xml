@@ -461,16 +461,15 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.philips.platform.uid.view.widget.Button
+                <com.philips.platform.uid.view.widget.ImageButton
                     android:id="@+id/circularButtonRegular"
                     style="@style/UIDCircularButtonRegular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
-                    android:enabled="@{frag.isButtonsEnabled}"
-                    android:text="@string/dls_message"/>
+                    android:enabled="@{frag.isButtonsEnabled}"/>
 
-                <com.philips.platform.uid.view.widget.Button
+                <com.philips.platform.uid.view.widget.ImageButton
                     android:id="@+id/circularAccentButtonRegular"
                     style="@style/UIDCircularButtonRegular"
                     android:layout_width="wrap_content"
@@ -478,19 +477,17 @@
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
                     app:uidAccent="true"
-                    android:enabled="@{frag.isButtonsEnabled}"
-                    android:text="@string/dls_message"/>
+                    android:enabled="@{frag.isButtonsEnabled}"/>
 
-                <com.philips.platform.uid.view.widget.Button
+                <com.philips.platform.uid.view.widget.ImageButton
                     android:id="@+id/circularButtonLarge"
                     style="@style/UIDCircularButtonLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
-                    android:enabled="@{frag.isButtonsEnabled}"
-                    android:text="@string/dls_message"/>
+                    android:enabled="@{frag.isButtonsEnabled}"/>
 
-                <com.philips.platform.uid.view.widget.Button
+                <com.philips.platform.uid.view.widget.ImageButton
                     android:id="@+id/circularAccentButtonLarge"
                     style="@style/UIDCircularButtonLarge"
                     android:layout_width="wrap_content"
@@ -498,9 +495,9 @@
                     android:layout_marginEnd="@dimen/layout_margin_left_right"
                     android:layout_marginStart="@dimen/layout_margin_left_right"
                     app:uidAccent="true"
-                    android:enabled="@{frag.isButtonsEnabled}"
-                    android:text="@string/dls_message"/>
+                    android:enabled="@{frag.isButtonsEnabled}"/>
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </layout>

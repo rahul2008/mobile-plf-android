@@ -38,21 +38,27 @@ public class CircularButtonLargeAccentTest {
     }
 
     @Test
-    public void verifyCircularButtonLargeWidth() {
+    public void verifyCBLargeWidth() {
         int expectedWidth = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_large_height_width);
         getButton().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
-    public void verifyCircularButtonLargeHeight() {
+    public void verifyCBLargeHeight() {
         int expectedHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_large_height_width);
         getButton().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
-    public void verifyCircularButtonIconLargeSize() {
-        int expectedIconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_text_size);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedIconSize)));
+    public void verifyCBLargeIconHeight() {
+        int expectedIconHeight = resources.getDimensionPixelSize(R.dimen.uid_imagebutton_image_size);
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
+    }
+
+    @Test
+    public void verifyCBLargeIconWidth() {
+        int expectedIconWidth = resources.getDimensionPixelSize(R.dimen.uid_imagebutton_image_size);
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
     }
 
     @Test
@@ -87,19 +93,19 @@ public class CircularButtonLargeAccentTest {
     @Test
     public void verifyCBLargeNormalIconAccentColor() {
         final int expectedColor = UIDTestUtils.getAttributeColor(mContext, com.philips.platform.uid.test.R.attr.uidButtonAccentNormalTextColor);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
-    }
-
-    @Test
-    public void verifyCBLargePressedIconAccentColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(mContext, com.philips.platform.uid.test.R.attr.uidButtonAccentNormalTextColor);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableColor(0,android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyCBLargeDisabledIconAccentColor() {
         final int disabledTextColor = UIDTestUtils.getAttributeColor(mContext, com.philips.platform.uid.test.R.attr.uidButtonAccentDisabledTextColor);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableColor(0,-android.R.attr.enabled, disabledTextColor)));
+    }
+
+    @Test
+    public void verufyCBLargeShadowLevel(){
+        int expectedElevation = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_elevation);
+        getButton().check(matches(ViewPropertiesMatchers.isSameElevation(expectedElevation)));
     }
 
     private ViewInteraction getButton() {

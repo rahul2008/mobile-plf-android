@@ -2,23 +2,18 @@ package com.philips.platform.uid.components.buttons;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
-import android.util.TypedValue;
 
-import com.philips.platform.uid.test.R;
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.FunctionDrawableMatchers;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
-import com.philips.platform.uid.view.widget.Button;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,8 +21,6 @@ import org.junit.Test;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 
 public class CircularButtonLargeTest {
 
@@ -46,26 +39,32 @@ public class CircularButtonLargeTest {
     }
 
     @Test
-    public void verifyCircularButtonLargeWidth() {
-        int expectedWidth = resources.getDimensionPixelSize(R.dimen.uid_circular_button_large_height_width);
+    public void verifyCBLargeWidth() {
+        int expectedWidth = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_large_height_width);
         getButton().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedWidth)));
     }
 
     @Test
-    public void verifyCircularButtonLargeHeight() {
-        int expectedHeight = resources.getDimensionPixelSize(R.dimen.uid_circular_button_large_height_width);
+    public void verifyCBLargeHeight() {
+        int expectedHeight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_large_height_width);
         getButton().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
     @Test
-    public void verifyCircularButtonIconLargeSize() {
-        int expectedIconSize = resources.getDimensionPixelSize(R.dimen.uid_circular_button_text_size);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedIconSize)));
+    public void verifyCBLargeIconHeight() {
+        int expectedIconHeight = resources.getDimensionPixelSize(R.dimen.uid_imagebutton_image_size);
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableHeight(0, expectedIconHeight)));
     }
 
     @Test
-    public void verifyCircularButtonCornerRadius() {
-        float radius = (float) Math.floor(resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_circular_button_large_radius));
+    public void verifyCBLargeIconWidth() {
+        int expectedIconWidth = resources.getDimensionPixelSize(R.dimen.uid_imagebutton_image_size);
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableWidth(0, expectedIconWidth)));
+    }
+
+    @Test
+    public void verifyCBLargeCornerRadius() {
+        float radius = (float) Math.floor(resources.getDimensionPixelSize(R.dimen.uid_circular_button_large_radius));
         getButton().check(matches(FunctionDrawableMatchers.isSameRadius(TestConstants.FUNCTION_GET_BACKGROUND, 0, radius)));
 
     }
@@ -95,22 +94,23 @@ public class CircularButtonLargeTest {
     @Test
     public void verifyCBLargeNormalIconColor() {
         final int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryNormalTextColor);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableColor(0,android.R.attr.state_enabled, expectedColor)));
     }
 
-    @Test
-    public void verifyCBLargePressedIconColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryNormalTextColor);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
-    }
 
     @Test
     public void verifyCBLargeDisabledIconColor() {
         final int disabledTextColor = UIDTestUtils.getAttributeColor(mContext, R.attr.uidButtonPrimaryDisabledTextColor);
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.enabled, disabledTextColor)));
+        getButton().check(matches(TextViewPropertiesMatchers.isSameCompoundDrawableColor(0,-android.R.attr.enabled, disabledTextColor)));
+    }
+
+    @Test
+    public void verufyCBLargeShadowLevel(){
+        int expectedElevation = resources.getDimensionPixelSize(R.dimen.uid_circular_button_elevation);
+        getButton().check(matches(ViewPropertiesMatchers.isSameElevation(expectedElevation)));
     }
 
     private ViewInteraction getButton() {
-        return onView(withId(com.philips.platform.uid.test.R.id.circularButtonLarge));
+        return onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.circularButtonLarge));
     }
 }

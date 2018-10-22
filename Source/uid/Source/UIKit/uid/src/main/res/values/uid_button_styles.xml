@@ -45,32 +45,17 @@
         <item name="uidImageButtonColorList">@color/uid_default_button_background_selector</item>
     </style>
 
-    <style name="UIDCircularButtonRegular" parent="UIDDefaultButton">
-        <item name="android:background">@drawable/uid_circular_button_regular_background</item>
-        <item name="uidButtonBackgroundColorList">@color/uid_default_button_background_selector</item>
-        <item name="uidButtonTextColorList">@color/uid_default_button_text_selector</item>
-        <item name="android:minWidth">@dimen/uid_circular_button_regular_min_width</item>
-        <item name="android:padding">@dimen/uid_circular_button_padding</item>
-        <item name="android:textSize">@dimen/uid_circular_button_text_size</item>
+    <!--Circular Button-->
+    <style name="UIDCircularButtonLarge" parent="UIDImageButton">
+        <item name="android:background">@drawable/uid_circular_button_large_background</item>
         <item name="android:elevation">@dimen/uid_circular_button_elevation</item>
         <item name="android:stateListAnimator">@null</item>
-        <!--Font icon properties-->
-        <item name="fontPath">fonts/iconfont.ttf</item>
-        <item name="android:gravity">center</item>
     </style>
 
-    <style name="UIDCircularButtonLarge" parent="UIDDefaultButton">
-        <!--Button background properties-->
-        <item name="android:background">@drawable/uid_circular_button_large_background</item>
-        <item name="uidButtonBackgroundColorList">@color/uid_default_button_background_selector</item>
-        <item name="uidButtonTextColorList">@color/uid_default_button_text_selector</item>
+    <style name="UIDCircularButtonRegular" parent="UIDImageButton">
+        <item name="android:background">@drawable/uid_circular_button_regular_background</item>
         <item name="android:elevation">@dimen/uid_circular_button_elevation</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="android:padding">@dimen/uid_circular_button_padding</item>
-        <item name="android:textSize">@dimen/uid_circular_button_text_size</item>
-          <!--Font icon properties-->
-        <item name="fontPath">fonts/iconfont.ttf</item>
-        <item name="android:gravity">center</item>
     </style>
 
     <style name="UIDExtraWideButton" parent="UIDDefaultButton">
