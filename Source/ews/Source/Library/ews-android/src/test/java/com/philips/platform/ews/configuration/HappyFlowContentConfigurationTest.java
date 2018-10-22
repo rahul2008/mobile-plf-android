@@ -74,7 +74,7 @@ public class HappyFlowContentConfigurationTest {
 
     @Test
     public void itShouldVerifyDefaultSetupVerifyScreenNoButton() throws Exception{
-        assertEquals(subject.getSetUpVerifyScreenNoButton(), R.string.button_ews_verify_ready_no_default);
+        assertEquals(subject.getSetUpVerifyScreenNoButton(), R.string.button_ews_select_wifi_having_issues);
     }
 
     @Test

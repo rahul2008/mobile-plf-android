@@ -31,7 +31,7 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
     @DatabaseField
     private boolean inactive;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private DateTime lastModified;
 
     @DatabaseField
@@ -81,6 +81,11 @@ public class OrmSynchronisationData implements SynchronisationData, Serializable
     @Override
     public void setGuid(String guid) {
         this.guid = guid;
+    }
+
+    @Override
+    public void setLastModified(DateTime lastModified) {
+        this.lastModified = lastModified;
     }
 
     @Override

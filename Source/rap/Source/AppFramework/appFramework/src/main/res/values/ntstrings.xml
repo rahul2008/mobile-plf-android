@@ -13,6 +13,7 @@
     <string name="RA_mkt_optin_title_text">Here\'s what You Have To Look Forward To:</string><!-- Need to check this-->
     <string name="RA_quessionary_text">Custom Reward Coupons, Holiday Surprises, VIP Shopping Days</string><!-- Need to check this-->
     <string name="Ra_default_value">default_value</string>
+    <string name="Ra_registration_value">registration</string>
     <string name="RA_CTN_Null">CTN is null. Please select or enter CTN value</string><!-- Need to check this-->
 
 

@@ -253,7 +253,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
         } else if (strength == strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_pink_level_30,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_orange_level_30,
                     R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthMedium) {
             passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_30,

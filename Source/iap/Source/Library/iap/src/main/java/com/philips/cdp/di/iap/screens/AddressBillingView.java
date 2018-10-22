@@ -404,7 +404,7 @@ public class AddressBillingView
             if (billingAddressFields != null) {
                 addressPresenter.setBillingAddressFields(billingAddressFields);
                 addressContractor.setBillingAddressFilledStatus(true);
-                if(addressContractor.isShippingAddressFilled() || addressContractor.isAddressFilledFromDeliveryAddress()) {
+                if(addressContractor.isShippingAddressFilled() || addressContractor.isAddressFilledFromDeliveryAddress() || addressContractor.isBillingAddressFilled()) {
                     addressPresenter.setContinueButtonState(true);
                 }
                 else

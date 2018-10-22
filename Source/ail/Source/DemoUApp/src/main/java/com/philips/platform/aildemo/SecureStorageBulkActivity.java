@@ -140,13 +140,13 @@ public class SecureStorageBulkActivity extends Activity {
     }
 
     public void setProgressVisibility(boolean visibility){
-            if(visibility){
-                progressBar.setVisibility(View.VISIBLE);
-                scrollView.setVisibility(View.GONE);
-            }else{
-                progressBar.setVisibility(View.GONE);
-                scrollView.setVisibility(View.VISIBLE);
-            }
+        if(visibility){
+            progressBar.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
+        }
     }
 
 
