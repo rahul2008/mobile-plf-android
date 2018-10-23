@@ -376,7 +376,7 @@ public class ExpanderTest {
     }
 
     @Test
-    public void verifyItemTextFontSize() {
+    public void verifyTitleTextFontSize() {
         int expectedFontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_expander_title_text_size);
         getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
     }
