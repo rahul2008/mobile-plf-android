@@ -276,7 +276,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
      * Default: null
      * @Since: 1805.0.0
      */
-    public void setExpanderDelegate(UIDExpanderListener uidExpanderListener) {
+    public void setExpanderListener(UIDExpanderListener uidExpanderListener) {
         if(isDefaultPanel()) { // only default expander title view gets expand/collapse callback
             this.uidExpanderListener = uidExpanderListener;
         }

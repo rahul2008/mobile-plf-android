@@ -1,11 +1,14 @@
 package com.philips.platform.uid.components.expander;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -15,15 +18,19 @@ import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.Expander;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.UIDExpanderListener;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static android.support.test.InstrumentationRegistry.getContext;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ExpanderTest {
 
@@ -42,7 +49,7 @@ public class ExpanderTest {
         resources = getInstrumentation().getContext().getResources();
         Espresso.registerIdlingResources(baseTestActivity.getIdlingResource());
         expander = (Expander) baseTestActivity.findViewById(com.philips.platform.uid.test.R.id.layout_expander_id_test);
-       // expander = new Expander(baseTestActivity);
+        // expander = new Expander(baseTestActivity);
         activity = baseTestActivity;
 
 
@@ -74,19 +81,18 @@ public class ExpanderTest {
     }
 
     @Test
-    public  void  verifyExpanderTitlePanelClickable(){
+    public void verifyExpanderTitlePanelClickable() {
         getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isClickable(true)));
     }
 
-
+    @Test
+    public void verifyExpanderTitlePanelMinHeight() {
+        int expectedMinHeight = resources.getDimensionPixelSize(R.dimen.uid_expander_view_panel_min_height);
+        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameViewMinHeight(expectedMinHeight)));
+    }
 
 
     // start of Expander content view test cases
-  /*  @Test
-    public void verifyExpanderContentViewWidth() {
-        int expectedStartMargin = resources.getDimensionPixelSize(ViewGroup.LayoutParams.MATCH_PARENT);
-        getExpanderContentView().check(matches(ViewPropertiesMatchers.isSameStartMargin(expectedStartMargin)));
-    }*/
 
     @Test
     public void verifyExpanderContentViewStartMargin() {
@@ -107,62 +113,157 @@ public class ExpanderTest {
     }
 
     @Test
-    public void verifyExpanderTitleContentViewBottomMargin() {
+    public void verifyExpanderContentViewBottomMargin() {
         int expectedBottomMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_view_content_margin_bottom);
         getExpanderContentView().check(matches(ViewPropertiesMatchers.isSameBottomMargin(expectedBottomMargin)));
     }
 
-   /* @Test
-    public void verifyExpanderTitleContentViewAutoHeight(){
-        getExpanderContentView().check(matches(ViewPropertiesMatchers.isSameViewHeight(ViewGroup.LayoutParams.WRAP_CONTENT)));
-    }*/
-
-
-
     @Test
-    public void verifyExpanderTitlePanelBottomDividerViewHeight(){
+    public void verifyExpanderContentViewAutoHeight() {
+      //  getExpanderContentView().check(matches(ViewPropertiesMatchers.isSameViewHeight(ViewGroup.LayoutParams.WRAP_CONTENT)));
+    }
+
+
+    // separator test case
+    @Test
+    public void verifyExpanderTitlePanelBottomDividerViewHeight() {
         int expectedHeight = resources.getDimensionPixelSize(R.dimen.uid_divider_Height);
         getExpanderTitlePanelBottomDivider().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
 
     @Test
-    public void verifyExpanderContentViewBottomDividerViewHeight(){
+    public void verifyExpanderContentViewBottomDividerViewHeight() {
         int expectedHeight = resources.getDimensionPixelSize(R.dimen.uid_divider_Height);
         getExpanderContentViewBottomDivider().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedHeight)));
     }
 
 
-
-
-
-
-   public void verifyExpanderExpand(){
-      activity.runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-              expander.setExpanderTitle("New title");
-              expander.setExpanderPanelIcon(resources.getString(R.string.dls_exclamationmark_24));
-              expander.expand(true);
-          }
-      });
-   }
-
-
-    // Test Expander as a control
-
-    // set icon and verify icon not hidden
     @Test
-    public  void testIconVisibility(){
-        expander.setExpanderPanelIcon(resources.getString(R.string.dls_exclamationmark_24));
-        Label leftIcon= (Label )expander.findViewById(com.philips.platform.uid.test.R.id.uid_expander_title_icon);
+    public void verifySeparatorVisibilityGone() {
 
-        //leftIcon.check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                expander.setSeparatorVisible(false);
+            }
+        });
+        getExpanderTitlePanelBottomDivider().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
+        getExpanderContentViewBottomDivider().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
+
 
     }
 
+    @Test
+    public void verifySeparatorVisibilityVisible() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                expander.setSeparatorVisible(true);
+            }
+        });
+        expander.setSeparatorVisible(true);
+        getExpanderTitlePanelBottomDivider().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
+        getExpanderContentViewBottomDivider().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
 
-    ////////////////////////
+    }
+
+    @Test
+    public void verifyExpanderExpand() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Label label = new Label(getContext());
+                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                label.setLayoutParams(paramsLabel);
+                label.setText("customise Expander Content ");
+                expander.setExpanderContentView(label);
+                expander.expand(true);
+            }
+        });
+        getExpanderContentView().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
+        assertEquals(true,expander.isExpanded());
+    }
+
+    @Test
+    public void verifyExpanderCustomHeader() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Label label = new Label(getContext());
+                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                label.setLayoutParams(paramsLabel);
+                label.setText("customise Expander title");
+                expander.setExpanderCustomPanelView(label);
+
+            }
+        });
+        LayoutInflater layoutInflater = (LayoutInflater)
+                getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+    }
+
+    @Test
+    public void verifyExpanderListenerCallBackForExpand() {
+        UIDExpanderListener uidExpanderListener = new UIDExpanderListener() {
+            @Override
+            public void expanderPanelExpanded() {
+                expander.setExpanderTitle("Expander expanded"); // call back will reset title text
+            }
+
+            @Override
+            public void expanderPanelCollapsed() {
+
+            }
+        };
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Label label = new Label(getContext());
+                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                label.setLayoutParams(paramsLabel);
+                label.setText("Expander content");
+                expander.setExpanderContentView(label);
+                expander.setExpanderTitle("Expander NOT expanded");
+                expander.setExpanderListener(uidExpanderListener);
+                expander.expand(true);// expand
+
+            }
+        });
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.hasSameText("Expander expanded")));
+    }
+
+    @Test
+    public void verifyExpanderListenerCallBackForCollapse() {
+        UIDExpanderListener uidExpanderListener = new UIDExpanderListener() {
+            @Override
+            public void expanderPanelExpanded() {
+            }
+
+            @Override
+            public void expanderPanelCollapsed() {
+                expander.setExpanderTitle("Expander collapsed"); // call back will reset title text
+            }
+        };
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Label label = new Label(getContext());
+                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                label.setLayoutParams(paramsLabel);
+                label.setText("Expander content");
+                expander.setExpanderContentView(label);
+                expander.setExpanderTitle("Expander NOT collapsed");
+                expander.setExpanderListener(uidExpanderListener);
+               // expander.expand(true); // expand
+                expander.expand(false); //collapse
+
+            }
+        });
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.hasSameText("Expander collapsed")));
+    }
+
     // Icon tests
     @Test
     public void verifyIconEndMargin() {
@@ -187,8 +288,20 @@ public class ExpanderTest {
         getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
     }
 
-    // Chevron tests
 
+    @Test
+    public void verifyIconVisibilityWhenSet() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                expander.setExpanderPanelIcon(resources.getString(R.string.dls_exclamationmark_24));
+            }
+        });
+        getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
+    }
+
+
+    // Chevron tests
 
     @Test
     public void verifyChevronFontSize() {
@@ -202,9 +315,40 @@ public class ExpanderTest {
         getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
+    @Test
+    public void verifyChevronFontTextWhenExpanded() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Label label = new Label(getContext());
+                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                label.setLayoutParams(paramsLabel);
+                label.setText("customise Expander title");
+                expander.setExpanderContentView(label);
+                expander.expand(true);
+            }
+        });
+        getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.hasSameText(resources.getString(R.string.dls_navigationup))));
+    }
+
+    @Test
+    public void verifyChevronFontTextWhenCollapsed() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Label label = new Label(getContext());
+                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                label.setLayoutParams(paramsLabel);
+                label.setText("customise Expander title");
+                expander.setExpanderContentView(label);
+                expander.expand(false);
+            }
+        });
+        getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.hasSameText(resources.getString(R.string.dls_navigationdown))));
+    }
+
 
     // Title tests
-    // test title text color
 
     @Test
     public void verifyTitleTextEndMargin() {
@@ -238,53 +382,58 @@ public class ExpanderTest {
     }
 
     @Test
-    public void verifyTitleTextMaximumLines(){
-
+    public void verifyTitleTextMaximumLines() {
         getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isSameMaxline(3)));
     }
 
+    @Test
+    public void verifyTitleTextDefault() { // default text should be null
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.hasSameText("")));
+    }
+
+    @Test
+    public void verifyTitleTextGravity() { // default text should be null
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isCenterVerticallyAligned()));
+    }
 
 
-
+    //////////start of view getters/////////
     private ViewInteraction getExpanderTitlePanelIcon() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_icon));
+        return onView(withId(R.id.uid_expander_title_icon));
     }
 
     private ViewInteraction getExpanderTitlePanelChevron() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_chevron));
+        return onView(withId(R.id.uid_expander_title_chevron));
     }
 
     private ViewInteraction getExpanderTitlePanelText() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_text));
+        return onView(withId(R.id.uid_expander_title_text));
     }
-    ////////////////////////////
-
 
 
     // returns Relative layout which is ViewGroup for Title panel view
     private ViewInteraction getExpanderTitlePanel() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_view_title));
+        return onView(withId(R.id.uid_expander_view_title));
     }
 
     // returns Relative layout which is ViewGroup for Content view
     private ViewInteraction getExpanderContentView() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_view_content));
+        return onView(withId(R.id.uid_expander_view_content));
     }
 
     // returns divider view below Title panel
     private ViewInteraction getExpanderTitlePanelBottomDivider() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_bottom_divider));
+        return onView(withId(R.id.uid_expander_title_bottom_divider));
     }
 
     // returns divider view below content view
     private ViewInteraction getExpanderContentViewBottomDivider() {
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_bottom_divider));
+        return onView(withId(R.id.uid_expander_title_bottom_divider));
     }
 
-    private ViewInteraction getExpanderContainer(){
-        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander));
+    private ViewInteraction getExpanderContainer() {
+        return onView(withId(R.id.uid_expander));
     }
-
-
+    //////////end of view getters/////////
 
 }

@@ -304,6 +304,7 @@
     <!--Expander panel-->
     <dimen name="uid_expander_view_title_margin_start_end">16dp</dimen>
     <dimen name="uid_expander_view_title_margin_top_bottom">12dp</dimen>
+    <dimen name="uid_expander_view_panel_min_height">24dp</dimen>
     <dimen name="uid_expander_view_title_min_height">24dp</dimen>
     <dimen name="uid_expander_view_content_margin_start_end">16dp</dimen>
     <dimen name="uid_expander_view_content_margin_bottom">16dp</dimen>

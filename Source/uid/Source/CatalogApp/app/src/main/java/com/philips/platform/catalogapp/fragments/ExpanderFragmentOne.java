@@ -73,7 +73,7 @@ public class ExpanderFragmentOne extends  BaseFragment{
         expanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_star));
         expanderOne.setExpanderTitle("Single line title");
         expanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
-        expanderOne.setExpanderDelegate(mUidExpanderListener);
+        expanderOne.setExpanderListener(mUidExpanderListener);
        ;
 
        //View contentView = getLayoutInflater().inflate(R.layout.fragment_expander_content_default_layout, relativeLayout, false);

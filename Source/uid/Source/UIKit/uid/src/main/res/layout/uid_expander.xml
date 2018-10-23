@@ -9,6 +9,7 @@
         android:id="@id/uid_expander_view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/uid_expander_view_panel_min_height"
         android:layout_marginBottom="@dimen/uid_expander_view_title_margin_top_bottom"
         android:layout_marginStart="@dimen/uid_expander_view_title_margin_start_end"
         android:layout_marginEnd="@dimen/uid_expander_view_title_margin_start_end"
