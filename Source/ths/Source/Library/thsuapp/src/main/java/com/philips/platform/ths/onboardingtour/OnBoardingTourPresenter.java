@@ -7,7 +7,10 @@ package com.philips.platform.ths.onboardingtour;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
+import com.philips.platform.ths.registration.THSRegistrationFragment;
+import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.utility.THSTagUtils;
+import com.philips.platform.ths.welcome.THSWelcomeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +19,12 @@ import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_1;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_2;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_3;
 import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_4;
+import static com.philips.platform.ths.utility.THSConstants.ON_BOARDING_PAGE_5;
+import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
+import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
 
-class OnBoardingTourPresenter implements THSBasePresenter {
+public class OnBoardingTourPresenter implements THSBasePresenter {
     public static final String TAG = OnBoardingTourPresenter.class.getSimpleName();
 
     private OnBoardingTourFragment onBoardingTourFragment;
@@ -31,75 +37,71 @@ class OnBoardingTourPresenter implements THSBasePresenter {
     public void onEvent(final int componentID) {
 
 
-        if(componentID == R.id.welcome_rightarrow){
+        if (componentID == R.id.welcome_rightarrow) {
 
         }
-        if(componentID == R.id.welcome_leftarrow){
+        if (componentID == R.id.welcome_leftarrow) {
 
         }
-        if(componentID == R.id.welcome_start_registration_button){
-            launchPreWelcomeScreen();
+        if (componentID == R.id.welcome_skip_button) {
+            launchTermsAndConditionsScreen();
         }
-        if(componentID == R.id.welcome_skip_button){
-            launchPreWelcomeScreen();
+        if (componentID == R.id.btn_startnow) {
+            launchTermsAndConditionsScreen();
+        }
+        if(componentID == R.id.btn_termsConditions){
+            if (THSManager.getInstance().isReturningUser()) {
+                THSWelcomeFragment thsWelcomeFragment = new THSWelcomeFragment();
+                onBoardingTourFragment.addFragment(thsWelcomeFragment, THSWelcomeFragment.TAG, null, false);
+            } else {
+                THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
+                onBoardingTourFragment.addFragment(thsRegistrationFragment, THSRegistrationFragment.TAG, null, false);
+            }
         }
     }
 
     List<OnBoardingTourContentModel> createOnBoardingContent() {
 
-        List<OnBoardingTourContentModel> onBoardingTourContentModelList=new ArrayList<>();
+        List<OnBoardingTourContentModel> onBoardingTourContentModelList = new ArrayList<>();
         OnBoardingTourContentModel onBoardingTourContentModel1 = createOnBoardingTourContentModel1();
         OnBoardingTourContentModel onBoardingTourContentModel2 = createOnBoardingTourContentModel2();
         OnBoardingTourContentModel onBoardingTourContentModel3 = createOnBoardingTourContentModel3();
         OnBoardingTourContentModel onBoardingTourContentModel4 = createOnBoardingTourContentModel4();
+        OnBoardingTourContentModel onBoardingTourContentModel5 = createOnBoardingTourContentModel5();
 
         onBoardingTourContentModelList.add(onBoardingTourContentModel1);
         onBoardingTourContentModelList.add(onBoardingTourContentModel2);
         onBoardingTourContentModelList.add(onBoardingTourContentModel3);
         onBoardingTourContentModelList.add(onBoardingTourContentModel4);
+        onBoardingTourContentModelList.add(onBoardingTourContentModel5);
 
         return onBoardingTourContentModelList;
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel1() {
-        List<OnBoardingSpanValue> spanValues = new ArrayList<>();
-        spanValues.add(new OnBoardingSpanValue(0, 64, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(65, onBoardingTourFragment.getString(R.string.ths_onboarding_one_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        return new OnBoardingTourContentModel(R.string.ths_onboarding_one_text, R.mipmap.onboarding_tour_one, spanValues, ON_BOARDING_PAGE_1);
-
+        final OnBoardingTourContentModel onBoardingTourContentModel = new OnBoardingTourContentModel(R.string.ths_onboarding_one_text, R.mipmap.onboarding_tour_one, ON_BOARDING_PAGE_1, R.string.ths_onboarding_title_one);
+        onBoardingTourContentModel.setIsAmwellLogoVisible(true);
+        return onBoardingTourContentModel;
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel2() {
-        List<OnBoardingSpanValue> spanValues = new ArrayList<>();
-        spanValues.add(new OnBoardingSpanValue(0, 23, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(25, 52, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(53, 65, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(66, 73, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(75, onBoardingTourFragment.getString(R.string.ths_onboarding_two_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        return new OnBoardingTourContentModel(R.string.ths_onboarding_two_text, R.mipmap.onboarding_tour_two, spanValues, ON_BOARDING_PAGE_2);
+        return new OnBoardingTourContentModel(R.string.ths_onboarding_two_text, R.mipmap.onboarding_tour_two, ON_BOARDING_PAGE_2, R.string.ths_onboarding_title_two);
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel3() {
-        List<OnBoardingSpanValue> spanValues = new ArrayList<>();
-        spanValues.add(new OnBoardingSpanValue(0, 31, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(32, 53, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(55, 100, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(101, onBoardingTourFragment.getString(R.string.ths_onboarding_three_text).length(), OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        return new OnBoardingTourContentModel(R.string.ths_onboarding_three_text, R.mipmap.onboarding_tour_three, spanValues, ON_BOARDING_PAGE_3);
+        return new OnBoardingTourContentModel(R.string.ths_onboarding_three_text, R.mipmap.onboarding_tour_three, ON_BOARDING_PAGE_3, R.string.ths_onboarding_title_three);
     }
 
     private OnBoardingTourContentModel createOnBoardingTourContentModel4() {
-        List<OnBoardingSpanValue> spanValues = new ArrayList<>();
-        spanValues.add(new OnBoardingSpanValue(0, 28, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(29, 35, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        spanValues.add(new OnBoardingSpanValue(36, 43, OnBoardingSpanValue.OnBoardingTypeface.BOOK));
-        spanValues.add(new OnBoardingSpanValue(44, onBoardingTourFragment.getString(R.string.ths_onboarding_four_text).length()-1, OnBoardingSpanValue.OnBoardingTypeface.BOLD));
-        return new OnBoardingTourContentModel(R.string.ths_onboarding_four_text, R.mipmap.onboarding_tour_four, spanValues, ON_BOARDING_PAGE_4);
+        return new OnBoardingTourContentModel(R.string.ths_onboarding_four_text, R.mipmap.onboarding_tour_four, ON_BOARDING_PAGE_4, R.string.ths_onboarding_title_four);
     }
 
-    private void launchPreWelcomeScreen() {
-        onBoardingTourFragment.popSelfBeforeTransition();
-        THSPreWelcomeFragment thsPreWelcomeFragment = new THSPreWelcomeFragment();
-        onBoardingTourFragment.addFragment(thsPreWelcomeFragment, THSPreWelcomeFragment.TAG, null, false);
+    private OnBoardingTourContentModel createOnBoardingTourContentModel5() {
+        return new OnBoardingTourContentModel(R.string.ths_onboarding_four_text, 0, ON_BOARDING_PAGE_5, 0);
+    }
+
+    private void launchTermsAndConditionsScreen() {
+        THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA,THS_SPECIAL_EVENT,"skipOnboarding");
+        onBoardingTourFragment.setCurrent();
     }
 }

@@ -17,7 +17,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -55,7 +54,7 @@ public class THSVisitHistoryFragmentTest {
     private VisitReport visitReportMock;
 
     @Mock
-    private THSConsumerWrapper thsConsumerWrapperMock;
+    private Consumer thsConsumerWrapperMock;
 
     @Mock
     private THSConsumer thsConsumerMock;
@@ -101,8 +100,7 @@ public class THSVisitHistoryFragmentTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
 
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);

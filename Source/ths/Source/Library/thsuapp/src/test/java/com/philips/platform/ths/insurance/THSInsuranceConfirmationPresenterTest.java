@@ -8,7 +8,6 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.insurance.SubscriptionUpdateRequest;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -50,7 +49,7 @@ public class THSInsuranceConfirmationPresenterTest {
     Consumer consumerMoxk;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    Consumer thsConsumerWrapperMock;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -85,7 +84,7 @@ public class THSInsuranceConfirmationPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMoxk);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);

@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,9 +42,9 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -113,7 +114,7 @@ public class THSProvidersListFragmentTest {
     SwipeRefreshLayout swipeRL;
 
     @Mock
-    THSConsumerWrapper thsConsumerMock;
+    Consumer thsConsumerMock;
 
     @Mock
     THSProviderListPresenter thsProviderListPresenterMock;
@@ -211,13 +212,25 @@ public class THSProvidersListFragmentTest {
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
+    @Mock
+    private Button doctorActionBarMock;
+
+    @Mock
+    private Button selectDoctorActionBarMock;
+
+    @Mock
+    private Button scheduleDoctorActionBarMock;
+
+    @Mock
+    private LinearLayout doctorAvailableActionBarMock;
+
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+        THSManager.getInstance().setConsumer(thsConsumerMock);
 
         THSManager.getInstance().setThsConsumer(thsConsumer);
         THSManager.getInstance().setThsParentConsumer(thsConsumer);
@@ -251,8 +264,6 @@ public class THSProvidersListFragmentTest {
         pv = ProviderVisibility.WEB_AVAILABLE;
         thsProviderInfoMock.setTHSProviderInfo(providerInfoMock);
         list = new ArrayList();
-        myViewHolderMock.isAvailableStatus = imageView;
-        myViewHolderMock.providerPatientWaitingCount = patientWaitingCount;
         myViewHolderMock.isAvailble = textViewIsAvailable;
         myViewHolderMock.name = tvName;
         myViewHolderMock.providerRating = ratingBarMock;
@@ -260,6 +271,12 @@ public class THSProvidersListFragmentTest {
         myViewHolderMock.notificationBadge = nbMock;
         myViewHolderMock.relativeLayout = relativeLayoutMock;
         myViewHolderMock.relativeLayout.setOnClickListener(onClickListenerMock);
+        myViewHolderMock.doctorSelectActionBar = doctorActionBarMock;
+        myViewHolderMock.doctorScheduleActionBar = doctorActionBarMock;
+        myViewHolderMock.scheduleDoctorButton = scheduleDoctorActionBarMock;
+        myViewHolderMock.selectDoctorButton = selectDoctorActionBarMock;
+        myViewHolderMock.doctorAvailableActionBar = doctorAvailableActionBarMock;
+
     }
 
     @Test
@@ -270,6 +287,7 @@ public class THSProvidersListFragmentTest {
 
     @Test
     public void testProviderListPresenter() throws AWSDKInstantiationException {
+        when(thsConsumer.getConsumer()).thenReturn(null);
         SupportFragmentTestUtil.startFragment(thsProvidersListFragment);
         when(thsProviderListPresenterMock.getPthManager()).thenReturn(thsManager);
         when(thsProvidersListFragmentMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
@@ -292,12 +310,6 @@ public class THSProvidersListFragmentTest {
 
     }
 
-    @Test
-    public void testOnEventGetStartedInPresenter() {
-        SupportFragmentTestUtil.startFragment(thsProvidersListFragment);
-        thsProviderListPresenter.onEvent(R.id.getStartedButton);
-        verify(practiseprovidermanagerMock).getOnDemandSpecialties((Consumer)isNull(),(PracticeInfo)isNull(), (String)isNull(), any(SDKCallback.class));
-    }
 
     @Test(expected = NullPointerException.class)
     public void testOnEventLaunchAppointmentInPresenter() {
@@ -343,22 +355,23 @@ public class THSProvidersListFragmentTest {
         when(providerInfoMock.getSpecialty()).thenReturn(pt);
         when(providerInfoMock.hasImage()).thenReturn(true);
         when(thsProvidersListAdapterMock.getName(thsProviderInfoMock)).thenReturn("test");
-        when(imageView.getContext()).thenReturn(fragmentActivityMock);
+        when(textViewIsAvailable.getContext()).thenReturn(fragmentActivityMock);
         when(fragmentActivityMock.getResources()).thenReturn(resources);
+        when(textViewIsAvailable.getResources()).thenReturn(resources);
         when(resources.getString(R.string.ths_provider_available)).thenReturn("Available now");
-        thsProvidersListAdapter = new THSProvidersListAdapter(list);
+        thsProvidersListAdapter = new THSProvidersListAdapter(list, practice);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Available now");
         pv = ProviderVisibility.OFFLINE;
         when(thsProviderInfoMock.getVisibility()).thenReturn(pv);
         when(resources.getString(R.string.ths_provider_available_for_appointment)).thenReturn("Schedule appointment");
-        thsProvidersListAdapter = new THSProvidersListAdapter(list);
+        thsProvidersListAdapter = new THSProvidersListAdapter(list, practice);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Schedule appointment");
         pv = ProviderVisibility.WEB_BUSY;
         when(thsProviderInfoMock.getVisibility()).thenReturn(pv);
         when(resources.getString(R.string.ths_provider_occupied)).thenReturn("Patient waiting");
-        thsProvidersListAdapter = new THSProvidersListAdapter(list);
+        thsProvidersListAdapter = new THSProvidersListAdapter(list, practice);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.isAvailble,atLeastOnce()).setText("Patient waiting");
         when(thsProviderInfoMock.getWaitingRoomCount()).thenReturn(1);
@@ -383,7 +396,7 @@ public class THSProvidersListFragmentTest {
         when(textViewIsAvailable.getContext()).thenReturn(fragmentActivityMock);
         when(fragmentActivityMock.getResources()).thenReturn(resources);
         when(resources.getString(R.string.ths_provider_list_timeslot)).thenReturn("Available time-slots");
-        thsProvidersListAdapter = new THSProvidersListAdapter(list);
+        thsProvidersListAdapter = new THSProvidersListAdapter(list, practice);
         thsProvidersListAdapter.onBindViewHolder(myViewHolderMock, 0);
         verify(myViewHolderMock.relativeLayout, atLeastOnce()).setOnClickListener(any(View.OnClickListener.class));
 

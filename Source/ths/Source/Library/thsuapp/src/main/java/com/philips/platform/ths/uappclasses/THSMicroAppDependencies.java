@@ -30,5 +30,12 @@ public class THSMicroAppDependencies extends UappDependencies {
     public void setThsConsumer(THSConsumer thsConsumer){
         THSManager.getInstance().setThsParentConsumer(thsConsumer);
     }
+    public void setOnBoradingABFlow(String onBoradingABFlow){
+        THSManager.getInstance().setOnBoradingABFlow(onBoradingABFlow);
+    }
+
+ public void setProviderListABFlow(String providerListABFlow){
+        THSManager.getInstance().setProviderListABFlow(providerListABFlow);
+    }
 
 }

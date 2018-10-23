@@ -163,10 +163,6 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
                 mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTIC_FETCH_PROVIDER, sdkError));
             } else {
                 ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
-                try {
-                    THSManager.getInstance().fetchEstimatedVisitCost(mThsBaseFragment.getContext(), provider, this);
-                } catch (AWSDKInstantiationException e) {
-                }
                 getProviderAvailability(provider);
             }
         }
@@ -212,7 +208,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
             } else {
                 AmwellLog.e("createAppointment",sdkError.toString());
                 if (sdkError.getSDKErrorReason() != null && sdkError.getSDKErrorReason() != null) {
-                    if (sdkError.getSDKErrorReason() == VALIDATION_BAD_ENUM) {
+                    if (sdkError.getSDKErrorReason().equalsIgnoreCase(VALIDATION_BAD_ENUM)) {
                         mThsBaseFragment.showError(mThsBaseFragment.getString(R.string.ths_appointment_invalid_reminder));
                     } else {
                         mThsBaseFragment.showError(THSSDKErrorFactory.getErrorType(mThsBaseFragment.getContext(), ANALYTICS_SCHEDULE_APPOINTMENT, sdkError));
@@ -235,7 +231,7 @@ class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProvid
 
     @Override
     public void onEstimatedCostFetchSuccess(EstimatedVisitCost estimatedVisitCost, SDKError sdkError) {
-        mthsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
+      //  mthsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
     }
 
     @Override

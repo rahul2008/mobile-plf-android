@@ -48,7 +48,6 @@ import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.intake.THSSearchFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -92,7 +91,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected boolean isListSelected = false;
     private Button choosePharmacyButton;
     private Pharmacy pharmacy;
-    protected THSConsumerWrapper thsConsumerWrapper;
+    protected Consumer thsConsumerWrapper;
     protected Address address;
     private Location location;
     private ActionBarListener actionBarListener;
@@ -150,7 +149,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
 
-    public void setConsumerAndAddress(THSConsumerWrapper thsConsumerWrapper, Address address) {
+    public void setConsumerAndAddress(Consumer thsConsumerWrapper, Address address) {
         this.thsConsumerWrapper = thsConsumerWrapper;
         this.address = address;
     }
@@ -225,7 +224,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             mapFragment = new SupportMapFragment();
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.pharmacymap, mapFragment, THSConstants.THS_MAP_FRAGMENT_TAG);
-            ft.commit();
+            ft.commitAllowingStateLoss();
             fm.executePendingTransactions();
         }
         mapFragment.getMapAsync(this);
@@ -425,7 +424,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
     public void launchInsuranceCostSummary() {
-        Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
+        Consumer consumer = THSManager.getInstance().getConsumer(getContext());
         if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             addFragment(fragment, THSCostSummaryFragment.TAG, null, true);

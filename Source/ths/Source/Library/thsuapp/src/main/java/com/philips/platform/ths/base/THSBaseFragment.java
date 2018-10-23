@@ -31,7 +31,6 @@ import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSNetworkStateListener;
 import com.philips.platform.ths.utility.THSTagUtils;
-import com.philips.platform.ths.welcome.THSPreWelcomeFragment;
 import com.philips.platform.ths.welcome.THSWelcomeBackFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -149,6 +148,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             fragment.setArguments(bundle);
             if (null == getFragmentLauncher()) {
                 popFragmentByTag(THSWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                return;
             }
             fragment.setFragmentLauncher(getFragmentLauncher());
             fragment.setActionBarListener(getActionBarListener());
@@ -168,7 +168,9 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
 
     @Override
     public void popFragmentByTag(String fragmentTag, int flag) {
-        getFragmentActivity().getSupportFragmentManager().popBackStack(fragmentTag, flag);
+        if(isFragmentAttached()) {
+            getFragmentActivity().getSupportFragmentManager().popBackStack(fragmentTag, flag);
+        }
     }
 
     public void createCustomProgressBar(ViewGroup group, int size) {
@@ -304,7 +306,6 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
             Fragment welComeFragment = fragmentManager.findFragmentByTag(THSWelcomeFragment.TAG);
             Fragment welComeBackFragment = fragmentManager.findFragmentByTag(THSWelcomeBackFragment.TAG);
             Fragment tHSInitFragment = fragmentManager.findFragmentByTag(THSInitFragment.TAG);
-            Fragment thsPreWelcomeFragment = fragmentManager.findFragmentByTag(THSPreWelcomeFragment.TAG);
             Fragment thsTHSScheduledVisitsFragment = fragmentManager.findFragmentByTag(THSScheduledVisitsFragment.TAG);
 
             if (welComeFragment != null) {
@@ -315,8 +316,6 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
                 fragmentManager.popBackStack(THSWelcomeBackFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             } else if (tHSInitFragment != null) {
                 fragmentManager.popBackStack(THSInitFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            } else if (thsPreWelcomeFragment != null) {
-                fragmentManager.popBackStack(THSPreWelcomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
         THSTagUtils.doExitToPropositionWithCallBack();
@@ -348,7 +347,10 @@ public class THSBaseFragment extends Fragment implements THSBaseView, BackEventL
         }
     }
 
-    public String getStringFromResource(int resource){
-        return getContext().getString(resource);
+    public String getStringFromFragment(int Id){
+        if(isFragmentAttached()){
+            return getString(Id);
+        }
+        return null;
     }
 }

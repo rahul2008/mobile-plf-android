@@ -154,6 +154,12 @@ public class THSPracticePresenterTest {
                 return null;
             }
 
+            @Nullable
+            @Override
+            public String getMiddleName() {
+                return null;
+            }
+
             @NonNull
             @Override
             public String getLastName() {

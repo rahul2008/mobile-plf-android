@@ -36,7 +36,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.insurance.THSSubscription;
 import com.philips.platform.ths.payment.THSPaymentMethod;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
@@ -114,10 +114,10 @@ public class THSCostSummaryPresenterTest {
     THSSDKError thssdkErrorMock;
 
     @Mock
-    SDKError sdkErrorMock;
+    THSConsumer thsConsumerMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    SDKError sdkErrorMock;
 
     @Mock
     Consumer consumerMock;
@@ -162,8 +162,7 @@ public class THSCostSummaryPresenterTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
 
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
+
         when(thssdkErrorMock.getSdkError()).thenReturn(sdkErrorMock);
 
         when(thsCostSummaryFragmentMock.getThsVisit()).thenReturn(thsVisitMock);
@@ -187,6 +186,10 @@ public class THSCostSummaryPresenterTest {
         when(appInfraInterfaceMock.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
 
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
+        THSManager.getInstance().setConsumer(consumerMock);
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(consumerMock.getEmail()).thenReturn("emailId");
         when(thsCostSummaryFragmentMock.getThsVisit()).thenReturn(thsVisitMock);
         when(thsVisitMock.getVisit()).thenReturn(visitMock);
         mTHSCostSummaryPresenter = new THSCostSummaryPresenter(thsCostSummaryFragmentMock);

@@ -235,7 +235,11 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
                 }
                 CartModelContainer.getInstance().setAddressIdFromDelivery(null);
             } else {
-                CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
+                if(shippingAddressFields!=null) {
+                    CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
+                }else{
+                    shippingAddressFields =  CartModelContainer.getInstance().getShippingAddressFields();
+                }
                 addressPresenter.createAddress(shippingAddressFields);
             }
         } else {

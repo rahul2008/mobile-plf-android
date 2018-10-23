@@ -10,5 +10,5 @@ import com.philips.platform.ths.providerdetails.THSProviderEntity;
 
 
 public interface OnProviderListItemClickListener {
-    void onItemClick(THSProviderEntity item);
+    void onItemClick(THSProviderEntity item, int viewID);
 }

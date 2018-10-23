@@ -29,13 +29,11 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -47,7 +45,6 @@ import java.util.Set;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -84,7 +81,7 @@ public class THSSearchPresenterTest {
     private SDKError sdkErrorMock;
 
     @Mock
-    private THSConsumerWrapper thsConsumerWrapperMock;
+    private Consumer thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;
@@ -127,7 +124,7 @@ public class THSSearchPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(thsSearchFragment.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
@@ -141,7 +138,6 @@ public class THSSearchPresenterTest {
         THSManager.getInstance().setThsConsumer(thsConsumer);
         when(thsConsumer.getConsumer()).thenReturn(consumerMock);
         THSManager.getInstance().setThsParentConsumer(thsConsumer);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManager);
         mTHSSearchPresenter = new THSSearchPresenter(thsSearchFragment);

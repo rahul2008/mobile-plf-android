@@ -8,7 +8,6 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -32,7 +31,7 @@ public class THSPharmacyAndShippingPresenterTest {
     THSPharmacyShippingViewInterface thsPharmacyShippingViewInterface;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapper;
+    Consumer thsConsumerWrapper;
 
     @Mock
     Consumer consumer;
@@ -52,8 +51,7 @@ public class THSPharmacyAndShippingPresenterTest {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
-        when(thsConsumerWrapper.getConsumer()).thenReturn(consumer);
+        THSManager.getInstance().setConsumer(thsConsumerWrapper);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumer);
         THSManager.getInstance().setThsParentConsumer(thsConsumerMock);

@@ -79,7 +79,7 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.launch_amwell){
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, DemoMainActivity.class);
             startActivity(intent);
         }if(id == R.id.logout){
             mProgress.setVisibility(View.VISIBLE);

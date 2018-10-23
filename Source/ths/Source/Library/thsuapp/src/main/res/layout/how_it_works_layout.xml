@@ -15,9 +15,9 @@
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:layout_marginStart="@dimen/ths_fab_margin"
         android:gravity="center_vertical"
-        android:text="@string/dls_information"
+        android:text="@string/dls_infocircle"
         android:textAlignment="center"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
+        android:textColor="?attr/uidContentItemTertiaryNormalIconColor" />
 
 
     <com.philips.platform.uid.view.widget.Label
@@ -47,7 +47,7 @@
         android:gravity="center_vertical"
         android:text="@string/dls_navigationright"
         android:textAlignment="center"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
+        android:textColor="?attr/uidContentItemTertiaryNormalIconColor" />
 
     <View
         android:layout_width="match_parent"

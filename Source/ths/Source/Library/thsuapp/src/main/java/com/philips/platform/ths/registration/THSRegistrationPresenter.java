@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_ENROLLMENT_MANGER;
 import static com.philips.platform.ths.utility.THSConstants.THS_ANALYTICS_ENROLLMENT_MISSING;
 
-public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <THSConsumerWrapper, SDKError>, THSEditUserDetailsCallBack<Consumer,SDKError>{
+public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidatedCallback <Consumer, SDKError>, THSEditUserDetailsCallBack<Consumer,SDKError>{
 
     private THSBaseFragment mTHSBaseFragment;
     private static String NAME_REGEX = "[A-Z0-9a-z\\s]{2,25}";
@@ -74,7 +74,7 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     }
 
     @Override
-    public void onResponse(THSConsumerWrapper thsConsumerWrapper, SDKError sdkPasswordError) {
+    public void onResponse(Consumer thsConsumerWrapper, SDKError sdkPasswordError) {
         if (null != mTHSBaseFragment && mTHSBaseFragment.isFragmentAttached()) {
             ((THSRegistrationFragment) mTHSBaseFragment).mContinueButton.hideProgressIndicator();
             if (null!=sdkPasswordError && sdkPasswordError.getSDKErrorReason() != null) {
@@ -234,7 +234,9 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
     @Override
     public void onEditUserDataResponse(Consumer var1, SDKError var2) {
         dismissProgress();
-        mTHSBaseFragment.getFragmentManager().popBackStack();
+        if(mTHSBaseFragment.getFragmentManager()!=null) {
+            mTHSBaseFragment.getFragmentManager().popBackStack();
+        }
     }
 
     @Override

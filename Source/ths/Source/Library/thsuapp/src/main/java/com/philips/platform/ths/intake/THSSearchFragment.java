@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.americanwell.sdk.entity.SDKEntity;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -231,7 +229,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
         pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
         pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
-        pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer(getContext()).getConsumer(), practice);
+        pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getConsumer(getContext()), practice);
         pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null, true);
 
