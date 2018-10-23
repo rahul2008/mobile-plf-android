@@ -16,19 +16,10 @@ import com.philips.platform.uid.view.widget.UIDExpanderListener;
 
 public class ExpanderFragmentOne extends  BaseFragment{
     UIDExpanderListener mUidExpanderListener = new UIDExpanderListener() {
-        @Override
-        public void expanderPanelBeginExpanding() {
-            Log.v("Expand","expanderPanelBeginExpanding");
-        }
 
         @Override
         public void expanderPanelExpanded() {
             Log.v("Expand","expanderPanelExpanded");
-        }
-
-        @Override
-        public void expanderPanelBeginCollapsing() {
-            Log.v("Expand","expanderPanelBeginCollapsing");
         }
 
         @Override

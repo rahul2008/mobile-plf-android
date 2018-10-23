@@ -309,9 +309,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
     private void showContentView() {
-        if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
-            uidExpanderListener.expanderPanelBeginExpanding(); // expand start callback
-        }
+
         titleBottomSeparator.setVisibility(GONE);
         ExpanderViewContent.setVisibility(View.VISIBLE);
         if (isSeperatorVisibile()) {
@@ -324,9 +322,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
     private void hideContentView() {
-        if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
-            uidExpanderListener.expanderPanelBeginCollapsing(); // collapse start callback
-        }
+
         ExpanderViewContent.setVisibility(View.GONE);
         contentBottomSeparator.setVisibility(GONE);
         if (isSeperatorVisibile()) {
