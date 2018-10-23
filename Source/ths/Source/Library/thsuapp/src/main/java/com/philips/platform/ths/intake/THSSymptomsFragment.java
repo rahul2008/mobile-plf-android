@@ -37,6 +37,7 @@ import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.visit.Appointment;
 import com.americanwell.sdk.entity.visit.Topic;
+import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -49,7 +50,6 @@ import com.philips.platform.ths.intake.selectimage.THSSelectedImageFragment;
 import com.philips.platform.ths.intake.selectimage.THSSelectedImagePojo;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
@@ -86,7 +86,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private ImageButton camera_button;
     protected Button mContinue;
     private RelativeLayout mRelativeLayout, ths_symptoms_relative_layout, ths_camera_image_list_layout;
-    protected THSVisitContext mThsVisitContext;
     private String userChosenTask;
     private RecyclerView imageListView;
     private THSImageRecyclerViewAdapter thsImageRecyclerViewAdapter;
@@ -97,12 +96,10 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     private Uri mCapturedImageURI;
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
-    private THSConsumerWrapper thsConsumerWrapper;
     private THSSelectedImageFragment thsSelectedImageFragment;
     private ArrayList<DocumentRecord> documentRecordList;
     private THSFileUtils thsFileUtils;
     private EditText additional_comments_edittext;
-    private String UPLOAD_DOC_IMAGE_LIST = "UPLOAD_DOC_IMAGE_LIST";
     private Provider mProvider;
     protected String tagActions = "";
     public static long visitStartTime;
@@ -185,10 +182,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         return view;
     }
 
-    public void setConsumerObject(THSConsumerWrapper thsConsumerWrapper) {
-        this.thsConsumerWrapper = thsConsumerWrapper;
-    }
-
     @Override
     public boolean handleBackEvent() {
         if(!THSManager.getInstance().isMatchMakingVisit()) {
@@ -198,23 +191,22 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     }
 
     protected void getVisitContext() {
-        if (mThsVisitContext == null) {
+        if (THSManager.getInstance().getVisitContext() == null) {
             createCustomProgressBar(mRelativeLayout, BIG);
             mContinue.setEnabled(false);
-            if (null != appointment) {
+            if (null != appointment)    {
                 thsSymptomsPresenter.getVisitContext(appointment);
             } else if (mThsProviderInfo != null || mProvider != null) {
                 thsSymptomsPresenter.getVisitContext();
             }
         } else {
             mContinue.setEnabled(true);
-            addTopicsToView(THSManager.getInstance().getPthVisitContext());
+            addTopicsToView(THSManager.getInstance().getVisitContext());
         }
     }
 
-    public void addTopicsToView(THSVisitContext visitContext) {
+    public void addTopicsToView(VisitContext visitContext) {
         ths_symptoms_relative_layout.setVisibility(View.VISIBLE);
-        mThsVisitContext = visitContext;
         Typeface typeface = getTypeface();
         if (getContext() != null) {
             List<Topic> topics = visitContext.getTopics();
@@ -272,9 +264,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
     protected void updateOtherTopic() {
         if (isOtherTopicValid()) {
-            mThsVisitContext.setOtherTopic(additional_comments_edittext.getText().toString());
-
-            THSManager.getInstance().setVisitContext(mThsVisitContext);
+            THSManager.getInstance().getVisitContext().setOtherTopic(additional_comments_edittext.getText().toString());
         }
     }
 
@@ -305,7 +295,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
 
         }
         if (otherTopicEnabled) {
-            return mThsVisitContext != null && additional_comments_edittext != null && !additional_comments_edittext.getText().toString().isEmpty();
+            return THSManager.getInstance().getVisitContext() != null && additional_comments_edittext != null && !additional_comments_edittext.getText().toString().isEmpty();
         } else {
             return false;
         }
@@ -558,7 +548,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
         this.selectedImagePojoList = selectedImagePojoList;
         thsImageRecyclerViewAdapter.notifyDataSetChanged();
         imageListView.setAdapter(thsImageRecyclerViewAdapter);
-        thsSelectedImageFragment.dismiss();
+        thsSelectedImageFragment.dismissAllowingStateLoss();
 
     }
 

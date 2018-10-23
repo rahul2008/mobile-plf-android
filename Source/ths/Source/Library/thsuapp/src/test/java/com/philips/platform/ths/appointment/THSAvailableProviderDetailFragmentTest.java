@@ -299,13 +299,6 @@ public class THSAvailableProviderDetailFragmentTest {
     }
 
     @Test
-    public void updateEstimatedCost() throws Exception {
-        mThsAvailableProviderDetailFragment.thsProviderDetailsDisplayHelper = thsProviderDetailsDisplayHelperMock;
-        mThsAvailableProviderDetailFragment.updateEstimatedCost(estimatedVisitCostMock);
-        verify(thsProviderDetailsDisplayHelperMock).updateEstimateCost(estimatedVisitCostMock);
-    }
-
-    @Test
     public void getReminderOptions_ONE_WEEK() throws Exception {
         mThsAvailableProviderDetailFragment.remindOptions = RemindOptions.ONE_WEEK;
         final String reminderOptions = mThsAvailableProviderDetailFragment.getReminderOptions();

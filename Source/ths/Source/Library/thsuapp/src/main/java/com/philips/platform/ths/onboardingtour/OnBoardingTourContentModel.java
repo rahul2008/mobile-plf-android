@@ -1,45 +1,45 @@
 package com.philips.platform.ths.onboardingtour;
 
-import java.util.List;
-
 class OnBoardingTourContentModel {
 
     private int tourPageTextId;
     private int tourBackgroundDrawable;
-    private List<OnBoardingSpanValue> spanValues;
+    private boolean isAmwellLogoVisible;
 
-    public String getPageTitle() {
+    private int title;
+
+    String getPageTitle() {
         return pageTitle;
     }
 
     private final String pageTitle;
 
 
-    OnBoardingTourContentModel(int tourPageTextId, int tourBackgroundDrawable, List<OnBoardingSpanValue> spanValues, String pageTitle) {
+    OnBoardingTourContentModel(int tourPageTextId, int tourBackgroundDrawable, String pageTitle, int title) {
         this.tourPageTextId = tourPageTextId;
         this.tourBackgroundDrawable = tourBackgroundDrawable;
-        this.spanValues = spanValues;
         this.pageTitle = pageTitle;
-    }
-
-    List<OnBoardingSpanValue> getSpanValues() {
-        return spanValues;
+        this.title = title;
+        this.setIsAmwellLogoVisible(false);
     }
 
     int getTourPageTextId() {
         return tourPageTextId;
     }
 
-    public void setTourPageTextId(int tourPageTextId) {
-        this.tourPageTextId = tourPageTextId;
-    }
-
     int getTourBackgroundDrawable() {
         return tourBackgroundDrawable;
     }
 
-    public void setTourBackgroundDrawable(int tourBackgroundDrawable) {
-        this.tourBackgroundDrawable = tourBackgroundDrawable;
+    boolean getIsAmwellLogoVisible() {
+        return isAmwellLogoVisible;
     }
 
+    void setIsAmwellLogoVisible(boolean isAmwellLogoVisible) {
+        this.isAmwellLogoVisible = isAmwellLogoVisible;
+    }
+
+    int getTitleId() {
+        return title;
+    }
 }

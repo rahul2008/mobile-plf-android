@@ -12,4 +12,10 @@
     <declare-styleable name="Theme">
         <attr name="circularImageViewStyle" format="reference"></attr>
     </declare-styleable>
+
+    <declare-styleable name="thsCenterIconButton">
+        <attr name="drawableTint" format="color"/>
+        <attr name="android:drawablePadding"/>
+    </declare-styleable>
+
 </resources>

@@ -6,25 +6,15 @@
 
 package com.philips.platform.ths.appointment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
-import com.americanwell.sdk.entity.Authentication;
-import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKLocalDate;
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.provider.AvailableProviders;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
-import com.americanwell.sdk.manager.SDKCallback;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -33,22 +23,15 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.init.THSInitFragment;
-import com.philips.platform.ths.init.THSInitPresenter;
-import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.view.widget.ProgressBar;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
@@ -59,68 +42,79 @@ import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static com.philips.platform.ths.utility.THSConstants.THS_AVAILABLE_PROVIDER_LIST;
 import static com.philips.platform.ths.utility.THSConstants.THS_PRACTICE_INFO;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doThrow;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSAvailableProviderListBasedOnDateFragmentTest {
 
-    THSAvailableProviderListBasedOnDateFragment mTHSAvailableProviderListBasedOnDateFragment;
+    private THSAvailableProviderListBasedOnDateFragment mTHSAvailableProviderListBasedOnDateFragment;
 
     @Mock
+    private
     Date dateMock;
 
     @Mock
+    private
     Practice practiceMock;
 
     @Mock
+    private
     THSAvailableProviderList thsAvailableProviderList;
 
     @Mock
+    private
     AWSDK awsdkMock;
 
 
     @Mock
+    private
     AppInfraInterface appInfraInterfaceMock;
 
     @Mock
+    private
     THSSDKError thssdkErrorMock;
 
 
     @Mock
+    private
     SDKError sdkErrorMock;
 
     @Mock
+    private
     AppTaggingInterface appTaggingInterface;
 
     @Mock
+    private
     LoggingInterface loggingInterface;
 
     @Mock
+    private
     AppConfigurationInterface appConfigurationInterfaceMock;
 
     @Mock
+    private
     THSConsumer thsConsumerMock;
 
     @Mock
+    private
     THSAvailableProviderListBasedOnDatePresenter thsAvailableProviderListBasedOnDatePresenterMock;
 
     @Mock
+    private
     ServiceDiscoveryInterface serviceDiscoveryMock;
 
     @Mock
+    private
     ConsumerManager consumerManagerMock;
 
     @Mock
+    private
     ActionBarListener actionBarListenerMock;
 
     @Mock
+    private
     PracticeProvidersManager practiceProvidersManagerMock;
 
     @Before

@@ -3,7 +3,6 @@ package com.philips.platform.ths.visit;
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.visit.Visit;
@@ -15,20 +14,15 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.lang.reflect.Method;
 
@@ -63,7 +57,7 @@ public class THSVisitSummaryPresenterTest {
     Consumer consumerMoxk;
 
     @Mock
-    THSConsumerWrapper thsConsumerMock;
+    Consumer thsConsumerMock;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -111,7 +105,7 @@ public class THSVisitSummaryPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerMock);
+        THSManager.getInstance().setConsumer(thsConsumerMock);
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
@@ -119,8 +113,6 @@ public class THSVisitSummaryPresenterTest {
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
-
-        when(thsConsumerMock.getConsumer()).thenReturn(consumerMoxk);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
         thsVisitSummaryFragment = new THSVisitSummaryFragment();

@@ -21,7 +21,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -48,7 +47,7 @@ public class THSVisitHistoryPresenterTest {
     private THSVisitHistoryPresenter mThsVisitHistoryPresenter;
 
     @Mock
-    private THSVisitHistoryFragmentMock thsVisitHistoryFragmentMock;
+    private THSVisitHistoryFragment thsVisitHistoryFragmentMock;
 
     @Mock
     private Context contextMock;
@@ -60,7 +59,7 @@ public class THSVisitHistoryPresenterTest {
     private ConsumerManager consumerManagerMock;
 
     @Mock
-    private THSConsumerWrapper thsConsumerWrapperMock;
+    private Consumer thsConsumerWrapperMock;
 
     @Mock
     private Consumer consumerMock;
@@ -113,8 +112,7 @@ public class THSVisitHistoryPresenterTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
 
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
@@ -166,7 +164,7 @@ public class THSVisitHistoryPresenterTest {
     @Test
     public void onFailure() throws Exception {
         mThsVisitHistoryPresenter.onFailure(throwableMock);
-        verify(thsVisitHistoryFragmentMock).showError(null, true, false);
+        verify(thsVisitHistoryFragmentMock).showError((String)isNull(), anyBoolean(), anyBoolean());
     }
 
     @Test

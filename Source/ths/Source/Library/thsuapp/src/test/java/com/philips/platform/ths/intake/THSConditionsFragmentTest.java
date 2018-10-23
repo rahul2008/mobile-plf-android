@@ -14,7 +14,6 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -45,10 +44,10 @@ public class THSConditionsFragmentTest {
     AWSDK awsdkMock;
 
     @Mock
-    THSConsumerWrapper pthConsumer;
+    Consumer pthConsumer;
 
     @Mock
-    THSVisitContext pthVisitContext;
+    VisitContext pthVisitContext;
 
     @Mock
     Consumer consumerMock;
@@ -112,10 +111,9 @@ public class THSConditionsFragmentTest {
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
 
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(pthConsumer);
+        THSManager.getInstance().setConsumer(consumerMock);
         THSManager.getInstance().setVisitContext(pthVisitContext);
 
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
     }
 

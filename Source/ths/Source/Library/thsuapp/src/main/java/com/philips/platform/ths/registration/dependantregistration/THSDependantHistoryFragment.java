@@ -98,7 +98,7 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
                 choose_person.setText(R.string.ths_userlist_historyList_description);
                 break;
             case THSConstants.THS_EDIT_CONSUMER_DETAILS:
-               // visitForLabel.setText(R.string.ths_select_patient);
+                visitForLabel.setVisibility(View.GONE);
                 choose_person.setText(R.string.ths_edit_detail_list);
                 break;
         }
@@ -110,7 +110,13 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
         THSTagUtils.doTrackPageWithInfo(THS_SELECT_PATIENT, null, null);
         actionBarListener = getActionBarListener();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar(getString(R.string.ths_userList_title), true);
+            if(mLaunchInput == THSConstants.THS_EDIT_CONSUMER_DETAILS) {
+                actionBarListener.updateActionBar(getString(R.string.mya_My_details), true);
+            }
+            else{
+                actionBarListener.updateActionBar(getString(R.string.ths_userList_title), true);
+
+            }
         }
     }
 
@@ -129,7 +135,6 @@ public class THSDependantHistoryFragment extends THSPracticeFragment implements 
         int resId = view.getId();
         if (resId == R.id.ths_parent_container) {
             final THSConsumer thsConsumer = THSManager.getInstance().getThsParentConsumer(getContext());
-            THSManager.getInstance().setThsConsumer(THSManager.getInstance().getThsConsumer(getContext()));
             launchRequestedInput(thsConsumer);
         }
     }

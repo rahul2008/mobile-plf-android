@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,15 +38,16 @@ public class OnBoardingPresenterTest {
     }
 
     @Test
-    public void onEvent_tv_skip() throws Exception {
-        mOnBoardingPresenter.onEvent(R.id.tv_skip);
+    public void onEvent_continue_returning_user() throws Exception {
+        THSManager.getInstance().setIsReturningUser(true);
+        mOnBoardingPresenter.onEvent(R.id.btn_continue);
         verify(onBoardingFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
 
     @Test
-    public void onEvent_btn_take_tour() throws Exception {
-        mOnBoardingPresenter.onEvent(R.id.btn_take_tour);
+    public void onEvent_continue_first_time_user() throws Exception {
+        THSManager.getInstance().setIsReturningUser(false);
+        mOnBoardingPresenter.onEvent(R.id.btn_continue);
         verify(onBoardingFragmentMock).addFragment(any(THSBaseFragment.class),anyString(),(Bundle)isNull(),anyBoolean());
     }
-
 }

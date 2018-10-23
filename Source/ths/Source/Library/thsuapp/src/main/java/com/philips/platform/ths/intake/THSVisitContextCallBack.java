@@ -6,9 +6,9 @@
 
 package com.philips.platform.ths.intake;
 
-public interface THSVisitContextCallBack<THSVisitContext, THSSDKError> {
+public interface THSVisitContextCallBack<VisitContext, THSSDKError> {
 
-    void onResponse(THSVisitContext pthVisitContext, THSSDKError pthsdkError);
+    void onResponse(VisitContext pthVisitContext, THSSDKError pthsdkError);
 
     void onFailure(Throwable throwable);
 

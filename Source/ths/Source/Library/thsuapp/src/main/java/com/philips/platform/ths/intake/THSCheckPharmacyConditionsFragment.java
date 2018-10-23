@@ -68,7 +68,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
     private boolean isPharmacyCheckRequired = false;
 
     protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
+        mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -156,11 +156,11 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
 
     private void checkIfPharmacyRequired() {
         if(isPharmacyCheckRequired) {
-            boolean isPharmacyRequired = THSManager.getInstance().getPthVisitContext().isCanPrescribe();
+            boolean isPharmacyRequired = THSManager.getInstance().getVisitContext().isCanPrescribe();
             if (isPharmacyRequired) {
                 thscheckPharmacyConditionsPresenter.fetchConsumerPreferredPharmacy();
             } else {  // go to insurance or cost detail
-                Consumer consumer = THSManager.getInstance().getPTHConsumer(getContext()).getConsumer();
+                Consumer consumer = THSManager.getInstance().getConsumer(getContext());
                 getActivity().getSupportFragmentManager().popBackStack();
                 if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                     final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
@@ -171,11 +171,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
                 }
             }
         }else {
-            if(THSManager.getInstance().isGdprEnabled()) {
-                thscheckPharmacyConditionsPresenter.checkForConsent();
-            }else{
-                displayPharmacy();
-            }
+            displayPharmacy();
         }
     }
 
@@ -204,7 +200,7 @@ public class THSCheckPharmacyConditionsFragment extends THSBaseFragment implemen
         if (isFragmentAttached()) {
             getActivity().getSupportFragmentManager().popBackStack();
             THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
-            thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(getContext()), null);
+            thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getConsumer(getContext()), null);
             thsPharmacyListFragment.setLocation(location);
             addFragment(thsPharmacyListFragment, THSPharmacyListFragment.TAG, null, true);
         }

@@ -57,7 +57,6 @@ import com.philips.platform.ths.intake.THSMedicationCallback;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.intake.THSUpdateConsumerCallback;
 import com.philips.platform.ths.intake.THSUpdateVitalsCallBack;
-import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.intake.THSVisitContextCallBack;
 import com.philips.platform.ths.intake.THSVitalSDKCallback;
 import com.philips.platform.ths.intake.THSVitals;
@@ -74,7 +73,6 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpecialtyCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.THSRegistrationDetailCallback;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -114,12 +112,9 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class THSManagerTest {
+public class
+THSManagerTest {
     private THSManager thsManager;
-
-    private THSConsumerWrapper mTHSConsumerWrapper;
-
-    private Consumer mConsumer;
 
     @Mock
     private THSMedication mTHSMedication;
@@ -174,7 +169,7 @@ public class THSManagerTest {
     private ProviderInfo providerInfoMock;
 
     @Mock
-    private THSConsumerWrapper THSConsumerWrapperMock;
+    private Consumer THSConsumerWrapperMock;
 
     @Mock
     private AWSDK awsdkMock;
@@ -183,7 +178,7 @@ public class THSManagerTest {
     AWSDKFactory awsdkFactoryMock;
 
     @Mock
-    private THSLoginCallBack thsLoginCallBack;
+    private THSLoginCallBack<THSAuthentication, THSSDKError> thsLoginCallBack;
 
     @Mock
     THSInitializeCallBack THSInitializeCallBack;
@@ -210,7 +205,10 @@ public class THSManagerTest {
     private ArgumentCaptor<SDKCallback> initializationCallback;
 
     @Captor
-    private ArgumentCaptor<SDKCallback> visitContextCaptor;
+    private ArgumentCaptor<SDKCallback<VisitContext,SDKError>> visitContextCaptor;
+
+    @Captor
+    private ArgumentCaptor<SDKCallback<Authentication,SDKError>> auth_captor;
 
     @Captor
     private ArgumentCaptor<SDKCallback<Consumer, SDKPasswordError>> sdkPasswordErrorArgumentCaptor;
@@ -234,13 +232,13 @@ public class THSManagerTest {
     THSRegistrationDetailCallback THSRegistrationDetailCallbackMock;
 
     @Mock
-    private THSVisitContextCallBack THSVisitContextCallBack;
+    private THSVisitContextCallBack<VisitContext, THSSDKError> thsvisitcontextcallback;
 
     @Mock
     private ConsumerManager consumerManagerMock;
 
     @Mock
-    THSVisitContext THSVisitContextMock;
+    VisitContext THSVisitContextMock;
 
     @Mock
     ConsumerUpdate consumerUpdateMock;
@@ -342,7 +340,7 @@ public class THSManagerTest {
     private State stateMock;
 
     @Mock
-    THSVisitContext thsVisitContextMock;
+    VisitContext thsVisitContextMock;
 
     @Mock
     private THSOnDemandSpecialtyCallback thsOnDemandSpecialtyCallbackMock;
@@ -392,13 +390,11 @@ public class THSManagerTest {
 
         thsManager.setAwsdk(awsdkMock);
         thsManager.setThsConsumer(thsConsumerMock);
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(thsConsumerMock.getHsdpUUID()).thenReturn("123");
-        mConsumer = getConsumer();
         practice = getPractice();
         providerInfo = THSProviderInfo;
-        mTHSConsumerWrapper = new THSConsumerWrapper();
-        mTHSConsumerWrapper.setConsumer(getConsumer());
-        thsManager.setPTHConsumer(mTHSConsumerWrapper);
+        thsManager.setConsumer(consumerMock);
     }
 
     @Test
@@ -459,30 +455,28 @@ public class THSManagerTest {
 
     @Test
     public void getVisitContext() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(THSProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
-        thsManager.getVisitContext(contextMock, THSProviderInfo, THSVisitContextCallBack);
+        thsManager.getVisitContext(contextMock, THSProviderInfo, thsvisitcontextcallback);
 
-        verify(visitManagerMock).getVisitContext((Consumer)isNull(), any(ProviderInfo.class), visitContextCaptor.capture());
+        verify(visitManagerMock).getVisitContext(any(Consumer.class), any(ProviderInfo.class), visitContextCaptor.capture());
         SDKCallback value = visitContextCaptor.getValue();
-        value.onResponse(any(VisitContext.class), any(SDKError.class));
+        value.onResponse(visitContextMock, sdkError);
 
-        verify(THSVisitContextCallBack).onResponse(any(THSVisitContext.class), any(THSSDKError.class));
+        verify(thsvisitcontextcallback).onResponse(any(VisitContext.class), any(THSSDKError.class));
     }
 
     @Test
     public void getVisitContextOnFailure() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(THSProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
-        thsManager.getVisitContext(contextMock, THSProviderInfo, THSVisitContextCallBack);
+        thsManager.getVisitContext(contextMock, THSProviderInfo, thsvisitcontextcallback);
 
-        verify(visitManagerMock).getVisitContext((Consumer)isNull(), any(ProviderInfo.class), visitContextCaptor.capture());
+        verify(visitManagerMock).getVisitContext(any(Consumer.class), any(ProviderInfo.class), visitContextCaptor.capture());
         SDKCallback value = visitContextCaptor.getValue();
         value.onFailure(any(Throwable.class));
 
-        verify(THSVisitContextCallBack).onFailure((Throwable)isNull());
+        verify(thsvisitcontextcallback).onFailure((Throwable)isNull());
     }
 
 /*    @Test
@@ -517,9 +511,8 @@ public class THSManagerTest {
 
     @Test
     public void getConditions() throws AWSDKInstantiationException {
-        thsManager.setPTHConsumer(THSConsumerWrapperMock);
+        thsManager.setConsumer(THSConsumerWrapperMock);
 
-        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
         thsManager.getConditions(contextMock, thsConditionsCallback);
@@ -533,9 +526,8 @@ public class THSManagerTest {
 
     @Test
     public void getOnFailure() throws AWSDKInstantiationException {
-        thsManager.setPTHConsumer(THSConsumerWrapperMock);
+        thsManager.setConsumer(THSConsumerWrapperMock);
 
-        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
         thsManager.getConditions(contextMock, thsConditionsCallback);
@@ -551,7 +543,7 @@ public class THSManagerTest {
     public void getPracticesOnResponse() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         thsManager.getPractices(contextMock, pTHPracticesListCallback);
-        verify(practiseprovidermanagerMock).getPractices((Consumer)isNull(), requestPracticeCaptor.capture());
+        verify(practiseprovidermanagerMock).getPractices(any(Consumer.class), requestPracticeCaptor.capture());
         SDKCallback value = requestPracticeCaptor.getValue();
         value.onResponse(any(List.class), any(SDKError.class));
         value.onFailure(any(Throwable.class));
@@ -561,7 +553,7 @@ public class THSManagerTest {
     public void getProviderListTest() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         thsManager.getProviderList(contextMock, practice, THSProvidersListCallback);
-        verify(practiseprovidermanagerMock).findProviders((Consumer)isNull(), any(Practice.class), (OnDemandSpecialty)isNull(), (String)isNull(), (Set)isNull(), (Set)isNull(), (State)isNull(), (Language)isNull(), (Integer)isNull(), providerListCaptor.capture());
+        verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(Practice.class), (OnDemandSpecialty)isNull(), (String)isNull(), (Set)isNull(), (Set)isNull(), (State)isNull(), (Language)isNull(), (Integer)isNull(), providerListCaptor.capture());
 
         SDKCallback value = providerListCaptor.getValue();
         //        value.onGetPaymentSuccess(any(List.class), any(SDKError.class));
@@ -572,7 +564,7 @@ public class THSManagerTest {
     public void getProviderListTestSuccess() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         thsManager.getProviderList(contextMock, practice, THSProvidersListCallback);
-        verify(practiseprovidermanagerMock).findProviders((Consumer)isNull(), any(Practice.class), (OnDemandSpecialty)isNull(), (String)isNull(), (Set)isNull(), (Set)isNull(), (State)isNull(), (Language)isNull(), (Integer)isNull(), providerListCaptor.capture());
+        verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(Practice.class), (OnDemandSpecialty)isNull(), (String)isNull(), (Set)isNull(), (Set)isNull(), (State)isNull(), (Language)isNull(), (Integer)isNull(), providerListCaptor.capture());
         SDKCallback value = providerListCaptor.getValue();
         //        value.onGetPaymentSuccess(any(List.class), any(SDKError.class));
         ArrayList list = new ArrayList();
@@ -585,8 +577,9 @@ public class THSManagerTest {
     @Test
     public void getProviderDetailsTest() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        thsManager.getProviderDetails(contextMock, providerInfo, THSProviderDetailsCallback);
-        verify(practiseprovidermanagerMock).getProvider((ProviderInfo)isNull(), (Consumer)isNull(), providerDetailsCaptor.capture());
+        when(THSProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
+        thsManager.getProviderDetails(contextMock, THSProviderInfo, THSProviderDetailsCallback);
+        verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class), any(Consumer.class), providerDetailsCaptor.capture());
         SDKCallback value = providerDetailsCaptor.getValue();
         value.onResponse(any(Provider.class), any(SDKError.class));
         value.onFailure(any(Throwable.class));
@@ -594,10 +587,10 @@ public class THSManagerTest {
 
     @Test
     public void getConsumerTest() {
-        thsManager.setPTHConsumer(mTHSConsumerWrapper);
-        THSConsumerWrapper consumer = thsManager.getPTHConsumer(contextMock);
+        thsManager.setConsumer(consumerMock);
+        Consumer consumer = thsManager.getConsumer(contextMock);
         assertThat(consumer).isNotNull();
-        assertThat(consumer).isInstanceOf(THSConsumerWrapper.class);
+        assertThat(consumer).isInstanceOf(Consumer.class);
     }
 
     public void getMedicationTest() throws AWSDKInstantiationException {
@@ -613,7 +606,7 @@ public class THSManagerTest {
     public void searchMedicationTest() throws AWSDKInstantiationException {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         thsManager.searchMedication(contextMock, "dol", pTHSDKValidatedCallback);
-        verify(consumerManagerMock).searchMedications((Consumer)isNull(), any(String.class), getSearchedMedicationCaptor.capture());
+        verify(consumerManagerMock).searchMedications(any(Consumer.class), any(String.class), getSearchedMedicationCaptor.capture());
         SDKCallback value = getSearchedMedicationCaptor.getValue();
         //        value.onGetPaymentSuccess(any(List.class), any(SDKError.class));
         //value.onGetPaymentFailure(any(Throwable.class));  //todo
@@ -623,7 +616,7 @@ public class THSManagerTest {
     public void updateMedicationTest() throws AWSDKInstantiationException {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         thsManager.updateMedication(contextMock, mTHSMedication, pTHUpdateMedicationCallback);
-        verify(consumerManagerMock).updateMedications((Consumer)isNull(), any(List.class), getUpdateMedicationCaptor.capture());
+        verify(consumerManagerMock).updateMedications(any(Consumer.class), any(List.class), getUpdateMedicationCaptor.capture());
         SDKCallback value = getUpdateMedicationCaptor.getValue();
         value.onResponse(any(List.class), any(SDKPasswordError.class));
         //        value.onGetPaymentFailure(any(Throwable.class));
@@ -633,7 +626,7 @@ public class THSManagerTest {
     public void updateMedicationTestFailure() throws AWSDKInstantiationException {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         thsManager.updateMedication(contextMock, mTHSMedication, pTHUpdateMedicationCallback);
-        verify(consumerManagerMock).updateMedications((Consumer)isNull(), any(List.class), getUpdateMedicationCaptor.capture());
+        verify(consumerManagerMock).updateMedications(any(Consumer.class), any(List.class), getUpdateMedicationCaptor.capture());
         SDKCallback value = getUpdateMedicationCaptor.getValue();
         value.onFailure(throwable);
         //        verify(pTHUpdateConsumerCallback).onUpdateConsumerFailure(any(Throwable.class));
@@ -745,6 +738,12 @@ public class THSManagerTest {
                 return null;
             }
 
+            @Nullable
+            @Override
+            public String getMiddleName() {
+                return "xyz";
+            }
+
             @NonNull
             @Override
             public String getLastName() {
@@ -840,6 +839,11 @@ public class THSManagerTest {
             }
 
             @Override
+            public String getImageUrl(boolean b) {
+                return "http://";
+            }
+
+            @Override
             public String getName() {
                 return "TS Patient Test";
             }
@@ -868,28 +872,26 @@ public class THSManagerTest {
 
     @Test
     public void authenticateMutualAuth() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(thsConsumerMock.getHsdpUUID()).thenReturn("1234");
         when(thsConsumerMock.getHsdpToken()).thenReturn("122");
 
         thsManager.authenticateMutualAuthToken(contextMock, thsLoginCallBack);
 
-        verify(awsdkMock).authenticateMutual(anyString(), visitContextCaptor.capture());
-        SDKCallback value = visitContextCaptor.getValue();
+        verify(awsdkMock).authenticateMutual(anyString(), auth_captor.capture());
+        SDKCallback value = auth_captor.getValue();
         value.onResponse(any(Authentication.class), any(SDKError.class));
         verify(thsLoginCallBack).onLoginResponse(any(THSAuthentication.class), any(THSSDKError.class));
     }
 
     @Test
     public void authenticateMutualAuthFailure() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        when(THSConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(thsConsumerMock.getHsdpUUID()).thenReturn("1234");
         when(thsConsumerMock.getHsdpToken()).thenReturn("122");
 
         thsManager.authenticateMutualAuthToken(contextMock, thsLoginCallBack);
 
-        verify(awsdkMock).authenticateMutual(anyString(), visitContextCaptor.capture());
-        SDKCallback value = visitContextCaptor.getValue();
+        verify(awsdkMock).authenticateMutual(anyString(), auth_captor.capture());
+        SDKCallback value = auth_captor.getValue();
         value.onFailure(any(Throwable.class));
         verify(thsLoginCallBack).onLoginFailure(null);
     }
@@ -1023,7 +1025,7 @@ public class THSManagerTest {
     @Test
     public void getOnDemandSpecialities() throws AWSDKInstantiationException {
         thsManager.getOnDemandSpecialities(contextMock, practiceInfoMock, "ddd", thsOnDemandSpecialtyCallbackMock);
-        verify(practiseprovidermanagerMock).getOnDemandSpecialties((Consumer)isNull(), any(PracticeInfo.class), anyString(), getOndemandSpecialityCaptor.capture());
+        verify(practiseprovidermanagerMock).getOnDemandSpecialties(any(Consumer.class), any(PracticeInfo.class), anyString(), getOndemandSpecialityCaptor.capture());
         final SDKCallback<List<OnDemandSpecialty>, SDKError> value = getOndemandSpecialityCaptor.getValue();
         List list = new ArrayList();
         list.add(onDemandSpecialtyMock);
@@ -1035,7 +1037,7 @@ public class THSManagerTest {
     @Test
     public void getOnDemandSpecialitiesOnFailure() throws AWSDKInstantiationException {
         thsManager.getOnDemandSpecialities(contextMock, practiceInfoMock, "ddd", thsOnDemandSpecialtyCallbackMock);
-        verify(practiseprovidermanagerMock).getOnDemandSpecialties((Consumer)isNull(), any(PracticeInfo.class), anyString(), getOndemandSpecialityCaptor.capture());
+        verify(practiseprovidermanagerMock).getOnDemandSpecialties(any(Consumer.class), any(PracticeInfo.class), anyString(), getOndemandSpecialityCaptor.capture());
         final SDKCallback<List<OnDemandSpecialty>, SDKError> value = getOndemandSpecialityCaptor.getValue();
         List list = new ArrayList();
         list.add(onDemandSpecialtyMock);
@@ -1046,26 +1048,26 @@ public class THSManagerTest {
 
     @Test
     public void getVisitContextWithOnDemandSpeciality() throws AWSDKInstantiationException {
-        thsManager.getVisitContextWithOnDemandSpeciality(contextMock, thsOnDemandSpeciality, THSVisitContextCallBack);
-        verify(visitManagerMock).getVisitContext((Consumer)isNull(), any(OnDemandSpecialty.class), getVisitContextCaptor.capture());
+        thsManager.getVisitContextWithOnDemandSpeciality(contextMock, thsOnDemandSpeciality, thsvisitcontextcallback);
+        verify(visitManagerMock).getVisitContext(any(Consumer.class), any(OnDemandSpecialty.class), getVisitContextCaptor.capture());
         final SDKCallback<VisitContext, SDKError> value = getVisitContextCaptor.getValue();
         value.onResponse(visitContextMock, sdkError);
-        verify(THSVisitContextCallBack).onResponse(any(THSVisitContext.class), any(THSSDKError.class));
+        verify(thsvisitcontextcallback).onResponse(any(VisitContext.class), any(THSSDKError.class));
     }
 
     @Test
     public void getVisitContextWithOnDemandSpecialityOnFailure() throws AWSDKInstantiationException {
-        thsManager.getVisitContextWithOnDemandSpeciality(contextMock, thsOnDemandSpeciality, THSVisitContextCallBack);
-        verify(visitManagerMock).getVisitContext((Consumer)isNull(), any(OnDemandSpecialty.class), getVisitContextCaptor.capture());
+        thsManager.getVisitContextWithOnDemandSpeciality(contextMock, thsOnDemandSpeciality, thsvisitcontextcallback);
+        verify(visitManagerMock).getVisitContext(any(Consumer.class), any(OnDemandSpecialty.class), getVisitContextCaptor.capture());
         final SDKCallback<VisitContext, SDKError> value = getVisitContextCaptor.getValue();
         value.onFailure(throwable);
-        verify(THSVisitContextCallBack).onFailure(any(Throwable.class));
+        verify(thsvisitcontextcallback).onFailure(any(Throwable.class));
     }
 
     @Test
     public void getVitals() throws AWSDKInstantiationException {
         thsManager.getVitals(contextMock, thsVitalCallBackMock);
-        verify(consumerManagerMock).getVitals((Consumer)isNull(), any(VisitContext.class), getVitalsCaptor.capture());
+        verify(consumerManagerMock).getVitals(any(Consumer.class), any(VisitContext.class), getVitalsCaptor.capture());
         final SDKCallback<Vitals, SDKError> value = getVitalsCaptor.getValue();
         value.onResponse(vitalsMock, sdkError);
         verify(thsVitalCallBackMock).onResponse(any(THSVitals.class), any(THSSDKError.class));
@@ -1074,7 +1076,7 @@ public class THSManagerTest {
     @Test
     public void getVitalsFailure() throws AWSDKInstantiationException {
         thsManager.getVitals(contextMock, thsVitalCallBackMock);
-        verify(consumerManagerMock).getVitals((Consumer)isNull(), any(VisitContext.class), getVitalsCaptor.capture());
+        verify(consumerManagerMock).getVitals(any(Consumer.class), any(VisitContext.class), getVitalsCaptor.capture());
         final SDKCallback<Vitals, SDKError> value = getVitalsCaptor.getValue();
         value.onFailure(throwable);
         verify(thsVitalCallBackMock).onFailure(any(Throwable.class));
@@ -1083,7 +1085,7 @@ public class THSManagerTest {
     @Test
     public void getAppointments() throws AWSDKInstantiationException {
         thsManager.getAppointments(contextMock, sdkLocalDateMock, thsGetAppointmentsCallback);
-        verify(consumerManagerMock).getAppointments((Consumer)isNull(), any(SDKLocalDate.class), getAppointmentCaptor.capture());
+        verify(consumerManagerMock).getAppointments(any(Consumer.class), any(SDKLocalDate.class), getAppointmentCaptor.capture());
         final SDKCallback<List<Appointment>, SDKError> value = getAppointmentCaptor.getValue();
         List list = new ArrayList();
         list.add(appointmentMock);
@@ -1095,7 +1097,7 @@ public class THSManagerTest {
     @Test
     public void getAppointmentsOnFailure() throws AWSDKInstantiationException {
         thsManager.getAppointments(contextMock, sdkLocalDateMock, thsGetAppointmentsCallback);
-        verify(consumerManagerMock).getAppointments((Consumer)isNull(), any(SDKLocalDate.class), getAppointmentCaptor.capture());
+        verify(consumerManagerMock).getAppointments(any(Consumer.class), any(SDKLocalDate.class), getAppointmentCaptor.capture());
         final SDKCallback<List<Appointment>, SDKError> value = getAppointmentCaptor.getValue();
         List list = new ArrayList();
         list.add(appointmentMock);
@@ -1125,7 +1127,7 @@ public class THSManagerTest {
     @Test
     public void getMedication() throws AWSDKInstantiationException {
         thsManager.getMedication(contextMock, pTHGetMedicationCallbackMock);
-        verify(consumerManagerMock).getMedications((Consumer)isNull(), getMedicationCaptor.capture());
+        verify(consumerManagerMock).getMedications(any(Consumer.class), getMedicationCaptor.capture());
         final SDKCallback<List<Medication>, SDKError> value = getMedicationCaptor.getValue();
         List list = new ArrayList();
         list.add(medicationMock);
@@ -1136,7 +1138,7 @@ public class THSManagerTest {
     @Test
     public void getMedicationOnFailure() throws AWSDKInstantiationException {
         thsManager.getMedication(contextMock, pTHGetMedicationCallbackMock);
-        verify(consumerManagerMock).getMedications((Consumer)isNull(), getMedicationCaptor.capture());
+        verify(consumerManagerMock).getMedications(any(Consumer.class), getMedicationCaptor.capture());
         final SDKCallback<List<Medication>, SDKError> value = getMedicationCaptor.getValue();
         List list = new ArrayList();
         list.add(medicationMock);
@@ -1147,7 +1149,7 @@ public class THSManagerTest {
     @Test
     public void searchMedication() throws AWSDKInstantiationException {
         thsManager.searchMedication(contextMock, "medname", pTHSDKValidatedCallback);
-        verify(consumerManagerMock).searchMedications((Consumer)isNull(), anyString(), getSearchedMedicationCaptor.capture());
+        verify(consumerManagerMock).searchMedications(any(Consumer.class), anyString(), getSearchedMedicationCaptor.capture());
         final SDKValidatedCallback<List<Medication>, SDKError> value = getSearchedMedicationCaptor.getValue();
         List list = new ArrayList();
         list.add(medicationMock);
@@ -1158,7 +1160,7 @@ public class THSManagerTest {
     @Test
     public void searchMedicationFailure() throws AWSDKInstantiationException {
         thsManager.searchMedication(contextMock, "medname", pTHSDKValidatedCallback);
-        verify(consumerManagerMock).searchMedications((Consumer)isNull(), anyString(), getSearchedMedicationCaptor.capture());
+        verify(consumerManagerMock).searchMedications(any(Consumer.class), anyString(), getSearchedMedicationCaptor.capture());
         final SDKValidatedCallback<List<Medication>, SDKError> value = getSearchedMedicationCaptor.getValue();
         List list = new ArrayList();
         list.add(medicationMock);
@@ -1169,7 +1171,7 @@ public class THSManagerTest {
     @Test
     public void searchMedicationonValidationFailure() throws AWSDKInstantiationException {
         thsManager.searchMedication(contextMock, "medname", pTHSDKValidatedCallback);
-        verify(consumerManagerMock).searchMedications((Consumer)isNull(), anyString(), getSearchedMedicationCaptor.capture());
+        verify(consumerManagerMock).searchMedications(any(Consumer.class), anyString(), getSearchedMedicationCaptor.capture());
         final SDKValidatedCallback<List<Medication>, SDKError> value = getSearchedMedicationCaptor.getValue();
         List list = new ArrayList();
         list.add(medicationMock);
@@ -1191,7 +1193,7 @@ public class THSManagerTest {
     public void updateVitals() throws AWSDKInstantiationException {
         when(thsVitalsMock.getVitals()).thenReturn(vitalsMock);
         thsManager.updateVitals(contextMock, thsVitalsMock, thsUpdateVitalsCallBackMock);
-        verify(consumerManagerMock).updateVitals((Consumer)isNull(), any(Vitals.class), (VisitContext)isNull(), updateVitalsCaptor.capture());
+        verify(consumerManagerMock).updateVitals(any(Consumer.class), any(Vitals.class), (VisitContext)isNull(), updateVitalsCaptor.capture());
         final SDKValidatedCallback<Void, SDKError> value = updateVitalsCaptor.getValue();
         value.onResponse(null, sdkError);
         verify(thsUpdateVitalsCallBackMock).onUpdateVitalsResponse(sdkError);
@@ -1201,7 +1203,7 @@ public class THSManagerTest {
     public void updateVitalsFailure() throws AWSDKInstantiationException {
         when(thsVitalsMock.getVitals()).thenReturn(vitalsMock);
         thsManager.updateVitals(contextMock, thsVitalsMock, thsUpdateVitalsCallBackMock);
-        verify(consumerManagerMock).updateVitals((Consumer)isNull(), any(Vitals.class), (VisitContext)isNull(), updateVitalsCaptor.capture());
+        verify(consumerManagerMock).updateVitals(any(Consumer.class), any(Vitals.class), (VisitContext)isNull(), updateVitalsCaptor.capture());
         final SDKValidatedCallback<Void, SDKError> value = updateVitalsCaptor.getValue();
         value.onFailure(throwable);
         verify(thsUpdateVitalsCallBackMock).onUpdateVitalsFailure(any(Throwable.class));
@@ -1211,7 +1213,7 @@ public class THSManagerTest {
     public void updateVitalsValidationFailure() throws AWSDKInstantiationException {
         when(thsVitalsMock.getVitals()).thenReturn(vitalsMock);
         thsManager.updateVitals(contextMock, thsVitalsMock, thsUpdateVitalsCallBackMock);
-        verify(consumerManagerMock).updateVitals((Consumer)isNull(), any(Vitals.class), (VisitContext)isNull(), updateVitalsCaptor.capture());
+        verify(consumerManagerMock).updateVitals(any(Consumer.class), any(Vitals.class), (VisitContext)isNull(), updateVitalsCaptor.capture());
         final SDKValidatedCallback<Void, SDKError> value = updateVitalsCaptor.getValue();
         Map map = new HashMap();
         value.onValidationFailure(map);
@@ -1233,7 +1235,7 @@ public class THSManagerTest {
     @Test
     public void getConsumerPreferredPharmacy() throws AWSDKInstantiationException {
         thsManager.getConsumerPreferredPharmacy(contextMock, thsPreferredPharmacyCallbackMock);
-        verify(consumerManagerMock).getConsumerPharmacy((Consumer)isNull(), pharmacypreferedcallback.capture());
+        verify(consumerManagerMock).getConsumerPharmacy(any(Consumer.class), pharmacypreferedcallback.capture());
         final SDKCallback<Pharmacy, SDKError> value = pharmacypreferedcallback.getValue();
         value.onResponse(pharmacyMock, sdkError);
         verify(thsPreferredPharmacyCallbackMock).onPharmacyReceived(pharmacyMock, sdkError);
@@ -1242,7 +1244,7 @@ public class THSManagerTest {
     @Test
     public void getConsumerPreferredPharmacyOnFailure() throws AWSDKInstantiationException {
         thsManager.getConsumerPreferredPharmacy(contextMock, thsPreferredPharmacyCallbackMock);
-        verify(consumerManagerMock).getConsumerPharmacy((Consumer)isNull(), pharmacypreferedcallback.capture());
+        verify(consumerManagerMock).getConsumerPharmacy(any(Consumer.class), pharmacypreferedcallback.capture());
         final SDKCallback<Pharmacy, SDKError> value = pharmacypreferedcallback.getValue();
         value.onFailure(throwable);
         verify(thsPreferredPharmacyCallbackMock).onFailure(any(Throwable.class));
@@ -1251,7 +1253,7 @@ public class THSManagerTest {
     @Test
     public void updateConsumerPreferredPharmacy() throws AWSDKInstantiationException {
         thsManager.updateConsumerPreferredPharmacy(contextMock, pharmacyMock, thsUpdatePharmacyCallback);
-        verify(consumerManagerMock).updateConsumerPharmacy((Consumer)isNull(), any(Pharmacy.class), getUpdateMedicationCaptor.capture());
+        verify(consumerManagerMock).updateConsumerPharmacy(any(Consumer.class), any(Pharmacy.class), getUpdateMedicationCaptor.capture());
         final SDKCallback<Void, SDKError> value = getUpdateMedicationCaptor.getValue();
         value.onResponse(null, sdkError);
         verify(thsUpdatePharmacyCallback).onUpdateSuccess(any(SDKError.class));
@@ -1260,7 +1262,7 @@ public class THSManagerTest {
     @Test
     public void updateConsumerPreferredPharmacyFailure() throws AWSDKInstantiationException {
         thsManager.updateConsumerPreferredPharmacy(contextMock, pharmacyMock, thsUpdatePharmacyCallback);
-        verify(consumerManagerMock).updateConsumerPharmacy((Consumer)isNull(), any(Pharmacy.class), getUpdateMedicationCaptor.capture());
+        verify(consumerManagerMock).updateConsumerPharmacy(any(Consumer.class), any(Pharmacy.class), getUpdateMedicationCaptor.capture());
         final SDKCallback<Void, SDKError> value = getUpdateMedicationCaptor.getValue();
         value.onFailure(throwable);
         verify(thsUpdatePharmacyCallback).onUpdateFailure(any(Throwable.class));
@@ -1278,7 +1280,7 @@ public class THSManagerTest {
     @Test
     public void getConsumerShippingAddress() throws AWSDKInstantiationException {
         thsManager.getConsumerShippingAddress(contextMock, thsConsumerShippingAddressCallbackMock);
-        verify(consumerManagerMock).getShippingAddress((Consumer)isNull(), getConsumerShippingAddressCaptor.capture());
+        verify(consumerManagerMock).getShippingAddress(any(Consumer.class), getConsumerShippingAddressCaptor.capture());
         final SDKCallback<Address, SDKError> value = getConsumerShippingAddressCaptor.getValue();
         value.onResponse(addressMock, sdkError);
         verify(thsConsumerShippingAddressCallbackMock).onSuccessfulFetch(any(Address.class), any(SDKError.class));
@@ -1287,7 +1289,7 @@ public class THSManagerTest {
     @Test
     public void getConsumerShippingAddressFailure() throws AWSDKInstantiationException {
         thsManager.getConsumerShippingAddress(contextMock, thsConsumerShippingAddressCallbackMock);
-        verify(consumerManagerMock).getShippingAddress((Consumer)isNull(), getConsumerShippingAddressCaptor.capture());
+        verify(consumerManagerMock).getShippingAddress(any(Consumer.class), getConsumerShippingAddressCaptor.capture());
         final SDKCallback<Address, SDKError> value = getConsumerShippingAddressCaptor.getValue();
         value.onFailure(throwable);
         verify(thsConsumerShippingAddressCallbackMock).onFailure(any(Throwable.class));
@@ -1349,4 +1351,13 @@ public class THSManagerTest {
         assertFalse(isValid);
     }
 
+    @Test
+    public void shouldValidateABFlowValues() throws Exception {
+        thsManager.setOnBoradingABFlow(THSConstants.THS_ONBOARDING_ABFLOW1);
+        thsManager.setProviderListABFlow(THSConstants.THS_PROVIDER_LIST_FLOW2);
+
+        assertThat(thsManager.getOnBoradingABFlow()).isEqualTo(THSConstants.THS_ONBOARDING_ABFLOW1);
+        assertThat(thsManager.getProviderListABFlow()).isEqualTo(THSConstants.THS_PROVIDER_LIST_FLOW2);
+
+    }
 }

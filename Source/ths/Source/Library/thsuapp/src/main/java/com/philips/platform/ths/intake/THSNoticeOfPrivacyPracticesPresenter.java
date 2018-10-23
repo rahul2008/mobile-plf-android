@@ -11,7 +11,7 @@ import android.text.Html;
 import android.text.Spanned;
 
 import com.americanwell.sdk.entity.legal.LegalText;
-import com.philips.platform.ths.R;
+import com.americanwell.sdk.entity.visit.VisitContext;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.utility.THSManager;
@@ -26,13 +26,13 @@ import static com.philips.platform.ths.utility.THSConstants.THS_SERVER_ERROR;
 
 class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter {
     private THSBaseView uiBaseView;
-    protected THSVisitContext mTHSVisitContext;
+    protected VisitContext mTHSVisitContext;
     private StringBuilder mStringBuilder;
 
     THSNoticeOfPrivacyPracticesPresenter(THSBaseView uiBaseView) {
 
         this.uiBaseView = uiBaseView;
-        mTHSVisitContext = THSManager.getInstance().getPthVisitContext();
+        mTHSVisitContext = THSManager.getInstance().getVisitContext();
         mStringBuilder = new StringBuilder();
     }
 
