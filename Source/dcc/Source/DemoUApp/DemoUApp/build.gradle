@@ -6,11 +6,12 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 
-archivesBaseName = "digitalCareUApp"
+archivesBaseName = strings.dccuapp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -48,11 +49,11 @@ dependencies {
     implementation deps.support.design
 
     if (directdependencies) {
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-        implementation project(':uid')
-        implementation project(':prx')
-        implementation project(':productselection')
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.pse.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
@@ -63,7 +64,7 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.calligraphy
 
-    implementation project(':digitalCare')
+    implementation project(strings.dcc.projectName)
 }
 
 tasks.withType(Test) {

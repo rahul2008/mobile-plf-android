@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,7 +26,6 @@ import com.philips.cdp2.bluelib.demouapp.R;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNFirmwareInfo;
-import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityFirmwareUpdate;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -46,13 +46,16 @@ public class FirmwareUpdateFragment extends Fragment {
     private SHNDevice mDevice;
     private SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate;
     private TextView textViewFirmwareVersion;
+    private TextView textViewFirmwarePath;
     private TextView textViewFirmwareState;
     private ListView listViewFiles;
     private File[] files;
     private File selectedFile;
     private ProgressBar progressBar;
     private TextView textViewUploadState;
+    private TextView textViewUploadProgress;
     private TextView textViewResult;
+    private CheckBox cbShouldResume;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,46 +66,37 @@ public class FirmwareUpdateFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.bll_fragment_firmware_update, container, false);
 
         Button start = fragmentView.findViewById(R.id.btnStartUpload);
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFileAndStartUpload();
-            }
+        start.setOnClickListener(view -> {
+            textViewResult.setText(null);
+            getFileAndStartUpload();
         });
 
         Button deploy = fragmentView.findViewById(R.id.btnDeploy);
-        deploy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shnCapabilityFirmwareUpdate.deployFirmware();
-            }
-        });
+        deploy.setOnClickListener(view -> shnCapabilityFirmwareUpdate.deployFirmware());
 
         Button abort = fragmentView.findViewById(R.id.btnAbortUpload);
-        abort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shnCapabilityFirmwareUpdate.abortFirmwareUpload();
-            }
-        });
+        abort.setOnClickListener(view -> shnCapabilityFirmwareUpdate.abortFirmwareUpload());
 
+        Button get = fragmentView.findViewById(R.id.bll_btnGetFwInfo);
+        get.setOnClickListener(view -> shnCapabilityFirmwareUpdate.getUploadedFirmwareInfo(this::updateFwViews));
+
+        textViewFirmwarePath = fragmentView.findViewById(R.id.tvFirmwarePath);
         textViewFirmwareVersion = fragmentView.findViewById(R.id.tvFirmwareVersion);
         textViewFirmwareState = fragmentView.findViewById(R.id.tvFirmwareState);
         textViewUploadState = fragmentView.findViewById(R.id.tvUploadState);
+        textViewUploadProgress = fragmentView.findViewById(R.id.tvUploadProgress);
         textViewResult = fragmentView.findViewById(R.id.tvUploadResult);
         listViewFiles = fragmentView.findViewById(R.id.lvFiles);
         progressBar = fragmentView.findViewById(R.id.uploadProgress);
+        cbShouldResume = fragmentView.findViewById(R.id.bll_cb_should_resume);
 
-        listViewFiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedFile = files[position];
-            }
-        });
+        listViewFiles.setOnItemClickListener(
+                (AdapterView<?> parent, View view, int position, long id) -> selectedFile = files[position]
+        );
 
         return fragmentView;
     }
@@ -112,20 +106,20 @@ public class FirmwareUpdateFragment extends Fragment {
         super.onResume();
 
         textViewFirmwareVersion.setText(R.string.bll_retrieving);
-        shnCapabilityFirmwareUpdate.getUploadedFirmwareInfo(new SHNFirmwareInfoResultListener() {
-            @Override
-            public void onActionCompleted(SHNFirmwareInfo value, @NonNull SHNResult result) {
-                if (result == SHNResult.SHNOk) {
-                    textViewFirmwareVersion.setText(value.getVersion());
-                    textViewFirmwareState.setText(value.getState().name());
-                } else {
-                    textViewFirmwareVersion.setText(R.string.bll_error);
-                    textViewFirmwareState.setText(R.string.bll_error);
-                }
-            }
-        });
 
-        updateFilesList();
+        final File firmwareDirectory = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        textViewFirmwarePath.setText(firmwareDirectory.getAbsolutePath());
+        updateFilesList(firmwareDirectory);
+    }
+
+    void updateFwViews(final SHNFirmwareInfo value, final SHNResult result) {
+        if (result == SHNResult.SHNOk) {
+            textViewFirmwareVersion.setText(value.getVersion());
+            textViewFirmwareState.setText(value.getState().name());
+        } else {
+            textViewFirmwareVersion.setText(R.string.bll_error);
+            textViewFirmwareState.setText(R.string.bll_error);
+        }
     }
 
     private void getFileAndStartUpload() {
@@ -147,25 +141,24 @@ public class FirmwareUpdateFragment extends Fragment {
                 }
 
                 shnCapabilityFirmwareUpdate.setSHNCapabilityFirmwareUpdateListener(firmwareUpdateListener);
-                shnCapabilityFirmwareUpdate.uploadFirmware(buffer);
+                shnCapabilityFirmwareUpdate.uploadFirmware(buffer, cbShouldResume.isChecked());
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "FileNotFoundException", e);
             }
         }
     }
 
-    private void updateFilesList() {
-        File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-        if (dir != null) {
-            Log.d(TAG, dir.getAbsolutePath());
+    private void updateFilesList(final File firmwareDirectory) {
+        if (firmwareDirectory != null) {
+            Log.d(TAG, firmwareDirectory.getAbsolutePath());
 
             files = null;
-            if (dir.exists()) {
-                if (dir.isDirectory()) {
-                    files = dir.listFiles();
+            if (firmwareDirectory.exists()) {
+                if (firmwareDirectory.isDirectory()) {
+                    files = firmwareDirectory.listFiles();
                 }
             } else {
-                dir.mkdirs();
+                firmwareDirectory.mkdirs();
             }
 
             List<String> list = new ArrayList<>();
@@ -192,8 +185,10 @@ public class FirmwareUpdateFragment extends Fragment {
         @Override
         public void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float v) {
             SHNLogger.w(TAG, "onProgressUpdate " + v);
+            int progress = (int) (v * 100);
+            textViewUploadProgress.setText(String.format("Progress: %s%%", progress));
             if (progressBar != null) {
-                progressBar.setProgress((int) (v * 100));
+                progressBar.setProgress(progress);
             }
         }
 

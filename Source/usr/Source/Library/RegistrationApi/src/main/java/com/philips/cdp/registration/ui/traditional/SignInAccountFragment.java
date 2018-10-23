@@ -398,6 +398,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleUiState() {
+        RLog.d(TAG, " handleUiState called");
+
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
             uiEnableState(true);
@@ -425,7 +427,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnSignInAccount.hideProgressIndicator();
         uiEnableState(true);
         RLog.e(TAG, "handleLogInFailed : Error Code :" + userRegistrationFailureInfo.getErrorCode());
-        if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.JANRAIN_WRONG_USERID_PASSWORD) {
             updateErrorNotification(mContext.getApplicationContext().getString(R.string.USR_Janrain_Invalid_Credentials), userRegistrationFailureInfo.getErrorCode());
         } else {
             updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
@@ -630,6 +632,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                         RegistrationHelper.getInstance().getCountryCode());
             } else {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) {
+                    clearInputFields();
                     launchAlmostDoneScreenForTermsAcceptance();
                 } else {
                     trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
@@ -641,10 +644,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         } else {
             if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
+                clearInputFields();
                 AccountActivationFragment fragment = new AccountActivationFragment();
                 getRegistrationFragment().addFragment(fragment);
 
             } else if (FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString())) {
+                clearInputFields();
                 MobileVerifyCodeFragment fragment = new MobileVerifyCodeFragment();
                 getRegistrationFragment().addFragment(fragment);
             } else {
@@ -655,6 +660,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
             }
         }
+    }
+
+    private void clearInputFields() {
+        loginValidationEditText.setText("");
+        passwordValidationEditText.setText("");
     }
 
     private OnClickListener mContinueVerifyBtnClick = view -> {
@@ -749,6 +759,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void uiEnableState(boolean state) {
+        RLog.d(TAG, "Exception = network");
+
         if (networkUtility.isNetworkAvailable()) {
             mBtnSignInAccount.setEnabled(state);
             resetPasswordLabel.setEnabled(state);

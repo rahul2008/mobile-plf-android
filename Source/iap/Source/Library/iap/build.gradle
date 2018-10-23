@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "iap"
+archivesBaseName = strings.iap.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -123,11 +124,11 @@ dependencies {
 
     // Philips components
     if (directdependencies) {
-        implementation project(':uid')
-        implementation project(':registrationApi')
-        implementation project(':prx')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
+        implementation project(strings.uid.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uid
         implementation philipsdeps.registrationApi

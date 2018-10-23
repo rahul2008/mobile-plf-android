@@ -290,7 +290,7 @@ public class UserRegistrationInitializer {
         return mRegistrationSettings;
     }
 
-    public void initializeEnvironment(Context context, Locale locale) {
+    void initializeEnvironment(Context context, Locale locale) {
         registerJumpInitializationListener(context);
 
 

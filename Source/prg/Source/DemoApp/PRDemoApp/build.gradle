@@ -2,8 +2,9 @@
 
 
 buildscript {
+    apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
     repositories {
-        jcenter()
+        maven {url repos.jcenter }
     }
     dependencies {
         classpath builddeps.gradle
@@ -13,33 +14,20 @@ buildscript {
 }
 
 allprojects {
+    apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
     repositories {
-        jcenter()
-        maven { url repos.jcenter
+        maven { url repos.jcenter }
+        maven { url repos.jcenter }
+        maven { url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.release
-        }
-        maven {
-            url repos.stage
-        }
-        maven {
-            url repos.snapshot
-        }
-        maven {
-            url sonatype
-        }
+        maven { url repos.release }
+        maven { url repos.stage }
+        maven { url repos.snapshot }
+        maven { url repos.sonatype }
     }
 }
 

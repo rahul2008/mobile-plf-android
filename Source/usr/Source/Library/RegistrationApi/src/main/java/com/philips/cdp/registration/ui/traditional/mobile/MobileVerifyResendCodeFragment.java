@@ -12,7 +12,6 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -32,13 +31,12 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
-import com.philips.cdp.registration.events.CounterHelper;
-import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.CountDownEvent;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.NotificationBarHandler;
@@ -75,7 +73,7 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCES
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNICAL_ERROR;
 
 public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment implements
-        MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener {
+        MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener {
 
     private String TAG = "MobileVerifyResendCodeFragment";
 
@@ -106,8 +104,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     private MobileVerifyResendCodePresenter mobileVerifyResendCodePresenter;
 
-    private Handler handler;
-
     @Inject
     NetworkUtility networkUtility;
 
@@ -124,7 +120,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         registerInlineNotificationListener(this);
         mobileVerifyResendCodePresenter = new MobileVerifyResendCodePresenter(this);
@@ -134,7 +130,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
         trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         handleOrientation(view);
-        handler = new Handler();
         phoneNumberEditText.setText(user.getMobile());
         phoneNumberEditText.setInputType(InputType.TYPE_CLASS_PHONE);
         disableResendButton();
@@ -142,10 +137,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             enableResendButton();
         }
         phoneNumberChange();
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
-        CounterHelper.getInstance()
-                .registerCounterEventNotification(RegConstants.COUNTER_FINISH, this);
         return view;
     }
 
@@ -192,15 +183,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         RLog.d(TAG, " : onConfigurationChanged");
         super.onConfigurationChanged(config);
         setCustomParams(config);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_TICK,
-                this);
-        CounterHelper.getInstance().unregisterCounterEventNotification(RegConstants.COUNTER_FINISH,
-                this);
     }
 
     @Override
@@ -272,7 +254,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         getRegistrationFragment().hideKeyBoard();
         errorMessage.hideError();
         hidePopup();
-        RLog.i(TAG,TAG + ".verifyClicked");
+        RLog.i(TAG, TAG + ".verifyClicked");
         if (phoneNumberEditText.getText().toString().equals(user.getMobile())) {
             mobileVerifyResendCodePresenter.resendOTPRequest(user.getMobile());
             disableResendButton();
@@ -291,7 +273,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @OnClick(R2.id.btn_reg_code_received)
     public void thanksBtnClicked() {
-        RLog.i(TAG,TAG + ".thanksButton clicked");
+        RLog.i(TAG, TAG + ".thanksButton clicked");
 
         hidePopup();
         getRegistrationFragment().onBackPressed();
@@ -354,20 +336,11 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void netWorkStateOfflineUiHandle() {
-//        errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
-       // showNotificationBarOnNetworkNotAvailable();
         phoneNumberEditText.setEnabled(false);
         resendSMSButton.setEnabled(false);
         smsReceivedButton.setEnabled(false);
         hideProgressDialog();
     }
-
-//    @Override
-//    public void showSmsSendFailedError() {
-////        errorMessage.setError(errorMsg);
-////        phoneNumberEditText.setText(user.getMobile());
-////        enableResendButton();
-//    }
 
     @Override
     public void enableResendButtonAndHideSpinner() {
@@ -385,8 +358,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void showNumberChangeTechincalError(int errorCode) {
         trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-        //String errorMsg = RegChinaUtil.getErrorMsgDescription(errorCodeString, context);
-//        errorMessage.setError(new URError(context).getLocalizedError(ErrorType.URX, errorCode));
         updateErrorNotification(new URError(context).getLocalizedError(ErrorType.URX, errorCode), errorCode);
         enableUpdateButton();
     }
@@ -405,7 +376,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        RLog.e(TAG, "onErrorResponse : VolleyError = "+error.getMessage());
+        RLog.e(TAG, "onErrorResponse : VolleyError = " + error.getMessage());
         onErrorOfResendSMSIntent(error);
         hideProgressSpinner();
     }
@@ -429,15 +400,16 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
             RLog.e(TAG, "onErrorOfResendSMSIntent : Exception Occurred" + e.getMessage());
         }
     }
-    @Override
-    public void onCounterEventReceived(String event, long timeLeft) {
+
+    @Subscribe
+    public void onCountDownEvent(CountDownEvent event) {
         int progress = 100;
-        if (event.equals(RegConstants.COUNTER_FINISH)) {
+        if (event.getEvent().equals(RegConstants.COUNTER_FINISH)) {
             usrMobileverificationResendsmstimerProgress.setSecondaryProgress(progress);
             usrMobileverificationResendsmstimerProgress.setText(getResources().getString(R.string.USR_DLS_ResendSMS_Progress_View_Title_Text));
             enableResendButton();
         } else {
-            updateResendTime(timeLeft);
+            updateResendTime(event.getTimeleft());
         }
     }
 
@@ -470,8 +442,13 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
         hidePopup();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

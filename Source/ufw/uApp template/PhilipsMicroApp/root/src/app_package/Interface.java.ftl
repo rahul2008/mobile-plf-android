@@ -31,7 +31,6 @@ public class ${escapeXmlString(appTitle)}uAppInterface implements UappInterface 
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
        if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, ${escapeXmlString(appTitle)}Activity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } 
     }

@@ -25,6 +25,7 @@ import  com.philips.cdp.di.iap.response.orders.Address;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.text.ParseException;
@@ -99,10 +100,7 @@ public class Utility {
         StringBuilder sb = new StringBuilder();
 
         final String line1 = address.getLine1();
-        final String line2 = address.getLine2();
-
         appendAddressWithNewLineIfNotNull(sb, line1);
-        appendAddressWithNewLineIfNotNull(sb, line2);
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
         appendAddressWithNewLineIfNotNull(sb, address.getRegionName()+" "+address.getPostalCode());
         appendAddressWithNewLineIfNotNull(sb, address.getCountry());
@@ -134,11 +132,6 @@ public class Utility {
         if (isNotNullNorEmpty(addresses.getLine1())) {
             fields.setLine1(addresses.getLine1());
         }
-
-        if (isNotNullNorEmpty(addresses.getLine2())) {
-            fields.setLine2(addresses.getLine2());
-        }
-
         if (isNotNullNorEmpty(addresses.getTown())) {
             fields.setTown(addresses.getTown());
         }
@@ -195,11 +188,6 @@ public class Utility {
         if (isNotNullNorEmpty(address.getLine1())) {
             fields.setLine1(address.getLine1());
         }
-
-        if (isNotNullNorEmpty(address.getLine2())) {
-            fields.setLine2(address.getLine2());
-        }
-
         if (isNotNullNorEmpty(address.getTown())) {
             fields.setTown(address.getTown());
         }
@@ -232,6 +220,8 @@ public class Utility {
     public static void showActionDialog(final Context context, String positiveBtnText, String negativeBtnText,
                                         String pErrorString, String descriptionText, final FragmentManager pFragmentManager, final AlertListener alertListener) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context);
+        builder.setDialogType(DialogConstants.TYPE_ALERT);
+        
         if (!TextUtils.isEmpty(descriptionText)) {
             builder.setMessage(descriptionText);
         }

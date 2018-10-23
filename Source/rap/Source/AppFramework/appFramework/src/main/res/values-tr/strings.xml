@@ -13,7 +13,6 @@
   <string name="RA_AboutScreen_Title">Hakkında</string>
   <string name="RA_About_App_Version">Sürüm</string>
   <string name="RA_About_Description_New">[tr]This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
-  <string name="RA_HomeTab_Menu_Title">Ana sayfa</string>
   <string name="RA_About_Menu_Title">Hakkında</string>
   <string name="RA_COCO_AppInfra">[tr]ail : App Infrastructure Library</string>
   <string name="RA_COCO_AppInfra_desc">[tr]AppInfra is the components top level module. It gathers all the modules delivered by the AppInfra Common Component into one single structure. AppInfra facilitates dependency injection into common components and other software pieces that make use of the AppInfra functionalities.</string>
@@ -22,8 +21,7 @@
   <string name="RA_COCO_Connectivity">[tr]cml : CommLib</string>
   <string name="RA_COCO_Connectivity_desc">[tr]Connectivity feature in Reference App, provides the ability to pair the mobile application with a reference device using Bluetooth capability for capturing the data from the device to the mobile application.</string>
   <string name="RA_COCO_DS">[tr]dsc : Data Services</string>
-  <string name="RA_COCO_DS_desc">[tr]Data Services is a common component that acts as a gateway to data core. It will provide synchronization with application data base for the below support the following types of data -
-Moments, Consents, Insights, Push notification and user characteristics.</string>
+  <string name="RA_COCO_DS_desc">[tr]Data Services is a common component that acts as a gateway to data core. It will provide synchronization with application data base for the below support the following types of data -\nMoments, Consents, Insights, Push notification and user characteristics.</string>
   <string name="RA_COCO_IAP">[tr]iap : In-app Purchase</string>
   <string name="RA_COCO_IAP_desc">[tr]In App Purchase feature in Reference App, provides the ability to buy products from the app for the users, which would give users the convenience of shopping anytime-anywhere. This approach also will boost marketing and sales.</string>
   <string name="RA_COCO_PR">[tr]prg : Product Registration</string>
@@ -32,10 +30,7 @@ Moments, Consents, Insights, Push notification and user characteristics.</string
   <string name="RA_COCO_UIKIT_desc">[tr]UI Toolkit is a component that provides UI controls that are present in the designs provided by the design team on all the screens of the mobile application.</string>
   <string name="RA_COCO_UR">[tr]usr : User Registration</string>
   <string name="RA_COCO_UR_desc">[tr]User registration feature in Reference App provides the ability of registering a new user accessing the mobile application, for logging into the application using valid organization social media specific credentials.</string>
-  <string name="RA_CSW_JustInTime_UserBenefitsDescription">[tr]\"Special offers, promotions and first hand information about new product releases.
-Tailored for you!
-
-Join 140.000 of your peers now!\"</string>
+  <string name="RA_CSW_JustInTime_UserBenefitsDescription">[tr]\"Special offers, promotions and first hand information about new product releases.\nTailored for you!\n\nJoin 140.000 of your peers now!\"</string>
   <string name="RA_CSW_JustInTime_UserBenefitsTitle">[tr]What do we have to offer?</string>
   <string name="RA_Cancel">İptal</string>
   <string name="RA_CoCo_Description_AppInfra">[tr]AppInfra is the component\'s top level module. It gathers all the modules delivered by the AppInfra Common Component into one single structure. AppInfra facilitates dependency injection into common components and other software pieces that make use of the AppInfra functionalities.</string>
@@ -49,12 +44,11 @@ Join 140.000 of your peers now!\"</string>
   <string name="RA_Coco_Version">[tr]App Info</string>
   <string name="RA_ConnectivityScreen_Menu_Title">Bağlantı</string>
   <string name="RA_ConnectivityScreen_Title">Bağlantı</string>
-  <string name="RA_DLSS_avatar_default_text">[tr]Hello User,
-Please sign in.</string>
+  <string name="RA_DLSS_avatar_default_text">[tr]Hello User,\nPlease sign in.</string>
   <string name="RA_DLS_Help_Philips_Shop">[tr]You can make Philips purchases or via 3rd party retailers here.</string>
   <string name="RA_DLS_Help_Support_screen_sub">[tr]You can contact Philips consumer care here. Consumer Care is the destination for all Philips questions, product information and reviews.</string>
   <string name="RA_DLS_HomeScreen_Title">[tr]Reference App Home</string>
-  <string name="RA_DLS_about_copyright">[tr]Copyright \\u00A9 2017 Philips</string>
+  <string name="RA_DLS_about_copyright">[tr]Copyright © 2017 Philips</string>
   <string name="RA_DLS_about_description">[tr]This reference app is the starting point for any new patient medical or consumer mobile app. It is made up of configurable common components which are all part of the CDP2 Platform. It will help accelerate your app development, harmonize UX across Philips and ensures appropriate integration with HSDP.</string>
   <string name="RA_DLS_about_privacy">[tr]Privacy policy</string>
   <string name="RA_DLS_about_terms">[tr]Terms &amp; conditions</string>
@@ -113,31 +107,17 @@ Please sign in.</string>
   <string name="RA_MYA_Consent_Binary_Help_Text">[tr]The actual content of the binary consent help text here</string>
   <string name="RA_MYA_Consent_Binary_Revoke_Warning_Text">[tr]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Click_Stream">Philips\'in uygulamayı çalıştırmak, geliştirmek, kişiselleştirmek, sosyal medya ile entegre etmek ve uygulamada ilgili içerik ve reklamların gösterilmesini sağlamak amacıyla uygulama verilerimi toplamasına izin veriyorum.</string>
-  <string name="RA_MYA_Consent_Click_Stream_Help_Text">Tanımlama Bilgisi Bildirimi
-
-Bu Uygulama Adobe Systems Software Ireland Limited (\"Adobe\") tarafından sağlanan bir analiz hizmeti olan (\"Adobe Analytics\") Adobe Analytics\'i kullanır. Adobe Analytics, Uygulama\'nın, Uygulama\'daki genel trafik düzenini analiz etmesine yardımcı olmak amacıyla \"tanımlama bilgilerini\" veya Uygulama içine yerleştirilen metin dosyaları olan benzer teknikleri kullanır. Tanımlama bilgisi tarafından oluşturulan Uygulama kullanım verileri, Adobe\'ye aktarıldığında konum belirlenmeden önce IP adresi anonim hale getirilir ve depolama işleminden önce genel bir IP adresi ile değiştirilir. Adobe, Philips adına Uygulama kullanımınızı değerlendirmek amacıyla Philips\'e Uygulama etkinliği raporları derlemek ve Philips\'e Uygulama etkinliği ve kullanımına ilişkin başka hizmetler sunmak için bu bilgileri kullanır. Adobe, IP adresinizi Adobe\'de saklanan diğer verilerle ilişkilendirmez. Bu ekranı kapattıktan sonra izninizi geri alarak Adobe ve Philips tarafından verilerinizin (tanımlama bilgileri ve IP adresi) toplanmasını ve kullanılmasını önleyebilirsiniz.
-</string>
+  <string name="RA_MYA_Consent_Click_Stream_Help_Text">Tanımlama Bilgisi Bildirimi\n\nBu Uygulama Adobe Systems Software Ireland Limited (\"Adobe\") tarafından sağlanan bir analiz hizmeti olan (\"Adobe Analytics\") Adobe Analytics\'i kullanır. Adobe Analytics, Uygulama\'nın, Uygulama\'daki genel trafik düzenini analiz etmesine yardımcı olmak amacıyla \"tanımlama bilgilerini\" veya Uygulama içine yerleştirilen metin dosyaları olan benzer teknikleri kullanır. Tanımlama bilgisi tarafından oluşturulan Uygulama kullanım verileri, Adobe\'ye aktarıldığında konum belirlenmeden önce IP adresi anonim hale getirilir ve depolama işleminden önce genel bir IP adresi ile değiştirilir. Adobe, Philips adına Uygulama kullanımınızı değerlendirmek amacıyla Philips\'e Uygulama etkinliği raporları derlemek ve Philips\'e Uygulama etkinliği ve kullanımına ilişkin başka hizmetler sunmak için bu bilgileri kullanır. Adobe, IP adresinizi Adobe\'de saklanan diğer verilerle ilişkilendirmez. Bu ekranı kapattıktan sonra izninizi geri alarak Adobe ve Philips tarafından verilerinizin (tanımlama bilgileri ve IP adresi) toplanmasını ve kullanılmasını önleyebilirsiniz.\n</string>
   <string name="RA_MYA_Consent_Clickstream_Revoke_Warning_Text">[tr]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Coaching_Help_Text">[tr]The actual content of the coaching consent help text here</string>
   <string name="RA_MYA_Consent_Coaching_Revoke_Warning_Text">[tr]By revoking consent your data will be deleted from our servers.</string>
-  <string name="RA_MYA_Consent_Marketing_Help_Text">Onayınız doğrultusunda Philips şirketler grubu promosyon iletişimleri ile ilgili e-posta, SMS ve mobil uygulamalar ve sosyal medya gibi diğer dijital kanallar üzerinden sizinle iletişime geçebilir. İletişimleri tercihlerinize ve davranışlarınıza göre şekillendirmek ve sizlere en iyi kişiselleştirilmiş deneyimi sunmak için kişisel verilerinizi analiz edebilir ve birleştirebiliriz. Bu verilere şunlar dahildir: 
-
-Bize sağladığınız veriler
-Bizimle aktif olarak paylaşmak istediğiniz veriler: adınız, doğum tarihiniz veya yaşınız, e-posta adresiniz, posta adresiniz, ülkeniz, cinsiyetiniz, telefon numaranız, sosyal medya profiliniz.
-
-Philips ile olan etkileşimlerinizden elde ettiğimiz veriler
-Sosyal medya, web siteleri, e-postalar, uygulamalar ve bağlı ürünler gibi Philips dijital kanallarıyla olan etkileşiminiz ve bu kanalları kullanımınıza ilişkin veriler. Bu verilere şunlar dahil olabilir: IP adresi, tanımlama bilgileri, cihaz bilgileri, tıkladığınız iletişimler, konum ayrıntıları ve ziyaret ettiğiniz web siteleri
-
-Philips, her zaman onayınızı geri çekme fırsatı sunar.
-Daha fazla bilgi için lütfen Philips Gizlilik bildirimini ve Philips Tanımlama Bilgisi bildirimini okuyun.</string>
+  <string name="RA_MYA_Consent_Marketing_Help_Text">Onayınız doğrultusunda Philips şirketler grubu promosyon iletişimleri ile ilgili e-posta, SMS ve mobil uygulamalar ve sosyal medya gibi diğer dijital kanallar üzerinden sizinle iletişime geçebilir. İletişimleri tercihlerinize ve davranışlarınıza göre şekillendirmek ve sizlere en iyi kişiselleştirilmiş deneyimi sunmak için kişisel verilerinizi analiz edebilir ve birleştirebiliriz. Bu verilere şunlar dahildir: \n\nBize sağladığınız veriler\nBizimle aktif olarak paylaşmak istediğiniz veriler: adınız, doğum tarihiniz veya yaşınız, e-posta adresiniz, posta adresiniz, ülkeniz, cinsiyetiniz, telefon numaranız, sosyal medya profiliniz.\n\nPhilips ile olan etkileşimlerinizden elde ettiğimiz veriler\nSosyal medya, web siteleri, e-postalar, uygulamalar ve bağlı ürünler gibi Philips dijital kanallarıyla olan etkileşiminiz ve bu kanalları kullanımınıza ilişkin veriler. Bu verilere şunlar dahil olabilir: IP adresi, tanımlama bilgileri, cihaz bilgileri, tıkladığınız iletişimler, konum ayrıntıları ve ziyaret ettiğiniz web siteleri\n\nPhilips, her zaman onayınızı geri çekme fırsatı sunar.\nDaha fazla bilgi için lütfen Philips Gizlilik bildirimini ve Philips Tanımlama Bilgisi bildirimini okuyun.</string>
   <string name="RA_MYA_Consent_Moment_Help_Text">[tr]The actual content of the moment consent help text here</string>
   <string name="RA_MYA_Consent_Moments_Revoke_Warning_Text">[tr]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Consent_Research_Analytics_Help_Text">[tr]The actual content of the research and analytics consent help text here</string>
   <string name="RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text">[tr]By revoking consent your data will be deleted from our servers.</string>
   <string name="RA_MYA_Moment_Consent">[tr]I allow Philips to store my data in cloud</string>
   <string name="RA_MYA_Research_Analytics_Consent">[tr]I allow Philips to use my data for Research and Analytics purposes</string>
-  <string name="RA_MYA_Device_Tagging_Clickstream">[tr]I allow Philips to use my data for device tagging clickstream</string>
-  <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">[tr]The actual content of the device tagging clickstream consent help text here</string>
   <string name="RA_Menu_title_Demo">[tr]Test Demo Apps</string>
   <string name="RA_NO_Order_History">Sipariş Geçmişi Kullanılamıyor</string>
   <string name="RA_Neura_Allow_Button">[tr]Allow</string>
@@ -154,9 +134,7 @@ Daha fazla bilgi için lütfen Philips Gizlilik bildirimini ve Philips Tanımlam
   <string name="RA_Overlay_Dismiss">[tr]Got it</string>
   <string name="RA_Overlay_Shop_Text">[tr]You can make Philips purchases or via 3rd party retailers here.</string>
   <string name="RA_Overlay_Support_Text">[tr]You can contact Philips consumer care here. Consumer Care is the destination for all Philips questions product informations and reviews.</string>
-  <string name="RA_PR_Benefit_Text">Garanti sürenizi 24 ay uzatın.
-Philips mağazalarından %10 indirim kazanın.
-Ücretsiz ürün aksesuarları alın</string>
+  <string name="RA_PR_Benefit_Text">Garanti sürenizi 24 ay uzatın.\nPhilips mağazalarından %10 indirim kazanın.\nÜcretsiz ürün aksesuarları alın</string>
   <string name="RA_PR_Email_Text">Genişletilmiş garanti sözleşmesi, e-posta adresinize gönderildi</string>
   <string name="RA_PR_Extentende_Warranty">Garanti süreniz gelecek yıla kadar uzatıldı</string>
   <string name="RA_Philips_Shop_Menu_Title">Philips Mağaza</string>
@@ -212,6 +190,12 @@ Philips mağazalarından %10 indirim kazanın.
   <string name="RA_WelcomeScreen_Intro_Title">[tr]What is Reference App?</string>
   <string name="RA_You_are_not_LoggedIn">Oturumunuz Açık Değil. Lütfen Ayarlar\'a gidip Oturum Açın</string>
   <string name="RA_change_config_desc">[tr]Configuration can only be changed at launch time. You need to relaunch the app to change it.</string>
+  <string name="RA_cookie_accept">[tr]Accept</string>
+  <string name="RA_cookie_description">[tr]I want to share my app data to help improve the app and provide me with personalized services</string>
+  <string name="RA_cookie_nav_title">[tr]Consent</string>
+  <string name="RA_cookie_reject">[tr]Reject</string>
+  <string name="RA_cookie_title">[tr]Cookies</string>
+  <string name="RA_cookie_what_text_description">[tr]Adobe Analytics\n\nThis App uses Adobe Analytics, an analytics service (\"Adobe Analytics”) provided by Adobe Systems Software Ireland Limited (\"Adobe\") Adobe Analytics uses \"cookies\" or similar techniques, which are text files placed in your App, in order to help the App to analyze overall traffic patterns through our App. By transmitting the information generated by the cookie about the use of the App to Adobe, setting ensures that IP address is anonymized before geo-localization und will be replaced by a generic IP address before storage. On behalf of Philips, Adobe will use this information for the evaluation of your use of the App, compiling reports on App activity for Philips, and in order to provide other services relating to App activity and use of the App to IP address with any other data held Philips Adobe will not associate your by Adobe. You can prevent Adobe\'s and Philips collection and use of data out after you close this screen (cookies and IP address) if you opt-out after you close this screen.\n\nGoogle Firebase\n\nThis App uses Google Firebase, an app development service (Firebase) provided by Google Ireland Ltd (\"Google\"). Firebase uses cookies or similar techniques- SDK, which are text files placed in your App and web browser.\n\nOn behalf of Philips, Firebase will use information from your device such as your Device ID. IP address, your IDFA or Google Play Services ID and your MAC address and replace them with unique code. When you use the App we will measure the numbers of visits to the App, which pages you visit your network connection, load times and when the app crashes. We use this information to evaluate and understand your use of the App, to test and analyze performance and ultimately optimize our products and services.</string>
   <string name="RA_loading_articles">[tr]Loading Article</string>
   <string name="RA_neura_consent_help">[tr]Reference app asks for the location permissions so it can better understand your unique lifestyle.</string>
   <string name="RA_neura_consent_title">[tr]I allow Neura Sdk to track my moments</string>
@@ -219,7 +203,7 @@ Philips mağazalarından %10 indirim kazanın.
   <string name="RA_neura_error_dialog_title">[tr]Enable Permission</string>
   <string name="RA_neura_header_title">[tr]Reference app, Made for You</string>
   <string name="RA_nuera_location_info_title">[tr]To adapt to your preferences and needs, allow sharing location with Philips and Neura.</string>
-  <string name="RA_nuera_philips_tailor_text">[tr]Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling <b>location</b>.</string>
+  <string name="RA_nuera_philips_tailor_text">[tr]Philips works with Neura to enable tailor-made experience based on your lifestyle and activity levels by enabling &lt;b&gt;location&lt;/b&gt;.</string>
   <string name="RA_nuera_what_text_descp">[tr]Reference app asks for the location permissions so it can better understand your unique lifestyle. Reference app will adapt and anticipate your needs based on your daily routine to provide the recipes you need at the time you need them.</string>
   <string name="RA_privacy_policy">[tr]Privacy policy</string>
   <string name="RA_reference_device_scan">Referans Cihaz Taraması</string>

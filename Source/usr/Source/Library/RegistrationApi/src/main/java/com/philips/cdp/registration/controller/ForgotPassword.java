@@ -67,7 +67,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler, JumpFlo
                                         UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.d(TAG, "handleOnlySocialSignIn : is called");
         if (null != error && null != error.error
-                && error.code == RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE) {
+                && error.code == ErrorCodes.JANRAIN_ERROR_ON_FLOW) {
             try {
                 JSONObject object = error.raw_response;
                 if (!object.isNull(RegConstants.MESSAGE)) {

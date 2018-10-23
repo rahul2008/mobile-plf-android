@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "product-registration-lib"
+archivesBaseName = strings.prg.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -108,11 +109,11 @@ dependencies {
     implementation deps.volley
 
     if (directdependencies) {
-        implementation project(':registrationApi')
-        implementation project(':prx')
-        implementation project(':uid')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
+        implementation project(strings.usr.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.registrationApi
         implementation philipsdeps.prx

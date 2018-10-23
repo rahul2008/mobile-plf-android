@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -182,7 +183,7 @@ dependencies {
     releaseImplementation deps.leakcanary_no_op
     testImplementation deps.leakcanary_no_op
 
-    implementation project(':iapUApp')
+    implementation project(strings.iapuapp.projectName)
 
     implementation deps.constraintlayout
     implementation deps.support.design
@@ -191,12 +192,12 @@ dependencies {
     implementation deps.support.appcompatv7
 
     if (directdependencies) {
-        implementation project(':uid')
-        implementation project(':registrationApi')
-        implementation project(':iap')
-        implementation project(':prx')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
+        implementation project(strings.uid.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.iap.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uid
         implementation(philipsdeps.registrationApi) {

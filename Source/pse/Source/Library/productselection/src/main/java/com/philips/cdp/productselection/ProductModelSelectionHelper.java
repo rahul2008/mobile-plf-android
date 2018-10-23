@@ -197,7 +197,6 @@ public class ProductModelSelectionHelper {
             throw new RuntimeException("Please initialise context before component invocation");
         }
         Intent intent = new Intent(this.getContext(), ProductSelectionActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(Constants.STOP_ANIMATION_ID, endAnimation);
         intent.putExtra(Constants.SCREEN_ORIENTATION, orientation.getOrientationValue());

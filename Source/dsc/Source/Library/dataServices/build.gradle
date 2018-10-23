@@ -7,9 +7,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "dataServices"
+archivesBaseName = strings.dsc.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -128,9 +129,9 @@ dependencies {
     implementation deps.support.annotations
 
     if (directdependencies) {
-        implementation project(':catk')
-        implementation project(':pif')
-        implementation project(':AppInfra')
+        implementation project(strings.catk.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation(philipsdeps.catk) {
             exclude group: 'com.google.code.findbugs', module: 'jsr305'

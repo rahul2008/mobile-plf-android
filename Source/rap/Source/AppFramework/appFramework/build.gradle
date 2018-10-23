@@ -10,6 +10,7 @@ apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 buildscript {
@@ -24,7 +25,7 @@ buildscript {
     }
 }
 
-archivesBaseName = "referenceApp"
+archivesBaseName = strings.rap.artifactName
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -201,7 +202,6 @@ dependencies {
     releaseImplementation deps.leakcanary_no_op
     psraReleaseImplementation deps.leakcanary_no_op
 
-    implementation deps.stetho
     implementation deps.ormlite.core
     implementation deps.ormlite.android
     implementation deps.multidex
@@ -209,47 +209,47 @@ dependencies {
     annotationProcessor deps.butterknife_compiler
 
     if (directdependencies) {
-        implementation project(':product-registration-lib')
-        implementation project(':uid')
-        implementation project(':pif')
-        implementation project(':jump')
-        implementation project(':uAppFwLib')
-        implementation project(':commlib-api')
-        implementation project(':commlib-ble')
-        implementation project(':AppInfra')
-        implementation project(':catk')
-        implementation project(':csw')
-        implementation project(':cloudcontroller')
-        implementation project(':cloudcontroller-api')
-        implementation project(':productselection')
-        implementation project(':commlib-cloud')
-        implementation project(':commlib-lan')
-        implementation project(':prx')
-        implementation project(':ews-android')
-        implementation project(':uikitLib')
-        implementation project(':registrationApi')
-        implementation project(':digitalCare')
-        implementation project(':iap')
-        implementation project(':dataServices')
-        implementation project(':mya')
-        implementation project(':commlib')
-        implementation project(':commlib-demouapp')
-        implementation project(':digitalCareUApp')
-        implementation project(':uAppFwLibUApp')
-        implementation project(':iapUApp')
-        implementation project(':dataServicesUApp')
-        implementation project(':product-registration-libUApp')
-        implementation project(':UserRegistrationUApp')
-        implementation project(':devicepairingUApp')
-        implementation project(':telehealth')
-        implementation project(':thsUapp')
-        implementation project(':ewsUApp')
-        implementation project(':bluelib-demouapp')
-        implementation project(':bluelib')
-        implementation project(':pushnotification')
-        implementation project(':themesettings')
-        implementation project(':NeuraUApp')
-        implementation project(':AppInfraUApp')
+        implementation project(strings.prg.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.cmlapi.projectName)
+        implementation project(strings.cmlble.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.catk.projectName)
+        implementation project(strings.csw.projectName)
+        implementation project(strings.clc.projectName)
+        implementation project(strings.cca.projectName)
+        implementation project(strings.pse.projectName)
+        implementation project(strings.ccl.projectName)
+        implementation project(strings.cmllan.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.ews.projectName)
+        implementation project(strings.uit.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.dcc.projectName)
+        implementation project(strings.iap.projectName)
+        implementation project(strings.dsc.projectName)
+        implementation project(strings.mya.projectName)
+        implementation project(strings.cml.projectName)
+        implementation project(strings.cmluapp.projectName)
+        implementation project(strings.dccuapp.projectName)
+        implementation project(strings.ufwuapp.projectName)
+        implementation project(strings.iapuapp.projectName)
+        implementation project(strings.dscuapp.projectName)
+        implementation project(strings.prguapp.projectName)
+        implementation project(strings.usruapp.projectName)
+        implementation project(strings.dpruapp.projectName)
+        implementation project(strings.ths.projectName)
+        implementation project(strings.thsuapp.projectName)
+        implementation project(strings.ewsuapp.projectName)
+        implementation project(strings.blluapp.projectName)
+        implementation project(strings.bll.projectName)
+        implementation project(strings.pnf.projectName)
+        implementation project(strings.tse.projectName)
+        implementation project(strings.neurauapp.projectName)
+        implementation project(strings.ailuapp.projectName)
     } else {
         implementation philipsdeps.product_registration_lib
         implementation philipsdeps.uid
@@ -312,8 +312,8 @@ dependencies {
         implementation philipsdeps.bluelib_demouapp
         implementation philipsdeps.bluelib
         implementation philipsdeps.NeuraUApp
-        implementation project(':pushnotification')
-        implementation project(':themesettings')
+        implementation project(strings.pnf.projectName)
+        implementation project(strings.tse.projectName)
         implementation philipsdeps.AppInfraUApp
     }
     testImplementation deps.json

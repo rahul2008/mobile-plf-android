@@ -268,7 +268,6 @@ public class DigitalCareConfigManager {
         //AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(DigitalCareConstants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(DigitalCareConstants.STOP_ANIMATION_ID, endAnimation);
         intent.putExtra(DigitalCareConstants.SCREEN_ORIENTATION, orientation.getOrientationValue());

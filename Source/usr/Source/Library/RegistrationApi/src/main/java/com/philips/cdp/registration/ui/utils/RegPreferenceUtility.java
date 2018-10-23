@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.File;
@@ -20,8 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.registration.settings.RegistrationSettings.REGISTRATION_API_PREFERENCE;
-
+import static com.philips.cdp.registration.ui.utils.RegConstants.MICROSITE_ID;
+import static com.philips.cdp.registration.ui.utils.RegConstants.REGISTRATION_API_PREFERENCE;
 
 public class RegPreferenceUtility {
 
@@ -31,6 +32,13 @@ public class RegPreferenceUtility {
         oldValArray.add(value);
         String newVal = listToString(oldValArray);
         Jump.getSecureStorageInterface().storeValueForKey(key, newVal, new SecureStorageInterface.SecureStorageError());
+    }
+
+    protected void storeMicrositeId(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(MICROSITE_ID, RegistrationConfiguration.getInstance().getMicrositeId());
+        editor.apply();
     }
 
     public static boolean getPreferenceValue(Context context, String key, String value) {
@@ -106,9 +114,9 @@ public class RegPreferenceUtility {
     private static List<String> stringToList(String args) {
         List<String> myList;
         if (args == null) {
-            myList = new ArrayList<String>();
+            myList = new ArrayList<>();
         } else {
-            myList = new ArrayList<String>(Arrays.asList(args.split(",")));
+            myList = new ArrayList<>(Arrays.asList(args.split(",")));
         }
         return myList;
     }

@@ -16,18 +16,13 @@ public class RegConstants {
 
     public static final String TRADITIONAL_REGISTRATION_EMAIL_ADDRESS = "traditionalRegistration_emailAddress";
 
-    public static final int HSDP_ADMINISTRATION_ERROR = 3160;
-
-
     public static final String INVALID_FIELDS = "invalid_fields";
-
 
     public static final String NO_SUCH_ACCOUNT = "no_such_account";
 
     public static final String FORGOT_PASSWORD_FORM = "forgotPasswordForm";
 
     public static final String RESEND_VERIFICATION_FORM = "resendVerificationForm";
-
 
     public static final String USER_INFORMATION_FORM = "userInformationForm";
 
@@ -41,33 +36,9 @@ public class RegConstants {
 
     public static final String REGISTER_FAMILY_NAME = "familyName";
 
-    public static final String REGISTER_MY_PHILIPS_EXTRA = "myPhilipsExtra";
-
-    public static final String EVAL_CLIENT_Id = "6v3yzffu6uxq4k9ctcw4jtd498k8zmtz";
-
-    public static final String PROD_CLIENT_ID = "mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3";
-
     public static final String MICROSITE_ID = "81376";
 
-    public static final String REGISTRATION_USE_EVAL = "REGISTRATION_USE_EVAL";
-
-    public static final String REGISTRATION_USE_PROD = "REGISTRATION_USE_PRODUCTION";
-
-    public static final String JANRAIN_INTIALIZATION_STATUS = "janrainIntializationStatus";
-
-    public static final String LOGOUT_ACTION = "LOGOUT";
-
-    public static final String SOCIAL_LOGIN = "SOCIAL_LOGIN";
-
     public static final String REGISTER_EMAIL = "email";
-
-    public static final int INVALID_CREDENTIALS_ERROR_CODE = 210;
-
-    public static final int INVALID_FIELDS_ERROR_CODE = 390;
-
-    public static final int NO_SUCH_ACCOUNT_ERROR_CODE = 212;
-
-    public static final int ONLY_SOCIAL_SIGN_IN_ERROR_CODE = 540;
 
     public static final String SOCIAL_PROVIDER = "SOCIAL_PROVIDER";
 
@@ -81,8 +52,6 @@ public class RegConstants {
 
     public static final String SOCIAL_MERGE_TOKEN = "SOCIAL_MERGE_TOKEN";
 
-    public static final String USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
-
     public static final String SOCIAL_REGISTRATION_DISPLAY_NAME = "socialRegistration_displayName";
 
     public static final String SOCIAL_REGISTRATION_EMAIL_ADDRESS = "socialRegistration_emailAddress";
@@ -91,12 +60,9 @@ public class RegConstants {
 
     public static final String FONT_PATH = "registration/fonts/";
 
-    public static final String CONFIGURATION_JSON_PATH = "registration/configuration/configuration.json";
-
     public static final String REGISTRATION_FRAGMENT_TAG = "Registration_fragment_tag";
 
     public static final String ORIENTAION = "Orientaion";
-
 
     public static final String REGISTRATION_LAUNCH_MODE = "REGISTRATION_LAUNCH_MODE";
 
@@ -106,39 +72,21 @@ public class RegConstants {
 
     public static final String SOCIAL_MERGE_EMAIL = "social_merge_email";
 
-    public static final int HSDP_ACTIVATE_ACCOUNT_FAILED = 10000;
-
     public static final String IS_SOCIAL_PROVIDER = "IS_SOCIAL_PROVIDER";
 
     public static final String IS_FOR_TERMS_ACCEPATNACE = "IsForTermsAccepatnace";
-
-    public static final String INVALID_ACCESS_TOKEN_CODE = "1009";
-
-    public static final String INVALID_JANRAIN_NO_ACCESS_GRANT_CODE = "413";
-
-    public static final String INVALID_REFRESH_TOKEN_CODE = "1151";
-
-    public static final String PHILIPS_LOGIN_URL = "https://www.philips.co.uk/myphilips/login.html";
 
     public static final String DI_PROFILE_FILE = "diProfile";
 
     public static final String PUIICON_TTF = "PUIIcon.ttf";
 
-    public static final String COPPA_STATUS = "CoppaStatus";
-
     public static final int VERIFY_CODE_MINIMUM_LENGTH = 6;
-
-    public static final String IS_FROM_PARENTAL_CONSENT = "ParentalConsent";
-
-    public static final String WECHAT_AUTH = "WECHAT_AUTH";
 
     public static final String WE_CHAT_AUTH = "WeChatAuth";
 
     public static final String WECHAT_ERR_CODE = "WECHAT_ERR_CODE";
 
     public static final String WECHAT_CODE = "WECHAT_CODE";
-
-    public static final int UR_ERRORCODE = 67675438;
 
     public static final String COUNTRY_CODE_US = "US";
 
@@ -152,15 +100,9 @@ public class RegConstants {
 
     public static final String SUCCESS_STATE_RESPONSE_OK = "ok";
 
-    public static final int FAILURE_TO_CONNECT = -1;
-
-    public final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
-
     public final static String COUNTER_TICK = "COUNTER_TICK";
 
     public final static String COUNTER_FINISH = "COUNTER_FINISH";
-
-    public static final int BAD_RESPONSE_ERROR_CODE = 7008;
 
     public static final String SOCIAL_PROVIDER_FACEBOOK = "facebook";
 
@@ -170,12 +112,13 @@ public class RegConstants {
 
     public static final String TERMS_N_CONDITIONS_ACCEPTED = "TERMS_N_CONDITIONS_ACCEPTED";
 
-    //HomeFragment and CountrySelection Fragment Bundle keys
-
     public static final String KEY_BUNDLE_COUNTRY_CODE = "KEY_BUNDLE_COUNTRY_CODE";
 
     public static final String KEY_BUNDLE_COUNTRY_NAME = "KEY_BUNDLE_COUNTRY_NAME";
 
-    public static final int CAMPAIGN_ID_UNAVAILABLE = 412;
     public static final int UNKNOWN_ERROR_ID = -500;
+
+    public static final String NOTIFICATION = "NOTIFICATION";
+
+    public static final String REGISTRATION_API_PREFERENCE = "REGAPI_PREFERENCE";
 }

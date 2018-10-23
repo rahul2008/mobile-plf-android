@@ -301,7 +301,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
             urLaunchInput.setAccountSettings(false);
             activityLauncher = new ActivityLauncher(ActivityLauncher.
-                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+                    ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null,0,null);
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
 

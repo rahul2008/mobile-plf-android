@@ -5,13 +5,9 @@
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
+        maven { url repos.jcenter }
     }
     dependencies {
             classpath 'com.android.tools.build:gradle:3.1.4'
@@ -20,14 +16,10 @@ buildscript {
 }
 
 allprojects {
+    apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url repos.jcenter }
+        maven { url repos.sonatype }
     }
 
     // Increasing number of errors displayed by JavaCompiler to 400, so that we can see root cause

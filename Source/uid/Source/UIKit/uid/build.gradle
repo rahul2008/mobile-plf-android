@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
 
-archivesBaseName = 'uid'
+archivesBaseName = strings.uid.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -74,7 +75,7 @@ dependencies {
     testImplementation deps.junit
 
     if (directdependencies) {
-        implementation project(':IconFont')
+        implementation project(strings.icf.projectName)
     } else {
         implementation philipsdeps.IconFont
     }

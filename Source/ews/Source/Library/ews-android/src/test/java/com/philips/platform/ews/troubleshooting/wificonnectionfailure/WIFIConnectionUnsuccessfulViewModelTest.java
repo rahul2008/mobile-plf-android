@@ -6,6 +6,7 @@ package com.philips.platform.ews.troubleshooting.wificonnectionfailure;
 
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;
+import com.philips.platform.ews.wifi.WiFiUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -25,6 +27,7 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
 
     private WIFIConnectionUnsuccessfulViewModel subject;
 
+    @Mock private WiFiUtil mockWiFiUtil;
     @Mock private Navigator mockNavigator;
     @Mock private EWSTagger ewsTagger;
 
@@ -32,7 +35,7 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
     public void setUp() throws Exception {
         mockStatic(EWSTagger.class);
         initMocks(this);
-        subject = new WIFIConnectionUnsuccessfulViewModel(mockNavigator, ewsTagger);
+        subject = new WIFIConnectionUnsuccessfulViewModel(mockWiFiUtil, mockNavigator, ewsTagger);
     }
 
     @Test
@@ -64,9 +67,10 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
     }
 
     @Test
-    public void itShouldNavigateToWifiConfirmationScreenWhenTryAgainButtonIsClicked() throws Exception {
+    public void itShouldNavigateToSelectWifiScreenIfHomeWiFiIsNotEnabledWhenTryAgainButtonIsClicked() throws Exception {
         subject.onTryAgainClicked();
-        verify(mockNavigator).navigateToHomeNetworkConfirmationScreen();
+        when(mockWiFiUtil.isHomeWiFiEnabled()).thenReturn(false);
+        verify(mockNavigator).navigateToSelectWiFiScreen();
     }
 
     @Test

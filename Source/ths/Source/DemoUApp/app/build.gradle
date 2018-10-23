@@ -77,5 +77,5 @@ dependencies {
     implementation deps.constraintlayout
     implementation deps.support.design
     testImplementation deps.junit
-    implementation project(':thsUapp')
+    implementation project(strings.thsuapp.projectName)
 }

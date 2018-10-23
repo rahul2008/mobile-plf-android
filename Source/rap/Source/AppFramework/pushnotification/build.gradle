@@ -9,6 +9,7 @@ apply from: "../scripts/task_reporting_logging.gradle"
 apply from: "../scripts/flavors_pushnotification.gradle"
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     dependencies {
@@ -17,7 +18,7 @@ buildscript {
     }
 }
 
-archivesBaseName = project.name
+archivesBaseName = strings.pnf.artifactName
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -69,7 +70,7 @@ dependencies {
     }
 
     if (directdependencies) {
-        implementation project(':AppInfra')
+        implementation project(strings.ail.projectName)
     } else {
         implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'

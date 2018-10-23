@@ -2,7 +2,6 @@ package com.philips.platform.core.trackers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -71,6 +70,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.spy.DSPaginationSpy;
+import com.philips.spy.EventingMock;
 import com.philips.testing.verticals.datatyes.MomentType;
 
 import org.joda.time.DateTime;
@@ -121,7 +121,6 @@ public class DataServicesManagerTest {
 
     private static final int TEST_REFERENCE_ID = 111;
     public static final String TEST_USER_ID = "TEST_USER_ID";
-    private static final String TEST_CONSENT_DETAIL_TYPE = "TEMPERATURE";
     private static final String TEST_MEASUREMENT_DETAIL_TYPE = "BOTTLE_CONTENTS";
     private final String GDPR_MIGRATION_FLAG = "gdpr_migration_flag";
 
@@ -1178,41 +1177,6 @@ public class DataServicesManagerTest {
         mDSPagination.setPageNumber(1);
         mDSPagination.setOrderBy("timestamp");
         return mDSPagination;
-    }
-
-    class EventingMock implements Eventing {
-
-        public Event postedEvent;
-
-        @Override
-        public void post(@NonNull Event event) {
-            this.postedEvent = event;
-        }
-
-        @Override
-        public void postSticky(@NonNull Event event) {
-
-        }
-
-        @Override
-        public void register(@NonNull Object subscriber) {
-
-        }
-
-        @Override
-        public void unregister(@NonNull Object subscriber) {
-
-        }
-
-        @Override
-        public boolean isRegistered(@NonNull Object subscriber) {
-            return false;
-        }
-
-        @Override
-        public void removeSticky(@NonNull Event event) {
-
-        }
     }
 }
 

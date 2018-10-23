@@ -7,7 +7,7 @@
     android:background="?attr/uidContentPrimaryBackgroundColor"
     android:minHeight="85dp">
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/image"
         android:layout_width="85dp"
         android:layout_height="75dp"

@@ -117,7 +117,7 @@ public class CswInterface implements UappInterface {
             Intent cswIntent = new Intent(uappLaunchInput.getContext(), CswActivity.class);
             cswIntent.putExtra(CswConstants.DLS_THEME, uiLauncher.getUiKitTheme());
             cswIntent.putExtra(CswConstants.CONSENT_DEFINITIONS, (Serializable) uappLaunchInput.getConsentDefinitionList());
-            cswIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            cswIntent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             uappLaunchInput.getContext().startActivity(cswIntent);
             reference.cswLaunchInput = uappLaunchInput;
         }

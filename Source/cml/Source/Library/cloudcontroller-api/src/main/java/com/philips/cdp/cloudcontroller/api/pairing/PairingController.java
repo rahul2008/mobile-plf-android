@@ -33,7 +33,7 @@ public interface PairingController {
         /**
          * On relationship remove.
          */
-        void onRelationshipRemove();
+        void onRelationshipRemove(int status);
 
         /**
          * On relationship get

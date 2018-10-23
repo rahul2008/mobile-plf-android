@@ -71,13 +71,17 @@ public class PushNotificationController {
 
         mPushNotificationClient = mUCoreAdapter.getAppFrameworkClient(PushNotificationClient.class,
                 uCoreAccessProvider.getAccessToken(), mGsonConverter);
-        if(mPushNotificationClient==null) return false;
+        if (mPushNotificationClient == null) return false;
         try {
             Response response = mPushNotificationClient.unRegisterDeviceToken(uCoreAccessProvider.getUserId(),
                     uCoreAccessProvider.getUserId(), 13, appVariant, token);
             eventing.post(new PushNotificationResponse(isResponseSuccess(response)));
         } catch (RetrofitError error) {
-            eventing.post(new PushNotificationErrorResponse(createDataServicesError(error.getResponse().getStatus(), error.getMessage())));
+            int status = -1;
+            if (error.getResponse() != null) {
+                status = error.getResponse().getStatus();
+            }
+            eventing.post(new PushNotificationErrorResponse(createDataServicesError(status, error.getMessage())));
         }
         return false;
     }

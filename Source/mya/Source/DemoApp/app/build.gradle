@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 buildscript {
@@ -211,11 +212,11 @@ dependencies {
     implementation deps.constraintlayout
 
     if (directdependencies) {
-        implementation project(':AppInfra')
-        implementation project(':uid')
-        implementation project(':jump')
-        implementation project(':mya')
-        implementation project(':UserRegistrationUApp')
+        implementation project(strings.ail.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.mya.projectName)
+        implementation project(strings.usruapp.projectName)
         implementation project(':mya-csw')
         implementation project(':mya-demoUapp')
     } else {

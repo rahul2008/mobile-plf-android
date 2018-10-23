@@ -8,6 +8,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uid.view.widget.Label;
@@ -31,7 +32,7 @@ public class UserDetailsFragmentTest {
     private UserDetailsFragment myaDetailsFragment;
     private Context mContext;
     @Mock
-    private com.philips.cdp.registration.injection.RegistrationComponent componentMock;
+    private RegistrationComponent componentMock;
 
     User userMock;
     @Mock

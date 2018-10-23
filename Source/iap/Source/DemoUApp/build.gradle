@@ -6,8 +6,9 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = "iapUApp"
+archivesBaseName = strings.iapuapp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -114,11 +115,11 @@ dependencies {
     testImplementation deps.junit
 
     if (directdependencies) {
-        implementation project(':iap')
-        implementation project(':registrationApi')
-        implementation project(':uid')
-        implementation project(':AppInfra')
-        implementation project(':uAppFwLib')
+        implementation project(strings.iap.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.ufw.projectName)
     } else {
         implementation philipsdeps.iap
         implementation philipsdeps.uid

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 archivesBaseName = "MyAccountUApp"
 
@@ -105,10 +106,10 @@ dependencies {
     implementation deps.appcompatv7
 
     if (directdependencies) {
-        implementation project(':uid')
-        implementation project(':mya')
-        implementation project(':csw')
-        implementation project(':UserRegistrationUApp')
+        implementation project(strings.uid.projectName)
+        implementation project(strings.mya.projectName)
+        implementation project(strings.csw.projectName)
+        implementation project(strings.usruapp.projectName)
     } else {
         implementation philipsdeps.mya
         implementation philipsdeps.mya_csw

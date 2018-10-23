@@ -6,9 +6,10 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
-archivesBaseName = "AppInfraUApp"
+archivesBaseName = strings.ailuapp.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -32,9 +33,9 @@ dependencies {
     implementation deps.support.design
 
     if (directdependencies) {
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-        implementation project(':pif')
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.pif.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra

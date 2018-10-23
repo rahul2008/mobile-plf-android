@@ -85,6 +85,6 @@ public class AppInfraLaunchActivity extends AppCompatActivity {
         AILDemouAppInterface uAppInterface = AILDemouAppInterface.getInstance();
         AppInfraApplication appInfraApplication = (AppInfraApplication) getApplication();
         uAppInterface.init(new AILDemouAppDependencies(appInfraApplication.getAppInfra()), new AILDemouAppSettings(getApplicationContext()));// pass App-infra instance instead of null
-        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
+        uAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null),null);// pass launch input if required
     }
 }

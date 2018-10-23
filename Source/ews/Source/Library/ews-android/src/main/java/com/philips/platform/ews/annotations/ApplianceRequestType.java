@@ -18,4 +18,5 @@ public @interface ApplianceRequestType {
     int PUT_WIFI_PROPS = 2;
     int GET_DEVICE_PROPS = 3;
     int PUT_DEVICE_PROPS = 4;
+    int GET_WIFI_NETWORKS_PROPS = 5;
 }

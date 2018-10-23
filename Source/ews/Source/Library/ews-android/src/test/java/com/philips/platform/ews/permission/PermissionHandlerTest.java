@@ -23,7 +23,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static com.philips.platform.ews.setupsteps.SecondSetupStepsViewModel.ACCESS_COARSE_LOCATION;
+import static com.philips.platform.ews.startconnectwithdevice.StartConnectWithDeviceViewModel.ACCESS_COARSE_LOCATION;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
