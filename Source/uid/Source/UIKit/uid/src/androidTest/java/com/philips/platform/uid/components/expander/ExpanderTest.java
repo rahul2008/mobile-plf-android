@@ -1,15 +1,20 @@
 package com.philips.platform.uid.components.expander;
 
 import android.content.res.Resources;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.Expander;
+import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -31,9 +36,14 @@ public class ExpanderTest {
 
     @Before
     public void setUp() {
-        activity = activityTestRule.getActivity();
-        activity.switchTo(R.layout.uid_expander);
+
+        final BaseTestActivity baseTestActivity = activityTestRule.getActivity();
+        baseTestActivity.switchTo(com.philips.platform.uid.test.R.layout.layout_expander);
         resources = getInstrumentation().getContext().getResources();
+        Espresso.registerIdlingResources(baseTestActivity.getIdlingResource());
+        expander = (Expander) baseTestActivity.findViewById(com.philips.platform.uid.test.R.id.layout_expander_id_test);
+       // expander = new Expander(baseTestActivity);
+        activity = baseTestActivity;
 
 
     }
@@ -62,6 +72,12 @@ public class ExpanderTest {
         int expectedBottomMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_margin_top_bottom);
         getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameBottomMargin(expectedBottomMargin)));
     }
+
+    @Test
+    public  void  verifyExpanderTitlePanelClickable(){
+        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isClickable(true)));
+    }
+
 
 
 
@@ -96,6 +112,11 @@ public class ExpanderTest {
         getExpanderContentView().check(matches(ViewPropertiesMatchers.isSameBottomMargin(expectedBottomMargin)));
     }
 
+   /* @Test
+    public void verifyExpanderTitleContentViewAutoHeight(){
+        getExpanderContentView().check(matches(ViewPropertiesMatchers.isSameViewHeight(ViewGroup.LayoutParams.WRAP_CONTENT)));
+    }*/
+
 
 
     @Test
@@ -113,40 +134,157 @@ public class ExpanderTest {
 
 
 
-  /*  @Test
-    public void verifyExpanderBackgroundColor(){
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidcontent);
-        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.hasSameStateListBackgroundDrawableStateColor(new int[]{android.R.attr.state_enabled},color)));
-
-    }*/
 
 
-  public void verifyExpanderExpand(){
 
-  }
+   public void verifyExpanderExpand(){
+      activity.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+              expander.setExpanderTitle("New title");
+              expander.setExpanderPanelIcon(resources.getString(R.string.dls_exclamationmark_24));
+              expander.expand(true);
+          }
+      });
+   }
+
+
+    // Test Expander as a control
+
+    // set icon and verify icon not hidden
+    @Test
+    public  void testIconVisibility(){
+        expander.setExpanderPanelIcon(resources.getString(R.string.dls_exclamationmark_24));
+        Label leftIcon= (Label )expander.findViewById(com.philips.platform.uid.test.R.id.uid_expander_title_icon);
+
+        //leftIcon.check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
+
+    }
+
+
+    ////////////////////////
+    // Icon tests
+    @Test
+    public void verifyIconEndMargin() {
+        int expectedEndMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_title_icon_margin_end);
+        getExpanderTitlePanelIcon().check(matches(TextViewPropertiesMatchers.isSameRightMargin((expectedEndMargin))));
+    }
+
+    @Test
+    public void verifyIconFontSize() {
+        int expectedFontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_expander_title_icon_font_size);
+        getExpanderTitlePanelIcon().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
+    }
+
+    @Test
+    public void verifyIconColor() {
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemSecondaryNormalIconColor);
+        getExpanderTitlePanelIcon().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+    @Test
+    public void verifyIconDefaultVisibiulity() {
+        getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
+    }
+
+    // Chevron tests
+
+
+    @Test
+    public void verifyChevronFontSize() {
+        int expectedFontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_expander_title_chevron_font_size);
+        getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
+    }
+
+    @Test
+    public void verifyChevronColor() {
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemSecondaryNormalIconColor);
+        getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+
+    // Title tests
+    // test title text color
+
+    @Test
+    public void verifyTitleTextEndMargin() {
+        int expectedEndMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_title_text_margin_end);
+        getExpanderTitlePanelText().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedEndMargin)));
+    }
+
+    @Test
+    public void verifyTitleTextMinHeight() {
+        int expectedMinHeight = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_min_height);
+        getExpanderTitlePanelText().check(matches(ViewPropertiesMatchers.isSameViewMinHeight(expectedMinHeight)));
+    }
+
+
+    @Test
+    public void verifyTitleTextColor() {
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemPrimaryNormalTextColor);
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+    }
+
+
+    @Test
+    public void verifyTitleTextTypeface() {
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isSameTypeface(activity, TestConstants.FONT_PATH_CS_MEDIUM)));
+    }
+
+    @Test
+    public void verifyItemTextFontSize() {
+        int expectedFontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_expander_title_text_size);
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
+    }
+
+    @Test
+    public void verifyTitleTextMaximumLines(){
+
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.isSameMaxline(3)));
+    }
+
+
+
+
+    private ViewInteraction getExpanderTitlePanelIcon() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_icon));
+    }
+
+    private ViewInteraction getExpanderTitlePanelChevron() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_chevron));
+    }
+
+    private ViewInteraction getExpanderTitlePanelText() {
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_text));
+    }
+    ////////////////////////////
+
+
 
     // returns Relative layout which is ViewGroup for Title panel view
     private ViewInteraction getExpanderTitlePanel() {
-        return onView(withId(com.philips.platform.uid.R.id.uid_expander_view_title));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_view_title));
     }
 
     // returns Relative layout which is ViewGroup for Content view
     private ViewInteraction getExpanderContentView() {
-        return onView(withId(com.philips.platform.uid.R.id.uid_expander_view_content));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_view_content));
     }
 
     // returns divider view below Title panel
     private ViewInteraction getExpanderTitlePanelBottomDivider() {
-        return onView(withId(com.philips.platform.uid.R.id.uid_expander_title_bottom_divider));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_bottom_divider));
     }
 
     // returns divider view below content view
     private ViewInteraction getExpanderContentViewBottomDivider() {
-        return onView(withId(com.philips.platform.uid.R.id.uid_expander_title_bottom_divider));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander_title_bottom_divider));
     }
 
     private ViewInteraction getExpanderContainer(){
-        return onView(withId(com.philips.platform.uid.R.id.uid_expander));
+        return onView(withId(com.philips.platform.uid.test.R.id.uid_expander));
     }
+
+
 
 }

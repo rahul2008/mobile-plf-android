@@ -53,7 +53,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
      * @param attrs   the attrs
      */
     public Expander(Context context, @Nullable AttributeSet attrs) {
-        super(context);
+        super(context,attrs);
         mContext = context;
         initializeViews(context, attrs);
     }
@@ -72,7 +72,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
 
     private void initializeViews(Context context, AttributeSet attrs) {
         LayoutInflater inflater = LayoutInflater.from(context).cloneInContext(UIDHelper.getPopupThemedContext(context));
-        ViewGroup expanderLayout = (ViewGroup) inflater.inflate(R.layout.uid_expander, this);
+        View expanderLayout = (View) inflater.inflate(R.layout.uid_expander, this);
         ExpanderViewTitle = (RelativeLayout) expanderLayout.findViewById(R.id.uid_expander_view_title);
         ExpanderViewTitle.setOnClickListener(this);
         ExpanderViewContent = (RelativeLayout) expanderLayout.findViewById(R.id.uid_expander_view_content);
