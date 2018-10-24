@@ -61,7 +61,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModel {
     }
 
     void onNoButtonClicked() {
-        navigator.navigateToResetConnectionTroubleShootingScreen();
+        navigator.navigateToResetConnectionTroubleshootingScreen();
     }
 
     @VisibleForTesting

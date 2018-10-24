@@ -2,7 +2,9 @@ package com.philips.platform.ews.homewificonnection;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,12 +16,23 @@ import com.philips.platform.ews.R;
 import com.philips.platform.ews.base.BaseFragment;
 import com.philips.platform.ews.databinding.FragmentSelectWifiViewBinding;
 import com.philips.platform.ews.microapp.EWSActionBarListener;
+import com.philips.platform.ews.util.BundleUtils;
 
 public class SelectWiFiFragment extends BaseFragment {
 
     private static final String TAG = "SelectWiFiFragment";
     @Nullable
     SelectWiFiViewModel viewModel;
+
+    private static String DEVICE_FRIENDLY_NAME = "deviceFriendlyName";
+
+    public static Fragment newInstance(@NonNull String deviceFriendlyName) {
+        Bundle data = new Bundle();
+        data.putString(DEVICE_FRIENDLY_NAME, deviceFriendlyName);
+        SelectWiFiFragment fragment = new SelectWiFiFragment();
+        fragment.setArguments(data);
+        return fragment;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -64,6 +77,9 @@ public class SelectWiFiFragment extends BaseFragment {
                 container, false);
         viewModel = createViewModel();
         viewDataBinding.setViewModel(viewModel);
+        viewModel.setDeviceFriendlyName(BundleUtils
+                .extractStringFromBundleOrThrow(getArguments(), DEVICE_FRIENDLY_NAME));
+
         return viewDataBinding.getRoot();
     }
 

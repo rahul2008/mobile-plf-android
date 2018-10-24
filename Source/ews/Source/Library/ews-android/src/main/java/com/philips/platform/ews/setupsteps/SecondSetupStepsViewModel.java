@@ -98,7 +98,7 @@ public class SecondSetupStepsViewModel {
 
     public void onNoButtonClicked() {
         tapWifiNotBlinking();
-        navigator.navigateToResetConnectionTroubleShootingScreen();
+        navigator.navigateToResetConnectionTroubleshootingScreen();
     }
 
     private void tapWifiNotBlinking() {
@@ -121,9 +121,5 @@ public class SecondSetupStepsViewModel {
     public void connectPhoneToDeviceHotspotWifi() {
         ewsLogger.d(EWS_STEPS, "Step 1 : Trying to connect to appliance hot spot");
         startConnection();
-    }
-
-    public void showPasswordEntryScreenEvent() {
-        navigator.navigateToSelectWiFiScreen();
     }
 }

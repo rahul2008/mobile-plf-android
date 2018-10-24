@@ -194,13 +194,13 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenChangingFriendlyNameFailed() throws Exception {
         simulateChangeFriendlyDeviceNameFailed();
-        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
     }
 
     @Test
     public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenPuttingPropsFails() throws Exception {
         simulatePutPropsFailed();
-        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
     }
 
     @Test
@@ -292,7 +292,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
     public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenConnectedBackToDeviceHotspotWiFi() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
 
-        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
     }
 
     @Test
@@ -382,7 +382,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
 
-        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
     }
 
     @Test

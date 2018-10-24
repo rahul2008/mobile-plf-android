@@ -91,14 +91,14 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushResetDeviceTroubleShootingScreenWhenNavigating() throws Exception {
-        subject.navigateToResetDeviceTroubleShootingScreen();
+        subject.navigateToResetDeviceTroubleshootingScreen();
 
         verifyFragmentPushed(ResetDeviceTroubleshootingFragment.class);
     }
 
     @Test
     public void itShouldPushConnectToWrongPhoneTroubleShootingScreenWhenNavigating() throws Exception {
-        subject.navigateToConnectToWrongPhoneTroubleShootingScreen();
+        subject.navigateToConnectToWrongPhoneTroubleshootingScreen();
 
         verifyFragmentPushed(ConnectToWrongPhoneTroubleshootingFragment.class);
     }
@@ -112,7 +112,7 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushResetConnectionScreenWhenNotPresentInStack() throws Exception {
-        subject.navigateToResetConnectionTroubleShootingScreen();
+        subject.navigateToResetConnectionTroubleshootingScreen();
 
         verifyFragmentPushed(ResetConnectionTroubleshootingFragment.class);
     }
@@ -126,7 +126,7 @@ public class NavigatorTest {
 
     @Test
     public void itShouldNavigateToWifiConnectionUnsuccessfulScreen() throws Exception {
-        subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceName", "homeWifiSssid");
+        subject.navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen("deviceName", "homeWifiSssid");
 
         verifyFragmentPushed(WifiConnectionUnsuccessfulFragment.class);
     }
