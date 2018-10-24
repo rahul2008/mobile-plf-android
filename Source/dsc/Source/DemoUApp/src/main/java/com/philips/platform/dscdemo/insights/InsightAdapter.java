@@ -109,12 +109,7 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
         }
 
         public void bind(final Insight item, final OnItemClickListener listener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    listener.onItemClicked(item);
-                }
-            });
+            itemView.setOnClickListener(view -> listener.onItemClicked(item));
         }
     }
 }
