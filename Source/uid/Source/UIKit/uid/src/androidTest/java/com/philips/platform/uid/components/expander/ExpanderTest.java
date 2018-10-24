@@ -140,6 +140,11 @@ public class ExpanderTest {
 
 
     @Test
+    public void verifyExpanderBackgroundColor(){// there is No background color as it it Quite Expander
+        assertEquals(0,expander.getSolidColor());
+    }
+
+    @Test
     public void verifySeparatorVisibilityGone() {
 
         activity.runOnUiThread(new Runnable() {
@@ -186,6 +191,23 @@ public class ExpanderTest {
     }
 
     @Test
+    public void verifyExpanderCollapse() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Label label = new Label(getContext());
+                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                label.setLayoutParams(paramsLabel);
+                label.setText("customise Expander Content ");
+                expander.setExpanderContentView(label);
+                expander.expand(false);
+            }
+        });
+        getExpanderContentView().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
+        assertEquals(false, expander.isExpanded());
+    }
+
+/*    @Test
     public void verifyExpanderCustomHeader() {
         activity.runOnUiThread(new Runnable() {
             @Override
@@ -202,7 +224,7 @@ public class ExpanderTest {
                 getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
-    }
+    }*/
 
     @Test
     public void verifyExpanderListenerCallBackForExpand() {
@@ -256,7 +278,6 @@ public class ExpanderTest {
                 expander.setExpanderContentView(label);
                 expander.setExpanderTitle("Expander NOT collapsed");
                 expander.setExpanderListener(uidExpanderListener);
-                // expander.expand(true); // expand
                 expander.expand(false); //collapse
 
             }
@@ -342,6 +363,7 @@ public class ExpanderTest {
                 label.setText("customise Expander title");
                 expander.setExpanderContentView(label);
                 expander.expand(false);
+
             }
         });
         getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.hasSameText(resources.getString(R.string.dls_navigationdown))));
