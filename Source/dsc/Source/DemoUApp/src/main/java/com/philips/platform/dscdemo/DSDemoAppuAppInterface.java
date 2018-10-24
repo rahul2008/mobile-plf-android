@@ -6,9 +6,12 @@
 package com.philips.platform.dscdemo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.csw.justintime.JustInTimeConsentDependencies;
@@ -58,10 +61,16 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        if (appInfra.getRestClient().isInternetReachable()) {
-            JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new CheckConsentsListener(uiLauncher));
-        } else {
-            launchUApp(uiLauncher);
+        Context context = ((ActivityLauncher) uiLauncher).getActivityContext();
+        try {
+            checkUserLoggedIn(context);
+            if (appInfra.getRestClient().isInternetReachable()) {
+                JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new CheckConsentsListener(uiLauncher));
+            } else {
+                launchUApp(uiLauncher);
+            }
+        } catch (UserNotLoggedInException e) {
+            showNotLoggedInAlert(context);
         }
     }
 
@@ -99,7 +108,23 @@ public class DSDemoAppuAppInterface implements UappInterface {
         momentsFragment.showFragment(momentsFragment, fragmentLauncher);
     }
 
+    private void showNotLoggedInAlert(Context context) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setTitle(R.string.RA_Warning);
+        alertBuilder.setMessage(R.string.RA_You_are_not_LoggedIn);
+        alertBuilder.setPositiveButton(R.string.ok, null);
+        alertBuilder.show();
+    }
+
+    private void checkUserLoggedIn(Context context) {
+        User user = new User(context);
+        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+            throw new UserNotLoggedInException();
+        }
+    }
+
     class CheckConsentsListener implements FetchConsentCallback {
+
         private UiLauncher uiLauncher;
 
         private CheckConsentsListener(UiLauncher uiLauncher) {
@@ -120,6 +145,9 @@ public class DSDemoAppuAppInterface implements UappInterface {
         public void onGetConsentFailed(final ConsentError error) {
             launchUApp(uiLauncher);
         }
+    }
+
+    class UserNotLoggedInException extends RuntimeException {
     }
 
     private boolean isMomentConsentNotGiven(ConsentDefinitionStatus status) {
