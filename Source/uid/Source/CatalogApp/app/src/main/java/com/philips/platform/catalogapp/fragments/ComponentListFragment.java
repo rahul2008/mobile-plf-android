@@ -19,7 +19,6 @@ import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.NavigationController;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
-import com.philips.platform.uid.view.widget.SplashScreen;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -181,7 +180,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 navigationController.switchFragment(new BottomTabSettingsFragment());
                 break;
             case 25:
-                navigationController.switchFragment(new ExpanderFragmentOne());
+                navigationController.switchFragment(new ExpanderFragment());
                 break;
         }
     }
