@@ -120,7 +120,7 @@ public class ExpanderTest {
 
     @Test
     public void verifyExpanderContentViewAutoHeight() {
-      //  getExpanderContentView().check(matches(ViewPropertiesMatchers.isSameViewHeight(ViewGroup.LayoutParams.WRAP_CONTENT)));
+        //  getExpanderContentView().check(matches(ViewPropertiesMatchers.isSameViewHeight(ViewGroup.LayoutParams.WRAP_CONTENT)));
     }
 
 
@@ -182,7 +182,7 @@ public class ExpanderTest {
             }
         });
         getExpanderContentView().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
-        assertEquals(true,expander.isExpanded());
+        assertEquals(true, expander.isExpanded());
     }
 
     @Test
@@ -256,7 +256,7 @@ public class ExpanderTest {
                 expander.setExpanderContentView(label);
                 expander.setExpanderTitle("Expander NOT collapsed");
                 expander.setExpanderListener(uidExpanderListener);
-               // expander.expand(true); // expand
+                // expander.expand(true); // expand
                 expander.expand(false); //collapse
 
             }
@@ -398,14 +398,18 @@ public class ExpanderTest {
 
 
     //////////start of view getters/////////
+
+    // returns icon label from default title panel
     private ViewInteraction getExpanderTitlePanelIcon() {
         return onView(withId(R.id.uid_expander_title_icon));
     }
 
+    // returns chevron label from default title panel
     private ViewInteraction getExpanderTitlePanelChevron() {
         return onView(withId(R.id.uid_expander_title_chevron));
     }
 
+    // returns title label from default title panel
     private ViewInteraction getExpanderTitlePanelText() {
         return onView(withId(R.id.uid_expander_title_text));
     }

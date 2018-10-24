@@ -300,22 +300,21 @@ public class Expander extends LinearLayout implements View.OnClickListener {
         if (ExpanderViewContent.isShown()) {
             hideContentView();
         } else {
-            if (null != ExpanderViewContent && null != ExpanderViewContent.getChildAt(0)) { // expand only if content view is present
-                showContentView();
-            }
+            showContentView();
         }
     }
 
     private void showContentView() {
-
-        titleBottomSeparator.setVisibility(GONE);
-        ExpanderViewContent.setVisibility(View.VISIBLE);
-        if (isSeperatorVisibile()) {
-            contentBottomSeparator.setVisibility(View.VISIBLE);
-        }
-        chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationup));
-        if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
-            uidExpanderListener.expanderPanelExpanded(); // expand end callback
+        if (null != ExpanderViewContent && null != ExpanderViewContent.getChildAt(0)) { // expand only if content view is present
+            titleBottomSeparator.setVisibility(GONE);
+            ExpanderViewContent.setVisibility(View.VISIBLE);
+            if (isSeperatorVisibile()) {
+                contentBottomSeparator.setVisibility(View.VISIBLE);
+            }
+            chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationup));
+            if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
+                uidExpanderListener.expanderPanelExpanded(); // expand end callback
+            }
         }
     }
 

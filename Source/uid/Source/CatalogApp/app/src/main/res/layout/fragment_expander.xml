@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.ExpanderFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/catalog_expander_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="Open multiple items" />
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggleIconOpenMultipleItems"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v1, isChecked) -> frag.openMultiline(isChecked)}"/>
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TestButtonTexts"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/with_icon" />
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggleIconWithIcons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:gravity="center_vertical|end"
+                    android:onCheckedChanged="@{(v2, isChecked) -> frag.enableIcon(isChecked)}"/>
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.Header"
+                android:text="Expander" />
+
+            <com.philips.platform.uid.view.widget.Expander
+                android:id="@+id/catalog_expander_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </com.philips.platform.uid.view.widget.Expander>
+
+            <com.philips.platform.uid.view.widget.Expander
+                android:id="@+id/catalog_expander_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </com.philips.platform.uid.view.widget.Expander>
+
+            <com.philips.platform.uid.view.widget.Expander
+                android:id="@+id/catalog_expander_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </com.philips.platform.uid.view.widget.Expander>
+
+            <com.philips.platform.uid.view.widget.Expander
+                android:id="@+id/catalog_expander_four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </com.philips.platform.uid.view.widget.Expander>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/sampleTextID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.philips.platform.uid.view.widget.Label>
+        </LinearLayout>
+    </ScrollView>
+</layout>

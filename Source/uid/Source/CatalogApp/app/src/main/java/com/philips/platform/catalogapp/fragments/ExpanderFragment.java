@@ -120,7 +120,7 @@ public class ExpanderFragment extends  BaseFragment{
         label1.setLayoutParams(paramsLabel);
         fragmentExpanderBinding.catalogExpanderFour.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
 
-//        expanderFour.getTitleLabel().setText("customise Expander title new"); // this line will throw null pntr exception
+
 
 
     }
