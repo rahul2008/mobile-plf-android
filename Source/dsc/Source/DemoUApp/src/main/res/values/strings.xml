@@ -15,6 +15,10 @@
     <string name="registration">Registration</string>
     <string name="logout">logout</string>
 
+    <!-- Delete All -->
+    <string name="deleting_all_data_success">Successfully deleted all data</string>
+    <string name="error_deleting_all_data">Error deleting all data!!</string>
+
     <!-- Moment -->
     <string name="moments">Moments</string>
     <string name="fetching_text">Fetching&#8230;</string>

@@ -104,8 +104,10 @@ public class MomentFragment extends DSBaseFragment
         recyclerView.setAdapter(mMomentAdapter);
 
         mAddButton = view.findViewById(R.id.add);
-        ImageButton mDeleteExpiredMomentsButton = view.findViewById(R.id.delete_moments);
         mAddButton.setOnClickListener(this);
+        ImageButton clearCacheButton = view.findViewById(R.id.clear_cache);
+        clearCacheButton.setOnClickListener(this);
+        ImageButton mDeleteExpiredMomentsButton = view.findViewById(R.id.delete_moments);
         mDeleteExpiredMomentsButton.setOnClickListener(this);
 
         mTvMomentsCount = view.findViewById(R.id.tv_moments_count);
@@ -200,7 +202,9 @@ public class MomentFragment extends DSBaseFragment
             mMomentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, false);
         } else if (i == R.id.delete_moments) {
             mDataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
-        }  else if (i == R.id.tv_settings) {
+        } else if (i == R.id.clear_cache) {
+            mDataServicesManager.deleteAll(new DeleteAllDataRequestListener());
+        } else if (i == R.id.tv_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             showFragment(settingsFragment);
         } else if (i == R.id.tv_set_characteristics) {
@@ -334,6 +338,19 @@ public class MomentFragment extends DSBaseFragment
                 dismissProgressDialog();
             }
         });
+    }
+
+    private class DeleteAllDataRequestListener implements DBRequestListener {
+        @Override
+        public void onSuccess(List data) {
+            MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.deleting_all_data_success));
+            mMomentPresenter.fetchData(MomentFragment.this);
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.error_deleting_all_data));
+        }
     }
 
     private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
