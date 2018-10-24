@@ -11,8 +11,6 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/androidtest.gradle'
-
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -23,7 +21,9 @@ buildscript {
         classpath builddeps.gradle
     }
 }
+
 archivesBaseName = strings.ail.artifactName
+
 android {
     signingConfigs {
         release
@@ -74,8 +74,8 @@ android {
             testCoverageEnabled = true
         }
     }
-
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
