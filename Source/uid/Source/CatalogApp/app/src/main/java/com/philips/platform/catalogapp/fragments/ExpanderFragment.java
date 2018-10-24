@@ -1,5 +1,6 @@
 package com.philips.platform.catalogapp.fragments;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.databinding.FragmentExpanderBinding;
 import com.philips.platform.uid.view.widget.Expander;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIDExpanderListener;
@@ -29,10 +31,8 @@ public class ExpanderFragment extends  BaseFragment{
     };
 
 
-    Expander expanderOne;
-    Expander expanderTwo;
-    Expander expanderThree;
-    Expander expanderFour;
+
+    private FragmentExpanderBinding fragmentExpanderBinding;
 
 
 
@@ -45,7 +45,12 @@ public class ExpanderFragment extends  BaseFragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup)inflater.inflate(R.layout.fragment_expander, container, false);
+
+        fragmentExpanderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_expander, container, false);
+        fragmentExpanderBinding.setFrag(this);
+        return fragmentExpanderBinding.getRoot();
+
+    /*    ViewGroup view = (ViewGroup)inflater.inflate(R.layout.fragment_expander, container, false);
         expanderOne = (Expander)view.findViewById(R.id.catalog_expander_one);
 
 
@@ -61,24 +66,24 @@ public class ExpanderFragment extends  BaseFragment{
 
         expanderFour = (Expander)view.findViewById(R.id.catalog_expander_four);
 
-        return  view;
+        return  view;*/
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        expanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_star));
-        expanderOne.setExpanderTitle("Single line title");
-        expanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
-        expanderOne.setExpanderListener(mUidExpanderListener);
+        fragmentExpanderBinding.toggleIconWithIcons.setChecked(true);
+        fragmentExpanderBinding.catalogExpanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_star));
+        fragmentExpanderBinding.catalogExpanderOne.setExpanderTitle("Single line title");
+        fragmentExpanderBinding.catalogExpanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
+        fragmentExpanderBinding.catalogExpanderOne.setExpanderListener(mUidExpanderListener);
        ;
 
        //View contentView = getLayoutInflater().inflate(R.layout.fragment_expander_content_default_layout, relativeLayout, false);
-        expanderTwo.setExpanderTitle("Single line title");
-        expanderTwo.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_personportrait));
-        expanderTwo.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
+        fragmentExpanderBinding.catalogExpanderTwo.setExpanderTitle("Single line title");
+        fragmentExpanderBinding.catalogExpanderTwo.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_personportrait));
+        fragmentExpanderBinding.catalogExpanderTwo.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
 
 
       /*  expanderTwo.setSeparatorVisible(false);
@@ -89,9 +94,9 @@ public class ExpanderFragment extends  BaseFragment{
 */
 
         //Expandder 3
-        expanderThree.setExpanderTitle("Multiple line title which a bit longer");
-        expanderThree.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_balloonspeech));
-        expanderThree.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
+        fragmentExpanderBinding.catalogExpanderThree.setExpanderTitle("Multiple line title which a bit longer");
+        fragmentExpanderBinding.catalogExpanderThree.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_balloonspeech));
+        fragmentExpanderBinding.catalogExpanderThree.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
        // expanderThree.getTitleLabel().setText("title with empty content (new)");
 
 
@@ -99,8 +104,8 @@ public class ExpanderFragment extends  BaseFragment{
 
 
         // expander 4
-        expanderFour.setExpanderTitle("Multiple line title which a bit longer in this and can hold additional information");
-        expanderFour.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
+        fragmentExpanderBinding.catalogExpanderFour.setExpanderTitle("Multiple line title which a bit longer in this and can hold additional information");
+        fragmentExpanderBinding.catalogExpanderFour.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
         RelativeLayout rl = new RelativeLayout(getActivity());
         ViewGroup.LayoutParams lp =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
         Label label = new Label(getContext());
@@ -113,9 +118,32 @@ public class ExpanderFragment extends  BaseFragment{
         Label label1 = new Label(getContext());
         label1.setText("customise Expander content");
         label1.setLayoutParams(paramsLabel);
-        expanderFour.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
+        fragmentExpanderBinding.catalogExpanderFour.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
 
 //        expanderFour.getTitleLabel().setText("customise Expander title new"); // this line will throw null pntr exception
 
+
+    }
+
+    public void enableIcon(boolean enabled){
+        if(enabled) {
+            fragmentExpanderBinding.catalogExpanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_star));
+            fragmentExpanderBinding.catalogExpanderTwo.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_personportrait));
+            fragmentExpanderBinding.catalogExpanderThree.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_balloonspeech));
+            fragmentExpanderBinding.catalogExpanderFour.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
+        }else{
+            fragmentExpanderBinding.catalogExpanderOne.setExpanderPanelIcon(null);
+            fragmentExpanderBinding.catalogExpanderTwo.setExpanderPanelIcon(null);
+            fragmentExpanderBinding.catalogExpanderThree.setExpanderPanelIcon(null);
+            fragmentExpanderBinding.catalogExpanderFour.setExpanderPanelIcon(null);
+
+        }
+    }
+
+    public void openMultiline(boolean enabled){
+        fragmentExpanderBinding.catalogExpanderOne.expand(enabled);
+        fragmentExpanderBinding.catalogExpanderTwo.expand(enabled);
+        fragmentExpanderBinding.catalogExpanderThree.expand(enabled);
+        fragmentExpanderBinding.catalogExpanderFour.expand(enabled);
     }
 }

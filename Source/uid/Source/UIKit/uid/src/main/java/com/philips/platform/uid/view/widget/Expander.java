@@ -53,7 +53,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
      * @param attrs   the attrs
      */
     public Expander(Context context, @Nullable AttributeSet attrs) {
-        super(context,attrs);
+        super(context, attrs);
         mContext = context;
         initializeViews(context, attrs);
     }
@@ -88,13 +88,11 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
-
-
     /**
      * Sets expander custom title panel view.
      * Setting this will remove all default Expander Header Panel
      * components and their functionalities .
+     *
      * @param resourceLayoutId the resource xml layout id
      * @Since: 1805.0.0
      */
@@ -104,11 +102,11 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     /**
      * Sets expander custom title panel view.
      * Setting this will remove all default Expander Header Panel
      * components and their functionalities .
+     *
      * @param resourceView the resource view
      * @Since: 1805.0.0
      */
@@ -118,11 +116,11 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     /**
      * Sets expander content view.
      * This is the view which will display when the Expander is expanded.
      * This value should be set in order to do the expand operation
+     *
      * @param resourceLayoutId the resource layout id
      * @Since: 1805.0.0
      */
@@ -132,11 +130,11 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     /**
      * Sets expander content view.
      * This is the view which will display when the Expander is expanded.
      * This value should be set in order to do the expand operation
+     *
      * @param resourceView the resource view
      * @Since: 1805.0.0
      */
@@ -145,12 +143,11 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     /**
      * Sets expander title.
      *
      * @param title the title
-     * Default: blank
+     *              Default: blank
      * @Since: 1805.0.0
      */
     public void setExpanderTitle(String title) {
@@ -160,21 +157,23 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     /**
      * Sets expander panel left icon.
      *
      * @param fontIcon the font icon
-     * Default: null
+     *                 Default: null
      * @Since: 1805.0.0
      */
     public void setExpanderPanelIcon(String fontIcon) {
         if (isDefaultPanel() && null != ExpanderViewTitleDefaultIcon) {
             ExpanderViewTitleDefaultIcon.setText(fontIcon);
-            ExpanderViewTitleDefaultIcon.setVisibility(VISIBLE);
+            if (null != fontIcon) {
+                ExpanderViewTitleDefaultIcon.setVisibility(VISIBLE);
+            } else {
+                ExpanderViewTitleDefaultIcon.setVisibility(GONE);
+            }
         }
     }
-
 
 
     /**
@@ -185,7 +184,6 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     public void setExpanderTheme() {
 
     }
-
 
 
     /**
@@ -204,18 +202,17 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     /**
      * Is expander current state is expanded.
      * Note: If the setExpanderContentView API is not set then this API has no effect.
      * Default: false
+     *
      * @return the boolean
      * @Since: 1805.0.0
      */
     public boolean isExpanded() {
         return ExpanderViewContent.isShown();
     }
-
 
 
     /**
@@ -233,11 +230,11 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     /**
      * set the visibility of the Expander's separator (show/hide)
+     *
      * @param aBoolean the a boolean
-     * Default: true
+     *                 Default: true
      * @Since: 1805.0.0
      */
     public void setSeparatorVisible(boolean aBoolean) {
@@ -250,10 +247,10 @@ public class Expander extends LinearLayout implements View.OnClickListener {
                 titleBottomSeparator.setVisibility(VISIBLE);
             }
         } else {
-            if(null!=titleBottomSeparator) {
+            if (null != titleBottomSeparator) {
                 titleBottomSeparator.setVisibility(GONE);
             }
-            if(null!=contentBottomSeparator) {
+            if (null != contentBottomSeparator) {
                 contentBottomSeparator.setVisibility(GONE);
             }
         }
@@ -272,12 +269,13 @@ public class Expander extends LinearLayout implements View.OnClickListener {
      * Sets expander delegate to get expand/collapse callbacks for ONLY default title view.
      * If this method is not called, expander will not get callbacks
      * Also if setExpanderCustomPanelView method is called, expander will not get callbacks
+     *
      * @param uidExpanderListener the uid expander delegate
-     * Default: null
+     *                            Default: null
      * @Since: 1805.0.0
      */
     public void setExpanderListener(UIDExpanderListener uidExpanderListener) {
-        if(isDefaultPanel()) { // only default expander title view gets expand/collapse callback
+        if (isDefaultPanel()) { // only default expander title view gets expand/collapse callback
             this.uidExpanderListener = uidExpanderListener;
         }
     }
