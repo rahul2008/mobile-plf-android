@@ -25,38 +25,38 @@ import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementType;
 import com.philips.testing.verticals.datatyes.MomentDetailType;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmInsight;
-import com.philips.testing.verticals.table.OrmInsightMetaData;
-import com.philips.testing.verticals.table.OrmMeasurement;
-import com.philips.testing.verticals.table.OrmMeasurementDetail;
-import com.philips.testing.verticals.table.OrmMeasurementDetailType;
-import com.philips.testing.verticals.table.OrmMeasurementGroup;
-import com.philips.testing.verticals.table.OrmMeasurementGroupDetail;
-import com.philips.testing.verticals.table.OrmMeasurementGroupDetailType;
-import com.philips.testing.verticals.table.OrmMeasurementType;
-import com.philips.testing.verticals.table.OrmMoment;
-import com.philips.testing.verticals.table.OrmMomentDetail;
-import com.philips.testing.verticals.table.OrmMomentDetailType;
-import com.philips.testing.verticals.table.OrmMomentType;
-import com.philips.testing.verticals.table.OrmSettings;
-import com.philips.testing.verticals.table.OrmSynchronisationData;
+import com.philips.testing.verticals.table.TestInsight;
+import com.philips.testing.verticals.table.TestInsightMetaData;
+import com.philips.testing.verticals.table.TestMeasurement;
+import com.philips.testing.verticals.table.TestMeasurementDetail;
+import com.philips.testing.verticals.table.TestMeasurementDetailType;
+import com.philips.testing.verticals.table.TestMeasurementGroup;
+import com.philips.testing.verticals.table.TestMeasurementGroupDetail;
+import com.philips.testing.verticals.table.TestMeasurementGroupDetailType;
+import com.philips.testing.verticals.table.TestMeasurementType;
+import com.philips.testing.verticals.table.TestMoment;
+import com.philips.testing.verticals.table.TestMomentDetail;
+import com.philips.testing.verticals.table.TestMomentDetailType;
+import com.philips.testing.verticals.table.TestMomentType;
+import com.philips.testing.verticals.table.TestSettings;
+import com.philips.testing.verticals.table.TestSynchronisationData;
 
 import org.joda.time.DateTime;
 
 public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
-    public OrmMoment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type, DateTime expirationDate) {
-        final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
-        return new OrmMoment(creatorId, subjectId, ormMomentType, expirationDate);
+    public TestMoment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type, DateTime expirationDate) {
+        final TestMomentType testMomentType = new TestMomentType(MomentType.getIDFromDescription(type), type);
+        return new TestMoment(creatorId, subjectId, testMomentType, expirationDate);
     }
 
     @NonNull
     @Override
     public MomentDetail createMomentDetail(@NonNull String type, @NonNull Moment moment) {
         try {
-            OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
-            return new OrmMomentDetail(ormMomentDetailType, OrmTypeCheckingMock.checkOrmType(moment, OrmMoment.class));
+            TestMomentDetailType testMomentDetailType = new TestMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
+            return new TestMomentDetail(testMomentDetailType, OrmTypeCheckingMock.checkOrmType(moment, TestMoment.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
             //Debug Log
         }
@@ -66,11 +66,11 @@ public class VerticalCreater implements BaseAppDataCreator {
     @Override
     public Measurement createMeasurement(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
         try {
-            OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
+            TestMeasurementType testMeasurementType = new TestMeasurementType(MeasurementType.getIDFromDescription(type),
                     type,
                     MeasurementType.getUnitFromDescription(type));
 
-            return new OrmMeasurement(ormMeasurementType, OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
+            return new TestMeasurement(testMeasurementType, OrmTypeCheckingMock.checkOrmType(measurementGroup, TestMeasurementGroup.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
             //Debug Log
         }
@@ -80,9 +80,9 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public MeasurementDetail createMeasurementDetail(@NonNull String type, @NonNull Measurement measurement) {
-        OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
+        TestMeasurementDetailType testMeasurementDetailType = new TestMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
         try {
-            return new OrmMeasurementDetail(ormMeasurementDetailType, OrmTypeCheckingMock.checkOrmType(measurement, OrmMeasurement.class));
+            return new TestMeasurementDetail(testMeasurementDetailType, OrmTypeCheckingMock.checkOrmType(measurement, TestMeasurement.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
             //Debug Log
         }
@@ -93,7 +93,7 @@ public class VerticalCreater implements BaseAppDataCreator {
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
         try {
-            return new OrmMeasurementGroup(OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
+            return new TestMeasurementGroup(OrmTypeCheckingMock.checkOrmType(measurementGroup, TestMeasurementGroup.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
             //Debug Log
         }
@@ -104,7 +104,7 @@ public class VerticalCreater implements BaseAppDataCreator {
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
         try {
-            return new OrmMeasurementGroup(OrmTypeCheckingMock.checkOrmType(moment, OrmMoment.class));
+            return new TestMeasurementGroup(OrmTypeCheckingMock.checkOrmType(moment, TestMoment.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
             //Debug Log
         }
@@ -114,9 +114,9 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
-        OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
+        TestMeasurementGroupDetailType testMeasurementGroupDetailType = new TestMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
         try {
-            return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, OrmTypeCheckingMock.checkOrmType(measurementGroup, OrmMeasurementGroup.class));
+            return new TestMeasurementGroupDetail(testMeasurementGroupDetailType, OrmTypeCheckingMock.checkOrmType(measurementGroup, TestMeasurementGroup.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
             //Debug Log
         }
@@ -126,13 +126,13 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public SynchronisationData createSynchronisationData(@NonNull String guid, boolean inactive, @NonNull DateTime lastModifiedTime, int version) {
-        return new OrmSynchronisationData(guid, inactive, lastModifiedTime, version);
+        return new TestSynchronisationData(guid, inactive, lastModifiedTime, version);
     }
 
     @NonNull
     @Override
     public Settings createSettings(String type, String value, String timeZone) {
-        return new OrmSettings(type, value, timeZone);
+        return new TestSettings(type, value, timeZone);
     }
 
     @NonNull
@@ -155,14 +155,14 @@ public class VerticalCreater implements BaseAppDataCreator {
     @NonNull
     @Override
     public Insight createInsight() {
-        return new OrmInsight();
+        return new TestInsight();
     }
 
     @NonNull
     @Override
     public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
         try {
-            return new OrmInsightMetaData(key, value, OrmTypeCheckingMock.checkOrmType(insight, OrmInsight.class));
+            return new TestInsightMetaData(key, value, OrmTypeCheckingMock.checkOrmType(insight, TestInsight.class));
         } catch (OrmTypeCheckingMock.OrmTypeException e) {
             //Debug Log
         }

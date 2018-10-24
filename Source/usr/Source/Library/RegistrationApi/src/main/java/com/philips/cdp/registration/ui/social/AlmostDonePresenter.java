@@ -9,6 +9,7 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
@@ -25,8 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
-
-import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 
 public class AlmostDonePresenter implements NetworkStateListener, SocialLoginProviderHandler, UpdateUserDetailsHandler {
 
@@ -135,13 +134,13 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         almostDoneContract.hideMarketingOptSpinner();
         EventBus.getDefault().post(new LoginFailureNotification());
-        if (userRegistrationFailureInfo.getErrorCode() == RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION) {
             if (RegistrationHelper.getInstance().isMobileFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
             } else {
                 almostDoneContract.emailAlreadyInuseError();
             }
-        } else if (userRegistrationFailureInfo.getErrorCode() == RegConstants.HSDP_ADMINISTRATION_ERROR) {
+        } else if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.HSDP_INPUT_ERROR_3160) {
             almostDoneContract.showTryAgainError();
         } else {
             almostDoneContract.showAnyOtherErrors(userRegistrationFailureInfo.getErrorDescription());
@@ -178,7 +177,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     }
 
     private void emailAlreadyInUse(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
+        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION) {
             if (RegistrationHelper.getInstance().isMobileFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
             } else {
@@ -275,11 +274,11 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
 
     private void handleUpdateReceiveMarket(int error) {
         almostDoneContract.hideMarketingOptSpinner();
-        if (error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+        if (error == ErrorCodes.HSDP_INPUT_ERROR_1151) {
             almostDoneContract.replaceWithHomeFragment();
             return;
         }
-        if (error == RegConstants.FAILURE_TO_CONNECT || error == RegConstants.BAD_RESPONSE_ERROR_CODE) {
+        if (error == ErrorCodes.UNKNOWN_ERROR || error == ErrorCodes.BAD_RESPONSE_ERROR_CODE) {
             almostDoneContract.failedToConnectToServer();
             return;
         }

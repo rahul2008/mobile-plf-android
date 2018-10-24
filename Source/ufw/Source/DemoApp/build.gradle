@@ -2,7 +2,6 @@
 
 buildscript {
     repositories {
-//        jcenter()
         maven { url repos.jcenter
             credentials {
                 username = "readonly"

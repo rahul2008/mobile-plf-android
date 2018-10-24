@@ -3,24 +3,12 @@ package com.philips.cdp.registration;
 import android.app.Activity;
 import android.content.Context;
 
-import com.philips.cdp.registration.app.infra.AppInfraWrapper;
-import com.philips.cdp.registration.configuration.AppConfiguration;
-import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.ConsumerArray;
-import com.philips.cdp.registration.handlers.AddConsumerInterestHandler;
-import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -31,52 +19,31 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Date;
-
-/**
- * Created by philips on 11/23/17.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class UserTest extends TestCase {
 
-    User user;
+    private User user;
 
     @Mock
-    Context contextMock;
+    private Context contextMock;
 
     @Mock
-    NetworkUtility networkUtility;
-
-    @Mock
-    SocialLoginProviderHandler socialLoginProviderHandlerMock;
+    private SocialLoginProviderHandler socialLoginProviderHandlerMock;
 
 
     @Mock
-    Activity activityMock;
+    private Activity activityMock;
 
     @Mock
-    RegistrationComponent mockRegistrationComponent;
+    private RegistrationComponent mockRegistrationComponent;
 
     @Mock
     HSDPAuthenticationListener mockHsdpAuthenticationListener;
 
     @Mock
-    LoggingInterface mockLoggingInterface;
-
-    @Mock
-    RegistrationConfiguration registrationConfiguration;
-
-    @Mock
-    AppConfiguration appConfiguration;
-    @Mock
-    AppInfraWrapper appInfraWrapper;
-    @Mock
-    HSDPConfiguration hsdpConfiguration;
-    @Mock
-    AppInfraWrapper mockAppInfraWrapper;
-
+    private LoggingInterface mockLoggingInterface;
 
     @Before
     public void setUp() throws Exception {
@@ -102,40 +69,11 @@ public class UserTest extends TestCase {
     }
 
     @Mock
-    TraditionalRegistrationHandler traditionalRegistrationHandlerMock;
+    private TraditionalRegistrationHandler traditionalRegistrationHandlerMock;
 
     @Test
     public void registerUserInfoForTraditional() {
         user.registerUserInfoForTraditional("First Name", "Given_name", "email", "password", true, true, traditionalRegistrationHandlerMock);
-    }
-
-    @Mock
-    ForgotPasswordHandler forgotPasswordHandlerMock;
-
-    @Test
-    public void forgotPassword() {
-//        user.forgotPassword("email",forgotPasswordHandlerMock);
-    }
-
-    @Mock
-    RefreshLoginSessionHandler refreshLoginSessionHandlerMock;
-
-    @Test
-    public void refreshLoginSession() {
-//        user.refreshLoginSession(refreshLoginSessionHandlerMock);
-    }
-
-    @Mock
-    ResendVerificationEmailHandler resendVerificationEmailHandlerMock;
-
-    @Test
-    public void resendVerificationMail() {
-//        user.resendVerificationMail("email",resendVerificationEmailHandlerMock);
-    }
-
-    @Test
-    public void mergeToTraditionalAccount() {
-        //   user.mergeToTraditionalAccount("email","password","merge_token",traditionalLoginHandlerMock);
     }
 
     @Test
@@ -149,11 +87,6 @@ public class UserTest extends TestCase {
     }
 
     @Test
-    public void getEmailVerificationStatus() {
-        user.getEmailOrMobileVerificationStatus();
-    }
-
-    @Test
     public void isEmailVerified() {
         user.isEmailVerified();
     }
@@ -161,11 +94,6 @@ public class UserTest extends TestCase {
     @Test
     public void isMobileVerified() {
         user.isMobileVerified();
-    }
-
-    @Test
-    public void isUserSignIn() {
-        user.getUserLoginState();
     }
 
     @Test
@@ -178,60 +106,9 @@ public class UserTest extends TestCase {
         user.handleMergeFlowError("existing_provider");
     }
 
-    @Mock
-    UpdateUserDetailsHandler updateUserDetailsHandlerMock;
-
-    @Test
-    public void updateReceiveMarketingEmail() {
-//        user.updateReceiveMarketingEmail(updateUserDetailsHandlerMock,true);
-    }
-
-    @Mock
-    Date dateMock;
-
-    @Test
-    public void updateDateOfBirth() {
-//        user.updateDateOfBirth(updateUserDetailsHandlerMock,dateMock);
-    }
-
-   /* @Mock
-    Gender genderMock;*/
-
-   /* @Test
-    public void updateGender() throws Exception {
-        user.updateGender(updateUserDetailsHandlerMock,genderMock);
-    }*/
-
-    @Mock
-    AddConsumerInterestHandler addConsumerInterestHandlerMock;
-
-    @Mock
-    ConsumerArray consumerArrayMock;
-
-    @Test
-    public void addConsumerInterest() {
-//        user.addConsumerInterest(addConsumerInterestHandlerMock,consumerArrayMock);
-    }
-
-    @Mock
-    LogoutHandler logoutHandlerMock;
-
-    @Test
-    public void logout() {
-//        user.logout(logoutHandlerMock);
-    }
-
     @Test
     public void getAccessToken() {
         user.getAccessToken();
-    }
-
-    @Mock
-    RefreshUserHandler refreshUserHandlerMock;
-
-    @Test
-    public void refreshUser() {
-//        user.refreshUser(refreshUserHandlerMock);
     }
 
     @Test
@@ -243,11 +120,6 @@ public class UserTest extends TestCase {
     public void getMobile() {
         user.getMobile();
     }
-
-//    @Test
-//    public void getPassword() throws Exception {
-//        user.getPassword();
-//    }
 
     @Test
     public void getGivenName() {
@@ -309,7 +181,7 @@ public class UserTest extends TestCase {
     }
 
     @Mock
-    UserRegistrationListener userRegistrationListenerMock;
+    private UserRegistrationListener userRegistrationListenerMock;
 
     @Test
     public void registerUserRegistrationListener() {
@@ -331,14 +203,4 @@ public class UserTest extends TestCase {
         user.unRegisterHSDPAuthenticationListener(mockHsdpAuthenticationListener);
     }
 
-
-//    @Test
-//    public void shouldAuthoriseHSDP() {
-//        Mockito.when(networkUtility.isNetworkAvailable()).thenReturn(true);
-//        Mockito.when(appConfiguration.getRegistrationEnvironment()).thenReturn("ACCEPTANCE");
-//        Mockito.when(hsdpConfiguration.getHsdpSecretId()).thenReturn("fsdf");
-//        Mockito.when(hsdpConfiguration.getHsdpSharedId()).thenReturn("dfsdf");
-//        Mockito.when(registrationConfiguration.isHsdpFlow()).thenReturn(true);
-//        user.authorizeHSDP(mockHsdpAuthenticationListener);
-//    }
 }

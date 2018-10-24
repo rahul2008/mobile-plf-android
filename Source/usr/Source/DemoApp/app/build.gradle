@@ -152,6 +152,9 @@ if (propFile.canRead()) {
 }
 
 dependencies {
+    debugImplementation deps.leakcanary
+    releaseImplementation deps.leakcanary_no_op
+    testImplementation deps.leakcanary_no_op
     annotationProcessor deps.butterknife_compiler
 
     implementation project(':AppInfra')

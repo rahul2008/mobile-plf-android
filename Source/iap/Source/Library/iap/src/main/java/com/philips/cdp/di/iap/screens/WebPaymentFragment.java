@@ -16,13 +16,14 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
 public class WebPaymentFragment extends WebFragment implements AlertListener {
 
     public static final String TAG = WebPaymentFragment.class.getName();
     private Context mContext;
-   // private TwoButtonDialogFragment mDialogFragment;
+    // private TwoButtonDialogFragment mDialogFragment;
     private boolean mIsPaymentFailed;
 
     private static final String SUCCESS_KEY = "successURL";
@@ -108,8 +109,9 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
 //                    mContext.getString(R.string.iap_payment_failed_message),
 //                    mContext.getString(R.string.iap_try_again),
 //                    mContext.getString(R.string.iap_cancel));
-            Utility.showActionDialog(mContext, getString(R.string.iap_try_again), getString(R.string.iap_cancel)
+           /* Utility.showActionDialog(mContext, getString(R.string.iap_try_again), getString(R.string.iap_cancel)
                     , mContext.getString(R.string.iap_payment_failed_title), getString(R.string.iap_payment_failed_message), getFragmentManager(), this);
+           */ NetworkUtility.getInstance(). showPaymentMessage(mContext.getString(R.string.iap_payment_failed_title),getString(R.string.iap_payment_failed_message),getFragmentManager(), mContext,this);
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
@@ -162,7 +164,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
 //    }
 
     private void handleNavigation() {
-            showProductCatalogFragment(WebPaymentFragment.TAG);
+        showProductCatalogFragment(WebPaymentFragment.TAG);
     }
 
     @Override

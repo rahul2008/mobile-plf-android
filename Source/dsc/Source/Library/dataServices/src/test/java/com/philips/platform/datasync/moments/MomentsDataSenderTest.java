@@ -16,10 +16,10 @@ import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
-import com.philips.testing.verticals.OrmCreatorTest;
-import com.philips.testing.verticals.table.OrmMoment;
-import com.philips.testing.verticals.table.OrmMomentType;
-import com.philips.testing.verticals.table.OrmSynchronisationData;
+import com.philips.testing.verticals.TestEntityCreator;
+import com.philips.testing.verticals.table.TestMoment;
+import com.philips.testing.verticals.table.TestMomentType;
+import com.philips.testing.verticals.table.TestSynchronisationData;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -114,7 +114,7 @@ public class MomentsDataSenderTest {
     @Mock
     private RetrofitError retrofitErrorMock;
 
-    private OrmCreatorTest verticalDataCreater;
+    private TestEntityCreator verticalDataCreater;
 
     @Mock
     private AppComponent appComponantMock;
@@ -127,7 +127,7 @@ public class MomentsDataSenderTest {
     @Before
     public void setUp() {
         initMocks(this);
-        verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
+        verticalDataCreater = new TestEntityCreator(new UuidGenerator());
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
         DataServicesManager.getInstance().setServiceDiscoveryInterface(serviceDiscoveryInterface);
         DataServicesManager.getInstance().mDataServicesBaseUrl = TEST_MOMENT_URL;
@@ -504,8 +504,8 @@ public class MomentsDataSenderTest {
     public void test_givenRealMomentsToUpdate_whenRetrofitReturnsNullOnUpdate_thenShouldReturnTrue() {
         when(clientMock.updateMoment(anyString(), anyString(), anyString(), (UCoreMoment) any())).thenReturn(null);
 
-        Moment moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(MOMENT_TYPE_ID, MOMENT_TYPE), new DateTime());
-        OrmSynchronisationData syncData = new OrmSynchronisationData(GUID, false, new DateTime(), 1);
+        Moment moment = new TestMoment(CREATOR_ID, SUBJECT_ID, new TestMomentType(MOMENT_TYPE_ID, MOMENT_TYPE), new DateTime());
+        TestSynchronisationData syncData = new TestSynchronisationData(GUID, false, new DateTime(), 1);
         moment.setSynchronisationData(syncData);
         boolean outcome = momentsDataSender.sendDataToBackend(Collections.singletonList(moment));
 

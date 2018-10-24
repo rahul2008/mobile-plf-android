@@ -210,7 +210,7 @@ public class BackendModule {
     @Provides
     @Singleton
     public DBMonitors providesDMMonitors() {
-        SavingMonitor savingMonitor = new SavingMonitor(savingInterface, deletingInterface, updatingInterface);
+        SavingMonitor savingMonitor = new SavingMonitor(savingInterface, deletingInterface);
         FetchingMonitor fetchMonitor = new FetchingMonitor(fetchingInterface);
         DeletingMonitor deletingMonitor = new DeletingMonitor(deletingInterface);
         UpdatingMonitor updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface, savingInterface);

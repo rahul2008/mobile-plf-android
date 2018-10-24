@@ -30,6 +30,7 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
@@ -49,6 +50,7 @@ import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
 import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
+import com.philips.platform.core.events.InsightsSaveRequest;
 import com.philips.platform.core.events.LoadLatestMomentByTypeRequest;
 import com.philips.platform.core.events.LoadMomentsByDate;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -89,18 +91,17 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -120,7 +121,7 @@ public class DataServicesManager {
     private DBSavingInterface mSavingInterface;
     private DBUpdatingInterface mUpdatingInterface;
 
-    ServiceDiscoveryInterface mServiceDiscoveryInterface;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface;
     private AppInfraInterface mAppInfra;
 
     private ArrayList<DataFetcher> mCustomFetchers;
@@ -445,6 +446,10 @@ public class DataServicesManager {
         mEventing.post(new DeleteAllInsights(dbRequestListener));
     }
 
+    public void saveInsights(List<Insight> insights, DBRequestListener<Insight> dbListener) {
+        mEventing.post(new InsightsSaveRequest(insights, dbListener));
+    }
+
     public void deleteAll(DBRequestListener dbRequestListener) {
         mEventing.post(new DataClearRequest(dbRequestListener));
     }
@@ -457,7 +462,7 @@ public class DataServicesManager {
         mEventing.post(new UnRegisterDeviceToken(appToken, appVariant, registerDeviceTokenListener));
     }
 
-    public void handlePushNotificationPayload(JSONObject jsonObject) throws JSONException {
+    public void handlePushNotificationPayload(JSONObject jsonObject) {
         synchronize();
     }
 
@@ -560,7 +565,7 @@ public class DataServicesManager {
      * Used for setting a Mock ServiceDiscoveryInterface for writing test cases
      * Should not be used by Propositions
      *
-     * @param serviceDiscoveryInterface
+     * @param serviceDiscoveryInterface - ServiceDiscoveryInterface
      */
     public void setServiceDiscoveryInterface(final ServiceDiscoveryInterface serviceDiscoveryInterface) {
         this.mServiceDiscoveryInterface = serviceDiscoveryInterface;
@@ -723,5 +728,15 @@ public class DataServicesManager {
             }
         }
         return true;
+    }
+
+    public Insight createInsight(final String type) {
+        final Insight insight = dataCreator.createInsight();
+        String guid = UUID.randomUUID().toString();
+        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(guid, false, null, 0);
+        insight.setSynchronisationData(synchronisationData);
+        insight.setType(type);
+
+        return insight;
     }
 }

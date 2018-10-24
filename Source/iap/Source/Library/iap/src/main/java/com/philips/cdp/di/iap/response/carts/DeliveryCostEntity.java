@@ -6,6 +6,11 @@ package com.philips.cdp.di.iap.response.carts;
  */
 public class DeliveryCostEntity {
     private String currencyIso;
+
+    public void setFormattedValue(String formattedValue) {
+        this.formattedValue = formattedValue;
+    }
+
     private String formattedValue;
     private String priceType;
     private double value;

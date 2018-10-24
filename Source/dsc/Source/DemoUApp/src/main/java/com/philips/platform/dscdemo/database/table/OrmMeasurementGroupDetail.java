@@ -60,7 +60,7 @@ public class OrmMeasurementGroupDetail implements MeasurementGroupDetail, Serial
     }
 
     @Override
-    public OrmMeasurementGroup getOrmMeasurementGroup() {
+    public OrmMeasurementGroup getTestMeasurementGroup() {
         return ormMeasurementGroup;
     }
 

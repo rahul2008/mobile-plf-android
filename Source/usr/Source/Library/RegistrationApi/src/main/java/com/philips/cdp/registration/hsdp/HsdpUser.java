@@ -153,10 +153,8 @@ public class HsdpUser {
                         });
                     } else {
                         if (dhpResponse.responseCode != null &&
-                                (dhpResponse.responseCode.equals(RegConstants.
-                                        INVALID_ACCESS_TOKEN_CODE) || dhpResponse.
-                                        responseCode.equals(RegConstants.
-                                        INVALID_REFRESH_TOKEN_CODE))) {
+                                (dhpResponse.responseCode.equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1009))
+                                        || dhpResponse.responseCode.equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151)))) {
                             RLog.d(TAG, "logOut: onHsdsLogoutFailure : responseCode : "
                                     + dhpResponse.responseCode + " message : "
                                     + dhpResponse.message);
@@ -246,7 +244,7 @@ public class HsdpUser {
                 } else {
                     if (dhpAuthenticationResponse.responseCode != null &&
                             dhpAuthenticationResponse.responseCode
-                                    .equals(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+                                    .equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151))) {
                         handler.post(() -> {
                             RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
                                     + dhpAuthenticationResponse.responseCode +
@@ -499,8 +497,8 @@ public class HsdpUser {
      * handle social connection failed
      *
      * @param loginHandler login handler
-     * @param errorCode                  error code
-     * @param description                string
+     * @param errorCode    error code
+     * @param description  string
      */
     private void handleSocialConnectionFailed(LoginHandler loginHandler,
                                               int errorCode, String description, String errorTagging) {

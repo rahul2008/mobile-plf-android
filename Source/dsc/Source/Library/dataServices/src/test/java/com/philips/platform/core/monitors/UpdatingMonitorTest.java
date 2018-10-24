@@ -27,8 +27,8 @@ import com.philips.platform.datasync.characteristics.UserCharacteristicsSegregat
 import com.philips.platform.datasync.insights.InsightSegregator;
 import com.philips.platform.datasync.moments.MomentsSegregator;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmMoment;
-import com.philips.testing.verticals.table.OrmMomentType;
+import com.philips.testing.verticals.table.TestMoment;
+import com.philips.testing.verticals.table.TestMomentType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -145,7 +145,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestPassed() throws Exception {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
 
         updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbRequestListener));
 
@@ -161,7 +161,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenBackendMomentListSaveRequestFailedWithException() throws Exception {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
         doThrow(SQLException.class).when(momentsSegregatorMock).processMomentsReceivedFromBackend(Collections.singletonList(moment1), null);
 
         updatingMonitor.onEventBackGround(new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbRequestListener));
@@ -173,7 +173,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void shouldonEventBackgroundThreadMoment_whenonEventBackgroundThreadWhenMomentDataSenderCreatedRequestPassed() {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
 
         updatingMonitor.onEventBackGround(new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbRequestListener));
 
@@ -304,7 +304,7 @@ public class UpdatingMonitorTest {
     // MomentDataSenderCreatedRequest
     @Test
     public void givenMonitorSetup_whenPostMomentDataSenderCreatedRequest_thenShouldNotCallback() {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
         MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbRequestListener);
 
         updatingMonitor.onEventBackGround(event);
@@ -316,7 +316,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void givenMonitorSetup_whenPostMomentDataSenderCreatedRequest_thenShouldCallMomentSegregator() {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
         MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), dbRequestListener);
 
         updatingMonitor.onEventBackGround(event);
@@ -327,7 +327,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void givenMonitorSetup_andNoListener_whenPostMomentDataSenderCreatedRequest_thenShouldCallMomentSegregator() {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
         MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(Collections.singletonList(moment1), null);
 
         updatingMonitor.onEventBackGround(event);
@@ -338,7 +338,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void givenMonitorSetup_andSendingZeroMoments_whenPostMomentDataSenderCreatedRequest_thenShouldNotCallback() {
-        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(new ArrayList<OrmMoment>(), dbRequestListener);
+        MomentDataSenderCreatedRequest event = new MomentDataSenderCreatedRequest(new ArrayList<TestMoment>(), dbRequestListener);
 
         updatingMonitor.onEventBackGround(event);
 
@@ -349,7 +349,7 @@ public class UpdatingMonitorTest {
     // BackendMomentListSaveRequest
     @Test
     public void givenMonitorSetup_whenPostBackendMomentListSaveRequest_thenShouldNotCallback() {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
         BackendMomentListSaveRequest event = new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbRequestListener);
 
         updatingMonitor.onEventBackGround(event);
@@ -361,7 +361,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void givenMonitorSetup_whenPostBackendMomentListSaveRequest_thenShouldCallMomentSegregator() throws SQLException {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
         BackendMomentListSaveRequest event = new BackendMomentListSaveRequest(Collections.singletonList(moment1), dbRequestListener);
 
         updatingMonitor.onEventBackGround(event);
@@ -372,7 +372,7 @@ public class UpdatingMonitorTest {
 
     @Test
     public void givenMonitorSetup_andNoListener_whenPostBackendMomentListSaveRequest_thenShouldCallMomentSegregator() throws SQLException {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), null);
         BackendMomentListSaveRequest event = new BackendMomentListSaveRequest(Collections.singletonList(moment1), null);
 
         updatingMonitor.onEventBackGround(event);
