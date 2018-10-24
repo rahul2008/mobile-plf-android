@@ -58,18 +58,15 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
         holder.mRuleID.setText(insight.getRuleId());
         holder.mExpirationDate.setText(expirationDateValue);
 
-        holder.mDeleteInsight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                List<Insight> insightsToDelete = new ArrayList<>();
-                insightsToDelete.add(insight);
-                DataServicesManager.getInstance().deleteInsights(insightsToDelete, mDBRequestListener);
-                mInsightList.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
-                notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
-                notifyDataSetChanged();
-                notifyDataSetChanged();
-            }
+        holder.mDeleteInsight.setOnClickListener(view -> {
+            List<Insight> insightsToDelete = new ArrayList<>();
+            insightsToDelete.add(insight);
+            DataServicesManager.getInstance().deleteInsights(insightsToDelete, mDBRequestListener);
+            mInsightList.remove(holder.getAdapterPosition());
+            notifyItemRemoved(holder.getAdapterPosition());
+            notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
+            notifyDataSetChanged();
+            notifyDataSetChanged();
         });
 
         holder.bind(insight, clickListener);
