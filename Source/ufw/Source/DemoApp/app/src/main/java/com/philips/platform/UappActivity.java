@@ -1,10 +1,14 @@
+/* Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
 import com.philips.platform.uappdemo.R;
 import com.philips.platform.uappdemo.UappDemoDependencies;
 import com.philips.platform.uappdemo.UappDemoInterface;
