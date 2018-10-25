@@ -28,7 +28,7 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(CustomRobolectricRunnerCATK.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@Config(constants = BuildConfig.class)
 public class ConsentNetworkErrorTest {
 
     private ConsentNetworkError consentNetworkError;

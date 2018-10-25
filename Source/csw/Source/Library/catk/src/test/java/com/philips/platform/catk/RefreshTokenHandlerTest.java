@@ -1,29 +1,23 @@
 package com.philips.platform.catk;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.platform.catk.listener.RefreshTokenListener;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.never;
-
 /**
  * Created by philips on 7/25/18.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@Config(constants = BuildConfig.class)
 public class RefreshTokenHandlerTest {
 
     @Mock
