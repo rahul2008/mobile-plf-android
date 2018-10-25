@@ -180,13 +180,13 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
 
                     if (deliveryMethod != null) {
-                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
+                        //shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
                         String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_ups_parcel);
                         freeDeliverySpendOn = String.format(freeDeliverySpendOn, deliveryMethod);
-                        shoppingCartFooter.mDeliveryVia.setText(freeDeliverySpendOn);
+                        //shoppingCartFooter.mDeliveryVia.setText(freeDeliverySpendOn);
                         shoppingCartFooter.mDeliveryTitle.setText(freeDeliverySpendOn);
                     } else {
-                        shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
+                        //shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
 

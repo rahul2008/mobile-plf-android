@@ -58,7 +58,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     // private DemoApplication mApplicationContext;
 
-    private LinearLayout mAddCTNLl;
+    private LinearLayout mAddCTNLl,ll_voucher;
 
     private FrameLayout mShoppingCart;
     private EditText mEtCTN,mEtVoucherCode;
@@ -83,6 +83,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private User mUser;
     ImageView mCartIcon;
     Boolean isCartVisible;
+    String voucherCode;
 
     private ArrayList<String> ignorelistedRetailer;
 
@@ -121,6 +122,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
+
+
+        ll_voucher=  findViewById(R.id.ll_voucher);
 
         mAddCtn = findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
@@ -201,6 +205,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void onResumeRetailer(){
         mAddCTNLl.setVisibility(View.VISIBLE);
+        ll_voucher.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -215,6 +220,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private void displayFlowViews(boolean b) {
 
         mAddCTNLl.setVisibility(View.VISIBLE);
+        ll_voucher.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -343,9 +349,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
         if (pIgnoreRetailerList == null)
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput,null);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode);
         else
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, null,pIgnoreRetailerList);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode,pIgnoreRetailerList);
 
         try {
             mIapInterface.launch(new ActivityLauncher
@@ -430,7 +436,10 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             hideKeypad(this);
         }
         else if(view==btn_add_voucher){
-   String voucherCode=mEtVoucherCode.getText().toString().toUpperCase().replaceAll("\\s+", "");
+            if(mEtVoucherCode.getText().toString().length()>0) {
+                voucherCode = mEtVoucherCode.getText().toString();
+            }
+            mEtVoucherCode.setText("");
         }
     }
 
@@ -464,6 +473,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void displayViews() {
         mAddCTNLl.setVisibility(View.VISIBLE);
+        ll_voucher.setVisibility(View.VISIBLE);
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
@@ -482,6 +492,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         //mLaunchFragment.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
+        ll_voucher.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mBuyDirect.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);

@@ -40,8 +40,8 @@
         android:id="@+id/ll_voucher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:visibility="gone"
+        android:layout_below="@id/ll_ctn"
         android:layout_margin="@dimen/border16_margin_left_right"
        >
 

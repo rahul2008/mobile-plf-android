@@ -219,13 +219,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
 
                     if (deliveryMethod != null) {
-                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
+                       // shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
                         String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_ups_parcel);
                         freeDeliverySpendOn = String.format(freeDeliverySpendOn, deliveryMethod);
-                        shoppingCartFooter.mDeliveryVia.setText(freeDeliverySpendOn);
+                       // shoppingCartFooter.mDeliveryVia.setText(freeDeliverySpendOn);
                         shoppingCartFooter.mDeliveryTitle.setText(freeDeliverySpendOn);
                     } else {
-                        shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
+                        //shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
                     shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
@@ -259,6 +259,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
+                    shoppingCartFooter.total_discount.setText(mData.get(i).getTotalDiscounts().toString());
                 }
             }
 
@@ -425,7 +426,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
-        Label mDeliveryDescriprion;
+        Label mDeliveryDescriprion,total_discount;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -456,6 +457,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mAppliedVoucherCode = itemView.findViewById(R.id.voucherLabel);
             mVoucherContainer = itemView.findViewById(R.id.voucher_container);
             summary_delivery_container= itemView.findViewById(R.id.summary_delivery_container);
+            total_discount = itemView.findViewById(R.id.total_discount);
         }
     }
 

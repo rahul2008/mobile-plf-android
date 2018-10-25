@@ -302,5 +302,6 @@ FedEx(parcel postage)</string>
   <string name="iap_total_discount">Total Discount</string>
   <string name="iap_voucher_code">Voucher Code:</string>
   <string name="iap_shipping_cost">Shipping cost</string>
+  <string name="iap_total_voucher_discount">Total Voucher Discount</string>
 
 </resources>

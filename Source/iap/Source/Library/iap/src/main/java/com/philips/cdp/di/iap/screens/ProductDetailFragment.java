@@ -791,7 +791,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void startShoppingCartFragment() {
         mAddToCart.hideProgressIndicator();
-        addFragment(ShoppingCartFragment.createInstance(new Bundle(), AnimationType.NONE), ShoppingCartFragment.TAG, true);
+        Bundle bundle=new Bundle();
+        if (getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP) != null) {
+            final String voucherCode = getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP);
+            bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
+        }
+
+        addFragment(ShoppingCartFragment.createInstance(bundle, AnimationType.NONE), ShoppingCartFragment.TAG, true);
     }
 
     @Override

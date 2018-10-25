@@ -78,6 +78,8 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
         totalCost=(Label) rootView.findViewById(R.id.total_cost_val);
         mVoucherController.getAppliedVoucherCode();
 
+
+
         return rootView;
     }
 

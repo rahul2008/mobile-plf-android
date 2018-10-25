@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -134,7 +136,9 @@ class IAPHandler {
             }
             intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
         }
-
+        if(pLaunchInput.getVoucher()!=null) {
+            intent.putExtra(IAPConstant.IAP_VOUCHER_FROM_APP,pLaunchInput.getVoucher());
+        }
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         pContext.startActivity(intent);
     }

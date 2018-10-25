@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -102,12 +103,10 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
         mVoucherController = new VoucherController(mContext, this);
 
-        Bundle bundle = new Bundle();
-        if (bundle.getString(IAPConstant.IAP_VOUCHER_CODE) != null) {
-            voucherCode = bundle.getString(IAPConstant.IAP_VOUCHER_CODE);
+        if (getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP) != null) {
+            voucherCode =getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP);
 
         }
-
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
 
         mRecyclerView = rootView.findViewById(R.id.shopping_cart_recycler_view);
@@ -123,8 +122,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
-        mAddressController.getDeliveryModes();
-        hideProgressBar();
+
         return rootView;
     }
 
@@ -334,6 +332,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
         if(voucherCode!=null) {
             mVoucherController.applyCoupon(voucherCode);
+            voucherCode=null;
         }
     }
 
@@ -410,7 +409,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onApplyVoucherResponse(Message msg) {
-
+        Toast.makeText(mContext,"Applied  voucher"+voucherCode,Toast.LENGTH_LONG).show();
+        if (isNetworkConnected()) {
+            updateCartDetails(mShoppingCartAPI);
+        }
+        hideProgressBar();
     }
 
     @Override

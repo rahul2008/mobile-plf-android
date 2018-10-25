@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -97,6 +98,7 @@ public class NetworkController {
                     }
 
                     requestListener.onSuccess(msg);
+
 
                     //For testing purpose
                     if (model.getUrl() != null) {
