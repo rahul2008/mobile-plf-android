@@ -1,10 +1,11 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.dao;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 import junit.framework.TestCase;
 
