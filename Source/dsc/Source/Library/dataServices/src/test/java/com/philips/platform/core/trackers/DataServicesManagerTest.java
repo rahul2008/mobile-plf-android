@@ -459,8 +459,7 @@ public class DataServicesManagerTest {
 
         mDataServicesManager.deleteAll(null);
 
-        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
-        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+        assertSyncTimeIsSetTo(expectedString);
     }
 
     @Test
@@ -999,8 +998,7 @@ public class DataServicesManagerTest {
         DateTime expectedLastSyncTime = DateTime.parse(expectedString);
         mDataServicesManager.resetLastSyncTimestampTo(expectedLastSyncTime);
 
-        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
-        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+        assertSyncTimeIsSetTo(expectedString);
     }
 
     private void givenFailedDeleteAllInsights() {
@@ -1188,5 +1186,11 @@ public class DataServicesManagerTest {
         mDSPagination.setOrderBy("timestamp");
         return mDSPagination;
     }
+
+    private void assertSyncTimeIsSetTo(String expectedString) {
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+    }
+
 }
 
