@@ -348,7 +348,7 @@ public class MomentFragment extends DSBaseFragment
 
         @Override
         public void onFailure(Exception exception) {
-            MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.error_deleting_all_data));
+            MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.error_clearing_cache));
         }
     }
 
