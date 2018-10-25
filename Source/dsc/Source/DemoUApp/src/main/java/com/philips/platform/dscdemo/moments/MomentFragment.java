@@ -35,6 +35,8 @@ import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.settings.SettingsFragment;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,7 @@ import java.util.List;
 public class MomentFragment extends DSBaseFragment
         implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
 
+    private static final String CLEAR_CACHE_ERROR_DIALOG_TAG = "CLEAR_CACHE_ERROR_DIALOG_TAG";
     private Context context;
 
     protected DataServicesManager dataServicesManager;
@@ -62,6 +65,7 @@ public class MomentFragment extends DSBaseFragment
     private MomentAdapter momentAdapter;
     private MomentPresenter momentPresenter;
     private ProgressDialog progressDialog;
+    private AlertDialogFragment alertDialog = null;
 
     private ArrayList<? extends Moment> momentList = new ArrayList();
 
@@ -169,6 +173,14 @@ public class MomentFragment extends DSBaseFragment
     public void onResume() {
         super.onResume();
         dataServicesManager.registerDBChangeListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(null != alertDialog) {
+            alertDialog.dismiss();
+        }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
@@ -339,6 +351,23 @@ public class MomentFragment extends DSBaseFragment
         });
     }
 
+    private void showDialog(String message){
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, v -> {
+                    if (alertDialog != null) {
+                        alertDialog.dismiss();
+                        alertDialog = null;
+                    }
+                })
+                .setDimLayer(DialogConstants.DIM_SUBTLE)
+                .setCancelable(false);
+        alertDialog = builder.create();
+        alertDialog.show(getFragmentManager(), CLEAR_CACHE_ERROR_DIALOG_TAG);
+
+    }
+
     private class DeleteAllDataRequestListener implements DBRequestListener {
         @Override
         public void onSuccess(List data) {
@@ -348,7 +377,7 @@ public class MomentFragment extends DSBaseFragment
 
         @Override
         public void onFailure(Exception exception) {
-            MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.error_clearing_cache));
+            showDialog(MomentFragment.this.getActivity().getString(R.string.error_clearing_cache));
         }
     }
 
