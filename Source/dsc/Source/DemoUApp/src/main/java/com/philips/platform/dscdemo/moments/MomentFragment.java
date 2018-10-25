@@ -36,8 +36,6 @@ import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.settings.SettingsFragment;
 
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
