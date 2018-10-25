@@ -1,11 +1,15 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
 package com.philips.platform.uid.components.expander;
 
-import android.content.Context;
+
 import android.content.res.Resources;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -31,6 +35,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 
 public class ExpanderTest {
 
@@ -139,11 +144,14 @@ public class ExpanderTest {
     }
 
 
+    // verify Expander has no color of its own it it Quite Expander
     @Test
-    public void verifyExpanderBackgroundColor(){// there is No background color as it it Quite Expander
+    public void verifyExpanderBackgroundColor(){
         assertEquals(0,expander.getSolidColor());
     }
 
+
+    //verify Expander Separator can can be made GONE by setSeparatorVisible API
     @Test
     public void verifySeparatorVisibilityGone() {
 
@@ -159,6 +167,8 @@ public class ExpanderTest {
 
     }
 
+
+    //verify Expander Separator can can be made VISIBLE by setSeparatorVisible API
     @Test
     public void verifySeparatorVisibilityVisible() {
         activity.runOnUiThread(new Runnable() {
@@ -173,16 +183,14 @@ public class ExpanderTest {
 
     }
 
+
+    // verify  Expander is expanding
     @Test
     public void verifyExpanderExpand() {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Label label = new Label(getContext());
-                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                label.setLayoutParams(paramsLabel);
-                label.setText("customise Expander Content ");
-                expander.setExpanderContentView(label);
+                expander.setExpanderContentView(com.philips.platform.uid.test.R.layout.fragment_expander_content_default_layout);
                 expander.expand(true);
             }
         });
@@ -190,16 +198,13 @@ public class ExpanderTest {
         assertEquals(true, expander.isExpanded());
     }
 
+    // verify  Expander is collapsing
     @Test
     public void verifyExpanderCollapse() {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Label label = new Label(getContext());
-                RelativeLayout.LayoutParams paramsLabel = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                label.setLayoutParams(paramsLabel);
-                label.setText("customise Expander Content ");
-                expander.setExpanderContentView(label);
+                expander.setExpanderContentView(com.philips.platform.uid.test.R.layout.fragment_expander_content_default_layout);
                 expander.expand(false);
             }
         });
@@ -207,8 +212,9 @@ public class ExpanderTest {
         assertEquals(false, expander.isExpanded());
     }
 
-/*    @Test
-    public void verifyExpanderCustomHeader() {
+    //verify  Expandet title view can customised with dynamic(code) layout
+    @Test
+    public void verifyExpanderCustomHeaderWithDynamicLayout() {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -220,12 +226,24 @@ public class ExpanderTest {
 
             }
         });
-        LayoutInflater layoutInflater = (LayoutInflater)
-                getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assertNotEquals(expander.getChildAt(0).getId(),R.layout.uid_expander_title_layout_default);/// first child is NOT default
+    }
 
 
-    }*/
+    //verify  Expandet title view can customised with static(xml) layout
+    @Test
+    public void verifyExpanderCustomHeaderWithStaticLayout() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                expander.setExpanderCustomPanelView(com.philips.platform.uid.test.R.layout.fragment_expander_content_default_layout);
+            }
+        });
+        assertNotEquals(expander.getChildAt(0).getId(),R.layout.uid_expander_title_layout_default);/// first child is NOT default
+    }
 
+
+    //verify  expander Expand callback listener is working
     @Test
     public void verifyExpanderListenerCallBackForExpand() {
         UIDExpanderListener uidExpanderListener = new UIDExpanderListener() {
@@ -256,6 +274,8 @@ public class ExpanderTest {
         getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.hasSameText("Expander expanded")));
     }
 
+
+    //verify  expander Collapse callback listener is working
     @Test
     public void verifyExpanderListenerCallBackForCollapse() {
         UIDExpanderListener uidExpanderListener = new UIDExpanderListener() {
@@ -310,6 +330,7 @@ public class ExpanderTest {
     }
 
 
+    // verify icon is visible when set
     @Test
     public void verifyIconVisibilityWhenSet() {
         activity.runOnUiThread(new Runnable() {
@@ -319,6 +340,19 @@ public class ExpanderTest {
             }
         });
         getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));
+    }
+
+
+    // verify icon is not visible when set null
+    @Test
+    public void verifyIconVisibilityWhenSetNull() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                expander.setExpanderPanelIcon(null);
+            }
+        });
+        getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isVisible(View.GONE)));
     }
 
 
@@ -336,6 +370,8 @@ public class ExpanderTest {
         getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
+
+    //verify chevron is pointing up when Expander is expanded
     @Test
     public void verifyChevronFontTextWhenExpanded() {
         activity.runOnUiThread(new Runnable() {
@@ -352,6 +388,8 @@ public class ExpanderTest {
         getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.hasSameText(resources.getString(R.string.dls_navigationup))));
     }
 
+
+    //verify chevron is pointing down when Expander is collapsed
     @Test
     public void verifyChevronFontTextWhenCollapsed() {
         activity.runOnUiThread(new Runnable() {
@@ -369,8 +407,22 @@ public class ExpanderTest {
         getExpanderTitlePanelChevron().check(matches(TextViewPropertiesMatchers.hasSameText(resources.getString(R.string.dls_navigationdown))));
     }
 
+    // verify get label API can be used to cusomise title text
+    @Test
+    public void verifyTitleLabel(){
+        final String titleCaption="Title text written from getTitleLabel API";
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                expander.getTitleLabel().setText(titleCaption);
+            }
+        });
+        getExpanderTitlePanelText().check(matches(TextViewPropertiesMatchers.hasSameText(titleCaption)));
+    }
 
-    // Title tests
+
+
+    // Title text tests
 
     @Test
     public void verifyTitleTextEndMargin() {

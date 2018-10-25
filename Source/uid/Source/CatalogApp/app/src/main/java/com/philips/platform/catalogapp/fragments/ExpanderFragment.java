@@ -1,3 +1,8 @@
+/*
+ * (C) Koninklijke Philips N.V., 2017.
+ * All rights reserved.
+ *
+ */
 package com.philips.platform.catalogapp.fragments;
 
 import android.databinding.DataBindingUtil;

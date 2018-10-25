@@ -176,15 +176,6 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     }
 
 
-    /**
-     * Sets expander theme.
-     *
-     * @Since: 1805.0.0
-     */
-    public void setExpanderTheme() {
-
-    }
-
 
     /**
      * Get title label label.
