@@ -454,6 +454,16 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void Should_resetSync_WhenDeleteAll_called() {
+        final String expectedString = "1970-01-01T00:00:00.000Z";
+
+        mDataServicesManager.deleteAll(null);
+
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+    }
+
+    @Test
     public void Should_updateMoments_called() {
         List list = new ArrayList();
         list.add(momentMock);

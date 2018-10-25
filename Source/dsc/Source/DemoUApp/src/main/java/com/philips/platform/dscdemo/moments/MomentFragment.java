@@ -205,7 +205,6 @@ public class MomentFragment extends DSBaseFragment
             dataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
         } else if (i == R.id.clear_cache) {
             dataServicesManager.deleteAll(new DeleteAllDataRequestListener());
-            dataServicesManager.resetLastSyncTimestampTo(new DateTime(0));
         } else if (i == R.id.tv_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             showFragment(settingsFragment);
