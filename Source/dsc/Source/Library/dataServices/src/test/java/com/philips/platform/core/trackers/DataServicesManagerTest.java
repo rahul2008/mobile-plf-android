@@ -454,6 +454,15 @@ public class DataServicesManagerTest {
     }
 
     @Test
+    public void Should_resetSync_WhenDeleteAll_called() {
+        final String expectedString = "1970-01-01T00:00:00.000Z";
+
+        mDataServicesManager.deleteAll(null);
+
+        assertSyncTimeIsSetTo(expectedString);
+    }
+
+    @Test
     public void Should_updateMoments_called() {
         List list = new ArrayList();
         list.add(momentMock);
@@ -989,8 +998,7 @@ public class DataServicesManagerTest {
         DateTime expectedLastSyncTime = DateTime.parse(expectedString);
         mDataServicesManager.resetLastSyncTimestampTo(expectedLastSyncTime);
 
-        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
-        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+        assertSyncTimeIsSetTo(expectedString);
     }
 
     private void givenFailedDeleteAllInsights() {
@@ -1178,5 +1186,11 @@ public class DataServicesManagerTest {
         mDSPagination.setOrderBy("timestamp");
         return mDSPagination;
     }
+
+    private void assertSyncTimeIsSetTo(String expectedString) {
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+    }
+
 }
 
