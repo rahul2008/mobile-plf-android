@@ -94,6 +94,10 @@ subprojects {
 
     afterEvaluate {
         android {
+            useLibrary 'android.test.runner'
+            useLibrary 'android.test.base'
+            useLibrary 'android.test.mock'
+
             compileOptions {
                 sourceCompatibility versions.sourceCompatibility
                 targetCompatibility versions.targetCompatibility
@@ -110,6 +114,7 @@ subprojects {
                 }
                 unitTests.all {
                     jvmArgs '-noverify'
+                    systemProperty 'robolectric.enabledSdks', '27'
                 }
             }
         }

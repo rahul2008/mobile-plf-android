@@ -8,7 +8,6 @@ apply plugin: 'com.android.library'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/androidtest.gradle'
 
 archivesBaseName = strings.clc.artifactName
 
