@@ -16,11 +16,13 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -515,11 +517,21 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
     @Override
     public void updateFirstRowSharePreference(StringBuilder stringBuilder,String phoneNumber){
-        mFirstRowText.setText(Html.fromHtml(stringBuilder.toString()));
+        mFirstRowText.setText(getSpannedText(stringBuilder.toString()));
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(USER_SELECTED_PRODUCT_CTN_HOURS, stringBuilder.toString());
         editor.putString(USER_SELECTED_PRODUCT_CTN_CALL, phoneNumber);
         editor.apply();
+    }
+
+    @SuppressWarnings("deprecation")
+    private Spanned getSpannedText(String string) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(string, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(string);
+        }
     }
 
     private void hideSocialView() {

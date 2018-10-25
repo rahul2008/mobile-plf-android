@@ -127,12 +127,19 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
     private void initView(View view) {
         mWebView = view.findViewById(R.id.webView);
-        mWebView.getSettings().setSaveFormData(false);
+        setSaveFromData();
         mProgressBar = view
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
     }
 
+    @SuppressWarnings("deprecation")
+    private void setSaveFromData() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+            mWebView.getSettings().setSaveFormData(false);
+        }
+        //No need to handle for version more than "o" ,Can be refer here https://developer.android.com/reference/android/webkit/WebSettings
+    }
 
 
     @Override

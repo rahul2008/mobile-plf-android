@@ -85,6 +85,7 @@ public class DownloadPDFService extends Service {
         return START_STICKY;
     }
 
+    @SuppressWarnings("deprecation")
     private void createNotification(Context ctx) {
         mNotifyManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 
