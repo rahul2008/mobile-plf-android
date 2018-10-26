@@ -55,7 +55,13 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     @Override
     public CachedConsentStatus fetchConsentTypeState(String consentType) {
         if (inMemoryCache.get(getCurrentLoggedInUserId()) == null || inMemoryCache.get(getCurrentLoggedInUserId()).get(consentType) == null) {
-            inMemoryCache = getMapFromSecureStorage();
+            try {
+                inMemoryCache = getMapFromSecureStorage();
+            } catch (LegacyConsentStatusTimestampsException e) {
+                inMemoryCache.clear();
+                appInfra.getSecureStorage().removeValueForKey(CONSENT_CACHE_KEY);
+                return null;
+            }
         }
         return inMemoryCache.get(getCurrentLoggedInUserId()).get(consentType);
     }
@@ -80,11 +86,11 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         Type listType = new TypeToken<Map<String, Map<String, CachedConsentStatus>>>() {
         }.getType();
         Map<String, Map<String, CachedConsentStatus>> temp = objGson.fromJson(serializedCache, listType);
-        temp = temp == null ? new HashMap<String, Map<String, CachedConsentStatus>>() : temp;
+        temp = temp == null ? new HashMap<>() : temp;
         Map<String, CachedConsentStatus> consentCachedForUser = temp.get(getCurrentLoggedInUserId());
         if (consentCachedForUser == null) {
             appInfra.getSecureStorage().removeValueForKey(CONSENT_CACHE_KEY);
-            temp.put(getCurrentLoggedInUserId(), new HashMap<String, CachedConsentStatus>());
+            temp.put(getCurrentLoggedInUserId(), new HashMap<>());
             return temp;
         }
         return temp;
@@ -134,34 +140,23 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
         @Override
         public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            Date parsedDate = parseDate(json.getAsString(), "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-            if (parsedDate == null) {
-                parsedDate = tryParseLegacyDates(json);
-            }
-            return parsedDate;
-        }
-
-        private Date tryParseLegacyDates(JsonElement json) {
-            Date parsedDate = parseDate(json.getAsString(), "MMM d, yyyy hh:mm:ss a");
-            if (parsedDate == null) {
-                parsedDate = parseDate(json.getAsString(), "MMM d, yyyy hh:mm:ss");
-            }
-            if (parsedDate == null) {
-                throw new JsonParseException("Error parsing date");
-            }
-            return parsedDate;
+            return parseDate(json.getAsString(), "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         }
 
         private Date parseDate(String date, String pattern) {
             try {
                 return new SimpleDateFormat(pattern).parse(date);
             } catch (ParseException e) {
-                return null;
+                throw new LegacyConsentStatusTimestampsException();
             }
         }
     }
 
     private String getCurrentLoggedInUserId() {
         return ConsentsClient.getInstance().getCatkComponent().getUser().getHsdpUUID();
+    }
+
+    public class LegacyConsentStatusTimestampsException extends RuntimeException {
+
     }
 }

@@ -96,15 +96,11 @@ public class ConsentCacheInteractorTest {
     }
 
     @Test
-    public void fetchConsentTypeState_VerifyInMemoryCache_LocalizedDateFormat() {
+    public void fetchConsentTypeState_VerifyInMemoryCache_returnsNull_WhenLegacyTimestampFound() {
         givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 1:00:00 PM"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
-    }
-
-    @Test
-    public void fetchConsentTypeState_VerifyInMemoryCache_LocalizedDateFormat_WithoutAmPm() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 1:00:00"));
-        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+        thenConsentStatusReturnedIs(null);
+        thenConsentCacheIsCleared();
     }
 
     @Test
