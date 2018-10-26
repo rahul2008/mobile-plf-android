@@ -55,7 +55,7 @@ public class ConsentCacheInteractorTest {
     private String CONSENT_TYPE_1 = "consentType1";
     private String CONSENT_TYPE_3 = "consentType3";
     private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, getDate(), NOW.plusMinutes(10));
-    private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1,\"timestamp\":\"Dec 31, 1998 1:00:00 PM\"},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1,\"timestamp\":\"Dec 31, 1998 1:00:00 PM\"}}}";
+    private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1,\"timestamp\":\"1998-12-31T13:00:00.000+0100\"},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1,\"timestamp\":\"1998-12-31T13:00:00.000+0100\"}}}";
     private ConsentCacheInteractor consentCacheInteractor;
     private CachedConsentStatus returnedCachedConsent;
 
@@ -89,21 +89,27 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsentTypeState_VerifyInMemoryCache() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00 AM"));
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenSecureStorageFetchIsCalledOnce();
     }
 
     @Test
-    public void fetchConsentTypeState_VerifyInMemoryCache_DifferentDateFormat() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00"));
+    public void fetchConsentTypeState_VerifyInMemoryCache_LocalizedDateFormat() {
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 1:00:00 PM"));
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+    }
+
+    @Test
+    public void fetchConsentTypeState_VerifyInMemoryCache_LocalizedDateFormat_WithoutAmPm() {
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 1:00:00"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
     }
 
     @Test
     public void fetchConsentTypeState_ConsentGiven() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00 AM"));
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentStatusReturnedIs(consentTypeStatus1);
     }
@@ -118,7 +124,7 @@ public class ConsentCacheInteractorTest {
     @Test(expected=NullPointerException.class)
     public void fetchConsentTypeState_WhenUserIdIsNull() {
         when(userMock.getHsdpUUID()).thenReturn(null);
-        givenSecureStorageReturns(getSingleConsentStatusJson(null, "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00 AM"));
+        givenSecureStorageReturns(getSingleConsentStatusJson(null, "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
     }
 
@@ -126,13 +132,13 @@ public class ConsentCacheInteractorTest {
     public void store_VerifyExpiryTime() {
         givenExpiryTimeConfiguredInAppConfigIs(1);
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
-        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_3, 1, "Dec 31, 1998 1:00:00 PM"));
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_3, 1, "1998-12-31T13:00:00.000+0100"));
     }
 
     @Test
     public void fetchConsentTypeState_VerifyStoreIsNotOverwrittenAfterPost() {
         givenExpiryTimeConfiguredInAppConfigIs(10);
-        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 1:00:00 PM"));
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.rejected, 1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenConsentIsStoredInSecureStorage(consentStatusJsonForTwoTypes);
@@ -140,7 +146,7 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsent_ShouldNotReturnAnotherUserData() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00 AM"));
+        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenNullConsentStatusIsReturned();
@@ -148,7 +154,7 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsent_ClearsCacheWhenAnotherUserIsLoggedIn() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 1, "Dec 31, 1998 12:00:00 AM"));
+        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 1, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenConsentCacheIsCleared();
@@ -159,14 +165,14 @@ public class ConsentCacheInteractorTest {
         givenExpiryTimeConfiguredInAppConfigIs(1);
         when(userMock.getHsdpUUID()).thenReturn("someUserId");
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
-        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1, "Dec 31, 1998 1:00:00 PM"));
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1, "1998-12-31T13:00:00.000+0100"));
     }
 
     @Test
     public void testClearCache() {
         givenSecureStorageReturns(consentStatusJsonForTwoTypes);
         whenClearingCacheFor("consentType1");
-        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "rejected", "consentType3", 10, "Dec 31, 1998 1:00:00 PM"));
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "rejected", "consentType3", 10, "1998-12-31T13:00:00.000+0100"));
     }
 
     @Test

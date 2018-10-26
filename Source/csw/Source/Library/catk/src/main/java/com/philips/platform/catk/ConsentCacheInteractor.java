@@ -44,7 +44,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     private AppInfraInterface appInfra;
 
     private Gson objGson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
-            .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).registerTypeAdapter(Date.class, new DateDeserializer()).create();
+            .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).registerTypeAdapter(Date.class, new DateDeserializer()).registerTypeAdapter(Date.class, new DateSerializer()).create();
 
     private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
 
@@ -107,10 +107,18 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         writeMapToSecureStorage(inMemoryCache);
     }
 
-    class DateTimeSerializer implements JsonSerializer {
+    class DateTimeSerializer implements JsonSerializer<DateTime> {
         @Override
-        public JsonElement serialize(Object src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize(DateTime src, Type typeOfSrc, JsonSerializationContext context) {
             return new JsonPrimitive(src.toString());
+        }
+    }
+
+    class DateSerializer implements JsonSerializer<Date> {
+
+        @Override
+        public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(src));
         }
     }
 
@@ -126,19 +134,30 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
         @Override
         public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            try {
-                return parseDate(json.getAsString(), "MMM d, yyyy hh:mm:ss a");
-            } catch (ParseException e) {
-                try {
-                    return parseDate(json.getAsString(), "MMM d, yyyy hh:mm:ss");
-                } catch (ParseException e1) {
-                    throw new JsonParseException("Error parsing date", e);
-                }
+            Date parsedDate = parseDate(json.getAsString(), "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+            if (parsedDate == null) {
+                parsedDate = tryParseLegacyDates(json);
             }
+            return parsedDate;
         }
 
-        private Date parseDate(String date, String pattern) throws ParseException {
-            return new SimpleDateFormat(pattern).parse(date);
+        private Date tryParseLegacyDates(JsonElement json) {
+            Date parsedDate = parseDate(json.getAsString(), "MMM d, yyyy hh:mm:ss a");
+            if (parsedDate == null) {
+                parsedDate = parseDate(json.getAsString(), "MMM d, yyyy hh:mm:ss");
+            }
+            if (parsedDate == null) {
+                throw new JsonParseException("Error parsing date");
+            }
+            return parsedDate;
+        }
+
+        private Date parseDate(String date, String pattern) {
+            try {
+                return new SimpleDateFormat(pattern).parse(date);
+            } catch (ParseException e) {
+                return null;
+            }
         }
     }
 
