@@ -523,8 +523,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         editor.putString(USER_SELECTED_PRODUCT_CTN_CALL, phoneNumber);
         editor.apply();
     }
-
-    @SuppressWarnings("deprecation")
+    
     private Spanned getSpannedText(String string) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

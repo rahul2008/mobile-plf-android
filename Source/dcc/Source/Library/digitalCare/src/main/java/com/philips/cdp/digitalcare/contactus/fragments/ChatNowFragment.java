@@ -133,7 +133,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
         mProgressBar.setVisibility(View.GONE);
     }
 
-    @SuppressWarnings("deprecation")
+
     private void setSaveFromData() {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
             mWebView.getSettings().setSaveFormData(false);
