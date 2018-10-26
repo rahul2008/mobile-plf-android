@@ -37,8 +37,9 @@ import java.util.Map;
 
 public class ConsentCacheInteractor implements ConsentCacheInterface {
 
-    private static String CONSENT_CACHE_KEY = "CONSENT_CACHE";
-    private static String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
+    private static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    private static final String CONSENT_CACHE_KEY = "CONSENT_CACHE";
+    private static final String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
     private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
     private AppInfraInterface appInfra;
     private Gson objGson = new GsonBuilder()
@@ -124,7 +125,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
         @Override
         public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(src));
+            return new JsonPrimitive(new SimpleDateFormat(DATE_PATTERN).format(src));
         }
     }
 
@@ -140,7 +141,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
         @Override
         public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return parseDate(json.getAsString(), "yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+            return parseDate(json.getAsString(), DATE_PATTERN);
         }
 
         private Date parseDate(String date, String pattern) {
