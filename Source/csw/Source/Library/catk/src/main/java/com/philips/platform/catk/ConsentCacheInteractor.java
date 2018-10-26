@@ -23,6 +23,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,16 +37,17 @@ import java.util.Map;
 
 public class ConsentCacheInteractor implements ConsentCacheInterface {
 
-    private String CONSENT_CACHE_KEY = "CONSENT_CACHE";
-
-    private String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
-
-    private AppInfraInterface appInfra;
-
-    private Gson objGson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
-            .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).create();
-
+    private static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    private static final String CONSENT_CACHE_KEY = "CONSENT_CACHE";
+    private static final String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
     private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
+    private AppInfraInterface appInfra;
+    private Gson objGson = new GsonBuilder()
+            .registerTypeAdapter(DateTime.class, new DateTimeSerializer())
+            .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer())
+            .registerTypeAdapter(Date.class, new DateSerializer())
+            .registerTypeAdapter(Date.class, new DateDeserializer())
+            .create();
 
     public ConsentCacheInteractor(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
@@ -53,7 +56,13 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     @Override
     public CachedConsentStatus fetchConsentTypeState(String consentType) {
         if (inMemoryCache.get(getCurrentLoggedInUserId()) == null || inMemoryCache.get(getCurrentLoggedInUserId()).get(consentType) == null) {
-            inMemoryCache = getMapFromSecureStorage();
+            try {
+                inMemoryCache = getMapFromSecureStorage();
+            } catch (LegacyConsentStatusTimestampsException e) {
+                inMemoryCache.clear();
+                appInfra.getSecureStorage().removeValueForKey(CONSENT_CACHE_KEY);
+                return null;
+            }
         }
         return inMemoryCache.get(getCurrentLoggedInUserId()).get(consentType);
     }
@@ -78,11 +87,11 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         Type listType = new TypeToken<Map<String, Map<String, CachedConsentStatus>>>() {
         }.getType();
         Map<String, Map<String, CachedConsentStatus>> temp = objGson.fromJson(serializedCache, listType);
-        temp = temp == null ? new HashMap<String, Map<String, CachedConsentStatus>>() : temp;
+        temp = temp == null ? new HashMap<>() : temp;
         Map<String, CachedConsentStatus> consentCachedForUser = temp.get(getCurrentLoggedInUserId());
         if (consentCachedForUser == null) {
             appInfra.getSecureStorage().removeValueForKey(CONSENT_CACHE_KEY);
-            temp.put(getCurrentLoggedInUserId(), new HashMap<String, CachedConsentStatus>());
+            temp.put(getCurrentLoggedInUserId(), new HashMap<>());
             return temp;
         }
         return temp;
@@ -105,22 +114,50 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         writeMapToSecureStorage(inMemoryCache);
     }
 
-    class DateTimeSerializer implements JsonSerializer {
+    class DateTimeSerializer implements JsonSerializer<DateTime> {
         @Override
-        public JsonElement serialize(Object src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize(DateTime src, Type typeOfSrc, JsonSerializationContext context) {
             return new JsonPrimitive(src.toString());
         }
     }
 
-    class DateTimeDeSerializer implements JsonDeserializer {
+    class DateSerializer implements JsonSerializer<Date> {
 
         @Override
-        public Object deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(new SimpleDateFormat(DATE_PATTERN).format(src));
+        }
+    }
+
+    class DateTimeDeSerializer implements JsonDeserializer<DateTime> {
+
+        @Override
+        public DateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             return new DateTime(json.getAsJsonPrimitive().getAsString(), DateTimeZone.UTC);
+        }
+    }
+
+    class DateDeserializer implements JsonDeserializer<Date> {
+
+        @Override
+        public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return parseDate(json.getAsString(), DATE_PATTERN);
+        }
+
+        private Date parseDate(String date, String pattern) {
+            try {
+                return new SimpleDateFormat(pattern).parse(date);
+            } catch (ParseException e) {
+                throw new LegacyConsentStatusTimestampsException();
+            }
         }
     }
 
     private String getCurrentLoggedInUserId() {
         return ConsentsClient.getInstance().getCatkComponent().getUser().getHsdpUUID();
+    }
+
+    public class LegacyConsentStatusTimestampsException extends RuntimeException {
+
     }
 }
