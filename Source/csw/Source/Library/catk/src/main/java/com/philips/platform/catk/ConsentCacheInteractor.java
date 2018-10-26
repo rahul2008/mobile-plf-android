@@ -44,7 +44,9 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     private AppInfraInterface appInfra;
 
     private Gson objGson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
-            .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).registerTypeAdapter(Date.class, new DateDeserializer()).registerTypeAdapter(Date.class, new DateSerializer()).create();
+            .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer())
+            .registerTypeAdapter(Date.class, new DateDeserializer())
+            .registerTypeAdapter(Date.class, new DateSerializer()).create();
 
     private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
 
