@@ -37,20 +37,16 @@ import java.util.Map;
 
 public class ConsentCacheInteractor implements ConsentCacheInterface {
 
-    private String CONSENT_CACHE_KEY = "CONSENT_CACHE";
-
-    private String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
-
+    private static String CONSENT_CACHE_KEY = "CONSENT_CACHE";
+    private static String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
+    private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
     private AppInfraInterface appInfra;
-
     private Gson objGson = new GsonBuilder()
             .registerTypeAdapter(DateTime.class, new DateTimeSerializer())
             .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer())
             .registerTypeAdapter(Date.class, new DateSerializer())
             .registerTypeAdapter(Date.class, new DateDeserializer())
             .create();
-
-    private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
 
     public ConsentCacheInteractor(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
