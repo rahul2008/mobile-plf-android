@@ -27,6 +27,7 @@ import java.util.Date;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.notNull;
@@ -179,7 +180,7 @@ public class ConsentCacheInteractorTest {
     }
 
     private void givenSecureStorageReturns(String cacheMapTest) {
-        when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull())).thenReturn(cacheMapTest);
+        when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), notNull())).thenReturn(cacheMapTest);
     }
 
     private void givenExpiryTimeConfiguredInAppConfigIs(int minutes) {
@@ -189,19 +190,16 @@ public class ConsentCacheInteractorTest {
     }
 
     private void whenStoreConsentStateIsCalled(String consentType, ConsentStates active, int version) {
-        String sDate1="Dec 31, 1998 1:00:00 PM";
-        Date date1 = null;
         try {
-            date1=new SimpleDateFormat("MMM d, yyyy hh:mm:ss a").parse(sDate1);
+            Date date =new SimpleDateFormat("MMM d, yyyy hh:mm:ss a").parse("Dec 31, 1998 1:00:00 PM");
+            consentCacheInteractor.storeConsentState(consentType, active, version, date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            fail("Error creating date");
         }
-        consentCacheInteractor.storeConsentState(consentType, active, version, date1);
     }
     private void whenFetchConsentStateIsCalled(String consentType) {
         returnedCachedConsent = consentCacheInteractor.fetchConsentTypeState(consentType);
     }
-
 
     private void whenClearingCacheFor(String consentType) {
         consentCacheInteractor.clearCache(consentType);
@@ -209,19 +207,12 @@ public class ConsentCacheInteractorTest {
 
     private void thenConsentIsStoredInSecureStorage(String expectedConsentCacheJson) {
         ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
-        verify(storageInterface, times(1)).storeValueForKey(eq(CONSENT_CACHE_KEY), argumentCaptor.capture(), (SecureStorageInterface.SecureStorageError) notNull());
+        verify(storageInterface, times(1)).storeValueForKey(eq(CONSENT_CACHE_KEY), argumentCaptor.capture(), notNull());
         assertEquals(expectedConsentCacheJson, argumentCaptor.getValue());
     }
 
-    private void assertEqualJson(String expectedConsentCacheJson, ArgumentCaptor<String> argumentCaptor) {
-        JsonParser parser = new JsonParser();
-        JsonElement expectedJson = parser.parse(expectedConsentCacheJson);
-        JsonElement capturedJson = parser.parse(argumentCaptor.getValue());
-        assertEquals(expectedJson, capturedJson);
-    }
-
     private void thenSecureStorageFetchIsCalledOnce() {
-        verify(storageInterface, times(1)).fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull());
+        verify(storageInterface, times(1)).fetchValueForKey(eq(CONSENT_CACHE_KEY), notNull());
     }
 
     private void thenConsentStatusReturnedIs(CachedConsentStatus expectedConsentStatus) {
@@ -229,7 +220,7 @@ public class ConsentCacheInteractorTest {
     }
 
     private void thenConsentCacheIsFetchedFromSecureStorage() {
-        verify(storageInterface).fetchValueForKey(eq(CONSENT_CACHE_KEY), (SecureStorageInterface.SecureStorageError) notNull());
+        verify(storageInterface).fetchValueForKey(eq(CONSENT_CACHE_KEY), notNull());
     }
 
     private void thenNullConsentStatusIsReturned() {
@@ -241,8 +232,6 @@ public class ConsentCacheInteractorTest {
     }
 
     private String getSingleConsentStatusJson(final String userId, final String status, final String consentType, int expiryMinutes, final String timestamp){
-       // return "{\"" + userId + "\":{\"" + consentType + "\":{\"consentState\":\"" + status + "\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(expiryMinutes)).toString() + "\"}}}";
-
         return "{\"" + userId+ "\":{\"" +consentType + "\":{\"expires\":\"" +(NOW.plusMinutes(expiryMinutes)).toString() +"\",\"consentState\":\"" +status+ "\",\"version\":1,\"timestamp\":\"" + timestamp + "\"}}}";
     }
 
