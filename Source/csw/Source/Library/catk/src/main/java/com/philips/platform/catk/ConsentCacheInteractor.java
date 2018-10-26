@@ -23,6 +23,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +44,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     private AppInfraInterface appInfra;
 
     private Gson objGson = new GsonBuilder().registerTypeAdapter(DateTime.class, new DateTimeSerializer())
-            .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).create();
+            .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer()).registerTypeAdapter(Date.class, new DateDeserializer()).create();
 
     private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
 
@@ -112,11 +114,31 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         }
     }
 
-    class DateTimeDeSerializer implements JsonDeserializer {
+    class DateTimeDeSerializer implements JsonDeserializer<DateTime> {
 
         @Override
-        public Object deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public DateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             return new DateTime(json.getAsJsonPrimitive().getAsString(), DateTimeZone.UTC);
+        }
+    }
+
+    class DateDeserializer implements JsonDeserializer<Date> {
+
+        @Override
+        public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            try {
+                return parseDate(json.getAsString(), "MMM d, yyyy hh:mm:ss a");
+            } catch (ParseException e) {
+                try {
+                    return parseDate(json.getAsString(), "MMM d, yyyy hh:mm:ss");
+                } catch (ParseException e1) {
+                    throw new JsonParseException("Error parsing date", e);
+                }
+            }
+        }
+
+        private Date parseDate(String date, String pattern) throws ParseException {
+            return new SimpleDateFormat(pattern).parse(date);
         }
     }
 

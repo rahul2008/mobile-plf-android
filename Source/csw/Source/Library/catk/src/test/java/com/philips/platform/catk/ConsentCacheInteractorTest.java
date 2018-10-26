@@ -19,7 +19,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.ParseException;
@@ -56,7 +55,7 @@ public class ConsentCacheInteractorTest {
     private String CONSENT_TYPE_1 = "consentType1";
     private String CONSENT_TYPE_3 = "consentType3";
     private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, getDate(), NOW.plusMinutes(10));
-    private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1,\"timestamp\":\"Dec 31, 1998 12:00:00 AM\"},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1, \"timestamp\":\"Dec 31, 1998 12:00:00 AM\"}}}";
+    private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1,\"timestamp\":\"Dec 31, 1998 1:00:00 PM\"},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1,\"timestamp\":\"Dec 31, 1998 1:00:00 PM\"}}}";
     private ConsentCacheInteractor consentCacheInteractor;
     private CachedConsentStatus returnedCachedConsent;
 
@@ -90,15 +89,21 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsentTypeState_VerifyInMemoryCache() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10));
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00 AM"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenSecureStorageFetchIsCalledOnce();
     }
 
     @Test
+    public void fetchConsentTypeState_VerifyInMemoryCache_DifferentDateFormat() {
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00"));
+        whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
+    }
+
+    @Test
     public void fetchConsentTypeState_ConsentGiven() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10));
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00 AM"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentStatusReturnedIs(consentTypeStatus1);
     }
@@ -113,7 +118,7 @@ public class ConsentCacheInteractorTest {
     @Test(expected=NullPointerException.class)
     public void fetchConsentTypeState_WhenUserIdIsNull() {
         when(userMock.getHsdpUUID()).thenReturn(null);
-        givenSecureStorageReturns(getSingleConsentStatusJson(null, "active", CONSENT_TYPE_1, 10));
+        givenSecureStorageReturns(getSingleConsentStatusJson(null, "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00 AM"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
     }
 
@@ -121,13 +126,13 @@ public class ConsentCacheInteractorTest {
     public void store_VerifyExpiryTime() {
         givenExpiryTimeConfiguredInAppConfigIs(1);
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
-        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_3, 1));
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_3, 1, "Dec 31, 1998 1:00:00 PM"));
     }
 
     @Test
     public void fetchConsentTypeState_VerifyStoreIsNotOverwrittenAfterPost() {
         givenExpiryTimeConfiguredInAppConfigIs(10);
-        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10));
+        givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 1:00:00 PM"));
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.rejected, 1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenConsentIsStoredInSecureStorage(consentStatusJsonForTwoTypes);
@@ -135,7 +140,7 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsent_ShouldNotReturnAnotherUserData() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10));
+        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10, "Dec 31, 1998 12:00:00 AM"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenNullConsentStatusIsReturned();
@@ -143,7 +148,7 @@ public class ConsentCacheInteractorTest {
 
     @Test
     public void fetchConsent_ClearsCacheWhenAnotherUserIsLoggedIn() {
-        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 1));
+        givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 1, "Dec 31, 1998 12:00:00 AM"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         thenConsentCacheIsFetchedFromSecureStorage();
         thenConsentCacheIsCleared();
@@ -154,14 +159,14 @@ public class ConsentCacheInteractorTest {
         givenExpiryTimeConfiguredInAppConfigIs(1);
         when(userMock.getHsdpUUID()).thenReturn("someUserId");
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
-        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1));
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1, "Dec 31, 1998 1:00:00 PM"));
     }
 
     @Test
     public void testClearCache() {
         givenSecureStorageReturns(consentStatusJsonForTwoTypes);
         whenClearingCacheFor("consentType1");
-        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "rejected", "consentType3", 10));
+        thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "rejected", "consentType3", 10, "Dec 31, 1998 1:00:00 PM"));
     }
 
     @Test
@@ -182,10 +187,10 @@ public class ConsentCacheInteractorTest {
     }
 
     private void whenStoreConsentStateIsCalled(String consentType, ConsentStates active, int version) {
-        String sDate1="31/12/1998";
+        String sDate1="Dec 31, 1998 1:00:00 PM";
         Date date1 = null;
         try {
-            date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+            date1=new SimpleDateFormat("MMM d, yyyy hh:mm:ss a").parse(sDate1);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -203,7 +208,7 @@ public class ConsentCacheInteractorTest {
     private void thenConsentIsStoredInSecureStorage(String expectedConsentCacheJson) {
         ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
         verify(storageInterface, times(1)).storeValueForKey(eq(CONSENT_CACHE_KEY), argumentCaptor.capture(), (SecureStorageInterface.SecureStorageError) notNull());
-        assertEqualJson(expectedConsentCacheJson, argumentCaptor);
+        assertEquals(expectedConsentCacheJson, argumentCaptor.getValue());
     }
 
     private void assertEqualJson(String expectedConsentCacheJson, ArgumentCaptor<String> argumentCaptor) {
@@ -233,10 +238,10 @@ public class ConsentCacheInteractorTest {
         verify(storageInterface).removeValueForKey(CONSENT_CACHE_KEY);
     }
 
-    private String getSingleConsentStatusJson(final String userId, final String status, final String consentType, int expiryMinutes){
+    private String getSingleConsentStatusJson(final String userId, final String status, final String consentType, int expiryMinutes, final String timestamp){
        // return "{\"" + userId + "\":{\"" + consentType + "\":{\"consentState\":\"" + status + "\",\"version\":1,\"expires\":\"" + (NOW.plusMinutes(expiryMinutes)).toString() + "\"}}}";
 
-        return "{\"" + userId+ "\":{\"" +consentType + "\":{\"expires\":\"" +(NOW.plusMinutes(expiryMinutes)).toString() +"\",\"consentState\":\"" +status+"\",\"version\":1,\"timestamp\":\"Dec 31, 1998 12:00:00 AM\"}}}";
+        return "{\"" + userId+ "\":{\"" +consentType + "\":{\"expires\":\"" +(NOW.plusMinutes(expiryMinutes)).toString() +"\",\"consentState\":\"" +status+ "\",\"version\":1,\"timestamp\":\"" + timestamp + "\"}}}";
     }
 
 }
