@@ -129,6 +129,4 @@
   <string name="label_ews_verify_ready_question_default">Is the Wi-Fi light flashing?</string>
   <string name="label_ews_verify_ready_title_default">Is your device in setup mode?</string>
   <string name="screen_ews_add_network_title">Add a network</string>
-
-  <string name="label_location_permission_required">%1$s requires location permission</string>
 </resources>
