@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Vouchers implements Serializable {
 
+    private static final long serialVersionUID = -7277844355281972422L;
     private String code;
     private boolean freeShipping;
     private String value;

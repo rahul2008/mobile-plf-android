@@ -29,10 +29,13 @@ public class NetworkURLConstants {
     public static final String BASE_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE +
             "/users/" + JANRAIN_EMAIL;
 
+    public static final String BASE_URL_CART = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE +
+            "/users" ;
+
     //Carts
-    public static final String GET_CARTS_URL = BASE_URL + "/carts?fields=FULL&lang=en_US";
+    public static final String GET_CARTS_URL = BASE_URL + "/carts/current?fields=FULL&lang=en_US";
     public static final String DELETE_CART_URL = BASE_URL + "/carts/current?lang=en_US";
-    public static final String CREATE_CART_URL = BASE_URL + "/carts?fields=FULL&lang=en_US";
+    public static final String CREATE_CART_URL = BASE_URL_CART + "/current/carts?fields=FULL&lang=en_US";
     public static final String ADD_TO_CART_URL = BASE_URL + "/carts/current/entries?fields=FULL&lang=en_US";
 
     //Product
