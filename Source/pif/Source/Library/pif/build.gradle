@@ -27,12 +27,9 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
     buildTypes {

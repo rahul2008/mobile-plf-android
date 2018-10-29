@@ -1,24 +1,28 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw.injection;
 
 import android.content.Context;
-import android.test.mock.MockContext;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CswModuleTest {
 
     @Mock
-    private MockContext contextMock;
+    private Context contextMock;
 
     private CswModule subject;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         initMocks(this);
         subject = new CswModule(contextMock);
     }

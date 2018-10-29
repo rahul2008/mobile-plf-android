@@ -1,70 +1,69 @@
 
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.dhpclient;
 
 import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Created by 310243576 on 8/21/2016.
  */
-public class DhpSubscriptionServiceClientTest extends InstrumentationTestCase{
+public class DhpSubscriptionServiceClientTest {
 
-    DhpSubscriptionServiceClient mDhpSubscriptionServiceClient;
-    DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse mDhpTermsAndConditionsResponse;
-    DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse mDhpTermsAndConditionsResponse1;
+    private DhpSubscriptionServiceClient mDhpSubscriptionServiceClient;
+    private DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse mDhpTermsAndConditionsResponse;
+    private DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse mDhpTermsAndConditionsResponse1;
 
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-//        MockitoAnnotations.initMocks(this);
-        super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-        DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl","dhpApplicationName","signingKey","signingSecret");
-    mDhpSubscriptionServiceClient = new DhpSubscriptionServiceClient(dhpApiClientConfiguration);
-        mDhpTermsAndConditionsResponse = new DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse("responseCode","acceptedTermsVersion");
-        mDhpTermsAndConditionsResponse1 = new DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse("responseCode","acceptedTermsVersion");
+        DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl", "dhpApplicationName", "signingKey", "signingSecret");
+        mDhpSubscriptionServiceClient = new DhpSubscriptionServiceClient(dhpApiClientConfiguration);
+        mDhpTermsAndConditionsResponse = new DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse("responseCode", "acceptedTermsVersion");
+        mDhpTermsAndConditionsResponse1 = new DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse("responseCode", "acceptedTermsVersion");
     }
 
     @Test
-    public void testDhpSubscriptionServiceClient(){
-        mDhpSubscriptionServiceClient.subscribe("dhpUserId","accessToken");
-        mDhpSubscriptionServiceClient.closeAccount("dhpUserId",true,"accessToken");
+    public void testDhpSubscriptionServiceClient() {
+        mDhpSubscriptionServiceClient.subscribe("dhpUserId", "accessToken");
+        mDhpSubscriptionServiceClient.closeAccount("dhpUserId", true, "accessToken");
         assertNotNull(mDhpSubscriptionServiceClient);
-
     }
+
     @Test
-    public void testDhpTermsAndConditonsResponse(){
+    public void testDhpTermsAndConditonsResponse() {
         assertNotNull(mDhpTermsAndConditionsResponse);
-        assertTrue(mDhpTermsAndConditionsResponse.equals(mDhpTermsAndConditionsResponse));
-        assertTrue(mDhpTermsAndConditionsResponse.equals(mDhpTermsAndConditionsResponse1));
-        assertFalse(mDhpTermsAndConditionsResponse.equals(mDhpSubscriptionServiceClient));
-        assertFalse(mDhpTermsAndConditionsResponse.equals(null));
-        assertNotNull(mDhpTermsAndConditionsResponse.hashCode());
+        assertEquals(mDhpTermsAndConditionsResponse, mDhpTermsAndConditionsResponse);
+        assertEquals(mDhpTermsAndConditionsResponse, mDhpTermsAndConditionsResponse1);
+        assertNotEquals(mDhpTermsAndConditionsResponse, mDhpSubscriptionServiceClient);
         assertNotNull(mDhpTermsAndConditionsResponse.toString());
     }
-    public void testGetLastAcceptedTermsAndConditions(){
+
+    @Test
+    public void testGetLastAcceptedTermsAndConditions() throws Exception {
         Method method = null;
-                Map<String, Object> responseMap = new HashMap<String, Object>();
-            responseMap.put("200","\\.sample");
-        try {
-            method = DhpSubscriptionServiceClient.class.getDeclaredMethod("getLastAcceptedTermsAndConditions", Map.class);
-            method.setAccessible(true);
-            method.invoke(mDhpSubscriptionServiceClient,responseMap);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        Map<String, Object> responseMap = new HashMap<String, Object>();
+        responseMap.put("200", "\\.sample");
+
+        method = DhpSubscriptionServiceClient.class.getDeclaredMethod("getLastAcceptedTermsAndConditions", Map.class);
+        method.setAccessible(true);
+        method.invoke(mDhpSubscriptionServiceClient, responseMap);
     }
 }

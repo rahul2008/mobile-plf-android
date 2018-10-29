@@ -29,12 +29,8 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.ui.catalog"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 24
         versionName "1.0.24"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         generatedDensities = []

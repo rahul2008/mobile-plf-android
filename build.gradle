@@ -9,7 +9,8 @@ buildscript {
         maven { url repos.mavengoogle }
         maven { url repos.jcenter }
         maven { url repos.pluginsgradle }
-        maven { url repos.plugin
+        maven {
+            url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -56,14 +57,16 @@ subprojects {
         apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
         repositories {
-            maven { url repos.mavengoogle
+            maven {
+                url repos.mavengoogle
                 credentials {
                     username = "readonly"
                     password = "123qweasdzxc"
                 }
             }
             maven { url repos.jcenter }
-            maven { url repos.plugin
+            maven {
+                url repos.plugin
                 credentials {
                     username = "readonly"
                     password = "123qweasdzxc"
@@ -94,6 +97,12 @@ subprojects {
 
     afterEvaluate {
         android {
+            defaultConfig {
+                minSdkVersion versions.minsdk
+                targetSdkVersion versions.target
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            }
+
             useLibrary 'android.test.runner'
             useLibrary 'android.test.base'
             useLibrary 'android.test.mock'
@@ -116,6 +125,10 @@ subprojects {
                     jvmArgs '-noverify'
                     systemProperty 'robolectric.enabledSdks', '27'
                 }
+            }
+
+            packagingOptions {
+                exclude 'META-INF/proguard/androidx-annotations.pro'
             }
         }
     }

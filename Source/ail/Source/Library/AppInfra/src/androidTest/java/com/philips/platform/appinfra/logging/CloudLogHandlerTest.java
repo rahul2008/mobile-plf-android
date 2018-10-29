@@ -1,14 +1,19 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.logging;
 
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDataBuilder;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -21,20 +26,20 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Yogesh on 5/24/18.
  */
-public class CloudLogHandlerTest extends AppInfraInstrumentation {
+public class CloudLogHandlerTest {
 
     @Mock
     private AppInfra appInfra;
 
     @Before
     protected void setUp() throws Exception {
-        super.setUp();
         MockitoAnnotations.initMocks(this);
     }
 
+    @Test
     public void testPublish() throws AILCloudLogDataBuilder.MessageSizeExceedsException {
-        final AILCloudLogDataBuilder ailCloudLogDataBuilder =mock(AILCloudLogDataBuilder.class);
-        final AILCloudLogDBManager cloudLogDBManager =mock(AILCloudLogDBManager.class);
+        final AILCloudLogDataBuilder ailCloudLogDataBuilder = mock(AILCloudLogDataBuilder.class);
+        final AILCloudLogDBManager cloudLogDBManager = mock(AILCloudLogDBManager.class);
         CloudLogHandler cloudLogHandler = new CloudLogHandler(appInfra) {
             @NonNull
             @Override

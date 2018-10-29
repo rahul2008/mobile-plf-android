@@ -40,11 +40,8 @@ android {
 
     defaultConfig {
         multiDexEnabled true
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
         ]

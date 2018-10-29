@@ -1,107 +1,113 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.contactus;
 
 import android.content.Context;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.philips.cdp.digitalcare.contactus.models.CdlsErrorModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
-import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-public class CdlsErrorModelTest extends InstrumentationTestCase {
+import org.junit.Before;
+import org.junit.Test;
 
-	private final String TAG = CdlsErrorModelTest.class.getSimpleName();
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNull;
 
-	private Context mContext, context = null;
-	private CdlsResponseParser mParser = null;
+public class CdlsErrorModelTest {
 
-	GetCdlsInstance mGetCdlsInstance = null;
-	CdlsResponseModel mCdlsResponseModel = null;
+    private final String TAG = CdlsErrorModelTest.class.getSimpleName();
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+    private Context context = null;
+
+    private GetCdlsInstance mGetCdlsInstance = null;
+    private CdlsResponseModel mCdlsResponseModel = null;
+
+    @Before
+    protected void setUp() throws Exception {
         DigiCareLogger.d(TAG, "setUp..");
-		mContext = getInstrumentation().getTargetContext();
-		context = getInstrumentation().getContext();
+        context = getInstrumentation().getContext();
 
-		// mParser = CdlsResponseParser.getParserControllInstance(mContext);
+        mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
+    }
 
-		mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
-	}
-
-	public void testErrorCodeFromCdlsResponse() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		String received = null;
-		// mParser.processCdlsResponse(response);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
-		try {
-			received = mCdlsObject.getErrorCode();
-		} catch (NullPointerException e) {
+    @Test
+    public void testErrorCodeFromCdlsResponse() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
+        try {
+            received = mCdlsObject.getErrorCode();
+        } catch (NullPointerException e) {
             DigiCareLogger.d(TAG, "Error Code response : " + received);
-		}
+        }
 
-		assertNull(received);
-	}
+        assertNull(received);
+    }
 
-	public void testErrorMessageFromCdlsResponse() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		String received = null;
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
-		
-		try {
-			received = mCdlsObject.getErrorMessage();
-		} catch (NullPointerException e) {
+    @Test
+    public void testErrorMessageFromCdlsResponse() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
+
+        try {
+            received = mCdlsObject.getErrorMessage();
+        } catch (NullPointerException e) {
             DigiCareLogger.d(TAG, "Error Code response : " + received);
-		}
+        }
 
-		assertNull(received);
-	}
+        assertNull(received);
+    }
 
-	public void testErrorCodeFromCdlsResponse1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		String received = null;
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
-		
-		try {
-			received = mCdlsObject.getErrorCode();
-		} catch (NullPointerException e) {
+    @Test
+    public void testErrorCodeFromCdlsResponse1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
+
+        try {
+            received = mCdlsObject.getErrorCode();
+        } catch (NullPointerException e) {
             DigiCareLogger.d(TAG, "Error Code response : " + received);
-		}
+        }
 
-		assertNull(received);
-	}
+        assertNull(received);
+    }
 
-	public void testErrorMessageFromCdlsResponse1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		String received = null;
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
-		
-		try {
-			received = mCdlsObject.getErrorMessage();
-		} catch (NullPointerException e) {
+    @Test
+    public void testErrorMessageFromCdlsResponse1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
+
+        try {
+            received = mCdlsObject.getErrorMessage();
+        } catch (NullPointerException e) {
             DigiCareLogger.d(TAG, "Error Code response : " + received);
-		}
+        }
 
-		assertNull(received);
-	}
+        assertNull(received);
+    }
 
-	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
-		@Override
-		public void onCdlsParsingComplete(final CdlsResponseModel response) {
-			mCdlsResponseModel = response;
+    private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+        @Override
+        public void onCdlsParsingComplete(final CdlsResponseModel response) {
+            mCdlsResponseModel = response;
 
-		}
-	};
+        }
+    };
 
 }

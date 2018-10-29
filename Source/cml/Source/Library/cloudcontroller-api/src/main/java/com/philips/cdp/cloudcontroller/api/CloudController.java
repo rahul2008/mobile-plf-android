@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -24,7 +24,7 @@ import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
  */
 public interface CloudController {
 
-    /**
+    /**jdk
      * The constant NOTIFICATION_SERVICE_TAG.
      */
     String NOTIFICATION_SERVICE_TAG = "3pns";

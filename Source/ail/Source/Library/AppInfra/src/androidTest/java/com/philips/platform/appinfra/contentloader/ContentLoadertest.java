@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.contentloader;
 
 import android.content.Context;
@@ -9,13 +14,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,12 +29,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-/**
- * ContentLoader Test class.
- */
-
-public class ContentLoadertest extends AppInfraInstrumentation {
+public class ContentLoadertest {
 
     private Context context;
     private AppInfra mAppInfra;
@@ -38,13 +44,10 @@ public class ContentLoadertest extends AppInfraInstrumentation {
     private Method method;
     private JsonObject jsonObject;
     private List<ContentItem> downloadedContents;
-    ContentDatabaseHandler contentDatabaseHandler;
+    private ContentDatabaseHandler contentDatabaseHandler;
 
-
-
-    @Override
+    @Before
     protected void setUp() throws Exception {
-        super.setUp();
         context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
@@ -173,11 +176,9 @@ public class ContentLoadertest extends AppInfraInstrumentation {
         JsonParser parser = new JsonParser();
         jsonObject = (JsonObject) parser.parse(json);
 
-
     }
 
-    public void testConfig() {
-
+    private void testConfig() {
         final AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
@@ -185,16 +186,15 @@ public class ContentLoadertest extends AppInfraInstrumentation {
                 try {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 return result;
             }
-
         };
         mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
     }
 
-
+    @Test
     public void testRefresh() {
         mContentLoader.refresh(new ContentLoaderInterface.OnRefreshListener() {
             @Override
@@ -210,7 +210,8 @@ public class ContentLoadertest extends AppInfraInstrumentation {
         });
     }
 
-    public void testdownloadContent() {
+    @Test
+    public void testDownloadContent() {
         try {
             method = mContentLoader.getClass().getDeclaredMethod("downloadContent", ContentLoaderInterface.OnRefreshListener.class);
             method.setAccessible(true);
@@ -230,8 +231,8 @@ public class ContentLoadertest extends AppInfraInstrumentation {
         }
     }
 
-
-    public void testparseJsonandSave() {
+    @Test
+    public void testParseJsonandSave() {
         ContentItem ContentItemTest = null;
         long mLastUpdatedTime = (new Date()).getTime();
         JsonElement content = jsonObject.get("articles");
@@ -243,22 +244,7 @@ public class ContentLoadertest extends AppInfraInstrumentation {
             if (null != contentList && contentList.size() > 0) {
                 for (int contentCount = 0; contentCount < contentList.size(); contentCount++) {
                     Log.i("CL Ariticle", "" + contentList.get(contentCount));
-                    /*ContentArticle contentArticle = gson.fromJson(contentList.get(contentCount), ContentArticle.class);
-                    ContentItem contentItem = new ContentItem();
-                    contentItem.setId(contentArticle.getId());
-                    contentItem.setServiceId(serviceId);
-                    contentItem.setRawData(contentList.get(contentCount).toString());
-                    contentItem.setVersionNumber(contentArticle.getVersion());
-                    List<String> tagList = contentArticle.getTags();
-                    String tags = "";
-                    if (null != tagList && tagList.size() > 0) {
-                        for (String tag : tagList) {
-                            tags += tag + ",";
-                        }
-                        tags = tags.substring(0, tags.length() - 1);// remove last comma
-                    }
-                    contentItem.setTags(tags);
-                    downloadedContents.add(contentItem);*/
+
                     ContentInterface contentInterface;
                     try {
                         contentInterface = ContentArticle.class.newInstance();
@@ -283,7 +269,7 @@ public class ContentLoadertest extends AppInfraInstrumentation {
                         downloadedContents.add(contentItem);
                         String articleId = contentItem.getId();
                         Log.i("CL Ariticle", "" + articleId + "  TAGs ");
-                    } catch (InstantiationException | IllegalAccessException e) {
+                    } catch (InstantiationException | IllegalAccessException ignored) {
                     }
                 }
 
@@ -296,13 +282,12 @@ public class ContentLoadertest extends AppInfraInstrumentation {
                     assertNotNull(mContentDatabaseHandler.getContentById(serviceId, str));
                     assertNotNull(mContentDatabaseHandler.getAllContentIds(serviceId));
                 }
-
             }
-            //TBD contentDatabaseHandler.addContents(downloadedContents, mLastUpdatedTime, serviceId, expiryTimeforUserInputTime(1));
         }
     }
 
-    public void testgetAllContent() {
+    @Test
+    public void testGetAllContent() {
         mContentLoader.getAllContent(new ContentLoaderInterface.OnResultListener<String>() {
             @Override
             public void onError(ContentLoaderInterface.ERROR error, String message) {
@@ -317,15 +302,15 @@ public class ContentLoadertest extends AppInfraInstrumentation {
         });
     }
 
-    public void testclearCache() {
+    @Test
+    public void testClearCache() {
         mContentLoader.clearCache();
     }
 
-    public void testgetAllContentIds() {
+    @Test
+    public void testGetAllContentIds() {
         List<String> contentIds = contentDatabaseHandler.getAllContentIds(serviceId);
         assertNotNull(contentIds);
-        //   assertTrue(contentIds.size() > 0);
-        //   assertTrue(contentIds.contains("is11a"));
         mContentLoader.getContentById("is11b", new ContentLoaderInterface.OnResultListener() {
             @Override
             public void onError(ContentLoaderInterface.ERROR error, String message) {
@@ -336,17 +321,16 @@ public class ContentLoadertest extends AppInfraInstrumentation {
             public void onSuccess(List contents) {
                 assertNotNull(contents);
                 assertTrue(contents.size() > 0);
-//                assertTrue(contents.contains("is11a"));
             }
         });
     }
 
-
-    public void testgetContentById() {
+    @Test
+    public void testGetContentById() {
         String contentId[] = {"is11b", "is11a"};
         List<ContentItem> contentItems = contentDatabaseHandler.getContentById(serviceId, contentId);
         assertNotNull(contentItems);
-//        assertTrue(contentItems.size() > 0);
+        //        assertTrue(contentItems.size() > 0);
         mContentLoader.getContentById(contentId, new ContentLoaderInterface.OnResultListener() {
             @Override
             public void onError(ContentLoaderInterface.ERROR error, String message) {
@@ -362,16 +346,19 @@ public class ContentLoadertest extends AppInfraInstrumentation {
         });
     }
 
-    public void testgetContentLoaderServiceStateExpiry() {
+    @Test
+    public void testGetContentLoaderServiceStateExpiry() {
         long keyexpiry = contentDatabaseHandler.getContentLoaderServiceStateExpiry(serviceId);
         assertNotNull(keyexpiry);
     }
 
-    public void testclearCacheForContentLoader() {
+    @Test
+    public void testClearCacheForContentLoader() {
         contentDatabaseHandler.clearCacheForContentLoader(serviceId);
     }
 
-    public void testgetContentByTag() {
+    @Test
+    public void testGetContentByTag() {
         mContentLoader.getContentByTag("ugrow:insight", new ContentLoaderInterface.OnResultListener() {
             @Override
             public void onError(ContentLoaderInterface.ERROR error, String message) {
@@ -386,7 +373,8 @@ public class ContentLoadertest extends AppInfraInstrumentation {
         });
     }
 
-    public void testgetContentByTags() {
+    @Test
+    public void testGetContentByTags() {
         String tags[] = {"ugrow:insight", "ugrow:is11b"};
         mContentLoader.getContentByTag(tags, ContentLoaderInterface.OPERATOR.OR, new ContentLoaderInterface.OnResultListener() {
             @Override
@@ -402,16 +390,18 @@ public class ContentLoadertest extends AppInfraInstrumentation {
         });
     }
 
-    public void testgetmServiceId() {
+    @Test
+    public void testGetServiceId() {
         String servideId = mContentLoader.getmServiceId();
         assertNotNull(servideId);
     }
 
-    public void testgetStatus() {
+    @Test
+    public void testGetStatus() {
         assertNotNull(mContentLoader.getStatus());
     }
 
-
+    @Test
     public void testExpiryTimeforUserInputTime() {
         try {
             method = mContentLoader.getClass().getDeclaredMethod("expiryTimeforUserInputTime", int.class);

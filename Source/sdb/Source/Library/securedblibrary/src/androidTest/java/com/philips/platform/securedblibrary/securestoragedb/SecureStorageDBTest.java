@@ -1,12 +1,11 @@
-/* Copyright (c) Koninklijke Philips N.V. 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.platform.securedblibrary.securestoragedb;
 
 import android.content.Context;
-import android.test.InstrumentationTestCase;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.support.ConnectionSource;
@@ -14,7 +13,12 @@ import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
+
 import net.sqlcipher.database.SQLiteDatabase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +26,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-public class SecureStorageDBTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class SecureStorageDBTest {
 
     private static final String DATABASE_NAME = "address.db";
     private static String DATABASE_PASSWORD_KEY = "hi";
@@ -33,9 +43,8 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
     private AppInfraInterface appInfra;
     private SecureDbOrmLiteSqliteOpenHelper secondHelper;
 
-    @Override
+    @Before
     protected void setUp() throws Exception {
-        super.setUp();
         context = getInstrumentation().getContext();
         assertNotNull(context);
 
@@ -44,21 +53,21 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
         secureDbOrmLiteSqliteOpenHelper = new AddressBookHelper(context, appInfra, DATABASE_NAME, null, DATABASE_VERSION, DATABASE_PASSWORD_KEY);
     }
 
-    @Override
+    @After
     protected void tearDown() throws Exception {
-        super.tearDown();
-
-        TableUtils.clearTable( secureDbOrmLiteSqliteOpenHelper.getConnectionSource(), AddressBook.class);
+        TableUtils.clearTable(secureDbOrmLiteSqliteOpenHelper.getConnectionSource(), AddressBook.class);
 
         if (secondHelper != null) {
             TableUtils.clearTable(secondHelper.getConnectionSource(), AddressBook.class);
         }
     }
 
+    @Test
     public void testDatabaseTable() throws Exception {
         assertNotNull(secureDbOrmLiteSqliteOpenHelper);
     }
 
+    @Test
     public void testAddressBookStorage() throws SQLException {
         secureDbOrmLiteSqliteOpenHelper.getWriteDbPermission();
 
@@ -69,6 +78,7 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
         assertEquals(1, addressBooks.size());
     }
 
+    @Test
     public void testAddressBookUpdate() throws SQLException {
         secureDbOrmLiteSqliteOpenHelper.getWriteDbPermission();
         final Dao<AddressBook, Integer> dao = secureDbOrmLiteSqliteOpenHelper.getDao(AddressBook.class);
@@ -83,6 +93,7 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
         assertEquals(testFirstName, updateAddressBooks.get(0).firstName);
     }
 
+    @Test
     public void testSecondDatabase() throws SQLException {
         secondHelper = new AddressBookHelper(context, appInfra, "address2.db", null, 1, "second_key");
 
@@ -95,8 +106,8 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
         assertEquals(1, addressBooks.size());
     }
 
+    @Test
     public void testFirstDatabaseEncrypted() throws SQLException, FileNotFoundException {
-
         secureDbOrmLiteSqliteOpenHelper.getWriteDbPermission();
 
         final Dao<AddressBook, Integer> dao = secureDbOrmLiteSqliteOpenHelper.getDao(AddressBook.class);
@@ -115,6 +126,7 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
         }
     }
 
+    @Test
     public void testSecondDatabaseEncrypted() throws SQLException, FileNotFoundException {
         final String dataBaseName = "address2.db";
         secondHelper = new AddressBookHelper(context, appInfra, dataBaseName, null, 1, "second_key");
@@ -137,6 +149,7 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
         }
     }
 
+    @Test
     public void testClose() throws SQLException {
         secureDbOrmLiteSqliteOpenHelper.getWriteDbPermission();
         secureDbOrmLiteSqliteOpenHelper.close();
@@ -149,7 +162,7 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
     }
 
     protected static class AddressBook {
-        public static final String ID_FIELD = "address_id";
+        static final String ID_FIELD = "address_id";
 
         // Primary key defined as an auto generated integer
         // If the database table column name differs than the Model class variable name, the way to map to use columnName
@@ -157,7 +170,7 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
         public int addressId;
 
         @DatabaseField(columnName = "first_name")
-        public String firstName;
+        String firstName;
 
         @DatabaseField(columnName = "last_name")
         public String lastName;
@@ -168,14 +181,14 @@ public class SecureStorageDBTest extends InstrumentationTestCase {
         @DatabaseField(columnName = "contact_number")
         public long contactNumber;
 
-        public AddressBook() {
+        AddressBook() {
 
         }
     }
 
-    protected static class AddressBookHelper extends SecureDbOrmLiteSqliteOpenHelper<AddressBook>{
+    protected static class AddressBookHelper extends SecureDbOrmLiteSqliteOpenHelper<AddressBook> {
 
-        public AddressBookHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion, String databaseKey) {
+        AddressBookHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion, String databaseKey) {
             super(context, mAppInfraInterface, dataBaseName, factory, databaseVersion, databaseKey);
         }
 

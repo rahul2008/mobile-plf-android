@@ -1,130 +1,139 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.contactus;
 
 import android.content.Context;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.philips.cdp.digitalcare.contactus.models.CdlsEmailModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
-import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-public class CdlsEmailModelTest extends InstrumentationTestCase {
+import org.junit.Before;
+import org.junit.Test;
 
-	private final String TAG = CdlsEmailModelTest.class.getSimpleName();
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-	private Context mContext, context = null;
-	private CdlsResponseParser mParser = null;
+public class CdlsEmailModelTest {
 
-	GetCdlsInstance mGetCdlsInstance = null;
-	CdlsResponseModel mCdlsResponseModel = null;
+    private final String TAG = CdlsEmailModelTest.class.getSimpleName();
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		DigiCareLogger.d(TAG, "setUp..");
-		mContext = getInstrumentation().getTargetContext();
-		context = getInstrumentation().getContext();
+    private Context context = null;
 
-		// mParser = CdlsResponseParser.getParserControllInstance(mContext);
+    private GetCdlsInstance mGetCdlsInstance = null;
+    private CdlsResponseModel mCdlsResponseModel = null;
 
-		mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
-	}
+    @Before
+    protected void setUp() throws Exception {
+        DigiCareLogger.d(TAG, "setUp..");
+        context = getInstrumentation().getContext();
 
-	public void testEmailLabel() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		String received = null;
-		// mParser.processCdlsResponse(response);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
+        mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
+    }
 
-		try {
-			received = mCdlsObject.getLabel();
-		} catch (Exception e) {
+    @Test
+    public void testEmailLabel() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
+
+        try {
+            received = mCdlsObject.getLabel();
+        } catch (Exception e) {
             DigiCareLogger.d(TAG, "Chat Email Content .." + received);
-		}
-		assertNull(received);
-	}
+        }
+        assertNull(received);
+    }
 
-	public void testEmailContent() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		String received = null;
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
-		try {
-			received = mCdlsObject.getContentPath().toString();
-		} catch (Exception e) {
+    @Test
+    public void testEmailContent() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
+        try {
+            received = mCdlsObject.getContentPath().toString();
+        } catch (Exception e) {
             DigiCareLogger.d(TAG, "Chat Email Content .." + received);
-		}
+        }
 
-		assertNull(received);
-	}
+        assertNull(received);
+    }
 
-	public void testEmailLabel1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
-				context);
-		String received = null;
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
-		try {
-			received = mCdlsObject.getLabel();
-		} catch (Exception e) {
-		}
-		assertNotNull(received);
-	}
+    @Test
+    public void testEmailLabel1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
+        try {
+            received = mCdlsObject.getLabel();
+        } catch (Exception ignored) {
+        }
+        assertNotNull(received);
+    }
 
-	public void testEmailContent1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
-				context);
-		String received = null;
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
-		try {
-			received = mCdlsObject.getContentPath();
-		} catch (Exception e) {
-		}
-		assertNotNull(received);
-	}
+    @Test
+    public void testEmailContent1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
+        try {
+            received = mCdlsObject.getContentPath();
+        } catch (Exception ignored) {
+        }
+        assertNotNull(received);
+    }
 
-	public void testEmailLabel2() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		String received = null;
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
-		try {
-			received = mCdlsObject.getLabel();
-		} catch (Exception e) {
+    @Test
+    public void testEmailLabel2() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
+        try {
+            received = mCdlsObject.getLabel();
+        } catch (Exception e) {
             DigiCareLogger.d(TAG, "Chat Email Content .." + received);
-		}
-		assertNull(received);
-	}
+        }
+        assertNull(received);
+    }
 
-	public void testEmailContent2() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
+    @Test
+    public void testEmailContent2() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
         DigiCareLogger.d(TAG, "response emailcontent 2 : " + response);
-		String received = null;
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
-		try {
-			received = mCdlsObject.getContentPath().toString();
-		} catch (Exception e) {
+        String received = null;
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
+        try {
+            received = mCdlsObject.getContentPath().toString();
+        } catch (Exception e) {
             DigiCareLogger.d(TAG, "Chat Email Content .." + received);
-		}
+        }
 
-		assertNull(received);
-	}
+        assertNull(received);
+    }
 
-	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
-		@Override
-		public void onCdlsParsingComplete(final CdlsResponseModel response) {
-			mCdlsResponseModel = response;
+    private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+        @Override
+        public void onCdlsParsingComplete(final CdlsResponseModel response) {
+            mCdlsResponseModel = response;
 
-		}
-	};
+        }
+    };
 
 }

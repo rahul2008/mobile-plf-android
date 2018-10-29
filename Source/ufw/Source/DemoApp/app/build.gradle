@@ -83,11 +83,8 @@ android {
 
     defaultConfig {
         applicationId "com.philips.platform.uappdemo"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {

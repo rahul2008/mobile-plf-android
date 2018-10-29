@@ -38,15 +38,12 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         consumerProguardFiles 'proguard-rules.pro'
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
-        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
 
         manifestPlaceholders = [

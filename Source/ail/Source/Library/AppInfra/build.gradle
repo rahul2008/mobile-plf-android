@@ -32,11 +32,8 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.appinfra.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
         consumerProguardFiles 'proguard-rules-ail.pro'
     }
 
@@ -113,6 +110,7 @@ dependencies {
 
     androidTestImplementation deps.dexmaker_mockito
     androidTestImplementation deps.junit
+    androidTestImplementation deps.androidx_test.runner
 }
 
 tasks.withType(Test) {

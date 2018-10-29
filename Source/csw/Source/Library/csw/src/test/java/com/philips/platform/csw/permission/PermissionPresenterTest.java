@@ -1,7 +1,11 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw.permission;
 
 import android.content.Context;
-import android.test.mock.MockContext;
 
 import com.google.common.collect.ImmutableMap;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
@@ -37,14 +41,12 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
@@ -58,17 +60,20 @@ public class PermissionPresenterTest {
 
     @Mock
     private PermissionContract.View mockView;
+
     @Mock
     private PermissionAdapter mockAdapter;
+
     @Mock
     private ConsentManagerInterface consentManagerInterface;
+
     @Mock
     private PermissionContract.Presenter.ConsentToggleResponse responseMock;
 
-    private AppInfraInterfaceMock appInfraInterface;
-
     @Mock
-    Context context;
+    private Context context;
+
+    private AppInfraInterfaceMock appInfraInterface;
 
     @Before
     public void setUp() throws Exception {

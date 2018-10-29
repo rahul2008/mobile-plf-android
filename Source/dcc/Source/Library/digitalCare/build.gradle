@@ -37,13 +37,10 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
-        multiDexEnabled true
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        multiDexEnabled true
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
     }
 
@@ -147,6 +144,8 @@ dependencies {
     testImplementation deps.powermock_junit_rule_agent
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
+
+    androidTestImplementation deps.androidx_test.runner
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

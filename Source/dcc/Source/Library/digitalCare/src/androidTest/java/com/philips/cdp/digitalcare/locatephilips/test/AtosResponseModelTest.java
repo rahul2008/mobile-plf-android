@@ -1,10 +1,11 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.locatephilips.test;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.philips.cdp.digitalcare.locatephilips.models.AtosErrorModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
@@ -13,66 +14,79 @@ import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
+import org.junit.Before;
+import org.junit.Test;
 
-public class AtosResponseModelTest extends InstrumentationTestCase {
+import java.util.ArrayList;
 
-	private final String TAG = AtosResponseModelTest.class.getSimpleName();
-	private Context context = null;
-	private GetAtosInstance atosInstance = null;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-	protected void setUp() throws Exception {
-		super.setUp();
+
+public class AtosResponseModelTest {
+
+    private final String TAG = AtosResponseModelTest.class.getSimpleName();
+    private Context context = null;
+    private GetAtosInstance atosInstance = null;
+
+    @Before
+    protected void setUp() throws Exception {
         DigiCareLogger.d(TAG, "setUp..");
-		context = getInstrumentation().getContext();
-		atosInstance = new GetAtosInstance(mAtosParsing);
-	}
+        context = getInstrumentation().getContext();
+        atosInstance = new GetAtosInstance(mAtosParsing);
+    }
 
-	public void testSuccess() {
-		AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
-		boolean recieved = atosResponseModel.getSuccess();
+    @Test
+    public void testSuccess() {
+        AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
+        boolean recieved = atosResponseModel.getSuccess();
 
-		assertTrue(recieved);
-	}
+        assertTrue(recieved);
+    }
 
-	public void testCdlsErrorModel() {
-		AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
-		AtosErrorModel mCdlsErrorModel = atosResponseModel.getCdlsErrorModel();
+    @Test
+    public void testCdlsErrorModel() {
+        AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
+        AtosErrorModel mCdlsErrorModel = atosResponseModel.getCdlsErrorModel();
 
-		assertNull(mCdlsErrorModel);
+        assertNull(mCdlsErrorModel);
+    }
 
-	}
+    @Test
+    public void testResultModel() {
+        AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
+        ArrayList<AtosResultsModel> mResultsModel = atosResponseModel
+                .getResultsModel();
 
-	public void testResultModel() {
-		AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
-		ArrayList<AtosResultsModel> mResultsModel = atosResponseModel
-				.getResultsModel();
+        assertNotNull(mResultsModel);
+    }
 
-		assertNotNull(mResultsModel);
-	}
+    @Test
+    public void testCurrentLocation() {
+        AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
+        AtosLocationModel mCurrentLocation = atosResponseModel
+                .getCurrentLocation();
 
-	public void testCurrentLocation() {
-		AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
-		AtosLocationModel mCurrentLocation = atosResponseModel
-				.getCurrentLocation();
+        assertNull(mCurrentLocation);
+    }
 
-		assertNull(mCurrentLocation);
-	}
+    private AtosResponseModel atosResponseModel = null;
 
-	AtosResponseModel atosResponseModel = null;
+    private AtosResponseModel getAtosResultsModel(String jsonfile) {
 
-	private AtosResponseModel getAtosResultsModel(String jsonfile) {
-		
-		String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);
-	
-		atosInstance.parseAtosResponse(response);
-		return atosResponseModel;
-	}
+        String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);
 
-	private AtosParsingCallback mAtosParsing = new AtosParsingCallback() {
-		@Override
-		public void onAtosParsingComplete(AtosResponseModel response) {
-			atosResponseModel = response;
-		}
-	};
+        atosInstance.parseAtosResponse(response);
+        return atosResponseModel;
+    }
+
+    private AtosParsingCallback mAtosParsing = new AtosParsingCallback() {
+        @Override
+        public void onAtosParsingComplete(AtosResponseModel response) {
+            atosResponseModel = response;
+        }
+    };
 
 }

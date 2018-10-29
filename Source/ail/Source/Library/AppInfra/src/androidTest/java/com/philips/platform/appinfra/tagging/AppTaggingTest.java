@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.tagging;
 
 import android.content.BroadcastReceiver;
@@ -5,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
@@ -15,10 +19,16 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,22 +36,22 @@ import static org.mockito.Mockito.when;
 /**
  * AppTagging Test class.
  */
-public class AppTaggingTest extends AppInfraInstrumentation {
+public class AppTaggingTest {
 
-    AppTaggingInterface mAIAppTaggingInterface;
-    AppTaggingInterface mockAppTaggingInterface;
-    AppConfigurationManager mConfigInterface;
-    AppTagging mAppTagging, appTagging;
+    private AppTaggingInterface mAIAppTaggingInterface;
+    private AppTaggingInterface mockAppTaggingInterface;
+    private AppConfigurationManager mConfigInterface;
+    private AppTagging mAppTagging, appTagging;
     private Context context;
     private AppInfra mAppInfra;
     private AppConfigurationInterface.AppConfigurationError configError;
-    AppTaggingHandler mAppTaggingHandler;
-    AppTaggingHandler mAppTaggingHandlerMock;
+    private AppTaggingHandler mAppTaggingHandler;
+    private AppTaggingHandler mAppTaggingHandlerMock;
     private AppInfra appInfraMock;
-    LoggingInterface loggingInterfaceMock;
-    AppIdentityInterface appIdentityInterfaceMock;
-    SecureStorageInterface secureStorageInterfaceMock;
-    InternationalizationInterface internationalizationInterfaceMock;
+    private LoggingInterface loggingInterfaceMock;
+    private AppIdentityInterface appIdentityInterfaceMock;
+    private SecureStorageInterface secureStorageInterfaceMock;
+    private InternationalizationInterface internationalizationInterfaceMock;
 
     private BroadcastReceiver rec = new BroadcastReceiver() {
         @Override
@@ -56,9 +66,8 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         }
     };
 
-    @Override
+    @Before
     protected void setUp() throws Exception {
-        super.setUp();
         context = getInstrumentation().getContext();
         assertNotNull(context);
 
@@ -74,16 +83,15 @@ public class AppTaggingTest extends AppInfraInstrumentation {
                 try {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 return result;
             }
-
         };
+
         mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
         configError = new AppConfigurationInterface
                 .AppConfigurationError();
-
 
         Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("appidentity.appState", "appinfra", configError);
         assertNotNull(dynAppState.toString());
@@ -112,8 +120,56 @@ public class AppTaggingTest extends AppInfraInstrumentation {
                 "PRODUCTION", configError);
     }
 
+    @Test
+    public void testPrivacyConsentOPTIN() {
+        appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+        assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, appTagging.getPrivacyConsent());
+    }
 
-    public void testConfig(final String value) {
+    @Test
+    public void testPrivacyConsentOPTOUT() {
+        appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+        assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, appTagging.getPrivacyConsent());
+    }
+
+    @Test
+    public void testTimedActionStartWithParameters() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        InternationalizationInterface internationalizationInterface = mock(InternationalizationInterface.class);
+        when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterface);
+        when(internationalizationInterface.getUILocaleString()).thenReturn("en");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        Map<String, Object> contextData = new HashMap<>();
+        contextData.put("some_key", "someValue");
+        appTagging.trackTimedActionStart("Tagging_trackTimedAction", contextData);
+        verify(mAppTaggingHandlerMock).timeActionStart("Tagging_trackTimedAction", contextData);
+    }
+
+    @Test
+    public void testEmumValues_facebook() {
+        assertEquals("facebook", AppTaggingInterface.SocialMedium.Facebook.toString());
+    }
+
+    @Test
+    public void testEmumValues_twitter() {
+        assertEquals("twitter", AppTaggingInterface.SocialMedium.Twitter.toString());
+    }
+
+    @Test
+    public void testEmumValues_mail() {
+        assertEquals("mail", AppTaggingInterface.SocialMedium.Mail.toString());
+    }
+
+    @Test
+    public void testPrivacyConsentForSensitiveData() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        when(appInfraMock.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
+        AppTagging appTaggingPage = new AppTagging(appInfraMock);
+        appTaggingPage.setPrivacyConsentForSensitiveData(false);
+        assertFalse(appTaggingPage.getPrivacyConsentForSensitiveData());
+    }
+
+    private void testConfig(final String value) {
         mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
@@ -145,7 +201,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
                             "\"restclient.cacheSizeInKB\"  : 1024 \n" +
                             "} \n" + "}";
                     result = new JSONObject(testJson);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 return result;
             }
@@ -154,56 +210,11 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
     }
 
-    public void testAdobeJsonConfig(final boolean value) {
+    private void testAdobeJsonConfig(final boolean value) {
         mAppTagging = new AppTagging(mAppInfra);
         mAppTagging.mComponentID = "mComponentID";
         mAppTagging.mComponentVersion = "mComponentVersion";
         mAppInfra = new AppInfra.Builder().setTagging(mAppTagging).build(context);
         mAppInfra.setConfigInterface(mConfigInterface);
     }
-
-    public void testPrivacyConsentOPTIN() {
-        appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-        assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, appTagging.getPrivacyConsent());
-    }
-
-    public void testPrivacyConsentOPTOUT() {
-        appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
-        assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, appTagging.getPrivacyConsent());
-    }
-
-    public void testTimedActionStartWithParameters() {
-        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-        InternationalizationInterface internationalizationInterface = mock(InternationalizationInterface.class);
-        when(appInfraMock.getInternationalization()).thenReturn(internationalizationInterface);
-        when(internationalizationInterface.getUILocaleString()).thenReturn("en");
-        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
-        Map<String, Object> contextData = new HashMap<>();
-        contextData.put("some_key","someValue");
-        appTagging.trackTimedActionStart("Tagging_trackTimedAction",contextData);
-        verify(mAppTaggingHandlerMock).timeActionStart("Tagging_trackTimedAction", contextData);
-    }
-
-
-    public void testEmumValues_facebook() {
-        assertEquals("facebook", AppTaggingInterface.SocialMedium.Facebook.toString());
-    }
-
-    public void testEmumValues_twitter() {
-        assertEquals("twitter", AppTaggingInterface.SocialMedium.Twitter.toString());
-    }
-
-    public void testEmumValues_mail() {
-        assertEquals("mail", AppTaggingInterface.SocialMedium.Mail.toString());
-    }
-
-
-    public void testPrivacyConsentForSensitiveData() {
-        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-        when(appInfraMock.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
-        AppTagging appTaggingPage = new AppTagging(appInfraMock);
-        appTaggingPage.setPrivacyConsentForSensitiveData(false);
-        assertFalse(appTaggingPage.getPrivacyConsentForSensitiveData());
-    }
-
 }

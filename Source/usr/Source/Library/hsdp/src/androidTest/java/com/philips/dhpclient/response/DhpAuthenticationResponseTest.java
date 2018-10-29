@@ -1,50 +1,50 @@
 
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.dhpclient.response;
 
 import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
+import org.junit.Test;
 
+import java.util.Collections;
 import java.util.Map;
+
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by 310243576 on 8/24/2016.
  */
-public class DhpAuthenticationResponseTest extends InstrumentationTestCase {
-    DhpAuthenticationResponse mDhpAuthenticationResponse;
-    DhpAuthenticationResponse mDhpAuthenticationResponse1;
+public class DhpAuthenticationResponseTest {
+    private DhpAuthenticationResponse mDhpAuthenticationResponse;
+    private DhpAuthenticationResponse mDhpAuthenticationResponse1;
 
-    Map<String, Object> mRawResponse;
-
+    private Map<String, Object> mRawResponse = Collections.emptyMap();
 
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
         mDhpAuthenticationResponse = new DhpAuthenticationResponse(mRawResponse);
         mDhpAuthenticationResponse1 = new DhpAuthenticationResponse(mRawResponse);
-
-
-
     }
 
-    public void testDhpAuthenticationResponse()
-    {
+    @Test
+    public void testDhpAuthenticationResponse() {
         assertNotNull(mDhpAuthenticationResponse);
-        mDhpAuthenticationResponse = new DhpAuthenticationResponse("accessToken","refreshToken",1221,"userId",mRawResponse) ;
+        mDhpAuthenticationResponse = new DhpAuthenticationResponse("accessToken", "refreshToken", 1221, "userId", mRawResponse);
         assertNotNull(mDhpAuthenticationResponse);
-        assertTrue(mDhpAuthenticationResponse.equals(mDhpAuthenticationResponse));
-        assertFalse(mDhpAuthenticationResponse.equals(mDhpAuthenticationResponse1));
-        assertFalse(mDhpAuthenticationResponse.equals(mRawResponse));
-        assertFalse(mDhpAuthenticationResponse.equals(null));
-
-        assertNotNull(mDhpAuthenticationResponse.hashCode());
+        assertEquals(mDhpAuthenticationResponse, mDhpAuthenticationResponse);
+        assertNotEquals(mDhpAuthenticationResponse, mDhpAuthenticationResponse1);
+        assertNotEquals(mDhpAuthenticationResponse, mRawResponse);
         assertNotNull(mDhpAuthenticationResponse.toString());
     }
-
-
-
 }

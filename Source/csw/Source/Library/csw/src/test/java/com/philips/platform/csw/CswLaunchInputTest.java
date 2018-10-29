@@ -1,7 +1,11 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw;
 
 import android.content.Context;
-import android.test.mock.MockContext;
 
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
@@ -11,13 +15,16 @@ import org.mockito.Mock;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CswLaunchInputTest {
 
     @Mock
-    private MockContext contextMock;
+    private Context contextMock;
 
     private CswLaunchInput subject;
 

@@ -1,26 +1,38 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.securestorage;
 
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 
-public class SecureStorageTest extends AppInfraInstrumentation {
+import org.junit.Before;
+import org.junit.Test;
+
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class SecureStorageTest {
+
     private SecureStorageInterface mSecureStorage = null;
-    private AppInfra mAppInfra;
 
-    @Override
+    @Before
     protected void setUp() throws Exception {
-        super.setUp();
         Context context = getInstrumentation().getContext();
-        mAppInfra = new AppInfra.Builder().build(context);
+        AppInfra mAppInfra = new AppInfra.Builder().build(context);
         mSecureStorage = new SecureStorage(mAppInfra);
     }
 
+    @Test
     public void testIsLaunchedByEmulator() {
         assertFalse(mSecureStorage.isEmulator());
     }
 
+    @Test
     public void testIsCodeTampered() {
         assertTrue(mSecureStorage.isCodeTampered());
     }

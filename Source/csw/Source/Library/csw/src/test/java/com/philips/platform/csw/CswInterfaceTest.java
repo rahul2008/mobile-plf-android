@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw;
 
 import android.content.Context;
@@ -7,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.test.mock.MockContext;
 
 import com.philips.platform.csw.injection.CswComponent;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
@@ -26,7 +30,6 @@ import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,7 +42,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 @PrepareForTest({CswInterface.class, Intent.class, CswLogger.class})
 public class CswInterfaceTest {
 

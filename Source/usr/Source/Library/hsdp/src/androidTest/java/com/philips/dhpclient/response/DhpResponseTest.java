@@ -1,43 +1,52 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.dhpclient.response;
 
 import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Created by 310243576 on 8/24/2016.
  */
-public class DhpResponseTest extends InstrumentationTestCase{
+public class DhpResponseTest {
 
-    DhpResponse mDhpResponse;
-    DhpResponse mDhpResponse1;
+    private DhpResponse mDhpResponse;
+    private DhpResponse mDhpResponse1;
 
-    Map<String, Object> mRawResponse;
+    private Map<String, Object> mRawResponse;
+
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-        mRawResponse = new HashMap<String,Object>();
+        mRawResponse = new HashMap<String, Object>();
         mDhpResponse = new DhpResponse(mRawResponse);
         mDhpResponse1 = new DhpResponse(mRawResponse);
 
     }
 
-    public void testDhpResponse(){
+    @Test
+    public void testDhpResponse() {
         assertNotNull(mDhpResponse);
-        mDhpResponse = new DhpResponse("sample",mRawResponse);
+        mDhpResponse = new DhpResponse("sample", mRawResponse);
         assertNotNull(mDhpResponse);
-        assertTrue(mDhpResponse.equals(mDhpResponse));
-        assertFalse(mDhpResponse.equals(mDhpResponse1));
-        assertFalse(mDhpResponse.equals(mRawResponse));
-        assertFalse(mDhpResponse.equals(null));
-        assertNotNull(mDhpResponse.hashCode());
+        assertEquals(mDhpResponse, mDhpResponse);
+        assertNotEquals(mDhpResponse, mDhpResponse1);
+        assertNotEquals(mDhpResponse, mRawResponse);
         assertNotNull(mDhpResponse.toString());
     }
 }

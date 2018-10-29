@@ -28,8 +28,6 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         versionName assignedVersionNumber

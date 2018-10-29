@@ -34,14 +34,10 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version
-
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -84,13 +80,13 @@ dependencies {
     androidTestImplementation(deps.espresso_core) {
         exclude module: "com.android.support"
     }
-    androidTestImplementation(deps.android_testrunner) {
+    androidTestImplementation(deps.androidx_test.runner) {
         exclude module: "com.android.support"
     }
-    androidTestImplementation(deps.android_testrules) {
+    androidTestImplementation(deps.androidx_test.rules) {
         exclude module: "com.android.support"
     }
-    androidTestImplementation deps.android_test_commons
+    androidTestImplementation deps.apache_commons_lang
 }
 
 tasks.withType(Test) {

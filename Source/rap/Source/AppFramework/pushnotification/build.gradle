@@ -51,15 +51,13 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 

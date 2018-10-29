@@ -76,16 +76,12 @@ android {
     
     defaultConfig {
         applicationId "com.philips.hor_productselection_android"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         generatedDensities = []
         versionCode 3
         versionName "1.0.4"
         multiDexEnabled true
-
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     signingConfigs {
