@@ -166,8 +166,7 @@ public class URInterface implements UappInterface {
             RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
             ((URLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
-            Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
-                    getUrSettings().getContext(), RegistrationActivity.class);
+            Intent registrationIntent = new Intent(uiLauncher.getActivityContext(), RegistrationActivity.class);
             Bundle bundle = new Bundle();
 
             RegistrationLaunchMode registrationLaunchMode = ((URLaunchInput) uappLaunchInput).getEndPointScreen();
@@ -180,8 +179,7 @@ public class URInterface implements UappInterface {
 
             registrationIntent.putExtras(bundle);
             registrationIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            RegistrationHelper.getInstance().
-                    getUrSettings().getContext().startActivity(registrationIntent);
+            uiLauncher.getActivityContext().startActivity(registrationIntent);
         }
     }
 
