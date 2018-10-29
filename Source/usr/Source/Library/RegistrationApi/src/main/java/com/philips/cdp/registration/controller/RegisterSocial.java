@@ -25,15 +25,17 @@ import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
-import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInResultHandler,
         JumpFlowDownloadStatusListener {
@@ -46,17 +48,14 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
 
     private HSDPLoginService hsdpLoginService;
 
-    private UpdateUserRecordHandler mUpdateUserRecordHandler;
-
     private JSONObject mUser;
 
     private String mUserRegistrationToken;
 
     public RegisterSocial(SocialLoginProviderHandler socialLoginProviderHandler,
-                          Context context, UpdateUserRecordHandler updateUserRecordHandler) {
+                          Context context) {
         mSocialLoginProviderHandler = socialLoginProviderHandler;
         mContext = context;
-        mUpdateUserRecordHandler = updateUserRecordHandler;
         hsdpLoginService = new HSDPLoginService(mContext);
     }
 
@@ -64,7 +63,6 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
         RLog.d(TAG, "onSuccess is called");
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
-        mUpdateUserRecordHandler.updateUserRecordRegister();
 
         if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
             RLog.d(TAG, "onSuccess : if : is called");
@@ -171,12 +169,22 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
             familyName = diUserProfile.getFamilyName();
             JSONObject newUser = new JSONObject();
             try {
-                newUser.put("email", diUserProfile.getEmail()).put("mobileNumber", diUserProfile.getMobile()).put("givenName", diUserProfile.getGivenName())
-                        .put("familyName", familyName).put("password", diUserProfile.getPassword())
+                // PrimaryAddress
+                JSONObject primaryAddressObject = new JSONObject();
+                primaryAddressObject.put("country",RegistrationHelper.getInstance().getCountryCode());
+                JSONArray primaryAddressArray = new JSONArray();
+                primaryAddressArray.put(primaryAddressObject);
+
+                newUser.put("email", diUserProfile.getEmail())
+                        .put("mobileNumber", diUserProfile.getMobile())
+                        .put("givenName", diUserProfile.getGivenName())
                         .put("displayName", diUserProfile.getDisplayName())
                         .put("olderThanAgeLimit", diUserProfile.getOlderThanAgeLimit())
-                        .put("receiveMarketingEmail", diUserProfile.getReceiveMarketingEmail());
-
+                        .put("receiveMarketingEmail", diUserProfile.getReceiveMarketingEmail())
+                        .put("familyName", diUserProfile.getFamilyName())
+                        .put("preferredLanguage",Locale.getDefault().getLanguage())
+                        .put("primaryAddress",primaryAddressArray);
+                new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
             }
 

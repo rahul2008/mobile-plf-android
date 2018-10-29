@@ -29,7 +29,6 @@ import com.philips.cdp.registration.controller.ResendVerificationEmail;
 import com.philips.cdp.registration.controller.UpdateDateOfBirth;
 import com.philips.cdp.registration.controller.UpdateGender;
 import com.philips.cdp.registration.controller.UpdateReceiveMarketingEmail;
-import com.philips.cdp.registration.controller.UpdateUserRecord;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
@@ -46,7 +45,6 @@ import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
-import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecordV2;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
@@ -129,8 +127,6 @@ public class User {
 
     private String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
 
-    private UpdateUserRecordHandler mUpdateUserRecordHandler;
-
     private String MARKETING_OPT_IN = "marketingOptIn";
 
     private String MARKETING_CONSENT_TIME_STAMP = "timestamp";
@@ -145,7 +141,6 @@ public class User {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
         mContext = context;
-        mUpdateUserRecordHandler = new UpdateUserRecord(mContext);
     }
 
 
@@ -197,7 +192,7 @@ public class User {
                             ThreadUtils.postInMainThread(mContext, () -> loginHandler.
                                     onLoginFailedWithError(userRegistrationFailureInfo));
                         }
-                    }, mContext, mUpdateUserRecordHandler, emailAddress, password);
+                    }, mContext, emailAddress, password);
             loginTraditionalResultHandler.loginTraditionally(emailAddress, password);
         }).start();
     }
@@ -219,7 +214,7 @@ public class User {
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
-                        socialSocialLoginProviderHandler, activity, mUpdateUserRecordHandler);
+                        socialSocialLoginProviderHandler, activity);
                 RLog.i(TAG, "loginUserUsingSocialProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.loginSocial(activity, providerName, mergeToken);
             } else {
@@ -246,7 +241,7 @@ public class User {
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
-                        socialLoginProviderHandler, activity, mUpdateUserRecordHandler);
+                        socialLoginProviderHandler, activity);
                 RLog.i(TAG, "startTokenAuthForNativeProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.startTokenAuthForNativeProvider(activity, providerName, mergeToken, accessToken);
             } else {
@@ -284,7 +279,7 @@ public class User {
         new Thread(() -> {
             if (providerName != null && activity != null) {
                 LoginSocialNativeProvider loginSocialResultHandler = new LoginSocialNativeProvider(
-                        socialLoginProviderHandler, mContext, mUpdateUserRecordHandler);
+                        socialLoginProviderHandler, mContext);
                 RLog.d(TAG, "loginUserUsingSocialNativeProvider with providename = " + providerName + " and activity is not null");
                 loginSocialResultHandler.loginSocial(activity, providerName, accessToken,
                         tokenSecret, mergeToken);
@@ -318,7 +313,7 @@ public class User {
                                                final boolean isReceiveMarketingEmail,
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
         new Thread(() -> {
-            RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
+            RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext);
             RLog.d(TAG, "registerUserInfoForTraditional with = " + registerTraditional.toString());
             registerTraditional.registerUserInfoForTraditional(firstName, givenName, userEmail,
                     password, olderThanAgeLimit, isReceiveMarketingEmail);
@@ -397,7 +392,7 @@ public class User {
                                          final LoginHandler loginHandler) {
         if (emailAddress != null && password != null) {
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
-                    loginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
+                    loginHandler, mContext, emailAddress,
                     password);
             RLog.d(TAG, "mergeTraditionalAccount with email address and password");
             loginTraditionalResultHandler.mergeTraditionally(emailAddress, password, mergeToken);
@@ -444,7 +439,7 @@ public class User {
         new Thread(() -> {
             if (socialLoginProviderHandler != null) {
                 RLog.d(TAG, "registerUserInfoForSocial ");
-                RegisterSocial registerSocial = new RegisterSocial(socialLoginProviderHandler, mContext, mUpdateUserRecordHandler);
+                RegisterSocial registerSocial = new RegisterSocial(socialLoginProviderHandler, mContext);
                 registerSocial.registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialRegistrationToken);
             }
         }).start();
@@ -818,7 +813,7 @@ public class User {
     public void refreshUser(final RefreshUserHandler handler) {
         if (networkUtility.isNetworkAvailable()) {
             RLog.d(TAG, "refreshUser called");
-            new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this);
+            new RefreshandUpdateUserHandler(mContext).refreshAndUpdateUser(handler, this);
         } else {
             RLog.e(TAG, "refreshUser failed because of network offline");
             ThreadUtils.postInMainThread(mContext, () ->

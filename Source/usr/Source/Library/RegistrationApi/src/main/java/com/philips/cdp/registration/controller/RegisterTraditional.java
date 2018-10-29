@@ -21,15 +21,17 @@ import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
-import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener, TraditionalRegistrationHandler {
 
@@ -39,22 +41,18 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     private TraditionalRegistrationHandler mTraditionalRegisterHandler;
 
-    private UpdateUserRecordHandler mUpdateUserRecordHandler;
-
     private DIUserProfile mProfile;
 
     public RegisterTraditional(TraditionalRegistrationHandler traditionalRegisterHandler,
-                               Context context, UpdateUserRecordHandler updateUserRecordHandler) {
+                               Context context) {
         mTraditionalRegisterHandler = traditionalRegisterHandler;
         mContext = context;
-        mUpdateUserRecordHandler = updateUserRecordHandler;
     }
 
     @Override
     public void onSuccess() {
         RLog.d(TAG, "onSuccess : is called");
         Jump.saveToDisk(mContext);
-        mUpdateUserRecordHandler.updateUserRecordRegister();
         ThreadUtils.postInMainThread(mContext, () ->
                 mTraditionalRegisterHandler.onRegisterSuccess());
     }
@@ -134,13 +132,21 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
             JSONObject newUser = new JSONObject();
             try {
+                // PrimaryAddress
+                JSONObject primaryAddressObject = new JSONObject();
+                primaryAddressObject.put("country",RegistrationHelper.getInstance().getCountryCode());
+                JSONArray primaryAddressArray = new JSONArray();
+                primaryAddressArray.put(primaryAddressObject);
+
                 newUser.put("email", mProfile.getEmail())
                         .put("mobileNumber", mProfile.getMobile())
                         .put("givenName", mProfile.getGivenName())
                         .put("password", mProfile.getPassword())
                         .put("olderThanAgeLimit", mProfile.getOlderThanAgeLimit())
                         .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail())
-                        .put("familyName", mProfile.getFamilyName());
+                        .put("familyName", mProfile.getFamilyName())
+                        .put("preferredLanguage",Locale.getDefault().getLanguage())
+                        .put("primaryAddress",primaryAddressArray);
                 new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
                 RLog.e(TAG, "registerNewUserUsingTraditional : " + e.getMessage());
