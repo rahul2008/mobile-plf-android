@@ -20,12 +20,12 @@ public interface UIDExpanderListener {
      * This method will call when the expander finished expanding
      * @since 1805.0.0
      */
-    public void expanderPanelExpanded();
+    public void expanderPanelExpanded(Expander expander);
 
     /**
      * Expander panel did collapse.
      * This method will call when the expander finished collapsing
      * @since 1805.0.0
      */
-    public void expanderPanelCollapsed();
+    public void expanderPanelCollapsed(Expander expander);
 }

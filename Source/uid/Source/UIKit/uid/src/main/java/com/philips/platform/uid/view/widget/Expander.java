@@ -304,7 +304,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
             }
             chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationup));
             if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
-                uidExpanderListener.expanderPanelExpanded(); // expand end callback
+                uidExpanderListener.expanderPanelExpanded(this); // expand end callback
             }
         }
     }
@@ -318,7 +318,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
         }
         chevronLabel.setText(mContext.getResources().getString(R.string.dls_navigationdown));
         if (null != uidExpanderListener) { // call delegate should be called only for default expander panel
-            uidExpanderListener.expanderPanelCollapsed(); // collapse start callback
+            uidExpanderListener.expanderPanelCollapsed(this); // collapse start callback
         }
     }
 

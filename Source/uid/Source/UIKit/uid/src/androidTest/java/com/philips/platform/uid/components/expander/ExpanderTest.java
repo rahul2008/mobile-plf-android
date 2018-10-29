@@ -248,12 +248,12 @@ public class ExpanderTest {
     public void verifyExpanderListenerCallBackForExpand() {
         UIDExpanderListener uidExpanderListener = new UIDExpanderListener() {
             @Override
-            public void expanderPanelExpanded() {
+            public void expanderPanelExpanded(Expander expander) {
                 expander.setExpanderTitle("Expander expanded"); // call back will reset title text
             }
 
             @Override
-            public void expanderPanelCollapsed() {
+            public void expanderPanelCollapsed(Expander expander) {
 
             }
         };
@@ -280,11 +280,11 @@ public class ExpanderTest {
     public void verifyExpanderListenerCallBackForCollapse() {
         UIDExpanderListener uidExpanderListener = new UIDExpanderListener() {
             @Override
-            public void expanderPanelExpanded() {
+            public void expanderPanelExpanded(Expander expander) {
             }
 
             @Override
-            public void expanderPanelCollapsed() {
+            public void expanderPanelCollapsed(Expander expander) {
                 expander.setExpanderTitle("Expander collapsed"); // call back will reset title text
             }
         };
