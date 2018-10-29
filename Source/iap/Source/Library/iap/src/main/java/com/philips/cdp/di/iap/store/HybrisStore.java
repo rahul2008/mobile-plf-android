@@ -61,7 +61,7 @@ public class HybrisStore extends AbstractStore {
     private String mOauthUrl;
     private String mOauthRefreshUrl;
 
-    protected String mBaseURl;
+    protected String mBaseURl,mBaseUrlCart;
     protected String mBaseURlForProductCatalog;
 
     private String mGetProductCatalogUrl;
@@ -181,6 +181,7 @@ public class HybrisStore extends AbstractStore {
         createOauthUrl();
         createOAuthRefreshUrl();
         createBaseUrl();
+        createBaseUrlForCreateCart();
         createBaseUrlForProductCatalog();
         generateGenericUrls();
     }
@@ -205,6 +206,13 @@ public class HybrisStore extends AbstractStore {
         mBaseURl = builder.toString();
     }
 
+    private void createBaseUrlForCreateCart() {
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
+        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
+        builder.append(USER);
+        mBaseUrlCart = builder.toString();
+    }
     private void createBaseUrlForProductCatalog() {
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
@@ -227,7 +235,8 @@ public class HybrisStore extends AbstractStore {
         String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);
         mGetCartsUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         mGetCurrentCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-        mCreateCartUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
+       // mCreateCartUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
+        mCreateCartUrl = mBaseUrlCart.concat(SUFFIX_CURRENT).concat(SUFFIX_CARTS).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         mDeleteCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG) + mStoreConfig.getLocale();
         mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
 
@@ -312,7 +321,7 @@ public class HybrisStore extends AbstractStore {
     //Carts
     @Override
     public String getCartsUrl() {
-        return mGetCartsUrl;
+        return mGetCurrentCartUrl;
     }
 
     @Override

@@ -16,9 +16,12 @@ import java.util.List;
 
 public class ShoppingCartData implements Serializable {
 
+
+    private static final long serialVersionUID = -4398831597666931802L;
     private EntriesEntity mEntry;
     private DeliveryModeEntity mDeliveryModeEntity;
     private DeliveryAddressEntity mDeliveryAddressEntity;
+
 
     public List<AppliedOrderPromotionEntity> getAppliedOrderPromotionEntityList() {
         return appliedOrderPromotionEntityList;
