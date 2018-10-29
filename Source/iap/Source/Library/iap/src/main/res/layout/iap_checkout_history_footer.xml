@@ -61,7 +61,7 @@
                     android:textSize="@dimen/iap_text_size_12"
                     style="@style/iapCentralesansMediumFont"
                     android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
-                   />
+                    />
 
             </LinearLayout>
 
@@ -110,7 +110,7 @@
                     style="@style/iapCentralesansMediumFont"
                     android:layout_marginBottom="10dp"
                     android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
-                 />
+                    />
 
             </LinearLayout>
 
@@ -205,7 +205,7 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/iap_delivery_ups_parcel"
+                android:text="@string/iap_shipping_cost"
                 android:visibility="gone"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -134,7 +136,9 @@ class IAPHandler {
             }
             intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
         }
-
+        if(pLaunchInput.getVoucher()!=null) {
+            intent.putExtra(IAPConstant.IAP_VOUCHER_FROM_APP,pLaunchInput.getVoucher());
+        }
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         pContext.startActivity(intent);
     }
@@ -148,10 +152,12 @@ class IAPHandler {
         InAppBaseFragment fragment;
         Bundle bundle = new Bundle();
         final ArrayList<String> ignoreRetailers = iapLaunchInput.getIgnoreRetailers();
+        final String voucherCode=iapLaunchInput.getVoucher();
         switch (screen) {
             case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
                 fragment = new ShoppingCartFragment();
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
+                bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
                 fragment = new PurchaseHistoryFragment();

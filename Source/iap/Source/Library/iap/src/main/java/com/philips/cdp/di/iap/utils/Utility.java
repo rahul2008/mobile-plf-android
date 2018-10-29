@@ -221,7 +221,7 @@ public class Utility {
                                         String pErrorString, String descriptionText, final FragmentManager pFragmentManager, final AlertListener alertListener) {
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context);
         builder.setDialogType(DialogConstants.TYPE_ALERT);
-        
+
         if (!TextUtils.isEmpty(descriptionText)) {
             builder.setMessage(descriptionText);
         }

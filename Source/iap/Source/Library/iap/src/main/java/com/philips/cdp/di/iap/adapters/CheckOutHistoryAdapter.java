@@ -171,6 +171,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     String deliveryMethod = data.getDeliveryMode().getName();
                     String deliveryModeDescription=data.getDeliveryMode().getDescription();
+
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
@@ -179,13 +180,13 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
 
                     if (deliveryMethod != null) {
-                        shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
+                        //shoppingCartFooter.mDeliveryVia.setText(deliveryMethod);
                         String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_ups_parcel);
                         freeDeliverySpendOn = String.format(freeDeliverySpendOn, deliveryMethod);
-                        shoppingCartFooter.mDeliveryVia.setText(freeDeliverySpendOn);
+                        //shoppingCartFooter.mDeliveryVia.setText(freeDeliverySpendOn);
                         shoppingCartFooter.mDeliveryTitle.setText(freeDeliverySpendOn);
                     } else {
-                        shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
+                        //shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
 
@@ -359,7 +360,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mBillingAddress = (TextView) itemView.findViewById(R.id.tv_billing_address);
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
-
+            mVoucherContainer  = (RelativeLayout) itemView.findViewById(R.id.voucher_container);
 
         }
     }

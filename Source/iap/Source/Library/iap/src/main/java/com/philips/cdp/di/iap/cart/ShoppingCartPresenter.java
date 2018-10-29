@@ -414,6 +414,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
             cartItem.setVatActualValue(String.valueOf(((int) cartsEntity.getTotalTax().getValue())));
             cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
+            cartItem.setTotalDiscounts(cartsEntity.getTotalDiscounts().getFormattedValue());
             //required for Tagging
             cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
             products.add(cartItem);
@@ -488,55 +489,5 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         return;
     }
 
-
-    private void getAppliedVoucherCode( final ArrayList<ShoppingCartData> aData) {
-
-        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        GetAppliedVoucherRequest request = new GetAppliedVoucherRequest(delegate.getStore(), null, new AbstractModel.DataLoadListener() {
-            @Override
-            public void onModelDataLoadFinished(Message msg) {
-                final String voucherCode ;
-                int requestCode = msg.what;
-                if(requestCode==GET_APPLIED_VOUCHER){
-                    if(msg.obj instanceof String){
-                        voucherCode=(String)msg.obj;
-                        aData.get(0).setAppliedVoucherCode(voucherCode);
-                        refreshList(aData);
-                    }
-                }
-            }
-            @Override
-            public void onModelDataError(Message msg) {
-
-            }
-        });
-        delegate.sendRequest(GET_APPLIED_VOUCHER, request, request);
-    }
-
-
-    @Override
-    public void deleteAppliedVoucher(String voucherCode) {
-        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-
-        DeleteVoucherRequest deleteVoucherRequest = new DeleteVoucherRequest(delegate.getStore(), null, new AbstractModel.DataLoadListener() {
-            @Override
-            public void onModelDataLoadFinished(Message msg) {
-                int requestCode = msg.what;
-                if(requestCode==DELETE_VOUCHER){
-                    if(msg.obj==null){
-                        Log.v("Vouchers Delete", "Success");
-                        getCurrentCartDetails();// refresh as voucher is removed
-                    }
-
-                }
-            }
-
-            @Override
-            public void onModelDataError(Message msg) {
-                Log.v("Vouchers Delete", "failure");
-            }
-        }, voucherCode);
-        delegate.sendRequest(DELETE_VOUCHER, deleteVoucherRequest, deleteVoucherRequest);
-    }
 
 }
