@@ -240,34 +240,34 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     private int passwordValidation(int strength) {
 
-        int strengthStrong = 2;
-        int strengthMedium = 1;
-        int stringthMeterNone = 5;
+        int strengthMedium = 2;
+        int strengthWeak= 1;
+        //int stringthMeterNone = 5;
         int strengthMeterWeak = 33;
         int strengthMeterStrong = 100;
         int strengthMeterMedium = 66;
 
         RLog.d(TAG,
                 " register: NetworkStateListener,strength " + strength);
-        if (strength > strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_green_level_30,
+        if (strength > strengthMedium) {
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_signal_lime_level_60,R.color.uid_signal_lime_level_30,
                     R.drawable.reg_password_strength_strong, 0, true);
-        } else if (strength == strengthStrong) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_orange_level_30,
-                    R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthMedium) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_30,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_signal_yellow_level_60, R.color.uid_signal_yellow_level_30,
+                    R.drawable.reg_password_strength_medium, 0, false);
+        } else if (strength == strengthWeak) {
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_60,R.color.uid_signal_red_level_30,
                     R.drawable.reg_password_strength_weak, R.string.USR_InValid_PwdErrorMsg, false);
         } else {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), stringthMeterNone, false, R.color.uid_signal_red_level_30,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_60, R.color.uid_signal_red_level_30,
                     R.drawable.reg_password_strength_weak, R.string.USR_PasswordField_ErrorMsg, false);
         }
         return 0;
     }
 
-    private void passwordUiUpdate(String weak, int progress, boolean enabled, int color, int drawable, int invalidPasswordErrorId, boolean isPasswordValid) {
+    private void passwordUiUpdate(String weak, int progress, boolean enabled, int color1, int color, int drawable, int invalidPasswordErrorId, boolean isPasswordValid) {
         usrCreatescreenPasswordstrengthLabel.setText(weak);
-        usrCreatescreenPasswordstrengthLabel.setTextColor(ContextCompat.getColor(getContext(), color));
+        usrCreatescreenPasswordstrengthLabel.setTextColor(ContextCompat.getColor(getContext(), color1));
         usrCreatescreenPasswordProgressbar.setProgress(progress);
         usrCreatescreenPasswordhintLabel.setBackgroundColor(ContextCompat.getColor(getContext(), color));
         usrCreatescreenPasswordProgressbar.setProgressDrawable(getResources().getDrawable(drawable, null));

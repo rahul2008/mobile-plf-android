@@ -153,7 +153,7 @@ public class ConnectingWithDeviceViewModelTest {
     public void itShouldTagAndNavigateToResetConnectionTroubleShootingScreenOnHelpNeeded() {
         subject.onHelpNeeded();
         verify(mockEWSTagger).trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
-        verify(mockNavigator, times(1)).navigateToResetConnectionTroubleShootingScreen();
+        verify(mockNavigator, times(1)).navigateToResetConnectionTroubleshootingScreen();
     }
 
     @Test

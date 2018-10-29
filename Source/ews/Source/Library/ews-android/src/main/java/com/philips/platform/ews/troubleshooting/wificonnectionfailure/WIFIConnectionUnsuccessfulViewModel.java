@@ -32,12 +32,10 @@ public class WIFIConnectionUnsuccessfulViewModel {
     private final Navigator navigator;
 
     @NonNull private final EWSTagger ewsTagger;
-    @NonNull
-    private final WiFiUtil wiFiUtil;
+
 
     @Inject
-    public WIFIConnectionUnsuccessfulViewModel(@NonNull WiFiUtil wiFiUtil, @NonNull Navigator navigator, @NonNull final EWSTagger ewsTagger) {
-        this.wiFiUtil = wiFiUtil;
+    public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator, @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
         upperBodyText = new ObservableField<>();
         stepTwoText = new ObservableField<>();
@@ -63,11 +61,7 @@ public class WIFIConnectionUnsuccessfulViewModel {
     }
 
     public void onTryAgainClicked() {
-        if(wiFiUtil.isHomeWiFiEnabled()) {
-            navigator.navigateToConnectingPhoneToHotspotWifiScreen();
-        } else {
-            navigator.navigateToSelectWiFiScreen();
-        }
+        navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
     void trackPageName() {

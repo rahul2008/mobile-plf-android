@@ -33,11 +33,13 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
     @NonNull
     public final ObservableBoolean isRefreshing;
     @NonNull
-    public final ObservableBoolean enableNextButton;
+    public final ObservableBoolean enableContinueButton;
     @NonNull
     private final ApplianceAccessManager applianceAccessManager;
     @NonNull
     protected final Navigator navigator;
+    @NonNull
+    private static String deviceFriendlyName;
 
     @Inject
     SelectWiFiViewModel(@NonNull final Navigator navigator,
@@ -53,21 +55,25 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
         this.ewsTagger = ewsTagger;
         this.ewsLogger = ewsLogger;
         this.isRefreshing = new ObservableBoolean();
-        this.enableNextButton = new ObservableBoolean();
+        this.enableContinueButton = new ObservableBoolean();
         this.adapter.setOnWifiNodeSelectListener(this);
     }
 
     public void fetchWifiNodes() {
         this.selectedSSID = null;
         isRefreshing.set(true);
-        enableNextButton.set(false);
+        enableContinueButton.set(false);
         applianceAccessManager.fetchWiFiNetworks(fetchWiFiNetworksCallBack);
+    }
+
+    public void setDeviceFriendlyName(@NonNull String deviceFriendlyName) {
+        this.deviceFriendlyName = deviceFriendlyName;
     }
 
     @Override
     public void onWifiNodeSelected(@NonNull final String selectedSSID) {
         this.selectedSSID = selectedSSID;
-        this.enableNextButton.set(true);
+        this.enableContinueButton.set(true);
     }
 
     @NonNull
@@ -77,11 +83,11 @@ public class SelectWiFiViewModel implements SelectWiFiAdapter.OnWifiNodeSelectLi
 
     public void onContinueButtonClicked() {
         wiFiUtil.setHomeWiFiSSID(selectedSSID);
-        navigator.navigateToConnectToDeviceWithPasswordScreen("");
+        navigator.navigateToConnectToDeviceWithPasswordScreen(deviceFriendlyName);
     }
 
     public void onNetworkNotListedButtonClicked() {
-        navigator.navigateToNetworkNotListedTroubleShootingScreen();
+        navigator.navigateToNetworkNotListedTroubleshootingScreen();
     }
 
     public void cleanUp() {

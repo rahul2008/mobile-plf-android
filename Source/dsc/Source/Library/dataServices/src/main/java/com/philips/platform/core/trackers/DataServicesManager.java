@@ -91,6 +91,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
 import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.JSONObject;
 
 import java.net.URL;
@@ -451,6 +452,7 @@ public class DataServicesManager {
     }
 
     public void deleteAll(DBRequestListener dbRequestListener) {
+        resetLastSyncTimestampTo(new DateTime(0, DateTimeZone.UTC));
         mEventing.post(new DataClearRequest(dbRequestListener));
     }
 

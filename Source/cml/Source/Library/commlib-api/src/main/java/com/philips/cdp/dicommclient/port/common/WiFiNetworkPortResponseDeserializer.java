@@ -5,6 +5,7 @@
 package com.philips.cdp.dicommclient.port.common;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -14,7 +15,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
 import com.philips.cdp.dicommclient.networknode.WiFiNode;
-import com.philips.cdp.dicommclient.util.TextUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

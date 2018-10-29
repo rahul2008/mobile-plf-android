@@ -121,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_main_button_top_margin"
-                android:enabled="@{viewModel.enableNextButton.get()}"
+                android:enabled="@{viewModel.enableContinueButton.get()}"
                 android:onClick="@{() -> viewModel.onContinueButtonClicked()}"
                 android:text="@string/button_ews_network_not_listed_continue"
                 app:uidComponentType="Primary"/>

@@ -49,11 +49,11 @@ public class SetupAccessPointModeTroubleshootingViewModel {
     }
 
     void onYesButtonClicked() {
-        navigator.navigateToResetDeviceTroubleShootingScreen();
+        navigator.navigateToResetDeviceTroubleshootingScreen();
     }
 
     void onNoButtonClicked() {
-        navigator.navigateToConnectToWrongPhoneTroubleShootingScreen();
+        navigator.navigateToConnectToWrongPhoneTroubleshootingScreen();
     }
 
     @VisibleForTesting

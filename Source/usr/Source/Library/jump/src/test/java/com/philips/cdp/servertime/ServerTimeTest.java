@@ -8,40 +8,46 @@
 
 package com.philips.cdp.servertime;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
-
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 import com.philips.platform.appinfra.timesync.TimeInterface;
+
+import junit.framework.TestCase;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+@RunWith(MockitoJUnitRunner.class)
+public class ServerTimeTest extends TestCase {
 
-public class ServerTimeTest extends InstrumentationTestCase {
-    TimeInterface timeInterface;
+    @Mock
+    private TimeInterface timeInterface;
 
-    @Override
-    protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
-
-    public void testRefreshOffset(){
+    @Test
+    public void testRefreshOffset() {
         ServerTime.getCurrentTime();
         ServerTime.refreshOffset();
         assertNull(ServerTime.getCurrentUTCTimeWithFormat("dd-mm-yyyy"));
     }
 
 
-
-    public void testRefreshOffsetCall(){
+    @Test
+    public void testRefreshOffsetCall() {
         final SimpleDateFormat sdf = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT, Locale.ROOT);
         Date date = new Date(0);
         sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
