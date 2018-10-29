@@ -30,7 +30,7 @@ public class NetworkURLConstants {
             "/users/" + JANRAIN_EMAIL;
 
     //Carts
-    public static final String GET_CARTS_URL = BASE_URL + "/carts?fields=FULL&lang=en_US";
+    public static final String GET_CARTS_URL = BASE_URL + "/carts/current?fields=FULL&lang=en_US";
     public static final String DELETE_CART_URL = BASE_URL + "/carts/current?lang=en_US";
     public static final String CREATE_CART_URL = BASE_URL + "/carts?fields=FULL&lang=en_US";
     public static final String ADD_TO_CART_URL = BASE_URL + "/carts/current/entries?fields=FULL&lang=en_US";
