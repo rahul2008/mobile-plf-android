@@ -42,7 +42,7 @@ public class ConsentCacheInteractorTest {
     private ConsentCacheInteractor consentCacheInteractor;
     private CachedConsentStatus returnedCachedConsent;
     private AppInfraInterface appInfra;
-    private SecureStorageInterfaceMock storageInterface = new SecureStorageInterfaceMock();
+    private SecureStorageInterfaceMock storageInterface;
     @Mock
     private User userMock;
     @Mock
@@ -50,6 +50,7 @@ public class ConsentCacheInteractorTest {
 
     @Before
     public void setUp() {
+        storageInterface = new SecureStorageInterfaceMock();
         appInfra = new AppInfraInterfaceMock(storageInterface, configInterface);
         DateTimeUtils.setCurrentMillisFixed(NOW.getMillis());
         consentCacheInteractor = new ConsentCacheInteractor(appInfra);
