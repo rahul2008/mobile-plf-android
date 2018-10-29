@@ -44,7 +44,7 @@ public class ConsentCacheInteractorTest {
     private AppInfraInterface appInfra;
     private SecureStorageInterfaceMock storageInterface;
     @Mock
-    private User userMock;
+    private User user;
     @Mock
     private AppConfigurationInterface configInterface;
 
@@ -54,10 +54,10 @@ public class ConsentCacheInteractorTest {
         appInfra = new AppInfraInterfaceMock(storageInterface, configInterface);
         DateTimeUtils.setCurrentMillisFixed(NOW.getMillis());
         consentCacheInteractor = new ConsentCacheInteractor(appInfra);
-        when(userMock.getHsdpUUID()).thenReturn("userId");
-        CatkComponentMock catkComponentMock = new CatkComponentMock();
-        catkComponentMock.getUser_return = userMock;
-        ConsentsClient.getInstance().setCatkComponent(catkComponentMock);
+        when(user.getHsdpUUID()).thenReturn("userId");
+        CatkComponentMock catkComponent = new CatkComponentMock();
+        catkComponent.getUser_return = user;
+        ConsentsClient.getInstance().setCatkComponent(catkComponent);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class ConsentCacheInteractorTest {
 
     @Test(expected=NullPointerException.class)
     public void fetchConsentTypeState_WhenUserIdIsNull() {
-        when(userMock.getHsdpUUID()).thenReturn(null);
+        when(user.getHsdpUUID()).thenReturn(null);
         givenSecureStorageReturns(getSingleConsentStatusJson(null, "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
     }
@@ -138,7 +138,7 @@ public class ConsentCacheInteractorTest {
     @Test
     public void storeConsent_IsStoredWithCurrentLoggedInUserId() {
         givenExpiryTimeConfiguredInAppConfigIs(1);
-        when(userMock.getHsdpUUID()).thenReturn("someUserId");
+        when(user.getHsdpUUID()).thenReturn("someUserId");
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
         thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1, "1998-12-31T13:00:00.000+0100"));
     }
