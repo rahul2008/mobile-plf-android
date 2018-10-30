@@ -6,8 +6,6 @@
 
 package com.philips.dhpclient;
 
-import android.support.multidex.MultiDex;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -30,9 +27,6 @@ public class DhpApiSignerTest {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
         try {
             mDhpApiSigner = new DhpApiSigner(null, null);
         } catch (IllegalArgumentException ignored) {

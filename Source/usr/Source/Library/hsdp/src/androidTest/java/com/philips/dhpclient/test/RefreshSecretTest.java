@@ -6,15 +6,12 @@
 
 package com.philips.dhpclient.test;
 
-import android.support.multidex.MultiDex;
-
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 
 
@@ -33,10 +30,7 @@ public class RefreshSecretTest {
             "f129b5a8-55f4-11e5-885d-feff819cdc9f");
 
     @Before
-    protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
+    public void setUp() throws Exception {
         authenticationManagementClient = new DhpAuthenticationManagementClient(dhpApiClientConfiguration);
     }
 

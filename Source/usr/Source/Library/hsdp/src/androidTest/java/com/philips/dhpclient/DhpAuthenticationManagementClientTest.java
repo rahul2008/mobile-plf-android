@@ -6,8 +6,6 @@
 
 package com.philips.dhpclient;
 
-import android.support.multidex.MultiDex;
-
 import com.philips.dhpclient.response.DhpResponse;
 
 import org.junit.Before;
@@ -17,7 +15,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -29,9 +26,6 @@ public class DhpAuthenticationManagementClientTest {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
         DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl", "dhpApplicationName", "signingKey", "signingSecret");
         mDhpAuthenticationManagementClient = new DhpAuthenticationManagementClient(dhpApiClientConfiguration);
 

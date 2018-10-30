@@ -6,15 +6,12 @@
 
 package com.philips.dhpclient.response;
 
-import android.support.multidex.MultiDex;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.Map;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,9 +27,6 @@ public class DhpAuthenticationResponseTest {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
         mDhpAuthenticationResponse = new DhpAuthenticationResponse(mRawResponse);
         mDhpAuthenticationResponse1 = new DhpAuthenticationResponse(mRawResponse);
     }

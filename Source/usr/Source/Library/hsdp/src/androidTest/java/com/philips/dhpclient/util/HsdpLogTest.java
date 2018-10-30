@@ -6,12 +6,9 @@
 
 package com.philips.dhpclient.util;
 
-import android.support.multidex.MultiDex;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -25,9 +22,6 @@ public class HsdpLogTest {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
         mHsdpLog = new HsdpLog();
     }
 

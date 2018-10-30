@@ -5,15 +5,12 @@
 
 package com.philips.dhpclient.response;
 
-import android.support.multidex.MultiDex;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,10 +27,7 @@ public class DhpResponseTest {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
-        mRawResponse = new HashMap<String, Object>();
+        mRawResponse = new HashMap<>();
         mDhpResponse = new DhpResponse(mRawResponse);
         mDhpResponse1 = new DhpResponse(mRawResponse);
 

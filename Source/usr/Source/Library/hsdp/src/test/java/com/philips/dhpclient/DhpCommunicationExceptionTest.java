@@ -6,12 +6,9 @@
 
 package com.philips.dhpclient;
 
-import android.support.multidex.MultiDex;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -23,9 +20,6 @@ public class DhpCommunicationExceptionTest {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
         Throwable e = new Throwable();
         mDhpCommunicationException = new DhpCommunicationException(e);
     }
