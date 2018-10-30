@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
@@ -297,18 +302,26 @@ def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
         chmod -R 755 .
-        ./gradlew clean --refresh-dependencies --full-stacktrace assembleRelease \
+        ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
+            :AppInfra:cC \
             :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
+            :securedblibrary:cC \
+            :registrationApi:cC \
             :registrationApi:testReleaseUnitTest \
+            :jump:cC \
             :jump:testReleaseUnitTest \
+            :hsdp:cC \
             :hsdp:testReleaseUnitTest \
+            :productselection:cC \
             :telehealth:testReleaseUnitTest \
             :bluelib:generateJavadoc \
             :bluelib:testReleaseUnitTest \
             :product-registration-lib:testReleaseUnitTest \
             :iap:testReleaseUnitTest \
+            :digitalCareUApp:cC \
             :digitalCareUApp:testRelease \
+            :digitalCare:cC \
             :digitalCare:testRelease \
             :commlib:testReleaseUnitTest \
             :commlib-testutils:testReleaseUnitTest \
@@ -317,6 +330,7 @@ def BuildAndUnitTest() {
             :commlib-lan:testReleaseUnitTest \
             :commlib-cloud:testReleaseUnitTest \
             :commlib-api:testReleaseUnitTest \
+            :mya:cC \
             :mya:testReleaseUnitTest \
             :catk:testReleaseUnitTest \
             :csw:testReleaseUnitTest \
