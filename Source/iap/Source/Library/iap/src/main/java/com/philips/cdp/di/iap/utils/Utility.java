@@ -39,6 +39,7 @@ public class Utility {
     public static final String TAG = Utility.class.getName();
     private static AlertDialogFragment alertDialogFragment;
     public static boolean isDelvieryFirstTimeUser = false;
+    public static String voucherCodeVal;
 
     public static void hideKeypad(Activity pContext) {
         if(pContext == null){
@@ -86,6 +87,13 @@ public class Utility {
         prefsEditor.apply();
     }
 
+    public static void setVoucherCode(String voucherCode){
+        voucherCodeVal=voucherCode;
+    }
+
+    public static String getVoucherCode(){
+        return voucherCodeVal;
+    }
     protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
         String addressLine1ReplacingNullValue = null;
         if (!TextUtils.isEmpty(code)) {

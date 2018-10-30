@@ -795,7 +795,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 //        Mockito.when(summaryModel.getData().getProductTitle()).thenReturn("Brush");
 //        Mockito.when(summaryModel.getData().getMarketingTextHeader()).thenReturn("http://image/");
         CartModelContainer.getInstance().addProductSummary("HX8332/11", summaryModel);
-        mShoppingCartPresenter.getShoppingCartDatas(cartsEntity, value);
+     //   mShoppingCartPresenter.getShoppingCartDatas(cartsEntity, value);
     }
 
     @Override

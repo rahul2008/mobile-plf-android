@@ -30,6 +30,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -98,7 +99,7 @@ class IAPHandler {
 
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
         verifyInput(pLaunchInput.mLandingView, pLaunchInput.mIAPFlowInput);
-
+        Utility.setVoucherCode(pLaunchInput.getVoucher());
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
         } else if (uiLauncher instanceof FragmentLauncher) {
@@ -138,6 +139,7 @@ class IAPHandler {
         }
         if(pLaunchInput.getVoucher()!=null) {
             intent.putExtra(IAPConstant.IAP_VOUCHER_FROM_APP,pLaunchInput.getVoucher());
+            Utility.setVoucherCode(pLaunchInput.getVoucher());
         }
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         pContext.startActivity(intent);
@@ -158,6 +160,7 @@ class IAPHandler {
                 fragment = new ShoppingCartFragment();
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
                 bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
+                Utility.setVoucherCode(iapLaunchInput.getVoucher());
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
                 fragment = new PurchaseHistoryFragment();
