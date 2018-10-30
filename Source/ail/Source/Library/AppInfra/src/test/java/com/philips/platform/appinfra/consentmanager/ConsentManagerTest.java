@@ -73,6 +73,7 @@ public class ConsentManagerTest {
     public void tearDown() {
         returnedError = null;
         returnedConsentsStatus = null;
+        returnedConsentStatus = null;
     }
 
     @Test
@@ -329,7 +330,35 @@ public class ConsentManagerTest {
         givenFetchTimeOutIs(3);
         givenHandler(handler1, "testConsent");
         givenFetchConsentDoesNotReturnForHandler(handler1);
+        whenFetchConsentState(consentDefinition(1,"testConsent"));
+        thenTimeoutErrorIsReturned();
+    }
+
+    @Test
+    public void fetchConsentsStates_ShouldReturnErrorIfTimesOut() {
+        givenFetchTimeOutIs(3);
+        givenHandler(handler1, "testConsent");
+        givenFetchConsentDoesNotReturnForHandler(handler1);
         whenFetchConsentStates(ImmutableList.of(consentDefinition(1,"testConsent")));
+        thenTimeoutErrorIsReturned();
+    }
+
+    @Test
+    public void fetchConsentTypeState_ShouldReturnErrorIfTimesOut() {
+        givenFetchTimeOutIs(3);
+        givenHandler(handler1, "testConsent");
+        givenFetchConsentDoesNotReturnForHandler(handler1);
+        givenRegisteredConsentDefinitions(1, "testConsent");
+        whenFetchingConsentTypeState("testConsent");
+        thenTimeoutErrorIsReturned();
+    }
+
+    @Test
+    public void storeConsentState_ShouldReturnErrorIfTimesOut() {
+        givenFetchTimeOutIs(3);
+        givenHandler(handler1, "testConsent");
+        givenStoreConsentDoesNotReturnForHandler(handler1);
+        whenStoringConsents(consentDefinition(1,"testConsent"),true);
         thenTimeoutErrorIsReturned();
     }
 
@@ -377,6 +406,10 @@ public class ConsentManagerTest {
         handler.fetchDoNothing = true;
     }
 
+    private void givenStoreConsentDoesNotReturnForHandler(ConsentHandlerInterfaceSpy handler) {
+        handler.storeDoNothing = true;
+    }
+
     private void givenFetchTimeOutIs(int timeout) {
         consentManager.timeout = timeout;
     }
@@ -419,6 +452,11 @@ public class ConsentManagerTest {
 
     private void whenFetchConsentStates(final List<ConsentDefinition> consentDefinitions) throws RuntimeException {
         consentManager.fetchConsentStates(consentDefinitions, new FetchConsentsCallBackListener());
+        waitForThreadsToComplete();
+    }
+
+    private void whenFetchConsentState(final ConsentDefinition consentDefinition) throws RuntimeException {
+        consentManager.fetchConsentState(consentDefinition, new FetchConsentCallbackListener());
         waitForThreadsToComplete();
     }
 
@@ -485,6 +523,7 @@ public class ConsentManagerTest {
         ConsentStatus returns;
         ConsentError returnsError;
         boolean fetchDoNothing;
+        boolean storeDoNothing;
 
         @Override
         public void fetchConsentTypeState(String consentType, FetchConsentTypeStateCallback callback) {
@@ -502,6 +541,9 @@ public class ConsentManagerTest {
 
         @Override
         public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
+            if (storeDoNothing){
+                return;
+            }
             if (returnsError != null) {
                 callback.onPostConsentFailed(returnsError);
             } else {
@@ -542,6 +584,10 @@ public class ConsentManagerTest {
             lock.countDown();
         }
     }
+
+
+
+
 
     private class FetchConsentsCallBackListener implements FetchConsentsCallback {
 
