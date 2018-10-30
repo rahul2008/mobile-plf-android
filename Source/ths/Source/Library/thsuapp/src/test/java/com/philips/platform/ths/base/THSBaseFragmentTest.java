@@ -7,6 +7,7 @@
 package com.philips.platform.ths.base;
 
 import android.view.ViewGroup;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -16,6 +17,7 @@ import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.THSManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,25 +26,31 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSBaseFragmentTest {
 
-    private THSBaseFragment mThsBaseFragment;
+    THSBaseFragment mThsBaseFragment;
 
-    @Mock private AppTaggingInterface appTaggingInterface;
+    @Mock
+    AppTaggingInterface appTaggingInterface;
 
-    @Mock private AppInfraInterface appInfraInterfaceMock;
+    @Mock
+    AppInfraInterface appInfraInterfaceMock;
 
-    @Mock private AppConfigurationInterface appConfigurationInterfaceMock;
+    @Mock
+    AppConfigurationInterface appConfigurationInterfaceMock;
 
-    @Mock private ServiceDiscoveryInterface serviceDiscoveryMock;
+    @Mock
+    ServiceDiscoveryInterface serviceDiscoveryMock;
 
-    @Mock private LoggingInterface loggingInterface;
+    @Mock
+    LoggingInterface loggingInterface;
 
-    @Mock private ViewGroup viewGroupMock;
+    @Mock
+    ViewGroup viewGroupMock;
+
 
     @Before
     public void setUp() throws Exception {
@@ -57,6 +65,7 @@ public class THSBaseFragmentTest {
 
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);
 
+
         mThsBaseFragment = new THSBaseFragment();
         SupportFragmentTestUtil.startFragment(mThsBaseFragment);
     }
@@ -69,7 +78,7 @@ public class THSBaseFragmentTest {
     @Test
     public void exitFromAmWell() throws Exception {
         mThsBaseFragment.exitFromAmWell(THSCompletionProtocol.THSExitType.Other);
-        assertEquals(null, THSManager.getInstance().getPthVisitContext());
+        assert THSManager.getInstance().getVisitContext() == null;
     }
 
     @Test

@@ -50,7 +50,7 @@ public class THSNoticeOfPrivacyPracticesPresenterTest {
     VisitContext visitContextMock;
 
     @Mock
-    THSVisitContext thsVisitContext;
+    VisitContext thsVisitContext;
 
     @Mock
     FragmentActivity fragmentActivityMock;
@@ -84,7 +84,6 @@ public class THSNoticeOfPrivacyPracticesPresenterTest {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
         THSManager.getInstance().setVisitContext(thsVisitContext);
-        when(thsVisitContext.getVisitContext()).thenReturn(visitContextMock);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);

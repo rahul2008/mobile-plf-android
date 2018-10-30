@@ -6,6 +6,7 @@ import android.os.Message;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.store.IAPUser;
@@ -54,7 +55,7 @@ public class CartCurrentInfoRequestTest {
         GetCartsRequest request = new GetCartsRequest(mStore, null, null);
         String oneAddress = TestUtils.readFile(CartCurrentInfoRequestTest.class, "create_cart.txt");
         Object response = request.parseResponse(oneAddress);
-        Assert.assertEquals(response.getClass(), Carts.class);
+        Assert.assertEquals(response.getClass(), CartsEntity.class);
     }
 
 

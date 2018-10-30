@@ -13,12 +13,14 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/select_time"
-        style="@style/ths_list_header"
+        style="@style/ths_list_item_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line_separator"
         android:paddingLeft="@dimen/ths_fab_margin"
         android:paddingRight="@dimen/ths_fab_margin"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical|left"
         android:text="@string/ths_provider_section1_title" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -44,15 +46,15 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/calendar_container"
             android:layout_width="match_parent"
+            style="@style/ths_text_book"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/ths_fab_margin"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/ths_practice_icon_layout"
             android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
             android:maxLines="3"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
-            android:textSize="@dimen/ths_body_text"
-            android:textStyle="bold" />
+            android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+            android:textSize="@dimen/ths_body_text" />
 
         <com.philips.platform.uid.view.widget.Label
             style="@style/ths_font_icon_style"

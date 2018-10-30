@@ -74,12 +74,12 @@ public class SetupAccessPointModeTroubleshootingViewModelTest {
     @Test
     public void itShouldNavigateOnYesButtonClicked() throws Exception {
         subject.onYesButtonClicked();
-        verify(mockNavigator).navigateToResetDeviceTroubleShootingScreen();
+        verify(mockNavigator).navigateToResetDeviceTroubleshootingScreen();
     }
 
     @Test
     public void itShouldNavigateOnNoButtonClicked() throws Exception {
         subject.onNoButtonClicked();
-        verify(mockNavigator).navigateToConnectToWrongPhoneTroubleShootingScreen();
+        verify(mockNavigator).navigateToConnectToWrongPhoneTroubleshootingScreen();
     }
 }

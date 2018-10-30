@@ -2,7 +2,6 @@ package com.philips.platform.catk;
 
 import com.philips.platform.catk.datamodel.CachedConsentStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
-
 import java.util.Date;
 
 /**

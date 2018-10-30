@@ -4,8 +4,10 @@
  */
 package com.philips.cdp.dicommclient.networknode;
 
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 
+@Keep
 public class WiFiNode {
 
     public final String SSID;

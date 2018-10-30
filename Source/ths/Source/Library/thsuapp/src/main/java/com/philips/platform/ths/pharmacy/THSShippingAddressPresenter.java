@@ -60,7 +60,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
         if (null != thsBaseView && null != thsBaseView.getFragmentActivity()) {
             if (null == sdkError) {
                 AmwellLog.d("updateShipAddress", "success");
-                Consumer consumer = THSManager.getInstance().getPTHConsumer(thsBaseView.getFragmentActivity()).getConsumer();
+                Consumer consumer = THSManager.getInstance().getConsumer(thsBaseView.getFragmentActivity());
                 if (consumer.getSubscription() != null && consumer.getSubscription().getHealthPlan() != null) {
                     final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
                     thsBaseView.addFragment(fragment, THSCostSummaryFragment.TAG, null, true);

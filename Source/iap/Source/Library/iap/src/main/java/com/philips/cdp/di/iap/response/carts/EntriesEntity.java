@@ -8,6 +8,8 @@ import java.io.Serializable;
  */
 public class EntriesEntity implements Serializable{
 
+
+    private static final long serialVersionUID = 9115373408948680734L;
     private BasePriceEntity basePrice;
     private int entryNumber;
 

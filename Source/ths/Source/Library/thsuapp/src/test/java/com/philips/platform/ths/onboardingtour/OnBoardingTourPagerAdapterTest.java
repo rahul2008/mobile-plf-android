@@ -10,6 +10,9 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -18,6 +21,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 public class OnBoardingTourPagerAdapterTest {
 
@@ -27,7 +31,13 @@ public class OnBoardingTourPagerAdapterTest {
     FragmentManager fragmentManagerMock;
 
     @Mock
+    ActionBarListener actionBarListenerMock;
+
+    @Mock
     OnBoardingTourContentModel onBoardingTourContentModel;
+
+    @Mock
+    FragmentLauncher fragmentLauncherMock;
 
     @Mock
     Context contextMock;
@@ -39,7 +49,8 @@ public class OnBoardingTourPagerAdapterTest {
         MockitoAnnotations.initMocks(this);
         list = new ArrayList();
         list.add(onBoardingTourContentModel);
-        mOnBoardingTourPagerAdapter = new OnBoardingTourPagerAdapter(fragmentManagerMock,list,contextMock);
+        mOnBoardingTourPagerAdapter = new OnBoardingTourPagerAdapter(fragmentManagerMock,list, fragmentLauncherMock, actionBarListenerMock);
+        when(onBoardingTourContentModel.getPageTitle()).thenReturn("ssss");
     }
 
     @Test
@@ -57,13 +68,6 @@ public class OnBoardingTourPagerAdapterTest {
     @Test
     public void getPageTitle() throws Exception {
         final String pageTitle = mOnBoardingTourPagerAdapter.getPageTitle(0);
-        assertNull(pageTitle);
+        assertNotNull(pageTitle);
     }
-
-    @Test
-    public void isValidPosition(){
-        final boolean validPosition = mOnBoardingTourPagerAdapter.isValidPosition(0);
-        assert validPosition == true;
-    }
-
 }

@@ -64,7 +64,7 @@
             android:text="@string/insight_rule_id_label" />
 
         <EditText
-            android:id="@+id/et_insight_rule"
+            android:id="@+id/et_insight_rule_value"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/insight_rule" />

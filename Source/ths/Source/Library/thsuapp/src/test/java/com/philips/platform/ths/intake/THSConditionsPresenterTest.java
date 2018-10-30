@@ -22,7 +22,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -69,7 +68,7 @@ public class THSConditionsPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    private THSConsumerWrapper pthConsumerMock;
+    private Consumer pthConsumerMock;
 
     @Mock
     private THSConditionsList thsConditions;
@@ -106,7 +105,7 @@ public class THSConditionsPresenterTest {
         initMocks(this);
         thsMedicalConditionsPresenter = new THSMedicalConditionsPresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(pthConsumerMock);
+        THSManager.getInstance().setConsumer(pthConsumerMock);
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
@@ -115,7 +114,6 @@ public class THSConditionsPresenterTest {
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
         THSManager.getInstance().setThsParentConsumer(thsConsumerMock);

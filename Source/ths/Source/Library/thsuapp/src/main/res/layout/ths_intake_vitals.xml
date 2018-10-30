@@ -20,7 +20,7 @@
         android:layout_marginStart="@dimen/ths_fab_margin"
         android:text="@string/ths_vitals_skip" />
 
-    <com.philips.platform.uid.view.widget.Button
+    <com.philips.platform.uid.view.widget.ProgressBarButton
         android:id="@+id/vitals_continue_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,9 @@
         android:layout_marginBottom="@dimen/ths_list_space"
         android:layout_marginEnd="@dimen/ths_fab_margin"
         android:enabled="true"
-        android:text="@string/ths_registration_continue"
+        app:uidIsIndeterminateProgressIndicator="true"
+        app:uidProgressIndicatorButtonProgressText="Loading.."
+        app:uidProgressIndicatorButtonText="Continue"
         />
 
 

@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -47,7 +46,7 @@ public class THSDependentListAdapterTest {
     AWSDK awsdkMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    Consumer thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;
@@ -83,8 +82,7 @@ public class THSDependentListAdapterTest {
         when(parent.getDependents()).thenReturn(list);
         THSManager.getInstance().setThsParentConsumer(parent);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
 
         mTHSDependentListAdapter = new THSDependentListAdapter(contextMock);
     }

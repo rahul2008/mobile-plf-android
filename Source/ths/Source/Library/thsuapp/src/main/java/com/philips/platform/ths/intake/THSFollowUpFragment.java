@@ -16,7 +16,6 @@ import android.widget.CompoundButton;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -83,16 +82,6 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         mLabelPatientName.setText(name);
         THSTagUtils.doTrackPageWithInfo(THS_FOLLOW_UP_PAGE,null,null);
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        THSConsumerWrapper THSConsumerWrapper = THSManager.getInstance().getPTHConsumer(getContext());
-       /* removing pre population of phone number in align with IOS (Bug 100462)
-        if (null != THSConsumerWrapper && null != THSConsumerWrapper.getConsumer() && null != THSConsumerWrapper.getConsumer().getPhone() && !THSConsumerWrapper.getConsumer().getPhone().isEmpty()) {
-            mPhoneNumberEditText.setText(THSConsumerWrapper.getConsumer().getPhone());
-        }*/
     }
 
     @Override

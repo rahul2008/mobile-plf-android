@@ -1,33 +1,41 @@
 /*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
+ *  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  * in whole or in part is prohibited without the prior written
+ *  * consent of the copyright holder.
+ * /
  */
 
 package com.philips.cdp.servertime;
 
-import android.support.multidex.MultiDex;
-
 import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
+import com.philips.platform.appinfra.timesync.TimeInterface;
+
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
+@RunWith(MockitoJUnitRunner.class)
+public class ServerTimeTest extends TestCase {
 
-public class ServerTimeTest {
+    @Mock
+    private TimeInterface timeInterface;
 
     @Before
-    protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -36,6 +44,7 @@ public class ServerTimeTest {
         ServerTime.refreshOffset();
         assertNull(ServerTime.getCurrentUTCTimeWithFormat("dd-mm-yyyy"));
     }
+
 
     @Test
     public void testRefreshOffsetCall() {
@@ -46,4 +55,5 @@ public class ServerTimeTest {
 
         assertNotSame(firstJan1970, ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT));
     }
+
 }

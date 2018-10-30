@@ -5,19 +5,14 @@
     android:layout_height="wrap_content"
     android:background="?attr/uidContentPrimaryBackgroundColor">
 
-
-    <com.philips.platform.uid.view.widget.Label
+    <ImageView
         android:id="@+id/pth_practice_logo"
-        fontPath="fonts/iconfont.ttf"
-        android:layout_width="@dimen/ths_image_size"
-        android:layout_height="@dimen/ths_image_size"
+        android:layout_width="@dimen/ths_20_dp"
+        android:layout_height="@dimen/ths_20_dp"
         android:layout_centerVertical="true"
-        android:gravity="center_vertical"
-        android:layout_marginEnd="@dimen/ths_fab_margin"
-        android:layout_marginStart="@dimen/ths_fab_margin"
-        android:text="@string/dls_personportrait"
-        android:textAlignment="center"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
+        android:layout_marginEnd="@dimen/ths_20_dp"
+        android:layout_marginStart="@dimen/ths_20_dp"
+        android:src="@drawable/ths_support_svg"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_practice_name"
@@ -46,7 +41,7 @@
         android:gravity="center_vertical"
         android:text="@string/dls_navigationright"
         android:textAlignment="center"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
+        android:textColor="?attr/uidContentItemTertiaryNormalIconColor" />
 
     <View
         android:layout_width="match_parent"

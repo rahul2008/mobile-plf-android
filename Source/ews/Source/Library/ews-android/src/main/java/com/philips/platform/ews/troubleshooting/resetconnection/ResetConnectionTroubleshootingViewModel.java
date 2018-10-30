@@ -35,11 +35,11 @@ public class ResetConnectionTroubleshootingViewModel {
     }
 
     void onYesButtonClicked() {
-        navigator.navigateToResetDeviceTroubleShootingScreen();
+        navigator.navigateToResetDeviceTroubleshootingScreen();
     }
 
     void onNoButtonClicked() {
-        navigator.navigateToConnectToWrongPhoneTroubleShootingScreen();
+        navigator.navigateToConnectToWrongPhoneTroubleshootingScreen();
     }
 
     @NonNull

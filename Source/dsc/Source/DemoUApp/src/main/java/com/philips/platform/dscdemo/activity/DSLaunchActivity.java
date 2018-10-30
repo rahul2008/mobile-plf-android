@@ -36,19 +36,13 @@ public class DSLaunchActivity extends AppCompatActivity implements ActionBarList
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_user_registration_activity);
-
-        User user = new User(this);
         if (savedInstanceState == null) {
-            if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
-                showFragment();
-                DatabaseHelper databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
-                try {
-                    databaseHelper.getWriteDbPermission();
-                } catch (SQLException e) {
-                    DemoUAppLog.e(this.getClass().getSimpleName(), e.getMessage());
-                }
-            } else {
-                showNotLoggedInAlert();
+            showFragment();
+            DatabaseHelper databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
+            try {
+                databaseHelper.getWriteDbPermission();
+            } catch (SQLException e) {
+                DemoUAppLog.e(this.getClass().getSimpleName(), e.getMessage());
             }
         } else {
             onRestoreInstanceState(savedInstanceState);
@@ -62,14 +56,6 @@ public class DSLaunchActivity extends AppCompatActivity implements ActionBarList
         }
         getTheme().applyStyle(themeIndex, true);
         UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-    }
-
-    private void showNotLoggedInAlert() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setTitle(R.string.RA_Warning);
-        alertBuilder.setMessage(R.string.RA_You_are_not_LoggedIn);
-        alertBuilder.setPositiveButton(R.string.ok, (dialog, which) -> finish());
-        alertBuilder.show();
     }
 
     @Override

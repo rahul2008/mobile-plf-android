@@ -13,6 +13,7 @@ import com.americanwell.sdk.entity.UploadAttachment;
 import com.americanwell.sdk.entity.consumer.DocumentRecord;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.visit.Appointment;
+import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -34,10 +35,10 @@ import java.util.Map;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_CREATE_VISIT_CONTEXT;
 import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALYTICS_UPLOAD_CLINICAL_ATTACHMENT;
 
-public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSUploadDocumentCallback {
+public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<VisitContext, THSSDKError>, THSUploadDocumentCallback {
     protected THSBaseFragment thsBaseView;
     protected THSProviderInfo mThsProviderInfo;
-    protected THSVisitContext THSVisitContext;
+    protected VisitContext visitContext;
     protected THSFileUtils fileUtils;
     private UploadAttachment uploadAttachment;
     private THSSymptomsFragmentViewInterface thsSymptomsFragmentViewInterface;
@@ -84,23 +85,23 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     }
 
     @Override
-    public void onResponse(THSVisitContext THSVisitContext, THSSDKError thssdkError) {
+    public void onResponse(VisitContext visitContext, THSSDKError thssdkError) {
         if (null != thsBaseView && thsBaseView.isFragmentAttached()) {
             if (null != thssdkError.getSdkError()) {
                 AmwellLog.e("uploadDocument",thssdkError.getSdkError().toString());
                 thsBaseView.showError(THSSDKErrorFactory.getErrorType(thsBaseView.getFragmentActivity(), ANALYTICS_CREATE_VISIT_CONTEXT,thssdkError.getSdkError()), true, false);
             } else {
                 AmwellLog.d("uploadDocument","success");
-                updateSymptoms(THSVisitContext);
+                updateSymptoms(visitContext);
             }
         }
     }
 
-    private void updateSymptoms(THSVisitContext THSVisitContext) {
-        this.THSVisitContext = THSVisitContext;
+    private void updateSymptoms(VisitContext visitContext) {
+        this.visitContext = visitContext;
 
-        if (THSVisitContext != null) {
-            ((THSSymptomsFragment) thsBaseView).addTopicsToView(THSVisitContext);
+        if (visitContext != null) {
+            ((THSSymptomsFragment) thsBaseView).addTopicsToView(visitContext);
         }
         thsBaseView.hideProgressBar();
     }

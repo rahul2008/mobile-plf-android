@@ -29,7 +29,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSFileUtils;
@@ -75,7 +74,7 @@ public class THSSymptomsPresenterTest {
     ConsumerManager consumerManagerMock;
 
     @Mock
-    THSConsumerWrapper pthConsumer;
+    Consumer pthConsumer;
 
     @Mock
     AWSDK awsdk;
@@ -87,7 +86,7 @@ public class THSSymptomsPresenterTest {
     THSSDKError pthsdkError;
 
     @Mock
-    THSVisitContext pthVisitContext;
+    VisitContext pthVisitContext;
 
     @Mock
     ProviderInfo providerInfo;
@@ -165,9 +164,8 @@ public class THSSymptomsPresenterTest {
         THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
 
-        THSManager.getInstance().setPTHConsumer(pthConsumer);
+        THSManager.getInstance().setConsumer(pthConsumer);
         THSManager.getInstance().setVisitContext(pthVisitContext);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(pthProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
         when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
 
@@ -200,12 +198,10 @@ public class THSSymptomsPresenterTest {
 
     @Test
     public void getVisitContext() throws Exception {
-        when(pthVisitContext.getVisitContext()).thenReturn(visitContext);
         when(pthProviderInfo.getProviderInfo()).thenReturn(providerInfo);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivity);
         when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
-        THSManager.getInstance().setPTHConsumer(pthConsumer);
+        THSManager.getInstance().setConsumer(pthConsumer);
         THSManager.getInstance().setVisitContext(pthVisitContext);
         pthSymptomsPresenter.getVisitContext();
         verify(visitManagerMock).getVisitContext(any(Consumer.class),any(ProviderInfo.class),any(SDKCallback.class));
@@ -213,9 +209,7 @@ public class THSSymptomsPresenterTest {
 
     @Test
     public void getVisitContextThrowsMalformedURLException() throws Exception {
-        when(pthVisitContext.getVisitContext()).thenReturn(visitContext);
         when(pthProviderInfo.getProviderInfo()).thenReturn(providerInfo);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivity);
         when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
         doThrow(MalformedURLException.class).when(awsdk).getVisitManager();
@@ -225,9 +219,7 @@ public class THSSymptomsPresenterTest {
 
     @Test
     public void getVisitContextThrowsURISyntaxException() throws Exception {
-        when(pthVisitContext.getVisitContext()).thenReturn(visitContext);
         when(pthProviderInfo.getProviderInfo()).thenReturn(providerInfo);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivity);
         when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
         doThrow(URISyntaxException.class).when(awsdk).getVisitManager();
@@ -237,9 +229,7 @@ public class THSSymptomsPresenterTest {
 
     @Test
     public void getVisitContextThrowsAWSDKInstantiationException() throws Exception {
-        when(pthVisitContext.getVisitContext()).thenReturn(visitContext);
         when(pthProviderInfo.getProviderInfo()).thenReturn(providerInfo);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivity);
         when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
         doThrow(AWSDKInstantiationException.class).when(awsdk).getVisitManager();
@@ -249,9 +239,7 @@ public class THSSymptomsPresenterTest {
 
     @Test
     public void getVisitContextThrowsAWSDKInitializationException() throws Exception {
-        when(pthVisitContext.getVisitContext()).thenReturn(visitContext);
         when(pthProviderInfo.getProviderInfo()).thenReturn(providerInfo);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivity);
         when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
         doThrow(AWSDKInitializationException.class).when(awsdk).getVisitManager();
@@ -270,8 +258,7 @@ public class THSSymptomsPresenterTest {
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivity);
         when(pTHBaseViewMock.getString(R.string.ths_add_photo_success_string)).thenReturn("something");
         pthSymptomsPresenter.fileUtils = fileUtilsMock;
-        THSManager.getInstance().setPTHConsumer(pthConsumer);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setConsumer(pthConsumer);
         when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         when(fileUtilsMock.getUploadAttachment(fragmentActivity, awsdk, uriMock)).thenReturn(uploadAttachmentMock);
         pthSymptomsPresenter.uploadDocuments(uriMock);
@@ -281,12 +268,10 @@ public class THSSymptomsPresenterTest {
     @Test
     public void getVisitContextThsProviderInfoNull(){
         pthSymptomsPresenter = new THSSymptomsPresenter(pTHBaseViewMock,null);
-        when(pthVisitContext.getVisitContext()).thenReturn(visitContext);
         when(pthProviderInfo.getProviderInfo()).thenReturn(providerInfo);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(fragmentActivity);
         when(awsdk.getVisitManager()).thenReturn(visitManagerMock);
-        THSManager.getInstance().setPTHConsumer(pthConsumer);
+        THSManager.getInstance().setConsumer(pthConsumer);
         THSManager.getInstance().setVisitContext(pthVisitContext);
         pthSymptomsPresenter.getVisitContext();
         verify(visitManagerMock).getVisitContext(any(Consumer.class),(ProviderInfo)isNull(),any(SDKCallback.class));

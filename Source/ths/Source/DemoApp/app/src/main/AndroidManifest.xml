@@ -15,7 +15,7 @@
             android:name="com.google.android.geo.API_KEY"
             tools:node="replace"
             android:value="@string/google_maps_key" />
-        <activity android:name="com.philips.platform.thsdemolaunch.MainActivity"
+        <activity android:name="com.philips.platform.thsdemolaunch.DemoMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.DLS.Purple.Bright"
             >

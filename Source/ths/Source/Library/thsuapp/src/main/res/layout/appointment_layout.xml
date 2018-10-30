@@ -17,7 +17,7 @@
         android:layout_marginStart="@dimen/ths_fab_margin"
         android:text="@string/dls_calendar"
         android:textAlignment="center"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
+        android:textColor="?attr/uidContentItemTertiaryNormalIconColor" />
 
 
     <com.philips.platform.uid.view.widget.Label
@@ -29,7 +29,7 @@
         android:layout_toStartOf="@+id/ths_practice_arrow_image"
         android:lineSpacingExtra="@dimen/ths_body_text_line_spacing_extra"
         android:maxLines="3"
-        android:text="@string/ths_welcome_appointments"
+        android:text="@string/ths_welcome_visits"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         android:textSize="@dimen/ths_body_text"
         android:textStyle="bold" />
@@ -46,7 +46,7 @@
         android:gravity="center_vertical"
         android:text="@string/dls_navigationright"
         android:textAlignment="center"
-        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor" />
+        android:textColor="?attr/uidContentItemTertiaryNormalIconColor" />
 
     <View
         android:layout_width="match_parent"

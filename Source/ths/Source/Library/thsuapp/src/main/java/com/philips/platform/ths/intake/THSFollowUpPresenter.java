@@ -10,11 +10,11 @@ import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.sdkerrors.THSSDKErrorFactory;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
+import com.americanwell.sdk.entity.consumer.Consumer;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ import static com.philips.platform.ths.sdkerrors.THSAnalyticTechnicalError.ANALY
 import static com.philips.platform.ths.utility.THSConstants.THS_SEND_DATA;
 import static com.philips.platform.ths.utility.THSConstants.THS_SPECIAL_EVENT;
 
-public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumerWrapper, THSSDKPasswordError> {
+public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<Consumer, THSSDKPasswordError> {
     private THSFollowUpFragment mTHSFollowUpFragment;
     private THSFollowUpViewInterface thsFollowUpViewInterfaces;
 
@@ -53,7 +53,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
 
     private void acceptLegalText() {
-        List<LegalText> legalTextList = THSManager.getInstance().getPthVisitContext().getLegalTexts();
+        List<LegalText> legalTextList = THSManager.getInstance().getVisitContext().getLegalTexts();
         for (LegalText legalText : legalTextList) {
             legalText.setAccepted(true);
         }
@@ -79,7 +79,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     }
 
     @Override
-    public void onUpdateConsumerResponse(THSConsumerWrapper thsConsumer, THSSDKPasswordError sdkPasswordError) {
+    public void onUpdateConsumerResponse(Consumer thsConsumer, THSSDKPasswordError sdkPasswordError) {
         if(null != sdkPasswordError.getSdkPasswordError()) {
                 if(null != sdkPasswordError.getSdkPasswordError().getSDKErrorReason()) {
                     thsFollowUpViewInterfaces.showError(THSSDKErrorFactory.getErrorType(thsFollowUpViewInterfaces.getFragmentActivity(), ANALYTIC_UPDATE_CONSUMER_PHONE,sdkPasswordError.getSdkPasswordError()));
@@ -90,7 +90,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             //update singleton THSManager THSConsumer member
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, THS_SPECIAL_EVENT, "step5PhoneNumberAdded");
             THSTagUtils.doTrackActionWithInfo(THS_SEND_DATA, "TImePrepareYourVisit", THSTagUtils.getVisitPrepareTime(THSSymptomsFragment.visitStartTime));
-            THSManager.getInstance().setPTHConsumer(thsConsumer);
+            THSManager.getInstance().setConsumer(thsConsumer);
             thsFollowUpViewInterfaces.showConditionsFragment();
             //update singleton THSManager THSConsumer member
         }

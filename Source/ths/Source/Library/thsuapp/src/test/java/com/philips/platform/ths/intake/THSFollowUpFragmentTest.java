@@ -5,7 +5,6 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.activity.THSLaunchActivity;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -33,7 +32,7 @@ public class THSFollowUpFragmentTest {
     AWSDK awsdkMock;
 
     @Mock
-    THSConsumerWrapper pthConsumer;
+    Consumer pthConsumer;
 
     @Mock
     Consumer consumerMock;
@@ -52,7 +51,6 @@ public class THSFollowUpFragmentTest {
         tHSFollowUpFragment = new THSFollowUpFragmentTestMock();
         tHSFollowUpFragment.setActionBarListener(actionBarListenerMock);
 
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
 
@@ -61,7 +59,7 @@ public class THSFollowUpFragmentTest {
 
     public void onActivityCreatedTest(){
         SupportFragmentTestUtil.startFragment(tHSFollowUpFragment);
-        assertNotNull(pthConsumer.getConsumer().getPhone());
+        assertNotNull(pthConsumer.getPhone());
     }
 
 

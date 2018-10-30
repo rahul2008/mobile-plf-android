@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -166,7 +167,8 @@ public class URInterface implements UappInterface {
             RegistrationConfiguration.getInstance().setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
             ((URLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
-            Intent registrationIntent = new Intent(uiLauncher.getActivityContext(), RegistrationActivity.class);
+            Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
+                    getUrSettings().getContext(), RegistrationActivity.class);
             Bundle bundle = new Bundle();
 
             RegistrationLaunchMode registrationLaunchMode = ((URLaunchInput) uappLaunchInput).getEndPointScreen();

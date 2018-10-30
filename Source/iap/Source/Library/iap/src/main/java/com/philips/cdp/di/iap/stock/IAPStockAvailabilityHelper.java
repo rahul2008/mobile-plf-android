@@ -34,9 +34,9 @@ public class IAPStockAvailabilityHelper {
     public boolean checkIfRequestedQuantityAvailable(String stockLevelStatus, int stockLevel, int quantity) {
         final boolean stockAvailable = isStockAvailable(stockLevelStatus, stockLevel);
         if(stockAvailable){
-            if(stockLevel>=quantity){
+           /* if(stockLevel>=quantity){*/
                 return true;
-            }
+            /*}*/
         }
         return false;
     }
