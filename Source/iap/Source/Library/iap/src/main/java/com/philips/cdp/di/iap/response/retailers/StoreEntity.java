@@ -7,7 +7,8 @@ package com.philips.cdp.di.iap.response.retailers;
 import java.io.Serializable;
 
 public class StoreEntity implements Serializable{
-    static final long serialVersionUID = 7L;
+
+    private static final long serialVersionUID = -4549397314749988036L;
     private String name;
     private String availability;
     private String isPhilipsStore;

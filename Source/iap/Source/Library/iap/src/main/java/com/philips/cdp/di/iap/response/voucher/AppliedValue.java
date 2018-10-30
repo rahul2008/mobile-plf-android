@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class AppliedValue implements Serializable {
 
+    private static final long serialVersionUID = -2438759277104163832L;
     private String currencyIso;
     private String formattedValue;
     private String priceType;
