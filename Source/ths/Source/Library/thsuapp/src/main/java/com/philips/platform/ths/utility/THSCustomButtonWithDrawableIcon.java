@@ -180,7 +180,7 @@ public class THSCustomButtonWithDrawableIcon extends Button {
         return isAllCaps() ? longPart.toUpperCase() : longPart;
     }
 
-    private boolean isAllCaps() {
+    public boolean isAllCaps() {
         TransformationMethod method = getTransformationMethod();
         if(method == null) return false;
 
