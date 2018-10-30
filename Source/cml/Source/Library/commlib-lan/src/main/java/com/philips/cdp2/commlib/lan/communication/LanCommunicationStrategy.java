@@ -184,7 +184,8 @@ public class LanCommunicationStrategy extends ObservableCommunicationStrategy {
     }
 
     private boolean isOnSameNetwork() {
-        return ssidProvider.getCurrentSsid() == null || ssidProvider.getCurrentSsid().equals(networkNode.getNetworkSsid());
+        String currentSssid = ssidProvider.getCurrentSsid();
+        return currentSssid == null || currentSssid.equals(networkNode.getNetworkSsid());
     }
 
     @VisibleForTesting
