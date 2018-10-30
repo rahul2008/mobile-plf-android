@@ -24,7 +24,7 @@ import com.philips.cdp.cloudcontroller.api.pairing.PairingController;
  */
 public interface CloudController {
 
-    /**jdk
+    /**
      * The constant NOTIFICATION_SERVICE_TAG.
      */
     String NOTIFICATION_SERVICE_TAG = "3pns";
