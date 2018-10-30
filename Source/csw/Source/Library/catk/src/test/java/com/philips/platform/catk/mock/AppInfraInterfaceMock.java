@@ -1,12 +1,4 @@
-/*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
- */
-
 package com.philips.platform.catk.mock;
-
 
 import android.content.Context;
 
@@ -29,9 +21,20 @@ import com.philips.platform.appinfra.timesync.TimeInterface;
 
 public class AppInfraInterfaceMock implements AppInfraInterface {
 
+    private SecureStorageInterface storageInterface;
+    private AppConfigurationInterface configInterface;
+
+    public AppInfraInterfaceMock(SecureStorageInterface storageInterface, AppConfigurationInterface configInterface) {
+        this.storageInterface = storageInterface;
+        this.configInterface = configInterface;
+    }
+
+    public AppInfraInterfaceMock() {
+    }
+
     @Override
     public SecureStorageInterface getSecureStorage() {
-        return null;
+        return storageInterface;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public AppConfigurationInterface getConfigInterface() {
-        return null;
+        return configInterface;
     }
 
     @Override
