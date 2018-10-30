@@ -23,7 +23,7 @@ public class ApisigningTest {
     private HSDPPHSApiSigning hsdpphsApiSigning;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         psLib = new PsLib();
         hsdpphsApiSigning = new HSDPPHSApiSigning("cafebabe-1234-dead-dead-1234567890ab",
                 "e124794bab4949cd4affc267d446ddd95c938a7428d75d7901992e0cb4bc320cd94c28dae1e56d83eaf19010ccc8574d6d83fb687cf5d12ff2afddbaf73801b5");

@@ -45,7 +45,7 @@ public class CloudLogRequestBodyBuilderTest {
     private AILCloudLogMetaData ailCloudLogMetaData;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(appInfra.getLogging()).thenReturn(appInfraLogging);
         when(appInfraLogging.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);

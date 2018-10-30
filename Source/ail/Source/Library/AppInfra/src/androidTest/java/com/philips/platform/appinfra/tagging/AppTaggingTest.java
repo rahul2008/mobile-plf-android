@@ -67,7 +67,7 @@ public class AppTaggingTest {
     };
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         context = getInstrumentation().getContext();
         assertNotNull(context);
 

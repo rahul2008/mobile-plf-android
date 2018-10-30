@@ -32,7 +32,7 @@ public class CloudLogHandlerTest {
     private AppInfra appInfra;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
 

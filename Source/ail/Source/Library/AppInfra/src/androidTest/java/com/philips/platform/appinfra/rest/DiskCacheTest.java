@@ -26,7 +26,7 @@ public class DiskCacheTest {
     private Context context;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         VolleyLog.DEBUG = false;
         context = getInstrumentation().getContext();
         assertNotNull(context);

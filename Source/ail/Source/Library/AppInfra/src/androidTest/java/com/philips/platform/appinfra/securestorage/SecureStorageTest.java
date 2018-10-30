@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SecureStorageTest {
@@ -21,7 +20,7 @@ public class SecureStorageTest {
     private SecureStorageInterface mSecureStorage = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         Context context = getInstrumentation().getContext();
         AppInfra mAppInfra = new AppInfra.Builder().build(context);
         mSecureStorage = new SecureStorage(mAppInfra);
@@ -29,7 +28,7 @@ public class SecureStorageTest {
 
     @Test
     public void testIsLaunchedByEmulator() {
-        assertFalse(mSecureStorage.isEmulator());
+        assertTrue(mSecureStorage.isEmulator());
     }
 
     @Test

@@ -48,7 +48,7 @@ public class AiKmHelperTest {
     private InputStream inputStream;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         mAppInfraMock = mock(AppInfra.class);
         LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
         when(mAppInfraMock.getLogging()).thenReturn(loggingInterfaceMock);

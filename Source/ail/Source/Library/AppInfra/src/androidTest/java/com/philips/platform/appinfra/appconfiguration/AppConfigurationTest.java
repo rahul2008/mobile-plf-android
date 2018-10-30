@@ -43,7 +43,7 @@ public class AppConfigurationTest {
     private AppInfra mAppInfra;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         Context context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);

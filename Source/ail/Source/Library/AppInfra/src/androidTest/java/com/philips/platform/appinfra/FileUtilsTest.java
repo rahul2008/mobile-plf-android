@@ -28,7 +28,7 @@ public class FileUtilsTest {
     private Context context;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         context = getInstrumentation().getContext();
         fileUtils = new FileUtils(context);
     }

@@ -78,7 +78,7 @@ public class ServiceDiscoveryTestcase {
     private AISDResponse aisdResponse;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         context = getInstrumentation().getContext();
         assertNotNull(context);
 

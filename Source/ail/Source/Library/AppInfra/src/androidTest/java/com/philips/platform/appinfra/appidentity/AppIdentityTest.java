@@ -40,7 +40,7 @@ public class AppIdentityTest {
     private Context context;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         context = getInstrumentation().getContext();
         assertNotNull(context);
 
@@ -83,11 +83,6 @@ public class AppIdentityTest {
         } catch (IllegalArgumentException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
         }
-    }
-
-    @Test
-    public void testGetAppVersion() {
-        assertNotNull(appIdentityInterface.getAppVersion());
     }
 
     @Test

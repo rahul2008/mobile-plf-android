@@ -38,7 +38,7 @@ public class AIKManagerTest {
     private ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         AppInfra appInfraMock = mock(AppInfra.class);
         serviceDiscoveryInterfaceMock = mock(ServiceDiscoveryInterface.class);
         when(appInfraMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);

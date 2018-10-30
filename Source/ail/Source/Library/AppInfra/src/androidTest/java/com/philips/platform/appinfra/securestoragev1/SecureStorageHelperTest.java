@@ -27,7 +27,7 @@ public class SecureStorageHelperTest {
     private SecureStorageHelper secureStorageHelper;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         Context context = getInstrumentation().getContext();
         AppInfra mAppInfra = new AppInfra.Builder().build(context);
         secureStorageHelper = new SecureStorageHelper(mAppInfra);

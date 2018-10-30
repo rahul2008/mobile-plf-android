@@ -30,7 +30,7 @@ public class AppInfraTest {
     ABTestClientManager abTestClientManager;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         context = getInstrumentation().getContext();
         assertNotNull(context);
 

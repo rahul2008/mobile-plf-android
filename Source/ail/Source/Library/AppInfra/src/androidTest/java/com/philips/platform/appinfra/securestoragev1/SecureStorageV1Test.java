@@ -36,7 +36,7 @@ public class SecureStorageV1Test {
     private SecureStorageInterface mSecureStorage = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         Context context = getInstrumentation().getContext();
         assertNotNull(context);
 

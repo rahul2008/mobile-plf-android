@@ -30,7 +30,7 @@ public class ApplicationLifeCycleHandlerTest {
     private AppInfra appInfraMock;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         activity = new Activity();
         bundle = new Bundle();
         appInfraMock = mock(AppInfra.class);
