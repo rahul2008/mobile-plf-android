@@ -13,16 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.AppliedVoucherAdapter;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.VoucherController;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.voucher.GetAppliedValue;
 import com.philips.cdp.di.iap.response.voucher.Vouchers;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -148,14 +144,14 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
           if(getAppliedValueList.size()>0){
               acceptedCodeLabel.setVisibility(View.VISIBLE);
               headerParent.setVisibility(View.VISIBLE);
-              line.setVisibility(View.VISIBLE);
-              voucherBottomLayout.setVisibility(View.VISIBLE);
+             // line.setVisibility(View.VISIBLE);
+              //voucherBottomLayout.setVisibility(View.VISIBLE);
           }
           else {
               acceptedCodeLabel.setVisibility(View.GONE);
               headerParent.setVisibility(View.GONE);
-              line.setVisibility(View.GONE);
-              voucherBottomLayout.setVisibility(View.GONE);
+              //line.setVisibility(View.GONE);
+              //voucherBottomLayout.setVisibility(View.GONE);
           }
           for(int i=0; i<getAppliedValueList.size();i++){
               count=count+Double.parseDouble(getAppliedValueList.get(i).getAppliedValue().getValue());
@@ -169,8 +165,8 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
         }else {
             acceptedCodeLabel.setVisibility(View.GONE);
             headerParent.setVisibility(View.GONE);
-            line.setVisibility(View.GONE);
-            voucherBottomLayout.setVisibility(View.GONE);
+            //line.setVisibility(View.GONE);
+            //voucherBottomLayout.setVisibility(View.GONE);
         }
 
     }

@@ -415,7 +415,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onApplyVoucherResponse(Message msg) {
-        Toast.makeText(mContext,"Applied  voucher"+voucherCode,Toast.LENGTH_LONG).show();
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }
