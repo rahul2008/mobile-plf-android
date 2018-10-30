@@ -5,9 +5,7 @@
 
 package com.philips.platform.appinfra.tagging;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 
 import com.adobe.mobile.Analytics;
 import com.philips.platform.appinfra.AppInfra;
@@ -15,10 +13,7 @@ import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
-import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 import org.junit.Before;
@@ -37,14 +32,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * AppTagging Test class.
- */
 @Ignore
 public class AppTaggingHandlerTest {
 
     private AppTaggingInterface mAIAppTaggingInterface;
-    private AppTaggingInterface mockAppTaggingInterface;
     private AppConfigurationManager mConfigInterface;
     private AppTagging appTagging;
     private Context context;
@@ -54,22 +45,6 @@ public class AppTaggingHandlerTest {
     private AppTaggingHandler mAppTaggingHandlerMock;
     private AppInfra appInfraMock;
     private LoggingInterface loggingInterfaceMock;
-    private AppIdentityInterface appIdentityInterfaceMock;
-    private SecureStorageInterface secureStorageInterfaceMock;
-    private InternationalizationInterface internationalizationInterfaceMock;
-
-    private BroadcastReceiver rec = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                if (intent.getAction().equalsIgnoreCase(AppTagging.ACTION_TAGGING_DATA)) {
-                    Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
-                    assertNotNull(textExtra);
-                }
-            }
-
-        }
-    };
 
     @Before
     public void setUp() throws Exception {
@@ -103,8 +78,6 @@ public class AppTaggingHandlerTest {
 
         mAppTaggingHandler = new AppTaggingHandler(mAppInfra);
 
-        mockAppTaggingInterface = mock(AppTaggingInterface.class);
-
         mAppTaggingHandlerMock = mock(AppTaggingHandler.class);
         appInfraMock = mock(AppInfra.class);
         appTagging = new AppTagging(appInfraMock) {
@@ -115,9 +88,6 @@ public class AppTaggingHandlerTest {
         };
 
         loggingInterfaceMock = mock(LoggingInterface.class);
-        appIdentityInterfaceMock = mock(AppIdentityInterface.class);
-        secureStorageInterfaceMock = mock(SecureStorageInterface.class);
-        internationalizationInterfaceMock = mock(InternationalizationInterface.class);
         mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
                 "PRODUCTION", configError);
     }
@@ -418,5 +388,4 @@ public class AppTaggingHandlerTest {
             assertNull(jSONObject);
         }
     }
-
 }

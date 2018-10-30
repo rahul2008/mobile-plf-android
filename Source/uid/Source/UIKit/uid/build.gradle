@@ -80,12 +80,8 @@ dependencies {
     androidTestImplementation(deps.espresso_core) {
         exclude module: "com.android.support"
     }
-    androidTestImplementation(deps.androidx_test.runner) {
-        exclude module: "com.android.support"
-    }
-    androidTestImplementation(deps.androidx_test.rules) {
-        exclude module: "com.android.support"
-    }
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx_test.rules
     androidTestImplementation deps.apache_commons_lang
 }
 

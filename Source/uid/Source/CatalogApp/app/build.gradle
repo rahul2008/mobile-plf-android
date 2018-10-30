@@ -162,13 +162,7 @@ dependencies {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-    androidTestImplementation(deps.androidx_test.runner) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    androidTestImplementation(deps.androidx_test.rules) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx_test.rules
     androidTestImplementation deps.apache_commons_lang
 }

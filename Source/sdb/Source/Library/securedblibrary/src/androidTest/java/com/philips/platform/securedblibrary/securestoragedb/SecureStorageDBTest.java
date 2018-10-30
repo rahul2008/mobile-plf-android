@@ -26,7 +26,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -44,7 +44,7 @@ public class SecureStorageDBTest {
     private SecureDbOrmLiteSqliteOpenHelper secondHelper;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         context = getInstrumentation().getContext();
         assertNotNull(context);
 
@@ -54,7 +54,7 @@ public class SecureStorageDBTest {
     }
 
     @After
-    protected void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         TableUtils.clearTable(secureDbOrmLiteSqliteOpenHelper.getConnectionSource(), AddressBook.class);
 
         if (secondHelper != null) {
