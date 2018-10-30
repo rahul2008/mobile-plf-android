@@ -750,7 +750,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         mShoppingCartPresenter.onModelDataLoadFinished(msg);
     }
 
-    @Test
+    /*@Test
     public void verfyGetShoppingCartDatas() throws Exception {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
         CartsEntity cartsEntity = Mockito.mock(CartsEntity.class);
@@ -796,7 +796,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 //        Mockito.when(summaryModel.getData().getMarketingTextHeader()).thenReturn("http://image/");
         CartModelContainer.getInstance().addProductSummary("HX8332/11", summaryModel);
      //   mShoppingCartPresenter.getShoppingCartDatas(cartsEntity, value);
-    }
+    }*/
 
     @Override
     public void onLoadFinished(ArrayList<?> data) {
