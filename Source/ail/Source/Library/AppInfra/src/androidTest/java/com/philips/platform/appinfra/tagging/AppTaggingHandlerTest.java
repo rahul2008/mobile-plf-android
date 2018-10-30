@@ -22,6 +22,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -39,6 +40,7 @@ import static org.mockito.Mockito.when;
 /**
  * AppTagging Test class.
  */
+@Ignore
 public class AppTaggingHandlerTest {
 
     private AppTaggingInterface mAIAppTaggingInterface;
