@@ -8,7 +8,6 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.ComponentCallbacks2;
 import android.content.res.Configuration;
-import android.os.Bundle;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -16,33 +15,38 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ApplicationLifeCycleHandlerTest {
 
+    @Mock
     private LoggingInterface loggingInterfaceMock;
+
+    @Mock
     private Activity activity;
-    private Bundle bundle;
-    private ApplicationLifeCycleHandler applicationLifeCycleHandler;
+
+    @Mock
     private AppInfra appInfraMock;
+
+    private ApplicationLifeCycleHandler applicationLifeCycleHandler;
 
     @Before
     public void setUp() throws Exception {
-        activity = new Activity();
-        bundle = new Bundle();
-        appInfraMock = mock(AppInfra.class);
+        initMocks(this);
+
         ApplicationLifeCycleHandler.isInBackground = true;
         applicationLifeCycleHandler = new ApplicationLifeCycleHandler(appInfraMock);
-        loggingInterfaceMock = mock(LoggingInterface.class);
     }
 
     @Test
     public void testApplicationLifeCycleOnActivityCreated() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-        applicationLifeCycleHandler.onActivityCreated(activity, bundle);
+        applicationLifeCycleHandler.onActivityCreated(activity, null);
         verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Created");
     }
@@ -97,7 +101,7 @@ public class ApplicationLifeCycleHandlerTest {
     @Test
     public void testApplicationLifeCycleOnActivitySaveInstanceState() {
         when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-        applicationLifeCycleHandler.onActivitySaveInstanceState(activity, bundle);
+        applicationLifeCycleHandler.onActivitySaveInstanceState(activity, null);
         verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.DEBUG,
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler SaveInstanceState");
     }
@@ -204,4 +208,7 @@ public class ApplicationLifeCycleHandlerTest {
                 AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler Destroyed");
     }
 
+    private class TestActivity extends Activity {
+
+    }
 }
