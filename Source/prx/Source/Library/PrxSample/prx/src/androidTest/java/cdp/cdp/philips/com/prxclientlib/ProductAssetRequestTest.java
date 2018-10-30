@@ -34,12 +34,13 @@ public class ProductAssetRequestTest {
     private PrxRequest mProductAssetBuilder = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         mProductAssetBuilder = new ProductAssetRequest("HP8632/00", null, null, null);
         mProductAssetBuilder.setCatalog(PrxConstants.Catalog.CONSUMER);
         mProductAssetBuilder.setSector(PrxConstants.Sector.B2C);
     }
 
+    @Test
     public void testPrxBuilderObjectWithQueueParameter() {
         mProductAssetBuilder = new ProductAssetRequest("125", null, null, "TAGINFO");
         assertNotNull(mProductAssetBuilder);

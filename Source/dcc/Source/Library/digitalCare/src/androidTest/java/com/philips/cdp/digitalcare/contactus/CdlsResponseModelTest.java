@@ -33,7 +33,7 @@ public class CdlsResponseModelTest {
     private CdlsResponseModel mCdlsResponseModel = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         DigiCareLogger.d(TAG, "setUp..");
         context = getInstrumentation().getContext();
 

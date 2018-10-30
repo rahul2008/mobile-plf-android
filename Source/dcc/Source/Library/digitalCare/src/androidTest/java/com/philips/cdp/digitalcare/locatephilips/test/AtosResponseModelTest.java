@@ -32,7 +32,7 @@ public class AtosResponseModelTest {
     private GetAtosInstance atosInstance = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         DigiCareLogger.d(TAG, "setUp..");
         context = getInstrumentation().getContext();
         atosInstance = new GetAtosInstance(mAtosParsing);

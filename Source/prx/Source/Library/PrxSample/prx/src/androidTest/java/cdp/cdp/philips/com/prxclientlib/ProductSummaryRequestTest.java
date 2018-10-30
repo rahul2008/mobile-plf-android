@@ -34,7 +34,7 @@ public class ProductSummaryRequestTest {
     private PrxRequest mProductAssetBuilder = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         mProductAssetBuilder = new ProductSummaryRequest("125", null, null, null);
     }
 

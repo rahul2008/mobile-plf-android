@@ -45,7 +45,7 @@ public class SummaryModelTest {
     private Brand mBrand = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         mProductSummaryBuilder = new ProductSummaryRequest("125", null, null, null);
     }
 

@@ -23,7 +23,7 @@ public class StoreModelTest {
     private AtosErrorModel errorModel = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         storeModel = new StoreModel();
         errorModel = new AtosErrorModel();
     }

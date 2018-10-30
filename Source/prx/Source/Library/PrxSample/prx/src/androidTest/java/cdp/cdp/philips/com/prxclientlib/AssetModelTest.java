@@ -51,7 +51,7 @@ public class AssetModelTest {
     private AssetModel mAssetModel = null;
 
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         mAssetObject = new Asset();
 
         loadResources();
