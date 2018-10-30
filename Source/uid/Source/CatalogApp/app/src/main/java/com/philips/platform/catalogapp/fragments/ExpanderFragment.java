@@ -64,7 +64,7 @@ public class ExpanderFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        fragmentExpanderBinding.toggleIconWithIcons.setChecked(true);
+       // fragmentExpanderBinding.toggleIconWithIcons.setChecked(true);
         fragmentExpanderBinding.catalogExpanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_star));
         fragmentExpanderBinding.catalogExpanderOne.setExpanderTitle("Single line title");
         fragmentExpanderBinding.catalogExpanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
@@ -111,7 +111,7 @@ public class ExpanderFragment extends BaseFragment {
         gallerayExpanderList.add(fragmentExpanderBinding.catalogExpanderThree);
         gallerayExpanderList.add(fragmentExpanderBinding.catalogExpanderFour);
 
-
+        enableIcon(false);
     }
 
     public void enableIcon(boolean enabled) {
@@ -130,10 +130,12 @@ public class ExpanderFragment extends BaseFragment {
     }
 
     public void openMultiline(boolean enabled) {
-        fragmentExpanderBinding.catalogExpanderOne.expand(enabled);
-        fragmentExpanderBinding.catalogExpanderTwo.expand(enabled);
-        fragmentExpanderBinding.catalogExpanderThree.expand(enabled);
-        fragmentExpanderBinding.catalogExpanderFour.expand(enabled);
+        if(!enabled) { // only collapse
+            fragmentExpanderBinding.catalogExpanderOne.expand(enabled);
+            fragmentExpanderBinding.catalogExpanderTwo.expand(enabled);
+            fragmentExpanderBinding.catalogExpanderThree.expand(enabled);
+            fragmentExpanderBinding.catalogExpanderFour.expand(enabled);
+        }
     }
 
     private void collapseOtherExpanders(Expander aExpander) {
