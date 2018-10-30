@@ -53,7 +53,6 @@ public class PermissionHandlerTest {
         PowerMockito.mockStatic(Snackbar.class);
         PowerMockito.mockStatic(Fragment.class);
         when(mockBaseContentConfiguration.getAppName()).thenReturn(123234);
-        when(mockStringProvider.getString(R.string.label_location_permission_required, mockBaseContentConfiguration.getAppName())).thenReturn("appname");
     }
 
     @Test

@@ -47,14 +47,14 @@ public class NetworkNotListedViewModel {
     @VisibleForTesting
     @NonNull
     String getStepOneText(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_network_not_listed_step_1,
+        return stringProvider.getString(R.string.label_ews_network_not_listed_instruction_1,
                 baseConfig.getDeviceName());
     }
 
     @VisibleForTesting
     @NonNull
     String getStepTwoText(@NonNull BaseContentConfiguration baseConfig) {
-        return stringProvider.getString(R.string.label_ews_network_not_listed_step_2,
+        return stringProvider.getString(R.string.label_ews_network_not_listed_instruction_2,
                 baseConfig.getDeviceName());
     }
 
