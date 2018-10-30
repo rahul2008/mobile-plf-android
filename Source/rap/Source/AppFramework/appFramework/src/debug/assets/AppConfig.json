@@ -31,6 +31,7 @@
     "appidentity.sector": "b2c",
     "appidentity.appState": "DEVELOPMENT",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appUpdate.serviceID": "appinfra.testing.version",
     "appUpdate.autoRefresh": true,
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [
