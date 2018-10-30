@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SecureStorageTest {
@@ -28,7 +29,7 @@ public class SecureStorageTest {
 
     @Test
     public void testIsLaunchedByEmulator() {
-        assertTrue(mSecureStorage.isEmulator());
+        assertFalse(mSecureStorage.isEmulator());
     }
 
     @Test
