@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.matcher.DrawableMatcher;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
