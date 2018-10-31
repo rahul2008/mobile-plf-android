@@ -5,23 +5,34 @@
  */
 package com.philips.platform.catalogapp.fragments;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
+
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentExpanderBinding;
+import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.view.widget.Expander;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIDExpanderListener;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
 
 public class ExpanderFragment extends BaseFragment {
     UIDExpanderListener mUidExpanderListener = new UIDExpanderListener() {
@@ -64,23 +75,18 @@ public class ExpanderFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-       // fragmentExpanderBinding.toggleIconWithIcons.setChecked(true);
-        fragmentExpanderBinding.catalogExpanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_star));
+        //Expander 1
         fragmentExpanderBinding.catalogExpanderOne.setExpanderTitle("Single line title");
         fragmentExpanderBinding.catalogExpanderOne.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
         fragmentExpanderBinding.catalogExpanderOne.setExpanderListener(mUidExpanderListener);
-        ;
 
-        //View contentView = getLayoutInflater().inflate(R.layout.fragment_expander_content_default_layout, relativeLayout, false);
+        //Expander 2
         fragmentExpanderBinding.catalogExpanderTwo.setExpanderTitle("Single line title");
-        fragmentExpanderBinding.catalogExpanderTwo.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_personportrait));
         fragmentExpanderBinding.catalogExpanderTwo.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
         fragmentExpanderBinding.catalogExpanderTwo.setExpanderListener(mUidExpanderListener);
 
 
-        //Expandder 3
-        //fragmentExpanderBinding.catalogExpanderThree.setExpanderTitle("Multiple line title which a bit longer");
-        fragmentExpanderBinding.catalogExpanderThree.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_balloonspeech));
+        //Expander 3
         fragmentExpanderBinding.catalogExpanderThree.setExpanderContentView(R.layout.fragment_expander_content_default_layout);
         fragmentExpanderBinding.catalogExpanderThree.getTitleLabel().setText("Multiple line title which a bit longer");
         fragmentExpanderBinding.catalogExpanderThree.setExpanderListener(mUidExpanderListener);
@@ -88,7 +94,6 @@ public class ExpanderFragment extends BaseFragment {
 
         // expander 4
         fragmentExpanderBinding.catalogExpanderFour.setExpanderTitle("Multiple line title which a bit longer in this and can hold additional information");
-        fragmentExpanderBinding.catalogExpanderFour.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
         RelativeLayout rl = new RelativeLayout(getActivity());
         ViewGroup.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         Label label = new Label(getContext());
@@ -97,7 +102,6 @@ public class ExpanderFragment extends BaseFragment {
         paramsLabel.addRule(RelativeLayout.CENTER_VERTICAL);
         label.setLayoutParams(paramsLabel);
         rl.addView(label);
-        //  expanderFour.setExpanderCustomPanelView(rl);
         Label label1 = new Label(getContext());
         label1.setText("customise Expander content");
         label1.setLayoutParams(paramsLabel);
@@ -116,21 +120,46 @@ public class ExpanderFragment extends BaseFragment {
 
     public void enableIcon(boolean enabled) {
         if (enabled) {
-            fragmentExpanderBinding.catalogExpanderOne.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_star));
-            fragmentExpanderBinding.catalogExpanderTwo.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_personportrait));
-            fragmentExpanderBinding.catalogExpanderThree.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_balloonspeech));
-            fragmentExpanderBinding.catalogExpanderFour.setExpanderPanelIcon(getActivity().getResources().getString(R.string.dls_calendar));
+            TypedArray typedArray = getContext().obtainStyledAttributes(new int[]{com.philips.platform.uid.R.attr.uidContentItemSecondaryNormalIconColor});
+            int color = typedArray.getColor(0, 0);
+            typedArray.recycle();
+
+            FontIconDrawable drawableStar = new FontIconDrawable(getContext(), getResources().getString(com.philips.platform.uid.R.string.dls_star), Typeface.createFromAsset(getContext().getAssets(), "fonts/iconfont.ttf"))
+                    .color(color)
+                    .sizeDp(24);
+
+            FontIconDrawable drawablePersonPortrait = new FontIconDrawable(getContext(), getResources().getString(com.philips.platform.uid.R.string.dls_personportrait), Typeface.createFromAsset(getContext().getAssets(), "fonts/iconfont.ttf"))
+                    .color(color)
+                    .sizeDp(24);
+
+            FontIconDrawable drawableBalloonSpeech = new FontIconDrawable(getContext(), getResources().getString(com.philips.platform.uid.R.string.dls_balloonspeech), Typeface.createFromAsset(getContext().getAssets(), "fonts/iconfont.ttf"))
+                    .color(color)
+                    .sizeDp(24);
+
+
+            FontIconDrawable drawableCalendar = new FontIconDrawable(getContext(), getResources().getString(com.philips.platform.uid.R.string.dls_calendar), Typeface.createFromAsset(getContext().getAssets(), "fonts/iconfont.ttf"))
+                    .color(color)
+                    .sizeDp(24);
+
+            fragmentExpanderBinding.catalogExpanderOne.setExpanderPanelIcon(drawableStar);
+            fragmentExpanderBinding.catalogExpanderTwo.setExpanderPanelIcon(drawablePersonPortrait);
+            fragmentExpanderBinding.catalogExpanderThree.setExpanderPanelIcon(drawableBalloonSpeech);
+            fragmentExpanderBinding.catalogExpanderFour.setExpanderPanelIcon(drawableCalendar);
+
+            /*
+            Sample code to demonstarte setting normal drawable
+            fragmentExpanderBinding.catalogExpanderThree.setExpanderPanelIcon(getResources().getDrawable(R.drawable.ic_bottle,getActivity().getTheme()));*/
+
         } else {
             fragmentExpanderBinding.catalogExpanderOne.setExpanderPanelIcon(null);
             fragmentExpanderBinding.catalogExpanderTwo.setExpanderPanelIcon(null);
             fragmentExpanderBinding.catalogExpanderThree.setExpanderPanelIcon(null);
             fragmentExpanderBinding.catalogExpanderFour.setExpanderPanelIcon(null);
-
         }
     }
 
     public void openMultiline(boolean enabled) {
-        if(!enabled) { // only collapse
+        if (!enabled) { // only collapse
             fragmentExpanderBinding.catalogExpanderOne.expand(enabled);
             fragmentExpanderBinding.catalogExpanderTwo.expand(enabled);
             fragmentExpanderBinding.catalogExpanderThree.expand(enabled);

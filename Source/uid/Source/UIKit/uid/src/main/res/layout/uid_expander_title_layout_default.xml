@@ -7,16 +7,15 @@
     android:layout_height="wrap_content">
 
 
-    <com.philips.platform.uid.view.widget.Label
+    <com.philips.platform.uid.view.widget.ImageButton
         android:id="@+id/uid_expander_title_icon"
-        fontPath="fonts/iconfont.ttf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/uid_expander_title_icon_height_width_size"
+        android:layout_height="@dimen/uid_expander_title_icon_height_width_size"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:drawableTint="?attr/uidContentItemSecondaryNormalIconColor"
         android:layout_marginEnd="@dimen/uid_expander_title_icon_margin_end"
-        android:textColor="?attr/uidContentItemSecondaryNormalIconColor"
-        android:textSize="@dimen/uid_expander_title_icon_font_size"
+        android:background="@color/uidTransparent"
         android:visibility="gone" />
 
 

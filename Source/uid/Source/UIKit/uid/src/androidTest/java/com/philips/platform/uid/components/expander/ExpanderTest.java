@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
+import com.philips.platform.uid.matcher.DrawableMatcher;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
@@ -54,7 +55,6 @@ public class ExpanderTest {
         resources = getInstrumentation().getContext().getResources();
         Espresso.registerIdlingResources(baseTestActivity.getIdlingResource());
         expander = (Expander) baseTestActivity.findViewById(com.philips.platform.uid.test.R.id.layout_expander_id_test);
-        // expander = new Expander(baseTestActivity);
         activity = baseTestActivity;
 
 
@@ -62,27 +62,27 @@ public class ExpanderTest {
 
     // start of Expander Title Panel test cases
     @Test
-    public void verifyExpanderTitlePanelStartMargin() {
-        int expectedStartMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_margin_start_end);
-        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameStartMargin(expectedStartMargin)));
+    public void verifyExpanderTitlePanelStartPadding() {
+        int expectedStartPadding = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_padding_start_end);
+        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameStartPadding(expectedStartPadding)));
     }
 
     @Test
-    public void verifyExpanderTitlePanelEndMargin() {
-        int expectedEndMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_margin_start_end);
-        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameEndMargin(expectedEndMargin)));
+    public void verifyExpanderTitlePanelEndPadding() {
+        int expectedEndPadding = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_padding_start_end);
+        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameEndPadding(expectedEndPadding)));
     }
 
     @Test
-    public void verifyExpanderTitlePanelTopMargin() {
-        int expectedTopMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_margin_top_bottom);
-        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameTopMargin(expectedTopMargin)));
+    public void verifyExpanderTitlePanelTopPadding() {
+        int expectedTopPadding = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_padding_top_bottom);
+        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameTopPadding(expectedTopPadding)));
     }
 
     @Test
-    public void verifyExpanderTitlePanelBottomMargin() {
-        int expectedBottomMargin = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_margin_top_bottom);
-        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameBottomMargin(expectedBottomMargin)));
+    public void verifyExpanderTitlePanelBottomPadding() {
+        int expectedBottomPadding = resources.getDimensionPixelSize(R.dimen.uid_expander_view_title_padding_top_bottom);
+        getExpanderTitlePanel().check(matches(ViewPropertiesMatchers.isSameBottomPadding(expectedBottomPadding)));
     }
 
     @Test
@@ -314,15 +314,18 @@ public class ExpanderTest {
 
     @Test
     public void verifyIconFontSize() {
-        int expectedFontSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.uid_expander_title_icon_font_size);
-        getExpanderTitlePanelIcon().check(matches(TextViewPropertiesMatchers.isSameFontSize(expectedFontSize)));
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                expander.setExpanderPanelIcon(resources.getDrawable(R.drawable.uid_ic_cross_icon,null));
+            }
+        });
+        int expectedIconWidtHeightSize = resources.getDimensionPixelSize(R.dimen.uid_expander_title_icon_height_width_size);
+        getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isSameViewWidth(expectedIconWidtHeightSize)));
+        getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isSameViewHeight(expectedIconWidtHeightSize)));
     }
 
-    @Test
-    public void verifyIconColor() {
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemSecondaryNormalIconColor);
-        getExpanderTitlePanelIcon().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
-    }
+
 
     @Test
     public void verifyIconDefaultVisibiulity() {
@@ -336,7 +339,7 @@ public class ExpanderTest {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                expander.setExpanderPanelIcon(resources.getString(R.string.dls_exclamationmark_24));
+                expander.setExpanderPanelIcon(resources.getDrawable(R.drawable.uid_ic_cross_icon,null));
             }
         });
         getExpanderTitlePanelIcon().check(matches(ViewPropertiesMatchers.isVisible(View.VISIBLE)));

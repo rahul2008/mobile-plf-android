@@ -6,6 +6,8 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -36,7 +38,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     private RelativeLayout ExpanderViewTitle;
     private Label ExpanderViewTitleDefaultLabel;
 
-    private Label ExpanderViewTitleDefaultIcon;
+    private ImageButton ExpanderViewTitleDefaultIcon;
     private RelativeLayout ExpanderViewContent;
     private Label chevronLabel;
     private Context mContext;
@@ -82,7 +84,7 @@ public class Expander extends LinearLayout implements View.OnClickListener {
 
         setLayout(R.layout.uid_expander_title_layout_default, ExpanderViewTitle); // set default expander panel title
         ExpanderViewTitleDefaultLabel = (Label) expanderLayout.findViewById(R.id.uid_expander_title_text);
-        ExpanderViewTitleDefaultIcon = (Label) expanderLayout.findViewById(R.id.uid_expander_title_icon);
+        ExpanderViewTitleDefaultIcon = (ImageButton) expanderLayout.findViewById(R.id.uid_expander_title_icon);
         chevronLabel = (Label) expanderLayout.findViewById(R.id.uid_expander_title_chevron);
 
     }
@@ -160,14 +162,15 @@ public class Expander extends LinearLayout implements View.OnClickListener {
     /**
      * Sets expander panel left icon.
      *
-     * @param fontIcon the font icon
-     *                 Default: null
+     * @param icon the drawable font icon
+     * Note: set icon as null to remove it
      * @Since: 1805.0.0
      */
-    public void setExpanderPanelIcon(String fontIcon) {
+    public void setExpanderPanelIcon(Drawable icon) {
         if (isDefaultPanel() && null != ExpanderViewTitleDefaultIcon) {
-            ExpanderViewTitleDefaultIcon.setText(fontIcon);
-            if (null != fontIcon) {
+            if (null != icon) {
+                ExpanderViewTitleDefaultIcon.setImageDrawable(icon);
+                ExpanderViewTitleDefaultIcon.setPadding(0,0,0,0);
                 ExpanderViewTitleDefaultIcon.setVisibility(VISIBLE);
             } else {
                 ExpanderViewTitleDefaultIcon.setVisibility(GONE);

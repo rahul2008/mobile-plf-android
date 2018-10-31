@@ -10,10 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/uid_expander_view_panel_min_height"
-        android:paddingBottom="@dimen/uid_expander_view_title_margin_top_bottom"
-        android:paddingStart="@dimen/uid_expander_view_title_margin_start_end"
-        android:paddingEnd="@dimen/uid_expander_view_title_margin_start_end"
-        android:paddingTop="@dimen/uid_expander_view_title_margin_top_bottom"
+        android:paddingBottom="@dimen/uid_expander_view_title_padding_top_bottom"
+        android:paddingStart="@dimen/uid_expander_view_title_padding_start_end"
+        android:paddingEnd="@dimen/uid_expander_view_title_padding_start_end"
+        android:paddingTop="@dimen/uid_expander_view_title_padding_top_bottom"
         >
     </RelativeLayout>
     <View
