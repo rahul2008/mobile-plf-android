@@ -1,14 +1,13 @@
 package com.philips.platform.catk;
 
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.catk.datamodel.CachedConsentStatus;
+import com.philips.platform.catk.mock.AppInfraInterfaceMock;
 import com.philips.platform.catk.mock.CatkComponentMock;
+import com.philips.platform.catk.mock.SecureStorageInterfaceMock;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
@@ -17,7 +16,6 @@ import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -30,62 +28,42 @@ import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.notNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConsentCacheInteractorTest {
 
-    @Mock
-    private AppInfraInterface appInfra;
-    @Mock
-    private SecureStorageInterface storageInterface;
-
-    @Mock
-    private User userMock;
-
-    @Mock
-    private AppConfigurationInterface mockConfigInterface;
-
-    private String CONSENT_CACHE_KEY = "CONSENT_CACHE";
-
-    private DateTime NOW = new DateTime(DateTimeZone.UTC);
-
-    private String CONSENT_TYPE_1 = "consentType1";
-    private String CONSENT_TYPE_3 = "consentType3";
-    private CachedConsentStatus consentTypeStatus1 = new CachedConsentStatus(ConsentStates.active, 1, getDate(), NOW.plusMinutes(10));
-    private String consentStatusJsonForTwoTypes = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1,\"timestamp\":\"1998-12-31T13:00:00.000+0100\"},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1,\"timestamp\":\"1998-12-31T13:00:00.000+0100\"}}}";
+    private static final String CONSENT_CACHE_KEY = "CONSENT_CACHE";
+    private static final DateTime NOW = new DateTime(DateTimeZone.UTC);
+    private static final String CONSENT_TYPE_1 = "consentType1";
+    private static final String CONSENT_TYPE_3 = "consentType3";
+    private static final String CONSENT_STATUS_JSON_FOR_TWO_TYPES = "{\"userId\":{\"consentType1\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"active\",\"version\":1,\"timestamp\":\"1998-12-31T13:00:00.000+0100\"},\"consentType3\":{\"expires\":\"" + (NOW.plusMinutes(10)).toString() + "\",\"consentState\":\"rejected\",\"version\":1,\"timestamp\":\"1998-12-31T13:00:00.000+0100\"}}}";
+    private static final CachedConsentStatus CACHED_CONSENT_STATUS = new CachedConsentStatus(ConsentStates.active, 1, getDate(), NOW.plusMinutes(10));
     private ConsentCacheInteractor consentCacheInteractor;
     private CachedConsentStatus returnedCachedConsent;
-
-    private static Date getDate(){
-        String sDate1="10/07/2018";
-        Date date1 = null;
-        try {
-            date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date1;
-    }
+    private AppInfraInterface appInfra;
+    private SecureStorageInterfaceMock storageInterface;
+    @Mock
+    private User user;
+    @Mock
+    private AppConfigurationInterface configInterface;
 
     @Before
     public void setUp() {
+        storageInterface = new SecureStorageInterfaceMock();
+        appInfra = new AppInfraInterfaceMock(storageInterface, configInterface);
         DateTimeUtils.setCurrentMillisFixed(NOW.getMillis());
         consentCacheInteractor = new ConsentCacheInteractor(appInfra);
-        when(appInfra.getSecureStorage()).thenReturn(storageInterface);
-        when(userMock.getHsdpUUID()).thenReturn("userId");
-        CatkComponentMock catkComponentMock = new CatkComponentMock();
-        catkComponentMock.getUser_return = userMock;
-        ConsentsClient.getInstance().setCatkComponent(catkComponentMock);
+        when(user.getHsdpUUID()).thenReturn("userId");
+        CatkComponentMock catkComponent = new CatkComponentMock();
+        catkComponent.getUser_return = user;
+        ConsentsClient.getInstance().setCatkComponent(catkComponent);
     }
 
     @Test
     public void fetchConsentTypeState_VerifySecureStorage() {
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
-        thenConsentCacheIsFetchedFromSecureStorage();
+        thenConsentCacheIsLoadedFromSecureStorage();
     }
 
     @Test
@@ -93,7 +71,7 @@ public class ConsentCacheInteractorTest {
         givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
-        thenSecureStorageFetchIsCalledOnce();
+        thenConsentCacheIsLoadedFromSecureStorage();
     }
 
     @Test
@@ -108,7 +86,7 @@ public class ConsentCacheInteractorTest {
     public void fetchConsentTypeState_ConsentGiven() {
         givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
-        thenConsentStatusReturnedIs(consentTypeStatus1);
+        thenConsentStatusReturnedIs(CACHED_CONSENT_STATUS);
     }
 
     @Test
@@ -120,7 +98,7 @@ public class ConsentCacheInteractorTest {
 
     @Test(expected=NullPointerException.class)
     public void fetchConsentTypeState_WhenUserIdIsNull() {
-        when(userMock.getHsdpUUID()).thenReturn(null);
+        when(user.getHsdpUUID()).thenReturn(null);
         givenSecureStorageReturns(getSingleConsentStatusJson(null, "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
     }
@@ -137,15 +115,15 @@ public class ConsentCacheInteractorTest {
         givenExpiryTimeConfiguredInAppConfigIs(10);
         givenSecureStorageReturns(getSingleConsentStatusJson("userId", "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.rejected, 1);
-        thenConsentCacheIsFetchedFromSecureStorage();
-        thenConsentIsStoredInSecureStorage(consentStatusJsonForTwoTypes);
+        thenConsentCacheIsLoadedFromSecureStorage();
+        thenConsentIsStoredInSecureStorage(CONSENT_STATUS_JSON_FOR_TWO_TYPES);
     }
 
     @Test
     public void fetchConsent_ShouldNotReturnAnotherUserData() {
         givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 10, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
-        thenConsentCacheIsFetchedFromSecureStorage();
+        thenConsentCacheIsLoadedFromSecureStorage();
         thenNullConsentStatusIsReturned();
     }
 
@@ -153,39 +131,38 @@ public class ConsentCacheInteractorTest {
     public void fetchConsent_ClearsCacheWhenAnotherUserIsLoggedIn() {
         givenSecureStorageReturns(getSingleConsentStatusJson("anotherUser", "active", CONSENT_TYPE_1, 1, "1998-12-31T13:00:00.000+0100"));
         whenFetchConsentStateIsCalled(CONSENT_TYPE_1);
-        thenConsentCacheIsFetchedFromSecureStorage();
+        thenConsentCacheIsLoadedFromSecureStorage();
         thenConsentCacheIsCleared();
     }
 
     @Test
     public void storeConsent_IsStoredWithCurrentLoggedInUserId() {
         givenExpiryTimeConfiguredInAppConfigIs(1);
-        when(userMock.getHsdpUUID()).thenReturn("someUserId");
+        when(user.getHsdpUUID()).thenReturn("someUserId");
         whenStoreConsentStateIsCalled(CONSENT_TYPE_3, ConsentStates.active, 1);
         thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("someUserId", "active", CONSENT_TYPE_3, 1, "1998-12-31T13:00:00.000+0100"));
     }
 
     @Test
     public void testClearCache() {
-        givenSecureStorageReturns(consentStatusJsonForTwoTypes);
+        givenSecureStorageReturns(CONSENT_STATUS_JSON_FOR_TWO_TYPES);
         whenClearingCacheFor("consentType1");
         thenConsentIsStoredInSecureStorage(getSingleConsentStatusJson("userId", "rejected", "consentType3", 10, "1998-12-31T13:00:00.000+0100"));
     }
 
     @Test
     public void testClearCache_WhenConsentStatusNotThere() {
-        givenSecureStorageReturns(consentStatusJsonForTwoTypes);
+        givenSecureStorageReturns(CONSENT_STATUS_JSON_FOR_TWO_TYPES);
         whenClearingCacheFor("nonExistingType");
-        thenConsentIsStoredInSecureStorage(consentStatusJsonForTwoTypes);
+        thenConsentIsStoredInSecureStorage(CONSENT_STATUS_JSON_FOR_TWO_TYPES);
     }
 
     private void givenSecureStorageReturns(String cacheMapTest) {
-        when(storageInterface.fetchValueForKey(eq(CONSENT_CACHE_KEY), notNull())).thenReturn(cacheMapTest);
+        storageInterface.valueToReturn = cacheMapTest;
     }
 
     private void givenExpiryTimeConfiguredInAppConfigIs(int minutes) {
-        when(appInfra.getConfigInterface()).thenReturn(mockConfigInterface);
-        when(mockConfigInterface.getPropertyForKey(eq("ConsentCacheTTLInMinutes"), eq("css"),
+        when(configInterface.getPropertyForKey(eq("ConsentCacheTTLInMinutes"), eq("css"),
                 any(AppConfigurationInterface.AppConfigurationError.class))).thenReturn(minutes);
     }
 
@@ -197,30 +174,25 @@ public class ConsentCacheInteractorTest {
             fail("Error creating date");
         }
     }
+
     private void whenFetchConsentStateIsCalled(String consentType) {
         returnedCachedConsent = consentCacheInteractor.fetchConsentTypeState(consentType);
     }
-
     private void whenClearingCacheFor(String consentType) {
         consentCacheInteractor.clearCache(consentType);
     }
 
     private void thenConsentIsStoredInSecureStorage(String expectedConsentCacheJson) {
-        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
-        verify(storageInterface, times(1)).storeValueForKey(eq(CONSENT_CACHE_KEY), argumentCaptor.capture(), notNull());
-        assertEquals(expectedConsentCacheJson, argumentCaptor.getValue());
+        assertEquals(CONSENT_CACHE_KEY, storageInterface.storeValueForKey_Key);
+        assertEquals(expectedConsentCacheJson, storageInterface.storeValueForKey_Value);
     }
 
-    private void thenSecureStorageFetchIsCalledOnce() {
-        verify(storageInterface, times(1)).fetchValueForKey(eq(CONSENT_CACHE_KEY), notNull());
+    private void thenConsentCacheIsLoadedFromSecureStorage() {
+        assertEquals(CONSENT_CACHE_KEY, storageInterface.fetchValueForKey_Key);
     }
 
     private void thenConsentStatusReturnedIs(CachedConsentStatus expectedConsentStatus) {
         assertEquals(expectedConsentStatus, returnedCachedConsent);
-    }
-
-    private void thenConsentCacheIsFetchedFromSecureStorage() {
-        verify(storageInterface).fetchValueForKey(eq(CONSENT_CACHE_KEY), notNull());
     }
 
     private void thenNullConsentStatusIsReturned() {
@@ -228,7 +200,16 @@ public class ConsentCacheInteractorTest {
     }
 
     private void thenConsentCacheIsCleared() {
-        verify(storageInterface).removeValueForKey(CONSENT_CACHE_KEY);
+        assertEquals(CONSENT_CACHE_KEY, storageInterface.removeValueForKey_Key);
+    }
+
+    private static Date getDate() {
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy").parse("10/07/2018");
+        } catch (ParseException e) {
+            fail("error creating date");
+        }
+        return null;
     }
 
     private String getSingleConsentStatusJson(final String userId, final String status, final String consentType, int expiryMinutes, final String timestamp){
