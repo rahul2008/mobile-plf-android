@@ -41,7 +41,7 @@
             android:paddingRight="5dip"
             android:textColor="?attr/uidLoginScreenDefaultTextColor"
             android:text="@string/ths_onboarding_skip_tour"
-            android:textSize="12sp" />
+            android:textSize="@dimen/ths_body_text" />
 
         <com.philips.platform.uid.view.widget.DotNavigationIndicator
             android:id="@+id/welcome_indicator"

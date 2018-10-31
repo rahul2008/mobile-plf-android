@@ -61,4 +61,9 @@
   <string name="dls_password_show" translatable="false">\uF03B</string>
   <string name="dls_navigationdown" translatable="false">\uF03C</string>
   <string name="dls_navigationup" translatable="false">\uF03D</string>
+  <string name="dls_refresh" translatable="false">\uF03E</string>
+  <string name="dls_wificonnection" translatable="false">\uF03F</string>
+  <string name="dls_signalstrength1" translatable="false">\uF040</string>
+  <string name="dls_signalstrength2" translatable="false">\uF041</string>
+  <string name="dls_signalstrength3" translatable="false">\uF042</string>
 </resources>

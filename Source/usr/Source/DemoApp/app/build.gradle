@@ -152,14 +152,17 @@ if (propFile.canRead()) {
 }
 
 dependencies {
+    debugImplementation deps.leakcanary
+    releaseImplementation deps.leakcanary_no_op
+    testImplementation deps.leakcanary_no_op
     annotationProcessor deps.butterknife_compiler
 
-    implementation project(strings.ail.projectName)
-    implementation project(strings.ufw.projectName)
-    implementation project(strings.uid.projectName)
-    implementation project(strings.usr.projectName)
+    implementation project(':AppInfra')
+    implementation project(':uAppFwLib')
+    implementation project(':uid')
+    implementation project(':registrationApi')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(strings.usruapp.projectName)
+    implementation project(':UserRegistrationUApp')
     implementation deps.support.appcompatv7
     implementation deps.constraintlayout
     implementation deps.support.design

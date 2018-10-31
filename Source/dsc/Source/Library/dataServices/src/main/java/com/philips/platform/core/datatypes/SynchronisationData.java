@@ -26,4 +26,6 @@ public interface SynchronisationData {
     void setInactive(boolean inActive);
 
     void setGuid(String guid);
+
+    void setLastModified(DateTime lastModified);
 }

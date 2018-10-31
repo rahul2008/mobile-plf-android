@@ -6,6 +6,7 @@ package com.philips.platform.ews.troubleshooting.wificonnectionfailure;
 
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;
+import com.philips.platform.ews.wifi.WiFiUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,9 +65,9 @@ public class WIFIConnectionUnsuccessfulViewModelTest {
     }
 
     @Test
-    public void itShouldNavigateToWifiConfirmationScreenWhenTryAgainButtonIsClicked() throws Exception {
+    public void itShouldNavigateToConnectingPhoneToHotspotWifiScreenWhenTryAgainButtonIsClicked() throws Exception {
         subject.onTryAgainClicked();
-        verify(mockNavigator).navigateToHomeNetworkConfirmationScreen();
+        verify(mockNavigator).navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
     @Test

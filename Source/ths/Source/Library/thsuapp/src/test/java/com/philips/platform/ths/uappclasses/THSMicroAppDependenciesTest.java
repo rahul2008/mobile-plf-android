@@ -8,9 +8,9 @@ package com.philips.platform.ths.uappclasses;
 
 import android.content.Context;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
@@ -18,19 +18,23 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class THSMicroAppDependenciesTest {
 
-    THSMicroAppDependencies mThsMicroAppDependencies;
+    private THSMicroAppDependencies mThsMicroAppDependencies;
 
     @Mock
+    private
     AppInfraInterface appInfraInterfaceMock;
 
     @Mock
+    private
     Context context;
 
     @Mock
+    private
     THSConsumer thsConsumerMock;
 
     @Before
@@ -43,6 +47,18 @@ public class THSMicroAppDependenciesTest {
     public void setThsConsumer() throws Exception {
         mThsMicroAppDependencies.setThsConsumer(thsConsumerMock);
         assertNotNull(THSManager.getInstance().getThsConsumer(context));
+    }
+
+    @Test
+    public void assertThatOnBoardingFirebaseFlowIsSet() throws Exception {
+        mThsMicroAppDependencies.setOnBoradingABFlow(THSConstants.THS_ONBOARDING_ABFLOW2);
+        assertTrue(THSManager.getInstance().getOnBoradingABFlow().equalsIgnoreCase(THSConstants.THS_ONBOARDING_ABFLOW2));
+    }
+
+    @Test
+    public void assertThatProviderFirebaseFlowIsSet() throws Exception {
+        mThsMicroAppDependencies.setProviderListABFlow(THSConstants.THS_PROVIDERLIST_ABFLOW2);
+        assertTrue(THSManager.getInstance().getProviderListABFlow().equalsIgnoreCase(THSConstants.THS_PROVIDERLIST_ABFLOW2));
     }
 
 }

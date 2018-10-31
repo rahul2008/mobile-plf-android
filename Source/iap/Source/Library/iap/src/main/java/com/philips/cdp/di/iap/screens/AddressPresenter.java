@@ -10,6 +10,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -211,7 +212,9 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
     }
 
     public void setBillingAddressAndOpenOrderSummary() {
+        if(addressContractor.getShippingAddressFields()!=null)
         CartModelContainer.getInstance().setShippingAddressFields(addressContractor.getShippingAddressFields());
+        if(addressContractor.getBillingAddressFields()!=null)
         CartModelContainer.getInstance().setBillingAddress(addressContractor.getBillingAddressFields());
         addressContractor.hideProgressbar();
         addressContractor.addOrderSummaryFragment();
@@ -227,9 +230,6 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
         }
         if (pAddressFields.getLine1() != null) {
             mShippingAddressHashMap.put(ModelConstants.LINE_1, pAddressFields.getLine1());
-        }
-        if (pAddressFields.getLine2() != null) {
-            mShippingAddressHashMap.put(ModelConstants.LINE_2, pAddressFields.getLine2());
         }
         if (pAddressFields.getTitleCode() != null) {
             mShippingAddressHashMap.put(ModelConstants.TITLE_CODE, pAddressFields.getTitleCode().toLowerCase(Locale.getDefault()));
@@ -278,5 +278,12 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
             IAPLog.d("ShippingAddressFragment", "NumberParseException");
         }
         return false;
+    }
+
+    String addressWithNewLineIfNull( String code) {
+        if (!TextUtils.isEmpty(code)) {
+            return code.replaceAll("null", " ").trim();
+        }
+        return null;
     }
 }

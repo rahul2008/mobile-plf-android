@@ -25,6 +25,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.uappclasses.THSCompletionProtocol;
 import com.philips.platform.ths.utility.AmwellLog;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.utility.THSTagUtils;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -112,6 +113,7 @@ public class THSScheduledVisitsFragment extends THSBaseFragment implements Swipe
     @Override
     public void onRefresh() {
         startRefreshing();
+        THSManager.getInstance().setThsConsumer(THSManager.getInstance().getThsParentConsumer(getContext()));
         getAppointments();
     }
 

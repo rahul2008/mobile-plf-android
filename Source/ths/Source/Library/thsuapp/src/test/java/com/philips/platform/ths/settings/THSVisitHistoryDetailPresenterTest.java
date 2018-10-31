@@ -9,7 +9,6 @@ package com.philips.platform.ths.settings;
 import android.content.Context;
 
 import com.americanwell.sdk.AWSDK;
-import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.FileAttachment;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKErrorReason;
@@ -26,13 +25,10 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
-import org.apache.xerces.util.URI;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -43,10 +39,7 @@ import org.mockito.MockitoAnnotations;
 import java.net.URL;
 import java.util.Map;
 
-import retrofit2.http.Url;
-
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -59,7 +52,7 @@ public class THSVisitHistoryDetailPresenterTest {
     THSVisitHistoryDetailPresenter mThsVisitHistoryDetailPresenter;
 
     @Mock
-    THSVisitHistoryDetailFragmentMock thsVisitHistoryDetailFragmentMock;
+    THSVisitHistoryDetailFragment thsVisitHistoryDetailFragmentMock;
 
     @Mock
     AWSDK awsdkMock;
@@ -114,7 +107,7 @@ public class THSVisitHistoryDetailPresenterTest {
     Context contextMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    Consumer thsConsumerWrapperMock;
 
     @Mock
     FileAttachment fileAttachmentMock;
@@ -137,8 +130,7 @@ public class THSVisitHistoryDetailPresenterTest {
 
         when(thsVisitHistoryDetailFragmentMock.isFragmentAttached()).thenReturn(true);
 
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
 
         THSManager.getInstance().setAppInfra(appInfraInterfaceMock);

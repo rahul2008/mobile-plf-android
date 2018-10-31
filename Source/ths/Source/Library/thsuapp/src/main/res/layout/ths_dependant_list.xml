@@ -16,7 +16,6 @@
         android:paddingStart="@dimen/ths_fab_margin"
         android:paddingEnd="@dimen/ths_fab_margin"
         android:layout_marginTop="@dimen/ths_image_size"
-        android:layout_marginBottom="@dimen/ths_image_size"
         android:paddingTop="@dimen/ths_title_padding"
         android:paddingBottom="@dimen/ths_title_padding"
         android:text="@string/ths_userlist_select_header"
@@ -29,6 +28,7 @@
         android:layout_below="@id/ths_visit_for"
         android:text="@string/ths_userlist_select_description"
         style="@style/ths_body_text"
+        android:layout_marginTop="@dimen/ths_image_size"
         android:layout_marginBottom="@dimen/ths_conditions_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

@@ -6,14 +6,16 @@
 
 package com.philips.platform.ths.onboardingtour;
 
-import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.philips.platform.ths.R;
+import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
+import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,23 +27,26 @@ class OnBoardingTourPagerAdapter extends FragmentStatePagerAdapter {
     public static final String TAG = OnBoardingTourPagerAdapter.class.getSimpleName();
 
     private final List<OnBoardingTourContentModel> onBoardingTourContentModelList;
-    private final Context context;
+    private FragmentLauncher fragmentLauncher;
+    private ActionBarListener actionBarListener;
 
 
-    OnBoardingTourPagerAdapter(FragmentManager fragmentManager, List<OnBoardingTourContentModel> onBoardingTourContentModelList, Context context) {
+    OnBoardingTourPagerAdapter(FragmentManager fragmentManager, List<OnBoardingTourContentModel> onBoardingTourContentModelList, FragmentLauncher fragmentLauncher, ActionBarListener actionBarListener) {
         super(fragmentManager);
         this.onBoardingTourContentModelList = onBoardingTourContentModelList;
-        this.context = context;
+        this.fragmentLauncher = fragmentLauncher;
+        this.actionBarListener = actionBarListener;
     }
 
     @Override
-    public Fragment getItem(int position) {
-        return OnBoardingTourPageFragment.newInstance(onBoardingTourContentModelList.get(position).getTourPageTextId(),
-                onBoardingTourContentModelList.get(position).getTourBackgroundDrawable(), onBoardingTourContentModelList.get(position).getSpanValues());
-    }
-
-    protected boolean isValidPosition(int position) {
-        return position < getCount();
+    public THSBaseFragment getItem(int position) {
+        final THSBaseFragment thsBaseFragment = OnBoardingTourPageFragment.newInstance(onBoardingTourContentModelList.get(position).getTourPageTextId(),
+                onBoardingTourContentModelList.get(position).getTourBackgroundDrawable(),
+                onBoardingTourContentModelList.get(position).getIsAmwellLogoVisible(),
+                onBoardingTourContentModelList.get(position).getTitleId());
+        thsBaseFragment.setFragmentLauncher(fragmentLauncher);
+        thsBaseFragment.setActionBarListener(actionBarListener);
+        return thsBaseFragment;
     }
 
     @Override
@@ -51,6 +56,14 @@ class OnBoardingTourPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public String getPageTitle(int position) {
-        return onBoardingTourContentModelList.get(position).getPageTitle();
+        String pageTitle = onBoardingTourContentModelList.get(position).getPageTitle();
+        StringBuilder stringBuilder = new StringBuilder(pageTitle);
+        if(THSManager.getInstance().getOnBoradingABFlow().equalsIgnoreCase(THSConstants.THS_ONBOARDING_ABFLOW1) ) {
+            stringBuilder =  stringBuilder.append(" Onboarding");
+            return stringBuilder.toString();
+        }else {
+            stringBuilder =  stringBuilder.append("_alt Onboarding");
+            return stringBuilder.toString();
+         }
     }
 }

@@ -110,10 +110,11 @@ ext.repos.snapshot_local = ext.repos.base + "/platform-pkgs-android-snapshot-loc
 ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
 ext.repos.mavengoogle = ext.repos.base + "/platform-maven-google-com"
 ext.repos.pluginsgradle = ext.repos.base + "/CDP2_Plugins_Gradle"
+ext.repos.sonatype = ext.repos.base + "/platform-ta-sonatype"
 
 ext.deps = [
         adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.16.1',
-        americanwell                  : 'com.americanwell:awsdk:3.2.2', // Held at 3.x.x since newest release is 4.x.x and has API breakers
+        americanwell                  : 'com.americanwell:awsdk:4.0.5', // Held at 3.x.x since newest release is 4.x.x and has API breakers
         butterknife                   : 'com.jakewharton:butterknife:8.8.1',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         constraintlayout              : 'com.android.support.constraint:constraint-layout:1.1.3',
@@ -169,7 +170,7 @@ ext.deps = [
                 supportv4    : "com.android.support:support-v4:${ext.versions.support}",
                 supportcompat: "com.android.support:support-compat:${ext.versions.support}"
         ],
-        theneura                      : 'com.theneura:android-sdk:5.1.5', // Held at 5.1.5 since 5.2.1 was compiled against Android SDK 28 causing a ProGuard warning
+        theneura                      : 'com.theneura:android-sdk:5.3.0',
         uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3',
         volley                        : 'com.android.volley:volley:1.1.1',
         wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4', // Held at 5.1.4 since 5.1.6 introduces an API breaker

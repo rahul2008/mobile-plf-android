@@ -16,18 +16,15 @@ import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +40,6 @@ import java.util.List;
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
@@ -74,9 +70,6 @@ public class THSConfirmAppointmentFragmentTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
-
-    @Mock
     ActionBarListener actionBarListenerMock;
 
     @Mock
@@ -102,15 +95,15 @@ public class THSConfirmAppointmentFragmentTest {
         when(userMock.getHsdpAccessToken()).thenReturn("2233");
         when(userMock.getHsdpAccessToken()).thenReturn("eeee");
         THSManager.getInstance().setUser(userMock);
-
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
         List list = new ArrayList();
         list.add(thsConsumerMock);
         when(thsConsumerMock.getDependents()).thenReturn(list);
         when(thsConsumerMock.getDependents()).thenReturn(list);
 
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
+
+        THSManager.getInstance().setConsumer(consumerMock);
 
         when(consumerMock.getEmail()).thenReturn("sds");
 
@@ -135,7 +128,7 @@ public class THSConfirmAppointmentFragmentTest {
         THSManager.getInstance().setAppInfra(appInfraInterface);
         mThsConfirmAppointmentFragemnt.setActionBarListener(actionBarListenerMock);
 
-        SupportFragmentTestUtil.startFragment(mThsConfirmAppointmentFragemnt);
+        SupportFragmentTestUtil.startVisibleFragment(mThsConfirmAppointmentFragemnt);
     }
 
     @Test

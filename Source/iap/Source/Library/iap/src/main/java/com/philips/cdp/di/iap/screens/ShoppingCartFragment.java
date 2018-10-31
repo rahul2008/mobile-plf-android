@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -225,17 +224,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
             bundle.putString(IAP_VOUCHER_CODE, mData.get(0).getAppliedVoucherCode());
             voucherFragment.setArguments(bundle);
             addFragment(voucherFragment, VoucherFragment.TAG, true);
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_VOUCHER)) {
-            String appliedVoucherCode = mData.get(0).getAppliedVoucherCode();
-            if (null == appliedVoucherCode || appliedVoucherCode.isEmpty()) {
-                Toast.makeText(getActivity(), "Invalid Vouchers",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                createCustomProgressBar(mParentLayout, BIG);
-                mShoppingCartAPI.deleteAppliedVoucher(appliedVoucherCode);
-            }
         }
     }
+
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();

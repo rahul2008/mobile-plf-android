@@ -2,7 +2,6 @@ package com.philips.platform.core.trackers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -71,6 +70,7 @@ import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 import com.philips.platform.verticals.VerticalCreater;
 import com.philips.platform.verticals.VerticalUserRegistrationInterface;
 import com.philips.spy.DSPaginationSpy;
+import com.philips.spy.EventingMock;
 import com.philips.testing.verticals.datatyes.MomentType;
 
 import org.joda.time.DateTime;
@@ -121,7 +121,6 @@ public class DataServicesManagerTest {
 
     private static final int TEST_REFERENCE_ID = 111;
     public static final String TEST_USER_ID = "TEST_USER_ID";
-    private static final String TEST_CONSENT_DETAIL_TYPE = "TEMPERATURE";
     private static final String TEST_MEASUREMENT_DETAIL_TYPE = "BOTTLE_CONTENTS";
     private final String GDPR_MIGRATION_FLAG = "gdpr_migration_flag";
 
@@ -452,6 +451,15 @@ public class DataServicesManagerTest {
         list.add(momentMock);
         mDataServicesManager.deleteMoments(list, dbRequestListener);
         verify(eventingMock).post(any(MomentsDeleteRequest.class));
+    }
+
+    @Test
+    public void Should_resetSync_WhenDeleteAll_called() {
+        final String expectedString = "1970-01-01T00:00:00.000Z";
+
+        mDataServicesManager.deleteAll(null);
+
+        assertSyncTimeIsSetTo(expectedString);
     }
 
     @Test
@@ -990,8 +998,7 @@ public class DataServicesManagerTest {
         DateTime expectedLastSyncTime = DateTime.parse(expectedString);
         mDataServicesManager.resetLastSyncTimestampTo(expectedLastSyncTime);
 
-        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
-        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
+        assertSyncTimeIsSetTo(expectedString);
     }
 
     private void givenFailedDeleteAllInsights() {
@@ -1180,39 +1187,10 @@ public class DataServicesManagerTest {
         return mDSPagination;
     }
 
-    class EventingMock implements Eventing {
-
-        public Event postedEvent;
-
-        @Override
-        public void post(@NonNull Event event) {
-            this.postedEvent = event;
-        }
-
-        @Override
-        public void postSticky(@NonNull Event event) {
-
-        }
-
-        @Override
-        public void register(@NonNull Object subscriber) {
-
-        }
-
-        @Override
-        public void unregister(@NonNull Object subscriber) {
-
-        }
-
-        @Override
-        public boolean isRegistered(@NonNull Object subscriber) {
-            return false;
-        }
-
-        @Override
-        public void removeSticky(@NonNull Event event) {
-
-        }
+    private void assertSyncTimeIsSetTo(String expectedString) {
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.MOMENT_LAST_SYNC_URL_KEY));
+        verify(uCoreAccessProvider).saveLastSyncTime(eq(expectedString), eq(UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY));
     }
+
 }
 

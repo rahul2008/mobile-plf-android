@@ -164,7 +164,6 @@ public class AddressController implements AbstractModel.DataLoadListener {
         params.put(ModelConstants.TITLE_CODE, addressFields.getTitleCode().toLowerCase(Locale.getDefault()));
         params.put(ModelConstants.COUNTRY_ISOCODE, addressFields.getCountryIsocode());
         params.put(ModelConstants.LINE_1, addressFields.getLine1());
-        params.put(ModelConstants.LINE_2, addressFields.getLine2());
         params.put(ModelConstants.POSTAL_CODE, addressFields.getPostalCode());
         params.put(ModelConstants.TOWN, addressFields.getTown());
         params.put(ModelConstants.PHONE_1, addressFields.getPhone1());

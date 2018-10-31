@@ -20,7 +20,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
+import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -50,7 +50,7 @@ public class THSFollowUpPresenterTest {
     THSFollowUpViewInterface thsFollowUpViewInterfaceMock;
 
     @Mock
-    THSVisitContext thsVisitContextMock;
+    VisitContext thsVisitContextMock;
 
     @Mock
     Throwable throwableMock;
@@ -77,7 +77,10 @@ public class THSFollowUpPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    Consumer thsConsumerWrapperMock;
+
+    @Mock
+    THSConsumer thsConsumerMock;
 
     @Mock
     ConsumerManager consumerManagerMock;
@@ -102,8 +105,10 @@ public class THSFollowUpPresenterTest {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setVisitContext(thsVisitContextMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
+        THSManager.getInstance().setThsConsumer(thsConsumerMock);
+        THSManager.getInstance().TEST_FLAG = true;
+        when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
@@ -111,27 +116,28 @@ public class THSFollowUpPresenterTest {
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         List list = new ArrayList();
         list.add(legalTextMock);
         when(visitContextMock.getLegalTexts()).thenReturn(list);
         when(thsFollowUpViewInterfaceMock.validatePhoneNumber()).thenReturn(true);
         when(consumerManagerMock.getNewConsumerUpdate(consumerMock)).thenReturn(consumerUpdateMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-        when(thsVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
         mTHSFollowUpPresenter = new THSFollowUpPresenter(thsFollowUpFragmentMock,thsFollowUpViewInterfaceMock);
     }
 
     @Test
     public void onEvent() throws Exception {
-
+        THSManager.getInstance().setConsumer(consumerMock);
         mTHSFollowUpPresenter.onEvent(R.id.pth_intake_follow_up_continue_button);
-
+        when(consumerMock.isDependent()).thenReturn(false);
         verify(consumerManagerMock).updateConsumer(any(ConsumerUpdate.class),any(SDKValidatedCallback.class));
     }
 
     @Test
     public void updateConsumer() throws Exception {
+        THSManager.getInstance().setThsParentConsumer(thsConsumerMock);
+        THSManager.getInstance().setConsumer(consumerMock);
+        when(consumerMock.isDependent()).thenReturn(true);
         mTHSFollowUpPresenter.updateConsumer("1234567890");
         verify(consumerManagerMock).updateConsumer(any(ConsumerUpdate.class),any(SDKValidatedCallback.class));
     }

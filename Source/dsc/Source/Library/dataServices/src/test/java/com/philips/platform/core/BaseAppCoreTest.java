@@ -71,8 +71,7 @@ public class BaseAppCoreTest {
 
     @Mock
     private Backend appBackend;
-    @Mock
-    private List<EventMonitor> eventMonitors;
+
     @Mock
     private AppComponent mAppComponentMock;
 
@@ -81,7 +80,7 @@ public class BaseAppCoreTest {
         initMocks(this);
 
         DataServicesManager.getInstance().setAppComponent(mAppComponentMock);
-        savingMonitor = new SavingMonitor(savingInterface, deletingInterface, updatingInterface);
+        savingMonitor = new SavingMonitor(savingInterface, deletingInterface);
         fetchMonitor = new FetchingMonitor(fetchingInterface);
         deletingMonitor = new DeletingMonitor(deletingInterface);
         updatingMonitor = new UpdatingMonitor(updatingInterface, deletingInterface, fetchingInterface, savingInterface);
@@ -89,26 +88,12 @@ public class BaseAppCoreTest {
 
         dbMonitors = new DBMonitors(Arrays.asList(savingMonitor, fetchMonitor, deletingMonitor, updatingMonitor));
 
-        /*doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                baseAppCoreCreatorMock.eventing = eventingMock;
-                baseAppCoreCreatorMock.dbMonitors = dbMonitors;
-                baseAppCoreCreatorMock.database = database;
-                baseAppCoreCreatorMock.appBackend = appBackend;
-                baseAppCoreCreatorMock.errorMonitor = errorMonitorMock;
-                return null;
-            }
-        }).when(mAppComponentMock).injectBaseAppCore(baseAppCoreCreatorMock);*/
-
-
         baseAppCoreCreatorMock = new BaseAppCore();
         baseAppCoreCreatorMock.eventing = eventingMock;
         baseAppCoreCreatorMock.dbMonitors = dbMonitors;
         baseAppCoreCreatorMock.database = database;
         baseAppCoreCreatorMock.appBackend = appBackend;
         baseAppCoreCreatorMock.errorMonitor = errorMonitorMock;
-
 
         baseAppCoreCreatorMock.start();
     }
@@ -131,21 +116,6 @@ public class BaseAppCoreTest {
         if (details.size() > 0)
             assertThat(details.iterator().next().getValue()).isEqualTo(UUID);
     }
-
-    /*@Test
-    public void ShouldCreateMoment_WhenCreateMomentWithoutUUIDIsCalled() {
-        Moment moment = baseAppCoreCreatorMock.createMomentWithoutUUID("TEST_CREATOR_ID", "TEST_SUBJECT_ID", "BREAST_FEED");
-
-        assertThat(moment.getCreatorId()).isEqualTo("TEST_CREATOR_ID");
-        assertThat(moment.getSubjectId()).isEqualTo("TEST_SUBJECT_ID");
-        assertThat(moment.getType()).isEqualTo("BREAST_FEED");
-    }
-
-    @Test
-    public void ShouldNotContainMomentDetail_WhenCreateMomentWithoutUUIDIsCalled() {
-        Moment moment = baseAppCoreCreatorMock.createMomentWithoutUUID("TEST_CREATOR_ID", "TEST_SUBJECT_ID", "BREAST_FEED");
-        assertThat(moment.getMomentDetails()).hasSize(0);
-    }*/
 
     @Test
     public void ShouldCreateMeasurement_WhenCreateMeasurementIsCalled() {
@@ -173,19 +143,6 @@ public class BaseAppCoreTest {
         assertThat(synchronisationData.isInactive()).isFalse();
     }
 
-//    @Test
-//    public void ShouldCreateInsight_WhenAsked() {
-//
-//        UCoreInsight insights = ormCreator.createInsight("Test_Rule", "Test_Title", "Test_Tags", "Test_SubjectId", "Test_MomentId", DateTime.now(), "", "", "");
-//
-//        assertThat(insights).isNotNull();
-//        assertThat(insights.getRuleId()).isEqualTo("Test_Rule");
-//        assertThat(insights.getTitle()).isEqualTo("Test_Title");
-//        assertThat(insights.getTag()).isEqualTo("Test_Tags");
-//        assertThat(insights.getSubjectId()).isEqualTo("Test_SubjectId");
-//        assertThat(insights.getMomentId()).isEqualTo("Test_MomentId");
-//    }
-
     @Test(expected = NullPointerException.class)
     public void ShouldCreateMeasurementGroup_WhenCreateMeasurementGroupIsCalled() {
         MeasurementGroup measurementGroup = baseAppCoreCreatorMock.createMeasurementGroup(Mockito.mock(MeasurementGroup.class));
@@ -198,18 +155,10 @@ public class BaseAppCoreTest {
         assertThat(measurementGroup.getId()).isEqualTo(1);
     }
 
-//    @Test
-//    public void ShouldCreateMeasurementGroupDetail_WhenCreateMeasurementGroupDetailIsCalled() {
-//        MeasurementGroupDetail measurementGroup = baseAppCoreCreatorMock.createMeasurementGroupDetail("HEIGHT", Mockito.mock(MeasurementGroup.class));
-//        assertThat(measurementGroup.getId()).isEqualTo(1);
-//    }
-
     @Test
     public void ShouldStop_WhenCalledStop() {
         baseAppCoreCreatorMock.stop();
         Mockito.verify(appBackend, Mockito.atLeast(1)).stop();
-        // Mockito.verify(dbMonitors, Mockito.atLeast(1)).stop();
-        //Mockito.verify(eventMonitors.get(0), Mockito.atLeast(1)).stop();
     }
 
 }

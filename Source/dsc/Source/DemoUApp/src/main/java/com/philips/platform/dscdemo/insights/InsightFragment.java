@@ -5,6 +5,7 @@
 */
 package com.philips.platform.dscdemo.insights;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.registration.User;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -28,7 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InsightFragment extends DSBaseFragment
-        implements DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
+        implements View.OnClickListener, DBRequestListener<Insight>, DBFetchRequestListner<Insight>, DBChangeListener {
+
+    private Context mContext;
+    private User mUser;
 
     private ArrayList<? extends Insight> mInsightList = new ArrayList<>();
 
@@ -37,6 +42,8 @@ public class InsightFragment extends DSBaseFragment
 
     private RecyclerView mInsightsRecyclerView;
     private TextView mNoInsights;
+
+    private InsightPresenter mInsightPresenter;
 
     @Override
     public int getActionbarTitleResId() {
@@ -53,6 +60,16 @@ public class InsightFragment extends DSBaseFragment
         return true;
     }
 
+    @Override
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        mDataServicesManager = DataServicesManager.getInstance();
+        mUser = new User(mContext);
+
+        mInsightPresenter = new InsightPresenter(mContext, this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,7 +77,7 @@ public class InsightFragment extends DSBaseFragment
 
         mDataServicesManager = DataServicesManager.getInstance();
 
-        mInsightAdapter = new InsightAdapter(mInsightList, this);
+        mInsightAdapter = new InsightAdapter(mInsightList, this, new InsightOnClickListener());
 
         mNoInsights = view.findViewById(R.id.tv_no_insights);
         mInsightsRecyclerView = view.findViewById(R.id.insight_recycler_view);
@@ -79,12 +96,31 @@ public class InsightFragment extends DSBaseFragment
                 }
             }
         });
+
+        final View addButton = view.findViewById(R.id.add_button);
+        addButton.setOnClickListener(this);
+
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onClick(final View v) {
+        int clickedView = v.getId();
+        if (clickedView == R.id.add_button) {
+            final Insight insight = mDataServicesManager.createInsight("AppGenerated");
+            mInsightPresenter.createOrUpdate(insight);
+        }
     }
 
     @Override
@@ -183,6 +219,13 @@ public class InsightFragment extends DSBaseFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    private class InsightOnClickListener implements InsightAdapter.OnItemClickListener {
+        @Override
+        public void onItemClicked(final Insight insight) {
+            mInsightPresenter.createOrUpdate(insight);
+        }
     }
 }
 

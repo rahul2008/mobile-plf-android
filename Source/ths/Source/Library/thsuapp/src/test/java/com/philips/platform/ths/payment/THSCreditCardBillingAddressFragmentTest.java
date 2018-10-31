@@ -24,7 +24,6 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -92,7 +91,7 @@ public class THSCreditCardBillingAddressFragmentTest {
     THSConsumer thsConsumerMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    Consumer thsConsumerWrapperMock;
 
     @Mock
     THSCreditCardDetailPresenter mThsWelcomeBackPresenterMock;
@@ -139,8 +138,7 @@ public class THSCreditCardBillingAddressFragmentTest {
 
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
 
 
         mThsCreditCardBillingAddressFragment = new THSCreditCardDetailFragment();

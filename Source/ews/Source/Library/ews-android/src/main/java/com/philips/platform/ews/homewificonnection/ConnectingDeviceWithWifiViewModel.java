@@ -143,9 +143,12 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
                     if (currentWifiState == WiFiUtil.HOME_WIFI) {
                         unregisterBroadcastReceiver();
                         discoveryHelper.startDiscovery(discoveryCallback, ewsLogger);
-                    } else if (currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
+                    } else if (currentWifiState == WiFiUtil.DEVICE_HOTSPOT_WIFI) {
                         unregisterBroadcastReceiver();
-                        handleFailureWrongWifiNetwork();
+                        showConnectionUnsuccessful();
+                    } else if (currentWifiState == WiFiUtil.WRONG_WIFI || currentWifiState != WiFiUtil.UNKNOWN_WIFI) {
+                        unregisterBroadcastReceiver();
+                        connectMobileToHomeWiFi();
                     }
                 }
             }
@@ -250,7 +253,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private void showConnectionUnsuccessful() {
         removeTimeoutRunnable();
         if (startConnectionModel != null) {
-            navigator.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(startConnectionModel.getDeviceName(), startConnectionModel.getHomeWiFiSSID());
+            navigator.navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(startConnectionModel.getDeviceName(), startConnectionModel.getHomeWiFiSSID());
         }
     }
 
@@ -259,6 +262,13 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
             fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
         }
         wiFiConnectivityManager.connectToHomeWiFiNetwork(homeWiFiSSID);
+    }
+
+    private void connectMobileToHomeWiFi(){
+        if (fragmentCallback != null) {
+            fragmentCallback.registerReceiver(broadcastReceiver, createIntentFilter());
+        }
+        wiFiConnectivityManager.connectMobileToHomeWiFiNetwork(startConnectionModel.getHomeWiFiSSID(), startConnectionModel.getHomeWiFiPassword());
     }
 
     private void sendNetworkInfoToDevice(@NonNull final StartConnectionModel startConnectionModel) {
@@ -301,5 +311,4 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     public EWSLogger getEwsLogger() {
         return ewsLogger;
     }
-
 }

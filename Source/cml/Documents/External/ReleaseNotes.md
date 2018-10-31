@@ -54,6 +54,7 @@ For details see design documents.
 * \#142583 Overridden Method called inside the constructor of DefaultCloudController was made final to prevent overriding and mitigate security threats.
 * \#142595 System Information Leak was mitigated. Log.e was replaced by Log.d in DefaultCloudController and Proguard(.pro) was updated to strip Log.d statements on release time. 
 * \#142808 Removed the code to write logs to the file. 
+* \#157163 NutriU firmware update issue: sending unwanted onDownloadFailed callback when trying to restart firmware update.
 
 ### Residual anomalies
 * N/A
@@ -109,7 +110,7 @@ Version 1801
 * N/A
 
 ### Breaking Changes
-* N/A
+* Input AppVersion for EUI64 retrieval is now actually fetched from KpsConfigurationInfo interface, not taking versionCode from AndroidManifest anymore.
 
 ### Defects solved
 * 116716 Device properly disconnects when invoking `BleCommunicationStrategy#disableCommunication()`

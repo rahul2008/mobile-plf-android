@@ -13,6 +13,7 @@ import com.philips.platform.dscdemo.database.EmptyForeignCollection;
 import com.philips.platform.dscdemo.database.annotations.DatabaseConstructor;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -26,40 +27,28 @@ public class OrmInsight implements Insight, Serializable {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(canBeNull = false)
-    private String guid;
-
-    @DatabaseField(canBeNull = false)
-    private String last_modified;
-
-    @DatabaseField(canBeNull = false)
-    private boolean inactive;
-
-    @DatabaseField(canBeNull = false)
-    private int version;
-
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String rule_id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String subjectID;
 
-    @DatabaseField()
+    @DatabaseField
     private String moment_id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String type;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String time_stamp;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String title;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private int program_min_version;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private int program_max_version;
 
     @DatabaseField
@@ -71,31 +60,11 @@ public class OrmInsight implements Insight, Serializable {
     @ForeignCollectionField(eager = true)
     private ForeignCollection<OrmInsightMetaData> ormInsightMetaDatas = new EmptyForeignCollection<>();
 
-    @DatabaseField()
+    @DatabaseField
     private DateTime expirationDate;
 
     @DatabaseConstructor
     public OrmInsight() {
-    }
-
-    @Override
-    public void setGUId(String GU_ID) {
-        this.guid = GU_ID;
-    }
-
-    @Override
-    public void setLastModified(String lastModified) {
-        this.last_modified = lastModified;
-    }
-
-    @Override
-    public void setInactive(boolean inactive) {
-        this.inactive = inactive;
-    }
-
-    @Override
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     @Override
@@ -136,26 +105,6 @@ public class OrmInsight implements Insight, Serializable {
     @Override
     public void setProgram_maxVersion(int program_maxversion) {
         this.program_max_version = program_maxversion;
-    }
-
-    @Override
-    public String getGUId() {
-        return guid;
-    }
-
-    @Override
-    public String getLastModified() {
-        return last_modified;
-    }
-
-    @Override
-    public boolean isInactive() {
-        return inactive;
-    }
-
-    @Override
-    public int getVersion() {
-        return version;
     }
 
     @Override
@@ -251,6 +200,6 @@ public class OrmInsight implements Insight, Serializable {
 
     @Override
     public String toString() {
-        return "[OrmInsight, InsightID = " + guid + ", MomentID = " + moment_id + ", Title = " + title;
+        return "[OrmInsight, InsightID = " + this.synchronisationData.getGuid() + ", MomentID = " + moment_id + ", Title = " + title;
     }
 }

@@ -10,45 +10,38 @@
         android:id="@+id/firstDoctorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="@dimen/telehealth_providerlist_start_end_margin"
+        android:layout_marginStart="@dimen/telehealth_providerlist_start_end_margin">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/seeFirstDoctorLabel"
+            fontPath="fonts/centralesansbold.ttf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:textColor="?attr/uidContentItemPrimaryNormalTextColor" />
+            android:layout_marginBottom="@dimen/telehealth_providerlist_doctorlabel_verticalmargin"
+            android:layout_marginTop="@dimen/telehealth_providerlist_doctorlabel_verticalmargin"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/telehealth_seeFirstDoctor_textsize" />
 
-        <ImageView
-            android:id="@+id/dummyDoctorImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_below="@+id/seeFirstDoctorLabel"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/doctor_placeholder" />
-
-        <com.philips.platform.uid.view.widget.Button
+        <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
             android:id="@+id/getStartedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dummyDoctorImage"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            />
+            android:layout_below="@id/seeFirstDoctorLabel"
+            android:drawableEnd="@drawable/ic_right_arrow_show_more"
+            android:text="@string/ths_get_started_button_title"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/telehealth_providerlist_doctorlabel_verticalmargin" />
 
-        <com.philips.platform.uid.view.widget.Button
+        <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
             android:id="@+id/getScheduleAppointmentButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dummyDoctorImage"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_below="@id/seeFirstDoctorLabel"
+            android:drawableEnd="@drawable/ic_right_arrow_show_more"
+            android:layout_marginBottom="@dimen/telehealth_providerlist_doctorlabel_verticalmargin"
+            android:text="@string/ths_schedule_appointment_button_title"
             android:visibility="gone" />
     </RelativeLayout>
 
@@ -57,24 +50,28 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/firstDoctorLayout"
-        android:background="?attr/uidContentSecondaryBackgroundColor">
+        android:background="?attr/uidContentSecondaryNeutralBackgroundColor">
+
         <View
             android:id="@+id/horizontalLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
         <com.philips.platform.uid.view.widget.Label
-            android:layout_below="@+id/horizontalLine"
             android:id="@+id/searchBarLabel"
-            style="@style/ths_list_header"
-            android:layout_height="wrap_content"
+            style="@style/ths_list_item_header"
+            android:background="?attr/uidContentSecondaryNeutralBackgroundColor"
+            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_below="@+id/horizontalLine"
             android:layout_centerVertical="true"
+            android:gravity="center_vertical"
             android:paddingLeft="@dimen/ths_fab_margin"
             android:paddingRight="@dimen/ths_fab_margin"
-            android:gravity="center_vertical"
-            android:text="@string/ths_provider_pick_provider_text" />
+            android:text="@string/ths_provider_list_choose_provider" />
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -87,7 +84,8 @@
             android:id="@+id/providerListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"/>
+            android:layout_marginBottom="30dp"
+            android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

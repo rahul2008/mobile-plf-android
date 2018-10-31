@@ -85,7 +85,7 @@ public class InsightDataSender extends DataSender {
                 uCoreAccessProvider.getAccessToken(), gsonConverter);
         if(client==null) return isFailed;
         for (Insight insight : insightsToSync) {
-            isFailed = isFailed || deleteInsight(client, insight);
+            isFailed = isFailed || insight.getSynchronisationData().isInactive() && (insight.getSynchronisationData().getLastModified() != null) && deleteInsight(client, insight);
 
             synchronized (insightIds) {
                 insightIds.remove(insight.getId());

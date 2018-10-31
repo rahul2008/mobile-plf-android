@@ -329,9 +329,9 @@ public class OrmFetchingInterfaceImpl implements DBFetchingInterface {
 
     @Override
     public Insight fetchInsightByGuid(@NonNull String guid) throws SQLException {
+        QueryBuilder<OrmSynchronisationData, Integer> syncDataQueryBuilder = getSyncQueryBuilderWithGuidFilter(guid);
         QueryBuilder<OrmInsight, Integer> insightQueryBuilder = ormInsightDao.queryBuilder();
-        insightQueryBuilder.where().eq("guid", guid);
-        return insightQueryBuilder.queryForFirst();
+        return insightQueryBuilder.join(syncDataQueryBuilder).queryForFirst();
     }
 
     @Override

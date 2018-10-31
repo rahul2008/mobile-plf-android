@@ -27,9 +27,11 @@ import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
+import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.iap.response.carts.Carts;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.carts.PromotionEntity;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -56,6 +58,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     private CartsEntity mCurrentCartData = null;
     private AddressController mAddressController;
+    private final static String  PROMOTION = "US-freeshipping";
 
     public ShoppingCartPresenter() {
     }
@@ -221,14 +224,14 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                             createCart(context, iapCartListener, null, false);
                         } else {
-                            Carts carts = (Carts) msg.obj;
-                            if (carts != null && carts.getCarts() != null) {
-                                if (carts.getCarts().size() > 1) {
-                                    deleteCart(context, iapCartListener);
-                                } else {
+                            CartsEntity carts = (CartsEntity) msg.obj;
+                            if (carts != null && carts.getEntries() != null) {
+//                                if (carts.getEntries().size() > 1) {
+//                                    deleteCart(context, iapCartListener);
+//                                } else {
                                     int quantity = 0;
-                                    int totalItems = carts.getCarts().get(0).getTotalItems();
-                                    List<EntriesEntity> entries = carts.getCarts().get(0).getEntries();
+                                    int totalItems = carts.getTotalItems();
+                                    List<EntriesEntity> entries = carts.getEntries();
                                     if (totalItems != 0 && null != entries) {
                                         for (int i = 0; i < entries.size(); i++) {
                                             quantity = quantity + entries.get(i).getQuantity();
@@ -238,7 +241,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                                         iapCartListener.onSuccess(quantity);
                                     }
                                 }
-                            }
+                          //  }
                         }
                     }
 
@@ -262,11 +265,12 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                     createCart(context, iapHandlerListener, ctnNumber, true);
-                } else if (msg.obj instanceof Carts) {
-                    Carts getCarts = (Carts) msg.obj;
+                } else if (msg.obj instanceof CartsEntity) {
+                    CartsEntity getCarts = (CartsEntity) msg.obj;
                     if (null != getCarts) {
-                        int totalItems = getCarts.getCarts().get(0).getTotalItems();
-                        List<EntriesEntity> entries = getCarts.getCarts().get(0).getEntries();
+                        int totalItems = getCarts.getTotalItems();
+
+                        List<EntriesEntity> entries = getCarts.getEntries();
                         if (totalItems != 0 && null != entries) {
                             boolean isProductAvailable = false;
                             for (int i = 0; i < entries.size(); i++) {
@@ -386,6 +390,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         String ctn;
         for (EntriesEntity entry : entries) {
             ctn = entry.getProduct().getCode();
+            applyPromotion(cartsEntity);
             ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
             cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
@@ -415,6 +420,20 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             products.add(cartItem);
         }
         return products;
+    }
+    public void applyPromotion(CartsEntity cartsEntity) {
+        List<AppliedOrderPromotionEntity> appliedOrderPromotions = cartsEntity.getAppliedOrderPromotions();
+        if(appliedOrderPromotions!=null && appliedOrderPromotions.size()!=0){
+            for(int i=0;i< appliedOrderPromotions.size() ;i++ ) {
+                PromotionEntity promotion = appliedOrderPromotions.get(i).getPromotion();
+                if(promotion !=null && promotion.getCode().equalsIgnoreCase(PROMOTION)) {
+                    String currentDeliveryCost = cartsEntity.getDeliveryMode().getDeliveryCost().getFormattedValue();
+                    String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
+                    cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
+                    break;
+                }
+            }
+        }
     }
 
     @Override

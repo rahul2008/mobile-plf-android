@@ -63,7 +63,7 @@
 
             </FrameLayout>
 
-            <com.philips.platform.uid.view.widget.Button
+            <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
                 android:id="@+id/ths_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,26 +71,28 @@
                 android:layout_marginBottom="@dimen/ths_image_size"
                 android:layout_marginLeft="@dimen/ths_fab_margin"
                 android:layout_marginRight="@dimen/ths_fab_margin"
-                android:layout_marginTop="@dimen/ths_image_size"
-                android:text="@string/ths_welcome_provider"
-                app:uidComponentType="Secondary" />
+                android:text="@string/ths_get_started_button_title"
+                android:layout_centerVertical="true"
+                android:drawableRight="@drawable/ic_right_arrow_show_more"
+                app:uidAccent="true"/>
 
             <ImageView
                 android:id="@+id/ths_amwell_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/ths_start"
+                android:layout_below="@+id/ths_service_provided_by"
                 android:paddingLeft="@dimen/ths_fab_margin"
+                android:layout_marginTop="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
                 android:src="@mipmap/amwell_white_logo" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/ths_service_provided_by"
-                style="@style/ths_body_text_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/ths_amwell_brand"
+                android:layout_below="@+id/init_amwell"
                 android:layout_marginTop="@dimen/ths_fab_margin"
+                android:textSize="@dimen/ths_body_text"
                 android:background="@android:color/transparent"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
@@ -106,6 +108,7 @@
                 android:layout_marginTop="@dimen/ths_fab_margin"
                 android:background="@android:color/transparent"
                 android:maxLines="2"
+                android:visibility="gone"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
                 android:text="@string/ths_welcome_description"
@@ -116,13 +119,14 @@
                 style="@style/ths_body_text_pre_welcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/ths_quick"
+                android:layout_alignParentTop="true"
                 android:enabled="false"
+                android:layout_marginTop="24dp"
                 android:paddingLeft="@dimen/ths_fab_margin"
                 android:paddingRight="@dimen/ths_fab_margin"
                 android:text="@string/ths_see_provider"
                 android:textColor="?attr/uidLoginScreenDefaultTextColor"
-                android:textSize="@dimen/ths_see_provider" />
+                android:textSize="@dimen/ths_36_sp" />
 
         </RelativeLayout>
     </RelativeLayout>

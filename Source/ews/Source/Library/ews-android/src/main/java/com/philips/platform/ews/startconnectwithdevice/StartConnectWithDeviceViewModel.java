@@ -5,20 +5,23 @@
 
 package com.philips.platform.ews.startconnectwithdevice;
 
+import android.Manifest;
 import android.databinding.ObservableField;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.Fragment;
 
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.configuration.HappyFlowContentConfiguration;
-import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkViewModel;
 import com.philips.platform.ews.navigation.Navigator;
+import com.philips.platform.ews.permission.PermissionHandler;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Page;
 import com.philips.platform.ews.tagging.Tag;
+import com.philips.platform.ews.util.GpsUtil;
 import com.philips.platform.ews.util.StringProvider;
 import com.philips.platform.ews.wifi.WiFiUtil;
 
@@ -26,6 +29,19 @@ import javax.inject.Inject;
 
 public class StartConnectWithDeviceViewModel {
 
+    interface LocationPermissionFlowCallback {
+        void showGPSEnableDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+
+        void showLocationPermissionDialog(@NonNull BaseContentConfiguration baseContentConfiguration);
+    }
+
+    public interface ViewCallback {
+        void showTroubleshootHomeWifiDialog(@NonNull BaseContentConfiguration baseContentConfiguration, @NonNull EWSTagger ewsTagger);
+    }
+
+    public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    @Nullable
+    private LocationPermissionFlowCallback locationPermissionFlowCallback;
     @NonNull
     public final ObservableField<String> title;
     @NonNull
@@ -33,7 +49,7 @@ public class StartConnectWithDeviceViewModel {
     @NonNull
     public final ObservableField<String> description;
     @Nullable
-    private ConfirmWifiNetworkViewModel.ViewCallback viewCallback;
+    private ViewCallback viewCallback;
     @NonNull
     public final Drawable image;
     @NonNull
@@ -46,16 +62,21 @@ public class StartConnectWithDeviceViewModel {
     private final BaseContentConfiguration baseConfig;
     @NonNull
     private final EWSTagger ewsTagger;
+    @NonNull
+    private final PermissionHandler permissionHandler;
+    private Fragment fragment;
 
 
     @Inject
     public StartConnectWithDeviceViewModel(@NonNull final Navigator navigator,
+                                           @NonNull final PermissionHandler permissionHandler,
                                            @NonNull final StringProvider stringProvider,
                                            @NonNull final WiFiUtil wiFiUtil,
                                            @NonNull final HappyFlowContentConfiguration happyFlowConfig,
                                            @NonNull final BaseContentConfiguration baseConfig,
                                            @NonNull final EWSTagger ewsTagger) {
         this.navigator = navigator;
+        this.permissionHandler = permissionHandler;
         this.stringProvider = stringProvider;
         this.baseConfig = baseConfig;
         title = new ObservableField<>(getTitle(happyFlowConfig, baseConfig));
@@ -66,7 +87,7 @@ public class StartConnectWithDeviceViewModel {
         this.ewsTagger = ewsTagger;
     }
 
-    protected void setViewCallback(@Nullable ConfirmWifiNetworkViewModel.ViewCallback viewCallback) {
+    protected void setViewCallback(@Nullable ViewCallback viewCallback) {
         this.viewCallback = viewCallback;
     }
 
@@ -99,11 +120,27 @@ public class StartConnectWithDeviceViewModel {
     }
 
     public void onGettingStartedButtonClicked() {
-        if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
-            viewCallback.showTroubleshootHomeWifiDialog(baseConfig, ewsTagger);
+        if (permissionHandler.hasPermission(fragment.getContext(), ACCESS_COARSE_LOCATION)) {
+            getStart();
         } else {
-            tapGetStarted();
-            navigator.navigateToHomeNetworkConfirmationScreen();
+            if (locationPermissionFlowCallback != null) {
+                locationPermissionFlowCallback.showLocationPermissionDialog(baseConfig);
+            }
+        }
+    }
+
+    private void getStart() {
+        if (GpsUtil.isGPSRequiredForWifiScan() && !GpsUtil.isGPSEnabled(fragment.getContext())) {
+            if (locationPermissionFlowCallback != null) {
+                locationPermissionFlowCallback.showGPSEnableDialog(baseConfig);
+            }
+        } else {
+            if (viewCallback != null && !wiFiUtil.isHomeWiFiEnabled()) {
+                viewCallback.showTroubleshootHomeWifiDialog(baseConfig, ewsTagger);
+            } else {
+                tapGetStarted();
+                navigator.navigateToDevicePoweredOnConfirmationScreen();
+            }
         }
     }
 
@@ -120,5 +157,37 @@ public class StartConnectWithDeviceViewModel {
             ewsTagger.pauseLifecycleInfo();
         }
 
+    }
+
+    void setFragment(@NonNull final Fragment fragment) {
+        this.fragment = fragment;
+    }
+
+    void tagLocationPermission() {
+        ewsTagger.trackInAppNotification(Page.GET_STARTED, Tag.VALUE.LOCATION_PERMISSION_NOTIFICATION);
+    }
+
+    void tagLocationPermissionAllow() {
+        ewsTagger.trackInAppNotificationResponse(Tag.ACTION.ALLOW);
+    }
+
+    void tagLocationPermissionCancel() {
+        ewsTagger.trackInAppNotificationResponse(Tag.ACTION.CANCEL_SETUP);
+    }
+
+    void tagLocationDisabled() {
+        ewsTagger.trackInAppNotification(Page.GET_STARTED, Tag.VALUE.LOCATION_DISABLED_NOTIFICATION);
+    }
+
+    void tagLocationOpenSettings() {
+        ewsTagger.trackInAppNotificationResponse(Tag.ACTION.OPEN_LOCATION_SETTINGS);
+    }
+
+    public boolean areAllPermissionsGranted(final int[] grantResults) {
+        return permissionHandler.areAllPermissionsGranted(grantResults);
+    }
+
+    void setLocationPermissionFlowCallback(@Nullable LocationPermissionFlowCallback locationPermissionFlowCallback) {
+        this.locationPermissionFlowCallback = locationPermissionFlowCallback;
     }
 }

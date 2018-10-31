@@ -6,25 +6,42 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <ImageButton
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/delete_moments"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_input_add" />
 
-    <ImageButton
-        android:id="@+id/delete_moments"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/add"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_delete" />
+        android:layout_alignParentRight="true">
+
+        <ImageButton
+            android:id="@+id/clear_cache"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@mipmap/ic_clear_cache_round"/>
+
+        <ImageButton
+            android:id="@+id/delete_moments"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:src="@mipmap/ic_expire_data_round"
+            android:focusable="true"/>
+
+        <ImageButton
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:background="@color/uikit_white"
+            android:clickable="true"
+            android:src="@android:drawable/ic_input_add"
+            android:focusable="true"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/moment_parent"
@@ -144,17 +161,6 @@
             android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
             android:text="@string/gdpr_features"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/tv_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
-            android:text="@string/logout"
             android:textSize="20dp" />
     </LinearLayout>
 

@@ -20,7 +20,6 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -61,7 +60,7 @@ public class THSVitalsPresenterTest {
     AWSDK awsdkMock;
 
     @Mock
-    THSConsumerWrapper pthConsumerMock;
+    Consumer pthConsumerMock;
 
     @Mock
     Consumer consumerMock;
@@ -73,7 +72,7 @@ public class THSVitalsPresenterTest {
     ConsumerManager consumerManagerMock;
 
     @Mock
-    THSVisitContext pthVisitContextMock;
+    VisitContext pthVisitContextMock;
 
     @Mock
     VisitContext visitContextMock;
@@ -123,14 +122,13 @@ public class THSVitalsPresenterTest {
         MockitoAnnotations.initMocks(this);
         thsVitalsPresenter = new THSVitalsPresenter(thsvItalsUIInterface, pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(pthConsumerMock);
+        THSManager.getInstance().setConsumer(pthConsumerMock);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterface);
         when(appInfraInterface.getLogging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(loggingInterface);
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
-        when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
@@ -141,7 +139,6 @@ public class THSVitalsPresenterTest {
         when(pthProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
 
         THSManager.getInstance().setVisitContext(pthVisitContextMock);
-        when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
         when(pTHBaseViewMock.isFragmentAttached()).thenReturn(true);
     }
 

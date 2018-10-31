@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
@@ -36,6 +35,8 @@ import com.philips.platform.dscdemo.R;
 import com.philips.platform.dscdemo.characteristics.CharacteristicsFragment;
 import com.philips.platform.dscdemo.insights.InsightFragment;
 import com.philips.platform.dscdemo.settings.SettingsFragment;
+import com.philips.platform.uid.utils.DialogConstants;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,27 +45,29 @@ import java.util.List;
 public class MomentFragment extends DSBaseFragment
         implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener {
 
-    private Context mContext;
+    private static final String CLEAR_CACHE_ERROR_DIALOG_TAG = "CLEAR_CACHE_ERROR_DIALOG_TAG";
+    private Context context;
 
-    protected DataServicesManager mDataServicesManager;
-    private User mUser;
+    protected DataServicesManager dataServicesManager;
+    private User user;
 
-    private TextView mTvAddMomentType;
-    private TextView mTvLatestMoment;
-    private TextView mTvCharacteristics;
-    private TextView mTvSettings;
-    private TextView mTvInsights;
-    private TextView mTvMomentByDateRange;
-    private TextView mTvSyncByDateRange;
-    private TextView mTvgdprFeatures;
-    private TextView mTvMomentsCount;
-    private ImageButton mAddButton;
+    private TextView tvAddMomentType;
+    private TextView tvLatestMoment;
+    private TextView tvCharacteristics;
+    private TextView tvSettings;
+    private TextView tvInsights;
+    private TextView tvMomentByDateRange;
+    private TextView tvSyncByDateRange;
+    private TextView tvGdprFeatures;
+    private TextView tvMomentsCount;
+    private ImageButton addButton;
 
-    private MomentAdapter mMomentAdapter;
-    private MomentPresenter mMomentPresenter;
-    private ProgressDialog mProgressDialog;
+    private MomentAdapter momentAdapter;
+    private MomentPresenter momentPresenter;
+    private ProgressDialog progressDialog;
+    private AlertDialogFragment alertDialog = null;
 
-    private ArrayList<? extends Moment> mMomentList = new ArrayList();
+    private ArrayList<? extends Moment> momentList = new ArrayList();
 
     @Override
     public int getActionbarTitleResId() {
@@ -85,74 +88,74 @@ public class MomentFragment extends DSBaseFragment
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mDataServicesManager = DataServicesManager.getInstance();
-        mUser = new User(mContext);
-        mMomentPresenter = new MomentPresenter(mContext, this);
+        dataServicesManager = DataServicesManager.getInstance();
+        user = new User(context);
+        momentPresenter = new MomentPresenter(context, this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_data_sync_fragment, container, false);
-        mMomentAdapter = new MomentAdapter(getContext(), mMomentList, mMomentPresenter, true);
+        momentAdapter = new MomentAdapter(getContext(), momentList, momentPresenter, true);
 
-        mProgressDialog = new ProgressDialog(mContext);
-        mProgressDialog.setCancelable(false);
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setCancelable(false);
 
         RecyclerView recyclerView = view.findViewById(R.id.timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(mMomentAdapter);
+        recyclerView.setAdapter(momentAdapter);
 
-        mAddButton = view.findViewById(R.id.add);
-        ImageButton mDeleteExpiredMomentsButton = view.findViewById(R.id.delete_moments);
-        mAddButton.setOnClickListener(this);
-        mDeleteExpiredMomentsButton.setOnClickListener(this);
+        addButton = view.findViewById(R.id.add);
+        addButton.setOnClickListener(this);
+        ImageButton clearCacheButton = view.findViewById(R.id.clear_cache);
+        clearCacheButton.setOnClickListener(this);
+        ImageButton deleteExpiredMomentsButton = view.findViewById(R.id.delete_moments);
+        deleteExpiredMomentsButton.setOnClickListener(this);
 
-        mTvMomentsCount = view.findViewById(R.id.tv_moments_count);
-        mTvAddMomentType = view.findViewById(R.id.tv_add_moment_with_type);
-        mTvLatestMoment = view.findViewById(R.id.tv_last_moment);
-        mTvMomentByDateRange = view.findViewById(R.id.tv_moment_by_date_range);
-        mTvCharacteristics = view.findViewById(R.id.tv_set_characteristics);
-        mTvSettings = view.findViewById(R.id.tv_settings);
-        mTvSettings = view.findViewById(R.id.tv_settings);
-        mTvInsights = view.findViewById(R.id.tv_insights);
-        mTvSyncByDateRange = view.findViewById(R.id.tv_sync_by_date_range);
-        mTvgdprFeatures = view.findViewById(R.id.tv_gdpr_features);
-        TextView mTvLogout = view.findViewById(R.id.tv_logout);
+        tvMomentsCount = view.findViewById(R.id.tv_moments_count);
+        tvAddMomentType = view.findViewById(R.id.tv_add_moment_with_type);
+        tvLatestMoment = view.findViewById(R.id.tv_last_moment);
+        tvMomentByDateRange = view.findViewById(R.id.tv_moment_by_date_range);
+        tvCharacteristics = view.findViewById(R.id.tv_set_characteristics);
+        tvSettings = view.findViewById(R.id.tv_settings);
+        tvSettings = view.findViewById(R.id.tv_settings);
+        tvInsights = view.findViewById(R.id.tv_insights);
+        tvSyncByDateRange = view.findViewById(R.id.tv_sync_by_date_range);
+        tvGdprFeatures = view.findViewById(R.id.tv_gdpr_features);
 
-        mTvAddMomentType.setOnClickListener(this);
-        mTvLatestMoment.setOnClickListener(this);
-        mTvMomentByDateRange.setOnClickListener(this);
-        mTvSyncByDateRange.setOnClickListener(this);
-        mTvgdprFeatures.setOnClickListener(this);
-        mTvCharacteristics.setOnClickListener(this);
-        mTvSettings.setOnClickListener(this);
-        mTvInsights.setOnClickListener(this);
-        mTvLogout.setOnClickListener(this);
+        tvAddMomentType.setOnClickListener(this);
+        tvLatestMoment.setOnClickListener(this);
+        tvMomentByDateRange.setOnClickListener(this);
+        tvSyncByDateRange.setOnClickListener(this);
+        tvGdprFeatures.setOnClickListener(this);
+        tvCharacteristics.setOnClickListener(this);
+        tvSettings.setOnClickListener(this);
+        tvInsights.setOnClickListener(this);
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        this.context = context;
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        if (mUser != null && mUser.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+        if (user != null && user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
             Toast.makeText(getContext(), "Please Login", Toast.LENGTH_SHORT).show();
-            mTvAddMomentType.setVisibility(View.VISIBLE);
-            mTvLatestMoment.setVisibility(View.INVISIBLE);
-            mTvMomentByDateRange.setVisibility(View.INVISIBLE);
-            mTvSyncByDateRange.setVisibility(View.INVISIBLE);
-            mAddButton.setVisibility(View.INVISIBLE);
-            mTvInsights.setVisibility(View.INVISIBLE);
-            mTvSettings.setVisibility(View.INVISIBLE);
-            mTvCharacteristics.setVisibility(View.INVISIBLE);
-            mTvgdprFeatures.setVisibility(View.INVISIBLE);
+            tvAddMomentType.setVisibility(View.VISIBLE);
+            tvLatestMoment.setVisibility(View.INVISIBLE);
+            tvMomentByDateRange.setVisibility(View.INVISIBLE);
+            tvSyncByDateRange.setVisibility(View.INVISIBLE);
+            addButton.setVisibility(View.INVISIBLE);
+            tvInsights.setVisibility(View.INVISIBLE);
+            tvSettings.setVisibility(View.INVISIBLE);
+            tvCharacteristics.setVisibility(View.INVISIBLE);
+            tvGdprFeatures.setVisibility(View.INVISIBLE);
             return;
         }
         deleteUserDataIfNewUserLoggedIn();
@@ -163,13 +166,21 @@ public class MomentFragment extends DSBaseFragment
         }
 
         showProgressDialog();
-        mMomentPresenter.fetchData(this);
+        momentPresenter.fetchData(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mDataServicesManager.registerDBChangeListener(this);
+        dataServicesManager.registerDBChangeListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(null != alertDialog) {
+            alertDialog.dismiss();
+        }
     }
 
     private void deleteUserDataIfNewUserLoggedIn() {
@@ -185,12 +196,12 @@ public class MomentFragment extends DSBaseFragment
     }
 
     private boolean isSameHsdpId() {
-        return getLastStoredHsdpId().equalsIgnoreCase(mUser.getHsdpUUID());
+        return getLastStoredHsdpId().equalsIgnoreCase(user.getHsdpUUID());
     }
 
     @Override
     public void onPause() {
-        mDataServicesManager.unRegisterDBChangeListener();
+        dataServicesManager.unRegisterDBChangeListener();
         dismissProgressDialog();
         super.onPause();
     }
@@ -199,17 +210,17 @@ public class MomentFragment extends DSBaseFragment
     public void onClick(final View v) {
         int i = v.getId();
         if (i == R.id.add) {
-            mMomentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, false);
+            momentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, false);
         } else if (i == R.id.delete_moments) {
-            mDataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
-        }  else if (i == R.id.tv_settings) {
+            dataServicesManager.clearExpiredMoments(new DeleteExpiredMomentsListener());
+        } else if (i == R.id.clear_cache) {
+            dataServicesManager.deleteAll(new DeleteAllDataRequestListener());
+        } else if (i == R.id.tv_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             showFragment(settingsFragment);
         } else if (i == R.id.tv_set_characteristics) {
             CharacteristicsFragment characteristicsFragment = new CharacteristicsFragment();
             showFragment(characteristicsFragment);
-        } else if (i == R.id.tv_logout) {
-            logOut();
         } else if (i == R.id.tv_insights) {
             InsightFragment insightFragment = new InsightFragment();
             showFragment(insightFragment);
@@ -223,7 +234,7 @@ public class MomentFragment extends DSBaseFragment
             SyncByDateRangeFragment syncByDateRangeFragment = new SyncByDateRangeFragment();
             showFragment(syncByDateRangeFragment);
         } else if (i == R.id.tv_add_moment_with_type) {
-            mMomentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, true);
+            momentPresenter.addOrUpdateMoment(MomentPresenter.ADD, null, true);
         } else if (i == R.id.tv_gdpr_features) {
             GdprFeatureFragment gdprFeatureFragment = new GdprFeatureFragment();
             showFragment(gdprFeatureFragment);
@@ -241,13 +252,13 @@ public class MomentFragment extends DSBaseFragment
         AppInfraInterface gAppInfra = DemoAppManager.getInstance().getAppInfra();
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
-        ssInterface.storeValueForKey("hsdp_id", mUser.getHsdpUUID(), ssError);
+        ssInterface.storeValueForKey("hsdp_id", user.getHsdpUUID(), ssError);
     }
 
     @Override
     public void dBChangeSuccess(SyncType type) {
         if (type != SyncType.MOMENT) return;
-        mMomentPresenter.fetchData(MomentFragment.this);
+        momentPresenter.fetchData(MomentFragment.this);
     }
 
     @Override
@@ -275,7 +286,7 @@ public class MomentFragment extends DSBaseFragment
 
     @Override
     public void onSuccess(final List<? extends Moment> data) {
-        mMomentPresenter.fetchData(this);
+        momentPresenter.fetchData(this);
     }
 
     @Override
@@ -289,11 +300,11 @@ public class MomentFragment extends DSBaseFragment
             @Override
             public void run() {
                 if (e != null && e.getMessage() != null) {
-                    if (mContext != null)
-                        Toast.makeText(mContext, "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (context != null)
+                        Toast.makeText(context, "UI update Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
-                    if (mContext != null)
-                        Toast.makeText(mContext, "UI update Failed", Toast.LENGTH_SHORT).show();
+                    if (context != null)
+                        Toast.makeText(context, "UI update Failed", Toast.LENGTH_SHORT).show();
                 }
                 dismissProgressDialog();
             }
@@ -301,15 +312,15 @@ public class MomentFragment extends DSBaseFragment
     }
 
     private void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
-            mProgressDialog.dismiss();
+        if (progressDialog != null && progressDialog.isShowing() && !(((Activity) context).isFinishing())) {
+            progressDialog.dismiss();
         }
     }
 
     private void showProgressDialog() {
-        if (mProgressDialog != null && !mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
-            mProgressDialog.setMessage(getString(R.string.fetching_moments));
-            mProgressDialog.show();
+        if (progressDialog != null && !progressDialog.isShowing() && !(((Activity) context).isFinishing())) {
+            progressDialog.setMessage(getString(R.string.fetching_moments));
+            progressDialog.show();
         }
     }
 
@@ -329,58 +340,58 @@ public class MomentFragment extends DSBaseFragment
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mMomentList = (ArrayList<? extends Moment>) data;
-                mTvMomentsCount.setText("Moments Count : " + String.valueOf(mMomentList.size()));
+                momentList = (ArrayList<? extends Moment>) data;
+                tvMomentsCount.setText("Moments Count : " + String.valueOf(momentList.size()));
 
-                mMomentAdapter.setData(mMomentList);
-                mMomentAdapter.notifyDataSetChanged();
+                momentAdapter.setData(momentList);
+                momentAdapter.notifyDataSetChanged();
 
                 dismissProgressDialog();
             }
         });
     }
 
+    private void showDialog(String message){
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
+                .setDialogType(DialogConstants.TYPE_ALERT)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, v -> {
+                    if (alertDialog != null) {
+                        alertDialog.dismiss();
+                        alertDialog = null;
+                    }
+                })
+                .setDimLayer(DialogConstants.DIM_SUBTLE)
+                .setCancelable(false);
+        alertDialog = builder.create();
+        alertDialog.show(getFragmentManager(), CLEAR_CACHE_ERROR_DIALOG_TAG);
+
+    }
+
+    private class DeleteAllDataRequestListener implements DBRequestListener {
+        @Override
+        public void onSuccess(List data) {
+            MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.deleting_all_data_success));
+            momentPresenter.fetchData(MomentFragment.this);
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            showDialog(MomentFragment.this.getActivity().getString(R.string.error_clearing_cache));
+        }
+    }
+
     private class DeleteExpiredMomentsListener implements DBRequestListener<Integer> {
         @Override
         public void onSuccess(List<? extends Integer> data) {
             MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.deleted_expired_moments_count) + data.get(0));
-            mMomentPresenter.fetchData(MomentFragment.this);
+            momentPresenter.fetchData(MomentFragment.this);
         }
 
         @Override
         public void onFailure(Exception exception) {
             MomentFragment.this.showToastOnUiThread(MomentFragment.this.getActivity().getString(R.string.error_deleting_expired_moments));
         }
-    }
-
-    public void logOut() {
-        User user = new User(getContext());
-        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) return;
-
-        user.logout(new LogoutHandler() {
-            @Override
-            public void onLogoutSuccess() {
-
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, "Logout Success", Toast.LENGTH_SHORT).show();
-                        if (getActivity() != null)
-                            getActivity().finish();
-                    }
-                });
-            }
-
-            @Override
-            public void onLogoutFailure(int i, String s) {
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, "Logout Failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
     }
 
     private boolean isOnline() {

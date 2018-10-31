@@ -16,7 +16,6 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -57,7 +56,7 @@ public class THSMedicationPresenterTest {
     AWSDK awsdkMock;
 
     @Mock
-    private THSConsumerWrapper thsConsumerWrapper;
+    private Consumer thsConsumerWrapper;
 
     @Mock
     Consumer consumer;
@@ -78,14 +77,13 @@ public class THSMedicationPresenterTest {
         THSManager.getInstance().setThsConsumer(thsConsumer);
         when(thsConsumer.getConsumer()).thenReturn(consumer);
         THSManager.getInstance().setThsParentConsumer(thsConsumer);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapper);
+        THSManager.getInstance().setConsumer(thsConsumerWrapper);
         mTHSMedicationPresenter = new THSMedicationPresenter(thsMedicationFragmentMock);
         thsMedicationFragmentMock.mExistingMedication = thsMedicationMock;
         when(thsMedicationFragmentMock.getContext()).thenReturn(contextMock);
         List list = new ArrayList();
         list.add(medicationMock);
         when(thsMedicationMock.getMedicationList()).thenReturn(list);
-        when(thsConsumerWrapper.getConsumer()).thenReturn(consumer);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(thsMedicationFragmentMock.isFragmentAttached()).thenReturn(true);
     }

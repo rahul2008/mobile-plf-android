@@ -129,14 +129,13 @@ public class EWSModule {
     @Provides
     SecondSetupStepsViewModel provideSecondSetupStepsViewModel(
             @NonNull final Navigator navigator,
-            @NonNull final PermissionHandler permissionHandler,
             @NonNull HappyFlowContentConfiguration happyFlowContentConfiguration,
             @NonNull StringProvider stringProvider, @NonNull BaseContentConfiguration baseContentConfiguration,
             @NonNull final EWSTagger ewsTagger,
             @NonNull final EWSLogger ewsLogger) {
 
         return new SecondSetupStepsViewModel(navigator,
-                permissionHandler, stringProvider, happyFlowContentConfiguration, baseContentConfiguration, ewsTagger, ewsLogger);
+                stringProvider, happyFlowContentConfiguration, baseContentConfiguration, ewsTagger, ewsLogger);
     }
 
 

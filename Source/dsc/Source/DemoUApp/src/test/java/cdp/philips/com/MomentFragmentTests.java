@@ -37,7 +37,7 @@ public class MomentFragmentTests {
     private class MomentFragmentTestable extends MomentFragment {
 
         public MomentFragmentTestable(DataServicesManager dataServicesManager) {
-            this.mDataServicesManager = dataServicesManager;
+            this.dataServicesManager = dataServicesManager;
         }
     }
 }

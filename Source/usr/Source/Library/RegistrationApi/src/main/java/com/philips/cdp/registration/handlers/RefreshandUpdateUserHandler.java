@@ -27,10 +27,9 @@ import org.json.JSONObject;
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
     private String TAG = "RefreshandUpdateUserHandler";
 
-    public UpdateUserRecordHandler mUpdateUserRecordHandler;
+    private UpdateUserRecordHandler mUpdateUserRecordHandler;
     private Context mContext;
     private User user;
-    private String password;
     private RefreshUserHandler refreshUserHandler;
 
     public RefreshandUpdateUserHandler(UpdateUserRecordHandler updateUserRecordHandler, Context context) {
@@ -38,11 +37,10 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         mContext = context;
     }
 
-    public void refreshAndUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
+    public void refreshAndUpdateUser(final RefreshUserHandler handler, final User user) {
         RLog.d(TAG, "refreshAndUpdateUser");
         refreshUserHandler = handler;
         this.user = user;
-        this.password = password;
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated() && UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             RLog.d(TAG, "refreshAndUpdateUser : not isJumpInitializated and isRegInitializationInProgress");
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
@@ -57,10 +55,10 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
             return;
         }
 
-        refreshUpdateUser(handler, user, password);
+        refreshUpdateUser(handler, user);
     }
 
-    private void refreshUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
+    private void refreshUpdateUser(final RefreshUserHandler handler, final User user) {
         if (Jump.getSignedInUser() == null) {
             RLog.e(TAG, "refreshUpdateUser : Jump.getSignedInUser() is NULL");
             handler.onRefreshUserFailed(0);
@@ -151,7 +149,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
     @Override
     public void onFlowDownloadSuccess() {
         RLog.e(TAG, "onFlowDownloadSuccess is called");
-        refreshAndUpdateUser(refreshUserHandler, user, password);
+        refreshAndUpdateUser(refreshUserHandler, user);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
     }
