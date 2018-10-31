@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.hybris;
@@ -18,21 +18,17 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.Ignore;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
+import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-@Config(sdk=23)
 @RunWith(RobolectricTestRunner.class)
 public class HybrisHandlerTest {
-    @Mock
     Context mContext;
     private HybrisHandler mHybrisHandler;
     private IAPListener mIAPListener;
@@ -40,6 +36,8 @@ public class HybrisHandlerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
+        mContext = RuntimeEnvironment.application;
 
         mHybrisHandler = new HybrisHandler(mContext);
 
@@ -101,7 +99,6 @@ public class HybrisHandlerTest {
     }
     @Test
     public void testGetProductCountWhenStoreIsNotInitilized() throws Exception {
-//        TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getProductCartCount(mIAPListener);
     }
     @Test

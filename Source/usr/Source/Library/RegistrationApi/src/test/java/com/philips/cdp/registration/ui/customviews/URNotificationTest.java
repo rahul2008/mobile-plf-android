@@ -1,19 +1,23 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.ui.customviews;
 
 import android.app.Activity;
 
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.errors.NotificationMessage;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class URNotificationTest {
     @Mock
     Activity activity;

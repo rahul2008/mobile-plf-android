@@ -1,11 +1,13 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.response.orders.Orders;
 import com.philips.cdp.di.iap.response.orders.OrdersData;
@@ -17,8 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
@@ -26,17 +27,18 @@ import java.util.List;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class PurchaseHistoryFragmentTest {
-    private Context mContext;
-    PurchaseHistoryFragment purchaseHistoryFragment;
+
+    @Mock
+    private Message messageMock;
+
+    private PurchaseHistoryFragment purchaseHistoryFragment;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
 
@@ -49,33 +51,26 @@ public class PurchaseHistoryFragmentTest {
         SupportFragmentTestUtil.startFragment(purchaseHistoryFragment);
     }
 
-    @Mock
-    Message messageMock;
     @Test
     public void shouldShowErrorMessage() throws Exception {
-        IAPNetworkError iapNetworkError=new IAPNetworkError(null,1,null);
+        IAPNetworkError iapNetworkError = new IAPNetworkError(null, 1, null);
         messageMock.obj=iapNetworkError;
         purchaseHistoryFragment.onGetOrderList(messageMock);
-
     }
 
     @Test
     public void shouldMoveTOEmptyPurcheseHistrory() throws Exception {
-        OrdersData ordersData=new OrdersData();
+        OrdersData ordersData = new OrdersData();
         messageMock.obj=ordersData;
         messageMock.what = RequestCode.GET_ORDERS;
         purchaseHistoryFragment.onGetOrderList(messageMock);
 
     }
 
-
-    List<Orders> ordersList;
-
     @Test
     public void shouldGetOrderDetailsWhenOrdersAreThere() throws Exception {
-
         Pagination pagination=new Pagination();
-        ordersList=new ArrayList<>();
+        List<Orders> ordersList = new ArrayList<>();
         Orders orders=new Orders();
         ordersList.add(orders);
 
@@ -85,6 +80,5 @@ public class PurchaseHistoryFragmentTest {
         messageMock.obj=ordersData;
         messageMock.what = RequestCode.GET_ORDERS;
         purchaseHistoryFragment.onGetOrderList(messageMock);
-
     }
 }

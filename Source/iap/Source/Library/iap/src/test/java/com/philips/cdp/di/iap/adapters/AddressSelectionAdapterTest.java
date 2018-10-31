@@ -1,15 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.store.IAPUser;
@@ -19,17 +21,20 @@ import com.philips.cdp.di.iap.store.StoreListener;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
  * Created by philips on 9/27/17.
  */
+@RunWith(RobolectricTestRunner.class)
 public class AddressSelectionAdapterTest {
 
     AddressSelectionAdapter addressSelectionAdapter;

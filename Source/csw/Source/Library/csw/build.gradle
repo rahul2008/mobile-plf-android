@@ -66,14 +66,15 @@ android {
 
     testOptions {
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
         }
     }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
 dependencies {
     //3rd party
     implementation deps.gson

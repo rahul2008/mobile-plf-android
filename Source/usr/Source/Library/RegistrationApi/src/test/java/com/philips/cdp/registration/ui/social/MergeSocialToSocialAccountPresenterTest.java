@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.ui.social;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -15,40 +18,37 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.mockito.Mockito.verify;
 
 /**
  * Created by philips on 11/22/17.
  */
-
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
-
+@RunWith(RobolectricTestRunner.class)
 public class MergeSocialToSocialAccountPresenterTest {
 
     @Mock
-    User userMock;
+    private User userMock;
 
     @Mock
     private RegistrationComponent mockRegistrationComponent;
 
-
-
-    MergeSocialToSocialAccountPresenter mergeSocialToSocialAccountPresenter;
+    @Mock
+    private UserRegistrationFailureInfo userRegistrationFailureInfoMock;
 
     @Mock
-    MergeSocialToSocialAccountContract mergeSocialToSocialAccountContract;
+    private MergeSocialToSocialAccountContract mergeSocialToSocialAccountContract;
+
+    private MergeSocialToSocialAccountPresenter mergeSocialToSocialAccountPresenter;
 
     @Before
     public void setUp() throws Exception {
-
         MockitoAnnotations.initMocks(this);
+
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
 
         mergeSocialToSocialAccountPresenter = new MergeSocialToSocialAccountPresenter(mergeSocialToSocialAccountContract,userMock);
-
     }
 
     @Test
@@ -64,9 +64,6 @@ public class MergeSocialToSocialAccountPresenterTest {
         verify(mergeSocialToSocialAccountContract).mergeSuccess();
     }
 
-    @Mock
-    UserRegistrationFailureInfo userRegistrationFailureInfoMock;
-
     @Test
     public void onLoginFailedWithError() throws Exception {
         Mockito.when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(12);
@@ -77,7 +74,6 @@ public class MergeSocialToSocialAccountPresenterTest {
 
     @Test
     public void onLoginFailedWithTwoStepError() throws Exception {
-
         JSONObject jsonObject=new JSONObject();
         mergeSocialToSocialAccountPresenter.onLoginFailedWithTwoStepError(jsonObject,"token");
         verify(mergeSocialToSocialAccountContract).mergeFailureIgnored();

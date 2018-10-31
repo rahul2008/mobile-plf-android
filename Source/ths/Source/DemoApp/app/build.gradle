@@ -180,10 +180,7 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            // set JVM arguments for the test JVM(s)
-            jvmArgs '-noverify'
             testLogging {
                 events "started", "passed", "skipped", "failed"
                 outputs.upToDateWhen { false }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
@@ -21,8 +26,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -30,16 +34,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
- */
-public class UserWithProductsTest extends TestCase {
+public class UserWithProductsTest {
 
     UserWithProducts userWithProducts;
     private Context context;
@@ -49,9 +52,8 @@ public class UserWithProductsTest extends TestCase {
     private ProdRegListener prodRegListener;
     private User userMock;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         context = mock(Context.class);
         userWithProductsMock = mock(UserWithProducts.class);
         userMock = mock(User.class);

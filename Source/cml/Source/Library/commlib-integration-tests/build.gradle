@@ -17,7 +17,6 @@ android {
 
     defaultConfig {
         multiDexEnabled true
-
         testInstrumentationRunner "com.philips.cdp2.commlib.devicetest.runner.CucumberRunner"
     }
 }

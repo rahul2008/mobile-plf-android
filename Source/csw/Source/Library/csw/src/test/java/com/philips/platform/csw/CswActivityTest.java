@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw;
 
 import android.content.Context;
@@ -31,7 +36,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25, application = CswTestApplication.class, shadows = {ShadowXIConTextView.class})
+@Config(application = CswTestApplication.class, shadows = {ShadowXIConTextView.class})
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "com.android.*", "com.sun.org.apache.xerces.internal.jaxp.*" })
 @PrepareForTest({ThemeUtils.class, FontLoader.class})
 public class CswActivityTest {
@@ -41,13 +46,15 @@ public class CswActivityTest {
 
     @Mock
     private FontLoader fontLoaderMock;
+
     @Mock
     private CswInterface cswInterfaceMock;
+
     @Mock
     private View viewMock;
 
-    //
     private Intent testIntent;
+
     private ActivityController<CswActivity> activityController;
 
     @Before

@@ -30,7 +30,6 @@ android {
     defaultConfig {
         versionName version
         testApplicationId "com.philips.dhpclient.test"
-
         multiDexEnabled true
 
         // replace the below string with your own Google client ID. Make sure this is consistent

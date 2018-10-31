@@ -43,9 +43,7 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }

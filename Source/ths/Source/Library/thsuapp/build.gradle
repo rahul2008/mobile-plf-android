@@ -63,10 +63,8 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
             // set JVM arguments for the test JVM(s)
-            jvmArgs '-noverify'
             testLogging {
                 events "started", "passed", "skipped", "failed"
                 outputs.upToDateWhen { false }
@@ -129,9 +127,8 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.opengl
-    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
-    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric:3.4-rc2'
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows
 
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'

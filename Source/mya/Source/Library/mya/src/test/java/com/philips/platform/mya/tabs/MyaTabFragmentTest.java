@@ -1,29 +1,31 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.mya.tabs;
 
 import android.content.Context;
 import android.view.InflateException;
 
-import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.runner.CustomRobolectricRunner;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class MyaTabFragmentTest {
+
     private Context mContext;
+
     private MyaTabFragment myaTabFragment;
 
     @Before
@@ -31,9 +33,7 @@ public class MyaTabFragmentTest {
         initMocks(this);
         mContext = RuntimeEnvironment.application;
         myaTabFragment = new MyaTabFragment();
-
     }
-
 
     @Test(expected = InflateException.class)
     public void testStartFragment_ShouldNotNul() {
@@ -55,16 +55,4 @@ public class MyaTabFragmentTest {
         assertNotNull(myaTabFragment.getBackButtonState());
         assertFalse(myaTabFragment.getBackButtonState());
     }
-
-    @Test
-    public void testTabCount() {
-        /*SupportFragmentTestUtil.startFragment(myaTabFragment);
-        TabLayout tabLayout = myaTabFragment.getView().findViewById(R.id.tab_layout);
-        ViewPager viewPager = myaTabFragment.getView().findViewById(R.id.pager);
-        assertEquals(tabLayout.getTabCount(), 2);
-        assertEquals(viewPager.getVisibility(), View.VISIBLE);
-        assertEquals(viewPager.getCurrentItem(), 0);*/
-        assertTrue(true);
-    }
-
 }

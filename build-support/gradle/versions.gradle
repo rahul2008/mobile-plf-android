@@ -31,7 +31,7 @@ ext.versions = [
         androidx                            : '1.1.0',
         mockito                             : '2.8.9', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
         powermock                           : '1.7.4', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
-        robolectric                         : '3.8'
+        robolectric                         : '4.0'
 ]
 
 ext.builddeps = [

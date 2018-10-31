@@ -39,11 +39,8 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
@@ -135,11 +132,13 @@ dependencies {
     // Tests
     testImplementation deps.junit
     testImplementation deps.mockito
-    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
-    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric-utils:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric-junit:3.4-rc2'
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_junit
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.robolectric_utils
 
     // Android test
     androidTestImplementation deps.assertj
@@ -148,7 +147,7 @@ dependencies {
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.androidx_test.rules
     
-    // Espressosupport
+    // Espresso support
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

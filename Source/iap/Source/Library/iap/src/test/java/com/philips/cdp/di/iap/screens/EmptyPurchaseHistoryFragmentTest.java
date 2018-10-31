@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
-import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -8,10 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.Button;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -22,35 +23,34 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.Robolectric.buildActivity;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class EmptyPurchaseHistoryFragmentTest {
-    @Mock
-    private Context mContext;
-    @Mock
-    Button cancelButton;
-    EmptyPurchaseHistoryFragment emptyPurchaseHistoryFragment;
+
     @Mock
     View view;
+
     @Mock
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
+
     @Mock
-    Fragment fragment;
     private FragmentTransaction fragmentTransactionMock;
+
+    @Mock
+    private Fragment fragment;
+
+    private EmptyPurchaseHistoryFragment emptyPurchaseHistoryFragment;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
         emptyPurchaseHistoryFragment = EmptyPurchaseHistoryFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);

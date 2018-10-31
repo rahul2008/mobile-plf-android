@@ -128,7 +128,6 @@ def buildType
 android {
     testOptions {
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
@@ -162,6 +161,7 @@ android {
         tasks["compile${productFlavor}${buildtype}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildtype}Assets"])
     }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 configurations.all {

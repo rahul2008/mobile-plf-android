@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
@@ -6,12 +11,8 @@ import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
@@ -26,22 +27,39 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class OrderSummaryFragmentTest {
+
+    @Mock
+    private PaymentMethod mockPaymentMethod;
+
+    @Mock
+    private PaymentController paymentControllerMock;
+
+    @Mock
+    private View viewMock;
+
+    @Mock
+    private RecyclerView recyclerViewMock;
+
+    @Mock
+    private Button button1;
+
+    @Mock
+    private Button button2;
+
+    @Mock
+    private Message messageMock;
+
     private Context mContext;
-    IAPOrderSummaryFragmentMock orderSummaryFragment;
-    @Mock
-    PaymentMethod mockPaymentMethod;
-    @Mock
-    PaymentController paymentControllerMock;
+
+    private IAPOrderSummaryFragmentMock orderSummaryFragment;
 
     @Before
     public void setUp() {
@@ -63,26 +81,6 @@ public class OrderSummaryFragmentTest {
 
         SupportFragmentTestUtil.startFragment(orderSummaryFragment);
     }
-
-    @Mock
-    View viewMock;
-
-    @Mock
-    TextView tvCheckOutMock;
-
-    @Mock
-    RecyclerView recyclerViewMock;
-
-    @Mock
-    Button button1;
-    @Mock
-    Button button2;
-
-    /* mPayNowBtn = (Button) rootView.findViewById(R.id.pay_now_btn);
-        mPayNowBtn.setOnClickListener(this);
-        mCancelBtn = (Button) rootView.findViewById(R.id.cancel_btn);*/
-
-
 
     @Test
     public void shouldInitializeViews() throws Exception {
@@ -109,34 +107,24 @@ public class OrderSummaryFragmentTest {
         Bundle bundle=new Bundle();
         bundle.putSerializable(IAPConstant.SELECTED_PAYMENT,paymentMethod);
         orderSummaryFragment.setArguments(bundle);
-
-
-      /*  Mockito.when(viewMock.findViewById(R.id.tv_checkOutSteps)).thenReturn(tvCheckOutMock);
-        orderSummaryFragment.initializeViews(viewMock);*/
-
     }
-
-
 
     @Test
     public void sholudPlaceOrder_onPayBtnClicked() throws Exception {
         orderSummaryFragment.onAttach(mContext);
         Mockito.when(viewMock.getId()).thenReturn(R.id.pay_now_btn);
         orderSummaryFragment.onClick(viewMock);
-
     }
 
     @Test(expected = NullPointerException.class)
     public void sholudCancelOrtder_WhenCancelButtonIsClicked() throws Exception {
-
         orderSummaryFragment.onAttach(mContext);
         Mockito.when(viewMock.getId()).thenReturn(R.id.cancel_btn);
         orderSummaryFragment.onClick(viewMock);
-
     }
 
     @Test
-    public void shouldStartProsuctDetailsFragmentOnEventRecieved() throws Exception {
+    public void shouldStartProductDetailsFragmentOnEventRecieved() throws Exception {
         orderSummaryFragment.onEventReceived("PRODUCT_DETAIL_FRAGMENT");
     }
 
@@ -144,27 +132,22 @@ public class OrderSummaryFragmentTest {
     public void shouldStartProsuctCatalogFragmentOnEventRecieved() throws Exception {
         orderSummaryFragment.onEventReceived("IAP_LAUNCH_PRODUCT_CATALOG");
     }
+
     @Test
     public void shouldStartDeliveryModeFragmentOnEventRecieved() throws Exception {
         orderSummaryFragment.onEventReceived("IAP_EDIT_DELIVERY_MODE");
     }
 
-    @Mock
-    Message messageMock;
-
-
-
     @Test
     public void sholudShowErrorOngettingIapNetworkErrorMessage() throws Exception {
-        IAPNetworkError iapNetworkError=new IAPNetworkError(null,0,null);
+        IAPNetworkError iapNetworkError = new IAPNetworkError(null, 0, null);
         messageMock.obj=iapNetworkError;
         orderSummaryFragment.onGetAddress(messageMock);
-
     }
 
     @Test
     public void sholudShowErrorOngettingShippingAddressData() throws Exception {
-        GetShippingAddressData getShippingAddressData=new GetShippingAddressData();
+        GetShippingAddressData getShippingAddressData = new GetShippingAddressData();
         messageMock.obj=getShippingAddressData;
         orderSummaryFragment.onGetAddress(messageMock);
 

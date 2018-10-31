@@ -1,18 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.View;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.Constants.OrderStatus;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
-import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderDetailRequestTest;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
@@ -28,31 +27,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class OrderDetailsFragmentTest {
     private Context mContext;
-    OrderDetailsFragment orderDetailsFragmentTest;
-
-    Bundle bundle;
 
     private StoreListener mStore;
-    private AbstractModel mModel;
-
-    OrderDetail orderDetail;
 
     @Mock
-    IAPUser mUser;
+    private IAPUser mUser;
+    private OrderDetailsFragment orderDetailsFragmentTest;
 
     @Before
     public void setUp() {
@@ -65,37 +56,33 @@ public class OrderDetailsFragmentTest {
 
         mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig(/*"en", "US",*/ null);
-        mModel = new OrderDetailRequest(mStore, null, null);
 
-        bundle=new Bundle();
-        orderDetail=getOrderDetailFromJSON();
+        Bundle bundle = new Bundle();
+        OrderDetail orderDetail = getOrderDetailFromJSON();
 
-        bundle.putParcelable(IAPConstant.ORDER_DETAIL,orderDetail);
+        bundle.putParcelable(IAPConstant.ORDER_DETAIL, orderDetail);
         orderDetailsFragmentTest = OrderDetailsFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
-        orderDetailsFragmentTest.mOrderDetail=orderDetail;
+        orderDetailsFragmentTest.mOrderDetail = orderDetail;
         orderDetailsFragmentTest.setArguments(bundle);
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
-
-        OrderStatus orderStatus=OrderStatus.COMPLETED;
         SupportFragmentTestUtil.startFragment(orderDetailsFragmentTest);
     }
 
-
-
-    public OrderDetail getOrderDetailFromJSON() {
+    private OrderDetail getOrderDetailFromJSON() {
         String oneAddress = TestUtils.readFile(OrderDetailRequestTest.class, "order_detail.txt");
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ORDER_NUMBER, NetworkURLConstants.DUMMY_ORDER_ID);
         OrderDetailRequest request = new OrderDetailRequest(mStore, query, null);
         Object response = request.parseResponse(oneAddress);
+
         return (OrderDetail)response;
-       // assertEquals(response.getClass(), OrderDetail.class);
     }
 
     @Mock
+    private
     View viewMock;
     @Test(expected = ClassCastException.class)
     public void shouldAddFragmentWhenCancelButtonISClicked() throws Exception {

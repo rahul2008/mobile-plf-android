@@ -1,20 +1,19 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -22,14 +21,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 /**
  * Created by philips on 10/6/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class DeliveryMethodFragmentTest {
 
     @Mock
     Context mContext;
 
-    DeliveryMethodFragmentMock deliveryMethodFragment;
+    @Mock
+    private Message messageMock;
+
+    private DeliveryMethodFragmentMock deliveryMethodFragment;
 
     @Before
     public void setUp() {
@@ -56,31 +57,10 @@ public class DeliveryMethodFragmentTest {
         deliveryMethodFragment.onResume();
     }
 
-    @Mock
-    Bundle bundleMock;
-
-    @Mock
-    LayoutInflater layoutInflaterMock;
-
-    @Mock
-    ViewGroup viewGroupMock;
-
-    @Test
-    public void onCreateView() throws Exception {
-    }
-
-    @Test
-    public void onActivityCreated() throws Exception {
-
-    }
-
     @Test(expected = NullPointerException.class)
     public void onItemClick() throws Exception {
         deliveryMethodFragment.onItemClick(0);
     }
-
-    @Mock
-    Message messageMock;
     @Test
     public void onGetRegions() throws Exception {
         deliveryMethodFragment.onGetRegions(messageMock);
@@ -98,7 +78,7 @@ public class DeliveryMethodFragmentTest {
 
     @Test
     public void onGetAddress() throws Exception {
-    deliveryMethodFragment.onGetAddress(messageMock);
+        deliveryMethodFragment.onGetAddress(messageMock);
     }
 
     @Test
@@ -115,5 +95,4 @@ public class DeliveryMethodFragmentTest {
     public void onSetDeliveryMode() throws Exception {
         deliveryMethodFragment.onSetDeliveryMode(messageMock);
     }
-
 }

@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.ProductCatalog;
@@ -17,7 +17,6 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +28,6 @@ import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductAssetBuilderTest implements PRXAssetExecutor.AssetListener {

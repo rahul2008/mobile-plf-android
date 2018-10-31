@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
 package com.philips.platform.appframework.connectivitypowersleep;
 
@@ -14,7 +13,6 @@ import android.content.pm.PackageManager;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
@@ -36,6 +34,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowProgressDialog;
@@ -55,10 +54,9 @@ import static org.robolectric.shadows.ShadowToast.getTextOfLatestToast;
 /**
  * Test for ConnectivityFragment
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class, sdk=25)
+@RunWith(RobolectricTestRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class PowerSleepConnectivityFragmentTest {
-
 
     private ConnectivityFragmentMock connectivityFragment;
 
@@ -77,8 +75,6 @@ public class PowerSleepConnectivityFragmentTest {
 
     @Mock
     private static BluetoothAdapter bluetoothAdapter;
-
-
 
     private TextView sleepScoretextView;
 
@@ -123,13 +119,6 @@ public class PowerSleepConnectivityFragmentTest {
         assertEquals("Need permission", getTextOfLatestToast());
     }
 
-//    @Test
-//    public void updateSessionDataTest() {
-//        connectivityFragment.updateSessionData(19200000, 3, 5400000,2343243223L);
-//        assertEquals("320 mins", ((TextView) connectivityFragment.getView().findViewById(R.id.sleep_time_value)).getText().toString());
-//        assertEquals("90 mins", ((TextView) connectivityFragment.getView().findViewById(R.id.deep_sleep_time_value)).getText().toString());
-//    }
-
     @Test
     public void onActivityResultTest() {
         connectivityFragment.onActivityResult(AbstractConnectivityBaseFragment.REQUEST_ENABLE_BT, Activity.RESULT_CANCELED, new Intent());
@@ -172,12 +161,6 @@ public class PowerSleepConnectivityFragmentTest {
         assertFalse(dialog.isShowing());
     }
 
-//    @Test
-//    public void hideProgressDialogTest() throws Exception {
-//        connectivityFragment.hideProgressDialog();
-//        Dialog dialog=ShadowProgressDialog.get;
-//        assertFalse(dialog.isShowing());
-//    }
     @Test
     public void onSyncFailedTest() throws Exception {
         connectivityFragment.selectSuperPresenter(false);
@@ -193,13 +176,6 @@ public class PowerSleepConnectivityFragmentTest {
         verify(dataServicesManager).synchronize();
     }
 
-//    @Test
-//    public void onDBChangeFailedTest() throws Exception {
-//        connectivityFragment.selectSuperPresenter(false);
-//        connectivityFragment.dBChangeFailed(new Exception());
-//        String message=ShadowToast.getTextOfLatestToast();
-//        assertEquals(message,"DB Change failed");
-//    }
 
     @Test
     public void getFragmentActivityTest() {

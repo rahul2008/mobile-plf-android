@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap;
@@ -10,7 +10,6 @@ import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.session.NetworkController;
-import com.philips.cdp.di.iap.store.HybrisStore;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.StoreListener;
@@ -26,7 +25,6 @@ import static org.mockito.Mockito.mock;
 
 public class TestUtils {
     private static HybrisDelegate delegate;
-    private static HybrisStore mockHybrisStore;
 
     public static HybrisDelegate getStubbedHybrisDelegate() {
         if (delegate != null) {
@@ -40,9 +38,7 @@ public class TestUtils {
             Field controller = cls.getDeclaredField("controller");
             controller.setAccessible(true);
             controller.set(delegate, mockController);
-        } catch (NoSuchFieldException e) {
-            IAPLog.e(IAPLog.LOG, e.getMessage());
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             IAPLog.e(IAPLog.LOG, e.getMessage());
         }
 
@@ -50,11 +46,9 @@ public class TestUtils {
     }
 
     public static StoreListener getStubbedStore() {
-        if (mockHybrisStore != null) {
-            return mockHybrisStore;
-        }
         StoreListener mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
         mockStore.initStoreConfig(/*"en", "US",*/ null);
+
         return mockStore;
     }
 

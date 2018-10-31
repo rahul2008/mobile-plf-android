@@ -1,10 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.applocal;
-
-import android.content.Context;
 
 import com.philips.cdp.di.iap.iapHandler.LocalHandler;
 import com.philips.cdp.di.iap.integration.IAPListener;
@@ -12,7 +10,6 @@ import com.philips.cdp.di.iap.integration.IAPListener;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -20,8 +17,7 @@ import java.util.ArrayList;
 
 @RunWith(RobolectricTestRunner.class)
 public class LocalHandlerTest {
-    @Mock
-    Context mContext;
+
     LocalHandler mAppLocalHandler;
 
     IAPListener mIapListener = new IAPListener() {

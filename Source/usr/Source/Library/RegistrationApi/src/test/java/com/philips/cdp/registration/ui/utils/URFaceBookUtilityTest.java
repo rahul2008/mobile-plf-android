@@ -1,21 +1,20 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.ui.utils;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -25,32 +24,19 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 /**
  * Created by philips on 5/17/18.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class URFaceBookUtilityTest {
 
     @Mock
-    User userMock;
+    private User userMock;
 
     @Mock
-    RegistrationHelper registrationHelperMock;
-
-    @Mock
-    EventHelper eventHelperMock;
-
-    @Mock
-    FaceBookContractor faceBookContractorMock;
-
-    @Mock
-    Context contextMock;
-
-    @Mock
-    UserRegistrationFailureInfo userRegistrationFailureInfoMock;
+    private FaceBookContractor faceBookContractorMock;
 
     @Mock
     private RegistrationComponent registrationComponentMock;
@@ -58,17 +44,23 @@ public class URFaceBookUtilityTest {
     @Mock
     private LoggingInterface mockLoggingInterface;
 
-    URFaceBookUtility urFaceBookUtility;
+    @Mock
+    private LoginResult loginResultMock;
 
     @Mock
-    LoginResult loginResultMock;
+    private AccessToken accessTokenMock;
 
+    @Mock
+    private FacebookException facebookExceptionMock;
 
-    AccessToken accessTokenMock;
+    @Mock
+    private Activity activityMock;
 
-    //@Mock
-    CallbackManager callbackManagerMock;
+    @Mock
+    private SocialLoginProviderHandler socialProviderSocialLoginProviderHandlerMock;
 
+    private CallbackManager callbackManagerMock;
+    private URFaceBookUtility urFaceBookUtility;
 
     @Before
     public void setUp() throws Exception {
@@ -78,7 +70,6 @@ public class URFaceBookUtilityTest {
         callbackManagerMock = CallbackManager.Factory.create();
         Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessTokenMock);
         urFaceBookUtility = new URFaceBookUtility(faceBookContractorMock);
-
     }
 
     @Test
@@ -99,19 +90,11 @@ public class URFaceBookUtilityTest {
         Mockito.verify(faceBookContractorMock).doHideProgressDialog();
     }
 
-    @Mock
-    FacebookException facebookExceptionMock;
-
     @Test
     public void hideProgressBarWhenFacebookExceptionComes() throws Exception {
         urFaceBookUtility.onError(facebookExceptionMock);
         Mockito.verify(faceBookContractorMock).doHideProgressDialog();
     }
-    @Mock
-    Activity activityMock;
-
-    @Mock
-    SocialLoginProviderHandler socialProviderSocialLoginProviderHandlerMock;
 
     @Test
     public void shouldStartAccessTokenAuthForFacebook() throws Exception {

@@ -116,10 +116,11 @@ subprojects {
                 unitTests {
                     // As per Robolectric documentation
                     includeAndroidResources = true
-                }
-                unitTests.all {
-                    jvmArgs '-noverify'
-                    systemProperty 'robolectric.enabledSdks', '27'
+
+                    all {
+                        jvmArgs '-noverify'
+                        systemProperty 'robolectric.enabledSdks', '28'
+                    }
                 }
             }
 

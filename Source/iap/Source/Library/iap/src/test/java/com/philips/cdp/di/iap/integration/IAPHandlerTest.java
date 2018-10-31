@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.integration;
@@ -57,14 +57,7 @@ public class IAPHandlerTest {
         mIAPDependencies = new MockIAPDependencies(mAppInfra);
         mIAPSettings = new IAPSettings(mContext);
         mMockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSettings);
-//        Intent intent = new Intent();
-//        intent.putExtra(IAPConstant.CATEGORISED_PRODUCT_CTNS, "HX8332/11");
-//        intent.putStringArrayListExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, new ArrayList<String>());
-//
-//        Robolectric.buildActivity(IAPActivity.class).withIntent(intent).start().get();
 
-
-        //IAP Listener
         mIapListener = new IAPListener() {
             @Override
             public void onGetCartCount(int count) {

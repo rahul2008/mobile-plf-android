@@ -21,7 +21,6 @@ android {
         buildConfigField "String", "LIBRARY_VERSION", "\"${version}(${objcdp.getCommitHash()})\""
     }
 
-
     buildTypes {
         debug {
             buildConfigField "String", "LIBRARY_VERSION", "\"${version}(${objcdp.getCommitHash()})\""

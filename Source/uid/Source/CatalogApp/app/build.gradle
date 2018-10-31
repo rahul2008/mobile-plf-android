@@ -123,13 +123,6 @@ android {
         exclude 'LICENSE.txt'
 
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-        unitTests.all {
-            jvmArgs '-noverify'
-        }
-    }
 }
 
 dependencies {

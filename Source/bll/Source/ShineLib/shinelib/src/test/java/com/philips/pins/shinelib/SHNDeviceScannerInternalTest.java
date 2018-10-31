@@ -22,6 +22,7 @@ import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InOrder;
@@ -29,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -57,7 +59,8 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
-public class SHNDeviceScannerInternalTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class SHNDeviceScannerInternalTest {
 
     private static final long STOP_SCANNING_AFTER_10_SECONDS = 10_000L;
     private static final String MOCKED_BLUETOOTH_DEVICE_NAME = "Mocked Bluetooth Device";

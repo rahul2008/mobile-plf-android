@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.utils;
@@ -9,36 +9,39 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class NetworkUtilityTest extends TestCase {
-
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+@RunWith(RobolectricTestRunner.class)
+public class NetworkUtilityTest {
 
     @Mock
-    Log mockLog;
+    private Context contextMock;
+
+    @Mock
+    private FragmentManager fragmentManagerMock;
+
+    @Mock
+    private AlertDialogFragment alertDialogFragmentMock;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
-
 
     @Test
     public void testShowNetworkError() {
@@ -79,19 +82,10 @@ public class NetworkUtilityTest extends TestCase {
         NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
 
-    @Mock
-    Context contextMock;
-
-    @Mock
-    FragmentManager fragmentManagerMock;
-
     @Test(expected = NullPointerException.class)
     public void shouldShowAlertDialog() throws Exception {
         NetworkUtility.getInstance().showDLSDialog(contextMock,"Hi","Hi","Hi",fragmentManagerMock);
     }
-
-    @Mock
-    AlertDialogFragment alertDialogFragmentMock;
 
     @Test
     public void shouldDismissProgressDialog() throws Exception {

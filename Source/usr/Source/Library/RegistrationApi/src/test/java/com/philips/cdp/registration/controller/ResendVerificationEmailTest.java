@@ -1,19 +1,16 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.controller;
 
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.os.Handler;
 
-import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.errors.ErrorCodes;
-import com.philips.cdp.registration.errors.ErrorType;
-import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;

@@ -55,11 +55,8 @@ android {
             storeFile project.file('../../CatalogApp/extra/signing/debug.keystore')
         }
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {

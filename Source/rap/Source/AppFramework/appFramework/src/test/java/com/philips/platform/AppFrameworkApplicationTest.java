@@ -1,17 +1,9 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2017
- *  All rights are reserved. Reproduction or dissemination
- *  in whole or in part is prohibited without the prior written
- *  consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
-
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
-package com.philips.platform;
+ckage com.philips.platform;
 
 import android.content.Context;
 
@@ -32,6 +24,7 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
@@ -39,7 +32,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = AppFrameworkApplicationTest.class)
 public class AppFrameworkApplicationTest extends AppFrameworkApplication {
 
@@ -72,7 +65,6 @@ public class AppFrameworkApplicationTest extends AppFrameworkApplication {
                 });
             }
         });
-
 
         appInfra = mock(AppInfra.class);
 

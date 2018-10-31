@@ -72,9 +72,7 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
@@ -125,19 +123,19 @@ dependencies {
     }
     testImplementation deps.junit
     testImplementation deps.mockito
-    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
-    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric-utils:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric-junit:3.4-rc2'
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_junit
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.robolectric_utils
+
     androidTestImplementation deps.mockito_android
     androidTestImplementation deps.androidx_test.rules
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.junit
     androidTestImplementation deps.uiautomator
-    testImplementation deps.powermock_core
-    testImplementation deps.powermock_api_mockito
-    testImplementation deps.powermock_junit
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

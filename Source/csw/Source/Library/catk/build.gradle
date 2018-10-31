@@ -28,11 +28,8 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }

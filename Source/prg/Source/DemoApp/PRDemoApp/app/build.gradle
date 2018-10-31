@@ -8,7 +8,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-    
+
     defaultConfig {
         applicationId "com.philips.platform.prdemoapp"
         versionCode 1

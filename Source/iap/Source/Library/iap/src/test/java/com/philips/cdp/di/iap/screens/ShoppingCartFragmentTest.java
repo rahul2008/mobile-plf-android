@@ -1,12 +1,13 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
@@ -14,44 +15,34 @@ import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.response.carts.ProductEntity;
 import com.philips.cdp.di.iap.response.carts.StockEntity;
-import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class ShoppingCartFragmentTest {
+
     private Context mContext;
-    ShoppingCartFragment shoppingCartFragment;
+    private ShoppingCartFragment shoppingCartFragment;
 
     @Mock
-    ShoppingCartAdapter.OutOfStockListener outOfStockListenerMock;
-
-    @Mock
-    EntriesEntity mockEntriesEntity;
+    private ShoppingCartAdapter.OutOfStockListener outOfStockListenerMock;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-       // mActivity = Robolectric.buildActivity(DemoTestActivity.class).create().get();
         shoppingCartFragment = ShoppingCartFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
 
         mContext = RuntimeEnvironment.application;
@@ -59,13 +50,10 @@ public class ShoppingCartFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-
     @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
         startFragment(shoppingCartFragment);
         assertNotNull( shoppingCartFragment );
-
-
     }
 
     @Test
@@ -117,8 +105,6 @@ public class ShoppingCartFragmentTest {
 
     @Test
     public void shouldStart_ProductDetailFragment() throws Exception {
-
-
         StockEntity stockEntity=new StockEntity();
         stockEntity.setStockLevel(3);
         ProductEntity productEntity=new ProductEntity();
@@ -144,13 +130,8 @@ public class ShoppingCartFragmentTest {
         mAdapter.getQuantityStatusInfo();
         mAdapter.getNewCount();
         mAdapter.getSelectedItemPosition();
-//        mAdapter.onCreateViewHolder(any(ViewGroup.class),0);
-       // mAdapter.onBindViewHolder(,0);
 
         shoppingCartFragment.startProductDetailFragment(mAdapter);
 
     }
-
-
-    //ShoppingCartAdapter.
 }

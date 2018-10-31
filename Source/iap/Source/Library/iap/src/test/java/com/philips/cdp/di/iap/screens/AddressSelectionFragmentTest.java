@@ -1,16 +1,17 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
-import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Message;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.adapters.AddressSelectionAdapter;
-import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
@@ -18,8 +19,6 @@ import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.response.addresses.Region;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
@@ -31,39 +30,52 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class AddressSelectionFragmentTest {
-    private Context mContext;
+
     @Mock
-    IAPAddressSelectionFragmentMock addrssAddressSelectionFragment;
+    private IAPAddressSelectionFragmentMock addrssAddressSelectionFragment;
+
     @Mock
-    Message mockMessage;
+    private Message mockMessage;
+
     @Mock
     private AddressSelectionAdapter mockAdapter;
 
     @Mock
-    DeliveryModes deliveryModesMock;
+    private DeliveryModes deliveryModesMock;
 
     @Mock
-    AddressController mockAddressController;
+    private PaymentMethods paymentMethodsMock;
+
+    @Mock
+    private Bundle bundleMock;
+
+    @Mock
+    private Addresses addressesMock;
+
+    @Mock
+    private List<Addresses> mAddressesMock;
+
+    @Mock
+    private Country countryMock;
+
+    @Mock
+    private Region regionMock;
 
     @Before
     public void setUp() {
         initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
         isNetworkAvailable();
@@ -75,7 +87,6 @@ public class AddressSelectionFragmentTest {
 
     @Test
     public void shouldDisplayAddressSelectionFragment() {
-
         SupportFragmentTestUtil.startFragment(addrssAddressSelectionFragment);
         InAppBaseFragment spyInAppBaseFragment = Mockito.spy(addrssAddressSelectionFragment);
         spyInAppBaseFragment.showFragment(addrssAddressSelectionFragment.getTag());
@@ -121,34 +132,10 @@ public class AddressSelectionFragmentTest {
 
     }
 
-    public void isNetworkAvailable() {
-        final ConnectivityManager connectivityManager = mock(ConnectivityManager.class);
-        final NetworkInfo networkInfo = mock(NetworkInfo.class);
-        Mockito.when(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).thenReturn(networkInfo);
-        Mockito.when(networkInfo.isAvailable()).thenReturn(true);
-        Mockito.when(networkInfo.isConnected()).thenReturn(true);
-        NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
-    }
-
-    @Mock
-    Bundle bundleMock;
-
     @Test(expected = NullPointerException.class)
     public void shouldSetLayoutManager_OnActivityCreated() throws Exception {
         addrssAddressSelectionFragment.onActivityCreated(bundleMock);
     }
-
-    @Mock
-    Addresses addressesMock;
-
-    @Mock
-    List<Addresses> mAddressesMock;
-
-    @Mock
-    Country countryMock;
-
-    @Mock
-    Region regionMock;
 
     @Test
     public void shouldEditAddress_WhenADDRESS_SELECTION_EVENT_EDITEventReceived() throws Exception {
@@ -189,20 +176,10 @@ public class AddressSelectionFragmentTest {
         addrssAddressSelectionFragment.mAdapter=mockAdapter;
 
         addrssAddressSelectionFragment.onGetPaymentDetails(mockMessage);
-
     }
-
-    /*@Mock
-    IAPNetworkError iapNetworkErrorMock;*/
-
-    @Mock
-    PaymentMethods paymentMethodsMock;
 
     @Test
     public void shouldCall_onGetPaymentDetails_WhenMessageIsIAPNetworkError() throws Exception {
-
-
-
         when(regionMock.getIsocodeShort()).thenReturn("911");
         when(regionMock.getIsocode()).thenReturn("911");
         when(addressesMock.getRegion()).thenReturn(regionMock);
@@ -222,5 +199,14 @@ public class AddressSelectionFragmentTest {
     public void shouldUnregisterEvents_WhenOnDestroyIsCalled() throws Exception {
         addrssAddressSelectionFragment.onDestroy();
         addrssAddressSelectionFragment.unregisterEvents();
+    }
+
+    private void isNetworkAvailable() {
+        final ConnectivityManager connectivityManager = mock(ConnectivityManager.class);
+        final NetworkInfo networkInfo = mock(NetworkInfo.class);
+        Mockito.when(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).thenReturn(networkInfo);
+        Mockito.when(networkInfo.isAvailable()).thenReturn(true);
+        Mockito.when(networkInfo.isConnected()).thenReturn(true);
+        NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
 }

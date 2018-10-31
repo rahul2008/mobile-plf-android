@@ -15,7 +15,9 @@ import com.philips.pins.shinelib.utility.PersistentStorageFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.Date;
@@ -29,7 +31,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SHNUserConfigurationImplTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class SHNUserConfigurationImplTest {
 
     public static final String TEST_KEY = "TEST_KEY";
     public static final String TEST_VALUE = "TEST_VALUE";

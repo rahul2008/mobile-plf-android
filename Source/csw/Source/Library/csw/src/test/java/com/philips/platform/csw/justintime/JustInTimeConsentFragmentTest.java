@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw.justintime;
 
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.csw.BuildConfig;
 import com.philips.platform.csw.R;
 import com.philips.platform.csw.dialogs.DialogView;
 import com.philips.platform.csw.dialogs.ProgressDialogView;
@@ -17,12 +21,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,19 +35,23 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class JustInTimeConsentFragmentTest {
 
     @Mock
     private AppInfra appInfraMock;
+
     @Mock
     private JustInTimeWidgetHandler handlerMock;
+
     @Mock
     private AppTaggingInterface taggingMock;
+
     @Mock
     private JustInTimeConsentContract.Presenter presenterMock;
+
     @Mock
     private ProgressDialogView progressDialogViewMock;
+
     @Mock
     private DialogView dialogViewMock;
 

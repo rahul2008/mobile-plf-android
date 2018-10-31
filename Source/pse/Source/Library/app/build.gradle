@@ -73,7 +73,7 @@ publishing {
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
-    
+
     defaultConfig {
         applicationId "com.philips.hor_productselection_android"
         renderscriptTargetApi versions.renderscriptTargetApi

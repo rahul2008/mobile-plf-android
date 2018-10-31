@@ -1,12 +1,9 @@
 /*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.mya.base;
-
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -17,11 +14,9 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.activity.MyaActivity;
 import com.philips.platform.mya.launcher.MyaLaunchInput;
-import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -29,8 +24,8 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
@@ -44,12 +39,11 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class MyaBaseFragmentTest {
 
     private MyaBaseFragment myaBaseFragment;
-    private Context mContext;
+
     private ActionBarListener actionBarListener = new ActionBarListener() {
         @Override
         public void updateActionBar(int i, boolean b) {
@@ -65,7 +59,8 @@ public class MyaBaseFragmentTest {
     @Before
     public void setup() {
         initMocks(this);
-        mContext = RuntimeEnvironment.application;
+
+        Context mContext = RuntimeEnvironment.application;
         myaBaseFragment = new MyaSettingsFragment();
         AppInfra appInfra = new AppInfra.Builder().build(mContext);
         MyaHelper.getInstance().setAppInfra(appInfra);

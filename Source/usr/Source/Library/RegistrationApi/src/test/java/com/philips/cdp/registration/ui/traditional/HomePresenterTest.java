@@ -1,19 +1,15 @@
-package com.philips.cdp.registration.ui.traditional;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import android.app.Activity;
+package com.philips.cdp.registration.ui.traditional;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginResult;
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.URFaceBookUtility;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -24,33 +20,16 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 /**
  * Created by philips on 5/14/18.
  */
-
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class HomePresenterTest {
 
     @Mock
-    User userMock;
-
-    @Mock
-    RegistrationHelper registrationHelperMock;
-
-    @Mock
-    EventHelper eventHelperMock;
-
-    @Mock
-    HomeContract homeContractMock;
-
-    @Mock
-    Activity contextMock;
-
-    @Mock
-    UserRegistrationFailureInfo userRegistrationFailureInfoMock;
+    private HomeContract homeContractMock;
 
     @Mock
     private RegistrationComponent registrationComponentMock;
@@ -58,27 +37,23 @@ public class HomePresenterTest {
     @Mock
     private LoggingInterface mockLoggingInterface;
 
-    HomePresenter homePresenter;
+    @Mock
+    private LoginResult loginResultMock;
 
     @Mock
-    LoginResult loginResultMock;
-
-
-    AccessToken accessTokenMock;
-
-    //@Mock
-    CallbackManager callbackManagerMock;
+    private URFaceBookUtility urFaceBookUtilityMock;
 
     @Mock
-    URFaceBookUtility urFaceBookUtilityMock;
+    private AccessToken accessTokenMock;
 
+    private HomePresenter homePresenter;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         RLog.setMockLogger(mockLoggingInterface);
-        callbackManagerMock = CallbackManager.Factory.create();
+        CallbackManager callbackManagerMock = CallbackManager.Factory.create();
         Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessTokenMock);
         homePresenter = new HomePresenter(homeContractMock, callbackManagerMock);
 
@@ -89,15 +64,5 @@ public class HomePresenterTest {
         Mockito.when(homeContractMock.getURFaceBookUtility()).thenReturn(urFaceBookUtilityMock);
         homePresenter.registerFaceBookCallBack();
         Mockito.verify(homeContractMock.getURFaceBookUtility()).registerFaceBookCallBack();
-    }
-
-    @Mock
-    SocialLoginProviderHandler socialProviderSocialLoginProviderHandlerMock;
-
-    @Test
-    public void shouldStartAccessTokenFacebookAuth() throws Exception {
-//        homePresenter.startAccessTokenAuthForFacebook();
-        //      Mockito.when(homeContractMock.getURFaceBookUtility()).thenReturn(urFaceBookUtilityMock);
-        //     Mockito.verify( homeContractMock.getURFaceBookUtility()).startAccessTokenAuthForFacebook(userMock, contextMock, socialProviderSocialLoginProviderHandlerMock, "accessToken", null);
     }
 }

@@ -1,17 +1,17 @@
-/* Copyright (c) Koninklijke Philips N.V. 2018
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.platform.appinfra.tagging;
 
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SEND_DATA;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SUCCESS_MESSAGE;
@@ -19,7 +19,8 @@ import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.TECHNICA
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class AppInfraTaggingUtilTest extends TestCase {
+@RunWith(RobolectricTestRunner.class)
+public class AppInfraTaggingUtilTest {
 
     private AppInfraTaggingUtil appInfraTaggingUtil;
     private AppTaggingInterface appTaggingInterface;
@@ -33,6 +34,7 @@ public class AppInfraTaggingUtilTest extends TestCase {
         appInfraTaggingUtil = new AppInfraTaggingUtil(appTaggingInterface, loggingInterface);
     }
 
+    @Test
     public void testSuccessAction() throws Exception {
         String message = " some message";
         appInfraTaggingUtil.trackSuccessAction(AppInfraTaggingUtil.SERVICE_DISCOVERY, message);
@@ -40,6 +42,7 @@ public class AppInfraTaggingUtilTest extends TestCase {
         verify(loggingInterface).log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SERVICE_DISCOVERY, AppInfraTaggingUtil.SERVICE_DISCOVERY.concat(":").concat(message));
     }
 
+    @Test
     public void testErrorAction() throws Exception {
         String message = " some message";
         appInfraTaggingUtil.trackErrorAction(AppInfraTaggingUtil.SERVICE_DISCOVERY, message);

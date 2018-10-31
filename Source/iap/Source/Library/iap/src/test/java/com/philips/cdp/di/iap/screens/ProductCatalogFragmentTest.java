@@ -1,15 +1,16 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
-
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.integration.IAPListener;
-import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -17,29 +18,25 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import junit.framework.Assert;
 
 import org.junit.Before;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
-
 
 import java.util.ArrayList;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
-@Config(sdk=23)
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ProductCatalogFragmentTest {
-    // private Activity activity;
     private ProductCatalogFragment productCatalogFragment;
-    @Mock
-    private ProductCatalogPresenter productCatalogPresenter;
+
     @Mock
     IAPListener mockIAPListener;
+
     private Context mContext;
 
     @Before

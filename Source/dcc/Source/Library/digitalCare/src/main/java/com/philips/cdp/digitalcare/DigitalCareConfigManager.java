@@ -1,4 +1,9 @@
 /*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * DigitalCareConfigManager is the Singleton class helps to manage,customize the features through
  * the supported API's.
  * <b> Note: </b>
@@ -37,14 +42,6 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.Locale;
-
-//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
-//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
-//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-//import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-//import com.philips.cdp.productselection.launchertype.UiLauncher;
-//import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
-
 
 public class DigitalCareConfigManager {
 
@@ -97,12 +94,6 @@ public class DigitalCareConfigManager {
         return mDigitalCareInstance;
     }
 
-
-   /* private static void initializeTaggingContext(Context context) {
-        AnalyticsTracker.initContext(context);
-    }
-*/
-
     /**
      * Returs the Context used in the DigitalCare Component
      *
@@ -128,8 +119,6 @@ public class DigitalCareConfigManager {
             appInfraInterface) {
         mContext = applicationContext;
         mAppInfraInterface = appInfraInterface;
-
-            // initializeTaggingContext(mContext);
 
         ProductModelSelectionHelper.getInstance().initialize(mContext, mAppInfraInterface);
     }
@@ -174,7 +163,6 @@ public class DigitalCareConfigManager {
     protected void invokeDigitalCare(UiLauncher uiLauncher, ProductModelSelectionType productModelSelectionType) {
         mUiLauncher = uiLauncher;
 
-
         if (productModelSelectionType != null) {
             mProductModelSelectionType = productModelSelectionType;
             if (productModelSelectionType.getHardCodedProductList().length == 0)
@@ -189,9 +177,9 @@ public class DigitalCareConfigManager {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
             themeConfiguration = activityLauncher.getDlsThemeConfiguration();
             invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(),
-                    uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation() );
+                    uiLauncher.getExitAnimation(), activityLauncher.getScreenOrientation());
             DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
-          /*  DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
+            /*  DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
 
         } else {
             DigiCareLogger.i(TAG, "Launching through Fragment Manager instance");
@@ -200,42 +188,9 @@ public class DigitalCareConfigManager {
                     fragmentLauncher.getParentContainerResourceID(),
                     fragmentLauncher.getActionbarListener(),
                     uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
-          /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
+            /*  DigiCareLogger.i("testing", "DigitalCare Config -- Fragment Invoke");*/
         }
     }
-
-     /*
-    @Override
-    public void launch(com.philips.platform.uappframework.launcher.UiLauncher uiLauncher,
-                       UappLaunchInput uappLaunchInput, UappListener uappListener) {
-
-        HardcodedProductList hardcodedProductList = (HardcodedProductList) uappLaunchInput;
-
-        if (uiLauncher instanceof com.philips.platform.uappframework.launcher.ActivityLauncher) {
-
-            invokeDigitalCareAsActivity(uiLauncher.getEnterAnimation(),
-                    uiLauncher.getExitAnimation(), null);
-
-        } else {
-
-            com.philips.platform.uappframework.launcher.FragmentLauncher fragmentLauncher
-                    = (com.philips.platform.uappframework.launcher.FragmentLauncher) uiLauncher;
-
-            FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
-            int containerViewId = fragmentLauncher.getParentContainerResourceID();
-            int enterAnimation = fragmentLauncher.getEnterAnimation();
-            int exitAnimation = fragmentLauncher.getExitAnimation();
-            ActionBarListener actionBarListener = fragmentLauncher.getActionbarListener();
-
-
-            invokeDigitalCareAsFragment(fragmentLauncher.getFragmentActivity(),
-                    fragmentLauncher.getParentContainerResourceID(),
-                    null,
-                    uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
-        }
-
-    }*/
-
 
     public UiLauncher getUiLauncher() {
         return mUiLauncher;
@@ -263,9 +218,6 @@ public class DigitalCareConfigManager {
                         "App Tagging inputs by invoking setAppTaggingInputs API");
             }
         }
-       /* DigiCareLogger.i("testing", "DigitalCare Config -- Activity Invoke");*/
-
-        //AnalyticsTracker.setTaggingInfo(mTaggingEnabled, mAppID);
 
         Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
         intent.putExtra(DigitalCareConstants.START_ANIMATION_ID, startAnimation);
@@ -281,8 +233,6 @@ public class DigitalCareConfigManager {
     @SuppressWarnings("deprecation")
     public AppInfraInterface getAPPInfraInstance() {
         return mAppInfraInterface;
-
-        //return AppInfraSingleton.getInstance();
     }
 
     public AppTaggingInterface getTaggingInterface() {
@@ -303,7 +253,6 @@ public class DigitalCareConfigManager {
         }
         return loggingInterface;
     }
-
 
     /**
      * Returns {@link ConsumerProductInfo} object.
