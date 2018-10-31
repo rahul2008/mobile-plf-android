@@ -183,7 +183,7 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
                         .put("receiveMarketingEmail", diUserProfile.getReceiveMarketingEmail())
                         .put("familyName", diUserProfile.getFamilyName())
                         .put("preferredLanguage",Locale.getDefault().getLanguage())
-                        .put("primaryAddress",primaryAddressArray);
+                        .put("primaryAddress",primaryAddressObject);
                 new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
             }

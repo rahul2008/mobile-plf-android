@@ -146,7 +146,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                         .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail())
                         .put("familyName", mProfile.getFamilyName())
                         .put("preferredLanguage",Locale.getDefault().getLanguage())
-                        .put("primaryAddress",primaryAddressArray);
+                        .put("primaryAddress",primaryAddressObject);
                 new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
                 RLog.e(TAG, "registerNewUserUsingTraditional : " + e.getMessage());
