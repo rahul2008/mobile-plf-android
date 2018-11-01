@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import java.util.HashMap;
 import java.util.Map;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertNotEquals;
@@ -31,7 +32,8 @@ public class CartUpdateProductQuantityRequestTest {
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
+        Context context = getInstrumentation().getContext();
+        mStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context));
         mStore.initStoreConfig(/*"en", "us",*/ null);
     }
 

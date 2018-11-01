@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -35,7 +35,7 @@ public class WebPaymentFragmentTest {
     public void setUp() {
         initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
 
@@ -45,18 +45,18 @@ public class WebPaymentFragmentTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void shouldDisplayWebPaymentFragment() {
+    public void shouldDisplayWebPaymentFragment() throws Exception {
         SupportFragmentTestUtil.startFragment(webPaymentFragment);
     }
 
     @Test(expected = RuntimeException.class)
-    public void shouldDisplayGetWebUrl() {
+    public void shouldDisplayGetWebUrl() throws Exception {
         webPaymentFragment.getWebUrl();
         SupportFragmentTestUtil.startFragment(webPaymentFragment);
     }
 
     @Test(expected = NullPointerException.class)
-    public void shouldOverrideURL() {
+    public void shouldOverrideURL() throws Exception {
         webPaymentFragment.shouldOverrideUrlLoading("http://google.com");
         SupportFragmentTestUtil.startFragment(webPaymentFragment);
     }

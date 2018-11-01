@@ -23,6 +23,7 @@ import org.mockito.Mockito;
 import java.util.HashMap;
 import java.util.Map;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -33,7 +34,8 @@ public class SetPaymentDetailsRequestTest {
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
+        Context context = getInstrumentation().getContext();
+        mStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context));
         mStore.initStoreConfig(/*"en", "us",*/ null);
     }
 
@@ -52,13 +54,6 @@ public class SetPaymentDetailsRequestTest {
         assertEquals(mockSetPaymentDetailsRequest.requestBody(), params);
     }
 
-    //    @Test
-//    public void testQueryParamsWithPaymentDetailId() {
-//        Map<String, String> params = new HashMap<>();
-//        params.put(ModelConstants.PAYMENT_DETAILS_ID, ModelConstants.PAYMENT_DETAILS_ID);
-//        GetPaymentDetailRequest request = new GetPaymentDetailRequest(mStore, params, null);
-//        assertEquals(request.requestBody(), params);
-//    }
     @Test
     public void testQueryParamsWithPaymentDetailId() {
         Map<String, String> params = new HashMap<String, String>();

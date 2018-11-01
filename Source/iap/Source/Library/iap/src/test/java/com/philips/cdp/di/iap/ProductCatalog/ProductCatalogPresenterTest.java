@@ -40,6 +40,7 @@ import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.PRX;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -57,10 +58,10 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     private ArrayList<String> mCTNS = new ArrayList<>();
 
     @Before
-    public void setUP() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
+        mContext = getInstrumentation().getContext();
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
-        mContext = RuntimeEnvironment.application;
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
 
         mCTNS.add("HX9033/64");
@@ -75,6 +76,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         assertFalse(localCatalog.getProductCatalog(0, 20, null));
     }
 
+    @Test
     public void testGetProductCatalogSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -87,6 +89,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         makePRXData();
     }
 
+    @Test
     public void testGetProductCatalogErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -105,18 +108,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         assertTrue(error != null);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void testGetProductListWithPaginationSuccessResponse() throws JSONException {
-//        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-//        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
-//        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-//        mProductCatalogPresenter.getCompleteProductList(this);
-//
-//        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
-//                .class, "product_catalog_get_request.txt"));
-//        mNetworkController.sendSuccess(obj);
-//    }
-
+    @Test
     public void testGetProductListWithNoPaginationSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -185,26 +177,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         VolleyError error = new ServerError(networkResponse);
         mNetworkController.sendFailure(error);
     }
-
-//    @Test(expected = NullPointerException.class)
-//    public void testGetCompleteProductListWithNoPaginationErrorResponse() throws JSONException {
-//        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-//        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
-//        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-//        Utility.addCountryInPreference(PreferenceManager.getDefaultSharedPreferences(mContext), IAPConstant.IAP_COUNTRY_KEY, "en_US");
-//        mProductCatalogPresenter.getCompleteProductList(this);
-//
-//        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
-//                .class, "product_catalog_get_request_page_size_1.txt"));
-//        mNetworkController.sendSuccess(obj);
-//
-//        obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
-//                .class, "product_catalog_error.txt"));
-//        NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(), null, true, 1222L);
-//
-//        VolleyError error = new ServerError(networkResponse);
-//        mNetworkController.sendFailure(error);
-//    }
 
     @Test
     public void testNoProductError() throws Exception {

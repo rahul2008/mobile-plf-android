@@ -10,7 +10,10 @@ import android.net.NetworkInfo;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.cdp.di.iap.store.IAPUser;
+import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import org.junit.Before;
@@ -21,6 +24,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.cdp.di.iap.utils.NetworkUtility.ALERT_DIALOG_TAG;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -59,17 +63,17 @@ public class NetworkUtilityTest {
 
     @Test
     public void testShowErrorMessage() {
-        NetworkUtility.getInstance().showErrorMessage(mock(Message.class), mock(FragmentManager.class), mock(Context.class));
+        NetworkUtility.getInstance().showErrorMessage(mock(Message.class), mock(FragmentManager.class), getInstrumentation().getContext());
     }
 
     @Test
     public void testgetErrorTitleMessageFromErrorCode() {
-        NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mock(Context.class), 0);
+        NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(getInstrumentation().getContext(), 0);
     }
 
     @Test(expected = RuntimeException.class)
     public void testGetErrorDescriptionMessageFromErrorCode() {
-        NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mock(Context.class), mock(IAPNetworkError.class));
+        NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(getInstrumentation().getContext(), mock(IAPNetworkError.class));
     }
 
     @Test

@@ -32,15 +32,16 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class IAPHandlerTest {
     @Mock
-    AppInfra mAppInfra;
-    @Mock
-    Context mContext;
+    private AppInfra mAppInfra;
+
+    private Context mContext;
 
     @Mock
     ServiceDiscoveryInterface mServiceDiscoveryInterface;
@@ -53,6 +54,8 @@ public class IAPHandlerTest {
     @Before
     public void setUp() throws Exception {
         TestUtils.getStubbedHybrisDelegate();
+
+        mContext = getInstrumentation().getContext();
 
         mIAPDependencies = new MockIAPDependencies(mAppInfra);
         mIAPSettings = new IAPSettings(mContext);

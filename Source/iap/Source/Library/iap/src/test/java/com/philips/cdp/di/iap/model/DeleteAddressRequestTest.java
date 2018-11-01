@@ -17,6 +17,7 @@ import org.mockito.Mock;
 
 import java.util.HashMap;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.Mockito.mock;
 
 public class DeleteAddressRequestTest {
@@ -25,7 +26,8 @@ public class DeleteAddressRequestTest {
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
+        Context context = getInstrumentation().getContext();
+        mStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context));
         mStore.initStoreConfig(/*"en", "us",*/ null);
     }
 

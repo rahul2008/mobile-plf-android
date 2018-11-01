@@ -139,6 +139,10 @@ dependencies {
     testImplementation deps.robolectric_junit
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_utils
+    testImplementation deps.apache_httpclient
+
+    testImplementation project(strings.pif.projectName)
+    testImplementation project(strings.jmp.projectName)
 
     // Android test
     androidTestImplementation deps.assertj

@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.Mockito.mock;
 
 public class TestUtils {
@@ -31,7 +32,9 @@ public class TestUtils {
             return delegate;
         }
         delegate = HybrisDelegate.getInstance();
-        NetworkController mockController = new MockNetworkController(mock(Context.class), new MockIAPSetting(mock(Context.class)));
+        Context context = getInstrumentation().getContext();
+
+        NetworkController mockController = new MockNetworkController(context, new MockIAPSetting(context));
         try {
             //Set the controller
             Class<?> cls = delegate.getClass();
@@ -46,7 +49,8 @@ public class TestUtils {
     }
 
     public static StoreListener getStubbedStore() {
-        StoreListener mockStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
+        Context context = getInstrumentation().getContext();
+        StoreListener mockStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context));
         mockStore.initStoreConfig(/*"en", "US",*/ null);
 
         return mockStore;
