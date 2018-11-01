@@ -9,15 +9,22 @@ import android.content.Context;
 import com.philips.cdp.di.iap.controller.ControllerFactory;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+
 @RunWith(RobolectricTestRunner.class)
 public class ControllerFactoryTest {
-    @Mock
-    Context mContext;
+    private Context mContext;
+
+    @Before
+    public void setUp() throws Exception {
+        mContext = getInstrumentation().getContext();
+    }
 
     @Test
     public void shouldDisplayCartIconReturnFalse() throws Exception {

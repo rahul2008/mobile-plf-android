@@ -17,18 +17,16 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
-@RunWith(RobolectricTestRunner.class)
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+
 public class VerticalImplementation extends MockIAPListener {
     private MockIAPDependencies mockIAPDependencies;
     private MockIAPSetting mockIAPSetting;
     private MockIAPInterface mockIAPInterface;
     private MockIAPLaunchInput mockIAPLaunchInput;
+
     @Mock
-    Context mContext;
-    @Mock
-    AppInfra mAppInfra;
-    @Mock
-    User mUser;
+    private AppInfra mAppInfra;
 
     @Before
     public void setUp() throws Exception {

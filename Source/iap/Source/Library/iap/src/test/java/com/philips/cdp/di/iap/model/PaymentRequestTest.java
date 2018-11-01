@@ -21,27 +21,31 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.HashMap;
+import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
+@RunWith(RobolectricTestRunner.class)
 public class PaymentRequestTest {
+    private Context mContext;
+
     @Mock
-    StoreListener mStore;
+    private StoreListener mStore;
     @Mock
-    Context mContext;
-    @Mock
-    IAPUser mUser;
-    @Mock
-    IAPDependencies mIAPDependencies;
+    private IAPUser mUser;
+
     private AbstractModel mModel;
 
     @Before
     public void setUP() {
+        mContext = getInstrumentation().getContext();
         mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig(/*"en", "US",*/ null);
         HashMap<String, String> params = new HashMap<>();

@@ -31,6 +31,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -65,7 +66,7 @@ public class OrderSummaryFragmentTest {
     public void setUp() {
         initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
         Mockito.when(mockPaymentMethod.getBillingAddress()).thenReturn(new Addresses());
 
         final Bundle bundle = new Bundle();

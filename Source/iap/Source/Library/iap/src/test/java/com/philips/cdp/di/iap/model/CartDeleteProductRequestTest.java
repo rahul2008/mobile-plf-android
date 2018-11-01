@@ -12,10 +12,12 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.robolectric.RobolectricTestRunner;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
@@ -24,12 +26,13 @@ import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 
+@RunWith(RobolectricTestRunner.class)
 public class CartDeleteProductRequestTest {
     @Mock
     private StoreListener mStore;
 
     @Before
-    public void setUP() {
+    public void setUp() {
         Context context = getInstrumentation().getContext();
         mStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context));
         mStore.initStoreConfig(/*"en", "us",*/ null);

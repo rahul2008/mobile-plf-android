@@ -25,6 +25,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -68,7 +69,7 @@ public class AddressFragmentTest {
     public void setUp() {
         initMocks(this);
         addressFragment = AddressFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
 

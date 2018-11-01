@@ -18,14 +18,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public class NetworkControllerTest {
     @Mock
     AppInfra mAppInfra;
-    @Mock
-    Context mContext;
+    private Context mContext;
     @Mock
     NetworkEssentials mNetworkEssentials;
     NetworkController mNetworkController;
@@ -34,6 +34,7 @@ public class NetworkControllerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        mContext = getInstrumentation().getContext();
         mockIAPSetting = new MockIAPSetting(mContext);
         mNetworkController = new NetworkController(mContext);
         mNetworkController.setIapSettings(mockIAPSetting);

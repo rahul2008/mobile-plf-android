@@ -24,6 +24,7 @@ import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
@@ -37,7 +38,7 @@ public class HybrisHandlerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
 
         mHybrisHandler = new HybrisHandler(mContext);
 

@@ -28,36 +28,37 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogHelperTest {
     private ProductCatalogHelper productCatalogHelper;
-
+    private Context mContext;
     private HashMap<String, SummaryModel> mockHashMap = new HashMap<>();
-    @Mock
-    SummaryModel mockSummaryModel;
-    @Mock
-    Data mockData;
-    @Mock
-    Message mockMessage;
-    @Mock
-    PriceEntity mockPriceEntity;
-    @Mock
-    IAPListener mockIapListener;
-    @Mock
-    DiscountPriceEntity mockDiscountPriceEntity;
-    @Mock
-    Context mContext;
-    @Mock
-    ProductCatalogPresenter.ProductCatalogListener mockProductCatalogListener;
-    @Mock
-    AbstractModel.DataLoadListener mockDataLoadListener;
 
-    List<ProductsEntity> productsEntityList = new ArrayList<>();
     @Mock
-    Products mockProducts;
+    private SummaryModel mockSummaryModel;
+    @Mock
+    private Data mockData;
+    @Mock
+    private Message mockMessage;
+    @Mock
+    private PriceEntity mockPriceEntity;
+    @Mock
+    private IAPListener mockIapListener;
+    @Mock
+    private DiscountPriceEntity mockDiscountPriceEntity;
+    @Mock
+    private ProductCatalogPresenter.ProductCatalogListener mockProductCatalogListener;
+    @Mock
+    private AbstractModel.DataLoadListener mockDataLoadListener;
+
+    private List<ProductsEntity> productsEntityList = new ArrayList<>();
+    @Mock
+    private Products mockProducts;
+
     @Mock
     private ProductsEntity mockProductEntity;
     @Mock
@@ -66,6 +67,7 @@ public class ProductCatalogHelperTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        mContext = getInstrumentation().getContext();
         productCatalogHelper = new ProductCatalogHelper(mContext, mockProductCatalogListener, mockDataLoadListener);
         Mockito.when(mockProductEntity.getCode()).thenReturn("HX8332/11");
         Mockito.when(mockDiscountPriceEntity.getFormattedValue()).thenReturn("12.23");

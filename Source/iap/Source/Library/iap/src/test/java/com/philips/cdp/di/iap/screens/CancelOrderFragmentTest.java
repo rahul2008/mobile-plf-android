@@ -18,6 +18,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -33,7 +34,7 @@ public class CancelOrderFragmentTest {
         bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING,"df");
         bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING,"df");
         cancelOrderFragment = CancelOrderFragment.createInstance(bundle, InAppBaseFragment.AnimationType.NONE);
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
     }

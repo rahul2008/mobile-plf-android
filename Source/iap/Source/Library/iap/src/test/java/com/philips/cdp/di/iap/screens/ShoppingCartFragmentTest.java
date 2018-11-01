@@ -26,6 +26,7 @@ import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
@@ -45,7 +46,7 @@ public class ShoppingCartFragmentTest {
 
         shoppingCartFragment = ShoppingCartFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
 
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
     }

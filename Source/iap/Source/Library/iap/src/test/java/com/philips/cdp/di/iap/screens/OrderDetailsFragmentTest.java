@@ -33,6 +33,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.HashMap;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -49,7 +50,7 @@ public class OrderDetailsFragmentTest {
     public void setUp() {
         initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
 
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();

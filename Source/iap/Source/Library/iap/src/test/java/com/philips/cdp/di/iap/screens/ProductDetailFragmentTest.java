@@ -31,6 +31,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -96,7 +97,7 @@ public class ProductDetailFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
         isNetworkAvailable();
 
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
         productDetailFragment = ProductDetailFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
     }
 

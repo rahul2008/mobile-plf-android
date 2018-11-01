@@ -46,7 +46,7 @@ public class PurchaseHistoryFragmentTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void shouldDisplayAddressSelectionFragment() {
+    public void shouldDisplayAddressSelectionFragment() throws Exception {
 
         SupportFragmentTestUtil.startFragment(purchaseHistoryFragment);
     }

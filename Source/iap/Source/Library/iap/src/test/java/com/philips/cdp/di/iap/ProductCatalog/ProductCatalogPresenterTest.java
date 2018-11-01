@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
 import android.os.Message;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
@@ -27,18 +26,14 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
-
+import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.util.ArrayList;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.PRX;
@@ -59,7 +54,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         mContext = getInstrumentation().getContext();
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);

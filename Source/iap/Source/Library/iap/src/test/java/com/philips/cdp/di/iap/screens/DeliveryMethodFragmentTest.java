@@ -16,6 +16,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -24,8 +25,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @RunWith(RobolectricTestRunner.class)
 public class DeliveryMethodFragmentTest {
 
-    @Mock
-    Context mContext;
+    private Context mContext;
 
     @Mock
     private Message messageMock;
@@ -36,7 +36,7 @@ public class DeliveryMethodFragmentTest {
     public void setUp() {
         initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
         deliveryMethodFragment = new DeliveryMethodFragmentMock();
     }
 

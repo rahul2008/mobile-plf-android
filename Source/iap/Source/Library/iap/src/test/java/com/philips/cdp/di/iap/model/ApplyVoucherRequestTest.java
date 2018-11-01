@@ -22,20 +22,22 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 public class ApplyVoucherRequestTest {
-    @Mock
-    Context mContext;
-    @Mock
-    IAPUser mUser;
+    private Context mContext;
+    private StoreListener mStore;
     private AbstractModel mModel;
-    StoreListener mStore;
+
+    @Mock
+    private IAPUser mUser;
 
     @Before
-    public void setUP() {
+    public void setUp() {
+        mContext = getInstrumentation().getContext();
         mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig(/*"en", "US",*/ null);
         HashMap<String, String> query = new HashMap<>();
