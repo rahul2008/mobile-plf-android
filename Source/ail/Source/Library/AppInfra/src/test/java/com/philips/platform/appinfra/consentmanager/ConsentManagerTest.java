@@ -330,7 +330,7 @@ public class ConsentManagerTest {
         givenFetchTimeOutIs(3);
         givenHandler(handler1, "testConsent");
         givenFetchConsentDoesNotReturnForHandler(handler1);
-        whenFetchConsentState(consentDefinition(1,"testConsent"));
+        whenFetchConsentState(consentDefinition(1, "testConsent"));
         thenTimeoutErrorIsReturned();
     }
 
@@ -339,7 +339,7 @@ public class ConsentManagerTest {
         givenFetchTimeOutIs(3);
         givenHandler(handler1, "testConsent");
         givenFetchConsentDoesNotReturnForHandler(handler1);
-        whenFetchConsentStates(ImmutableList.of(consentDefinition(1,"testConsent")));
+        whenFetchConsentStates(ImmutableList.of(consentDefinition(1, "testConsent")));
         thenTimeoutErrorIsReturned();
     }
 
@@ -358,7 +358,7 @@ public class ConsentManagerTest {
         givenFetchTimeOutIs(3);
         givenHandler(handler1, "testConsent");
         givenStoreConsentDoesNotReturnForHandler(handler1);
-        whenStoringConsents(consentDefinition(1,"testConsent"),true);
+        whenStoringConsents(consentDefinition(1, "testConsent"), true);
         thenTimeoutErrorIsReturned();
     }
 
@@ -541,9 +541,10 @@ public class ConsentManagerTest {
 
         @Override
         public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
-            if (storeDoNothing){
+            if (storeDoNothing) {
                 return;
             }
+
             if (returnsError != null) {
                 callback.onPostConsentFailed(returnsError);
             } else {
@@ -584,10 +585,6 @@ public class ConsentManagerTest {
             lock.countDown();
         }
     }
-
-
-
-
 
     private class FetchConsentsCallBackListener implements FetchConsentsCallback {
 
