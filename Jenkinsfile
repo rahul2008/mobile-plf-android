@@ -89,8 +89,8 @@ pipeline {
                     build (job: 'Platform-Infrastructure/IncontextTest/master', 
                     parameters: [
                         string(name: 'branchname', value:'develop'), 
-                        string(name: 'triggered_from', value:'Platform)'
-                    ]), 
+                        string(name: 'triggered_from', value:'Platform')
+                    ]),
                     wait: false
                 }
             }
