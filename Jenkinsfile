@@ -86,7 +86,7 @@ pipeline {
             steps {
                 script {
 //                    build job: "Platform-Infrastructure/IncontextTest/master", parameters: [[$class: 'StringParameterValue', name: 'branchname', value:BranchName], [$class: 'StringParameterValue', name: 'triggeredfrom', value:'Platform']], wait: false
-                    build job: 'Platform-Infrastructure/IncontextTest/master', parameters: [string(name: 'branchname', value:'develop'), string(name: 'triggered_from', value:'Platform')], wait: false
+                    build job: 'Platform-Infrastructure/IncontextTest/master', parameters: [string(name: 'branchname', value:'release/platform_1804'), string(name: 'triggered_from', value:'Platform')], wait: false
                 }
             }
         }
