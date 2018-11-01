@@ -127,6 +127,14 @@ subprojects {
             packagingOptions {
                 exclude 'META-INF/proguard/androidx-annotations.pro'
             }
+
+            dependencies {
+                testImplementation deps.robolectric
+                testImplementation deps.robolectric_junit
+                testImplementation deps.robolectric_shadows
+                testImplementation deps.robolectric_shadows_multidex
+                testImplementation deps.robolectric_utils
+            }
         }
     }
 

@@ -5,8 +5,6 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.view.InflateException;
-
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 
@@ -38,7 +36,7 @@ public class MarketingAccountFragmentTest {
         marketingAccountFragment= new MarketingAccountFragment();
     }
 
-    @Test(expected = InflateException.class)
+    @Test(expected = NullPointerException.class)
     public void should_startFragment() throws Exception {
         SupportFragmentTestUtil.startFragment(marketingAccountFragment);
     }

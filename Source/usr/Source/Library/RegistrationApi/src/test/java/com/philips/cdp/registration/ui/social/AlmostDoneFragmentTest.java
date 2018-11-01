@@ -5,8 +5,6 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.view.InflateException;
-
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 
@@ -32,13 +30,13 @@ public class AlmostDoneFragmentTest {
 
     @Before
     public void setUp() throws Exception {
-
         initMocks(this);
+
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
-        almostDoneFragment= new AlmostDoneFragment();
+        almostDoneFragment = new AlmostDoneFragment();
     }
 
-    @Test(expected = InflateException.class)
+    @Test(expected = NullPointerException.class)
     public void should_startFragment() throws Exception {
         SupportFragmentTestUtil.startFragment(almostDoneFragment);
     }

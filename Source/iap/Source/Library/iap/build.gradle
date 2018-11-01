@@ -135,6 +135,7 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_classloading_xstream
     testImplementation deps.robolectric
     testImplementation deps.robolectric_junit
     testImplementation deps.robolectric_shadows
@@ -150,12 +151,12 @@ dependencies {
     androidTestImplementation deps.uiautomator
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.androidx_test.rules
-    
+
     // Espresso support
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    
+
     androidTestImplementation(deps.espresso_contrib) {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'

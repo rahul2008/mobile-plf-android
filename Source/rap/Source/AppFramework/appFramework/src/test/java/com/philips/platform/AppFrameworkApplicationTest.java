@@ -3,7 +3,10 @@
  * All rights reserved.
  */
 
-ckage com.philips.platform;
+package com.philips.platform;/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
 import android.content.Context;
 
