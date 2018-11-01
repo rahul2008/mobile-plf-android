@@ -86,10 +86,12 @@ pipeline {
             steps {
                 script {
 //                    build job: "Platform-Infrastructure/IncontextTest/master", parameters: [[$class: 'StringParameterValue', name: 'branchname', value:BranchName], [$class: 'StringParameterValue', name: 'triggeredfrom', value:'Platform']], wait: false
-//                    build job: "Platform-Infrastructure/IncontextTest/master", parameters: [[$class: 'StringParameterValue', name: 'branchname', value:'develop'],[$class: 'StringParameterValue', name: 'triggeredfrom', value:'Platform']], wait: false
-                    sh """#!/bin/bash -le
-                        curl -X POST http://platform-ubuntu-ehv-002.ddns.htc.nl.philips.com:8080/job/Platform-Infrastructure/job/IncontextTest/job/master/buildWithParameters?branchname="develop"&triggeredfrom="platform"
-                    """
+                    build (job: 'Platform-Infrastructure/IncontextTest/master', 
+                    parameters: [
+                        string(name: 'branchname', value:'develop'), 
+                        string(name: 'triggered_from', value:'Platform)'
+                    ]), 
+                    wait: false
                 }
             }
         }
