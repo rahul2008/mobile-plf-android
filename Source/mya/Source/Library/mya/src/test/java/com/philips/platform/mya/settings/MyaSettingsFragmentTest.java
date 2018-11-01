@@ -81,12 +81,6 @@ public class MyaSettingsFragmentTest {
         arrayList.add("Mya_Privacy_Settings2");
     }
 
-/*
-    @Test(expected = InflateException.class)
-    public void testStartFragment_ShouldNotNul() {
-        SupportFragmentTestUtil.startFragment(myaSettingsFragment);
-    }*/
-
     @Test
     public void testEquals_getActionbarTitleResId() throws Exception{
         assertEquals(R.string.MYA_My_account,myaSettingsFragment.getActionbarTitleResId());

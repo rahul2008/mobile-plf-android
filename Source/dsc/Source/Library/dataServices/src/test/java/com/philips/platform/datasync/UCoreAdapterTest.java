@@ -1,4 +1,9 @@
 
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.datasync;
 
 import android.content.Context;
@@ -15,9 +20,11 @@ import com.squareup.okhttp.OkHttpClient;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -34,6 +41,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(RobolectricTestRunner.class)
 public class UCoreAdapterTest {
 
     private static final String ACCESS_TOKEN = "ACCESS_TOKEN";

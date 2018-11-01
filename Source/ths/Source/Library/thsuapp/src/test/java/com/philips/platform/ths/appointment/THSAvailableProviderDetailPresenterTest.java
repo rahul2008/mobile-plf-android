@@ -1,7 +1,6 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.appointment;
@@ -36,10 +35,12 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +48,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -55,6 +55,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@RunWith(RobolectricTestRunner.class)
 public class THSAvailableProviderDetailPresenterTest {
 
     THSAvailableProviderDetailPresenter mThsAvailableProviderDetailPresenter;
@@ -149,7 +150,7 @@ public class THSAvailableProviderDetailPresenterTest {
         THSManager.getInstance().setThsConsumer(thsConsumerMock);
         when(thsConsumerMock.getConsumer()).thenReturn(consumerMock);
 
-       // when(thsAvailableProviderDetailFragmentMock.getString(R.string.something_went_wrong)).thenReturn("123");
+        // when(thsAvailableProviderDetailFragmentMock.getString(R.string.something_went_wrong)).thenReturn("123");
         mThsAvailableProviderDetailPresenter = new THSAvailableProviderDetailPresenter(thsAvailableProviderDetailFragmentMock,thsProviderDetailsDisplayHelperMock);
     }
 

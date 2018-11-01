@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
@@ -6,7 +11,6 @@ import android.os.Looper;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -19,10 +23,9 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,9 +34,8 @@ import static org.mockito.Mockito.when;
  * Created by philips on 11/30/17.
  */
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class ForgotPasswordTest extends TestCase {
-
 
     @Mock
     Jump.ForgotPasswordResultHandler.ForgetPasswordError forgetPasswordErrorMock;
@@ -68,7 +70,7 @@ public class ForgotPasswordTest extends TestCase {
     public void onSuccess() {
         when(contextMock.getMainLooper()).thenReturn(mockLooper);
         forgotPassword.onSuccess();
-//        verify(forgotPasswordHandler).onSendForgotPasswordSuccess();
+        //        verify(forgotPasswordHandler).onSendForgotPasswordSuccess();
     }
 
     public void onFailure() {

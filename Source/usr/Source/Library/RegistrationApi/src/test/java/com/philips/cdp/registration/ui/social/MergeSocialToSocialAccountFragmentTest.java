@@ -5,8 +5,6 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.view.InflateException;
-
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 
@@ -35,10 +33,10 @@ public class MergeSocialToSocialAccountFragmentTest {
 
         initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
-        mergeSocialToSocialAccountFragment= new MergeSocialToSocialAccountFragment();
+        mergeSocialToSocialAccountFragment = new MergeSocialToSocialAccountFragment();
     }
 
-    @Test(expected = InflateException.class)
+    @Test(expected = NullPointerException.class)
     public void should_startFragment() throws Exception {
         SupportFragmentTestUtil.startFragment(mergeSocialToSocialAccountFragment);
     }

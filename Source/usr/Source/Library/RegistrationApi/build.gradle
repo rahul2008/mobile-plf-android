@@ -108,6 +108,7 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.volley
     implementation deps.wechat
+
     if (directdependencies) {
         implementation project(strings.uid.projectName)
         implementation project(strings.ufw.projectName)
@@ -121,11 +122,13 @@ dependencies {
         implementation project(strings.jmp.projectName)
         implementation project(strings.hsdp.projectName)
     }
+
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.powermock_core
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
     testImplementation deps.robolectric
     testImplementation deps.robolectric_junit
     testImplementation deps.robolectric_shadows

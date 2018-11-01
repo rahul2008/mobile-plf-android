@@ -25,6 +25,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.Collections;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;

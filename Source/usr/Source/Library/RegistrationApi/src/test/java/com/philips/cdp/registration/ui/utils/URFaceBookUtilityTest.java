@@ -19,18 +19,25 @@ import com.philips.cdp.registration.ui.traditional.mobile.FaceBookContractor;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
 
 /**
  * Created by philips on 5/17/18.
  */
 @RunWith(RobolectricTestRunner.class)
+@PrepareForTest(AccessToken.class)
 public class URFaceBookUtilityTest {
+
+    @Rule
+    public PowerMockRule rule = new PowerMockRule();
 
     @Mock
     private User userMock;
@@ -98,8 +105,8 @@ public class URFaceBookUtilityTest {
 
     @Test
     public void shouldStartAccessTokenAuthForFacebook() throws Exception {
-       urFaceBookUtility.startAccessTokenAuthForFacebook(userMock,activityMock, socialProviderSocialLoginProviderHandlerMock,"accessToken","mergeToken");
-       Mockito.verify(userMock).startTokenAuthForNativeProvider(activityMock,
-               RegConstants.SOCIAL_PROVIDER_FACEBOOK, socialProviderSocialLoginProviderHandlerMock, "mergeToken", "accessToken");
+        urFaceBookUtility.startAccessTokenAuthForFacebook(userMock, activityMock, socialProviderSocialLoginProviderHandlerMock, "accessToken", "mergeToken");
+        Mockito.verify(userMock).startTokenAuthForNativeProvider(activityMock,
+                RegConstants.SOCIAL_PROVIDER_FACEBOOK, socialProviderSocialLoginProviderHandlerMock, "mergeToken", "accessToken");
     }
 }
