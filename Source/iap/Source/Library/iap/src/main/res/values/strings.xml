@@ -62,7 +62,7 @@
   <string name="iap_country_error">Please enter a valid Country</string>
   <string name="iap_country_hint">Enter your country</string>
   <string name="iap_customer_help">Our customer care team is pleased to help you.</string>
-  <string name="iap_cvv_code">Please enter the CVV/CVC </string>
+  <string name="iap_cvv_code">Please enter the CVV/CVC for </string>
   <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_3digit_info">The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
@@ -303,5 +303,7 @@ FedEx(parcel postage)</string>
   <string name="iap_voucher_code">Voucher Code:</string>
   <string name="iap_shipping_cost">Shipping cost</string>
   <string name="iap_total_voucher_discount">Total Voucher Discount</string>
+  <string name="iap_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
+
 
 </resources>
