@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -44,27 +45,27 @@ public class WebPaymentFragmentTest {
         webPaymentFragment = WebPaymentFragment.createInstance(bundle, InAppBaseFragment.AnimationType.NONE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayWebPaymentFragment() throws Exception {
-        SupportFragmentTestUtil.startFragment(webPaymentFragment);
+        SupportFragmentController.of(webPaymentFragment).create().start().resume();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void shouldDisplayGetWebUrl() throws Exception {
         webPaymentFragment.getWebUrl();
-        SupportFragmentTestUtil.startFragment(webPaymentFragment);
+        SupportFragmentController.of(webPaymentFragment).create().start().resume();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldOverrideURL() throws Exception {
         webPaymentFragment.shouldOverrideUrlLoading("http://google.com");
-        SupportFragmentTestUtil.startFragment(webPaymentFragment);
+        SupportFragmentController.of(webPaymentFragment).create().start().resume();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldCalled_OnAttach() throws Exception {
         webPaymentFragment.onAttach(mContext);
-        SupportFragmentTestUtil.startFragment(webPaymentFragment);
+        SupportFragmentController.of(webPaymentFragment).create().start().resume();
     }
 
     @Test(expected = NullPointerException.class)
@@ -79,7 +80,7 @@ public class WebPaymentFragmentTest {
         SupportFragmentTestUtil.startFragment(webPaymentFragment);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldCalled_OnNegativeBtnClick() throws Exception {
         webPaymentFragment.onNegativeBtnClick();
         SupportFragmentTestUtil.startFragment(webPaymentFragment);

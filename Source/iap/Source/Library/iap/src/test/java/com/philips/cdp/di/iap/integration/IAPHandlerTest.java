@@ -141,7 +141,7 @@ public class IAPHandlerTest {
         iapListener.onFailure(IAPConstant.IAP_ERROR_UNKNOWN);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void onSuccessOfInitAsFragment() throws Exception {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
@@ -149,6 +149,7 @@ public class IAPHandlerTest {
         IAPFlowInput input = new IAPFlowInput("HX9043/64");
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(9, input,null, blackListedretailder);
+        iapLaunchInput.setIapListener(mIapListener);
         mMockIAPHandler.
                 onSuccessOfInitialization(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
                     @Override
@@ -296,7 +297,7 @@ public class IAPHandlerTest {
                 }), iapLaunchInput);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testLaunchIAPAsFragment() throws Exception {
         TestUtils.getStubbedHybrisDelegate();
         FragmentActivity activity = Robolectric.setupActivity(FragmentActivity.class);
@@ -304,6 +305,7 @@ public class IAPHandlerTest {
         IAPFlowInput input = new IAPFlowInput("HX9043/64");
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(9, input, null,blackListedRetailer);
+        iapLaunchInput.setIapListener(mIapListener);
         mMockIAPHandler.
                 launchIAP(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
                     @Override

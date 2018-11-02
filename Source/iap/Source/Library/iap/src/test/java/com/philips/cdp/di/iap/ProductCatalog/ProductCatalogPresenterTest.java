@@ -26,12 +26,15 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
@@ -40,7 +43,11 @@ import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.PRX;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogPresenterTest implements ProductCatalogPresenter.ProductCatalogListener, IAPListener {
@@ -52,9 +59,19 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     private MockPRXSummaryExecutor mMockPRXDataBuilder;
     private ArrayList<String> mCTNS = new ArrayList<>();
 
+    @Mock
+    private AppInfraInterface mockAppInfraInterface;
+    @Mock
+    private LoggingInterface mockLoggingInterface;
+
     @Before
     public void setUp() {
+        initMocks(this);
         mContext = getInstrumentation().getContext();
+        CartModelContainer.getInstance().setAppInfraInstance(mockAppInfraInterface);
+        when(mockAppInfraInterface.getLogging()).thenReturn(mockLoggingInterface);
+        when(mockLoggingInterface.createInstanceForComponent(anyString(), anyString())).thenReturn(mockLoggingInterface);
+
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
 

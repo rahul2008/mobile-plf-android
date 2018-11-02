@@ -47,21 +47,10 @@ public class BuyFromRetailersAdapterTest {
     @Mock
     BuyFromRetailersAdapter.BuyFromRetailersListener buyFromRetailersListenerMock;
 
-    @Mock
-    NetworkImageLoader networkImageLoaderMock;
-
-    @Mock
-    ImageLoader imageLoaderMock;
-
-    @Mock
-    File fileMock;
-
     @Before
     public void setUp() throws Exception {
-
         MockitoAnnotations.initMocks(this);
         buyFromRetailersAdapter = new BuyFromRetailersAdapter(contextMock, fragmentManagerMock, storeListMock, buyFromRetailersListenerMock);
-
     }
 
     @Mock
@@ -73,7 +62,7 @@ public class BuyFromRetailersAdapterTest {
     @Mock
     ViewGroup viewGroupMock;
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void onCreateViewHolder() throws Exception {
 
         when(viewGroupMock.getContext()).thenReturn(contextMock);

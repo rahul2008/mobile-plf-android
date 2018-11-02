@@ -7,23 +7,20 @@ package com.philips.cdp.di.iap.screens;
 
 import android.os.Bundle;
 import android.os.Message;
-
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.response.orders.Orders;
 import com.philips.cdp.di.iap.response.orders.OrdersData;
 import com.philips.cdp.di.iap.response.orders.Pagination;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestCode;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -45,10 +42,9 @@ public class PurchaseHistoryFragmentTest {
         purchaseHistoryFragment = PurchaseHistoryFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() throws Exception {
-
-        SupportFragmentTestUtil.startFragment(purchaseHistoryFragment);
+        SupportFragmentController.of(purchaseHistoryFragment).create().start().resume();
     }
 
     @Test

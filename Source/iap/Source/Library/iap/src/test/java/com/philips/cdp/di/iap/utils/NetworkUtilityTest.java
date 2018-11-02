@@ -71,7 +71,7 @@ public class NetworkUtilityTest {
         NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(getInstrumentation().getContext(), 0);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetErrorDescriptionMessageFromErrorCode() {
         NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(getInstrumentation().getContext(), mock(IAPNetworkError.class));
     }

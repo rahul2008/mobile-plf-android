@@ -81,7 +81,7 @@ public class AddressSelectionAdapterTest {
     @Mock
     LayoutInflater layoutInflaterMock;
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void onCreateViewHolder() throws Exception {
 
         when(viewGroupMock.getContext()).thenReturn(contextMock);
@@ -91,7 +91,7 @@ public class AddressSelectionAdapterTest {
 
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void onCreateViewHolderForTypeFooter() throws Exception {
 
         when(viewGroupMock.getContext()).thenReturn(contextMock);

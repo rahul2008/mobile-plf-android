@@ -13,7 +13,9 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.internal.matchers.Null;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -35,23 +37,21 @@ public class WebTrackUrlTest {
 
     @Test(expected = NullPointerException.class)
     public void shouldDisplayAddressSelectionFragment() {
-        SupportFragmentTestUtil.startFragment(webTrackUrl);
+        SupportFragmentController.of(webTrackUrl).create().start().resume();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldgetWebUrl() {
         bundle.getString(IAPConstant.ORDER_TRACK_URL);
         webTrackUrl = WebTrackUrl.createInstance(bundle, InAppBaseFragment.AnimationType.NONE);
         webTrackUrl.getWebUrl();
-        SupportFragmentTestUtil.startFragment(webTrackUrl);
-
+        SupportFragmentController.of(webTrackUrl).create(bundle).start().resume();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = NullPointerException.class)
     public void shouldgetWebUrlNull() {
         webTrackUrl = WebTrackUrl.createInstance(null, InAppBaseFragment.AnimationType.NONE);
         webTrackUrl.getWebUrl();
-        SupportFragmentTestUtil.startFragment(webTrackUrl);
-
+        SupportFragmentController.of(webTrackUrl).create().start().resume();
     }
 }

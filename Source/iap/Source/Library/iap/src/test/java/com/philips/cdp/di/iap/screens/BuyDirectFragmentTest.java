@@ -8,7 +8,6 @@ package com.philips.cdp.di.iap.screens;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-
 import com.philips.cdp.di.iap.controller.BuyDirectController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
@@ -16,16 +15,14 @@ import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -49,10 +46,9 @@ public class BuyDirectFragmentTest {
         buyDirectFragment = BuyDirectFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayBuyDirectFragment() {
-
-        SupportFragmentTestUtil.startFragment(buyDirectFragment);
+        SupportFragmentController.of(buyDirectFragment).create().start().resume();
     }
 
     @Test

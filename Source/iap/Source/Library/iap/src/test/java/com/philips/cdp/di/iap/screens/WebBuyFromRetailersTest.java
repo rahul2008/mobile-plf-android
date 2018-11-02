@@ -21,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -41,24 +42,21 @@ public class WebBuyFromRetailersTest {
         webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
-        SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
+        SupportFragmentController.of(webBuyFromRetailers).create().start().resume();
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldOnViewCreated() {
-       // webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         webBuyFromRetailers.onViewCreated(null, null);
-        SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
+        SupportFragmentController.of(webBuyFromRetailers).create().start().resume();
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldOnResume() {
-        // webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         webBuyFromRetailers.onResume();
-        SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
     }
 
     @Mock

@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
-
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
@@ -16,20 +15,17 @@ import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.response.carts.ProductEntity;
 import com.philips.cdp.di.iap.response.carts.StockEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.util.ArrayList;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 @RunWith(RobolectricTestRunner.class)
 public class ShoppingCartFragmentTest {
@@ -51,9 +47,9 @@ public class ShoppingCartFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
-        startFragment(shoppingCartFragment);
+        SupportFragmentController.of(shoppingCartFragment).create().start().resume();
         assertNotNull( shoppingCartFragment );
     }
 
