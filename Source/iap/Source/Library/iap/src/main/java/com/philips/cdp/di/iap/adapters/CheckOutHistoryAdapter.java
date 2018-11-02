@@ -229,6 +229,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
+                    shoppingCartFooter.total_discount.setText("- "+mData.get(i).getTotalDiscounts().toString());
                 }
             }
         }
@@ -259,7 +260,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void checkForOutOfStock(int stockLevel, int quantity, ShoppingCartProductHolder shoppingCartProductHolder, String stockLevelStatus) {
-        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
+        final IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
         final boolean isStockAvailable = iapStockAvailabilityHelper.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
 
         mOutOfStock.onOutOfStock(isStockAvailable);
@@ -330,7 +331,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
-        Label mDeliveryDescriprion;
+        Label mDeliveryDescriprion,total_discount;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -361,6 +362,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
             mVoucherContainer  = (RelativeLayout) itemView.findViewById(R.id.voucher_container);
+            total_discount = itemView.findViewById(R.id.total_discount);
 
         }
     }

@@ -259,7 +259,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
-                    shoppingCartFooter.total_discount.setText(mData.get(i).getTotalDiscounts().toString());
+                    shoppingCartFooter.total_discount.setText("- "+mData.get(i).getTotalDiscounts().toString());
                 }
             }
 
