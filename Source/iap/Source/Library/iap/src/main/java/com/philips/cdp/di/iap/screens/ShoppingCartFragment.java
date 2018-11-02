@@ -142,7 +142,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }
-        hideProgressBar();
+    //    hideProgressBar();
     }
 
     @Override
@@ -155,7 +155,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     private void updateCartDetails(ShoppingCartAPI presenter) {
-        //createCustomProgressBar(mParentLayout,BIG);
+        createCustomProgressBar(mParentLayout,BIG);
         presenter.getCurrentCartDetails();
     }
 
