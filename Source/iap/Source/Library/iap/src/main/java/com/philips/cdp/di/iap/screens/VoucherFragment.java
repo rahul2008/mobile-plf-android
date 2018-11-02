@@ -174,10 +174,11 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void onDeleteAppliedVoucherResponse(Message msg) {
         hideProgressBar();
-
-        getAppliedValueList.remove(mAppliedVoucherAdapter.getSelectedItemPosition());
-        mAppliedVoucherAdapter.notifyItemRemoved(mAppliedVoucherAdapter.getSelectedItemPosition());
-        mAppliedVoucherAdapter.notifyItemChanged(mAppliedVoucherAdapter.getSelectedItemPosition());
+        if(mAppliedVoucherAdapter.getSelectedItemPosition()!=-1){
+            getAppliedValueList.remove(mAppliedVoucherAdapter.getSelectedItemPosition());
+            mAppliedVoucherAdapter.notifyItemRemoved(mAppliedVoucherAdapter.getSelectedItemPosition());
+            mAppliedVoucherAdapter.notifyItemChanged(mAppliedVoucherAdapter.getSelectedItemPosition());
+        }
         mVoucherController.getAppliedVoucherCode();
 
     }
@@ -189,8 +190,10 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
             Utility.showActionDialog(mContext, getString(R.string.iap_delete_voucher), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_voucher), getString(R.string.iap_delete_voucher_sure), getFragmentManager(), this);
         }else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_VOUCHER_CONFIRM)) {
-            createCustomProgressBar(voucherLayout, BIG);
-            mVoucherController.getDeleteVoucher( getAppliedValueList.get(mAppliedVoucherAdapter.getSelectedItemPosition()).getVoucherCode());
+            if(mAppliedVoucherAdapter.getSelectedItemPosition()!=-1){
+               createCustomProgressBar(voucherLayout, BIG);
+               mVoucherController.getDeleteVoucher( getAppliedValueList.get(mAppliedVoucherAdapter.getSelectedItemPosition()).getVoucherCode());
+            }
 
 
 

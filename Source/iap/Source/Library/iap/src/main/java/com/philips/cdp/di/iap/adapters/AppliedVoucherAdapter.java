@@ -95,8 +95,9 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (mData.size() == 0)
+        if (mData.size() == 0) {
             return;
+        }
 
             final Vouchers vouchers = mData.get(holder.getAdapterPosition());
 
@@ -111,7 +112,9 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(final View view) {
                     mSelectedItemPosition = holder.getAdapterPosition();
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_VOUCHER);
+                    if(mSelectedItemPosition!=-1){
+                        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_VOUCHER);
+                    }
                 }
             });
 
@@ -129,7 +132,7 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return mData.size() ;
+        return mData.size();
     }
 
 

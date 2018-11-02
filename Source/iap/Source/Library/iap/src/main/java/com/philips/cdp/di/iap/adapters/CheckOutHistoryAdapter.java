@@ -229,7 +229,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
-                    shoppingCartFooter.total_discount.setText("- "+mData.get(i).getTotalDiscounts().toString());
+                    shoppingCartFooter.mTotalDiscount.setText("- "+mData.get(i).getTotalDiscounts().toString());
                 }
             }
         }
@@ -331,7 +331,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
-        Label mDeliveryDescriprion,total_discount;
+        Label mDeliveryDescriprion,mTotalDiscount;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -362,7 +362,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
             mVoucherContainer  = (RelativeLayout) itemView.findViewById(R.id.voucher_container);
-            total_discount = itemView.findViewById(R.id.total_discount);
+            mTotalDiscount = itemView.findViewById(R.id.total_discount);
 
         }
     }
