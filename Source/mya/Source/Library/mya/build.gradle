@@ -134,6 +134,7 @@ dependencies {
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
     testImplementation deps.opengl
+    testImplementation deps.adobemobilelib
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

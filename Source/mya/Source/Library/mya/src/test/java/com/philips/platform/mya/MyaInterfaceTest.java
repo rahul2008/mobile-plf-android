@@ -6,7 +6,7 @@
 package com.philips.platform.mya;
 
 import android.content.Context;
-
+import android.util.AndroidRuntimeException;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -23,14 +23,13 @@ import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.platform.mya.base.MyaBaseFragment.MY_ACCOUNTS_INVOKE_TAG;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -57,7 +56,7 @@ public class MyaInterfaceTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        context = RuntimeEnvironment.application;
+        context = getInstrumentation().getContext();
         launchInput = new MyaLaunchInput(context);
         final UserDataInterface userDataInterface = mock(UserDataInterface.class);
         when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
@@ -99,20 +98,18 @@ public class MyaInterfaceTest {
         thenCommitAllowingStateLossWasCalled();
     }
 
-    @Test
+    @Test(expected = AndroidRuntimeException.class)
     public void launchWithActivityLauncher_correctFragmentIsReplacedInContainer() {
         givenActivityLauncher();
         whenCallingLaunchWithoutAddToBackstack();
     }
 
     private void givenFragmentLauncher(FragmentActivityMock fragmentActivity, int containerId, ActionBarListener actionBarListener) {
-        FragmentLauncherMock givenFragmentLauncher = new FragmentLauncherMock(fragmentActivity, containerId, actionBarListener);
-        givenUiLauncher = givenFragmentLauncher;
+        givenUiLauncher = new FragmentLauncherMock(fragmentActivity, containerId, actionBarListener);
     }
 
     private void givenActivityLauncher() {
-        ActivityLauncherMock givenActivityLauncher = new ActivityLauncherMock(null, null, 0, null);
-        givenUiLauncher = givenActivityLauncher;
+        givenUiLauncher = new ActivityLauncherMock(null, null, 0, null);
     }
 
     private void whenCallingLaunchWithAddToBackstack() {

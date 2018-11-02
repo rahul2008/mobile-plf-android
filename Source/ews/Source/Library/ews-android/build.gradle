@@ -97,6 +97,11 @@ dependencies {
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_junit_rule
     testImplementation deps.powermock_classloading_xstream
+    testImplementation deps.gson
+    testImplementation deps.adobemobilelib
+
+    testImplementation project(strings.pif.projectName)
+
 }
 
 tasks.withType(Test) {
