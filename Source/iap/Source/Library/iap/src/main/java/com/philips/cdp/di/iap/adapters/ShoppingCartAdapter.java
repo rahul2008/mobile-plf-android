@@ -45,10 +45,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
-    private Context mContext;
-    private Resources mResources;
+    private final Context mContext;
+    private final Resources mResources;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
-    private OutOfStockListener mOutOfStock;
+    private final OutOfStockListener mOutOfStock;
     private UIPicker mPopupWindow;
     private ShoppingCartData shoppingCartDataForProductDetailPage;
 
@@ -57,7 +57,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int mSelectedItemPosition = -1;
     private int mQuantityStatus;
     private int mNewCount;
-    FooterShoppingCartViewHolder shoppingCartFooter;
+    private FooterShoppingCartViewHolder shoppingCartFooter;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
@@ -80,8 +80,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.iap_product_disable_count_drop_down, mContext.getTheme());
         }
-        int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
-        int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
+        final int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
+        final int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
         countArrow.setBounds(0, 0, width, height);
     }
 
@@ -100,10 +100,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         if (viewType == TYPE_FOOTER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_footer, parent, false);
+            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_footer, parent, false);
             return new FooterShoppingCartViewHolder(v);
         } else if (viewType == TYPE_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_data, parent, false);
+            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_data, parent, false);
             return new ShoppingCartProductHolder(v);
         }
         return null;
@@ -141,12 +141,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private int getQuantityStatus(int newCount, int oldCount) {
-        if (newCount > oldCount)
+        if (newCount > oldCount) {
             return 1;
-        else if (newCount < oldCount)
+        }
+        else if (newCount < oldCount) {
             return 0;
-        else
+        }
+        else {
             return -1;
+        }
     }
 
     private void showProductDetails(final int selectedItem) {
@@ -432,9 +435,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mDeliveryTitle;
         LinearLayout mPriceContainer;
         RelativeLayout mDeliveryUPSParcelContainer;
-        RelativeLayout mVoucherContainer;
+        private RelativeLayout mVoucherContainer;
         Label mAppliedVoucherCode;
-        GridLayout summary_delivery_container;
+        private GridLayout summary_delivery_container;
 
 
         FooterShoppingCartViewHolder(View itemView) {
