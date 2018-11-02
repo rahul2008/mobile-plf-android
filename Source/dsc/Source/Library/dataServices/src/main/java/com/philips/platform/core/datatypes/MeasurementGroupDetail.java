@@ -19,5 +19,5 @@ public interface MeasurementGroupDetail extends BaseAppData, Serializable {
 
     public void setValue(final String value);
 
-    public MeasurementGroup getTestMeasurementGroup();
+    public MeasurementGroup getOrmMeasurementGroup();
 }
