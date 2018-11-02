@@ -25,7 +25,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricTestRunner;
 
@@ -33,12 +32,8 @@ import org.robolectric.RobolectricTestRunner;
  * Created by philips on 5/17/18.
  */
 @RunWith(RobolectricTestRunner.class)
-@PrepareForTest(AccessToken.class)
 public class URFaceBookUtilityTest {
-
-    @Rule
-    public PowerMockRule rule = new PowerMockRule();
-
+    
     @Mock
     private User userMock;
 
@@ -55,9 +50,6 @@ public class URFaceBookUtilityTest {
     private LoginResult loginResultMock;
 
     @Mock
-    private AccessToken accessTokenMock;
-
-    @Mock
     private FacebookException facebookExceptionMock;
 
     @Mock
@@ -68,14 +60,17 @@ public class URFaceBookUtilityTest {
 
     private CallbackManager callbackManagerMock;
     private URFaceBookUtility urFaceBookUtility;
+    private AccessToken accessToken;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        accessToken = new AccessToken("someToken", "someApplicationId", "someUserId", null, null, null, null, null);
+
         RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         RLog.setMockLogger(mockLoggingInterface);
         callbackManagerMock = CallbackManager.Factory.create();
-        Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessTokenMock);
+        Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessToken);
         urFaceBookUtility = new URFaceBookUtility(faceBookContractorMock);
     }
 

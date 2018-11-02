@@ -43,8 +43,7 @@ public class HomePresenterTest {
     @Mock
     private URFaceBookUtility urFaceBookUtilityMock;
 
-    @Mock
-    private AccessToken accessTokenMock;
+    private AccessToken accessToken;
 
     private HomePresenter homePresenter;
 
@@ -54,7 +53,8 @@ public class HomePresenterTest {
         RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
         RLog.setMockLogger(mockLoggingInterface);
         CallbackManager callbackManagerMock = CallbackManager.Factory.create();
-        Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessTokenMock);
+        accessToken = new AccessToken("someToken", "someApplicationId", "someUserId", null, null, null, null, null);
+        Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessToken);
         homePresenter = new HomePresenter(homeContractMock, callbackManagerMock);
 
     }

@@ -7,13 +7,12 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -36,9 +35,8 @@ public class AddSecureEmailFragmentTest {
         addSecureEmailFragment= new AddSecureEmailFragment();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void should_startFragment() throws Exception {
-        SupportFragmentTestUtil.startFragment(addSecureEmailFragment);
+        SupportFragmentController.of(addSecureEmailFragment).create().start().resume();
     }
-
 }

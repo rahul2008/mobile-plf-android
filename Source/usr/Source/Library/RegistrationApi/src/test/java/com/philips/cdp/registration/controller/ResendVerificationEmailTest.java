@@ -24,6 +24,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -31,13 +34,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @RunWith(RobolectricTestRunner.class)
 public class ResendVerificationEmailTest {
 
+    private Context mContext;
     private ResendVerificationEmail resendVerificationEmail;
     @Mock
     public ResendVerificationEmailHandler mResendVerificationEmail;
     @Mock
     private CaptureApiError captureApiError;
-    @Mock
-    private Context mContext;
     @Mock
     private UserRegistrationFailureInfo userRegistrationFailureInfo;
     @Mock
@@ -50,6 +52,7 @@ public class ResendVerificationEmailTest {
     @Before
     public void setUp() {
         initMocks(this);
+        mContext = getInstrumentation().getContext();
         RegistrationConfiguration.getInstance().setComponent(mockComponent);
         RLog.setMockLogger(mockLoggingInterface);
 
@@ -90,9 +93,9 @@ public class ResendVerificationEmailTest {
         resendVerificationEmail.onFlowDownloadSuccess();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testonFlowDownloadFailure() {
         resendVerificationEmail.onFlowDownloadFailure();
-        verify(mResendVerificationEmail).onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+        verify(mResendVerificationEmail).onResendVerificationEmailFailedWithError(any(UserRegistrationFailureInfo.class));
     }
 }
