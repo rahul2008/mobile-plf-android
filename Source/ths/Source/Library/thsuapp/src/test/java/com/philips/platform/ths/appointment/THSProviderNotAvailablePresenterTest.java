@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.robolectric.shadows.ShadowInstrumentation.getInstrumentation;
 
 @RunWith(RobolectricTestRunner.class)
 public class THSProviderNotAvailablePresenterTest {
@@ -90,8 +91,8 @@ public class THSProviderNotAvailablePresenterTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManagerMock);
         when(thsProviderNotAvailableFragmentMock.getProvider()).thenReturn(providerMock);
+        when(thsProviderNotAvailableFragmentMock.getContext()).thenReturn(getInstrumentation().getContext());
         mTHSProviderNotAvailablePresenter = new THSProviderNotAvailablePresenter(thsProviderNotAvailableFragmentMock);
-
     }
 
     @Test

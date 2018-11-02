@@ -63,6 +63,7 @@ android {
     }
 
     testOptions {
+        unitTests.returnDefaultValues = true
         unitTests.all {
             // set JVM arguments for the test JVM(s)
             testLogging {
@@ -129,6 +130,9 @@ dependencies {
     testImplementation deps.opengl
     testImplementation deps.robolectric
     testImplementation deps.robolectric_shadows
+    testImplementation deps.adobemobilelib
+
+    testImplementation project(strings.jmp.projectName)
 
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'

@@ -33,7 +33,6 @@ public class THSPharmacyListPresenterTest {
     @Mock
     THSPharmacyListViewListener thsPharmacyListViewListener;
 
-
     THSPharmacyListPresenter thsPharmacyListPresenter;
 
     @Mock
@@ -45,12 +44,6 @@ public class THSPharmacyListPresenterTest {
     Consumer consumerMock;
 
     @Mock
-    VisitContext visitManagerMock;
-
-    @Mock
-    ActionBarListener actionBarListenerMock;
-
-    @Mock
     FragmentActivity activityMock;
 
     @Mock
@@ -58,10 +51,6 @@ public class THSPharmacyListPresenterTest {
 
     @Mock
     Pharmacy pharmacy;
-
-    @Mock
-    Consumer consumer;
-
 
     @Before
     public void setUp() throws Exception {
@@ -73,7 +62,6 @@ public class THSPharmacyListPresenterTest {
 
         when(thsPharmacyListFragment.getFragmentActivity()).thenReturn(activityMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-
     }
 
     @Test
@@ -86,18 +74,17 @@ public class THSPharmacyListPresenterTest {
         verify(thsPharmacyListViewListener).showMailOrderView();
         thsPharmacyListPresenter.onEvent(R.id.choose_pharmacy_button);
         verify(thsPharmacyListViewListener).setPreferredPharmacy();
-
     }
 
     @Test
     public void testFetchPharmacyList(){
         thsPharmacyListPresenter.fetchPharmacyList(consumerMock,(float)0.11,(float)0.11,(int)0.5);
-        verify(awsdkMock.getConsumerManager()).getPharmacies(any(Consumer.class),any(Float.class),any(Float.class),any(Integer.class),any(Boolean.class),any(SDKCallback.class));
+        verify(awsdkMock.getConsumerManager()).getPharmacies(any(Consumer.class),any(Float.class),any(Float.class),any(Integer.class),any(Boolean.class),any());
     }
 
     @Test
     public void testUpdateConsumerPreferredPharmacy(){
         thsPharmacyListPresenter.updateConsumerPreferredPharmacy(pharmacy);
-        verify(awsdkMock.getConsumerManager()).updateConsumerPharmacy(any(Consumer.class),any(Pharmacy.class),any(SDKCallback.class));
+        verify(awsdkMock.getConsumerManager()).updateConsumerPharmacy(any(Consumer.class),any(Pharmacy.class),any());
     }
 }

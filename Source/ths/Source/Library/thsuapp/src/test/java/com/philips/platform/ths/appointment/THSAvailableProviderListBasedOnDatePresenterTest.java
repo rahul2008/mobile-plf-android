@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.Null;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
         mThsAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(thsAvailableProviderListBasedOnDateFragmentMock,onDateSetChangedInterfaceMock);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onEvent() throws Exception {
         mThsAvailableProviderListBasedOnDatePresenter.onEvent(R.id.calendar_view);
     }

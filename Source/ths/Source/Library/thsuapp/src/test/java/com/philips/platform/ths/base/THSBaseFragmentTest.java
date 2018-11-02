@@ -90,7 +90,7 @@ public class THSBaseFragmentTest {
         mThsBaseFragment.onNetworkConnectionChanged(false);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void customProgress(){
         mThsBaseFragment.createCustomProgressBar(viewGroupMock,0);
     }
