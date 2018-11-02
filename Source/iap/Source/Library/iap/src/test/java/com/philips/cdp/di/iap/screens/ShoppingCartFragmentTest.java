@@ -60,13 +60,13 @@ public class ShoppingCartFragmentTest {
     }
 
 
-    @Test
+   /* @Test
     public void shouldDisplayAddressSelectionFragment() {
         startFragment(shoppingCartFragment);
         assertNotNull( shoppingCartFragment );
 
 
-    }
+    }*/
 
     @Test
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithEMPTY_CART_FRAGMENT_REPLACEDString() throws Exception {
