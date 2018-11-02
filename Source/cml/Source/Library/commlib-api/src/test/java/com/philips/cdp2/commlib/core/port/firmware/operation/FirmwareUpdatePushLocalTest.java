@@ -37,9 +37,11 @@ import static com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -345,5 +347,35 @@ public class FirmwareUpdatePushLocalTest {
         waiterListenerArgumentCaptor.getValue().onNewState(IDLE);
 
         verify(mockIdleState, times(1)).start(null);
+    }
+
+    @Test
+    public void givenDownloadWasInterrupted_whenRestartingDownloadAndCancelSucceeds_thenCancelRequestedIsSetToTrue() {
+        when(mockPortProperties.getState()).thenReturn(DOWNLOADING);
+
+        firmwareUpdateUnderTest.start(1000);
+        firmwareUpdateUnderTest.waitForNextState();
+
+        assertTrue(firmwareUpdateUnderTest.isCancelRequested);
+    }
+
+    @Test
+    public void givenDownloadWasInterrupted_whenRestartingDownloadAndCancelFails_thenCancelRequestedRemainsFalse() throws FirmwareUpdateException {
+        doThrow(new FirmwareUpdateException("")).when(mockIdleState).cancel();
+
+        firmwareUpdateUnderTest.start(1000);
+        firmwareUpdateUnderTest.waitForNextState();
+
+        assertFalse(firmwareUpdateUnderTest.isCancelRequested);
+    }
+
+    @Test
+    public void whenCancelRequestedIsTrue_thenOnDownloadFailedWillNotBeBroadcasted() {
+        firmwareUpdateUnderTest.isCancelRequested = true;
+
+        firmwareUpdateUnderTest.onDownloadFailed();
+
+        verify(mockListener, never()).onDeployFailed(any(FirmwarePortListener.FirmwarePortException.class));
+        assertFalse(firmwareUpdateUnderTest.isCancelRequested);
     }
 }
