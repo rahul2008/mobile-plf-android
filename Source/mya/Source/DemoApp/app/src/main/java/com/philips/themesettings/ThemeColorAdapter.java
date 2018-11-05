@@ -1,8 +1,6 @@
 /*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.themesettings;
@@ -105,7 +103,6 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     private void setTickMarckColor(final @NonNull ViewHolder holder, final int adapterPosition, final ColorModel colorModel, final Context context) {
         if (adapterPosition == selectedPosition) {
             final Drawable mutate = drawableCompat.mutate();
-//            final Drawable wrap = DrawableCompat.wrap(mutate);
             if (colorModel.getContentColor() == R.color.uidColorWhite) {
                 DrawableCompat.setTint(mutate, Color.WHITE);
             } else {
