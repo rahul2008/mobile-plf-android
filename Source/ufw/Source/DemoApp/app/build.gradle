@@ -119,7 +119,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
-    implementation 'com.android.support:support-v4:27.1.1'
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
