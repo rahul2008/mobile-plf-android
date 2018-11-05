@@ -384,6 +384,18 @@ public class TextViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<View> isSameMaxline(int lineCount) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    return (((TextView) view).getMaxLines() == lineCount ? true : false);
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
     public static Matcher<View> isCenterVerticallyAligned() {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
