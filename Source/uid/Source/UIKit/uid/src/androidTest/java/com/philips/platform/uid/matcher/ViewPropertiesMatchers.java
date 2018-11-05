@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import org.hamcrest.Matcher;
 
@@ -318,4 +319,16 @@ public class ViewPropertiesMatchers {
             }
         };
     }
+
+    public static Matcher<? super View> isClickable(final boolean clickable) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                setValues(view.isClickable(), clickable);
+                return areEqual();
+            }
+        };
+    }
+
+
 }

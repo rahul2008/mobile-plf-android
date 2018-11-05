@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/uid_expander"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@id/uid_expander_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/uid_expander_view_panel_min_height"
+        android:paddingBottom="@dimen/uid_expander_view_title_padding_top_bottom"
+        android:paddingStart="@dimen/uid_expander_view_title_padding_start_end"
+        android:paddingEnd="@dimen/uid_expander_view_title_padding_start_end"
+        android:paddingTop="@dimen/uid_expander_view_title_padding_top_bottom"
+        >
+    </RelativeLayout>
+    <View
+        android:id="@+id/uid_expander_title_bottom_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_divider_Height"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+
+
+    <RelativeLayout
+        android:id="@id/uid_expander_view_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/uid_expander_view_content_margin_bottom"
+        android:layout_marginStart="@dimen/uid_expander_view_content_margin_start_end"
+        android:layout_marginEnd="@dimen/uid_expander_view_content_margin_start_end"
+        android:visibility="gone"></RelativeLayout>
+    <View
+        android:id="@+id/uid_expander_content_bottom_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_divider_Height"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
+        android:visibility="gone" />
+</LinearLayout>
