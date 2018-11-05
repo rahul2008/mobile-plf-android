@@ -72,4 +72,7 @@
     <item name="uid_tab_label" type="id"/>
     <item name="uid_tab_frame_layout" type="id"/>
     <item name="uid_tab_notification_badge" type="id"/>
+    <item name="uid_expander" type="id"/>
+    <item name="uid_expander_view_title" type="id"/>
+    <item name="uid_expander_view_content" type="id"/>
 </resources>

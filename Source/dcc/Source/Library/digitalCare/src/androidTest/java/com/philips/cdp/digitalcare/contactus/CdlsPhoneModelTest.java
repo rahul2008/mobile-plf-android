@@ -229,6 +229,17 @@ public class CdlsPhoneModelTest {
         public void onCdlsParsingComplete(final CdlsResponseModel response) {
             mCdlsResponseModel = response;
 
-        }
-    };
+		}
+	};
+
+    @Test
+	public void testContactUsContactNumberBeanWhenPhoneNumberHasBrackets() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls_power_sleep.json",
+				context);
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+		String received = mCdlsObject.getPhoneNumber();
+		String expected = "844 669 9935";
+		assertEquals(expected, received);
+	}
 }
