@@ -1,39 +1,36 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.integration;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.RobolectricTestRunner;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-
-public class VerticalImplementation extends MockIAPListener {
+public class VerticalImplementation {
     private MockIAPDependencies mockIAPDependencies;
     private MockIAPSetting mockIAPSetting;
     private MockIAPInterface mockIAPInterface;
-    private MockIAPLaunchInput mockIAPLaunchInput;
+    private IAPLaunchInput mockIAPLaunchInput;
 
     @Mock
     private AppInfra mAppInfra;
+
+    @Mock
+    private IAPListener iapListenerMock;
 
     @Before
     public void setUp() throws Exception {
         mockIAPDependencies = new MockIAPDependencies(mAppInfra);
         mockIAPSetting = new MockIAPSetting(new Application());
         mockIAPInterface = new MockIAPInterface();
-        mockIAPLaunchInput = new MockIAPLaunchInput();
+        mockIAPLaunchInput = new IAPLaunchInput();
         mockIAPSetting.setUseLocalData(true);
         mockIAPInterface.init(mockIAPDependencies, mockIAPSetting);
     }
@@ -46,7 +43,7 @@ public class VerticalImplementation extends MockIAPListener {
 
     @Test
     public void onResume() throws Exception {
-        mockIAPLaunchInput.setIapListener(new MockIAPListener());
+        mockIAPLaunchInput.setIapListener(iapListenerMock);
     }
 
     @Test
@@ -63,11 +60,11 @@ public class VerticalImplementation extends MockIAPListener {
 
     @Test
     public void getProductCartCount() throws Exception {
-        mockIAPInterface.getProductCartCount(this);
+        mockIAPInterface.getProductCartCount(iapListenerMock);
     }
 
     @Test
     public void getCompleteProductList() throws Exception {
-        mockIAPInterface.getCompleteProductList(this);
+        mockIAPInterface.getCompleteProductList(iapListenerMock);
     }
 }

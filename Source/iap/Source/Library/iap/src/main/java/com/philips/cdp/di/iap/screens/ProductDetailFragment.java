@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.screens;
@@ -15,7 +15,6 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -63,7 +61,6 @@ import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.UIPicker;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -200,10 +197,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         indicator.setViewPager(mViewPager);
         mProductDisclaimer = rootView.findViewById(R.id.iap_productDetailsScreen_productDisclaimer);
 
-
-
         mBundle = getArguments();
-       if (mBundle != null) {
+        if (mBundle != null) {
             if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
@@ -211,7 +206,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     if (!ControllerFactory.getInstance().isPlanB()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
                         if (!mBuyFromRetailers.isActivated()) {
-                            //showProgressDialog(mContext, getString(R.string.iap_please_wait));
                             mBuyFromRetailers.showProgressIndicator();
 
                         }
@@ -270,7 +264,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mViewPager.setAdapter(mImageAdapter);
             mImageAdapter.notifyDataSetChanged();
             if (mBuyFromRetailers.isActivated()) {
-                //dismissProgressDialog();
                 mBuyFromRetailers.hideProgressIndicator();
             }
         }
@@ -281,9 +274,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ctnList.add(mCTNValue);
         if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
             if (!mBuyFromRetailers.isActivated()) {
-                if (mContext == null) return;
+                if (mContext == null)
+                    return;
                 mBuyFromRetailers.showProgressIndicator();
-                //showProgressDialog(mContext, getString(R.string.iap_please_wait));
             }
             PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
@@ -308,8 +301,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         builder.preparePRXDataRequest();
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -333,7 +324,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         setCountArrow(mContext, true);
                         mCheckutAndCountinue.setVisibility(View.GONE);
                         mQuantityAndDelete.setVisibility(View.VISIBLE);
-                        //checkForOutOfStock(cartData.getmStockLevel(), cartData.getQuantity());
                         mQuantity.setCompoundDrawables(null, null, countArrow, null);
 
                         mQuantity.setText(quantity + "");
@@ -373,12 +363,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                // final ShoppingCartData data = mData.get(position);
-
                 CountDropDown countPopUp = new CountDropDown(v, v.getContext(), stockLevel, quantity, new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        // mSelectedItemPosition = position;
                         mQuantityStatus = getQuantityStatus(newCount, oldCount);
                         mNewCount = newCount;
                         EventHelper.getInstance().notifyEventOccurred(IAP_UPDATE_PRODUCT_COUNT);
@@ -426,16 +413,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void handleViews() {
         if (ControllerFactory.getInstance().isPlanB()) {
-            //  mBuyFromRetailers.setText(R.string.iap_buy_now);
             mAddToCart.setVisibility(View.GONE);
             setCartIconVisibility(false);
         } else {
-            //  mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
-            // Drawable shoppingCartIcon = VectorDrawableCompat.create(mContext, R.drawable.iap_shopping_cart);
-            //mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
-
             setCartIconVisibility(true);
             mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
@@ -448,14 +430,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 getInstance().getShoppingCartPresenter(mContext, this);
 
         if (!mBuyFromRetailers.isActivated()) {
-            //showProgressDialog(mContext, getString(R.string.iap_please_wait));
             mBuyFromRetailers.showProgressIndicator();
             presenter.getRetailersInformation(mCTNValue);
         }
     }
 
     private void buyFromRetailers(ArrayList<StoreEntity> storeEntities) {
-        if (!isNetworkConnected()) return;
+        if (!isNetworkConnected())
+            return;
         Bundle bundle = new Bundle();
         final ArrayList<StoreEntity> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
         if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
@@ -479,7 +461,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @SuppressWarnings("unchecked")
     @Override
     public void onFetchAssetSuccess(final Message msg) {
-        if (mContext == null) return;
+        if (mContext == null)
+            return;
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
@@ -496,9 +479,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onFetchAssetFailure(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if (mBuyFromRetailers.isActivated())
-            // dismissProgressDialog();
             mBuyFromRetailers.hideProgressIndicator();
-        if (!isNetworkConnected()) return;
+        if (!isNetworkConnected())
+            return;
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
 
         if (msg.obj instanceof IAPNetworkError) {
@@ -528,7 +511,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onClick(View v) {
-        if (!isNetworkConnected()) return;
+        if (!isNetworkConnected())
+            return;
         if (v == mAddToCart) {
             buyProduct(mCTNValue);
         }
@@ -544,15 +528,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         try {
             List<Disclaimer> disclaimerList = disclaimerModel.getData().getDisclaimers().getDisclaimer();
             mProductDisclaimer.setVisibility(View.VISIBLE);
-            if (null !=  disclaimerList && disclaimerList.size() > 0) {
+            if (null != disclaimerList && disclaimerList.size() > 0) {
                 StringBuilder disclaimerStringBuilder = new StringBuilder();
-                for(Disclaimer disclaimer:disclaimerList){
+                for (Disclaimer disclaimer : disclaimerList) {
                     disclaimerStringBuilder.append("- ").append(disclaimer.getDisclaimerText()).append(System.getProperty("line.separator"));
                 }
                 mProductDisclaimer.setText(disclaimerStringBuilder.toString());
             }
-        }catch (Exception e){
-            IAPLog.v("DISCLAIMER_REQ",e.getMessage());
+        } catch (Exception e) {
+            IAPLog.v("DISCLAIMER_REQ", e.getMessage());
         }
     }
 
@@ -568,7 +552,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mProductSummary = msgObj.get(mCTNValue);
         populateData();
         if (mBuyFromRetailers.isActivated()) {
-            //dismissProgressDialog();
             mBuyFromRetailers.hideProgressIndicator();
         }
         mDetailLayout.setVisibility(View.VISIBLE);
@@ -581,11 +564,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mDetailLayout.setVisibility(View.GONE);
         mBuyFromRetailers.setVisibility(View.GONE);
         showErrorDialog(msg);
-        //if (isProgressDialogShowing())
-        if (mBuyFromRetailers.isActivated())
-            //dismissProgressDialog();
-            mBuyFromRetailers.hideProgressIndicator();
 
+        if (mBuyFromRetailers.isActivated())
+            mBuyFromRetailers.hideProgressIndicator();
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError obj = (IAPNetworkError) msg.obj;
             mIapListener.onFailure(obj.getIAPErrorCode());
@@ -597,7 +578,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (msg.obj instanceof IAPNetworkError) {
             hideProgressBar();
             mDetailLayout.setVisibility(View.GONE);
-            //Hard coded strring provided because we dont have
             showErrorDialog(msg);
         } else {
             if (msg.what == RequestCode.SEARCH_PRODUCT) {
@@ -687,8 +667,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mPrice.setText(actualPrice);
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             mProductDiscountedPrice.setVisibility(View.GONE);
-            // mPrice.setTextColor(Utility.getThemeColor(mContext));
-        } else if (actualPrice != null && discountedPrice.equalsIgnoreCase(actualPrice)) {
+        } else if (discountedPrice.equalsIgnoreCase(actualPrice)) {
             mPrice.setVisibility(View.GONE);
             mProductDiscountedPrice.setVisibility(View.VISIBLE);
             mProductDiscountedPrice.setText(discountedPrice);
@@ -699,20 +678,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
-//    @Override
-//    public void onLoadFinished(ArrayList<StoreEntity> data) {
-////        dismissProgressDialog();
-//        mBuyFromRetailers.hideProgressIndicator();
-//        buyFromRetailers(data);
-//    }
-
     @Override
-    public void onLoadFinished(ArrayList<? extends Object> data) {
+    public void onLoadFinished(ArrayList<?> data) {
         hideProgressBar();
         mAddToCart.hideProgressIndicator();
 
         if (data != null && data.get(0) instanceof ShoppingCartData) {
-
             final ShoppingCartData shoppingCartData = getShoppingCartDataFromCTN(data);
             if (shoppingCartData != null) {
                 mQuantity.setText(shoppingCartData.getQuantity() + "");
@@ -721,6 +692,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
 
         }
+
         if (!data.isEmpty() && data.get(0) instanceof StoreEntity) {
             mBuyFromRetailers.hideProgressIndicator();
             buyFromRetailers((ArrayList<StoreEntity>) data);
@@ -728,28 +700,18 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private ShoppingCartData getShoppingCartDataFromCTN(ArrayList<?> data) {
-
         final String lCtn = mBundle.getString(IAPConstant.PRODUCT_CTN);
 
         for (ShoppingCartData shoppingCartData : (ArrayList<ShoppingCartData>) data) {
-
-            if (shoppingCartData.getCtnNumber().equalsIgnoreCase(lCtn)) return shoppingCartData;
+            if (shoppingCartData.getCtnNumber().equalsIgnoreCase(lCtn))
+                return shoppingCartData;
         }
-
         return null;
     }
-
-
-//    @Override
-//    public void onLoadFinished(ShoppingCartData data) {
-//        dismissProgressDialog();
-//        IAPLog.d(IAPLog.LOG, data.getCtnNumber());
-//    }
 
     @Override
     public void onLoadError(Message msg) {
         IAPLog.d(IAPLog.LOG, "onLoadError == ProductDetailFragment ");
-//        dismissProgressDialog();
         mBuyFromRetailers.hideProgressIndicator();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
@@ -761,7 +723,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
-        //   dismissProgressDialog();
         mBuyFromRetailers.hideProgressIndicator();
         NetworkUtility.getInstance().showErrorDialog(mContext,
                 getFragmentManager(), mContext.getString(R.string.iap_ok),
@@ -848,11 +809,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 getFragmentManager().popBackStack();
             }
         }
-      /*  if(Utility.isProductDetailsFromOrderSummarry){
-            Utility.isProductDetailsFromOrderSummarry=false;
-            addFragment(OrderSummaryFragment.createInstance(new Bundle(), AnimationType.NONE), OrderSummaryFragment.TAG,false);
-        }*/
-
         return super.handleBackEvent();
     }
 
@@ -871,7 +827,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         return mUpdtedStoreEntity;
     }
 
-
     @Override
     public void onPositiveBtnClick() {
         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
@@ -882,11 +837,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     }
 
-
-
     @Override
     public void onFetchProductDisclaimerSuccess(DisclaimerModel disclaimerModel) {
-        if(null!=disclaimerModel) {
+        if (null != disclaimerModel) {
             showDisclaimer(disclaimerModel);
         }
     }

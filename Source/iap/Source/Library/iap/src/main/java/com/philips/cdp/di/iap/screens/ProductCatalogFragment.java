@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.screens;
@@ -44,8 +44,10 @@ import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductCatalogFragment extends InAppBaseFragment
         implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
@@ -61,7 +63,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private RecyclerView mRecyclerView;
     private SearchBox mSearchBox;
     private ProductCatalogAPI mPresenter;
-    private ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
+    private List<ProductCatalogData> mProductCatalog = new CopyOnWriteArrayList<>();
 
     private final int page_size = 20;
     private int mTotalResults = 0;
@@ -72,8 +74,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private boolean mIsLoading = false;
     private boolean mIsProductsAvailable = true;
     private RelativeLayout mParentLayout;
-
-    private ImageView mClearIconView;
     private AppCompatAutoCompleteTextView mSearchTextView;
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
@@ -168,7 +168,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     private void setUpSearch() {
-        mClearIconView = mSearchBox.getClearIconView();
+        ImageView mClearIconView = mSearchBox.getClearIconView();
         mSearchBox.setExpandListener(this);
         mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
         mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
