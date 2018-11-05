@@ -123,7 +123,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private void displayCategorisedProductList(ArrayList<String> categorisedProductList) {
         if (categorisedProductList.size() > 0) {
-            createCustomProgressBar(mParentLayout,BIG);
+            createCustomProgressBar(mParentLayout, BIG);
             mPresenter.getCategorizedProductList(categorisedProductList);
         }
     }
@@ -241,7 +241,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putInt(IAPConstant.STOCK_LEVEL, productCatalogData.getStockLevel());
             if (getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP) != null) {
                 final String voucherCode = getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP);
-                bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
+                bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP, voucherCode);
             }
 
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
@@ -249,7 +249,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, list);
             }
-            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
+            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG, true);
         }
     }
 
@@ -354,7 +354,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private boolean checkIfEntryExists(final ProductCatalogData data) {
         for (ProductCatalogData entry : mProductCatalog) {
-            if (entry.getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
+            final String ctnNumber = entry.getCtnNumber();
+
+            if (ctnNumber != null && ctnNumber.equalsIgnoreCase(data.getCtnNumber())) {
                 return true;
             }
         }
@@ -376,7 +378,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
             int visibleItemCount = lay.getChildCount();
             int firstVisibleItemPosition = lay.findFirstVisibleItemPosition();
-
 
             if (!mIsLoading && (visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
                     && firstVisibleItemPosition >= 0
