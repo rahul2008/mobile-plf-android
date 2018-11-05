@@ -1,8 +1,6 @@
 /*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.mya.profile;
@@ -21,7 +19,9 @@ import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,12 +33,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@RunWith(RobolectricTestRunner.class)
 public class MyaProfilePresenterTest {
 
     private MyaProfileContract.View view;
     private Context context;
     private MyaProfilePresenter myaProfilePresenter;
-
 
     @Before
     public void setup() {
@@ -63,23 +63,23 @@ public class MyaProfilePresenterTest {
         when(appConfigurationInterface.getPropertyForKey("profile.menuItems", "mya", error)).thenReturn(arrayList);
         when(appInfraInterface.getConfigInterface()).thenReturn(appConfigurationInterface);
         MyaHelper.getInstance().setMyaLaunchInput(new MyaLaunchInput(context));
-        myaProfilePresenter.getProfileItems(appInfraInterface,getArguments());
+        myaProfilePresenter.getProfileItems(appInfraInterface, getArguments());
         verify(view).showProfileItems(ArgumentMatchers.<String, String>anyMap());
     }
 
     @Test
     public void testHandleOnClickProfileItem() {
 
-        String key="MYA_My_details";
+        String key = "MYA_My_details";
         assertFalse(myaProfilePresenter.handleOnClickProfileItem(key, null));
-        assertFalse(myaProfilePresenter.handleOnClickProfileItem("some_item",null));
+        assertFalse(myaProfilePresenter.handleOnClickProfileItem("some_item", null));
     }
 
     private Bundle getArguments() {
         Bundle arguments = new Bundle();
         UserDataInterface userDataInterface = mock(UserDataInterface.class);
         MyaLaunchInput value = new MyaLaunchInput(context);
-        String[] settingsItems = {"settings1","settings2"};
+        String[] settingsItems = {"settings1", "settings2"};
         value.setProfileMenuList(Arrays.asList(settingsItems));
         arguments.putSerializable(USER_PLUGIN, userDataInterface);
         return arguments;
