@@ -5,8 +5,12 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.model.DeleteVoucherRequest;
+import com.philips.cdp.di.iap.model.GetAppliedVoucherRequest;
 import com.philips.cdp.di.iap.model.GetApplyVoucherRequest;
+import com.philips.cdp.di.iap.response.voucher.GetAppliedValue;
 import com.philips.cdp.di.iap.screens.VoucherFragment;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -14,9 +18,12 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.philips.cdp.di.iap.session.RequestCode.APPLY_VOUCHER;
+import static com.philips.cdp.di.iap.session.RequestCode.DELETE_VOUCHER;
+import static com.philips.cdp.di.iap.session.RequestCode.GET_APPLIED_VOUCHER;
 
 public class VoucherController implements AbstractModel.DataLoadListener {
 
@@ -25,6 +32,8 @@ public class VoucherController implements AbstractModel.DataLoadListener {
 
     public interface VoucherListener {
         void onApplyVoucherResponse(Message msg);
+        void onGetAppliedVoucherResponse(Message msg);
+        void onDeleteAppliedVoucherResponse(Message msg);
     }
 
     public VoucherController(Context mContext, VoucherListener voucherListener) {
@@ -50,12 +59,33 @@ public class VoucherController implements AbstractModel.DataLoadListener {
         delegate.sendRequest(APPLY_VOUCHER, request, request);
     }
 
+    public void getAppliedVoucherCode() {
+
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+        GetAppliedVoucherRequest request = new GetAppliedVoucherRequest(delegate.getStore(), null,this);
+        delegate.sendRequest(GET_APPLIED_VOUCHER, request, request);
+    }
+
+    public void getDeleteVoucher(String voucherCode){
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+
+        DeleteVoucherRequest deleteVoucherRequest = new DeleteVoucherRequest(delegate.getStore(), null, this, voucherCode);
+        delegate.sendRequest(DELETE_VOUCHER, deleteVoucherRequest, deleteVoucherRequest);
+    }
+
     private void sendListener(Message msg) {
         int requestCode = msg.what;
         switch (requestCode) {
             case RequestCode.APPLY_VOUCHER:
                 mVoucherListener.onApplyVoucherResponse(msg);
                 break;
+            case RequestCode.GET_APPLIED_VOUCHER:
+                mVoucherListener.onGetAppliedVoucherResponse(msg);
+                break;
+            case RequestCode. DELETE_VOUCHER:
+                mVoucherListener.onDeleteAppliedVoucherResponse(msg);
+                break;
+
         }
     }
 }
