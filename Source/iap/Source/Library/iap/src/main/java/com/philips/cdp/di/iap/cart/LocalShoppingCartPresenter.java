@@ -47,8 +47,4 @@ public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
     //Do nothing
     }
 
-    @Override
-    public void deleteAppliedVoucher(String voucherCode) {
-
-    }
 }

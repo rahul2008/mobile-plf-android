@@ -7,6 +7,9 @@ import java.io.Serializable;
  * All rights reserved.
  */
 public class DeliveryModeEntity implements Serializable{
+
+
+    private static final long serialVersionUID = 183875197064381903L;
     private String code;
 
     private DeliveryCostEntity deliveryCost;
