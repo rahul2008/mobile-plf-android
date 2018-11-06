@@ -8,14 +8,12 @@ package com.philips.platform.referenceapp.services;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.referenceapp.PushNotificationManager;
-import com.philips.platform.referenceapp.R;
 import com.philips.platform.referenceapp.utils.PNLog;
-
-import java.io.IOException;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -28,17 +26,17 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        try {
-            InstanceID instanceID = InstanceID.getInstance(this);
-            String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
-                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            PushNotificationManager.getInstance().saveToken(token,new SecureStorageInterface.SecureStorageError());
-            PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext(),new SecureStorageInterface.SecureStorageError());
-            PNLog.i(TAG, "GCM Registration Token: " + token);
+        // Get updated InstanceID token.
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken();
+                PushNotificationManager.getInstance().saveToken(token,new SecureStorageInterface.SecureStorageError());
+                PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext(),new SecureStorageInterface.SecureStorageError());
+                PNLog.i(TAG, "GCM Registration Token: " + token);
+            }
+        });
 
-        } catch (IOException e) {
-            PNLog.d(TAG, "Failed to complete token refresh"+e.getMessage());
-        }
     }
 
 

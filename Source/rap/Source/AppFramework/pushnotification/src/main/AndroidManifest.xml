@@ -6,17 +6,10 @@
         android:supportsRtl="true">
 
         <service
-            android:name="com.philips.platform.referenceapp.services.PlatformGCMListenerService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
             android:name="com.philips.platform.referenceapp.services.PlatformInstanceIDListenerService"
-            android:exported="false">
+            android:stopWithTask="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
