@@ -9,14 +9,14 @@
 
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,21 +59,21 @@
 
             </LinearLayout>
 
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/ews_04_01_button_succesful_start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="@dimen/default_main_button_top_margin"
-                android:layout_marginStart="@dimen/default_body_labels_margin"
-                android:layout_marginEnd="@dimen/default_body_labels_margin"
-                android:layout_marginBottom="@dimen/default_screen_bottom_margin"
-                android:onClick="@{() -> viewModel.onStartClicked()}"
-                android:text="@string/button_ews_succesful_start"
-                app:uidComponentType="Primary" />
+        </android.support.v4.widget.NestedScrollView>
 
-        </RelativeLayout>
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ews_04_01_button_succesful_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/default_main_button_top_margin"
+            android:layout_marginStart="@dimen/default_body_labels_margin"
+            android:layout_marginEnd="@dimen/default_body_labels_margin"
+            android:layout_marginBottom="@dimen/default_screen_bottom_margin"
+            android:onClick="@{() -> viewModel.onStartClicked()}"
+            android:text="@string/button_ews_succesful_start"
+            app:uidComponentType="Primary" />
 
-    </android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
 
 </layout>
