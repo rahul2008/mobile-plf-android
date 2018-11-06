@@ -328,7 +328,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
     @Override
     public void disableView(View view) {
-        view.setVisibility(view.GONE);
+        view.setVisibility(View.GONE);
     }
 
     @Override

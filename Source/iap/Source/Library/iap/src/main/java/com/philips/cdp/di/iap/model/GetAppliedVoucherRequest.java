@@ -1,6 +1,9 @@
 package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
+import com.google.gson.Gson;
+import com.philips.cdp.di.iap.response.carts.AddToCartData;
+import com.philips.cdp.di.iap.response.voucher.GetAppliedValue;
 import com.philips.cdp.di.iap.store.StoreListener;
 
 import org.json.JSONArray;
@@ -18,15 +21,8 @@ public class GetAppliedVoucherRequest extends AbstractModel {
     }
     @Override
     public Object parseResponse(Object response) {
-        String voucherCode =null;
-        try {
-            JSONObject jsonObject= new JSONObject(response.toString());
-            JSONArray jsonArray = jsonObject.optJSONArray("vouchers");
-            voucherCode = jsonArray.getJSONObject(0).getString("voucherCode");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return voucherCode;
+
+        return   new Gson().fromJson(response.toString(), GetAppliedValue.class);
     }
     @Override
     public int getMethod() {

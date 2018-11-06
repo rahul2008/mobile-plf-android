@@ -45,7 +45,7 @@ public class TestMeasurementGroupDetail implements MeasurementGroupDetail, Seria
     }
 
     @Override
-    public TestMeasurementGroup getTestMeasurementGroup() {
+    public TestMeasurementGroup getOrmMeasurementGroup() {
         return testMeasurementGroup;
     }
 

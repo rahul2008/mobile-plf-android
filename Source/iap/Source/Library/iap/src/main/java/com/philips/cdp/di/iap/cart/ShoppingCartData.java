@@ -8,6 +8,7 @@ import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.carts.TotalDiscountsEntity;
 import com.philips.cdp.di.iap.response.orders.AppliedOrderPromotions;
 
 import java.io.Serializable;
@@ -54,6 +55,8 @@ public class ShoppingCartData implements Serializable {
     private double discountPrice;
 
     private String mAppliedVoucherCode;
+
+    private String totalDiscounts;
 
     public ShoppingCartData() {
     }
@@ -241,5 +244,13 @@ public class ShoppingCartData implements Serializable {
 
     public void setAppliedVoucherCode(String mAppliedVoucherCode) {
         this.mAppliedVoucherCode = mAppliedVoucherCode;
+    }
+
+    public String getTotalDiscounts() {
+        return totalDiscounts;
+    }
+
+    public void setTotalDiscounts(String totalDiscounts) {
+        this.totalDiscounts = totalDiscounts;
     }
 }

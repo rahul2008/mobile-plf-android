@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    android:id="@+id/uid_expander_title_layout_default"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <com.philips.platform.uid.view.widget.ImageButton
+        android:id="@+id/uid_expander_title_icon"
+        android:layout_width="@dimen/uid_expander_title_icon_height_width_size"
+        android:layout_height="@dimen/uid_expander_title_icon_height_width_size"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:drawableTint="?attr/uidContentItemSecondaryNormalIconColor"
+        android:layout_marginEnd="@dimen/uid_expander_title_icon_margin_end"
+        android:background="@color/uidTransparent"
+        android:visibility="gone" />
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/uid_expander_title_chevron"
+        fontPath="fonts/iconfont.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/dls_navigationdown"
+        android:textColor="?attr/uidContentItemSecondaryNormalIconColor"
+        android:textSize="@dimen/uid_expander_title_chevron_font_size" />
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/uid_expander_title_text"
+        fontPath="fonts/centralesansmedium.ttf"
+        android:minHeight="@dimen/uid_expander_view_title_min_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/uid_expander_title_icon"
+        android:layout_toStartOf="@+id/uid_expander_title_chevron"
+        android:layout_marginEnd="@dimen/uid_expander_title_text_margin_end"
+        android:gravity="center_vertical"
+        android:maxLines="3"
+
+        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+        android:textSize="@dimen/uid_expander_title_text_size" />
+
+</RelativeLayout>

@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.screens;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -39,7 +38,6 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
     protected IAPListener mIapListener;
-    private ProgressDialog mProgressDialog = null;
 
     String mTitle = "";
 

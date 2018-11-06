@@ -4,6 +4,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -132,7 +133,7 @@ public class IAPServiceDiscoveryWrapper {
 
     private void launchingIAP(IAPHandler pIAPHandler, UiLauncher pUiLauncher, IAPLaunchInput pUappLaunchInput) {
         mIAPSettings.setProposition(loadConfigParams());
-
+        Utility.setVoucherCode(pUappLaunchInput.getVoucher());
         if (!mIAPSettings.isUseLocalData() && (!pIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
             pIAPHandler.initIAP(pUiLauncher, pUappLaunchInput);
         } else {
