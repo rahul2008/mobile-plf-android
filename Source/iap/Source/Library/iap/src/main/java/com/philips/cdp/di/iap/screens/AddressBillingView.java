@@ -3,7 +3,6 @@ package com.philips.cdp.di.iap.screens;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,9 +47,9 @@ public class AddressBillingView
     private InputValidator inputValidatorAddressLineOneBilling;
     private InputValidationLayout mLlTownBilling;
 
-    private AddressBillingPresenter addressBillingPresenter;
+    private final AddressBillingPresenter addressBillingPresenter;
 
-    AddressContractor addressContractor;
+    private AddressContractor addressContractor;
 
 
 
@@ -85,7 +84,7 @@ public class AddressBillingView
     private SalutationDropDown mSalutationDropDownBilling;
     private StateDropDown mStateDropDownBilling;
     private Validator mValidator;
-    AddressFields billingAddressFields;
+    private AddressFields billingAddressFields;
     private String mRegionIsoCode;
 
 
@@ -101,8 +100,8 @@ public class AddressBillingView
         inputValidatorLastNameBilling = new InputValidator(Validator.NAME_PATTERN);
         mLlLastNameBilling.setValidator(inputValidatorLastNameBilling);
 
-        InputValidationLayout mLlSalutationBilling = rootView.findViewById(R.id.ll_billing_salutation);
-        InputValidator inputValidatorSalutationBilling = new InputValidator(Validator.ADDRESS_PATTERN);
+        final InputValidationLayout mLlSalutationBilling = rootView.findViewById(R.id.ll_billing_salutation);
+        final InputValidator inputValidatorSalutationBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlSalutationBilling.setValidator(inputValidatorSalutationBilling);
 
         mLlAddressLineOneBilling = rootView.findViewById(R.id.ll_billing_address_line_one);
@@ -239,8 +238,8 @@ public class AddressBillingView
 
         if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
                 mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
-            String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
-            String stateCode = code.substring(code.length() - 2);
+            final String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
+            final String stateCode = code.substring(code.length() - 2);
             mEtStateBilling.setText(stateCode);
             mlLStateBilling.setVisibility(View.VISIBLE);
         } else {
@@ -381,14 +380,14 @@ public class AddressBillingView
     }
 
     public boolean checkBillingAddressFields() {
-        String firstName = mEtFirstNameBilling.getText().toString();
-        String lastName = mEtLastNameBilling.getText().toString();
-        String addressLineOne = mEtAddressLineOneBilling.getText().toString();
-        String postalCode = mEtPostalCodeBilling.getText().toString().replaceAll(" ", "");
-        String phone1 = mEtPhone1Billing.getText().toString().replaceAll(" ", "");
-        String town = mEtTownBilling.getText().toString();
-        String country = mEtCountryBilling.getText().toString();
-        String email = mEtEmailBilling.getText().toString();
+        final String firstName = mEtFirstNameBilling.getText().toString();
+        final String lastName = mEtLastNameBilling.getText().toString();
+        final String addressLineOne = mEtAddressLineOneBilling.getText().toString();
+        final String postalCode = mEtPostalCodeBilling.getText().toString().replaceAll(" ", "");
+        final String phone1 = mEtPhone1Billing.getText().toString().replaceAll(" ", "");
+        final String town = mEtTownBilling.getText().toString();
+        final String country = mEtCountryBilling.getText().toString();
+        final String email = mEtEmailBilling.getText().toString();
 
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)

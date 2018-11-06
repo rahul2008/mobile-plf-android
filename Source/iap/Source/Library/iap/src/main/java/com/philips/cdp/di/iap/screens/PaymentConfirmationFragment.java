@@ -6,6 +6,7 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -117,7 +118,13 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }
             String emailConfirmation = getString(R.string.iap_confirmation_email_msg);
-            Spanned boldCount = Html.fromHtml(emailConfirmation+ "  <b>" + email + "</b>");
+            Spanned boldCount;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                boldCount = Html.fromHtml(emailConfirmation+ "  <b>" + email + "</b>",Html.FROM_HTML_MODE_LEGACY);
+            } else {
+                boldCount = Html.fromHtml(emailConfirmation+ "  <b>" + email + "</b>");
+            }
+
             mConfirmWithEmail.setText(boldCount);
             setPaymentTitle(R.string.iap_thank_for_order);
         }

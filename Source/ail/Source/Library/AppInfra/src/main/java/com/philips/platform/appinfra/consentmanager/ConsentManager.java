@@ -95,11 +95,11 @@ public class ConsentManager implements ConsentManagerInterface {
                 });
             }
             cachedThreadPoolExecuter.shutdown();
-            if (!waitTillThreadsGetsCompleted(countDownLatch)) {
+            if (waitTillThreadsGetsCompleted(countDownLatch)) {
+                postResultOnFetchConsents(consentManagerCallbackListeners, callback);
+            } else {
                 postExceptionOnMainThread(callback, new ConsentError("Request Timed out", ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT));
-                return;
             }
-            postResultOnFetchConsents(consentManagerCallbackListeners, callback);
         });
     }
 
@@ -115,8 +115,11 @@ public class ConsentManager implements ConsentManagerInterface {
                 getHandler(consentType).storeConsentTypeState(consentType, status, consentDefinition.getVersion(), listener);
             }
 
-            waitTillThreadsGetsCompleted(countDownLatch);
-            postResultOnStoreConsent(consentDefinition, consentTypeCallbackListeners, callback, status);
+            if (waitTillThreadsGetsCompleted(countDownLatch)) {
+                postResultOnStoreConsent(consentDefinition, consentTypeCallbackListeners, callback, status);
+            } else {
+                postExceptionOnMainThread(callback, new ConsentError("Request Timed out", ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT));
+            }
         });
     }
 
@@ -167,9 +170,11 @@ public class ConsentManager implements ConsentManagerInterface {
             consentTypeCallbackListeners.add(listener);
             getHandler(consentType).fetchConsentTypeState(consentType, listener);
         }
-
-        waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnFetchConsent(consentDefinition, consentTypeCallbackListeners, callback);
+        if (waitTillThreadsGetsCompleted(countDownLatch)) {
+            postResultOnFetchConsent(consentDefinition, consentTypeCallbackListeners, callback);
+        } else {
+            postExceptionOnMainThread(callback, new ConsentError("Request Timed out", ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT));
+        }
     }
 
     private void executeHandlerToFetchConsentTypeState(final String type, final FetchConsentCallback callback) throws RuntimeException {
@@ -180,8 +185,11 @@ public class ConsentManager implements ConsentManagerInterface {
         consentTypeCallbackListeners.add(listener);
         getHandler(type).fetchConsentTypeState(type, listener);
 
-        waitTillThreadsGetsCompleted(countDownLatch);
-        postResultOnFetchConsent(getConsentDefinitionForType(type), consentTypeCallbackListeners, callback);
+        if (waitTillThreadsGetsCompleted(countDownLatch)) {
+            postResultOnFetchConsent(getConsentDefinitionForType(type), consentTypeCallbackListeners, callback);
+        } else {
+            postExceptionOnMainThread(callback, new ConsentError("Request Timed out", ConsentError.CONSENT_ERROR_CONNECTION_TIME_OUT));
+        }
     }
 
     private boolean waitTillThreadsGetsCompleted(CountDownLatch countDownLatch) {
@@ -293,6 +301,16 @@ public class ConsentManager implements ConsentManagerInterface {
     private void postExceptionOnMainThread(final FetchConsentsCallback callback, final ConsentError consentError) {
         Handler mainHandler = new Handler(Looper.getMainLooper());
         mainHandler.post(() -> callback.onGetConsentsFailed(consentError));
+    }
+
+    private void postExceptionOnMainThread(final FetchConsentCallback callback, final ConsentError consentError) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(() -> callback.onGetConsentFailed(consentError));
+    }
+
+    private void postExceptionOnMainThread(PostConsentCallback callback, ConsentError consentError) {
+        Handler mainHandler = new Handler(Looper.getMainLooper());
+        mainHandler.post(() -> callback.onPostConsentFailed(consentError));
     }
 
     private class ConsentManagerCallbackListener implements FetchConsentCallback {
