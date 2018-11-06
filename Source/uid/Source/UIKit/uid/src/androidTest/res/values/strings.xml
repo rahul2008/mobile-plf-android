@@ -40,4 +40,8 @@
     <string name="item1">Item1</string>
     <string name="item2">Item2</string>
     <string name="badge_count">99</string>
+
+    <!-- Circular Button-->
+    <string name="buttons_circular">Circular buttons</string>
+
 </resources>
