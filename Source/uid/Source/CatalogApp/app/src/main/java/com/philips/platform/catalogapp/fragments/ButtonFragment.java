@@ -4,20 +4,28 @@
  */
 package com.philips.platform.catalogapp.fragments;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentButtonsBinding;
+import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
@@ -43,7 +51,26 @@ public class ButtonFragment extends BaseFragment {
         fragmentBinding.socialIconFacebook.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uid_social_media_facebook_icon, getContext().getTheme()));
         fragmentBinding.socialIconTwitter.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uid_social_media_wechat_icon, getContext().getTheme()));
 
+        setCircularButtonIcon(getActivity());
+
         return fragmentBinding.getRoot();
+    }
+
+    private void setCircularButtonIcon(Context context) {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+
+        int size = (int) getResources().getDimension(R.dimen.uid_imagebutton_image_size);
+        int sizeDP = Double.valueOf(size / metrics.density).intValue();
+
+        FontIconDrawable drawable = new FontIconDrawable(context, getResources().getString(com.philips.platform.uid.R.string.dls_message), Typeface.createFromAsset(context.getAssets(), "fonts/iconfont.ttf"))
+                .sizeDp(sizeDP);
+
+        fragmentBinding.circularButtonLarge.setImageDrawable(drawable);
+        fragmentBinding.circularButtonRegular.setImageDrawable(drawable);
+        fragmentBinding.circularAccentButtonLarge.setImageDrawable(drawable);
+        fragmentBinding.circularAccentButtonRegular.setImageDrawable(drawable);
     }
 
     public void showGridFragment() {

@@ -15,23 +15,19 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.addresses.DeliveryCost;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.screens.OnSetDeliveryModeListener;
 
 import java.util.List;
 
-public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapter.DeliverySelectionHolder>{
+public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapter.DeliverySelectionHolder> {
 
     private List<DeliveryModes> mModes;
-    private int mSelectedIndex;
-  //  private View.OnClickListener mConfirmBtnClick;
     private OnSetDeliveryModeListener mListener;
-    private boolean isRadioBtnSelectedFirst;
 
     public DeliveryModeAdapter(final List<DeliveryModes> modes,
                                OnSetDeliveryModeListener listener) {
         mModes = modes;
-        mSelectedIndex = 0;
-       // mConfirmBtnClick = confirmBtnClick;
         mListener = listener;
     }
 
@@ -49,8 +45,8 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             holder.deliveryModeName.setText(modes.getName());
         holder.deliveryModeDescription.setText(modes.getDescription());
 
-        mSelectedIndex = 0;
-        holder.deliveryRadioBtnToggle.setChecked(true);
+        // mSelectedIndex = 0;
+        //holder.deliveryRadioBtnToggle.setChecked(true);
 
         //TODO :Cost is not in server response so value setting to 0.0.Report to Hybris.
         DeliveryCost deliveryCost = modes.getDeliveryCost();
@@ -61,8 +57,20 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             holder.deliveryModePrice.setText("0.0");
         }
 
-       // bindToggleButton(holder, holder.deliveryRadioBtnToggle);
-        setToggleStatus(holder.deliveryRadioBtnToggle, position, holder.deliveryConfirmBtn);
+        if (isNothingSelected(mModes) && position == 0) {
+            changeConfirmAndRadioButtonState(holder, true);
+        } else {
+            changeConfirmAndRadioButtonState(holder, modes.isSelected());
+        }
+
+        holder.iap_delivery_mode_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                markDeliveryModeSelected(holder);
+                notifyDataSetChanged();
+            }
+        });
 
         holder.deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,27 +80,15 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         });
     }
 
-    private void bindToggleButton(final DeliverySelectionHolder holder, final RadioButton toggle) {
-        toggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mSelectedIndex = holder.getAdapterPosition();
-                notifyDataSetChanged();
-            }
-        });
-    }
+    private void markDeliveryModeSelected(RecyclerView.ViewHolder holder) {
+        DeliveryModes selectedDeliveryMode = mModes.get(holder.getAdapterPosition());
+        selectedDeliveryMode.setSelected(true);
 
-    private void setToggleStatus(final RadioButton toggle, final int position, Button deliveryConfirmBtn) {
-        if(isRadioBtnSelectedFirst){
-            if (mSelectedIndex == position) {
-                toggle.setChecked(true);
-                deliveryConfirmBtn.setVisibility(View.VISIBLE);
-            } else {
-                toggle.setChecked(false);
-                deliveryConfirmBtn.setVisibility(View.GONE);
+        for (int i = 0; i < mModes.size(); i++) {
+
+            if (i != holder.getAdapterPosition()) {
+                mModes.get(i).setSelected(false);
             }
-        }else{
-            isRadioBtnSelectedFirst = false;
         }
     }
 
@@ -101,7 +97,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         return mModes.size();
     }
 
-    public class DeliverySelectionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class DeliverySelectionHolder extends RecyclerView.ViewHolder {
 
         private TextView deliveryModeName;
         private TextView deliveryModeDescription;
@@ -118,17 +114,27 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             deliveryModePrice = (TextView) view.findViewById(R.id.iap_delivery_parcel_amount);
             deliveryConfirmBtn = (Button) view.findViewById(R.id.iap_delivery_confirm_btn);
             deliveryRadioBtnToggle = (RadioButton) view.findViewById(R.id.iap_ups_parcel_radio_btn);
-            iap_delivery_mode_select=(LinearLayout) view.findViewById(R.id.iap_delivery_mode_select);
-            iap_delivery_mode_select.setOnClickListener(this);
-          //  deliveryConfirmBtn.setOnClickListener(mConfirmBtnClick);
+            iap_delivery_mode_select = (LinearLayout) view.findViewById(R.id.iap_delivery_mode_select);
         }
 
-        @Override
-        public void onClick(View v) {
-            isRadioBtnSelectedFirst = true;
-            mSelectedIndex = getAdapterPosition();
-            setToggleStatus(deliveryRadioBtnToggle, getAdapterPosition(),deliveryConfirmBtn);
-            notifyDataSetChanged();
+    }
+
+    boolean isNothingSelected(List<DeliveryModes> mModes) {
+
+        for (DeliveryModes deliveryModes : mModes) {
+            if (deliveryModes.isSelected()) return false;
+        }
+        return true;
+    }
+
+    private void changeConfirmAndRadioButtonState(DeliverySelectionHolder holder, boolean isEnable) {
+
+        if (isEnable) {
+            holder.deliveryRadioBtnToggle.setChecked(true);
+            holder.deliveryConfirmBtn.setVisibility(View.VISIBLE);
+        } else {
+            holder.deliveryRadioBtnToggle.setChecked(false);
+            holder.deliveryConfirmBtn.setVisibility(View.GONE);
         }
     }
 }
