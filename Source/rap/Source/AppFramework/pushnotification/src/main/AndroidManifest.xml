@@ -4,15 +4,7 @@
 
     <application
         android:supportsRtl="true">
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.example.gcm" />
-            </intent-filter>
-        </receiver>
+
         <service
             android:name="com.philips.platform.referenceapp.services.PlatformGCMListenerService"
             android:exported="false" >
