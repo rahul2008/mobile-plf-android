@@ -16,7 +16,6 @@ import com.philips.platform.catk.mock.SecureStorageInterfaceMock;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,8 +58,7 @@ public class ConsentCacheInteractorTest {
 
         storageInterface = new SecureStorageInterfaceMock();
         appInfra = new AppInfraInterfaceMock(storageInterface, configInterface);
-        DateTimeUtils.setCurrentMillisFixed(NOW.getMillis());
-        consentCacheInteractor = new ConsentCacheInteractor(appInfra);
+        consentCacheInteractor = new ConsentCacheInteractor(appInfra, dateTimeZone -> NOW);
         when(user.getHsdpUUID()).thenReturn("userId");
         CatkComponentMock catkComponent = new CatkComponentMock();
         catkComponent.getUser_return = user;
