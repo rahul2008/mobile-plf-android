@@ -8,11 +8,12 @@ apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'pl.droidsonroids.pitest'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "csw"
+archivesBaseName = strings.csw.artifactName
 
 buildscript {
     dependencies {
@@ -88,13 +89,13 @@ dependencies {
 
     // Philips Components
     if (directdependencies) {
-        implementation project(':uid')
-        implementation project(':registrationApi')
-        implementation project(':pif')
-        implementation project(':uikitLib')
-        implementation project(':catk')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
+        implementation project(strings.uid.projectName)
+        implementation project(strings.usr.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.uit.projectName)
+        implementation project(strings.catk.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uid
         implementation(philipsdeps.registrationApi) {

@@ -38,6 +38,7 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.base.Consent;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
@@ -59,6 +60,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 import com.philips.platform.urdemolibrary.R;
 
@@ -89,6 +91,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private CoppaExtension coppaExtension;
     private Switch mSkipHSDPSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
 
+    private Label btn_registration_with_hsdp_status_lbl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Config.setDebugLogging(true);
@@ -111,6 +115,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
         Button mBtnRegistrationWithOutAccountSettings = findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
+
+        btn_registration_with_hsdp_status_lbl = findViewById(R.id.btn_registration_with_hsdp_status_lbl);
 
         final Button mBtnHsdpRefreshAccessToken = findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
@@ -340,7 +346,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     }
 
     private void registerationWithAccountSettingButtonEnableOnUserSignedIn() {
-        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN)
+        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN || mUser.getUserLoginState() == UserLoginState.PENDING_HSDP_LOGIN)
             mBtnRegistrationWithAccountSettings.setEnabled(true);
         else
             mBtnRegistrationWithAccountSettings.setEnabled(false);
@@ -414,7 +420,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
         CoppaExtension coppaExtension;
-        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
+        ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
         URInterface urInterface = new URInterface();
         int i = v.getId();
         if (i == R.id.btn_registration_with_account) {
@@ -447,7 +453,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         } else if (i == R.id.btn_registration_with_hsdp_status) {
             UserLoginState userLoginState = mUser.getUserLoginState();
-            showToast("User Login State : " + userLoginState);
+            btn_registration_with_hsdp_status_lbl.setVisibility(View.VISIBLE);
+            btn_registration_with_hsdp_status_lbl.setText("User Login State : " + userLoginState);
         } else if (i == R.id.btn_refresh_user) {
             RLog.d(TAG, " : Refresh User ");
             handleRefreshAccessToken();
@@ -768,8 +775,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
         dimissDialog();
-        if (error == Integer.parseInt(RegConstants.INVALID_ACCESS_TOKEN_CODE)
-                || error == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
+        if (error == ErrorCodes.HSDP_INPUT_ERROR_1009
+                || error == ErrorCodes.HSDP_INPUT_ERROR_1151) {
             showToast("Failed to refresh hsdp Invalid access token");
             return;
         }

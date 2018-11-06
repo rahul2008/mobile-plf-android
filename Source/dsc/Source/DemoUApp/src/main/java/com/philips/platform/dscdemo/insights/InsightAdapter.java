@@ -17,6 +17,9 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dscdemo.R;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +27,16 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
 
     private List<? extends Insight> mInsightList;
     private final DBRequestListener<Insight> mDBRequestListener;
+    private final OnItemClickListener clickListener;
 
-    InsightAdapter(ArrayList<? extends Insight> insightList, DBRequestListener<Insight> dbRequestListener) {
+    public interface OnItemClickListener {
+        void onItemClicked(Insight insight);
+    }
+
+    InsightAdapter(ArrayList<? extends Insight> insightList, DBRequestListener<Insight> dbRequestListener, OnItemClickListener clickListener) {
         this.mDBRequestListener = dbRequestListener;
         this.mInsightList = insightList;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -41,25 +50,26 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
         final Insight insight = mInsightList.get(position);
         String expirationDateValue = getExpirationDateValue(insight);
 
-        holder.mInsightID.setText(insight.getGUId());
+        final DateTime lastModified = insight.getSynchronisationData().getLastModified();
+
+        holder.mInsightID.setText(insight.getSynchronisationData().getGuid());
         holder.mMomentID.setText(insight.getMomentId());
-        holder.mLastModified.setText(insight.getLastModified());
+        holder.mLastModified.setText(lastModified == null ? "" : lastModified.toString(ISODateTimeFormat.dateTime()));
         holder.mRuleID.setText(insight.getRuleId());
         holder.mExpirationDate.setText(expirationDateValue);
 
-        holder.mDeleteInsight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                List<Insight> insightsToDelete = new ArrayList<>();
-                insightsToDelete.add(insight);
-                DataServicesManager.getInstance().deleteInsights(insightsToDelete, mDBRequestListener);
-                mInsightList.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
-                notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
-                notifyDataSetChanged();
-                notifyDataSetChanged();
-            }
+        holder.mDeleteInsight.setOnClickListener(view -> {
+            List<Insight> insightsToDelete = new ArrayList<>();
+            insightsToDelete.add(insight);
+            DataServicesManager.getInstance().deleteInsights(insightsToDelete, mDBRequestListener);
+            mInsightList.remove(holder.getAdapterPosition());
+            notifyItemRemoved(holder.getAdapterPosition());
+            notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
+            notifyDataSetChanged();
+            notifyDataSetChanged();
         });
+
+        holder.bind(insight, clickListener);
     }
 
     @NonNull
@@ -93,6 +103,10 @@ class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightHolder> 
             mRuleID = view.findViewById(R.id.rule_id);
             mExpirationDate = view.findViewById(R.id.expiration_date);
             mDeleteInsight = view.findViewById(R.id.btn_delete_insight);
+        }
+
+        public void bind(final Insight item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(view -> listener.onItemClicked(item));
         }
     }
 }

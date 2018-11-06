@@ -64,7 +64,7 @@ public class ConnectToWrongPhoneTroubleshootingViewModelTest {
     @Test
     public void itShouldNavigateToResetConnectionTroubleShootingScreenWhenNoClicked() throws Exception {
         subject.onNoButtonClicked();
-        verify(mockNavigator).navigateToResetConnectionTroubleShootingScreen();
+        verify(mockNavigator).navigateToResetConnectionTroubleshootingScreen();
     }
 
     @Test

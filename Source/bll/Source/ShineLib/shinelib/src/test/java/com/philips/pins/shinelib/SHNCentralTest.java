@@ -181,13 +181,13 @@ public class SHNCentralTest extends RobolectricTest {
 
         simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
 
-        verify(listenerMock, never()).onStateUpdated(any(SHNCentral.class));
+        verify(listenerMock, never()).onStateUpdated(any(SHNCentral.class), any(SHNCentral.State.class));
 
         verify(mockedUserHandler.getMock(), times(2)).post(isA(Runnable.class));
         mockedUserHandler.executeFirstPostedExecution();
         mockedUserHandler.executeFirstPostedExecution();
 
-        verify(listenerMock).onStateUpdated(isA(SHNCentral.class));
+        verify(listenerMock).onStateUpdated(isA(SHNCentral.class), any(SHNCentral.State.class));
     }
 
     @Test
@@ -314,7 +314,7 @@ public class SHNCentralTest extends RobolectricTest {
 
         simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
 
-        verify(listener).onStateUpdated(shnCentral);
+        verify(listener).onStateUpdated(any(SHNCentral.class), any(SHNCentral.State.class));
     }
 
     @Test
@@ -325,7 +325,7 @@ public class SHNCentralTest extends RobolectricTest {
 
         simulateBLEStateChange(BluetoothAdapter.STATE_TURNING_OFF);
 
-        verify(listener, times(0)).onStateUpdated(shnCentral);
+        verify(listener, times(0)).onStateUpdated(any(SHNCentral.class), any(SHNCentral.State.class));
     }
 
     @Test

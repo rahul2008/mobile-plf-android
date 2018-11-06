@@ -70,9 +70,8 @@ public class BluelibUapp implements UappInterface {
                 throw new IllegalStateException("No context set during init. Call init before launching!");
             }
 
-            Intent intent = new Intent(context, BluelibUappActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            Intent intent = new Intent(((ActivityLauncher) uiLauncher).getActivityContext(), BluelibUappActivity.class);
+            ((ActivityLauncher) uiLauncher).getActivityContext().startActivity(intent);
         } else {
             throw new IllegalArgumentException("Unsupported UiLauncher provided");
         }

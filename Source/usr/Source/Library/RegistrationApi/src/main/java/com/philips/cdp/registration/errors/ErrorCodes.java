@@ -199,6 +199,7 @@ public class ErrorCodes {
 
     public static final int HSDP_INPUT_ERROR_3061 = 3161;
 
+    public static final int HSDP_ACTIVATE_ACCOUNT_FAILED = 10000;
 
     //General
     public static final int TRADITIONAL_LOGIN_FAILED_SERVER_ERROR = 7001;
@@ -210,6 +211,8 @@ public class ErrorCodes {
     public static final int FORGOT_PASSWORD_FAILED_SERVER_ERROR = 7004;
 
     public static final int RESEND_MAIL_FAILED_SERVER_ERROR = 7005;
+
+    public static final int BAD_RESPONSE_ERROR_CODE = 7008;
 
     public static final int AUTHENTICATION_CANCELLED_BY_USER = 7010;
 

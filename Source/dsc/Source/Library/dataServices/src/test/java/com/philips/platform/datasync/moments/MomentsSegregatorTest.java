@@ -13,9 +13,10 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.util.MomentListVersionMatcher;
 import com.philips.platform.util.MomentsListSizeMatcher;
 import com.philips.testing.verticals.datatyes.MomentType;
-import com.philips.testing.verticals.table.OrmMoment;
-import com.philips.testing.verticals.table.OrmMomentType;
-import com.philips.testing.verticals.table.OrmSynchronisationData;
+import com.philips.testing.verticals.table.TestMoment;
+import com.philips.testing.verticals.table.TestMomentType;
+import com.philips.testing.verticals.table.TestSynchronisationData;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,9 +52,9 @@ public class MomentsSegregatorTest {
     @Mock
     private DBDeletingInterface deletingInterface;
     @Mock
-    private OrmMoment ormMomentMock;
+    private TestMoment testMomentMock;
     @Mock
-    private OrmSynchronisationData ormSynchronisationDataMock;
+    private TestSynchronisationData testSynchronisationDataMock;
     @Mock
     private DBRequestListener<Moment> dbRequestListener;
     @Mock
@@ -81,7 +82,7 @@ public class MomentsSegregatorTest {
     public void setUp() throws Exception {
         initMocks(this);
         DataServicesManager.getInstance().setAppComponent(appComponentMock);
-        when(ormMomentMock.getSynchronisationData()).thenReturn(ormSynchronisationDataMock);
+        when(testMomentMock.getSynchronisationData()).thenReturn(testSynchronisationDataMock);
         momentsSegregator = new MomentsSegregator();
         momentsSegregator.updatingInterface = updatingInterface;
         momentsSegregator.fetchingInterface = fetchingInterface;
@@ -89,12 +90,12 @@ public class MomentsSegregatorTest {
         momentsSegregator.savingInterface = savingInterface;
         momentsSegregator.mBaseAppDataCreator = dataCreatorMock;
 
-        momentSyncData = new OrmSynchronisationData(GUID_ID, false, NOW, 1);
+        momentSyncData = new TestSynchronisationData(GUID_ID, false, NOW, 1);
         whenCreatingMoment();
         moment.setSynchronisationData(momentSyncData);
         momentsFromBackend.add(moment);
 
-        momentWithoutExpirationDate = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        momentWithoutExpirationDate = new TestMoment(CREATOR_ID, SUBJECT_ID, new TestMomentType(-1, MomentType.TEMPERATURE), null);
     }
 
     @Test
@@ -214,13 +215,13 @@ public class MomentsSegregatorTest {
 
     @Test
     public void should_not_processMoment_when_momentExpired() throws SQLException {
-        Moment moment1 = new OrmMoment("", "", new OrmMomentType(-1, MomentType.TEMPERATURE), new DateTime().minusMinutes(1));
-        SynchronisationData synchronisationData = new OrmSynchronisationData("1234", false, new DateTime().minus(1), 1);
+        Moment moment1 = new TestMoment("", "", new TestMomentType(-1, MomentType.TEMPERATURE), new DateTime().minusMinutes(1));
+        SynchronisationData synchronisationData = new TestSynchronisationData("1234", false, new DateTime().minus(1), 1);
         synchronisationData.setVersion(2);
         moment1.setSynchronisationData(synchronisationData);
-        when(fetchingInterface.fetchMomentByGuid(synchronisationData.getGuid())).thenReturn(ormMomentMock);
-        when(fetchingInterface.fetchMomentByGuid("1234")).thenReturn(ormMomentMock);
-        when(ormSynchronisationDataMock.getGuid()).thenReturn("-1");
+        when(fetchingInterface.fetchMomentByGuid(synchronisationData.getGuid())).thenReturn(testMomentMock);
+        when(fetchingInterface.fetchMomentByGuid("1234")).thenReturn(testMomentMock);
+        when(testSynchronisationDataMock.getGuid()).thenReturn("-1");
         int count = momentsSegregator.processMoments(Collections.singletonList(moment1), dbRequestListener);
         assertEquals(0, count);
     }
@@ -246,7 +247,7 @@ public class MomentsSegregatorTest {
     }
 
     private void givenMomentsInDataBaseWithoutExpirationDate() throws SQLException {
-        SynchronisationData ormSynchronisationData = new OrmSynchronisationData(GUID_ID, false, BEFORE_NOW, 1);
+        SynchronisationData ormSynchronisationData = new TestSynchronisationData(GUID_ID, false, BEFORE_NOW, 1);
         momentWithoutExpirationDate.setSynchronisationData(ormSynchronisationData);
         when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(momentWithoutExpirationDate);
         List momentList = new ArrayList<>();
@@ -256,17 +257,17 @@ public class MomentsSegregatorTest {
 
     private void givenMomentsIsDeletedFromBackend() throws SQLException {
         Moment moment2 = momentsFromBackend.get(0);
-        SynchronisationData ormSynchronisationData2 = new OrmSynchronisationData(GUID_ID, true, NOW, 2);
+        SynchronisationData ormSynchronisationData2 = new TestSynchronisationData(GUID_ID, true, NOW, 2);
         moment2.setSynchronisationData(ormSynchronisationData2);
-        Moment moment3 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
-        SynchronisationData ormSynchronisationData3 = new OrmSynchronisationData(GUID_ID, true, NOW, 3);
+        Moment moment3 = new TestMoment(CREATOR_ID, SUBJECT_ID, new TestMomentType(-1, MomentType.TEMPERATURE), NOW);
+        SynchronisationData ormSynchronisationData3 = new TestSynchronisationData(GUID_ID, true, NOW, 3);
         moment2.setSynchronisationData(ormSynchronisationData3);
         when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment3);
     }
 
     private void givenMomentsInDataBaseWithMomentsDeletedFromDB() throws SQLException {
-        Moment moment2 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
-        SynchronisationData ormSynchronisationData2 = new OrmSynchronisationData(DELETED_GUID, false, NOW, 2);
+        Moment moment2 = new TestMoment(CREATOR_ID, SUBJECT_ID, new TestMomentType(-1, MomentType.TEMPERATURE), NOW);
+        SynchronisationData ormSynchronisationData2 = new TestSynchronisationData(DELETED_GUID, false, NOW, 2);
         moment2.setSynchronisationData(ormSynchronisationData2);
         when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
     }
@@ -281,16 +282,16 @@ public class MomentsSegregatorTest {
     }
 
     private void givenMomentsInDataBaseWithDifferentTimestamp() throws SQLException {
-        Moment dbMoment = new OrmMoment(moment.getCreatorId(),moment.getSubjectId(),new OrmMomentType(-1, MomentType.TEMPERATURE), null);
+        Moment dbMoment = new TestMoment(moment.getCreatorId(),moment.getSubjectId(),new TestMomentType(-1, MomentType.TEMPERATURE), null);
         dbMoment.setDateTime(DATE_TIME);
-        SynchronisationData syncData = new OrmSynchronisationData(GUID_ID, false, BEFORE_NOW, 1);
+        SynchronisationData syncData = new TestSynchronisationData(GUID_ID, false, BEFORE_NOW, 1);
         dbMoment.setSynchronisationData(syncData);
         givenMomentInDatabase(dbMoment);
     }
 
     private void givenMomentsInDataBaseWithUpdatedVersion(int existingMomentVersion) throws SQLException {
-        Moment moment2 = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW);
-        SynchronisationData ormSynchronisationData2 = new OrmSynchronisationData(GUID_ID, false, BEFORE_NOW, existingMomentVersion);
+        Moment moment2 = new TestMoment(CREATOR_ID, SUBJECT_ID, new TestMomentType(-1, MomentType.TEMPERATURE), NOW);
+        SynchronisationData ormSynchronisationData2 = new TestSynchronisationData(GUID_ID, false, BEFORE_NOW, existingMomentVersion);
         moment2.setSynchronisationData(ormSynchronisationData2);
         when((Moment) fetchingInterface.fetchMomentByGuid(GUID_ID)).thenReturn(moment2);
     }
@@ -312,7 +313,7 @@ public class MomentsSegregatorTest {
     }
 
     private void whenCreatingMoment() {
-        moment = new OrmMoment(CREATOR_ID, SUBJECT_ID, new OrmMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
+        moment = new TestMoment(CREATOR_ID, SUBJECT_ID, new TestMomentType(-1, MomentType.TEMPERATURE), NOW.plusMinutes(10));
     }
 
     private void thenVerifyDbFetchingInterfaceIsCalled() throws SQLException {

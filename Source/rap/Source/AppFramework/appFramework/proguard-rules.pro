@@ -261,3 +261,8 @@ public static <fields>;
 -dontwarn android.support.customtabs.**
 
 #------------------------------Application specific rules end  here------------------------------------
+
+#------------------------------ Added for fixing Amwell intake 4.0.5 (Should not be checked-in in develop) START ------------------------------------
+-ignorewarnings
+#------------------------------ Added for fixing Amwell intake 4.0.5 (Should not be checked-in in develop) END ------------------------------------
+

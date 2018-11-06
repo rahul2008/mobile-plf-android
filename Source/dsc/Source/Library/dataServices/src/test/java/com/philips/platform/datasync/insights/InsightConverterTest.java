@@ -6,11 +6,10 @@ import com.philips.platform.core.datatypes.InsightMetadata;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.UCoreAccessProvider;
-import com.philips.platform.datasync.UCoreAdapter;
-import com.philips.testing.verticals.OrmCreatorTest;
+import com.philips.testing.verticals.TestEntityCreator;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,31 +19,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.converter.GsonConverter;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class InsightConverterTest {
+
     private InsightConverter mInsightConverter;
-    @Mock
-    private UuidGenerator mUuidGenerator;
+
     @Mock
     private AppComponent mAppComponent;
-    @Mock
-    private UCoreAdapter mUCoreAdapter;
-    @Mock
-    private UCoreAccessProvider mUCoreAccessProvider;
-    @Mock
-    InsightClient mInsightClient;
-    @Mock
-    GsonConverter mGsonConverter;
 
     @Before
     public void setUp() {
         initMocks(this);
-        BaseAppDataCreator mBaseAppDataCreator = new OrmCreatorTest(new UuidGenerator());
+        BaseAppDataCreator mBaseAppDataCreator = new TestEntityCreator(new UuidGenerator());
         DataServicesManager.getInstance().setAppComponent(mAppComponent);
         mInsightConverter = new InsightConverter();
         mInsightConverter.dataCreator = mBaseAppDataCreator;
@@ -86,10 +75,10 @@ public class InsightConverterTest {
     @Test
     public void shouldReturnUCoreInsight() {
         Insight appInsight = mInsightConverter.dataCreator.createInsight();
-        appInsight.setGUId("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
-        appInsight.setLastModified("2017-03-21T10:19:51.706Z");
-        appInsight.setInactive(false);
-        appInsight.setVersion(2);
+        appInsight.getSynchronisationData().setGuid("aefe5623-a7ac-4b4a-b789-bdeaf23add9f");
+        appInsight.getSynchronisationData().setLastModified(DateTime.parse("2017-03-21T10:19:51.706Z", ISODateTimeFormat.dateTime()));
+        appInsight.getSynchronisationData().setInactive(false);
+        appInsight.getSynchronisationData().setVersion(2);
         appInsight.setRuleId("ruleID");
         appInsight.setSubjectId("subjectID");
         appInsight.setMomentId("momentID");

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2018.
+  ~ All rights reserved.
+  -->
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="wifiNode"
+            type="com.philips.cdp.dicommclient.networknode.WiFiNode"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ssid_label_view"
+            style="@style/UIDLabel.ListItemText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+            android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+            android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+            android:drawablePadding="@dimen/default_between_list_item_drawable_label_margin"
+            android:drawableStart="@drawable/ic_dls_wificonnection"
+            android:gravity="start|center_vertical"
+            android:text="@{wifiNode.SSID}"/>
+
+        <ImageView
+            android:id="@+id/wifi_selected_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+            app:srcCompat="@drawable/ic_dls_checkmark_24"
+            tools:ignore="ContentDescription"/>
+
+    </RelativeLayout>
+</layout>

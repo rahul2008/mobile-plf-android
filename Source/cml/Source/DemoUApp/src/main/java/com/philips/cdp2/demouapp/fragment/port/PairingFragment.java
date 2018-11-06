@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
@@ -24,10 +23,10 @@ import com.philips.cdp2.demouapp.CommlibUapp;
 import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_pair_success;
+import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_failed;
 import static com.philips.cdp2.commlib.demouapp.R.string.cml_unpair_success;
 import static com.philips.cdp2.demouapp.fragment.ApplianceFragmentFactory.APPLIANCE_KEY;
 import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
-import static com.philips.cdp2.demouapp.util.UiUtils.showMessage;
 
 public class PairingFragment extends Fragment {
     private static final String TAG = "PairingFragment";
@@ -75,7 +74,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showMessage(rootview, getString(cml_pair_success));
+                    showIndefiniteMessage(rootview, getString(cml_pair_success));
                 }
             }
 
@@ -108,7 +107,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showMessage(rootview, getString(cml_unpair_success));
+                    showIndefiniteMessage(rootview, getString(cml_unpair_success));
                 }
             }
 
@@ -118,7 +117,7 @@ public class PairingFragment extends Fragment {
 
                 Activity activity = getActivity();
                 if (activity != null) {
-                    showIndefiniteMessage(rootview, getString(cml_pair_failed));
+                    showIndefiniteMessage(rootview, getString(cml_unpair_failed));
                 }
             }
         }, getCloudController());

@@ -67,7 +67,7 @@
     <string name="cml_type">type</string>
     <string name="cml_di_comm">di-comm</string>
     <string name="cml_secretkey">secretKey</string>
-    <string name="cml_secret_key_default">68d1593b1bb341a78576f274</string>
+  <string name="cml_secret_key_default">68b6717490cc1265a6e31884ad16e0e5</string>
     <string name="cml_client_id_default">deadddddbeefffff</string>
     <string name="cml_clienttype">ClientType</string>
     <string name="cml_clienttype_default">CDP-AND-DEV</string>

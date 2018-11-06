@@ -77,7 +77,7 @@
     </style>
 
     <style name="ths_body_text_pre_welcome">
-        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:minHeight">@dimen/ths_list_height_height</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:gravity">center_vertical</item>
@@ -177,6 +177,10 @@
         <item name="android:textColor">?attr/uidHyperlinkDefaultNormalTextColor</item>
     </style>
 
+    <style name="ths_text_book">
+    <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
     <style name="ths_calendar_right">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:layout_height">@dimen/ths_list_item_height</item>
@@ -200,8 +204,8 @@
     <style name="ths_list_item_header">
         <item name="android:minHeight">@dimen/ths_list_item_height</item>
         <item name="android:textSize">@dimen/ths_body_text</item>
-        <item name="android:textColor">?attr/uidContentItemSecondaryNormalTextColor</item>
-        <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
+        <item name="android:textColor">?attr/uidContentItemTertiaryNormalTextColor</item>
+        <item name="android:background">?attr/uidContentSecondaryNeutralBackgroundColor</item>
     </style>
 
     <style name="ths_mobile_wizard">

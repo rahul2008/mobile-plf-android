@@ -303,7 +303,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onClick(View v) {
         URLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null,0,null);
         URInterface urInterface;
         initCountrySelection();
 

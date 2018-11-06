@@ -9,7 +9,6 @@ package com.philips.platform.ths.onboardingtour;
 import android.os.Bundle;
 
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
-import com.philips.platform.ths.R;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -40,7 +38,7 @@ public class OnBoardingTourPageFragmentTest {
         list.add(onBoardingSpanValueMock);
 
         Bundle bundle = new Bundle();
-        bundle.putInt(mOnBoardingTourPageFragment.ARG_PAGE_TITLE,1);
+        bundle.putInt(mOnBoardingTourPageFragment.ARG_PAGE_TEXT,1);
         bundle.putInt(mOnBoardingTourPageFragment.ARG_PAGE_BG_ID,2);
         bundle.putSerializable("INDEX_PAIRS",list);
 

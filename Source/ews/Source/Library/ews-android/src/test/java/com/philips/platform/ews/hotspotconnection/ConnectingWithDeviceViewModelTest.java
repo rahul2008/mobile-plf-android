@@ -153,7 +153,7 @@ public class ConnectingWithDeviceViewModelTest {
     public void itShouldTagAndNavigateToResetConnectionTroubleShootingScreenOnHelpNeeded() {
         subject.onHelpNeeded();
         verify(mockEWSTagger).trackActionSendData(Tag.KEY.SPECIAL_EVENTS, Tag.ACTION.USER_NEEDS_HELP);
-        verify(mockNavigator, times(1)).navigateToResetConnectionTroubleShootingScreen();
+        verify(mockNavigator, times(1)).navigateToResetConnectionTroubleshootingScreen();
     }
 
     @Test
@@ -205,13 +205,6 @@ public class ConnectingWithDeviceViewModelTest {
         verify(mockFragmentCallback, never()).unregisterReceiver(broadcastReceiverArgumentCaptor.capture());
         verifyStatic();
         Log.e(anyString(), anyString());
-    }
-
-    @Test
-    public void itShouldNavigateToConnectToDeviceWithPasswordScreenOnFriendlyNameFetchingSuccess() {
-        String fetchedName = "friendlyName";
-        subject.onFriendlyNameFetchingSuccess(fetchedName);
-        verify(mockNavigator, times(1)).navigateToConnectToDeviceWithPasswordScreen(fetchedName);
     }
 
     @Test

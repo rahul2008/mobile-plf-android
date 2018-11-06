@@ -2,7 +2,6 @@
 
 buildscript {
     repositories {
-//        jcenter()
         maven { url repos.jcenter
             credentials {
                 username = "readonly"
@@ -26,28 +25,21 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url repos.plugin
+        maven { url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url repos.release
-        }
-        maven {
-            url repos.stage
-        }
+        maven { url repos.release }
+        maven { url repos.stage }
         maven { url repos.snapshot }
-
         maven { url repos.snapshot_local
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-
     }
 }
 

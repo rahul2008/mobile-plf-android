@@ -6,8 +6,9 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = "NeuraUApp"
+archivesBaseName = strings.neurauapp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -121,9 +122,9 @@ dependencies {
     }
 
     if (directdependencies) {
-        implementation project(':uid')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
+        implementation project(strings.uid.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
         implementation(philipsdeps.uid) {
             exclude group: 'com.android.support'

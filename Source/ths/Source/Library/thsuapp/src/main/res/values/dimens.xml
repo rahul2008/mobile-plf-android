@@ -50,4 +50,17 @@
 
     <!-- Cell size -->
     <dimen name="ths_0_dp">0dp</dimen>
+
+    <dimen name="ths_69_dp">69dp</dimen>
+    <dimen name="ths_36_sp">36sp</dimen>
+    <dimen name="ths_70_dp">70dp</dimen>
+    <dimen name="ths_100_dp">100dp</dimen>
+    <dimen name="ths_20_dp">20dp</dimen>
+    <dimen name="telehealth_providerlist_start_end_margin">16dp</dimen>
+    <dimen name="telehealth_providerlist_doctorlabel_verticalmargin">24dp</dimen>
+    <dimen name="telehealth_seeFirstDoctor_textsize">16sp</dimen>
+    <dimen name="ths_grid_text_size">14sp</dimen>
+
+    <dimen name="ths_4_dp">4dp</dimen>
+
 </resources>

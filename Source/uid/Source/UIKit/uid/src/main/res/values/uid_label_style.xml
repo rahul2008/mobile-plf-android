@@ -73,7 +73,7 @@
     </style>
 
     <style name="UIDLabel.RecyclerViewHeaderText">
-        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:textSize">@dimen/uid_recyclerview_header_text_size</item>
         <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_recyclerview_header_height</item>

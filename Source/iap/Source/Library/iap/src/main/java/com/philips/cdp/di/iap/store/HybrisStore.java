@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
@@ -50,6 +51,8 @@ public class HybrisStore extends AbstractStore {
     private static final String SUFFIX_PAY = "/pay";
     private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
+    private static final String SUFFIX_VOUCHERS = "/vouchers";
+
     private boolean mIsNewUser;
 
     private StoreConfiguration mStoreConfig;
@@ -58,7 +61,7 @@ public class HybrisStore extends AbstractStore {
     private String mOauthUrl;
     private String mOauthRefreshUrl;
 
-    protected String mBaseURl;
+    protected String mBaseURl,mBaseUrlCart;
     protected String mBaseURlForProductCatalog;
 
     private String mGetProductCatalogUrl;
@@ -89,6 +92,9 @@ public class HybrisStore extends AbstractStore {
 
     private String mMakePaymentUrl;
     private String mPlaceOrderUrl;
+
+    private String mApplyVoucherUrl;
+    private String mAppliedVoucher;
 
     public HybrisStore(Context context, IAPSettings iapSettings) {
         mIAPUser = createUser(context);
@@ -175,6 +181,7 @@ public class HybrisStore extends AbstractStore {
         createOauthUrl();
         createOAuthRefreshUrl();
         createBaseUrl();
+        createBaseUrlForCreateCart();
         createBaseUrlForProductCatalog();
         generateGenericUrls();
     }
@@ -199,6 +206,13 @@ public class HybrisStore extends AbstractStore {
         mBaseURl = builder.toString();
     }
 
+    private void createBaseUrlForCreateCart() {
+        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
+        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
+        builder.append(USER);
+        mBaseUrlCart = builder.toString();
+    }
     private void createBaseUrlForProductCatalog() {
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
@@ -221,7 +235,8 @@ public class HybrisStore extends AbstractStore {
         String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);
         mGetCartsUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         mGetCurrentCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-        mCreateCartUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
+       // mCreateCartUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
+        mCreateCartUrl = mBaseUrlCart.concat(SUFFIX_CURRENT).concat(SUFFIX_CARTS).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         mDeleteCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG) + mStoreConfig.getLocale();
         mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
 
@@ -255,6 +270,9 @@ public class HybrisStore extends AbstractStore {
         mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         mGetPhoneContactUrl = "https://www.philips.com/prx/cdls/B2C/" +
                 mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
+
+        //Vouchers
+        mApplyVoucherUrl = mBaseURl.concat(SUFFIX_CARTS).concat(SUFFIX_CURRENT).concat(SUFFIX_VOUCHERS).concat(LANG)+ mStoreConfig.getLocale();
     }
 
     //OAuth
@@ -303,7 +321,7 @@ public class HybrisStore extends AbstractStore {
     //Carts
     @Override
     public String getCartsUrl() {
-        return mGetCartsUrl;
+        return mGetCurrentCartUrl;
     }
 
     @Override
@@ -398,5 +416,23 @@ public class HybrisStore extends AbstractStore {
     @Override
     public String getPhoneContactUrl(String category) {
         return String.format(mGetPhoneContactUrl, category);
+    }
+
+    //carts/current/vouchers?lang=en_US
+    @Override
+    public String getApplyVoucherUrl() {
+        Log.v("voucher: ",mApplyVoucherUrl);
+        return mApplyVoucherUrl;
+    }
+
+    @Override
+    public String getDeleteVoucherUrl(String voucherId) {
+        String deleteVoucherUrl= mBaseURl.concat(SUFFIX_CARTS).concat(SUFFIX_CURRENT).concat(SUFFIX_VOUCHERS).concat(SEPERATOR).concat(voucherId).concat(LANG)+ mStoreConfig.getLocale();
+        return deleteVoucherUrl;
+    }
+
+    @Override
+    public String getAppliedVoucherUrl() {
+        return mApplyVoucherUrl;
     }
 }

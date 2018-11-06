@@ -43,6 +43,7 @@
     <string name="page_title_textbox">TextBox</string>
     <string name="page_title_toggle_switch">Toggle Switch</string>
     <string name="page_title_alertDialog">Dialog</string>
+    <string name="page_title_expander">Expander</string>
 
     <string name="hint_text">Frits Philips</string>
     <string name="hamburger_menu">Hamburger</string>

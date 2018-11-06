@@ -6,9 +6,12 @@
 package com.philips.platform.dscdemo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.csw.justintime.JustInTimeConsentDependencies;
@@ -30,7 +33,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class DSDemoAppuAppInterface implements UappInterface {
 
-    private Context context;
     private AppInfraInterface appInfra;
 
     /**
@@ -39,7 +41,6 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
-        context = uappSettings.getContext();
         DSDemoAppuAppDependencies dsDependencies = (DSDemoAppuAppDependencies) uappDependencies;
         appInfra = dsDependencies.getAppInfra();
         JustInTimeConsentDependencies.appInfra = appInfra;
@@ -60,16 +61,22 @@ public class DSDemoAppuAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        if (appInfra.getRestClient().isInternetReachable()) {
-            JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new CheckConsentsListener(uiLauncher));
-        } else {
-            launchUApp(uiLauncher);
+        Context context = ((ActivityLauncher) uiLauncher).getActivityContext();
+        try {
+            checkUserLoggedIn(context);
+            if (appInfra.getRestClient().isInternetReachable()) {
+                JustInTimeConsentDependencies.appInfra.getConsentManager().fetchConsentTypeState("moment", new CheckConsentsListener(uiLauncher));
+            } else {
+                launchUApp(uiLauncher);
+            }
+        } catch (UserNotLoggedInException e) {
+            showNotLoggedInAlert(context);
         }
     }
 
     private void launchUApp(UiLauncher uiLauncher) {
         if (uiLauncher instanceof ActivityLauncher) {
-            launchActivity(DSLaunchActivity.class);
+            launchActivity(((ActivityLauncher) uiLauncher).getActivityContext(),DSLaunchActivity.class);
         } else {
             launchAsFragment(uiLauncher);
         }
@@ -87,13 +94,12 @@ public class DSDemoAppuAppInterface implements UappInterface {
                 launchUApp(uiLauncher);
             }
         };
-        launchActivity(JustInTimeActivity.class);
+        launchActivity(((ActivityLauncher) uiLauncher).getActivityContext(), JustInTimeActivity.class);
     }
 
-    private void launchActivity(final Class<? extends Activity> activityClass) {
-        Intent intent = new Intent(context, activityClass);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+    private void launchActivity(Context activityContext, final Class<? extends Activity> activityClass) {
+        Intent intent = new Intent(activityContext, activityClass);
+        activityContext.startActivity(intent);
     }
 
     private void launchAsFragment(UiLauncher uiLauncher) {
@@ -102,7 +108,23 @@ public class DSDemoAppuAppInterface implements UappInterface {
         momentsFragment.showFragment(momentsFragment, fragmentLauncher);
     }
 
+    private void showNotLoggedInAlert(Context context) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setTitle(R.string.RA_Warning);
+        alertBuilder.setMessage(R.string.RA_You_are_not_LoggedIn);
+        alertBuilder.setPositiveButton(R.string.ok, null);
+        alertBuilder.show();
+    }
+
+    private void checkUserLoggedIn(Context context) {
+        User user = new User(context);
+        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+            throw new UserNotLoggedInException();
+        }
+    }
+
     class CheckConsentsListener implements FetchConsentCallback {
+
         private UiLauncher uiLauncher;
 
         private CheckConsentsListener(UiLauncher uiLauncher) {
@@ -123,6 +145,9 @@ public class DSDemoAppuAppInterface implements UappInterface {
         public void onGetConsentFailed(final ConsentError error) {
             launchUApp(uiLauncher);
         }
+    }
+
+    class UserNotLoggedInException extends RuntimeException {
     }
 
     private boolean isMomentConsentNotGiven(ConsentDefinitionStatus status) {

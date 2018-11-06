@@ -35,11 +35,11 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation project(':AppInfra')
-    implementation project(':bluelib')
-    implementation project(':uAppFwLib')
+    implementation project(strings.ail.projectName)
+    implementation project(strings.bll.projectName)
+    implementation project(strings.ufw.projectName)
     implementation deps.stetho
     implementation deps.support.appcompatv7
 
-    implementation project(':bluelib-demouapp')
+    implementation project(strings.blluapp.projectName)
 }

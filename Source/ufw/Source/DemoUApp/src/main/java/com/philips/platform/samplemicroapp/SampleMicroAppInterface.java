@@ -35,7 +35,6 @@ public class SampleMicroAppInterface implements UappInterface {
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, SampleActivity.class);
             intent.putExtra(WELCOME_MESSAGE, sampleMicroAppLaunchInput.getWelcomeMessage());
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;

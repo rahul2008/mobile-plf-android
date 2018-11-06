@@ -46,4 +46,5 @@ public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
     public void buyProduct(Context context, String ctnNumber, IAPCartListener iapHandlerListener) {
     //Do nothing
     }
+
 }

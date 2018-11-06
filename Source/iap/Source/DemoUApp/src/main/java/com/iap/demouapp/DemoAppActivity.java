@@ -58,10 +58,10 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     // private DemoApplication mApplicationContext;
 
-    private LinearLayout mAddCTNLl;
+    private LinearLayout mAddCTNLl,ll_voucher;
 
     private FrameLayout mShoppingCart;
-    private EditText mEtCTN;
+    private EditText mEtCTN,mEtVoucherCode;
 
     private Button mRegister;
     private Button mShopNow;
@@ -69,7 +69,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private Button mBuyDirect;
     private Button mPurchaseHistory;
     private Button mLaunchProductDetail;
-    private Button mAddCtn;
+    private Button mAddCtn,btn_add_voucher;
     private Button mShopNowCategorizedWithRetailer;
     private ProgressDialog mProgressDialog = null;
     private ArrayList<String> mCategorizedProductList;
@@ -83,6 +83,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private User mUser;
     ImageView mCartIcon;
     Boolean isCartVisible;
+    String voucherCode;
 
     private ArrayList<String> ignorelistedRetailer;
 
@@ -98,6 +99,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         showAppVersion();
         mEtCTN = findViewById(R.id.et_add_ctn);
+        mEtVoucherCode= findViewById(R.id.et_add_voucher);
         mAddCTNLl = findViewById(R.id.ll_ctn);
 
         mRegister = findViewById(R.id.btn_register);
@@ -121,8 +123,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShopNowCategorized = findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
 
+
+        ll_voucher=  findViewById(R.id.ll_voucher);
+
         mAddCtn = findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
+
+        btn_add_voucher= findViewById(R.id.btn_add_voucher);
+        btn_add_voucher.setOnClickListener(this);
 
         mShopNowCategorizedWithRetailer = findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
         mShopNowCategorizedWithRetailer.setOnClickListener(this);
@@ -167,6 +175,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
+
         //ignorelistedRetailer.add("John Lewis ");
         displayUIOnCartVisible();
     }
@@ -196,6 +205,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void onResumeRetailer(){
         mAddCTNLl.setVisibility(View.VISIBLE);
+        ll_voucher.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -210,6 +220,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private void displayFlowViews(boolean b) {
 
         mAddCTNLl.setVisibility(View.VISIBLE);
+        ll_voucher.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -338,13 +349,13 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
         if (pIgnoreRetailerList == null)
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode);
         else
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, pIgnoreRetailerList);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode,pIgnoreRetailerList);
 
         try {
             mIapInterface.launch(new ActivityLauncher
-                            (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
+                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, DEFAULT_THEME, null),
                     mIapLaunchInput);
 
         } catch (RuntimeException exception) {
@@ -424,6 +435,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             mEtCTN.setText("");
             hideKeypad(this);
         }
+        else if(view==btn_add_voucher){
+            if(mEtVoucherCode.getText().toString().length()>0) {
+                voucherCode = mEtVoucherCode.getText().toString();
+            }
+            mEtVoucherCode.setText("");
+        }
     }
 
     private void gotoLogInScreen() {
@@ -439,8 +456,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
 
-        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
+        ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null,  0, null);
         urInterface.launch(activityLauncher, urLaunchInput);
 
 
@@ -456,6 +473,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void displayViews() {
         mAddCTNLl.setVisibility(View.VISIBLE);
+        ll_voucher.setVisibility(View.VISIBLE);
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
@@ -474,6 +492,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         //mLaunchFragment.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
+        ll_voucher.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mBuyDirect.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);

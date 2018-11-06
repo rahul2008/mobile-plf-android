@@ -13,6 +13,7 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,10 +45,7 @@ public class InsightConverter {
                 Insight appInsight = dataCreator.createInsight();
 
                 if(appInsight==null)return appInsightList ;
-                appInsight.setGUId(uCoreInsight.getGuid());
-                appInsight.setLastModified(uCoreInsight.getLastModified());
-                appInsight.setInactive(uCoreInsight.isInactive());
-                appInsight.setVersion(uCoreInsight.getVersion());
+
                 appInsight.setRuleId(uCoreInsight.getRuleId());
                 appInsight.setSubjectId(uCoreInsight.getSubjectId());
                 appInsight.setMomentId(uCoreInsight.getMomentId());
@@ -87,10 +85,10 @@ public class InsightConverter {
 
         for (Insight insight : insightList) {
             UCoreInsight uCoreInsight = new UCoreInsight();
-            uCoreInsight.setGuid(insight.getGUId());
-            uCoreInsight.setLastModified(insight.getLastModified());
-            uCoreInsight.setInactive(insight.isInactive());
-            uCoreInsight.setVersion(insight.getVersion());
+            uCoreInsight.setGuid(insight.getSynchronisationData().getGuid());
+            uCoreInsight.setLastModified(insight.getSynchronisationData().getLastModified().toString(ISODateTimeFormat.dateTime()));
+            uCoreInsight.setInactive(insight.getSynchronisationData().isInactive());
+            uCoreInsight.setVersion(insight.getSynchronisationData().getVersion());
             uCoreInsight.setRuleId(insight.getRuleId());
             uCoreInsight.setSubjectId(insight.getSubjectId());
             uCoreInsight.setMomentId(insight.getMomentId());
@@ -124,7 +122,7 @@ public class InsightConverter {
     }
 
     private void addSynchronisationData(@NonNull final Insight insight, @NonNull final UCoreInsight uCoreInsight) {
-        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(insight.getGUId(), uCoreInsight.isInactive(), new DateTime(uCoreInsight.getLastModified()), uCoreInsight.getVersion());
+        SynchronisationData synchronisationData = dataCreator.createSynchronisationData(uCoreInsight.getGuid(), uCoreInsight.isInactive(), new DateTime(uCoreInsight.getLastModified()), uCoreInsight.getVersion());
         insight.setSynchronisationData(synchronisationData);
     }
 }

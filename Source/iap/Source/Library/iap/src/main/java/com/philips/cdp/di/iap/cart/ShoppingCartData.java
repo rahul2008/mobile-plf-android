@@ -4,17 +4,34 @@
  */
 package com.philips.cdp.di.iap.cart;
 
+import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.carts.TotalDiscountsEntity;
+import com.philips.cdp.di.iap.response.orders.AppliedOrderPromotions;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ShoppingCartData implements Serializable {
 
+
+    private static final long serialVersionUID = -4398831597666931802L;
     private EntriesEntity mEntry;
     private DeliveryModeEntity mDeliveryModeEntity;
     private DeliveryAddressEntity mDeliveryAddressEntity;
+
+
+    public List<AppliedOrderPromotionEntity> getAppliedOrderPromotionEntityList() {
+        return appliedOrderPromotionEntityList;
+    }
+
+    public void setAppliedOrderPromotionEntityList(List<AppliedOrderPromotionEntity> appliedOrderPromotionEntityList) {
+        this.appliedOrderPromotionEntityList = appliedOrderPromotionEntityList;
+    }
+
+    private List<AppliedOrderPromotionEntity> appliedOrderPromotionEntityList;
 
     private int mQuantity;
     private int mTotalItems;
@@ -36,6 +53,10 @@ public class ShoppingCartData implements Serializable {
 
     private boolean mVatInclusive;
     private double discountPrice;
+
+    private String mAppliedVoucherCode;
+
+    private String totalDiscounts;
 
     public ShoppingCartData() {
     }
@@ -215,5 +236,21 @@ public class ShoppingCartData implements Serializable {
 
     public double getDiscountPrice() {
         return discountPrice;
+    }
+
+    public String getAppliedVoucherCode() {
+        return mAppliedVoucherCode;
+    }
+
+    public void setAppliedVoucherCode(String mAppliedVoucherCode) {
+        this.mAppliedVoucherCode = mAppliedVoucherCode;
+    }
+
+    public String getTotalDiscounts() {
+        return totalDiscounts;
+    }
+
+    public void setTotalDiscounts(String totalDiscounts) {
+        this.totalDiscounts = totalDiscounts;
     }
 }

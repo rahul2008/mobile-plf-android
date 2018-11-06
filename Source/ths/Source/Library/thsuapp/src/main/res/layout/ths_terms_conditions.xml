@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/onboarding_view"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
+    android:background="?attr/uidNavigationSecondaryBackgroundColor"
+    android:layout_height="match_parent">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/terms_conditions"
+        android:layout_marginTop="@dimen/ths_image_size"
+        android:layout_marginBottom="@dimen/ths_conditions_margin_top"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/ths_20_sp"
+        android:textColor="?attr/uidLoginScreenDefaultTextColor"
+        android:text="@string/ths_terms_notice_title"
+        style="@style/amwellCentralesansBoldFont"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/breif_1"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/terms_conditions"
+        android:textColor="?attr/uidLoginScreenDefaultTextColor"
+        android:textSize="@dimen/ths_body_text"
+        android:text="@string/ths_terms_conditions_1"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_marginTop="16dp"
+        android:id="@+id/breif_2"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/breif_1"
+        android:textColor="?attr/uidLoginScreenDefaultTextColor"
+        android:text="@string/ths_terms_conditions_2"
+        />
+
+    <com.philips.platform.ths.utility.THSCustomButtonWithDrawableIcon
+        android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/breif_2"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="@dimen/ths_image_size"
+        android:text="@string/ths_confirm_terms"
+        android:drawableEnd="@drawable/ic_right_arrow_show_more"
+        app:uidAccent="true"/>
+
+
+</RelativeLayout>

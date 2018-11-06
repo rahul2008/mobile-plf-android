@@ -25,6 +25,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 import static com.philips.platform.ths.R.id.systolic;
 import static com.philips.platform.ths.utility.THSConstants.THS_ADD_VITALS_PAGE;
@@ -41,7 +42,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     protected EditText mDiastolic;
     protected EditText mTemperature;
     protected EditText mWeight;
-    protected Button mContinue;
+    protected ProgressBarButton mContinue;
     private THSVitals mTHSVitals;
     private Label mLabelPatientName;
     String tagActions = "";
@@ -132,6 +133,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
         if (i == R.id.vitals_continue_btn) {
             if (validateFields()) {
+                mContinue.showProgressIndicator();
                 mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
             }
         } else if (i == R.id.vitals_skip) {
@@ -145,17 +147,19 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
     public void updateUI(THSVitals thsVitals) {
         mTHSVitals = thsVitals;
 
-        if (mTHSVitals.getSystolic() != null && mTHSVitals.getSystolic() != 0) {
-            mSystolic.setText(String.valueOf(thsVitals.getSystolic()));
-        }
-        if (mTHSVitals.getDiastolic() != null && mTHSVitals.getDiastolic() != 0) {
-            mDiastolic.setText(String.valueOf(thsVitals.getDiastolic()));
-        }
-        if (mTHSVitals.getTemperature() != null && mTHSVitals.getTemperature() != 0) {
-            mTemperature.setText(String.valueOf(thsVitals.getTemperature()));
-        }
-        if (mTHSVitals.getWeight() != null && mTHSVitals.getWeight() != 0) {
-            mWeight.setText(String.valueOf(thsVitals.getWeight()));
+        if(mTHSVitals!=null) {
+            if (mTHSVitals.getSystolic() != null && mTHSVitals.getSystolic() != 0) {
+                mSystolic.setText(String.valueOf(thsVitals.getSystolic()));
+            }
+            if (mTHSVitals.getDiastolic() != null && mTHSVitals.getDiastolic() != 0) {
+                mDiastolic.setText(String.valueOf(thsVitals.getDiastolic()));
+            }
+            if (mTHSVitals.getTemperature() != null && mTHSVitals.getTemperature() != 0) {
+                mTemperature.setText(String.valueOf(thsVitals.getTemperature()));
+            }
+            if (mTHSVitals.getWeight() != null && mTHSVitals.getWeight() != 0) {
+                mWeight.setText(String.valueOf(thsVitals.getWeight()));
+            }
         }
         setContinueButtonState();
 
@@ -197,6 +201,7 @@ public class THSVitalsFragment extends THSBaseFragment implements View.OnClickLi
 
     @Override
     public void launchMedicationFragment() {
+        mContinue.hideProgressIndicator();
         THSMedicationFragment fragment = new THSMedicationFragment();
         addFragment(fragment, THSMedicationFragment.TAG, null, true);
     }

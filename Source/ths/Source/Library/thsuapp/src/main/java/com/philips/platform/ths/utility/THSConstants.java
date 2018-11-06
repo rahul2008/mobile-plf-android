@@ -33,6 +33,7 @@ public class THSConstants {
     public static final String WEB_AVAILABLE = "WEB_AVAILABLE";
     public static final String PROVIDER_OFFLINE = "OFFLINE";
     public static final String PROVIDER_WEB_BUSY = "WEB_BUSY";
+    public static final String PROVIDER_ON_CALL = "ON_CALL";
     public static final int REQUEST_VIDEO_VISIT = 6060;
 
     public static final int PROVIDER_SEARCH_CONSTANT = 1001;
@@ -85,8 +86,9 @@ public class THSConstants {
     // start of tags
     public static final String THS_INIT_PAGE = "TH_00_00a Welcome";
     public static final String THS_WELCOME = "TH_00_00 Welcome";
+    public static final String THS_EDIT_DETAILS = "TH_00_01b Edit details";
     public static final String THS_ADD_DETAILS = "TH_00_01 Add details";
-    public static final String THS_CONFIRM_T_AND_C = "TH_00_02 Confirm T&C";
+
     public static final String THS_TERMS_AND_CONDITION = "TH_00_06 Terms & Conditions";
     public static final String THS_SELECT_PATIENT = "TH_00_03 Select patient";
 
@@ -101,6 +103,7 @@ public class THSConstants {
 
 
     public static final String THS_PROVIDER_LIST = "TH_01_03a Start DOD";
+    public static final String THS_PROVIDER_LIST_FLOW2 = "TH_01_03a_alt Start DOD";
     public static final String THS_PROVIDER_SEARCH_PAGE = "TH_01_03b Search Provider";
     public static final String THS_PROVIDER_DETAIL_PAGE = "TH_02_01a Provider detail";
     public static final String THS_WELCOME_BACK = "TH_03 _08 Appointment start";
@@ -136,11 +139,11 @@ public class THSConstants {
     public static final String THS_SCHEDULE_APPOINTMENT_PICK_TIME = "TH_03_03a Pick a time";
     public static final String THS_SCHEDULE_APPOINTMENT_CONFIRMED = "TH_03_06b Appointment confirmed";
 
-    public static final String ON_BOARDING_START = "TH_99_00 Onboarding";
-    public static final String ON_BOARDING_PAGE_1 = "TH_99_01 Onboarding";
-    public static final String ON_BOARDING_PAGE_2 = "TH_99_02 Onboarding";
-    public static final String ON_BOARDING_PAGE_3 = "TH_99_03 Onboarding";
-    public static final String ON_BOARDING_PAGE_4 = "TH_99_04 Onboarding";
+    public static final String ON_BOARDING_PAGE_1 = "TH_99_01";
+    public static final String ON_BOARDING_PAGE_2 = "TH_99_02";
+    public static final String ON_BOARDING_PAGE_3 = "TH_99_03";
+    public static final String ON_BOARDING_PAGE_4 = "TH_99_04";
+    public static final String ON_BOARDING_PAGE_5 = "TH_99_05";
     public static final String THS_CUSTOMER_SUPPORT = "TH_00_10 Customer Support";
     public static final String THS_VIEW_VISIT_REPORT = "TH_10_05 View PDF";
     public static final String THS_ANDROID_CAMERA = "TH_11_01 Camera screen";
@@ -229,4 +232,9 @@ public class THSConstants {
     public static final String IS_LAUNCHED_FROM_EDIT_DETAILS = "IS_LAUNCHED_FROM_EDIT_DETAILS";
 
     public static final String THS_LOCATION_CONSENT_FRAGMENT = "IS_LAUNCHED_FROM_EDIT_DETAILS";
+    public static final String THS_ONBOARDING_ABFLOW1 = "OnboardingABFlow1";
+    public static final String THS_ONBOARDING_ABFLOW2 = "OnboardingABFlow2";
+    public static final String THS_PROVIDERLIST_ABFLOW1 = "ProviderListABFlow1";
+    public static final String THS_PROVIDERLIST_ABFLOW2 = "ProviderListABFlow2";
+    public static final int COUNT = -10000;
 }

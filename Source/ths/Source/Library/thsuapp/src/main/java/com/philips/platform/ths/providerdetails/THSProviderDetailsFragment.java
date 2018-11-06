@@ -57,7 +57,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     private Provider mProvider;
     private ProviderInfo mProviderInfo;
 
-    protected Label dodProviderFoundMessage;
+    //protected Label dodProviderFoundMessage;
     protected Label mProgressBarLabel;
     protected RelativeLayout mProgressBarWithLabelContainer;
     AlertDialogFragment alertDialogFragment;
@@ -76,7 +76,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
         mProgressBarWithLabelContainer = (RelativeLayout) view.findViewById(R.id.ths_match_making_ProgressBarWithLabel_container);
-        dodProviderFoundMessage = (Label) view.findViewById(R.id.dodProviderFound);
+        //dodProviderFoundMessage = (Label) view.findViewById(R.id.dodProviderFound);
         mProgressBarLabel = (Label) view.findViewById(R.id.ths_match_making_ProgressBar_message_label);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_provider_detail_title), true);
@@ -96,7 +96,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
                 e.printStackTrace();
             }
         } else { // if provider is already selected
-            dodProviderFoundMessage.setVisibility(View.GONE);
+            //dodProviderFoundMessage.setVisibility(View.GONE);
             setPractiseAndProvider();
             onRefresh();
         }
@@ -230,21 +230,18 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         int i = view.getId();
         if (i == R.id.detailsButtonOne) {
             providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
-        } else if (i == R.id.detailsButtonTwo) {
+        } else if (i == R.id.schedule_container) {
             providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
         } else if (i == R.id.uid_dialog_positive_button) {
             providerDetailsPresenter.onEvent(R.id.uid_dialog_positive_button);
+        }else if (i == R.id.schedule_option) {
+            providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
         }
     }
 
     @Override
     public Provider getProvider() {
         return mProvider;
-    }
-
-    @Override
-    public void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost) {
-        mThsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
     }
 
     @Override

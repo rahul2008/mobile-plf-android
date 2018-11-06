@@ -6,8 +6,9 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = "uAppFwLibUApp"
+archivesBaseName = strings.ufwuapp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -41,10 +42,10 @@ dependencies {
     implementation deps.support.recyclerview
 
     if (directdependencies) {
-        implementation project(':uikitLib')
-        implementation project(':uAppFwLib')
-        implementation project(':AppInfra')
-        implementation project(':uid')
+        implementation project(strings.uit.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.uid.projectName)
     } else {
         implementation(philipsdeps.uikitLib) {
             exclude group: 'com.android.support'

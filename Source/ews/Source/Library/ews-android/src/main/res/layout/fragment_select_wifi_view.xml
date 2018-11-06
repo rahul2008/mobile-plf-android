@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Koninklijke Philips N.V., 2018.
+  ~ All rights reserved.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.philips.platform.ews.homewificonnection.SelectWiFiViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/wifi_selected_layout"
+            android:layout_alignParentTop="true"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
+
+                <TextView
+                    android:id="@+id/select_wifi_title_text"
+                    style="@style/Txt.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="@dimen/default_image_top_margin"
+                    android:layout_marginStart="@dimen/default_body_labels_margin"
+                    android:layout_marginEnd="@dimen/default_body_labels_margin"
+                    android:text="@string/label_ews_select_wifi_newtork_to_connect_to_title"/>
+
+                <TextView
+                    android:id="@+id/select_wifi_desc_text"
+                    style="@style/Txt.Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/select_wifi_title_text"
+                    android:layout_marginTop="@dimen/default_body_labels_margin"
+                    android:layout_marginStart="@dimen/default_body_labels_margin"
+                    android:layout_marginEnd="@dimen/default_body_labels_margin"
+                    android:text="@string/label_ews_select_wifi_network_to_connect_to_description"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/choose_network_header"
+                    style="@style/UIDLabel.Header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/select_wifi_desc_text"
+                    android:layout_marginTop="@dimen/default_main_button_top_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/label_ews_choose_a_network_list_header"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/choose_network_header">
+
+                    <RelativeLayout
+                        android:id="@+id/progressbar_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="@{viewModel.isRefreshing.get() ? View.VISIBLE:View.GONE}">
+
+                        <com.philips.platform.uid.view.widget.ProgressBar
+                            android:id="@+id/progressbar"
+                            style="@style/UIDProgressBarCircularIndeterminateBig"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true" />
+
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/wifi_list_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:scrollbars="vertical"
+                        android:splitMotionEvents="false"
+                        android:visibility="@{viewModel.isRefreshing.get() ? View.GONE:View.VISIBLE}"
+                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:selectWiFiAdapter="@{viewModel.adapter}"/>
+                </RelativeLayout>
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/wifi_selected_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/default_body_labels_margin"
+            android:layout_marginEnd="@dimen/default_body_labels_margin">
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/btn_continue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_main_button_top_margin"
+                android:enabled="@{viewModel.enableContinueButton.get()}"
+                android:onClick="@{() -> viewModel.onContinueButtonClicked()}"
+                android:text="@string/button_ews_network_not_listed_continue"
+                app:uidComponentType="Primary"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDExtraWideIconQuietButton.Center"
+                android:id="@+id/btn_networkNotListed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_between_button_margin"
+                android:onClick="@{()->viewModel.onNetworkNotListedButtonClicked()}"
+                android:text="@string/button_ews_network_not_listed"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

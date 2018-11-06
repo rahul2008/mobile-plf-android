@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    tools:ignore="MissingPrefix">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/welcome_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <RelativeLayout
+        android:id="@+id/welcome_indicator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@null">
+
+
+        <com.philips.platform.uid.view.widget.DotNavigationIndicator
+            android:id="@+id/welcome_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            app:uidDotNavigationIconColorList="@color/ths_dot_navigation_icon_color" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_startnow"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/welcome_indicator"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
+            android:text="@string/ths_onboarding_start_now" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_termsConditions"
+            style="@style/UIDImageTextButton.Center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/welcome_indicator"
+            android:layout_marginLeft="@dimen/ths_fab_margin"
+            android:layout_marginRight="@dimen/ths_fab_margin"
+            android:layout_marginBottom="@dimen/ths_fab_margin"
+            android:text="@string/ths_confirm_terms"
+            android:visibility="gone"
+            app:uidAccent="true"/>
+
+    </RelativeLayout>
+</RelativeLayout>

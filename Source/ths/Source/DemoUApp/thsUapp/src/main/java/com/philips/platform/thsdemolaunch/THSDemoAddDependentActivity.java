@@ -115,7 +115,7 @@ public class THSDemoAddDependentActivity extends UIDActivity implements View.OnC
         dependent.setTemperature(Double.parseDouble(mTemperature.getText().toString()));
         dependent.setWeight(Integer.parseInt(mWeight.getText().toString()));
         dependent.setDependent(true);
-        dependent.setHsdpUUID(user.getJanrainUUID());
+        dependent.setHsdpUUID(user.getJanrainUUID()+"xxxxxx");
 
         List<THSConsumer> dependants = new ArrayList<>();
         dependants.add(dependent);

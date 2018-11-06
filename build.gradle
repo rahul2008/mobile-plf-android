@@ -2,24 +2,19 @@
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
 buildscript {
     apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     repositories {
-        maven {
-            url repos.mavengoogle
-        }
+        maven { url repos.mavengoogle }
         maven { url repos.jcenter }
-
-        maven {
-            url repos.plugin
+        maven { url repos.pluginsgradle }
+        maven { url repos.plugin
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
             }
         }
-        google()
     }
 
     dependencies {
@@ -29,13 +24,13 @@ buildscript {
         // dsc & rap require this
         classpath builddeps.googleservices // rap-pushnotification requires this
         classpath builddeps.pitest
+        classpath builddeps.use_latest_versions
+        classpath builddeps.ben_manes_versions
     }
 }
 
-plugins {
-    id 'se.patrikerdes.use-latest-versions' version '0.2.3'
-    id 'com.github.ben-manes.versions' version '0.20.0'
-}
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'se.patrikerdes.use-latest-versions'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -61,24 +56,19 @@ subprojects {
         apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
         repositories {
-            maven {
-                url repos.mavengoogle
+            maven { url repos.mavengoogle
                 credentials {
                     username = "readonly"
                     password = "123qweasdzxc"
                 }
             }
-            maven {
-                url repos.jcenter
-            }
-            maven {
-                url repos.plugin
+            maven { url repos.jcenter }
+            maven { url repos.plugin
                 credentials {
                     username = "readonly"
                     password = "123qweasdzxc"
                 }
             }
-            google()
         }
     }
 
@@ -100,7 +90,6 @@ subprojects {
                 password = "123qweasdzxc"
             }
         }
-        google()
     }
 
     afterEvaluate {

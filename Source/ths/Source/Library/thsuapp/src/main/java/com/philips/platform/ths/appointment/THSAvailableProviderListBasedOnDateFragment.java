@@ -34,7 +34,7 @@ import java.util.Locale;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER;
 
-public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface {
+public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface, OnProviderListItemClickListener {
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
 
     protected Date mDate;
@@ -104,16 +104,11 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
                 thsProviderInfo.setAvailableProvider(availableProvider);
                 listOfProviderInfos.add(thsProviderInfo);
             }
-            THSProvidersListAdapter adapter = new THSProvidersListAdapter(listOfProviderInfos);
+            THSProvidersListAdapter adapter = new THSProvidersListAdapter(listOfProviderInfos, mPractice);
 
             mLabelNumberOfAvailableDoctors.setText(listOfProviderInfos.size() + " " + getString(R.string.ths_schedule_provider_count_title));
 
-            adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
-                @Override
-                public void onItemClick(THSProviderEntity item) {
-                    mTHSAvailableProviderListBasedOnDatePresenter.launchAvailableProviderDetailFragment(item, mDate, mPractice);
-                }
-            });
+            adapter.setOnProviderItemClickListener(this);
             recyclerView.setAdapter(adapter);
         }
     }
@@ -143,6 +138,12 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     public void onResume() {
         super.onResume();
         THSTagUtils.doTrackPageWithInfo(THS_SCHEDULE_APPOINTMENT_PICK_PROVIDER,null,null);
+
+    }
+
+    @Override
+    public void onItemClick(THSProviderEntity item, int viewID) {
+        mTHSAvailableProviderListBasedOnDatePresenter.launchAvailableProviderDetailFragment(item, mDate, mPractice);
 
     }
 }

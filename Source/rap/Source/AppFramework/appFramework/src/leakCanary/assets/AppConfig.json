@@ -16,7 +16,8 @@
     "ShowCountrySelection":"true"
   },
   "IAP": {
-    "propositionid": "Tuscany2016"
+    "propositionid": "Tuscany2016",
+    "voucherCode.enable": true
   },
   "appinfra": {
     "appidentity.micrositeId" : "77000",
@@ -69,7 +70,7 @@
   },
   "ths":{
     "apiKey":"dc573250",
-    "gdprEnabled":true
+    "gdprEnabled":false
   },
   "hsdp": {
     "appName": "OneBackend",

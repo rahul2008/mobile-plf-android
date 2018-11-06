@@ -59,8 +59,8 @@ public class SHNGattConnectingState extends SHNConnectingState {
     }
 
     @Override
-    public void onStateUpdated(@NonNull SHNCentral shnCentral) {
-        if (SHNCentralStateNotReady.equals(shnCentral.getShnCentralState())) {
+    public void onStateUpdated(@NonNull SHNCentral.State state) {
+        if (state == SHNCentralStateNotReady) {
             shouldRetryConnecting = false;
             handleGattDisconnectEvent();
         }
@@ -136,11 +136,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
     }
 
     private void setMinimumConnectionIdleTime() {
-        if (Workaround.EXTENDED_MINIMUM_CONNECTION_IDLE_TIME.isRequiredOnThisDevice()) {
-            this.minimumConnectionIdleTime = 2000L;
-        } else {
-            this.minimumConnectionIdleTime = 1000L;
-        }
+        this.minimumConnectionIdleTime = 2000L;
     }
 
     private void postponeConnectCall(long timeDiff) {

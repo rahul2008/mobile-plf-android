@@ -24,9 +24,10 @@ import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
-import com.philips.cdp.di.iap.response.carts.Carts;
+import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
+import com.philips.cdp.di.iap.response.carts.PromotionEntity;
 import com.philips.cdp.di.iap.response.error.Error;
 import com.philips.cdp.di.iap.response.error.ServerError;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
@@ -45,11 +46,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         implements AbstractModel.DataLoadListener, AddressController.AddressListener {
 
     private CartsEntity mCurrentCartData = null;
     private AddressController mAddressController;
+    private final static String  PROMOTION = "US-freeshipping";
 
     public ShoppingCartPresenter() {
     }
@@ -65,13 +68,13 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void getCurrentCartDetails() {
-        GetCurrentCartRequest model = new GetCurrentCartRequest(getStore(), null, this);
+        final GetCurrentCartRequest model = new GetCurrentCartRequest(getStore(), null, this);
         getHybrisDelegate().sendRequest(0, model, model);
     }
 
     @Override
     public void deleteProduct(final ShoppingCartData summary) {
-        Map<String, String> query = new HashMap<>();
+        final Map<String, String> query = new HashMap<>();
         query.put(ModelConstants.ENTRY_CODE, String.valueOf(summary.getEntryNumber()));
         query.put(ModelConstants.PRODUCT_CODE, String.valueOf(summary.getCtnNumber()));
         CartDeleteProductRequest model = new CartDeleteProductRequest(getStore(), query,
@@ -94,7 +97,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void updateProductQuantity(final ShoppingCartData data, final int count, final int quantityStatus) {
-        HashMap<String, String> query = new HashMap<>();
+        final HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.PRODUCT_CODE, data.getCtnNumber());
         query.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(count));
         query.put(ModelConstants.PRODUCT_ENTRYCODE, String.valueOf(data.getEntryNumber()));
@@ -125,8 +128,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     public void deleteCart(final Context context, final IAPCartListener iapHandlerListener) {
-        HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        DeleteCartRequest model = new DeleteCartRequest(delegate.getStore(), null, null);
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
+        final DeleteCartRequest model = new DeleteCartRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.DELETE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(Message msg) {
@@ -146,8 +149,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     public void createCart(final Context context, final IAPCartListener iapHandlerListener,
                            final String ctnNumber, final boolean isBuy) {
-        HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
+        final CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.CREATE_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
@@ -178,10 +181,10 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             iapHandlerListener,
                                  final boolean isFromBuyNow) {
         if (productCTN == null) return;
-        HashMap<String, String> params = new HashMap<>();
+        final HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.PRODUCT_CODE, productCTN);
-        HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        CartAddProductRequest model = new CartAddProductRequest(delegate.getStore(), params, null);
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
+        final CartAddProductRequest model = new CartAddProductRequest(delegate.getStore(), params, null);
         delegate.sendRequest(RequestCode.ADD_TO_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
@@ -207,22 +210,22 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     @Override
     public void getProductCartCount(final Context context, final IAPCartListener
             iapCartListener) {
-        HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
+        final GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
                     @Override
                     public void onSuccess(final Message msg) {
                         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                             createCart(context, iapCartListener, null, false);
                         } else {
-                            Carts carts = (Carts) msg.obj;
-                            if (carts != null && carts.getCarts() != null) {
-                                if (carts.getCarts().size() > 1) {
-                                    deleteCart(context, iapCartListener);
-                                } else {
+                            CartsEntity carts = (CartsEntity) msg.obj;
+                            if (carts != null && carts.getEntries() != null) {
+//                                if (carts.getEntries().size() > 1) {
+//                                    deleteCart(context, iapCartListener);
+//                                } else {
                                     int quantity = 0;
-                                    int totalItems = carts.getCarts().get(0).getTotalItems();
-                                    List<EntriesEntity> entries = carts.getCarts().get(0).getEntries();
+                                    int totalItems = carts.getTotalItems();
+                                    List<EntriesEntity> entries = carts.getEntries();
                                     if (totalItems != 0 && null != entries) {
                                         for (int i = 0; i < entries.size(); i++) {
                                             quantity = quantity + entries.get(i).getQuantity();
@@ -232,7 +235,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                                         iapCartListener.onSuccess(quantity);
                                     }
                                 }
-                            }
+                          //  }
                         }
                     }
 
@@ -249,18 +252,19 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void buyProduct(final Context context, final String ctnNumber, final IAPCartListener
             iapHandlerListener) {
         if (ctnNumber == null) return;
-        HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
+        final GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
             @Override
             public void onSuccess(final Message msg) {
                 if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                     createCart(context, iapHandlerListener, ctnNumber, true);
-                } else if (msg.obj instanceof Carts) {
-                    Carts getCarts = (Carts) msg.obj;
+                } else if (msg.obj instanceof CartsEntity) {
+                    CartsEntity getCarts = (CartsEntity) msg.obj;
                     if (null != getCarts) {
-                        int totalItems = getCarts.getCarts().get(0).getTotalItems();
-                        List<EntriesEntity> entries = getCarts.getCarts().get(0).getEntries();
+                        int totalItems = getCarts.getTotalItems();
+
+                        List<EntriesEntity> entries = getCarts.getEntries();
                         if (totalItems != 0 && null != entries) {
                             boolean isProductAvailable = false;
                             for (int i = 0; i < entries.size(); i++) {
@@ -289,6 +293,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
         });
     }
+
 
     private void handleNoCartErrorOrNotifyError(final Message msg, final Context context,
                                                 final IAPCartListener iapHandlerListener,
@@ -351,8 +356,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     private void makePrxCall(final CartsEntity mCurrentCart) {
-        ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
-        List<EntriesEntity> entries = mCurrentCart.getEntries();
+        final ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
+        final List<EntriesEntity> entries = mCurrentCart.getEntries();
 
         for (EntriesEntity entry : entries) {
             ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
@@ -363,23 +368,24 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     private void notifyListChanged() {
-        ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
+        final ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
         refreshList(products);
     }
 
     private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
-        CartsEntity cartsEntity = mCurrentCartData;
-        List<EntriesEntity> entries = cartsEntity.getEntries();
+        final CartsEntity cartsEntity = mCurrentCartData;
+        final List<EntriesEntity> entries = cartsEntity.getEntries();
         return getShoppingCartDatas(cartsEntity, entries);
     }
 
     public ArrayList<ShoppingCartData> getShoppingCartDatas(CartsEntity cartsEntity, List<EntriesEntity> entries) {
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
-        ArrayList<ShoppingCartData> products = new ArrayList<>();
+        final HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
+        final ArrayList<ShoppingCartData> products = new ArrayList<>();
         String ctn;
         for (EntriesEntity entry : entries) {
             ctn = entry.getProduct().getCode();
-            ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
+            applyPromotion(cartsEntity);
+            final ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
             cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
             if (list.containsKey(ctn)) {
@@ -403,11 +409,26 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
             cartItem.setVatActualValue(String.valueOf(((int) cartsEntity.getTotalTax().getValue())));
             cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
+            cartItem.setTotalDiscounts(cartsEntity.getTotalDiscounts().getFormattedValue());
             //required for Tagging
             cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
             products.add(cartItem);
         }
         return products;
+    }
+    public void applyPromotion(CartsEntity cartsEntity) {
+        final List<AppliedOrderPromotionEntity> appliedOrderPromotions = cartsEntity.getAppliedOrderPromotions();
+        if(appliedOrderPromotions!=null && appliedOrderPromotions.size()!=0){
+            for(int i=0;i< appliedOrderPromotions.size() ;i++ ) {
+                final PromotionEntity promotion = appliedOrderPromotions.get(i).getPromotion();
+                if(promotion !=null && promotion.getCode().equalsIgnoreCase(PROMOTION)) {
+                    final String currentDeliveryCost = cartsEntity.getDeliveryMode().getDeliveryCost().getFormattedValue();
+                    final String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
+                    cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -420,7 +441,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         if (msg.obj instanceof IAPNetworkError) {
             return;
         } else if (msg.obj instanceof GetUser) {
-            GetUser user = (GetUser) msg.obj;
+            final GetUser user = (GetUser) msg.obj;
             if (user.getDefaultAddress() != null) {
                 mAddressController.setDeliveryAddress(user.getDefaultAddress().getId());
             } else {
@@ -449,8 +470,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         if ((msg.obj instanceof IAPNetworkError)) {
             return;
         } else if ((msg.obj instanceof GetDeliveryModes)) {
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+            final GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            final List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             if (deliveryModeList.size() > 0) {
                 mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
@@ -462,4 +483,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void onSetDeliveryMode(Message msg) {
         return;
     }
+
+
 }

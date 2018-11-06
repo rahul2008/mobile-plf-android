@@ -6,11 +6,12 @@
 apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = "commlib"
+archivesBaseName = strings.cml.artifactName
 
 android {
     compileSdkVersion versions.sdk
@@ -40,9 +41,9 @@ dependencies {
     compileOnly deps.support.annotations
 
     if (directdependencies) {
-        implementation project(':commlib-ble')
-        implementation project(':commlib-cloud')
-        implementation project(':commlib-lan')
+        implementation project(strings.cmlble.projectName)
+        implementation project(strings.ccl.projectName)
+        implementation project(strings.cmllan.projectName)
     } else {
         implementation philipsdeps.commlib_ble
         implementation philipsdeps.commlib_cloud
@@ -50,12 +51,12 @@ dependencies {
     }
 
     if (directdependencies) {
-        testImplementation project(':cloudcontroller')
+        testImplementation project(strings.clc.projectName)
     } else {
         testImplementation philipsdeps.cloudcontroller
     }
 
-    testImplementation project(':commlib-testutils')
+    testImplementation project(strings.cmltu.projectName)
 
     testImplementation deps.powermock_junit
 }

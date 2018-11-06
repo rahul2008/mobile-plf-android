@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Page;
+import com.philips.platform.ews.wifi.WiFiUtil;
 
 import javax.inject.Inject;
 
@@ -31,6 +32,7 @@ public class WIFIConnectionUnsuccessfulViewModel {
     private final Navigator navigator;
 
     @NonNull private final EWSTagger ewsTagger;
+
 
     @Inject
     public WIFIConnectionUnsuccessfulViewModel(@NonNull Navigator navigator, @NonNull final EWSTagger ewsTagger) {
@@ -59,7 +61,7 @@ public class WIFIConnectionUnsuccessfulViewModel {
     }
 
     public void onTryAgainClicked() {
-        navigator.navigateToHomeNetworkConfirmationScreen();
+        navigator.navigateToConnectingPhoneToHotspotWifiScreen();
     }
 
     void trackPageName() {

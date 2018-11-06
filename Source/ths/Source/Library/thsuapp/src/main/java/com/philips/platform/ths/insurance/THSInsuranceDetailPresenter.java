@@ -143,7 +143,7 @@ class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallb
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.ths_insurance_detail_skip_button) {
-            Subscription currentSubscription = THSManager.getInstance().getPTHConsumer(mTHSBaseFragment.getContext()).getConsumer().getSubscription();
+            Subscription currentSubscription = THSManager.getInstance().getConsumer(mTHSBaseFragment.getContext()).getSubscription();
             if (null == currentSubscription) {
                 showCostSummaryFragment();
             } else {

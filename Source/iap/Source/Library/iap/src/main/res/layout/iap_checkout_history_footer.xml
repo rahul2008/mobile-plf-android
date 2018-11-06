@@ -61,7 +61,7 @@
                     android:textSize="@dimen/iap_text_size_12"
                     style="@style/iapCentralesansMediumFont"
                     android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
-                   />
+                    />
 
             </LinearLayout>
 
@@ -110,7 +110,7 @@
                     style="@style/iapCentralesansMediumFont"
                     android:layout_marginBottom="10dp"
                     android:textColor="?attr/uidContentItemTertiaryNormalIconColor"
-                 />
+                    />
 
             </LinearLayout>
 
@@ -140,11 +140,20 @@
                     android:text="@string/iap_delivery_ups_parcel"
                     android:textSize="@dimen/iap_text_size_16sp"
                     android:textStyle="bold" />
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/iap_delivery_mode_description"
+                    style="@style/iapCentralesansBookFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/iap_margin_10dp"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:textSize="@dimen/iap_text_size_12"
+                    />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/delivery_price"
                     style="@style/UIDLabel"
-                    android:layout_marginTop="10dip"
+                    android:layout_marginTop="@dimen/iap_margin_10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="$0.00"
@@ -196,7 +205,7 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/iap_delivery_ups_parcel"
+                android:text="@string/iap_shipping_cost"
                 android:visibility="gone"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
@@ -210,7 +219,31 @@
                 android:text="$0.00"
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
         </GridLayout>
+        <GridLayout
+            android:id="@+id/summary_voucher_discount_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dip"
+            android:paddingLeft="@dimen/border16_margin_left_right"
+            android:paddingRight="@dimen/border16_margin_left_right">
 
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/voucher_discount"
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iap_total_voucher_discount"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/total_discount"
+                style="@style/iapCentralesansMediumFont"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+        </GridLayout>
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

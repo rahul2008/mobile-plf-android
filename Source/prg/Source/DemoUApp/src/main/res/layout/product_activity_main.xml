@@ -76,6 +76,60 @@
                 />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/mandatorytextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:text="Mandatory Registration"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"/>
+
+            <ToggleButton
+                android:id="@+id/mandatoryTogglebutton"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:background="@drawable/bgtoggle"
+                android:button="@null"
+                android:textOff=""
+                android:textOn=""
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mandatoryTextViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/mandatorybtntextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:text="Mandatory Registration text"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black"/>
+
+            <EditText
+                android:id="@+id/mandatoryEditText"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/fab_margin"
+                android:textOff=""
+                android:textOn=""
+                />
+        </LinearLayout>
+
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/pr_activity_a"
             android:layout_width="fill_parent"

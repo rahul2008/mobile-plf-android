@@ -30,7 +30,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsDisplayHelper;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -48,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -88,7 +88,7 @@ public class THSAvailableProviderDetailPresenterTest {
     PracticeProvidersManager practiceProvidersManagerMock;
 
     @Mock
-    THSConsumerWrapper thsConsumerWrapperMock;
+    Consumer thsConsumerWrapperMock;
 
     @Mock
     Consumer consumerMock;
@@ -134,7 +134,7 @@ public class THSAvailableProviderDetailPresenterTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(thsConsumerWrapperMock);
+        THSManager.getInstance().setConsumer(thsConsumerWrapperMock);
 
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterface);
         when(appInfraInterface.getTagging().createInstanceForComponent(THS_APPLICATION_ID, BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterface);
@@ -143,7 +143,6 @@ public class THSAvailableProviderDetailPresenterTest {
         when(appInfraInterface.getServiceDiscovery()).thenReturn(serviceDiscoveryMock);
         THSManager.getInstance().setAppInfra(appInfraInterface);
 
-        when(thsConsumerWrapperMock.getConsumer()).thenReturn(consumerMock);
         when(thsProviderInfoMock.getProviderInfo()).thenReturn(providerInfo);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManagerMock);
         when(thsAvailableProviderDetailFragmentMock.getContext()).thenReturn(contextMock);
@@ -188,8 +187,9 @@ public class THSAvailableProviderDetailPresenterTest {
     public void onProviderDetailsReceived() throws Exception {
         when(thsAvailableProviderDetailFragmentMock.isFragmentAttached()).thenReturn(true);
         sdkErrorMock = null;
-        mThsAvailableProviderDetailPresenter.onProviderDetailsReceived(providerMock,sdkErrorMock);
-        verify(practiceProvidersManagerMock).getEstimatedVisitCost(any(Consumer.class),any(Provider.class),any(SDKCallback.class));
+        mThsAvailableProviderDetailPresenter.onProviderDetailsReceived(providerMock, sdkErrorMock);
+
+        verify(practiceProvidersManagerMock).getProviderAvailability(any(Consumer.class), any(Provider.class), (Date)isNull(), (Integer)isNull(), any(SDKCallback.class));
     }
 
     @Test
@@ -224,11 +224,11 @@ public class THSAvailableProviderDetailPresenterTest {
 //        verifyNoMoreInteractions(thsAvailableProviderDetailFragmentMock);
     }
 
-    @Test
+   /* @Test
     public void onEstimatedCostFetchSuccess() throws Exception {
         mThsAvailableProviderDetailPresenter.onEstimatedCostFetchSuccess(estimatedVisitCostMock,sdkErrorMock);
         verify(thsProviderDetailsDisplayHelperMock).updateEstimateCost(any(EstimatedVisitCost.class));
-    }
+    }*/
 
     @Test
     public void onError() throws Exception {

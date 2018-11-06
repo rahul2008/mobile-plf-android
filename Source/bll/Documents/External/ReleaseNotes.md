@@ -1,6 +1,30 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
+Version {next}
+------------
+### Functionality Delivered
+* \#150633 Firmware upgrade capability now supports resuming a previously started firmware upload
+
+### Backwards Compatibility
+N/A
+
+### Features not covered
+N/A
+
+### Breaking Changes
+N/A
+
+### Defects solved
+N/A
+
+### Residual anomalies
+N/A
+
+### Risks and mitigations
+N/A
+
+
 Version 1804
 ------------
 ### Functionality Delivered
@@ -13,10 +37,10 @@ N/A
 N/A
 
 ### Breaking Changes
-* SHNDeviceDefinitionInfo interface now has an additional method called 'getConnectionPriority' which will need to be implemented by the Proposition's device definition to supply the connection priority. It can be either one of the following - CONNECTION_PRIORITY_BALANCED, CONNECTION_PRIORITY_HIGH or CONNECTION_PRIORITY_LOW_POWER from the BluetoothGatt class in Android. Also, as a part of 148037, the various constructors of SHNDeviceImpl class have been replaced by a single builder. Apart from the default parameters, Proposition Apps can supply additional parameters to the builder on as needed basis. 
+* SHNDeviceDefinitionInfo interface now has an additional method called 'getConnectionPriority' which will need to be implemented by the Proposition's device definition to supply the connection priority. It can be either one of the following - CONNECTION_PRIORITY_BALANCED, CONNECTION_PRIORITY_HIGH or CONNECTION_PRIORITY_LOW_POWER from the BluetoothGatt class in Android. ~~Also, as a part of 148037, the various constructors of SHNDeviceImpl class have been replaced by a single builder. Apart from the default parameters, Proposition Apps can supply additional parameters to the builder on as needed basis.~~ 
 
 ### Defects solved
-N/A
+* 155402 Reverted the SHNDeviceImpl builder pattern because it was hampering intake of 1804.  
 
 ### Residual anomalies
 N/A
@@ -37,6 +61,8 @@ N/A
 N/A
 
 ### Breaking Changes
+* `SHNCentralListener.onStateUpdated()` now includes a state parameter, to allow pass-by-value.
+It is recommended to take this new parameter's value instead of calling `getState()` method on `SHNCentral`.
 * `SHNDeviceListener.onStateUpdate()` now includes a state parameter, to allow pass-by-value. When fixing
  your code, we recommend you take this new parameter's value instead of calling `getState()` method on
  the `SHNDevice`.

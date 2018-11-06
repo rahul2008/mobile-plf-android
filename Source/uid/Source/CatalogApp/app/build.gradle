@@ -6,6 +6,7 @@
 apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
@@ -137,7 +138,7 @@ android {
 }
 
 dependencies {
-    implementation project(':uid')
+    implementation project(strings.uid.projectName)
     
     implementation deps.greenrobot
     implementation deps.support.design

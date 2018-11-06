@@ -50,138 +50,133 @@ import java.util.Date;
 import java.util.List;
 
 class MomentPresenter {
-    private Context mContext;
+    private Context context;
 
     private static final int DELETE = 0;
     private static final int UPDATE = 1;
     static final int ADD = 2;
 
     private final DBRequestListener<Moment> dbRequestListener;
-    private DataServicesManager mDataServices;
+    private DataServicesManager dataServices;
     private DatabaseHelper databaseHelper;
 
-    private Measurement mMeasurement;
-    private MeasurementGroup mMeasurementGroup;
-    private MeasurementGroup mMeasurementGroupInside;
+    private Measurement measurement;
+    private MeasurementGroup measurementGroup;
+    private MeasurementGroup measurementGroupInside;
 
-    private EditText mEtMomentType;
-    private EditText mTemperature;
-    private EditText mLocation;
-    private EditText mPhase;
-    private Button mDialogButton;
+    private EditText etMomentType;
+    private EditText temperature;
+    private EditText location;
+    private EditText phase;
+    private Button dialogButton;
 
     MomentPresenter(Context context, DBRequestListener<Moment> dbRequestListener) {
-        mDataServices = DataServicesManager.getInstance();
+        dataServices = DataServicesManager.getInstance();
         databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
-        mContext = context;
+        this.context = context;
         this.dbRequestListener = dbRequestListener;
     }
 
     private Moment createMoment(String type, String momemtDetail, String measurement, String measurementDetail) {
-        Moment moment = mDataServices.createMoment(type);
+        Moment moment = dataServices.createMoment(type);
         createMomentDetail(momemtDetail, moment);
 
         createMeasurementGroup(moment);
         createMeasurementGroupDetail(measurementDetail);
 
         createMeaurementGroupInsideMeasurementGroup(measurement, measurementDetail);
-        mMeasurementGroupInside.addMeasurement(mMeasurement);
-        mMeasurementGroup.addMeasurementGroup(mMeasurementGroupInside);
-        moment.addMeasurementGroup(mMeasurementGroup);
+        measurementGroupInside.addMeasurement(this.measurement);
+        measurementGroup.addMeasurementGroup(measurementGroupInside);
+        moment.addMeasurementGroup(measurementGroup);
         return moment;
     }
 
     private void createMeaurementGroupInsideMeasurementGroup(String measurement, String measurementDetail) {
-        mMeasurementGroupInside = mDataServices.
-                createMeasurementGroup(mMeasurementGroup);
-        createMeasurement(mMeasurementGroupInside, measurement);
+        measurementGroupInside = dataServices.createMeasurementGroup(measurementGroup);
+        createMeasurement(measurementGroupInside, measurement);
         createMeasurementDetail(measurementDetail);
     }
 
     private void createMeasurementDetail(String value) {
-        mDataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, value, mMeasurement);
+        dataServices.createMeasurementDetail(MeasurementDetailType.LOCATION, value, measurement);
     }
 
     private void createMeasurement(MeasurementGroup group, String value) {
-        mMeasurement = mDataServices.createMeasurement(MeasurementType.TEMPERATURE, value, "celsius", group);
+        measurement = dataServices.createMeasurement(MeasurementType.TEMPERATURE, value, "celsius", group);
     }
 
     private void createMomentDetail(String value, Moment moment) {
-        mDataServices.
-                createMomentDetail(MomentDetailType.PHASE, value, moment);
+        dataServices.createMomentDetail(MomentDetailType.PHASE, value, moment);
     }
 
     private void createMeasurementGroupDetail(String value) {
-        mDataServices.
-                createMeasurementGroupDetail(MeasurementGroupDetailType.TEMP_OF_DAY, value, mMeasurementGroup);
+        dataServices.createMeasurementGroupDetail(MeasurementGroupDetailType.TEMP_OF_DAY, value, measurementGroup);
     }
 
     private void createMeasurementGroup(Moment moment) {
-        mMeasurementGroup = mDataServices.
-                createMeasurementGroup(moment);
+        measurementGroup = dataServices.createMeasurementGroup(moment);
     }
 
     void fetchData(DBFetchRequestListner<Moment> dbFetchRequestListner) {
-        mDataServices.fetchAllMoment(dbFetchRequestListner);
+        dataServices.fetchAllMoment(dbFetchRequestListner);
     }
 
     void fetchLatestMoment(String type, DBFetchRequestListner<Moment> dbFetchRequestListener) {
         try {
-            mDataServices.fetchLatestMomentByType(type, dbFetchRequestListener);
+            dataServices.fetchLatestMomentByType(type, dbFetchRequestListener);
         } catch (UnsupportedMomentTypeException e) {
-            Toast.makeText(mContext,"Unsupported moment type '" + type + "'", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"Unsupported moment type '" + type + "'", Toast.LENGTH_SHORT).show();
         }
     }
 
     void fetchMomentByDateRange(Date startDate, Date endDate, DSPagination paginationModel, DBFetchRequestListner<Moment> dbFetchRequestListener) {
-        mDataServices.fetchMomentsWithTimeLine(startDate, endDate,paginationModel, dbFetchRequestListener);
+        dataServices.fetchMomentsWithTimeLine(startDate, endDate,paginationModel, dbFetchRequestListener);
     }
 
     void fetchMomentByDateRangeAndType(String momentType, Date startDate, Date endDate,DSPagination paginationModel,DBFetchRequestListner<Moment> dbFetchRequestListener){
         try {
-            mDataServices.fetchMomentsWithTypeAndTimeLine(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
+            dataServices.fetchMomentsWithTypeAndTimeLine(momentType,startDate,endDate,paginationModel,dbFetchRequestListener);
         } catch (UnsupportedMomentTypeException e) {
-            Toast.makeText(mContext,"Unsupported moment type '" + momentType + "'", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"Unsupported moment type '" + momentType + "'", Toast.LENGTH_SHORT).show();
         }
     }
 
     void resetLastSyncTimestampTo(DateTime lastSyncTimestamp) {
-        mDataServices.deleteAll(dbRequestListener);
-        mDataServices.resetLastSyncTimestampTo(lastSyncTimestamp);
+        dataServices.deleteAll(dbRequestListener);
+        dataServices.resetLastSyncTimestampTo(lastSyncTimestamp);
     }
 
     private void saveRequest(Moment moment) {
         if (moment.getCreatorId() == null || moment.getSubjectId() == null) {
-            Toast.makeText(mContext, "Please Login again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Please Login again", Toast.LENGTH_SHORT).show();
         } else {
             List<Moment> moments = new ArrayList<>();
             moments.add(moment);
-            mDataServices.saveMoments(moments, dbRequestListener);
+            dataServices.saveMoments(moments, dbRequestListener);
         }
     }
 
     private void createAndSaveMoment(String type) {
         try {
             Moment moment;
-            moment = createMoment(type, mPhase.getText().toString(),
-                    mTemperature.getText().toString(), mLocation.getText().toString());
+            moment = createMoment(type, phase.getText().toString(), temperature.getText().toString(), location.getText().toString());
             saveRequest(moment);
         } catch (UnsupportedMomentTypeException e) {
-            Toast.makeText(mContext,"Unsupported moment type '" + type + "'", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"Unsupported moment type '" + type + "'", Toast.LENGTH_SHORT).show();
         }
     }
 
     void bindDeleteOrUpdatePopUp(final List<? extends Moment> data, final View view,
                                  final int selectedItem) {
 
-        String delete = mContext.getResources().getString(R.string.delete);
-        String update = mContext.getResources().getString(R.string.update);
+        String delete = context.getResources().getString(R.string.delete);
+        String update = context.getResources().getString(R.string.update);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, android.R.id.text1);
         arrayAdapter.add(delete);
         arrayAdapter.add(update);
 
-        final ListPopupWindow popupWindow = new ListPopupWindow(mContext);
+        final ListPopupWindow popupWindow = new ListPopupWindow(context);
         popupWindow.setAdapter(arrayAdapter);
         popupWindow.setAnchorView(view);
         popupWindow.setWidth(400);
@@ -200,7 +195,7 @@ class MomentPresenter {
                     case UPDATE:
                         final MomentHelper helper = new MomentHelper();
                         if (String.valueOf(helper.getTemperature(data.get(selectedItem))).equalsIgnoreCase("default")) {
-                            Toast.makeText(mContext,
+                            Toast.makeText(context,
                                     "Invalid", Toast.LENGTH_SHORT).show();
                         } else {
                             addOrUpdateMoment(UPDATE, data.get(selectedItem), false);
@@ -223,7 +218,7 @@ class MomentPresenter {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             momentDao.refresh((OrmMoment) moment);
 
-            mDataServices.deleteMoment(moment, dbRequestListener);
+            dataServices.deleteMoment(moment, dbRequestListener);
 
         } catch (ArrayIndexOutOfBoundsException | SQLException e) {
             e.printStackTrace();
@@ -231,9 +226,9 @@ class MomentPresenter {
     }
 
     private void updateMoment(OrmMoment old) {
-        String momentDetail = mPhase.getText().toString();
-        String meausrementValue = mTemperature.getText().toString();
-        String measurementDetailValue = mLocation.getText().toString();
+        String momentDetail = phase.getText().toString();
+        String meausrementValue = temperature.getText().toString();
+        String measurementDetailValue = location.getText().toString();
 
         Collection<? extends MomentDetail> momentDetails = old.getMomentDetails();
 
@@ -259,42 +254,42 @@ class MomentPresenter {
             }
             measurementGroup.setMeasurementGroups(measurementGroupsOutput);
         }
-        mDataServices.updateMoment(old, dbRequestListener);
+        dataServices.updateMoment(old, dbRequestListener);
     }
 
     void addOrUpdateMoment(final int addOrUpdate, final Moment moment, final boolean isTypeAvailable) {
-        final Dialog dialog = new Dialog(mContext);
+        final Dialog dialog = new Dialog(context);
 
         if (isTypeAvailable) {
             dialog.setContentView(R.layout.create_moment);
-            mEtMomentType = dialog.findViewById(R.id.et_moment_type);
+            etMomentType = dialog.findViewById(R.id.et_moment_type);
         } else {
             dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
         }
 
-        dialog.setTitle(mContext.getResources().getString(R.string.create_moment));
+        dialog.setTitle(context.getResources().getString(R.string.create_moment));
 
-        mTemperature = dialog.findViewById(R.id.temperature_detail);
-        mLocation = dialog.findViewById(R.id.location_detail);
-        mPhase = dialog.findViewById(R.id.phase_detail);
-        mDialogButton = dialog.findViewById(R.id.save);
-        mDialogButton.setEnabled(false);
+        temperature = dialog.findViewById(R.id.temperature_detail);
+        location = dialog.findViewById(R.id.location_detail);
+        phase = dialog.findViewById(R.id.phase_detail);
+        dialogButton = dialog.findViewById(R.id.save);
+        dialogButton.setEnabled(false);
 
         if (addOrUpdate == UPDATE) {
             final MomentHelper helper = new MomentHelper();
-            mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
-            mLocation.setText(helper.getNotes(moment));
-            mPhase.setText(helper.getTime(moment));
-            mDialogButton.setText(R.string.update);
+            temperature.setText(String.valueOf(helper.getTemperature(moment)));
+            location.setText(helper.getNotes(moment));
+            phase.setText(helper.getTime(moment));
+            dialogButton.setText(R.string.update);
         }
 
-        mDialogButton.setOnClickListener(new View.OnClickListener() {
+        dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 final boolean isValid = validateInputFields();
                 if (!isValid) {
-                    mTemperature.setText("");
-                    Toast.makeText(mContext,
+                    temperature.setText("");
+                    Toast.makeText(context,
                             R.string.invalid_temperature, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -303,7 +298,7 @@ class MomentPresenter {
                     case ADD:
                         dialog.dismiss();
                         if (isTypeAvailable)
-                            createAndSaveMoment(mEtMomentType.getText().toString().trim());
+                            createAndSaveMoment(etMomentType.getText().toString().trim());
                         else
                             createAndSaveMoment(MomentType.TEMPERATURE);
                         break;
@@ -323,9 +318,9 @@ class MomentPresenter {
             }
         });
 
-        textChageListener(mPhase);
-        textChageListener(mTemperature);
-        textChageListener(mLocation);
+        textChageListener(phase);
+        textChageListener(temperature);
+        textChageListener(location);
 
         dialog.show();
     }
@@ -342,9 +337,9 @@ class MomentPresenter {
             public void onTextChanged(final CharSequence s,
                                       final int start, final int before, final int count) {
                 if (isDialogButtonEnabled()) {
-                    mDialogButton.setEnabled(true);
+                    dialogButton.setEnabled(true);
                 } else {
-                    mDialogButton.setEnabled(false);
+                    dialogButton.setEnabled(false);
                 }
             }
 
@@ -356,11 +351,11 @@ class MomentPresenter {
     }
 
     private boolean isDialogButtonEnabled() {
-        return !mPhase.getText().toString().isEmpty() && !mTemperature.getText().toString().isEmpty() && !mLocation.getText().toString().isEmpty();
+        return !phase.getText().toString().isEmpty() && !temperature.getText().toString().isEmpty() && !location.getText().toString().isEmpty();
     }
 
     private boolean validateInputFields() {
-        String temperature = mTemperature.getText().toString();
+        String temperature = this.temperature.getText().toString();
         try {
             Double.valueOf(temperature);
             return true;
@@ -370,6 +365,6 @@ class MomentPresenter {
     }
 
     public void fetchSyncByDateRange(DateTime startDate, DateTime endDate, SynchronisationCompleteListener syncCompleteListener) {
-        mDataServices.synchronizeMomentsByDateRange(startDate, endDate, syncCompleteListener);
+        dataServices.synchronizeMomentsByDateRange(startDate, endDate, syncCompleteListener);
     }
 }

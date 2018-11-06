@@ -99,7 +99,6 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
         consentDefinitions.addAll(getCATKConsentDefinitions());
         consentDefinitions.add(NeuraConsentProvider.getNeuraConsentDefinition());
-        consentDefinitions.add(THSLocationConsentProvider.getTHSConsentDefinition());
         consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition());
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
         consentDefinitions.add(getClickStreamConsentDefinition(context));

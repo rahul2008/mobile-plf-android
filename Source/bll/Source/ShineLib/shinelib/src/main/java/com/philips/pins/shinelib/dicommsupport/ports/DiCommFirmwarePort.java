@@ -1,11 +1,12 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.pins.shinelib.dicommsupport.ports;
 
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.pins.shinelib.dicommsupport.DiCommPort;
@@ -20,12 +21,13 @@ public class DiCommFirmwarePort extends DiCommPort {
     public static final String FIRMWARE = "firmware";
 
     public static class Key {
+
         public static final String STATE = "state";
         public static final String MAX_CHUNK_SIZE = "maxchunksize";
         public static final String UPGRADE = "upgrade";
         public static final String CAN_UPGRADE = "canupgrade";
-
         public static final String STATUS_MESSAGE = "statusmsg";
+
         public static final String DATA = "data";
         public static final String PROGRESS = "progress";
         public static final String SIZE = "size";
@@ -56,9 +58,9 @@ public class DiCommFirmwarePort extends DiCommPort {
                     }
                 }
             }
-
             return Unknown;
         }
+
     }
 
     public enum Command {
@@ -76,6 +78,7 @@ public class DiCommFirmwarePort extends DiCommPort {
         public final String getName() {
             return commandName;
         }
+
     }
 
     public DiCommFirmwarePort(Handler internalHandler) {
@@ -83,24 +86,36 @@ public class DiCommFirmwarePort extends DiCommPort {
     }
 
     public int getMaxChunkSize() {
-        Map<String, Object> properties = getProperties();
+        return getMaxChunkSize(getProperties());
+    }
 
-        Object size = properties.get(Key.MAX_CHUNK_SIZE);
-        if (size instanceof Integer) {
-            Integer maxChunkSizeInBase64 = (Integer) size;
+    public static int getMaxChunkSize(@NonNull Map<String, Object> properties) {
+        Object maxChunkSize = properties.get(Key.MAX_CHUNK_SIZE);
+
+        if (maxChunkSize instanceof Integer) {
+            Integer maxChunkSizeInBase64 = (Integer) maxChunkSize;
             return (int) Math.floor(maxChunkSizeInBase64 * 0.75);
-        } else if (size instanceof Double) {
-            int maxChunkSizeInBase64 = ((Double) size).intValue();
+        } else if (maxChunkSize instanceof Double) {
+            int maxChunkSizeInBase64 = ((Double) maxChunkSize).intValue();
             return (int) Math.floor(maxChunkSizeInBase64 * 0.75);
         }
-
         return Integer.MAX_VALUE;
     }
 
-    public State getState() {
-        String stringState = getString(Key.STATE);
+    public static int getProgressFromProps(@NonNull final Map<String, Object> properties) {
+        Object progressValue = properties.get(Key.PROGRESS);
 
-        return State.fromString(stringState);
+        return (progressValue instanceof Double) ? ((Double)progressValue).intValue() : -1;
+    }
+
+    public static State getStateFromProps(@NonNull final Map<String, Object> properties) {
+        Object stateValue = properties.get(Key.STATE);
+
+        return (stateValue instanceof String) ? State.fromString((String) stateValue) : State.Unknown;
+    }
+
+    public State getState() {
+        return getStateFromProps(getProperties());
     }
 
     public String getStatusMessage() {

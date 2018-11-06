@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -107,6 +108,8 @@ public class ConnectingDeviceWithWifiViewModelTest {
     private NetworkNode mockNetworkNode;
     @Mock
     private WifiPortProperties mockWifiPortProperties;
+    @Mock
+    private WifiManager mockWifiManager;
 
     @Captor
     private ArgumentCaptor<ApplianceAccessManager.SetPropertiesCallback> putPropsCallbackCaptor;
@@ -191,13 +194,13 @@ public class ConnectingDeviceWithWifiViewModelTest {
     @Test
     public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenChangingFriendlyNameFailed() throws Exception {
         simulateChangeFriendlyDeviceNameFailed();
-        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
     }
 
     @Test
     public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenPuttingPropsFails() throws Exception {
         simulatePutPropsFailed();
-        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
     }
 
     @Test
@@ -286,17 +289,10 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
-    public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenConnectedBackToWrongWifiNetwork() throws Exception {
-        simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
+    public void itShouldNavigateToWIFIConnectionUnsuccessfulTroubleShootingScreenWhenConnectedBackToDeviceHotspotWiFi() throws Exception {
+        simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.DEVICE_HOTSPOT_WIFI);
 
-        verify(mockNavigator).navigateToWrongWifiNetworkScreen((Bundle) any());
-    }
-
-    @Test
-    public void itShouldRemoveTimeoutRunnableWhenConnectedBackToWrongWifiNetwork() throws Exception {
-        simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
-
-        verify(mockHandler).removeCallbacks(any(Runnable.class));
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
     }
 
     @Test
@@ -386,7 +382,7 @@ public class ConnectingDeviceWithWifiViewModelTest {
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
         timeoutRunnableCaptor.getValue().run();
 
-        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen(anyString(), anyString());
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
     }
 
     @Test

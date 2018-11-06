@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -54,11 +55,14 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
 
     public static final String TAG = ManualRegistrationFragment.class.getName();
     private ToggleButton toggleButton;
-    private EditText mFriendlyName, mSerialNumber, mPurchaseDate, mCtn;
+    private ToggleButton mandatoryRegToggleBtn;
+    private EditText mFriendlyName, mSerialNumber, mPurchaseDate, mCtn, mandatoryEditText;
     private Calendar mCalendar;
     private Button pr_activity_a, pr_activity_b, pr_fragment_a, pr_fragment_b;
     private boolean eMailConfiguration = false;
+    private boolean mandatoryConfiguration = false;
     private FragmentActivity fragmentActivity;
+    private LinearLayout mandatoryTextViewLayout;
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -116,8 +120,14 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         pr_fragment_a = (Button) view.findViewById(R.id.pr_fragment_a);
         pr_fragment_b = (Button) view.findViewById(R.id.pr_fragment_b);
         toggleButton = (ToggleButton) view.findViewById(R.id.toggbutton);
+        mandatoryRegToggleBtn = (ToggleButton) view.findViewById(R.id.mandatoryTogglebutton);
+        mandatoryTextViewLayout = (LinearLayout) view.findViewById(R.id.mandatoryTextViewLayout);
+        mandatoryEditText = (EditText) view.findViewById(R.id.mandatoryEditText);
+        mandatoryEditText.setText("default text");
+
         setOnClickListeners();
         toggleButton.setChecked(eMailConfiguration);
+        mandatoryRegToggleBtn.setChecked(mandatoryConfiguration);
         Bundle bundle = getArguments();
         if (bundle != null) {
             mCtn.setText(bundle.getString("ctn") != null ? bundle.getString("ctn") : "");
@@ -133,6 +143,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         pr_fragment_b.setOnClickListener(this);
         mPurchaseDate.setOnClickListener(this);
         toggleButton.setOnClickListener(this);
+        mandatoryRegToggleBtn.setOnClickListener(this);
     }
 //    @Override
 //    public void onActivityCreated(Bundle savedInstanceState) {
@@ -170,7 +181,15 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         } else if (i == R.id.toggbutton) {
             eMailConfiguration = toggleButton.isChecked();
 
-        } else if (i == R.id.edt_purchase_date) {
+        } else if(i == R.id.mandatoryTogglebutton){
+            mandatoryConfiguration = mandatoryRegToggleBtn.isChecked();
+            if(mandatoryConfiguration) {
+                mandatoryTextViewLayout.setVisibility(View.VISIBLE);
+
+            }else{
+                mandatoryTextViewLayout.setVisibility(View.GONE);
+            }
+        }else if (i == R.id.edt_purchase_date) {
             onClickPurchaseDate();
 
         } else {
@@ -261,10 +280,13 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
             PRInterface prInterface = new PRInterface();
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
-            prLaunchInput.setMandatoryProductRegistration(true);
+
+            prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
+            prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
+
             prInterface.launch(fragLauncher, prLaunchInput);
         } else {
-            ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
+            ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
 
             if (type.equalsIgnoreCase("app_flow")) {
                 prLaunchInput = new PRLaunchInput(products, true);
@@ -273,7 +295,9 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
-            prLaunchInput.setMandatoryProductRegistration(true);
+            prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
+            prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
+
             new PRInterface().launch(activityLauncher, prLaunchInput);
         }
     }

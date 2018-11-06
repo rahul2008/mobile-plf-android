@@ -15,7 +15,7 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.testing.verticals.AssertHelper;
 import com.philips.testing.verticals.ErrorHandlerImplTest;
-import com.philips.testing.verticals.OrmCreatorTest;
+import com.philips.testing.verticals.TestEntityCreator;
 import com.philips.testing.verticals.datatyes.MeasurementDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementGroupDetailType;
 import com.philips.testing.verticals.datatyes.MeasurementType;
@@ -67,7 +67,7 @@ public class MomentsConverterTest {
     private UCoreMeasurementGroups uCoreMeasurementGroupInside;
     private UCoreMeasurementGroupDetail uCoreMeasurementGroupDetail;
 
-    private OrmCreatorTest ormCreatorTest;
+    private TestEntityCreator testEntityCreator;
 
     private Moment moment;
     private MeasurementGroup measurementGroup;
@@ -87,7 +87,7 @@ public class MomentsConverterTest {
     BaseAppDataCreator dataCreator;
 
     private BaseAppDataCreator verticalDataCreater;
-//    verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
+//    verticalDataCreater = new TestEntityCreator(new UuidGenerator());
 //    errorHandlerImplTest = new ErrorHandlerImplTest();
 //
 //    DataServicesManager.getInstance().mAppComponent = appComponantMock;
@@ -101,10 +101,10 @@ public class MomentsConverterTest {
     public void setUp() {
         initMocks(this);
 
-        ormCreatorTest = new OrmCreatorTest(new UuidGenerator());
+        testEntityCreator = new TestEntityCreator(new UuidGenerator());
 
         DataServicesManager.getInstance().setAppComponent(appComponantMock);
-        verticalDataCreater = new OrmCreatorTest(new UuidGenerator());
+        verticalDataCreater = new TestEntityCreator(new UuidGenerator());
         momentsConverter = new MomentsConverter();
         momentsConverter.baseAppDataCreater = verticalDataCreater;
         errorHandler = new ErrorHandlerImplTest();
@@ -115,30 +115,30 @@ public class MomentsConverterTest {
     }
 
     private void initializeMoment() {
-        moment = ormCreatorTest.createMoment(TEST_CREATOR_ID, TEST_SUBJECT_ID, MomentType.TEMPERATURE, TEST_TIMESTAMP.plusWeeks(2));
+        moment = testEntityCreator.createMoment(TEST_CREATOR_ID, TEST_SUBJECT_ID, MomentType.TEMPERATURE, TEST_TIMESTAMP.plusWeeks(2));
         moment.setDateTime(TEST_TIMESTAMP);
 
-        MomentDetail momentDetail = ormCreatorTest.createMomentDetail(MomentDetailType.PHASE,moment);
+        MomentDetail momentDetail = testEntityCreator.createMomentDetail(MomentDetailType.PHASE,moment);
         momentDetail.setValue(LOCATION);
 
         moment.addMomentDetail(momentDetail);
 
-        Measurement measurement = ormCreatorTest.createMeasurement(MeasurementType.DURATION, measurementGroup);
+        Measurement measurement = testEntityCreator.createMeasurement(MeasurementType.DURATION, measurementGroup);
         measurement.setDateTime(TEST_TIMESTAMP);
         measurement.setValue(TEST_VALUE_DOUBLE);
 
-        measurementGroup = ormCreatorTest.createMeasurementGroup(moment);
+        measurementGroup = testEntityCreator.createMeasurementGroup(moment);
         measurementGroup.addMeasurement(measurement);
 
-        measurementGroupInside = ormCreatorTest.createMeasurementGroup(measurementGroup);
+        measurementGroupInside = testEntityCreator.createMeasurementGroup(measurementGroup);
         measurementGroupInside.addMeasurement(measurement);
 
       //  measurementGroup.addMeasurement(measurementGroupInside);
 
-        measurementGroupDetail = ormCreatorTest.createMeasurementGroupDetail(MeasurementDetailType.LOCATION, measurementGroupInside);
+        measurementGroupDetail = testEntityCreator.createMeasurementGroupDetail(MeasurementDetailType.LOCATION, measurementGroupInside);
         measurementGroupDetail.setValue(TEST_MEASUREMENT_DETAIL_TYPE);
 
-        MeasurementDetail measurementDetail = ormCreatorTest.createMeasurementDetail(MeasurementDetailType.LOCATION, measurement);
+        MeasurementDetail measurementDetail = testEntityCreator.createMeasurementDetail(MeasurementDetailType.LOCATION, measurement);
         measurementDetail.setValue(LEFT);
         measurement.addMeasurementDetail(measurementDetail);
 
@@ -492,7 +492,7 @@ public class MomentsConverterTest {
 
     @Test
     public void shouldSetVersionInUCoreMoment_WhenMomentHasSynchronizationData() throws Exception {
-        moment.setSynchronisationData(ormCreatorTest.createSynchronisationData(TEST_GUID, false, DateTime.now(), TEST_VERSION));
+        moment.setSynchronisationData(testEntityCreator.createSynchronisationData(TEST_GUID, false, DateTime.now(), TEST_VERSION));
         UCoreMoment uCoreMoment = momentsConverter.convertToUCoreMoment(moment);
 
         assertThat(uCoreMoment.getVersion()).isEqualTo(TEST_VERSION);

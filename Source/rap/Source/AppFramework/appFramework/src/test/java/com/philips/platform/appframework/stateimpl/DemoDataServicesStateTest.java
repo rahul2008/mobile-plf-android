@@ -72,7 +72,7 @@ public class DemoDataServicesStateTest {
         demoDataServiceStateMock = new DemoDataServiceStateMock();
         demoDataServiceStateMock.init(getApplicationContext());
         demoDataServiceStateMock.updateDataModel();
-        activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, 0);
+        activityLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, 0, null);
     }
 
     public AppFrameworkApplication getApplicationContext() {

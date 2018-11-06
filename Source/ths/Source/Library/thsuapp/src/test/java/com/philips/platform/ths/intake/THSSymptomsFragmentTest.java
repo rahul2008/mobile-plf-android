@@ -18,7 +18,6 @@ import com.philips.platform.ths.BuildConfig;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.registration.THSConsumerWrapper;
 import com.philips.platform.ths.registration.dependantregistration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -73,7 +72,7 @@ public class THSSymptomsFragmentTest {
     FragmentLauncher fragmentLauncherMock;
 
     @Mock
-    THSVisitContext pthVisitContextMock;
+    VisitContext pthVisitContextMock;
 
     @Mock
     VisitContext visitContextMock;
@@ -84,10 +83,10 @@ public class THSSymptomsFragmentTest {
     Topic topicMock;
 
     @Mock
-    THSConsumerWrapper pthConsumer;
+    Consumer pthConsumer;
 
     @Mock
-    THSVisitContext thsVisitContext;
+    VisitContext thsVisitContext;
 
     @Mock
     Consumer consumerMock;
@@ -136,9 +135,8 @@ public class THSSymptomsFragmentTest {
         thsSymptomsFragment.setArguments(bundle);
 
         THSManager.getInstance().setAwsdk(awsdkMock);
-        THSManager.getInstance().setPTHConsumer(pthConsumer);
+        THSManager.getInstance().setConsumer(pthConsumer);
         THSManager.getInstance().setVisitContext(thsVisitContext);
-        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
         when(pthProviderInfoMock.getProviderInfo()).thenReturn(providerInfoMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
     }
@@ -220,15 +218,14 @@ public class THSSymptomsFragmentTest {
 
    @Test
     public void testGetVisitContext() throws Exception{
-       //thsSymptomsFragment.mThsVisitContext = thsVisitContext;
        SupportFragmentTestUtil.startFragment(thsSymptomsFragment);
        thsSymptomsFragment.getVisitContext();
-       assertTrue(!thsSymptomsFragment.mContinue.isEnabled());
+       assertTrue(thsSymptomsFragment.mContinue.isEnabled());
 
    }
     @Test
     public void testGetVisitContextNullCheck() throws Exception{
-        thsSymptomsFragment.mThsVisitContext = thsVisitContext;
+        THSManager.getInstance().setVisitContext(thsVisitContext);
         SupportFragmentTestUtil.startFragment(thsSymptomsFragment);
         thsSymptomsFragment.getVisitContext();
         assertTrue(thsSymptomsFragment.mContinue.isEnabled());
@@ -241,6 +238,15 @@ public class THSSymptomsFragmentTest {
         final View viewById = thsSymptomsFragment.getView().findViewById(R.id.camera_click_button);
         viewById.performClick();
         assertTrue(thsSymptomsFragment.dialog.isShowing());
+    }
+
+    @Test
+    public void testGetVisitContextWhenVisitContextNull() throws Exception{
+        SupportFragmentTestUtil.startFragment(thsSymptomsFragment);
+        THSManager.getInstance().setVisitContext(null);
+        thsSymptomsFragment.getVisitContext();
+        assertTrue(!thsSymptomsFragment.mContinue.isEnabled());
+
     }
 
 }

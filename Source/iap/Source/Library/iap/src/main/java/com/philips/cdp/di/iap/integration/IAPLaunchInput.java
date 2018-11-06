@@ -15,17 +15,20 @@ public class IAPLaunchInput extends UappLaunchInput {
     private IAPListener iapListener;
     private ArrayList<String> mIgnoreRetailers;
     private ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
+    private String voucherCode;
 
     /**
      * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
      * @param pLandingView  pass int value from IAPFlows enums
      * @param pIapFlowInput  pass object of IAPFlowInput
+     * @param voucherCode pass String value of voucher Code
      * @param pBlackListedRetailer  pass list of retailer which you want to ignore from Retailer list
      * @since 1.0.0
      */
-    public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput, ArrayList<String> pBlackListedRetailer) {
+    public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput,String voucherCode, ArrayList<String> pBlackListedRetailer) {
         mLandingView = pLandingView;
         mIAPFlowInput = pIapFlowInput;
+        this.voucherCode=voucherCode;
         mIgnoreRetailers = pBlackListedRetailer;
     }
 
@@ -33,11 +36,13 @@ public class IAPLaunchInput extends UappLaunchInput {
      * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
      * @param pLandingView  pass int value from IAPFlows enums
      * @param pIapFlowInput  pass object of IAPFlowInput
+     * @param voucherCode pass String value of voucher Code
      * @since 1.0.0
      */
-    public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput) {
+    public void setIAPFlow(int pLandingView, IAPFlowInput pIapFlowInput,String voucherCode) {
         mLandingView = pLandingView;
         mIAPFlowInput = pIapFlowInput;
+        this.voucherCode=voucherCode;
         mIgnoreRetailers = new ArrayList<>();
     }
 
@@ -74,6 +79,13 @@ public class IAPLaunchInput extends UappLaunchInput {
     public void setIapListener(IAPListener iapListener) {
         this.iapListener = iapListener;
     }
+
+
+    public String getVoucher(){
+        return voucherCode;
+    }
+
+
 
     /**
      * This enum is used to set the landing view of IAP

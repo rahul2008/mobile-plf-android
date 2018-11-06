@@ -148,11 +148,6 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     }
 
     @Override
-    public void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost) {
-        thsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
-    }
-
-    @Override
     public String getReminderOptions(){
         if(remindOptions == null){
             remindOptions = RemindOptions.NO_REMINDER;

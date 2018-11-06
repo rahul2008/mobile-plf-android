@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.philips.platform.ews.confirmwifi.ConfirmWifiNetworkFragment;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.platform.ews.homewificonnection.ConnectingDeviceWithWifiFragment;
 import com.philips.platform.ews.hotspotconnection.ConnectingWithDeviceFragment;
@@ -63,13 +62,6 @@ public class NavigatorTest {
     }
 
     @Test
-    public void itShouldPushHomeNetworkConfirmationScreenWhenNavigating() throws Exception {
-        subject.navigateToHomeNetworkConfirmationScreen();
-
-        verifyFragmentPushed(ConfirmWifiNetworkFragment.class);
-    }
-
-    @Test
     public void itShouldPushDevicePoweredOnConfirmationScreenWhenNavigating() throws Exception {
         subject.navigateToDevicePoweredOnConfirmationScreen();
 
@@ -99,14 +91,14 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushResetDeviceTroubleShootingScreenWhenNavigating() throws Exception {
-        subject.navigateToResetDeviceTroubleShootingScreen();
+        subject.navigateToResetDeviceTroubleshootingScreen();
 
         verifyFragmentPushed(ResetDeviceTroubleshootingFragment.class);
     }
 
     @Test
     public void itShouldPushConnectToWrongPhoneTroubleShootingScreenWhenNavigating() throws Exception {
-        subject.navigateToConnectToWrongPhoneTroubleShootingScreen();
+        subject.navigateToConnectToWrongPhoneTroubleshootingScreen();
 
         verifyFragmentPushed(ConnectToWrongPhoneTroubleshootingFragment.class);
     }
@@ -120,7 +112,7 @@ public class NavigatorTest {
 
     @Test
     public void itShouldPushResetConnectionScreenWhenNotPresentInStack() throws Exception {
-        subject.navigateToResetConnectionTroubleShootingScreen();
+        subject.navigateToResetConnectionTroubleshootingScreen();
 
         verifyFragmentPushed(ResetConnectionTroubleshootingFragment.class);
     }
@@ -134,7 +126,7 @@ public class NavigatorTest {
 
     @Test
     public void itShouldNavigateToWifiConnectionUnsuccessfulScreen() throws Exception {
-        subject.navigateToWIFIConnectionUnsuccessfulTroubleShootingScreen("deviceName", "homeWifiSssid");
+        subject.navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen("deviceName", "homeWifiSssid");
 
         verifyFragmentPushed(WifiConnectionUnsuccessfulFragment.class);
     }

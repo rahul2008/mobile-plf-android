@@ -16,7 +16,8 @@
     "ShowCountrySelection":"true"
   },
   "IAP": {
-    "propositionid": "Tuscany2016"
+    "propositionid": "Tuscany2016",
+    "voucherCode.enable": true
   },
   "appinfra": {
     "appidentity.micrositeId" : "77000",
@@ -37,13 +38,14 @@
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"Off",
+      "logLevel":"Info",
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
-      "cloudLogEnabled":false,
+      "cloudLogEnabled":true,
       "cloudBatchLimit":5,
-      "componentLevelLogEnabled":false,
+      "componentLevelLogEnabled":true,
       "componentIds": [
+        "usr"
       ]
     },
     "logging.debugConfig":{
@@ -66,7 +68,7 @@
   },
   "ths":{
     "apiKey":"dc573250",
-    "gdprEnabled":true
+    "gdprEnabled":false
   },
   "hsdp": {
     "appName": "OneBackend",
