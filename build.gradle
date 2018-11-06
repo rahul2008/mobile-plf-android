@@ -115,7 +115,7 @@ subprojects {
             testOptions {
                 unitTests {
                     // As per Robolectric documentation
-                    includeAndroidResources = true
+                    includeAndroidResources true
 
                     all {
                         jvmArgs '-noverify'

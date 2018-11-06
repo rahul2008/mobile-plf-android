@@ -39,6 +39,7 @@ android {
     }
 
     testOptions {
+        unitTests.returnDefaultValues = true
         unitTests.all {
             jacoco {
                 includeNoLocationClasses = true
@@ -101,7 +102,6 @@ dependencies {
     testImplementation deps.adobemobilelib
 
     testImplementation project(strings.pif.projectName)
-
 }
 
 tasks.withType(Test) {

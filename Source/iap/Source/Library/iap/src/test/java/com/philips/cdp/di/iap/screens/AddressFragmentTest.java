@@ -22,7 +22,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -30,7 +29,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 public class AddressFragmentTest {
+
     private Context mContext;
+
     private AddressFragment addressFragment;
 
     private AddressPresenter addressPresenter;
@@ -39,35 +40,36 @@ public class AddressFragmentTest {
     private AddressContractor addressContractorMock;
 
     @Mock
-    private android.view.View billingViewMock;
+    private View billingViewMock;
 
     @Mock
-    private android.view.View shippingViewMock;
+    private View shippingViewMock;
 
     @Mock
-    View viewMock;
+    private View viewMock;
 
     @Mock
-    TextView tv_checkOutStepsMock;
+    private TextView tv_checkOutStepsMock;
 
     @Mock
-    Fragment shippingFragmentMock;
+    private Fragment shippingFragmentMock;
 
     @Mock
-    Fragment billingFragmentMock;
+    private Fragment billingFragmentMock;
 
     @Mock
-    Button buttonContinueMock;
+    private Button buttonContinueMock;
 
     @Mock
-    Button buttonCancelMock;
+    private Button buttonCancelMock;
 
     @Mock
-    AddressFields addressFieldsMock;
+    private AddressFields addressFieldsMock;
 
     @Before
     public void setUp() {
         initMocks(this);
+
         addressFragment = AddressFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         mContext = getInstrumentation().getContext();
         TestUtils.getStubbedStore();
@@ -88,10 +90,10 @@ public class AddressFragmentTest {
     public void shouldInitializeViews() throws Exception {
         initViews();
 
-        addressFragment.initializeViews(viewMock,addressPresenter);
+        addressFragment.initializeViews(viewMock, addressPresenter);
     }
 
-    private void initViews(){
+    private void initViews() {
         addressFragment.onAttach(mContext);
         addressFragment.onAttachFragment(shippingFragmentMock);
         addressFragment.onAttachFragment(billingFragmentMock);
@@ -99,14 +101,14 @@ public class AddressFragmentTest {
         Mockito.when(viewMock.findViewById(R.id.btn_continue)).thenReturn(buttonContinueMock);
         Mockito.when(viewMock.findViewById(R.id.btn_cancel)).thenReturn(buttonCancelMock);
     }
+
     @Test(expected = NullPointerException.class)
     public void shouldSaveShippingAddress() throws Exception {
         initViews();
         Mockito.when(buttonContinueMock.getText()).thenReturn("Save");
-        addressFragment.mBtnContinue=buttonContinueMock;
-        viewMock= addressFragment.mBtnContinue;
+        addressFragment.mBtnContinue = buttonContinueMock;
+        viewMock = addressFragment.mBtnContinue;
         addressFragment.onClick(viewMock);
-
     }
 
     @Test

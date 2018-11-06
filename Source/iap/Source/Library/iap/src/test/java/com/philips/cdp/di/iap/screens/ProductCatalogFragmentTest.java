@@ -9,12 +9,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.InflateException;
+
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.support.v4.SupportFragmentController;
+
+import java.util.ArrayList;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertNotNull;
@@ -33,7 +36,7 @@ public class ProductCatalogFragmentTest {
     private ProductCatalogFragment productCatalogFragment;
 
     @Mock
-    IAPListener mockIAPListener;
+    private IAPListener mockIAPListener;
 
     private Context mContext;
 
