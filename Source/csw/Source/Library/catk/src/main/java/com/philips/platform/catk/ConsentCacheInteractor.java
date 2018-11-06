@@ -60,7 +60,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         };
     }
 
-    public ConsentCacheInteractor(final AppInfraInterface appInfra, final DateTimeProvider dateTimeProvider) {
+    ConsentCacheInteractor(final AppInfraInterface appInfra, final DateTimeProvider dateTimeProvider) {
         this.appInfra = appInfra;
         this.dateTimeProvider = dateTimeProvider;
     }
