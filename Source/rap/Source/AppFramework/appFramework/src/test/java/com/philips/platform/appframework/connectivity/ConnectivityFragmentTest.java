@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
 package com.philips.platform.appframework.connectivity;
 
@@ -14,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
@@ -33,6 +31,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowDialog;
@@ -47,8 +46,8 @@ import static org.robolectric.Shadows.shadowOf;
 /**
  * Test for ConnectivityFragment
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(application = TestAppFrameworkApplication.class, sdk=25)
+@RunWith(RobolectricTestRunner.class)
+@Config(application = TestAppFrameworkApplication.class)
 public class ConnectivityFragmentTest {
     private ConnectivityFragment connectivityFragment;
 

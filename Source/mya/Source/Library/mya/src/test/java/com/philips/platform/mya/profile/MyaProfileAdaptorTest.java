@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.mya.profile;
 
 import android.content.Context;
@@ -5,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.uid.view.widget.Label;
 
 import org.junit.Before;
@@ -15,7 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.TreeMap;
 
@@ -26,27 +29,22 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
-@RunWith(CustomRobolectricRunner.class)
-@Config(sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class MyaProfileAdaptorTest {
 
+    @Mock
+    private Context contextMock;
+
+    @Mock
+    private View.OnClickListener onClickListener;
+
+    @Mock
+    private LayoutInflater layoutInflaterMock;
+
+    @Mock
+    private ViewGroup viewGroupMock;
+
     private MyaProfileAdaptor myaProfileAdaptor;
-
-    @Mock
-    Context contextMock;
-
-    @Mock
-    View.OnClickListener onClickListener;
-
-    @Mock
-    LayoutInflater layoutInflaterMock;
-
-    @Mock
-    ViewGroup viewGroupMock;
-
-    @Mock
-    View viewMock;
 
     @Before
     public void setUp() throws Exception {
@@ -58,7 +56,7 @@ public class MyaProfileAdaptorTest {
 
     @Test
     public void shouldNotNull_getItemCount() {
-        assertNotNull(myaProfileAdaptor.getItemCount());
+        assertTrue(myaProfileAdaptor.getItemCount() > 0);
     }
 
     @Test

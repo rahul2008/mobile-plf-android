@@ -7,6 +7,7 @@
 package com.philips.platform.uappdemo.screens.introscreen;
 
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -25,17 +26,14 @@ import android.widget.TextView;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.flowmanager.utility.UappConstants;
+import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemo.screens.base.UappBaseActivity;
 import com.philips.platform.uappdemo.screens.splash.SplashFragment;
-import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.UIDHelper;
+
+import static android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
 
 
 /**
@@ -49,7 +47,8 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initDLS();
+//        initDLS();
+        setTheme(R.style.Theme_DLS_GroupBlue_Bright);
         super.onCreate(savedInstanceState);
         presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
@@ -94,13 +93,42 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
     public void showActionBar() {
         if (getSupportActionBar() != null)
             getSupportActionBar().show();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            showStatusBar();
+        }
+    }
+
+    private void showStatusBar() {
+        View decorView = getWindow().getDecorView();
+        // Show Status Bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE | LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER ;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 
     @Override
     public void hideActionBar() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            hideStatusBar();
+        } else
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         if (getSupportActionBar() != null)
             getSupportActionBar().hide();
+    }
+
+    private void hideStatusBar() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        // Set the content to appear under the system bars so that the
+                        // content doesn't resize when the system bars hide and show.
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        );
     }
 
     @Override
@@ -153,11 +181,6 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
         }
     }
 
-    public void initDLS() {
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
-    }
-
     @Override
     public void onBackPressed() {
         boolean isConsumed = false;
@@ -169,7 +192,8 @@ public class LaunchActivity extends UappBaseActivity implements UappLaunchView {
         }
         if (!isConsumed) {
             presenter.onEvent(UappConstants.BACK_BUTTON_CLICK_CONSTANT);
-        }
+        } else
+            super.onBackPressed();
     }
     @Override
     public FragmentActivity getFragmentActivity() {

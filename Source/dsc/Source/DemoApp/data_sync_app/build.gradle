@@ -74,15 +74,12 @@ android {
 
     defaultConfig {
         applicationId "cdp.philips.com.mydemoapp"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         renderscriptTargetApi versions.renderscriptTargetApi
         versionCode 7
         versionName version + "(" + objcdp.getCommitHash() + ")"
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
-
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]

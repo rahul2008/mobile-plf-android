@@ -1,17 +1,14 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2016
- *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.dhpclient;
 
 import com.philips.dhpclient.request.DhpStoreTermsAndConditionsRequest;
 import com.philips.dhpclient.response.DhpResponse;
-import com.philips.dhpclient.util.Objects;
 import com.philips.dhpclient.util.MapUtils;
+import com.philips.dhpclient.util.Objects;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

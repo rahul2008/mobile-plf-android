@@ -1,15 +1,15 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.ui.utils;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.IntentFilter;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginResult;
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -25,18 +25,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.junit.Assert.*;
+import org.robolectric.RobolectricTestRunner;
 
 /**
  * Created by philips on 5/24/18.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class SMSBroadCastReceiverTest {
 
     @Mock

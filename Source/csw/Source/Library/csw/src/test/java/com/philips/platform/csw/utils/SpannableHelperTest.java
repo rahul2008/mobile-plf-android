@@ -1,19 +1,22 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw.utils;
 
 import android.text.Spannable;
 
-import com.philips.platform.csw.BuildConfig;
 import com.philips.platform.csw.permission.uielement.LinkSpan;
 import com.philips.platform.csw.permission.uielement.LinkSpanClickListener;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class SpannableHelperTest {
 
     @Test

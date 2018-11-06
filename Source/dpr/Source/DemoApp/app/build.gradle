@@ -74,8 +74,6 @@ android {
 
     defaultConfig {
         applicationId "cdp.philips.com.mydemoapp"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 6
         versionName version + "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
@@ -83,7 +81,6 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
-
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]

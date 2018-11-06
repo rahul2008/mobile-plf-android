@@ -1,42 +1,46 @@
-package com.philips.platform.appinfra.Internationalization;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
-import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+package com.philips.platform.appinfra.Internationalization;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-/**
- * Internationalization Test class.
- */
-
-public class InternationalizationTest extends AppInfraInstrumentation {
+public class InternationalizationTest {
     private InternationalizationInterface mInternationalizationInterface = null;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         Context context = getInstrumentation().getContext();
         assertNotNull(context);
         AppInfra mAppInfra = new AppInfra.Builder().build(context);
         mInternationalizationInterface = mAppInfra.getInternationalization();
         assertNotNull(mInternationalizationInterface);
-
     }
 
+    @Test
     public void test_getUILocaleString() {
         assertNotNull(mInternationalizationInterface.getUILocaleString());
     }
 
+    @Test
     public void test_givenInterfaceCreated_whenGetBCP47UILocale_thenShouldReturnContainingUnderscore() {
         String localeString = mInternationalizationInterface.getBCP47UILocale();
         assertThat(localeString, matchesSimpleLocalePattern());

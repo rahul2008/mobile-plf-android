@@ -1,35 +1,26 @@
 package com.philips.cdp.di.iap.hybris;
 
 import android.content.Context;
-
-import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.networkEssential.HybrisNetworkEssentials;
 import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.platform.appinfra.AppInfra;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 @RunWith(RobolectricTestRunner.class)
 public class HybrisNetworkEssentialsTest {
-    HybrisNetworkEssentials mHybrisNetworkEssentials;
-    MockIAPDependencies mockIAPDependencies;
-    OAuthListener oAuthHandler;
-    @Mock
-    AppInfra mAppInfra;
-    @Mock
-    Context mContext;
+    private HybrisNetworkEssentials mHybrisNetworkEssentials;
+    private OAuthListener oAuthHandler;
+    private Context mContext;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        mContext = getInstrumentation().getContext();
         mHybrisNetworkEssentials = new HybrisNetworkEssentials();
-        mockIAPDependencies = new MockIAPDependencies(mAppInfra);
         oAuthHandler = new OAuthListener() {
             @Override
             public String getAccessToken() {

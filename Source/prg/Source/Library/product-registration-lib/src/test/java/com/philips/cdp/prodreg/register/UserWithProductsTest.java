@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.prodreg.register;
 
 import android.content.Context;
@@ -21,25 +26,26 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import org.robolectric.RobolectricTestRunner;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
- */
-public class UserWithProductsTest extends TestCase {
+@RunWith(RobolectricTestRunner.class)
+public class UserWithProductsTest {
 
     UserWithProducts userWithProducts;
     private Context context;
@@ -49,9 +55,8 @@ public class UserWithProductsTest extends TestCase {
     private ProdRegListener prodRegListener;
     private User userMock;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         context = mock(Context.class);
         userWithProductsMock = mock(UserWithProducts.class);
         userMock = mock(User.class);
@@ -178,8 +183,8 @@ public class UserWithProductsTest extends TestCase {
         verify(userWithProductsMock).createDummyRegisteredProduct(product);
         verify(registeredProduct).getRegisteredProductIfExists(localRegisteredProducts);
         verify(prodRegListener).onProdRegFailed(registeredProduct, userWithProductsMock);
-        testMapProductToRegisteredProduct(product);
-        testThrowExceptionWhenListenerNull(userWithProducts, product);
+        mapProductToRegisteredProduct(product);
+        throwExceptionWhenListenerNull(userWithProducts, product);
     }
 
     @Test
@@ -235,7 +240,7 @@ public class UserWithProductsTest extends TestCase {
         verify(userWithProductsMock).updateLocaleCache(registeredProduct, registeredProduct.getProdRegError(), RegistrationState.REGISTERING);
     }
 
-    private void testThrowExceptionWhenListenerNull(final UserWithProducts userWithProducts, final Product product) {
+    private void throwExceptionWhenListenerNull(final UserWithProducts userWithProducts, final Product product) {
         try {
             userWithProducts.registerProduct(product);
         } catch (Exception e) {
@@ -244,8 +249,7 @@ public class UserWithProductsTest extends TestCase {
         }
     }
 
-    @Test
-    public void testMapProductToRegisteredProduct(Product product) {
+    private void mapProductToRegisteredProduct(Product product) {
         RegisteredProduct registeredProduct = userWithProducts.createDummyRegisteredProduct(product);
         assertEquals(registeredProduct.getCtn(), product.getCtn());
         assertEquals(registeredProduct.getSerialNumber(), product.getSerialNumber());
@@ -253,14 +257,6 @@ public class UserWithProductsTest extends TestCase {
         product = null;
         assertNull(userWithProducts.createDummyRegisteredProduct(product));
     }
-
-//    @Test
-//    public void
-//    testGettingRegisteredListener() {
-//        RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-//        userWithProducts.getRegisteredProducts(registeredProductsListener);
-//        assertEquals(registeredProductsListener, userWithProducts.getRegisteredProductsListener());
-//    }
 
     @Test
     public void testReturnCorrectRequestType() {
@@ -369,55 +365,6 @@ public class UserWithProductsTest extends TestCase {
         registeredProducts.add(registeredProduct3);
         assertFalse(userWithProducts.isCtnRegistered(registeredProducts, product).getRegistrationState() == RegistrationState.REGISTERED);
     }
-
-//    @Test
-//    public void testGetPrxResponseListenerForRegisteringProducts() {
-//        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-//        RegisteredProduct product = mock(RegisteredProduct.class);
-//
-//        ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
-//        SecureStorageInterface ssInterface = mock(SecureStorageInterface.class);
-//        SecureStorageInterface.SecureStorageError ssError = mock(SecureStorageInterface.SecureStorageError.class);
-//        String key = ProdRegConstants.PRODUCT_REGISTRATION_KEY;
-//        when(prodRegCacheMock.getStringData(key)).thenReturn("data");
-//
-//        when(prodRegCacheMock.getAppInfraSecureStorageInterface()).thenReturn(ssInterface);
-//        when(prodRegCacheMock.getSecureStorageError()).thenReturn(ssError);
-//        when(localRegisteredProducts.getProdRegCache()).thenReturn(prodRegCacheMock);
-//
-//        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
-//            @NonNull
-//            @Override
-//            UserWithProducts getUserProduct() {
-//                return userWithProductsMock;
-//            }
-//
-//            @NonNull
-//            @Override
-//            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
-//                return localRegisteredProducts;
-//            }
-//
-//            @Override
-//            protected ErrorHandler getErrorHandler() {
-//                return errorHandlerMock;
-//            }
-//        };
-//        ResponseListener responseListener = userWithProducts.getPrxResponseListener(product);
-//        RegistrationResponse responseData = mock(RegistrationResponse.class);
-//        final RegistrationResponseData data = mock(RegistrationResponseData.class);
-//        when(responseData.getData()).thenReturn(data);
-//
-//        when(data.getWarrantyEndDate()).thenReturn("2016-03-22");
-//        userWithProducts.setCurrentRegisteredProduct(product);
-//        responseListener.onResponseSuccess(responseData);
-//        verify(product).setRegistrationState(RegistrationState.REGISTERED);
-//        verify(localRegisteredProducts).updateRegisteredProducts(product);
-//        verify(prodRegListener).onProdRegSuccess(product, userWithProductsMock);
-//        verify(userWithProductsMock).mapRegistrationResponse(responseData, product);
-//        responseListener.onResponseError(new PrxError("test", 10));
-//        verify(errorHandlerMock).handleError(userWithProductsMock, product, 10);
-//    }
 
     @Test
     public void testMapRegistrationResponse() {
@@ -530,43 +477,6 @@ public class UserWithProductsTest extends TestCase {
         userWithProducts.makeRegistrationRequest(context, productMock);
         verify(requestManagerMock).executeRequest(registrationRequest, responseListenerMock);
     }
-
-//    @Test
-//    public void testRetryMethod() {
-//        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-//        final Product product = new Product("ctn", null, null);
-//        final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
-//        ProdRegListener prodRegListenerMock = mock(ProdRegListener.class);
-//        RegisteredProductsListener registeredProductsListenerMock = mock(RegisteredProductsListener.class);
-//        UserWithProducts userWithProducts = new UserWithProducts(context, userMock, prodRegListener) {
-//            @NonNull
-//            @Override
-//            UserWithProducts getUserProduct() {
-//                return userWithProductsMock;
-//            }
-//
-//            @NonNull
-//            @Override
-//            protected LocalRegisteredProducts getLocalRegisteredProductsInstance() {
-//                return localRegisteredProducts;
-//            }
-//
-//            @NonNull
-//            @Override
-//            protected User getUser() {
-//                return userMock;
-//            }
-//        };
-//        when(userWithProductsMock.createDummyRegisteredProduct(product)).thenReturn(registeredProduct);
-//        userWithProducts.registerProduct(product);
-//        userWithProducts.retryRequests(context, registeredProduct);
-//        verify(userWithProductsMock).makeRegistrationRequest(context, registeredProduct);
-//        userWithProducts.getRegisteredProducts(registeredProductsListenerMock);
-//        userWithProducts.retryRequests(context, registeredProduct);
-//        userWithProducts.setRequestType(-1);
-//        userWithProducts.retryRequests(context, registeredProduct);
-//        verify(prodRegListenerMock, never()).onProdRegFailed(registeredProduct, userWithProductsMock);
-//    }
 
     @Test
     public void testUpdateLocaleCacheOnError() {

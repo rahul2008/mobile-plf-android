@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 apply plugin: 'com.android.library'
 
 android {
@@ -5,14 +10,10 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
+
     buildTypes {
         release {
             minifyEnabled false

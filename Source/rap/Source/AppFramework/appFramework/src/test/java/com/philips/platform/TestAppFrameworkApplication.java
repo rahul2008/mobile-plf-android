@@ -1,13 +1,11 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform;
 
 import android.content.Context;
 
-import com.google.firebase.FirebaseApp;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
@@ -25,7 +23,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
-import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -45,6 +42,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
@@ -55,12 +53,10 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
-    private UserRegistrationOnBoardingState userRegistrationOnBoardingState;
     private IAPState iapState;
 
     @Mock
@@ -74,9 +70,6 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     @Mock
     AppIdentityInterface appIdentityInterface;
-
-    @Mock
-    InternationalizationInterface internationalizationInterface;
 
     @Mock
     LoggingInterface loggingInterface;
@@ -165,8 +158,7 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         });
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
 
-
-        userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
+        UserRegistrationOnBoardingState userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);
         setTargetFlowManager();
 

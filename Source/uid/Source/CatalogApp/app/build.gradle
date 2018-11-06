@@ -76,14 +76,9 @@ android {
 
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version
-
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
         multiDexEnabled true
     }
 
@@ -128,13 +123,6 @@ android {
         exclude 'LICENSE.txt'
 
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-        unitTests.all {
-            jvmArgs '-noverify'
-        }
-    }
 }
 
 dependencies {
@@ -167,13 +155,7 @@ dependencies {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-    androidTestImplementation(deps.android_testrunner) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    androidTestImplementation(deps.android_testrules) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
-    androidTestImplementation deps.android_test_commons
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx_test.rules
+    androidTestImplementation deps.apache_commons_lang
 }

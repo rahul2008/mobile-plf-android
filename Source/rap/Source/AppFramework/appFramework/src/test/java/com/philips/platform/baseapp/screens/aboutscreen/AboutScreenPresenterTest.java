@@ -1,23 +1,20 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2017
- *  All rights are reserved. Reproduction or dissemination
- *  in whole or in part is prohibited without the prior written
- *  consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.baseapp.screens.aboutscreen;
 
 import android.content.Context;
 
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.baseapp.screens.webview.WebViewState;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.webview.WebViewState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import org.junit.After;
@@ -31,6 +28,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -39,7 +37,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class AboutScreenPresenterTest {
 

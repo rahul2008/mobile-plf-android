@@ -1,21 +1,17 @@
 /*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.mya;
 
 import android.app.Application;
 
-import com.philips.platform.mya.runner.CustomRobolectricRunner;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -23,8 +19,7 @@ import java.util.TreeMap;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class MyaLocalizationHandlerTest {
 
     private MyaLocalizationHandler myaLocalizationHandler;

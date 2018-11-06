@@ -1,52 +1,39 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.util;
 
-import android.app.Instrumentation;
 import android.content.Context;
-import android.util.Log;
 
 import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.locatephilips.fragments.ServiceLocatorFragment;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-
-import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.robolectric.Robolectric;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+import org.robolectric.RobolectricTestRunner;
 
-import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Created by philips on 27/11/17.
  */
-
-
-@RunWith(CustomRobolectricRunnerCC.class)
+@RunWith(RobolectricTestRunner.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.apache.xerces", "javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*",  "org.springframework.context.*", "org.apache.log4j.*"})
-
 public class DigiCareLoggerTest {
 
 

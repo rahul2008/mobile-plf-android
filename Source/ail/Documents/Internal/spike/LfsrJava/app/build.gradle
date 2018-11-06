@@ -11,11 +11,8 @@ android {
 
     defaultConfig {
         applicationId "com.philips.platform.testjava"
-        minSdkVersion 23
-        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {

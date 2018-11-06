@@ -1,13 +1,11 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.platform.appframework.stateimpl;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.ccdemouapp.CCDemoUAppuAppInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -22,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertNotNull;
@@ -30,7 +29,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.RuntimeEnvironment.application;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class DemoDCCStateTest {
 

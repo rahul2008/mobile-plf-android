@@ -1,4 +1,9 @@
 
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.Context;
@@ -10,7 +15,6 @@ import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
@@ -26,26 +30,25 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.configuration.MockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.HashMap;
 
-import static org.mockito.Matchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @Ignore
-@RunWith(CustomRobolectricRunnerCC.class)
+@RunWith(RobolectricTestRunner.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.apache.xerces", "javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*",  "org.springframework.context.*", "org.apache.log4j.*"})
-public class ContactUsFragmentTest extends MockitoConfiguration {
+public class ContactUsFragmentTest {
 
     private ContactUsFragment fragment;
 

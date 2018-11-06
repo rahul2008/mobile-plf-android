@@ -1,19 +1,16 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.controller;
 
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.os.Handler;
 
-import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
-import com.philips.cdp.registration.CustomRobolectricRunner;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.errors.ErrorCodes;
-import com.philips.cdp.registration.errors.ErrorType;
-import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -25,22 +22,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(RobolectricTestRunner.class)
 public class ResendVerificationEmailTest {
 
+    private Context mContext;
     private ResendVerificationEmail resendVerificationEmail;
     @Mock
     public ResendVerificationEmailHandler mResendVerificationEmail;
     @Mock
     private CaptureApiError captureApiError;
-    @Mock
-    private Context mContext;
     @Mock
     private UserRegistrationFailureInfo userRegistrationFailureInfo;
     @Mock
@@ -53,6 +52,7 @@ public class ResendVerificationEmailTest {
     @Before
     public void setUp() {
         initMocks(this);
+        mContext = getInstrumentation().getContext();
         RegistrationConfiguration.getInstance().setComponent(mockComponent);
         RLog.setMockLogger(mockLoggingInterface);
 
@@ -93,9 +93,9 @@ public class ResendVerificationEmailTest {
         resendVerificationEmail.onFlowDownloadSuccess();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testonFlowDownloadFailure() {
         resendVerificationEmail.onFlowDownloadFailure();
-        verify(mResendVerificationEmail).onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+        verify(mResendVerificationEmail).onResendVerificationEmailFailedWithError(any(UserRegistrationFailureInfo.class));
     }
 }

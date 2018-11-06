@@ -1,8 +1,6 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2017
- *  All rights are reserved. Reproduction or dissemination
- *  in whole or in part is prohibited without the prior written
- *  consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.baseapp.screens.consumercare;
@@ -10,7 +8,6 @@ package com.philips.platform.baseapp.screens.consumercare;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.digitalcare.CcInterface;
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
@@ -28,7 +25,6 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import org.junit.After;
 import org.junit.Before;
-
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +34,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -46,7 +43,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class SupportFragmentStateTest {
 

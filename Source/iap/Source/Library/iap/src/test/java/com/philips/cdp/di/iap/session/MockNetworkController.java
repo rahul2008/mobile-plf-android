@@ -23,7 +23,6 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.mock;
 
 public class MockNetworkController extends NetworkController {
-    private Context mMockedContext;
     private IAPJsonRequest mIAPJSONRequest;
     @Mock
     IAPUser mIAPMockedUser;
@@ -36,7 +35,6 @@ public class MockNetworkController extends NetworkController {
     public MockNetworkController(final Context context, final MockIAPSetting iapSetting) {
         super(context);
         mContext = context;
-        mMockedContext = mock(Context.class);
         setIapSettings(iapSetting);
         setNetworkEssentials(new HybrisNetworkEssentials());
     }
@@ -49,7 +47,7 @@ public class MockNetworkController extends NetworkController {
 
     @Override
     public void initStore(Context context, IAPSettings iapSettings) {
-        mStoreListener = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(iapSettings);
+        mStoreListener = new MockStore(context, mock(IAPUser.class)).getStore(iapSettings);
     }
 
     @Override

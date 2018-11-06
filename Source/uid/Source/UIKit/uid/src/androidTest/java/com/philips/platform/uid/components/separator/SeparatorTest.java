@@ -1,13 +1,11 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
- *
  */
 
 package com.philips.platform.uid.components.separator;
 
 import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.R;
@@ -20,6 +18,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+
+import androidx.test.rule.ActivityTestRule;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;

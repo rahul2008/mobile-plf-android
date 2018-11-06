@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.restclient;
 
 import com.android.volley.NetworkResponse;
@@ -11,7 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
@@ -21,7 +26,7 @@ import java.util.Map;
  * Created by philips on 06/02/18.
  */
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class URRestClientStringRequestTest {
 
     private URRestClientStringRequest urRestClientStringRequest;

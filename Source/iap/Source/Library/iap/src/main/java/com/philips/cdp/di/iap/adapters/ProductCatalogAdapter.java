@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -27,6 +27,7 @@ import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -35,12 +36,12 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final ImageLoader mImageLoader;
     private Context mContext;
 
-    private ArrayList<ProductCatalogData> mProductCatalogList;
+    private List<ProductCatalogData> mProductCatalogList;
+    private List<ProductCatalogData> mProductCatalogListToFilter;
     private ProductCatalogData mSelectedProduct;
-    private ArrayList<ProductCatalogData> mProductCatalogListToFilter;
     private String mCharacterText = "";
 
-    public boolean isSearchFocused() {
+    private boolean isSearchFocused() {
         return isSearchFocused;
     }
 
@@ -50,7 +51,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private boolean isSearchFocused = false;
 
-    public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> mProductCatalogList) {
+    public ProductCatalogAdapter(Context pContext, List<ProductCatalogData> mProductCatalogList) {
         mContext = pContext;
         this.mProductCatalogList = mProductCatalogList;
         mProductCatalogListToFilter = mProductCatalogList;
@@ -59,7 +60,6 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-
         if (viewType == EMPTY_VIEW && isSearchFocused()) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_view, parent, false);
             EmptyViewHolder evh = new EmptyViewHolder(v);
@@ -201,7 +201,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public void setData(ArrayList<ProductCatalogData> mProductCatalogList) {
+    public void setData(List<ProductCatalogData> mProductCatalogList) {
         this.mProductCatalogList = mProductCatalogList;
     }
 
