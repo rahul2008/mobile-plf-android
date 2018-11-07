@@ -85,7 +85,6 @@ pipeline {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
                     AcceptanceTest()
-                    // PublishAcceptanceTestsResults()
                 }               
             }
             post{
