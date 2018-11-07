@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.mya.profile;
 
 import android.content.Context;
@@ -8,10 +13,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.mya.BuildConfig;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.R;
-import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
@@ -21,8 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.TreeMap;
@@ -33,8 +36,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class MyaProfileFragmentTest {
 
     private Context mContext;
@@ -42,12 +44,12 @@ public class MyaProfileFragmentTest {
 
     @Mock
     private DefaultItemAnimator defaultItemAnimator;
+
     @Mock
     private RecyclerViewSeparatorItemDecoration recyclerViewSeparatorItemDecoration;
+
     @Mock
     private LinearLayoutManager linearLayoutManager;
-    @Mock
-    private MyaProfileAdaptor myaProfileAdaptor;
 
     @Before
     public void setUp() throws Exception {
@@ -61,12 +63,6 @@ public class MyaProfileFragmentTest {
         SupportFragmentTestUtil.startFragment(myaProfileFragment);
         myaProfileFragment.init(defaultItemAnimator, recyclerViewSeparatorItemDecoration, linearLayoutManager);
     }
-
-
-    /*@Test(expected = InflateException.class)
-    public void testStartFragment_ShouldNotNul() {
-        SupportFragmentTestUtil.startFragment(myaProfileFragment);
-    }*/
 
     @Test
     public void testEquals_getActionbarTitleResId() throws Exception {
@@ -121,24 +117,4 @@ public class MyaProfileFragmentTest {
         myaProfileFragment.setFragmentLauncher(fragmentLauncher);
         myaProfileFragment.setActionbarUpdateListener(actionBarListener);
     }
-
-  /*  @Test
-    public void ShouldClickOnRecyclerItem() {
-        myaProfileFragment = new MyaProfileFragment();
-        SupportFragmentTestUtil.startFragment(myaProfileFragment);
-        TreeMap<String, String> profileList = new TreeMap<>();
-        RecyclerView recyclerView = myaProfileFragment.getView().findViewById(R.id.profile_recycler_view);
-
-        profileList.put("MYA_My_details", "My details");
-        myaProfileFragment.showProfileItems(profileList);
-        View view = recyclerView.getLayoutManager().findViewByPosition(0);
-
-        MyaProfileAdaptor adapter = (MyaProfileAdaptor) recyclerView.getAdapter();
-        adapter.getOnClickListener().onClick(view);
-        assertTrue(true);
-//
-//        listView.performItemClick(itemView, position, adapter.getItemId(position));
-    }*/
-
-
 }

@@ -1,7 +1,10 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.ui.social;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.injection.RegistrationComponent;
@@ -13,60 +16,30 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 /**
  * Created by philips on 11/22/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class MergeAccountPresenterTest {
 
     @Mock
-    User userMock;
+    private User userMock;
 
     @Mock
     private RegistrationComponent mockRegistrationComponent;
 
+    @Mock
+    private MergeAccountContract mergeAccountContractMock;
 
     private MergeAccountPresenter presenter;
-
-    MergeAccountContract mergeAccountContract;
-
-    @Mock
-    MergeAccountContract mergeAccountContractMock;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
 
-        mergeAccountContract=new MergeAccountContract() {
-            @Override
-            public void connectionStatus(boolean isOnline) {
-
-            }
-
-            @Override
-            public void mergeStatus(boolean isOnline) {
-
-            }
-
-            @Override
-            public void mergeSuccess() {
-
-            }
-
-            @Override
-            public void mergeFailure(String errorDescription, int reason) {
-
-            }
-
-            @Override
-            public void mergePasswordFailure() {
-
-            }
-        };
         presenter = new MergeAccountPresenter(mergeAccountContractMock,userMock);
     }
 

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
@@ -6,8 +11,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 
@@ -16,13 +19,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class WebBuyFromRetailersTest {
     private Context mContext;
     WebBuyFromRetailers webBuyFromRetailers;
@@ -31,30 +36,27 @@ public class WebBuyFromRetailersTest {
     public void setUp() {
         initMocks(this);
 
-        mContext = RuntimeEnvironment.application;
+        mContext = getInstrumentation().getContext();
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
         webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayAddressSelectionFragment() {
-        SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
+        SupportFragmentController.of(webBuyFromRetailers).create().start().resume();
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldOnViewCreated() {
-       // webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         webBuyFromRetailers.onViewCreated(null, null);
-        SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
+        SupportFragmentController.of(webBuyFromRetailers).create().start().resume();
     }
 
     @Test(expected = NullPointerException.class)
     public void shouldOnResume() {
-        // webBuyFromRetailers = WebBuyFromRetailers.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
         webBuyFromRetailers.onResume();
-        SupportFragmentTestUtil.startFragment(webBuyFromRetailers);
     }
 
     @Mock

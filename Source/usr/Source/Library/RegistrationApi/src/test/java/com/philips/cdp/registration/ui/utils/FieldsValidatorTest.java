@@ -1,6 +1,9 @@
-package com.philips.cdp.registration.ui.utils;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import com.philips.cdp.registration.CustomRobolectricRunner;
+package com.philips.cdp.registration.ui.utils;
 
 import junit.framework.Assert;
 
@@ -8,13 +11,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class FieldsValidatorTest {
 
     @Before

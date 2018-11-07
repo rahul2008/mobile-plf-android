@@ -180,13 +180,8 @@ public class URInterface implements UappInterface {
                     getOrientationValue());
 
             registrationIntent.putExtras(bundle);
-            if ((Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)) {
-                registrationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            } else {
-                registrationIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            }
-            RegistrationHelper.getInstance().
-                    getUrSettings().getContext().startActivity(registrationIntent);
+            registrationIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            uiLauncher.getActivityContext().startActivity(registrationIntent);
         }
     }
 

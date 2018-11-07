@@ -1,19 +1,19 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2016
- *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.dhpclient;
-
-import java.util.*;
 
 import com.philips.dhpclient.request.DhpUserIdentity;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.response.DhpUserRegistrationResponse;
 import com.philips.dhpclient.util.MapUtils;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DhpUserManagementClient extends DhpApiClient {
 

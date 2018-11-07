@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.rest;
 
 import android.content.Context;
@@ -11,7 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
@@ -22,16 +26,25 @@ import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 
 /**
  * RestManager Test class.
  */
 
-public class RestManagerTest extends AppInfraInstrumentation {
+public class RestManagerTest {
 
     private RestInterface mRestInterface = null;
     private Context context;
@@ -40,10 +53,8 @@ public class RestManagerTest extends AppInfraInstrumentation {
     private String serviceIdString = "userreg.janrain.api";
     private String accessToken;
 
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         VolleyLog.DEBUG = false;
         context = getInstrumentation().getContext();
         assertNotNull(context);
@@ -54,53 +65,32 @@ public class RestManagerTest extends AppInfraInstrumentation {
         assertNotNull(mRestInterface);
     }
 
-    public void testConfig() {
-
-        AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
-            @Override
-            protected JSONObject getMasterConfigFromApp() {
-                JSONObject result = null;
-                try {
-                    String testJson = ConfigValues.testJson();
-                    result = new JSONObject(testJson);
-                } catch (Exception e) {
-                    Log.e(getClass()+""," error while testing config");
-
-                }
-                return result;
-            }
-
-        };
-        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
-    }
-
-
+    @Test
     public void testgetRequestQueue() {
         RequestQueue queue = mRestInterface.getRequestQueue();
         assertNotNull(queue);
     }
 
-    public void testIsInternetReachable()
-    {
-        if(mRestInterface.isInternetReachable()) {
+    @Test
+    public void testIsInternetReachable() {
+        if (mRestInterface.isInternetReachable()) {
             assertTrue(mRestInterface.isInternetReachable());
-        }else
-        {
+        } else {
             assertFalse(mRestInterface.isInternetReachable());
         }
     }
 
-    public void testGetNetworkInfo()
-    {
-        RestInterface.NetworkTypes netWorkInfo=mRestInterface.getNetworkReachabilityStatus();
-        Log.v("NetworkInfo","device connected to "+netWorkInfo);
+    @Test
+    public void testGetNetworkInfo() {
+        RestInterface.NetworkTypes netWorkInfo = mRestInterface.getNetworkReachabilityStatus();
+        Log.v("NetworkInfo", "device connected to " + netWorkInfo);
 
     }
 
-
+    @Test
     public void testStringRequestwithUrl() {
-
         StringRequest mStringRequest = null;
+
         try {
             mStringRequest = new StringRequest(Request.Method.POST, baseURL + "/RCT/test.php?action=data&id=" + "az",
                     new Response.Listener<String>() {
@@ -119,7 +109,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
                 }
             }, null, null, null);
         } catch (Exception e) {
-            Log.e(getClass()+""," error while testing string request");
+            Log.e(getClass() + "", " error while testing string request");
 
         }
         if (null != mStringRequest) {
@@ -127,6 +117,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testJsonRequestWithUrl() {
         JsonObjectRequest jsonRequest = null;
         try {
@@ -148,13 +139,14 @@ public class RestManagerTest extends AppInfraInstrumentation {
                 }
             }, null, null, null);
         } catch (Exception e) {
-            Log.e(getClass()+"","LOG REST SD");
+            Log.e(getClass() + "", "LOG REST SD");
         }
         if (null != jsonRequest) {
             mRestInterface.getRequestQueue().add(jsonRequest);
         }
     }
 
+    @Test
     public void testImageRequestWithUrl() {
         ImageRequest imageRequest = null;
         try {
@@ -171,13 +163,14 @@ public class RestManagerTest extends AppInfraInstrumentation {
             }, null, null, null);
 
         } catch (Exception e) {
-            Log.e(getClass()+"","LOG REST SD");
+            Log.e(getClass() + "", "LOG REST SD");
         }
         if (null != imageRequest) {
             mRestInterface.getRequestQueue().add(imageRequest);
         }
     }
 
+    @Test
     public void testStringRequestWithServiceId() {
         StringRequest stringRequest = null;
         try {
@@ -200,10 +193,8 @@ public class RestManagerTest extends AppInfraInstrumentation {
             });
 
         } catch (Exception e) {
-            Log.e(getClass()+"","LOG REST SD");
+            Log.e(getClass() + "", "LOG REST SD");
         }
-
-        // mStringRequest.setShouldCache(false); // set false to disable cache
 
         if (null != stringRequest) {
             //  urlFired.setText(mStringRequest.getUrl());
@@ -215,6 +206,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testJsonRequestwithServiceId() {
         JsonObjectRequest jsonRequest = null;
         try {
@@ -243,6 +235,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testImageRequestwithServiceId() {
         ImageRequest imageRequest = null;
         try {
@@ -270,6 +263,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testAppInfraRequestWithUrl() {
         GsonCustomRequest request = null;
         try {
@@ -295,6 +289,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testAppInfraRequestWithServiceId() {
         Map<String, String> header = new HashMap<>();
         header.put("test", "pwd");
@@ -322,6 +317,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testlogin() {
         StringRequest mStringRequest = null;
         try {
@@ -334,7 +330,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
                     try {
                         jobj = new JSONObject(response);
                     } catch (JSONException e) {
-                        Log.e(getClass()+"","JsonException in rest manager login");
+                        Log.e(getClass() + "", "JsonException in rest manager login");
                     }
                     accessToken = jobj.optString("access_token");
                     if (null != accessToken) {
@@ -360,6 +356,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testAuthentication() {
         TokenProviderInterface provider = new TokenProviderInterface() {
             @Override
@@ -415,6 +412,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testClearCache() {
         Cache cache = mRestInterface.getRequestQueue().getCache();
         Cache.Entry entry = new Cache.Entry();
@@ -422,7 +420,26 @@ public class RestManagerTest extends AppInfraInstrumentation {
         entry.data = "some_data".getBytes();
         cache.put("key", entry);
         mRestInterface.clearCacheResponse();
-        assertEquals(cache.get("key"),null);
+        assertNull(cache.get("key"));
+    }
+
+    private void testConfig() {
+        AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = ConfigValues.testJson();
+                    result = new JSONObject(testJson);
+                } catch (Exception e) {
+                    Log.e(getClass() + "", " error while testing config");
+
+                }
+                return result;
+            }
+
+        };
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
     }
 }
 

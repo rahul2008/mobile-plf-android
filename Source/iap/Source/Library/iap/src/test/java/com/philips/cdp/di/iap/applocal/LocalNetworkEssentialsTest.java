@@ -19,26 +19,26 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 public class LocalNetworkEssentialsTest {
+    private Context mContext;
+
     @Mock
-    Context mContext;
-    @Mock
-    AppInfra mAppInfra;
-    @Mock
-    OAuthListener oAuthHandler;
+    private OAuthListener oAuthHandler;
 
     private MockIAPSetting mockIAPSetting;
     private LocalNetworkEssentials mLocalNetworkEssentials;
 
     @Before
-    public void setUP() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-        mockIAPSetting = new MockIAPSetting(mock(Context.class));
+        mContext = getInstrumentation().getContext();
+        mockIAPSetting = new MockIAPSetting(mContext);
         mLocalNetworkEssentials = new LocalNetworkEssentials();
 
         oAuthHandler = new OAuthListener() {

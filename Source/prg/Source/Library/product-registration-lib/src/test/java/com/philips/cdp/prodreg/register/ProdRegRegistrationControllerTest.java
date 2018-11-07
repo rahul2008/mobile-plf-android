@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.prodreg.register;
 
 import android.os.Bundle;
@@ -11,29 +16,22 @@ import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
-import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.User;
-
-import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
-public class ProdRegRegistrationControllerTest extends TestCase {
+public class ProdRegRegistrationControllerTest {
 
     private ProdRegRegistrationController prodRegRegistrationController;
     private FragmentActivity fragmentActivity;
@@ -48,7 +46,6 @@ public class ProdRegRegistrationControllerTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         fragmentActivity = mock(FragmentActivity.class);
         prodRegHelperMock = mock(ProdRegHelper.class);
         prodRegCacheMock = mock(ProdRegCache.class);

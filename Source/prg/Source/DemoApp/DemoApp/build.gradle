@@ -82,13 +82,10 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.demo"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 3
         multiDexEnabled true
         testApplicationId "com.philips.cdp.demo.test"
-        testInstrumentationRunner deps.androidJUnitRunner
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]

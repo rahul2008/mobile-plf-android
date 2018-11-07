@@ -25,10 +25,10 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
+import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemo.screens.base.UappBasePresenter;
 import com.philips.platform.uappdemo.screens.base.UappOnBoardingBaseFragment;
 import com.philips.platform.uappdemo.screens.introscreen.LaunchActivity;
-import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -52,7 +52,7 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
+            View view = inflater.inflate(R.layout.uikit_splash_screen,container,false);
         logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()));
         String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
@@ -110,9 +110,6 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
-        launchActivity.hideActionBar();
-
         initProgressDialog();
         initializeFlowManager();
     }
@@ -164,13 +161,6 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
         super.onMultiWindowModeChanged(isInMultiWindowMode);
-       if(isInMultiWindowMode){
-           modifyLayoutforMultiWindow();
-       }
-        else {
-           getActivity().getWindow().getDecorView().requestLayout();
-       }
-
     }
 
     private void startTimer() {
@@ -203,7 +193,6 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        getActivity().getWindow().getDecorView().requestLayout();
     }
 
     @Override

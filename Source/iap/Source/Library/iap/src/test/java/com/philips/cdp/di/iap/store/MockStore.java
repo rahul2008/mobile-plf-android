@@ -10,6 +10,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 
 import org.mockito.Mockito;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.Mockito.when;
 
 public class MockStore {
@@ -21,7 +22,7 @@ public class MockStore {
         mContext = context;
         mUser = user;
         if (context == null) {
-            mContext = Mockito.mock(Context.class);
+            mContext = getInstrumentation().getContext();
         }
         if (user == null) {
             mUser = Mockito.mock(IAPUser.class);

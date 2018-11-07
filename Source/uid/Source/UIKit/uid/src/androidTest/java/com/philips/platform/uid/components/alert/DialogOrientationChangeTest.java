@@ -1,20 +1,16 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
- *
  */
 
 package com.philips.platform.uid.components.alert;
 
 import android.content.pm.ActivityInfo;
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
-import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.EmptyDialogFragment;
 import com.philips.platform.uid.activity.OrientationChangeActivity;
-import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -22,10 +18,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import androidx.test.rule.ActivityTestRule;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.platform.uid.matcher.ViewPropertiesMatchers.isVisible;
 
 @Ignore

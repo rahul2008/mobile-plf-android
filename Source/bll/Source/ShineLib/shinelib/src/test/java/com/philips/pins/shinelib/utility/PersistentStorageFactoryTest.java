@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -9,13 +9,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SharedPreferencesProvider;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
@@ -26,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class PersistentStorageFactoryTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class PersistentStorageFactoryTest {
 
     public static final String TEST_ADDRESS = "TEST_ADDRESS";
     public static final String TEST_PREFIX = "PROVIDER";

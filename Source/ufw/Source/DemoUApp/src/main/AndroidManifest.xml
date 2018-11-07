@@ -9,9 +9,17 @@
     <application 
         android:supportsRtl="true"
         android:largeHeap="true">
-        <activity android:name="com.philips.platform.uappdemo.screens.introscreen.LaunchActivity" />
+        <activity android:name="com.philips.platform.uappdemo.screens.introscreen.LaunchActivity"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"/>
         <activity android:name="com.philips.platform.uappdemo.screens.homescreen.UappHamburgerActivity" />
         <activity android:name="com.philips.platform.uappdemo.screens.dls.DLSActivity" />
+
+        <activity
+            android:name="com.philips.platform.uappdemo.screens.navigation.NavigationImplActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.DLS.GroupBlue.Bright" />
+
+
     </application>
 
 </manifest>

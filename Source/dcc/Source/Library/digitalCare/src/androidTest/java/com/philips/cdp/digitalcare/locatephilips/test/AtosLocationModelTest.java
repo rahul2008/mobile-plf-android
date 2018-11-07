@@ -1,10 +1,11 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.locatephilips.test;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
@@ -12,45 +13,57 @@ import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
+import org.junit.Before;
+import org.junit.Test;
 
-public class AtosLocationModelTest extends InstrumentationTestCase {
+import java.util.ArrayList;
+
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class AtosLocationModelTest {
 
 	private final String TAG = AtosLocationModelTest.class.getSimpleName();
 	private Context context = null;
-	GetAtosInstance atosInstance = null;
+    private GetAtosInstance atosInstance = null;
 
-	protected void setUp() throws Exception {
-		super.setUp();
+    @Before
+    public void setUp() throws Exception {
         DigiCareLogger.d(TAG, "setUp..");
-		context = getInstrumentation().getContext();
-		atosInstance = new GetAtosInstance(mAtosParsing);
-	}
+        context = getInstrumentation().getContext();
+        atosInstance = new GetAtosInstance(mAtosParsing);
+    }
 
-	public void testLatitude() {
-		AtosLocationModel atosLocationModel = getAtosLocationModel("atos.json");
-		String received = atosLocationModel.getLatitude();
-		assertNotNull(received);
-	}
+    @Test
+    public void testLatitude() {
+        AtosLocationModel atosLocationModel = getAtosLocationModel("atos.json");
+        String received = atosLocationModel.getLatitude();
+        assertNotNull(received);
+    }
 
-	public void testwithoutLatitude() {
-		AtosLocationModel atosLocationModel = getAtosLocationModel("atos_no_latitude.json");
-		String received = atosLocationModel.getLatitude();
-		assertTrue(received.isEmpty());
-	}
+    @Test
+    public void testwithoutLatitude() {
+        AtosLocationModel atosLocationModel = getAtosLocationModel("atos_no_latitude.json");
+        String received = atosLocationModel.getLatitude();
+        assertTrue(received.isEmpty());
+    }
 
-	public void testLongitude() {
-		AtosLocationModel atosLocationModel = getAtosLocationModel("atos.json");
-		String received = atosLocationModel.getLongitude();
-		assertNotNull(received);
-	}
+    @Test
+    public void testLongitude() {
+        AtosLocationModel atosLocationModel = getAtosLocationModel("atos.json");
+        String received = atosLocationModel.getLongitude();
+        assertNotNull(received);
+    }
 
-	public void testwithoutLongitude() {
-		AtosLocationModel atosLocationModel = getAtosLocationModel("atos_no_longitude.json");
-		String received = atosLocationModel.getLongitude();
-		assertTrue(received.isEmpty());
-	}
+    @Test
+    public void testwithoutLongitude() {
+        AtosLocationModel atosLocationModel = getAtosLocationModel("atos_no_longitude.json");
+        String received = atosLocationModel.getLongitude();
+        assertTrue(received.isEmpty());
+    }
 
-	public AtosLocationModel atosLocationModel = null;
+    private AtosLocationModel atosLocationModel = null;
 
 	private AtosLocationModel getAtosLocationModel(String jsonfile) {
 		String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);

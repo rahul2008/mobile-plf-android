@@ -51,20 +51,18 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.support.appcompatv7
-    implementation deps.firebase_messaging
+    implementation deps.play_services_gcm
     implementation (deps.firebase_core) {
         exclude group: 'com.google.firebase', module: 'firebase-iid'
     }

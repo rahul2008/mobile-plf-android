@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.configuration;
 
 import com.philips.cdp.registration.app.infra.AppInfraWrapper;
@@ -12,14 +17,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SECRET;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SHARED;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -92,17 +95,4 @@ public class HSDPConfigurationTest extends TestCase {
         String hsdpBaseUrl = hsdpConfiguration.getHsdpBaseUrl();
         assertEquals("http://www.philips.com/configuration", hsdpBaseUrl);
     }
-
-//    @Test
-//    public void testGetHsdpBaseUrl_SingleUrl_WithUnSupportedEncoding() throws Exception {
-//        String stringValue = "http://www.philips.com/configuration";
-//        String deserializedStringValue = new String(stringValue);
-//
-//        Throwable thrown = catchThrowable(() -> deserializedStringValue.getBytes("UTF-16"));
-//
-//       // assertThat(thrown).isExactlyInstanceOf(UnsupportedEncodingException.class);
-//        when(appInfraWrapperMock.getURProperty(HSDP_CONFIGURATION_BASE_URL)).thenReturn(deserializedStringValue);
-//        String hsdpBaseUrl = hsdpConfiguration.getHsdpBaseUrl();
-//        assertEquals("http://www.philips.com/configuration", hsdpBaseUrl);
-//    }
 }

@@ -1,12 +1,12 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare;
 
-import android.content.Context;
-
 import com.philips.cdp.digitalcare.listeners.CcListener;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,35 +15,29 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import java.lang.reflect.Field;
 
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Created by philips on 29/11/17.
  */
 
-@RunWith(CustomRobolectricRunnerCC.class)
+@RunWith(RobolectricTestRunner.class)
 @PrepareForTest(DigitalCareConfigManager.class)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.apache.xerces", "javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*",  "org.springframework.context.*", "org.apache.log4j.*"})
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "org.apache.xerces", "javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*", "org.springframework.context.*", "org.apache.log4j.*"})
 public class CcLaunchInputTest {
 
-ProductModelSelectionType productModelSelectionType;
-    CcListener ccListener;
+    private ProductModelSelectionType productModelSelectionType;
+    private CcListener ccListener;
 
     @Before
     public void setUp() throws Exception {
-
         productModelSelectionType = Mockito.mock(ProductModelSelectionType.class);
         ccListener = Mockito.mock(CcListener.class);
-
     }
-
 
     @Test
     public void testSetter_setProductModelSelectionType() throws NoSuchFieldException, IllegalAccessException {
@@ -114,7 +108,7 @@ ProductModelSelectionType productModelSelectionType;
 
         final String result = pojo.getLiveChatUrl();
 
-        assertEquals("field wasn't retrieved properly", result, livechaturl );
+        assertEquals("field wasn't retrieved properly", result, livechaturl);
     }
 
 }

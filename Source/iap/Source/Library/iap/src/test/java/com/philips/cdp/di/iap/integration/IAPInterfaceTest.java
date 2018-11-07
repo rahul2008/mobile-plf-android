@@ -21,27 +21,24 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+
 @RunWith(RobolectricTestRunner.class)
 public class IAPInterfaceTest {
 
-    @Mock
-    Context mContext;
+    private Context mContext;
+    private IAPInterface mIapInterface;
+    private IAPSettings mIAPSettings;
 
     @Mock
     private IAPDependencies mIAPDependencies;
-
     @Mock
     private IAPLaunchInput mIapLaunchInput;
-
-
-    private IAPSettings mIAPSettings;
-    private IAPInterface mIapInterface;
-    @Mock
-    private IAPHandler mockHandler;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        mContext = getInstrumentation().getContext();
         mIAPSettings = new IAPSettings(mContext);
         mIapInterface = new MockIAPInterface();
         mIapLaunchInput.setIapListener(Mockito.mock(IAPListener.class));

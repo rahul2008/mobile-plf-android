@@ -1,8 +1,6 @@
 /*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.catk.error;
@@ -11,11 +9,14 @@ import com.android.volley.NetworkResponse;
 import com.philips.platform.pif.chi.ConsentError;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+@RunWith(RobolectricTestRunner.class)
 public class ServerErrorTest {
     @Test
     public void itShouldParseServerCorrectly() {

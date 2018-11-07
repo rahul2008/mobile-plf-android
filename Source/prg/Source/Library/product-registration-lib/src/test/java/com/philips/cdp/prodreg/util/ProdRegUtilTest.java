@@ -1,24 +1,26 @@
-package com.philips.cdp.prodreg.util;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import junit.framework.TestCase;
+package com.philips.cdp.prodreg.util;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-public class ProdRegUtilTest extends TestCase {
+@RunWith(RobolectricTestRunner.class)
+public class ProdRegUtilTest {
 
     private ProdRegUtil prodRegUtil;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         prodRegUtil = new ProdRegUtil();
     }
 
@@ -48,17 +50,15 @@ public class ProdRegUtilTest extends TestCase {
         assertTrue(prodRegUtil.getMinDate() != 0);
     }
 
-
-
     @Test
     public void testGettingValidatedString() {
         int value = 5;
         String data = prodRegUtil.getValidatedString(value);
-        assertTrue(data.equals("05"));
+        assertEquals("05", data);
 
         int value2 = 15;
         String data2 = prodRegUtil.getValidatedString(value2);
-        assertTrue(data2.equals("15"));
+        assertEquals("15", data2);
     }
 
     @Test

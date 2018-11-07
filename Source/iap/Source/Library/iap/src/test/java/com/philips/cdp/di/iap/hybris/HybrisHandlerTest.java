@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.hybris;
@@ -18,90 +18,48 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.Ignore;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
-
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-@Config(sdk=23)
 @RunWith(RobolectricTestRunner.class)
 public class HybrisHandlerTest {
-    @Mock
     Context mContext;
     private HybrisHandler mHybrisHandler;
+
+    @Mock
     private IAPListener mIAPListener;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
+        mContext = getInstrumentation().getContext();
+        TestUtils.getStubbedHybrisDelegate();
+
         mHybrisHandler = new HybrisHandler(mContext);
-
-        mIAPListener = new IAPListener() {
-            @Override
-            public void onGetCartCount(int count) {
-
-            }
-
-            @Override
-            public void onUpdateCartCount() {
-
-            }
-
-            @Override
-            public void updateCartIconVisibility(boolean shouldShow) {
-
-            }
-
-            @Override
-            public void onGetCompleteProductList(ArrayList<String> productList) {
-
-            }
-
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onSuccess(boolean bool) {
-
-            }
-
-            @Override
-            public void onFailure(int errorCode) {
-
-            }
-
-        };
     }
 
     @Test
     public void testGetCompleteProductList() throws Exception {
-        TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getCompleteProductList(mIAPListener);
     }
 
     @Test
     public void testGetCompleteProductListWhenStoreNotInitialized() throws Exception {
-        //TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getCompleteProductList(mIAPListener);
     }
 
     @Test
     public void testGetProductCount() throws Exception {
-        TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getProductCartCount(mIAPListener);
     }
     @Test
     public void testGetProductCountWhenStoreIsNotInitilized() throws Exception {
-//        TestUtils.getStubbedHybrisDelegate();
         mHybrisHandler.getProductCartCount(mIAPListener);
     }
     @Test
@@ -115,11 +73,9 @@ public class HybrisHandlerTest {
         msg.obj = new IAPNetworkError(new TimeoutError(), 0, null);
         assertEquals(IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT, mHybrisHandler.getIAPErrorCode(msg));
     }
-    
 
     @Test
     public void testStoreInitializationWithHybrisInitialization(){
-        TestUtils.getStubbedHybrisDelegate();
         assertTrue(HybrisDelegate.getInstance().getStore().isStoreInitialized());
     }
 }

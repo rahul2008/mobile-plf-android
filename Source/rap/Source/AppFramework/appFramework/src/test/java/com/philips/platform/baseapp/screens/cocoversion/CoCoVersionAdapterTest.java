@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.baseapp.screens.cocoversion;
 
 import android.content.Context;
@@ -10,28 +9,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class CoCoVersionAdapterTest {
 
@@ -75,8 +70,8 @@ public class CoCoVersionAdapterTest {
         cocoVersionAdapter.onBindViewHolder(holder, 0);
         assertFalse(holder.cocoDescription.getVisibility() == View.VISIBLE);
     }
-    private ArrayList<CocoVersionItem> dummyList() {
 
+    private ArrayList<CocoVersionItem> dummyList() {
         CocoVersionItem ai = new CocoVersionItem();
         ai.setTitle(context.getString(R.string.RA_COCO_AppInfra));
         ai.setDescription(context.getString(R.string.RA_COCO_AppInfra_desc));

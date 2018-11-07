@@ -76,9 +76,6 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         multiDexEnabled true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true

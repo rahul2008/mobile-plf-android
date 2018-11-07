@@ -1,10 +1,13 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 
-import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.LoginHandler;
@@ -23,12 +26,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 public class HSDPLoginServiceTest {
 
@@ -77,8 +77,6 @@ public class HSDPLoginServiceTest {
         Mockito.verify(mUser).getMobile();
     }
 
-
-
     @Test(expected = NullPointerException.class)
     public void shouldHsdpLoginOnSuccess() {
         hsdpLoginService.hsdpUser = mockHsdpUser;
@@ -92,25 +90,4 @@ public class HSDPLoginServiceTest {
         value.onLoginSuccess();
 
     }
-//    @Test
-//    public void shouldHsdpLoginOnSuccess() {
-//        hsdpLoginService.hsdpUser = mockHsdpUser;
-//        when(networkUtility.isNetworkAvailable()).thenReturn(true);
-//
-//        hsdpLoginService.hsdpLogin("accessToken","xyz@philips.com", mockHsdpAuthenticationListener);
-//        verify(hsdpLoginService).login(eq("accessToken"),eq("xyz@philips.com"), loginHandlerArgumentCaptor.capture());
-//        loginHandlerArgumentCaptor.getValue().onLoginSuccess();
-//
-////        socialLoginProviderHandler.onLoginSuccess();
-//        verify(hsdpAuthenticationListener).onHSDPLoginSuccess();
-//    }
-//
-//    @Test(expected = NullPointerException.class)
-//    public void shouldLoginFailedWithError() {
-//        when(networkUtility.isNetworkAvailable()).thenReturn(true);
-//        HSDPLoginService.hsdpLogin("dfsdfs", "fsfds@gmail.com", hsdpAuthenticationListener);
-//        socialLoginProviderHandler.onLoginSuccess();
-//        verify(hsdpAuthenticationListener).onHSDPLoginFailure(1001,"Already HSDP logged In" );
-//    }
-
 }

@@ -17,21 +17,27 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
+@RunWith(RobolectricTestRunner.class)
 public class GetAddressRequestTest {
+    private Context mContext;
+
     @Mock
-    Context mContext;
-    @Mock
-    IAPUser mUser;
+    private IAPUser mUser;
+
     private AbstractModel mModel;
 
     @Before
     public void setUP() {
+        mContext = getInstrumentation().getContext();
         StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig(/*"en", "US",*/ null);
         mModel = new GetAddressRequest(mStore, null, null);
