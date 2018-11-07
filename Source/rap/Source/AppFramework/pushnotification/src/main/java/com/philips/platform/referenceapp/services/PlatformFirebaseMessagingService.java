@@ -23,6 +23,13 @@ public class PlatformFirebaseMessagingService extends FirebaseMessagingService {
         PNLog.d(TAG, token);
     }
 
+    /**
+     * Called when message is received.
+     *
+     * @param remoteMessage Data bundle containing message data as key/value pairs.
+     *             For Set of keys use data.keySet().
+     */
+    // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
