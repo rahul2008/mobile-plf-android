@@ -27,14 +27,11 @@ public class RegistrationIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         // Get updated InstanceID token.
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
-                String token = instanceIdResult.getToken();
-                PushNotificationManager.getInstance().saveToken(token,new SecureStorageInterface.SecureStorageError());
-                PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext(),new SecureStorageInterface.SecureStorageError());
-                PNLog.i(TAG, "GCM Registration Token: " + token);
-            }
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener((OnSuccessListener<InstanceIdResult>) instanceIdResult -> {
+            String token = instanceIdResult.getToken();
+            PushNotificationManager.getInstance().saveToken(token,new SecureStorageInterface.SecureStorageError());
+            PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext(),new SecureStorageInterface.SecureStorageError());
+            PNLog.i(TAG, "GCM Registration Token: " + token);
         });
 
     }

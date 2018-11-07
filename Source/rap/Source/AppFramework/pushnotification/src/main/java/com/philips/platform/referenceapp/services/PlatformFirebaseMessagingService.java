@@ -14,7 +14,7 @@ import com.philips.platform.referenceapp.utils.PNLog;
  * Created by philips on 08/03/17.
  */
 
-public class PlatformInstanceIDListenerService extends FirebaseMessagingService {
+public class PlatformFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "PushNotification";
 
     @Override

@@ -18,7 +18,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
 import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
 import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
-import com.philips.platform.referenceapp.services.PlatformInstanceIDListenerService;
+import com.philips.platform.referenceapp.services.PlatformFirebaseMessagingService;
 import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
 import com.philips.platform.referenceapp.utils.PushNotificationConstants;
@@ -38,6 +38,9 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ServiceController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.philips.platform.referenceapp.utils.PushNotificationConstants.GCM_TOKEN;
 import static com.philips.platform.referenceapp.utils.PushNotificationConstants.IS_TOKEN_REGISTERED;
@@ -194,12 +197,12 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testStartPushNotificationRegistrationPlatformInstanceIDListenerService() throws Exception {
-        ServiceController<TestPlatformInstanceIDListenerService> controller;
-        controller = Robolectric.buildService(TestPlatformInstanceIDListenerService.class);
-        TestPlatformInstanceIDListenerService service = controller.create().get();
-        Intent intent = new Intent(RuntimeEnvironment.application, TestPlatformInstanceIDListenerService.class);
+        ServiceController<TestPlatformFirebaseMessagingService> controller;
+        controller = Robolectric.buildService(TestPlatformFirebaseMessagingService.class);
+        TestPlatformFirebaseMessagingService service = controller.create().get();
+        Intent intent = new Intent(RuntimeEnvironment.application, TestPlatformFirebaseMessagingService.class);
         service.onStartCommand(intent, 0, 0);
-        assertEquals(TestPlatformInstanceIDListenerService.class.getName(), intent.getComponent().getClassName());
+        assertEquals(TestPlatformFirebaseMessagingService.class.getName(), intent.getComponent().getClassName());
     }
 
     @Test
@@ -213,7 +216,7 @@ public class PushNotificationManagerTest {
         pushNotificationManager.registerForPayload(handleNotificationPayloadInterface);
 
         String jsonData = getJsonString();
-        Bundle bundle = getBundle(jsonData, PushNotificationConstants.PLATFORM_KEY);
+        Map<String,String> bundle = getBundle(jsonData, PushNotificationConstants.PLATFORM_KEY);
         PNLog.disablePNLogging();
         pushNotificationManager.sendPayloadToCoCo(bundle);
         assertTrue(isResponseSuccess[0]);
@@ -244,9 +247,9 @@ public class PushNotificationManagerTest {
     }
 
     @NonNull
-    protected Bundle getBundle(String dataWithCorrectJson, String key) {
-        Bundle bundle = new Bundle();
-        bundle.putCharSequence(key, dataWithCorrectJson);
+    protected Map<String,String> getBundle(String dataWithCorrectJson, String key) {
+        Map<String,String> bundle = new HashMap<>();
+        bundle.put(key, dataWithCorrectJson);
         return bundle;
     }
 
@@ -476,18 +479,19 @@ public class PushNotificationManagerTest {
         }
     }
 
-    private static class TestPlatformInstanceIDListenerService extends PlatformInstanceIDListenerService {
+    private static class TestPlatformFirebaseMessagingService extends PlatformFirebaseMessagingService {
 
         @Override
-        public void onCreate() {
-            super.onCreate();
-            onTokenRefresh();
+        public void onNewToken(String token) {
+            super.onNewToken(token);
+            PNLog.d(TAG, token);
         }
 
         @Override
-        public void onTokenRefresh() {
-            super.onTokenRefresh();
-            stopSelf();
+        public void onMessageReceived(RemoteMessage remoteMessage) {
+            super.onMessageReceived(remoteMessage);
         }
+
+
     }
 }
