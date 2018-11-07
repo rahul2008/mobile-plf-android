@@ -363,11 +363,13 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     private void removeClickStreamStatusChanges() {
         AppInfraInterface appInfra = ((AppFrameworkApplication) getApplicationContext()).getAppInfra();
-        ConsentManagerInterface consentManager = appInfra.getConsentManager();
-        if (consentManager != null) {
-            ConsentDefinition clickStreamDefinition = consentManager.getConsentDefinitionForType(appInfra.getTagging().getClickStreamConsentIdentifier());
-            if (clickStreamDefinition != null) {
-                consentManager.removeConsentStatusChangedListener(clickStreamDefinition, clickStreamStatusChanegListener);
+        if(appInfra != null) {
+            ConsentManagerInterface consentManager = appInfra.getConsentManager();
+            if (consentManager != null) {
+                ConsentDefinition clickStreamDefinition = consentManager.getConsentDefinitionForType(appInfra.getTagging().getClickStreamConsentIdentifier());
+                if (clickStreamDefinition != null) {
+                    consentManager.removeConsentStatusChangedListener(clickStreamDefinition, clickStreamStatusChanegListener);
+                }
             }
         }
     }
