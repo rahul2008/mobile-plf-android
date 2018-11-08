@@ -946,7 +946,7 @@ public class ServiceDiscoveryTestcase {
 
             String baseUrlproduction = (String) method.invoke(mServiceDiscoveryManager, "PRODUCTION");
             assertNotNull(baseUrlproduction);
-            assertSame("www.2.philips.com", baseUrlproduction);
+            assertSame("www.philips.com", baseUrlproduction);
 
             String baseUrlstaging = (String) method.invoke(mServiceDiscoveryManager, "STAGING");
             assertNotNull(baseUrlstaging);
