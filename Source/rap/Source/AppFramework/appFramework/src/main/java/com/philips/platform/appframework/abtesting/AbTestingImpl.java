@@ -1,6 +1,7 @@
 package com.philips.platform.appframework.abtesting;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -25,6 +26,7 @@ import java.util.Map;
 public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChangedListener, ABTestClientInterface.OnRefreshListener {
 
     public final static String AB_TESTING_CONSENT = "abTestConsent";
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     public void consentStatusChanged(@NonNull ConsentDefinition consentDefinition, @Nullable ConsentError consentError, boolean requestedStatus) {
@@ -64,6 +66,7 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
      */
     public void initFireBase(Context context) {
         fireBaseWrapper = getFireBaseWrapper(context);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
 
     @NonNull
@@ -155,6 +158,11 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
     @Override
     public String getAbTestingConsentIdentifier() {
         return AB_TESTING_CONSENT;
+    }
+
+    @Override
+    public void tagEvent(String eventName, Bundle bundle) {
+        firebaseAnalytics.logEvent(eventName, bundle);
     }
 
     private void updateCachesForTestName(String requestNameKey, String testValue, UPDATETYPE updateType) {

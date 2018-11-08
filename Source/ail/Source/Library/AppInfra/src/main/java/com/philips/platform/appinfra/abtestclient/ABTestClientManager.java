@@ -5,6 +5,7 @@
  */
 package com.philips.platform.appinfra.abtestclient;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 /**
@@ -36,5 +37,9 @@ public class ABTestClientManager implements ABTestClientInterface {
     @Override
     public String getAbTestingConsentIdentifier() {
         return "";
+    }
+
+    @Override
+    public void tagEvent(String eventName, Bundle params) {
     }
 }

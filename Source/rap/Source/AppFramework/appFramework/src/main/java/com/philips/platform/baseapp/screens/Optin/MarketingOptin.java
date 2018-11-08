@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
