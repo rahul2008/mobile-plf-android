@@ -189,7 +189,7 @@ public class AbTestingImplTest {
         assertEquals(abTesting.getInMemoryCache().get("key2").getAppVersion(), "18.4");
 
         abTesting.getFetchDataHandler().updateCacheStatus(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
-        assertTrue(abTesting.getCacheStatus().equals(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED));
+        assertEquals(abTesting.getCacheStatus(), ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
     }
 
     private CacheModel.ValueModel getValueModel() {

@@ -33,8 +33,8 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
         if (requestedStatus) {
             updateCache(this);
         } else {
-            FirebaseAnalytics.getInstance(appInfraInterface.getAppInfraContext()).setAnalyticsCollectionEnabled(false);
-            FirebaseAnalytics.getInstance(appInfraInterface.getAppInfraContext()).resetAnalyticsData();
+            firebaseAnalytics.setAnalyticsCollectionEnabled(false);
+            firebaseAnalytics.resetAnalyticsData();
         }
 
     }
@@ -66,7 +66,12 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
      */
     public void initFireBase(Context context) {
         fireBaseWrapper = getFireBaseWrapper(context);
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context);
+        firebaseAnalytics = getFireBaseAnalytics(context);
+    }
+
+    @NonNull
+    FirebaseAnalytics getFireBaseAnalytics(Context context) {
+        return FirebaseAnalytics.getInstance(context);
     }
 
     @NonNull
