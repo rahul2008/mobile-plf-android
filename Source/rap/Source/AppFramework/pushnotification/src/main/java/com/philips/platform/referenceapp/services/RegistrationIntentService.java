@@ -8,9 +8,7 @@ package com.philips.platform.referenceapp.services;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.utils.PNLog;
@@ -27,12 +25,12 @@ public class RegistrationIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
             // Get updated InstanceID token.
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener((OnSuccessListener<InstanceIdResult>) instanceIdResult -> {
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
             String token = instanceIdResult.getToken();
             // Fetch updated token and notify our app's server of any changes (if applicable).
             PushNotificationManager.getInstance().saveToken(token,new SecureStorageInterface.SecureStorageError());
             PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext(),new SecureStorageInterface.SecureStorageError());
-            PNLog.i(TAG, "GCM Registration Token: " + token);
+            PNLog.i(TAG, "FireBase Registration Token: " + token);
         });
 
     }

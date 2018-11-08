@@ -6,11 +6,11 @@ package com.philips.platform.referenceapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.google.firebase.messaging.RemoteMessage;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -42,7 +42,7 @@ import org.robolectric.android.controller.ServiceController;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.referenceapp.utils.PushNotificationConstants.GCM_TOKEN;
+import static com.philips.platform.referenceapp.utils.PushNotificationConstants.FB_TOKEN;
 import static com.philips.platform.referenceapp.utils.PushNotificationConstants.IS_TOKEN_REGISTERED;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -110,7 +110,7 @@ public class PushNotificationManagerTest {
     @Test
     public void testGetTokenNotEmpty() {
         SecureStorageInterface.SecureStorageError secureStorageErrorMock = PowerMockito.mock(SecureStorageInterface.SecureStorageError.class);
-        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(GCM_TOKEN, secureStorageErrorMock)).thenReturn(PUSH_NOTIFICATION_TOKEN);
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(FB_TOKEN, secureStorageErrorMock)).thenReturn(PUSH_NOTIFICATION_TOKEN);
         assertEquals(PUSH_NOTIFICATION_TOKEN, pushNotificationManager.getToken(secureStorageErrorMock));
     }
 
@@ -123,13 +123,13 @@ public class PushNotificationManagerTest {
     @Test
     public void testGetTokenWhenEmpty() {
         SecureStorageInterface.SecureStorageError secureStorageErrorMock = PowerMockito.mock(SecureStorageInterface.SecureStorageError.class);
-        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(GCM_TOKEN, secureStorageErrorMock)).thenReturn("");
+        PowerMockito.when(secureStorageInterfaceMock.fetchValueForKey(FB_TOKEN, secureStorageErrorMock)).thenReturn("");
         assertEquals("", pushNotificationManager.getToken(secureStorageErrorMock));
     }
 
     @Test
     public void testStartPushNotificationRegistrationWhenTokenEmpty() {
-        setExpectationTrueWhenPreferenceIsEmpty(GCM_TOKEN);
+        setExpectationTrueWhenPreferenceIsEmpty(FB_TOKEN);
         setExpectationTrueWhenPreferenceIsEmpty(IS_TOKEN_REGISTERED);
 
         pushNotificationManager.startPushNotificationRegistration(context, secureStorageErrorMock);
@@ -149,7 +149,7 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testStartPushNotificationRegistrationRegisterToken() {
-        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
+        setExpectationFalseWhenPreferenceIsEmpty(FB_TOKEN);
         MockInternetReacheablity();
 
         PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface =
@@ -255,7 +255,7 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testRegisterTokenWithBackendWhenTokenRegistrationIsTrue() {
-        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
+        setExpectationFalseWhenPreferenceIsEmpty(FB_TOKEN);
         setExpectationFalseWhenPreferenceIsEmpty(IS_TOKEN_REGISTERED);
 
         final Boolean[] isRegisterTokenApiInvoked = {false};
@@ -299,7 +299,7 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testRegisterTokenWithBackendWhenTokenRegistrationErrorCondition() {
-        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
+        setExpectationFalseWhenPreferenceIsEmpty(FB_TOKEN);
 
         final Boolean[] isRegisterTokenApiInvoked = {false};
 
@@ -352,7 +352,7 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testDegisterTokenWithBackend() {
-        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
+        setExpectationFalseWhenPreferenceIsEmpty(FB_TOKEN);
         MockInternetReacheablity();
 
         pushNotificationManager.init(appInfra, pnUserRegistrationInterface);
@@ -410,7 +410,7 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testDegisterTokenWithBackendForErrorCondition() {
-        setExpectationFalseWhenPreferenceIsEmpty(GCM_TOKEN);
+        setExpectationFalseWhenPreferenceIsEmpty(FB_TOKEN);
         MockInternetReacheablity();
         pushNotificationManager.init(appInfra, pnUserRegistrationInterface);
         PNLog.disablePNLogging();
@@ -484,7 +484,6 @@ public class PushNotificationManagerTest {
         @Override
         public void onNewToken(String token) {
             super.onNewToken(token);
-            PNLog.d(TAG, token);
         }
 
         @Override

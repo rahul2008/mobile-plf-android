@@ -120,13 +120,13 @@ public class PushNotificationManager {
     }
 
     /**
-     * Check status of GCM token and registration with data core
+     * Check status of FireBase token and registration with data core
      * @param context
      */
     public void startPushNotificationRegistration(Context context, SecureStorageInterface.SecureStorageError secureStorageError) {
         if (TextUtils.isEmpty(getToken(secureStorageError))) {
-            PNLog.d(TAG, "Token is empty. Starting GCM registration....");
-            startGCMRegistrationService(context);
+            PNLog.d(TAG, "Token is empty. Starting FireBase registration....");
+            startFireBaseRegistrationService(context);
         } else if (pushNotificationUserRegistationWrapperInterface.isUserSignedIn(context)) {
             PNLog.d(TAG, "User is signed in");
             if (!isTokenRegistered(secureStorageError)) {
@@ -159,14 +159,14 @@ public class PushNotificationManager {
     void registerTokenWithBackend(final Context applicationContext, final SecureStorageInterface.SecureStorageError secureStorageError) {
         PNLog.d(TAG, "registerTokenWithBackend");
         if (TextUtils.isEmpty(getToken(secureStorageError))) {
-            PNLog.d(TAG, "Token is empty. Trying to register device with GCM server.....");
-            startGCMRegistrationService(applicationContext);
+            PNLog.d(TAG, "Token is empty. Trying to register device with FireBase server.....");
+            startFireBaseRegistrationService(applicationContext);
         } else if(tokenRegistrationListener!=null){
             PNLog.d(TAG, "Registering token with backend");
             tokenRegistrationListener.registerToken(getToken(secureStorageError), PushNotificationConstants.APP_VARIANT, PushNotificationConstants.PUSH_GCMA, new RegistrationCallbacks.RegisterCallbackListener() {
                 @Override
                 public void onResponse(boolean isRegistered) {
-                    PNLog.d(TAG, "registerTokenWithBackend reponse isregistered:" + isRegistered);
+                    PNLog.d(TAG, "registerTokenWithBackend response isregistered:" + isRegistered);
                     saveTokenRegistrationState(secureStorageError,isRegistered);
                     if(registerCallbackListener != null) {
                         registerCallbackListener.onResponse(isRegistered);
@@ -234,7 +234,7 @@ public class PushNotificationManager {
     public void saveToken(String token, SecureStorageInterface.SecureStorageError secureStorageError) {
         PNLog.d(TAG, "Saving token in preferences");
         SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
-        secureStorageInterface.storeValueForKey(PushNotificationConstants.GCM_TOKEN, token, secureStorageError);
+        secureStorageInterface.storeValueForKey(PushNotificationConstants.FB_TOKEN, token, secureStorageError);
     }
 
     /**
@@ -255,8 +255,8 @@ public class PushNotificationManager {
      */
     public String getToken(SecureStorageInterface.SecureStorageError secureStorageError) {
         SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
-        String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.GCM_TOKEN, secureStorageError);
-        PNLog.d(TAG, "GCM token:" + value);
+        String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.FB_TOKEN, secureStorageError);
+        PNLog.d(TAG, "FireBase token:" + value);
         if (TextUtils.isEmpty(value) || secureStorageError.getErrorCode() != null)
             return null;
 
@@ -268,8 +268,8 @@ public class PushNotificationManager {
      *
      * @param context
      */
-    public void startGCMRegistrationService(Context context) {
-        PNLog.d(TAG, "Starting GCM registration. Getting token from server");
+    public void startFireBaseRegistrationService(Context context) {
+        PNLog.d(TAG, "Starting FireBase registration. Getting token from server");
         //Remove registration state
         saveTokenRegistrationState(getSecureStorageError(),false);
         //Start registration service
