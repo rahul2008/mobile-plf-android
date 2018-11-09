@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.screens;
@@ -44,8 +44,10 @@ import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductCatalogFragment extends InAppBaseFragment
         implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
@@ -61,7 +63,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private RecyclerView mRecyclerView;
     private SearchBox mSearchBox;
     private ProductCatalogAPI mPresenter;
-    private ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
+    private List<ProductCatalogData> mProductCatalog = new CopyOnWriteArrayList<>();
 
     private final int page_size = 20;
     private int mTotalResults = 0;
@@ -72,8 +74,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private boolean mIsLoading = false;
     private boolean mIsProductsAvailable = true;
     private RelativeLayout mParentLayout;
-
-    private ImageView mClearIconView;
     private AppCompatAutoCompleteTextView mSearchTextView;
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
@@ -123,7 +123,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private void displayCategorisedProductList(ArrayList<String> categorisedProductList) {
         if (categorisedProductList.size() > 0) {
-            createCustomProgressBar(mParentLayout,BIG);
+            createCustomProgressBar(mParentLayout, BIG);
             mPresenter.getCategorizedProductList(categorisedProductList);
         }
     }
@@ -168,7 +168,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     private void setUpSearch() {
-        mClearIconView = mSearchBox.getClearIconView();
+        ImageView mClearIconView = mSearchBox.getClearIconView();
         mSearchBox.setExpandListener(this);
         mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
         mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
@@ -241,7 +241,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putInt(IAPConstant.STOCK_LEVEL, productCatalogData.getStockLevel());
             if (getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP) != null) {
                 final String voucherCode = getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP);
-                bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
+                bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP, voucherCode);
             }
 
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
@@ -249,7 +249,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, list);
             }
-            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
+            addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG, true);
         }
     }
 
@@ -354,7 +354,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private boolean checkIfEntryExists(final ProductCatalogData data) {
         for (ProductCatalogData entry : mProductCatalog) {
-            if (entry.getCtnNumber().equalsIgnoreCase(data.getCtnNumber())) {
+            final String ctnNumber = entry.getCtnNumber();
+
+            if (ctnNumber != null && ctnNumber.equalsIgnoreCase(data.getCtnNumber())) {
                 return true;
             }
         }
@@ -376,7 +378,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
             int visibleItemCount = lay.getChildCount();
             int firstVisibleItemPosition = lay.findFirstVisibleItemPosition();
-
 
             if (!mIsLoading && (visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
                     && firstVisibleItemPosition >= 0

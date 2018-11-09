@@ -5,6 +5,8 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -14,6 +16,8 @@ import static org.mockito.Mockito.mock;
  * Copyright (c) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  */
+
+@RunWith(RobolectricTestRunner.class)
 public class EWSGenericApplianceTest {
 
     private EWSGenericAppliance subject;

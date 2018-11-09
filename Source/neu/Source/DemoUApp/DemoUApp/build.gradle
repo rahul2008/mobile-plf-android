@@ -40,13 +40,9 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version
-        multiDexEnabled true  // this line will solve this problem
-
-        testInstrumentationRunner deps.androidJUnitRunner
+        multiDexEnabled true
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
@@ -150,12 +146,9 @@ dependencies {
         exclude module: "com.android.support"
         exclude module: "support-annotations"
     }
-    androidTestImplementation(deps.android_testrunner) {
-        exclude module: "com.android.support"
-        exclude module: "support-annotations"
-    }
 
-    androidTestImplementation deps.android_test_commons
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.apache_commons_lang
 }
 
 tasks.withType(Test) {

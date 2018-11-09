@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.ths.providerslist;
 
 import android.view.View;
@@ -8,7 +13,6 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.cdp.registration.User;
-import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -19,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
@@ -31,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunnerAmwel.class)
+@RunWith(RobolectricTestRunner.class)
 public class THSProvidersListAdapterTest {
     @Mock
     private THSProviderInfo thsProviderInfoMock;

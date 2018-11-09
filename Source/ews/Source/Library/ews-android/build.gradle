@@ -28,8 +28,6 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         versionName assignedVersionNumber
@@ -43,7 +41,6 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
@@ -101,6 +98,10 @@ dependencies {
     testImplementation deps.powermock_junit
     testImplementation deps.powermock_junit_rule
     testImplementation deps.powermock_classloading_xstream
+    testImplementation deps.gson
+    testImplementation deps.adobemobilelib
+
+    testImplementation project(strings.pif.projectName)
 }
 
 tasks.withType(Test) {

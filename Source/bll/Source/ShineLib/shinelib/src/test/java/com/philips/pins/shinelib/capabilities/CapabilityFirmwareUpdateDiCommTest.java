@@ -807,6 +807,16 @@ public class CapabilityFirmwareUpdateDiCommTest {
     }
 
     @Test
+    public void givenDeviceInDownloadingState_whenItReportsProgressWhichIsEqualToCurrentFirmwareLengthAndStateIsDownloading_thenUploadFailedIsReported() throws Exception {
+        capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
+        verify(diCommPortMock).reloadProperties(mapResultListenerArgumentCaptor.capture());
+
+        respondWith(State.Downloading, firmwareData.length);
+
+        verifyUploadFailedGotReportedWithCorrectError_andStateBecameIdle_andStateChangeGotReported_andUnsubscribeWasCalled(SHNErrorInvalidState, capabilityFirmwareUpdateDiComm.getState());
+    }
+
+    @Test
     public void givenDeviceInDownloadingState_whenItReportsProgressWhichIsNegative_thenUploadFailedIsReported() throws Exception {
         capabilityFirmwareUpdateDiComm.uploadFirmware(firmwareData, true);
         verify(diCommPortMock).reloadProperties(mapResultListenerArgumentCaptor.capture());

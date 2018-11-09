@@ -5,11 +5,8 @@
 package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
-
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
-import com.philips.platform.appinfra.AppInfra;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
@@ -25,21 +23,18 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricTestRunner.class)
 public class HybrisStoreTest {
     @Mock
-    Context mContext;
-    @Mock
-    IAPUser mIAPMockedUser;
-    @Mock
-    StoreConfiguration mStoreConfig;
-    @Mock
-    AppInfra mAppInfra;
+    private IAPUser mIAPMockedUser;
+
     private StoreListener mStore;
-    MockIAPSetting mockIAPSetting;
+    private MockIAPSetting mockIAPSetting;
+    private Context mContext;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(mIAPMockedUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
         when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
+        mContext = getInstrumentation().getContext();
         mockIAPSetting = new MockIAPSetting(mContext);
         mockIAPSetting.setUseLocalData(false);
         mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting);

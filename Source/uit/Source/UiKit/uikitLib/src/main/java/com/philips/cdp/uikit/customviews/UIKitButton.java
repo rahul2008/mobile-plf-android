@@ -94,11 +94,11 @@ public class UIKitButton extends AppCompatButton {
     private Drawable wrap(Drawable d) {
         if (d == null) return null;
 
-        Drawable wrappedDrawable = DrawableCompat.wrap(d.getConstantState().newDrawable().mutate());
-        wrappedDrawable.setBounds(d.getBounds());
-        DrawableCompat.setTintList(wrappedDrawable, mTintList);
-        DrawableCompat.setTintMode(wrappedDrawable, PorterDuff.Mode.SRC_ATOP);
+        Drawable mutateDrawable = d.getConstantState().newDrawable().mutate();
+        mutateDrawable.setBounds(d.getBounds());
+        DrawableCompat.setTintList(mutateDrawable, mTintList);
+        DrawableCompat.setTintMode(mutateDrawable, PorterDuff.Mode.SRC_ATOP);
 
-        return wrappedDrawable;
+        return mutateDrawable;
     }
 }

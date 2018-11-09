@@ -1,22 +1,26 @@
+<!--
+  ~ Copyright (c) 2015-2018 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/product_details_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/product_details_container"
-    android:background="?attr/uidContentPrimaryBackgroundColor"
-    >
+    android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="@dimen/iap_match_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:visibility="visible"
-        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:layout_above="@+id/iap_productDetailScreen_bottom_layout"
-        android:paddingEnd="@dimen/border16_margin_left_right"
+        android:layout_gravity="center_horizontal"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:paddingStart="@dimen/border16_margin_left_right"
-        android:paddingTop="@dimen/border24_margin">
+        android:paddingTop="@dimen/border24_margin"
+        android:paddingEnd="@dimen/border16_margin_left_right"
+        android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/detail_layout"
@@ -36,8 +40,8 @@
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_below="@id/iap_productDetailScreen_productDescription_lebel"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="@dimen/border8_margin"
                 android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
                 android:textSize="@dimen/iap_product_ctn_12" />
@@ -46,11 +50,11 @@
                 android:id="@+id/price_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@id/iap_productDetailsScreen_ctn_lebel"
                 android:layout_below="@id/iap_productDetailScreen_productDescription_lebel"
-                android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
+                android:layout_alignTop="@id/iap_productDetailsScreen_ctn_lebel"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/iap_image_bottom_margin"
+                android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
@@ -93,8 +97,8 @@
                 android:layout_below="@id/pager"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="@dimen/border24_margin"
-                android:paddingTop="@dimen/border24_margin" />
+                android:paddingTop="@dimen/border24_margin"
+                android:paddingBottom="@dimen/border24_margin" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/iap_productDetailsScreen_productOverview"
@@ -116,12 +120,12 @@
                 android:paddingBottom="@dimen/border16_margin_left_right"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="9sp"
-                android:visibility="gone"/>
-
+                android:visibility="gone" />
 
 
         </RelativeLayout>
     </ScrollView>
+
     <View
         android:id="@+id/iap_productDetailsScreen_separator"
         android:layout_width="match_parent"
@@ -129,101 +133,103 @@
         android:layout_below="@id/scrollView"
         android:background="@drawable/uid_shadow_level_two" />
 
-<LinearLayout
-    android:id="@+id/iap_productDetailScreen_bottom_layout"
-    android:layout_width="@dimen/iap_match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:paddingTop="@dimen/border12_margin">
-
     <LinearLayout
-        android:id="@+id/iap_productDetailsScreen_btn_ll"
-        android:layout_width="@dimen/iap_match_parent"
+        android:id="@+id/iap_productDetailScreen_bottom_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/border8_margin"
-        android:layout_marginLeft="@dimen/border16_margin_left_right"
-        android:layout_marginRight="@dimen/border16_margin_left_right"
-        android:layout_marginTop="@dimen/border8_margin"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/border12_margin">
 
-        <com.philips.platform.uid.view.widget.ProgressBarButton
-            android:id="@+id/iap_productDetailsScreen_addToCart_button"
-            style="@style/iapCentralesansBookFont"
+        <LinearLayout
+            android:id="@+id/iap_productDetailsScreen_btn_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:enabled="true"
-            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-            android:visibility="gone"
-            app:uidIsIndeterminateProgressIndicator="true"
-            app:uidComponentType="Primary"
-            app:uidProgressIndicatorButtonText="@string/iap_add_to_cart" />
-
-        <com.philips.platform.uid.view.widget.ProgressBarButton
-            android:id="@+id/iap_productDetailsScreen_buyFromRetailor_button"
-            style="@style/iapCentralesansBookFont"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border8_margin"
-            android:enabled="true"
-            android:visibility="visible"
-            app:uidComponentType="Secondary"
-            app:uidIsIndeterminateProgressIndicator="true"
-            app:uidProgressIndicatorButtonText="@string/iap_buy_from_retailers" />
-    </LinearLayout>
+            android:layout_marginRight="@dimen/border16_margin_left_right"
+            android:layout_marginBottom="@dimen/border8_margin"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-    <LinearLayout
-        android:id="@+id/iap_productDetailsScreen_quantity_delete_btn_ll"
-        android:layout_width="@dimen/iap_match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/border8_margin"
-        android:layout_marginLeft="@dimen/border16_margin_left_right"
-        android:layout_marginRight="@dimen/border16_margin_left_right"
-        android:layout_marginTop="@dimen/border8_margin"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <RelativeLayout
-            android:id="@+id/quantity_count_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/actual_price"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/quantity_label"
+            <com.philips.platform.uid.view.widget.ProgressBarButton
+                android:id="@+id/iap_productDetailsScreen_addToCart_button"
                 style="@style/iapCentralesansBookFont"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/iap_shopping_cart_image_right"
-                android:text="@string/iap_product_item_quantity"
-                android:textColor="@color/uid_quiet_button_icon_selector"
-                android:textSize="@dimen/iap_text_size_16sp" />
+                android:layout_centerHorizontal="true"
+                android:enabled="true"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:visibility="gone"
+                app:uidComponentType="Primary"
+                app:uidIsIndeterminateProgressIndicator="true"
+                app:uidProgressIndicatorButtonText="@string/iap_add_to_cart" />
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/quantity_val"
-                style="@style/tvTitle"
-                android:layout_alignBaseline="@id/quantity_label"
-                android:layout_toEndOf="@id/quantity_label"
-                android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
-                android:textColor="@color/uid_quiet_button_icon_selector"
-                android:textSize="@dimen/iap_text_size_16sp" />
-        </RelativeLayout>
+            <com.philips.platform.uid.view.widget.ProgressBarButton
+                android:id="@+id/iap_productDetailsScreen_buyFromRetailor_button"
+                style="@style/iapCentralesansBookFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/border8_margin"
+                android:enabled="true"
+                android:visibility="visible"
+                app:uidComponentType="Secondary"
+                app:uidIsIndeterminateProgressIndicator="true"
+                app:uidProgressIndicatorButtonText="@string/iap_buy_from_retailers" />
+        </LinearLayout>
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/delete_btn"
-            style="@style/IAPQuietButton"
+        <LinearLayout
+            android:id="@+id/iap_productDetailsScreen_quantity_delete_btn_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/iap_delete"
-            android:textSize="@dimen/iap_text_size_16sp" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/border16_margin_left_right"
+            android:layout_marginTop="@dimen/border8_margin"
+            android:layout_marginRight="@dimen/border16_margin_left_right"
+            android:layout_marginBottom="@dimen/border8_margin"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:id="@+id/quantity_count_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/actual_price"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/quantity_label"
+                    style="@style/iapCentralesansBookFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/iap_shopping_cart_image_right"
+                    android:text="@string/iap_product_item_quantity"
+                    android:textColor="@color/uid_quiet_button_icon_selector"
+                    android:textSize="@dimen/iap_text_size_16sp" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/quantity_val"
+                    style="@style/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/quantity_label"
+                    android:layout_toEndOf="@id/quantity_label"
+                    android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
+                    android:textColor="@color/uid_quiet_button_icon_selector"
+                    android:textSize="@dimen/iap_text_size_16sp" />
+            </RelativeLayout>
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/delete_btn"
+                style="@style/IAPQuietButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/iap_delete"
+                android:textSize="@dimen/iap_text_size_16sp" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 </RelativeLayout>

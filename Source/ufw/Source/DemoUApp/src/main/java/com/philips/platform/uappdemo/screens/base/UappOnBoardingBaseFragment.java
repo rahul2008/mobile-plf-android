@@ -56,5 +56,4 @@ public abstract class UappOnBoardingBaseFragment extends Fragment implements Uap
     public FragmentActivity getFragmentActivity() {
         return getActivity();
     }
-
 }

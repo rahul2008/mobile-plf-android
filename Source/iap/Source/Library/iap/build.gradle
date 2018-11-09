@@ -39,25 +39,22 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
         }
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
-        multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        multiDexEnabled true
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
@@ -138,24 +135,33 @@ dependencies {
     // Tests
     testImplementation deps.junit
     testImplementation deps.mockito
-    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
-    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric-utils:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric-junit:3.4-rc2'
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_classloading_xstream
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_junit
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.robolectric_utils
+    testImplementation deps.apache_http_legacy
+    testImplementation deps.adobemobilelib
+    testImplementation deps.support.design
+
+    testImplementation project(strings.pif.projectName)
+    testImplementation project(strings.jmp.projectName)
 
     // Android test
     androidTestImplementation deps.assertj
     androidTestImplementation deps.espresso_web
     androidTestImplementation deps.uiautomator
-    androidTestImplementation deps.android_testrunner
-    androidTestImplementation deps.android_testrules
-    
-    // Espressosupport
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx_test.rules
+
+    // Espresso support
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    
+
     androidTestImplementation(deps.espresso_contrib) {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'

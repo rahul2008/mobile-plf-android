@@ -1,11 +1,10 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.pins.shinelib.capabilities;
 
-import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNStringResultListener;
@@ -14,9 +13,11 @@ import com.philips.pins.shinelib.utility.DeviceInformationCache;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -29,7 +30,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SHNCapabilityDeviceInformationCachedTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class SHNCapabilityDeviceInformationCachedTest {
 
     public static final SHNCapabilityDeviceInformation.SHNDeviceInformationType INFORMATION_TYPE = SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision;
     public static final String TEST_MESSAGE = "TEST_MESSAGE";

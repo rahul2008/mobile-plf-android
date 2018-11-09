@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.ths.providerslist;
 
 import android.app.DatePickerDialog;
@@ -10,7 +15,6 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.cdp.registration.User;
-import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateFragment;
@@ -24,6 +28,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowDatePickerDialog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
@@ -42,7 +47,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunnerAmwel.class)
+@RunWith(RobolectricTestRunner.class)
 public class THSProviderListPresenterTest {
 
     private THSProviderListPresenter thsProviderListPresenter;

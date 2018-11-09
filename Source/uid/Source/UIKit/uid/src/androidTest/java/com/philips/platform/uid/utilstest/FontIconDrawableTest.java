@@ -1,7 +1,6 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
- *
  */
 
 package com.philips.platform.uid.utilstest;
@@ -12,7 +11,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Parcelable;
-import android.support.test.rule.ActivityTestRule;
 import android.widget.ImageView;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -24,11 +22,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import androidx.test.rule.ActivityTestRule;
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class FontIconDrawableTest {

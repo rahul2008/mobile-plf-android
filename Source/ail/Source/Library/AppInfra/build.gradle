@@ -32,11 +32,8 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.appinfra.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
         consumerProguardFiles 'proguard-rules-ail.pro'
     }
 
@@ -46,9 +43,7 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
@@ -91,6 +86,7 @@ dependencies {
     implementation deps.support.annotations
     implementation deps.joda_time
     implementation deps.rxjava2
+    implementation deps.junit
 
     api deps.room_runtime, {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -110,6 +106,7 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
 
+    androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.dexmaker_mockito
     androidTestImplementation deps.junit
 }

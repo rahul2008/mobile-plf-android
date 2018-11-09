@@ -1,13 +1,16 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.prx;
 
-import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.prx.subcategorymodel.Data;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -20,8 +23,7 @@ import static junit.framework.Assert.assertEquals;
  */
 
 
-@RunWith(CustomRobolectricRunnerCC.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class DataRTest {
 
     @Test

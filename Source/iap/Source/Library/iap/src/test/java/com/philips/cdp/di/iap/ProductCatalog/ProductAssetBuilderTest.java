@@ -1,48 +1,37 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
 import android.os.Message;
-
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.prx.PRXAssetExecutor;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-
 @RunWith(RobolectricTestRunner.class)
 public class ProductAssetBuilderTest implements PRXAssetExecutor.AssetListener {
-    @Rule
-    public MockitoRule rule = MockitoJUnit.rule();
-    @Mock
-    Context mContext;
+
+    private Context mContext;
     private MockPRXAssetExecutor builder;
 
     @Before
-    public void setUP() {
-        MockitoAnnotations.initMocks(this);
-        TestUtils.getStubbedHybrisDelegate();
+    public void setUp() {
+        mContext = getInstrumentation().getContext();
     }
 
     @Test

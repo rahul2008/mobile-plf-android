@@ -1,10 +1,15 @@
-package com.philips.pins.shinelib.utility;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import com.philips.pins.shinelib.RobolectricTest;
+package com.philips.pins.shinelib.utility;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,7 +24,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SharedPreferencesMigratorTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class SharedPreferencesMigratorTest {
 
     public static final String KEY_1 = "KEY_1";
     public static final String KEY_2 = "KEY_2";
@@ -167,7 +173,6 @@ public class SharedPreferencesMigratorTest extends RobolectricTest {
 
         when(deviceAdressesPersistentStorageMock.getString(KEY_1, null)).thenReturn(VALUE_1_STRING);
         when(deviceAdressesPersistentStorageMock.getString(KEY_2, null)).thenReturn(VALUE_1_STRING);
-
 
         sharedPreferencesMigrator.execute();
 

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.BroadcastReceiver;
@@ -8,7 +13,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -23,6 +27,8 @@ import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,6 +38,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.AIL_HOME_COUNTRY;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PLATFORM_SERVICES_INVOKED;
@@ -42,14 +49,17 @@ import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_H
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SUCCESS;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SET_HOME_COUNTRY_SUCCESS;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * ServiceDiscovery Test class.
- */
-public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
+public class ServiceDiscoveryTestcase {
 
     private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     private ServiceDiscoveryManager mServiceDiscoveryManager = null;
@@ -57,7 +67,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
     private ServiceDiscovery mserviceDiscovery = null;
     private MatchByCountryOrLanguage mMatchByCountryOrLanguage = null;
     private String mServiceId = "userreg.janrain.cdn";
-    // Context context = Mockito.mock(Context.class);
     private ArrayList<String> mServicesId = new ArrayList<String>(
             Arrays.asList("userreg.janrain.api", "userreg.janrain.cdn"));
 
@@ -68,9 +77,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
     private AISDResponse aisdResponse;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         context = getInstrumentation().getContext();
         assertNotNull(context);
 
@@ -89,11 +97,12 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         assertNotNull(mMatchByCountryOrLanguage);
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);
+
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("isOnline");
             method.setAccessible(true);
             method.invoke(mServiceDiscoveryManager);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
 
         try {
@@ -109,11 +118,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
             aisdResponse.setPropositionURLs(propostionService);
             aisdResponse.setPlatformURLs(platformService);
             assertNotNull(aisdResponse);
-        } catch (Exception exception) {
+        } catch (Exception ignored) {
         }
-
     }
 
+    @Test
     public void testProcessRequest() {
         AppInfra mAppInfra = getAppInfraMocked();
         ServiceDiscovery serviceDiscovery = new ServiceDiscovery();
@@ -152,6 +161,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         verify(appInfraTaggingUtil).trackErrorAction(SERVICE_DISCOVERY, " error while fetching ".concat(ServiceDiscoveryManager.SD_REQUEST_TYPE.refresh.name().concat(" due to ").concat(serviceDiscovery.getError().getErrorvalue().name())));
     }
 
+    @Test
     public void testTaggingStoreSD() {
         final SecureStorageInterface.SecureStorageError secureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
         when(secureStorageError.getErrorMessage()).thenReturn("something went wrong while fetching");
@@ -174,24 +184,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
     }
 
-    public void testConfig() {
-
-        AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
-            @Override
-            protected JSONObject getMasterConfigFromApp() {
-                JSONObject result = null;
-                try {
-                    String testJson = ConfigValues.testJson();
-                    result = new JSONObject(testJson);
-                } catch (Exception e) {
-                }
-                return result;
-            }
-
-        };
-        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
-    }
-
+    @Test
     public void testSetGetHomeCountryTagging() {
         final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
         AppInfra appInfra = getAppInfraMocked();
@@ -236,6 +229,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, GET_HOME_COUNTRY_SIM_SUCCESS.concat(homeCountryCode[0]));
     }
 
+    @Test
     public void testForceRefreshTagging() {
         final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
@@ -249,6 +243,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SD_FORCE_REFRESH_CALLED);
     }
 
+    @Test
     public void testDownloadingServices() {
         final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
@@ -266,35 +261,29 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, DOWNLOAD_PREPOSITION_SERVICES_INVOKED.concat(sdurlForType));
     }
 
-    @NonNull
-    private AppInfra getAppInfraMocked() {
-        AppInfra mAppInfra = mock(AppInfra.class);
-        LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
-        when(mAppInfra.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
-        return mAppInfra;
-    }
 
+    @Test
     public void testDownloadServices() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("downloadServices");
             method.setAccessible(true);
             method.invoke(mServiceDiscoveryManager);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
-
+    @Test
     public void testSetHomeCountry() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("setHomeCountry", String.class);
             method.setAccessible(true);
             method.invoke(mServiceDiscoveryManager, "CN");
             mServiceDiscoveryInterface.setHomeCountry("CN");
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
-
+    @Test
     public void testSaveToSecureStore() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("saveToSecureStore", String.class, String.class);
@@ -306,10 +295,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
             method.setAccessible(true);
             method.invoke(mServiceDiscoveryManager, "COUNTRY");
             method.invoke(mServiceDiscoveryManager, "COUNTRY_SOURCE");
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testRefresh() {
         //  mserviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
@@ -326,8 +316,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         });
     }
 
+    @Test
     public void testGetServiceUrlWithLanguagePreference() throws Exception {
-//        //mServiceDiscoveryManager.setServiceDiscovery(loadServiceDiscoveryModel());
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getServiceUrlWithLanguagePreference",
                     String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
@@ -342,7 +332,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }
             });
 
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
 
         mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(mServiceId,
@@ -403,8 +393,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         }, parameters);
     }
 
+    @Test
     public void testgetServicesWithLanguageMapUrl() throws Exception {
-//        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServicesWithLanguagePreference(mServicesId,
                 new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                     @Override
@@ -420,9 +410,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 });
     }
 
-
+    @Test
     public void testgetServiceUrlWithCountryPreference() throws Exception {
-//        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(mServiceId,
                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
@@ -498,9 +487,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
     }
 
-
+    @Test
     public void testgetServicesWithCountryMapUrl() throws Exception {
-//        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServicesWithCountryPreference(mServicesId,
                 new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                     @Override
@@ -516,8 +504,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 });
     }
 
+    @Test
     public void testgetServiceLocaleWithCountryPreference() throws Exception {
-//        serviceDiscovery = loadServiceDiscoveryModel();
         mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(mServiceId,
                 new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
 
@@ -548,7 +536,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(mServiceId, null);
     }
 
-
+    @Test
     public void testgetServiceLocaleWithLanguagePreference() throws Exception {
         mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(mServiceId,
                 new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
@@ -578,6 +566,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(mServiceId, null);
     }
 
+    @Test
     public void testgetHomeCountry() {
         mServiceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
@@ -594,73 +583,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         });
     }
 
-
-    private MatchByCountryOrLanguage commonMatchByCountryOrLanguage(boolean isPossitivecase) {
-
-        MatchByCountryOrLanguage.Config.Tag mTag = new MatchByCountryOrLanguage.Config.Tag();
-        mTag.setId("TestTagId");
-        mTag.setName("TestTagName");
-        mTag.setKey("TestTagKey");
-
-        assertNotNull(mTag.getId());
-        assertNotNull(mTag.getKey());
-        assertNotNull(mTag.getName());
-
-        ArrayList<MatchByCountryOrLanguage.Config.Tag> mTagArray = new ArrayList<MatchByCountryOrLanguage.Config.Tag>();
-        mTagArray.add(mTag);
-        HashMap<String, String> mMap = new HashMap<String, String>();
-        if (isPossitivecase) {
-            mMap.put("userreg.janrain.cdn", "https://d1lqe9temigv1p.cloudfront.net");
-            mMap.put("userreg.janrain.api", "https://philips.eval.janraincapture.com");
-        } else {
-            mMap.put("userreg.janrain.cdn", "TestCase");
-            mMap.put("TestCase", "TestCase");
-        }
-
-
-        MatchByCountryOrLanguage.Config mconfig = new MatchByCountryOrLanguage.Config();
-        mconfig.setMicrositeId("TestMicrositeId");
-        mconfig.setTags(mTagArray);
-        mconfig.setUrls(mMap);
-
-        assertNotNull(mconfig.getMicrositeId());
-        assertNotNull(mconfig.getTags());
-        assertNotNull(mconfig.getUrls());
-
-        ArrayList<MatchByCountryOrLanguage.Config> mConfigArray = new ArrayList<MatchByCountryOrLanguage.Config>();
-        mConfigArray.add(mconfig);
-
-        MatchByCountryOrLanguage mMatchByCountryOrLanguage = new MatchByCountryOrLanguage();
-        mMatchByCountryOrLanguage.setLocale("TestLocale");
-        mMatchByCountryOrLanguage.setAvailable(false);
-        mMatchByCountryOrLanguage.setConfigs(mConfigArray);
-
-        assertNotNull(mMatchByCountryOrLanguage.getLocale());
-        assertNotNull(mMatchByCountryOrLanguage.getConfigs());
-        assertFalse(mMatchByCountryOrLanguage.isAvailable());
-        return mMatchByCountryOrLanguage;
-    }
-
-    private ServiceDiscovery loadServiceDiscoveryModel() {
-        ServiceDiscovery serviceDiscovery = new ServiceDiscovery(mAppInfra);
-        serviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
-        serviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
-        serviceDiscovery.setSuccess(true);
-        serviceDiscovery.setHttpStatus("Success");
-        serviceDiscovery.setCountry("TestCountry");
-
-        ServiceDiscovery.Error error = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ErrorMessage");
-        error.setErrorvalue(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT);
-        assertNotNull(error.getErrorvalue());
-        error.setMessage("Test");
-        assertNotNull(error.getMessage());
-        serviceDiscovery.setError(error);
-
-
-        return serviceDiscovery;
-    }
-
-
+    @Test
     public void testgetServiceUrlWithCountryPreferenceReplacedUrl() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ctn", "HD9740");
@@ -681,7 +604,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }, parameters);
     }
 
-
+    @Test
     public void testgetServiceUrlWithLanguagePreferenceReplacedUrl() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ctn", "HD9740");
@@ -702,8 +625,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }, parameters);
     }
 
+    @Test
     public void testgetServicesWithCountryPreferencewithServiceIds() {
-
         String[] serviceIds = {"prxclient.assets", "userreg.janrain.api"};
         ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
         Map<String, String> parameters = new HashMap<>();
@@ -764,7 +687,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                     }
                 }, parameters);
 
-
         mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, null, parameters);
 
         mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, new
@@ -781,6 +703,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }, null);
     }
 
+    @Test
     public void testgetServicesWithLanguagePreferencewithServiceIds() {
         String[] serviceIds = {"prxclient.assets", "userreg.janrain.api"};
         ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
@@ -843,7 +766,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                     }
                 }, parameters);
 
-
         mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, null, parameters);
 
         mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, new
@@ -860,9 +782,8 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }, null);
     }
 
-
+    @Test
     public void testemptyresultarray() {
-
         String resJson = "{\n" +
                 "    \"success\": true,\n" +
                 "    \"payload\": {\n" +
@@ -885,7 +806,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(resJson);
-        } catch (JSONException e) {
+        } catch (JSONException ignored) {
         }
         serviceDiscovery.parseResponse(context, mAppInfra, jsonObject);
         mServiceDiscoveryManager.getServiceLocaleWithCountryPreference(mServiceId,
@@ -903,6 +824,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 });
     }
 
+    @Test
     public void testAisdResponse() {
         try {
             JSONObject propositionObject = new JSONObject(ConfigValues.getsdUrlJson());
@@ -915,26 +837,12 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
             aisdResponse = new AISDResponse(mAppInfra);
             aisdResponse.setPropositionURLs(propostionService);
             aisdResponse.setPlatformURLs(platformService);
-        } catch (Exception exception) {
+        } catch (Exception ignored) {
         }
 
     }
 
-    private ServiceDiscovery parseResponse(JSONObject response) {
-        ServiceDiscovery result = new ServiceDiscovery(mAppInfra);
-        result.setSuccess(response.optBoolean("success"));
-        if (!result.isSuccess()) {
-            ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
-            result.setError(err);
-        } else { // no sense in further processing if server reports error
-            // START setting match by country
-            result.parseResponse(context, mAppInfra, response);
-        }
-
-        return result;
-    }
-
-
+    @Test
     public void testgetServiceURL() {
         URL url = aisdResponse.getServiceURL("userreg.janrain.api", AISDResponse.AISDPreference.AISDCountryPreference, null);
         assertEquals("https://philips.dev.janraincapture.com", url.toString());
@@ -952,40 +860,13 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         assertEquals("https://tst.philips.com/prx/product/B2C/en_IN/shavers/products/HD9740.assets",
                 rurl.toString());
 
-
         URL urlLang = aisdResponse.getServiceURL("prxclient.assets", AISDResponse.AISDPreference.AISDLanguagePreference, parameters);
         assertNotNull(urlLang.toString());
         assertEquals("https://tst.philips.com/prx/product/B2C/en_IN/shavers/products/HD9740.assets",
                 rurl.toString());
     }
 
-//	public void testgetServicesUrl() {
-//		HashMap<String, ServiceDiscoveryService> responseMap;
-//		String[] serviceIds = {"userreg.janrain.api", "prxclient.assets"};
-//		ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-//
-//		responseMap = aisdResponse.getServicesUrl(serviceId,
-//				AISDResponse.AISDPreference.AISDCountryPreference, null);
-//		assertNotNull(responseMap);
-//
-//		responseMap = aisdResponse.getServicesUrl(serviceId,
-//				AISDResponse.AISDPreference.AISDLanguagePreference, null);
-//		assertNotNull(responseMap);
-//
-//		Map<String, String> parameters = new HashMap<>();
-//		parameters.put("ctn", "HD9740");
-//		parameters.put("sector", "B2C");
-//		parameters.put("catalog", "shavers");
-//
-//		responseMap = aisdResponse.getServicesUrl(serviceId,
-//				AISDResponse.AISDPreference.AISDCountryPreference, parameters);
-//		assertNotNull(responseMap);
-//
-//		responseMap = aisdResponse.getServicesUrl(serviceId,
-//				AISDResponse.AISDPreference.AISDLanguagePreference, parameters);
-//		assertNotNull(responseMap);
-//	}
-
+    @Test
     public void testgetLocaleWithPreference() {
         String localbyCountry = aisdResponse.getLocaleWithPreference(AISDResponse.AISDPreference.AISDCountryPreference);
         assertEquals("en_IN", localbyCountry);
@@ -993,38 +874,44 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         assertEquals("en_IN", localbyLang);
     }
 
+    @Test
     public void testgetCountryCode() {
         String country = aisdResponse.getCountryCode();
         assertNotNull(country);
     }
 
+    @Test
     public void testgetError() {
         ServiceDiscovery.Error err = aisdResponse.getError();
-        assertEquals(null, err);
+        assertNull(err);
     }
 
+    @Test
     public void testisSuccess() {
         assertTrue(aisdResponse.isSuccess());
     }
 
+    @Test
     public void testdownloadPlatformService() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("downloadPlatformService");
             method.setAccessible(true);
             method.invoke(mServiceDiscoveryManager);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testdownloadPropositionService() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("downloadPropositionService");
             method.setAccessible(true);
             method.invoke(mServiceDiscoveryManager);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testprocessRequest() {
         String url = "https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_IN&tags=apps%2b%2benv%2bdev&country=IN";
         ServiceDiscovery service = new ServiceDiscovery(mAppInfra);
@@ -1033,11 +920,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                     ServiceDiscovery.class, ServiceDiscoveryManager.AISDURLType.class);
             method.setAccessible(true);
             method.invoke(mServiceDiscoveryManager, url, service, ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
-
+    @Test
     public void testgetSDURLForType() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getSDURLForType",
@@ -1047,10 +934,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
             // assertNotNull(urlplatform);
             String urlProposition = (String) method.invoke(mServiceDiscoveryManager, ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition);
             //  assertNotNull(urlProposition);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testgetSDBaseURLForEnvironment() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getSDBaseURLForEnvironment", String.class);
@@ -1063,14 +951,12 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
             String baseUrlstaging = (String) method.invoke(mServiceDiscoveryManager, "STAGING");
             assertNotNull(baseUrlstaging);
             assertSame("stg.philips.com", baseUrlstaging);
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
-
+    @Test
     public void testgetAppStateStringFromState() {
-
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getAppStateStringFromState", String.class);
             method.setAccessible(true);
@@ -1089,10 +975,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
             String urlaccp = (String) method.invoke(mServiceDiscoveryManager, "ACCEPTANCE");
             assertSame("apps%2b%2benv%2bprod", urlaccp);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testhomeCountryCode() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("homeCountryCode",
@@ -1109,10 +996,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                     assertNotNull(countryCode);
                 }
             });
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testgetServiceDiscoveryData() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getServiceDiscoveryData",
@@ -1124,30 +1012,33 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                     //assertNotNull(response);
                 }
             });
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testgetCountryCodeFromSim() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getCountryCodeFromSim");
             method.setAccessible(true);
             String countryCode = (String) method.invoke(mServiceDiscoveryManager);
             //  assertNotNull(countryCode);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testcachedURLsExpired() {
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("cachedURLsExpired");
             method.setAccessible(true);
             boolean value = (boolean) method.invoke(mServiceDiscoveryManager);
             //  assertTrue(value);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testFilterDataForUrlbyLang() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ctn", "HD9740");
@@ -1173,7 +1064,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }
             }, parameters);
 
-            /////////////////////////
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyLang", ServiceDiscovery.class,
                     ArrayList.class, ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class, Map.class);
             method.setAccessible(true);
@@ -1189,10 +1079,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }
             }, parameters);
 
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testFilterDataForUrlbyCountry() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ctn", "HD9740");
@@ -1218,7 +1109,6 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }
             }, parameters);
 
-
             /////////////////////////
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry", ServiceDiscovery.class,
                     ArrayList.class, ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class, Map.class);
@@ -1234,10 +1124,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
                 }
             }, parameters);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testGetUrlsMapper() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ctn", "HD9740");
@@ -1260,10 +1151,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
                 }
             }, parameters);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testGetDataForUrl() {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("ctn", "HD9740");
@@ -1289,10 +1181,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }
             }, parameters);
 
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testFilterDataForLocalByLang() {
         mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
         mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
@@ -1314,10 +1207,11 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }
             });
 
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
+    @Test
     public void testFilterDataForLocalByCountry() {
         mserviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
         mserviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
@@ -1338,13 +1232,12 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                 }
             });
 
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
         }
     }
 
-
+    @Test
     public void testGetServicesMultipleConfigs() {
-
         JSONObject jsonObject = null;
         JSONObject sdPlatformObj = null;
 
@@ -1359,15 +1252,12 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("appinfra.appconfigdownload", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-
                 assertEquals("https://test.prod.appinfra.testing.service/en_SG/B2C/77001", "https://test.prod.appinfra.testing.service/en_SG/B2C/77001");
-
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
                 assertNotNull(error);
-
             }
         });
         String[] serviceIds = {"appinfra.appconfigdownload", "appinfra.testing.service"};
@@ -1387,6 +1277,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         });
     }
 
+    @Test
     public void testGetCountry() {
         mAppInfra.getSecureStorage().removeValueForKey("country");
         mServiceDiscoveryManager.mCountry = null;
@@ -1399,15 +1290,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         mServiceDiscoveryInterface.unRegisterHomeCountrySet(new TestReceiver());
     }
 
-    class TestReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String countryCode = (String) intent.getExtras().get(AIL_HOME_COUNTRY);
-            //	assertEquals(countryCode, "CN");
-            assertTrue(intent.getAction().equals(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION));
-        }
-    }
-
+    @Test
     public void testSetHomeCountryMappings() {
         mServiceDiscoveryInterface.unRegisterHomeCountrySet(new TestReceiver());
         mAppInfra.getSecureStorage().removeValueForKey("country");
@@ -1433,11 +1316,13 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         });
     }
 
+    @Test
     public void testSetHomeCountryWithMappingsInConfig() {
         Map<String, String> countryMapping = mServiceDiscoveryManager.getServiceDiscoveryCountryMapping();
         mAppInfra.getSecureStorage().removeValueForKey("country");
         mServiceDiscoveryManager.mCountry = null;
-        if (countryMapping == null || countryMapping.size() == 0) return;
+        if (countryMapping == null || countryMapping.size() == 0)
+            return;
         Map.Entry<String, String> entry = countryMapping.entrySet().iterator().next();
         final String countryTobeMapped = entry.getKey();
         final String mappedCountry = entry.getValue();
@@ -1452,7 +1337,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
                         (ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform);
                 String countryPart = "&country=" + mappedCountry;
                 boolean isMapped = platformURL.contains(countryPart);
-//				assertTrue(isMapped);
+                //				assertTrue(isMapped);
             }
 
             @Override
@@ -1462,6 +1347,7 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         });
     }
 
+    @Test
     public void testSetHomeCountryWithoutMappingsInConfig() {
         mAppInfra.getSecureStorage().removeValueForKey("country");
         mServiceDiscoveryManager.mCountry = null;
@@ -1486,4 +1372,116 @@ public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
         });
     }
 
+    private ServiceDiscovery parseResponse(JSONObject response) {
+        ServiceDiscovery result = new ServiceDiscovery(mAppInfra);
+        result.setSuccess(response.optBoolean("success"));
+        if (!result.isSuccess()) {
+            ServiceDiscovery.Error err = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server reports failure");
+            result.setError(err);
+        } else { // no sense in further processing if server reports error
+            // START setting match by country
+            result.parseResponse(context, mAppInfra, response);
+        }
+        return result;
+    }
+
+    private void testConfig() {
+        AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = ConfigValues.testJson();
+                    result = new JSONObject(testJson);
+                } catch (Exception ignored) {
+                }
+                return result;
+            }
+
+        };
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+    }
+
+    @NonNull
+    private AppInfra getAppInfraMocked() {
+        AppInfra mAppInfra = mock(AppInfra.class);
+        LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
+        when(mAppInfra.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        return mAppInfra;
+    }
+
+    private MatchByCountryOrLanguage commonMatchByCountryOrLanguage(boolean isPossitivecase) {
+        MatchByCountryOrLanguage.Config.Tag mTag = new MatchByCountryOrLanguage.Config.Tag();
+        mTag.setId("TestTagId");
+        mTag.setName("TestTagName");
+        mTag.setKey("TestTagKey");
+
+        assertNotNull(mTag.getId());
+        assertNotNull(mTag.getKey());
+        assertNotNull(mTag.getName());
+
+        ArrayList<MatchByCountryOrLanguage.Config.Tag> mTagArray = new ArrayList<MatchByCountryOrLanguage.Config.Tag>();
+        mTagArray.add(mTag);
+        HashMap<String, String> mMap = new HashMap<String, String>();
+        if (isPossitivecase) {
+            mMap.put("userreg.janrain.cdn", "https://d1lqe9temigv1p.cloudfront.net");
+            mMap.put("userreg.janrain.api", "https://philips.eval.janraincapture.com");
+        } else {
+            mMap.put("userreg.janrain.cdn", "TestCase");
+            mMap.put("TestCase", "TestCase");
+        }
+
+        MatchByCountryOrLanguage.Config mconfig = new MatchByCountryOrLanguage.Config();
+        mconfig.setMicrositeId("TestMicrositeId");
+        mconfig.setTags(mTagArray);
+        mconfig.setUrls(mMap);
+
+        assertNotNull(mconfig.getMicrositeId());
+        assertNotNull(mconfig.getTags());
+        assertNotNull(mconfig.getUrls());
+
+        ArrayList<MatchByCountryOrLanguage.Config> mConfigArray = new ArrayList<MatchByCountryOrLanguage.Config>();
+        mConfigArray.add(mconfig);
+
+        MatchByCountryOrLanguage mMatchByCountryOrLanguage = new MatchByCountryOrLanguage();
+        mMatchByCountryOrLanguage.setLocale("TestLocale");
+        mMatchByCountryOrLanguage.setAvailable(false);
+        mMatchByCountryOrLanguage.setConfigs(mConfigArray);
+
+        assertNotNull(mMatchByCountryOrLanguage.getLocale());
+        assertNotNull(mMatchByCountryOrLanguage.getConfigs());
+        assertFalse(mMatchByCountryOrLanguage.isAvailable());
+        return mMatchByCountryOrLanguage;
+    }
+
+    private ServiceDiscovery loadServiceDiscoveryModel() {
+        ServiceDiscovery serviceDiscovery = new ServiceDiscovery(mAppInfra);
+        serviceDiscovery.setMatchByLanguage(commonMatchByCountryOrLanguage(true));
+        serviceDiscovery.setMatchByCountry(commonMatchByCountryOrLanguage(true));
+        serviceDiscovery.setSuccess(true);
+        serviceDiscovery.setHttpStatus("Success");
+        serviceDiscovery.setCountry("TestCountry");
+
+        ServiceDiscovery.Error error = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ErrorMessage");
+        error.setErrorvalue(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT);
+        assertNotNull(error.getErrorvalue());
+        error.setMessage("Test");
+        assertNotNull(error.getMessage());
+        serviceDiscovery.setError(error);
+
+        return serviceDiscovery;
+    }
 }
+
+class TestReceiver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String countryCode = (String) intent.getExtras().get(AIL_HOME_COUNTRY);
+        assertEquals(intent.getAction(), AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION);
+    }
+}
+
+
+
+
+

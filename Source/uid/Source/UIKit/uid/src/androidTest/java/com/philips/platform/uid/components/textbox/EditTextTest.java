@@ -1,7 +1,6 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
- *
  */
 
 package com.philips.platform.uid.components.textbox;
@@ -17,7 +16,6 @@ import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Tap;
 import android.support.test.espresso.action.ViewActions;
-import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 
 import com.philips.platform.uid.R;
@@ -35,9 +33,10 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
+import androidx.test.rule.ActivityTestRule;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 import static junit.framework.Assert.assertTrue;

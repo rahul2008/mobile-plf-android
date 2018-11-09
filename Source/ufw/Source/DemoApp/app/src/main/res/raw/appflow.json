@@ -83,6 +83,15 @@
                 "nextState": "dls"
               }
             ]
+          },
+          {
+            "eventId": "navigation_impl",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "navigation_impl"
+              }
+            ]
           }
            ]
       }

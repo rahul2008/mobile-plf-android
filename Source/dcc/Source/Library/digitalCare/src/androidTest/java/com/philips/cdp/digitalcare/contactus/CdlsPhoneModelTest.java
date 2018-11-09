@@ -1,227 +1,234 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.contactus;
 
 import android.content.Context;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
-import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
-public class CdlsPhoneModelTest extends InstrumentationTestCase {
+import org.junit.Before;
+import org.junit.Test;
 
-	private final String TAG = CdlsPhoneModelTest.class.getSimpleName();
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-	private Context mContext, context = null;
-	private CdlsResponseParser mParser = null;
+public class CdlsPhoneModelTest {
 
-	GetCdlsInstance mGetCdlsInstance = null;
-	CdlsResponseModel mCdlsResponseModel = null;
+    private final String TAG = CdlsPhoneModelTest.class.getSimpleName();
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		DigiCareLogger.d(TAG, "setUp..");
-		mContext = getInstrumentation().getTargetContext();
-		context = getInstrumentation().getContext();
+    private Context context = null;
 
-		// mParser = CdlsResponseParser.getParserControllInstance(mContext);
-		mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
+    private GetCdlsInstance mGetCdlsInstance = null;
+    private CdlsResponseModel mCdlsResponseModel = null;
 
-	}
+    @Before
+    public void setUp() throws Exception {
+        DigiCareLogger.d(TAG, "setUp..");
+        context = getInstrumentation().getContext();
 
-	public void testContactUsWeekDaysBean() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		// mParser.processCdlsResponse(response);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = mCdlsObject.getOpeningHoursWeekdays();
-		String expected = "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
-		assertNotNull(received);
-	}
+        mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
+    }
 
-	public void testContactUsSaturdayDayBean() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = mCdlsObject.getOpeningHoursSaturday();
-		assertNotNull(received);
-	}
+    @Test
+    public void testContactUsWeekDaysBean() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        // mParser.processCdlsResponse(response);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = mCdlsObject.getOpeningHoursWeekdays();
+        String expected = "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
+        assertNotNull(received);
+    }
 
-	public void testContactUsSundayBean() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = mCdlsObject.getOpeningHoursSunday();
-		String expected = "Sunday: 9:00 AM - 6:00 PM EST";
-		assertNotNull(received);
-	}
+    @Test
+    public void testContactUsSaturdayDayBean() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = mCdlsObject.getOpeningHoursSaturday();
+        assertNotNull(received);
+    }
 
-	public void testContactUsOptionOneBean() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = mCdlsObject.getOptionalData1();
-		String expected = "Excluding Major Holidays";
+    @Test
+    public void testContactUsSundayBean() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = mCdlsObject.getOpeningHoursSunday();
+        String expected = "Sunday: 9:00 AM - 6:00 PM EST";
+        assertNotNull(received);
+    }
 
-		assertNotNull(received);
-	}
+    @Test
+    public void testContactUsOptionOneBean() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = mCdlsObject.getOptionalData1();
+        String expected = "Excluding Major Holidays";
 
-	public void testContactUsOptionTwoBean() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = mCdlsObject.getOptionalData2();
-		String expected = "For faster service, please have your product on-hand.";
-		assertNotNull(received);
+        assertNotNull(received);
+    }
 
-	}
+    @Test
+    public void testContactUsOptionTwoBean() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = mCdlsObject.getOptionalData2();
+        String expected = "For faster service, please have your product on-hand.";
+        assertNotNull(received);
 
-	public void testContactUsContactNumberBean() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = mCdlsObject.getPhoneNumber();
-		String expected = "1-800-243-3050";
-		assertEquals(expected, received);
-	}
+    }
 
-	public void testContactUsWeekDaysBean1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = null;
-		try {
-			received = mCdlsObject.getOpeningHoursWeekdays();
-		} catch (NullPointerException e) {
+    @Test
+    public void testContactUsContactNumberBean() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = mCdlsObject.getPhoneNumber();
+        String expected = "1-800-243-3050";
+        assertEquals(expected, received);
+    }
 
-		} finally {
-			assertNull(received);
-		}
-		/*
-		 * String expected =
-		 * "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
-		 * assertNotNull(received);
-		 */
-	}
+    @Test
+    public void testContactUsWeekDaysBean1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = null;
+        try {
+            received = mCdlsObject.getOpeningHoursWeekdays();
+        } catch (NullPointerException ignored) {
 
-	public void testContactUsSaturdayDayBean1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = null;
-		try {
-			received = mCdlsObject.getOpeningHoursSaturday();
-		} catch (NullPointerException e) {
+        } finally {
+            assertNull(received);
+        }
+        /*
+         * String expected =
+         * "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
+         * assertNotNull(received);
+         */
+    }
 
-		} finally {
-			assertNull(received);
-		}
-		// assertNotNull(received);
-	}
+    @Test
+    public void testContactUsSaturdayDayBean1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = null;
+        try {
+            received = mCdlsObject.getOpeningHoursSaturday();
+        } catch (NullPointerException ignored) {
 
-	public void testContactUsSundayBean1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = null;
-		try {
-			received = mCdlsObject.getOpeningHoursSunday();
-		} catch (NullPointerException e) {
+        } finally {
+            assertNull(received);
+        }
+        // assertNotNull(received);
+    }
 
-		} finally {
-			assertNull(received);
-		}
-		/*
-		 * String expected = "Sunday: 9:00 AM - 6:00 PM EST";
-		 * assertNotNull(received);
-		 */
-	}
+    @Test
+    public void testContactUsSundayBean1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = null;
+        try {
+            received = mCdlsObject.getOpeningHoursSunday();
+        } catch (NullPointerException ignored) {
 
-	public void testContactUsOptionOneBean1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = null;
-		try {
-			received = mCdlsObject.getOptionalData1();
-		} catch (NullPointerException e) {
+        } finally {
+            assertNull(received);
+        }
+        /*
+         * String expected = "Sunday: 9:00 AM - 6:00 PM EST";
+         * assertNotNull(received);
+         */
+    }
 
-		} finally {
-			assertNull(received);
-		}
+    @Test
+    public void testContactUsOptionOneBean1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = null;
+        try {
+            received = mCdlsObject.getOptionalData1();
+        } catch (NullPointerException ignored) {
+
+        } finally {
+            assertNull(received);
+        }
 	/*	String expected = "Excluding Major Holidays";
 
 		assertNotNull(received);*/
-	}
+    }
 
-	public void testContactUsOptionTwoBean1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = null;
-		try {
-			received = mCdlsObject.getOptionalData2();
-		} catch (NullPointerException e) {
+    @Test
+    public void testContactUsOptionTwoBean1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = null;
+        try {
+            received = mCdlsObject.getOptionalData2();
+        } catch (NullPointerException ignored) {
 
-		} finally {
-			assertNull(received);
-		}
-		/*
-		 * String expected =
-		 * "For faster service, please have your product on-hand.";
-		 * assertNotNull(received);
-		 */
-	}
+        } finally {
+            assertNull(received);
+        }
+        /*
+         * String expected =
+         * "For faster service, please have your product on-hand.";
+         * assertNotNull(received);
+         */
+    }
 
-	public void testContactUsContactNumberBean1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = null;
-		try {
-			received = mCdlsObject.getPhoneNumber();
-		} catch (NullPointerException e) {
+    @Test
+    public void testContactUsContactNumberBean1() {
+        String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+                context);
+        mGetCdlsInstance.parseCdlsResponse(response);
+        CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
+        String received = null;
+        try {
+            received = mCdlsObject.getPhoneNumber();
+        } catch (NullPointerException ignored) {
 
-		} finally {
-			assertNull(received);
-		}
+        } finally {
+            assertNull(received);
+        }
 
-		/*
-		 * String expected = "1-800-243-3050"; Log.d(TAG, "Naveen :" +
-		 * received); assertEquals(expected, received);
-		 */
-	}
+        /*
+         * String expected = "1-800-243-3050"; Log.d(TAG, "Naveen :" +
+         * received); assertEquals(expected, received);
+         */
+    }
 
-	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
-		@Override
-		public void onCdlsParsingComplete(final CdlsResponseModel response) {
-			mCdlsResponseModel = response;
+    private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+        @Override
+        public void onCdlsParsingComplete(final CdlsResponseModel response) {
+            mCdlsResponseModel = response;
 
-		}
-	};
-
-	public void testContactUsContactNumberBeanWhenPhoneNumberHasBrackets() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls_power_sleep.json",
-				context);
-		mGetCdlsInstance.parseCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
-		String received = mCdlsObject.getPhoneNumber();
-		String expected = "844 669 9935";
-		assertEquals(expected, received);
-	}
+        }
+    };
 }

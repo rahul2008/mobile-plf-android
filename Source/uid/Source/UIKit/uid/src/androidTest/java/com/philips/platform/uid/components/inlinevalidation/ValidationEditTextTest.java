@@ -1,8 +1,12 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.uid.components.inlinevalidation;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -15,6 +19,8 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import androidx.test.rule.ActivityTestRule;
 
 import static org.junit.Assert.assertTrue;
 

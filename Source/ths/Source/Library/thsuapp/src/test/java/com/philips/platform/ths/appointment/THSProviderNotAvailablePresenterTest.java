@@ -1,13 +1,11 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.appointment;
 
 import com.americanwell.sdk.AWSDK;
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.AvailableProvider;
@@ -22,16 +20,19 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
+import static org.robolectric.shadows.ShadowInstrumentation.getInstrumentation;
 
+@RunWith(RobolectricTestRunner.class)
 public class THSProviderNotAvailablePresenterTest {
     THSProviderNotAvailablePresenter mTHSProviderNotAvailablePresenter;
 
@@ -90,8 +91,8 @@ public class THSProviderNotAvailablePresenterTest {
         THSManager.getInstance().setAwsdk(awsdkMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiceProvidersManagerMock);
         when(thsProviderNotAvailableFragmentMock.getProvider()).thenReturn(providerMock);
+        when(thsProviderNotAvailableFragmentMock.getContext()).thenReturn(getInstrumentation().getContext());
         mTHSProviderNotAvailablePresenter = new THSProviderNotAvailablePresenter(thsProviderNotAvailableFragmentMock);
-
     }
 
     @Test

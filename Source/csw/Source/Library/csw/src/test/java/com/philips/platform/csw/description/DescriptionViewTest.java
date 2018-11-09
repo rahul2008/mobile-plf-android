@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw.description;
 
 import android.os.Bundle;
@@ -6,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.philips.platform.csw.BuildConfig;
 import com.philips.platform.csw.R;
 
 import org.junit.Before;
@@ -15,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -24,11 +27,11 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 22)
 public class DescriptionViewTest {
 
     @Mock
     private FragmentTransaction transactionMock;
+
     @Mock
     private FragmentManager fragmentManagerMock;
 

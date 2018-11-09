@@ -1,8 +1,6 @@
 /*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.catk;
@@ -18,14 +16,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.configuration.MockitoConfiguration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
-public class CreateConsentDtoRequestTest extends MockitoConfiguration {
+public class CreateConsentDtoRequestTest {
 
     private CreateConsentModelRequest consentModelRequest;
 

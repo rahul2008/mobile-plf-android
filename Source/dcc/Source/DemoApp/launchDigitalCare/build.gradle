@@ -81,15 +81,12 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cl.di.dev.pa"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         generatedDensities = []
-        multiDexEnabled true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
         generatedDensities = []
+        multiDexEnabled true
         manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     lintOptions {
@@ -174,8 +171,8 @@ dependencies {
 
     androidTestImplementation deps.support.annotations
     androidTestImplementation deps.testing_support
-    androidTestImplementation deps.android_testrunner
-    androidTestImplementation deps.android_testrules
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx_test.rules
     androidTestImplementation deps.jsr305
 }
 

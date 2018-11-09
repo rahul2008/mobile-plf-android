@@ -1,8 +1,6 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2017
- *  All rights are reserved. Reproduction or dissemination
- *  in whole or in part is prohibited without the prior written
- *  consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.appframework.ui;
@@ -14,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
@@ -22,9 +19,6 @@ import com.philips.platform.appframework.data.TestConfigManager;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.models.Chapter;
 import com.philips.platform.appframework.models.CommonComponent;
-import com.philips.platform.appframework.ui.COCOListFragment;
-import com.philips.platform.appframework.ui.ChapterAdapter;
-import com.philips.platform.appframework.ui.TestFragment;
 import com.philips.platform.baseapp.screens.cocoversion.CocoVersionFragment;
 
 import junit.framework.TestCase;
@@ -34,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
@@ -41,9 +36,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 
-
-
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class TestFragmentTest extends TestCase implements TestConfigManager.TestConfigCallback{
     private HamburgerActivity hamburgerActivity = null;

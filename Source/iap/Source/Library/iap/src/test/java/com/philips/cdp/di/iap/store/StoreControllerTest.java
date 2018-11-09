@@ -2,12 +2,12 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 import android.os.Message;
-
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.session.MockSynchronizedNetwork;
 import com.philips.cdp.di.iap.session.RequestListener;
-
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,37 +15,28 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 public class StoreControllerTest {
+    private Context mContext;
 
     @Mock
-    Context mContext;
-    @Mock
-    StoreConfiguration mStoreConfiguration;
+    private StoreConfiguration mStoreConfiguration;
 
     private StoreController mWebsStoreConfig;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
+        mContext = getInstrumentation().getContext();
         mWebsStoreConfig = new StoreController(mContext, mStoreConfiguration);
     }
 
-//    @Test
-//    public void getLocaleShouldDefaultBeNull() {
-//        assertNull(mWebsStoreConfig.getLocale());
-//    }
-
     @Test
     public void matchMockedPILLocaleIsReturned() {
-        // mWebsStoreConfig.mPILLocale = mock(PILLocale.class);
-//        when(mWebsStoreConfig.mPILLocale.getLocaleCode()).thenReturn(NetworkURLConstants.LOCALE);
         MockStoreController config = new MockStoreController(mContext, mStoreConfiguration);
         config.getLocale();
         assertEquals(NetworkURLConstants.LOCALE, config.getLocale());
@@ -57,7 +48,6 @@ public class StoreControllerTest {
 
         MockStoreController config = new MockStoreController(mContext, mStoreConfiguration);
         config.initConfig(mock(RequestListener.class));
-//        config.startConfigDownloadThread();
 
         latch.await(1, TimeUnit.SECONDS);
     }

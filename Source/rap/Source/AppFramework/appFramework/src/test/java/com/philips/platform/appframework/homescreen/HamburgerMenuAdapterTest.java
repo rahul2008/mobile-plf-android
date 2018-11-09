@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
 package com.philips.platform.appframework.homescreen;
 
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.models.HamburgerMenuItem;
 
@@ -25,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
@@ -35,8 +34,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class HamburgerMenuAdapterTest {
 
     private HamburgerMenuAdapter hamburgerMenuAdapter;

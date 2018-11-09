@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -8,12 +8,12 @@ package com.philips.pins.shinelib.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.SHNCapabilityType;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
@@ -26,12 +26,10 @@ import static org.assertj.core.api.Assertions.within;
 import static org.junit.Assert.assertNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class PersistentStorageTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class PersistentStorageTest {
 
     public static final String KEY = "KEY";
-
-    @Mock
-    private SHNLogger.LoggerImplementation loggerMock;
 
     private PersistentStorage persistentStorage;
 
