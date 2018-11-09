@@ -393,7 +393,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
-            mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             updateCartDetails(mShoppingCartAPI);
         }
