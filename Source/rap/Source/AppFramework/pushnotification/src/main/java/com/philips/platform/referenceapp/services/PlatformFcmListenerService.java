@@ -5,6 +5,8 @@
  */
 package com.philips.platform.referenceapp.services;
 
+import android.content.Intent;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.philips.platform.referenceapp.PushNotificationManager;
@@ -14,14 +16,8 @@ import com.philips.platform.referenceapp.utils.PNLog;
  * Created by philips on 08/03/17.
  */
 
-public class PlatformFirebaseMessagingService extends FirebaseMessagingService {
+public class PlatformFcmListenerService extends FirebaseMessagingService {
     private static final String TAG = "PushNotification";
-
-    @Override
-    public void onNewToken(String token) {
-        super.onNewToken(token);
-        PNLog.d(TAG, token);
-    }
 
     /**
      * Called when message is received.

@@ -18,7 +18,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInterface;
 import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
 import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
-import com.philips.platform.referenceapp.services.PlatformFirebaseMessagingService;
+import com.philips.platform.referenceapp.services.PlatformFcmListenerService;
 import com.philips.platform.referenceapp.services.RegistrationIntentService;
 import com.philips.platform.referenceapp.utils.PNLog;
 import com.philips.platform.referenceapp.utils.PushNotificationConstants;
@@ -197,12 +197,12 @@ public class PushNotificationManagerTest {
 
     @Test
     public void testStartPushNotificationRegistrationPlatformInstanceIDListenerService() throws Exception {
-        ServiceController<TestPlatformFirebaseMessagingService> controller;
-        controller = Robolectric.buildService(TestPlatformFirebaseMessagingService.class);
-        TestPlatformFirebaseMessagingService service = controller.create().get();
-        Intent intent = new Intent(RuntimeEnvironment.application, TestPlatformFirebaseMessagingService.class);
+        ServiceController<TestPlatformFcmListenerService> controller;
+        controller = Robolectric.buildService(TestPlatformFcmListenerService.class);
+        TestPlatformFcmListenerService service = controller.create().get();
+        Intent intent = new Intent(RuntimeEnvironment.application, TestPlatformFcmListenerService.class);
         service.onStartCommand(intent, 0, 0);
-        assertEquals(TestPlatformFirebaseMessagingService.class.getName(), intent.getComponent().getClassName());
+        assertEquals(TestPlatformFcmListenerService.class.getName(), intent.getComponent().getClassName());
     }
 
     @Test
@@ -479,12 +479,7 @@ public class PushNotificationManagerTest {
         }
     }
 
-    private static class TestPlatformFirebaseMessagingService extends PlatformFirebaseMessagingService {
-
-        @Override
-        public void onNewToken(String token) {
-            super.onNewToken(token);
-        }
+    private static class TestPlatformFcmListenerService extends PlatformFcmListenerService {
 
         @Override
         public void onMessageReceived(RemoteMessage remoteMessage) {
