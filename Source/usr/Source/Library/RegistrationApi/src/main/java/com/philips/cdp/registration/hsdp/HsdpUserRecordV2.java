@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
+import com.philips.cdp.registration.ui.utils.MapUtils;
+
 import java.util.Map;
 
 /**
