@@ -322,4 +322,9 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
     public void onEWSError(int errorCode) {
         Toast.makeText(this, "EWS failed with error code:" + errorCode, Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onEWSCancelled() {
+        Toast.makeText(this, "EWS cancelled", Toast.LENGTH_LONG).show();
+    }
 }

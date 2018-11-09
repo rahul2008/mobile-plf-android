@@ -23,6 +23,7 @@ import com.philips.platform.ews.base.BaseFragment;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.databinding.FragmentStartConnectWithDeviceBinding;
 import com.philips.platform.ews.dialog.EWSAlertDialogFragment;
+import com.philips.platform.ews.microapp.EwsResultListener;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Page;
 import com.philips.platform.ews.util.DialogUtils;
@@ -39,6 +40,7 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
     private StartConnectWithDeviceViewModel viewModel;
     private static final int LOCATION_PERMISSIONS_REQUEST_CODE = 10;
     private boolean pendingPermissionResultRequest;
+    private EwsResultListener ewsResultListener;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -180,6 +182,10 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
 
     @Override
     public void onDestroy() {
+        ewsResultListener = viewModel.getEwsResultListener();
+        if(ewsResultListener != null) {
+            ewsResultListener.onEWSCancelled();
+        }
         if (!(getActivity() instanceof EWSActivity)) {
             if (viewModel != null) {
                 viewModel.onDestroy();

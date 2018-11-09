@@ -104,6 +104,11 @@ public class EwsResultsTest {
         }
 
         @Override
+        public void onEWSCancelled() {
+
+        }
+
+        @Override
         public AssetManager getAssets() {
             return null;
         }

@@ -20,4 +20,10 @@ public interface EwsResultListener {
     void onEWSFinishSuccess();
 
     void onEWSError(int errorCode);
+
+    /**
+     * Call back to intimate application that EWS has been cancelled
+     * @since  2018.5.0
+     */
+    void onEWSCancelled();
 }

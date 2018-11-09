@@ -7,6 +7,7 @@ Version {next}
 ### Functionality Delivered
 * \#128922 EWS Flow Improvements - Moved Location Permission in start of EWS flow from later stage, Added new functionality for listing available networks from appliance to solve 2.4 vs 5 GHz network issue, Added new Screen for Network Not Listed Troubleshooting
 * \#144406 Added new public setter API 'setEwsResultListener' in 'BaseContentConfiguration' to let applications set EwsResultListener
+* \#144406 Added new callback API 'onEWSCancelled' in 'EwsResultListener' to let applications intimate that EWS has been cancelled either from 'Yes, cancel setup' button of popup displayed or on back press of Get Started/First Screen
 
 ### Backwards Compatibility
 * N/A
@@ -16,6 +17,7 @@ Version {next}
 
 ### Breaking Changes
 * Removed BufferedWriter out from DiCommLog
+* \#144406 Added new callback API 'onEWSCancelled' in 'EwsResultListener' interface, which applications need to implement
 
 ### Defects solved
 * \#146396 Pressing the continue button on the successful ending of EWS will now send a notification to the launching App. In case of Activity launch of EWS, this notification will be received on onActivityResult and in case of Fragment Launch this would be received via the success method of EwsResultListener

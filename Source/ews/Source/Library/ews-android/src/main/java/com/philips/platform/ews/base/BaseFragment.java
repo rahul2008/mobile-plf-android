@@ -25,6 +25,7 @@ import com.philips.platform.ews.injections.EWSDependencyProviderModule;
 import com.philips.platform.ews.injections.EWSModule;
 import com.philips.platform.ews.microapp.EWSActionBarListener;
 import com.philips.platform.ews.microapp.EWSLauncherInput;
+import com.philips.platform.ews.microapp.EwsResultListener;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Page;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -42,6 +43,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     private int deviceName;
     @NonNull
     private EWSTagger ewsTagger;
+    private EWSConfigurationModule ewsConfigurationModule;
 
     @Override
     public void onAttach(Context context) {
@@ -51,7 +53,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
             return;
         }
         EWSDependencyProviderModule ewsDependencyProviderModule = new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap());
-        EWSConfigurationModule ewsConfigurationModule = new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration());
+        ewsConfigurationModule = new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration());
         deviceName = ewsConfigurationModule.provideBaseContentConfiguration().getDeviceName();
         ewsTagger = ewsDependencyProviderModule.provideEWSTagger();
         ewsComponent = DaggerEWSComponent.builder()
@@ -117,7 +119,12 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
+                EwsResultListener ewsResultListener = ewsConfigurationModule.provideBaseContentConfiguration().getEwsResultListener();
+                if(ewsResultListener == null) {
+                    getActivity().finish();
+                } else {
+                    ewsResultListener.onEWSCancelled();
+                }
             }
         });
         noButton.setOnClickListener(new View.OnClickListener() {
