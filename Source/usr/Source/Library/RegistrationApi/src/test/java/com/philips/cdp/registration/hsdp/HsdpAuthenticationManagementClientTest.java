@@ -33,21 +33,21 @@ public class HsdpAuthenticationManagementClientTest extends TestCase {
 
     }
 
-    @Test
-    public void testDhpAuthenticateManagementClient() throws Exception {
-//        mDhpAuthenticationManagementClient.authenticate("username", "password", "secret");
-//        mDhpAuthenticationManagementClient.createRefreshSignature("refresh_Secret", "date", "accessToken");
-//        mDhpAuthenticationManagementClient.createRefreshSignature("refresh_Secret", "", "");
-//        mDhpAuthenticationManagementClient.validateToken("userId", "accessToken");
-//        mDhpAuthenticationManagementClient.validateToken(null, null);
-//        mDhpAuthenticationManagementClient.validateToken("", "");
-        mDhpAuthenticationManagementClient.loginSocialProviders("email", "socialaccesstoken", "asjdbwdbwdbejkwfbjkewbwejkdw");
-        mDhpAuthenticationManagementClient.logout("sample", "sample");
-        mDhpAuthenticationManagementClient.logout(null, null);
-        mDhpAuthenticationManagementClient.logout("", "");
-
-        assertNotNull(mDhpAuthenticationManagementClient);
-    }
+//    @Test
+//    public void testDhpAuthenticateManagementClient() throws Exception {
+////        mDhpAuthenticationManagementClient.authenticate("username", "password", "secret");
+////        mDhpAuthenticationManagementClient.createRefreshSignature("refresh_Secret", "date", "accessToken");
+////        mDhpAuthenticationManagementClient.createRefreshSignature("refresh_Secret", "", "");
+////        mDhpAuthenticationManagementClient.validateToken("userId", "accessToken");
+////        mDhpAuthenticationManagementClient.validateToken(null, null);
+////        mDhpAuthenticationManagementClient.validateToken("", "");
+//        mDhpAuthenticationManagementClient.loginSocialProviders("email", "socialaccesstoken", "asjdbwdbwdbejkwfbjkewbwejkdw");
+//        mDhpAuthenticationManagementClient.logout("sample", "sample");
+//        mDhpAuthenticationManagementClient.logout(null, null);
+//        mDhpAuthenticationManagementClient.logout("", "");
+//
+//        assertNotNull(mDhpAuthenticationManagementClient);
+//    }
 
     @Test
     public void testSign() throws Exception {
