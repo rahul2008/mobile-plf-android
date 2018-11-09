@@ -25,12 +25,13 @@ import static org.mockito.Mockito.when;
 public class IAPAnalyticsTest {
 
     public AppTaggingInterface sAppTaggingInterface;
-    @Mock
-    IAPDependencies iapDependenciesMock;
+
+    private IAPDependencies iapDependenciesMock;
 
     @Before
     public void setUp() throws Exception {
         iapDependenciesMock = new MockIAPDependencies(mock(AppInfra.class));
+
         when(iapDependenciesMock.getAppInfra().getTagging()).thenReturn(mock(AppTaggingInterface.class));
 
         sAppTaggingInterface =

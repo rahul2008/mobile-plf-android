@@ -1,15 +1,16 @@
-/* Copyright (c) Koninklijke Philips N.V. 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.platform.appinfra.securestoragev1;
 
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,37 +20,42 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Random;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * SecureStorage Test class.
  */
 
-public class SecureStorageV1Test extends AppInfraInstrumentation {
-    SecureStorageInterface mSecureStorage = null;
-    private AppInfra mAppInfra;
+public class SecureStorageV1Test {
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    private SecureStorageInterface mSecureStorage = null;
 
+    @Before
+    public void setUp() throws Exception {
         Context context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra = new AppInfra.Builder().build(context);
-        mSecureStorage = new SecureStorageV1(mAppInfra);
-        assertNotNull(mSecureStorage);
 
+        final AppInfra mAppInfra = new AppInfra.Builder().build(context);
+        mSecureStorage = new SecureStorageV1(mAppInfra);
+
+        assertNotNull(mSecureStorage);
     }
 
-
+    @Test
     public void testStoreValueForKey() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertFalse(mSecureStorage.storeValueForKey("", "", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
         assertFalse(mSecureStorage.storeValueForKey(null, "value", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
-
     }
 
+    @Test
     public void testStoringFetchingRandomValue() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         String s = generateRandomNumber(3000);
@@ -68,19 +74,14 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         }
     }
 
-    private String generateRandomNumber(int charLength) {
-        return String.valueOf(charLength < 1 ? 0 : new Random()
-                .nextInt((9 * (int) Math.pow(10, charLength - 1)) - 1)
-                + (int) Math.pow(10, charLength - 1));
-    }
-
+    @Test
     public void testForEmptyKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertFalse(mSecureStorage.storeValueForKey("", "value", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
-
+    @Test
     public void testStoringTrueCondition() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey("key", "value", sse)); // true condition
@@ -89,17 +90,20 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertNull(sse.getErrorCode());
     }
 
+    @Test
     public void testForSpaceKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertFalse(mSecureStorage.storeValueForKey(" ", "val", sse)); // value can be empty
         assertFalse(mSecureStorage.storeValueForKey("   ", "val", sse)); // value can be empty
     }
 
+    @Test
     public void testStoringEmptyValue() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey("key", "", sse)); // value can be empty
     }
 
+    @Test
     public void testFetchValueForNullKey() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertNull(mSecureStorage.fetchValueForKey(null, sse));
@@ -107,19 +111,21 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertNull(mSecureStorage.fetchValueForKey("NotSavedKey", sse));
     }
 
+    @Test
     public void testFetchValueTrueCondition() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         mSecureStorage.storeValueForKey("key", "valueForKey", sse);
         assertEquals(mSecureStorage.fetchValueForKey("key", sse), "valueForKey");
     }
 
+    @Test
     public void testFetchValueForEmptyKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertNull(mSecureStorage.fetchValueForKey("", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
-
+    @Test
     public void testCreateKey() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
@@ -130,18 +136,21 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
+    @Test
     public void testCreatingNullKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, null, sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
+    @Test
     public void testCreatingEmptyKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
+    @Test
     public void testGetKey() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
@@ -151,6 +160,7 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
+    @Test
     public void testClearKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertFalse(mSecureStorage.clearKey("", sse));
@@ -161,6 +171,7 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.DeleteError);
     }
 
+    @Test
     public void testRemoveValueForKey() throws Exception {
         assertFalse(mSecureStorage.removeValueForKey(""));
         assertFalse(mSecureStorage.removeValueForKey(null));
@@ -169,6 +180,7 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertTrue(mSecureStorage.removeValueForKey("someKey"));
     }
 
+    @Test
     public void testHappyPath() throws Exception {
         String valueStored = "value";
         String keyStored = "key";
@@ -178,6 +190,7 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertNull(mSecureStorage.fetchValueForKey(keyStored, sse));
     }
 
+    @Test
     public void testMultipleCallIndependentMethods() throws Exception {
         String valueStored = "value";
         String keyStored = "key";
@@ -192,6 +205,7 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         }
     }
 
+    @Test
     public void testMultipleCallSequentialMethods() throws Exception {
         String valueStored = "value";
         String keyStored = "key";
@@ -200,10 +214,9 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         for (iCount = 0; iCount < 10; iCount++) {
             assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored, sse));
         }
-
-
     }
 
+    @Test
     public void testLargeValue() throws Exception {
         String valueStored = getLargeString();
         String keyStored = "keyLarge";
@@ -214,27 +227,7 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         assertEquals(valueStored, actual);
     }
 
-    private String getLargeString() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource("big_string");
-        File file = new File(resource.getPath());
-        StringBuilder text = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-                text.append('\n');
-            }
-            br.close();
-        } catch (IOException e) {
-            //You'll need to add proper error handling here
-        }
-        return text.toString();
-    }
-
+    @Test
     public void testByteDataEncryptionAndDecryption() throws Exception {
         SecureStorageInterface.SecureStorageError sse;
         sse = new SecureStorageInterface.SecureStorageError();
@@ -258,5 +251,32 @@ public class SecureStorageV1Test extends AppInfraInstrumentation {
         byte[] decBtyes1 = mSecureStorage.decryptData(encBtyes1, sse);
         assertTrue(Arrays.equals(plainByte1, decBtyes1));
         assertNull(sse.getErrorCode());
+    }
+
+    private String generateRandomNumber(int charLength) {
+        return String.valueOf(charLength < 1 ? 0 : new Random()
+                .nextInt((9 * (int) Math.pow(10, charLength - 1)) - 1)
+                + (int) Math.pow(10, charLength - 1));
+    }
+
+    private String getLargeString() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource("big_string");
+        File file = new File(resource.getPath());
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append('\n');
+            }
+            br.close();
+        } catch (IOException e) {
+            //You'll need to add proper error handling here
+        }
+        return text.toString();
     }
 }

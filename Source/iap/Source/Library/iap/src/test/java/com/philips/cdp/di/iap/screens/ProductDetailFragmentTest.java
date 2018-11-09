@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
@@ -11,12 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
-import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
@@ -24,20 +29,75 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 
-import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class ProductDetailFragmentTest {
+
+    @Mock
+    private View viewMock;
+
+    @Mock
+    private ProgressBarButton progressBarAddToCartButtonMock;
+
+    @Mock
+    private ProgressBarButton progressBarBuyFromRetailerButtonMock;
+
+    @Mock
+    private LinearLayout linearLayout1Mock;
+
+    @Mock
+    private LinearLayout linearLayout2Mock;
+
+    @Mock
+    private Button button;
+
+    @Mock
+    private ViewPager viewPagerMock;
+
+    @Mock
+    private DotNavigationIndicator dotNavigationIndicatorMock;
+
+    @Mock
+    private ScrollView scrollViewMock;
+
+    @Mock
+    private TextView productDescriptionMock;
+
+    @Mock
+    private TextView ctnMock;
+
+    @Mock
+    private TextView priceMock;
+
+    @Mock
+    private TextView textView;
+
+    @Mock
+    private TextView textView1;
+
+    @Mock
+    private TextView textView2;
+
+    @Mock
+    private TextView textView3;
+
+    @Mock
+    private AppInfraInterface appInfraMock;
+
+    @Mock
+    private LoggingInterface loggingMock;
+
     private Context mContext;
-    ProductDetailFragment productDetailFragment;
+
+    private ProductDetailFragment productDetailFragment;
 
     @Before
     public void setUp() {
@@ -46,156 +106,57 @@ public class ProductDetailFragmentTest {
         TestUtils.getStubbedHybrisDelegate();
         isNetworkAvailable();
 
-        mContext = RuntimeEnvironment.application;
+        when(loggingMock.createInstanceForComponent(any(), any())).thenReturn(loggingMock);
+        when(appInfraMock.getLogging()).thenReturn(loggingMock);
+        CartModelContainer.getInstance().setAppInfraInstance(appInfraMock);
+
+        mContext = getInstrumentation().getContext();
+
         productDetailFragment = ProductDetailFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
+        SupportFragmentController.of(productDetailFragment).create().start().resume();
     }
-
-    @Test(expected = RuntimeException.class)
-    public void shouldDisplayAddressSelectionFragment() {
-
-        SupportFragmentTestUtil.startFragment(productDetailFragment);
-    }
-
-    @Mock
-    View viewMock;
-
-
-
-    @Mock
-    ProgressBarButton progressBarAddToCartButtonMock;
-
-    @Mock
-    ProgressBarButton progressBarBuyFromRetailerButtonMock;
-
-    @Mock
-    LinearLayout linearLayout1Mock;
-
-    @Mock
-    LinearLayout linearLayout2Mock;
-
-    @Mock
-    Button button;
-
-    @Mock
-    ViewPager viewPagerMock;
-
-    @Mock
-    DotNavigationIndicator dotNavigationIndicatorMock;
-
-    @Mock
-    ScrollView scrollViewMock;
-    @Mock
-    TextView productDescriptionMock;
-
-    @Mock
-    TextView ctnMock;
-
-    @Mock
-    TextView priceMock;
-
-    @Mock
-    TextView textView;
-
-    @Mock
-    TextView textView1;
-
-    @Mock
-    TextView textView2;
-
-    @Mock
-    TextView textView3;
-
-    @Mock
-    TextView productOverviewMock;
-
-    /*
-  *
-  *     mDetailLayout = (ScrollView) rootView.findViewById(R.id.scrollView);
-      mProductDescription = (TextView) rootView.findViewById(R.id.iap_productDetailScreen_productDescription_lebel);
-      mCTN = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_ctn_lebel);
-      mPrice = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_individualPrice_lebel);
-      mProductOverview = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_productOverview);
-      mAddToCart = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_addToCart_button);
-      mBuyFromRetailers = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button);
-      mCheckutAndCountinue = (LinearLayout) rootView.findViewById(R.id.iap_productDetailsScreen_btn_ll);
-      mQuantityAndDelete = (LinearLayout) rootView.findViewById(R.id.iap_productDetailsScreen_quantity_delete_btn_ll);
-      mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
-      mProductStockInfo = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
-      mDeleteProduct = (Button) rootView.findViewById(delete_btn);
-      mDeleteProduct.setOnClickListener(this);
-      mQuantity = (TextView) rootView.findViewById(R.id.quantity_val);
-      mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-      DotNavigationIndicator indicator = (DotNavigationIndicator) rootView.findViewById(R.id.indicator);
-  *
-  * */
 
     @Test
     public void shouldInitializeViews() throws Exception {
-        initializaViews();
+        initializeViews();
         productDetailFragment.initializeViews(viewMock);
     }
 
-    @Test
-    public void shouldInitializeViewsWithBundleArgument() throws Exception {
-        initializaViews();
-        Bundle bundle=new Bundle();
-        bundle.putString(IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,"X234");
+    @Test()
+    public void shouldCallOnResume() throws Exception {
+        initializeViews();
+        Bundle bundle = new Bundle();
         productDetailFragment.setArguments(bundle);
         productDetailFragment.initializeViews(viewMock);
+        productDetailFragment.onResume();
     }
 
-    void initializaViews(){
-        Mockito.when(viewMock.findViewById(R.id.scrollView)).thenReturn(scrollViewMock);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailScreen_productDescription_lebel)).thenReturn(productDescriptionMock);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailsScreen_ctn_lebel)).thenReturn(ctnMock);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailsScreen_individualPrice_lebel)).thenReturn(priceMock);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailsScreen_addToCart_button)).thenReturn(progressBarAddToCartButtonMock);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button)).thenReturn(progressBarBuyFromRetailerButtonMock);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailsScreen_btn_ll)).thenReturn(linearLayout1Mock);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailsScreen_quantity_delete_btn_ll)).thenReturn(linearLayout2Mock);
-        Mockito.when(viewMock.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel)).thenReturn(textView);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailsScreen_outOfStock_label)).thenReturn(textView1);
-        Mockito.when(viewMock.findViewById(R.id.delete_btn)).thenReturn(button);
-        Mockito.when(viewMock.findViewById(R.id.quantity_val)).thenReturn(textView2);
-        Mockito.when(viewMock.findViewById(R.id.iap_productDetailsScreen_productOverview)).thenReturn(textView3);
-        Mockito.when(viewMock.findViewById(R.id.pager)).thenReturn(viewPagerMock);
-        Mockito.when(viewMock.findViewById(R.id.indicator)).thenReturn(dotNavigationIndicatorMock);
-
-        /* TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{R.attr.uikit_baseColor});
-        int mThemeBaseColor = a.getColor(0, ContextCompat.getColor(context, R.color.uikit_philips_blue));
-        a.recycle();*/
+    private void initializeViews() {
+        when(viewMock.findViewById(R.id.scrollView)).thenReturn(scrollViewMock);
+        when(viewMock.findViewById(R.id.iap_productDetailScreen_productDescription_lebel)).thenReturn(productDescriptionMock);
+        when(viewMock.findViewById(R.id.iap_productDetailsScreen_ctn_lebel)).thenReturn(ctnMock);
+        when(viewMock.findViewById(R.id.iap_productDetailsScreen_individualPrice_lebel)).thenReturn(priceMock);
+        when(viewMock.findViewById(R.id.iap_productDetailsScreen_addToCart_button)).thenReturn(progressBarAddToCartButtonMock);
+        when(viewMock.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button)).thenReturn(progressBarBuyFromRetailerButtonMock);
+        when(viewMock.findViewById(R.id.iap_productDetailsScreen_btn_ll)).thenReturn(linearLayout1Mock);
+        when(viewMock.findViewById(R.id.iap_productDetailsScreen_quantity_delete_btn_ll)).thenReturn(linearLayout2Mock);
+        when(viewMock.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel)).thenReturn(textView);
+        when(viewMock.findViewById(R.id.iap_productDetailsScreen_outOfStock_label)).thenReturn(textView1);
+        when(viewMock.findViewById(R.id.delete_btn)).thenReturn(button);
+        when(viewMock.findViewById(R.id.quantity_val)).thenReturn(textView2);
+        when(viewMock.findViewById(R.id.iap_productDetailsScreen_productOverview)).thenReturn(textView3);
+        when(viewMock.findViewById(R.id.pager)).thenReturn(viewPagerMock);
+        when(viewMock.findViewById(R.id.indicator)).thenReturn(dotNavigationIndicatorMock);
 
         productDetailFragment.onAttach(mContext);
     }
 
-    public void isNetworkAvailable() {
+    private void isNetworkAvailable() {
         final ConnectivityManager connectivityManager = mock(ConnectivityManager.class);
         final NetworkInfo networkInfo = mock(NetworkInfo.class);
-        Mockito.when(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).thenReturn(networkInfo);
-        Mockito.when(networkInfo.isAvailable()).thenReturn(true);
-        Mockito.when(networkInfo.isConnected()).thenReturn(true);
+        when(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)).thenReturn(networkInfo);
+        when(networkInfo.isAvailable()).thenReturn(true);
+        when(networkInfo.isConnected()).thenReturn(true);
         NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
-
-    @Test(expected = NullPointerException.class)
-    public void shouldCallOnResume() throws Exception {
-        initializaViews();
-        Bundle bundle=new Bundle();
-       // bundle.putString(IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,"X234");
-        productDetailFragment.setArguments(bundle);
-        productDetailFragment.initializeViews(viewMock);
-        productDetailFragment.onResume();
-
-    }
-
-
-/*    public void callOnResume_WhenmLaunchedFromProductCatalogIsTrue() throws Exception {
-
-        initializaViews();
-        Bundle bundle=new Bundle();
-        bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG,true);
-        productDetailFragment.setArguments(bundle);
-        productDetailFragment.initializeViews(viewMock);
-        productDetailFragment.onResume();
-    }*/
 }

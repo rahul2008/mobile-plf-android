@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration;
 
 import android.app.Activity;
@@ -12,17 +17,15 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.robolectric.RobolectricTestRunner;
 
-@RunWith(MockitoJUnitRunner.class)
-public class UserTest extends TestCase {
+@RunWith(RobolectricTestRunner.class)
+public class UserTest {
 
     private User user;
 

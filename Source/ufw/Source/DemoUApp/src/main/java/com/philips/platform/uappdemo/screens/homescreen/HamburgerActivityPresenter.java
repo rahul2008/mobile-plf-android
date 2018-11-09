@@ -37,6 +37,7 @@ public class HamburgerActivityPresenter extends UappBasePresenter {
     private BaseState baseState;
     private final int SAMPLE = 2;
     private final int DLS = 3;
+    private final int nav = 4;
 
     public HamburgerActivityPresenter(final UappFragmentView fragmentView) {
         super(fragmentView);
@@ -89,6 +90,8 @@ public class HamburgerActivityPresenter extends UappBasePresenter {
                 return "sample";
             case DLS:
                 return "dls";
+            case nav:
+                return "navigation_impl";
             default:
                 return HOME_FRAGMENT;
         }

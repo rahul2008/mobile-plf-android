@@ -25,12 +25,10 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        multiDexEnabled true
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode getMyVersionCode()
         versionName "1.0"
         consumerProguardFiles('proguard-rules.txt', 'proguard-rules-lib.txt')
+        multiDexEnabled true
     }
     
     dataBinding {

@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.iapHandler;
@@ -46,7 +46,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
         }
     }
 
-    public void getProductCount(final IAPListener iapListener) {
+    private void getProductCount(final IAPListener iapListener) {
         ShoppingCartAPI presenter = new ShoppingCartPresenter();
         presenter.getProductCartCount(mContext, new IAPCartListener() {
             @Override

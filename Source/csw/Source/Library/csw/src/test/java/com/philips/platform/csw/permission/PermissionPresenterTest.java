@@ -1,6 +1,11 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw.permission;
 
-import android.test.mock.MockContext;
+import android.content.Context;
 
 import com.google.common.collect.ImmutableMap;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
@@ -36,14 +41,12 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class PermissionPresenterTest {
@@ -57,12 +60,18 @@ public class PermissionPresenterTest {
 
     @Mock
     private PermissionContract.View mockView;
+
     @Mock
     private PermissionAdapter mockAdapter;
+
     @Mock
     private ConsentManagerInterface consentManagerInterface;
+
     @Mock
     private PermissionContract.Presenter.ConsentToggleResponse responseMock;
+
+    @Mock
+    private Context context;
 
     private AppInfraInterfaceMock appInfraInterface;
 
@@ -302,7 +311,6 @@ public class PermissionPresenterTest {
         CswInterface cswInterface = new CswInterface();
         appInfraInterface = new AppInfraInterfaceMock();
         appInfraInterface.consentManagerInterface = consentManagerInterface;
-        MockContext context = new MockContext();
         CswDependencies cswDependencies = new CswDependencies(appInfraInterface);
         CswSettings cswSettings = new CswSettings(context);
         cswInterface.init(cswDependencies, cswSettings);

@@ -48,6 +48,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
         super.onAttach(context);
         if (!DependencyHelper.areDependenciesInitialized()) {
             this.getActivity().finish();
+            return;
         }
         EWSDependencyProviderModule ewsDependencyProviderModule = new EWSDependencyProviderModule(DependencyHelper.getAppInfraInterface(), DependencyHelper.getProductKeyMap());
         EWSConfigurationModule ewsConfigurationModule = new EWSConfigurationModule(this.getActivity(), DependencyHelper.getContentConfiguration());

@@ -1,23 +1,18 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.appframework.connectivitypowersleep.insights;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.MomentInsight;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
-import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Insight;
-import com.philips.platform.core.datatypes.SyncType;
-import com.philips.platform.core.trackers.DataServicesManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -37,14 +33,11 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.verify;
 
 /**
  * Created by philips on 9/5/17.
  */
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class InsightsFragmentTest {
 

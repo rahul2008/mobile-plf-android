@@ -1,7 +1,6 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
- *
  */
 package com.philips.platform.uid.components.label;
 
@@ -10,7 +9,6 @@ import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.rule.ActivityTestRule;
 import android.text.Spannable;
 import android.text.style.MetricAffectingSpan;
 import android.text.style.URLSpan;
@@ -26,9 +24,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import androidx.test.rule.ActivityTestRule;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

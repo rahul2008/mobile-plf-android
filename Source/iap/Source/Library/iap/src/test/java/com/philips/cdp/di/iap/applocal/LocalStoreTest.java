@@ -15,14 +15,16 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+
 @RunWith(RobolectricTestRunner.class)
 public class LocalStoreTest {
-    @Mock
-    Context mContext;
+    private Context mContext;
     private LocalStore mAppLocalStore;
 
     @Before
     public void setUp() throws Exception {
+        mContext = getInstrumentation().getContext();
         MockitoAnnotations.initMocks(this);
         mAppLocalStore = new LocalStore(mContext);
     }

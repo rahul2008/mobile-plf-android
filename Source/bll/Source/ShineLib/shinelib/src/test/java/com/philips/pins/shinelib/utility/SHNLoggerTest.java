@@ -1,14 +1,18 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.utility;
 
 import android.util.Log;
 
-import com.philips.pins.shinelib.RobolectricTest;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
-import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -16,20 +20,21 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class SHNLoggerTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class SHNLoggerTest {
 
     @Mock
-    SHNLogger.LoggerImplementation mockedImplementation1;
+    private SHNLogger.LoggerImplementation mockedImplementation1;
 
     @Mock
-    SHNLogger.LoggerImplementation mockedImplementation2;
+    private SHNLogger.LoggerImplementation mockedImplementation2;
 
     @Mock
-    Throwable mockedThrowable;
+    private Throwable mockedThrowable;
 
-    public static final String TEST_TAG = "This Is a Tag";
-    public static final String TEST_MSG = "This is a message\n over two lines";
-    public static final String LOGGER_HANDLER_PREFIX = "[TID: 0] ";
+    private static final String TEST_TAG = "This Is a Tag";
+    private static final String TEST_MSG = "This is a message\n over two lines";
+    private static final String LOGGER_HANDLER_PREFIX = "[TID: 0] ";
     public static final String TEST_MSG_ON_LOGGER_HANDLER = LOGGER_HANDLER_PREFIX + TEST_MSG;
 
     @Before
@@ -116,6 +121,6 @@ public class SHNLoggerTest extends RobolectricTest {
 
     @Test
     public void ShouldBePossibleToCreateALogCatLogger() throws Exception {
-        assertNotNull(new SHNLogger.LogCatLogger());
+        new SHNLogger.LogCatLogger();
     }
 }

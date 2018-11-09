@@ -9,6 +9,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.philips.cdp.di.iap.screens.ErrorDialogFragment;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
+
+import java.util.List;
 
 public class NetworkUtility {
     private static NetworkUtility mNetworkUtility;
@@ -85,12 +88,10 @@ public class NetworkUtility {
 
     public void showVoucherSuccessMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
         if (context == null) return;
-        if (msg.obj instanceof IAPNetworkError) {
-            IAPNetworkError error = (IAPNetworkError) msg.obj;
+
             showErrorDialog(context, pFragmentManager, context.getString(R.string.iap_ok),
                     "Successful",
                     "Vouchers Applied Successfully");
-        }
     }
 
     public void showVoucherErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
@@ -169,7 +170,7 @@ public class NetworkUtility {
             alertDialogFragment = builder.setCancelable(false).create();
         }
 
-        if (!alertDialogFragment.isVisible()) {
+        if (!alertDialogFragment.isVisible() && isCallingFragmentVisible(pFragmentManager)) {
             alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
         }
 
@@ -194,7 +195,7 @@ public class NetworkUtility {
             alertDialogFragment = builder.setCancelable(false).create();
         }
 
-        if (!alertDialogFragment.isVisible()) {
+        if (!alertDialogFragment.isVisible() && isCallingFragmentVisible(pFragmentManager)) {
             alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
         }
 
@@ -206,5 +207,17 @@ public class NetworkUtility {
             alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
         }
         alertDialogFragment.dismiss();
+    }
+
+    boolean isCallingFragmentVisible(FragmentManager fragmentManager) {
+
+        if (fragmentManager != null) {
+            List<Fragment> fragments = fragmentManager.getFragments();
+            if (fragments != null && fragments.size() > 0) {
+                Fragment fragment = fragments.get((fragments.size()) - 1);
+                return fragment.getActivity() != null && fragment.isAdded() && fragment.isVisible() && fragment.isResumed();
+            }
+        }
+        return false;
     }
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.securestoragev2;
 
 import android.content.Context;
@@ -14,12 +19,15 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.security.Key;
+import java.util.Arrays;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.crypto.Cipher;
 
 public class SecureStorageV2 implements SecureStorageInterface {
+
+    static final String RSA_WRAPPED_AES_KEY_MAIN = "rsa_wrapped_aes_encrypted_key";
 
     private final Context mContext;
     private final AppInfra mAppInfra;
@@ -28,7 +36,6 @@ public class SecureStorageV2 implements SecureStorageInterface {
     private SSEncoderDecoder ssEncoderDecoder;
     private SSKeyProvider ssKeyProvider;
     private SSFileCache ssFileCache;
-    public static final String RSA_WRAPPED_AES_KEY_MAIN = "rsa_wrapped_aes_encrypted_key";
 
     public static final String VERSION = "v2";
 
@@ -88,14 +95,10 @@ public class SecureStorageV2 implements SecureStorageInterface {
                 encryptedByteArray = returnResult ? encryptedByteArray : null; // if save of encryption data fails return null
                 final boolean isDebuggable = (0 != (mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
                 if (isDebuggable) {
-                    log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Encrypted Data" + encryptedByteArray);
+                    log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE, "Encrypted Data" + Arrays.toString(encryptedByteArray));
                 }
             } catch (SSKeyProviderException exception) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.AccessKeyFailure);
-                returnResult = false;
-                log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, exception.getMessage());
-            } catch (SSEncodeDecodeException exception) {
-                secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
                 returnResult = false;
                 log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, exception.getMessage());
             } catch (Exception e) {
@@ -175,7 +178,7 @@ public class SecureStorageV2 implements SecureStorageInterface {
         try {
             writeLock.lock();
 
-            return ssKeyProvider.getSecureKey(keyName) != null ? true : false;
+            return ssKeyProvider.getSecureKey(keyName) != null;
         } catch (SSKeyProviderException exception) {
             error.setErrorCode(SecureStorageError.secureStorageError.AccessKeyFailure);
             log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, exception.getMessage());
@@ -347,7 +350,6 @@ public class SecureStorageV2 implements SecureStorageInterface {
     public boolean isEmulator() {
         return false;
     }
-
 
     @Override
     public String getDeviceCapability() {

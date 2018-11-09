@@ -1,9 +1,6 @@
 /*
- *  Copyright (c) Koninklijke Philips N.V., 2016
- *  All rights are reserved. Reproduction or dissemination
- *  * in whole or in part is prohibited without the prior written
- *  * consent of the copyright holder.
- * /
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.dhpclient;
@@ -29,6 +26,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.Locale;
 import java.util.Map;
 
 public class DhpApiClient {
@@ -42,9 +40,9 @@ public class DhpApiClient {
         JSON_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    private  ApiSigner apiSigner ;
-    private  String apiBaseUrl ;
-    protected  String dhpApplicationName ;
+    private ApiSigner apiSigner;
+    private String apiBaseUrl;
+    protected String dhpApplicationName;
 
     private DhpResponseVerifier responseVerifier = new DhpResponseVerifier() {
         public void verify(DhpResponse dhpResponse) {
@@ -52,8 +50,8 @@ public class DhpApiClient {
         }
     };
 
-    public DhpApiClient(DhpApiClientConfiguration dhpApiClientConfiguration) {
-        if(dhpApiClientConfiguration !=null) {
+    DhpApiClient(DhpApiClientConfiguration dhpApiClientConfiguration) {
+        if (dhpApiClientConfiguration != null) {
             if (dhpApiClientConfiguration.getApiBaseUrl() == null || dhpApiClientConfiguration.getDhpApplicationName() == null)
                 throw new IllegalArgumentException("Missing DHP authentication communication settings");
 
@@ -63,32 +61,32 @@ public class DhpApiClient {
         }
     }
 
-    protected DhpResponse sendSignedRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
+    DhpResponse sendSignedRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
         String bodyString = asJsonString(body);
         addSignedDateHeader(headers);
         sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
         URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
-        HsdpLog.d("Hsdp URI : ",""+uri.toString());
-        HsdpLog.d("Hsdp Headers : ",""+headers);
-        HsdpLog.d("Hsdp httpMethod type : ",""+httpMethod);
-        if(body != null) {
+        HsdpLog.d("Hsdp URI : ", "" + uri.toString());
+        HsdpLog.d("Hsdp Headers : ", "" + headers);
+        HsdpLog.d("Hsdp httpMethod type : ", "" + httpMethod);
+        if (body != null) {
             HsdpLog.d("Hsdp body : ", "" + body.toString());
         }
 
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
-    protected DhpResponse sendSignedRequestForSocialLogin(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
+    DhpResponse sendSignedRequestForSocialLogin(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
         String bodyString = asJsonString(body);
         addSignedDateHeader(headers);
 
         sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
         URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
 
-        HsdpLog.d("Hsdp URI : ",""+uri.toString());
-        HsdpLog.d("Hsdp httpMethod type : ",""+httpMethod);
-        HsdpLog.d("Hsdp headers : ",""+headers);
-        HsdpLog.d("Hsdp headers body : ",""+body);
+        HsdpLog.d("Hsdp URI : ", "" + uri.toString());
+        HsdpLog.d("Hsdp httpMethod type : ", "" + httpMethod);
+        HsdpLog.d("Hsdp headers : ", "" + headers);
+        HsdpLog.d("Hsdp headers body : ", "" + body);
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
@@ -96,20 +94,19 @@ public class DhpApiClient {
         headers.put("SignedDate", UTCDatetimeAsString());
     }
 
-    protected DhpResponse sendRestRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
+    DhpResponse sendRestRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
         String bodyString = asJsonString(body);
         URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
     @SuppressWarnings("unchecked")
-    protected DhpResponse sendRestRequest(String httpMethod, URI uri, Map<String, String> headers, String body) {
+    DhpResponse sendRestRequest(String httpMethod, URI uri, Map<String, String> headers, String body) {
         headers.put("Content-Type", "application/json");
         headers.put("Accept", "application/json");
 
         long requestStart = System.currentTimeMillis();
         try {
-            @SuppressWarnings("rawtypes")
             Map<String, Object> rawResponse = establishConnection(uri, httpMethod, headers, body);
 
             DhpResponse response = new DhpResponse(rawResponse);
@@ -125,7 +122,7 @@ public class DhpApiClient {
             long requestDuration = (requestEnd - requestStart);
 
             if (requestDuration > DHP_RESPONSE_TIME_LOGGING_THRESHOLD_MS)
-                HsdpLog.d("DHP request : ",""+String.format("DHP request %s %s took %d ms", httpMethod, uri, requestDuration));
+                HsdpLog.d("DHP request : ", "" + String.format(Locale.US, "DHP request %s %s took %d ms", httpMethod, uri, requestDuration));
         }
     }
 
@@ -202,11 +199,11 @@ public class DhpApiClient {
         }
     }
 
-    public static String UTCDatetimeAsString(){
+    private static String UTCDatetimeAsString() {
         return ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT);
     }
 
-    public void setResponseVerifier(DhpResponseVerifier responseVerifier) {
+    void setResponseVerifier(DhpResponseVerifier responseVerifier) {
         this.responseVerifier = responseVerifier;
     }
 }

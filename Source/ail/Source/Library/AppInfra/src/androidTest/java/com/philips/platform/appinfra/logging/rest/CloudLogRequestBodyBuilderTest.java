@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.logging.rest;
 
 
@@ -5,7 +10,6 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
@@ -15,20 +19,21 @@ import com.philips.platform.appinfra.logging.rest.model.Resource;
 
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
  * Created by Yogesh on 5/24/18.
  */
-public class CloudLogRequestBodyBuilderTest extends AppInfraInstrumentation {
+public class CloudLogRequestBodyBuilderTest {
 
     private CloudLogRequestBodyBuilder cloudLogRequestBodyBuilder;
-
 
     @Mock
     private AppInfra appInfra;
@@ -40,14 +45,14 @@ public class CloudLogRequestBodyBuilderTest extends AppInfraInstrumentation {
     private AILCloudLogMetaData ailCloudLogMetaData;
 
     @Before
-    protected void setUp() throws Exception {
-        super.setUp();
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(appInfra.getLogging()).thenReturn(appInfraLogging);
         when(appInfraLogging.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
         cloudLogRequestBodyBuilder = new CloudLogRequestBodyBuilder(appInfra, "product_key");
     }
 
+    @Test
     public void testFormingCloudLogRequestBody() {
         when(ailCloudLogMetaData.getAppName()).thenReturn("AppInfra");
         AILCloudLogData ailCloudLogData = getAilCloudLogData();
@@ -65,7 +70,6 @@ public class CloudLogRequestBodyBuilderTest extends AppInfraInstrumentation {
             assertEquals(resource.getServerName(), "serverName");
             assertEquals(resource.getOriginatingUser(), "userUUID");
         }
-
 
     }
 

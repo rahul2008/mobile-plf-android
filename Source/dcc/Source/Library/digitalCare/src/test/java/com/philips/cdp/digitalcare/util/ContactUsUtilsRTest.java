@@ -1,31 +1,29 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.util;
 
 import android.content.Context;
-import android.provider.Settings;
 
-import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by philips on 8/22/17.
  */
 
-@RunWith(CustomRobolectricRunnerCC.class)
-@Config(constants = BuildConfig.class)
+@RunWith(RobolectricTestRunner.class)
 public class ContactUsUtilsRTest {
 
     private ContactUsUtils utils;

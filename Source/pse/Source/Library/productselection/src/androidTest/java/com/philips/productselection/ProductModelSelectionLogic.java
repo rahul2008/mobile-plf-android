@@ -1,11 +1,14 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.productselection;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.philips.cdp.productselection.fragments.detailedscreen.NavigationFragment;
 import com.philips.cdp.productselection.fragments.detailedscreen.adapter.ProductAdapter;
@@ -16,6 +19,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.FileDescriptor;
@@ -24,21 +28,21 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.List;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by 310190678 on 04-Mar-16.
  */
-public class ProductModelSelectionLogic extends InstrumentationTestCase {
-
+public class ProductModelSelectionLogic {
 
     private static final String TAG = ProductModelSelectionLogic.class.getSimpleName();
     private PrxRequest mProductAssetBuilder = null;
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
-    }
-
+    @Test
     public void testProductimagesLoadingAsset() {
         JSONObject mJsonObject = null;
         try {
@@ -56,7 +60,7 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
 
                 reader.close();
             } catch (IOException e) {
-                ProductSelectionLogger.i(TAG, "IOException - "+e.getMessage());
+                ProductSelectionLogger.i(TAG, "IOException - " + e.getMessage());
             }
             ProductSelectionLogger.d(TAG, "Parsed Data : " + sb.toString());
             mJsonObject = new JSONObject(sb.toString());
@@ -66,22 +70,22 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             assertNotNull(responseData);
         } catch (JSONException e) {
             ProductSelectionLogger.d(TAG, "JSON : " + e);
-
         } catch (Exception e) {
             ProductSelectionLogger.d(TAG, "IO " + e);
         }
     }
 
+    @Test
     public void testNavigatioImageonLoadCase() {
         boolean expected = false;
         NavigationFragment mNavigationFragment = new NavigationFragment();
         Bitmap mBitmap = mNavigationFragment.getBlankThumbnail(12);
         if (mBitmap != null)
             expected = true;
-        assertEquals(true, expected);
-
+        assertTrue(expected);
     }
 
+    @Test
     public void testDetailedScreenImageAdapter() {
         String[] mImagesLengthToLoad = new String[5];
         android.support.v4.app.FragmentManager fragmentManager = new android.support.v4.app.FragmentManager() {
@@ -208,10 +212,9 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
 
         ProductAdapter productAdapter = new ProductAdapter(fragmentManager, mImagesLengthToLoad);
         assertEquals(5, productAdapter.getCount());
-
     }
 
-
+    @Test
     public void testDetailedScreenImageAdapterTitle() {
         String[] mImagesLengthToLoad = new String[5];
         android.support.v4.app.FragmentManager fragmentManager = new android.support.v4.app.FragmentManager() {
@@ -338,10 +341,9 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
 
         ProductAdapter productAdapter = new ProductAdapter(fragmentManager, mImagesLengthToLoad);
         assertNull(productAdapter.getPageTitle(2));
-
     }
 
-
+    @Test
     public void testDetailedScreenImagesCount() {
         String[] mImagesLengthToLoad = new String[5];
         android.support.v4.app.FragmentManager fragmentManager = new android.support.v4.app.FragmentManager() {
@@ -468,9 +470,9 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
 
         ProductAdapter productAdapter = new ProductAdapter(fragmentManager, mImagesLengthToLoad);
         assertEquals(5, productAdapter.getCount());
-
     }
 
+    @Test
     public void testDetailedScreenPageTitle() {
         String[] mImagesLengthToLoad = new String[5];
         android.support.v4.app.FragmentManager fragmentManager = new android.support.v4.app.FragmentManager() {
@@ -597,58 +599,5 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
 
         ProductAdapter productAdapter = new ProductAdapter(fragmentManager, mImagesLengthToLoad);
         assertNull(productAdapter.getPageTitle(2));
-
     }
-
-/*
-
-    public void testProductSelectionComponentConfigManager() {
-        ProductModelSelectionHelper mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-
-        String[] ctnList = new String[10];
-        ProductModelSelectionType productsSelection = new HardcodedProductList(ctnList);
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
-
-        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-        mProductSelectionHelper.initialize(getInstrumentation().getTargetContext().getApplicationContext());
-        mProductSelectionHelper.setLocale("en", "GB");
-
-        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                R.style.Theme_Philips_BrightBlue_Gradient_WhiteBackground);
-        uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);
-       */
-/* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
-            @Override
-            public void onSuccess(List<SummaryModel> summaryModels) {
-
-                if (summaryModels != null)
-                    Toast.makeText(Launcher.this, "Summary Size : " + summaryModels.size(), Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(Launcher.this, "Summary returned null", Toast.LENGTH_SHORT).show();
-
-            }
-        });*//*
-
-        ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
-            @Override
-            public void onProductModelSelected(SummaryModel productSummaryModel) {
-
-            }
-        });
-        //ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
-       // ProductSelectionLogger.enableLogging();
-       assertNotNull(ProductModelSelectionHelper.getInstance().getContext());
-      */
-/*  assertNotNull(ProductModelSelectionHelper.getInstance().getLauncherType());
-        assertNotNull(ProductModelSelectionHelper.getInstance().getLocale());
-        assertNotNull(ProductModelSelectionHelper.getInstance().getProductModelSelectionType());
-        assertNotNull(ProductModelSelectionHelper.getInstance().getProductSelectionListener());
-        assertNotNull(ProductModelSelectionHelper.getInstance().getProductModelSelectionType());*//*
-
-
-
-    }
-*/
-
 }

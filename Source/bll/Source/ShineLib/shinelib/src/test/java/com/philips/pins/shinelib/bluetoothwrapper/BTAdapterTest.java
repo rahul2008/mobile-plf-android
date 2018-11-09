@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -10,8 +10,9 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanSettings;
-import com.philips.pins.shinelib.BuildConfig;
+
 import com.philips.pins.shinelib.helper.MockedHandler;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,6 @@ import org.robolectric.shadow.api.Shadow;
 
 import java.util.List;
 
-import static android.os.Build.VERSION_CODES.M;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = {M}, shadows = {ShadowBluetoothLEAdapter.class})
+@Config(shadows = {ShadowBluetoothLEAdapter.class})
 public class BTAdapterTest {
 
     private BTAdapter btAdapter;

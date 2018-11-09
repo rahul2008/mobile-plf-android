@@ -1,9 +1,13 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.util;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
-import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 
@@ -12,8 +16,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowTelephonyManager;
 
 import static org.robolectric.Shadows.shadowOf;
@@ -22,9 +26,7 @@ import static org.robolectric.Shadows.shadowOf;
  * Created by philips on 7/6/17.
  */
 
-@RunWith(CustomRobolectricRunnerCC.class)
-@Config(constants = BuildConfig.class, sdk = 25)
-
+@RunWith(RobolectricTestRunner.class)
 public class UtilsRTest {
 
     private Utils utils;

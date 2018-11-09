@@ -18,25 +18,30 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import java.util.HashMap;
+import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
+@RunWith(RobolectricTestRunner.class)
 public class ContactCallRequestTest {
+    private Context mContext;
 
     @Mock
-    Context mContext;
-    @Mock
-    IAPUser mUser;
+    private IAPUser mUser;
+
     private AbstractModel mModel;
     private StoreListener mStore;
 
     @Before
-    public void setUP() {
+    public void setUp() {
+        mContext = getInstrumentation().getContext();
         mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig(/*"en", "GB",*/ null);
         mModel = new ContactCallRequest(mStore, null, null);

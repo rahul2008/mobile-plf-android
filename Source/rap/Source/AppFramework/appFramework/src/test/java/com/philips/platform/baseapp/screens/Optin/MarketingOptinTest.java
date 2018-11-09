@@ -1,9 +1,13 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.baseapp.screens.Optin;
 
 import android.content.Context;
 
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.platform.CustomRobolectricRunner;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -14,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
@@ -21,7 +26,7 @@ import static com.philips.platform.baseapp.screens.Optin.MarketingOptin.AB_TEST_
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class MarketingOptinTest {
 

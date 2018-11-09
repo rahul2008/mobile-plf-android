@@ -16,12 +16,10 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        multiDexEnabled true
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.sdk
         versionCode 1
         versionName version
         buildConfigField "String", "TLA", "\"cca\""
+        multiDexEnabled true
     }
 
     buildTypes {

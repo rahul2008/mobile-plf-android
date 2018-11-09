@@ -1,7 +1,6 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.cost;
@@ -31,7 +30,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.insurance.THSSubscription;
@@ -48,13 +46,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.ths.utility.THSConstants.THS_APPLICATION_ID;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
@@ -63,7 +62,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunnerAmwel.class)
+@RunWith(RobolectricTestRunner.class)
 public class THSCostSummaryPresenterTest {
 
     THSCostSummaryPresenter mTHSCostSummaryPresenter;

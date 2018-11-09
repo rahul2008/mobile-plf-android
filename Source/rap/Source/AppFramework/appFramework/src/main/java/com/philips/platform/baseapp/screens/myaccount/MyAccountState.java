@@ -100,9 +100,7 @@ public class MyAccountState extends BaseState{
                     }
                     if(null != baseState){
                         baseState.init(fragmentLauncher.getFragmentActivity().getApplicationContext());
-                        final Handler handler = new Handler();
-                        BaseState finalBaseState = baseState;
-                        handler.postDelayed(() -> finalBaseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity())), 2000);
+                        baseState.navigate(new FragmentLauncher(fragmentLauncher.getFragmentActivity(), R.id.frame_container, (ActionBarListener) fragmentLauncher.getFragmentActivity()));
                     }
                     return true;
                 }

@@ -410,6 +410,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     void hidePopup() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
+            popupWindow = null;
         }
     }
 

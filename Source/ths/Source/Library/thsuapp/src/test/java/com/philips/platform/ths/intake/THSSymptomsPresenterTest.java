@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.net.Uri;
@@ -24,7 +29,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
@@ -39,6 +43,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.io.IOException;
@@ -59,7 +64,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunnerAmwel.class)
+@RunWith(RobolectricTestRunner.class)
 public class THSSymptomsPresenterTest {
 
     THSSymptomsPresenter pthSymptomsPresenter;

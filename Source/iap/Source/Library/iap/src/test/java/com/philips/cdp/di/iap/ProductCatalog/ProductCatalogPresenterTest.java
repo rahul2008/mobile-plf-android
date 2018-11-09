@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.ProductCatalog;
 
 import android.content.Context;
 import android.os.Message;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
@@ -27,24 +26,28 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
-
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
-import java.util.ArrayList;
-
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant.PRX;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogPresenterTest implements ProductCatalogPresenter.ProductCatalogListener, IAPListener {
@@ -56,11 +59,20 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     private MockPRXSummaryExecutor mMockPRXDataBuilder;
     private ArrayList<String> mCTNS = new ArrayList<>();
 
+    @Mock
+    private AppInfraInterface mockAppInfraInterface;
+    @Mock
+    private LoggingInterface mockLoggingInterface;
+
     @Before
-    public void setUP() {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() {
+        initMocks(this);
+        mContext = getInstrumentation().getContext();
+        CartModelContainer.getInstance().setAppInfraInstance(mockAppInfraInterface);
+        when(mockAppInfraInterface.getLogging()).thenReturn(mockLoggingInterface);
+        when(mockLoggingInterface.createInstanceForComponent(anyString(), anyString())).thenReturn(mockLoggingInterface);
+
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
-        mContext = RuntimeEnvironment.application;
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
 
         mCTNS.add("HX9033/64");
@@ -75,6 +87,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         assertFalse(localCatalog.getProductCatalog(0, 20, null));
     }
 
+    @Test
     public void testGetProductCatalogSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -87,6 +100,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         makePRXData();
     }
 
+    @Test
     public void testGetProductCatalogErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -105,18 +119,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         assertTrue(error != null);
     }
 
-//    @Test(expected = NullPointerException.class)
-//    public void testGetProductListWithPaginationSuccessResponse() throws JSONException {
-//        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-//        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
-//        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-//        mProductCatalogPresenter.getCompleteProductList(this);
-//
-//        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
-//                .class, "product_catalog_get_request.txt"));
-//        mNetworkController.sendSuccess(obj);
-//    }
-
+    @Test
     public void testGetProductListWithNoPaginationSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -185,26 +188,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         VolleyError error = new ServerError(networkResponse);
         mNetworkController.sendFailure(error);
     }
-
-//    @Test(expected = NullPointerException.class)
-//    public void testGetCompleteProductListWithNoPaginationErrorResponse() throws JSONException {
-//        mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-//        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
-//        mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-//        Utility.addCountryInPreference(PreferenceManager.getDefaultSharedPreferences(mContext), IAPConstant.IAP_COUNTRY_KEY, "en_US");
-//        mProductCatalogPresenter.getCompleteProductList(this);
-//
-//        JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
-//                .class, "product_catalog_get_request_page_size_1.txt"));
-//        mNetworkController.sendSuccess(obj);
-//
-//        obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest
-//                .class, "product_catalog_error.txt"));
-//        NetworkResponse networkResponse = new NetworkResponse(500, obj.toString().getBytes(), null, true, 1222L);
-//
-//        VolleyError error = new ServerError(networkResponse);
-//        mNetworkController.sendFailure(error);
-//    }
 
     @Test
     public void testNoProductError() throws Exception {

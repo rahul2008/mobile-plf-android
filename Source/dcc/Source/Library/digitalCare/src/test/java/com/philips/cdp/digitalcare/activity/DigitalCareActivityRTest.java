@@ -1,12 +1,14 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 
-import com.philips.cdp.digitalcare.BuildConfig;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import org.junit.Assert;
@@ -15,7 +17,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
+
+//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 
 //import static junit.framework.Assert.assertNotNull;
 
@@ -23,9 +27,7 @@ import org.robolectric.annotation.Config;
  * Created by philips on 6/29/17.
  */
 
-@RunWith(CustomRobolectricRunnerCC.class)
-@Config(constants = BuildConfig.class, sdk = 25)
-
+@RunWith(RobolectricTestRunner.class)
 public class DigitalCareActivityRTest {
 
     private Activity activity;

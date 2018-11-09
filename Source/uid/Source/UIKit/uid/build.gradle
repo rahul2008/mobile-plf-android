@@ -34,14 +34,10 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version
-
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -59,11 +55,8 @@ android {
             storeFile project.file('../../CatalogApp/extra/signing/debug.keystore')
         }
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
@@ -84,13 +77,9 @@ dependencies {
     androidTestImplementation(deps.espresso_core) {
         exclude module: "com.android.support"
     }
-    androidTestImplementation(deps.android_testrunner) {
-        exclude module: "com.android.support"
-    }
-    androidTestImplementation(deps.android_testrules) {
-        exclude module: "com.android.support"
-    }
-    androidTestImplementation deps.android_test_commons
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.androidx_test.rules
+    androidTestImplementation deps.apache_commons_lang
 }
 
 tasks.withType(Test) {

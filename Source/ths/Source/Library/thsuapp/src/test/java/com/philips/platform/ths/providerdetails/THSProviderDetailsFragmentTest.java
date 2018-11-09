@@ -1,5 +1,9 @@
-package com.philips.platform.ths.providerdetails;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
+package com.philips.platform.ths.providerdetails;
 
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -15,7 +19,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.ths.BuildConfig;
-import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
@@ -33,6 +36,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
@@ -48,7 +52,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunnerAmwel.class)
+@RunWith(RobolectricTestRunner.class)
 public class THSProviderDetailsFragmentTest {
 
     private THSLaunchActivity mActivity;

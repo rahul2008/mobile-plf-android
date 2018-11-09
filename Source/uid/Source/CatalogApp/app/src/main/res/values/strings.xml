@@ -25,6 +25,7 @@
     <string name="data_validation">Data Validation</string>
     <string name="buttons">Buttons</string>
     <string name="buttons_icon_only">Icon only buttons</string>
+    <string name="buttons_circular">Circular buttons</string>
     <string name="buttons_text_left_aligned_category">Text left-aligned button</string>
     <string name="buttons_text_left_aligned">Text left aligned</string>
     <string name="buttons_text_primary">Primary button</string>
@@ -42,6 +43,7 @@
     <string name="page_title_textbox">TextBox</string>
     <string name="page_title_toggle_switch">Toggle Switch</string>
     <string name="page_title_alertDialog">Dialog</string>
+    <string name="page_title_expander">Expander</string>
 
     <string name="hint_text">Frits Philips</string>
     <string name="hamburger_menu">Hamburger</string>

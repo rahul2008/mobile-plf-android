@@ -81,6 +81,9 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
 
     private boolean isStartRequested;
 
+    @VisibleForTesting
+    boolean isCancelRequested;
+
     @NonNull
     private final FirmwarePortStateWaiter.WaiterListener waiterListener = new FirmwarePortStateWaiter.WaiterListener() {
         @Override
@@ -110,6 +113,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.firmwarePort = firmwarePort;
         this.communicationStrategy = communicationStrategy;
         this.firmwarePortListener = firmwarePortListener;
+        this.isCancelRequested = false;
 
         if (firmwareData.length == 0) {
             throw new IllegalArgumentException("Firmware data has zero length.");
@@ -142,6 +146,7 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
         this.stateTransitionTimeoutMillis = stateTransitionTimeoutMillis;
         try {
             currentState.cancel();
+            isCancelRequested = true;
             isStartRequested = true;
         } catch (FirmwareUpdateException ignored) {
             currentState.start(null);
@@ -189,7 +194,10 @@ public class FirmwareUpdatePushLocal implements FirmwareUpdateOperation {
     }
 
     public void onDownloadFailed() {
-        onDownloadFailed(getStatusMessage());
+        if (!isCancelRequested) {
+            onDownloadFailed(getStatusMessage());
+        }
+        isCancelRequested = false;
     }
 
     public void onDownloadFailed(final String reason) {

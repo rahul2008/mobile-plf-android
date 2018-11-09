@@ -1,10 +1,15 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.action.ViewActions;
-import android.support.test.rule.ActivityTestRule;
+import androidx.test.rule.ActivityTestRule;
 import com.philips.platform.catalogapp.MainActivity;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNot;

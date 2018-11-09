@@ -36,14 +36,14 @@ public class NetworkNotListedViewModelTest {
     public void itShouldGiveStepOneText() throws Exception {
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
         viewModel.getStepOneText(mockBaseContentConfiguration);
-        verify(mockStringProvider).getString(R.string.label_ews_network_not_listed_step_1, mockBaseContentConfiguration.getDeviceName());
+        verify(mockStringProvider).getString(R.string.label_ews_network_not_listed_instruction_1, mockBaseContentConfiguration.getDeviceName());
     }
 
     @Test
     public void itShouldGiveStepTwoText() throws Exception {
         when(mockBaseContentConfiguration.getDeviceName()).thenReturn(2131362066);
         viewModel.getStepTwoText(mockBaseContentConfiguration);
-        verify(mockStringProvider).getString(R.string.label_ews_network_not_listed_step_2, mockBaseContentConfiguration.getDeviceName());
+        verify(mockStringProvider).getString(R.string.label_ews_network_not_listed_instruction_2, mockBaseContentConfiguration.getDeviceName());
     }
 
     @Test

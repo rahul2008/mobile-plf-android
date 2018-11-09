@@ -1,13 +1,11 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform;
 
 import android.app.Dialog;
 
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.uid.view.widget.Label;
@@ -28,7 +26,7 @@ import static org.junit.Assert.assertEquals;
  * Created by philips on 8/29/17.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(application = TestAppFrameworkApplication.class, sdk = 25)
+@Config(application = TestAppFrameworkApplication.class)
 public class AppFrameworkBaseActivityTest {
 
     private AbstractAppFrameworkBaseActivity testActivity;

@@ -13,20 +13,18 @@ buildscript {
         classpath builddeps.buildinfoextractor
     }
 }
+
 archivesBaseName = strings.tse.artifactName
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version
-
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -37,11 +35,8 @@ android {
         debug {
         }
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {

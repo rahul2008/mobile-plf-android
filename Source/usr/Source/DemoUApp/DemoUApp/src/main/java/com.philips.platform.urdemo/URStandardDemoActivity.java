@@ -60,6 +60,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 import com.philips.platform.urdemolibrary.R;
 
@@ -90,6 +91,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private CoppaExtension coppaExtension;
     private Switch mSkipHSDPSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
 
+    private Label btn_registration_with_hsdp_status_lbl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Config.setDebugLogging(true);
@@ -112,6 +115,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
         Button mBtnRegistrationWithOutAccountSettings = findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
+
+        btn_registration_with_hsdp_status_lbl = findViewById(R.id.btn_registration_with_hsdp_status_lbl);
 
         final Button mBtnHsdpRefreshAccessToken = findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
@@ -448,7 +453,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         } else if (i == R.id.btn_registration_with_hsdp_status) {
             UserLoginState userLoginState = mUser.getUserLoginState();
-            showToast("User Login State : " + userLoginState);
+            btn_registration_with_hsdp_status_lbl.setVisibility(View.VISIBLE);
+            btn_registration_with_hsdp_status_lbl.setText("User Login State : " + userLoginState);
         } else if (i == R.id.btn_refresh_user) {
             RLog.d(TAG, " : Refresh User ");
             handleRefreshAccessToken();
