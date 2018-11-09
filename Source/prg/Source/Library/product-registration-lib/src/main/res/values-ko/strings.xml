@@ -27,7 +27,6 @@
   <string name="PRG_Enter_Purchase_Date_ErrMsg">구입 날짜를 입력하십시오.</string>
   <string name="PRG_Extended_Warranty_Lbltxt">다음까지 보증 기간 연장됨:</string>
   <string name="PRG_Find_Serial_Number">일련 번호는 어디에서 찾을 수 있습니까?</string>
-  <string name="PRG_Find_Serial_Number_Title">[ko]Where is the serial number?</string>
   <string name="PRG_Invalid_Date_ErrMsg">날짜를 2000년에서 오늘 날짜 사이로 입력하십시오.</string>
   <string name="PRG_Invalid_Date_Title">잘못된 구입 날짜</string>
   <string name="PRG_Invalid_SerialNum_ErrMsg">올바른 일련 번호를 입력하십시오.</string>
@@ -38,10 +37,9 @@
   <string name="PRG_NavBar_Title">제품 등록</string>
   <string name="PRG_Network_ErrMsg">잠시 후에 다시 시도하십시오.</string>
   <string name="PRG_Network_Err_Title">네트워크 오류!</string>
-  <string name="PRG_No_Internet_ErrMsg">[ko]Please check your internet connection</string>
-  <string name="PRG_No_Internet_Title">[ko]No internet connection</string>
+  <string name="PRG_No_Internet_ErrorMsg">서버에 연결할 수 없습니다.\n인터넷 연결을 확인하고 다시 시도하십시오.</string>
+  <string name="PRG_No_Internet_Title">인터넷 연결 없음</string>
   <string name="PRG_OK">확인 </string>
-  <string name="PRG_Open_Settings">[NT,ko]Open settings</string>
   <string name="PRG_Please_Enter_Date_Lbltxt">구입 날짜를 입력하십시오.</string>
   <string name="PRG_Please_Enter_SerialNum_Txtfldtxt">일련 번호 입력</string>
   <string name="PRG_Please_Select">선택해 주십시오…</string>
@@ -62,7 +60,6 @@
   <string name="PRG_Thank_You_Lbltxt">필립스 제품을 구입해 주셔서 감사합니다.</string>
   <string name="PRG_This_Serial_No">이 일련 번호는</string>
   <string name="PRG_Title_AlreadyRegistered">%s이(가) 이미 등록되어 있음</string>
-  <string name="PRG_Try_Again">[NT,ko]Try again</string>
   <string name="PRG_Unable_Connect_Server_ErrMsg">서버를 연결할 수 없습니다. 잠시 후에 다시 시도하십시오. 문제가 계속되면 고객 지원에 문의하십시오.</string>
   <string name="PRG_Unknow_ErrMsg">알 수 없는 오류</string>
   <string name="PRG_Yes_Btntxt">네, 보증을 연장하겠습니다.</string>
