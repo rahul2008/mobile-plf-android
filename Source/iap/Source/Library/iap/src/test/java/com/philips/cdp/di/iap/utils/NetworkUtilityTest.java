@@ -86,7 +86,7 @@ public class NetworkUtilityTest {
         NetworkUtility.getInstance().isNetworkAvailable(connectivityManager);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldShowAlertDialog() throws Exception {
         NetworkUtility.getInstance().showDLSDialog(contextMock,"Hi","Hi","Hi",fragmentManagerMock);
     }
