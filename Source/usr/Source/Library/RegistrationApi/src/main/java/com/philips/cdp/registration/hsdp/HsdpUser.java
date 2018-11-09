@@ -58,7 +58,7 @@ public class HsdpUser {
 
     private final LoggingInterface loggingInterface;
     private String TAG = "HsdpUser";
-    private DhpAuthenticationResponse dhpAuthenticationResponse = null;
+    private HsdpAuthenticationResponse dhpAuthenticationResponse = null;
 
     @Inject
     HSDPConfiguration hsdpConfiguration;
@@ -72,7 +72,7 @@ public class HsdpUser {
 
     private final String HSDP_RECORD_FILE = "hsdpRecord";
 
-    private DhpResponse dhpResponse = null;
+    private HsdpResponse dhpResponse = null;
 
 
     /**
@@ -127,8 +127,8 @@ public class HsdpUser {
         if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
-                DhpAuthenticationManagementClient authenticationManagementClient
-                        = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
+                HsdpAuthenticationManagementClient authenticationManagementClient
+                        = new HsdpAuthenticationManagementClient(hsdpConfiguration);
 
                 dhpResponse = null;
                 if (null != getHsdpUserRecord() && null != getHsdpUserRecord().getAccessCredential()) {
@@ -195,8 +195,8 @@ public class HsdpUser {
         if (networkUtility.isNetworkAvailable()) {
             new Thread(() -> {
 
-                DhpAuthenticationManagementClient authenticationManagementClient =
-                        new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
+                HsdpAuthenticationManagementClient authenticationManagementClient =
+                        new HsdpAuthenticationManagementClient(hsdpConfiguration);
                 dhpAuthenticationResponse = null;
                 if (getHsdpUserRecord() != null &&
                         getHsdpUserRecord().getAccessCredential() != null &&
@@ -271,25 +271,6 @@ public class HsdpUser {
         }
     }
 
-    /**
-     * get dhp api client configuration
-     *
-     * @return DhpApiClientConfiguration object
-     * {@link DhpApiClientConfiguration}
-     */
-    private DhpApiClientConfiguration getDhpApiClientConfiguration() {
-        DhpApiClientConfiguration dhpApiClientConfiguration = null;
-        HSDPInfo hsdpInfo = getHSDPInfo();
-        if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null !=
-                hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
-                && null != hsdpInfo.getApplicationName()) {
-
-            RLog.d(TAG, "Base URL " + hsdpInfo.getBaseURL());
-            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
-                    hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
-        }
-        return dhpApiClientConfiguration;
-    }
 
     /**
      * Save to disk
@@ -385,7 +366,6 @@ public class HsdpUser {
     }
 
 
-
     public static Object stringToObject(String str) {
         try {
             return new ObjectInputStream(new Base64InputStream(
@@ -417,9 +397,9 @@ public class HsdpUser {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
                 try {
-                    DhpAuthenticationManagementClient authenticationManagementClient =
-                            new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    final DhpAuthenticationResponse dhpAuthenticationResponse1 =
+                    HsdpAuthenticationManagementClient authenticationManagementClient =
+                            new HsdpAuthenticationManagementClient(hsdpConfiguration);
+                    final HsdpAuthenticationResponse dhpAuthenticationResponse1 =
                             authenticationManagementClient.loginSocialProviders(email,
                                     accessToken, Jump.getRefreshSecret());
 
