@@ -1,6 +1,5 @@
 package com.philips.cdp.registration.hsdp;
-
-import com.philips.dhpclient.util.MapUtils;
+import com.philips.cdp.registration.ui.utils.MapUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
