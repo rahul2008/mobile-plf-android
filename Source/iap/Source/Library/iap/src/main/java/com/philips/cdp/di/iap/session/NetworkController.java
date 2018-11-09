@@ -55,7 +55,7 @@ public class NetworkController {
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model,
                                   final RequestListener requestListener) {
-        if(model.requestBody()!=null) Log.d("NetworkController : request",model.requestBody().toString());
+        if(model!=null && model.requestBody()!=null) Log.d("NetworkController : request",model.requestBody().toString());
 
         if (mStoreListener == null) {
             return;
