@@ -26,15 +26,20 @@ import java.util.Map;
 public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChangedListener, ABTestClientInterface.OnRefreshListener {
 
     public final static String AB_TESTING_CONSENT = "abTestConsent";
-    private FirebaseAnalytics firebaseAnalytics;
+    private Context context;
+    private FireBaseWrapper fireBaseWrapper;
+    private AbTestingLocalCache abTestingLocalCache;
+    private Map<String, CacheModel.ValueModel> inMemoryCache;
+    private AppInfraInterface appInfraInterface;
+    private CACHESTATUS CACHESTATUSVALUE = CACHESTATUS.EXPERIENCE_NOT_UPDATED;
 
     @Override
     public void consentStatusChanged(@NonNull ConsentDefinition consentDefinition, @Nullable ConsentError consentError, boolean requestedStatus) {
         if (requestedStatus) {
             updateCache(this);
         } else {
-            firebaseAnalytics.setAnalyticsCollectionEnabled(false);
-            firebaseAnalytics.resetAnalyticsData();
+            FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(false);
+            FirebaseAnalytics.getInstance(context).resetAnalyticsData();
         }
 
     }
@@ -54,24 +59,13 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
         void updateCacheStatus(ABTestClientInterface.CACHESTATUS CACHESTATUS);
     }
 
-    private FireBaseWrapper fireBaseWrapper;
-    private AbTestingLocalCache abTestingLocalCache;
-    private Map<String, CacheModel.ValueModel> inMemoryCache;
-    private AppInfraInterface appInfraInterface;
-    private CACHESTATUS CACHESTATUSVALUE = CACHESTATUS.EXPERIENCE_NOT_UPDATED;
-
     /**
      * invoke this api to initialise FireBase remote configuration
-     * @param - pass application context to initialise FireBase
+     * @param context - pass application context to initialise FireBase
      */
     public void initFireBase(Context context) {
         fireBaseWrapper = getFireBaseWrapper(context);
-        firebaseAnalytics = getFireBaseAnalytics(context);
-    }
-
-    @NonNull
-    FirebaseAnalytics getFireBaseAnalytics(Context context) {
-        return FirebaseAnalytics.getInstance(context);
+        this.context = context;
     }
 
     @NonNull
@@ -90,6 +84,7 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
         abTestingLocalCache.initAppInfra(appInfraInterface);
         fireBaseWrapper.initAppInfra(appInfraInterface);
         inMemoryCache = new HashMap<>();
+        this.context = appInfraInterface.getAppInfraContext();
         registerConsentHandler();
         appInfraInterface.getConsentManager().addConsentStatusChangedListener(appInfraInterface.getConsentManager().getConsentDefinitionForType(getAbTestingConsentIdentifier()), this);
         // Syncing in-memory cache with disk memory if available
@@ -167,7 +162,7 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
 
     @Override
     public void tagEvent(String eventName, Bundle bundle) {
-        firebaseAnalytics.logEvent(eventName, bundle);
+        FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle);
     }
 
     private void updateCachesForTestName(String requestNameKey, String testValue, UPDATETYPE updateType) {
