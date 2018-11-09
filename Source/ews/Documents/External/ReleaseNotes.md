@@ -6,6 +6,7 @@ Version {next}
 
 ### Functionality Delivered
 * \#128922 EWS Flow Improvements - Moved Location Permission in start of EWS flow from later stage, Added new functionality for listing available networks from appliance to solve 2.4 vs 5 GHz network issue, Added new Screen for Network Not Listed Troubleshooting
+* \#144406 Added new public setter API 'setEwsResultListener' in 'BaseContentConfiguration' to let applications set EwsResultListener
 
 ### Backwards Compatibility
 * N/A

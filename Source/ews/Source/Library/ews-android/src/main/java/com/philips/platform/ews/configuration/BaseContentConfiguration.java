@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.support.annotation.StringRes;
 
 import com.philips.platform.ews.R;
+import com.philips.platform.ews.microapp.EwsResultListener;
 
 /**
  * BaseContentConfiguration is a model class for configuration,
@@ -20,6 +21,7 @@ public class BaseContentConfiguration implements Parcelable {
     private final int deviceName;
     @StringRes
     private final int appName;
+    private EwsResultListener ewsResultListener;
 
     /**
      * This constructor creates BaseContentConfiguration by providing Name of device used for EWS and Name of app.
@@ -50,6 +52,18 @@ public class BaseContentConfiguration implements Parcelable {
      */
     public int getAppName() {
         return appName;
+    }
+
+    public EwsResultListener getEwsResultListener() {
+        return ewsResultListener;
+    }
+
+    /**
+     * Setter for EwsResultListener.
+     * @since  2018.5.0
+     */
+    public void setEwsResultListener(EwsResultListener ewsResultListener) {
+        this.ewsResultListener = ewsResultListener;
     }
 
     /**

@@ -45,6 +45,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import static com.philips.platform.ews.microapp.EwsResultListener.EWS_RESULT_FAILURE_DATA;
@@ -63,7 +64,6 @@ public class EwsResultsTest {
 
     private ResultListener listenerSpy;
     private EWSActivity ewsActivitySpy;
-
     @Before
     public void setup() {
         initMocks(this);
@@ -75,7 +75,7 @@ public class EwsResultsTest {
 
     @Test
     public void itShouldCallTheResultListenerWhenfinishMicroAppIsCalled() {
-        connectionSuccessfulFragmentSpy.finishMicroApp();
+        connectionSuccessfulFragmentSpy.finishMicroApp(null);
         verify(listenerSpy, times(1)).onEWSFinishSuccess();
     }
 

@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.common.callbacks.FragmentCallback;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
+import com.philips.platform.ews.microapp.EwsResultListener;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Page;
 import com.philips.platform.ews.util.StringProvider;
@@ -32,12 +33,14 @@ public class ConnectionSuccessfulViewModel {
     private WiFiUtil wiFiUtil;
 
     @NonNull private final EWSTagger ewsTagger;
+    private BaseContentConfiguration baseConfig;
 
     @Inject
     public ConnectionSuccessfulViewModel(@NonNull BaseContentConfiguration baseConfig,
                                          @NonNull StringProvider stringProvider,
                                          @NonNull WiFiUtil wiFiUtil,
                                          @NonNull final EWSTagger ewsTagger) {
+        this.baseConfig = baseConfig;
         this.stringProvider = stringProvider;
         this.wiFiUtil = wiFiUtil;
         title = new ObservableField<>(getTitle(baseConfig));
@@ -50,7 +53,7 @@ public class ConnectionSuccessfulViewModel {
 
     public void onStartClicked() {
         if (fragmentCallback != null) {
-            fragmentCallback.finishMicroApp();
+            fragmentCallback.finishMicroApp(baseConfig.getEwsResultListener());
         }
     }
 
