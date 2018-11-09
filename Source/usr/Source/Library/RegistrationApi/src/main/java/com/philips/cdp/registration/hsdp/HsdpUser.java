@@ -34,12 +34,7 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.dhpclient.DhpApiClientConfiguration;
-import com.philips.dhpclient.DhpAuthenticationManagementClient;
-import com.philips.dhpclient.response.DhpAuthenticationResponse;
-import com.philips.dhpclient.response.DhpResponse;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -198,14 +193,15 @@ public class HsdpUser {
                 HsdpAuthenticationManagementClient authenticationManagementClient =
                         new HsdpAuthenticationManagementClient(hsdpConfiguration);
                 dhpAuthenticationResponse = null;
+//                if (getHsdpUserRecord() != null &&
+//                        getHsdpUserRecord().getAccessCredential() != null &&
+//                        getHsdpUserRecord().getAccessCredential().getRefreshToken() != null
+//                        ) {
+//                    dhpAuthenticationResponse = authenticationManagementClient.
+//                            refresh(getHsdpUserRecord().getUserUUID(),
+//                                    getHsdpUserRecord().getAccessCredential().getRefreshToken());
+//                } else
                 if (getHsdpUserRecord() != null &&
-                        getHsdpUserRecord().getAccessCredential() != null &&
-                        getHsdpUserRecord().getAccessCredential().getRefreshToken() != null
-                        ) {
-                    dhpAuthenticationResponse = authenticationManagementClient.
-                            refresh(getHsdpUserRecord().getUserUUID(),
-                                    getHsdpUserRecord().getAccessCredential().getRefreshToken());
-                } else if (getHsdpUserRecord() != null &&
                         null != getHsdpUserRecord().getUserUUID() &&
                         null != getHsdpUserRecord().getAccessCredential()) {
                     dhpAuthenticationResponse = authenticationManagementClient.
