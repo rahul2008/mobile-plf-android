@@ -245,7 +245,6 @@ dependencies {
         implementation project(strings.bll.projectName)
         implementation project(strings.pnf.projectName)
         implementation project(strings.tse.projectName)
-        implementation project(strings.neurauapp.projectName)
         implementation project(strings.ailuapp.projectName)
     } else {
         implementation philipsdeps.product_registration_lib
@@ -308,7 +307,6 @@ dependencies {
         implementation philipsdeps.ewsUApp
         implementation philipsdeps.bluelib_demouapp
         implementation philipsdeps.bluelib
-        implementation philipsdeps.NeuraUApp
         implementation project(strings.pnf.projectName)
         implementation project(strings.tse.projectName)
         implementation philipsdeps.AppInfraUApp
