@@ -6,48 +6,58 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class HsdpAuthenticationManagementClientTest extends TestCase {
-    private HsdpAuthenticationManagementClient mDhpAuthenticationManagementClient;
+    private HsdpAuthenticationManagementClient hsdpAuthenticationManagementClient;
     @Mock
     HSDPConfiguration hsdpConfiguration;
+    @Mock
+    HsdpRequestClient hsdpRequestClient;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-//        HSDPConfiguration dhpApiClientConfiguration = new HSDPConfiguration("apiBaseUrl", "dhpApplicationName", "signingKey", "signingSecret");
         Mockito.when(hsdpConfiguration.getHsdpBaseUrl()).thenReturn("apiBaseUrl");
         Mockito.when(hsdpConfiguration.getHsdpAppName()).thenReturn("dhpApplicationName");
         Mockito.when(hsdpConfiguration.getHsdpSecretId()).thenReturn("signingKey");
         Mockito.when(hsdpConfiguration.getHsdpSharedId()).thenReturn("signingSecret");
-        mDhpAuthenticationManagementClient = new HsdpAuthenticationManagementClient(hsdpConfiguration);
+        hsdpAuthenticationManagementClient = new HsdpAuthenticationManagementClient(hsdpConfiguration);
 
     }
 
-//    @Test
-//    public void testDhpAuthenticateManagementClient() throws Exception {
-////        mDhpAuthenticationManagementClient.authenticate("username", "password", "secret");
-////        mDhpAuthenticationManagementClient.createRefreshSignature("refresh_Secret", "date", "accessToken");
-////        mDhpAuthenticationManagementClient.createRefreshSignature("refresh_Secret", "", "");
-////        mDhpAuthenticationManagementClient.validateToken("userId", "accessToken");
-////        mDhpAuthenticationManagementClient.validateToken(null, null);
-////        mDhpAuthenticationManagementClient.validateToken("", "");
-//        mDhpAuthenticationManagementClient.loginSocialProviders("email", "socialaccesstoken", "asjdbwdbwdbejkwfbjkewbwejkdw");
-//        mDhpAuthenticationManagementClient.logout("sample", "sample");
-//        mDhpAuthenticationManagementClient.logout(null, null);
-//        mDhpAuthenticationManagementClient.logout("", "");
-//
-//        assertNotNull(mDhpAuthenticationManagementClient);
-//    }
+    @Test(expected = UnsatisfiedLinkError.class)
+    public void shouldReturnHsdpAuthenticationResponse() {
+        String apiEndpoint = "/authentication/login/social";
+        String queryParams = "applicationName=" + hsdpConfiguration.getHsdpAppName();
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+        headers.put("accessToken", "accessToken");
+        headers.put("refreshSecret", "secretKey");
+        headers.put("Api-version", "2");
+        Map<String, String> body = new LinkedHashMap<String, String>();
+        body.put("loginId", "xyz@gmail.com");
+        hsdpAuthenticationManagementClient.loginSocialProviders("xyz@gmail.com", "accessToken", "secretKey");
+        Mockito.verify(hsdpRequestClient).sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, body);
+    }
+
+    @Test
+    public void shouldReturnHsdpResponse_OnLogout(){
+        String apiEndpoint = "/authentication/users/" + "xyz@gmail.com" + "/logout";
+        String queryParams = "applicationName=" + hsdpConfiguration.getHsdpAppName();
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+        headers.put("accessToken", "accessToken");
+        hsdpAuthenticationManagementClient.logout("xyz@gmail.com","accessToken");
+    }
 
     @Test
     public void testSign() throws Exception {
@@ -59,9 +69,9 @@ public class HsdpAuthenticationManagementClientTest extends TestCase {
 
         method = HsdpAuthenticationManagementClient.class.getDeclaredMethod("getDhpAuthenticationResponse", HsdpResponse.class);
         method.setAccessible(true);
-        method.invoke(mDhpAuthenticationManagementClient, dhpResponse);
+        method.invoke(hsdpAuthenticationManagementClient, dhpResponse);
         dhpResponse = null;
-        method.invoke(mDhpAuthenticationManagementClient, dhpResponse);
+        method.invoke(hsdpAuthenticationManagementClient, dhpResponse);
     }
 
     @Test
@@ -69,6 +79,6 @@ public class HsdpAuthenticationManagementClientTest extends TestCase {
         Method method = null;
         method = HsdpAuthenticationManagementClient.class.getDeclaredMethod("getUTCdatetimeAsString");
         method.setAccessible(true);
-        method.invoke(mDhpAuthenticationManagementClient);
+        method.invoke(hsdpAuthenticationManagementClient);
     }
 }
