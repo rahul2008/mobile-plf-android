@@ -4,6 +4,7 @@ import com.philips.cdp.registration.configuration.HSDPConfiguration;
 
 import junit.framework.TestCase;
 
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,12 +52,19 @@ public class HsdpAuthenticationManagementClientTest extends TestCase {
     }
 
     @Test
-    public void shouldReturnHsdpResponse_OnLogout(){
+    public void shouldReturnHsdpResponse_OnLogout() throws JSONException {
         String apiEndpoint = "/authentication/users/" + "xyz@gmail.com" + "/logout";
         String queryParams = "applicationName=" + hsdpConfiguration.getHsdpAppName();
         Map<String, String> headers = new LinkedHashMap<String, String>();
         headers.put("accessToken", "accessToken");
-        hsdpAuthenticationManagementClient.logout("xyz@gmail.com","accessToken");
+        HsdpResponse response = hsdpAuthenticationManagementClient.logout("xyz@gmail.com", "accessToken");
+        assertNotNull(response);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldRefreshSecret() {
+
+        hsdpAuthenticationManagementClient.refreshSecret("userUUID", "accessToken", "refresjSecrete");
     }
 
     @Test

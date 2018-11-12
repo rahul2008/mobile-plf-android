@@ -25,30 +25,30 @@ class HsdpResponse {
         this.message = MapUtils.extract(rawResponse, "responseMessage");
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-
-        if (o == null || getClass() != o.getClass())
-            return false;
-        HsdpResponse response = (HsdpResponse) o;
-        return Objects.equals(rawResponse, response.rawResponse) &&
-                Objects.equals(responseCode, response.responseCode) &&
-                Objects.equals(message, response.message);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(rawResponse, responseCode, message);
-    }
-
-    @Override
-    public String toString() {
-        return "HsdpResponse{" +
-                "rawResponse=" + rawResponse +
-                ", responseCode='" + responseCode + '\'' +
-                ", message='" + message + '\'' +
-                '}';
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o)
+//            return true;
+//
+//        if (o == null || getClass() != o.getClass())
+//            return false;
+//        HsdpResponse response = (HsdpResponse) o;
+//        return Objects.equals(rawResponse, response.rawResponse) &&
+//                Objects.equals(responseCode, response.responseCode) &&
+//                Objects.equals(message, response.message);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(rawResponse, responseCode, message);
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "HsdpResponse{" +
+//                "rawResponse=" + rawResponse +
+//                ", responseCode='" + responseCode + '\'' +
+//                ", message='" + message + '\'' +
+//                '}';
+//    }
 }
