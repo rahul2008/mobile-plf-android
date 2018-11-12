@@ -1,5 +1,5 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.prx;
@@ -34,7 +34,7 @@ import java.util.TreeMap;
 public class PRXAssetExecutor {
     private AssetListener mAssetListener;
     private Context mContext;
-    String mCTN;
+    private String mCTN;
 
     private static final int RTP = 1;
     private static final int APP = 2;
@@ -110,9 +110,8 @@ public class PRXAssetExecutor {
             }
             return;
         }
-        ArrayList<String> assetArray = fetchImageUrlsFromPRXAssets(asset);
 
-        result.obj = assetArray;
+        result.obj = fetchImageUrlsFromPRXAssets(asset);
         if (mAssetListener != null) {
             mAssetListener.onFetchAssetSuccess(result);
         }
@@ -172,13 +171,11 @@ public class PRXAssetExecutor {
     }
 
     private ProductAssetRequest prepareAssetBuilder(final String code) {
-        //  String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();//Check
-
         ProductAssetRequest productAssetBuilder = new ProductAssetRequest(code, null);
         productAssetBuilder.setSector(PrxConstants.Sector.B2C);
-        //productAssetBuilder.setLocaleMatchResult(locale);
         productAssetBuilder.setCatalog(PrxConstants.Catalog.CONSUMER);
         productAssetBuilder.setRequestTimeOut(NetworkConstants.DEFAULT_TIMEOUT_MS);
+
         return productAssetBuilder;
     }
 
@@ -194,16 +191,12 @@ public class PRXAssetExecutor {
             return height;
         }
 
-        public GetHeightAndWidth invoke() {
+        GetHeightAndWidth invoke() {
             width = 0;
             height = 0;
-            //Adding try Catch for Test case - In jUnit Test case since context is Mocked, it returns Null Pointer Exception
-            try {
-                width = mContext.getResources().getDisplayMetrics().widthPixels;
-                height = (int) mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
-            } catch (NullPointerException e) {
-                e.getStackTrace();
-            }
+            width = mContext.getResources().getDisplayMetrics().widthPixels;
+            height = (int) mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
+
             return this;
         }
     }

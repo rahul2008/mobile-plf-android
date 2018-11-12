@@ -1,13 +1,16 @@
 
-package com.philips.dhpclient;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+package com.philips.dhpclient;
 
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.response.DhpResponseVerifier;
 
 import org.junit.Before;
+import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,26 +20,24 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Created by 310243576 on 8/25/2016.
  */
-public class DhpApiClientTest extends InstrumentationTestCase{
+public class DhpApiClientTest {
     DhpApiClient mDhpApiClient;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-//        MockitoAnnotations.initMocks(this);
-        super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
-        DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl","dhpApplicationName","signingKey","signingSecret");
-                mDhpApiClient = new DhpApiClient(dhpApiClientConfiguration);
+        DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl", "dhpApplicationName", "signingKey", "signingSecret");
+        mDhpApiClient = new DhpApiClient(dhpApiClientConfiguration);
     }
 
-    public void testDhpApiClient(){
+    @Test
+    public void testDhpApiClient() {
         assertNotNull(mDhpApiClient);
-//        mDhpApiClient.UTCDatetimeAsString();
+        //        mDhpApiClient.UTCDatetimeAsString();
         DhpResponseVerifier dhpResponseVerifier = new DhpResponseVerifier() {
             @Override
             public void verify(DhpResponse dhpResponse) {
@@ -46,19 +47,19 @@ public class DhpApiClientTest extends InstrumentationTestCase{
         mDhpApiClient.setResponseVerifier(dhpResponseVerifier);
         assertNotNull(mDhpApiClient);
 
-
     }
 
-    public void testSendSignedRequest(){
+    @Test
+    public void testSendSignedRequest() {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Object d = new Object();
         Map<String, String> headers = new HashMap<>();
 
         try {
             method = DhpApiClient.class.getDeclaredMethod("sendSignedRequest", new Class[]{String.class, String.class, String.class, HashMap.class, Object.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{s,s,s,headers,d});
+            method.invoke(mDhpApiClient, new Object[]{s, s, s, headers, d});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -67,16 +68,18 @@ public class DhpApiClientTest extends InstrumentationTestCase{
             e.printStackTrace();
         }
     }
-    public void testSendSignedRequestForSocialLogin(){
+
+    @Test
+    public void testSendSignedRequestForSocialLogin() {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Object d = new Object();
         Map<String, String> headers = new HashMap<>();
 
         try {
             method = DhpApiClient.class.getDeclaredMethod("sendSignedRequestForSocialLogin", new Class[]{String.class, String.class, String.class, HashMap.class, Object.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{s,s,s,headers,d});
+            method.invoke(mDhpApiClient, new Object[]{s, s, s, headers, d});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -86,16 +89,17 @@ public class DhpApiClientTest extends InstrumentationTestCase{
         }
     }
 
-    public void testAddSignedDateHeader(){
+    @Test
+    public void testAddSignedDateHeader() {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Object d = new Object();
         Map<String, String> headers = new HashMap<>();
 
         try {
             method = DhpApiClient.class.getDeclaredMethod("addSignedDateHeader", Map.class);
             method.setAccessible(true);
-            method.invoke(mDhpApiClient,headers);
+            method.invoke(mDhpApiClient, headers);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -104,16 +108,18 @@ public class DhpApiClientTest extends InstrumentationTestCase{
             e.printStackTrace();
         }
     }
-    public void testSendRestRequest1(){
+
+    @Test
+    public void testSendRestRequest1() {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Object d = new Object();
         Map<String, String> headers = new HashMap<>();
 
         try {
             method = DhpApiClient.class.getDeclaredMethod("sendRestRequest", new Class[]{String.class, String.class, String.class, Map.class, Object.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{s,s,s,headers,d});
+            method.invoke(mDhpApiClient, new Object[]{s, s, s, headers, d});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -122,18 +128,19 @@ public class DhpApiClientTest extends InstrumentationTestCase{
             e.printStackTrace();
         }
     }
+
+    @Test
     public void testSendRestRequest() throws URISyntaxException {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Object d = new Object();
         Map<String, String> headers = new HashMap<>();
-        URI uri = URI.create(s + s + "?"+s);
-
+        URI uri = URI.create(s + s + "?" + s);
 
         try {
             method = DhpApiClient.class.getDeclaredMethod("sendRestRequest", new Class[]{String.class, URI.class, Map.class, Object.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{s,uri,headers,d});
+            method.invoke(mDhpApiClient, new Object[]{s, uri, headers, d});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -142,17 +149,19 @@ public class DhpApiClientTest extends InstrumentationTestCase{
             e.printStackTrace();
         }
     }
+
+    @Test
     public void testEstablishConnection() throws URISyntaxException {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Object d = new Object();
         Map<String, String> headers = new HashMap<>();
-        URI uri = URI.create(s + s + "?"+s);
+        URI uri = URI.create(s + s + "?" + s);
 
         try {
-            method = DhpApiClient.class.getDeclaredMethod("establishConnection", new Class[]{ URI.class,String.class, Map.class, Object.class});
+            method = DhpApiClient.class.getDeclaredMethod("establishConnection", new Class[]{URI.class, String.class, Map.class, Object.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{uri,s,headers,d});
+            method.invoke(mDhpApiClient, new Object[]{uri, s, headers, d});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -162,97 +171,100 @@ public class DhpApiClientTest extends InstrumentationTestCase{
         }
     }
 
-    public void testAddRequestBody(){
+    @Test
+    public void testAddRequestBody() {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Object d = new Object();
         Map<String, String> headers = new HashMap<>();
-        URI uri = URI.create(s + s + "?"+s);
-        HttpURLConnection urlConnection=null;
+        URI uri = URI.create(s + s + "?" + s);
+        HttpURLConnection urlConnection = null;
         try {
-            urlConnection =  (HttpURLConnection) uri.toURL().openConnection();
+            urlConnection = (HttpURLConnection) uri.toURL().openConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            method = DhpApiClient.class.getDeclaredMethod("addRequestBody", new Class[]{ String.class,HttpURLConnection.class});
+            method = DhpApiClient.class.getDeclaredMethod("addRequestBody", new Class[]{String.class, HttpURLConnection.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{s,urlConnection});
+            method.invoke(mDhpApiClient, new Object[]{s, urlConnection});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException e){}
+        } catch (IllegalArgumentException e) {
+        }
     }
 
-    public void testOpenHttpURLConnection(){
+    @Test
+    public void testOpenHttpURLConnection() {
         Method method = null;
-        String s= "sample";
-        URI uri = URI.create(s + s + "?"+s);
+        String s = "sample";
+        URI uri = URI.create(s + s + "?" + s);
         try {
             method = DhpApiClient.class.getDeclaredMethod("openHttpURLConnection", new Class[]{URI.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{uri});
+            method.invoke(mDhpApiClient, new Object[]{uri});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
 
         }
     }
 
-
+    @Test
     public void testAddRequestHeaders() {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Map<String, String> headers = new HashMap<>();
-        URI uri = URI.create(s + s + "?"+s);
-        HttpURLConnection urlConnection=null;
+        URI uri = URI.create(s + s + "?" + s);
+        HttpURLConnection urlConnection = null;
         try {
-            urlConnection =  (HttpURLConnection) uri.toURL().openConnection();
+            urlConnection = (HttpURLConnection) uri.toURL().openConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            method = DhpApiClient.class.getDeclaredMethod("addRequestHeaders", new Class[]{ Map.class,HttpURLConnection.class});
+            method = DhpApiClient.class.getDeclaredMethod("addRequestHeaders", new Class[]{Map.class, HttpURLConnection.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{headers,urlConnection});
+            method.invoke(mDhpApiClient, new Object[]{headers, urlConnection});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
 
         }
     }
 
-    public void testSign()  {
+    @Test
+    public void testSign() {
         Method method = null;
-        String s= "sample";
+        String s = "sample";
         Map<String, String> headers = new HashMap<>();
 
-        URI uri = URI.create(s + s + "?"+s);
+        URI uri = URI.create(s + s + "?" + s);
         try {
             method = DhpApiClient.class.getDeclaredMethod("sign", new Class[]{Map.class, String.class, String.class, String.class, String.class});
             method.setAccessible(true);
-            method.invoke(mDhpApiClient, new  Object[]{headers,s,s,s,s});
+            method.invoke(mDhpApiClient, new Object[]{headers, s, s, s, s});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
 
         }
     }

@@ -28,9 +28,11 @@ import com.philips.pins.shinelib.utility.SharedPreferencesMigrator;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.List;
 
@@ -53,7 +55,8 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
-public class SHNCentralTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class SHNCentralTest {
     private static final String TEST_DEVICE_MAC_ADDRESS = "DE:AD:C0:DE:01:23";
     private static final String TEST_DEVICE_TYPE = "TestDeviceType";
 

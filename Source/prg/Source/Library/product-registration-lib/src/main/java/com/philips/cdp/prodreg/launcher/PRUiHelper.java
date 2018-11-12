@@ -15,6 +15,7 @@ package com.philips.cdp.prodreg.launcher;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
@@ -117,6 +118,11 @@ public class PRUiHelper {
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prLaunchInput.getBackgroundImageResourceId());
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE,prLaunchInput.getMandatoryProductRegistration());
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT,prLaunchInput.getMandatoryRegisterButtonText());
+        if ((Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        }
         context.startActivity(intent);
     }
 

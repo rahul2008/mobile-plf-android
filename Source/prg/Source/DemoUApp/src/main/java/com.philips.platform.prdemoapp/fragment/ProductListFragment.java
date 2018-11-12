@@ -54,7 +54,7 @@ public class ProductListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.getSignedInUserWithProducts(getContext()).getRegisteredProducts(new RegisteredProductsListener() {
+        prodRegHelper.getSignedInUserWithProducts(getActivity()).getRegisteredProducts(new RegisteredProductsListener() {
             @Override
             public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 final OnItemClickListener onItemClickListener = new OnItemClickListener() {

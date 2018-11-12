@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.SHNDeviceAssociationHelper;
 import com.philips.pins.shinelib.SHNUserConfiguration;
 import com.philips.pins.shinelib.SHNUserConfigurationCalculations;
@@ -20,7 +19,9 @@ import com.philips.pins.shinelib.SharedPreferencesProvider;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import java.util.Date;
@@ -31,7 +32,8 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class DataMigraterTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class DataMigraterTest {
 
     public static final String TEST_DEVICE_1 = "TEST_DEVICE_1";
     public static final String TEST_DEVICE_2 = "TEST_DEVICE_2";

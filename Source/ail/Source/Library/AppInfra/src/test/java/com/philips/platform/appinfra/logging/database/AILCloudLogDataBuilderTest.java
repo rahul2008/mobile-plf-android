@@ -1,23 +1,31 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.logging.database;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AILCloudLogDataBuilderTest extends TestCase {
+@RunWith(RobolectricTestRunner.class)
+public class AILCloudLogDataBuilderTest {
 
     private AILCloudLogDataBuilder ailCloudLogDataBuilder;
 
@@ -29,13 +37,13 @@ public class AILCloudLogDataBuilderTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         MockitoAnnotations.initMocks(this);
         when(appInfra.getLogging()).thenReturn(loggingInterface);
         when(loggingInterface.getAilCloudLogMetaData()).thenReturn(new AILCloudLogMetaData());
         ailCloudLogDataBuilder = new AILCloudLogDataBuilder(appInfra);
     }
 
+    @Test
     public void testSettingBuildCloudLogModel() throws AILCloudLogDataBuilder.MessageSizeExceedsException {
         LogRecord logRecord = mock(LogRecord.class);
         when(logRecord.getLevel()).thenReturn(Level.ALL);

@@ -14,24 +14,28 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
+@RunWith(RobolectricTestRunner.class)
 public class OAuthRequestTest {
+    private Context mContext;
 
     @Mock
-    Context mContext;
+    private IAPUser mUser;
+
     @Mock
-    IAPUser mUser;
-    @Mock
-    IAPDependencies mIAPDependencies;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
+        mContext = getInstrumentation().getContext();
         StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig(/*"en", "US",*/ null);
         mModel = new OAuthRequest(mStore, null);

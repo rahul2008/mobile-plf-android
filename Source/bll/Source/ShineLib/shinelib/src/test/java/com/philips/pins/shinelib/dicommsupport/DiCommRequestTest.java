@@ -1,11 +1,16 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
 import android.util.Base64;
 
-import com.philips.pins.shinelib.RobolectricTest;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -17,7 +22,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class DiCommRequestTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class DiCommRequestTest {
 
     public static final String DEVICE = "device";
     public static final String SPECIAL_CHARACTER_DEVICE = "device\u00D6";

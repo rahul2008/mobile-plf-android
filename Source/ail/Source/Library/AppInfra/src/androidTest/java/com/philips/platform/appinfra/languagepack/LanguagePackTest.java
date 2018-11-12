@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.languagepack;
 
 import android.content.Context;
@@ -6,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -18,6 +22,8 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
@@ -27,7 +33,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LOCALE_FILE_ACTIVATED;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -35,27 +47,24 @@ import static org.mockito.Mockito.verify;
  * LanguagePack Test class.
  */
 
-public class LanguagePackTest extends AppInfraInstrumentation {
+public class LanguagePackTest {
 
     private final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
     private final String LANGUAGE_PACK_CONFIG_SERVICE_ID = "appinfra.languagepack";
     private final String LANGUAGE_PACK_OVERVIEW_URL = "https://hashim-rest.herokuapp.com/sd/tst/en_IN/appinfra/lp.json";
-    Method method;
-    AppConfigurationInterface mConfigInterface = null;
-    LanguagePackInterface mLanguagePackInterface = null;
-    LanguagePackManager mLanguagePackManager = null;
-    ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
+
+    private AppConfigurationInterface mConfigInterface = null;
+    private LanguagePackInterface mLanguagePackInterface = null;
+    private LanguagePackManager mLanguagePackManager = null;
+    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     private FileUtils languagePackUtil;
     private AppInfra mAppInfra;
 
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         Context context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
-
 
         // overriding ConfigManager to get Test JSON data, as AppInfra library does not have uApp configuration file
         mConfigInterface = new AppConfigurationManager(mAppInfra) {
@@ -66,14 +75,13 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
-                    Log.e(getClass()+"","Error in Language pack test setup");
+                    Log.e(getClass() + "", "Error in Language pack test setup");
                 }
                 return result;
             }
 
         };
         assertNotNull(mConfigInterface);
-
 
         // override service discovery getServiceUrlWithCountryPreference to verify correct service id is being passed to SD
         mServiceDiscoveryInterface = new ServiceDiscoveryManager(mAppInfra) {
@@ -84,7 +92,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                         URL url = new URL(LANGUAGE_PACK_OVERVIEW_URL);
                         listener.onSuccess(url);
                     } catch (MalformedURLException e) {
-                        Log.e(getClass()+"","Error in Language pack test setup service discovery interface callback");
+                        Log.e(getClass() + "", "Error in Language pack test setup service discovery interface callback");
                     }
                 } else {
                     listener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "Invalid ServiceID");
@@ -104,10 +112,12 @@ public class LanguagePackTest extends AppInfraInstrumentation {
 
     }
 
+    @Test
     public void testLanguagePackConfig() {
         assertNotNull(LanguagePackManager.getLanguagePackConfig(mAppInfra.getConfigInterface(), mAppInfra));
     }
 
+    @Test
     public void testPostActivateSuccess() throws InterruptedException {
         LanguagePackInterface.OnActivateListener onActivateListenerMock = mock(LanguagePackInterface.OnActivateListener.class);
         Runnable runnable = mLanguagePackManager.postActivateSuccess(onActivateListenerMock);
@@ -116,6 +126,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
         verify(onActivateListenerMock).onSuccess(languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED, LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
     }
 
+    @Test
     public void testActivateSuccess() throws InterruptedException {
         final Handler handlerMock = mock(Handler.class);
         mLanguagePackManager = new LanguagePackManager(mAppInfra) {
@@ -147,6 +158,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
         return null;
     }
 
+    @Test
     public void testIsLanguagePackDownloadRequired() {
         LanguagePackModel languagePackModel = new LanguagePackModel();
         languagePackModel.setLocale("some_locale");
@@ -158,6 +170,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
         assertFalse(mLanguagePackManager.isLanguagePackDownloadRequired(languagePackModel));
     }
 
+    @Test
     public void testFetchServiceIDFromConfigAndURLfromSD() {
         // fetch language pack service id from config
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
@@ -185,9 +198,9 @@ public class LanguagePackTest extends AppInfraInstrumentation {
         };
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(languagePackServiceId, listener);
 
-
     }
 
+    @Test
     public void testRefresh() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("refresh", LanguagePackInterface.OnRefreshListener.class);
@@ -208,10 +221,11 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             mLanguagePackInterface.refresh(listener);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            Log.e(getClass()+"","Error in refresh");
+            Log.e(getClass() + "", "Error in refresh");
         }
     }
 
+    @Test
     public void testRefreshNew() {
         AppInfra appInfra = mock(AppInfra.class);
         AppConfigurationInterface appConfigurationInterface = mock(AppConfigurationInterface.class);
@@ -231,13 +245,12 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                 return onGetServiceUrlListener;
             }
 
-
         };
         mLanguagePackManager.refresh(onRefreshListener);
         Mockito.verify(onRefreshListener).onError(LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
     }
 
-
+    @Test
     public void testPostRefreshSuccess() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("postRefreshSuccess", LanguagePackInterface.OnRefreshListener.class, LanguagePackInterface.OnRefreshListener.AILPRefreshResult.class);
@@ -258,10 +271,11 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(mLanguagePackManager, listener, result);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            Log.e(getClass()+"","Error in Post refresh success");
+            Log.e(getClass() + "", "Error in Post refresh success");
         }
     }
 
+    @Test
     public void testPostRefreshError() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("postRefreshError", LanguagePackInterface.OnRefreshListener.class, LanguagePackInterface.OnRefreshListener.AILPRefreshResult.class, String.class);
@@ -282,11 +296,11 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(mLanguagePackManager, listener, result, "errorMessage");
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            Log.e(getClass()+"","Error in Post refresh error");
+            Log.e(getClass() + "", "Error in Post refresh error");
         }
     }
 
-
+    @Test
     public void testActivate() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("activate", LanguagePackInterface.OnActivateListener.class);
@@ -303,10 +317,11 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             };
             method.invoke(mLanguagePackInterface, listener);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            Log.e(getClass()+"","Error in test active");
+            Log.e(getClass() + "", "Error in test active");
         }
     }
 
+    @Test
     public void testProcessForLanguagePack() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("processForLanguagePack", JSONObject.class, LanguagePackInterface.OnRefreshListener.class);
@@ -323,63 +338,37 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             JSONObject jobj = new JSONObject(getOverviewJSON());
             method.invoke(mLanguagePackManager, jobj, listener);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | JSONException e) {
-            Log.e(getClass()+"","Error in Process forLanguage pack");
+            Log.e(getClass() + "", "Error in Process forLanguage pack");
         }
     }
 
-
-//    public void testDownloadLanguagePack() {
-//        try {
-//            Method method = mLanguagePackManager.getClass().getDeclaredMethod("downloadLanguagePack"
-//                    , String.class, LanguagePackInterface.OnRefreshListener.class);
-//            method.setAccessible(true);
-//            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
-//                @Override
-//                public void onError(AILPRefreshResult error, String message) {
-//                }
-//
-//                @Override
-//                public void onSuccess(AILPRefreshResult result) {
-//                }
-//            };
-//            //URL url = new URL("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
-//            method.invoke(mLanguagePackManager, "https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/en_GB.json", listener);
-//        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
+    @Test
     public void testGetPreferredLocaleURL() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("getPreferredLocaleURL");
             method.setAccessible(true);
             method.invoke(mLanguagePackManager);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            Log.e(getClass()+"","Error in preferred locale");
+            Log.e(getClass() + "", "Error in preferred locale");
         }
     }
 
-
-    ////////////////// Language Pack util test
+    @Test
     public void testGetLanguagePackUtilFileOperations() {
 
-        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED ,
+        languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
                 LanguagePackConstants.LANGUAGE_PACK_PATH);
         File file = languagePackUtil.getFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
                 LanguagePackConstants.LANGUAGE_PACK_PATH);
         assertNotNull(file);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
 
-
-        languagePackUtil.saveFile(getLanguageResponse(), LOCALE_FILE_ACTIVATED ,
+        languagePackUtil.saveFile(getLanguageResponse(), LOCALE_FILE_ACTIVATED,
                 LanguagePackConstants.LANGUAGE_PACK_PATH);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
-
-       /* assertTrue(languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
-                LanguagePackConstants.LOCALE_FILE_DOWNLOADED));*/
     }
 
+    @Test
     public void testLanguagePackUtilSaveLocaleMetaData() {
         try {
             Method method = languagePackUtil.getClass().getDeclaredMethod("saveLocaleMetaData", LanguagePackModel.class);
@@ -395,23 +384,24 @@ public class LanguagePackTest extends AppInfraInstrumentation {
             method.invoke(languagePackUtil, list.getLanguages().get(0));
             languagePackUtil.saveLocaleMetaData(list.getLanguages().get(0));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            Log.e(getClass()+"","Illegalaccess or Nosuch method orInvocationTarget Error in Language pack test save locale meta data");
+            Log.e(getClass() + "", "Illegalaccess or Nosuch method orInvocationTarget Error in Language pack test save locale meta data");
         } catch (Exception exception) {
-            Log.e(getClass()+"","Error in Language pack test save locale meta data");
+            Log.e(getClass() + "", "Error in Language pack test save locale meta data");
         }
     }
 
+    @Test
     public void testLanguagePackUtilRenameOnActivate() {
         try {
             Method method = languagePackUtil.getClass().getDeclaredMethod("renameOnActivate");
             method.setAccessible(true);
             method.invoke(languagePackUtil);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            Log.e(getClass()+"","Error in Rename on acivate");
+            Log.e(getClass() + "", "Error in Rename on acivate");
         }
     }
 
-
+    @Test
     public void testGetDefaultLocale() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("getDefaultLocale");
@@ -421,15 +411,12 @@ public class LanguagePackTest extends AppInfraInstrumentation {
         }
     }
 
-
     private String getLanguageResponse() {
 
         return "{\"AI_testKey\":\"se-testValue-en_GB\",\"AI_sbText\":\"se-sbValue-en_GB\"}";
     }
 
     private String getOverviewJSON() {
-
-
         return "{\n" +
                 "  \"languages\": [\n" +
                 "    {\n" +
@@ -469,7 +456,5 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                 "    }\n" +
                 "  ]\n" +
                 "}";
-
-
     }
 }

@@ -1,12 +1,18 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport;
 
-import com.philips.pins.shinelib.RobolectricTest;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidMessageTerminationException;
 import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidPayloadFormatException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +24,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class DiCommResponseTest extends RobolectricTest {
+@RunWith(RobolectricTestRunner.class)
+public class DiCommResponseTest {
 
     public static final double VALUE = 5D;
     public static final String KEY = "data";

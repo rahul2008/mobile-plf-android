@@ -1,36 +1,35 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.csw.dialogs;
 
 import android.content.DialogInterface;
 import android.view.KeyEvent;
 
-import com.philips.platform.csw.BuildConfig;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
 public class ProgressDialogFragmentTest {
 
-    private ProgressDialogFragment progressDialogFragment;
+
     @Mock
     private DialogInterface dialog;
+
+    private ProgressDialogFragment progressDialogFragment;
     private boolean result;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         progressDialogFragment=new ProgressDialogFragment();
-      //  SupportFragmentTestUtil.startFragment(progressDialogFragment);
     }
 
     @Test
@@ -38,20 +37,13 @@ public class ProgressDialogFragmentTest {
         whenOnKeyIsCalled(KeyEvent.KEYCODE_BACK);
         thenDialogDismissIsCalled();
         thenOnKeyReturnsTrue();
-        thenFragmentManagetPopStackBackIsCalled();
     }
-
 
     @Test
     public void testOnKeyDonotDismissDialogWhenARandomKeyIsPressed() {
         whenOnKeyIsCalled(KeyEvent.KEYCODE_0);
         thenDialogDismissIsNotCalled();
         thenOnKeyReturnsTrue();
-        thenFragmentManagetPopStackBackIsCalled();
-    }
-
-    private void thenFragmentManagetPopStackBackIsCalled() {
-      //  verify(fragmentManager).popBackStack();
     }
 
     private void whenOnKeyIsCalled(int keyCode) {

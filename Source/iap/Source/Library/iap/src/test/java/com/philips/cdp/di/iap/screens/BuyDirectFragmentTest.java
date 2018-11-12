@@ -1,40 +1,44 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
-
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.controller.BuyDirectController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.Country;
-import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.support.v4.SupportFragmentController;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class BuyDirectFragmentTest {
+
     @Mock
     private Context contextMock;
-    BuyDirectFragment buyDirectFragment;
 
+    @Mock
+    private Message messageMock;
+
+    @Mock
+    private BuyDirectController buyDirectControllerMock;
+
+    private BuyDirectFragment buyDirectFragment;
 
     @Before
     public void setUp() {
@@ -42,28 +46,23 @@ public class BuyDirectFragmentTest {
         buyDirectFragment = BuyDirectFragment.createInstance(new Bundle(), InAppBaseFragment.AnimationType.NONE);
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void shouldDisplayBuyDirectFragment() {
-
-        SupportFragmentTestUtil.startFragment(buyDirectFragment);
+        SupportFragmentController.of(buyDirectFragment).create().start().resume();
     }
-
-    @Mock
-    Message messageMock;
-
-    @Mock
-    BuyDirectController buyDirectControllerMock;
 
     @Test
     public void shouldDisplayOnCartCreateWithNull() {
         buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
         buyDirectFragment.onCreateCart(messageMock);
     }
+
     @Test
     public void shouldDisplayOnAddToCartWithNull() {
         buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
         buyDirectFragment.onAddToCart(messageMock);
     }
+
     @Test
     public void shouldDisplayOnGetRegionsWithNull() {
         buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
@@ -73,7 +72,6 @@ public class BuyDirectFragmentTest {
 
     @Test
     public void shouldCallOnGetUser() throws Exception {
-
         buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
 
         Country country=new Country();
@@ -101,8 +99,7 @@ public class BuyDirectFragmentTest {
 
     @Test(expected = NullPointerException.class)
     public void shouldCallOnGetUser_WhenIAPNetworkErrorComes() throws Exception {
-
-        IAPNetworkError iapNetworkError=new IAPNetworkError(null,1,null);
+        IAPNetworkError iapNetworkError = new IAPNetworkError(null, 1, null);
         messageMock.obj=iapNetworkError;
         buyDirectFragment.onGetUser(messageMock);
     }
@@ -114,17 +111,14 @@ public class BuyDirectFragmentTest {
         messageMock.obj=iapNetworkError;
         buyDirectFragment.mContext=contextMock;
         buyDirectFragment.onSetDeliveryAddress(messageMock);
-
     }
 
     @Test
     public void shouldCall_onSetDeliveryAddress_WhenNoIAPNetworkErrorComes() throws Exception {
-
         messageMock.obj="";
         buyDirectFragment.mContext=contextMock;
         buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
         buyDirectFragment.onSetDeliveryAddress(messageMock);
-
     }
 
     @Test
@@ -136,22 +130,6 @@ public class BuyDirectFragmentTest {
         buyDirectFragment.onGetDeliveryMode(messageMock);
 
     }
-
-//    @Test(expected = NullPointerException.class)
-//    public void shouldCall_onGetDeliveryMode_WHenGetDeliveryModesComes() throws Exception {
-//
-//        buyDirectFragment.mBuyDirectController=buyDirectControllerMock;
-//
-//        List<DeliveryModes> deliveryModesList=new ArrayList<>();
-//        deliveryModesList.add(null);
-//
-//        GetDeliveryModes getDeliveryModes=new GetDeliveryModes();
-//        getDeliveryModes.setDeliveryModes(deliveryModesList);
-//        messageMock.obj=getDeliveryModes;
-//        buyDirectFragment.mContext=contextMock;
-//        buyDirectFragment.onGetDeliveryMode(messageMock);
-//
-//    }
 
     @Test
     public void shouldSetDeliveryMode_WhenNetworkErrorCome() throws Exception {
@@ -175,10 +153,8 @@ public class BuyDirectFragmentTest {
     @Test
     public void shouldCall_OnGetPaymentMode_ForEmptyResponse() throws Exception {
         messageMock.obj="";
-     buyDirectFragment.onGetPaymentMode(messageMock);
+        buyDirectFragment.onGetPaymentMode(messageMock);
     }
-
-    //IAPNetworkError
 
     @Test
     public void shouldCall_OnGetPaymentMode_ForIAPNetworkError() throws Exception {
@@ -188,8 +164,6 @@ public class BuyDirectFragmentTest {
         buyDirectFragment.mContext=contextMock;
         buyDirectFragment.onGetPaymentMode(messageMock);
     }
-
-    //PaymentMethods
 
     @Test
     public void shouldCall_OnGetPaymentMode_ForPaymentMethods() throws Exception {

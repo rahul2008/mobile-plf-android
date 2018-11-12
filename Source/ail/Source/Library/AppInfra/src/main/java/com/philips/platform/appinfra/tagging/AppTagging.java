@@ -1,7 +1,6 @@
-/* Copyright (c) Koninklijke Philips N.V. 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.platform.appinfra.tagging;
 
@@ -19,7 +18,6 @@ import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 
 /**
  * App Tagging classes .
@@ -52,7 +50,7 @@ public class AppTagging implements AppTaggingInterface {
     private void init(Context context) {
         getAppTaggingHandler();
         Config.setContext(context);
-       getAppTaggingHandler().enableAdobeLogs();
+        getAppTaggingHandler().enableAdobeLogs();
     }
 
     AppTaggingHandler getAppTaggingHandler() {
@@ -104,7 +102,6 @@ public class AppTagging implements AppTaggingInterface {
     public void trackTimedActionEnd(String actionEnd, Analytics.TimedActionBlock<Boolean> logic) {
         getAppTaggingHandler().timeActionEnd(actionEnd, logic);
     }
-
 
     @Override
     public boolean getPrivacyConsentForSensitiveData() {
@@ -189,9 +186,9 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public ConsentHandlerInterface getClickStreamConsentHandler() {
-            if (mConsentHandler == null)
-                mConsentHandler = new ClickStreamConsentHandler(mAppInfra);
-            return mConsentHandler;
+        if (mConsentHandler == null)
+            mConsentHandler = new ClickStreamConsentHandler(mAppInfra);
+        return mConsentHandler;
     }
 
     @Override

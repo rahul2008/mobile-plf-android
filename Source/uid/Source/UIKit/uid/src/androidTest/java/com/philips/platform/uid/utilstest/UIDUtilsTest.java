@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.uid.utilstest;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.VectorDrawable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.test.rule.ActivityTestRule;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 
@@ -17,6 +21,8 @@ import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import androidx.test.rule.ActivityTestRule;
 
 import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 

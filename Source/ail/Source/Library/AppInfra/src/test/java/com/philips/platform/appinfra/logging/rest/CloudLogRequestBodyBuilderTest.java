@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.logging.rest;
 
 
@@ -11,20 +16,21 @@ import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.logging.rest.model.CloudLogs;
 import com.philips.platform.appinfra.logging.rest.model.Resource;
 
-import junit.framework.TestCase;
-
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Yogesh on 5/24/18.
- */
-public class CloudLogRequestBodyBuilderTest extends TestCase {
+@RunWith(RobolectricTestRunner.class)
+public class CloudLogRequestBodyBuilderTest {
 
     private CloudLogRequestBodyBuilder cloudLogRequestBodyBuilder;
 
@@ -38,15 +44,15 @@ public class CloudLogRequestBodyBuilderTest extends TestCase {
     @Mock
     private AILCloudLogMetaData ailCloudLogMetaData;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(appInfra.getLogging()).thenReturn(appInfraLogging);
         when(appInfraLogging.getAilCloudLogMetaData()).thenReturn(ailCloudLogMetaData);
         cloudLogRequestBodyBuilder = new CloudLogRequestBodyBuilder(appInfra, "product_key");
     }
 
+    @Test
     public void testFormingCloudLogRequestBody() {
         when(ailCloudLogMetaData.getAppName()).thenReturn("AppInfra");
         AILCloudLogData ailCloudLogData = getAilCloudLogData();
@@ -64,7 +70,6 @@ public class CloudLogRequestBodyBuilderTest extends TestCase {
             assertEquals(resource.getServerName(), "serverName");
             assertEquals(resource.getOriginatingUser(), "userUUID");
         }
-
 
     }
 

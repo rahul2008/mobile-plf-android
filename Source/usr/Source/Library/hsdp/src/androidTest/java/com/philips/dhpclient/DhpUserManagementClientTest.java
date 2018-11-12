@@ -1,8 +1,10 @@
 
-package com.philips.dhpclient;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+package com.philips.dhpclient;
 
 import com.philips.dhpclient.request.DhpUserIdentity;
 
@@ -12,31 +14,26 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by 310243576 on 8/21/2016.
  */
-public class DhpUserManagementClientTest extends InstrumentationTestCase {
-    DhpApiClientConfiguration mDhpApiClientConfiguration;
-    DhpUserManagementClient mDhpUserManagementClient;
+public class DhpUserManagementClientTest {
+
+    private DhpApiClientConfiguration mDhpApiClientConfiguration;
+    private DhpUserManagementClient mDhpUserManagementClient;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-//        MockitoAnnotations.initMocks(this);
-        super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
         mDhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl", "dhpApplicationName", "signingKey", "signingSecret");
         mDhpUserManagementClient = new DhpUserManagementClient(mDhpApiClientConfiguration);
-
     }
 
     @Test
-    public void testDhpUserManagementClient() {
+    public void testDhpUserManagementClient() throws Exception {
         DhpUserIdentity.Address primaryAddress = new DhpUserIdentity.Address("country");
         List<DhpUserIdentity.Photo> photos = new ArrayList<DhpUserIdentity.Photo>();
         double d = 123;
@@ -65,9 +62,9 @@ public class DhpUserManagementClientTest extends InstrumentationTestCase {
         }
         assertNotNull(mDhpApiClientConfiguration);
         assertNotNull(mDhpUserManagementClient);
-
     }
 
+    @Test
     public void testGetUserInstance() {
         Method method = null;
         Double doubleVal = 234.5;

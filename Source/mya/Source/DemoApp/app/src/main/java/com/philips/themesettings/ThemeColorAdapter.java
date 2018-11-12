@@ -1,8 +1,6 @@
 /*
- * Copyright (c) 2017 Koninklijke Philips N.V.
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.themesettings;
@@ -99,20 +97,19 @@ public class ThemeColorAdapter extends RecyclerView.Adapter<ThemeColorAdapter.Vi
     }
 
     private int getCompatColor(final Context context, final int colorResourceId75) {
-        return ContextCompat.getColor(context, colorResourceId75);
+        return context.getColor(colorResourceId75);
     }
 
     private void setTickMarckColor(final @NonNull ViewHolder holder, final int adapterPosition, final ColorModel colorModel, final Context context) {
         if (adapterPosition == selectedPosition) {
             final Drawable mutate = drawableCompat.mutate();
-            final Drawable wrap = DrawableCompat.wrap(mutate);
             if (colorModel.getContentColor() == R.color.uidColorWhite) {
-                DrawableCompat.setTint(wrap, Color.WHITE);
+                DrawableCompat.setTint(mutate, Color.WHITE);
             } else {
                 final int colorResourceId75 = getColorResourceId75(colorModel, context);
-                DrawableCompat.setTint(wrap, getCompatColor(context, colorResourceId75));
+                DrawableCompat.setTint(mutate, getCompatColor(context, colorResourceId75));
             }
-            DrawableCompat.setTintMode(wrap, PorterDuff.Mode.SRC_IN);
+            DrawableCompat.setTintMode(mutate, PorterDuff.Mode.SRC_IN);
             holder.colorRangeSelectedCheckBox.setBackground(drawableCompat);
         }
     }

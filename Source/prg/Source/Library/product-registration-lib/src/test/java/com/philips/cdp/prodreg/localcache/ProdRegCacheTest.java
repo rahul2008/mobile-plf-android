@@ -1,30 +1,26 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.prodreg.localcache;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.registration.BuildConfig;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-
-import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
-public class ProdRegCacheTest extends TestCase {
+public class ProdRegCacheTest {
 
     private ProdRegCache prodRegCache;
     private SecureStorageInterface ssInterface;
@@ -32,7 +28,6 @@ public class ProdRegCacheTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         ssInterface = mock(SecureStorageInterface.class);
         ssError = mock(SecureStorageInterface.SecureStorageError.class);
         prodRegCache = new ProdRegCache() {

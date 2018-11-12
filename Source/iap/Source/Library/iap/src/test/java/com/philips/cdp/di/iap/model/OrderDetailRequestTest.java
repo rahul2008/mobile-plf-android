@@ -15,28 +15,32 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import java.util.HashMap;
+import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertNotEquals;
 
+@RunWith(RobolectricTestRunner.class)
 public class OrderDetailRequestTest {
 
+    private Context mContext;
+
     @Mock
-    Context mContext;
-    @Mock
-    IAPUser mUser;
-    @Mock
-    IAPDependencies mIAPDependencies;
+    private IAPUser mUser;
+
     private StoreListener mStore;
     private AbstractModel mModel;
 
     @Before
     public void setUp() {
+        mContext = getInstrumentation().getContext();
         mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
         mStore.initStoreConfig(/*"en", "US",*/ null);
         mModel = new OrderDetailRequest(mStore, null, null);

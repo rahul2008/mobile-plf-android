@@ -1,17 +1,17 @@
-package com.philips.cdp.registration.ui.traditional;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
+package com.philips.cdp.registration.ui.traditional;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class HomeFragmentTest {
 
     private HomeFragment homeFragment;
@@ -30,7 +30,8 @@ public class HomeFragmentTest {
     public void onCreate() throws Exception {
         try {
             homeFragment.onCreate(null);
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
 
     }
 
@@ -38,42 +39,48 @@ public class HomeFragmentTest {
     public void onCreateView() throws Exception {
         try {
             homeFragment.onCreateView(null,null,null);
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onSaveInstanceState() throws Exception {
         try {
             homeFragment.onSaveInstanceState(null);
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onViewStateRestored() throws Exception {
         try {
             homeFragment.onViewStateRestored(null);
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onActivityCreated() throws Exception {
         try {
             homeFragment.onActivityCreated(null);
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onStart() throws Exception {
         try {
             homeFragment.onStart();
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onResume() throws Exception {
         try {
             homeFragment.onResume();
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
 //    @Test
@@ -87,42 +94,48 @@ public class HomeFragmentTest {
     public void onPause() throws Exception {
         try {
             homeFragment.onPause();
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onStop() throws Exception {
         try {
             homeFragment.onStop();
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onDestroyView() throws Exception {
         try {
             homeFragment.onDestroyView();
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onDestroy() throws Exception {
         try {
             homeFragment.onDestroy();
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onDetach() throws Exception {
         try {
             homeFragment.onDetach();
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void onConfigurationChanged() throws Exception {
         try {
             homeFragment.onConfigurationChanged(null);
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
 //    @Test
@@ -136,21 +149,24 @@ public class HomeFragmentTest {
     public void setViewParams() throws Exception {
         try {
             homeFragment.setViewParams(null,0);
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void handleOrientation() throws Exception {
         try {
             homeFragment.handleOrientation(null);
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
     @Test
     public void getTitleResourceId() throws Exception {
         try {
             homeFragment.getTitleResourceId();
-        } catch (Throwable t) {}
+        } catch (Throwable ignored) {
+        }
     }
 
 }
