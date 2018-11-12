@@ -32,4 +32,12 @@ public class PlatformFcmListenerService extends FirebaseMessagingService {
         PNLog.d(TAG,"Push Notification received");
         PushNotificationManager.getInstance().sendPayloadToCoCo(remoteMessage.getData());
     }
+
+    @Override
+    public void onNewToken(String s) {
+        super.onNewToken(s);
+        PNLog.d(TAG,"On token refresh");
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
+    }
 }
