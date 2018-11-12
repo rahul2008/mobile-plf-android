@@ -69,7 +69,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
     public static final String TEST_APP_INFRA_EVENT = "AppInfra";
 //    public static final String TEST_DLS_APP = "DLS";
     public static final String TEST_THS_DEMO_EVENT = "TestThsDemoEvent";
-    public static final String TEST_NEURA_DEMO_EVENT = "TestNeuraDemoEvent";
+//    public static final String TEST_NEURA_DEMO_EVENT = "TestNeuraDemoEvent";
     private static final String TAG = COCOListPresenter.class.getSimpleName();
     public final COCOListContract.View cocoListContractView;
     private BaseState baseState;
@@ -168,8 +168,8 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
 //                return TEST_DLS_APP;
             case THS_DEMO_APP:
                 return TEST_THS_DEMO_EVENT;
-            case NEURA_DEMO_APP:
-                return TEST_NEURA_DEMO_EVENT;
+            /*case NEURA_DEMO_APP:
+                return TEST_NEURA_DEMO_EVENT;*/
             default:
                 return TEST_APP_INFRA_EVENT;
         }
