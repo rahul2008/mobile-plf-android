@@ -138,7 +138,6 @@ class IAPHandler {
             intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
         }
         if(pLaunchInput.getVoucher()!=null) {
-            intent.putExtra(IAPConstant.IAP_VOUCHER_FROM_APP,pLaunchInput.getVoucher());
             Utility.setVoucherCode(pLaunchInput.getVoucher());
         }
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
@@ -159,7 +158,6 @@ class IAPHandler {
             case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
                 fragment = new ShoppingCartFragment();
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
-                bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                 Utility.setVoucherCode(iapLaunchInput.getVoucher());
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
