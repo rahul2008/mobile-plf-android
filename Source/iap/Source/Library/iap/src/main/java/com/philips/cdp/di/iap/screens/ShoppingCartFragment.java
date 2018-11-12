@@ -138,7 +138,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }
-    //    hideProgressBar();
     }
 
     @Override
