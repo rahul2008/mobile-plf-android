@@ -81,16 +81,19 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                     ewsResultListener = viewModel.getEwsResultListener();
-                    if(ewsResultListener != null) {
-                        ewsResultListener.onEWSCancelled();
-                    }
+                    performEWSCancel(ewsResultListener);
                 }
                 return false;
             }
         });
+    }
+
+    public void performEWSCancel(EwsResultListener ewsResultListener) {
+        if(ewsResultListener != null) {
+            ewsResultListener.onEWSCancelled();
+        }
     }
 
     @Override

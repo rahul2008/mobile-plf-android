@@ -34,6 +34,7 @@ import android.view.Display;
 import com.philips.platform.ews.EWSActivity;
 import com.philips.platform.ews.connectionsuccessful.ConnectionSuccessfulFragment;
 import com.philips.platform.ews.microapp.EwsResultListener;
+import com.philips.platform.ews.startconnectwithdevice.StartConnectWithDeviceFragment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -64,6 +65,7 @@ public class EwsResultsTest {
 
     private ResultListener listenerSpy;
     private EWSActivity ewsActivitySpy;
+    private StartConnectWithDeviceFragment startConnectWithDeviceFragmentSpy;
     @Before
     public void setup() {
         initMocks(this);
@@ -71,11 +73,18 @@ public class EwsResultsTest {
         ewsActivitySpy = spy(new EWSActivity());
         connectionSuccessfulFragmentSpy = spy(new ConnectionSuccessfulFragment());
         when(connectionSuccessfulFragmentSpy.getContext()).thenReturn(listenerSpy);
+        startConnectWithDeviceFragmentSpy = spy(new StartConnectWithDeviceFragment());
+    }
+
+    @Test
+    public void itShouldCallOnEWSCancelledWhenStartConnectWithDeviceFragmentCallsPerformEWSCancelAndEwsResultListenerIsNotNull() {
+        startConnectWithDeviceFragmentSpy.performEWSCancel(listenerSpy);
+        verify(listenerSpy).onEWSCancelled();
     }
 
     @Test
     public void itShouldCallTheResultListenerWhenfinishMicroAppIsCalled() {
-        connectionSuccessfulFragmentSpy.finishMicroApp(null);
+        connectionSuccessfulFragmentSpy.finishMicroApp(listenerSpy);
         verify(listenerSpy, times(1)).onEWSFinishSuccess();
     }
 
