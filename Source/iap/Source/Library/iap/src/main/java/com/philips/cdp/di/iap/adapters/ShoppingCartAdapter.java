@@ -217,6 +217,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         mIsFreeDelivery = true;
                     }
 
+                    if(Utility.isPromotionRunning())
+                    {
+                        shoppingCartFooter.mDeliveryModeDescription.setText(R.string.iap_delivery_promotion);
+                    }
+
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
                     shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
 
@@ -415,7 +420,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
      class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
-        TextView mDeliveryPrice;
+        TextView mDeliveryPrice,mDeliveryModeDescription;
         TextView mVatValue;
         TextView mVatInclusiveValue;
         TextView mTotalItems;
@@ -436,6 +441,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
             mDeliveryPrice = itemView.findViewById(R.id.delivery_price);
+            mDeliveryModeDescription = itemView.findViewById(R.id.iap_delivery_mode_description);
             mVatValue = itemView.findViewById(R.id.including_tax_val);
             mVatInclusiveValue = itemView.findViewById(R.id.vat_inclusive);
             mTotalItems = itemView.findViewById(R.id.total_label);

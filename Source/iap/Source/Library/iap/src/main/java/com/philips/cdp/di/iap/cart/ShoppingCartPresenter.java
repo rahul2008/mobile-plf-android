@@ -38,6 +38,7 @@ import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -425,9 +426,16 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                     final String currentDeliveryCost = cartsEntity.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     final String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
                     cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
+                    Utility.setPromotionRunning(true);
                     break;
                 }
+                else {
+                    Utility.setPromotionRunning(false);
+                }
+
             }
+        }else {
+            Utility.setPromotionRunning(false);
         }
     }
 
