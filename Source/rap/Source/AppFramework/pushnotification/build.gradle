@@ -62,7 +62,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.support.appcompatv7
-    implementation deps.play_services_gcm
+    implementation deps.firebase_messaging
     implementation (deps.firebase_core) {
         exclude group: 'com.google.firebase', module: 'firebase-iid'
     }
@@ -92,5 +92,3 @@ dependencies {
 tasks.withType(Test) {
     ignoreFailures = true
 }
-
-apply plugin: 'com.google.gms.google-services'
