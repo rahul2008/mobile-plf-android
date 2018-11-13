@@ -37,9 +37,7 @@ public class HsdpAuthenticationManagementClient extends HsdpRequestClient {
         headers.put("Api-version", "2");
         Map<String, String> body = new LinkedHashMap<String, String>();
         body.put("loginId", email);
-        Map<String, Object> hsdpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, body);
-
-        return hsdpResponse;
+        return sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, body);
     }
 
     public Map<String, Object> logout(String userId, String accessToken) {

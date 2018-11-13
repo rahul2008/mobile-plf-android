@@ -67,19 +67,6 @@ public class HsdpAuthenticationManagementClientTest extends TestCase {
         hsdpAuthenticationManagementClient.refreshSecret("userUUID", "accessToken", "refresjSecrete");
     }
 
-    @Test
-    public void testSign() throws Exception {
-        Method method = null;
-        String s = "sample";
-        Map<String, String> headers = new HashMap<>();
-        Map<String, Object> rawResponse = new HashMap<>();
-
-        method = HsdpAuthenticationManagementClient.class.getDeclaredMethod("getDhpAuthenticationResponse", Map.class);
-        method.setAccessible(true);
-        method.invoke(hsdpAuthenticationManagementClient, rawResponse);
-        rawResponse = null;
-        method.invoke(hsdpAuthenticationManagementClient, rawResponse);
-    }
 
     @Test
     public void testGetUTCdatetimeAsString() throws Exception {
