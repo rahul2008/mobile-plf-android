@@ -6,16 +6,10 @@
         android:supportsRtl="true">
 
         <service
-            android:name="com.philips.platform.referenceapp.services.PlatformFcmListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
             android:name="com.philips.platform.referenceapp.services.RegistrationIntentService"
             android:exported="false">
         </service>
+
     </application>
 
 </manifest>

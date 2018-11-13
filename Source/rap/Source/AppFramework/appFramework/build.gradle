@@ -362,3 +362,4 @@ task('printPlatformVersion') {
         println "Platform version stored in platformversion.txt"
     }
 }
+apply plugin: 'com.google.gms.google-services'
