@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 /**
- * The ABTest Client Manager
+ * The ABTest Client Manager is a dummy implementation provided from platform side
  */
 
 public class ABTestClientManager implements ABTestClientInterface {
@@ -41,5 +41,6 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     @Override
     public void tagEvent(String eventName, Bundle params) {
+        return;
     }
 }

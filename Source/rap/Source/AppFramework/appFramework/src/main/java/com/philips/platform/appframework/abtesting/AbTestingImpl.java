@@ -65,7 +65,6 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
      */
     public void initFireBase(Context context) {
         fireBaseWrapper = getFireBaseWrapper(context);
-        this.context = context;
     }
 
     @NonNull
