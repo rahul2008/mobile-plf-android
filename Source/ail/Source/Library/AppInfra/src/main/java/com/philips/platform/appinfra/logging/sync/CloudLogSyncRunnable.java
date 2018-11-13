@@ -1,7 +1,5 @@
 package com.philips.platform.appinfra.logging.sync;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -106,7 +104,7 @@ public class CloudLogSyncRunnable implements Runnable {
     }
 
     private Map<String, String> getCloudLoggingHeaders() {
-        String signingDate = LoggingUtils.getCurrentDateAndTime(CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT);
+        String signingDate = LoggingUtils.getCurrentDateAndTime(CloudLoggingConstants.CLOUD_LOGGING_DATE_TIME_FORMAT, appInfra);
         HSDPLoggingV2ApiSigning hsdpLoggingV2ApiSigning = new HSDPLoggingV2ApiSigning(secretKey);
         Map<String, String> header = new HashMap<>();
         header.put("Content-Type", "application/json");
