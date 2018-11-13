@@ -294,6 +294,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
+            hideNotificationBarView();
             boolean janrainIntialized = UserRegistrationInitializer.getInstance().isJanrainIntialized();
             if (janrainIntialized) {
                 RLog.i(TAG, "isJanrainIntialized : " + janrainIntialized);
