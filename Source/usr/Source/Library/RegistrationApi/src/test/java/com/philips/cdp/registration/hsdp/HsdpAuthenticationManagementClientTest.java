@@ -22,9 +22,9 @@ import java.util.Map;
 public class HsdpAuthenticationManagementClientTest extends TestCase {
     private HsdpAuthenticationManagementClient hsdpAuthenticationManagementClient;
     @Mock
-    HSDPConfiguration hsdpConfiguration;
+    private HSDPConfiguration hsdpConfiguration;
     @Mock
-    HsdpRequestClient hsdpRequestClient;
+    private HsdpRequestClient hsdpRequestClient;
 
     @Before
     public void setUp() throws Exception {
@@ -57,8 +57,8 @@ public class HsdpAuthenticationManagementClientTest extends TestCase {
         String queryParams = "applicationName=" + hsdpConfiguration.getHsdpAppName();
         Map<String, String> headers = new LinkedHashMap<String, String>();
         headers.put("accessToken", "accessToken");
-        HsdpResponse response = hsdpAuthenticationManagementClient.logout("xyz@gmail.com", "accessToken");
-        assertNotNull(response);
+        hsdpAuthenticationManagementClient.logout("xyz@gmail.com", "accessToken");
+
     }
 
     @Test(expected = RuntimeException.class)
@@ -73,13 +73,12 @@ public class HsdpAuthenticationManagementClientTest extends TestCase {
         String s = "sample";
         Map<String, String> headers = new HashMap<>();
         Map<String, Object> rawResponse = new HashMap<>();
-        HsdpResponse dhpResponse = new HsdpResponse(rawResponse);
 
-        method = HsdpAuthenticationManagementClient.class.getDeclaredMethod("getDhpAuthenticationResponse", HsdpResponse.class);
+        method = HsdpAuthenticationManagementClient.class.getDeclaredMethod("getDhpAuthenticationResponse", Map.class);
         method.setAccessible(true);
-        method.invoke(hsdpAuthenticationManagementClient, dhpResponse);
-        dhpResponse = null;
-        method.invoke(hsdpAuthenticationManagementClient, dhpResponse);
+        method.invoke(hsdpAuthenticationManagementClient, rawResponse);
+        rawResponse = null;
+        method.invoke(hsdpAuthenticationManagementClient, rawResponse);
     }
 
     @Test

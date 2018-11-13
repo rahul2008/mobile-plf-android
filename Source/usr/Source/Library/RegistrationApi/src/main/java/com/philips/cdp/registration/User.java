@@ -89,10 +89,6 @@ public class User {
 
     private Context mContext;
 
-    private JSONObject mConsumerInterestObject;
-
-    private JSONArray mConsumerInterestArray;
-
     private String USER_EMAIL = "email";
 
     private String USER_MOBILE = "mobileNumber";
@@ -112,16 +108,6 @@ public class User {
     private String USER_EMAIL_VERIFIED = "emailVerified";
 
     private String USER_CAPTURE = "capture";
-
-    private String CONSUMER_CAMPAIGN_NAME = "campaignName";
-
-    private String CONSUMER_SUBJECT_AREA = "subjectArea";
-
-    private String CONSUMER_TOPIC_COMMUNICATION_KEY = "topicCommunicationKey";
-
-    private String CONSUMER_TOPIC_VALUE = "topicValue";
-
-    private String CONSUMER_INTERESTS = "consumerInterests";
 
     private String CONSUMER_COUNTRY = "country";
 

@@ -18,7 +18,7 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-public class HsdpAuthenticationManagementClient  extends HsdpRequestClient {
+public class HsdpAuthenticationManagementClient extends HsdpRequestClient {
 
     private String TAG = HsdpAuthenticationManagementClient.class.getSimpleName();
     private HSDPConfiguration hsdpConfiguration;
@@ -28,7 +28,7 @@ public class HsdpAuthenticationManagementClient  extends HsdpRequestClient {
         this.hsdpConfiguration = hsdpConfiguration;
     }
 
-    HsdpAuthenticationResponse loginSocialProviders(String email, String socialAccessToken, String secret) {
+    Map<String, Object> loginSocialProviders(String email, String socialAccessToken, String secret) {
         String apiEndpoint = "/authentication/login/social";
         String queryParams = "applicationName=" + hsdpConfiguration.getHsdpAppName();
         Map<String, String> headers = new LinkedHashMap<String, String>();
@@ -37,28 +37,12 @@ public class HsdpAuthenticationManagementClient  extends HsdpRequestClient {
         headers.put("Api-version", "2");
         Map<String, String> body = new LinkedHashMap<String, String>();
         body.put("loginId", email);
-        HsdpResponse hsdpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, body);
+        Map<String, Object> hsdpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, body);
 
-        return getDhpAuthenticationResponse(hsdpResponse);
+        return hsdpResponse;
     }
 
-    private HsdpAuthenticationResponse getDhpAuthenticationResponse(HsdpResponse hsdpResponse) {
-        if (hsdpResponse == null) {
-            return null;
-        }
-
-        if (!"200".equals(hsdpResponse.responseCode))
-            return new HsdpAuthenticationResponse(hsdpResponse.rawResponse);
-
-        String accessToken = MapUtils.extract(hsdpResponse.rawResponse, "exchange.accessCredential.accessToken");
-        String refreshToken = MapUtils.extract(hsdpResponse.rawResponse, "exchange.accessCredential.refreshToken");
-        String expiresIn = MapUtils.extract(hsdpResponse.rawResponse, "exchange.accessCredential.expiresIn");
-        String userId = MapUtils.extract(hsdpResponse.rawResponse, "exchange.user.userUUID");
-
-        return new HsdpAuthenticationResponse(accessToken, refreshToken, Integer.parseInt(expiresIn), userId, hsdpResponse.rawResponse);
-    }
-
-    public HsdpResponse logout(String userId, String accessToken) {
+    public Map<String, Object> logout(String userId, String accessToken) {
         String apiEndpoint = "/authentication/users/" + userId + "/logout";
         String queryParams = "applicationName=" + hsdpConfiguration.getHsdpAppName();
         Map<String, String> headers = new LinkedHashMap<String, String>();
@@ -71,7 +55,7 @@ public class HsdpAuthenticationManagementClient  extends HsdpRequestClient {
         return null;
     }
 
-    HsdpAuthenticationResponse refreshSecret(String userUUID, String accessToken, String refreshSecret) {
+    Map<String, Object> refreshSecret(String userUUID, String accessToken, String refreshSecret) {
         String apiEndpoint = "/authentication/users/" + userUUID + "/refreshAccessToken";
         String queryParams = "applicationName=" + hsdpConfiguration.getHsdpAppName();
         Map<String, String> headers = new LinkedHashMap<String, String>();
@@ -82,20 +66,15 @@ public class HsdpAuthenticationManagementClient  extends HsdpRequestClient {
         headers.put("api-version", "2");
         headers.put("accessToken", accessToken);
 
-        HsdpResponse hsdpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, null);
+        Map<String, Object> hsdpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, null);
         if (hsdpResponse == null) {
             return null;
         }
+        String responseCode = MapUtils.extract(hsdpResponse, "responseCode");
+        String message = MapUtils.extract(hsdpResponse, "responseMessage");
 
-        if (!"200".equals(hsdpResponse.responseCode))
-            return new HsdpAuthenticationResponse(hsdpResponse.rawResponse);
-
-        String newAccessToken = MapUtils.extract(hsdpResponse.rawResponse, "exchange.accessCredential.accessToken");
-        String newRefreshToken = MapUtils.extract(hsdpResponse.rawResponse, "exchange.refreshToken");
-        String expiresIn = MapUtils.extract(hsdpResponse.rawResponse, "exchange.accessCredential.expiresIn");
-
-        return new HsdpAuthenticationResponse(newAccessToken, newRefreshToken, Integer.parseInt(expiresIn), userUUID, hsdpResponse.rawResponse);
-
+        if (!"200".equals(responseCode)) return null;
+        return hsdpResponse;
     }
 
     private String createRefreshSignature(String refresh_Secret, String date, String accessToken) {

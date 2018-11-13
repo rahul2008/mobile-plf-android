@@ -52,7 +52,7 @@ class HsdpRequestClient {
         }
     }
 
-    HsdpResponse sendSignedRequestForSocialLogin(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
+    Map<String, Object> sendSignedRequestForSocialLogin(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
         String bodyString = asJsonString(body);
         addSignedDateHeader(headers);
 
@@ -66,14 +66,14 @@ class HsdpRequestClient {
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
-    HsdpResponse sendRestRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) throws JSONException {
+    Map<String, Object> sendRestRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) throws JSONException {
         //String bodyString = new JSONObject(body).toString();
         String bodyString = asJsonString(body);
         URI uri = URI.create(hsdpConfiguration.getHsdpBaseUrl() + apiEndpoint + queryParams(queryParams));
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
-    private HsdpResponse sendRestRequest(String httpMethod, URI uri, Map<String, String> headers, String body) {
+    private Map<String, Object> sendRestRequest(String httpMethod, URI uri, Map<String, String> headers, String body) {
         headers.put("Content-Type", "application/json");
         headers.put("Accept", "application/json");
 
@@ -81,7 +81,7 @@ class HsdpRequestClient {
             @SuppressWarnings("rawtypes")
             Map<String, Object> rawResponse = establishConnection(uri, httpMethod, headers, body);
 
-            return new HsdpResponse(rawResponse);
+            return rawResponse;
         } catch (Exception e) {
             RLog.e(TAG, "sendRestRequest : Exception occurred : " + e.getMessage());
             return null;
