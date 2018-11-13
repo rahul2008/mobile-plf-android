@@ -25,7 +25,6 @@ import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
-import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -43,18 +42,14 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
 
     private String mMergeToken;
 
-    private UpdateUserRecordHandler mUpdateUserRecordHandler;
-
     private Activity mActivity;
 
     private String mProviderName;
 
-    public LoginSocialProvider(SocialLoginProviderHandler socialLoginProviderHandler, Context context,
-                               UpdateUserRecordHandler updateUserRecordHandler) {
+    public LoginSocialProvider(SocialLoginProviderHandler socialLoginProviderHandler, Context context) {
         super(context);
         mSocialLoginProviderHandler = socialLoginProviderHandler;
         mContext = context;
-        mUpdateUserRecordHandler = updateUserRecordHandler;
     }
 
     @Override
@@ -62,7 +57,6 @@ public class LoginSocialProvider extends HSDPLoginService implements Jump.SignIn
         RLog.d(TAG, "onSuccess : is called");
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
-        mUpdateUserRecordHandler.updateUserRecordLogin();
         if (!RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable() && RegistrationConfiguration.getInstance().isHsdpFlow() &&
                 (user.isEmailVerified() || user.isMobileVerified())) {
 
