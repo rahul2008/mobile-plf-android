@@ -17,7 +17,7 @@ public class PushNotificationConstants {
         public static final String IS_TOKEN_REGISTERED = "sentTokenToServer";
         public static final String REGISTRATION_COMPLETE = "registrationComplete";
         // only renamed variable not value as it is already there in shared preferences
-        public static final String FB_TOKEN="gcm_token";
+        public static final String FB_TOKEN="fb_token";
         public static final String APP_VARIANT = "RAP-ANDROID";
         public static final String PUSH_GCMA="Push.Gcma";
         public static final String PUSH_JPUSH="Push.JPush";
