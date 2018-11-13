@@ -114,8 +114,9 @@ public class IAPServiceDiscoveryWrapper {
                             } catch (Exception e) {
                                 IAPLog.e(IAPLog.LOG, e.getMessage());
                             }
-                        else
+                        else {
                             pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
+                        }
                     }
                 }
             }

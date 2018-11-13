@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;

@@ -120,18 +120,15 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
                 case IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW:
                     bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
                     bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
-                    bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                     addFragment(ProductCatalogFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
                     bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
-                    bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                     addFragment(ShoppingCartFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), ShoppingCartFragment.TAG);
                     break;
                 case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
-                    bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                     addFragment(PurchaseHistoryFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), PurchaseHistoryFragment.TAG);
                     break;
@@ -140,7 +137,6 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
                         bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
                         bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
                                 getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL));
-                        bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                         addFragment(ProductDetailFragment.createInstance(bundle,
                                 InAppBaseFragment.AnimationType.NONE), ProductDetailFragment.TAG);
                     }
@@ -150,7 +146,6 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
                         bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
                         bundle.putString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL,
                                 getIntent().getStringExtra(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL));
-                        bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                         addFragment(BuyDirectFragment.createInstance(bundle,
                                 InAppBaseFragment.AnimationType.NONE), BuyDirectFragment.TAG);
                     }
@@ -159,7 +154,6 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
 
                     bundle.putStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS, CTNs);
                     bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailerList);
-                    bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP,voucherCode);
                     addFragment(ProductCatalogFragment.createInstance(bundle,
                             InAppBaseFragment.AnimationType.NONE), ProductCatalogFragment.TAG);
 
