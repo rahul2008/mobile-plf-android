@@ -1,10 +1,13 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.registration.ui.social;
 
 import android.content.Context;
 import android.os.Bundle;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -22,7 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import static com.philips.cdp.registration.errors.ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION;
 import static junit.framework.Assert.assertEquals;
@@ -31,8 +34,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 23)
+@RunWith(RobolectricTestRunner.class)
 public class AlmostDonePresenterTest {
 
     @Mock
@@ -44,12 +46,7 @@ public class AlmostDonePresenterTest {
     @Mock
     private User mockUser;
 
-    @Mock
-    private FieldsValidator mockFieldsValidator;
-
     private UserRegistrationFailureInfo userRegistrationFailureInfo;
-
-    private RegistrationSettingsURL registrationSettingsURL;
 
     private AlmostDonePresenter presenter;
 
@@ -59,7 +56,6 @@ public class AlmostDonePresenterTest {
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
         presenter = new AlmostDonePresenter(mockContract, mockUser);
         userRegistrationFailureInfo = new UserRegistrationFailureInfo(mock(Context.class));
-        registrationSettingsURL = new RegistrationSettingsURL();
     }
 
     @After
@@ -69,7 +65,6 @@ public class AlmostDonePresenterTest {
         presenter = null;
         mockUser = null;
         userRegistrationFailureInfo = null;
-        registrationSettingsURL = null;
     }
 
     @Test

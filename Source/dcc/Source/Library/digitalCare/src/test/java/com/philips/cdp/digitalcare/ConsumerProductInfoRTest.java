@@ -1,11 +1,14 @@
-package com.philips.cdp.digitalcare;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
+package com.philips.cdp.digitalcare;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import java.lang.reflect.Field;
 
@@ -15,7 +18,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by philips on 7/6/17.
  */
 
-@RunWith(CustomRobolectricRunnerCC.class)
+@RunWith(RobolectricTestRunner.class)
 public class ConsumerProductInfoRTest {
 
     @Test

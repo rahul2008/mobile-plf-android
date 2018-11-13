@@ -301,4 +301,28 @@
     <dimen name="uid_tab_notification_margin_bottom">10dp</dimen>
     <bool name="uid_is_tablet">false</bool>
 
+    <!--Expander panel-->
+    <dimen name="uid_expander_view_title_padding_start_end">16dp</dimen>
+    <dimen name="uid_expander_view_title_padding_top_bottom">12dp</dimen>
+    <dimen name="uid_expander_view_panel_min_height">24dp</dimen>
+    <dimen name="uid_expander_view_title_min_height">24dp</dimen>
+    <dimen name="uid_expander_view_content_margin_start_end">16dp</dimen>
+    <dimen name="uid_expander_view_content_margin_bottom">16dp</dimen>
+    <dimen name="uid_expander_title_icon_margin_end">12dp</dimen>
+    <dimen name="uid_expander_title_text_margin_end">12dp</dimen>
+    <dimen name="uid_expander_title_text_size">16sp</dimen>
+    <dimen name="uid_expander_title_icon_height_width_size">24dp</dimen>
+    <dimen name="uid_expander_title_chevron_font_size">24sp</dimen>
+    <dimen name="uid_expander_title_text_max_lines">3</dimen>
+
+
+    <dimen name="layout_margin_left_right">16dp</dimen>
+
+    <!--Circular Button-->
+    <dimen name="uid_circular_button_large_height_width">56dp</dimen>
+    <dimen name="uid_circular_button_regular_height_width">42dp</dimen>
+    <dimen name="uid_circular_button_large_radius">28dp</dimen>
+    <dimen name="uid_circular_button_regular_radius">21dp</dimen>
+    <dimen name="uid_circular_button_elevation">3dp</dimen>
+
 </resources>

@@ -293,3 +293,14 @@
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
+
+-keep public class javax.net.ssl.**
+-keepclassmembers public class javax.net.ssl.** {*;}
+-keepclassmembers public class org.apache.http.** {*;}
+-dontwarn org.apache.**
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+
+
+-dontwarn android.test.**
+-dontwarn java.lang.management.**

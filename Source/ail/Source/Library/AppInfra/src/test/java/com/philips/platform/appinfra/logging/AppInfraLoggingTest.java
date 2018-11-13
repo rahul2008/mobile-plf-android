@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
@@ -14,23 +19,28 @@ import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class AppInfraLoggingTest extends TestCase {
+@RunWith(RobolectricTestRunner.class)
+public class AppInfraLoggingTest {
 
     private AppInfraLogging appInfraLogging;
 
@@ -60,7 +70,6 @@ public class AppInfraLoggingTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         MockitoAnnotations.initMocks(this);
         params = new Object[4];
         ailCloudLogMetaData=new AILCloudLogMetaData();
@@ -101,6 +110,7 @@ public class AppInfraLoggingTest extends TestCase {
         when(appInfraMock.getAppIdentity()).thenReturn(appIdentityInterface);
     }
 
+    @Test
     public void testLoggingEndToEnd(){
         appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.ERROR, "some_event", "event_message");
@@ -112,18 +122,14 @@ public class AppInfraLoggingTest extends TestCase {
         assertNull(params[3]);
     }
 
+    @Test
     public void testNullCheck() {
         assertNotNull(appInfraLogging.getAilCloudLogMetaData());
         assertNotNull(appInfraLogging.getParamObjects());
         assertNotNull(appInfraLogging.getJavaLogger("componentId","componentVersion"));
     }
 
-//    public void testSettingAppNameAndVersion() {
-//        appInfraLogging.log(LoggingInterface.LogLevel.VERBOSE, "some_event", "event_message");
-//        assertEquals(appInfraLogging.getComponentId(),"uGrow");
-//        assertEquals(appInfraLogging.getComponentVersion(),"1.0.0");
-//    }
-
+    @Test
     public void testUpdatingModel() {
         AppTaggingInterface appTaggingInterface = mock(AppTaggingInterface.class);
         InternationalizationInterface internationalizationInterface = mock(InternationalizationInterface.class);

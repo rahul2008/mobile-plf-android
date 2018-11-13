@@ -76,8 +76,6 @@ android {
 
     defaultConfig {
         applicationId "prxclient.cdp.philips.com.prxsample"
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
     }

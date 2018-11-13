@@ -79,14 +79,11 @@ android {
     
     defaultConfig {
         applicationId 'com.philips.platform.thsdemolaunch'
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 8
         versionName version + "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
-        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
 
         // replace the below string with your own Google client ID. Make sure this is consistent
@@ -183,10 +180,7 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            // set JVM arguments for the test JVM(s)
-            jvmArgs '-noverify'
             testLogging {
                 events "started", "passed", "skipped", "failed"
                 outputs.upToDateWhen { false }

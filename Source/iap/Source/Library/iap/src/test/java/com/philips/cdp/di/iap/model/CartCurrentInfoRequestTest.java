@@ -16,19 +16,24 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+@RunWith(RobolectricTestRunner.class)
 public class CartCurrentInfoRequestTest {
     @Mock
     private StoreListener mStore;
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
+        Context context = getInstrumentation().getContext();
+        mStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context));
         mStore.initStoreConfig(/*"en", "us",*/ null);
     }
 

@@ -110,6 +110,15 @@ public class ImageButton extends AppCompatButton {
             setImageDrawable(drawable);
     }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+
+        int leftRigtPadding = (getWidth()-drawableWidth)/2;
+        int topBottomPadding = (getHeight()-drawableHeight)/2;
+        setPadding(leftRigtPadding,topBottomPadding,leftRigtPadding,topBottomPadding);
+    }
+
     /**
      * Sets icon on button with given drawable
      *

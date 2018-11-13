@@ -1,14 +1,15 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
@@ -17,37 +18,32 @@ import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
 import com.philips.cdp.di.iap.response.payment.PaymentMethods;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.platform.uid.view.widget.EditText;
 
-import org.hamcrest.core.AnyOf;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.Assert.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Created by philips on 9/21/18.
  */
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class AddressPresenterTest {
 
-    AddressPresenter addressPresenter;
+    @Mock
+    private FragmentActivity contextMock;
 
     @Mock
-    AddressContractor addressContractorMock;
+    private AddressContractor addressContractorMock;
 
     @Mock
     private AddressFields bilingAdressFileds;
@@ -59,13 +55,15 @@ public class AddressPresenterTest {
     private Message messageMock;
 
     @Mock
-    AddressController addressControllerMock;
+    private AddressController addressControllerMock;
 
     @Mock
-    PaymentController paymentControllerMock;
+    private PaymentController paymentControllerMock;
 
     @Mock
     private com.philips.cdp.di.iap.response.addresses.DeliveryModes deliveryModesMock;
+
+    private AddressPresenter addressPresenter;
 
     @Before
     public void setUp() throws Exception {
@@ -127,7 +125,6 @@ public class AddressPresenterTest {
         addressPresenter.onGetAddress(messageMock);
         Mockito.verify(addressContractorMock).showErrorMessage(messageMock);
     }
-
     @Test
     public void onSetDeliveryAddressWhenMessageObjIsSuccessAndDeliveryModesIsNotNull() throws Exception {
         messageMock.obj=0;
@@ -136,6 +133,7 @@ public class AddressPresenterTest {
         addressPresenter.onSetDeliveryAddress(messageMock);
         Mockito.verify(paymentControllerMock).getPaymentDetails();
     }
+
     @Test
     public void onSetDeliveryAddressWhenMessageObjIsSuccessAndDeliveryModesIsNull() throws Exception {
         messageMock.obj=0;
@@ -152,8 +150,6 @@ public class AddressPresenterTest {
         Mockito.verify(addressContractorMock).hideProgressbar();
     }
 
-    @Mock
-    FragmentActivity contextMock;
     @Test
     public void onGetDeliveryModesHandleDeliveryModeWhenMessageObjIsOfIAPNetworkError() throws Exception {
         Mockito.when(addressContractorMock.getFragmentActivity()).thenReturn(contextMock);
@@ -246,10 +242,7 @@ public class AddressPresenterTest {
         IAPNetworkError iapNetworkError = new IAPNetworkError(null,0,null);
         messageMock.obj = iapNetworkError;
         addressPresenter.onGetPaymentDetails(messageMock);
-
-        //Nothing to very : code can be refactored
     }
-
 
     @Test
     public void onGetPaymentDetailsWhenMessageObjectPaymentMethods() throws Exception {
@@ -281,25 +274,6 @@ public class AddressPresenterTest {
 
         Mockito.verify(addressContractorMock).hideProgressbar();
         Mockito.verify(addressContractorMock).addOrderSummaryFragment();
-    }
-
-    @Test
-    public void addressPayload() throws Exception { //This test case can be improved
-
-         AddressFields shippingAdressFileds = new AddressFields();
-
-        HashMap<String,String> emptyHashMap = new HashMap<>();
-       // Assert.assertEquals(addressPresenter.addressPayload(shippingAdressFileds),emptyHashMap);
-    }
-
-
-
-    @Test
-    public void validatePhoneNumber() throws Exception { //This test case can be added after refactoring the existing method
-
- //        EditText editText = new EditText(contextMock);
-
-      //  Assert.assertEquals(true,addressPresenter.validatePhoneNumber(editText,"IN","8904291902"));
     }
 
     @Test

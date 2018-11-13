@@ -98,6 +98,7 @@ public class NetworkController {
 
                     requestListener.onSuccess(msg);
 
+
                     //For testing purpose
                     if (model.getUrl() != null) {
                         IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + requestCode + "in " +

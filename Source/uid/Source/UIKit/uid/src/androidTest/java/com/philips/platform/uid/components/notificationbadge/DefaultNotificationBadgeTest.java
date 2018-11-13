@@ -1,25 +1,14 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
- *
- */
-
-/*
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- *
  */
 
 package com.philips.platform.uid.components.notificationbadge;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.rule.ActivityTestRule;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -28,18 +17,16 @@ import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
-import com.philips.platform.uid.view.widget.NotificationBadge;
-import com.philips.platform.uid.view.widget.RatingBar;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import androidx.test.rule.ActivityTestRule;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.philips.platform.uid.test.R.color.White;
-import static junit.framework.Assert.assertTrue;
 
 public class DefaultNotificationBadgeTest extends BaseTest {
     @Rule

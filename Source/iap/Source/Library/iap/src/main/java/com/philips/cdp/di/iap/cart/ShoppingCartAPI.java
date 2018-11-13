@@ -23,5 +23,4 @@ public interface ShoppingCartAPI {
 
     void getRetailersInformation(String ctn);
 
-    void deleteAppliedVoucher(String voucherCode);
 }

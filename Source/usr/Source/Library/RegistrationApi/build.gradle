@@ -38,14 +38,10 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.cdp.registration.test"
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
@@ -76,9 +72,7 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
@@ -114,6 +108,7 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.volley
     implementation deps.wechat
+
     if (directdependencies) {
         implementation project(strings.uid.projectName)
         implementation project(strings.ufw.projectName)
@@ -127,21 +122,25 @@ dependencies {
         implementation project(strings.jmp.projectName)
         implementation project(strings.hsdp.projectName)
     }
+
     testImplementation deps.junit
     testImplementation deps.mockito
-    // TODO: Migrate this to platform defined set of Robolectric (currently version 3.8)
-    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric-utils:3.4-rc2'
-    testImplementation 'org.robolectric:robolectric-junit:3.4-rc2'
-    androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.android_testrules
-    androidTestImplementation deps.android_testrunner
-    androidTestImplementation deps.junit
-    androidTestImplementation deps.uiautomator
     testImplementation deps.powermock_core
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_junit
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.robolectric_utils
+    testImplementation deps.adobemobilelib
+    testImplementation deps.openid_appauth
+
+    androidTestImplementation deps.mockito_android
+    androidTestImplementation deps.androidx_test.rules
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.junit
+    androidTestImplementation deps.uiautomator
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -196,5 +196,55 @@
                 android:layout_height="wrap_content"
                 app:uidButtonImageDrawableSrc="@drawable/ic_hamburger_menu"/>
         </LinearLayout>
+
+        <!--Circular buttons-->
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.Header"
+            android:text="@string/buttons_circular"/>
+
+        <LinearLayout
+            android:id="@+id/groupCircularButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.philips.platform.uid.view.widget.ImageButton
+                android:id="@+id/circularButtonRegular"
+                style="@style/UIDCircularButtonRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+
+            <com.philips.platform.uid.view.widget.ImageButton
+                android:id="@+id/circularAccentButtonRegular"
+                style="@style/UIDCircularButtonRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                app:uidAccent="true"
+                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+
+            <com.philips.platform.uid.view.widget.ImageButton
+                android:id="@+id/circularButtonLarge"
+                style="@style/UIDCircularButtonLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+
+            <com.philips.platform.uid.view.widget.ImageButton
+                android:id="@+id/circularAccentButtonLarge"
+                style="@style/UIDCircularButtonLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                app:uidAccent="true"
+                app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

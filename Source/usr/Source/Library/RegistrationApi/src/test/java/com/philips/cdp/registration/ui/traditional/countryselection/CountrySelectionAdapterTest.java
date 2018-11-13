@@ -1,10 +1,13 @@
-package com.philips.cdp.registration.ui.traditional.countryselection;
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+package com.philips.cdp.registration.ui.traditional.countrySelection;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.CustomRobolectricRunner;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.listener.SelectedCountryListener;
 import com.philips.cdp.registration.ui.traditional.CountrySelectionContract;
@@ -15,16 +18,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.List;
 
 /**
  * Created by philips on 12/3/17.
  */
-@RunWith(CustomRobolectricRunner.class)
-@org.robolectric.annotation.Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class CountrySelectionAdapterTest {
-
 
     @Mock
     private List<Country> countryListMock;
@@ -32,7 +34,7 @@ public class CountrySelectionAdapterTest {
     @Mock
     private SelectedCountryListener countryListenerMock;
 
-    CountrySelectionAdapter countrySelectionAdapter;
+    private com.philips.cdp.registration.ui.traditional.countryselection.CountrySelectionAdapter countrySelectionAdapter;
 
     @Mock
     private ViewGroup viewGroupMock;
@@ -41,6 +43,7 @@ public class CountrySelectionAdapterTest {
     private RecyclerView.ViewHolder viewHolderMock;
 
     @Mock
+    private
     CountrySelectionContract countrySelectionContractMock;
 
     @Before
@@ -48,7 +51,7 @@ public class CountrySelectionAdapterTest {
 
         MockitoAnnotations.initMocks(this);
 
-        countrySelectionAdapter = new CountrySelectionAdapter(countryListMock,countrySelectionContractMock);
+        countrySelectionAdapter = new com.philips.cdp.registration.ui.traditional.countryselection.CountrySelectionAdapter(countryListMock, countrySelectionContractMock);
     }
 
     @Test

@@ -9,11 +9,14 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(RobolectricTestRunner.class)
 public class BEApplianceTest {
 
     private BEAppliance subject;

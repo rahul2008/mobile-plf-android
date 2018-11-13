@@ -22,7 +22,6 @@ import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.LoginHandler;
-import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -33,8 +32,6 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
     private Context mContext;
 
     private LoginHandler mLoginHandler;
-
-    private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
     private String mEmail;
 
@@ -47,10 +44,9 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
     private final static String TAG = "LoginTraditional";
 
     public LoginTraditional(LoginHandler loginHandler, Context context,
-                            UpdateUserRecordHandler updateUserRecordHandler, String email, String password) {
+                            String email, String password) {
         mLoginHandler = loginHandler;
         mContext = context;
-        mUpdateUserRecordHandler = updateUserRecordHandler;
         mEmail = email;
         mPassword = password;
         //mUser = new User(mContext);
@@ -91,7 +87,6 @@ public class LoginTraditional implements Jump.SignInResultHandler, JumpFlowDownl
         RLog.d(TAG, "onSuccess : is called");
         Jump.saveToDisk(mContext);
 
-        mUpdateUserRecordHandler.updateUserRecordLogin();
         final RegistrationConfiguration registrationConfiguration = RegistrationConfiguration.getInstance();
         RLog.d(TAG, "onSuccess : isHSDPSkipLoginConfigurationAvailable : " + registrationConfiguration.isHSDPSkipLoginConfigurationAvailable());
         RLog.d(TAG, "onSuccess : isHsdpFlow : " + registrationConfiguration.isHsdpFlow());

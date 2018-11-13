@@ -14,13 +14,10 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        multiDexEnabled true
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
-
         applicationId "com.philips.cdp2.bluelib.demoapp"
         versionCode 1
         versionName "0.2.0"
+        multiDexEnabled true
     }
 
     buildTypes {

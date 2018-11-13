@@ -128,7 +128,6 @@ def buildType
 android {
     testOptions {
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
@@ -144,14 +143,11 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
 
@@ -165,6 +161,7 @@ android {
         tasks["compile${productFlavor}${buildtype}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildtype}Assets"])
     }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 configurations.all {
@@ -190,7 +187,6 @@ dependencies {
     implementation deps.volley
     implementation deps.javax_inject
     implementation deps.javax_annotation
-    implementation deps.play_services_gcm
     implementation (deps.firebase_core) {
         exclude group: 'com.google.firebase', module: 'firebase-iid'
     }
@@ -366,3 +362,4 @@ task('printPlatformVersion') {
         println "Platform version stored in platformversion.txt"
     }
 }
+apply plugin: 'com.google.gms.google-services'

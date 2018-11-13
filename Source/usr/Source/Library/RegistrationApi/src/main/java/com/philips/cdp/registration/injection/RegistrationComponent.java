@@ -6,7 +6,6 @@ import com.philips.cdp.registration.configuration.BaseConfiguration;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.RussianConsent;
-import com.philips.cdp.registration.controller.UpdateUserRecord;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.RegistrationSettingsURL;
@@ -127,8 +126,6 @@ public interface RegistrationComponent {
     void inject(BaseConfiguration baseConfiguration);
 
     void inject(UserRegistrationInitializer userRegistrationInitializer);
-
-    void inject(UpdateUserRecord updateUserRecord);
 
     void inject(MobileVerifyCodePresenter mobileVerifyCodePresenter);
 

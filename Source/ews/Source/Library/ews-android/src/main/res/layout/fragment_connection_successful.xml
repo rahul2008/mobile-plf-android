@@ -9,61 +9,71 @@
 
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/default_screen_bottom_margin"
-            android:paddingLeft="@dimen/default_screen_side_margin"
-            android:paddingRight="@dimen/default_screen_side_margin"
-            android:paddingTop="@dimen/default_screen_top_margin">
+            android:fillViewport="true">
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ews_04_01_label_succesful_title"
-                style="@style/Txt.Title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_ews_succesful_title" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/default_screen_bottom_margin"
+                android:paddingLeft="@dimen/default_screen_side_margin"
+                android:paddingRight="@dimen/default_screen_side_margin"
+                android:paddingTop="@dimen/default_screen_top_margin">
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ews_paired_body"
-                style="@style/Txt.Body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_body_labels_margin"
-                android:text="@{viewModel.title}" />
-            <ImageView
-                android:id="@+id/ews_04_01_pairing_successful_image"
-                style="@style/ews_image_scale"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_image_top_margin"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_ews_device_successful_animation"
-                android:contentDescription="@null"
-                />
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ews_04_01_label_succesful_title"
+                    style="@style/Txt.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_ews_succesful_title" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/ews_paired_body"
+                    style="@style/Txt.Body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_body_labels_margin"
+                    android:text="@{viewModel.title}" />
+                <ImageView
+                    android:id="@+id/ews_04_01_pairing_successful_image"
+                    style="@style/ews_image_scale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_image_top_margin"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_ews_device_successful_animation"
+                    android:contentDescription="@null"
+                    />
 
-            <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/ews_04_01_button_succesful_start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_main_button_top_margin"
-                android:onClick="@{() -> viewModel.onStartClicked()}"
-                android:text="@string/button_ews_succesful_start"
-                app:uidComponentType="Primary" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ews_04_01_button_succesful_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/default_main_button_top_margin"
+            android:layout_marginStart="@dimen/default_body_labels_margin"
+            android:layout_marginEnd="@dimen/default_body_labels_margin"
+            android:layout_marginBottom="@dimen/default_screen_bottom_margin"
+            android:onClick="@{() -> viewModel.onStartClicked()}"
+            android:text="@string/button_ews_succesful_start"
+            app:uidComponentType="Primary" />
+
+    </RelativeLayout>
 
 </layout>

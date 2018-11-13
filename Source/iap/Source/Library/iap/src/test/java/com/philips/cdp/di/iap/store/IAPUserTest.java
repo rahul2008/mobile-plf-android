@@ -22,18 +22,13 @@ import static junit.framework.Assert.assertNotNull;
 @RunWith(RobolectricTestRunner.class)
 public class IAPUserTest {
     @Mock
-    HybrisStore mHybrisStore;
+    private HybrisStore mHybrisStore;
     @Mock
-    Context mContext;
+    private User mJainrain;
+    @Mock
+    private RefreshLoginSessionHandler refreshLoginSessionHandler;
 
     private IAPUser mIAPUser;
-
-    private IAPUser mUser;
-    @Mock
-    User mJainrain;
-
-    @Mock
-    RefreshLoginSessionHandler refreshLoginSessionHandler;
 
     @Before
     public void setUP() {
@@ -42,7 +37,6 @@ public class IAPUserTest {
         Mockito.when(mJainrain.getAccessToken()).thenReturn("");
         Mockito.when(mJainrain.getEmail()).thenReturn("");
         mIAPUser = new MockIAPUser(mHybrisStore);
-       // mUser = new IAPUser(mContext, mHybrisStore);
     }
 
     @Test

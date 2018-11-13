@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.datasync.moments;
 
 import com.philips.platform.core.BaseAppDataCreator;
@@ -20,7 +25,9 @@ import com.philips.testing.verticals.table.TestSynchronisationData;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,6 +46,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@RunWith(RobolectricTestRunner.class)
 public class MomentsSegregatorTest {
 
     @Mock

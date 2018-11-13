@@ -27,8 +27,6 @@ android {
 
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
         versionCode 1
         versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
@@ -68,14 +66,15 @@ android {
 
     testOptions {
         unitTests.all {
-            jvmArgs '-noverify'
             jacoco {
                 includeNoLocationClasses = true
             }
         }
     }
 }
+
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
 dependencies {
     //3rd party
     implementation deps.gson

@@ -14,6 +14,7 @@ import com.philips.platform.uappdemo.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.uappdemo.screens.dls.DlsState;
 import com.philips.platform.uappdemo.screens.homefragment.HomeFragmentState;
 import com.philips.platform.uappdemo.screens.introscreen.welcomefragment.WelcomeState;
+import com.philips.platform.uappdemo.screens.navigation.NavigationExpState;
 import com.philips.platform.uappdemo.screens.sample.SampleState;
 import com.philips.platform.uappdemo.screens.splash.SplashState;
 import com.philips.platform.uappdemo.screens.stateimpl.HamburgerActivityState;
@@ -33,6 +34,7 @@ public class UappFlowManager extends BaseFlowManager {
         uiStateMap.put(UappStates.HAMBURGER_HOME,new HamburgerActivityState());
         uiStateMap.put(UappStates.SAMPLE, new SampleState());
         uiStateMap.put(UappStates.DLS, new DlsState());
+        uiStateMap.put(UappStates.NAVIGATION_IMPL, new NavigationExpState());
 
     }
 

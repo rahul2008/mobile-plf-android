@@ -42,6 +42,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
     private static final String CONSENT_EXPIRY_KEY = "ConsentCacheTTLInMinutes";
     private Map<String, Map<String, CachedConsentStatus>> inMemoryCache = new HashMap<>();
     private AppInfraInterface appInfra;
+    private DateTimeProvider dateTimeProvider;
     private Gson objGson = new GsonBuilder()
             .registerTypeAdapter(DateTime.class, new DateTimeSerializer())
             .registerTypeAdapter(DateTime.class, new DateTimeDeSerializer())
@@ -51,6 +52,17 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
 
     public ConsentCacheInteractor(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
+        dateTimeProvider = new DateTimeProvider() {
+            @Override
+            public DateTime now(final DateTimeZone dateTimeZone) {
+                return DateTime.now(dateTimeZone);
+            }
+        };
+    }
+
+    ConsentCacheInteractor(final AppInfraInterface appInfra, final DateTimeProvider dateTimeProvider) {
+        this.appInfra = appInfra;
+        this.dateTimeProvider = dateTimeProvider;
     }
 
     @Override
@@ -72,7 +84,7 @@ public class ConsentCacheInteractor implements ConsentCacheInterface {
         inMemoryCache = getMapFromSecureStorage();
         inMemoryCache.get(getCurrentLoggedInUserId()).put(consentType,
                 new CachedConsentStatus(status, version, timestamp,
-                        (new DateTime(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime())));
+                        (dateTimeProvider.now(DateTimeZone.UTC)).plusMinutes(getConfiguredExpiryTime())));
         writeMapToSecureStorage(inMemoryCache);
     }
 

@@ -13,6 +13,16 @@ public class DeliveryModes implements Parcelable {
     private String description;
     private String name;
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    private boolean isSelected;
+
     //Added to write test cases
     public DeliveryModes(){
 

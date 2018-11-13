@@ -27,13 +27,11 @@ import org.json.JSONObject;
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
     private String TAG = "RefreshandUpdateUserHandler";
 
-    private UpdateUserRecordHandler mUpdateUserRecordHandler;
     private Context mContext;
     private User user;
     private RefreshUserHandler refreshUserHandler;
 
-    public RefreshandUpdateUserHandler(UpdateUserRecordHandler updateUserRecordHandler, Context context) {
-        mUpdateUserRecordHandler = updateUserRecordHandler;
+    public RefreshandUpdateUserHandler(Context context) {
         mContext = context;
     }
 
@@ -94,7 +92,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                                 RLog.e(TAG, "refreshUpdateUser : onLoginFailedWithError  ");
                                 handler.onRefreshUserFailed(userRegistrationFailureInfo.getErrorCode());
                             }
-                        }, mContext, mUpdateUserRecordHandler, null, null);
+                        }, mContext, null, null);
                         RLog.d(TAG, "onSuccess : refreshUpdateUser onSuccess isHSDPSkipLoginConfigurationAvailable :" + registrationConfiguration.isHSDPSkipLoginConfigurationAvailable());
                         RLog.d(TAG, "onSuccess : refreshUpdateUser onSuccess isHsdpFlow" + registrationConfiguration.isHsdpFlow());
                         if (!registrationConfiguration.isHSDPSkipLoginConfigurationAvailable() && registrationConfiguration.isHsdpFlow()) {

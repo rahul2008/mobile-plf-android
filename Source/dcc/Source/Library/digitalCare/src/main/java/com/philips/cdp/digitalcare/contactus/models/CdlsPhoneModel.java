@@ -24,10 +24,12 @@ public class CdlsPhoneModel {
 
 	public void setPhoneNumber(String mPhoneNumber) {
 		if (mPhoneNumber.contains("(")) {
-			this.mPhoneNumber = mPhoneNumber.substring(0,mPhoneNumber.indexOf("("));
-		} else {
-			this.mPhoneNumber = mPhoneNumber;
+			mPhoneNumber = mPhoneNumber.replace("(", "");
 		}
+		if(mPhoneNumber.contains(")")){
+			mPhoneNumber = mPhoneNumber.replace(")", " ");
+		}
+		this.mPhoneNumber = mPhoneNumber;
 	}
 
     public String getmPhoneTariff() {

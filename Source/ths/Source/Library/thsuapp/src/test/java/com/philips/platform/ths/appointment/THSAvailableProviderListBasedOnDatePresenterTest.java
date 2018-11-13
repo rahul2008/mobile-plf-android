@@ -1,7 +1,6 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.platform.ths.appointment;
@@ -25,8 +24,11 @@ import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.Null;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +41,7 @@ import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@RunWith(RobolectricTestRunner.class)
 public class THSAvailableProviderListBasedOnDatePresenterTest {
 
     THSAvailableProviderListBasedOnDatePresenter mThsAvailableProviderListBasedOnDatePresenter;
@@ -115,7 +118,7 @@ public class THSAvailableProviderListBasedOnDatePresenterTest {
         mThsAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(thsAvailableProviderListBasedOnDateFragmentMock,onDateSetChangedInterfaceMock);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void onEvent() throws Exception {
         mThsAvailableProviderListBasedOnDatePresenter.onEvent(R.id.calendar_view);
     }

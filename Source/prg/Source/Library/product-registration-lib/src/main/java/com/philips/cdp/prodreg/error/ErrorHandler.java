@@ -64,7 +64,7 @@ public class ErrorHandler {
         } else if (statusCode == ProdRegError.INVALID_DATE.getCode()) {
             return new ProdRegErrorMap(context.getString(R.string.PRG_Req_Purchase_Date_Title), context.getString(R.string.PRG_Enter_Purchase_Date_ErrMsg));
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
-            return new ProdRegErrorMap(context.getString(R.string.PRG_No_Internet_Title), context.getString(R.string.PRG_No_Internet_ErrMsg));
+            return new ProdRegErrorMap(context.getString(R.string.PRG_No_Internet_Title), context.getString(R.string.PRG_No_Internet_ErrorMsg));
         } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
             return new ProdRegErrorMap(context.getString(R.string.PRG_Communication_Err_Title), context.getString(R.string.PRG_Unable_Connect_Server_ErrMsg));
         } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {

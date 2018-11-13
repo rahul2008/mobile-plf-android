@@ -1,7 +1,11 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.appinfra.securestoragev2;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -16,10 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.robolectric.RobolectricTestRunner;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,7 +29,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.security.Key;
-import java.util.Random;
 
 import javax.crypto.SecretKey;
 
@@ -36,196 +37,175 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Created by abhishek on 1/24/18.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class SecureStorageV2Test {
 
-    SecureStorageInterface mSecureStorage ;
+    @Mock
+    private AppInfra appInfra;
 
     @Mock
-    AppInfra appInfra;
+    private LoggingInterface loggingInterface;
 
     @Mock
-    LoggingInterface loggingInterface;
+    private Context context;
 
     @Mock
-    Context context;
+    private SSFileCache ssFileCache;
 
     @Mock
-    SharedPreferences sharedPreferences;
+    private SSEncoderDecoder SSEncoderDecoder;
 
     @Mock
-    static SSFileCache ssFileCache;
+    private ApplicationInfo applicationInfo;
 
     @Mock
-    static SSEncoderDecoder SSEncoderDecoder;
+    private SSKeyProvider ssKeyProvider;
 
     @Mock
-    ApplicationInfo applicationInfo;
+    private SecretKey secretKey;
 
     @Mock
-    Key key;
+    private SecureStorageInterface.DataEncryptionListener dataEncryptionListener;
 
     @Mock
-    static SSKeyProvider ssKeyProvider;
+    private SecureStorageInterface.DataDecryptionListener dataDecryptionListener;
 
     @Mock
-    SecretKey secretKey;
+    private HandlerThread handlerThread;
 
     @Mock
-    SecureStorageInterface.DataEncryptionListener dataEncryptionListener;
+    private Handler handler;
 
-    @Mock
-    SecureStorageInterface.DataDecryptionListener dataDecryptionListener;
-
-    @Mock
-    static HandlerThread handlerThread;
-
-    @Mock
-    static Handler handler;
-
-
-
+    private SecureStorageInterface secureStorage;
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        initMocks(this);
+
         when(appInfra.getAppInfraContext()).thenReturn(context);
         when(appInfra.getAppInfraLogInstance()).thenReturn(loggingInterface);
         when(context.getApplicationInfo()).thenReturn(applicationInfo);
-        when(handler.post(any(Runnable.class))).thenAnswer(new Answer() {
-
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Runnable runnable = invocation.getArgument(0);
-                runnable.run();
-                return null;
-            }
+        when(handler.post(any(Runnable.class))).thenAnswer((Answer) invocation -> {
+            Runnable runnable = invocation.getArgument(0);
+            runnable.run();
+            return null;
         });
-        mSecureStorage=new SecureStorageV2Mock(appInfra);
-    }
 
+        secureStorage = new SecureStorageV2ImplForTest(appInfra);
+    }
 
     @Test
     public void testForEmptyKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertFalse(mSecureStorage.storeValueForKey("", "value", sse));
-        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey,sse.getErrorCode());
+        assertFalse(secureStorage.storeValueForKey("", "value", sse));
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey, sse.getErrorCode());
     }
-
-
-
-
-
-    public String generateRandomNumber(int charLength) {
-        return String.valueOf(charLength < 1 ? 0 : new Random()
-                .nextInt((9 * (int) Math.pow(10, charLength - 1)) - 1)
-                + (int) Math.pow(10, charLength - 1));
-    }
-
 
     @Test
     public void testForSpaceKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertFalse(mSecureStorage.storeValueForKey(" ", "val", sse)); // value can be empty
-        assertFalse(mSecureStorage.storeValueForKey("   ", "val", sse)); // value can be empty
+
+        assertFalse(secureStorage.storeValueForKey(" ", "val", sse)); // value can be empty
+        assertFalse(secureStorage.storeValueForKey("   ", "val", sse)); // value can be empty
     }
 
     @Test
-    public void testStoreValueForKey_Should_Return_True() throws Exception{
+    public void testStoreValueForKey_Should_Return_True() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenReturn("value1".getBytes());
-        when(ssFileCache.putEncryptedString(any(String.class),anyObject())).thenReturn(true);
-        assertTrue (mSecureStorage.storeValueForKey("key1","value1",sse));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenReturn("value1".getBytes());
+        when(ssFileCache.putEncryptedString(any(String.class), any())).thenReturn(true);
 
+        assertTrue(secureStorage.storeValueForKey("key1", "value1", sse));
     }
 
     @Test
-    public void testStoreValueForKey_KeyProvider_Exception() throws Exception{
+    public void testStoreValueForKey_KeyProvider_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        when(ssKeyProvider.getSecureKey(any(String.class))).thenThrow(new SSKeyProviderException(""));;
-        assertFalse(mSecureStorage.storeValueForKey("key1","value1",sse));
+        when(ssKeyProvider.getSecureKey(any(String.class))).thenThrow(new SSKeyProviderException(""));
 
+        assertFalse(secureStorage.storeValueForKey("key1", "value1", sse));
     }
 
     @Test
-    public void testStoreValueForKey_EncodeDecode_Exception() throws Exception{
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
-        assertFalse(mSecureStorage.storeValueForKey("key1","value1",sse));
-
-    }
-
-    @Test
-    public void testStoreValueForKey_Exception() throws Exception{
+    public void testStoreValueForKey_EncodeDecode_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new IllegalArgumentException(""));
-        assertFalse(mSecureStorage.storeValueForKey("key1","value1",sse));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
 
+        assertFalse(secureStorage.storeValueForKey("key1", "value1", sse));
+    }
+
+    @Test
+    public void testStoreValueForKey_Exception() throws Exception {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenThrow(new IllegalArgumentException(""));
+
+        assertFalse(secureStorage.storeValueForKey("key1", "value1", sse));
     }
 
     @Test
     public void testFetchValueForNullKey() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertNull(mSecureStorage.fetchValueForKey(null, sse));
+        assertNull(secureStorage.fetchValueForKey(null, sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
-        assertNull(mSecureStorage.fetchValueForKey("NotSavedKey", sse));
+        assertNull(secureStorage.fetchValueForKey("NotSavedKey", sse));
     }
 
 
     @Test
     public void testFetchValueForEmptyKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertNull(mSecureStorage.fetchValueForKey("", sse));
+        assertNull(secureStorage.fetchValueForKey("", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
     @Test
-    public void testFetchValueForKey_Positive_Scenario() throws Exception{
+    public void testFetchValueForKey_Positive_Scenario() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenReturn("value".getBytes());
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenReturn("value".getBytes());
         when(ssFileCache.getEncryptedString(any(String.class))).thenReturn("ashdjsjas");
-        assertEquals("value",mSecureStorage.fetchValueForKey("key1",sse));
+        assertEquals("value", secureStorage.fetchValueForKey("key1", sse));
     }
 
 
     @Test
-    public void testFetchValueForKey_KeyProvider_Exception() throws Exception{
+    public void testFetchValueForKey_KeyProvider_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        when(ssKeyProvider.getSecureKey(any(String.class))).thenThrow(new SSKeyProviderException(""));;
-        assertNull(mSecureStorage.fetchValueForKey("key1",sse));
+        when(ssKeyProvider.getSecureKey(any(String.class))).thenThrow(new SSKeyProviderException(""));
+        ;
+        assertNull(secureStorage.fetchValueForKey("key1", sse));
 
     }
 
     @Test
-    public void testFetchValueForKey_EncodeDecode_Exception() throws Exception{
+    public void testFetchValueForKey_EncodeDecode_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
         when(ssFileCache.getEncryptedString(any(String.class))).thenReturn("ashdjsjas");
-        assertNull(mSecureStorage.fetchValueForKey("key1",sse));
+        assertNull(secureStorage.fetchValueForKey("key1", sse));
 
     }
 
     @Test
-    public void testFetchValueForKey_Exception() throws Exception{
+    public void testFetchValueForKey_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new IllegalArgumentException(""));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenThrow(new IllegalArgumentException(""));
         when(ssFileCache.getEncryptedString(any(String.class))).thenReturn("ashdjsjas");
-        assertNull(mSecureStorage.fetchValueForKey("key1",sse));
+        assertNull(secureStorage.fetchValueForKey("key1", sse));
 
     }
 
@@ -251,186 +231,186 @@ public class SecureStorageV2Test {
     }
 
     @Test
-    public void removeValueForKey_userKey_NULL_Should_return_false(){
-        assertFalse(mSecureStorage.removeValueForKey(null));
+    public void removeValueForKey_userKey_NULL_Should_return_false() {
+        assertFalse(secureStorage.removeValueForKey(null));
     }
 
     @Test
-    public void removeValueForKey_Should_Return_True(){
+    public void removeValueForKey_Should_Return_True() {
         when(ssFileCache.deleteEncryptedData(any(String.class))).thenReturn(true);
-        assertTrue(mSecureStorage.removeValueForKey("abcd"));
+        assertTrue(secureStorage.removeValueForKey("abcd"));
     }
 
     @Test
-    public void createKeyTest_Should_Return_True() throws Exception{
+    public void createKeyTest_Should_Return_True() throws Exception {
         when(ssKeyProvider.getSecureKey("abcd")).thenReturn(secretKey);
-        assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES,"abcd",new SecureStorageInterface.SecureStorageError()));
+        assertTrue(secureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "abcd", new SecureStorageInterface.SecureStorageError()));
     }
 
     @Test
-    public void createKeyTest_Should_Return_False_Key_Provider_Exception() throws Exception{
+    public void createKeyTest_Should_Return_False_Key_Provider_Exception() throws Exception {
         when(ssKeyProvider.getSecureKey("abcd")).thenThrow(new SSKeyProviderException(""));
-        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES,"abcd",new SecureStorageInterface.SecureStorageError()));
+        assertFalse(secureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "abcd", new SecureStorageInterface.SecureStorageError()));
     }
 
     @Test
-    public void createKeyTest_Should_Return_False_IllegalArgumentException() throws Exception{
+    public void createKeyTest_Should_Return_False_IllegalArgumentException() throws Exception {
         when(ssKeyProvider.getSecureKey("abcd")).thenThrow(new IllegalArgumentException());
-        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES,"abcd",new SecureStorageInterface.SecureStorageError()));
+        assertFalse(secureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "abcd", new SecureStorageInterface.SecureStorageError()));
     }
 
     @Test
-    public void getKeyTest_Should_Return_Key() throws Exception{
+    public void getKeyTest_Should_Return_Key() throws Exception {
         when(ssKeyProvider.getSecureKey("abcd")).thenReturn(secretKey);
-        assertNotNull(mSecureStorage.getKey("abcd",new SecureStorageInterface.SecureStorageError()));
+        assertNotNull(secureStorage.getKey("abcd", new SecureStorageInterface.SecureStorageError()));
     }
 
     @Test
-    public void getKeyTest_Should_Return_Null_Key_Provider_Exception() throws Exception{
+    public void getKeyTest_Should_Return_Null_Key_Provider_Exception() throws Exception {
         when(ssKeyProvider.getSecureKey("abcd")).thenThrow(new SSKeyProviderException(""));
-        assertNull(mSecureStorage.getKey("abcd",new SecureStorageInterface.SecureStorageError()));
+        assertNull(secureStorage.getKey("abcd", new SecureStorageInterface.SecureStorageError()));
     }
 
     @Test
-    public void getKeyTest_Should_Return_Null_IllegalArgumentException() throws Exception{
+    public void getKeyTest_Should_Return_Null_IllegalArgumentException() throws Exception {
         when(ssKeyProvider.getSecureKey("abcd")).thenThrow(new IllegalArgumentException());
-        assertNull(mSecureStorage.getKey("abcd",new SecureStorageInterface.SecureStorageError()));
+        assertNull(secureStorage.getKey("abcd", new SecureStorageInterface.SecureStorageError()));
     }
 
     @Test
-    public void testClearKey_Should_return_false_empty_key(){
-        assertFalse(mSecureStorage.clearKey("",new SecureStorageInterface.SecureStorageError()));
+    public void testClearKey_Should_return_false_empty_key() {
+        assertFalse(secureStorage.clearKey("", new SecureStorageInterface.SecureStorageError()));
     }
 
     @Test
-    public void testClearKey_Should_return_false(){
-        assertFalse(mSecureStorage.clearKey("abcd",new SecureStorageInterface.SecureStorageError()));
+    public void testClearKey_Should_return_false() {
+        assertFalse(secureStorage.clearKey("abcd", new SecureStorageInterface.SecureStorageError()));
     }
 
 
     @Test
     public void testByteDataEncryptionForNullValue() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertNull(mSecureStorage.encryptData(null, sse));
+        assertNull(secureStorage.encryptData(null, sse));
         assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.NullData, sse.getErrorCode());
     }
 
     @Test
     public void testByteDataEncryption_Should_Not_Be_Null() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        byte[] encryptedBytes=new String("dcba").getBytes();
+        byte[] encryptedBytes = "dcba".getBytes();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenReturn(encryptedBytes);
-        assertNotNull(mSecureStorage.encryptData(new String("abcd").getBytes(), sse));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenReturn(encryptedBytes);
+        assertNotNull(secureStorage.encryptData("abcd".getBytes(), sse));
     }
 
     @Test
     public void testByteDataEncryption_Should_Return_AccessKeyFailure_Key_Provider_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenThrow(new SSKeyProviderException(""));
-        mSecureStorage.encryptData(new String("abcd").getBytes(), sse);
-        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.AccessKeyFailure,sse.getErrorCode());
+        secureStorage.encryptData("abcd".getBytes(), sse);
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.AccessKeyFailure, sse.getErrorCode());
     }
 
     @Test
     public void testByteDataEncryption_Should_Return_EncryptionError_Encode_Decode_exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
-        mSecureStorage.encryptData(new String("abcd").getBytes(), sse);
-        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.EncryptionError,sse.getErrorCode());
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
+        secureStorage.encryptData("abcd".getBytes(), sse);
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.EncryptionError, sse.getErrorCode());
     }
 
     @Test
     public void testByteDataEncryption_Should_return_Encryption_Error_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new IllegalArgumentException(""));
-        mSecureStorage.encryptData(new String("abcd").getBytes(), sse);
-        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.EncryptionError,sse.getErrorCode());
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenThrow(new IllegalArgumentException(""));
+        secureStorage.encryptData("abcd".getBytes(), sse);
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.EncryptionError, sse.getErrorCode());
     }
 
     @Test
     public void testByteDataDecryptionForNullValue() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertNull(mSecureStorage.decryptData(null, sse));
+        assertNull(secureStorage.decryptData(null, sse));
         assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.NullData, sse.getErrorCode());
     }
 
     @Test
     public void testByteDataDecryption_Should_Not_Be_Null() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        byte[] encryptedBytes=new String("dcba").getBytes();
+        byte[] encryptedBytes = "dcba".getBytes();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenReturn(encryptedBytes);
-        assertNotNull(mSecureStorage.decryptData(new String("abcd").getBytes(), sse));
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenReturn(encryptedBytes);
+        assertNotNull(secureStorage.decryptData("abcd".getBytes(), sse));
     }
 
     @Test
     public void testByteDataDecryption_Should_Return_AccessKeyFailure_Key_Provider_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenThrow(new SSKeyProviderException(""));
-        mSecureStorage.decryptData(new String("abcd").getBytes(), sse);
-        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.AccessKeyFailure,sse.getErrorCode());
+        secureStorage.decryptData("abcd".getBytes(), sse);
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.AccessKeyFailure, sse.getErrorCode());
     }
 
     @Test
     public void testByteDataDecryption_Should_Return_EncryptionError_Encode_Decode_exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
-        mSecureStorage.decryptData(new String("abcd").getBytes(), sse);
-        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.DecryptionError,sse.getErrorCode());
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenThrow(new SSEncodeDecodeException(""));
+        secureStorage.decryptData("abcd".getBytes(), sse);
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.DecryptionError, sse.getErrorCode());
     }
 
     @Test
     public void testByteDataDecryption_Should_return_Encryption_Error_Exception() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenThrow(new IllegalArgumentException(""));
-        mSecureStorage.decryptData(new String("abcd").getBytes(), sse);
-        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.DecryptionError,sse.getErrorCode());
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenThrow(new IllegalArgumentException(""));
+        secureStorage.decryptData("abcd".getBytes(), sse);
+        assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.DecryptionError, sse.getErrorCode());
     }
 
     @Test
-    public void testEncryptAsyncBulkData() throws Exception{
+    public void testEncryptAsyncBulkData() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        byte[] encryptedBytes=new String("dcba").getBytes();
+        byte[] encryptedBytes = "dcba".getBytes();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenReturn(encryptedBytes);
-        mSecureStorage.encryptBulkData(new String("abcd").getBytes(),dataEncryptionListener);
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenReturn(encryptedBytes);
+        secureStorage.encryptBulkData("abcd".getBytes(), dataEncryptionListener);
         verify(dataEncryptionListener).onEncryptionSuccess(any(byte[].class));
     }
 
     @Test
-    public void testEncryptAsyncBulkData_Error_Scenario() throws Exception{
+    public void testEncryptAsyncBulkData_Error_Scenario() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenThrow(new SSKeyProviderException(""));
-        mSecureStorage.encryptBulkData(new String("abcd").getBytes(),dataEncryptionListener);
+        secureStorage.encryptBulkData("abcd".getBytes(), dataEncryptionListener);
         verify(dataEncryptionListener).onEncryptionError(any(SecureStorageInterface.SecureStorageError.class));
     }
 
     @Test
-    public void testAsyncDecryptBulkData() throws Exception{
+    public void testAsyncDecryptBulkData() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        byte[] encryptedBytes=new String("dcba").getBytes();
+        byte[] encryptedBytes = "dcba".getBytes();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenReturn(secretKey);
-        when(SSEncoderDecoder.encodeDecodeData(anyInt(),any(Key.class),any(byte[].class))).thenReturn(encryptedBytes);
-        mSecureStorage.decryptBulkData(new String("abcd").getBytes(),dataDecryptionListener);
+        when(SSEncoderDecoder.encodeDecodeData(anyInt(), any(Key.class), any(byte[].class))).thenReturn(encryptedBytes);
+        secureStorage.decryptBulkData("abcd".getBytes(), dataDecryptionListener);
         verify(dataDecryptionListener).onDecryptionSuccess(any(byte[].class));
     }
 
     @Test
-    public void testAsyncDecryptBulkData_Error_Scenario() throws Exception{
+    public void testAsyncDecryptBulkData_Error_Scenario() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         when(ssKeyProvider.getSecureKey(any(String.class))).thenThrow(new SSKeyProviderException(""));
-        mSecureStorage.decryptBulkData(new String("abcd").getBytes(),dataDecryptionListener);
+        secureStorage.decryptBulkData("abcd".getBytes(), dataDecryptionListener);
         verify(dataDecryptionListener).onDecyptionError(any(SecureStorageInterface.SecureStorageError.class));
     }
 
-    public static class SecureStorageV2Mock extends SecureStorageV2 {
+    private class SecureStorageV2ImplForTest extends SecureStorageV2 {
 
-        public SecureStorageV2Mock(AppInfra bAppInfra) {
+        SecureStorageV2ImplForTest(AppInfra bAppInfra) {
             super(bAppInfra);
         }
 

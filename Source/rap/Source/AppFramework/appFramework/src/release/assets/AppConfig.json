@@ -23,6 +23,8 @@
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
     "appidentity.appState"  : "DEVELOPMENT",
+    "appUpdate.serviceID": "appinfra.testing.version",
+    "appUpdate.autoRefresh": true,
     "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId", "language"],

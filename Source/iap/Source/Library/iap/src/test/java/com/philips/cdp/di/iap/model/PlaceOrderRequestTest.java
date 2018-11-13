@@ -21,18 +21,23 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
+@RunWith(RobolectricTestRunner.class)
 public class PlaceOrderRequestTest {
     private AbstractModel request;
     StoreListener mStore;
 
     @Before
     public void setUP() {
-        mStore = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(new MockIAPSetting(mock(Context.class)));
+        Context context = getInstrumentation().getContext();
+        mStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context));
         mStore.initStoreConfig(/*"en", "us", */null);
         HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.SECURITY_CODE, "122");

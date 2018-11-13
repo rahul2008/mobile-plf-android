@@ -92,7 +92,7 @@ public class ErrorHandlerTest extends TestCase {
         assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PRG_Authentication_Fail_Title));
 
         prodRegErrorMap = errorHandler.getError(context, ProdRegError.NO_INTERNET_AVAILABLE.getCode());
-        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PRG_No_Internet_ErrMsg));
+        assertEquals(prodRegErrorMap.getDescription(), context.getString(R.string.PRG_No_Internet_ErrorMsg));
         assertEquals(prodRegErrorMap.getTitle(), context.getString(R.string.PRG_No_Internet_Title));
 
         prodRegErrorMap = errorHandler.getError(context, ProdRegError.INTERNAL_SERVER_ERROR.getCode());

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.platform.mya;
 
 import android.os.Bundle;
@@ -5,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 
 import com.philips.platform.mya.base.MyaBaseFragment;
 import com.philips.platform.mya.profile.MyaProfileFragment;
-import com.philips.platform.mya.runner.CustomRobolectricRunner;
 import com.philips.platform.mya.settings.MyaSettingsFragment;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -15,14 +19,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public class MyaPagerTest {
 
     private MyaPager myaPager;

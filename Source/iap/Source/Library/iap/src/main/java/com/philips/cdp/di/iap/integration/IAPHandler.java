@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -28,6 +30,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -96,7 +99,7 @@ class IAPHandler {
 
     void launchIAP(UiLauncher uiLauncher, IAPLaunchInput pLaunchInput) {
         verifyInput(pLaunchInput.mLandingView, pLaunchInput.mIAPFlowInput);
-
+        Utility.setVoucherCode(pLaunchInput.getVoucher());
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(mIAPSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);
         } else if (uiLauncher instanceof FragmentLauncher) {
@@ -134,7 +137,9 @@ class IAPHandler {
             }
             intent.putExtra(IAPConstant.IAP_IGNORE_RETAILER_LIST, pLaunchInput.getIgnoreRetailers());
         }
-
+        if(pLaunchInput.getVoucher()!=null) {
+            Utility.setVoucherCode(pLaunchInput.getVoucher());
+        }
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         pContext.startActivity(intent);
     }
@@ -148,10 +153,12 @@ class IAPHandler {
         InAppBaseFragment fragment;
         Bundle bundle = new Bundle();
         final ArrayList<String> ignoreRetailers = iapLaunchInput.getIgnoreRetailers();
+        final String voucherCode=iapLaunchInput.getVoucher();
         switch (screen) {
             case IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW:
                 fragment = new ShoppingCartFragment();
                 bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, ignoreRetailers);
+                Utility.setVoucherCode(iapLaunchInput.getVoucher());
                 break;
             case IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW:
                 fragment = new PurchaseHistoryFragment();

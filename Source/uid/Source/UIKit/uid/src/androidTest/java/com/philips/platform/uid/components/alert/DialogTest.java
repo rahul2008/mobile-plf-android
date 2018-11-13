@@ -1,7 +1,6 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
- *
  */
 
 package com.philips.platform.uid.components.alert;
@@ -10,7 +9,6 @@ package com.philips.platform.uid.components.alert;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.rule.ActivityTestRule;
 import android.widget.LinearLayout;
 
 import com.philips.platform.uid.R;
@@ -27,13 +25,11 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
+import androidx.test.rule.ActivityTestRule;
+
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class DialogTest extends BaseTest {
 

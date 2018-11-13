@@ -27,7 +27,6 @@
   <string name="PRG_Enter_Purchase_Date_ErrMsg">Ange ett giltigt inköpsdatum</string>
   <string name="PRG_Extended_Warranty_Lbltxt">Garantiperioden har utökats till</string>
   <string name="PRG_Find_Serial_Number">Var hittar jag serienumret?</string>
-  <string name="PRG_Find_Serial_Number_Title">[sv]Where is the serial number?</string>
   <string name="PRG_Invalid_Date_ErrMsg">Ange ett datum mellan år 2000 och dagens datum</string>
   <string name="PRG_Invalid_Date_Title">Ogiltigt inköpsdatum</string>
   <string name="PRG_Invalid_SerialNum_ErrMsg">Ange ett giltigt serienummer</string>
@@ -38,10 +37,9 @@
   <string name="PRG_NavBar_Title">Registrera produkten</string>
   <string name="PRG_Network_ErrMsg">Försök igen efter ett tag.</string>
   <string name="PRG_Network_Err_Title">Nätverksfel!</string>
-  <string name="PRG_No_Internet_ErrMsg">[sv]Please check your internet connection</string>
-  <string name="PRG_No_Internet_Title">[sv]No internet connection</string>
+  <string name="PRG_No_Internet_ErrorMsg">Det går inte att ansluta till servern. Kontrollera din internetanslutning och försök igen. </string>
+  <string name="PRG_No_Internet_Title">Ingen anslutning till Internet</string>
   <string name="PRG_OK">OK </string>
-  <string name="PRG_Open_Settings">[NT,sv]Open settings</string>
   <string name="PRG_Please_Enter_Date_Lbltxt">Ange ett giltigt inköpsdatum</string>
   <string name="PRG_Please_Enter_SerialNum_Txtfldtxt">Ange serienummer</string>
   <string name="PRG_Please_Select">Välj ...</string>
@@ -62,7 +60,6 @@
   <string name="PRG_Thank_You_Lbltxt">Tack för att du väljer Philips produkter!</string>
   <string name="PRG_This_Serial_No">Det här serienumret</string>
   <string name="PRG_Title_AlreadyRegistered">%s har redan registrerats</string>
-  <string name="PRG_Try_Again">[NT,sv]Try again</string>
   <string name="PRG_Unable_Connect_Server_ErrMsg">Det gick inte att ansluta till servern. Försök igen senare. Om problemet kvarstår kontaktar du kundtjänst</string>
   <string name="PRG_Unknow_ErrMsg">Okänt fel</string>
   <string name="PRG_Yes_Btntxt">Ja, utöka min garanti</string>

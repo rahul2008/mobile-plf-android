@@ -1,10 +1,14 @@
+/* Copyright (c) 2017 Koninklijke Philips N.V.
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
 import com.philips.platform.uappdemo.R;
 import com.philips.platform.uappdemo.UappDemoDependencies;
 import com.philips.platform.uappdemo.UappDemoInterface;
@@ -27,7 +31,7 @@ public class UappActivity extends AppCompatActivity {
         UappDemoApplication uappDemoApplication = (UappDemoApplication) getApplicationContext();
         UappDemoDependencies uappDependencies = new UappDemoDependencies(uappDemoApplication.getAppInfra());
         uAppInterface.init(uappDependencies, new UappDemoSettings(this));// pass App-infra instance instead of null
-        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
+        ActivityLauncher uiLauncher = new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
         uAppInterface.launch(uiLauncher, null);// pass launch input if required
         finish();
     }

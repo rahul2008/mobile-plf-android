@@ -1,14 +1,16 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.di.iap.screens;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.philips.cdp.di.iap.BuildConfig;
-import com.philips.cdp.di.iap.CustomRobolectricRunner;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
 
@@ -17,53 +19,44 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 
-@RunWith(CustomRobolectricRunner.class)
-@Config(constants = BuildConfig.class, sdk = 25)
+@RunWith(RobolectricTestRunner.class)
 public class ErrorDialogFragmentTest {
-    private Context mContext;
+
+    @Mock
+    private View viewMock;
+
+    @Mock
+    private TextView dialogTitleMock;
+
+    @Mock
+    private TextView dialogDescriptionMock;
+
+    @Mock
+    private Button okBtnMock;
+
+    @Mock
+    private FragmentManager fragmentManagerMock;
+
     private ErrorDialogFragment errorDialogFragment;
+
 
     @Before
     public void setUp() {
         initMocks(this);
         errorDialogFragment = new ErrorDialogFragment();
-        mContext = RuntimeEnvironment.application;
         TestUtils.getStubbedStore();
         TestUtils.getStubbedHybrisDelegate();
     }
 
     @Test(expected = Exception.class)
     public void shouldDisplayAddressSelectionFragment() {
-
         SupportFragmentTestUtil.startFragment(errorDialogFragment);
     }
-
-    @Mock
-    View viewMock;
-
-    @Mock
-    TextView dialogTitleMock;
-
-    @Mock
-    TextView dialogDescriptionMock;
-
-    @Mock
-    Button okBtnMock;
-
-
-    /*  TextView dialogTitle = (TextView) v.findViewById(R.id.dialogTitle);
-        dialogTitle.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE));
-
-        final TextView dialogDescription = (TextView) v.findViewById(R.id.dialogDescription);
-        dialogDescription.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION));
-
-        Button mOkBtn = (Button) v.findViewById(R.id.btn_dialog_ok);*/
 
     @Test
     public void shouldInitializeViews() throws Exception {
@@ -75,9 +68,6 @@ public class ErrorDialogFragmentTest {
         Mockito.when(viewMock.findViewById(R.id.btn_dialog_ok)).thenReturn(okBtnMock);
         errorDialogFragment.initializeViews(viewMock);
     }
-
-    @Mock
-    FragmentManager fragmentManagerMock;
 
     @Test
     public void shouldReturnVisibleFragment() throws Exception {

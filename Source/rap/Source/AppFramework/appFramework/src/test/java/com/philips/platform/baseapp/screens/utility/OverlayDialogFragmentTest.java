@@ -1,8 +1,7 @@
-/* Copyright (c) Koninklijke Philips N.V., 2017
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.philips.platform.baseapp.screens.utility;
 
 import android.app.Dialog;
@@ -12,7 +11,6 @@ import android.widget.RelativeLayout;
 
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -28,11 +26,11 @@ import org.robolectric.shadows.ShadowDialog;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@Config(manifest = Config.NONE, application = TestAppFrameworkApplication.class)
 public class OverlayDialogFragmentTest {
 
     private TestActivity testActivity;

@@ -1,13 +1,16 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp.digitalcare.prx;
 
-import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.prx.subcategorymodel.Price;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.annotation.Config;
+import org.robolectric.RobolectricTestRunner;
 
 import java.lang.reflect.Field;
 
@@ -17,9 +20,8 @@ import static junit.framework.Assert.assertEquals;
  * Created by philips on 7/15/17.
  */
 
-@RunWith(CustomRobolectricRunnerCC.class)
+@RunWith(RobolectricTestRunner.class)
 public class PriceRTest {
-
 
     @Test
     public void testSetter_setProductPrice() throws NoSuchFieldException, IllegalAccessException {
@@ -163,6 +165,5 @@ public class PriceRTest {
 
         assertEquals("field wasn't retrieved properly", result, "66$");
     }
-
 
 }
