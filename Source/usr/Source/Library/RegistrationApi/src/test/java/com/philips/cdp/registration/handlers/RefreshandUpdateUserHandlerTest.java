@@ -14,15 +14,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RefreshandUpdateUserHandlerTest extends TestCase {
 
     private RefreshandUpdateUserHandler refreshandUpdateUserHandler;
-    @Mock
-    private UpdateUserRecordHandler updateUserRecordHandler;
     @Mock
     private Context context;
     @Mock
@@ -38,7 +35,7 @@ public class RefreshandUpdateUserHandlerTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         RegistrationConfiguration.getInstance().setComponent(mockRegistrationComponent);
-        refreshandUpdateUserHandler = new RefreshandUpdateUserHandler(updateUserRecordHandler, context);
+        refreshandUpdateUserHandler = new RefreshandUpdateUserHandler(context);
     }
 
     @Test

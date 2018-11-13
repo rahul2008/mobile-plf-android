@@ -8,14 +8,10 @@ package com.philips.platform.referenceapp.services;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.referenceapp.PushNotificationManager;
-import com.philips.platform.referenceapp.R;
 import com.philips.platform.referenceapp.utils.PNLog;
-
-import java.io.IOException;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -28,17 +24,15 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        try {
-            InstanceID instanceID = InstanceID.getInstance(this);
-            String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
-                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+            // Get updated InstanceID token.
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
+            String token = instanceIdResult.getToken();
+            // Fetch updated token and notify our app's server of any changes (if applicable).
             PushNotificationManager.getInstance().saveToken(token,new SecureStorageInterface.SecureStorageError());
             PushNotificationManager.getInstance().startPushNotificationRegistration(getApplicationContext(),new SecureStorageInterface.SecureStorageError());
-            PNLog.i(TAG, "GCM Registration Token: " + token);
+            PNLog.i(TAG, "FireBase Registration Token: " + token);
+        });
 
-        } catch (IOException e) {
-            PNLog.d(TAG, "Failed to complete token refresh"+e.getMessage());
-        }
     }
 
 

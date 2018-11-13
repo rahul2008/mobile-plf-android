@@ -5,6 +5,7 @@
  */
 package com.philips.platform.appinfra.abtestclient;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
@@ -99,4 +100,12 @@ public interface ABTestClientInterface extends Serializable {
      * @since 2018.4.0
      */
     String getAbTestingConsentIdentifier();
+
+    /**
+     * API to tag A/B testing events
+     * @param eventName - name of the event to be tagged
+     * @param params - parameters to be passed if required
+     * @since 2018.5.0
+     */
+    void tagEvent(String eventName, Bundle params);
 }

@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -55,7 +54,6 @@ public class NetworkController {
 
     public void sendHybrisRequest(final int requestCode, final AbstractModel model,
                                   final RequestListener requestListener) {
-        if(model!=null && model.requestBody()!=null) Log.d("NetworkController : request",model.requestBody().toString());
 
         if (mStoreListener == null) {
             return;
@@ -88,7 +86,6 @@ public class NetworkController {
 
             @Override
             public void onResponse(final JSONObject response) {
-                if(response!=null) Log.d("NetworkController : response",response.toString());
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;

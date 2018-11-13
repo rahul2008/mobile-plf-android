@@ -5,15 +5,21 @@
 
 package com.philips.platform.appinfra.logging;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.timesync.TimeInterface;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+import java.util.Date;
 import java.util.logging.Level;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class LoggingUtilsTest {
@@ -60,7 +66,12 @@ public class LoggingUtilsTest {
 
     @Test
     public void testGetCurrentDateAndTime() {
-        assertNotNull(LoggingUtils.getCurrentDateAndTime("yyyy:dd:mm"));
+        AppInfraInterface appInfraInterfaceMock = mock(AppInfraInterface.class);
+        TimeInterface timeInterfaceMock = mock(TimeInterface.class);
+        Date dateMock = mock(Date.class);
+        when(timeInterfaceMock.getUTCTime()).thenReturn(dateMock);
+        when(appInfraInterfaceMock.getTime()).thenReturn(timeInterfaceMock);
+        assertNotNull(LoggingUtils.getCurrentDateAndTime("yyyy:dd:mm", appInfraInterfaceMock));
     }
 
     @Test
