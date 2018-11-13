@@ -37,254 +37,253 @@ pipeline {
             }
         }
 
-//        stage('Commit') {
-//            when {
-//                allOf {
-//                    not { expression { return params.buildType == 'PSRA' }}
-//                    not { expression { return params.buildType == 'HPFortify' }}
-//                }
-//            }
-//            steps {
-//                timeout(time: 1, unit: 'HOURS') {
-//                    BuildAndUnitTest()
-//                    PublishUnitTestsResults()
-//                }
-//            }
-//        }
-//
-//        stage('Publish to artifactory') {
-//            when {
-//                allOf {
-//                    not { expression { return params.buildType == 'PSRA' }}
-//                    not { expression { return params.buildType == 'HPFortify' }}
-//                    anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
-//                }
-//            }
-//            steps {
-//                sh '''#!/bin/bash -l
-//                    set -e
-//                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
-//
-//                    apkname=`xargs < apkname.txt`
-//                    dependenciesName=${apkname/.apk/.gradledependencies.gz}
-//                    ./gradlew -Dorg.gradle.parallel=false reportAllProjectDependencies | gzip -9 > ./allProjects.gradledependencies.gz
-//                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
-//                '''
-//                archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
-//                DeployingConnectedTestsLogs()
-//            }
-//        }
-
-        stage('Trigger Incontext Test') {
-//            when {
-//                allOf {
-//                    not { expression { return params.buildType == 'LeakCanary' } }
-//                    not { expression { return params.buildType == 'PSRA' } }
-//                    not { expression { return params.buildType == 'JAVADocs' } }
-//                    not { expression { return params.buildType == 'TICS' } }
-//                    anyOf { branch 'develop'; branch 'release/platform_*' }
-//                }
-//            }
+        stage('Commit') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                }
+            }
             steps {
-                script {
-//                    build job: "Platform-Infrastructure/IncontextTest/master", parameters: [[$class: 'StringParameterValue', name: 'branchname', value:BranchName], [$class: 'StringParameterValue', name: 'triggeredfrom', value:'Platform']], wait: false
-                    build job: 'Platform-Infrastructure/IncontextTest/master', parameters: [string(name: 'branchname', value:'develop'), string(name: 'triggered_from', value:'Platform'), string(name: 'os_platform', value:'Android')], wait: false
+                timeout(time: 1, unit: 'HOURS') {
+                    BuildAndUnitTest()
+                    PublishUnitTestsResults()
                 }
             }
         }
 
-//        stage('Acceptance') {
-//            when {
-//                allOf {
-//                    not { expression { return params.buildType == 'PSRA' }}
-//                    not { expression { return params.buildType == 'HPFortify' }}
-//                }
-//            }
-//            steps {
-//                timeout(time: 1, unit: 'HOURS') {
-//                    AcceptanceTest()
-//                    PublishAcceptanceTestsResults()
-//                }
-//            }
-//        }
-//
-//        stage('Capacity') {
-//            when {
-//                allOf {
-//                    not { expression { return params.buildType == 'PSRA' }}
-//                    not { expression { return params.buildType == 'HPFortify' }}
-//                }
-//            }
-//            steps {
-//                CapacityTest()
-//            }
-//        }
-//
-//        stage('Lint+Jacoco') {
-//            when {
-//                expression { return params.buildType == 'TICS' }
-//            }
-//            steps {
-//                BuildLint()
-//                PublishLintJacocoResults()
-//            }
-//        }
-//
-//        stage('PSRAbuild') {
-//            when {
-//                allOf {
-//                    expression { return params.buildType == 'PSRA' }
-//                }
-//            }
-//            steps {
-//                sh '''#!/bin/bash -l
-//                    chmod -R 775 .
-//                    ./gradlew referenceApp:assemblePsraRelease
-//                '''
-//            }
-//        }
-//
-//        stage('LeakCanarybuild') {
-//            when {
-//                allOf {
-//                    expression { return params.buildType == 'LeakCanary' }
-//                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-//                }
-//            }
-//            steps {
-//                sh '''#!/bin/bash -l
-//                    chmod -R 775 .
-//                    ./gradlew referenceApp:assembleLeakCanary
-//                '''
-//                DeployingLeakCanaryArtifacts()
-//            }
-//        }
-//
-//        stage('java docs') {
-//            when {
-//                anyOf {
-//                    expression { return params.buildType == 'JAVADocs' }
-//                    expression { return params.buildType == 'TICS' }
-//                }
-//            }
-//            steps {
-//                GenerateJavaDocs()
-//                PublishJavaDocs()
-//                DeployingJavaDocs()
-//            }
-//        }
-//
-//        stage('Publish PSRA apk') {
-//            when {
-//                allOf {
-//                    expression { return params.buildType == 'PSRA' }
-//                }
-//            }
-//            steps {
-//                sh '''#!/bin/bash -le
-//                    ./gradlew :referenceApp:printArtifactoryApkPath
-//                    apkname=`xargs < apkname.txt`
-//                    PSRA_APK_NAME=${apkname/.apk/_PSRA.apk}
-//                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
-//                '''
-//            }
-//        }
-//
-//        stage('HPFortify') {
-//            when {
-//                allOf {
-//                    expression { return params.buildType == 'HPFortify' }
-//                }
-//            }
-//            steps {
-//                BuildHPFortify()
-//            }
-//        }
-//
-//        stage('TICS') {
-//            when {
-//                expression { return params.buildType == 'TICS' }
-//            }
-//            steps {
-//                script {
-//                    echo "Running TICS..."
-//                    sh """#!/bin/bash -le
-//                        /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
-//                        /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
-//                    """
-//                }
-//            }
-//        }
-//
-//        stage('Upload Cucumber results to TFS') {
-//            when {
-//                allOf {
-//                    not { expression { return params.buildType == 'PSRA' }}
-//                    not { expression { return params.buildType == 'HPFortify' }}
-//                    anyOf { branch 'develop'; }
-//                }
-//            }
-//            steps {
-//                script {
-//                    build(job: 'Platform-Infrastructure/CucumberToTfs/master',
-//                            parameters: [
-//                                    string(name: 'JenkinsProjectName', value: env.JOB_NAME),
-//                                    string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
-//                                    string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
-//                                    string(name: 'TestSuitePath', value: 'Android/Automated Tests')
-//                            ], wait: false)
-//                }
-//            }
-//        }
-//
-//        stage('Trigger E2E Test') {
-//            when {
-//                allOf {
-//                    not { expression { return params.buildType == 'LeakCanary' } }
-//                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-//                }
-//            }
-//            steps {
-//                script {
-//                    APK_NAME = readFile("apkname.txt").trim()
-//                    if (params.buildType == 'PSRA') {
-//                        APK_NAME=APK_NAME.replace('.apk', '_PSRA.apk')
-//                    }
-//                    echo "APK_NAME = ${APK_NAME}"
-//
-//                    def jobBranchName = "release_platform_1802.0.0"
-//                    if (BranchName =~ /develop.*/) {
-//                        jobBranchName = "develop"
-//                    }
-//                    echo "BranchName changed to ${jobBranchName}"
-//
-//                    sh """#!/bin/bash -le
-//                        curl -X POST http://platform-ubuntu-ehv-002.ddns.htc.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
-//                    """
-//                }
-//            }
-//        }
-//
-//        stage('LeakCanary E2E Test') {
-//            when {
-//                allOf {
-//                    expression { return params.buildType == 'LeakCanary' }
-//                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
-//                }
-//            }
-//            steps {
-//                script {
-//                    APK_NAME = readFile("apkname.txt").trim()
-//                    echo "APK_NAME = ${APK_NAME}"
-//
-//                    def jobBranchName = BranchName.replace('/', '_')
-//                    echo "jobBranchName = ${jobBranchName}"
-//                    sh """#!/bin/bash -le
-//                        curl -X POST http://310256016:61a84d6f3e9343128dff5736ef68259e@cdp2-jenkins.htce.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/Reliability/job/LeakCanary_Android_develop/buildWithParameters?APKPATH=$APK_NAME
-//                    """
-//                }
-//            }
-//        }
+        stage('Publish to artifactory') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                    anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
+                }
+            }
+            steps {
+                sh '''#!/bin/bash -l
+                    set -e
+                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :hsdp:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :mya:zipcClogs
+
+                    apkname=`xargs < apkname.txt`
+                    dependenciesName=${apkname/.apk/.gradledependencies.gz}
+                    ./gradlew -Dorg.gradle.parallel=false reportAllProjectDependencies | gzip -9 > ./allProjects.gradledependencies.gz
+                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
+                '''
+                archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
+                DeployingConnectedTestsLogs()
+            }
+        }
+
+        stage('Trigger Incontext Test') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'LeakCanary' } }
+                    not { expression { return params.buildType == 'PSRA' } }
+                    not { expression { return params.buildType == 'JAVADocs' } }
+                    not { expression { return params.buildType == 'TICS' } }
+                    anyOf { branch 'develop'; branch 'release/platform_*' }
+                }
+            }
+            steps {
+                script {
+                   build job: 'Platform-Infrastructure/IncontextTest/master', parameters: [string(name: 'branchname', value:BranchName), string(name: 'triggered_from', value:'Platform'), string(name: 'os_platform', value:'Android')], wait: false
+                }
+            }
+        }
+
+        stage('Acceptance') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                }
+            }
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    AcceptanceTest()
+                    PublishAcceptanceTestsResults()
+                }
+            }
+        }
+
+        stage('Capacity') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                }
+            }
+            steps {
+                CapacityTest()
+            }
+        }
+
+        stage('Lint+Jacoco') {
+            when {
+                expression { return params.buildType == 'TICS' }
+            }
+            steps {
+                BuildLint()
+                PublishLintJacocoResults()
+            }
+        }
+
+        stage('PSRAbuild') {
+            when {
+                allOf {
+                    expression { return params.buildType == 'PSRA' }
+                }
+            }
+            steps {
+                sh '''#!/bin/bash -l
+                    chmod -R 775 .
+                    ./gradlew referenceApp:assemblePsraRelease
+                '''
+            }
+        }
+
+        stage('LeakCanarybuild') {
+            when {
+                allOf {
+                    expression { return params.buildType == 'LeakCanary' }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                }
+            }
+            steps {
+                sh '''#!/bin/bash -l
+                    chmod -R 775 .
+                    ./gradlew referenceApp:assembleLeakCanary
+                '''
+                DeployingLeakCanaryArtifacts()
+            }
+        }
+
+        stage('java docs') {
+            when {
+                anyOf {
+                    expression { return params.buildType == 'JAVADocs' }
+                    expression { return params.buildType == 'TICS' }
+                }
+            }
+            steps {
+                GenerateJavaDocs()
+                PublishJavaDocs()
+                DeployingJavaDocs()
+            }
+        }
+
+        stage('Publish PSRA apk') {
+            when {
+                allOf {
+                    expression { return params.buildType == 'PSRA' }
+                }
+            }
+            steps {
+                sh '''#!/bin/bash -le
+                    ./gradlew :referenceApp:printArtifactoryApkPath
+                    apkname=`xargs < apkname.txt`
+                    PSRA_APK_NAME=${apkname/.apk/_PSRA.apk}
+                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
+                '''
+            }
+        }
+
+        stage('HPFortify') {
+            when {
+                allOf {
+                    expression { return params.buildType == 'HPFortify' }
+                }
+            }
+            steps {
+                BuildHPFortify()
+            }
+        }
+
+        stage('TICS') {
+            when {
+                expression { return params.buildType == 'TICS' }
+            }
+            steps {
+                script {
+                    echo "Running TICS..."
+                    sh """#!/bin/bash -le
+                        /mnt/tics/Wrapper/TICSMaintenance -project OPA-Android -branchname develop -branchdir .
+                        /mnt/tics/Wrapper/TICSQServer -project OPA-Android -nosanity
+                    """
+                }
+            }
+        }
+
+        stage('Upload Cucumber results to TFS') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'PSRA' }}
+                    not { expression { return params.buildType == 'HPFortify' }}
+                    anyOf { branch 'develop'; }
+                }
+            }
+            steps {
+                script {
+                    build(job: 'Platform-Infrastructure/CucumberToTfs/master',
+                            parameters: [
+                                    string(name: 'JenkinsProjectName', value: env.JOB_NAME),
+                                    string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
+                                    string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
+                                    string(name: 'TestSuitePath', value: 'Android/Automated Tests')
+                            ], wait: false)
+                }
+            }
+        }
+
+        stage('Trigger E2E Test') {
+            when {
+                allOf {
+                    not { expression { return params.buildType == 'LeakCanary' } }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                }
+            }
+            steps {
+                script {
+                    APK_NAME = readFile("apkname.txt").trim()
+                    if (params.buildType == 'PSRA') {
+                        APK_NAME=APK_NAME.replace('.apk', '_PSRA.apk')
+                    }
+                    echo "APK_NAME = ${APK_NAME}"
+
+                    def jobBranchName = "release_platform_1802.0.0"
+                    if (BranchName =~ /develop.*/) {
+                        jobBranchName = "develop"
+                    }
+                    echo "BranchName changed to ${jobBranchName}"
+
+                    sh """#!/bin/bash -le
+                        curl -X POST http://platform-ubuntu-ehv-002.ddns.htc.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
+                    """
+                }
+            }
+        }
+
+        stage('LeakCanary E2E Test') {
+            when {
+                allOf {
+                    expression { return params.buildType == 'LeakCanary' }
+                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+                }
+            }
+            steps {
+                script {
+                    APK_NAME = readFile("apkname.txt").trim()
+                    echo "APK_NAME = ${APK_NAME}"
+
+                    def jobBranchName = BranchName.replace('/', '_')
+                    echo "jobBranchName = ${jobBranchName}"
+                    sh """#!/bin/bash -le
+                        curl -X POST http://310256016:61a84d6f3e9343128dff5736ef68259e@cdp2-jenkins.htce.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/Reliability/job/LeakCanary_Android_develop/buildWithParameters?APKPATH=$APK_NAME
+                    """
+                }
+            }
+        }
     }
     post {
         always{
