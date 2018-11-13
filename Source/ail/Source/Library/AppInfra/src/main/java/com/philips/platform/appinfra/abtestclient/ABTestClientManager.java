@@ -41,6 +41,5 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     @Override
     public void tagEvent(String eventName, Bundle params) {
-        return;
     }
 }
