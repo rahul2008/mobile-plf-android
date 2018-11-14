@@ -277,7 +277,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         resendVerificationEmailSuccessTrackAction();
         getRegistrationFragment().startCountDownTimer();
         updateResendUIState();
-        viewOrHideNotificationBar();
+        viewOrHideNotificationBar(mUser.getEmail());
     }
 
     void resendVerificationEmailSuccessTrackAction() {
@@ -348,6 +348,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
                 .subscribeWith(new DisposableCompletableObserver() {
                     @Override
                     public void onComplete() {
+                        viewOrHideNotificationBar(emailId);
                         storePreference(emailId);
                         refreshUser();
                     }
@@ -399,7 +400,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         emailUser = mUser.getEmail();
         getRegistrationFragment().startCountDownTimer();
         EventBus.getDefault().post(new UpdateEmail(user.getEmail()));
-        handleResend(mUser.getEmail());
+       // handleResend(mUser.getEmail());
     }
 
     @Override
@@ -435,11 +436,11 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         }
     }
 
-    public void viewOrHideNotificationBar() {
+    public void viewOrHideNotificationBar(String emailAddress) {
         if (popupWindow == null) {
             View contentView = getRegistrationFragment().getNotificationContentView(
                     mContext.getResources().getString(R.string.USR_DLS_Resend_Email_NotificationBar_Title),
-                    mUser.getEmail());
+                    emailAddress);
             popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             popupWindow.setContentView(contentView);
@@ -456,7 +457,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
 
     @Subscribe
     public void onEvent(NotificationBarHandler event) {
-        viewOrHideNotificationBar();
+        viewOrHideNotificationBar(mUser.getEmail());
     }
 
 
@@ -529,6 +530,7 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
     void hideNotificationBar() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
+            popupWindow= null;
         }
     }
 

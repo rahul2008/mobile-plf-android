@@ -102,9 +102,9 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             final Vouchers vouchers = mData.get(holder.getAdapterPosition());
 
             AppliedVoucherViewHolder appliedVoucherViewHolder = (AppliedVoucherViewHolder) holder;
-            appliedVoucherViewHolder.mIapVoucherItemLabel.setText(R.string.iap_voucher_code);
+            appliedVoucherViewHolder.mIapVoucherItemLabel.setText(R.string.iap_voucher_code );
             appliedVoucherViewHolder.mIapDiscountedPrecentageLabel.setText(vouchers.getVoucherCode());
-            appliedVoucherViewHolder.mIapDiscountedPriceLabel.setText(vouchers.getAppliedValue().getValue());
+            appliedVoucherViewHolder.mIapDiscountedPriceLabel.setText("- "+vouchers.getAppliedValue().getFormattedValue());
 
 
 

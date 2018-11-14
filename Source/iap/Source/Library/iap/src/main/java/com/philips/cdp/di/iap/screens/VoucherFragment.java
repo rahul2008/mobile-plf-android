@@ -144,14 +144,10 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
           if(getAppliedValueList.size()>0){
               acceptedCodeLabel.setVisibility(View.VISIBLE);
               headerParent.setVisibility(View.VISIBLE);
-             // line.setVisibility(View.VISIBLE);
-              //voucherBottomLayout.setVisibility(View.VISIBLE);
           }
           else {
               acceptedCodeLabel.setVisibility(View.GONE);
               headerParent.setVisibility(View.GONE);
-              //line.setVisibility(View.GONE);
-              //voucherBottomLayout.setVisibility(View.GONE);
           }
           for(int i=0; i<getAppliedValueList.size();i++){
               count=count+Double.parseDouble(getAppliedValueList.get(i).getAppliedValue().getValue());
@@ -165,8 +161,6 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
         }else {
             acceptedCodeLabel.setVisibility(View.GONE);
             headerParent.setVisibility(View.GONE);
-            //line.setVisibility(View.GONE);
-            //voucherBottomLayout.setVisibility(View.GONE);
         }
 
     }

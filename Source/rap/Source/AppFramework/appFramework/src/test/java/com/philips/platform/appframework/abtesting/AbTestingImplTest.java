@@ -23,7 +23,6 @@ import java.util.Map;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -94,7 +93,7 @@ public class AbTestingImplTest {
         abTesting.initAbTesting(appInfraInterfaceMock);
         verify(abTestingLocalCacheMock).initAppInfra(appInfraInterfaceMock);
         verify(fireBaseWrapperMock).initAppInfra(appInfraInterfaceMock);
-        assertTrue(abTesting.getInMemoryCache().size() == 2);
+        assertEquals(abTesting.getInMemoryCache().size(), 2);
     }
 
     @Test
@@ -103,16 +102,16 @@ public class AbTestingImplTest {
         abTesting.initAbTesting(appInfraInterfaceMock);
         assertNull(abTesting.getTestValue("", "", null));
         String testValue = abTesting.getTestValue("key1", "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
-        assertTrue(testValue.equals("value1"));
+        assertEquals(testValue,"value1");
         assertEquals(abTesting.getInMemoryCache().get("key1").getUpdateType(), ABTestClientInterface.UPDATETYPE.APP_UPDATE.name());
         assertEquals(abTesting.getInMemoryCache().get("key1").getAppVersion(), "18.3");
         verify(abTestingLocalCacheMock).updatePreferenceCacheModel("key1",abTesting.getInMemoryCache().get("key1"));
         verify(abTestingLocalCacheMock).saveCacheToDisk();
         testValue = abTesting.getTestValue("key3", "default_value", ABTestClientInterface.UPDATETYPE.APP_UPDATE);
-        assertTrue(testValue.equals("default_value"));
+        assertEquals(testValue,"default_value");
 
         String testValue2 = abTesting.getTestValue("key2", "default_value", ABTestClientInterface.UPDATETYPE.APP_RESTART);
-        assertTrue(testValue2.equals("value2"));
+        assertEquals(testValue2,"value2");
         assertEquals(abTesting.getInMemoryCache().get("key2").getUpdateType(), ABTestClientInterface.UPDATETYPE.APP_RESTART.name());
         verify(abTestingLocalCacheMock).removeFromDisk("key2");
 
@@ -126,7 +125,7 @@ public class AbTestingImplTest {
 
     @Test
     public void shouldReturnCacheStatusNotUpdatedByDefault() {
-        assertTrue(abTesting.getCacheStatus() == ABTestClientInterface.CACHESTATUS.EXPERIENCE_NOT_UPDATED);
+        assertEquals(abTesting.getCacheStatus(), ABTestClientInterface.CACHESTATUS.EXPERIENCE_NOT_UPDATED);
     }
 
     @Test
@@ -189,7 +188,7 @@ public class AbTestingImplTest {
         assertEquals(abTesting.getInMemoryCache().get("key2").getAppVersion(), "18.4");
 
         abTesting.getFetchDataHandler().updateCacheStatus(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
-        assertTrue(abTesting.getCacheStatus().equals(ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED));
+        assertEquals(abTesting.getCacheStatus(), ABTestClientInterface.CACHESTATUS.EXPERIENCE_UPDATED);
     }
 
     private CacheModel.ValueModel getValueModel() {

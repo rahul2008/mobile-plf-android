@@ -40,12 +40,17 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, MarketingAccountContract {
+
+    @Inject
+    NetworkUtility networkUtility;
 
     private static final String TAG = "MarketingAccountFragment";
     @BindView(R2.id.usr_marketingScreen_countMe_button)
@@ -85,7 +90,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
@@ -288,19 +293,19 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void handleUiState() {
-        if (new NetworkUtility(mContext).isNetworkAvailable()) {
-            if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+        if (networkUtility.isNetworkAvailable()) {
+            boolean janrainIntialized = UserRegistrationInitializer.getInstance().isJanrainIntialized();
+            if (janrainIntialized) {
+                RLog.i(TAG, "isJanrainIntialized : " + janrainIntialized);
                 errorRegError.hideError();
                 countMeButton.setEnabled(true);
                 mayBeLaterButton.setEnabled(true);
             } else {
                 countMeButton.setEnabled(false);
                 mayBeLaterButton.setEnabled(false);
-//                errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
-                showNotificationBarOnNetworkNotAvailable();
+                // showNotificationBarOnNetworkNotAvailable();
             }
         } else {
-//            errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
             showNotificationBarOnNetworkNotAvailable();
             countMeButton.setEnabled(false);
             mayBeLaterButton.setEnabled(false);

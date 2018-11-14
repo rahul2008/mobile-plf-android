@@ -77,7 +77,6 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
 
             }
 
-            @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url)
             {

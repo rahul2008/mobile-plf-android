@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+/**
+ * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
 package com.philips.cdp.di.iap.screens;
@@ -239,11 +239,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
             bundle.putString(IAPConstant.STOCK_LEVEL_STATUS, productCatalogData.getStockLevelStatus());
             bundle.putInt(IAPConstant.STOCK_LEVEL, productCatalogData.getStockLevel());
-            if (getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP) != null) {
-                final String voucherCode = getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP);
-                bundle.putString(IAPConstant.IAP_VOUCHER_FROM_APP, voucherCode);
-            }
-
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             if (getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST) != null) {
                 final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
@@ -378,6 +373,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
             int visibleItemCount = lay.getChildCount();
             int firstVisibleItemPosition = lay.findFirstVisibleItemPosition();
+
 
             if (!mIsLoading && (visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
                     && firstVisibleItemPosition >= 0
