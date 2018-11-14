@@ -206,6 +206,7 @@ public class NetworkUtility {
         if(alertDialogFragment==null){
             alertDialogFragment = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
         }
+        if(alertDialogFragment!=null)
         alertDialogFragment.dismiss();
     }
 
