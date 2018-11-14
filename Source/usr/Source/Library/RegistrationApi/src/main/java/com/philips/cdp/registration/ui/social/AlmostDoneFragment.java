@@ -58,7 +58,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESSFUL_REGISTRATION_DONE;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.FIREBASE_SUCCESSFUL_REGISTRATION_DONE;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_USER_CREATION;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
@@ -536,7 +536,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 SUCCESS_USER_CREATION);
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
-        abTestClientInterface.tagEvent(SUCCESSFUL_REGISTRATION_DONE, null);
+        abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
         trackMultipleActions();
         handleABTestingFlow();
         hideMarketingOptSpinner();

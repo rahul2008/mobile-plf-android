@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESSFUL_REGISTRATION_DONE;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.FIREBASE_SUCCESSFUL_REGISTRATION_DONE;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_LOGIN;
 
 public class AlmostDonePresenter implements NetworkStateListener, SocialLoginProviderHandler, UpdateUserDetailsHandler {
@@ -127,7 +127,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
         AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 SUCCESS_LOGIN);
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
-        abTestClientInterface.tagEvent(SUCCESSFUL_REGISTRATION_DONE, null);
+        abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
         AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
                 RegistrationHelper.getInstance().getCountryCode());
     }

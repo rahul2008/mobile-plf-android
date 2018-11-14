@@ -92,7 +92,7 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESSFUL_REGISTRATION_DONE;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.FIREBASE_SUCCESSFUL_REGISTRATION_DONE;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         LoginHandler, ForgotPasswordHandler, OnUpdateListener,
@@ -636,7 +636,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
                         RegistrationHelper.getInstance().getCountryCode());
                 ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
-                abTestClientInterface.tagEvent(SUCCESSFUL_REGISTRATION_DONE, null);
+                abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
             } else {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) {
                     clearInputFields();

@@ -23,7 +23,7 @@ import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 
 import javax.inject.Inject;
 
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESSFUL_REGISTRATION_DONE;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.FIREBASE_SUCCESSFUL_REGISTRATION_DONE;
 
 public class CreateAccountPresenter implements NetworkStateListener, EventListener, TraditionalRegistrationHandler {
 
@@ -120,7 +120,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
         createAccountContract.tractCreateActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
-        abTestClientInterface.tagEvent(SUCCESSFUL_REGISTRATION_DONE, null);
+        abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
         switch (abTestingUIFlow) {
             case FLOW_A:
                 RLog.d(TAG, "UI Flow Type A ");
