@@ -128,7 +128,7 @@ public class ProdRegRegistrationControllerTest {
         when(prodRegHelperMock.getSignedInUserWithProducts(fragmentActivity)).thenReturn(userWithProductsMock);
         prodRegRegistrationController.init(bundle);
         prodRegRegistrationController.registerProduct("2016-04-28", "1-2-3");
-        verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", AnalyticsConstants.SPECIAL_EVENTS, "extendWarrantyOption");
+//        verify(registerControllerCallBacksMock).tagEvents("RegistrationEvent", AnalyticsConstants.SPECIAL_EVENTS, "extendWarrantyOption");
 //        verify(registerControllerCallBacksMock).showLoadingDialog();
         verify(registerControllerCallBacksMock).logEvents(ProdRegRegistrationController.TAG, "Registering product with product details as CTN::" + registeredProductMock.getCtn());
         verify(userWithProductsMock).registerProduct(registeredProductMock);
