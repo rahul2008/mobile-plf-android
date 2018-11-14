@@ -57,9 +57,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
             holder.deliveryModePrice.setText("0.0");
         }
 
-
         changeConfirmAndRadioButtonState(holder, modes.isSelected());
-
 
         holder.iap_delivery_mode_select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,15 +114,6 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         }
 
     }
-
-    boolean isNothingSelected(List<DeliveryModes> mModes) {
-
-        for (DeliveryModes deliveryModes : mModes) {
-            if (deliveryModes.isSelected()) return false;
-        }
-        return true;
-    }
-
     private void changeConfirmAndRadioButtonState(DeliverySelectionHolder holder, boolean isEnable) {
 
         if (isEnable) {
