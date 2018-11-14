@@ -29,5 +29,5 @@ public class AnalyticsConstants {
     public static final String PRG_IN_APP_NOTIFICATION_RESPONSE = "inAppNotificationResponse";
     public static final String PRG_IN_APP_NOTIFICATION = "inAppNotification";
     public static final String PRG_PRODUCT_ALREADY_REGISTERED = "productAlreadyRegistered";
-    public static final String PRG_SERIAL_NUMBER_REQUIRED = "serailNumberRequired";
+    public static final String PRG_SERIAL_NUMBER_REQUIRED = "serialNumberRequired";
 }

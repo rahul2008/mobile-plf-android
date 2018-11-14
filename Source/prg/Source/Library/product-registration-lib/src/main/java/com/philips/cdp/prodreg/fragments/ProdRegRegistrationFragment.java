@@ -292,7 +292,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         } else if (field_serial.length() != 0) {
             serial_input_field.showError();
             serial_input_field.setErrorMessage(getString(R.string.PRG_Invalid_SerialNum_ErrMsg));
-            ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PRG_SERIAL_NUMBER_REQUIRED);
         } else {
             serial_input_field.hideError();
         }
@@ -320,7 +319,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     ProdRegError.INVALID_DATE.getCode());
             ProdRegLogger.e("Product Registration", "Invalid date");
             date_input_field.setErrorMessage(error.getDescription());
-            ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PURCHASE_DATE_REQUIRED);
         } else {
             date_input_field.hideError();
         }
@@ -520,10 +518,14 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void requireFields(final boolean requireDate, final boolean requireSerialNumber) {
-        if (requireDate)
+        if (requireDate) {
             dateParentLayout.setVisibility(View.VISIBLE);
-        if (requireSerialNumber)
+            ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PURCHASE_DATE_REQUIRED);
+        }
+        if (requireSerialNumber) {
             serialNumberParentLayout.setVisibility(View.VISIBLE);
+            ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PRG_SERIAL_NUMBER_REQUIRED);
+        }
     }
 
     @Override
