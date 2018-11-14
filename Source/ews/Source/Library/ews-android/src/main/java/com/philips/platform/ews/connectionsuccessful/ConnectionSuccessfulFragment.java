@@ -97,9 +97,7 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
     @Override
     public void finishMicroApp(EwsResultListener resultListener) {
 
-        if(resultListener != null) {
-            resultListener.onEWSFinishSuccess();
-        } else {
+        if(resultListener == null) {
             try {
                 resultListener = ((EwsResultListener) getContext());
             } catch (ClassCastException ignored) {
@@ -107,6 +105,8 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
             if (resultListener != null) {
                 resultListener.onEWSFinishSuccess();
             }
+        } else {
+            resultListener.onEWSFinishSuccess();
         }
 
         FragmentActivity launcherActivity = getActivity();

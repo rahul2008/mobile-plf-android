@@ -22,7 +22,7 @@ public interface EwsResultListener {
     void onEWSError(int errorCode);
 
     /**
-     * Call back to intimate application that EWS has been cancelled
+     * Call back to inform application that EWS has been cancelled
      * @since  2018.5.0
      */
     void onEWSCancelled();

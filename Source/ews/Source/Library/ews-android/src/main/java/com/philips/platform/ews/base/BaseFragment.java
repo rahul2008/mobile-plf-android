@@ -43,6 +43,7 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
     private int deviceName;
     @NonNull
     private EWSTagger ewsTagger;
+    @NonNull
     private EWSConfigurationModule ewsConfigurationModule;
 
     @Override

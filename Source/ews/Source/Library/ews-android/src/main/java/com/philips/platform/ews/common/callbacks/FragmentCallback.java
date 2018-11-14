@@ -4,6 +4,6 @@ import com.philips.platform.ews.microapp.EwsResultListener;
 
 public interface FragmentCallback {
 
-    void finishMicroApp(EwsResultListener ewsResultListener);
+    void finishMicroApp(final EwsResultListener ewsResultListener);
 
 }

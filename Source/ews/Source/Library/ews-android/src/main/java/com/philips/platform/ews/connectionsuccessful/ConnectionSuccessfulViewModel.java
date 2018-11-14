@@ -33,7 +33,7 @@ public class ConnectionSuccessfulViewModel {
     private WiFiUtil wiFiUtil;
 
     @NonNull private final EWSTagger ewsTagger;
-    private BaseContentConfiguration baseConfig;
+    @NonNull private final BaseContentConfiguration baseConfig;
 
     @Inject
     public ConnectionSuccessfulViewModel(@NonNull BaseContentConfiguration baseConfig,

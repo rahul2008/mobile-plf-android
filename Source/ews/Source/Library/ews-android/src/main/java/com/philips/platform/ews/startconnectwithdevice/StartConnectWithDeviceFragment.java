@@ -53,6 +53,18 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
         viewModel.setLocationPermissionFlowCallback(this);
         viewModel.setFragment(this);
         binding.setViewModel(viewModel);
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
+                    ewsResultListener = viewModel.getEwsResultListener();
+                    performEWSCancel(ewsResultListener);
+                }
+                return false;
+            }
+        });
         return binding.getRoot();
     }
 
@@ -75,19 +87,6 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
             pendingPermissionResultRequest = false;
             viewModel.onGettingStartedButtonClicked();
         }
-
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    ewsResultListener = viewModel.getEwsResultListener();
-                    performEWSCancel(ewsResultListener);
-                }
-                return false;
-            }
-        });
     }
 
     public void performEWSCancel(EwsResultListener ewsResultListener) {
