@@ -7,6 +7,7 @@ package com.philips.cdp.prodreg.tagging;
 
 import android.app.Activity;
 
+import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -40,4 +41,10 @@ public class ProdRegTagging {
         aiAppTaggingInterface.collectLifecycleInfo(activity);
     }
 
+    public static void trackAppNotification(String title, String selected) {
+        final Map<String, String> commonGoalsMap = new HashMap<>();
+        commonGoalsMap.put(AnalyticsConstants.PRG_IN_APP_NOTIFICATION, title);
+        commonGoalsMap.put(AnalyticsConstants.PRG_IN_APP_NOTIFICATION_RESPONSE, selected);
+        aiAppTaggingInterface.trackActionWithInfo(AnalyticsConstants.SEND_DATA, commonGoalsMap);
+    }
 }

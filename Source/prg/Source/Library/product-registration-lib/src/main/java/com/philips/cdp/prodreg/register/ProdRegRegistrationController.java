@@ -1,35 +1,38 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.register;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.*;
-import android.text.*;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
-import com.philips.cdp.prodreg.constants.AnalyticsConstants;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
-import com.philips.cdp.prodreg.fragments.*;
-import com.philips.cdp.prodreg.launcher.*;
-import com.philips.cdp.prodreg.listener.*;
+import com.philips.cdp.prodreg.fragments.ProdRegFindSerialFragment;
+import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
+import com.philips.cdp.prodreg.listener.MetadataListener;
+import com.philips.cdp.prodreg.listener.ProdRegListener;
+import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
-import com.philips.cdp.prodreg.model.metadata.*;
-import com.philips.cdp.prodreg.model.summary.*;
+import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
+import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
+import com.philips.cdp.prodreg.model.summary.Data;
+import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.registration.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.philips.cdp.prodreg.constants.AnalyticsConstants.EXTEND_WARRANTY_OPTION;
-import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PRODUCT_MODEL;
-import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PROD_REG_SUCCESS_EVENT;
-import static com.philips.cdp.prodreg.constants.AnalyticsConstants.REGISTRATION_EVENT;
+import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PRG_PROD_REG_SUCCESS_EVENT;
+import static com.philips.cdp.prodreg.constants.AnalyticsConstants.PRODUCT_MODEL_KEY;
 
 public class ProdRegRegistrationController {
 
@@ -57,14 +60,22 @@ public class ProdRegRegistrationController {
         void hideProgress();
 
         void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct);
+
         void dismissLoadingDialog();
+
         void exitProductRegistration();
+
         void showLoadingDialog();
+
         void showFragment(Fragment fragment);
+
         void showAlertOnError(int responseCode);
+
         void buttonClickable(boolean isClickable);
+
         void updateProductCache();
     }
+
     private boolean isProductRegistered = false;
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
@@ -78,7 +89,7 @@ public class ProdRegRegistrationController {
         this.user = new User(fragmentActivity);
     }
 
-    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks,final FragmentActivity fragmentActivity,User user) {
+    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity, User user) {
         this.registerControllerCallBacks = registerControllerCallBacks;
         this.user = user;
         this.fragmentActivity = fragmentActivity;
@@ -132,9 +143,9 @@ public class ProdRegRegistrationController {
         if (productMetadataResponseData != null) {
             final boolean requiredSerialNumber = productMetadataResponseData.getRequiresSerialNumber().equalsIgnoreCase("true");
             final boolean isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber, productMetadataResponseData.getSerialNumberFormat(), registeredProduct.getSerialNumber());
-           if(registeredProduct.getSerialNumber().length()>0){
-               registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber);
-           }
+            if (registeredProduct.getSerialNumber().length() > 0) {
+                registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber);
+            }
             final boolean requireSerialNumber = requiredSerialNumber && !isValidSerialNumber;
             registerControllerCallBacks.requireFields(productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true"), requireSerialNumber);
         }
@@ -148,7 +159,7 @@ public class ProdRegRegistrationController {
 
             isValidSerialNumber = prodRegUtil.isValidSerialNumber(requiredSerialNumber,
                     productMetadataResponseData.getSerialNumberFormat(), serialNumber);
-            if(!isValidSerialNumber){
+            if (!isValidSerialNumber) {
                 registerControllerCallBacks.isValidSerialNumber(isValidSerialNumber);
             }
         }
@@ -165,8 +176,6 @@ public class ProdRegRegistrationController {
         final boolean validDate = validatePurchaseDate(purchaseDate);
         final boolean validSerialNumber = isValidSerialNumber(serialNumber);
         if (!isApiCallingProgress && validDate && validSerialNumber && getRegisteredProduct() != null) {
-            registerControllerCallBacks.tagEvents(REGISTRATION_EVENT, AnalyticsConstants.SPECIAL_EVENTS, EXTEND_WARRANTY_OPTION);
-           // registerControllerCallBacks.showLoadingDialog();
             registerControllerCallBacks.logEvents(TAG, "Registering product with product details as CTN::" + getRegisteredProduct().getCtn());
             if (getRegisteredProduct().getRegistrationState() != RegistrationState.REGISTERED)
                 getRegisteredProduct().setPurchaseDate(purchaseDate);
@@ -174,12 +183,12 @@ public class ProdRegRegistrationController {
             ProdRegHelper prodRegHelper = getProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
             prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());
-        }else {
-        registerControllerCallBacks.hideProgress();
-        registerControllerCallBacks.showAlertOnError(NETWORK_ERROR);
-    }
+        } else {
+            registerControllerCallBacks.hideProgress();
+            registerControllerCallBacks.showAlertOnError(NETWORK_ERROR);
+        }
 
-}
+    }
 
     @NonNull
     protected ProdRegHelper getProdRegHelper() {
@@ -194,7 +203,7 @@ public class ProdRegRegistrationController {
 
     private boolean validatePurchaseDate(final String purchaseDate) {
         boolean validPurchaseDate = true;
-        if (productMetadataResponseData!=null && productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
+        if (productMetadataResponseData != null && productMetadataResponseData.getRequiresDateOfPurchase().equalsIgnoreCase("true")) {
             validPurchaseDate = isValidDate(purchaseDate);
         }
         return validPurchaseDate;
@@ -212,7 +221,7 @@ public class ProdRegRegistrationController {
                     registerControllerCallBacks.buttonClickable(true);
                     registerControllerCallBacks.dismissLoadingDialog();
                     updateRegisteredProductsList(registeredProduct);
-                    registerControllerCallBacks.tagEvents(PROD_REG_SUCCESS_EVENT, PRODUCT_MODEL, registeredProduct.getCtn());
+                    registerControllerCallBacks.tagEvents(PRG_PROD_REG_SUCCESS_EVENT, PRODUCT_MODEL_KEY, registeredProduct.getCtn());
                     registerControllerCallBacks.showSuccessLayout();
                 }
             }
@@ -340,11 +349,12 @@ public class ProdRegRegistrationController {
                 registerControllerCallBacks.dismissLoadingDialog();
                 init(dependencyBundle);
 //                prodRegRegistrationFragment.setArguments(dependencyBundle);
-               registerControllerCallBacks.dismissLoadingDialog();
+                registerControllerCallBacks.dismissLoadingDialog();
 //                processControllerCallBacks.showFragment(prodRegRegistrationFragment);
             }
         };
     }
+
     @NonNull
     protected ProdRegRegistrationFragment getProdRegRegistrationFragment() {
         return new ProdRegRegistrationFragment();

@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.fragments;
 
 import android.app.DatePickerDialog;
@@ -42,6 +42,7 @@ import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prodreg.util.ProgressAlertDialog;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
+import com.philips.platform.appinfra.tagging.AppTaggingConstants;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -65,7 +66,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
-    private LinearLayout dateParentLayout, serialNumberParentLayout ;
+    private LinearLayout dateParentLayout, serialNumberParentLayout;
     private Label productTitleTextView, productCtnTextView;
     private ImageView productImageView;
     private ValidationEditText date_EditText;
@@ -77,16 +78,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     //private Dialog dialog;
     private DatePickerDialog datePickerDialog;
     private Label findSerialTextView;
-    private InputValidationLayout serial_input_field ,date_input_field;
+    private InputValidationLayout serial_input_field, date_input_field;
     private ValidationEditText field_serial;
     private String minDate;
     AlertDialogFragment alertDialogFragment;
     Bundle bundle;
     private boolean isFirstLaunch;
-    private String purchaseDateStr="";
+    private String purchaseDateStr = "";
     ProdRegUtil prodRegUtil;
     private static final long serialVersionUID = -6635233525340545671L;
-
 
 
     @SuppressWarnings("SimpleDateFormat")
@@ -101,7 +101,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             final Calendar mCalendar = Calendar.getInstance();
             final String mGetDeviceDate = dateFormat.format(mCalendar.getTime());
             try {
-                final String text =  arg1 + "-" + mMonth + "-" + mDate;
+                final String text = arg1 + "-" + mMonth + "-" + mDate;
                 final Date mDisplayDate = dateFormat.parse(text);
                 final Date mDeviceDate = dateFormat.parse(mGetDeviceDate);
                 if (!mDisplayDate.after(mDeviceDate)) {
@@ -168,7 +168,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
-        ProdRegTagging.trackPage(AnalyticsConstants.REGISTRATION_SCREEN);
+        ProdRegTagging.trackPage(AnalyticsConstants.PRG_REGISTER_PRODUCT);
         findSerialTextView = view.findViewById(R.id.prg_registerScreen_findSerialNumber_Label);
         makeTextViewHyperlink(findSerialTextView);
         serial_input_field = view.findViewById(R.id.prg_registerScreen_serialNumber_validationLayout);
@@ -192,7 +192,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void onStart() {
-   //     dismissLoadingDialog();
+        //     dismissLoadingDialog();
         super.onStart();
         //resetErrorDialogIfExists();
         final Bundle arguments = getArguments();
@@ -222,7 +222,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 if (charSequence.length() == 0)
                     return true;
                 else
-                    return  prodRegRegistrationController.isValidSerialNumber(field_serial.getText().toString());
+                    return prodRegRegistrationController.isValidSerialNumber(field_serial.getText().toString());
             }
         });
         date_input_field.setValidator(new InputValidationLayout.Validator() {
@@ -231,7 +231,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 if (charSequence.length() == 0)
                     return true;
                 else
-                   return prodRegRegistrationController.isValidDate(purchaseDateStr);
+                    return prodRegRegistrationController.isValidDate(purchaseDateStr);
             }
         });
     }
@@ -282,19 +282,21 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void showErrorMessageSerialNumber() {
         findSerialTextView.setVisibility(View.VISIBLE);
-        if(!isVisible()){
+        if (!isVisible()) {
             return;
         }
         hideProgressDialog();
-        if (field_serial.length()==0 ) {
+        if (field_serial.length() == 0) {
             serial_input_field.showError();
             serial_input_field.setErrorMessage(getString(R.string.PRG_Please_Enter_SerialNum_Txtfldtxt));
         } else if (field_serial.length() != 0) {
             serial_input_field.showError();
             serial_input_field.setErrorMessage(getString(R.string.PRG_Invalid_SerialNum_ErrMsg));
+            ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PRG_SERIAL_NUMBER_REQUIRED);
         } else {
             serial_input_field.hideError();
         }
+
     }
 
     private void handleDateEditTextOnError() {
@@ -308,22 +310,21 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     private void showErrorMessageDate() {
-        if(!isVisible()){
+        if (!isVisible()) {
             return;
         }
         hideProgressDialog();
-        if(date_EditText.length() != 0 || (date_EditText.length()==0 &&  registerButton.isClickable())) {
+        if (date_EditText.length() != 0 || (date_EditText.length() == 0 && registerButton.isClickable())) {
             date_input_field.showError();
             final ProdRegErrorMap error = new ErrorHandler().getError(mActivity,
                     ProdRegError.INVALID_DATE.getCode());
             ProdRegLogger.e("Product Registration", "Invalid date");
             date_input_field.setErrorMessage(error.getDescription());
-        }
-        else {
+            ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PURCHASE_DATE_REQUIRED);
+        } else {
             date_input_field.hideError();
         }
 
-        ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.PURCHASE_DATE_REQUIRED);
     }
 
     /**
@@ -356,9 +357,9 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 }
                 field_serial.setFocusable(false);
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    int mYear=0;
-                    int mMonthInt=0;
-                    int mDay=0;
+                    int mYear = 0;
+                    int mMonthInt = 0;
+                    int mDay = 0;
                     if (!purchaseDateStr.equalsIgnoreCase("")) {
                         final String[] mEditDisplayDate = purchaseDateStr.toString().split("-");
                         mYear = Integer.parseInt(mEditDisplayDate[0]);
@@ -370,15 +371,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                         mMonthInt = mCalendar.get(Calendar.MONTH);
                         mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
                     }
-                    datePickerDialog = new DatePickerDialog(mActivity,R.style.UIDDatePickerDialogTheme,
+                    datePickerDialog = new DatePickerDialog(mActivity, R.style.UIDDatePickerDialogTheme,
                             myDateListener, mYear, mMonthInt, mDay);
-                    DateFormat formatter = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_SERVER,Locale.ENGLISH);
+                    DateFormat formatter = new SimpleDateFormat(ProdRegConstants.PROD_REG_DATE_FORMAT_SERVER, Locale.ENGLISH);
 
-                    long dateInLong =0;
+                    long dateInLong = 0;
                     try {
                         final ProdRegUtil prodRegUtil = new ProdRegUtil();
                         datePickerDialog.getDatePicker().setMaxDate(prodRegUtil.getMaxDate());
-                        if(minDate != null) {
+                        if (minDate != null) {
                             Date date = formatter.parse(minDate);
                             dateInLong = date.getTime();
                             datePickerDialog.getDatePicker().setMinDate(dateInLong);
@@ -405,7 +406,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     return;
                 }
                 if (alertDialogFragment != null && alertDialogFragment.isVisible()) {
-                    return ;
+                    return;
                 }
 
                 hideKeyboard();
@@ -428,7 +429,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
 
-
     @Override
     public void exitProductRegistration() {
         clearFragmentStack();
@@ -436,8 +436,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     }
 
     @Override
-    public void showAlertOnError(int responseCode){
-        if(!isVisible()) return;
+    public void showAlertOnError(int responseCode) {
+        if (!isVisible()) return;
         hideProgressDialog();
         super.showAlertOnError(responseCode);
     }
@@ -465,10 +465,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 //        if (validSerialNumber) {
 //            findSerialTextView.setVisibility(View.GONE);
 //        } else
-        if(!validSerialNumber)
+        if (!validSerialNumber)
             showErrorMessageSerialNumber();
     }
-String imageURL;
+
+    String imageURL;
+
     @Override
     public void setSummaryView(final Data summaryData) {
         try {
@@ -488,7 +490,7 @@ String imageURL;
                 imageLoader.get(imageURL, ImageLoader.getImageListener(productImageView,
                         R.drawable.product_placeholder, R.drawable.product_placeholder));
                 productImageView.requestLayout();
-      //          field_serial.addTextChangedListener(getWatcher());
+                //          field_serial.addTextChangedListener(getWatcher());
             }
             buttonClickable(true);
         } catch (Exception e) {
@@ -499,7 +501,7 @@ String imageURL;
 
     @Override
     public void setProductView(final RegisteredProduct registeredProduct) {
-        if(registeredProduct.getPurchaseDate()!=null) {
+        if (registeredProduct.getPurchaseDate() != null) {
             purchaseDateStr = registeredProduct.getPurchaseDate();
         }
         date_EditText.setText(prodRegUtil.getDisplayDate(registeredProduct.getPurchaseDate()));
@@ -508,8 +510,7 @@ String imageURL;
         if (!TextUtils.isEmpty(registeredProduct.getCtn())) {
             productCtnTextView.setVisibility(View.VISIBLE);
             productCtnTextView.setText(productCtn);
-        }
-        else {
+        } else {
             productCtnTextView.setVisibility(View.GONE);
         }
 
@@ -536,16 +537,15 @@ String imageURL;
     }
 
 
-
     @SuppressWarnings("deprecation")
     @Override
     public void showSuccessLayout() {
         hideProgressDialog();
         ProdRegSuccessFragment prodRegSuccessFragment = new ProdRegSuccessFragment();
-        bundle.putString(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID,imageURL);
-        bundle.putString(ProdRegConstants.PROD_REG_CTN,productCtnTextView.getText().toString());
-        bundle.putString(ProdRegConstants.PROD_REG_TITLE,productTitleTextView.getText().toString());
-        bundle.putString(ProdRegConstants.PROD_REG_WARRANTY,this.getRegisteredProduct().getEndWarrantyDate());
+        bundle.putString(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, imageURL);
+        bundle.putString(ProdRegConstants.PROD_REG_CTN, productCtnTextView.getText().toString());
+        bundle.putString(ProdRegConstants.PROD_REG_TITLE, productTitleTextView.getText().toString());
+        bundle.putString(ProdRegConstants.PROD_REG_WARRANTY, this.getRegisteredProduct().getEndWarrantyDate());
         prodRegSuccessFragment.setArguments(bundle);
         showFragment(prodRegSuccessFragment);
     }
@@ -556,13 +556,15 @@ String imageURL;
 
     }
 
-    /** should be moved to dls dialog **/
+    /**
+     * should be moved to dls dialog
+     **/
     @Override
     public void showAlreadyRegisteredDialog(RegisteredProduct registeredProduct) {
         try {
 
             if (alertDialogFragment != null && alertDialogFragment.isVisible()) {
-                return ;
+                return;
             }
             if (!isVisible()) {
                 return;
@@ -585,36 +587,30 @@ String imageURL;
             Button closeDialog = view.findViewById(R.id.closeButton);
             if (!TextUtils.isEmpty(registeredProduct.getPurchaseDate())) {
                 serialNumberRegisteredOn.setVisibility(View.VISIBLE);
-                serialNumberRegisteredOn.setText(prodRegUtil.generateSpannableText(getString(R.string.PRG_registered_on)," " + prodRegUtil.getDisplayDate(registeredProduct.getPurchaseDate())));
+                serialNumberRegisteredOn.setText(prodRegUtil.generateSpannableText(getString(R.string.PRG_registered_on), " " + prodRegUtil.getDisplayDate(registeredProduct.getPurchaseDate())));
 
             }
             if (!TextUtils.isEmpty(registeredProduct.getEndWarrantyDate())) {
                 serialNumberWarranty.setVisibility(View.VISIBLE);
-                serialNumberWarranty.setText(prodRegUtil.generateSpannableText(getString(R.string.PRG_warranty_until)," " + prodRegUtil.getDisplayDate(registeredProduct.getEndWarrantyDate())));
+                serialNumberWarranty.setText(prodRegUtil.generateSpannableText(getString(R.string.PRG_warranty_until), " " + prodRegUtil.getDisplayDate(registeredProduct.getEndWarrantyDate())));
             }
-            changeSerialNumber.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    alertDialogFragment.dismiss();
-                    clearFragmentStack();
-                    hideProgressDialog();
-                    handleCallBack(true);
-                    unRegisterProdRegListener();
-                }
+            changeSerialNumber.setOnClickListener(v -> {
+                ProdRegTagging.trackAppNotification(AnalyticsConstants.PRG_PRODUCT_ALREADY_REGISTERED, "continue");
+                alertDialogFragment.dismiss();
+                clearFragmentStack();
+                hideProgressDialog();
+                handleCallBack(true);
+                unRegisterProdRegListener();
             });
-            closeDialog.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialogFragment.dismiss();
-                }
+            closeDialog.setOnClickListener(v -> {
+                alertDialogFragment.dismiss();
+                ProdRegTagging.trackAppNotification(AnalyticsConstants.PRG_PRODUCT_ALREADY_REGISTERED, "close");
             });
-        }catch (Exception e) {
+        } catch (Exception e) {
             ProdRegLogger.i("Exception ***", "" + e.getMessage());
         }
 
     }
-
-
 
 
     @Override
@@ -624,7 +620,7 @@ String imageURL;
 
     @Override
     public void showLoadingDialog() {
-        showProdRegLoadingDialog(getString(R.string.PRG_Looking_For_Products_Lbltxt),"prg_dialog");
+        showProdRegLoadingDialog(getString(R.string.PRG_Looking_For_Products_Lbltxt), "prg_dialog");
     }
 
     @Override
@@ -649,7 +645,8 @@ String imageURL;
 
         }
     }
-    void intializeProgressAlertDialog(){
+
+    void intializeProgressAlertDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressAlertDialog(getActivity(), com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
             mProgressDialog.setCancelable(false);
@@ -669,6 +666,7 @@ String imageURL;
             }
         });
     }
+
     UserWithProducts userWithProducts;
     RegisteredProduct registeredProduct1;
 
