@@ -50,6 +50,5 @@ ext.strings = [
         cmluapp:[projectName:':commlib-demouapp', artifactName:'commlib-demouapp'],
         blluapp:[projectName:':bluelib-demouapp', artifactName:'bluelib-demouapp'],
         thsuapp:[projectName:':thsUapp', artifactName:'thsUapp'],
-        ewsuapp:[projectName:':ewsUApp', artifactName:'ewsUApp'],
-        neurauapp:[projectName:':NeuraUApp', artifactName:'NeuraUApp'],
+        ewsuapp:[projectName:':ewsUApp', artifactName:'ewsUApp']
 ]

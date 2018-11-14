@@ -51,7 +51,6 @@ include ext.strings.cmluapp.projectName
 include ext.strings.blluapp.projectName
 include ext.strings.thsuapp.projectName
 include ext.strings.ewsuapp.projectName
-include ext.strings.neurauapp.projectName
 
 include ext.strings.hsdp.projectName
 include ext.strings.catk.projectName
@@ -110,7 +109,6 @@ project(ext.strings.catk.projectName).projectDir = new File('./Source/csw/Source
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 project(ext.strings.ews.projectName).projectDir = new File('./Source/ews/Source/Library/ews-android')
 project(ext.strings.ewsuapp.projectName).projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
-project(ext.strings.neurauapp.projectName).projectDir = new File('./Source/neu/Source/DemoUApp/DemoUApp')
 //demoapps to be published to artifactory
 //include ':UserRegistrationApp'
 //project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')

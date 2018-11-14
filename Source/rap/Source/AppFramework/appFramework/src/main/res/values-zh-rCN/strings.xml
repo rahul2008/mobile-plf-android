@@ -217,4 +217,6 @@
   <string name="label_sleep_time_format">[zh-CN]%d mins</string>
   <string name="label_sleep_tips">[zh-CN]How can I improve my sleep score?</string>
   <string name="mya_config_tab">[zh-CN]Configuration tab</string>
+  <string name="RA_MYA_Consent_Clickstream_Help">"[zh-CN]Giving this consent you are allowing Philips to process mobile usage statistics related to you"</string>
+
 </resources>
