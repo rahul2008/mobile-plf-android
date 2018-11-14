@@ -103,12 +103,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 if (subcategoryModel != null && subcategoryModel.getSuccess() != null && subcategoryModel.getSuccess()) {
                     com.philips.cdp.digitalcare.prx.subcategorymodel.Data data =
                             subcategoryModel.getData();
-                    if ((data != null) && (data.getParentCode() != null)) {
+                    if ((data != null) && (data.getCode() != null)) {
                         DigitalCareConfigManager digitalCareConfigManager =
                                 DigitalCareConfigManager.getInstance();
                         ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.
                                 getConsumerProductInfo();
-                        consumerProductInfo.setCategory(data.getParentCode());
+                        consumerProductInfo.setCategory(data.getCode());
                         digitalCareConfigManager.setConsumerProductInfo(consumerProductInfo);
                     }
                 }
