@@ -187,7 +187,6 @@ dependencies {
     implementation deps.volley
     implementation deps.javax_inject
     implementation deps.javax_annotation
-    implementation deps.play_services_gcm
     implementation (deps.firebase_core) {
         exclude group: 'com.google.firebase', module: 'firebase-iid'
     }
@@ -361,3 +360,4 @@ task('printPlatformVersion') {
         println "Platform version stored in platformversion.txt"
     }
 }
+apply plugin: 'com.google.gms.google-services'

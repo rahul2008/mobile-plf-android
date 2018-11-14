@@ -96,8 +96,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected static final String CHINA_CODE = "CN";
     protected static final String DEFAULT = "default";
     private URInterface urInterface;
-    private FirebaseAnalytics firebaseAnalytics;
-
     public static String AB_TEST_UR_PRIORITY_KEY = "ur_priority";
 
     /**
@@ -130,7 +128,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         //Post HSDP initialization on background thread.
         new Thread(() -> initHSDP(((AppFrameworkApplication) context.getApplicationContext()).getAppState())).start();
         initializeUserRegistrationLibrary();
-        firebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
 
 
@@ -294,7 +291,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         contentConfiguration.enableContinueWithouAccount(true);
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, applicationContext.getString(R.string.Ra_default_value), ABTestClientInterface.UPDATETYPE.APP_UPDATE);
-        firebaseAnalytics.logEvent("LaunchingRegistration", null);
+        getAppInfra().getAbTesting().tagEvent("LaunchingRegistration", null);
         if (testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Sonicare))) {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
             contentConfiguration.setOptInTitleText(applicationContext.getString(R.string.RA_mkt_optin_title_text));
@@ -395,7 +392,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     protected void setUrCompleted() {
         if (userObject != null) {
             getApplicationContext().getAppInfra().getLogging().setHSDPUserUUID(userObject.getHsdpUUID());
-            firebaseAnalytics.logEvent("MarketingOptinstatusSuccess", null);
+            getAppInfra().getAbTesting().tagEvent("MarketingOptinstatusSuccess", null);
         }
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(Constants.UR_LOGIN_COMPLETED, true);

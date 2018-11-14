@@ -103,13 +103,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
         mVoucherController = new VoucherController(mContext, this);
 
-        /*if (getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP) != null) {
-            voucherCode =getArguments().getString(IAPConstant.IAP_VOUCHER_FROM_APP);
-
-        }*/
-       if(Utility.getVoucherCode()!=null){
+        if(Utility.getVoucherCode()!=null){
            voucherCode=Utility.getVoucherCode();
-       }
+        }
 
 
         View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
@@ -142,7 +138,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartDetails(mShoppingCartAPI);
         }
-    //    hideProgressBar();
     }
 
     @Override

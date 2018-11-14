@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -12,14 +13,9 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
 import java.util.logging.Level;
-
-import static java.lang.System.currentTimeMillis;
 
 /**
  * Created by abhishek on 4/24/18.
@@ -120,11 +116,10 @@ public class LoggingUtils {
             return null;
     }
 
-    public static String getCurrentDateAndTime(String format) {
+    public static String getCurrentDateAndTime(String format, AppInfraInterface appInfraInterface) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date date = new Date();
-        return dateFormat.format(date);
+        return dateFormat.format(appInfraInterface.getTime().getUTCTime());
 
 
 //        DateTime dateTime = new DateTime(currentTimeMillis());

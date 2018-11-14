@@ -4,23 +4,16 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.LoginHandler;
-import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.when;
 
@@ -31,8 +24,6 @@ public class LoginTraditionalTest {
     private Context mContext;
     @Mock
     private LoginHandler loginHandler;
-    @Mock
-    private UpdateUserRecordHandler updateUserRecordHandler;
     @Mock
     private User mockUser;
     @Mock
@@ -54,7 +45,7 @@ public class LoginTraditionalTest {
 //        when(componentMock.getAppTaggingInterface()).thenReturn(mockAppTaggingInterface);
 
 
-        loginTraditional = new LoginTraditional(loginHandler, mContext, updateUserRecordHandler, "email", "password");
+        loginTraditional = new LoginTraditional(loginHandler, mContext, "email", "password");
     }
 
 //    @Test(expected = NoClassDefFoundError.class)
