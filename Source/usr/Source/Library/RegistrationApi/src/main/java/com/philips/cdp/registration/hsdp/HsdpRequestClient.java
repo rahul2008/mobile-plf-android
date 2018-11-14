@@ -9,8 +9,6 @@ import com.philips.ntputils.ServerTime;
 import com.philips.ntputils.constants.ServerTimeConstants;
 import com.philips.platform.appinfra.apisigning.HSDPPHSApiSigning;
 
-import org.json.JSONException;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -58,38 +56,31 @@ class HsdpRequestClient {
 
         sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
         URI uri = URI.create(hsdpConfiguration.getHsdpBaseUrl() + apiEndpoint + queryParams(queryParams));
-
-        RLog.d("Hsdp URI : ", "" + uri.toString());
-        RLog.d("Hsdp httpMethod type : ", "" + httpMethod);
-        RLog.d("Hsdp headers : ", "" + headers);
-        RLog.d("Hsdp headers body : ", "" + body);
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
-    Map<String, Object> sendRestRequest(String httpMethod, String apiEndpoint, String queryParams, Map<String, String> headers, Object body) throws JSONException {
-        //String bodyString = new JSONObject(body).toString();
+    Map<String, Object> sendRestRequest(String apiEndpoint, String queryParams, Map<String, String> headers, Object body) {
         String bodyString = asJsonString(body);
         URI uri = URI.create(hsdpConfiguration.getHsdpBaseUrl() + apiEndpoint + queryParams(queryParams));
-        return sendRestRequest(httpMethod, uri, headers, bodyString);
+        return sendRestRequest("PUT", uri, headers, bodyString);
     }
 
     private Map<String, Object> sendRestRequest(String httpMethod, URI uri, Map<String, String> headers, String body) {
         headers.put("Content-Type", "application/json");
         headers.put("Accept", "application/json");
 
+        Map<String, Object> rawResponse = null;
         try {
-            @SuppressWarnings("rawtypes")
-            Map<String, Object> rawResponse = establishConnection(uri, httpMethod, headers, body);
-
-            return rawResponse;
-        } catch (Exception e) {
-            RLog.e(TAG, "sendRestRequest : Exception occurred : " + e.getMessage());
-            return null;
-            //throw new DhpCommunicationException(e);
+            rawResponse = establishConnection(uri, httpMethod, headers, body);
+        } catch (IOException e) {
+            RLog.e(TAG, "sendRestRequest : Exception Occured :" + e.getMessage());
         }
+
+        return rawResponse;
+
     }
 
-    private Map<String, Object> establishConnection(URI uri, String httpMethod, Map<String, String> headers, String body) throws IOException, JSONException {
+    private Map<String, Object> establishConnection(URI uri, String httpMethod, Map<String, String> headers, String body) throws IOException {
         HttpURLConnection urlConnection = openHttpURLConnection(uri);
         try {
             urlConnection.setRequestMethod(httpMethod);

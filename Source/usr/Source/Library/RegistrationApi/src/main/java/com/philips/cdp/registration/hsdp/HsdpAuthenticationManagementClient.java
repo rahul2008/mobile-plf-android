@@ -7,8 +7,6 @@ import com.philips.cdp.registration.ui.utils.MapUtils;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.ntputils.ServerTime;
 
-import org.json.JSONException;
-
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -45,12 +43,7 @@ public class HsdpAuthenticationManagementClient extends HsdpRequestClient {
         String queryParams = "applicationName=" + hsdpConfiguration.getHsdpAppName();
         Map<String, String> headers = new LinkedHashMap<String, String>();
         headers.put("accessToken", accessToken);
-        try {
-            return sendRestRequest("PUT", apiEndpoint, queryParams, headers, null);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return sendRestRequest(apiEndpoint, queryParams, headers, null);
     }
 
     Map<String, Object> refreshSecret(String userUUID, String accessToken, String refreshSecret) {
@@ -59,25 +52,16 @@ public class HsdpAuthenticationManagementClient extends HsdpRequestClient {
         Map<String, String> headers = new LinkedHashMap<String, String>();
 
         String date = getUTCdatetimeAsString();
-        headers.put("refreshSignature", createRefreshSignature(refreshSecret, date, accessToken));
+        String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
+        headers.put("refreshSignature", createRefreshSignature(refreshSecret, stringToSign));
         headers.put("refreshSignatureDate", date);
         headers.put("api-version", "2");
         headers.put("accessToken", accessToken);
 
-        Map<String, Object> hsdpResponse = sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, null);
-        if (hsdpResponse == null) {
-            return null;
-        }
-        String responseCode = MapUtils.extract(hsdpResponse, "responseCode");
-        String message = MapUtils.extract(hsdpResponse, "responseMessage");
-
-        if (!"200".equals(responseCode)) return null;
-        return hsdpResponse;
+        return sendSignedRequestForSocialLogin("POST", apiEndpoint, queryParams, headers, null);
     }
 
-    private String createRefreshSignature(String refresh_Secret, String date, String accessToken) {
-        String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
-        RLog.d(TAG, "" + "Refresh secret : " + refresh_Secret + " date : " + date + " accessToken : " + accessToken);
+    private String createRefreshSignature(String refresh_Secret, String stringToSign) {
         byte[] hash = null;
         try {
             Mac mac = Mac.getInstance("HmacSHA1");
@@ -85,10 +69,8 @@ public class HsdpAuthenticationManagementClient extends HsdpRequestClient {
             SecretKeySpec secret = new SecretKeySpec(refreshSecret, mac.getAlgorithm());
             mac.init(secret);
             hash = mac.doFinal(stringToSign.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException e) {
-            RLog.e(TAG, "Error occurred while creating refresh signature.");
-        } catch (UnsupportedEncodingException | InvalidKeyException e) {
-            RLog.d(TAG, "Error occurred while creating refresh signature.");
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException | InvalidKeyException e) {
+            RLog.e(TAG, "Error occurred while creating refresh signature: " + e.getMessage());
         }
         return Base64.encodeToString(hash, Base64.NO_WRAP);
     }
