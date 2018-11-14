@@ -67,6 +67,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -90,6 +91,8 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESSFUL_REGISTRATION_DONE;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         LoginHandler, ForgotPasswordHandler, OnUpdateListener,
@@ -632,6 +635,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                         AppTagingConstants.SUCCESS_LOGIN);
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
                         RegistrationHelper.getInstance().getCountryCode());
+                ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
+                abTestClientInterface.tagEvent(SUCCESSFUL_REGISTRATION_DONE, null);
             } else {
                 if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) {
                     clearInputFields();

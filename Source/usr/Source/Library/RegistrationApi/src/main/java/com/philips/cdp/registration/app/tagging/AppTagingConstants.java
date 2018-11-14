@@ -135,4 +135,6 @@ public class AppTagingConstants {
     public static String KEY_FORGOT_PASSWORD_CHANNEL = "forgotPasswordChannel";
 
     public static String KEY_SKIP_SECURE_DATA = "skipSecureData";
+
+    public static String SUCCESSFUL_REGISTRATION_DONE = "successful_registration_done";
 }

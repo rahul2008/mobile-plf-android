@@ -45,6 +45,7 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
@@ -56,6 +57,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESSFUL_REGISTRATION_DONE;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_USER_CREATION;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
         OnUpdateListener {
@@ -530,7 +534,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void handleContinueSocialProvider() {
         RLog.d(TAG, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SUCCESS_USER_CREATION);
+                SUCCESS_USER_CREATION);
+        ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
+        abTestClientInterface.tagEvent(SUCCESSFUL_REGISTRATION_DONE, null);
         trackMultipleActions();
         handleABTestingFlow();
         hideMarketingOptSpinner();
