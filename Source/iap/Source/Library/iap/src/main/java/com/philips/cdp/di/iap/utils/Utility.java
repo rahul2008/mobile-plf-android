@@ -40,6 +40,7 @@ public class Utility {
     private static AlertDialogFragment alertDialogFragment;
     public static boolean isDelvieryFirstTimeUser = false;
     public static String voucherCodeVal;
+    public static boolean isPromotionRunning=false;
 
     public static void hideKeypad(Activity pContext) {
         if(pContext == null){
@@ -94,6 +95,17 @@ public class Utility {
     public static String getVoucherCode(){
         return voucherCodeVal;
     }
+
+
+    public static void setPromotionRunning(boolean promotion){
+        isPromotionRunning=promotion;
+    }
+
+    public static boolean isPromotionRunning(){
+        return isPromotionRunning;
+    }
+
+
     protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
         String addressLine1ReplacingNullValue = null;
         if (!TextUtils.isEmpty(code)) {
@@ -386,6 +398,8 @@ public class Utility {
         }
         return false;
     }
+
+
 
     }
 
