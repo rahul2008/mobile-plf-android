@@ -425,8 +425,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                 final PromotionEntity promotion = appliedOrderPromotions.get(i).getPromotion();
                 if (promotion != null && isValidPromotion(promotion.getCode())) {
                     final String currentDeliveryCost = cartsEntity.getDeliveryMode().getDeliveryCost().getFormattedValue();
-                    final String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
-                    cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
+                    /*final String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
+                    cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);*/
                     Utility.setPromotionRunning(true);
                     break;
                 } else {
