@@ -22,7 +22,6 @@ import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.app.tagging.Encryption;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
-import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
@@ -32,14 +31,10 @@ import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.LoginHandler;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.cdp.registration.ui.utils.MapUtils;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.dhpclient.DhpApiClientConfiguration;
-import com.philips.dhpclient.DhpAuthenticationManagementClient;
-import com.philips.dhpclient.response.DhpAuthenticationResponse;
-import com.philips.dhpclient.response.DhpResponse;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -58,7 +53,6 @@ public class HsdpUser {
 
     private final LoggingInterface loggingInterface;
     private String TAG = "HsdpUser";
-    private DhpAuthenticationResponse dhpAuthenticationResponse = null;
 
     @Inject
     HSDPConfiguration hsdpConfiguration;
@@ -71,9 +65,6 @@ public class HsdpUser {
     private final String SUCCESS_CODE = "200";
 
     private final String HSDP_RECORD_FILE = "hsdpRecord";
-
-    private DhpResponse dhpResponse = null;
-
 
     /**
      * User file write listener interface
@@ -95,28 +86,6 @@ public class HsdpUser {
         loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
     }
 
-    /**
-     * Get HSDP information for specified configuration
-     *
-     * @return HSDPInfo Object
-     */
-    private HSDPInfo getHSDPInfo() {
-
-        String sharedId = hsdpConfiguration.getHsdpSharedId();
-
-        String secreteId = hsdpConfiguration.getHsdpSecretId();
-
-        String baseUrl = hsdpConfiguration.getHsdpBaseUrl();
-
-        String appName = hsdpConfiguration.getHsdpAppName();
-
-        RLog.d(TAG, "sharedId" + sharedId + "Secret " + secreteId + " baseUrl " + baseUrl);
-
-        if (appName == null && sharedId == null && secreteId == null && baseUrl == null) {
-            return null;
-        }
-        return new HSDPInfo(sharedId, secreteId, baseUrl, appName);
-    }
 
     /**
      * Logout
@@ -127,10 +96,10 @@ public class HsdpUser {
         if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
-                DhpAuthenticationManagementClient authenticationManagementClient
-                        = new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
+                HsdpAuthenticationManagementClient authenticationManagementClient
+                        = new HsdpAuthenticationManagementClient(hsdpConfiguration);
 
-                dhpResponse = null;
+                Map<String, Object> dhpResponse = null;
                 if (null != getHsdpUserRecord() && null != getHsdpUserRecord().getAccessCredential()) {
                     RLog.d(TAG, "logOut: is called from DhpAuthenticationManagementClient ");
                     dhpResponse = authenticationManagementClient.
@@ -144,36 +113,7 @@ public class HsdpUser {
                                     onLogoutFailure(ErrorCodes.NETWORK_ERROR, mContext.
                                             getString(R.string.USR_Generic_Network_ErrorMsg))));
                 } else {
-                    if (dhpResponse.responseCode != null &&
-                            dhpResponse.responseCode.equals(SUCCESS_CODE)) {
-                        handler.post(() -> {
-                            RLog.d(TAG, "logOut: onHsdsLogoutSuccess response"
-                                    + dhpResponse.rawResponse.toString());
-                            ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
-                        });
-                    } else {
-                        if (dhpResponse.responseCode != null &&
-                                (dhpResponse.responseCode.equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1009))
-                                        || dhpResponse.responseCode.equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151)))) {
-                            RLog.d(TAG, "logOut: onHsdsLogoutFailure : responseCode : "
-                                    + dhpResponse.responseCode + " message : "
-                                    + dhpResponse.message);
-                            ThreadUtils.postInMainThread(mContext, () ->
-                                    logoutHandler.onLogoutFailure(Integer.
-                                                    parseInt(dhpResponse.responseCode),
-                                            dhpResponse.message));
-                        } else {
-                            handler.post(() -> {
-                                RLog.d(TAG, "logOut: onHsdsLogoutFailure : responseCode : " +
-                                        dhpResponse.responseCode +
-                                        " message : " + dhpResponse.message);
-                                ThreadUtils.postInMainThread(mContext, () ->
-                                        logoutHandler.onLogoutFailure(Integer.
-                                                        parseInt(dhpResponse.responseCode),
-                                                new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(dhpResponse.responseCode))));
-                            });
-                        }
-                    }
+                    onLogoutSuccessResponse(logoutHandler, handler, dhpResponse);
                 }
             }).start();
         } else {
@@ -181,6 +121,40 @@ public class HsdpUser {
             ThreadUtils.postInMainThread(mContext, () ->
                     logoutHandler.onLogoutFailure(ErrorCodes.NO_NETWORK,
                             new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK)));
+        }
+    }
+
+    private void onLogoutSuccessResponse(LogoutHandler logoutHandler, Handler handler, Map<String, Object> dhpResponse) {
+        String responseCode = MapUtils.extract(dhpResponse, "responseCode");
+        String message = MapUtils.extract(dhpResponse, "responseMessage");
+        if (responseCode != null &&
+                responseCode.equals(SUCCESS_CODE)) {
+            handler.post(() -> {
+                RLog.d(TAG, "logOut: onHsdsLogoutSuccess response");
+                ThreadUtils.postInMainThread(mContext, logoutHandler::onLogoutSuccess);
+            });
+        } else {
+            if (responseCode != null &&
+                    (responseCode.equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1009))
+                            || responseCode.equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151)))) {
+                RLog.d(TAG, "logOut: onHsdsLogoutFailure : responseCode : "
+                        + responseCode + " message : "
+                        + message);
+                ThreadUtils.postInMainThread(mContext, () ->
+                        logoutHandler.onLogoutFailure(Integer.
+                                        parseInt(responseCode),
+                                message));
+            } else {
+                handler.post(() -> {
+                    RLog.d(TAG, "logOut: onHsdsLogoutFailure : responseCode : " +
+                            responseCode +
+                            " message : " + message);
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            logoutHandler.onLogoutFailure(Integer.
+                                            parseInt(responseCode),
+                                    new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(responseCode))));
+                });
+            }
         }
     }
 
@@ -195,17 +169,10 @@ public class HsdpUser {
         if (networkUtility.isNetworkAvailable()) {
             new Thread(() -> {
 
-                DhpAuthenticationManagementClient authenticationManagementClient =
-                        new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                dhpAuthenticationResponse = null;
+                HsdpAuthenticationManagementClient authenticationManagementClient =
+                        new HsdpAuthenticationManagementClient(hsdpConfiguration);
+                Map<String, Object> dhpAuthenticationResponse = null;
                 if (getHsdpUserRecord() != null &&
-                        getHsdpUserRecord().getAccessCredential() != null &&
-                        getHsdpUserRecord().getAccessCredential().getRefreshToken() != null
-                        ) {
-                    dhpAuthenticationResponse = authenticationManagementClient.
-                            refresh(getHsdpUserRecord().getUserUUID(),
-                                    getHsdpUserRecord().getAccessCredential().getRefreshToken());
-                } else if (getHsdpUserRecord() != null &&
                         null != getHsdpUserRecord().getUserUUID() &&
                         null != getHsdpUserRecord().getAccessCredential()) {
                     dhpAuthenticationResponse = authenticationManagementClient.
@@ -214,18 +181,23 @@ public class HsdpUser {
                                             getAccessToken(), getHsdpUserRecord().
                                             getRefreshSecret());
                 }
+                String responseCode = MapUtils.extract(dhpAuthenticationResponse, "responseCode");
+                String message = MapUtils.extract(dhpAuthenticationResponse, "responseMessage");
+                String newAccessToken = MapUtils.extract(dhpAuthenticationResponse, "exchange.accessCredential.accessToken");
+                String newRefreshToken = MapUtils.extract(dhpAuthenticationResponse, "exchange.refreshToken");
+
                 if (dhpAuthenticationResponse == null) {
                     handler.post(() -> ThreadUtils.postInMainThread(mContext, () ->
                             refreshHandler.
                                     onRefreshLoginSessionFailedWithError
                                             (ErrorCodes.NETWORK_ERROR)));
-                } else if (null != dhpAuthenticationResponse.responseCode &&
-                        dhpAuthenticationResponse.responseCode.equals(SUCCESS_CODE)) {
+                } else if (null != responseCode &&
+                        responseCode.equals(SUCCESS_CODE)) {
                     if (null != getHsdpUserRecord() && null != getHsdpUserRecord().getAccessCredential()) {
                         getHsdpUserRecord().getAccessCredential().setRefreshToken
-                                (dhpAuthenticationResponse.refreshToken);
+                                (newRefreshToken);
                         getHsdpUserRecord().getAccessCredential().setAccessToken
-                                (dhpAuthenticationResponse.accessToken);
+                                (newAccessToken);
                     }
                     saveToDisk(new UserFileWriteListener() {
                         @Override
@@ -237,30 +209,29 @@ public class HsdpUser {
                         }
                     });
                     handler.post(() -> {
-                        RLog.d(TAG, "onHsdpRefreshSuccess : response :" +
-                                dhpAuthenticationResponse.rawResponse.toString());
+                        RLog.d(TAG, "onHsdpRefreshSuccess : response :");
                         ThreadUtils.postInMainThread(mContext, refreshHandler::onRefreshLoginSessionSuccess);
                     });
                 } else {
-                    if (dhpAuthenticationResponse.responseCode != null &&
-                            dhpAuthenticationResponse.responseCode
+                    if (responseCode != null &&
+                            responseCode
                                     .equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151))) {
                         handler.post(() -> {
                             RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
-                                    + dhpAuthenticationResponse.responseCode +
-                                    " message : " + dhpAuthenticationResponse.message);
+                                    + responseCode +
+                                    " message : " + message);
                             ThreadUtils.postInMainThread(mContext, () ->
                                     refreshHandler.onRefreshLoginSessionFailedWithError(Integer
-                                            .parseInt(dhpAuthenticationResponse.responseCode)));
+                                            .parseInt(responseCode)));
                         });
                     } else {
                         handler.post(() -> {
                             RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
-                                    + dhpAuthenticationResponse.responseCode +
-                                    " message : " + dhpAuthenticationResponse.message);
+                                    + responseCode +
+                                    " message : " + message);
                             ThreadUtils.postInMainThread(mContext, () ->
                                     refreshHandler.onRefreshLoginSessionFailedWithError(Integer.
-                                            parseInt(dhpAuthenticationResponse.responseCode)));
+                                            parseInt(responseCode)));
                         });
                     }
                 }
@@ -271,25 +242,6 @@ public class HsdpUser {
         }
     }
 
-    /**
-     * get dhp api client configuration
-     *
-     * @return DhpApiClientConfiguration object
-     * {@link DhpApiClientConfiguration}
-     */
-    private DhpApiClientConfiguration getDhpApiClientConfiguration() {
-        DhpApiClientConfiguration dhpApiClientConfiguration = null;
-        HSDPInfo hsdpInfo = getHSDPInfo();
-        if (null != hsdpInfo && null != hsdpInfo.getBaseURL() && null !=
-                hsdpInfo.getSecreteId() && null != hsdpInfo.getSharedId()
-                && null != hsdpInfo.getApplicationName()) {
-
-            RLog.d(TAG, "Base URL " + hsdpInfo.getBaseURL());
-            dhpApiClientConfiguration = new DhpApiClientConfiguration(hsdpInfo.getBaseURL(),
-                    hsdpInfo.getApplicationName(), hsdpInfo.getSharedId(), hsdpInfo.getSecreteId());
-        }
-        return dhpApiClientConfiguration;
-    }
 
     /**
      * Save to disk
@@ -385,8 +337,7 @@ public class HsdpUser {
     }
 
 
-
-    public static Object stringToObject(String str) {
+    private Object stringToObject(String str) {
         try {
             return new ObjectInputStream(new Base64InputStream(
                     new ByteArrayInputStream(str.getBytes()), Base64.NO_PADDING
@@ -410,75 +361,65 @@ public class HsdpUser {
 
     public void login(final String email, final String accessToken,
                       final LoginHandler loginHandler) {
-
-        RLog.d(TAG,
-                "HSDP login");
+        RLog.d(TAG, "HSDP login");
         if (networkUtility.isNetworkAvailable()) {
             final Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
-                try {
-                    DhpAuthenticationManagementClient authenticationManagementClient =
-                            new DhpAuthenticationManagementClient(getDhpApiClientConfiguration());
-                    final DhpAuthenticationResponse dhpAuthenticationResponse1 =
-                            authenticationManagementClient.loginSocialProviders(email,
-                                    accessToken, Jump.getRefreshSecret());
+                HsdpAuthenticationManagementClient authenticationManagementClient =
+                        new HsdpAuthenticationManagementClient(hsdpConfiguration);
+                final Map<String, Object> dhpAuthenticationResponse1 =
+                        authenticationManagementClient.loginSocialProviders(email,
+                                accessToken, Jump.getRefreshSecret());
 
-                    if (dhpAuthenticationResponse1 == null) {
-                        handler.post(() -> handleSocialNetworkFailure(loginHandler));
-                        return;
-                    }
-
-                    if (dhpAuthenticationResponse1.responseCode.equals(SUCCESS_CODE)) {
-                        final Map<String, Object> rawResponse = dhpAuthenticationResponse1.
-                                rawResponse;
-
-                        final HsdpUserRecordV2 hsdpUserRecordV2 = new HsdpUserRecordV2();
-                        hsdpUserRecordV2.parseHsdpUserInfo(rawResponse);
-                        hsdpUserRecordV2.setRefreshSecret(Jump.getRefreshSecret());
-                        HsdpUserInstance.getInstance().setHsdpUserRecordV2(hsdpUserRecordV2);
-                        saveToDisk(new UserFileWriteListener() {
-                            @Override
-                            public void onFileWriteSuccess() {
-                                if (loggingInterface != null) {
-                                    loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
-                                }
-                                handler.post(() -> {
-                                    RLog.d(TAG, "Social onHsdpLoginSuccess : response :"
-                                            + rawResponse.toString());
-                                    HsdpUser hsdpUser = new HsdpUser(mContext);
-                                    if (hsdpUser.getHsdpUserRecord() != null) {
-                                        sendEncryptedUUIDToAnalytics(hsdpUserRecordV2);
-                                    }
-                                    ThreadUtils.postInMainThread(mContext, loginHandler::onLoginSuccess);
-                                    UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
-                                });
-                            }
-
-                            @Override
-                            public void onFileWriteFailure() {
-                                handleSocialNetworkFailure(loginHandler);
-
-                            }
-                        });
-
-                    } else {
-                        handler.post(() -> {
-                            RLog.d(TAG, "Social onHsdpLoginFailure :  responseCode : "
-                                    + dhpAuthenticationResponse1.responseCode +
-                                    " message : " + dhpAuthenticationResponse1.message);
-                            handleSocialConnectionFailed(loginHandler, Integer.parseInt(
-                                    dhpAuthenticationResponse1.responseCode), new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(dhpAuthenticationResponse1.responseCode)), dhpAuthenticationResponse1.message);
-                        });
-                    }
-                } catch (Exception e) {
-                    RLog.e(TAG, "login : exception " + e.getMessage());
-                    handleSocialNetworkFailure(loginHandler);
+                String responseCode = MapUtils.extract(dhpAuthenticationResponse1, "responseCode");
+                String message = MapUtils.extract(dhpAuthenticationResponse1, "responseMessage");
+                if (responseCode.equals(SUCCESS_CODE)) {
+                    onLoginSuccessResponseCode(loginHandler, handler, dhpAuthenticationResponse1);
+                } else {
+                    handler.post(() -> {
+                        RLog.d(TAG, "Social onHsdpLoginFailure :  responseCode : "
+                                + responseCode +
+                                " message : " + message);
+                        handleSocialConnectionFailed(loginHandler, Integer.parseInt(
+                                responseCode), new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(responseCode)), message);
+                    });
                 }
             }).start();
         } else {
-            handleSocialNetworkFailure(loginHandler);
+            handleNetworkFailure(loginHandler);
         }
 
+    }
+
+    private void onLoginSuccessResponseCode(LoginHandler loginHandler, Handler handler, Map<String, Object> dhpAuthenticationResponse1) {
+        final HsdpUserRecordV2 hsdpUserRecordV2 = new HsdpUserRecordV2();
+        hsdpUserRecordV2.parseHsdpUserInfo(dhpAuthenticationResponse1);
+        hsdpUserRecordV2.setRefreshSecret(Jump.getRefreshSecret());
+        HsdpUserInstance.getInstance().setHsdpUserRecordV2(hsdpUserRecordV2);
+        saveToDisk(new UserFileWriteListener() {
+            @Override
+            public void onFileWriteSuccess() {
+                if (loggingInterface != null) {
+                    loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
+                }
+                handler.post(() -> {
+                    RLog.d(TAG, "Social onHsdpLoginSuccess : response :"
+                            + dhpAuthenticationResponse1.toString());
+                    HsdpUser hsdpUser = new HsdpUser(mContext);
+                    if (hsdpUser.getHsdpUserRecord() != null) {
+                        sendEncryptedUUIDToAnalytics(hsdpUserRecordV2);
+                    }
+                    ThreadUtils.postInMainThread(mContext, loginHandler::onLoginSuccess);
+                    UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
+                });
+            }
+
+            @Override
+            public void onFileWriteFailure() {
+                handleNetworkFailure(loginHandler);
+
+            }
+        });
     }
 
     private void sendEncryptedUUIDToAnalytics(HsdpUserRecordV2 hsdpUserRecordV2) {
@@ -517,12 +458,12 @@ public class HsdpUser {
      *
      * @param loginHandler login handler
      */
-    private void handleSocialNetworkFailure(LoginHandler loginHandler) {
+    private void handleNetworkFailure(LoginHandler loginHandler) {
         UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
-        userRegistrationFailureInfo.setErrorCode(ErrorCodes.HSDP_SYSTEM_ERROR_403);
-        userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.HSDP, ErrorCodes.HSDP_SYSTEM_ERROR_403));
+        userRegistrationFailureInfo.setErrorCode(ErrorCodes.NO_NETWORK);
+        userRegistrationFailureInfo.setErrorDescription(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NO_NETWORK));
         userRegistrationFailureInfo.setErrorTagging(AppTagingConstants.NETWORK_ERROR);
-        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.NETWORK_ERROR);
         UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
         ThreadUtils.postInMainThread(mContext, () ->
                 loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));

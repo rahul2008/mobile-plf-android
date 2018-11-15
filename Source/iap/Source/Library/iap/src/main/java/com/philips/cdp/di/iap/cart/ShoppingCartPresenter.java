@@ -53,7 +53,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     private CartsEntity mCurrentCartData = null;
     private AddressController mAddressController;
-    private final static String  PROMOTION = "US-freeshipping";
+
 
     public ShoppingCartPresenter() {
     }
@@ -224,19 +224,19 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 //                                if (carts.getEntries().size() > 1) {
 //                                    deleteCart(context, iapCartListener);
 //                                } else {
-                                    int quantity = 0;
-                                    int totalItems = carts.getTotalItems();
-                                    List<EntriesEntity> entries = carts.getEntries();
-                                    if (totalItems != 0 && null != entries) {
-                                        for (int i = 0; i < entries.size(); i++) {
-                                            quantity = quantity + entries.get(i).getQuantity();
-                                        }
-                                    }
-                                    if (iapCartListener != null) {
-                                        iapCartListener.onSuccess(quantity);
+                                int quantity = 0;
+                                int totalItems = carts.getTotalItems();
+                                List<EntriesEntity> entries = carts.getEntries();
+                                if (totalItems != 0 && null != entries) {
+                                    for (int i = 0; i < entries.size(); i++) {
+                                        quantity = quantity + entries.get(i).getQuantity();
                                     }
                                 }
-                          //  }
+                                if (iapCartListener != null) {
+                                    iapCartListener.onSuccess(quantity);
+                                }
+                            }
+                            //  }
                         }
                     }
 
@@ -417,26 +417,30 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         }
         return products;
     }
+
     public void applyPromotion(CartsEntity cartsEntity) {
         final List<AppliedOrderPromotionEntity> appliedOrderPromotions = cartsEntity.getAppliedOrderPromotions();
-        if(appliedOrderPromotions!=null && appliedOrderPromotions.size()!=0){
-            for(int i=0;i< appliedOrderPromotions.size() ;i++ ) {
+        if (appliedOrderPromotions != null && appliedOrderPromotions.size() != 0) {
+            for (int i = 0; i < appliedOrderPromotions.size(); i++) {
                 final PromotionEntity promotion = appliedOrderPromotions.get(i).getPromotion();
-                if(promotion !=null && promotion.getCode().equalsIgnoreCase(PROMOTION)) {
+                if (promotion != null && isValidPromotion(promotion.getCode())) {
                     final String currentDeliveryCost = cartsEntity.getDeliveryMode().getDeliveryCost().getFormattedValue();
                     final String newDeliveryCost = currentDeliveryCost.replace(currentDeliveryCost.substring(1, (currentDeliveryCost.length())), " 0.0");
                     cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
                     Utility.setPromotionRunning(true);
                     break;
-                }
-                else {
+                } else {
                     Utility.setPromotionRunning(false);
                 }
 
             }
-        }else {
+        } else {
             Utility.setPromotionRunning(false);
         }
+    }
+
+    public boolean isValidPromotion(String code) {
+        return code.toLowerCase().contains("free") && code.toLowerCase().contains("ship");
     }
 
     @Override

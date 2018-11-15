@@ -108,19 +108,19 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.volley
     implementation deps.wechat
-
+    implementation deps.jackson_annotations
+    implementation deps.jackson_core
+    implementation deps.jackson_databind
     if (directdependencies) {
         implementation project(strings.uid.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.jmp.projectName)
-        implementation project(strings.hsdp.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uid
         implementation philipsdeps.uAppFwLib
         implementation project(strings.jmp.projectName)
-        implementation project(strings.hsdp.projectName)
     }
 
     testImplementation deps.junit
