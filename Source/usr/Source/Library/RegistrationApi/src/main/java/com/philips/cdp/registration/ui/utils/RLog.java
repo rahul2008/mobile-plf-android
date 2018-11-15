@@ -6,7 +6,6 @@ import android.support.annotation.VisibleForTesting;
 import com.janrain.android.engage.JREngage;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.dhpclient.util.HsdpLog;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 /**
@@ -29,7 +28,6 @@ public class RLog {
      * Enable logging
      */
     public static void enableLogging() {
-        HsdpLog.enableLogging();
         JREngage.isLoggingEnabled = Boolean.TRUE;
     }
 
@@ -37,7 +35,6 @@ public class RLog {
      * Disable logging
      */
     public static void disableLogging() {
-        HsdpLog.disableLogging();
         JREngage.isLoggingEnabled = Boolean.FALSE;
     }
 
