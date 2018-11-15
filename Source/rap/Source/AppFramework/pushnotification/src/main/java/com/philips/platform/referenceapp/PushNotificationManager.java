@@ -233,8 +233,10 @@ public class PushNotificationManager {
      */
     public void saveToken(String token, SecureStorageInterface.SecureStorageError secureStorageError) {
         PNLog.d(TAG, "Saving token in preferences");
-        SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
-        secureStorageInterface.storeValueForKey(PushNotificationConstants.FB_TOKEN, token, secureStorageError);
+        if (appInfra != null) {
+            SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
+            secureStorageInterface.storeValueForKey(PushNotificationConstants.FB_TOKEN, token, secureStorageError);
+        }
     }
 
     /**
