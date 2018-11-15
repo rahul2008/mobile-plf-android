@@ -95,15 +95,17 @@ public class ConnectionSuccessfulFragment extends BaseFragment implements
     }
 
     @Override
-    public void finishMicroApp() {
-        EwsResultListener resultListener = null;
+    public void finishMicroApp(EwsResultListener resultListener) {
 
-        try {
-            resultListener = ((EwsResultListener) getContext());
-        } catch (ClassCastException ignored) {
-        }
-
-        if (resultListener != null) {
+        if(resultListener == null) {
+            try {
+                resultListener = ((EwsResultListener) getContext());
+            } catch (ClassCastException ignored) {
+            }
+            if (resultListener != null) {
+                resultListener.onEWSFinishSuccess();
+            }
+        } else {
             resultListener.onEWSFinishSuccess();
         }
 
