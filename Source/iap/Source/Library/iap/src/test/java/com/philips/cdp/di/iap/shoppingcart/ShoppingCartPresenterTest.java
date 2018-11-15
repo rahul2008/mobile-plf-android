@@ -49,6 +49,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -893,4 +894,19 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 //        mShoppingCartPresenter.getRetailersInformation("HX8071/10");
 //
 //    }
+
+
+    @Test
+    public void isValidPromotion() throws Exception {
+        String[] expectedCodes = {"US-freeshipping","freeshipping_us","freeShiPping"};
+        for(String code:expectedCodes) {
+            boolean isValid = mShoppingCartPresenter.isValidPromotion(code);
+            Assert.assertEquals(true, isValid);
+        }
+        String[] invalidCodes = {"xyzabcd","invalid-us-ship-code"};
+        for(String code:invalidCodes) {
+            boolean isValid = mShoppingCartPresenter.isValidPromotion(code);
+            Assert.assertEquals(false, isValid);
+        }
+    }
 }
