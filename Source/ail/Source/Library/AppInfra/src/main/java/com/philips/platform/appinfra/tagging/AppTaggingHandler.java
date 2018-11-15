@@ -426,4 +426,8 @@ public class AppTaggingHandler {
         }
         return false;
     }
+
+    boolean isOptedOut() {
+        return isOptedOut;
+    }
 }

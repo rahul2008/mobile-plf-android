@@ -8,22 +8,24 @@ package com.philips.platform.appinfra.tagging;
 import android.content.Context;
 
 import com.adobe.mobile.Analytics;
+import com.adobe.mobile.Config;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -32,7 +34,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Ignore
 public class AppTaggingHandlerTest {
 
     private AppTaggingInterface mAIAppTaggingInterface;
@@ -45,6 +46,7 @@ public class AppTaggingHandlerTest {
     private AppTaggingHandler mAppTaggingHandlerMock;
     private AppInfra appInfraMock;
     private LoggingInterface loggingInterfaceMock;
+    private SecureStorageInterface secureStorageInterfaceMock;
 
     @Before
     public void setUp() throws Exception {
@@ -66,7 +68,7 @@ public class AppTaggingHandlerTest {
             }
         };
 
-        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).setSecureStorage(secureStorageInterfaceMock).build(context);
         configError = new AppConfigurationInterface
                 .AppConfigurationError();
 
@@ -90,6 +92,17 @@ public class AppTaggingHandlerTest {
         loggingInterfaceMock = mock(LoggingInterface.class);
         mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
                 "PRODUCTION", configError);
+    }
+
+
+    @Test
+    public void testSettingPrivacyStatus() {
+        mAppTaggingHandler.setPrivacyStatus(AppTaggingInterface.PrivacyStatus.OPTOUT);
+        assertTrue(mAppTaggingHandler.isOptedOut());
+        assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(Config.getPrivacyStatus()),AppTaggingInterface.PrivacyStatus.OPTOUT);
+        mAppTaggingHandler.setPrivacyStatus(AppTaggingInterface.PrivacyStatus.OPTIN);
+        assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(Config.getPrivacyStatus()),AppTaggingInterface.PrivacyStatus.OPTIN);
+        assertFalse(mAppTaggingHandler.isOptedOut());
     }
 
     @Test
