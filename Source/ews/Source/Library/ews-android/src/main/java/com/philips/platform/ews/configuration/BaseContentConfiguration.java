@@ -63,7 +63,9 @@ public class BaseContentConfiguration implements Parcelable {
      * @since  2018.5.0
      */
     public void setEwsResultListener(EwsResultListener ewsResultListener) {
-        this.ewsResultListener = ewsResultListener;
+        if(this.ewsResultListener == null){
+            this.ewsResultListener = ewsResultListener;
+        }
     }
 
     /**
