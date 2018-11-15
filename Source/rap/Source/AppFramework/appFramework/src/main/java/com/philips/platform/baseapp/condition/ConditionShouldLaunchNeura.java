@@ -2,7 +2,8 @@
 * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+*//*
+
 
 package com.philips.platform.baseapp.condition;
 
@@ -23,11 +24,13 @@ import com.philips.platform.pif.chi.datamodel.ConsentStatus;
 public class ConditionShouldLaunchNeura extends BaseCondition implements FetchConsentTypeStateCallback {
 
 
-    /**
+    */
+/**
      * Constructor of BaseCondition
      *
      * @since 1.1.0
-     */
+     *//*
+
 
     private boolean shouldLaunchNeura = true;
 
@@ -69,3 +72,4 @@ public class ConditionShouldLaunchNeura extends BaseCondition implements FetchCo
         return shouldLaunchNeura;
     }
 }
+*/
