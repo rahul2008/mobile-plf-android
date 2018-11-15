@@ -79,7 +79,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "home"
+                "nextState": "onBoarding_registration"
               }
             ]
           },
@@ -88,7 +88,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "home"
+                "nextState": "onBoarding_registration"
               }
             ]
           },
