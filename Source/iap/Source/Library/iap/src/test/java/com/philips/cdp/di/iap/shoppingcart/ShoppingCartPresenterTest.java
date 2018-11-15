@@ -887,6 +887,23 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         Mockito.verify(deliveryCostEntityMock).setFormattedValue("$ 0.0");
     }
 
+    @Test
+    public void setFreeDeliVeryIfPromotionCodeIsfreeshippingUS() throws Exception {
+        Mockito.when(promotionEntityMock.getCode()).thenReturn("freeshipping_us");
+        Mockito.when(appliedOrderPromotionEntityMock.getPromotion()).thenReturn(promotionEntityMock);
+        Mockito.when(appliedOrderPromotionEntityListMock.size()).thenReturn(1);
+        Mockito.when(appliedOrderPromotionEntityListMock.get(0)).thenReturn(appliedOrderPromotionEntityMock);
+        Mockito.when(cartsEntityMock.getAppliedOrderPromotions()).thenReturn(appliedOrderPromotionEntityListMock);
+        //cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
+        Mockito.when(deliveryCostEntityMock.getFormattedValue()).thenReturn("$ 4.4");
+        Mockito.when(deliveryModeMock.getDeliveryCost()).thenReturn(deliveryCostEntityMock);
+        Mockito.when(cartsEntityMock.getDeliveryMode()).thenReturn(deliveryModeMock);
+        mShoppingCartPresenter.applyPromotion(cartsEntityMock);
+
+        Mockito.verify(deliveryCostEntityMock).setFormattedValue("$ 0.0");
+    }
+
+
     //    @Test
 //    public void testGetRetailersInformationWithWebResultNull() throws JSONException {
 //        mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
