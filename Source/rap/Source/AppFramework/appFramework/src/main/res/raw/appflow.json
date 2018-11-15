@@ -72,59 +72,6 @@
         ]
       },
       {
-        "state": "neura",
-        "events": [
-          {
-            "eventId": "allow",
-            "nextStates": [
-              {
-                "condition": [
-                  "isLoggedIn"
-                ],
-                "nextState": "home"
-              },
-              {
-                "condition": [],
-                "nextState": "onBoarding_registration"
-              }
-            ]
-          },
-          {
-            "eventId": "mayBeLater",
-            "nextStates": [
-              {
-                "condition": [
-                  "isLoggedIn"
-                ],
-                "nextState": "home"
-              },
-              {
-                "condition": [],
-                "nextState": "onBoarding_registration"
-              }
-            ]
-          },
-          {
-            "eventId": "privacyPhilips",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "web_view"
-              }
-            ]
-          },
-          {
-            "eventId": "privacyNeura",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "web_view"
-              }
-            ]
-          }
-        ]
-      },
-      {
         "state": "cookies_consent",
         "events": [
           {
