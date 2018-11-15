@@ -129,7 +129,7 @@ public class COCOListPresenterTest {
         Assert.assertEquals(COCOListPresenter.TEST_UAPP_EVENT,cocoListPresenter.getEventState(COCOListPresenter.UAPP_FRAMEWORK_DEMO));
         Assert.assertEquals(COCOListPresenter.TEST_EWS,cocoListPresenter.getEventState(COCOListPresenter.EASY_WIFI_SETUP));
         Assert.assertEquals(COCOListPresenter.TEST_THS_DEMO_EVENT,cocoListPresenter.getEventState(COCOListPresenter.THS_DEMO_APP));
-        Assert.assertEquals(COCOListPresenter.TEST_NEURA_DEMO_EVENT,cocoListPresenter.getEventState(COCOListPresenter.NEURA_DEMO_APP));
+//        Assert.assertEquals(COCOListPresenter.TEST_NEURA_DEMO_EVENT,cocoListPresenter.getEventState(COCOListPresenter.NEURA_DEMO_APP));
     }
 
 }

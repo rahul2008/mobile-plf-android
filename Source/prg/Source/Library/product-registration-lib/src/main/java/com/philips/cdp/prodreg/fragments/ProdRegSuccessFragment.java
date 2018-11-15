@@ -60,7 +60,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_register_success, container, false);
-        ProdRegTagging.trackPage(AnalyticsConstants.PRODUCT_REGISTRATION_SUCCESS_SCREEN);
+        ProdRegTagging.trackPage(AnalyticsConstants.PRG_SUCCESS);
         Button button = view.findViewById(R.id.continueButton);
         imageBackground = view.findViewById(R.id.success_background_image);
         prSuccessConfigurableTextView = view.findViewById(R.id.prg_success_configurable_textView);
@@ -96,7 +96,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
                 if (!registeredProduct.getEmail()) {
                     prSuccessConfigurableTextView.setVisibility(View.GONE);
                 }
-                ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.PRODUCT_MODEL, registeredProduct.getCtn());
+                ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.PRODUCT_MODEL_KEY, registeredProduct.getCtn());
 
                 ProdRegUtil prodRegUtil = new ProdRegUtil();
                 String warntyPeriod = prodRegUtil.getDisplayDate(arguments.getString(ProdRegConstants.PROD_REG_WARRANTY));

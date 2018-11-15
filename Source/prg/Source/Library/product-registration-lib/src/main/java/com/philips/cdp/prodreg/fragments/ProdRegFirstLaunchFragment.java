@@ -72,7 +72,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                 getString(R.string.prod_reg_benefits_conf_message));
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
-        ProdRegTagging.trackPage(AnalyticsConstants.PRODUCT_REGISTRATION_OFFER_SCREEN);
+        ProdRegTagging.trackPage(AnalyticsConstants.PRG_BENEFITS);
         return view;
     }
 
