@@ -16,6 +16,7 @@ import android.support.v4.app.Fragment;
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.configuration.HappyFlowContentConfiguration;
+import com.philips.platform.ews.microapp.EwsResultListener;
 import com.philips.platform.ews.navigation.Navigator;
 import com.philips.platform.ews.permission.PermissionHandler;
 import com.philips.platform.ews.tagging.EWSTagger;
@@ -189,5 +190,9 @@ public class StartConnectWithDeviceViewModel {
 
     void setLocationPermissionFlowCallback(@Nullable LocationPermissionFlowCallback locationPermissionFlowCallback) {
         this.locationPermissionFlowCallback = locationPermissionFlowCallback;
+    }
+
+    protected EwsResultListener getEwsResultListener() {
+        return baseConfig.getEwsResultListener();
     }
 }
