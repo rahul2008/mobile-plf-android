@@ -65,4 +65,10 @@ public class EwsResultsTest {
         ewsActivitySpy.onEWSError(12345);
         verify(ewsActivitySpy, times(1)).setResult(eq(EwsResultListener.EWS_RESULT_FAILURE), any(Intent.class));
     }
+
+    @Test
+    public void ewsActivityWillPassResultBackToTheCallingActivityOnEWSCancelled() {
+        ewsActivitySpy.onEWSCancelled();
+        verify(ewsActivitySpy, times(1)).setResult(EwsResultListener.EWS_RESULT_CANCEL, null);
+    }
 }

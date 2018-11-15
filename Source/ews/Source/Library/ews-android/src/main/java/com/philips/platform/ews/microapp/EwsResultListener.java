@@ -14,6 +14,7 @@ public interface EwsResultListener {
 
     int EWS_RESULT_SUCCESS = 10000;
     int EWS_RESULT_FAILURE = 20000;
+    int EWS_RESULT_CANCEL = 30000;
 
     String EWS_RESULT_FAILURE_DATA = "ewsresultfailuredata";
 

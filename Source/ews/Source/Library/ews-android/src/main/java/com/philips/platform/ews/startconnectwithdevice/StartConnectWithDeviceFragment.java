@@ -90,7 +90,15 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
     }
 
     public void performEWSCancel(EwsResultListener ewsResultListener) {
-        if(ewsResultListener != null) {
+        if(ewsResultListener == null) {
+            try {
+                ewsResultListener = ((EwsResultListener) getContext());
+            } catch (ClassCastException ignored) {
+            }
+            if (ewsResultListener != null) {
+                ewsResultListener.onEWSCancelled();
+            }
+        } else {
             ewsResultListener.onEWSCancelled();
         }
     }

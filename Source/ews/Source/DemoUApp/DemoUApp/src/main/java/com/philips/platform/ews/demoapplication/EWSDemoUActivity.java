@@ -155,6 +155,9 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
                     int errorCode = data.getIntExtra(EWS_RESULT_FAILURE_DATA, -1);
                     onEWSError(errorCode);
                     break;
+                case EWS_RESULT_CANCEL:
+                    onEWSCancelled();
+                    break;
             }
         }
     }

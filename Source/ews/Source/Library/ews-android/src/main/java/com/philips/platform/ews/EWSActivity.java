@@ -198,6 +198,7 @@ public class EWSActivity extends DynamicThemeApplyingActivity implements EWSActi
 
     @Override
     public void onEWSCancelled() {
+        setResult(EWS_RESULT_CANCEL, null);
         finish();
     }
 }

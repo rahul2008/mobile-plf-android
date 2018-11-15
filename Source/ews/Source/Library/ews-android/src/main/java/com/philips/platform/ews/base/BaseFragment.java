@@ -122,6 +122,13 @@ public abstract class BaseFragment extends Fragment implements BackEventListener
             public void onClick(View v) {
                 EwsResultListener ewsResultListener = ewsConfigurationModule.provideBaseContentConfiguration().getEwsResultListener();
                 if(ewsResultListener == null) {
+                    try {
+                        ewsResultListener = ((EwsResultListener) getContext());
+                    } catch (ClassCastException ignored) {
+                    }
+                    if (ewsResultListener != null) {
+                        ewsResultListener.onEWSCancelled();
+                    }
                     getActivity().finish();
                 } else {
                     ewsResultListener.onEWSCancelled();
