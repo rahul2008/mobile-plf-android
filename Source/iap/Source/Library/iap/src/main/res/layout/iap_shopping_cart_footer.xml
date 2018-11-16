@@ -104,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="$0.00"
+                    android:visibility="gone"
                     android:textSize="@dimen/iap_text_size_16sp" />
             </LinearLayout>
 
