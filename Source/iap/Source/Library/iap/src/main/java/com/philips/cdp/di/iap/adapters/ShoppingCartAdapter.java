@@ -213,17 +213,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String deliveryMethod = data.getDeliveryMode().getName();
                     String deliveryModeDescription=data.getDeliveryMode().getDescription();
 
-                    if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
+                    if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase(" 0.0")) {
                         mIsFreeDelivery = true;
                     }
 
                     if(Utility.isPromotionRunning())
                     {
                         shoppingCartFooter.mDeliveryModeDescription.setText(R.string.iap_delivery_promotion);
-                    }
-                    else
-                    {
-                        shoppingCartFooter.mDeliveryModeDescription.setText(deliveryModeDescription);
                     }
 
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
@@ -236,7 +232,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     } else {
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
-                   // shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
+                    shoppingCartFooter.mDeliveryModeFree.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
@@ -431,7 +427,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
-        Label mDeliveryDescriprion,total_discount;
+        Label mDeliveryModeFree,total_discount;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -446,6 +442,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             mDeliveryPrice = itemView.findViewById(R.id.delivery_price);
             mDeliveryModeDescription = itemView.findViewById(R.id.iap_delivery_mode_description);
+            mDeliveryModeFree = itemView.findViewById(R.id.iap_delivery_mode_free);
             mVatValue = itemView.findViewById(R.id.including_tax_val);
             mVatInclusiveValue = itemView.findViewById(R.id.vat_inclusive);
             mTotalItems = itemView.findViewById(R.id.total_label);
