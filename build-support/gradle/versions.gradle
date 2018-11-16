@@ -99,7 +99,7 @@ ext.philipsdeps = [
 ]
 
 ext.repos = [
-        base: 'http://artifactory-ehv.ta.philips.com:8082/artifactory',
+        base: 'https://artifactory-ehv.ta.philips.com/artifactory',
 ]
 
 ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
