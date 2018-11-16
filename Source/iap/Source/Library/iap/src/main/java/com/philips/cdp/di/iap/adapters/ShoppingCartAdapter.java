@@ -374,8 +374,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         else
         {
             shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
-            //shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
-            //shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
         }
     }
 
