@@ -292,6 +292,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onLoadFinished(ArrayList<?> data) {
+        hideProgressBar();
         if (data!=null && data instanceof ArrayList) {
             hideProgressBar();
             mData = (ArrayList<ShoppingCartData>) data;
@@ -367,6 +368,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onSetDeliveryMode(Message msg) {
+        hideProgressBar();
         updateCartDetails(mShoppingCartAPI);
     }
 

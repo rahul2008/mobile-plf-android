@@ -140,8 +140,19 @@
                     android:text="@string/iap_delivery_ups_parcel"
                     android:textSize="@dimen/iap_text_size_16sp"
                     android:textStyle="bold" />
+
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/iap_delivery_mode_description"
+                    style="@style/iapCentralesansBookFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/iap_margin_10dp"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:textSize="@dimen/iap_text_size_12"
+                    />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/iap_delivery_mode_free"
                     style="@style/iapCentralesansBookFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -157,8 +168,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="$0.00"
+                    android:visibility="gone"
                     android:textSize="@dimen/iap_text_size_16sp" />
             </LinearLayout>
+
+
+
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/right_arrow"
