@@ -558,6 +558,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleUiState();
         uiEnableState(isOnline);
         observeLoginButton();
+        if (!isOnline) {
+            RLog.d(TAG, " URNotification onNetWorkStateReceived");
+            showNotificationBarOnNetworkNotAvailable();
+        } else hideNotificationBarView();
     }
 
 
@@ -566,6 +570,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mode = getActivity().getWindow().getAttributes().softInputMode;
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onResume();
+        onNetWorkStateReceived(networkUtility.isNetworkAvailable());
     }
 
 
