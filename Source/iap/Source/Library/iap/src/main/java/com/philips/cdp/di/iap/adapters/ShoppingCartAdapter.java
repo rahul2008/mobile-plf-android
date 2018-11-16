@@ -213,7 +213,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String deliveryMethod = data.getDeliveryMode().getName();
                     String deliveryModeDescription=data.getDeliveryMode().getDescription();
 
-                    if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase(" 0.00")) {
+                    if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
 
