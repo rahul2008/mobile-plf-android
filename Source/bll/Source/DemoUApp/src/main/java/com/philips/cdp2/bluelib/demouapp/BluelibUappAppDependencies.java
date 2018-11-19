@@ -8,8 +8,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.pluginreferenceboard.DeviceDefinitionInfoReferenceBoard;
+import com.philips.cdp2.bluelib.demouapp.devicedefs.DeviceDefinitionInfoAurora;
 import com.philips.pins.shinelib.SHNCentral;
-import com.philips.pins.shinelib.SHNDeviceDefinitionInfo;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.tagging.AppInfraTagger;
 import com.philips.pins.shinelib.tagging.SHNTagger;
@@ -34,9 +34,8 @@ public class BluelibUappAppDependencies extends UappDependencies {
 
         try {
             shnCentral = builder.create();
-
-            SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = new DeviceDefinitionInfoReferenceBoard();
-            shnCentral.registerDeviceDefinition(shnDeviceDefinitionInfo);
+            shnCentral.registerDeviceDefinition(new DeviceDefinitionInfoReferenceBoard());
+            shnCentral.registerDeviceDefinition(new DeviceDefinitionInfoAurora());
         } catch (SHNBluetoothHardwareUnavailableException e) {
             SHNLogger.e(TAG, "Error obtaining BlueLib instance: " + e.getMessage());
         }

@@ -56,8 +56,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         OnSetDeliveryModeListener,AlertListener,VoucherController.VoucherListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
-    private Context mContext;
-
     private Button mCheckoutBtn;
     private Button mContinuesBtn;
     private RelativeLayout mParentLayout;
@@ -79,13 +77,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         return fragment;
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -101,7 +92,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
         EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
 
-        mVoucherController = new VoucherController(mContext, this);
+        mVoucherController = new VoucherController(getActivity(), this);
 
         if(Utility.getVoucherCode()!=null){
            voucherCode=Utility.getVoucherCode();
@@ -120,8 +111,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mContinuesBtn.setOnClickListener(this);
         mParentLayout = rootView.findViewById(R.id.parent_layout);
         mShoppingCartAPI = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(mContext, this);
-        mAddressController = new AddressController(mContext, this);
+                .getShoppingCartPresenter(getActivity(), this);
+        mAddressController = new AddressController(getActivity(), this);
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
 
         return rootView;
@@ -228,7 +219,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
                     AddressSelectionFragment.TAG, true);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
-            Utility.showActionDialog(mContext, getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
+            Utility.showActionDialog(getActivity(), getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);
         } else if (event.equalsIgnoreCase(IAPConstant.IAP_APPLY_VOUCHER)) {
             VoucherFragment voucherFragment = new VoucherFragment();
@@ -261,7 +252,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onGetAddress(Message msg) {
         hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getActivity());
         } else {
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)
@@ -301,6 +292,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onLoadFinished(ArrayList<?> data) {
+        hideProgressBar();
         if (data!=null && data instanceof ArrayList) {
             hideProgressBar();
             mData = (ArrayList<ShoppingCartData>) data;
@@ -312,17 +304,17 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if(mData!=null && mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
 
             onOutOfStock(false);
-            mAdapter = new ShoppingCartAdapter(mContext, mData, this);
-            mAdapter.setCountArrow(mContext, true);
+            mAdapter = new ShoppingCartAdapter(getActivity(), mData, this);
+            mAdapter.setCountArrow(getActivity(), true);
             if (mData.get(0) != null && mData.get(0).getDeliveryItemsQuantity() > 0) {
                 updateCount(mData.get(0).getDeliveryItemsQuantity());
             }
             mRecyclerView.setAdapter(mAdapter);
             mAdapter.tagProducts();
 
-            String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
+            String numberOfProducts = getActivity().getResources().getString(R.string.iap_number_of_products);
             if (mData.size() == 1) {
-                numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_product);
+                numberOfProducts = getActivity().getResources().getString(R.string.iap_number_of_product);
             }
             numberOfProducts = String.format(numberOfProducts, mData.size());
             mNumberOfProducts.setText(numberOfProducts);
@@ -343,10 +335,10 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if (!isNetworkConnected()) return;
 
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getActivity());
         } else {
-            NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
-                    mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+            NetworkUtility.getInstance().showErrorDialog(getActivity(), getFragmentManager(), getActivity().getString(R.string.iap_ok),
+                    getActivity().getString(R.string.iap_server_error), getActivity().getString(R.string.iap_something_went_wrong));
         }
     }
 
@@ -376,6 +368,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onSetDeliveryMode(Message msg) {
+        hideProgressBar();
         updateCartDetails(mShoppingCartAPI);
     }
 

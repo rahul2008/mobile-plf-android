@@ -155,6 +155,9 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
                     int errorCode = data.getIntExtra(EWS_RESULT_FAILURE_DATA, -1);
                     onEWSError(errorCode);
                     break;
+                case EWS_RESULT_CANCEL:
+                    onEWSCancelled();
+                    break;
             }
         }
     }
@@ -321,5 +324,10 @@ public class EWSDemoUActivity extends UIDActivity implements EWSActionBarListene
     @Override
     public void onEWSError(int errorCode) {
         Toast.makeText(this, "EWS failed with error code:" + errorCode, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onEWSCancelled() {
+        Toast.makeText(this, "EWS cancelled", Toast.LENGTH_LONG).show();
     }
 }

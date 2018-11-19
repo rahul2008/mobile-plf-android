@@ -16,7 +16,6 @@ import com.philips.platform.appframework.stateimpl.DemoDCCState;
 import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
-import com.philips.platform.appframework.stateimpl.DemoNeuraState;
 import com.philips.platform.appframework.stateimpl.DemoPRGState;
 import com.philips.platform.appframework.stateimpl.DemoThsState;
 import com.philips.platform.appframework.stateimpl.DemoUFWState;
@@ -28,7 +27,6 @@ import com.philips.platform.baseapp.condition.ConditionAppLaunch;
 import com.philips.platform.baseapp.condition.ConditionCookiesConsent;
 import com.philips.platform.baseapp.condition.ConditionIsDonePressed;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
-import com.philips.platform.baseapp.condition.ConditionShouldLaunchNeura;
 import com.philips.platform.baseapp.screens.cookiesconsent.CookiesConsentState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesDeepLinkingState;
 import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
@@ -59,7 +57,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
         uiStateMap.put(AppStates.TELEHEALTHSERVICESDEMO, new DemoThsState());
         uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
-        uiStateMap.put(AppStates.TESTNEURADEMO, new DemoNeuraState());
+//        uiStateMap.put(AppStates.TESTNEURADEMO, new DemoNeuraState());
         uiStateMap.put(AppStates.COOKIES_CONSENT, new CookiesConsentState());
 
     }
@@ -68,7 +66,7 @@ public class FlowManager extends BaseFlowManager {
         baseConditionMap.put(AppConditions.IS_LOGGED_IN, new ConditionIsLoggedIn());
         baseConditionMap.put(AppConditions.IS_DONE_PRESSED, new ConditionIsDonePressed());
         baseConditionMap.put(AppConditions.CONDITION_APP_LAUNCH, new ConditionAppLaunch());
-        baseConditionMap.put(AppConditions.SHOULD_LAUNCH_NEURA, new ConditionShouldLaunchNeura());
+//        baseConditionMap.put(AppConditions.SHOULD_LAUNCH_NEURA, new ConditionShouldLaunchNeura());
         baseConditionMap.put(AppConditions.LAUNCH_COOKIES_CONSENT, new ConditionCookiesConsent());
     }
 

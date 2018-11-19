@@ -5,4 +5,7 @@
             <certificates src="user" />
         </trust-anchors>
     </base-config>
+    <!--<domain-config cleartextTrafficPermitted="true">-->
+        <!--<domain includeSubdomains="true">philips.sc.omtrdc.net</domain>-->
+    <!--</domain-config>-->
 </network-security-config>

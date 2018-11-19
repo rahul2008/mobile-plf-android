@@ -49,6 +49,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -883,8 +884,25 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
         Mockito.when(cartsEntityMock.getDeliveryMode()).thenReturn(deliveryModeMock);
         mShoppingCartPresenter.applyPromotion(cartsEntityMock);
 
-        Mockito.verify(deliveryCostEntityMock).setFormattedValue("$ 0.0");
+       // Mockito.verify(deliveryCostEntityMock).setFormattedValue("$ 0.0");
     }
+
+    @Test
+    public void setFreeDeliVeryIfPromotionCodeIsfreeshippingUS() throws Exception {
+        Mockito.when(promotionEntityMock.getCode()).thenReturn("freeshipping_us");
+        Mockito.when(appliedOrderPromotionEntityMock.getPromotion()).thenReturn(promotionEntityMock);
+        Mockito.when(appliedOrderPromotionEntityListMock.size()).thenReturn(1);
+        Mockito.when(appliedOrderPromotionEntityListMock.get(0)).thenReturn(appliedOrderPromotionEntityMock);
+        Mockito.when(cartsEntityMock.getAppliedOrderPromotions()).thenReturn(appliedOrderPromotionEntityListMock);
+        //cartsEntity.getDeliveryMode().getDeliveryCost().setFormattedValue(newDeliveryCost);
+        Mockito.when(deliveryCostEntityMock.getFormattedValue()).thenReturn("$ 4.4");
+        Mockito.when(deliveryModeMock.getDeliveryCost()).thenReturn(deliveryCostEntityMock);
+        Mockito.when(cartsEntityMock.getDeliveryMode()).thenReturn(deliveryModeMock);
+        mShoppingCartPresenter.applyPromotion(cartsEntityMock);
+
+       // Mockito.verify(deliveryCostEntityMock).setFormattedValue("$ 0.0");
+    }
+
 
     //    @Test
 //    public void testGetRetailersInformationWithWebResultNull() throws JSONException {
@@ -893,4 +911,19 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
 //        mShoppingCartPresenter.getRetailersInformation("HX8071/10");
 //
 //    }
+
+
+    @Test
+    public void isValidPromotion() throws Exception {
+        String[] expectedCodes = {"US-freeshipping","freeshipping_us","freeShiPping"};
+        for(String code:expectedCodes) {
+            boolean isValid = mShoppingCartPresenter.isValidPromotion(code);
+            Assert.assertEquals(true, isValid);
+        }
+        String[] invalidCodes = {"xyzabcd","invalid-us-ship-code"};
+        for(String code:invalidCodes) {
+            boolean isValid = mShoppingCartPresenter.isValidPromotion(code);
+            Assert.assertEquals(false, isValid);
+        }
+    }
 }

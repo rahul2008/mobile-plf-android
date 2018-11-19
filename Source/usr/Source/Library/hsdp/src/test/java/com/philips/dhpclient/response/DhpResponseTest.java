@@ -5,6 +5,8 @@
 
 package com.philips.dhpclient.response;
 
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by 310243576 on 8/24/2016.
  */
-public class DhpResponseTest {
+public class DhpResponseTest extends TestCase {
 
     private DhpResponse mDhpResponse;
     private DhpResponse mDhpResponse1;

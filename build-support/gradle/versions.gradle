@@ -79,7 +79,6 @@ ext.philipsdeps = [
         jump                        : [group: 'com.philips.cdp', name: strings.jmp.artifactName, version: platformversionsuffix, changing: true],
         mya                         : [group: 'com.philips.cdp', name: strings.mya.artifactName, version: platformversionsuffix, changing: true],
         mya_chi                     : [group: 'com.philips.cdp', name: 'mya-chi', version: platformversionsuffix, changing: true],
-        NeuraUApp                   : [group: 'com.philips.cdp', name: strings.neurauapp.artifactName, version: platformversionsuffix, changing: true],
         pif                         : [group: 'com.philips.cdp', name: strings.pif.artifactName, version: platformversionsuffix, changing: true],
         pluginreferenceboard        : [group: 'com.philips.cdp', name: strings.prf.artifactName, version: platformversionsuffix, changing: true],
         productselection            : [group: 'com.philips.cdp', name: strings.pse.artifactName, version: platformversionsuffix, changing: true],
@@ -172,7 +171,6 @@ ext.deps = [
                 supportv4    : "com.android.support:support-v4:${ext.versions.support}",
                 supportcompat: "com.android.support:support-compat:${ext.versions.support}"
         ],
-        theneura                      : 'com.theneura:android-sdk:5.3.0',
         uiautomator                   : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3',
         volley                        : 'com.android.volley:volley:1.1.1',
         wechat                        : 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4', // Held at 5.1.4 since 5.1.6 introduces an API breaker

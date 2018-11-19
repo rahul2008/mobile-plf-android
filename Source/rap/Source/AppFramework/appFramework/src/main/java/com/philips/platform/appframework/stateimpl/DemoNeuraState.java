@@ -1,3 +1,4 @@
+/*
 package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
@@ -41,3 +42,4 @@ public class DemoNeuraState extends DemoBaseState {
 
     }
 }
+*/

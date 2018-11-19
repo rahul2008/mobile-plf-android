@@ -7,6 +7,7 @@ package com.philips.platform.ews.connectionsuccessful;
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.common.callbacks.FragmentCallback;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
+import com.philips.platform.ews.microapp.EwsResultListener;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.util.StringProvider;
 import com.philips.platform.ews.wifi.WiFiUtil;
@@ -59,7 +60,7 @@ public class ConnectionSuccessfulViewModelTest {
     public void itShouldFinishMicroAppWhenOnStartClicked() throws Exception {
         subject.onStartClicked();
 
-        verify(mockFragmentCallback).finishMicroApp();
+        verify(mockFragmentCallback).finishMicroApp(null);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class ConnectionSuccessfulViewModelTest {
 
         subject.onStartClicked();
 
-        verify(mockFragmentCallback, never()).finishMicroApp();
+        verify(mockFragmentCallback, never()).finishMicroApp(null);
     }
 
     @Test
