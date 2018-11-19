@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.philips.platform.ews.base.BaseFragment;
 import com.philips.platform.ews.configuration.BaseContentConfiguration;
 import com.philips.platform.ews.databinding.FragmentStartConnectWithDeviceBinding;
 import com.philips.platform.ews.dialog.EWSAlertDialogFragment;
+import com.philips.platform.ews.microapp.EwsResultListener;
 import com.philips.platform.ews.tagging.EWSTagger;
 import com.philips.platform.ews.tagging.Page;
 import com.philips.platform.ews.util.DialogUtils;
@@ -39,6 +41,7 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
     private StartConnectWithDeviceViewModel viewModel;
     private static final int LOCATION_PERMISSIONS_REQUEST_CODE = 10;
     private boolean pendingPermissionResultRequest;
+    private EwsResultListener ewsResultListener;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -50,6 +53,18 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
         viewModel.setLocationPermissionFlowCallback(this);
         viewModel.setFragment(this);
         binding.setViewModel(viewModel);
+        binding.getRoot().setFocusableInTouchMode(true);
+        binding.getRoot().requestFocus();
+        binding.getRoot().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK) {
+                    ewsResultListener = viewModel.getEwsResultListener();
+                    performEWSCancel(ewsResultListener);
+                }
+                return false;
+            }
+        });
         return binding.getRoot();
     }
 
@@ -71,6 +86,20 @@ public class StartConnectWithDeviceFragment extends BaseFragment implements Star
         if (pendingPermissionResultRequest) {
             pendingPermissionResultRequest = false;
             viewModel.onGettingStartedButtonClicked();
+        }
+    }
+
+    public void performEWSCancel(EwsResultListener ewsResultListener) {
+        if(ewsResultListener == null) {
+            try {
+                ewsResultListener = ((EwsResultListener) getContext());
+            } catch (ClassCastException ignored) {
+            }
+            if (ewsResultListener != null) {
+                ewsResultListener.onEWSCancelled();
+            }
+        } else {
+            ewsResultListener.onEWSCancelled();
         }
     }
 

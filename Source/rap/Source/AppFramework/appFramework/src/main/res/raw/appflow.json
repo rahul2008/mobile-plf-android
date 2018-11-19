@@ -79,18 +79,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextStates": [
-                  {
-                    "condition": [
-                      "isLoggedIn"
-                    ],
-                    "nextState": "home"
-                  },
-                  {
-                    "condition": [],
-                    "nextState": "onBoarding_registration"
-                  }
-                ]
+                "nextState": "onBoarding_registration"
               }
             ]
           },
@@ -99,18 +88,7 @@
             "nextStates": [
               {
                 "condition": [],
-                "nextStates": [
-                  {
-                    "condition": [
-                      "isLoggedIn"
-                    ],
-                    "nextState": "home"
-                  },
-                  {
-                    "condition": [],
-                    "nextState": "onBoarding_registration"
-                  }
-                ]
+                "nextState": "onBoarding_registration"
               }
             ]
           },

@@ -219,7 +219,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     if(Utility.isPromotionRunning())
                     {
-                        shoppingCartFooter.mDeliveryModeDescription.setText(R.string.iap_delivery_promotion);
+                        shoppingCartFooter.mDeliveryModeFree.setText(R.string.iap_delivery_promotion);
                     }
 
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
@@ -232,7 +232,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     } else {
                         shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
-                    shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);
+                    shoppingCartFooter.mDeliveryModeDescription.setText(deliveryModeDescription);
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
 
@@ -374,8 +374,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         else
         {
             shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
-            shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
-            shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
         }
     }
 
@@ -427,7 +425,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
-        Label mDeliveryDescriprion,total_discount;
+        Label mDeliveryModeFree,total_discount;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -442,14 +440,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             mDeliveryPrice = itemView.findViewById(R.id.delivery_price);
             mDeliveryModeDescription = itemView.findViewById(R.id.iap_delivery_mode_description);
+            mDeliveryModeFree = itemView.findViewById(R.id.iap_delivery_mode_free);
             mVatValue = itemView.findViewById(R.id.including_tax_val);
             mVatInclusiveValue = itemView.findViewById(R.id.vat_inclusive);
             mTotalItems = itemView.findViewById(R.id.total_label);
             mTotalCost = itemView.findViewById(R.id.total_cost_val);
             mDeliveryVia = itemView.findViewById(R.id.delivery_via_ups);
-            mDeliveryDescriprion = itemView.findViewById(R.id.iap_delivery_mode_description);
             mDeliveryUpsVal = itemView.findViewById(R.id.delivery_ups_val);
-            mDeliveryDescriprion = itemView.findViewById(R.id.iap_delivery_mode_description);
             mExtraOption = itemView.findViewById(R.id.extra_option);
             mEditIcon = itemView.findViewById(R.id.edit_icon);
             mDeliveryTitle = itemView.findViewById(R.id.delivery_ups_title);
