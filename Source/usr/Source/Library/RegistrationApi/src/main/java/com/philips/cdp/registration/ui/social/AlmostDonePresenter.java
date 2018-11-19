@@ -20,12 +20,16 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
+import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.FIREBASE_SUCCESSFUL_REGISTRATION_DONE;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_LOGIN;
 
 public class AlmostDonePresenter implements NetworkStateListener, SocialLoginProviderHandler, UpdateUserDetailsHandler {
 
@@ -121,7 +125,9 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     @Override
     public void onLoginSuccess() {
         AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SUCCESS_LOGIN);
+                SUCCESS_LOGIN);
+        ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
+        abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
         AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
                 RegistrationHelper.getInstance().getCountryCode());
     }
