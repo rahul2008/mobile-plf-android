@@ -106,7 +106,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     //product selection screen. Which is not considered in for testing by Madan's team.
     public void updateDataModel() {
         RALog.d(TAG," updateDataModel called ");
-        String[] ctnList = new String[]{CTNUtil.getCtnForCountry(getApplicationContext().getAppInfra().getServiceDiscovery().getHomeCountry())};
+        String[] ctnList = CTNUtil.getCtnForCountry(getApplicationContext().getAppInfra().getServiceDiscovery().getHomeCountry());
         setCtnList(ctnList);
     }
 
