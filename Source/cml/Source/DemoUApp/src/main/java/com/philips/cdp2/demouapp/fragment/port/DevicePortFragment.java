@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.demouapp.fragment.port;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -101,7 +100,7 @@ public class DevicePortFragment extends Fragment {
         Button setButton = rootview.findViewById(R.id.cml_btn_set);
         Button getButton = rootview.findViewById(R.id.cml_btn_get);
 
-        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchDeviceSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         setButton.setOnClickListener(
                 new View.OnClickListener() {

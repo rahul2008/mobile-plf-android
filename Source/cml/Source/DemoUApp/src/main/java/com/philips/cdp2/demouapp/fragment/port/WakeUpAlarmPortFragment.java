@@ -49,7 +49,7 @@ public class WakeUpAlarmPortFragment extends Fragment {
 
         enableAlarmSwitch = rootview.findViewById(R.id.cml_switchWakeup);
 
-        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchWakeupSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         return rootview;
     }
