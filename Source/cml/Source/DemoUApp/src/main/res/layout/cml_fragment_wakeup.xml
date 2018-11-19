@@ -22,7 +22,7 @@
             android:text="@string/cml_wakeup_port" />
 
         <Switch
-            android:id="@+id/cml_switchSubscription"
+            android:id="@+id/cml_switchWakeupSubscription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
