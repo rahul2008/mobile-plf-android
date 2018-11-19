@@ -67,6 +67,8 @@ public class AppTaggingHandler {
         String value = mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError());
         if (!TextUtils.isEmpty(value))
             isOptedOut = Boolean.parseBoolean(value);
+        if (Config.getPrivacyStatus() != MOBILE_PRIVACY_STATUS_UNKNOWN)
+            Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
     }
 
     @NonNull
