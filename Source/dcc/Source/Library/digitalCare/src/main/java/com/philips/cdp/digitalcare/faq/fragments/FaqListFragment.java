@@ -177,10 +177,12 @@ public class FaqListFragment extends DigitalCareBaseFragment {
             }
             makeTextViewHyperlink(showAllOrLess);
         } else if (id == R.id.icon_button) {
-            String assetUrl = (String) view.getTag();
-            FaqDetailedFragment faqDetailedFragment = new FaqDetailedFragment();
-            faqDetailedFragment.setFaqWebUrl(assetUrl);
-            showFragment(faqDetailedFragment);
+            if(isConnectionAvailable()) {
+                String assetUrl = (String) view.getTag();
+                FaqDetailedFragment faqDetailedFragment = new FaqDetailedFragment();
+                faqDetailedFragment.setFaqWebUrl(assetUrl);
+                showFragment(faqDetailedFragment);
+            }
         }
     }
 
