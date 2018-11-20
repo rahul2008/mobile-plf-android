@@ -401,7 +401,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @OnClick(R2.id.usr_almostDoneScreen_continue_button)
     public void continueButtonClicked() {
-        RLog.i(TAG,TAG+".continueButton Clicked ");
+        RLog.i(TAG, TAG + ".continueButton Clicked ");
 
         loginIdEditText.clearFocus();
 
@@ -410,9 +410,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         }
         if (mBundle == null) {
             almostDonePresenter.handleTraditionalTermsAndCondition();
-            return;
+        } else {
+            almostDonePresenter.handleSocialTermsAndCondition();
         }
-        almostDonePresenter.handleSocialTermsAndCondition();
     }
 
     @Override

@@ -164,9 +164,7 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
     private void completeSocialProviderLogin(DIUserProfile diUserProfile,
                                              SocialLoginProviderHandler socialLoginProviderHandler, String socialRegistrationToken) {
         RLog.d(TAG, "completeSocialProviderLogin : is called");
-        String familyName = "";
         if (diUserProfile != null) {
-            familyName = diUserProfile.getFamilyName();
             JSONObject newUser = new JSONObject();
             try {
                 // PrimaryAddress
@@ -186,6 +184,7 @@ public class RegisterSocial implements SocialLoginProviderHandler, Jump.SignInRe
                         .put("primaryAddress",primaryAddressObject);
                 new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
+                RLog.e(TAG,"completeSocialProviderLogin : JSONException occurred" );
             }
 
             registerNewUser(newUser, socialRegistrationToken);

@@ -10,10 +10,12 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 public class HSDPLoginService {
     private static final String TAG = "HSDPLoginService";
@@ -70,6 +72,10 @@ public class HSDPLoginService {
             public void onLoginSuccess() {
                 loginHandler.onLoginSuccess();
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
+                if (loginHandler instanceof SocialLoginProviderHandler) {
+                    ThreadUtils.postInMainThread(mContext, ((SocialLoginProviderHandler) loginHandler)::onContinueSocialProviderLoginSuccess);
+
+                }
                 RLog.d(TAG, "onSuccess : if : SocialLoginProviderHandler : onLoginSuccess : is called with :" + mUser.getUserLoginState());
             }
 
