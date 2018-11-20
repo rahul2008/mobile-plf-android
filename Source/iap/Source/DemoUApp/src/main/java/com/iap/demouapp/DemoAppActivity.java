@@ -200,7 +200,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStart() {
         super.onStart();
-        mShoppingCart.setOnClickListener(null);
+        mShoppingCart.setOnClickListener(this);
     }
 
     private void onResumeRetailer(){
@@ -322,7 +322,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 // showFragment(ShoppingCartFragment.TAG);
-                mShoppingCart.setOnClickListener(null);
+               // mShoppingCart.setOnClickListener(null);
                 launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
             }
         });
@@ -366,7 +366,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(final View view) {
         if (view == mShoppingCart) {
-            mShoppingCart.setOnClickListener(null);
+            //mShoppingCart.setOnClickListener(null);
             launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
