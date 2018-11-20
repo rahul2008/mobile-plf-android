@@ -463,7 +463,7 @@ def DeployingLeakCanaryArtifacts() {
         cd $BASE_PATH/Source/rap/Source/AppFramework/appFramework/build/outputs/apk
         PUBLISH_APK=false
         APK_NAME="RefApp_LeakCanary_"${TIMESTAMP}".apk"
-        ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+        ARTIFACTORY_URL="https://artifactory-ehv.ta.philips.com/artifactory"
         ARTIFACTORY_REPO="unknown"
 
         if [ '''+MasterBranch+''' = true ]
@@ -510,7 +510,7 @@ def DeployingConnectedTestsLogs() {
 
         cd $BASE_PATH
 
-        ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+        ARTIFACTORY_URL="https://artifactory-ehv.ta.philips.com/artifactory"
         ARTIFACTORY_REPO="unknown"
 
         if [ '''+MasterBranch+''' = true ]
@@ -552,7 +552,7 @@ def DeployingJavaDocs() {
 
         cd $BASE_PATH
 
-        ARTIFACTORY_URL="http://artifactory-ehv.ta.philips.com:8082/artifactory"
+        ARTIFACTORY_URL="https://artifactory-ehv.ta.philips.com/artifactory"
         ARTIFACTORY_REPO="unknown"
 
         if [ '''+MasterBranch+''' = true ]
