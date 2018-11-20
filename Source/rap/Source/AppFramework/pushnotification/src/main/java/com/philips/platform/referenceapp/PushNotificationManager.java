@@ -245,9 +245,11 @@ public class PushNotificationManager {
      * @param state
      */
     public void saveTokenRegistrationState(SecureStorageInterface.SecureStorageError secureStorageError, boolean state) {
-        PNLog.d(TAG, "Saving token registration state in preferences");
-        SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
-        secureStorageInterface.storeValueForKey(PushNotificationConstants.IS_TOKEN_REGISTERED, String.valueOf(state), secureStorageError);
+        if (appInfra != null) {
+            PNLog.d(TAG, "Saving token registration state in preferences");
+            SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
+            secureStorageInterface.storeValueForKey(PushNotificationConstants.IS_TOKEN_REGISTERED, String.valueOf(state), secureStorageError);
+        }
     }
 
     /**
@@ -256,13 +258,16 @@ public class PushNotificationManager {
      * @return
      */
     public String getToken(SecureStorageInterface.SecureStorageError secureStorageError) {
-        SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
-        String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.FB_TOKEN, secureStorageError);
-        PNLog.d(TAG, "FireBase token:" + value);
-        if (TextUtils.isEmpty(value) || secureStorageError.getErrorCode() != null)
-            return null;
+        if (appInfra != null) {
+            SecureStorageInterface secureStorageInterface = appInfra.getSecureStorage();
+            String value = secureStorageInterface.fetchValueForKey(PushNotificationConstants.FB_TOKEN, secureStorageError);
+            PNLog.d(TAG, "FireBase token:" + value);
+            if (TextUtils.isEmpty(value) || secureStorageError.getErrorCode() != null)
+                return null;
 
-        return value;
+            return value;
+        }
+        return null;
     }
 
     /**
