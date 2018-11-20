@@ -20,8 +20,7 @@ public class NetworkURLConstants {
 
     //OAuth
     public static final String OAUTH_URL = String.format("https://" + HOST_PORT +
-            "/pilcommercewebservices/oauth/token?janrain=%s&grant_type=janrain&client_id" +
-            "=mobile_android&client_secret=secret", JANRAIN_ID);
+            "/pilcommercewebservices/oauth/token");
     public static final String OAUTH_REFRESH_URL = "https://" + HOST_PORT +
             "/pilcommercewebservices/oauth/token";
     public static final String SAMPLE_PRODUCT_CATEGORY = "ENERGYLIGHT_SU";

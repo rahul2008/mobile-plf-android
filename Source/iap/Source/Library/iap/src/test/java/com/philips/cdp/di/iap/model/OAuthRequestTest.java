@@ -53,7 +53,7 @@ public class OAuthRequestTest {
 
     @Test
     public void testQueryParamsIsNull() {
-        assertNull(mModel.requestBody());
+        assertNotNull(mModel.requestBody());
     }
 
     @Test

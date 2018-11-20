@@ -104,7 +104,7 @@ public class TimePortFragment extends Fragment {
         switchLoopGet = rootview.findViewById(R.id.cml_switchLoopGet);
         switchLoopGet.setOnCheckedChangeListener(loopGetCheckedChangeListener);
 
-        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchTimeSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         rootview.findViewById(R.id.cml_btnGetTime).setEnabled(true);
         rootview.findViewById(R.id.cml_btnSetTime).setEnabled(true);

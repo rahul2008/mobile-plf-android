@@ -56,7 +56,7 @@ public class AirPortFragment extends Fragment {
             }
         });
 
-        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchAirportSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         return rootview;
     }
