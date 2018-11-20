@@ -175,6 +175,10 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
                     }
+                    if(Utility.isPromotionRunning())
+                    {
+                        shoppingCartFooter.mDeliveryModeFree.setText(R.string.iap_delivery_promotion);
+                    }
 
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
                     shoppingCartFooter.mDeliveryUpsVal.setText(deliveryCost);
@@ -322,7 +326,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TextView mTotalCost;
         TextView mDeliveryVia;
         TextView mDeliveryUpsVal;
-        Label mDeliveryDescriprion,mTotalDiscount;
+        Label mDeliveryDescriprion,mDeliveryModeFree,mTotalDiscount;
         ImageView mEditIcon;
         TextView mExtraOption;
         TextView mDeliveryTitle;
@@ -337,6 +341,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.delivery_price);
             mVatValue = (TextView) itemView.findViewById(R.id.including_tax_val);
+            mDeliveryModeFree = itemView.findViewById(R.id.iap_delivery_mode_free);
             mVatInclusiveValue = (TextView) itemView.findViewById(R.id.vat_inclusive);
             mTotalItems = (TextView) itemView.findViewById(R.id.total_label);
             mTotalCost = (TextView) itemView.findViewById(R.id.total_cost_val);

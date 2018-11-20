@@ -24,8 +24,9 @@ public class HybrisStore extends AbstractStore {
     private static final String REGIONS = "regions";
 
     //Oauth
-    private static final String SUFFIX_OAUTH =
-            "oauth/token?janrain=%s&grant_type=janrain&client_id=mobile_android&client_secret=secret";
+    private static final String SUFFIX_OAUTH ="oauth/token";
+
+
     private static final String SUFFIX_REFRESH_OAUTH = "oauth/token";
 
     //Requests

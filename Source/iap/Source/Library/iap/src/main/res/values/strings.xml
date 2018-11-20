@@ -304,6 +304,6 @@ FedEx(parcel postage)</string>
   <string name="iap_shipping_cost">Shipping cost</string>
   <string name="iap_total_voucher_discount">Discount</string>
   <string name="iap_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
-  <string name="iap_delivery_promotion">Delivery is free for this order $00.00</string>
+  <string name="iap_delivery_promotion">Delivery is free for this order</string>
 
 </resources>
