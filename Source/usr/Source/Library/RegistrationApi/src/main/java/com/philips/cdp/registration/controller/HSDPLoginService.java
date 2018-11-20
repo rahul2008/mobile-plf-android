@@ -70,11 +70,12 @@ public class HSDPLoginService {
 
             @Override
             public void onLoginSuccess() {
-                loginHandler.onLoginSuccess();
+
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
                 if (loginHandler instanceof SocialLoginProviderHandler) {
                     ThreadUtils.postInMainThread(mContext, ((SocialLoginProviderHandler) loginHandler)::onContinueSocialProviderLoginSuccess);
-
+                } else {
+                    loginHandler.onLoginSuccess();
                 }
                 RLog.d(TAG, "onSuccess : if : SocialLoginProviderHandler : onLoginSuccess : is called with :" + mUser.getUserLoginState());
             }
@@ -82,7 +83,14 @@ public class HSDPLoginService {
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                if (loginHandler instanceof SocialLoginProviderHandler) {
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                } else {
+                    loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                }
+
+
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 RLog.d(TAG, "onLoginFailedWithError : if : SocialLoginProviderHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }
