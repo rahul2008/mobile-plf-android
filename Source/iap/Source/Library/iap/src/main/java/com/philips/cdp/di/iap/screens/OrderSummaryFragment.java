@@ -142,7 +142,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         //    mAddressController.setDeliveryMode(CartModelContainer.getInstance().getDeliveryModes().get(0).getCode());
-        mAddressController.getDeliveryModes();
+       // mAddressController.getDeliveryModes();
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
     }
 

@@ -353,12 +353,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (isEnable) {
             countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
             countArrow.setColorFilter(new
-                    PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector, mContext.getTheme()), PorterDuff.Mode.MULTIPLY));
+                    PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
         } else {
             countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.iap_product_disable_count_drop_down, mContext.getTheme());
         }
-        final int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
-        final int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
+        int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
+        int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
         countArrow.setBounds(0, 0, width, height);
     }
 
