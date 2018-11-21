@@ -66,8 +66,4 @@ public class GetAddressRequestTest {
         assertEquals(response.getClass(), GetShippingAddressData.class);
     }
 
-    @Test
-    public void isValidUrl() {
-        assertEquals(NetworkURLConstants.GET_ADDRESSES_URL, mModel.getUrl());
-    }
 }

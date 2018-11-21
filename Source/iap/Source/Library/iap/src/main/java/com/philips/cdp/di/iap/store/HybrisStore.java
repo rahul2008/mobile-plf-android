@@ -202,7 +202,8 @@ public class HybrisStore extends AbstractStore {
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-        builder.append(USER).append(SEPERATOR).append(mIAPUser.getJanRainEmail());
+        builder.append(USER).append(SUFFIX_CURRENT);
+        //builder.append(USER)/*.append(SEPERATOR).append(mIAPUser.getJanRainEmail())*/;
         mBaseURl = builder.toString();
     }
 

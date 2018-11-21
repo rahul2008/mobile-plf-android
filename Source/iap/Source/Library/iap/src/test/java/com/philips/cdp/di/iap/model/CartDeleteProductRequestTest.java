@@ -42,8 +42,6 @@ public class CartDeleteProductRequestTest {
     public void matchCartCreateRequestURL() {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ENTRY_CODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
-        CartDeleteProductRequest request = new CartDeleteProductRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
     @Test(expected = RuntimeException.class)

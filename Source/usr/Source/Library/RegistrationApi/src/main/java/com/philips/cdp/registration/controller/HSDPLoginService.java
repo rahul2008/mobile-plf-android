@@ -10,10 +10,12 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.LoginHandler;
+import com.philips.cdp.registration.handlers.SocialLoginProviderHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 public class HSDPLoginService {
     private static final String TAG = "HSDPLoginService";
@@ -68,15 +70,27 @@ public class HSDPLoginService {
 
             @Override
             public void onLoginSuccess() {
-                loginHandler.onLoginSuccess();
+
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginSuccess();
+                if (loginHandler instanceof SocialLoginProviderHandler) {
+                    ThreadUtils.postInMainThread(mContext, ((SocialLoginProviderHandler) loginHandler)::onContinueSocialProviderLoginSuccess);
+                } else {
+                    loginHandler.onLoginSuccess();
+                }
                 RLog.d(TAG, "onSuccess : if : SocialLoginProviderHandler : onLoginSuccess : is called with :" + mUser.getUserLoginState());
             }
 
             @Override
             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                 AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-                loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                if (loginHandler instanceof SocialLoginProviderHandler) {
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            loginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                } else {
+                    loginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                }
+
+
                 UserRegistrationHelper.getInstance().notifyOnHSDPLoginFailure(userRegistrationFailureInfo.getErrorCode(), userRegistrationFailureInfo.getErrorDescription());
                 RLog.d(TAG, "onLoginFailedWithError : if : SocialLoginProviderHandler : onLoginFailedWithError : is called :" + userRegistrationFailureInfo.getErrorCode());
             }

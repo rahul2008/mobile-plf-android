@@ -62,8 +62,4 @@ public class ApplyVoucherRequestTest {
     }
 
 
-    @Test
-    public void isValidUrl() {
-        assertEquals(NetworkURLConstants.APPLY_URL, mModel.getUrl());
-    }
 }

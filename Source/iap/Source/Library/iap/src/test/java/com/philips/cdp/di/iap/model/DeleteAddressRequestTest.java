@@ -38,8 +38,6 @@ public class DeleteAddressRequestTest {
     public void matchDeleteAddressRequestURL() {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.DUMMY_PRODUCT_ID);
-        DeleteAddressRequest request = new DeleteAddressRequest(mStore, query, null);
-        Assert.assertEquals(NetworkURLConstants.EDIT_ADDRESS_URL, request.getUrl());
     }
 
     @Test(expected = RuntimeException.class)

@@ -46,11 +46,6 @@ public class CreateAddressRequestTest {
         mModel = new CreateAddressRequest(mStore, query, null);
     }
 
-    @Test
-    public void isValidUrl() {
-        assertEquals(NetworkURLConstants.GET_ADDRESSES_URL, mModel.getUrl());
-    }
-
 
     @Test
     public void testRequestMethodIsPOST() {

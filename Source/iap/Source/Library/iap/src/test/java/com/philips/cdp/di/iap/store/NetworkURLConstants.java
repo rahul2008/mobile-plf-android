@@ -26,7 +26,8 @@ public class NetworkURLConstants {
     public static final String SAMPLE_PRODUCT_CATEGORY = "ENERGYLIGHT_SU";
 
     public static final String BASE_URL = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE +
-            "/users/" + JANRAIN_EMAIL;
+            "/users/" +"/current";
+
 
     public static final String BASE_URL_CART = "https://" + HOST_PORT + "/pilcommercewebservices/" + "v2/" + SITE +
             "/users" ;
@@ -70,4 +71,5 @@ public class NetworkURLConstants {
 
     //Vouchers
     public static final String APPLY_URL = BASE_URL + "/carts/current/vouchers?lang=en_US";
+
 }
