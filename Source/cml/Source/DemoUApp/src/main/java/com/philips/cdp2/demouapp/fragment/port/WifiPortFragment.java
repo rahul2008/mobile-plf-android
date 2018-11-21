@@ -135,7 +135,7 @@ public class WifiPortFragment extends Fragment {
         Button setButton = rootview.findViewById(R.id.cml_btn_set);
         Button getButton = rootview.findViewById(R.id.cml_btn_get);
 
-        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchWifiSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         setButton.setOnClickListener(
                 new View.OnClickListener() {

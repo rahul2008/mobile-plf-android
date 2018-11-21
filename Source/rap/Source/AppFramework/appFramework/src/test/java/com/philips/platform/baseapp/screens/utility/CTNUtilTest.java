@@ -22,36 +22,36 @@ public class CTNUtilTest {
 
     @Test
     public void getCTNWhenCountryIsNullTest() {
-        Assert.assertEquals("HX6064/33", ctnUtil.getCtnForCountry(null));
+        Assert.assertEquals("HX6064/33", ctnUtil.getCtnForCountry(null)[0]);
     }
     @Test
     public void getCTNForHKTest() {
-        Assert.assertEquals("HX6322/04", ctnUtil.getCtnForCountry("HK"));
+        Assert.assertEquals("HX6322/04", ctnUtil.getCtnForCountry("HK")[0]);
     }
 
     @Test
     public void getCTNForMOTest() {
-        Assert.assertEquals("HX6322/04", ctnUtil.getCtnForCountry("MO"));
+        Assert.assertEquals("HX6322/04", ctnUtil.getCtnForCountry("MO")[0]);
     }
 
     @Test
     public void getCTNForINTest() {
-        Assert.assertEquals("HX6311/07", ctnUtil.getCtnForCountry("IN"));
+        Assert.assertEquals("HX6311/07", ctnUtil.getCtnForCountry("IN")[0]);
     }
 
     @Test
     public void getCTNForUSTest() {
-        Assert.assertEquals("HD8645/47", ctnUtil.getCtnForCountry("US"));
+        Assert.assertEquals("HD8645/47", ctnUtil.getCtnForCountry("US")[0]);
     }
 
     @Test
     public void getCTNForCNTest() {
-        Assert.assertEquals("HX6721/33", ctnUtil.getCtnForCountry("CN"));
+        Assert.assertEquals("HX6721/33", ctnUtil.getCtnForCountry("CN")[0]);
     }
 
     @Test
     public void getCTNForOtherCountryTest() {
-        Assert.assertEquals("HX6064/33", ctnUtil.getCtnForCountry("NL"));
+        Assert.assertEquals("HX6064/33", ctnUtil.getCtnForCountry("NL")[0]);
     }
 
     @After
