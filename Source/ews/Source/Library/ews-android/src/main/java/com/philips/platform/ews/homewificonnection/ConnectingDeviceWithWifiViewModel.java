@@ -53,7 +53,6 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         void showCancelDialog();
     }
 
-    private static final long WIFI_SET_PROPERTIES_TIME_OUT = TimeUnit.SECONDS.toMillis(60);
     private static final String TAG = ConnectingDeviceWithWifiViewModel.class.getCanonicalName();
     @NonNull
     public  ObservableField<String> title;
@@ -195,7 +194,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
         if (!fromWrongWifiScreen) {
             deviceFriendlyNameChanger.setNameChangerCallback(this);
             deviceFriendlyNameChanger.changeFriendlyName(startConnectionModel.getDeviceFriendlyName());
-            handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
+            handler.postDelayed(timeoutRunnable, baseContentConfiguration.deviceDiscoveryTimeoutInterval);
         } else {
             connectToHomeWifi(startConnectionModel.getHomeWiFiSSID());
         }
@@ -203,7 +202,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
 
     void connectToHomeWifi(@NonNull String homeWiFiSSID) {
         connectToHomeWifiInternal(homeWiFiSSID);
-        handler.postDelayed(timeoutRunnable, WIFI_SET_PROPERTIES_TIME_OUT);
+        handler.postDelayed(timeoutRunnable, baseContentConfiguration.deviceDiscoveryTimeoutInterval);
     }
 
     void clear() {

@@ -11,6 +11,8 @@ import android.support.annotation.StringRes;
 import com.philips.platform.ews.R;
 import com.philips.platform.ews.microapp.EwsResultListener;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * BaseContentConfiguration is a model class for configuration,
  * being used to keep deviceName and appName provided By Proposition.
@@ -22,6 +24,14 @@ public class BaseContentConfiguration implements Parcelable {
     @StringRes
     private final int appName;
     private EwsResultListener ewsResultListener;
+    /**
+     * Allows apps to configure device discovery timeout in EWS.
+     * Default value is 60.
+     * If appliance is not discovered within timeout, EWS will result in failure and user will be redirected to connection error screen.
+     * @since  2018.5.0
+     */
+    public static long deviceDiscoveryTimeoutInterval = TimeUnit.SECONDS.toMillis(60);
+
 
     /**
      * This constructor creates BaseContentConfiguration by providing Name of device used for EWS and Name of app.
