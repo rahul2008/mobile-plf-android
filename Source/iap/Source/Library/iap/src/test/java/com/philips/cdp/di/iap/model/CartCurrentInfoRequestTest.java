@@ -37,11 +37,6 @@ public class CartCurrentInfoRequestTest {
         mStore.initStoreConfig(/*"en", "us",*/ null);
     }
 
-    @Test
-    public void matchCartCreateRequestURL() {
-        GetCartsRequest request = new GetCartsRequest(mStore, null, null);
-        Assert.assertEquals(NetworkURLConstants.GET_CARTS_URL, request.getUrl());
-    }
 
     @Test
     public void testRequestMethodIsGET() {

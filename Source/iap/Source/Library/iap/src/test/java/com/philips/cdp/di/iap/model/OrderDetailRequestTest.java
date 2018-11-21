@@ -66,8 +66,6 @@ public class OrderDetailRequestTest {
     public void testOrderDetailURL() {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ORDER_NUMBER, NetworkURLConstants.DUMMY_ORDER_ID);
-        OrderDetailRequest request = new OrderDetailRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.ORDER_DETAIL_URL, request.getUrl());
     }
 
     @Test(expected = RuntimeException.class)

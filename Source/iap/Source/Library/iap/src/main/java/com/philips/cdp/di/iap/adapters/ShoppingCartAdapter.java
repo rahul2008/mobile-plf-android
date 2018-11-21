@@ -75,12 +75,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (isEnable) {
             countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
             countArrow.setColorFilter(new
-                    PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector, mContext.getTheme()), PorterDuff.Mode.MULTIPLY));
+                    PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
         } else {
             countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.iap_product_disable_count_drop_down, mContext.getTheme());
         }
-        final int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
-        final int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
+        int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
+        int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
         countArrow.setBounds(0, 0, width, height);
     }
 
@@ -370,12 +370,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
             shoppingCartFooter.summary_delivery_container.setVisibility(View.VISIBLE);
+            shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
+            shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
         }
         else
         {
             shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
-            shoppingCartFooter.summary_delivery_container.setVisibility(View.VISIBLE);
+            shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
+            shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
+            shoppingCartFooter.mVatValue.setVisibility(View.GONE);
         }
     }
 

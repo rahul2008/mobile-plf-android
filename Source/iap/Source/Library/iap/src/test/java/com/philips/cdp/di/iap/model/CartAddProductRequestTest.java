@@ -77,7 +77,5 @@ public class CartAddProductRequestTest {
         params.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         params.put(ModelConstants.PRODUCT_CODE, NetworkURLConstants.DUMMY_PRODUCT_ID);
         params.put(ModelConstants.PRODUCT_QUANTITY, "2");
-        CartAddProductRequest request = new CartAddProductRequest(mStore, params, null);
-        assertEquals(NetworkURLConstants.ADD_TO_CART_URL, request.getUrl());
     }
 }
