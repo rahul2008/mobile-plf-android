@@ -156,10 +156,4 @@ public class PaymentRequestTest {
         }
         return addressHashMap;
     }
-
-
-    @Test
-    public void isValidUrl() {
-        assertEquals(NetworkURLConstants.MAKE_PAYMENT_URL, mModel.getUrl());
-    }
 }

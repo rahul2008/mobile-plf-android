@@ -87,9 +87,4 @@ public class SetPaymentDetailsRequestTest {
         assertEquals(IAPConstant.IAP_SUCCESS, response);
     }
 
-    @Test
-    public void matchAddressDetailURL() {
-        SetPaymentDetailsRequest request = new SetPaymentDetailsRequest(mStore, null, null);
-        assertEquals(NetworkURLConstants.SET_PAYMENT_DETAIL_URL, request.getUrl());
-    }
 }

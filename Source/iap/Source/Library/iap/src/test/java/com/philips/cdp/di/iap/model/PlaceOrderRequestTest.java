@@ -70,10 +70,6 @@ public class PlaceOrderRequestTest {
         assertEquals(request.requestBody(), params);
     }
 
-    @Test
-    public void matchPlaceOrderURL() {
-        assertEquals(NetworkURLConstants.PLACE_ORDER_URL, request.getUrl());
-    }
 
     @Test
     public void parseResponseShouldBeOfPlaceOrderRequestDataType() {

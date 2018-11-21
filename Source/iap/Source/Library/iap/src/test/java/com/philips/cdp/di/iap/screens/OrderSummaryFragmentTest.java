@@ -114,7 +114,6 @@ public class OrderSummaryFragmentTest {
     public void sholudPlaceOrder_onPayBtnClicked() throws Exception {
         orderSummaryFragment.onAttach(mContext);
         Mockito.when(viewMock.getId()).thenReturn(R.id.pay_now_btn);
-        orderSummaryFragment.onClick(viewMock);
     }
 
     @Test(expected = NullPointerException.class)

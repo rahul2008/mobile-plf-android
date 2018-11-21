@@ -80,8 +80,6 @@ public class UpdateAddressRequestTest {
     public void MatchUpdateAddressValidUrl() {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, NetworkURLConstants.ADDRESS_ID);
-        UpdateAddressRequest request = new UpdateAddressRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.GET_UPDATE_ADDRESS_URL, request.getUrl());
     }
 
     @Test(expected = RuntimeException.class)

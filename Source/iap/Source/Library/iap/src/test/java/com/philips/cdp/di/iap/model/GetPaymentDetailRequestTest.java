@@ -58,10 +58,6 @@ public class GetPaymentDetailRequestTest {
         assertNotNull(mModel.getStore());
     }
 
-    @Test
-    public void isValidUrl() {
-        assertEquals(NetworkURLConstants.GET_PAYMENT_DETAILS_URL, mModel.getUrl());
-    }
 
     @Test
     public void isValidResponse() {

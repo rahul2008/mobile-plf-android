@@ -46,8 +46,6 @@ public class CartUpdateProductQuantityRequestTest {
         query.put(ModelConstants.PRODUCT_ENTRYCODE, NetworkURLConstants.DUMMY_PRODUCT_NUMBER);
         query.put(ModelConstants.PRODUCT_CODE, NetworkURLConstants.DUMMY_PRODUCT_ID);
         query.put(ModelConstants.PRODUCT_QUANTITY, "2");
-        CartUpdateProductQuantityRequest request = new CartUpdateProductQuantityRequest(mStore, query, null);
-        assertEquals(NetworkURLConstants.CART_MODIFY_PRODUCT_URL, request.getUrl());
     }
 
     @Test

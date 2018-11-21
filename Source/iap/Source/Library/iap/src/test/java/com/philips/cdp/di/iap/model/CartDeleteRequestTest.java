@@ -31,11 +31,6 @@ public class CartDeleteRequestTest {
         mStore.initStoreConfig(/*"en", "us",*/ null);
     }
 
-    @Test
-    public void matchCartDeleteRequestURL() {
-        DeleteCartRequest request = new DeleteCartRequest(mStore, null, null);
-        Assert.assertEquals(NetworkURLConstants.DELETE_CART_URL, request.getUrl());
-    }
 
     @Test
     public void testRequestMethodIsPOST() {

@@ -370,12 +370,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
             shoppingCartFooter.summary_delivery_container.setVisibility(View.VISIBLE);
+            shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
+            shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
         }
         else
         {
             shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
             shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
+            shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
+            shoppingCartFooter.mVatValue.setVisibility(View.GONE);
         }
     }
 
