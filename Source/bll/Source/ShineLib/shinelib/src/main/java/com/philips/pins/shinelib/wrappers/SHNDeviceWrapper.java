@@ -215,6 +215,11 @@ public class SHNDeviceWrapper implements SHNDevice {
     }
 
     @Override
+    public void refreshCache() {
+
+    }
+
+    @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         shnDeviceListeners.add(shnDeviceListener);
     }

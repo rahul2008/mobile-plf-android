@@ -137,6 +137,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
+    public void refreshCache() {
+
+    }
+
+    @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         sharedResources.registerSHNDeviceListener(shnDeviceListener);
     }

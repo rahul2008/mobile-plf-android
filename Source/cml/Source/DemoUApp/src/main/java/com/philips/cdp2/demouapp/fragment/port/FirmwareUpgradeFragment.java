@@ -26,7 +26,9 @@ import android.widget.TextView;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
@@ -385,7 +387,10 @@ public class FirmwareUpgradeFragment extends Fragment {
     }
 
     private void refreshBleCache() {
-        appliance.getCommunicationStrategy();
+        final CommunicationStrategy communicationStrategy = appliance.getCommunicationStrategy();
+        if (communicationStrategy instanceof BleCommunicationStrategy) {
+            ((BleCommunicationStrategy) communicationStrategy).refreshCache();
+        }
     }
 
     private long getTimeoutInMillisFromUi() {
