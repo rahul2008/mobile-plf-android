@@ -40,6 +40,7 @@ import java.util.TimeZone;
 
 import static com.adobe.mobile.Analytics.getTrackingIdentifier;
 import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN;
+import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT;
 import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN;
 import static com.philips.platform.appinfra.tagging.AppTagging.ACTION_NAME;
 import static com.philips.platform.appinfra.tagging.AppTagging.ACTION_TAGGING_DATA;
@@ -67,8 +68,10 @@ public class AppTaggingHandler {
         String value = mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError());
         if (!TextUtils.isEmpty(value))
             isOptedOut = Boolean.parseBoolean(value);
-        if (Config.getPrivacyStatus() != MOBILE_PRIVACY_STATUS_UNKNOWN)
+        if (Config.getPrivacyStatus() == MOBILE_PRIVACY_STATUS_OPT_OUT) {
             Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
+            mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, "false", getSecureStorageError());
+        }
     }
 
     @NonNull
