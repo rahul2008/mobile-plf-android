@@ -15,6 +15,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.SpannableString;
@@ -526,20 +527,27 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
     @Override
     public void handleBtnClickableStates(boolean state) {
-        mBtnCreateAccount.setEnabled(state);
-        enableSocialProviders(state);
-        mBtnMyPhilips.setEnabled(state);
-        mCountryDisplay.setEnabled(state);
-        privacyPolicy.setEnabled(state);
-        mCountryDisplay2.setEnabled(state);
-        privacyPolicy2.setEnabled(state);
-        //    continueWithouAccount.setEnabled(state);
-        if (!homePresenter.isNetworkAvailable()) {
-            RLog.d(TAG, " URNotification handleBtnClickableStates");
-            showNotificationBarOnNetworkNotAvailable();
-        } else hideNotificationBarView();
+        if(isInstanceofCurrentFragment()) {
+            mBtnCreateAccount.setEnabled(state);
+            enableSocialProviders(state);
+            mBtnMyPhilips.setEnabled(state);
+            mCountryDisplay.setEnabled(state);
+            privacyPolicy.setEnabled(state);
+            mCountryDisplay2.setEnabled(state);
+            privacyPolicy2.setEnabled(state);
+            //    continueWithouAccount.setEnabled(state);
+            if (!homePresenter.isNetworkAvailable()) {
+                RLog.i(TAG, " URNotification handleBtnClickableStates");
+                showNotificationBarOnNetworkNotAvailable();
+            } else hideNotificationBarView();
+        }
     }
 
+    private boolean isInstanceofCurrentFragment() {
+        if (getFragmentManager() == null) return false;
+        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fl_reg_fragment_container);
+        return (currentFragment != null && currentFragment instanceof HomeFragment);
+    }
     @Override
     public HomeFragment getHomeFragment() {
         return this;
