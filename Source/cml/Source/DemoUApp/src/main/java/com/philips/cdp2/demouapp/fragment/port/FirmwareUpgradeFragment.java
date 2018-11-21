@@ -98,6 +98,8 @@ public class FirmwareUpgradeFragment extends Fragment {
                 uploadSelectedFirmware();
             } else if (viewId == R.id.cml_btnDeployFirmware) {
                 deployFirmware();
+            } else if (viewId == R.id.cml_btnRefreshBleCache) {
+                refreshBleCache();
             } else if (viewId == R.id.cml_btnCancelFirmware) {
                 cancelFirmware();
             } else {
@@ -187,13 +189,15 @@ public class FirmwareUpgradeFragment extends Fragment {
         }
     };
 
+    private Appliance appliance;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cml_fragment_firmware_upgrade, container, false);
 
         String cppId = requireNonNull(getArguments()).getString(APPLIANCE_KEY);
-        Appliance appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+        appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
         if (appliance != null && appliance instanceof ReferenceAppliance) {
             firmwarePort = appliance.getFirmwarePort();
         }
@@ -378,6 +382,10 @@ public class FirmwareUpgradeFragment extends Fragment {
 
     private void cancelFirmware() {
         firmwarePort.cancel(getTimeoutInMillisFromUi());
+    }
+
+    private void refreshBleCache() {
+        appliance.getCommunicationStrategy();
     }
 
     private long getTimeoutInMillisFromUi() {

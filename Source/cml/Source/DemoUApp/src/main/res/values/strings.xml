@@ -40,6 +40,7 @@
     <string name="cml_firmware_update_already_in_progress">Firmware update already in progress. Please, cancel first to start new update</string>
     <string name="cml_timeout">Timeout</string>
     <string name="cml_refresh_props">Refresh properties</string>
+    <string name="cml_refresh_ble_cache">Refresh BLE cache</string>
     <string name="cml_upload_firmware">Upload firmware</string>
     <string name="cml_upload_firmware_finished">Uploading firmware finished</string>
     <string name="cml_uploading_firmware_failed">Uploading firmware failed:</string>

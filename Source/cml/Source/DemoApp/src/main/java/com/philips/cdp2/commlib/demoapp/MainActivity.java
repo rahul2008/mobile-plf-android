@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchUappAsActivity() {
-        ActivityLauncher launcher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
+        ActivityLauncher launcher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null);
         commlibUapp.launch(launcher, null);
     }
 }

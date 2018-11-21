@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -65,5 +66,11 @@ public class ApplianceTest {
         applianceUnderTest.addPort(mockPort);
 
         verify(mockPort).setNetworkNode(mockNetworkNode);
+    }
+
+    @Test
+    public void whenApplianceIsConstructedWithASingleCommunicationStrategy_thenThisSameStrategyIsReturnedViaGet() throws Exception {
+
+        assertThat(applianceUnderTest.getCommunicationStrategy()).isEqualTo(mockCommunicationStrategy);
     }
 }
