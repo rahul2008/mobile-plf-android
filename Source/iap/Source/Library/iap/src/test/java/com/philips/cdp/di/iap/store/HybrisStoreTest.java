@@ -61,23 +61,6 @@ public class HybrisStoreTest {
     }
 
 
-    @Test
-    public void confirmPaymentDetailsURL() {
-        assertEquals(NetworkURLConstants.GET_PAYMENT_DETAILS_URL, mStore.getPaymentDetailsUrl());
-    }
-
-    @Test
-    public void confirmAddressDetailURL() {
-        assertEquals(NetworkURLConstants.GET_ADDRESSES_URL, mStore.getAddressesUrl());
-    }
-
-    @Test
-    public void confirmAddressAlterURL() {
-        assertEquals(NetworkURLConstants.EDIT_ADDRESS_URL, mStore.getEditAddressUrl
-                (NetworkURLConstants.DUMMY_PRODUCT_ID));
-    }
-
-
 
 
     @Test
