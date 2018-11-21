@@ -200,6 +200,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 showCvvDialog(getFragmentManager());
             else {
                 placeOrder(null);
+                mAddressController.getDeliveryModes();
             }
         } else if (v.getId() == R.id.cancel_btn) {
             unregisterEventNotification();
@@ -394,6 +395,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+            mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             updateCartDetails(mShoppingCartAPI);
         }
     }
@@ -498,6 +500,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
                     IAPConstant.CVV_KEY_BUNDLE);
             IAPLog.d(IAPLog.LOG, "CVV =" + securityCode);
             placeOrder(securityCode);
+            mAddressController.getDeliveryModes();
+
         }
     }
 
