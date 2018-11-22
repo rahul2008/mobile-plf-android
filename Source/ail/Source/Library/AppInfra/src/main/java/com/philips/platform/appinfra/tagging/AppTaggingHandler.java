@@ -40,7 +40,6 @@ import java.util.TimeZone;
 
 import static com.adobe.mobile.Analytics.getTrackingIdentifier;
 import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN;
-import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT;
 import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN;
 import static com.philips.platform.appinfra.tagging.AppTagging.ACTION_NAME;
 import static com.philips.platform.appinfra.tagging.AppTagging.ACTION_TAGGING_DATA;
@@ -60,18 +59,13 @@ public class AppTaggingHandler {
     private final AppInfra mAppInfra;
     private String mComponentID;
     private String mComponentVersion;
-    private boolean isOptedOut;
     private String ADB_PRIVACY_STATUS = "ail_adb_status";
 
     public AppTaggingHandler(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         String value = mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError());
         if (!TextUtils.isEmpty(value))
-            isOptedOut = Boolean.parseBoolean(value);
-        if (Config.getPrivacyStatus() == MOBILE_PRIVACY_STATUS_OPT_OUT) {
-            Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
-            mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, "false", getSecureStorageError());
-        }
+            PrivacyStatusCache.isOptedOut = Boolean.parseBoolean(value);
     }
 
     @NonNull
@@ -80,8 +74,8 @@ public class AppTaggingHandler {
     }
 
     /*
-    * Checks for SSL connection value from Adobe json
-    * */
+     * Checks for SSL connection value from Adobe json
+     * */
     protected boolean checkForSslConnection() {
         boolean sslValue = false;
         final JSONObject jSONObject = getMasterADBMobileConfig();
@@ -217,7 +211,7 @@ public class AppTaggingHandler {
         AppTaggingInterface.PrivacyStatus mPrivacyStatus = null;
         switch (mMobilePrivacyStatus) {
             case MOBILE_PRIVACY_STATUS_OPT_IN:
-                if (isOptedOut)
+                if (PrivacyStatusCache.isOptedOut)
                     mPrivacyStatus = OPTOUT;
                 else
                     mPrivacyStatus = OPTIN;
@@ -235,20 +229,20 @@ public class AppTaggingHandler {
     void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
         switch (privacyStatus) {
             case OPTIN:
-                isOptedOut = false;
+                PrivacyStatusCache.isOptedOut = false;
                 mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, "false", getSecureStorageError());
                 Analytics.trackAction("analyticsOptIn", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
                 break;
             case OPTOUT:
                 Analytics.clearQueue();
-                isOptedOut = true;
+                PrivacyStatusCache.isOptedOut = true;
                 mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, "true", getSecureStorageError());
                 Analytics.trackAction("analyticsOptOut", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
                 break;
             case UNKNOWN:
-                isOptedOut = false;
+                PrivacyStatusCache.isOptedOut = false;
                 mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, "false", getSecureStorageError());
                 Analytics.trackAction("analyticsUnknown", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_UNKNOWN);
@@ -257,7 +251,7 @@ public class AppTaggingHandler {
     }
 
     void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-        if (!isOptedOut && (checkForSslConnection() || checkForProductionState())) {
+        if (!PrivacyStatusCache.isOptedOut() && (checkForSslConnection() || checkForProductionState())) {
             trackData(pageName, paramMap, isTrackPage);
         }
     }
@@ -316,7 +310,7 @@ public class AppTaggingHandler {
 
 
     void timeActionStart(String actionStart, Map<String, Object> contextData) {
-        if (!isOptedOut && (checkForSslConnection() || checkForProductionState())) {
+        if (!PrivacyStatusCache.isOptedOut() && (checkForSslConnection() || checkForProductionState())) {
             Map<String, Object> analyticsDefaultParameters = addAnalyticsDataObject();
             if (contextData != null) analyticsDefaultParameters.putAll(contextData);
             Analytics.trackTimedActionStart(actionStart, analyticsDefaultParameters);
@@ -324,7 +318,7 @@ public class AppTaggingHandler {
     }
 
     void timeActionEnd(String actionEnd, Analytics.TimedActionBlock<Boolean> logic) {
-        if (!isOptedOut && (checkForSslConnection() || checkForProductionState())) {
+        if (!PrivacyStatusCache.isOptedOut() && (checkForSslConnection() || checkForProductionState())) {
             Analytics.trackTimedActionEnd(actionEnd, logic);
         }
     }
@@ -435,6 +429,13 @@ public class AppTaggingHandler {
     }
 
     boolean isOptedOut() {
-        return isOptedOut;
+        return PrivacyStatusCache.isOptedOut();
+    }
+
+    static class PrivacyStatusCache {
+        private static boolean isOptedOut;
+        static boolean isOptedOut() {
+            return isOptedOut;
+        }
     }
 }
