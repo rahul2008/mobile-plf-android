@@ -174,7 +174,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 
@@ -192,6 +191,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         compositeDisposable.add(observeLoginButton());
     }
 
+    @Override
+    public void onStart() {
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
+        super.onStart();
+    }
 
     @Override
     public void onDestroyView() {
@@ -573,7 +577,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mode = getActivity().getWindow().getAttributes().softInputMode;
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onResume();
-        onNetWorkStateReceived(networkUtility.isNetworkAvailable());
+        //onNetWorkStateReceived(networkUtility.isNetworkAvailable());
     }
 
 
