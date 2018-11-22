@@ -432,7 +432,7 @@ public class AppTaggingHandler {
         return PrivacyStatusCache.isOptedOut();
     }
 
-    static class PrivacyStatusCache {
+   private static class PrivacyStatusCache {
         private static boolean isOptedOut;
         static boolean isOptedOut() {
             return isOptedOut;
