@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.screens;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
@@ -153,9 +154,11 @@ public class AddressShippingView
         mEtState.setKeyListener(null);
 
         mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
-        if(HybrisDelegate.getInstance(mContext).getStore().getFamilyName()!=null) {
-            mEtLastName.setText(HybrisDelegate.getInstance(mContext).getStore().getFamilyName());
-        }else{
+
+        String familyName = HybrisDelegate.getInstance(mContext).getStore().getFamilyName();
+        if(!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")){
+            mEtLastName.setText(familyName);
+        }else {
             mEtLastName.setText("");
         }
 
