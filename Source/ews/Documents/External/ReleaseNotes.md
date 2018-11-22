@@ -8,6 +8,7 @@ Version {next}
 * \#128922 EWS Flow Improvements - Moved Location Permission in start of EWS flow from later stage, Added new functionality for listing available networks from appliance to solve 2.4 vs 5 GHz network issue, Added new Screen for Network Not Listed Troubleshooting
 * \#144406 Added new public setter API 'setEwsResultListener' in 'BaseContentConfiguration' to let applications set EwsResultListener
 * \#144406 Added new callback API 'onEWSCancelled' in 'EwsResultListener' to let applications intimate that EWS has been cancelled either from 'Yes, cancel setup' button of popup displayed or on back press of Get Started/First Screen
+* \#159975 Added new public variable 'deviceDiscoveryTimeoutInterval' in 'BaseContentConfiguration' to let applications configure timeout of device discovery after Wi-Fi credentials are written to the appliance.
 
 ### Backwards Compatibility
 * N/A
