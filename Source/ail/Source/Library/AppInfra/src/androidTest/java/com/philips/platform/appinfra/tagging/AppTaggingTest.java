@@ -122,12 +122,24 @@ public class AppTaggingTest {
 
     @Test
     public void testPrivacyConsentOPTIN() {
+        appTagging = new AppTagging(appInfraMock) {
+            @Override
+            AppTaggingHandler getAppTaggingHandler() {
+                return mAppTaggingHandler;
+            }
+        };
         appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, appTagging.getPrivacyConsent());
     }
 
     @Test
     public void testPrivacyConsentOPTOUT() {
+        appTagging = new AppTagging(appInfraMock) {
+            @Override
+            AppTaggingHandler getAppTaggingHandler() {
+                return mAppTaggingHandler;
+            }
+        };
         appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
         assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, appTagging.getPrivacyConsent());
     }
