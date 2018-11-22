@@ -37,8 +37,6 @@ public class SHNDeviceResources {
     private int connectionPriority;
     private final SHNCentral shnCentral;
     private final SHNDeviceImpl.SHNBondInitiator shnBondInitiator;
-    private final SHNCentral.SHNCentralListener shnCentralListener;
-    private final BTGatt.BTGattCallback btGattCallback;
     private long lastDisconnectedTimeMillis;
 
     private SHNDevice.SHNDeviceListener shnDeviceListener;
@@ -47,20 +45,14 @@ public class SHNDeviceResources {
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<Class<? extends SHNCapability>, SHNCapability> registeredByClassCapabilities = new HashMap<>();
 
-    public SHNDeviceResources(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, SHNCentral.SHNCentralListener shnCentralListener, BTGatt.BTGattCallback btGattCallback, int connectionPriority) {
+    public SHNDeviceResources(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, int connectionPriority) {
         this.shnDevice = shnDevice;
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
         this.deviceTypeName = deviceTypeName;
         this.shnBondInitiator = shnBondInitiator;
-        this.shnCentralListener = shnCentralListener;
-        this.btGattCallback = btGattCallback;
         this.connectionPriority = connectionPriority < BluetoothGatt.CONNECTION_PRIORITY_BALANCED || connectionPriority > BluetoothGatt.CONNECTION_PRIORITY_LOW_POWER ? BluetoothGatt.CONNECTION_PRIORITY_BALANCED : connectionPriority;
         this.name = btDevice.getName();
-    }
-
-    public SHNCentral.SHNCentralListener getShnCentralListener() {
-        return shnCentralListener;
     }
 
     public void notifyFailureToListener(SHNResult result) {
@@ -191,10 +183,6 @@ public class SHNDeviceResources {
     @Nullable
     public SHNDevice.DiscoveryListener getDiscoveryListener() {
         return this.discoveryListener;
-    }
-
-    public BTGatt.BTGattCallback getBTGattCallback() {
-        return btGattCallback;
     }
 
     public void setLastDisconnectedTimeMillis(long lastDisconnectedTimeMillis) {

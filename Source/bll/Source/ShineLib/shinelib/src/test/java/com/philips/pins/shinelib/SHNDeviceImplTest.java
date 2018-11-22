@@ -20,6 +20,7 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.helper.MockedHandler;
 import com.philips.pins.shinelib.helper.Utility;
+import com.philips.pins.shinelib.statemachine.SHNDeviceResources;
 import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
 
@@ -114,14 +115,16 @@ public class SHNDeviceImplTest {
     private BluetoothDevice mockedBluetoothDevice;
 
     @Mock
-    private SHNTagger mockedTagger;
+    private SHNDeviceResources mockedSharedResources;
 
     private MockedHandler mockedInternalHandler;
     private MockedHandler mockedUserHandler;
+
     private BTGatt.BTGattCallback btGattCallback;
     private SHNCentral.SHNBondStatusListener bondStatusListener;
     private SHNCentral.SHNCentralListener centralStateListener;
     private List<BluetoothGattService> discoveredServices;
+
     private List<BluetoothGattCharacteristic> discoveredCharacteristics;
     private SHNService.State mockedServiceState;
 
@@ -197,7 +200,7 @@ public class SHNDeviceImplTest {
             }
         }).when(mockedSHNCentral).addInternalListener(isA(SHNCentral.SHNCentralListener.class));
 
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.NONE, BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.NONE, BluetoothGatt.CONNECTION_PRIORITY_BALANCED, mockedSharedResources);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
         shnDevice.registerDiscoveryListener(mockedDiscoveryListener);
         shnDevice.registerService(mockedSHNService);
@@ -1389,5 +1392,10 @@ public class SHNDeviceImplTest {
     public void itRegistersItselfForCentralStateUpdates() throws Exception {
 
         assertTrue(centralStateListener != null);
+    }
+
+    @Test
+    public void givenSharedResourcesHasABtGatt_whenRefreshCacheIsCalled_thenTheCallIsForwardedToThatBtGatt() {
+        when(mockedSharedResources.getBtGatt()).thenReturn(btGattMock);
     }
 }

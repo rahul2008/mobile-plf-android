@@ -386,4 +386,16 @@ public class SHNDeviceWrapperTest {
 
         verify(shnDeviceListenerMock).onStateUpdated(shnDeviceWrapper, Disconnecting);
     }
+
+    @Test
+    public void whenRefreshCacheIsCalledInternalHandlerIsPosted() throws Exception {
+        whenCreatedThenDeviceListenerIsAttached();
+        whenCreatedThenDisoveryListenerIsAttached();
+
+        shnDeviceWrapper.refreshCache();
+
+        verify(internalHandlerMock).post(runnableCaptor.capture());
+        runnableCaptor.getValue().run();
+        verify(shnDeviceMock).refreshCache();
+    }
 }

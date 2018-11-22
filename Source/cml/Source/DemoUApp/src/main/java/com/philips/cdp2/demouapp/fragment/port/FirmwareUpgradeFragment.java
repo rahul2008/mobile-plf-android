@@ -388,6 +388,7 @@ public class FirmwareUpgradeFragment extends Fragment {
 
     private void refreshBleCache() {
         final CommunicationStrategy communicationStrategy = appliance.getCommunicationStrategy();
+        //todo: loop over combined
         if (communicationStrategy instanceof BleCommunicationStrategy) {
             ((BleCommunicationStrategy) communicationStrategy).refreshCache();
         }

@@ -205,18 +205,14 @@ public class SHNDeviceWrapper implements SHNDevice {
 
     @Override
     public void readRSSI() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                shnDevice.readRSSI();
-            }
-        };
+        final Runnable runnable = shnDevice::readRSSI;
         internalHandler.post(runnable);
     }
 
     @Override
     public void refreshCache() {
-
+        final Runnable runnable = shnDevice::refreshCache;
+        internalHandler.post(runnable);
     }
 
     @Override
