@@ -49,6 +49,7 @@ import static com.philips.platform.appinfra.tagging.AppTagging.PAGE_NAME;
 import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyStatus.OPTIN;
 import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyStatus.OPTOUT;
 import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyStatus.UNKNOWN;
+import static java.lang.Enum.valueOf;
 
 
 /**
@@ -63,9 +64,13 @@ public class AppTaggingHandler {
 
     public AppTaggingHandler(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
-        String value = mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError());
-        if (!TextUtils.isEmpty(value))
-            PrivacyStatusCache.isOptedOut = Boolean.parseBoolean(value);
+        AppTaggingInterface.PrivacyStatus privacyStatus = getMobilePrivacyStatus();
+        if (privacyStatus == OPTOUT) {
+            setPrivacyStatus(privacyStatus);
+        } else {
+            PrivacyStatusCache.setPrivacyStatus(privacyStatus);
+            mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
+        }
     }
 
     @NonNull
@@ -207,14 +212,22 @@ public class AppTaggingHandler {
         return dateFormat.format(calendar.getTime());
     }
 
-    AppTaggingInterface.PrivacyStatus getMobilePrivacyStatus(MobilePrivacyStatus mMobilePrivacyStatus) {
+    AppTaggingInterface.PrivacyStatus getMobilePrivacyStatus() {
+        if (PrivacyStatusCache.getPrivacyStatus() != null)
+            return PrivacyStatusCache.getPrivacyStatus();
+        else if (!TextUtils.isEmpty(mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError()))) {
+            return valueOf(AppTaggingInterface.PrivacyStatus.class, mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError()));
+        } else {
+            return getAdobePrivacyStatus();
+        }
+    }
+
+    private AppTaggingInterface.PrivacyStatus getAdobePrivacyStatus() {
+        final MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
         AppTaggingInterface.PrivacyStatus mPrivacyStatus = null;
         switch (mMobilePrivacyStatus) {
             case MOBILE_PRIVACY_STATUS_OPT_IN:
-                if (PrivacyStatusCache.isOptedOut)
-                    mPrivacyStatus = OPTOUT;
-                else
-                    mPrivacyStatus = OPTIN;
+                mPrivacyStatus = OPTIN;
                 break;
             case MOBILE_PRIVACY_STATUS_OPT_OUT:
                 mPrivacyStatus = OPTOUT;
@@ -227,23 +240,21 @@ public class AppTaggingHandler {
     }
 
     void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
+        PrivacyStatusCache.setPrivacyStatus(privacyStatus);
         switch (privacyStatus) {
             case OPTIN:
-                PrivacyStatusCache.isOptedOut = false;
-                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, "false", getSecureStorageError());
+                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
                 Analytics.trackAction("analyticsOptIn", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
                 break;
             case OPTOUT:
                 Analytics.clearQueue();
-                PrivacyStatusCache.isOptedOut = true;
-                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, "true", getSecureStorageError());
+                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
                 Analytics.trackAction("analyticsOptOut", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
                 break;
             case UNKNOWN:
-                PrivacyStatusCache.isOptedOut = false;
-                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, "false", getSecureStorageError());
+                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
                 Analytics.trackAction("analyticsUnknown", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_UNKNOWN);
                 break;
@@ -251,7 +262,7 @@ public class AppTaggingHandler {
     }
 
     void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-        if (!PrivacyStatusCache.isOptedOut() && (checkForSslConnection() || checkForProductionState())) {
+        if (PrivacyStatusCache.shouldTrack() && (checkForSslConnection() || checkForProductionState())) {
             trackData(pageName, paramMap, isTrackPage);
         }
     }
@@ -310,7 +321,7 @@ public class AppTaggingHandler {
 
 
     void timeActionStart(String actionStart, Map<String, Object> contextData) {
-        if (!PrivacyStatusCache.isOptedOut() && (checkForSslConnection() || checkForProductionState())) {
+        if (PrivacyStatusCache.shouldTrack() && (checkForSslConnection() || checkForProductionState())) {
             Map<String, Object> analyticsDefaultParameters = addAnalyticsDataObject();
             if (contextData != null) analyticsDefaultParameters.putAll(contextData);
             Analytics.trackTimedActionStart(actionStart, analyticsDefaultParameters);
@@ -318,7 +329,7 @@ public class AppTaggingHandler {
     }
 
     void timeActionEnd(String actionEnd, Analytics.TimedActionBlock<Boolean> logic) {
-        if (!PrivacyStatusCache.isOptedOut() && (checkForSslConnection() || checkForProductionState())) {
+        if (PrivacyStatusCache.shouldTrack() && (checkForSslConnection() || checkForProductionState())) {
             Analytics.trackTimedActionEnd(actionEnd, logic);
         }
     }
@@ -428,14 +439,23 @@ public class AppTaggingHandler {
         return false;
     }
 
-    boolean isOptedOut() {
-        return PrivacyStatusCache.isOptedOut();
+    boolean shouldTrack() {
+        return PrivacyStatusCache.shouldTrack();
     }
 
-   private static class PrivacyStatusCache {
-        private static boolean isOptedOut;
-        static boolean isOptedOut() {
-            return isOptedOut;
+    private static class PrivacyStatusCache {
+        private static AppTaggingInterface.PrivacyStatus privacyStatus;
+
+        static AppTaggingInterface.PrivacyStatus getPrivacyStatus() {
+            return privacyStatus;
+        }
+
+        static void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
+            PrivacyStatusCache.privacyStatus = privacyStatus;
+        }
+
+        static boolean shouldTrack() {
+            return privacyStatus != OPTOUT;
         }
     }
 }

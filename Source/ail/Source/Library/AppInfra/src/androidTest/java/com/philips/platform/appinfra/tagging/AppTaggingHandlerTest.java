@@ -8,14 +8,12 @@ package com.philips.platform.appinfra.tagging;
 import android.content.Context;
 
 import com.adobe.mobile.Analytics;
-import com.adobe.mobile.Config;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
 import org.junit.Before;
@@ -48,7 +46,6 @@ public class AppTaggingHandlerTest {
     private AppTaggingHandler mAppTaggingHandlerMock;
     private AppInfra appInfraMock;
     private LoggingInterface loggingInterfaceMock;
-    private SecureStorageInterface secureStorageInterfaceMock;
 
     @Before
     public void setUp() throws Exception {
@@ -70,7 +67,7 @@ public class AppTaggingHandlerTest {
             }
         };
 
-        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).setSecureStorage(secureStorageInterfaceMock).build(context);
+        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
         configError = new AppConfigurationInterface
                 .AppConfigurationError();
 
@@ -100,11 +97,11 @@ public class AppTaggingHandlerTest {
     @Test
     public void testSettingPrivacyStatus() {
         mAppTaggingHandler.setPrivacyStatus(AppTaggingInterface.PrivacyStatus.OPTOUT);
-        assertTrue(mAppTaggingHandler.isOptedOut());
-        assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(Config.getPrivacyStatus()),AppTaggingInterface.PrivacyStatus.OPTOUT);
+        assertFalse(mAppTaggingHandler.shouldTrack());
+        assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(),AppTaggingInterface.PrivacyStatus.OPTOUT);
         mAppTaggingHandler.setPrivacyStatus(AppTaggingInterface.PrivacyStatus.OPTIN);
-        assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(Config.getPrivacyStatus()),AppTaggingInterface.PrivacyStatus.OPTIN);
-        assertFalse(mAppTaggingHandler.isOptedOut());
+        assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(),AppTaggingInterface.PrivacyStatus.OPTIN);
+        assertTrue(mAppTaggingHandler.shouldTrack());
     }
 
     @Test
