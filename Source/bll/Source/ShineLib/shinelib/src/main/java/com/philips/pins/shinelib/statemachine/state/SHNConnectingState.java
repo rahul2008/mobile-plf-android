@@ -26,22 +26,11 @@ public abstract class SHNConnectingState extends SHNDeviceState {
 
     private Timer connectingTimer;
 
-    public SHNConnectingState(@NonNull final SHNDeviceStateMachine stateMachine, String loggingTag, long connectTimeOut) {
+    SHNConnectingState(@NonNull final SHNDeviceStateMachine stateMachine, String loggingTag, long connectTimeOut) {
         super(stateMachine, loggingTag);
 
         if (connectTimeOut > 0) {
-            connectingTimer = Timer.createTimer(new Runnable() {
-                @Override
-                public void run() {
-                    final String errorMsg = "connect timeout in SHNConnectingState";
-
-                    SHNLogger.e(logTag, errorMsg);
-                    SHNTagger.sendTechnicalError(errorMsg);
-
-                    stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorTimeout);
-                    stateMachine.setState(new SHNDisconnectingState(stateMachine));
-                }
-            }, connectTimeOut);
+            connectingTimer = Timer.createTimer(this::handleConnectTimeout, connectTimeOut);
         }
     }
 
@@ -92,13 +81,23 @@ public abstract class SHNConnectingState extends SHNDeviceState {
         }
     }
 
+    private void handleConnectTimeout() {
+        final String errorMsg = "connect timeout in SHNConnectingState";
+
+        SHNLogger.e(logTag, errorMsg);
+        SHNTagger.sendTechnicalError(errorMsg);
+
+        stateMachine.notifyFailureToListener(SHNResult.SHNErrorTimeout);
+        stateMachine.setState(new SHNDisconnectingState(stateMachine));
+    }
+
     private void handleDisconnectEvent() {
         BTGatt btGatt = stateMachine.getSharedResources().getBtGatt();
         if (btGatt != null) {
             btGatt.close();
         }
         stateMachine.getSharedResources().setBtGatt(null);
-        stateMachine.getSharedResources().notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        stateMachine.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
         stateMachine.setState(new SHNDisconnectingState(stateMachine));
     }
 }

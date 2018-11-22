@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class SHNDeviceWrapper implements SHNDevice {
     private final SHNDevice shnDevice;
     private static Handler tempInternalHandler;
@@ -40,12 +41,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
             for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
                 if (shnDeviceListener != null) {
-                    userHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this, state);
-                        }
-                    });
+                    userHandler.post(() -> shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this, state));
                 }
             }
         }
@@ -58,12 +54,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
             for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
                 if (shnDeviceListener != null) {
-                    userHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            shnDeviceListener.onFailedToConnect(SHNDeviceWrapper.this, result);
-                        }
-                    });
+                    userHandler.post(() -> shnDeviceListener.onFailedToConnect(SHNDeviceWrapper.this, result));
                 }
             }
         }
@@ -76,12 +67,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
             for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
                 if (shnDeviceListener != null) {
-                    userHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            shnDeviceListener.onReadRSSI(rssi);
-                        }
-                    });
+                    userHandler.post(() -> shnDeviceListener.onReadRSSI(rssi));
                 }
             }
         }
@@ -96,12 +82,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
             for (final DiscoveryListener discoveryListener : discoveryListeners) {
                 if (discoveryListener != null) {
-                    userHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            discoveryListener.onServiceDiscovered(serviceUuid, service);
-                        }
-                    });
+                    userHandler.post(() -> discoveryListener.onServiceDiscovered(serviceUuid, service));
                 }
             }
         }
@@ -114,12 +95,7 @@ public class SHNDeviceWrapper implements SHNDevice {
 
             for (final DiscoveryListener discoveryListener : discoveryListeners) {
                 if (discoveryListener != null) {
-                    userHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, characteristic);
-                        }
-                    });
+                    userHandler.post(() -> discoveryListener.onCharacteristicDiscovered(characteristicUuid, data, characteristic));
                 }
             }
         }
@@ -172,34 +148,19 @@ public class SHNDeviceWrapper implements SHNDevice {
 
     @Override
     public void connect() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                shnDevice.connect();
-            }
-        };
+        Runnable runnable = shnDevice::connect;
         internalHandler.post(runnable);
     }
 
     @Override
     public void connect(final long connectTimeOut) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                shnDevice.connect(connectTimeOut);
-            }
-        };
+        Runnable runnable = () -> shnDevice.connect(connectTimeOut);
         internalHandler.post(runnable);
     }
 
     @Override
     public void disconnect() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                shnDevice.disconnect();
-            }
-        };
+        Runnable runnable = shnDevice::disconnect;
         internalHandler.post(runnable);
     }
 

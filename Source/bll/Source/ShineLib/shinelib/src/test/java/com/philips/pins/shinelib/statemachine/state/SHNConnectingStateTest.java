@@ -42,7 +42,7 @@ public class SHNConnectingStateTest {
     private SHNDeviceResources deviceResourcesMock;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         initMocks(this);
         mockStatic(SHNTagger.class);
         when(stateMachineMock.getSharedResources()).thenReturn(deviceResourcesMock);
@@ -50,7 +50,7 @@ public class SHNConnectingStateTest {
     }
 
     @Test
-    public void givenCentralNoticesBluetoothIsOff_whenThisIsReported_thenStateBecomesDisconnected() throws Exception {
+    public void givenCentralNoticesBluetoothIsOff_whenThisIsReported_thenStateBecomesDisconnected()  {
 
         state.onStateUpdated(SHNCentralStateNotReady);
 
@@ -58,7 +58,7 @@ public class SHNConnectingStateTest {
     }
 
     @Test
-    public void givenCentralNoticesBluetoothIsOff_whenThisIsReported_thenTagIsSentWithProperData() throws Exception {
+    public void givenCentralNoticesBluetoothIsOff_whenThisIsReported_thenTagIsSentWithProperData()  {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
 
         state.onStateUpdated(SHNCentralStateNotReady);
@@ -69,7 +69,7 @@ public class SHNConnectingStateTest {
     }
 
     @Test
-    public void whenConnectionStateChangesToDisconnected_thenTagIsSentWithProperData() throws Exception {
+    public void whenConnectionStateChangesToDisconnected_thenTagIsSentWithProperData()  {
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         state.onConnectionStateChange(null, -133, BluetoothProfile.STATE_DISCONNECTED);

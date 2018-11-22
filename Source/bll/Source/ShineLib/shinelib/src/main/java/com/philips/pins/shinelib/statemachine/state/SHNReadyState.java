@@ -44,12 +44,12 @@ public class SHNReadyState extends SHNDeviceState {
 
     @Override
     public void connect() {
-        sharedResources.notifyStateToListener();
+        stateMachine.notifyStateToListener();
     }
 
     @Override
     public void connect(long connectTimeOut) {
-        sharedResources.notifyStateToListener();
+        stateMachine.notifyStateToListener();
     }
 
     @Override

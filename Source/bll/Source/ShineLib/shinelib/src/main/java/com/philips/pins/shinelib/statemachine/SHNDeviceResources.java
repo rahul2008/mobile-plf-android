@@ -15,7 +15,6 @@ import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceImpl;
-import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
@@ -28,7 +27,6 @@ import java.util.UUID;
 
 public class SHNDeviceResources {
 
-    private final SHNDevice shnDevice;
     private BTGatt btGatt;
     private final BTDevice btDevice;
     private final String deviceTypeName;
@@ -39,32 +37,18 @@ public class SHNDeviceResources {
     private final SHNDeviceImpl.SHNBondInitiator shnBondInitiator;
     private long lastDisconnectedTimeMillis;
 
-    private SHNDevice.SHNDeviceListener shnDeviceListener;
     private SHNDevice.DiscoveryListener discoveryListener;
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<Class<? extends SHNCapability>, SHNCapability> registeredByClassCapabilities = new HashMap<>();
 
-    public SHNDeviceResources(SHNDevice shnDevice, BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, int connectionPriority) {
-        this.shnDevice = shnDevice;
+    public SHNDeviceResources(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, int connectionPriority) {
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
         this.deviceTypeName = deviceTypeName;
         this.shnBondInitiator = shnBondInitiator;
         this.connectionPriority = connectionPriority < BluetoothGatt.CONNECTION_PRIORITY_BALANCED || connectionPriority > BluetoothGatt.CONNECTION_PRIORITY_LOW_POWER ? BluetoothGatt.CONNECTION_PRIORITY_BALANCED : connectionPriority;
         this.name = btDevice.getName();
-    }
-
-    public void notifyFailureToListener(SHNResult result) {
-        if (shnDeviceListener != null) {
-            shnDeviceListener.onFailedToConnect(shnDevice, result);
-        }
-    }
-
-    public void notifyStateToListener() {
-        if (shnDeviceListener != null) {
-            shnDeviceListener.onStateUpdated(shnDevice, shnDevice.getState());
-        }
     }
 
     public BTDevice getBtDevice() {
@@ -128,6 +112,7 @@ public class SHNDeviceResources {
     }
 
     @Nullable
+    @SuppressWarnings("unchecked")
     public <T extends SHNCapability> T getCapability(@NonNull Class<T> type) {
         return (T) registeredByClassCapabilities.get(type);
     }
@@ -147,7 +132,7 @@ public class SHNDeviceResources {
         }
     }
 
-    public <T extends SHNCapability> void registerCapability(@NonNull final Class<? extends SHNCapability> type, @NonNull final T capability) {
+    public <C extends SHNCapability> void registerCapability(@NonNull final Class<C> type, @NonNull final SHNCapability capability) {
         if (registeredByClassCapabilities.containsKey(type)) {
             throw new IllegalStateException("Capability already registered");
         }
@@ -157,19 +142,6 @@ public class SHNDeviceResources {
         }
 
         registeredByClassCapabilities.put(type, capability);
-    }
-
-    public void registerSHNDeviceListener(SHNDevice.SHNDeviceListener shnDeviceListener) {
-        this.shnDeviceListener = shnDeviceListener;
-    }
-
-    public void unregisterSHNDeviceListener() {
-        this.shnDeviceListener = null;
-    }
-
-    @Nullable
-    public SHNDevice.SHNDeviceListener getDeviceListener() {
-        return this.shnDeviceListener;
     }
 
     public void registerDiscoveryListener(final SHNDevice.DiscoveryListener discoveryListener) {

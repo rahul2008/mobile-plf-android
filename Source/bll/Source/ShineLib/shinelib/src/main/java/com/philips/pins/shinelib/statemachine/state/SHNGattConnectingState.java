@@ -35,7 +35,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
     private boolean shouldRetryConnecting = false;
     private long minimumConnectionIdleTime;
 
-    final BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
+    private final BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
 
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
@@ -85,7 +85,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
 
         @Override
         public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
-            SHNDevice.SHNDeviceListener deviceListener = sharedResources.getDeviceListener();
+            SHNDevice.SHNDeviceListener deviceListener = stateMachine.getDeviceListener();
             if (deviceListener != null) {
                 deviceListener.onReadRSSI(rssi);
             }
@@ -97,11 +97,11 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
     };
 
-    public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
+    SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine, "SHNGattConnectingState", -1L);
     }
 
-    public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, long connectTimeOut) {
+    SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, long connectTimeOut) {
         super(stateMachine, "SHNGattConnectingState", connectTimeOut);
         shouldRetryConnecting = true;
         if (connectTimeOut <= 0) {
@@ -148,7 +148,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
             SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
+            stateMachine.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
@@ -168,7 +168,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
             SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
+            stateMachine.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
@@ -189,7 +189,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
             SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+            stateMachine.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
@@ -209,12 +209,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
     private void postponeConnectCall(long timeDiff) {
         SHNLogger.w(logTag, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
 
-        sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startConnect();
-            }
-        }, minimumConnectionIdleTime - timeDiff);
+        sharedResources.getShnCentral().getInternalHandler().postDelayed(this::startConnect, minimumConnectionIdleTime - timeDiff);
     }
 
     private boolean stackNeedsTimeToPrepareForConnect(long timeDiff) {

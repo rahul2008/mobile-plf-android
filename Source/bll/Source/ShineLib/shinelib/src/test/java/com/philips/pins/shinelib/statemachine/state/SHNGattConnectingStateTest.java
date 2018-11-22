@@ -77,9 +77,6 @@ public class SHNGattConnectingStateTest {
     private SHNDeviceResources sharedResources;
 
     @Mock
-    private SHNCentral.SHNCentralListener mockedSHNCentralListener;
-
-    @Mock
     private Handler mockedSHNInternalHandler;
 
     @Mock
@@ -94,8 +91,6 @@ public class SHNGattConnectingStateTest {
     @Captor
     private ArgumentCaptor<Long> timeoutTimeCaptor;
 
-    private String deviceAddress = "Bogus!";
-    
     @Before
     public void setUp() {
         initMocks(this);
@@ -107,12 +102,10 @@ public class SHNGattConnectingStateTest {
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
         doReturn(mockedSHNInternalHandler).when(mockedSHNCentral).getInternalHandler();
 
-        doReturn(deviceAddress).when(mockedBTDevice).getAddress();
+        doReturn("Bogus!").when(mockedBTDevice).getAddress();
 
         doReturn(mockedBTDevice).when(sharedResources).getBtDevice();
         doReturn(mockedSHNCentral).when(sharedResources).getShnCentral();
-        doReturn(mockedBtGattCallback).when(sharedResources).getBTGattCallback();
-        doReturn(mockedSHNCentralListener).when(sharedResources).getShnCentralListener();
 
         doReturn(sharedResources).when(stateMachine).getSharedResources();
 
@@ -147,7 +140,7 @@ public class SHNGattConnectingStateTest {
     public void givenBluetoothIsTurnedOff_whenOnEnterIsCalled_thenItNotifiesListenersAboutTheConnectionFailure() {
         gattConnectingState.onEnter();
 
-        verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
+        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
     }
 
     @Test
@@ -221,7 +214,7 @@ public class SHNGattConnectingStateTest {
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_READ_NOT_PERMITTED, BluetoothProfile.STATE_CONNECTED);
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));
-        verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
+        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
     }
 
     @Test
@@ -251,7 +244,7 @@ public class SHNGattConnectingStateTest {
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));
-        verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
     }
 
     @Test
@@ -283,7 +276,7 @@ public class SHNGattConnectingStateTest {
         timerRunnableCaptor.getValue().run();
 
         verify(stateMachine).setState(isA(SHNDisconnectingState.class));
-        verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorTimeout);
+        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorTimeout);
     }
 
     @Test
@@ -292,11 +285,11 @@ public class SHNGattConnectingStateTest {
         gattConnectingState.onStateUpdated(SHNCentralStateNotReady);
 
         verify(stateMachine).setState(any(SHNDisconnectingState.class));
-        verify(sharedResources).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
     }
 
     @Test
-    public void givenAConnectingStateWithAConnectTimeout_whenConnectingGattIsEntered_thenConnectTimerIsStarted() throws Exception {
+    public void givenAConnectingStateWithAConnectTimeout_whenConnectingGattIsEntered_thenConnectTimerIsStarted() {
         long connectTimeOut = 666L;
         gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
 
@@ -306,14 +299,14 @@ public class SHNGattConnectingStateTest {
     }
 
     @Test
-    public void whenCreatingAConnectingStateWithoutAConnectTimeout_thenIt() throws Exception {
+    public void whenCreatingAConnectingStateWithoutAConnectTimeout_thenIt() {
 
         PowerMockito.verifyStatic(Timer.class, times(0));
         Timer.createTimer(any(Runnable.class), anyLong());
     }
 
     @Test
-    public void whenCreatingAConnectingStateWithAConnectTimeout_thenItWillPassTheTimeoutToTheConnectTimer() throws Exception {
+    public void whenCreatingAConnectingStateWithAConnectTimeout_thenItWillPassTheTimeoutToTheConnectTimer() {
         long connectTimeOut = 666L;
         gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
 

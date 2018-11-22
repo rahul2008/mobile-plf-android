@@ -26,14 +26,17 @@ import java.util.UUID;
 /**
  * @publicPluginApi
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNService.CharacteristicDiscoveryListener {
 
-    public static final int GATT_ERROR = 0x0085;
+    static final int GATT_ERROR = 0x0085;
 
     private static final String TAG = "SHNDeviceImpl";
     private SHNDeviceStateMachine stateMachine;
     private SHNDeviceResources sharedResources;
-    private final SHNCentral.SHNCentralListener centralListener = new SHNCentral.SHNCentralListener() {
+
+    @VisibleForTesting
+    final SHNCentral.SHNCentralListener centralListener = new SHNCentral.SHNCentralListener() {
         @Override
         public void onStateUpdated(@NonNull final SHNCentral shnCentral, @NonNull final SHNCentral.State state) {
             stateMachine.getState().onStateUpdated(state);
@@ -49,7 +52,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
             SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getLogTag(), newState.getLogTag()));
             if (oldState.getExternalState() != newState.getExternalState()) {
-                sharedResources.notifyStateToListener();
+                stateMachine.notifyStateToListener();
             }
         }
     };
@@ -76,13 +79,13 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator, int connectionPriority) {
-        this(btDevice, shnCentral, deviceTypeName, shnBondInitiator, connectionPriority, new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, connectionPriority));
+        this(btDevice, shnCentral, deviceTypeName, new SHNDeviceResources(btDevice, shnCentral, deviceTypeName, shnBondInitiator, connectionPriority));
     }
 
     @VisibleForTesting
-    SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator, int connectionPriority, SHNDeviceResources resources) {
+    SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceResources resources) {
         sharedResources = resources;
-        stateMachine = new SHNDeviceStateMachine(sharedResources);
+        stateMachine = new SHNDeviceStateMachine(this, sharedResources);
         stateMachine.addStateListener(stateChangedListener);
 
         SHNDeviceState initialState = new SHNDisconnectedState(stateMachine);
@@ -147,17 +150,17 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void refreshCache() {
-
+        // TODO da thing
     }
 
     @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        sharedResources.registerSHNDeviceListener(shnDeviceListener);
+        stateMachine.registerSHNDeviceListener(shnDeviceListener);
     }
 
     @Override
     public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        sharedResources.unregisterSHNDeviceListener();
+        stateMachine.unregisterSHNDeviceListener();
     }
 
     @Override

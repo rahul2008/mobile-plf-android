@@ -53,13 +53,7 @@ public class SHNDisconnectingStateTest {
     private SHNCentral mockedSHNCentral;
 
     @Mock
-    private BTGatt.BTGattCallback mockedBtGattCallback;
-
-    @Mock
     private SHNDeviceResources sharedResources;
-
-    @Mock
-    private SHNCentral.SHNCentralListener mockedSHNCentralListener;
 
     @Mock
     private BTGatt btGatt;
@@ -77,9 +71,9 @@ public class SHNDisconnectingStateTest {
 
         doReturn(mockedBTDevice).when(sharedResources).getBtDevice();
         doReturn(mockedSHNCentral).when(sharedResources).getShnCentral();
-        doReturn(mockedBtGattCallback).when(sharedResources).getBTGattCallback();
         doReturn(sharedResources).when(statemachineMock).getSharedResources();
         doReturn(btGatt).when(sharedResources).getBtGatt();
+
         state = new SHNDisconnectingState(statemachineMock);
     }
 

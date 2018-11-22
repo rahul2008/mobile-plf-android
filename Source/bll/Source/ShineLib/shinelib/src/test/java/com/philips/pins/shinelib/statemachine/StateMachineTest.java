@@ -3,7 +3,6 @@ package com.philips.pins.shinelib.statemachine;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import static org.mockito.ArgumentMatchers.nullable;
@@ -28,14 +27,14 @@ public class StateMachineTest {
 
     @SuppressWarnings("unchecked")
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initMocks(this);
         machine = new StateMachine<>();
         machine.addStateListener(listenerMock);
     }
 
     @Test
-    public void whenAStateIsSet_thenOnEnterIsCalledOnThatState() throws Exception {
+    public void whenAStateIsSet_thenOnEnterIsCalledOnThatState() {
 
         machine.setState(stateMock);
 
@@ -43,7 +42,7 @@ public class StateMachineTest {
     }
 
     @Test
-    public void givenAStateIsSet_whenAnotherStateIsSet_thenOnExitIsCalledOnOldState() throws Exception {
+    public void givenAStateIsSet_whenAnotherStateIsSet_thenOnExitIsCalledOnOldState() {
         machine.setState(stateMock);
 
         machine.setState(stateMock2);
@@ -52,7 +51,7 @@ public class StateMachineTest {
     }
 
     @Test
-    public void givenAStateListenerIsSetAndMachineAlreadyHasState_whenANewStateIsSet_thenTheListenerIsNotifiedWithOldAndNewState() throws Exception {
+    public void givenAStateListenerIsSetAndMachineAlreadyHasState_whenANewStateIsSet_thenTheListenerIsNotifiedWithOldAndNewState() {
         machine.setState(stateMock);
 
         machine.setState(stateMock2);
@@ -61,7 +60,7 @@ public class StateMachineTest {
     }
 
     @Test
-    public void givenAStateMachineWithAListener_whenAStateIsChanged_thenTheListenerGetsNotified() throws Exception {
+    public void givenAStateMachineWithAListener_whenAStateIsChanged_thenTheListenerGetsNotified() {
 
         machine.setState(stateMock);
 
@@ -70,7 +69,7 @@ public class StateMachineTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void givenAStateMachineWithAListener_whenAnotherListenerIsAddedAndStateIsChanged_bothAreNotified() throws Exception {
+    public void givenAStateMachineWithAListener_whenAnotherListenerIsAddedAndStateIsChanged_bothAreNotified() {
 
         final StateChangedListener<State> listenerMock2 = mock(StateChangedListener.class);
         machine.addStateListener(listenerMock2);
@@ -90,7 +89,7 @@ public class StateMachineTest {
     }
 
     @Test
-    public void givenAStateMachineWithAListener_whenTheListenerIsRemovedAndStateIsChanged_thenTheListenerIsNotNotified() throws Exception {
+    public void givenAStateMachineWithAListener_whenTheListenerIsRemovedAndStateIsChanged_thenTheListenerIsNotNotified() {
 
         machine.removeStateListener(listenerMock);
         machine.setState(stateMock);
@@ -100,16 +99,13 @@ public class StateMachineTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void givenAStateMachineWithAListener_whenStateIsChangedAndListenerIsRemovedDuringNotification_thenNoExceptionIsThrown() throws Exception {
+    public void givenAStateMachineWithAListener_whenStateIsChangedAndListenerIsRemovedDuringNotification_thenNoExceptionIsThrown() {
         final StateChangedListener<State> listenerMock2 = mock(StateChangedListener.class);
         machine.addStateListener(listenerMock2);
 
-        doAnswer(new Answer<Void>() {
-            @Override
-            public Void answer(final InvocationOnMock invocation) throws Throwable {
-                machine.removeStateListener(listenerMock);
-                return null;
-            }
+        doAnswer((Answer<Void>) invocation -> {
+            machine.removeStateListener(listenerMock);
+            return null;
         }).when(listenerMock).onStateChanged(nullable(State.class), nullable(State.class));
         machine.setState(stateMock);
 

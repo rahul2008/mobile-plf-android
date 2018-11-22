@@ -38,6 +38,6 @@ public class SHNDisconnectedState extends SHNDeviceState {
 
     @Override
     public void disconnect() {
-        sharedResources.notifyStateToListener();
+        stateMachine.notifyStateToListener();
     }
 }
