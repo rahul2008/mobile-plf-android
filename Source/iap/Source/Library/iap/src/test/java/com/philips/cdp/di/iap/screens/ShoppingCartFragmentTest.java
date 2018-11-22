@@ -53,7 +53,7 @@ public class ShoppingCartFragmentTest {
         assertNotNull( shoppingCartFragment );
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldAddEmptyCartFragment_WhenOnEventRecievedWithEMPTY_CART_FRAGMENT_REPLACEDString() throws Exception {
         shoppingCartFragment.onEventReceived(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
     }
