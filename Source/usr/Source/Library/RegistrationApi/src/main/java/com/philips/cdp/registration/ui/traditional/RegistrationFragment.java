@@ -32,7 +32,6 @@ import com.philips.cdp.registration.events.NetworkStateListener;
 import com.philips.cdp.registration.myaccount.UserDetailsFragment;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.URNotification;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
@@ -168,6 +167,9 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             try {
                 currentFragment = mFragmentManager.getFragments().get(count - 1);
                 mFragmentManager.popBackStack();
+                if (currentFragment instanceof HomeFragment && networkUtility.isNetworkAvailable()) {
+                    ((HomeFragment) currentFragment).disableControlsOnNetworkConnectionGone();
+                }
             } catch (IllegalStateException e) {
                 /**
                  * Ignore - No way to avoid this if some action is performed
