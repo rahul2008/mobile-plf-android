@@ -402,7 +402,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onSetDeliveryMode(Message msg) {
-
+        Utility.isDelvieryFirstTimeUser=false;
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             updateCartOnResume();
         } else {
