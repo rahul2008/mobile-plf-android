@@ -79,8 +79,8 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
         if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
             finishActivity();
         } else {
-            //getFragmentManager().popBackStack();
-            showProductCatalogFragment(EmptyCartFragment.TAG);
+            getFragmentManager().popBackStack();
+            //showProductCatalogFragment(EmptyCartFragment.TAG);
         }
         return true;
     }

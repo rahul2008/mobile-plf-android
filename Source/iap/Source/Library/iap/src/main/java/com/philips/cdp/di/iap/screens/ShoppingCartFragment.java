@@ -198,6 +198,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onEventReceived(final String event) {
         hideProgressBar();
         if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
+            getFragmentManager().popBackStack();
             addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG, true);
         } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.valueOf(event));
