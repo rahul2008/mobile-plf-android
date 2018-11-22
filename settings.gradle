@@ -137,8 +137,8 @@ project(ext.strings.ewsuapp.projectName).projectDir = new File('./Source/ews/Sou
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountApp'
 //project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
-include ':commlib-demoapp'
-project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
+//include ':commlib-demoapp'
+//project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
 //include ':ews-demoapp'
 //project(':ews-demoapp').projectDir = new File('./Source/ews/Source/DemoApp')
 //include ':bluelib-demoapp'
