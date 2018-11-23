@@ -7,6 +7,7 @@ package com.philips.cdp2.demouapp.fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -287,16 +288,21 @@ public class DiscoveredAppliancesFragment extends Fragment {
     }
 
     private void startLanDiscovery() {
+        lanDiscoverySwitch.setChecked(tryStartingDiscovery(lanDiscoveryStrategy));
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P){
+            return;
+        }
+
+        // We need location permissions in order to read the current WiFi SSID.
+        // Without it, the WiFi SSID is always "<unknown ssid>"
         acquirePermission(new PermissionResultListener() {
             @Override
-            public void onPermissionGranted() {
-                lanDiscoverySwitch.setChecked(tryStartingDiscovery(lanDiscoveryStrategy));
-            }
+            public void onPermissionGranted() {}
 
             @Override
             public void onPermissionDenied() {
                 showIndefiniteMessage(view, "Cloud communication will not work without location permissions!!!");
-                lanDiscoverySwitch.setChecked(tryStartingDiscovery(lanDiscoveryStrategy));
             }
         });
     }
