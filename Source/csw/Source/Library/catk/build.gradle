@@ -114,7 +114,6 @@ dependencies {
         implementation project(strings.usr.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.ail.projectName)
-
     } else {
         implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'customtabs'
@@ -140,7 +139,7 @@ dependencies {
     testImplementation deps.powermock_junit_rule_agent
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
-    
+    testImplementation philipsdeps.jump
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
