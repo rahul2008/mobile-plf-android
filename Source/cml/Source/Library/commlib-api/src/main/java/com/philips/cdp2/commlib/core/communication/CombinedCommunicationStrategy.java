@@ -229,6 +229,16 @@ public class CombinedCommunicationStrategy extends ObservableCommunicationStrate
         return null;
     }
 
+    @Nullable
+    public <S extends CommunicationStrategy> CommunicationStrategy findStrategyBy(Class<S> type) {
+        for (CommunicationStrategy strategy : communicationStrategies) {
+            if (strategy.getClass().isAssignableFrom(type)) {
+                return strategy;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void addSubscriptionEventListener(@NonNull SubscriptionEventListener listener) {
         for (CommunicationStrategy strategy : communicationStrategies) {
