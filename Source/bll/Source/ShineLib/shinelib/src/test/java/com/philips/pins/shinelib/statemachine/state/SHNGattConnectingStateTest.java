@@ -17,6 +17,7 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.statemachine.SHNDeviceResources;
+import com.philips.pins.shinelib.statemachine.SHNDeviceState;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.tagging.SHNTagger;
 
@@ -56,11 +57,6 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 @PrepareForTest({SHNGattConnectingState.class, Timer.class, SHNTagger.class})
 public class SHNGattConnectingStateTest {
 
-    private SHNGattConnectingState gattConnectingState;
-
-    @Mock
-    private SHNDeviceStateMachine stateMachine;
-
     @Mock
     private Context mockedContext;
 
@@ -71,16 +67,22 @@ public class SHNGattConnectingStateTest {
     private SHNCentral mockedSHNCentral;
 
     @Mock
-    private BTGatt.BTGattCallback mockedBtGattCallback;
+    private SHNDeviceStateMachine mockedStateMachine;
 
     @Mock
-    private SHNDeviceResources sharedResources;
+    private SHNDeviceState mockedState;
+
+    @Mock
+    private SHNDeviceResources mockedSharedResources;
 
     @Mock
     private Handler mockedSHNInternalHandler;
 
     @Mock
     private Timer timerMock;
+
+    @Mock
+    private BTGatt.BTGattCallback mockedBtGattCallback;
 
     @Captor
     private ArgumentCaptor<Runnable> runnableArgumentCaptor;
@@ -90,6 +92,8 @@ public class SHNGattConnectingStateTest {
 
     @Captor
     private ArgumentCaptor<Long> timeoutTimeCaptor;
+
+    private SHNGattConnectingState gattConnectingState;
 
     @Before
     public void setUp() {
@@ -104,22 +108,24 @@ public class SHNGattConnectingStateTest {
 
         doReturn("Bogus!").when(mockedBTDevice).getAddress();
 
-        doReturn(mockedBTDevice).when(sharedResources).getBtDevice();
-        doReturn(mockedSHNCentral).when(sharedResources).getShnCentral();
+        doReturn(mockedBTDevice).when(mockedSharedResources).getBtDevice();
+        doReturn(mockedSHNCentral).when(mockedSharedResources).getShnCentral();
+        doReturn(mockedBtGattCallback).when(mockedSharedResources).getBtGattCallback();
 
-        doReturn(sharedResources).when(stateMachine).getSharedResources();
+        doReturn(mockedSharedResources).when(mockedStateMachine).getSharedResources();
+        doReturn(mockedState).when(mockedStateMachine).getState();
 
-        gattConnectingState = new SHNGattConnectingState(stateMachine);
+        gattConnectingState = new SHNGattConnectingState(mockedStateMachine);
     }
 
     @Test(expected = InvalidParameterException.class)
     public void cannotCreateAGattConnectingStateWithANegativeTimeout() {
-        new SHNGattConnectingState(stateMachine, -1);
+        new SHNGattConnectingState(mockedStateMachine, -1);
     }
 
     @Test
     public void canCreateAGattConnectingStateWithAPositiveTimeout() {
-        new SHNGattConnectingState(stateMachine, 3);
+        new SHNGattConnectingState(mockedStateMachine, 3);
     }
 
     @Test
@@ -133,14 +139,14 @@ public class SHNGattConnectingStateTest {
     public void givenBluetoothIsTurnedOff_whenOnEnterIsCalled_thenItSetsTheStateToDisconnecting() {
         gattConnectingState.onEnter();
 
-        verify(stateMachine).setState(any(SHNDisconnectingState.class));
+        verify(mockedStateMachine).setState(any(SHNDisconnectingState.class));
     }
 
     @Test
     public void givenBluetoothIsTurnedOff_whenOnEnterIsCalled_thenItNotifiesListenersAboutTheConnectionFailure() {
         gattConnectingState.onEnter();
 
-        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
+        verify(mockedStateMachine).notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
     }
 
     @Test
@@ -149,7 +155,7 @@ public class SHNGattConnectingStateTest {
 
         gattConnectingState.onEnter();
 
-        verify(mockedBTDevice).connectGatt(same(mockedContext), eq(false), same(mockedSHNCentral), same(mockedBtGattCallback), eq(0));
+        verify(mockedBTDevice).connectGatt(same(mockedContext), eq(false), same(mockedSHNCentral), any(), eq(0));
     }
 
     @Test
@@ -166,7 +172,7 @@ public class SHNGattConnectingStateTest {
 
     @Test
     public void givenTheDeviceIsConfiguredToUseConnectionPriorityAsHigh_whenOnEnterIsCalled_thenTheConnectionWillBeInitiatedUsingConnectionPriorityAsHigh() {
-        doReturn(BluetoothGatt.CONNECTION_PRIORITY_HIGH).when(sharedResources).getConnectionPriority();
+        doReturn(BluetoothGatt.CONNECTION_PRIORITY_HIGH).when(mockedSharedResources).getConnectionPriority();
         doReturn(SHNCentralStateReady).when(mockedSHNCentral).getShnCentralState();
 
         gattConnectingState.onEnter();
@@ -177,7 +183,7 @@ public class SHNGattConnectingStateTest {
     @Test
     public void givenTheDeviceHasJustBeenDisconnected_whenOnEnterIsCalled_thenItWillPostponeTheConnectCall() {
         long justNow = System.currentTimeMillis();
-        doReturn(justNow).when(sharedResources).getLastDisconnectedTimeMillis();
+        doReturn(justNow).when(mockedSharedResources).getLastDisconnectedTimeMillis();
 
         gattConnectingState.onEnter();
 
@@ -189,12 +195,12 @@ public class SHNGattConnectingStateTest {
     public void givenTheDeviceHasJustBeenDisconnected_andTheConnectCallHasBeenPostponed_whenThePostponedCallIsExectuted_thenGattConnectIsCalled() {
         long justNow = System.currentTimeMillis();
         long longAgo = justNow - 3000L;
-        doReturn(justNow).when(sharedResources).getLastDisconnectedTimeMillis();
+        doReturn(justNow).when(mockedSharedResources).getLastDisconnectedTimeMillis();
         gattConnectingState.onEnter();
 
         verify(mockedSHNInternalHandler).postDelayed(runnableArgumentCaptor.capture(), anyLong());
         when(mockedSHNCentral.getShnCentralState()).thenReturn(SHNCentralStateReady);
-        doReturn(longAgo).when(sharedResources).getLastDisconnectedTimeMillis();
+        doReturn(longAgo).when(mockedSharedResources).getLastDisconnectedTimeMillis();
         runnableArgumentCaptor.getValue().run();
 
         verify(mockedBTDevice).connectGatt(same(mockedContext), anyBoolean(), same(mockedSHNCentral), same(mockedBtGattCallback), anyInt());
@@ -202,19 +208,19 @@ public class SHNGattConnectingStateTest {
 
     @Test
     public void givenNoBondInitiatorIsRequired_whenGattConnectSucceeds_thenItWillSwitchToTheDiscoveringServicesState() {
-        doReturn(SHNDeviceImpl.SHNBondInitiator.NONE).when(sharedResources).getShnBondInitiator();
+        doReturn(SHNDeviceImpl.SHNBondInitiator.NONE).when(mockedSharedResources).getShnBondInitiator();
 
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_SUCCESS, BluetoothProfile.STATE_CONNECTED);
 
-        verify(stateMachine).setState(any(SHNDiscoveringServicesState.class));
+        verify(mockedStateMachine).setState(any(SHNDiscoveringServicesState.class));
     }
 
     @Test
     public void whenGattConnectSucceedsWithAStatusThatIsNotSuccess_thenItWillSwitchToTheDisconnectingState_AndReportAFailure() {
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_READ_NOT_PERMITTED, BluetoothProfile.STATE_CONNECTED);
 
-        verify(stateMachine).setState(any(SHNDisconnectingState.class));
-        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
+        verify(mockedStateMachine).setState(any(SHNDisconnectingState.class));
+        verify(mockedStateMachine).notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
     }
 
     @Test
@@ -231,11 +237,11 @@ public class SHNGattConnectingStateTest {
 
     @Test
     public void givenABondInitiatorHasBeenSet_whenGattConnectSucceeds_thenItWillSwitchToTheWaitingUntilBondedState() {
-        doReturn(SHNDeviceImpl.SHNBondInitiator.APP).when(sharedResources).getShnBondInitiator();
+        doReturn(SHNDeviceImpl.SHNBondInitiator.APP).when(mockedSharedResources).getShnBondInitiator();
 
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_SUCCESS, BluetoothProfile.STATE_CONNECTED);
 
-        verify(stateMachine).setState(any(SHNWaitingUntilBondedState.class));
+        verify(mockedStateMachine).setState(any(SHNWaitingUntilBondedState.class));
     }
 
     @Test
@@ -243,8 +249,8 @@ public class SHNGattConnectingStateTest {
 
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
 
-        verify(stateMachine).setState(any(SHNDisconnectingState.class));
-        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        verify(mockedStateMachine).setState(any(SHNDisconnectingState.class));
+        verify(mockedStateMachine).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
     }
 
     @Test
@@ -261,7 +267,7 @@ public class SHNGattConnectingStateTest {
     @Test
     public void givenAConnectingStateHasBeenCreatedWithAConnectTimeout_whenGattConnectFails_thenItWillTryToConnectAgain() {
         long connectTimeOut = 1000L;
-        gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
+        gattConnectingState = new SHNGattConnectingState(mockedStateMachine, connectTimeOut);
 
         gattConnectingState.onConnectionStateChange(null, BluetoothGatt.GATT_FAILURE, BluetoothProfile.STATE_DISCONNECTED);
 
@@ -271,12 +277,12 @@ public class SHNGattConnectingStateTest {
     @Test
     public void givenAConnectingStateHasBeenCreatedWithAConnectTimeout_whenConnectTimerExpires_thenItWillGoToADisconnectingState_andReportAFailure() {
         long connectTimeOut = 1000L;
-        gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
+        gattConnectingState = new SHNGattConnectingState(mockedStateMachine, connectTimeOut);
 
         timerRunnableCaptor.getValue().run();
 
-        verify(stateMachine).setState(isA(SHNDisconnectingState.class));
-        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorTimeout);
+        verify(mockedStateMachine).setState(isA(SHNDisconnectingState.class));
+        verify(mockedStateMachine).notifyFailureToListener(SHNResult.SHNErrorTimeout);
     }
 
     @Test
@@ -284,14 +290,14 @@ public class SHNGattConnectingStateTest {
 
         gattConnectingState.onStateUpdated(SHNCentralStateNotReady);
 
-        verify(stateMachine).setState(any(SHNDisconnectingState.class));
-        verify(stateMachine).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        verify(mockedStateMachine).setState(any(SHNDisconnectingState.class));
+        verify(mockedStateMachine).notifyFailureToListener(SHNResult.SHNErrorInvalidState);
     }
 
     @Test
     public void givenAConnectingStateWithAConnectTimeout_whenConnectingGattIsEntered_thenConnectTimerIsStarted() {
         long connectTimeOut = 666L;
-        gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
+        gattConnectingState = new SHNGattConnectingState(mockedStateMachine, connectTimeOut);
 
         gattConnectingState.onEnter();
 
@@ -308,7 +314,7 @@ public class SHNGattConnectingStateTest {
     @Test
     public void whenCreatingAConnectingStateWithAConnectTimeout_thenItWillPassTheTimeoutToTheConnectTimer() {
         long connectTimeOut = 666L;
-        gattConnectingState = new SHNGattConnectingState(stateMachine, connectTimeOut);
+        gattConnectingState = new SHNGattConnectingState(mockedStateMachine, connectTimeOut);
 
         assertThat(timeoutTimeCaptor.getValue()).isEqualTo(connectTimeOut);
     }

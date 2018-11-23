@@ -44,7 +44,7 @@ public class SHNDisconnectingStateTest {
     private Timer timerMock;
 
     @Mock
-    private SHNDeviceStateMachine statemachineMock;
+    private SHNDeviceStateMachine mockedStatemachine;
 
     @Mock
     private BTDevice mockedBTDevice;
@@ -56,7 +56,7 @@ public class SHNDisconnectingStateTest {
     private SHNDeviceResources sharedResources;
 
     @Mock
-    private BTGatt btGatt;
+    private BTGatt mockedBtGatt;
 
     @Captor
     private ArgumentCaptor<Runnable> timerRunnable;
@@ -71,14 +71,15 @@ public class SHNDisconnectingStateTest {
 
         doReturn(mockedBTDevice).when(sharedResources).getBtDevice();
         doReturn(mockedSHNCentral).when(sharedResources).getShnCentral();
-        doReturn(sharedResources).when(statemachineMock).getSharedResources();
-        doReturn(btGatt).when(sharedResources).getBtGatt();
+        doReturn(mockedBtGatt).when(sharedResources).getBtGatt();
 
-        state = new SHNDisconnectingState(statemachineMock);
+        doReturn(sharedResources).when(mockedStatemachine).getSharedResources();
+
+        state = new SHNDisconnectingState(mockedStatemachine);
     }
 
     @Test
-    public void whenStateIsEntered_thenDisconnectTimerIsStarted() throws Exception {
+    public void whenStateIsEntered_thenDisconnectTimerIsStarted() {
 
         state.onEnter();
 
@@ -86,16 +87,16 @@ public class SHNDisconnectingStateTest {
     }
 
     @Test
-    public void givenStateIsEntered_whenTimerExpires_thenStateIsSetToDisconnected() throws Exception {
+    public void givenStateIsEntered_whenTimerExpires_thenStateIsSetToDisconnected() {
         state.onEnter();
 
         timerRunnable.getValue().run();
 
-        verify(statemachineMock).setState(isA(SHNDisconnectedState.class));
+        verify(mockedStatemachine).setState(isA(SHNDisconnectedState.class));
     }
 
     @Test
-    public void whenStateIsChangedToNotReady_thenTagIsSentWithProperData() throws Exception {
+    public void whenStateIsChangedToNotReady_thenTagIsSentWithProperData() {
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         state.onStateUpdated(SHNCentralStateNotReady);

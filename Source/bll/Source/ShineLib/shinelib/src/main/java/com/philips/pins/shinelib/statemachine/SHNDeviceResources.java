@@ -41,6 +41,7 @@ public class SHNDeviceResources {
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
     private Map<Class<? extends SHNCapability>, SHNCapability> registeredByClassCapabilities = new HashMap<>();
+    private BTGatt.BTGattCallback btGattCallback;
 
     public SHNDeviceResources(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceImpl.SHNBondInitiator shnBondInitiator, int connectionPriority) {
         this.btDevice = btDevice;
@@ -80,8 +81,17 @@ public class SHNDeviceResources {
         return btGatt;
     }
 
-    public void setBtGatt(BTGatt btGatt) {
+    public void setBtGatt(@Nullable final BTGatt btGatt) {
         this.btGatt = btGatt;
+    }
+
+    public void setBtGattCallback(@Nullable final BTGatt.BTGattCallback btGattCallback) {
+        this.btGattCallback = btGattCallback;
+    }
+
+    @Nullable
+    public BTGatt.BTGattCallback getBtGattCallback() {
+        return btGattCallback;
     }
 
     public void registerService(SHNService shnService) {

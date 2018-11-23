@@ -7,6 +7,9 @@ package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -85,6 +88,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     @VisibleForTesting
     SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceResources resources) {
         sharedResources = resources;
+        sharedResources.setBtGattCallback(btGattCallback);
         stateMachine = new SHNDeviceStateMachine(this, sharedResources);
         stateMachine.addStateListener(stateChangedListener);
 
@@ -150,7 +154,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void refreshCache() {
-        // TODO da thing
+        // TODO
     }
 
     @Override
@@ -225,5 +229,75 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     @Override
     public String toString() {
         return "SHNDevice - " + sharedResources.getName() + " [" + sharedResources.getBtDevice().getAddress() + "]";
+    }
+
+    @VisibleForTesting
+    BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
+
+        @Override
+        public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
+            SHNLogger.i(TAG, "BTGattCallback - onConnectionStateChange (newState = '" + bluetoothStateToString(newState) + "', status = " + status + ")");
+            stateMachine.getState().onConnectionStateChange(gatt, status, newState);
+        }
+
+        @Override
+        public void onServicesDiscovered(BTGatt gatt, int status) {
+            stateMachine.getState().onServicesDiscovered(gatt, status);
+        }
+
+        @Override
+        public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
+            SHNService shnService = sharedResources.getSHNService(characteristic.getService().getUuid());
+            shnService.onCharacteristicReadWithData(gatt, characteristic, status, data);
+        }
+
+        @Override
+        public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            SHNService shnService = sharedResources.getSHNService(characteristic.getService().getUuid());
+            shnService.onCharacteristicWrite(gatt, characteristic, status);
+        }
+
+        @Override
+        public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
+            SHNService shnService = sharedResources.getSHNService(characteristic.getService().getUuid());
+            shnService.onCharacteristicChangedWithData(gatt, characteristic, data);
+        }
+
+        @Override
+        public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
+            SHNService shnService = sharedResources.getSHNService(descriptor.getCharacteristic().getService().getUuid());
+            shnService.onDescriptorReadWithData(gatt, descriptor, status, data);
+        }
+
+        @Override
+        public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            SHNService shnService = sharedResources.getSHNService(descriptor.getCharacteristic().getService().getUuid());
+            shnService.onDescriptorWrite(gatt, descriptor, status);
+        }
+
+        @Override
+        public void onReliableWriteCompleted(BTGatt gatt, int status) {
+            throw new UnsupportedOperationException("onReliableWriteCompleted");
+        }
+
+        @Override
+        public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
+            SHNDevice.SHNDeviceListener deviceListener = stateMachine.getDeviceListener();
+            if (deviceListener != null) {
+                deviceListener.onReadRSSI(rssi);
+            }
+        }
+
+        @Override
+        public void onMtuChanged(BTGatt gatt, int mtu, int status) {
+
+        }
+    };
+
+    private static String bluetoothStateToString(int bluetoothState) {
+        return (bluetoothState == BluetoothProfile.STATE_CONNECTED) ? "Connected" :
+                (bluetoothState == BluetoothProfile.STATE_CONNECTING) ? "Connecting" :
+                        (bluetoothState == BluetoothProfile.STATE_DISCONNECTED) ? "Disconnected" :
+                                (bluetoothState == BluetoothProfile.STATE_DISCONNECTING) ? "Disconnecting" : "Unknown";
     }
 }
