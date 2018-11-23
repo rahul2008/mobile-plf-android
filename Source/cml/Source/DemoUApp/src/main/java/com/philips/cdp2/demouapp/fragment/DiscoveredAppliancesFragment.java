@@ -45,6 +45,7 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
+import com.philips.cdp2.demouapp.util.PermissionResultListener;
 import com.philips.cdp2.demouapp.util.UiUtils;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.philips.cdp2.commlib.core.CommCentral.getAppIdProvider;
+import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 
 public class DiscoveredAppliancesFragment extends Fragment {
 
@@ -62,7 +64,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
 
-    private Runnable permissionCallback;
+    private PermissionResultListener permissionResultListener;
 
     private CommCentral commCentral;
 
@@ -79,12 +81,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private Switch lanDiscoverySwitch;
     private Switch bleDiscoverySwitch;
 
-    private AppIdProvider.AppIdListener appIdListener = new AppIdProvider.AppIdListener() {
-        @Override
-        public void onAppIdChanged(String appId) {
-            updateAppId();
-        }
-    };
+    private AppIdProvider.AppIdListener appIdListener = appId -> updateAppId();
 
     private DiscoveryListener lanDiscoveryListener = new DiscoveryListener() {
         @Override
@@ -144,12 +141,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         applianceAdapter.clear();
 
         final Set<Appliance> appliances = commCentral.getApplianceManager().getAppliances();
-        Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
-            @Override
-            public int compare(Appliance o1, Appliance o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+        Collections.sort(new ArrayList<>(appliances), (o1, o2) -> o1.getName().compareTo(o2.getName()));
         for (Appliance appliance : appliances) {
             appliance.getWifiPort().addPortListener(wifiPortListener);
         }
@@ -223,50 +215,35 @@ public class DiscoveredAppliancesFragment extends Fragment {
         });
 
         lanDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_lan_discovery);
-        lanDiscoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startLanDiscovery();
-                } else {
-                    stopLanDiscovery();
-                }
+        lanDiscoverySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                startLanDiscovery();
+            } else {
+                stopLanDiscovery();
             }
         });
-        lanDiscoverySwitch.setChecked(true);
 
         bleDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_ble_discovery);
-        bleDiscoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startBleDiscovery();
-                } else {
-                    stopBleDiscovery();
-                }
+        bleDiscoverySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                startBleDiscovery();
+            } else {
+                stopBleDiscovery();
             }
         });
 
         final ListView listViewAppliances = view.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
-        listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final Appliance appliance = applianceAdapter.getItem(position);
+        listViewAppliances.setOnItemClickListener((parent, view, position, id) -> {
+            final Appliance appliance = applianceAdapter.getItem(position);
 
-                if (appliance != null) {
-                    CommlibUapp.get().nextFragment(ApplianceFragmentFactory.newInstance(ApplianceFragment.class, appliance));
-                }
+            if (appliance != null) {
+                CommlibUapp.get().nextFragment(ApplianceFragmentFactory.newInstance(ApplianceFragment.class, appliance));
             }
         });
 
         final FloatingActionButton fab = view.findViewById(R.id.cml_clearAppliancesButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commCentral.clearDiscoveredAppliances();
-            }
-        });
+        fab.setOnClickListener(v -> commCentral.clearDiscoveredAppliances());
 
         return view;
     }
@@ -297,12 +274,31 @@ public class DiscoveredAppliancesFragment extends Fragment {
         appIdProvider.removeAppIdListener(appIdListener);
     }
 
-    private void startLanDiscovery() {
+    private Boolean tryStartingDiscovery(DiscoveryStrategy discoveryStrategy) {
         try {
-            lanDiscoveryStrategy.start(discoveryFilterModelIds);
+            discoveryStrategy.start(discoveryFilterModelIds);
+            return true;
         } catch (MissingPermissionException e) {
-            Log.e(TAG, "Error starting discovery: " + e.getMessage());
+            String errorMessage = "Error starting discovery for " + discoveryStrategy.getClass().getSimpleName() + ": " + e.getMessage();
+            Log.e(TAG, errorMessage);
+            showIndefiniteMessage(view, errorMessage);
+            return false;
         }
+    }
+
+    private void startLanDiscovery() {
+        acquirePermission(new PermissionResultListener() {
+            @Override
+            public void onPermissionGranted() {
+                lanDiscoverySwitch.setChecked(tryStartingDiscovery(lanDiscoveryStrategy));
+            }
+
+            @Override
+            public void onPermissionDenied() {
+                showIndefiniteMessage(view, "Cloud communication will not work without location permissions!!!");
+                lanDiscoverySwitch.setChecked(tryStartingDiscovery(lanDiscoveryStrategy));
+            }
+        });
     }
 
     private void stopLanDiscovery() {
@@ -311,18 +307,18 @@ public class DiscoveredAppliancesFragment extends Fragment {
     }
 
     private void startBleDiscovery() {
-        try {
-            bleDiscoveryStrategy.start(discoveryFilterModelIds);
-        } catch (MissingPermissionException e) {
-            Log.e(TAG, "Error starting discovery: " + e.getMessage());
+        acquirePermission(new PermissionResultListener() {
+            @Override
+            public void onPermissionGranted() {
+                bleDiscoverySwitch.setChecked(tryStartingDiscovery(bleDiscoveryStrategy));
+            }
 
-            acquirePermission(new Runnable() {
-                @Override
-                public void run() {
-                    startBleDiscovery();
-                }
-            });
-        }
+            @Override
+            public void onPermissionDenied() {
+                showIndefiniteMessage(view, "BLE discovery requires location permissions!");
+                bleDiscoverySwitch.setChecked(false);
+            }
+        });
     }
 
     private void stopBleDiscovery() {
@@ -346,19 +342,25 @@ public class DiscoveredAppliancesFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    new Handler().post(this.permissionCallback);
+                if (grantResults.length > 0) {
+                    int grantResult = grantResults[0];
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        this.permissionResultListener.onPermissionGranted();
+                    } else {
+                        this.permissionResultListener.onPermissionDenied();
+                    }
+                    this.permissionResultListener = null;
                 }
             }
         }
     }
 
-    private void acquirePermission(@NonNull Runnable permissionCallback) {
-        this.permissionCallback = permissionCallback;
-
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
+    private void acquirePermission(@NonNull PermissionResultListener permissionResultListener) {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            permissionResultListener.onPermissionGranted();
+        } else {
+            this.permissionResultListener = permissionResultListener;
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_REQUEST_CODE);
         }
     }
 
