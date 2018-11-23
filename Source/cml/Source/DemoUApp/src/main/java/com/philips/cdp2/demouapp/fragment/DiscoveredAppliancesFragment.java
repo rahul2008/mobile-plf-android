@@ -302,7 +302,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
             @Override
             public void onPermissionDenied() {
-                showIndefiniteMessage(view, "Cloud communication will not work without location permissions!!!");
+                showIndefiniteMessage(view, "⚠️ Cloud communication will not work without location permissions!");
             }
         });
     }
