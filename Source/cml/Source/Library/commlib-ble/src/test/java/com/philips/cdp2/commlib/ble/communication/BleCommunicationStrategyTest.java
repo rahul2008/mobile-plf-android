@@ -406,6 +406,6 @@ public class BleCommunicationStrategyTest {
 
         strategy.refreshCache();
 
-        verify(deviceMock).refreshCache();
+        verify(deviceMock).refreshInternalCache();
     }
 }

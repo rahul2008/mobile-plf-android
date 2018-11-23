@@ -91,7 +91,7 @@ public interface SHNDevice {
     /**
      * Refresh the BLE Cache. This will clear the list of stored services and characteristics.
      */
-    void refreshCache();
+    void refreshInternalCache();
 
     /**
      * Register a {@code SHNDeviceListener} instance to receive updates about the peripheral state.

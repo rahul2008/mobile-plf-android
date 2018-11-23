@@ -153,8 +153,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     @Override
-    public void refreshCache() {
-        // TODO
+    public void refreshInternalCache() {
+        sharedResources.getBtDevice().refreshInternalCache();
     }
 
     @Override

@@ -1361,9 +1361,11 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void givenDeviceResourcesHasABtGatt_whenRefreshCacheIsCalled_thenTheCallIsForwardedToThatBtGatt() {
-        when(mockedDeviceResources.getBtGatt()).thenReturn(mockedBTGatt);
+    public void givenDeviceResourcesHasABtDevice_whenRefreshCacheIsCalled_thenTheCallIsForwardedToThatBtDevice() {
+        when(mockedDeviceResources.getBtDevice()).thenReturn(mockedBTDevice);
 
-        // TODO
+        shnDevice.refreshInternalCache();
+
+        verify(mockedBTDevice).refreshInternalCache();
     }
 }

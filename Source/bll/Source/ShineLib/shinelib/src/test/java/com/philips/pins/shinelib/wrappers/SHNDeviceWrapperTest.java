@@ -392,10 +392,10 @@ public class SHNDeviceWrapperTest {
         whenCreatedThenDeviceListenerIsAttached();
         whenCreatedThenDisoveryListenerIsAttached();
 
-        shnDeviceWrapper.refreshCache();
+        shnDeviceWrapper.refreshInternalCache();
 
         verify(internalHandlerMock).post(runnableCaptor.capture());
         runnableCaptor.getValue().run();
-        verify(shnDeviceMock).refreshCache();
+        verify(shnDeviceMock).refreshInternalCache();
     }
 }

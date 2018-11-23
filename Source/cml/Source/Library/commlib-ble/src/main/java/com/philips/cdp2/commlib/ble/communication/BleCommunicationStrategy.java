@@ -231,7 +231,7 @@ public class BleCommunicationStrategy extends ObservableCommunicationStrategy {
     public void refreshCache() {
         final SHNDevice device = getBleDevice();
         if (device != null) {
-            device.refreshCache();
+            device.refreshInternalCache();
         }
     }
 
