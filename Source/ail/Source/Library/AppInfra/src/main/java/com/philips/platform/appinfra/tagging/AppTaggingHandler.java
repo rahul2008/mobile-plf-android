@@ -248,7 +248,6 @@ public class AppTaggingHandler {
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
                 break;
             case OPTOUT:
-                Analytics.clearQueue();
                 mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
                 Analytics.trackAction("analyticsOptOut", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
