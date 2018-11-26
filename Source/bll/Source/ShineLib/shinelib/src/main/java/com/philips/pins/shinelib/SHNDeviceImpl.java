@@ -154,7 +154,10 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void refreshInternalCache() {
-        sharedResources.getBtDevice().refreshInternalCache();
+        BTGatt btGatt = sharedResources.getBtGatt();
+        if (btGatt != null) {
+            btGatt.refreshInternalCache();
+        }
     }
 
     @Override

@@ -5,7 +5,6 @@
 
 package com.philips.pins.shinelib.bluetoothwrapper;
 
-import android.app.Application;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
@@ -17,24 +16,15 @@ import com.philips.pins.shinelib.workarounds.OS;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.util.ReflectionHelpers;
 
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -49,13 +39,11 @@ public class BTDeviceTest {
 
     private BTDevice btDevice;
 
-    private MockedHandler mockedUserHandler;
-
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        mockedUserHandler = new MockedHandler();
+        MockedHandler mockedUserHandler = new MockedHandler();
         btDevice = new BTDevice(bluetoothDevice, mockedUserHandler.getMock());
     }
 
@@ -81,7 +69,7 @@ public class BTDeviceTest {
     }
 
     @Test
-    public void whenBluetoothDeviceConnectGattIsCalledThenReturnGatt() throws NoSuchFieldException, IllegalAccessException {
+    public void whenBluetoothDeviceConnectGattIsCalledThenReturnGatt() {
         SHNCentral shnCentral = mock(SHNCentral.class);
         Context context = mock(Context.class);
         BluetoothGatt mockBluetoothGatt = mock(BluetoothGatt.class);
@@ -99,7 +87,7 @@ public class BTDeviceTest {
     }
 
     @Test
-    public void whenBluetoothDeviceConnectGattIsCalledThenConnectionPriorityIsSet() throws NoSuchFieldException, IllegalAccessException {
+    public void whenBluetoothDeviceConnectGattIsCalledThenConnectionPriorityIsSet() {
         SHNCentral shnCentral = mock(SHNCentral.class);
         Context context = mock(Context.class);
         BluetoothGatt mockBluetoothGatt = mock(BluetoothGatt.class);
@@ -115,7 +103,7 @@ public class BTDeviceTest {
         when(bluetoothDevice.getBondState()).thenReturn(BluetoothDevice.BOND_NONE);
         when(bluetoothDevice.createBond()).thenReturn(true);
 
-        assertEquals(btDevice.createBond(), true);
+        assertTrue(btDevice.createBond());
     }
 
     @Test
@@ -123,7 +111,7 @@ public class BTDeviceTest {
         when(bluetoothDevice.getBondState()).thenReturn(BluetoothDevice.BOND_NONE);
         when(bluetoothDevice.createBond()).thenReturn(false);
 
-        assertEquals(btDevice.createBond(), false);
+        assertFalse(btDevice.createBond());
     }
 
     @Test
@@ -131,7 +119,7 @@ public class BTDeviceTest {
         when(bluetoothDevice.getBondState()).thenReturn(BluetoothDevice.BOND_BONDED);
 
         verify(bluetoothDevice, never()).createBond();
-        assertEquals(btDevice.createBond(), false);
+        assertFalse(btDevice.createBond());
     }
 
     @Test
@@ -139,6 +127,6 @@ public class BTDeviceTest {
         when(bluetoothDevice.getBondState()).thenReturn(BluetoothDevice.BOND_BONDING);
 
         verify(bluetoothDevice, never()).createBond();
-        assertEquals(btDevice.createBond(), false);
+        assertFalse(btDevice.createBond());
     }
 }

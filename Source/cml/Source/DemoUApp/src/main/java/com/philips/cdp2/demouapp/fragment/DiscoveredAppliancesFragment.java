@@ -22,12 +22,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
@@ -50,7 +49,6 @@ import com.philips.cdp2.demouapp.util.UiUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -79,12 +77,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private Switch lanDiscoverySwitch;
     private Switch bleDiscoverySwitch;
 
-    private AppIdProvider.AppIdListener appIdListener = new AppIdProvider.AppIdListener() {
-        @Override
-        public void onAppIdChanged(String appId) {
-            updateAppId();
-        }
-    };
+    private AppIdProvider.AppIdListener appIdListener = appId -> updateAppId();
 
     private DiscoveryListener lanDiscoveryListener = new DiscoveryListener() {
         @Override
@@ -143,13 +136,8 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private void onAppliancesChanged() {
         applianceAdapter.clear();
 
-        final Set<Appliance> appliances = commCentral.getApplianceManager().getAppliances();
-        Collections.sort(new ArrayList<>(appliances), new Comparator<Appliance>() {
-            @Override
-            public int compare(Appliance o1, Appliance o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+        final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
+        Collections.sort(new ArrayList<>(appliances), (o1, o2) -> o1.getName().compareTo(o2.getName()));
         for (Appliance appliance : appliances) {
             appliance.getWifiPort().addPortListener(wifiPortListener);
         }
@@ -223,50 +211,36 @@ public class DiscoveredAppliancesFragment extends Fragment {
         });
 
         lanDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_lan_discovery);
-        lanDiscoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startLanDiscovery();
-                } else {
-                    stopLanDiscovery();
-                }
+        lanDiscoverySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                startLanDiscovery();
+            } else {
+                stopLanDiscovery();
             }
         });
         lanDiscoverySwitch.setChecked(true);
 
         bleDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_ble_discovery);
-        bleDiscoverySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    startBleDiscovery();
-                } else {
-                    stopBleDiscovery();
-                }
+        bleDiscoverySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                startBleDiscovery();
+            } else {
+                stopBleDiscovery();
             }
         });
 
         final ListView listViewAppliances = view.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
-        listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final Appliance appliance = applianceAdapter.getItem(position);
+        listViewAppliances.setOnItemClickListener((parent, view, position, id) -> {
+            final Appliance appliance = applianceAdapter.getItem(position);
 
-                if (appliance != null) {
-                    CommlibUapp.get().nextFragment(ApplianceFragmentFactory.newInstance(ApplianceFragment.class, appliance));
-                }
+            if (appliance != null) {
+                CommlibUapp.get().nextFragment(ApplianceFragmentFactory.newInstance(ApplianceFragment.class, appliance));
             }
         });
 
         final FloatingActionButton fab = view.findViewById(R.id.cml_clearAppliancesButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commCentral.clearDiscoveredAppliances();
-            }
-        });
+        fab.setOnClickListener(v -> commCentral.clearDiscoveredAppliances());
 
         return view;
     }
@@ -282,7 +256,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         commCentral.getApplianceManager().addApplianceListener(applianceListener);
 
         applianceAdapter.clear();
-        applianceAdapter.addAll(commCentral.getApplianceManager().getAppliances());
+        applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
 
         appIdProvider.addAppIdListener(appIdListener);
         updateAppId();
@@ -316,12 +290,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         } catch (MissingPermissionException e) {
             Log.e(TAG, "Error starting discovery: " + e.getMessage());
 
-            acquirePermission(new Runnable() {
-                @Override
-                public void run() {
-                    startBleDiscovery();
-                }
-            });
+            acquirePermission(() -> startBleDiscovery());
         }
     }
 
