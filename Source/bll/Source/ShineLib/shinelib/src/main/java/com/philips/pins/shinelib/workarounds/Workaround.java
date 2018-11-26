@@ -85,7 +85,7 @@ public enum Workaround {
             }
         }
 
-        DebugLog(String.format(Locale.US, "Workaround '%s' is not required on this pone. (Manufacturer: %s, Model: %s, OS: %d)", name(), manufacturerName, modelName, osVersion));
+        DebugLog(String.format(Locale.US, "Workaround '%s' is not required on this phone. (Manufacturer: %s, Model: %s, OS: %d)", name(), manufacturerName, modelName, osVersion));
 
         return false;
     }
