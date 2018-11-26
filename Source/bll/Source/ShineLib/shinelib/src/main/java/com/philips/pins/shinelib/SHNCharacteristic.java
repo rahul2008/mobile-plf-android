@@ -178,7 +178,7 @@ public class SHNCharacteristic {
 
     private void DebugLog(String log) {
         if (ENABLE_DEBUG_LOGGING) {
-            DebugLog(log);
+            SHNLogger.i(TAG, log);
         }
     }
 }
