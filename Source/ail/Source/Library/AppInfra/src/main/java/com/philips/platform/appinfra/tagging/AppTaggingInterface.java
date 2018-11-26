@@ -49,6 +49,12 @@ public interface AppTaggingInterface extends Serializable {
 
 	/**
 	 * Sets privacy consent.
+	 * OptIn - on setting OptIn hits are sent immediately
+	 * OptOut - on setting OptOut hits are discarded. Only App Lifecycle data is tracked
+	 * UnKnown - on setting UnKnown, If your report suite is timestamp-enabled,
+	 *           hits are saved until the privacy status changes to opt-in (then hits are sent)
+	 *           or opt-out (then hits are discarded). If your report suite is not timestamp-enabled,
+	 *           hits are discarded until the privacy status changes to opt in
 	 *
 	 * @param privacyStatus the privacy status
 	 * @since 1.0.0
