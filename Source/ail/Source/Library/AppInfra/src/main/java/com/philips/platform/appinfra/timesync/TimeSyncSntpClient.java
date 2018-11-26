@@ -205,15 +205,20 @@ public class TimeSyncSntpClient implements TimeInterface {
 
     @Override
     public Date getUTCTime() {
-        Date date;
-        try {
-            refreshIfNeeded();
-            date = new Date(getOffset() + System.currentTimeMillis());
-            return date;
-        } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "T-Error get U-time"+e.getMessage());
+        if(!isSynchronized && !mAppInfra.getRestClient().isInternetReachable()){
+            return new Date();
+        }else{
+            Date date;
+            try {
+                refreshIfNeeded();
+                date = new Date(getOffset() + System.currentTimeMillis());
+                return date;
+            } catch (Exception e) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "T-Error get U-time"+e.getMessage());
+            }
+            return null;
         }
-        return null;
+
     }
 
     @Override
