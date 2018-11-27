@@ -8,7 +8,6 @@ package com.philips.pins.shinelib.bluetoothwrapper;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.os.Build;
 
 import com.philips.pins.shinelib.SHNCentral;
@@ -17,8 +16,6 @@ import com.philips.pins.shinelib.helper.MockedHandler;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatcher;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.robolectric.util.ReflectionHelpers;
 
@@ -43,12 +40,7 @@ public class BTGattTest {
     private BluetoothGattCharacteristic mockedCharacteristic;
 
     @Mock
-    private BluetoothGattDescriptor mockedDescriptor;
-
-    @Mock
     private SHNCentral mockedSHNCentral;
-
-    private static final byte[] byteArray = new byte[]{1, 2, 3};
 
     private BTGatt btGatt;
 
@@ -60,111 +52,22 @@ public class BTGattTest {
         mockedUserHandler = new MockedHandler();
 
         btGatt = new BTGatt(mockedSHNCentral, mockedCallback, mockedUserHandler.getMock());
+        btGatt.setBluetoothGatt(mockedBluetoothGatt);
     }
 
     @After
     public void tearDown() throws Exception {
+        btGatt.setBluetoothGatt(mockedBluetoothGatt);
+
         ReflectionHelpers.setStaticField(Build.class, "MANUFACTURER", null);
         ReflectionHelpers.setStaticField(Build.class, "MODEL", null);
     }
 
-    private ArgumentMatcher<byte[]> byteArrayArgumentMatcher(final byte[] bytes) {
-        return new ArgumentMatcher<byte[]>() {
-            @Override
-            public boolean matches(final byte[] argument) {
-                return argument.equals(bytes);
-            }
-        };
-    }
-
-    private ArgumentMatcher<byte[]> anyByteArray() {
-        return new ArgumentMatcher<byte[]>() {
-            @Override
-            public boolean matches(final byte[] argument) {
-                return true;
-            }
-        };
-    }
-
     @Test
-    public void whenBluetoothGattIsSetToNullAndDisconnectIsCalledThenNoExceptionISGenerated(){
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.disconnect();
-    }
-
-    @Test
-    public void whenDisconnectIsCalledAfterCloseThenNoExceptionISGenerated(){
-        btGatt.setBluetoothGatt(mockedBluetoothGatt);
+    public void whenDisconnectIsCalledAfterCloseThenNoExceptionIsGenerated() {
         btGatt.close();
 
         btGatt.disconnect();
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndDiscoverServicesIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.discoverServices();
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndReadCharacteristicIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.readCharacteristic(mockedCharacteristic, false);
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndReadEncryptedCharacteristicIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.readCharacteristic(mockedCharacteristic, true);
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndWriteCharacteristicIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-        when(mockedCharacteristic.setValue(Matchers.argThat(anyByteArray()))).thenReturn(true);
-
-        btGatt.writeCharacteristic(mockedCharacteristic, false, byteArray);
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndWriteEncryptedCharacteristicIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-        when(mockedCharacteristic.setValue(Matchers.argThat(anyByteArray()))).thenReturn(true);
-
-        btGatt.writeCharacteristic(mockedCharacteristic, true, byteArray);
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndReadDescriptorIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.readDescriptor(mockedDescriptor);
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndWriteDescriptorIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-        when(mockedDescriptor.setValue(Matchers.argThat(anyByteArray()))).thenReturn(true);
-
-        btGatt.writeDescriptor(mockedDescriptor, byteArray);
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndSetCharacteristicNotificationIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.setCharacteristicNotification(mockedCharacteristic, true);
-    }
-
-    @Test
-    public void whenBluetoothGattIsSetToNull_AndGetServicesIsCalled_ThenNoExceptionISGenerated() {
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.getServices();
     }
 
     @Test
@@ -186,7 +89,7 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, true);
 
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
         verify(device).createBond();
     }
 
@@ -199,7 +102,7 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, true, new byte[0]);
 
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
         verify(device).createBond();
     }
 
@@ -212,7 +115,7 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, true);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
         verify(device, never()).createBond();
     }
 
@@ -225,7 +128,7 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, true, new byte[0]);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
         verify(device, never()).createBond();
     }
 
@@ -238,7 +141,7 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, false);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
         verify(device, never()).createBond();
     }
 
@@ -251,35 +154,7 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, false, new byte[0]);
 
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
-        verify(device, never()).createBond();
-    }
-
-    @Test
-    public void whenReadCharacteristicIsEncrypted_AndBluetoothGattIsNull_ThenNoBondIsCreated() {
-        BluetoothDevice device = mock(BluetoothDevice.class);
-        when(mockedBluetoothGatt.getDevice()).thenReturn(device);
-        when(device.getBondState()).thenReturn(BluetoothDevice.BOND_NONE);
-        when(device.createBond()).thenReturn(true);
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.readCharacteristic(mockedCharacteristic, true);
-
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
-        verify(device, never()).createBond();
-    }
-
-    @Test
-    public void whenWriteCharacteristicIsEncrypted_AndBluetoothGattIsNull_ThenNoBondIsCreated() {
-        BluetoothDevice device = mock(BluetoothDevice.class);
-        when(mockedBluetoothGatt.getDevice()).thenReturn(device);
-        when(device.getBondState()).thenReturn(BluetoothDevice.BOND_NONE);
-        when(device.createBond()).thenReturn(true);
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.writeCharacteristic(mockedCharacteristic, true, new byte[0]);
-
-        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral, never()).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
         verify(device, never()).createBond();
     }
 
@@ -293,8 +168,8 @@ public class BTGattTest {
 
         btGatt.readCharacteristic(mockedCharacteristic, true);
 
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String)any());
-        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String)any());
+        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
+        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
     }
 
     @Test
@@ -307,8 +182,8 @@ public class BTGattTest {
 
         btGatt.writeCharacteristic(mockedCharacteristic, true, new byte[0]);
 
-        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
-        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
+        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
     }
 
     @Test
@@ -322,7 +197,7 @@ public class BTGattTest {
 
         mockedUserHandler.executeFirstScheduledExecution();
 
-        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
     }
 
     @Test
@@ -336,21 +211,7 @@ public class BTGattTest {
 
         mockedUserHandler.executeFirstScheduledExecution();
 
-        verify(mockedSHNCentral, never()).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
-    }
-
-    @Test
-    public void whenBondStatusChanged_AndBluetoothGattIsNull_ThenTheBondListenerIsNotUnregistered() {
-        BluetoothDevice device = mock(BluetoothDevice.class);
-        when(mockedBluetoothGatt.getDevice()).thenReturn(device);
-        when(device.getAddress()).thenReturn("0.0.0.0");
-        btGatt.setBluetoothGatt(null);
-
-        btGatt.onBondStatusChanged(device, BluetoothDevice.BOND_BONDED, 0);
-
-        mockedUserHandler.executeFirstScheduledExecution();
-
-        verify(mockedSHNCentral, never()).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), (String) any());
+        verify(mockedSHNCentral, never()).unregisterBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), any());
     }
 
     @Test
@@ -359,5 +220,4 @@ public class BTGattTest {
         assertEquals(0, mockedUserHandler.getScheduledExecutionCount());
         verify(mockedCallback).onServicesDiscovered(btGatt, BluetoothGatt.GATT_SUCCESS);
     }
-
 }

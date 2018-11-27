@@ -231,19 +231,6 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME_MILLIS);
     }
 
-    void readDescriptor(final BluetoothGattDescriptor descriptor) {
-        Runnable runnable = () -> {
-            if (bluetoothGatt.readDescriptor(descriptor)) {
-                waitingForCompletion = true;
-            } else {
-                btGattCallback.onDescriptorReadWithData(BTGatt.this, descriptor, BluetoothGatt.GATT_FAILURE, null);
-                executeNextCommandIfAllowed();
-            }
-        };
-        commandQueue.add(runnable);
-        executeNextCommandIfAllowed();
-    }
-
     public void writeDescriptor(final BluetoothGattDescriptor descriptor, final byte[] data) {
         Runnable runnable = () -> {
             if (descriptor.setValue(data) && bluetoothGatt.writeDescriptor(descriptor)) {
