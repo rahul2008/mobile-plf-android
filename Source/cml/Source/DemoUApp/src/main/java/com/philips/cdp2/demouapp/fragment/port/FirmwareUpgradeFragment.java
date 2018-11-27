@@ -26,10 +26,7 @@ import android.widget.TextView;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
@@ -77,12 +74,7 @@ public class FirmwareUpgradeFragment extends Fragment {
     private long startTimeMillis;
     private int firmwareSizeInBytes;
 
-    private FilenameFilter upgradeFilesFilter = new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-            return name.toLowerCase().endsWith(".upg");
-        }
-    };
+    private FilenameFilter upgradeFilesFilter = (dir, name) -> name.toLowerCase().endsWith(".upg");
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
 
@@ -99,8 +91,6 @@ public class FirmwareUpgradeFragment extends Fragment {
                 uploadSelectedFirmware();
             } else if (viewId == R.id.cml_btnDeployFirmware) {
                 deployFirmware();
-            } else if (viewId == R.id.cml_btnRefreshBleCache) {
-                refreshBleCache();
             } else if (viewId == R.id.cml_btnCancelFirmware) {
                 cancelFirmware();
             } else {
@@ -183,15 +173,13 @@ public class FirmwareUpgradeFragment extends Fragment {
         }
     };
 
-    private Appliance appliance;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.cml_fragment_firmware_upgrade, container, false);
 
         String cppId = requireNonNull(getArguments()).getString(APPLIANCE_KEY);
-        appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+        Appliance appliance = CommlibUapp.get().getDependencies().getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
         if (appliance instanceof ReferenceAppliance) {
             firmwarePort = appliance.getFirmwarePort();
         }
@@ -201,9 +189,6 @@ public class FirmwareUpgradeFragment extends Fragment {
 
         Button btnRefreshProperties = rootView.findViewById(R.id.cml_btnCheckUpgrade);
         btnRefreshProperties.setOnClickListener(clickListener);
-
-        Button btnRefreshCache = rootView.findViewById(R.id.cml_btnRefreshBleCache);
-        btnRefreshCache.setOnClickListener(clickListener);
 
         Button btnSelect = rootView.findViewById(R.id.cml_btnSelectFirmware);
         btnSelect.setOnClickListener(clickListener);
@@ -311,12 +296,7 @@ public class FirmwareUpgradeFragment extends Fragment {
             return;
         }
 
-        SelectorDialog dialog = SelectorDialog.newInstance(R.string.cml_choose_firmware_image, fwImageAdapter, new SelectorDialog.OnDialogSelectorListener() {
-            @Override
-            public void onSelectedOption(int index) {
-                selectFirmwareImage(index);
-            }
-        });
+        SelectorDialog dialog = SelectorDialog.newInstance(R.string.cml_choose_firmware_image, fwImageAdapter, this::selectFirmwareImage);
 
         dialog.show(activity.getSupportFragmentManager(), null);
     }
@@ -372,19 +352,6 @@ public class FirmwareUpgradeFragment extends Fragment {
 
     private void cancelFirmware() {
         firmwarePort.cancel(getTimeoutInMillisFromUi());
-    }
-
-    private void refreshBleCache() {
-        final CommunicationStrategy communicationStrategy = appliance.getCommunicationStrategy();
-
-        if (communicationStrategy instanceof CombinedCommunicationStrategy) {
-            final BleCommunicationStrategy bleCommunicationStrategy = (BleCommunicationStrategy) ((CombinedCommunicationStrategy) communicationStrategy).findStrategyBy(BleCommunicationStrategy.class);
-            if (bleCommunicationStrategy != null) {
-                bleCommunicationStrategy.refreshCache();
-            }
-        } else if (communicationStrategy instanceof BleCommunicationStrategy) {
-            ((BleCommunicationStrategy) communicationStrategy).refreshCache();
-        }
     }
 
     private long getTimeoutInMillisFromUi() {

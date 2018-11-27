@@ -400,12 +400,4 @@ public class BleCommunicationStrategyTest {
 
         verifyZeroInteractions(availabilityListenerMock);
     }
-
-    @Test
-    public void whenCacheRefreshIsRequested_thenSHNDeviceCacheIsCleared() {
-
-        strategy.refreshCache();
-
-        verify(deviceMock).refreshInternalCache();
-    }
 }
