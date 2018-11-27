@@ -171,12 +171,6 @@ public class SHNDeviceWrapper implements SHNDevice {
     }
 
     @Override
-    public void refreshInternalCache() {
-        final Runnable runnable = shnDevice::refreshInternalCache;
-        internalHandler.post(runnable);
-    }
-
-    @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         shnDeviceListeners.add(shnDeviceListener);
     }

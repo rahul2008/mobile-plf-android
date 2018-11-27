@@ -66,7 +66,7 @@ public class QuickTestConnection {
             private boolean skippedFirstStateUpdate;
 
             @Override
-            public void onStateUpdated(final SHNDevice shnDevice, @NonNull final SHNDevice.State state) {
+            public void onStateUpdated(@NonNull final SHNDevice shnDevice, @NonNull final SHNDevice.State state) {
 
                 if (!skippedFirstStateUpdate) {
                     skippedFirstStateUpdate = true;
@@ -88,7 +88,7 @@ public class QuickTestConnection {
             }
 
             @Override
-            public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult result) {
+            public void onFailedToConnect(@NonNull final SHNDevice shnDevice, @NonNull final SHNResult result) {
 
                 internalHandler.post(new Runnable() {
                     @Override

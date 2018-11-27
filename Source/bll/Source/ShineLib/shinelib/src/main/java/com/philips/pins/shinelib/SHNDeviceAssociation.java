@@ -396,7 +396,7 @@ public class SHNDeviceAssociation {
             }
 
             @Override
-            public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult result) {
+            public void onFailedToConnect(@NonNull final SHNDevice shnDevice, @NonNull final SHNResult result) {
             }
 
             @Override

@@ -89,11 +89,6 @@ public interface SHNDevice {
     void readRSSI();
 
     /**
-     * Refresh the BLE Cache. This will clear the list of stored services and characteristics.
-     */
-    void refreshInternalCache();
-
-    /**
      * Register a {@code SHNDeviceListener} instance to receive updates about the peripheral state.
      */
     void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener);

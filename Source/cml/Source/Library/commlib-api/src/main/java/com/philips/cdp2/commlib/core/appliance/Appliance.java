@@ -233,8 +233,4 @@ public abstract class Appliance implements Availability<Appliance> {
         }
         return networkNode.equals(((Appliance) other).getNetworkNode());
     }
-
-    public CommunicationStrategy getCommunicationStrategy() {
-        return communicationStrategy;
-    }
 }
