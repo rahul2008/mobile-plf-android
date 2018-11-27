@@ -6,12 +6,14 @@
 package com.philips.cdp2.commlib.core.appliance;
 
 import android.os.Handler;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager.ApplianceListener;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy.DiscoveryListener;
 import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -159,12 +161,12 @@ public class ApplianceManagerTest {
     }
 
     @Test
-    public void whenStrategyDiscoversNode_thenApplianceIsInSetOfAppliances() {
+    public void whenStrategyDiscoversNode_thenApplianceIsInSetOfKnownAppliances() {
         managerUnderTest.addApplianceListener(applianceListenerMock);
 
         firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
 
-        assertThat(managerUnderTest.getAppliances()).contains(applianceMock);
+        assertThat(managerUnderTest.getKnownAppliances()).contains(applianceMock);
     }
 
     @Test
@@ -187,13 +189,13 @@ public class ApplianceManagerTest {
     }
 
     @Test
-    public void whenStrategyLosesNode_thenApplianceIsInSetOfAppliances() {
+    public void whenStrategyLosesNode_thenApplianceIsInSetOfKnownAppliances() {
         managerUnderTest.addApplianceListener(applianceListenerMock);
 
         firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
         firstDiscoveryListener().onNetworkNodeLost(networkNodeMock);
 
-        assertThat(managerUnderTest.getAppliances()).contains(applianceMock);
+        assertThat(managerUnderTest.getKnownAppliances()).contains(applianceMock);
     }
 
     @Test
@@ -247,8 +249,8 @@ public class ApplianceManagerTest {
 
         ApplianceManager managerUnderTest = new ApplianceManager(discovery.keySet(), applianceFactoryMock, networkNodeDatabaseMock, applianceDatabaseMock);
 
-        assertThat(managerUnderTest.getAppliances().size()).isEqualTo(1);
-        assertThat(managerUnderTest.getAppliances()).contains(applianceMock);
+        assertThat(managerUnderTest.getKnownAppliances().size()).isEqualTo(1);
+        assertThat(managerUnderTest.getKnownAppliances()).contains(applianceMock);
     }
 
     @Test
@@ -259,7 +261,7 @@ public class ApplianceManagerTest {
 
         managerUnderTest = new ApplianceManager(discovery.keySet(), applianceFactoryMock, networkNodeDatabaseMock, applianceDatabaseMock);
 
-        assertThat(managerUnderTest.getAppliances()).isNotEmpty();
+        assertThat(managerUnderTest.getKnownAppliances()).isNotEmpty();
     }
 
     @Test
@@ -317,19 +319,19 @@ public class ApplianceManagerTest {
     }
 
     @Test
-    public void whenApplianceIsFound_thenItShouldBeAddedToAvailableAppliances() {
+    public void whenApplianceIsFound_thenItShouldBeAddedToDiscoveredAppliances() {
 
         firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
 
-        assertEquals(1, managerUnderTest.getAvailableAppliances().size());
+        assertEquals(1, managerUnderTest.getDiscoveredAppliances().size());
     }
 
     @Test
-    public void givenThatAnApplianceIsAlreadyFound_whenApplianceIsLost_thenItShouldBeRemovedFromAvailableAppliances() {
+    public void givenThatAnApplianceIsAlreadyFound_whenApplianceIsLost_thenItShouldBeRemovedFromDiscoveredAppliances() {
         firstDiscoveryListener().onNetworkNodeDiscovered(networkNodeMock);
 
         firstDiscoveryListener().onNetworkNodeLost(networkNodeMock);
 
-        assertEquals(0, managerUnderTest.getAvailableAppliances().size());
+        assertEquals(0, managerUnderTest.getDiscoveredAppliances().size());
     }
 }

@@ -17,7 +17,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -50,8 +49,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     private Context mContext;
     private PairingFragmentPresenter mLaunchFragmentPresenter;
 
-    private PairDevice mPairDevice;
-
     private ArrayAdapter<String> mAvailableDevicesAdapter;
     private ArrayAdapter<String> mPairedDevicesAdapter;
 
@@ -66,32 +63,17 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
         @Override
         public void onApplianceFound(@NonNull Appliance appliance) {
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
-                }
-            });
+            ((Activity) mContext).runOnUiThread(() -> updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getDiscoveredAppliances())));
         }
 
         @Override
         public void onApplianceUpdated(@NonNull Appliance appliance) {
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
-                }
-            });
+            ((Activity) mContext).runOnUiThread(() -> updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getDiscoveredAppliances())));
         }
 
         @Override
         public void onApplianceLost(@NonNull Appliance appliance) {
-            ((Activity) mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getAvailableAppliances()));
-                }
-            });
+            ((Activity) mContext).runOnUiThread(() -> updateDiscoveredDevices(getDiscoveredDevices(commCentral.getApplianceManager().getDiscoveredAppliances())));
         }
     };
 
@@ -135,12 +117,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         getPairedDevices();
 
         Button mLogoutBtn = (Button) view.findViewById(R.id.logout);
-        mLogoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logOut();
-            }
-        });
+        mLogoutBtn.setOnClickListener(v -> logOut());
 
         pairDeviceOnClick(view);
         unpairDeviceOnClick(view);
@@ -151,28 +128,22 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     private void unpairDeviceOnClick(View view) {
         ListView mPairedDevicesListView = (ListView) view.findViewById(R.id.paired_devices);
         mPairedDevicesListView.setAdapter(mPairedDevicesAdapter);
-        mPairedDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                showProgressDialog(getString(R.string.unpairing_device));
-                mLaunchFragmentPresenter.unPairDevice(mPairedDevicesAdapter.getItem(position), PairingFragment.this);
-            }
+        mPairedDevicesListView.setOnItemClickListener((parent, view1, position, id) -> {
+            showProgressDialog(getString(R.string.unpairing_device));
+            mLaunchFragmentPresenter.unPairDevice(mPairedDevicesAdapter.getItem(position), PairingFragment.this);
         });
     }
 
     private void pairDeviceOnClick(View view) {
         ListView mAvailableDevicesListView = (ListView) view.findViewById(R.id.available_devices);
         mAvailableDevicesListView.setAdapter(mAvailableDevicesAdapter);
-        mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (mAppliancesList != null && mAppliancesList.size() > 0) {
-                    PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
-                    showProgressDialog(getString(R.string.pairing_device));
-                    pairToDevice(mAppliancesList.get(position));
-                    if (pairDeviceDetails != null) {
-                        mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
-                    }
+        mAvailableDevicesListView.setOnItemClickListener((parent, view1, position, id) -> {
+            if (mAppliancesList != null && mAppliancesList.size() > 0) {
+                PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
+                showProgressDialog(getString(R.string.pairing_device));
+                pairToDevice(mAppliancesList.get(position));
+                if (pairDeviceDetails != null) {
+                    mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
                 }
             }
         });
@@ -230,7 +201,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     private PairDevice getDeviceDetails(String id) {
         for (int i = 0; i < mAppliancesList.size(); i++) {
             if (mAppliancesList.get(i).getNetworkNode().getCppId().equalsIgnoreCase(id)) {
-                mPairDevice = new PairDevice();
+                PairDevice mPairDevice = new PairDevice();
                 mPairDevice.setDeviceID(mAppliancesList.get(i).getNetworkNode().getCppId());
                 mPairDevice.setDeviceType(mAppliancesList.get(i).getNetworkNode().getDeviceType());
                 mPairDevice.setRelationshipType(getRelationshipType());
@@ -385,23 +356,15 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         user.logout(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
-                        getActivity().finish();
-                    }
+                ((Activity) mContext).runOnUiThread(() -> {
+                    Toast.makeText(mContext, getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
                 });
             }
 
             @Override
             public void onLogoutFailure(int i, String s) {
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, getString(R.string.logout_failed), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                ((Activity) mContext).runOnUiThread(() -> Toast.makeText(mContext, getString(R.string.logout_failed), Toast.LENGTH_SHORT).show());
             }
         });
     }
@@ -410,13 +373,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         try {
             commCentral.startDiscovery();
         } catch (MissingPermissionException e) {
-
-            acquirePermission(new Runnable() {
-                @Override
-                public void run() {
-                    startDiscovery();
-                }
-            });
+            acquirePermission(this::startDiscovery);
         }
     }
 

@@ -136,7 +136,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private void onAppliancesChanged() {
         applianceAdapter.clear();
 
-        final Set<Appliance> appliances = commCentral.getApplianceManager().getAvailableAppliances();
+        final Set<Appliance> appliances = commCentral.getApplianceManager().getDiscoveredAppliances();
         Collections.sort(new ArrayList<>(appliances), (o1, o2) -> o1.getName().compareTo(o2.getName()));
         for (Appliance appliance : appliances) {
             appliance.getWifiPort().addPortListener(wifiPortListener);
@@ -256,7 +256,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         commCentral.getApplianceManager().addApplianceListener(applianceListener);
 
         applianceAdapter.clear();
-        applianceAdapter.addAll(commCentral.getApplianceManager().getAvailableAppliances());
+        applianceAdapter.addAll(commCentral.getApplianceManager().getDiscoveredAppliances());
 
         appIdProvider.addAppIdListener(appIdListener);
         updateAppId();

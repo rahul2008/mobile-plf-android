@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +23,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -41,7 +39,6 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
     private Handler handler = new Handler();
     private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
     private Context mContext;
-
 
     /**
      * Presenter object for Connectivity
@@ -68,8 +65,8 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        if(!(savedInstanceState!=null && !AppFrameworkApplication.isAppDataInitialized())) {
-            connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
+        if (!(savedInstanceState != null && !AppFrameworkApplication.isAppDataInitialized())) {
+            connectivityFragmentWeakReference = new WeakReference<>(this);
             mBluetoothAdapter = getBluetoothAdapter();
         }
     }
@@ -79,20 +76,17 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
                              Bundle savedInstanceState) {
         connectivityPresenter = getConnectivityPresenter();
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
-        rootView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ConnectivityUtils.hideSoftKeyboard(getActivity());
-                return false;
-            }
+        rootView.setOnTouchListener((v, event) -> {
+            ConnectivityUtils.hideSoftKeyboard(getActivity());
+            return false;
         });
-        editText = (EditText) rootView.findViewById(R.id.measurement_value_editbox);
-        momentValueEditText = (EditText) rootView.findViewById(R.id.moment_value_editbox);
-        Button btnGetMoment = (Button) rootView.findViewById(R.id.get_momentumvalue_button);
+        editText = rootView.findViewById(R.id.measurement_value_editbox);
+        momentValueEditText = rootView.findViewById(R.id.moment_value_editbox);
+        Button btnGetMoment = rootView.findViewById(R.id.get_momentumvalue_button);
         btnGetMoment.setOnClickListener(this);
-        Button btnStartConnectivity = (Button) rootView.findViewById(R.id.start_connectivity_button);
+        Button btnStartConnectivity = rootView.findViewById(R.id.start_connectivity_button);
         btnStartConnectivity.setOnClickListener(this);
-        connectionState = (TextView) rootView.findViewById(R.id.connectionState);
+        connectionState = rootView.findViewById(R.id.connectionState);
         mCommCentral = getCommCentral();
         startAppTagging(TAG);
         return rootView;
@@ -121,41 +115,36 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
      */
     protected void startDiscovery() {
         RALog.i(TAG, "Ble device discovery started ");
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isFragmentLive()) {
-                    try {
-                        bleScanDialogFragment = new BLEScanDialogFragment();
-                        bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
-                        bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
-                        bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
-                            @Override
-                            public void onDeviceSelected(RefAppBleReferenceAppliance bleRefAppliance) {
-                                if(bleRefAppliance==null || bleRefAppliance.getDeviceMeasurementPort()==null) {
-                                    Toast.makeText(getActivity(),"Reference Node is not valid",Toast.LENGTH_SHORT).show();
-                                }else{
-                                    if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
-                                        bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
-                                    } else {
-                                        updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
-                                        connectivityPresenter.setUpApplicance(bleRefAppliance);
-                                        bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
-                                    }
-                                }
+        handler.postDelayed(() -> {
+            if (isFragmentLive()) {
+                try {
+                    bleScanDialogFragment = new BLEScanDialogFragment();
+                    bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getDiscoveredAppliances());
+                    bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
+                    bleScanDialogFragment.setBLEDialogListener(bleRefAppliance -> {
+                        if (bleRefAppliance == null || bleRefAppliance.getDeviceMeasurementPort() == null) {
+                            Toast.makeText(getActivity(), "Reference Node is not valid", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
+                                bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
+                            } else {
+                                updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
+                                connectivityPresenter.setUpApplicance(bleRefAppliance);
+                                bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
                             }
-                        });
+                        }
+                    });
 
-                        mCommCentral.startDiscovery();
-                        handler.postDelayed(stopDiscoveryRunnable, STOP_DISCOVERY_TIMEOUT);
-                        updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
-                    } catch (MissingPermissionException e) {
-                        RALog.e(TAG, "Permission missing");
-                    }
+                    mCommCentral.startDiscovery();
+                    handler.postDelayed(stopDiscoveryRunnable, STOP_DISCOVERY_TIMEOUT);
+                    updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
+                } catch (MissingPermissionException e) {
+                    RALog.e(TAG, "Permission missing");
                 }
             }
         }, START_DISCOVERY_TIME);
     }
+
     /**
      * Check if fragment is live
      *
@@ -194,19 +183,16 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
     @Override
     public void updateDeviceMeasurementValue(final String measurementvalue) {
         if (isFragmentLive()) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        if (!TextUtils.isEmpty(measurementvalue)) {
-                            editText.setText(measurementvalue);
-                        } else {
-                            editText.setText(Integer.toString(-1));
-                        }
-                    } catch (Exception e) {
-                        RALog.d(DEVICE_DATAPARSING,
-                                e.getMessage());
+            getActivity().runOnUiThread(() -> {
+                try {
+                    if (!TextUtils.isEmpty(measurementvalue)) {
+                        editText.setText(measurementvalue);
+                    } else {
+                        editText.setText(Integer.toString(-1));
                     }
+                } catch (Exception e) {
+                    RALog.d(DEVICE_DATAPARSING,
+                            e.getMessage());
                 }
             });
         }
@@ -216,12 +202,7 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
     public void onDeviceMeasurementError(final Error error, String s) {
         //TODO:Handle device measurement error properly
         if (isFragmentLive()) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            getActivity().runOnUiThread(() -> Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -229,12 +210,9 @@ public class ConnectivityFragment extends AbstractConnectivityBaseFragment imple
     public void updateConnectionStateText(final String text) {
         if (isFragmentLive()) {
             if (getActivity() != null) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (connectionState != null) {
-                            connectionState.setText(text);
-                        }
+                getActivity().runOnUiThread(() -> {
+                    if (connectionState != null) {
+                        connectionState.setText(text);
                     }
                 });
             }
