@@ -18,7 +18,6 @@ public class BTDevice {
     private static final String TAG = "BTDevice";
     private BluetoothDevice device;
     private Handler handler;
-    private BluetoothGatt bluetoothGatt;
 
     public BTDevice(BluetoothDevice device, Handler handler) {
         this.device = device;
@@ -39,19 +38,14 @@ public class BTDevice {
 
     @Nullable
     public BTGatt connectGatt(final Context context, boolean autoConnect, SHNCentral shnCentral, final BTGatt.BTGattCallback callback, final int connectionPriority) {
-        SHNLogger.d(TAG, ">>> BTDevice::connectGatt");
-
         BTGatt btGatt = new BTGatt(shnCentral, callback, handler);
-
-        SHNLogger.d(TAG, ">>> BluetoothDevice::connectGatt");
-        bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
+        BluetoothGatt bluetoothGatt = device.connectGatt(context, autoConnect, btGatt);
 
         if (bluetoothGatt == null) {
             SHNLogger.e(TAG, "BluetoothGatt is null.");
 
             return null;
         } else {
-            SHNLogger.d(TAG, "Requesting connection priority: " + connectionPriority);
             bluetoothGatt.requestConnectionPriority(connectionPriority);
             btGatt.setBluetoothGatt(bluetoothGatt);
 

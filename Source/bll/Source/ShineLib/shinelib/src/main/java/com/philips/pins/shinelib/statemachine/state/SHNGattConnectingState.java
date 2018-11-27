@@ -26,8 +26,8 @@ import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 
 public class SHNGattConnectingState extends SHNConnectingState {
 
+    private static final long MINIMUM_CONNECTION_IDLE_TIME = 2000L;
     private boolean shouldRetryConnecting = false;
-    private long minimumConnectionIdleTime;
 
     SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine, "SHNGattConnectingState", -1L);
@@ -44,7 +44,6 @@ public class SHNGattConnectingState extends SHNConnectingState {
     @Override
     protected void onEnter() {
         super.onEnter();
-        setMinimumConnectionIdleTime();
         startConnect();
     }
 
@@ -134,17 +133,13 @@ public class SHNGattConnectingState extends SHNConnectingState {
         return sharedResources.getBtDevice().getBondState() == BluetoothDevice.BOND_BONDED;
     }
 
-    private void setMinimumConnectionIdleTime() {
-        this.minimumConnectionIdleTime = 2000L;
-    }
-
     private void postponeConnectCall(long timeDiff) {
-        SHNLogger.w(logTag, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
+        SHNLogger.w(logTag, "Postponing connect with " + (MINIMUM_CONNECTION_IDLE_TIME - timeDiff) + "ms to allow the stack to properly disconnect");
 
-        sharedResources.getShnCentral().getInternalHandler().postDelayed(this::startConnect, minimumConnectionIdleTime - timeDiff);
+        sharedResources.getShnCentral().getInternalHandler().postDelayed(this::startConnect, MINIMUM_CONNECTION_IDLE_TIME - timeDiff);
     }
 
     private boolean stackNeedsTimeToPrepareForConnect(long timeDiff) {
-        return sharedResources.getLastDisconnectedTimeMillis() != 0L && timeDiff < minimumConnectionIdleTime;
+        return sharedResources.getLastDisconnectedTimeMillis() != 0L && timeDiff < MINIMUM_CONNECTION_IDLE_TIME;
     }
 }
