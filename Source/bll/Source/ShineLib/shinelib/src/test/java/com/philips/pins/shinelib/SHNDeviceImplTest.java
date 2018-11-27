@@ -1359,13 +1359,4 @@ public class SHNDeviceImplTest {
 
         assertNotNull(centralStateListener);
     }
-
-    @Test
-    public void givenDeviceResourcesHasABtDevice_whenRefreshCacheIsCalled_thenTheCallIsForwardedToThatBtDevice() {
-        when(mockedDeviceResources.getBtDevice()).thenReturn(mockedBTDevice);
-
-        shnDevice.refreshInternalCache();
-
-        verify(mockedBTDevice).refreshInternalCache();
-    }
 }
