@@ -13,7 +13,6 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.os.Handler;
 
-import com.philips.pins.shinelib.BuildConfig;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
@@ -21,12 +20,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondStatusListener {
 
     private static final String TAG = "BTGatt";
-    private static final boolean ENABLE_DEBUG_LOGGING = BuildConfig.DEBUG;
+    private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final int BOND_CREATED_WAIT_TIME_MILLIS = 500;
+    private static final long DELAY_AFTER_REFRESH_MILLIS = 150L;
 
     private Runnable currentCommand;
 
@@ -229,7 +231,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME_MILLIS);
     }
 
-    public void readDescriptor(final BluetoothGattDescriptor descriptor) {
+    void readDescriptor(final BluetoothGattDescriptor descriptor) {
         Runnable runnable = () -> {
             if (bluetoothGatt.readDescriptor(descriptor)) {
                 waitingForCompletion = true;
@@ -272,11 +274,6 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         Runnable runnable = () -> {
             DebugLog("onConnectionStateChange status: " + status + " newState: " + newState);
             btGattCallback.onConnectionStateChange(BTGatt.this, status, newState);
-            // For Tuscany we found that Android does not negotiate the MTU size. The below statements work for Lolipop on a MOTOG.
-            //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //                    boolean result = gatt.requestMtu(128);
-            //                    Log.e(logTag, "gatt.requestMtu(128); = " + result);
-            //                }
         };
         handler.post(runnable);
     }
@@ -421,6 +418,9 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
           bonds being removed unexpected and not seeing when the services in the peripheral
           are changed (DFU). The impact of this reflection is very low, if the function is
           removed the library still works, only the BLE cache won't be cleared.
+
+          A delay was introduced right after this workaround as it is observed
+          that multiple phones can't handle any interaction right away.
         */
         if (bluetoothGatt != null) {
             try {
@@ -428,12 +428,16 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
                 boolean didInvokeRefresh = (Boolean) refresh.invoke(bluetoothGatt);
 
                 if (didInvokeRefresh) {
-                    DebugLog("BluetoothGatt refresh successfully executed.");
+                    SHNLogger.v(TAG, "BluetoothGatt refresh successfully executed.");
+
+                    new CountDownLatch(1).await(DELAY_AFTER_REFRESH_MILLIS, TimeUnit.MILLISECONDS);
                 } else {
-                    DebugLog("BluetoothGatt refresh method failed to execute.");
+                    SHNLogger.v(TAG, "BluetoothGatt refresh method failed to execute.");
                 }
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 SHNLogger.e(TAG, "An exception occurred while refreshing BLE cache.", e);
+            } catch (InterruptedException e) {
+                SHNLogger.e(TAG, "Interrupted while delaying thread execution.", e);
             }
         }
     }
