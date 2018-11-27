@@ -415,29 +415,4 @@ public class CombinedCommunicationStrategyTest {
         verify(sub2).removeSubscriptionEventListener(subscriptionEventListenerMock);
         verify(sub3).removeSubscriptionEventListener(subscriptionEventListenerMock);
     }
-
-    @Test
-    public void givenACombinedStrategy_whenFindStrategyIsInvoked_thenTheCorrespondingStrategyShouldBeReturned() {
-        final CombinedCommunicationStrategy combined = new CombinedCommunicationStrategy(new FooStrategy());
-
-        final CommunicationStrategy first = combined.findStrategyBy(FooStrategy.class);
-
-        assertThat(first).isNotNull();
-        assertThat(first.getClass().equals(FooStrategy.class));
-    }
-
-    @Test
-    public void givenACombinedStrategy_whenFindStrategyIsInvokedForANonPresentStrategy_thenNullIsReturned() {
-        final CombinedCommunicationStrategy combined = new CombinedCommunicationStrategy(new FooStrategy());
-
-        final CommunicationStrategy second = combined.findStrategyBy(BarStrategy.class);
-
-        assertThat(second).isNull();
-    }
-
-    private final class FooStrategy extends NullCommunicationStrategy {
-    }
-
-    private final class BarStrategy extends NullCommunicationStrategy {
-    }
 }
