@@ -7,6 +7,7 @@ package com.philips.cdp2.demouapp.fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -44,6 +45,7 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
+import com.philips.cdp2.demouapp.util.PermissionResultListener;
 import com.philips.cdp2.demouapp.util.UiUtils;
 
 import java.util.ArrayList;
@@ -53,6 +55,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.philips.cdp2.commlib.core.CommCentral.getAppIdProvider;
+import static com.philips.cdp2.demouapp.util.UiUtils.showIndefiniteMessage;
 
 public class DiscoveredAppliancesFragment extends Fragment {
 
@@ -60,7 +63,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
     private static final int ACCESS_COARSE_LOCATION_REQUEST_CODE = 0x1;
 
-    private Runnable permissionCallback;
+    private PermissionResultListener permissionResultListener;
 
     private CommCentral commCentral;
 
@@ -218,7 +221,6 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 stopLanDiscovery();
             }
         });
-        lanDiscoverySwitch.setChecked(true);
 
         bleDiscoverySwitch = view.findViewById(R.id.cml_sw_startstop_ble_discovery);
         bleDiscoverySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -271,12 +273,36 @@ public class DiscoveredAppliancesFragment extends Fragment {
         appIdProvider.removeAppIdListener(appIdListener);
     }
 
-    private void startLanDiscovery() {
+    private Boolean tryStartingDiscovery(DiscoveryStrategy discoveryStrategy) {
         try {
-            lanDiscoveryStrategy.start(discoveryFilterModelIds);
+            discoveryStrategy.start(discoveryFilterModelIds);
+            return true;
         } catch (MissingPermissionException e) {
-            Log.e(TAG, "Error starting discovery: " + e.getMessage());
+            String errorMessage = "Error starting discovery for " + discoveryStrategy.getClass().getSimpleName() + ": " + e.getMessage();
+            Log.e(TAG, errorMessage);
+            showIndefiniteMessage(view, errorMessage);
+            return false;
         }
+    }
+
+    private void startLanDiscovery() {
+        lanDiscoverySwitch.setChecked(tryStartingDiscovery(lanDiscoveryStrategy));
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P){
+            return;
+        }
+
+        // We need location permissions in order to read the current WiFi SSID.
+        // Without it, the WiFi SSID is always "<unknown ssid>"
+        acquirePermission(new PermissionResultListener() {
+            @Override
+            public void onPermissionGranted() {}
+
+            @Override
+            public void onPermissionDenied() {
+                showIndefiniteMessage(view, "⚠️ Cloud communication will not work without location permissions!");
+            }
+        });
     }
 
     private void stopLanDiscovery() {
@@ -285,13 +311,18 @@ public class DiscoveredAppliancesFragment extends Fragment {
     }
 
     private void startBleDiscovery() {
-        try {
-            bleDiscoveryStrategy.start(discoveryFilterModelIds);
-        } catch (MissingPermissionException e) {
-            Log.e(TAG, "Error starting discovery: " + e.getMessage());
+        acquirePermission(new PermissionResultListener() {
+            @Override
+            public void onPermissionGranted() {
+                bleDiscoverySwitch.setChecked(tryStartingDiscovery(bleDiscoveryStrategy));
+            }
 
-            acquirePermission(() -> startBleDiscovery());
-        }
+            @Override
+            public void onPermissionDenied() {
+                showIndefiniteMessage(view, "BLE discovery requires location permissions!");
+                bleDiscoverySwitch.setChecked(false);
+            }
+        });
     }
 
     private void stopBleDiscovery() {
@@ -315,19 +346,25 @@ public class DiscoveredAppliancesFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case ACCESS_COARSE_LOCATION_REQUEST_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    new Handler().post(this.permissionCallback);
+                if (grantResults.length > 0) {
+                    int grantResult = grantResults[0];
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        this.permissionResultListener.onPermissionGranted();
+                    } else {
+                        this.permissionResultListener.onPermissionDenied();
+                    }
+                    this.permissionResultListener = null;
                 }
             }
         }
     }
 
-    private void acquirePermission(@NonNull Runnable permissionCallback) {
-        this.permissionCallback = permissionCallback;
-
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    ACCESS_COARSE_LOCATION_REQUEST_CODE);
+    private void acquirePermission(@NonNull PermissionResultListener permissionResultListener) {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            permissionResultListener.onPermissionGranted();
+        } else {
+            this.permissionResultListener = permissionResultListener;
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_COARSE_LOCATION_REQUEST_CODE);
         }
     }
 
