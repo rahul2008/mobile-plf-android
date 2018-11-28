@@ -84,15 +84,8 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_confirmation, true);
+        setTitleAndBackButtonVisibility(R.string.iap_confirmation, false);
         setCartIconVisibility(false);
-    }
-
-    @Override
-    public boolean handleBackEvent() {
-       // ShowDialogOnBackPressed();
-        Utility.showActionDialog(mContext, mContext.getString(R.string.iap_ok),mContext.getString(R.string.iap_cancel),mContext.getString(R.string.iap_continue_shopping_description),mContext.getString(R.string.iap_cancel_order_title), getFragmentManager(),this);
-        return true;
     }
 
     private void updatePaymentFailureUI() {

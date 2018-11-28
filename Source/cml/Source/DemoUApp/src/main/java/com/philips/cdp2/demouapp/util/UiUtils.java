@@ -22,12 +22,7 @@ public class UiUtils {
 
     public static void showIndefiniteMessage(final @NonNull View view, final @NonNull String message) {
         final Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction(R.string.cml_dismiss_indefinite_message, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackbar.dismiss();
-            }
-        });
+        snackbar.setAction(R.string.cml_dismiss_indefinite_message, v -> snackbar.dismiss());
         snackbar.show();
     }
 }
