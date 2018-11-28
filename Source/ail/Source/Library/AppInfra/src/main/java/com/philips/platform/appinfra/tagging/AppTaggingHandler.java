@@ -61,6 +61,7 @@ public class AppTaggingHandler {
     private String mComponentID;
     private String mComponentVersion;
     private String ADB_PRIVACY_STATUS = "ail_adb_status";
+    private JSONObject masterAdbMobileConfig;
 
     public AppTaggingHandler(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -106,7 +107,9 @@ public class AppTaggingHandler {
      * Reading from Adobe json
      */
     protected JSONObject getMasterADBMobileConfig() {
-        JSONObject result = null;
+        if (masterAdbMobileConfig != null)
+            return masterAdbMobileConfig;
+
         try {
             final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
             final BufferedReader mBufferedReader = new BufferedReader(new InputStreamReader(mInputStream));
@@ -115,14 +118,14 @@ public class AppTaggingHandler {
             while ((line = mBufferedReader.readLine()) != null) {
                 mStringBuilder.append(line).append('\n');
             }
-            result = new JSONObject(mStringBuilder.toString());
+            masterAdbMobileConfig = new JSONObject(mStringBuilder.toString());
            /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_TAGGING, "Master ADB Mobile Config Json" +
-                    result.toString());*/
+                    masterAdbMobileConfig.toString());*/
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TAGGING, "Tagging ADBMobileConfig file reading exception" +
                     Log.getStackTraceString(e));
         }
-        return result;
+        return masterAdbMobileConfig;
     }
 
     /**
