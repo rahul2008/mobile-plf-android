@@ -65,12 +65,21 @@ public class AppTaggingHandler {
 
     public AppTaggingHandler(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
-        AppTaggingInterface.PrivacyStatus privacyStatus = getMobilePrivacyStatus();
-        if (privacyStatus == OPTOUT) {
-            setPrivacyStatus(privacyStatus);
-        } else {
-            PrivacyStatusCache.setPrivacyStatus(privacyStatus);
-            mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
+        AppTaggingInterface.PrivacyStatus privacyStatus = null;
+
+        // do not invoke Adobe get privacy status API as it blocks on first launch
+        if (PrivacyStatusCache.getPrivacyStatus() != null)
+            privacyStatus = PrivacyStatusCache.getPrivacyStatus();
+        else if (!TextUtils.isEmpty(mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError()))) {
+            privacyStatus = valueOf(AppTaggingInterface.PrivacyStatus.class, mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError()));
+        }
+        if (privacyStatus != null) {
+            if (privacyStatus == OPTOUT) {
+                setPrivacyStatus(privacyStatus);
+            } else {
+                PrivacyStatusCache.setPrivacyStatus(privacyStatus);
+                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
+            }
         }
     }
 
