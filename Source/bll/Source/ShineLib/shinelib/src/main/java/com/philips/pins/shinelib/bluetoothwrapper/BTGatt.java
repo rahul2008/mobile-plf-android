@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.os.Handler;
+import android.support.annotation.IntRange;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -20,15 +21,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondStatusListener {
 
     private static final String TAG = "BTGatt";
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final int BOND_CREATED_WAIT_TIME_MILLIS = 500;
-    private static final long DELAY_AFTER_REFRESH_MILLIS = 150L;
 
     private Runnable currentCommand;
 
@@ -126,17 +124,8 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     }
 
     public void discoverServices() {
-        Runnable runnable = () -> {
-            refreshInternalCache();
-
-            if (bluetoothGatt.discoverServices()) {
-                waitingForCompletion = true;
-            } else {
-                btGattCallback.onServicesDiscovered(BTGatt.this, BluetoothGatt.GATT_FAILURE);
-                executeNextCommandIfAllowed();
-            }
-        };
-        commandQueue.add(runnable);
+        refreshInternalCache();
+        commandQueue.add(this::delayedDiscoverServices);
         executeNextCommandIfAllowed();
     }
 
@@ -388,44 +377,91 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         handler.post(runnable);
     }
 
-    private void DebugLog(String log) {
-        if (ENABLE_DEBUG_LOGGING) {
-            SHNLogger.i(TAG, log);
+    /**
+     * Clears the internal cache and forces a refresh of the services from the remote device.
+     * Reflection is used because the method is hidden. There is no other method that offers
+     * this functionality. The refresh function solved Android BLE problems such as
+     * bonds being removed unexpected and not seeing when the services in the peripheral
+     * are changed (DFU). The impact of this reflection is very low, if the function is
+     * removed the library still works, only the BLE cache won't be cleared.
+     * <p>
+     * A delay was introduced right after this workaround as it is observed
+     * that multiple phones can't handle any interaction right away.
+     */
+    @SuppressWarnings("JavaReflectionMemberAccess")
+    public void refreshInternalCache() {
+        if (bluetoothGatt == null) {
+            SHNLogger.w(TAG, "Cannot refresh cache - BluetoothGatt is null.");
+            return;
+        }
+
+        try {
+            Method refresh = BluetoothGatt.class.getMethod("refresh");
+            boolean didInvokeRefresh = (Boolean) refresh.invoke(bluetoothGatt);
+
+            if (didInvokeRefresh) {
+                SHNLogger.v(TAG, "BluetoothGatt refresh successfully executed.");
+            } else {
+                SHNLogger.v(TAG, "BluetoothGatt refresh method failed to execute.");
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            SHNLogger.e(TAG, "An exception occurred while refreshing BLE cache.", e);
         }
     }
 
     /**
-     * Clears the internal cache and forces a refresh of the services from the remote device.
+     * The onConnectionStateChange event is triggered just after the Android connects to a device.
+     * In case of bonded devices, the encryption is reestablished AFTER this callback is called.
+     * Moreover, when the device has Service Changed indication enabled, and the list of services
+     * has changed (e.g. using the DFU), the indication is received few hundred milliseconds later,
+     * depending on the connection interval.
+     * When received, Android will start performing a service discovery operation, internally,
+     * and will NOT notify the app that services has changed.
+     * <p>
+     * If the gatt.discoverServices() method would be invoked here with no delay, if would return
+     * cached services, as the SC indication wouldn't be received yet. Therefore, we have to
+     * postpone the service discovery operation until we are (almost, as there is no such callback)
+     * sure, that it has been handled. It should be greater than the time from
+     * LLCP Feature Exchange to ATT Write for Service Change indication.
+     * <p>
+     * If your device does not use Service Change indication (for example does not have DFU)
+     * the delay may be 0.
+     * <p>
+     * Please calculate the proper delay that will work in your solution.
+     * <p>
+     * For devices that are not bonded, but support pairing, a small delay is required on some
+     * older Android versions (Nexus 4 with Android 5.1.1) when the device will send pairing
+     * request just after connection. If so, we want to wait with the service discovery until
+     * bonding is complete.
+     * <p>
+     * <a href="https://github.com/NordicSemiconductor/Android-BLE-Library/blob/e2d546dec127a9169cc4cd580c43e7d6c3e56559/ble/src/main/java/no/nordicsemi/android/ble/BleManager.java#L639">Source</a>
      */
-    @SuppressWarnings("JavaReflectionMemberAccess")
-    public void refreshInternalCache() {
-        /*
-          Reflection is used because the method is hidden. There is no other method that offers
-          this functionality. The refresh function solved Android BLE problems such as
-          bonds being removed unexpected and not seeing when the services in the peripheral
-          are changed (DFU). The impact of this reflection is very low, if the function is
-          removed the library still works, only the BLE cache won't be cleared.
+    @IntRange(from = 0)
+    private int getServiceDiscoveryDelay() {
+        final boolean isBonded = bluetoothGatt.getDevice().getBondState() == BluetoothDevice.BOND_BONDED;
+        return isBonded ? 1600 : 300;
+    }
 
-          A delay was introduced right after this workaround as it is observed
-          that multiple phones can't handle any interaction right away.
-        */
-        if (bluetoothGatt != null) {
-            try {
-                Method refresh = BluetoothGatt.class.getMethod("refresh");
-                boolean didInvokeRefresh = (Boolean) refresh.invoke(bluetoothGatt);
+    private void delayedDiscoverServices() {
+        final int delay = getServiceDiscoveryDelay();
 
-                if (didInvokeRefresh) {
-                    SHNLogger.v(TAG, "BluetoothGatt refresh successfully executed.");
+        SHNLogger.d(TAG, "Delaying service discovery for " + delay + "ms");
 
-                    new CountDownLatch(1).await(DELAY_AFTER_REFRESH_MILLIS, TimeUnit.MILLISECONDS);
-                } else {
-                    SHNLogger.v(TAG, "BluetoothGatt refresh method failed to execute.");
-                }
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                SHNLogger.e(TAG, "An exception occurred while refreshing BLE cache.", e);
-            } catch (InterruptedException e) {
-                SHNLogger.e(TAG, "Interrupted while delaying thread execution.", e);
+        handler.postDelayed(() -> {
+            if (bluetoothGatt.discoverServices()) {
+                SHNLogger.d(TAG, "Remote service discovery started.");
+                waitingForCompletion = true;
+            } else {
+                SHNLogger.w(TAG, "Remote service discovery did not start.");
+                btGattCallback.onServicesDiscovered(BTGatt.this, BluetoothGatt.GATT_FAILURE);
+                executeNextCommandIfAllowed();
             }
+        }, delay);
+    }
+
+    private void DebugLog(String log) {
+        if (ENABLE_DEBUG_LOGGING) {
+            SHNLogger.i(TAG, log);
         }
     }
 }
