@@ -97,11 +97,9 @@ public class AppTaggingHandlerTest {
     @Test
     public void testSettingPrivacyStatus() {
         mAppTaggingHandler.setPrivacyStatus(AppTaggingInterface.PrivacyStatus.OPTOUT);
-        assertFalse(mAppTaggingHandler.shouldTrack());
         assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(),AppTaggingInterface.PrivacyStatus.OPTOUT);
         mAppTaggingHandler.setPrivacyStatus(AppTaggingInterface.PrivacyStatus.OPTIN);
         assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(),AppTaggingInterface.PrivacyStatus.OPTIN);
-        assertTrue(mAppTaggingHandler.shouldTrack());
     }
 
     @Test

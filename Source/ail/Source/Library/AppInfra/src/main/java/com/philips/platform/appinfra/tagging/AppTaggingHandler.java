@@ -448,9 +448,6 @@ public class AppTaggingHandler {
         return false;
     }
 
-    boolean shouldTrack() {
-        return PrivacyStatusCache.shouldTrack();
-    }
 
     private static class PrivacyStatusCache {
         private static AppTaggingInterface.PrivacyStatus privacyStatus;
