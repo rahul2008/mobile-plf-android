@@ -244,7 +244,7 @@ public abstract class BleRequest implements Runnable {
         }
 
         @Override
-        public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult shnResult) {
+        public void onFailedToConnect(@NonNull final SHNDevice shnDevice, @NonNull final SHNResult shnResult) {
             onError(Error.NOT_AVAILABLE, "Communication is not available");
         }
 

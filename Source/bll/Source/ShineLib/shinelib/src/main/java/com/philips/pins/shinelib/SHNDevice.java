@@ -141,7 +141,6 @@ public interface SHNDevice {
      * Returns the SHNCapability for the specified type.
      *
      * @param type Type of capability requested
-     * @param <T>  Template to prevent casting
      * @return Properly typed capability
      */
     @SuppressWarnings("unchecked")
@@ -167,7 +166,7 @@ public interface SHNDevice {
          * instead of the passed state value.
          *
          * @param shnDevice instance that has changed state
-         * @param state state to which the device has changed
+         * @param state     state to which the device has changed
          */
         void onStateUpdated(@NonNull SHNDevice shnDevice, @NonNull State state);
 

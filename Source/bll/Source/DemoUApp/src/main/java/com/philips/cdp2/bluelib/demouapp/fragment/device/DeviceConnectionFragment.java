@@ -6,6 +6,7 @@
 package com.philips.cdp2.bluelib.demouapp.fragment.device;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -30,12 +31,12 @@ public class DeviceConnectionFragment extends Fragment {
     private SHNDevice.SHNDeviceListener mDeviceListener = new SHNDevice.SHNDeviceListener() {
 
         @Override
-        public void onStateUpdated(SHNDevice device, State state) {
+        public void onStateUpdated(@NonNull SHNDevice device, @NonNull State state) {
             showState();
         }
 
         @Override
-        public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
+        public void onFailedToConnect(@NonNull SHNDevice shnDevice, @NonNull SHNResult result) {
             Log.d("DeviceConnectFragment", "SHNDevice failed to connect");
             showState();
         }

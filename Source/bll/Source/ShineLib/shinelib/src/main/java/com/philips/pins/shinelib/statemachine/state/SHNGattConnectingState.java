@@ -17,7 +17,6 @@ import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.statemachine.SHNDeviceStateMachine;
 import com.philips.pins.shinelib.tagging.SHNTagger;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.workarounds.Workaround;
 
 import java.security.InvalidParameterException;
 import java.util.Locale;
@@ -27,14 +26,14 @@ import static com.philips.pins.shinelib.SHNCentral.State.SHNCentralStateReady;
 
 public class SHNGattConnectingState extends SHNConnectingState {
 
+    private static final long MINIMUM_CONNECTION_IDLE_TIME = 2000L;
     private boolean shouldRetryConnecting = false;
-    private long minimumConnectionIdleTime;
 
-    public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
+    SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine, "SHNGattConnectingState", -1L);
     }
 
-    public SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, long connectTimeOut) {
+    SHNGattConnectingState(@NonNull SHNDeviceStateMachine stateMachine, long connectTimeOut) {
         super(stateMachine, "SHNGattConnectingState", connectTimeOut);
         shouldRetryConnecting = true;
         if (connectTimeOut <= 0) {
@@ -45,7 +44,6 @@ public class SHNGattConnectingState extends SHNConnectingState {
     @Override
     protected void onEnter() {
         super.onEnter();
-        setMinimumConnectionIdleTime();
         startConnect();
     }
 
@@ -74,14 +72,14 @@ public class SHNGattConnectingState extends SHNConnectingState {
         }
 
         if (SHNCentralStateReady.equals(sharedResources.getShnCentral().getShnCentralState())) {
-            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback(), sharedResources.getConnectionPriority()));
+            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBtGattCallback(), sharedResources.getConnectionPriority()));
         } else {
             final String errorMsg = "Not ready for connection to the peripheral, Bluetooth is not on.";
 
             SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
+            stateMachine.notifyFailureToListener(SHNResult.SHNErrorBluetoothDisabled);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
@@ -101,7 +99,7 @@ public class SHNGattConnectingState extends SHNConnectingState {
             SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
+            stateMachine.notifyFailureToListener(SHNResult.SHNErrorConnectionLost);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
@@ -115,14 +113,14 @@ public class SHNGattConnectingState extends SHNConnectingState {
 
         if (shouldRetryConnecting) {
             SHNLogger.d(logTag, "Retrying to connect GATT in SHNGattConnectingState");
-            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBTGattCallback(), sharedResources.getConnectionPriority()));
+            sharedResources.setBtGatt(sharedResources.getBtDevice().connectGatt(sharedResources.getShnCentral().getApplicationContext(), false, sharedResources.getShnCentral(), sharedResources.getBtGattCallback(), sharedResources.getConnectionPriority()));
         } else {
             final String errorMsg = "Bluetooth GATT disconnected, not retrying to connect.";
 
             SHNLogger.e(logTag, errorMsg);
             SHNTagger.sendTechnicalError(errorMsg);
 
-            sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+            stateMachine.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
             stateMachine.setState(new SHNDisconnectingState(stateMachine));
         }
     }
@@ -135,22 +133,13 @@ public class SHNGattConnectingState extends SHNConnectingState {
         return sharedResources.getBtDevice().getBondState() == BluetoothDevice.BOND_BONDED;
     }
 
-    private void setMinimumConnectionIdleTime() {
-        this.minimumConnectionIdleTime = 2000L;
-    }
-
     private void postponeConnectCall(long timeDiff) {
-        SHNLogger.w(logTag, "Postponing connect with " + (minimumConnectionIdleTime - timeDiff) + "ms to allow the stack to properly disconnect");
+        SHNLogger.w(logTag, "Postponing connect with " + (MINIMUM_CONNECTION_IDLE_TIME - timeDiff) + "ms to allow the stack to properly disconnect");
 
-        sharedResources.getShnCentral().getInternalHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startConnect();
-            }
-        }, minimumConnectionIdleTime - timeDiff);
+        sharedResources.getShnCentral().getInternalHandler().postDelayed(this::startConnect, MINIMUM_CONNECTION_IDLE_TIME - timeDiff);
     }
 
     private boolean stackNeedsTimeToPrepareForConnect(long timeDiff) {
-        return sharedResources.getLastDisconnectedTimeMillis() != 0L && timeDiff < minimumConnectionIdleTime;
+        return sharedResources.getLastDisconnectedTimeMillis() != 0L && timeDiff < MINIMUM_CONNECTION_IDLE_TIME;
     }
 }

@@ -43,6 +43,8 @@ public class ScheduleListPortTest {
     public void setUp() {
         initMocks(this);
 
+        DICommLog.disableLogging();
+
         HandlerProvider.enableMockedHandler(handlerMock);
 
         scheduleListPort = new ScheduleListPort(communicationStrategyMock);

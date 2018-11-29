@@ -34,7 +34,7 @@ public class DeviceInformationFragment extends Fragment {
     private SHNDevice.SHNDeviceListener mDeviceListener = new SHNDevice.SHNDeviceListener() {
 
         @Override
-        public void onStateUpdated(SHNDevice device, State state) {
+        public void onStateUpdated(@NonNull SHNDevice device, @NonNull State state) {
             switch (state) {
                 case Connected:
                     showDeviceInformation();
@@ -43,7 +43,7 @@ public class DeviceInformationFragment extends Fragment {
         }
 
         @Override
-        public void onFailedToConnect(SHNDevice shnDevice, SHNResult result) {
+        public void onFailedToConnect(@NonNull SHNDevice shnDevice, @NonNull SHNResult result) {
             // Nothing to do
         }
 

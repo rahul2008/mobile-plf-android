@@ -5,7 +5,6 @@
 
 package com.philips.pins.shinelib.statemachine.state;
 
-import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
 import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
@@ -43,11 +42,6 @@ public class SHNReadyStateTest {
     private SHNDeviceStateMachine stateMachineMock;
 
     @Mock
-    private SHNCentral centralMock;
-
-    private SHNReadyState readyState;
-
-    @Mock
     private SHNDeviceResources sharedResourcesMock;
 
     @Mock
@@ -57,6 +51,8 @@ public class SHNReadyStateTest {
     private Set<SHNCharacteristicInfo> optionalCharacteristics;
     private SHNCharacteristicInfo mockedRequiredCharacteristicInfo;
     private SHNCharacteristicInfo mockedOptionalCharacteristicInfo;
+
+    private SHNReadyState readyState;
 
     @Before
     public void setUp() throws Exception {

@@ -25,12 +25,9 @@ public class SHNDisconnectingState extends SHNDeviceState {
 
     private static final long DISCONNECT_TIMEOUT = 1_000L;
 
-    private Timer disconnectTimer = Timer.createTimer(new Runnable() {
-        @Override
-        public void run() {
-            SHNLogger.e(logTag, "disconnect timeout in SHNDisconnectingState");
-            handleGattDisconnectEvent();
-        }
+    private Timer disconnectTimer = Timer.createTimer(() -> {
+        SHNLogger.e(logTag, "disconnect timeout in SHNDisconnectingState");
+        handleGattDisconnectEvent();
     }, DISCONNECT_TIMEOUT);
 
     public SHNDisconnectingState(@NonNull SHNDeviceStateMachine stateMachine) {
@@ -61,12 +58,12 @@ public class SHNDisconnectingState extends SHNDeviceState {
 
     @Override
     public void connect() {
-        sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        stateMachine.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
     }
 
     @Override
     public void connect(long connectTimeOut) {
-        sharedResources.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
+        stateMachine.notifyFailureToListener(SHNResult.SHNErrorInvalidState);
     }
 
     @Override

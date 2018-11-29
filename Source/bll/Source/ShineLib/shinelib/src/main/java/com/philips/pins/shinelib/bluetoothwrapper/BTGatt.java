@@ -12,19 +12,22 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.os.Handler;
+import android.support.annotation.IntRange;
 
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.utility.SHNLogger;
-import com.philips.pins.shinelib.workarounds.Workaround;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
 public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondStatusListener {
+
     private static final String TAG = "BTGatt";
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final int BOND_CREATED_WAIT_TIME_MILLIS = 500;
-    private static final int DELAY_AFTER_SERVICE_DISCOVERY_MILLIS = 500;
+
     private Runnable currentCommand;
 
     public interface BTGattCallback {
@@ -106,53 +109,33 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         commandQueue = new LinkedList<>();
     }
 
-    public void setBluetoothGatt(BluetoothGatt bluetoothGatt) {
+    void setBluetoothGatt(BluetoothGatt bluetoothGatt) {
         this.bluetoothGatt = bluetoothGatt;
     }
 
     public void close() {
-        if (bluetoothGatt != null) {
-            bluetoothGatt.close();
-        } else {
-            DebugLog("Unexpectedly bluetoothGatt is set to null in BTGatt::close()");
-        }
-        bluetoothGatt = null;
+        bluetoothGatt.close();
         commandQueue.clear();
         btGattCallback = new NullBTGattCallback();
     }
 
     public void disconnect() {
-        if (bluetoothGatt != null) {
-            bluetoothGatt.disconnect();
-        }
+        bluetoothGatt.disconnect();
     }
 
     public void discoverServices() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (bluetoothGatt != null && bluetoothGatt.discoverServices()) {
-                    waitingForCompletion = true;
-                } else {
-                    btGattCallback.onServicesDiscovered(BTGatt.this, BluetoothGatt.GATT_FAILURE);
-                    executeNextCommandIfAllowed();
-                }
-            }
-        };
-        commandQueue.add(runnable);
+        refreshInternalCache();
+        commandQueue.add(this::delayedDiscoverServices);
         executeNextCommandIfAllowed();
     }
 
     public void readRSSI() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (bluetoothGatt != null && bluetoothGatt.readRemoteRssi()) {
-                    waitingForCompletion = true;
-                } else {
-                    btGattCallback.onReadRemoteRssi(BTGatt.this, 0, BluetoothGatt.GATT_FAILURE);
-                    executeNextCommandIfAllowed();
-                }
+        Runnable runnable = () -> {
+            if (bluetoothGatt.readRemoteRssi()) {
+                waitingForCompletion = true;
+            } else {
+                btGattCallback.onReadRemoteRssi(BTGatt.this, 0, BluetoothGatt.GATT_FAILURE);
+                executeNextCommandIfAllowed();
             }
         };
         commandQueue.add(runnable);
@@ -160,7 +143,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     }
 
     public List<BluetoothGattService> getServices() {
-        return bluetoothGatt == null ? null : bluetoothGatt.getServices();
+        return bluetoothGatt.getServices();
     }
 
     public void readCharacteristic(final BluetoothGattCharacteristic characteristic, final boolean encrypted) {
@@ -168,15 +151,12 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
             addBondCommandIfNoBondExists();
         }
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (bluetoothGatt != null && bluetoothGatt.readCharacteristic(characteristic)) {
-                    waitingForCompletion = true;
-                } else {
-                    btGattCallback.onCharacteristicReadWithData(BTGatt.this, characteristic, BluetoothGatt.GATT_FAILURE, null);
-                    executeNextCommandIfAllowed();
-                }
+        Runnable runnable = () -> {
+            if (bluetoothGatt.readCharacteristic(characteristic)) {
+                waitingForCompletion = true;
+            } else {
+                btGattCallback.onCharacteristicReadWithData(BTGatt.this, characteristic, BluetoothGatt.GATT_FAILURE, null);
+                executeNextCommandIfAllowed();
             }
         };
         commandQueue.add(runnable);
@@ -188,15 +168,12 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
             addBondCommandIfNoBondExists();
         }
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (characteristic.setValue(data) && bluetoothGatt != null && bluetoothGatt.writeCharacteristic(characteristic)) {
-                    waitingForCompletion = true;
-                } else {
-                    btGattCallback.onCharacteristicWrite(BTGatt.this, characteristic, BluetoothGatt.GATT_FAILURE);
-                    executeNextCommandIfAllowed();
-                }
+        Runnable runnable = () -> {
+            if (characteristic.setValue(data) && bluetoothGatt.writeCharacteristic(characteristic)) {
+                waitingForCompletion = true;
+            } else {
+                btGattCallback.onCharacteristicWrite(BTGatt.this, characteristic, BluetoothGatt.GATT_FAILURE);
+                executeNextCommandIfAllowed();
             }
         };
         commandQueue.add(runnable);
@@ -204,29 +181,22 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     }
 
     private void addBondCommandIfNoBondExists() {
-        if (bluetoothGatt == null) {
-            return;
-        }
-
         final BluetoothDevice device = bluetoothGatt.getDevice();
         if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
             return;
         }
 
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-                    shnCentral.registerBondStatusListenerForAddress(BTGatt.this, device.getAddress());
-                    if (device.createBond()) {
-                        waitingForCompletion = true;
-                    } else {
-                        shnCentral.unregisterBondStatusListenerForAddress(BTGatt.this, device.getAddress());
-                        executeNextCommandIfAllowed();
-                    }
+        final Runnable runnable = () -> {
+            if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+                shnCentral.registerBondStatusListenerForAddress(BTGatt.this, device.getAddress());
+                if (device.createBond()) {
+                    waitingForCompletion = true;
                 } else {
+                    shnCentral.unregisterBondStatusListenerForAddress(BTGatt.this, device.getAddress());
                     executeNextCommandIfAllowed();
                 }
+            } else {
+                executeNextCommandIfAllowed();
             }
         };
         commandQueue.add(runnable);
@@ -234,7 +204,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
 
     @Override
     public void onBondStatusChanged(final BluetoothDevice device, int bondState, int previousBondState) {
-        if (bluetoothGatt == null || !bluetoothGatt.getDevice().getAddress().equals(device.getAddress())) {
+        if (!bluetoothGatt.getDevice().getAddress().equals(device.getAddress())) {
             return;
         }
 
@@ -242,43 +212,21 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
             return;
         }
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                shnCentral.unregisterBondStatusListenerForAddress(BTGatt.this, device.getAddress());
-                waitingForCompletion = false;
-                executeNextCommandIfAllowed();
-            }
+        Runnable runnable = () -> {
+            shnCentral.unregisterBondStatusListenerForAddress(BTGatt.this, device.getAddress());
+            waitingForCompletion = false;
+            executeNextCommandIfAllowed();
         };
         handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME_MILLIS);
     }
 
-    public void readDescriptor(final BluetoothGattDescriptor descriptor) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (bluetoothGatt != null && bluetoothGatt.readDescriptor(descriptor)) {
-                    waitingForCompletion = true;
-                } else {
-                    btGattCallback.onDescriptorReadWithData(BTGatt.this, descriptor, BluetoothGatt.GATT_FAILURE, null);
-                    executeNextCommandIfAllowed();
-                }
-            }
-        };
-        commandQueue.add(runnable);
-        executeNextCommandIfAllowed();
-    }
-
     public void writeDescriptor(final BluetoothGattDescriptor descriptor, final byte[] data) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (descriptor.setValue(data) && bluetoothGatt != null && bluetoothGatt.writeDescriptor(descriptor)) {
-                    waitingForCompletion = true;
-                } else {
-                    btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, BluetoothGatt.GATT_FAILURE);
-                    executeNextCommandIfAllowed();
-                }
+        Runnable runnable = () -> {
+            if (descriptor.setValue(data) && bluetoothGatt.writeDescriptor(descriptor)) {
+                waitingForCompletion = true;
+            } else {
+                btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, BluetoothGatt.GATT_FAILURE);
+                executeNextCommandIfAllowed();
             }
         };
         commandQueue.add(runnable);
@@ -286,7 +234,7 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     }
 
     public boolean setCharacteristicNotification(BluetoothGattCharacteristic characteristic, boolean enable) {
-        return bluetoothGatt != null && bluetoothGatt.setCharacteristicNotification(characteristic, enable);
+        return bluetoothGatt.setCharacteristicNotification(characteristic, enable);
     }
 
     private void executeNextCommandIfAllowed() {
@@ -299,31 +247,20 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     // Implements BluetoothGattCallback
     @Override
     public void onConnectionStateChange(final BluetoothGatt gatt, final int status, final int newState) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onConnectionStateChange status: " + status + " newState: " + newState);
-                btGattCallback.onConnectionStateChange(BTGatt.this, status, newState);
-// For Tuscany we found that Android does not negotiate the MTU size. The below statements work for Lolipop on a MOTOG.
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    boolean result = gatt.requestMtu(128);
-//                    Log.e(logTag, "gatt.requestMtu(128); = " + result);
-//                }
-            }
+        Runnable runnable = () -> {
+            DebugLog("onConnectionStateChange status: " + status + " newState: " + newState);
+            btGattCallback.onConnectionStateChange(BTGatt.this, status, newState);
         };
         handler.post(runnable);
     }
 
     @Override
     public void onServicesDiscovered(BluetoothGatt gatt, final int status) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onServicesDiscovered status: " + status);
-                btGattCallback.onServicesDiscovered(BTGatt.this, status);
-                waitingForCompletion = false;
-                executeNextCommandIfAllowed();
-            }
+        Runnable runnable = () -> {
+            DebugLog("onServicesDiscovered status: " + status);
+            btGattCallback.onServicesDiscovered(BTGatt.this, status);
+            waitingForCompletion = false;
+            executeNextCommandIfAllowed();
         };
 
         handler.post(runnable);
@@ -336,16 +273,14 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
         }
 
         byte[] data = characteristic.getValue();
-        if (data != null) data = data.clone();
+        if (data != null)
+            data = data.clone();
         final byte[] finalData = data;
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onCharacteristicRead status: " + status);
-                btGattCallback.onCharacteristicReadWithData(BTGatt.this, characteristic, status, finalData);
-                waitingForCompletion = false;
-                executeNextCommandIfAllowed();
-            }
+        Runnable runnable = () -> {
+            DebugLog("onCharacteristicRead status: " + status);
+            btGattCallback.onCharacteristicReadWithData(BTGatt.this, characteristic, status, finalData);
+            waitingForCompletion = false;
+            executeNextCommandIfAllowed();
         };
         handler.post(runnable);
     }
@@ -369,14 +304,11 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
 
     @Override
     public void onCharacteristicWrite(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic, final int status) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onCharacteristicWrite status: " + status);
-                btGattCallback.onCharacteristicWrite(BTGatt.this, characteristic, status);
-                waitingForCompletion = false;
-                executeNextCommandIfAllowed();
-            }
+        Runnable runnable = () -> {
+            DebugLog("onCharacteristicWrite status: " + status);
+            btGattCallback.onCharacteristicWrite(BTGatt.this, characteristic, status);
+            waitingForCompletion = false;
+            executeNextCommandIfAllowed();
         };
         handler.post(runnable);
     }
@@ -384,12 +316,9 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     @Override
     public void onCharacteristicChanged(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
         final byte[] data = characteristic.getValue().clone();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onCharacteristicChanged");
-                btGattCallback.onCharacteristicChangedWithData(BTGatt.this, characteristic, data);
-            }
+        Runnable runnable = () -> {
+            DebugLog("onCharacteristicChanged");
+            btGattCallback.onCharacteristicChangedWithData(BTGatt.this, characteristic, data);
         };
         handler.post(runnable);
     }
@@ -397,70 +326,137 @@ public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondS
     @Override
     public void onDescriptorRead(BluetoothGatt gatt, final BluetoothGattDescriptor descriptor, final int status) {
         final byte[] data = descriptor.getValue().clone();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onDescriptorRead status: " + status);
-                btGattCallback.onDescriptorReadWithData(BTGatt.this, descriptor, status, data);
-                waitingForCompletion = false;
-                executeNextCommandIfAllowed();
-            }
+        Runnable runnable = () -> {
+            DebugLog("onDescriptorRead status: " + status);
+            btGattCallback.onDescriptorReadWithData(BTGatt.this, descriptor, status, data);
+            waitingForCompletion = false;
+            executeNextCommandIfAllowed();
         };
         handler.post(runnable);
     }
 
     @Override
     public void onDescriptorWrite(BluetoothGatt gatt, final BluetoothGattDescriptor descriptor, final int status) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onDescriptorWrite status: " + status);
-                btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, status);
-                waitingForCompletion = false;
-                executeNextCommandIfAllowed();
-            }
+        Runnable runnable = () -> {
+            DebugLog("onDescriptorWrite status: " + status);
+            btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, status);
+            waitingForCompletion = false;
+            executeNextCommandIfAllowed();
         };
         handler.post(runnable);
     }
 
     @Override
     public void onReliableWriteCompleted(BluetoothGatt gatt, final int status) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onReliableWriteCompleted status: " + status);
-                btGattCallback.onReliableWriteCompleted(BTGatt.this, status);
-                waitingForCompletion = false;
-                executeNextCommandIfAllowed();
-            }
+        Runnable runnable = () -> {
+            DebugLog("onReliableWriteCompleted status: " + status);
+            btGattCallback.onReliableWriteCompleted(BTGatt.this, status);
+            waitingForCompletion = false;
+            executeNextCommandIfAllowed();
         };
         handler.post(runnable);
     }
 
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, final int rssi, final int status) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onReadRemoteRssi status: " + status);
-                btGattCallback.onReadRemoteRssi(BTGatt.this, rssi, status);
-                waitingForCompletion = false;
-                executeNextCommandIfAllowed();
-            }
+        Runnable runnable = () -> {
+            DebugLog("onReadRemoteRssi status: " + status);
+            btGattCallback.onReadRemoteRssi(BTGatt.this, rssi, status);
+            waitingForCompletion = false;
+            executeNextCommandIfAllowed();
         };
         handler.post(runnable);
     }
 
     @Override
     public void onMtuChanged(BluetoothGatt gatt, final int mtu, final int status) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                DebugLog("onMtuChanged status: " + status);
-                btGattCallback.onMtuChanged(BTGatt.this, mtu, status);
-            }
+        Runnable runnable = () -> {
+            DebugLog("onMtuChanged status: " + status);
+            btGattCallback.onMtuChanged(BTGatt.this, mtu, status);
         };
         handler.post(runnable);
+    }
+
+    /**
+     * Clears the internal cache and forces a refresh of the services from the remote device.
+     * Reflection is used because the method is hidden. There is no other method that offers
+     * this functionality. The refresh function solved Android BLE problems such as
+     * bonds being removed unexpected and not seeing when the services in the peripheral
+     * are changed (DFU). The impact of this reflection is very low, if the function is
+     * removed the library still works, only the BLE cache won't be cleared.
+     * <p>
+     * A delay was introduced right after this workaround as it is observed
+     * that multiple phones can't handle any interaction right away.
+     */
+    @SuppressWarnings("JavaReflectionMemberAccess")
+    public void refreshInternalCache() {
+        if (bluetoothGatt == null) {
+            SHNLogger.w(TAG, "Cannot refresh cache - BluetoothGatt is null.");
+            return;
+        }
+
+        try {
+            Method refresh = BluetoothGatt.class.getMethod("refresh");
+            boolean didInvokeRefresh = (Boolean) refresh.invoke(bluetoothGatt);
+
+            if (didInvokeRefresh) {
+                SHNLogger.v(TAG, "BluetoothGatt refresh successfully executed.");
+            } else {
+                SHNLogger.v(TAG, "BluetoothGatt refresh method failed to execute.");
+            }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            SHNLogger.e(TAG, "An exception occurred while refreshing BLE cache.", e);
+        }
+    }
+
+    /**
+     * The onConnectionStateChange event is triggered just after the Android connects to a device.
+     * In case of bonded devices, the encryption is reestablished AFTER this callback is called.
+     * Moreover, when the device has Service Changed indication enabled, and the list of services
+     * has changed (e.g. using the DFU), the indication is received few hundred milliseconds later,
+     * depending on the connection interval.
+     * When received, Android will start performing a service discovery operation, internally,
+     * and will NOT notify the app that services has changed.
+     * <p>
+     * If the gatt.discoverServices() method would be invoked here with no delay, if would return
+     * cached services, as the SC indication wouldn't be received yet. Therefore, we have to
+     * postpone the service discovery operation until we are (almost, as there is no such callback)
+     * sure, that it has been handled. It should be greater than the time from
+     * LLCP Feature Exchange to ATT Write for Service Change indication.
+     * <p>
+     * If your device does not use Service Change indication (for example does not have DFU)
+     * the delay may be 0.
+     * <p>
+     * Please calculate the proper delay that will work in your solution.
+     * <p>
+     * For devices that are not bonded, but support pairing, a small delay is required on some
+     * older Android versions (Nexus 4 with Android 5.1.1) when the device will send pairing
+     * request just after connection. If so, we want to wait with the service discovery until
+     * bonding is complete.
+     * <p>
+     * <a href="https://github.com/NordicSemiconductor/Android-BLE-Library/blob/e2d546dec127a9169cc4cd580c43e7d6c3e56559/ble/src/main/java/no/nordicsemi/android/ble/BleManager.java#L639">Source</a>
+     */
+    @IntRange(from = 0)
+    private int getServiceDiscoveryDelay() {
+        final boolean isBonded = bluetoothGatt.getDevice().getBondState() == BluetoothDevice.BOND_BONDED;
+        return isBonded ? 1600 : 300;
+    }
+
+    private void delayedDiscoverServices() {
+        final int delay = getServiceDiscoveryDelay();
+
+        SHNLogger.d(TAG, "Delaying service discovery for " + delay + "ms");
+
+        handler.postDelayed(() -> {
+            if (bluetoothGatt.discoverServices()) {
+                SHNLogger.d(TAG, "Remote service discovery started.");
+                waitingForCompletion = true;
+            } else {
+                SHNLogger.w(TAG, "Remote service discovery did not start.");
+                btGattCallback.onServicesDiscovered(BTGatt.this, BluetoothGatt.GATT_FAILURE);
+                executeNextCommandIfAllowed();
+            }
+        }, delay);
     }
 
     private void DebugLog(String log) {

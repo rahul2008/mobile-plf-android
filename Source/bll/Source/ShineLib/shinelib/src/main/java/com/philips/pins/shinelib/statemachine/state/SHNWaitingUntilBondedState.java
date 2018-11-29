@@ -85,7 +85,7 @@ public class SHNWaitingUntilBondedState extends SHNConnectingState implements SH
                 SHNLogger.w(logTag, errorMsg);
                 SHNTagger.sendTechnicalError(errorMsg);
 
-                sharedResources.notifyFailureToListener(SHNResult.SHNErrorBondLost);
+                stateMachine.notifyFailureToListener(SHNResult.SHNErrorBondLost);
                 stateMachine.setState(new SHNDisconnectingState(stateMachine));
             }
         }
