@@ -4,6 +4,7 @@
  */
 package com.philips.platform.ews.wifi;
 
+import android.net.wifi.ScanResult;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -128,5 +129,17 @@ public class WiFiUtil {
 
     @IntDef({HOME_WIFI, WRONG_WIFI, DEVICE_HOTSPOT_WIFI, UNKNOWN_WIFI})
     public @interface WiFiState {
+    }
+
+    public boolean isDeviceHotspotAvailable() {
+        List<ScanResult> foundNetworks = wifiManager.getScanResults();
+        if (foundNetworks != null) {
+            for (ScanResult foundNetwork : foundNetworks) {
+                if (foundNetwork.SSID.equals(DEVICE_SSID)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -90,7 +90,7 @@ public class ConnectingDeviceWithWifiViewModel implements DeviceFriendlyNameChan
     private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
-            if (wiFiUtil.getCurrentWifiState() == WiFiUtil.HOME_WIFI) {
+            if (wiFiUtil.getCurrentWifiState() == WiFiUtil.HOME_WIFI || wiFiUtil.getCurrentWifiState() == WiFiUtil.DEVICE_HOTSPOT_WIFI || wiFiUtil.isDeviceHotspotAvailable()) {
                 showConnectionUnsuccessful();
             } else {
                 handleFailureWrongWifiNetwork();
