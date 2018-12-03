@@ -102,7 +102,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
         if (!(savedInstanceState != null && !AppFrameworkApplication.isAppDataInitialized())) {
-            connectivityFragmentWeakReference = new WeakReference<PowerSleepConnectivityFragment>(this);
+            connectivityFragmentWeakReference = new WeakReference<>(this);
             dataServicesManager = getDataServicesManager();
             connectivityHelper = new ConnectivityHelper();
             user = new User(getActivity());
@@ -121,7 +121,7 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(user.isUserSignIn()) {
+        if (user.isUserSignIn()) {
             connectivityPresenter.fetchLatestSessionInfo();
         }
     }
@@ -135,12 +135,12 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         }
         connectivityPresenter = getConnectivityPresenter();
         view = inflater.inflate(R.layout.overview_power_sleep, container, false);
-        sleepScoreProgressView = (SleepScoreProgressView) view.findViewById(R.id.arc_progress);
-        sleepTimeTextView = (TextView) view.findViewById(R.id.sleep_time_value);
-        deepSleepTimeTextView = (TextView) view.findViewById(R.id.deep_sleep_time_value);
-        insights = (Button) view.findViewById(R.id.insights);
-        sleepPercentageScoreTextView = (TextView) view.findViewById(R.id.sleepoverview_score);
-        syncUpdatedTextView = (TextView) view.findViewById(R.id.powersleep_updated);
+        sleepScoreProgressView = view.findViewById(R.id.arc_progress);
+        sleepTimeTextView = view.findViewById(R.id.sleep_time_value);
+        deepSleepTimeTextView = view.findViewById(R.id.deep_sleep_time_value);
+        insights = view.findViewById(R.id.insights);
+        sleepPercentageScoreTextView = view.findViewById(R.id.sleepoverview_score);
+        syncUpdatedTextView = view.findViewById(R.id.powersleep_updated);
         view.findViewById(R.id.powersleep_sync).setOnClickListener(this);
         insights.setOnClickListener(this);
         insights.setEnabled(true);
@@ -203,30 +203,24 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
         }
 
         RALog.i(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "Ble device discovery started ");
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isFragmentLive()) {
-                    try {
-                        bleScanDialogFragment = new BLEScanDialogFragment();
-                        if (mCommCentral.getApplianceManager() != null) {
-                            bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getAvailableAppliances());
-                        }
-                        bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), BLE_SCAN_DIALOG_TAG);
-                        bleScanDialogFragment.setCancelable(false);
-                        bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
-                            @Override
-                            public void onDeviceSelected(final RefAppBleReferenceAppliance bleRefAppliance) {
-                                bleReferenceAppliance = bleRefAppliance;
-                                connectivityPresenter.synchronizeSessionData(bleRefAppliance);
-                            }
-                        });
-
-                        mCommCentral.startDiscovery();
-                        handler.postDelayed(stopDiscoveryRunnable, STOP_DISCOVERY_TIMEOUT);
-                    } catch (MissingPermissionException e) {
-                        RALog.e(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "Permission missing");
+        handler.postDelayed(() -> {
+            if (isFragmentLive()) {
+                try {
+                    bleScanDialogFragment = new BLEScanDialogFragment();
+                    if (mCommCentral.getApplianceManager() != null) {
+                        bleScanDialogFragment.setSavedApplianceList(mCommCentral.getApplianceManager().getDiscoveredAppliances());
                     }
+                    bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), BLE_SCAN_DIALOG_TAG);
+                    bleScanDialogFragment.setCancelable(false);
+                    bleScanDialogFragment.setBLEDialogListener(bleRefAppliance -> {
+                        bleReferenceAppliance = bleRefAppliance;
+                        connectivityPresenter.synchronizeSessionData(bleRefAppliance);
+                    });
+
+                    mCommCentral.startDiscovery();
+                    handler.postDelayed(stopDiscoveryRunnable, STOP_DISCOVERY_TIMEOUT);
+                } catch (MissingPermissionException e) {
+                    RALog.e(Constants.POWER_SLEEP_CONNECTIVITY_TAG, "Permission missing");
                 }
             }
         }, START_DISCOVERY_TIME);
@@ -243,28 +237,25 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void updateScreenWithLatestSessionInfo(final Summary summary) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        getActivity().runOnUiThread(() -> {
 
-                if (dialog != null && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-                RALog.d(TAG, "Session data updated");
-                insights.setEnabled(true);
-                insights.setAlpha(1.0f);
-                PowerSleepConnectivityFragment.this.sleepTimeTextView.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(summary.getTotalSleepTime())));
-                PowerSleepConnectivityFragment.this.deepSleepTimeTextView.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(summary.getDeepSleepTime())));
-                SimpleDateFormat syncFormat = new SimpleDateFormat();
-                syncUpdatedTextView.setText(getString(R.string.label_last_synced, syncFormat.format(new Date(System.currentTimeMillis()))));
-                int percentage = connectivityHelper.calculateDeepSleepScore(summary.getDeepSleepTime());
-                PowerSleepConnectivityFragment.this.sleepPercentageScoreTextView.setText(String.valueOf(percentage));
-                float scoreInDegree = (PROGRESS_SCORE_MAX * percentage) / PROGRESS_PERCENTAGE_MAX;
-                final ObjectAnimator scoreAnim = ObjectAnimator.ofFloat(sleepScoreProgressView, SLEEP_PROGRESS_VIEW_PROPERTY, 0, scoreInDegree);
-                scoreAnim.setInterpolator(new AccelerateInterpolator());
-                scoreAnim.setDuration(PROGRESS_DRAW_TIME);
-                scoreAnim.start();
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
             }
+            RALog.d(TAG, "Session data updated");
+            insights.setEnabled(true);
+            insights.setAlpha(1.0f);
+            PowerSleepConnectivityFragment.this.sleepTimeTextView.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(summary.getTotalSleepTime())));
+            PowerSleepConnectivityFragment.this.deepSleepTimeTextView.setText(getString(R.string.label_sleep_time_format, TimeUnit.MILLISECONDS.toMinutes(summary.getDeepSleepTime())));
+            SimpleDateFormat syncFormat = new SimpleDateFormat();
+            syncUpdatedTextView.setText(getString(R.string.label_last_synced, syncFormat.format(new Date(System.currentTimeMillis()))));
+            int percentage = connectivityHelper.calculateDeepSleepScore(summary.getDeepSleepTime());
+            PowerSleepConnectivityFragment.this.sleepPercentageScoreTextView.setText(String.valueOf(percentage));
+            float scoreInDegree = (PROGRESS_SCORE_MAX * percentage) / PROGRESS_PERCENTAGE_MAX;
+            final ObjectAnimator scoreAnim = ObjectAnimator.ofFloat(sleepScoreProgressView, SLEEP_PROGRESS_VIEW_PROPERTY, 0, scoreInDegree);
+            scoreAnim.setInterpolator(new AccelerateInterpolator());
+            scoreAnim.setDuration(PROGRESS_DRAW_TIME);
+            scoreAnim.start();
         });
     }
 
@@ -293,12 +284,9 @@ public class PowerSleepConnectivityFragment extends AbstractConnectivityBaseFrag
 
     @Override
     public void showToast(final String message) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, message);
-                Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
-            }
+        handler.post(() -> {
+            RALog.d(Constants.POWER_SLEEP_CONNECTIVITY_TAG, message);
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
         });
     }
 

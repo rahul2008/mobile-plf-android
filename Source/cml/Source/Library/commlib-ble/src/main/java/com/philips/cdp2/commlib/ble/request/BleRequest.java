@@ -5,9 +5,9 @@
 
 package com.philips.cdp2.commlib.ble.request;
 
+import android.os.ConditionVariable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.request.Error;
@@ -30,9 +30,8 @@ import com.philips.pins.shinelib.dicommsupport.exceptions.InvalidStatusCodeExcep
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_UNDERSTOOD;
@@ -102,7 +101,7 @@ public abstract class BleRequest implements Runnable {
     private State state = CREATED;
 
     @NonNull
-    private final Object stateLock = new Object();
+    private final ConditionVariable stateLock = new ConditionVariable();
 
     @VisibleForTesting
     DiCommByteStreamReader.DiCommMessageListener dicommMessageListener = new DiCommByteStreamReader.DiCommMessageListener() {
@@ -127,21 +126,15 @@ public abstract class BleRequest implements Runnable {
     @VisibleForTesting
     DiCommByteStreamReader diCommByteStreamReader = new DiCommByteStreamReader(dicommMessageListener);
 
-    private final ResultListener<StreamData> resultListener = new ResultListener<StreamData>() {
-        @Override
-        public void onActionCompleted(StreamData shnDataRaw, @NonNull SHNResult shnResult) {
-            if (stateIs(EXECUTING)) {
-                if (shnResult == SHNOk) {
-                    diCommByteStreamReader.onBytes(shnDataRaw.getRawData());
-                } else {
-                    onError(NOT_UNDERSTOOD, shnResult.name());
-                }
+    private final ResultListener<StreamData> resultListener = (shnDataRaw, shnResult) -> {
+        if (stateIs(EXECUTING)) {
+            if (shnResult == SHNOk) {
+                diCommByteStreamReader.onBytes(shnDataRaw.getRawData());
+            } else {
+                onError(NOT_UNDERSTOOD, shnResult.name());
             }
         }
     };
-
-    @Nullable
-    private Timer timer;
 
     @VisibleForTesting
     void processDiCommResponse(final DiCommResponse res) {
@@ -180,33 +173,19 @@ public abstract class BleRequest implements Runnable {
     @Override
     public void run() {
         if (setStateIfStateIs(STARTED, CREATED)) {
-            addTimeoutToRequest();
             execute();
 
             try {
-                inProgressLatch.await();
+                boolean didExecute = inProgressLatch.await(REQUEST_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+                if (!didExecute) {
+                    DICommLog.d(BLEREQUEST, "request (" + BleRequest.this.hashCode() + ") timed out");
+                    BleRequest.this.cancel("Timeout occurred.");
+                }
             } catch (InterruptedException ignored) {
                 onError(UNKNOWN, "Thread interrupted");
             }
             cleanup();
         }
-    }
-
-    private void addTimeoutToRequest() {
-        DICommLog.d(BLEREQUEST, "adding timeout (" + REQUEST_TIMEOUT_MS + "ms) to request (" + this.hashCode() + ")");
-        timer = createTimer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                DICommLog.d(BLEREQUEST, "request (" + BleRequest.this.hashCode() + ") timed out");
-                BleRequest.this.cancel("Timeout occurred.");
-            }
-        }, REQUEST_TIMEOUT_MS);
-    }
-
-    @NonNull
-    protected Timer createTimer() {
-        return new Timer();
     }
 
     private void execute() {
@@ -215,7 +194,7 @@ public abstract class BleRequest implements Runnable {
             return;
         }
 
-        if (bleDevice == null || bleDevice.getAddress() == null) {
+        if (bleDevice.getAddress() == null) {
             onError(Error.NOT_AVAILABLE, "Communication is not available");
             return;
         }
@@ -244,7 +223,7 @@ public abstract class BleRequest implements Runnable {
         }
 
         @Override
-        public void onFailedToConnect(final SHNDevice shnDevice, final SHNResult shnResult) {
+        public void onFailedToConnect(@NonNull final SHNDevice shnDevice, @NonNull final SHNResult shnResult) {
             onError(Error.NOT_AVAILABLE, "Communication is not available");
         }
 
@@ -304,24 +283,14 @@ public abstract class BleRequest implements Runnable {
 
     private void onError(final Error error, final String errorMessage) {
         if (setStateIfStateIs(COMPLETED, EXECUTING, STARTED, CREATED)) {
-            handlerToPostResponseOnto.post(new Runnable() {
-                @Override
-                public void run() {
-                    responseHandler.onError(error, errorMessage);
-                }
-            });
+            handlerToPostResponseOnto.post(() -> responseHandler.onError(error, errorMessage));
             finishRequest();
         }
     }
 
     private void onSuccess(final String data) {
         if (setStateIfStateIs(COMPLETED, EXECUTING)) {
-            handlerToPostResponseOnto.post(new Runnable() {
-                @Override
-                public void run() {
-                    responseHandler.onSuccess(data);
-                }
-            });
+            handlerToPostResponseOnto.post(() -> responseHandler.onSuccess(data));
             finishRequest();
         }
     }
@@ -346,10 +315,6 @@ public abstract class BleRequest implements Runnable {
         if (capability != null) {
             capability.removeDataListener(resultListener);
             capability = null;
-        }
-
-        if (timer != null) {
-            timer.cancel();
         }
     }
 

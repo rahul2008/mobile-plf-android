@@ -1,6 +1,20 @@
 ## [Jump to API Doc](#api-references)
 [HOW TO USE APPINFRA](https://confluence.atlas.philips.com/display/MAIL/How-to+articles)
 
+## Platform Version 1805
+* Added an api in rest client interface to clear all cache data (use it cautiously).
+* Added an api in A/B-Test interface to tag events to firebase.
+* Modified Adobe Privacy Status Opt-Out behaviour. For more Info on this please refer ([Confluence Page](https://confluence.atlas.philips.com/display/MOB/How+to+Use+Tagging)))
+
+## Platform Version 1804
+* Modified the ABTest interface Completely.
+* A/B testing now uses FireBase. ([How to integrate?](https://confluence.atlas.philips.com/pages/viewpage.action?pageId=29821684))
+
+## Platform Version 1802
+* New feature is added for enabling and disabling Cloud logging
+* Added new 2 new api's in the logging interface for the cloud logging.
+
+
 ## Latest Version PI17.4
 *  New feature mobile app key manager
 *  logging config added to app configuratin

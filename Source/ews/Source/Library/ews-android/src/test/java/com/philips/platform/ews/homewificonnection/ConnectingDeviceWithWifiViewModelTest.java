@@ -386,6 +386,16 @@ public class ConnectingDeviceWithWifiViewModelTest {
     }
 
     @Test
+    public void itShouldNavigateToErrorScreenWhenTimeoutAndWrongWifiConnectedAndDeviceHotspotAvailable() throws Exception {
+        simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.WRONG_WIFI);
+        verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());
+        when(mockWiFiUtil.isDeviceHotspotAvailable()).thenReturn(true);
+        timeoutRunnableCaptor.getValue().run();
+
+        verify(mockNavigator).navigateToWIFIConnectionUnsuccessfulTroubleshootingScreen(anyString(), anyString());
+    }
+
+    @Test
     public void itShouldNavigateToWrongWifiErrorScreenWhenTimeoutAndHomeWifiNotConnected() throws Exception {
         simulateConnectionBackToWifi(NetworkInfo.State.CONNECTED, WiFiUtil.UNKNOWN_WIFI);
         verify(mockHandler).postDelayed(timeoutRunnableCaptor.capture(), anyLong());

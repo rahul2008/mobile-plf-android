@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
@@ -28,13 +29,22 @@ import java.util.UUID;
 /**
  * @publicPluginApi
  */
-public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNCentralListener, SHNService.CharacteristicDiscoveryListener {
+@SuppressWarnings("FieldCanBeLocal")
+public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNService.CharacteristicDiscoveryListener {
 
-    public static final int GATT_ERROR = 0x0085;
+    static final int GATT_ERROR = 0x0085;
 
     private static final String TAG = "SHNDeviceImpl";
     private SHNDeviceStateMachine stateMachine;
     private SHNDeviceResources sharedResources;
+
+    @VisibleForTesting
+    final SHNCentral.SHNCentralListener centralListener = new SHNCentral.SHNCentralListener() {
+        @Override
+        public void onStateUpdated(@NonNull final SHNCentral shnCentral, @NonNull final SHNCentral.State state) {
+            stateMachine.getState().onStateUpdated(state);
+        }
+    };
 
     private StateChangedListener<SHNDeviceState> stateChangedListener = new StateChangedListener<SHNDeviceState>() {
         @Override
@@ -45,7 +55,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
             SHNLogger.i(TAG, String.format("State changed (%s -> %s)", oldState.getLogTag(), newState.getLogTag()));
             if (oldState.getExternalState() != newState.getExternalState()) {
-                sharedResources.notifyStateToListener();
+                stateMachine.notifyStateToListener();
             }
         }
     };
@@ -72,14 +82,20 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
     }
 
     public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNBondInitiator shnBondInitiator, int connectionPriority) {
-        sharedResources = new SHNDeviceResources(this, btDevice, shnCentral, deviceTypeName, shnBondInitiator, this, btGattCallback, connectionPriority);
-        stateMachine = new SHNDeviceStateMachine(sharedResources);
+        this(btDevice, shnCentral, deviceTypeName, new SHNDeviceResources(btDevice, shnCentral, deviceTypeName, shnBondInitiator, connectionPriority));
+    }
+
+    @VisibleForTesting
+    SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName, SHNDeviceResources resources) {
+        sharedResources = resources;
+        sharedResources.setBtGattCallback(btGattCallback);
+        stateMachine = new SHNDeviceStateMachine(this, sharedResources);
         stateMachine.addStateListener(stateChangedListener);
 
         SHNDeviceState initialState = new SHNDisconnectedState(stateMachine);
         stateMachine.setState(initialState);
 
-        shnCentral.addInternalListener(this);
+        shnCentral.addInternalListener(centralListener);
 
         SHNLogger.i(TAG, "Created new instance of SHNDevice for type: " + deviceTypeName + " address: " + btDevice.getAddress());
     }
@@ -138,12 +154,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
     @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        sharedResources.registerSHNDeviceListener(shnDeviceListener);
+        stateMachine.registerSHNDeviceListener(shnDeviceListener);
     }
 
     @Override
     public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        sharedResources.unregisterSHNDeviceListener();
+        stateMachine.unregisterSHNDeviceListener();
     }
 
     @Override
@@ -199,11 +215,6 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         }
     }
 
-    @Override
-    public void onStateUpdated(@NonNull SHNCentral shnCentral, @NonNull SHNCentral.State state) {
-        stateMachine.getState().onStateUpdated(state);
-    }
-
     public void registerService(SHNService shnService) {
         sharedResources.registerService(shnService);
         shnService.registerSHNServiceListener(this);
@@ -215,7 +226,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
         return "SHNDevice - " + sharedResources.getName() + " [" + sharedResources.getBtDevice().getAddress() + "]";
     }
 
-    private BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
+    @VisibleForTesting
+    BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
 
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
@@ -265,7 +277,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, 
 
         @Override
         public void onReadRemoteRssi(BTGatt gatt, int rssi, int status) {
-            SHNDevice.SHNDeviceListener deviceListener = sharedResources.getDeviceListener();
+            SHNDevice.SHNDeviceListener deviceListener = stateMachine.getDeviceListener();
             if (deviceListener != null) {
                 deviceListener.onReadRSSI(rssi);
             }

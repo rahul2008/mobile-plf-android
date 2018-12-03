@@ -19,7 +19,7 @@ public class SHNDiscoveringServicesState extends SHNConnectingState {
 
     private static final long SERVICE_DISCOVERY_TIMEOUT = 20_000L;
 
-    public SHNDiscoveringServicesState(@NonNull SHNDeviceStateMachine stateMachine) {
+    SHNDiscoveringServicesState(@NonNull SHNDeviceStateMachine stateMachine) {
         super(stateMachine, "SHNDiscoveringServicesState", SERVICE_DISCOVERY_TIMEOUT);
     }
 

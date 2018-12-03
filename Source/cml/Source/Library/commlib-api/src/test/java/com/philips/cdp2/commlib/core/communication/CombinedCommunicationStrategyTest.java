@@ -14,8 +14,6 @@ import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import static com.philips.cdp.dicommclient.request.Error.NOT_CONNECTED;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,33 +36,30 @@ public class CombinedCommunicationStrategyTest {
     private static final boolean UNAVAILABLE = false;
 
     @Mock
-    CommunicationStrategy availableStrategyMock;
+    private ResponseHandler responseHandlerMock;
+
     @Mock
-    CommunicationStrategy unavailableStrategyMock;
+    private SubscriptionEventListener subscriptionEventListenerMock;
+
     @Mock
-    ResponseHandler responseHandlerMock;
-    @Mock
-    SubscriptionEventListener subscriptionEventListenerMock;
-    @Mock
-    AvailabilityListener<CommunicationStrategy> strategyAvailabilityListenerMock;
+    private AvailabilityListener<CommunicationStrategy> strategyAvailabilityListenerMock;
 
     private AvailabilityListener<CommunicationStrategy> strategyAvailabilityListener;
 
     @Before
     public void setUp() {
         initMocks(this);
+
+        DICommLog.disableLogging();
     }
 
     @SuppressWarnings("unchecked")
     private CommunicationStrategy createCommunicationStrategy(boolean available) {
         CommunicationStrategy strategy = mock(CommunicationStrategy.class);
         when(strategy.isAvailable()).thenReturn(available);
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                strategyAvailabilityListener = invocation.getArgument(0);
-                return null;
-            }
+        doAnswer(invocation -> {
+            strategyAvailabilityListener = invocation.getArgument(0);
+            return null;
         }).when(strategy).addAvailabilityListener(isA(AvailabilityListener.class));
 
         return strategy;
@@ -294,13 +289,10 @@ public class CombinedCommunicationStrategyTest {
         CommunicationStrategy two = createCommunicationStrategy(AVAILABLE);
         final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(one, two);
         strategy.addAvailabilityListener(strategyAvailabilityListenerMock);
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                ResponseHandler handler = invocation.getArgument(3);
-                handler.onError(NOT_CONNECTED, "");
-                return null;
-            }
+        doAnswer(invocation -> {
+            ResponseHandler handler = invocation.getArgument(3);
+            handler.onError(NOT_CONNECTED, "");
+            return null;
         }).when(one).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
         strategy.subscribe("portname", 1, 0, responseHandlerMock);
         when(one.isAvailable()).thenReturn(false);
@@ -344,13 +336,10 @@ public class CombinedCommunicationStrategyTest {
     }
 
     private void whenSubscribeThenSuccess(CommunicationStrategy two) {
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                ResponseHandler handler = invocation.getArgument(3);
-                handler.onSuccess("");
-                return null;
-            }
+        doAnswer(invocation -> {
+            ResponseHandler handler = invocation.getArgument(3);
+            handler.onSuccess("");
+            return null;
         }).when(two).subscribe(anyString(), anyInt(), anyInt(), any(ResponseHandler.class));
     }
 

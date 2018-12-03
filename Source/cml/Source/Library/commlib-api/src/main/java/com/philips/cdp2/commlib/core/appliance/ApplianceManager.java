@@ -8,6 +8,8 @@ package com.philips.cdp2.commlib.core.appliance;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
@@ -16,8 +18,8 @@ import com.philips.cdp2.commlib.core.store.ApplianceDatabase;
 import com.philips.cdp2.commlib.core.store.NetworkNodeDatabase;
 import com.philips.cdp2.commlib.core.store.NullApplianceDatabase;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +35,7 @@ import static com.philips.cdp2.commlib.core.util.HandlerProvider.createHandler;
  * when an appliance is found or updated, or whenever an error occurs while performing discovery.
  * <p>
  * The application should subscribe to notifications using the {@link ApplianceListener} interface.
- * It's also possible to just obtain the set of available appliances using {@link #getAvailableAppliances()}
+ * It's also possible to just obtain the set of available appliances using {@link #getDiscoveredAppliances()}
  *
  * @publicApi
  */
@@ -46,21 +48,21 @@ public class ApplianceManager {
         /**
          * Called when an {@link Appliance} is found.
          *
-         * @param foundAppliance
+         * @param foundAppliance the found appliance
          */
         void onApplianceFound(@NonNull Appliance foundAppliance);
 
         /**
          * Called when an {@link Appliance} is updated due to new information from Discovery.
          *
-         * @param updatedAppliance
+         * @param updatedAppliance the updated appliance
          */
         void onApplianceUpdated(@NonNull Appliance updatedAppliance);
 
         /**
          * Called when an {@link Appliance} is lost.
          *
-         * @param lostAppliance
+         * @param lostAppliance the lost appliance
          */
         void onApplianceLost(@NonNull Appliance lostAppliance);
     }
@@ -68,19 +70,21 @@ public class ApplianceManager {
     private final ApplianceFactory applianceFactory;
 
     private final Set<ApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
-    private Map<String, Appliance> appliances = new ConcurrentHashMap<>();
 
-    @Deprecated
-    private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
+    private final Map<String, Appliance> knownAppliances = new ConcurrentHashMap<>();
+
+    private final Map<String, Appliance> discoveredAppliances = new ConcurrentHashMap<>();
 
     @NonNull
     private final Handler handler = createHandler();
+
     @NonNull
     private final NetworkNodeDatabase networkNodeDatabase;
+
     @NonNull
     private final ApplianceDatabase applianceDatabase;
 
-
+    @SuppressWarnings("FieldCanBeLocal")
     private final DiscoveryListener discoveryListener = new DiscoveryListener() {
         @Override
         public void onDiscoveryStarted() {
@@ -93,10 +97,17 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
-            final Appliance appliance = availableAppliances.get(networkNode.getCppId());
+            final String cppId = networkNode.getCppId();
+            final Appliance appliance = discoveredAppliances.get(cppId);
 
             if (appliance != null) {
-                notifyApplianceLost(availableAppliances.remove(networkNode.getCppId()));
+                final Appliance removedAppliance = discoveredAppliances.remove(cppId);
+
+                if (removedAppliance == null) {
+                    DICommLog.w(DICommLog.APPLIANCE_MANAGER, "Could not remove appliance for cppId: " + cppId);
+                } else {
+                    notifyApplianceLost(removedAppliance);
+                }
             }
         }
 
@@ -136,8 +147,8 @@ public class ApplianceManager {
         loadAllAddedAppliancesFromDatabase();
     }
 
-    private void updateAppliance(NetworkNode networkNode) {
-        final Appliance appliance = availableAppliances.get(networkNode.getCppId());
+    private void updateAppliance(final @NonNull NetworkNode networkNode) {
+        final Appliance appliance = discoveredAppliances.get(networkNode.getCppId());
 
         if (appliance != null) {
             appliance.getNetworkNode().updateWithValuesFrom(networkNode);
@@ -148,19 +159,24 @@ public class ApplianceManager {
     @Nullable
     private Appliance processDiscoveredOrLoadedNetworkNode(@NonNull NetworkNode networkNode) {
         final String cppId = networkNode.getCppId();
-        if (availableAppliances.containsKey(cppId)) {
+
+        if (discoveredAppliances.containsKey(cppId)) {
             updateAppliance(networkNode);
-            return availableAppliances.get(cppId);
-        } else if (appliances.containsKey(cppId)) {
-            final Appliance appliance = appliances.get(cppId);
-            availableAppliances.put(cppId, appliance);
-            notifyApplianceFound(appliance);
+
+            return discoveredAppliances.get(cppId);
+        } else if (knownAppliances.containsKey(cppId)) {
+            final Appliance appliance = knownAppliances.get(cppId);
+            if (appliance != null) {
+                discoveredAppliances.put(cppId, appliance);
+                notifyApplianceFound(appliance);
+            }
             return appliance;
         } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
             final Appliance appliance = applianceFactory.createApplianceForNode(networkNode);
-            appliances.put(cppId, appliance);
-            availableAppliances.put(cppId, appliance);
+            knownAppliances.put(cppId, appliance);
+            discoveredAppliances.put(cppId, appliance);
             notifyApplianceFound(appliance);
+
             return appliance;
         }
         return null;
@@ -169,35 +185,17 @@ public class ApplianceManager {
     /**
      * Gets all available {@link Appliance}s.
      *
-     * @return The currently available appliances
-     * @deprecated Returns the same as getAppliances. Will be removed, use getAppliances.
+     * @return The currently available knownAppliances
      */
-    @Deprecated
     @NonNull
-    public Set<Appliance> getAvailableAppliances() {
-        return new CopyOnWriteArraySet<>(availableAppliances.values());
+    public Set<Appliance> getDiscoveredAppliances() {
+        return Collections.unmodifiableSet(new HashSet<>(discoveredAppliances.values()));
     }
 
-    /**
-     * Gets all {@link Appliance}s that this manager has found, even if no longer available.
-     *
-     * @return All known appliances.
-     * @deprecated Returns the same as getAppliances. Will be removed, use getAppliances.
-     */
-    @Deprecated
     @NonNull
-    public Set<Appliance> getAllAppliances() {
-        return getAppliances();
-    }
-
-    /**
-     * Gets all {@link Appliance}s
-     *
-     * @return All known appliances.
-     */
-    @NonNull
-    public Set<Appliance> getAppliances() {
-        return new CopyOnWriteArraySet<>(appliances.values());
+    @VisibleForTesting
+    Set<Appliance> getKnownAppliances() {
+        return Collections.unmodifiableSet(new HashSet<>(knownAppliances.values()));
     }
 
     /**
@@ -208,7 +206,7 @@ public class ApplianceManager {
      */
     @Nullable
     public Appliance findApplianceByCppId(final String cppId) {
-        return appliances.get(cppId);
+        return knownAppliances.get(cppId);
     }
 
     /**
@@ -274,12 +272,9 @@ public class ApplianceManager {
             }
 
             applianceDatabase.loadDataForAppliance(appliance);
-            networkNode.addPropertyChangeListener(new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Storing NetworkNode (because of property change)");
-                    networkNodeDatabase.save(networkNode);
-                }
+            networkNode.addPropertyChangeListener(evt -> {
+                DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Storing NetworkNode (because of property change)");
+                networkNodeDatabase.save(networkNode);
             });
         }
     }
@@ -288,12 +283,7 @@ public class ApplianceManager {
         DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance found: [" + appliance.toString() + "]");
 
         for (final ApplianceListener listener : applianceListeners) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onApplianceFound(appliance);
-                }
-            });
+            handler.post(() -> listener.onApplianceFound(appliance));
         }
     }
 
@@ -301,12 +291,7 @@ public class ApplianceManager {
         DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance updated: [" + appliance.toString() + "]");
 
         for (final ApplianceListener listener : applianceListeners) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onApplianceUpdated(appliance);
-                }
-            });
+            handler.post(() -> listener.onApplianceUpdated(appliance));
         }
     }
 
@@ -314,12 +299,7 @@ public class ApplianceManager {
         DICommLog.v(DICommLog.APPLIANCE_MANAGER, "Appliance lost [" + appliance.toString() + "]");
 
         for (final ApplianceListener listener : applianceListeners) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onApplianceLost(appliance);
-                }
-            });
+            handler.post(() -> listener.onApplianceLost(appliance));
         }
     }
 }

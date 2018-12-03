@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.core.discovery;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
@@ -29,56 +30,31 @@ public abstract class ObservableDiscoveryStrategy implements DiscoveryStrategy {
 
     protected void notifyDiscoveryStarted() {
         for (final DiscoveryListener listener : discoveryListeners) {
-            responseHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onDiscoveryStarted();
-                }
-            });
+            responseHandler.post(listener::onDiscoveryStarted);
         }
     }
 
     protected void notifyNetworkNodeDiscovered(@NonNull final NetworkNode networkNode) {
         for (final DiscoveryListener listener : discoveryListeners) {
-            responseHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onNetworkNodeDiscovered(networkNode);
-                }
-            });
+            responseHandler.post(() -> listener.onNetworkNodeDiscovered(networkNode));
         }
     }
 
     protected void notifyNetworkNodeLost(@NonNull final NetworkNode networkNode) {
         for (final DiscoveryListener listener : discoveryListeners) {
-            responseHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onNetworkNodeLost(networkNode);
-                }
-            });
+            responseHandler.post(() -> listener.onNetworkNodeLost(networkNode));
         }
     }
 
     protected void notifyDiscoveryStopped() {
         for (final DiscoveryListener listener : discoveryListeners) {
-            responseHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onDiscoveryStopped();
-                }
-            });
+            responseHandler.post(listener::onDiscoveryStopped);
         }
     }
 
     protected void notifyDiscoveryFailedToStart() {
         for (final DiscoveryListener listener : discoveryListeners) {
-            responseHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onDiscoveryFailedToStart();
-                }
-            });
+            responseHandler.post(listener::onDiscoveryFailedToStart);
         }
     }
 }

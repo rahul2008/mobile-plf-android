@@ -9,11 +9,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -23,12 +21,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
@@ -52,7 +49,6 @@ import com.philips.cdp2.demouapp.util.UiUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -129,7 +125,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
         @Override
         public void onDiscoveryStopped() {
-            
+
         }
 
         @Override
@@ -141,7 +137,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private void onAppliancesChanged() {
         applianceAdapter.clear();
 
-        final Set<Appliance> appliances = commCentral.getApplianceManager().getAppliances();
+        final Set<Appliance> appliances = commCentral.getApplianceManager().getDiscoveredAppliances();
         Collections.sort(new ArrayList<>(appliances), (o1, o2) -> o1.getName().compareTo(o2.getName()));
         for (Appliance appliance : appliances) {
             appliance.getWifiPort().addPortListener(wifiPortListener);
@@ -260,7 +256,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
         commCentral.getApplianceManager().addApplianceListener(applianceListener);
 
         applianceAdapter.clear();
-        applianceAdapter.addAll(commCentral.getApplianceManager().getAppliances());
+        applianceAdapter.addAll(commCentral.getApplianceManager().getDiscoveredAppliances());
 
         appIdProvider.addAppIdListener(appIdListener);
         updateAppId();
@@ -290,7 +286,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
     private void startLanDiscovery() {
         lanDiscoverySwitch.setChecked(tryStartingDiscovery(lanDiscoveryStrategy));
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             return;
         }
 
@@ -298,7 +294,8 @@ public class DiscoveredAppliancesFragment extends Fragment {
         // Without it, the WiFi SSID is always "<unknown ssid>"
         acquirePermission(new PermissionResultListener() {
             @Override
-            public void onPermissionGranted() {}
+            public void onPermissionGranted() {
+            }
 
             @Override
             public void onPermissionDenied() {
@@ -321,7 +318,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
             @Override
             public void onPermissionDenied() {
-                showIndefiniteMessage(view, "BLE discovery requires location permissions!");
+                showIndefiniteMessage(view, "⚠️ BLE discovery requires location permissions!");
                 bleDiscoverySwitch.setChecked(false);
             }
         });
