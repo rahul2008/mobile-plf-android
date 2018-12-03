@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -90,6 +91,33 @@ public class AppTaggingHandlerTest {
         loggingInterfaceMock = mock(LoggingInterface.class);
         mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
                 "PRODUCTION", configError);
+    }
+
+
+    @Test
+    public void testSettingPrivacyStatus() {
+        mAppTaggingHandler.setPrivacyStatus(AppTaggingInterface.PrivacyStatus.OPTOUT);
+        assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(),AppTaggingInterface.PrivacyStatus.OPTOUT);
+        mAppTaggingHandler.setPrivacyStatus(AppTaggingInterface.PrivacyStatus.OPTIN);
+        assertEquals(mAppTaggingHandler.getMobilePrivacyStatus(),AppTaggingInterface.PrivacyStatus.OPTIN);
+    }
+
+    @Test
+    public void testValidatingOptOutWhenInvokedCreateInstance() {
+        AppTaggingHandler appTaggingHandler = new AppTaggingHandler(mAppInfra);
+        appTagging = new AppTagging(mAppInfra) {
+            @Override
+            AppTaggingHandler getAppTaggingHandler() {
+                return appTaggingHandler;
+            }
+        };
+        appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+        AppTaggingInterface appTaggingInterface = appTagging.createInstanceForComponent("some_component", "1234");
+        assertEquals(appTaggingInterface.getPrivacyConsent(),AppTaggingInterface.PrivacyStatus.OPTOUT);
+
+        appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+        appTaggingInterface = appTagging.createInstanceForComponent("some_component12", "123456");
+        assertEquals(appTaggingInterface.getPrivacyConsent(),AppTaggingInterface.PrivacyStatus.OPTIN);
     }
 
     @Test

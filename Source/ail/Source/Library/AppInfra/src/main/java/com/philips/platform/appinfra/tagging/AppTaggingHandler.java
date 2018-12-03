@@ -8,7 +8,9 @@ package com.philips.platform.appinfra.tagging;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.adobe.mobile.Analytics;
@@ -38,7 +40,6 @@ import java.util.TimeZone;
 
 import static com.adobe.mobile.Analytics.getTrackingIdentifier;
 import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN;
-import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT;
 import static com.adobe.mobile.MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN;
 import static com.philips.platform.appinfra.tagging.AppTagging.ACTION_NAME;
 import static com.philips.platform.appinfra.tagging.AppTagging.ACTION_TAGGING_DATA;
@@ -48,6 +49,7 @@ import static com.philips.platform.appinfra.tagging.AppTagging.PAGE_NAME;
 import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyStatus.OPTIN;
 import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyStatus.OPTOUT;
 import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyStatus.UNKNOWN;
+import static java.lang.Enum.valueOf;
 
 
 /**
@@ -58,14 +60,35 @@ public class AppTaggingHandler {
     private final AppInfra mAppInfra;
     private String mComponentID;
     private String mComponentVersion;
+    private String ADB_PRIVACY_STATUS = "ail_adb_status";
+    private JSONObject masterAdbMobileConfig;
 
     public AppTaggingHandler(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
+        AppTaggingInterface.PrivacyStatus privacyStatus = null;
+
+        // do not invoke Adobe get privacy status API as it blocks tagging on first launch
+        if (PrivacyStatusCache.getPrivacyStatus() != null)
+            privacyStatus = PrivacyStatusCache.getPrivacyStatus();
+        else if (!TextUtils.isEmpty(mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError()))) {
+            privacyStatus = valueOf(AppTaggingInterface.PrivacyStatus.class, mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError()));
+        } if (privacyStatus != null) {
+            PrivacyStatusCache.setPrivacyStatus(privacyStatus);
+            mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
+            if (privacyStatus == OPTOUT) {
+                Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
+            }
+        }
+    }
+
+    @NonNull
+    SecureStorageInterface.SecureStorageError getSecureStorageError() {
+        return new SecureStorageInterface.SecureStorageError();
     }
 
     /*
-    * Checks for SSL connection value from Adobe json
-    * */
+     * Checks for SSL connection value from Adobe json
+     * */
     protected boolean checkForSslConnection() {
         boolean sslValue = false;
         final JSONObject jSONObject = getMasterADBMobileConfig();
@@ -91,7 +114,9 @@ public class AppTaggingHandler {
      * Reading from Adobe json
      */
     protected JSONObject getMasterADBMobileConfig() {
-        JSONObject result = null;
+        if (masterAdbMobileConfig != null)
+            return masterAdbMobileConfig;
+
         try {
             final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
             final BufferedReader mBufferedReader = new BufferedReader(new InputStreamReader(mInputStream));
@@ -100,14 +125,14 @@ public class AppTaggingHandler {
             while ((line = mBufferedReader.readLine()) != null) {
                 mStringBuilder.append(line).append('\n');
             }
-            result = new JSONObject(mStringBuilder.toString());
+            masterAdbMobileConfig = new JSONObject(mStringBuilder.toString());
            /* mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_TAGGING, "Master ADB Mobile Config Json" +
-                    result.toString());*/
+                    masterAdbMobileConfig.toString());*/
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TAGGING, "Tagging ADBMobileConfig file reading exception" +
                     Log.getStackTraceString(e));
         }
-        return result;
+        return masterAdbMobileConfig;
     }
 
     /**
@@ -197,7 +222,18 @@ public class AppTaggingHandler {
         return dateFormat.format(calendar.getTime());
     }
 
-    AppTaggingInterface.PrivacyStatus getMobilePrivacyStatus(MobilePrivacyStatus mMobilePrivacyStatus) {
+    AppTaggingInterface.PrivacyStatus getMobilePrivacyStatus() {
+        if (PrivacyStatusCache.getPrivacyStatus() != null)
+            return PrivacyStatusCache.getPrivacyStatus();
+        else if (!TextUtils.isEmpty(mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError()))) {
+            return valueOf(AppTaggingInterface.PrivacyStatus.class, mAppInfra.getSecureStorage().fetchValueForKey(ADB_PRIVACY_STATUS, getSecureStorageError()));
+        } else {
+            return getAdobePrivacyStatus();
+        }
+    }
+
+    private AppTaggingInterface.PrivacyStatus getAdobePrivacyStatus() {
+        final MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
         AppTaggingInterface.PrivacyStatus mPrivacyStatus = null;
         switch (mMobilePrivacyStatus) {
             case MOBILE_PRIVACY_STATUS_OPT_IN:
@@ -214,24 +250,28 @@ public class AppTaggingHandler {
     }
 
     void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
+        PrivacyStatusCache.setPrivacyStatus(privacyStatus);
         switch (privacyStatus) {
             case OPTIN:
+                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
                 Analytics.trackAction("analyticsOptIn", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
                 break;
             case OPTOUT:
+                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
                 Analytics.trackAction("analyticsOptOut", null);
-                Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_OUT);
+                Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
                 break;
             case UNKNOWN:
-                Analytics.trackAction("analyticsUnkown", null);
+                mAppInfra.getSecureStorage().storeValueForKey(ADB_PRIVACY_STATUS, privacyStatus.name(), getSecureStorageError());
+                Analytics.trackAction("analyticsUnknown", null);
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_UNKNOWN);
                 break;
         }
     }
 
     void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-        if (checkForSslConnection() || checkForProductionState()) {
+        if (PrivacyStatusCache.shouldTrack() && (checkForSslConnection() || checkForProductionState())) {
             trackData(pageName, paramMap, isTrackPage);
         }
     }
@@ -290,7 +330,7 @@ public class AppTaggingHandler {
 
 
     void timeActionStart(String actionStart, Map<String, Object> contextData) {
-        if (checkForSslConnection() || checkForProductionState()) {
+        if (PrivacyStatusCache.shouldTrack() && (checkForSslConnection() || checkForProductionState())) {
             Map<String, Object> analyticsDefaultParameters = addAnalyticsDataObject();
             if (contextData != null) analyticsDefaultParameters.putAll(contextData);
             Analytics.trackTimedActionStart(actionStart, analyticsDefaultParameters);
@@ -298,7 +338,7 @@ public class AppTaggingHandler {
     }
 
     void timeActionEnd(String actionEnd, Analytics.TimedActionBlock<Boolean> logic) {
-        if (checkForSslConnection() || checkForProductionState()) {
+        if (PrivacyStatusCache.shouldTrack() && (checkForSslConnection() || checkForProductionState())) {
             Analytics.trackTimedActionEnd(actionEnd, logic);
         }
     }
@@ -406,5 +446,22 @@ public class AppTaggingHandler {
             }
         }
         return false;
+    }
+
+
+    private static class PrivacyStatusCache {
+        private static AppTaggingInterface.PrivacyStatus privacyStatus;
+
+        static AppTaggingInterface.PrivacyStatus getPrivacyStatus() {
+            return privacyStatus;
+        }
+
+        static void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
+            PrivacyStatusCache.privacyStatus = privacyStatus;
+        }
+
+        static boolean shouldTrack() {
+            return privacyStatus != OPTOUT;
+        }
     }
 }

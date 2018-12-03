@@ -10,7 +10,6 @@ import android.content.Context;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
-import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
@@ -74,8 +73,7 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public PrivacyStatus getPrivacyConsent() {
-        final MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
-        return getAppTaggingHandler().getMobilePrivacyStatus(mMobilePrivacyStatus);
+        return getAppTaggingHandler().getMobilePrivacyStatus();
     }
 
     @Override
