@@ -565,7 +565,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         handleUiState();
         uiEnableState(isOnline);
         observeLoginButton();
-        if (!isOnline) {
+        if (!isOnline && isVisible()) {
             RLog.d(TAG, " URNotification onNetWorkStateReceived");
             showNotificationBarOnNetworkNotAvailable();
         } else hideNotificationBarView();
