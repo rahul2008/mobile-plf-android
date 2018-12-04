@@ -139,7 +139,7 @@ public interface AppTaggingInterface extends Serializable {
 	void trackVideoEnd(String videoName);
 
 	/**
-	 * Track social sharing with social media like facebook, twitter, mail etc…
+	 * Track social sharing with social media like facebook, twitter, mail etc
 	 *
 	 * @param medium     SocialMedium=enum:{Facebook, Twitter, Mail, AirDrop}
 	 * @param sharedItem sharedItem is the object being shared
