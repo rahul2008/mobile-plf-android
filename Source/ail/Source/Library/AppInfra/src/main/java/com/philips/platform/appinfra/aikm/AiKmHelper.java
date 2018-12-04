@@ -109,8 +109,6 @@ class AiKmHelper {
         return new String(data);
     }
 
-    // TODO: Deepthi please change the strings and revisit the logic 
-//           Will consider above TODO in 17.5
     String getGroomIndex(String value) {
         String data = "https://philips.com/";
         if (!TextUtils.isEmpty(value)) {
@@ -121,7 +119,6 @@ class AiKmHelper {
         return null;
     }
 
-    //TODO - will be introduced in 17.5
     String getGroomIndexWithSplit(String value) {
         String data = "https://philips.com/";
         if (!TextUtils.isEmpty(value)) {
