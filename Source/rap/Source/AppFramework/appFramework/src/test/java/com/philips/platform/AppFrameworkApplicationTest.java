@@ -76,11 +76,7 @@ public class AppFrameworkApplicationTest extends AppFrameworkApplication {
 
     }
 
-    @Override
-    public void initDataServiceState() {
-        DemoDataServicesState mockDSState = mock(DemoDataServicesState.class);
-        doNothing().when(mockDSState).init(mock(Context.class));
-    }
+
 
     public IAPState getIap() {
         return iapState;

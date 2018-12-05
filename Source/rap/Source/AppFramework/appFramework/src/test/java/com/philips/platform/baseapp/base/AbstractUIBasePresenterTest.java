@@ -46,11 +46,11 @@ public class AbstractUIBasePresenterTest {
         assertNotNull(concreteUiBasePresenterTest.setStateData(AppStates.SUPPORT));
         assertNotNull(concreteUiBasePresenterTest.setStateData(AppStates.ABOUT));
         assertNotNull(concreteUiBasePresenterTest.setStateData(AppStates.PR));
-        assertNotNull(concreteUiBasePresenterTest.setStateData(AppStates.CONNECTIVITY));
+
         assertNotNull(concreteUiBasePresenterTest.setStateData(AppStates.COCO_VERSION_INFO));
         assertNotNull(concreteUiBasePresenterTest.setStateData(AppStates.DEBUG));
         assertNotNull(concreteUiBasePresenterTest.setStateData(AppStates.TEST_MICROAPP));
-        assertNotNull(concreteUiBasePresenterTest.setStateData(AppStates.TEST_DEVICE_PAIRING));
+
         assertNotNull(concreteUiBasePresenterTest.setStateData(""));
     }
 
