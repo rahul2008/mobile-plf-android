@@ -6,10 +6,9 @@
 package com.philips.platform.baseapp;
 
 
-import com.philips.platform.appframework.connectivitypowersleep.insights.InsightsFragmentState;
+
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.stateimpl.DemoDevicePairingState;
 import com.philips.platform.baseapp.screens.Optin.MarketingOptin;
 import com.philips.platform.baseapp.screens.aboutscreen.AboutScreenState;
 import com.philips.platform.baseapp.screens.cocoversion.CocoVersionState;
@@ -27,14 +26,11 @@ import com.philips.platform.baseapp.screens.neura.NeuraState;
 import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.splash.SplashState;
-import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesDeepLinkingState;
-import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewState;
-import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
-import com.philips.platform.modularui.stateimpl.PowerSleepConnectivityFragmentState;
+
 
 import java.util.Map;
 
@@ -56,18 +52,15 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.SUPPORT, new SupportFragmentState());
         uiStateMap.put(AppStates.SPLASH, new SplashState());
         uiStateMap.put(AppStates.WEB_VIEW_STATE,new WebViewState());
-        uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
-        //uiStateMap.put(AppStates.EWS, new EWSFragmentState());
-        uiStateMap.put(AppStates.POWER_SLEEP_CONNECTIVITY, new PowerSleepConnectivityFragmentState());
-        uiStateMap.put(AppStates.INSIGHTS, new InsightsFragmentState());
+
+
         uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
-        uiStateMap.put(AppStates.TEST_DEVICE_PAIRING, new DemoDevicePairingState());
-        uiStateMap.put(AppStates.TELEHEALTHSERVICES, new TeleHealthServicesState());
+
         uiStateMap.put(AppStates.MY_ACCOUNT, new MyAccountState());
         uiStateMap.put(AppStates.PRIVACY_SETTINGS_STATE, new PrivacySettingsState());
         uiStateMap.put(AppStates.MY_OPTIN_STATE, new MarketingOptin());
         uiStateMap.put(AppStates.MY_DETAILS_STATE, new MyDetailsState());
-        uiStateMap.put(AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE, new TeleHealthServicesDeepLinkingState());
+
         uiStateMap.put(AppStates.NEURA, new NeuraState());
         uiStateMap.put(AppStates.SHOPPING_CART_VIEW, new ShoppingCartFlowState());
         uiStateMap.put(AppStates.MY_ORDERS, new IAPOrderHistoryState());

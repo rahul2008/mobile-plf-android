@@ -101,22 +101,7 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData testStateData=new UIStateData();
                 testStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return testStateData;
-            case AppStates.TEST_DEVICE_PAIRING:
-                final UIStateData devicePairingStateData = new UIStateData();
-                devicePairingStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return devicePairingStateData;
-            case AppStates.TELEHEALTHSERVICES:
-                final UIStateData teleHealthData = new UIStateData();
-                teleHealthData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return teleHealthData;
-            case AppStates.TELE_HEALTHSERVICES_DEEP_LINKING_STATE:
-                final UIStateData teleHealthDeepLinkingData = new UIStateData();
-                teleHealthDeepLinkingData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return teleHealthDeepLinkingData;
-            case AppStates.POWER_SLEEP_CONNECTIVITY:
-                final UIStateData powerSleepStateData = new UIStateData();
-                powerSleepStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
-                return powerSleepStateData;
+
             case AppStates.MY_ACCOUNT:
                 UIStateData myAccountData = new UIStateData();
                 myAccountData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);

@@ -7,8 +7,6 @@
 
 package com.philips.platform.appframework.connectivitypowersleep;
 
-import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

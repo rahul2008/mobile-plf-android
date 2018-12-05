@@ -8,18 +8,16 @@
 //Project definitions
 apply from: buildscript.sourceFile.parent + '/build-support/gradle/projectnames.gradle'
 
-include ext.strings.cca.projectName
-include ext.strings.clc.projectName
-include ext.strings.pnf.projectName
+
+
 include ext.strings.rap.projectName
 include ext.strings.tse.projectName
 include ext.strings.uid.projectName
-include ext.strings.ews.projectName
 include ext.strings.csw.projectName
 include ext.strings.pif.projectName
-include ext.strings.ths.projectName
+
 include ext.strings.sdb.projectName
-include ext.strings.bll.projectName
+
 include ext.strings.mya.projectName
 include ext.strings.ail.projectName
 include ext.strings.prx.projectName
@@ -29,14 +27,13 @@ include ext.strings.icf.projectName
 include ext.strings.usr.projectName
 include ext.strings.pse.projectName
 include ext.strings.jmp.projectName
-include ext.strings.dsc.projectName
+
 include ext.strings.dcc.projectName
 include ext.strings.ufw.projectName
 include ext.strings.prg.projectName
-include ext.strings.cml.projectName
-include ext.strings.cit.projectName
-include ext.strings.prf.projectName
-include ext.strings.ccl.projectName
+
+
+
 
 
 include ext.strings.ailuapp.projectName
@@ -45,19 +42,16 @@ include ext.strings.usruapp.projectName
 include ext.strings.dccuapp.projectName
 include ext.strings.ufwuapp.projectName
 include ext.strings.prguapp.projectName
-include ext.strings.dscuapp.projectName
-include ext.strings.dpruapp.projectName
-include ext.strings.cmluapp.projectName
-include ext.strings.blluapp.projectName
-include ext.strings.thsuapp.projectName
-include ext.strings.ewsuapp.projectName
+
+
+
+
 
 include ext.strings.hsdp.projectName
 include ext.strings.catk.projectName
-include ext.strings.cmlble.projectName
-include ext.strings.cmltu.projectName
-include ext.strings.cmlapi.projectName
-include ext.strings.cmllan.projectName
+
+
+
 
 
 //opa archive references:
@@ -80,40 +74,24 @@ project(ext.strings.ufw.projectName).projectDir = new File('./Source/ufw/Source/
 project(ext.strings.ufwuapp.projectName).projectDir = new File('./Source/ufw/Source/DemoUApp')
 project(ext.strings.prg.projectName).projectDir = new File('./Source/prg/Source/Library/product-registration-lib')
 project(ext.strings.prguapp.projectName).projectDir = new File('./Source/prg/Source/DemoUApp')
-project(ext.strings.dsc.projectName).projectDir = new File('./Source/dsc/Source/Library/dataServices')
-project(ext.strings.dscuapp.projectName).projectDir = new File('./Source/dsc/Source/DemoUApp')
-project(ext.strings.dpruapp.projectName).projectDir = new File('./Source/dpr/Source/DemoUApp')
+
+
 project(ext.strings.rap.projectName).projectDir = new File('./Source/rap/Source/AppFramework/appFramework')
-project(ext.strings.pnf.projectName).projectDir = new File('./Source/rap/Source/AppFramework/pushnotification')
+
 project(ext.strings.tse.projectName).projectDir = new File('./Source/rap/Source/AppFramework/themesettings')
-project(ext.strings.cca.projectName).projectDir = new File('./Source/cml/Source/Library/cloudcontroller-api')
-project(ext.strings.clc.projectName).projectDir = new File('./Source/cml/Source/Library/cloudcontroller')
-project(ext.strings.cml.projectName).projectDir = new File('./Source/cml/Source/Library/commlib')
-project(ext.strings.cmluapp.projectName).projectDir = new File('./Source/cml/Source/DemoUApp')
-project(ext.strings.bll.projectName).projectDir = new File('./Source/bll/Source/ShineLib/shinelib')
-project(ext.strings.cmlble.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-ble')
-project(ext.strings.cmltu.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
-//project(':commlib-testutils').projectDir = new File('./Source/cml/Source/Library/commlib-testutils')
-project(ext.strings.cmlapi.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-api')
-project(ext.strings.cmllan.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-lan')
-project(ext.strings.ccl.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-cloud')
-project(ext.strings.cit.projectName).projectDir = new File('./Source/cml/Source/Library/commlib-integration-tests')
-project(ext.strings.blluapp.projectName).projectDir = new File('./Source/bll/Source/DemoUApp')
-project(ext.strings.prf.projectName).projectDir = new File('./Source/bll/Source/ShineLib/pluginreferenceboard')
+
+
 project(ext.strings.sdb.projectName).projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
-project(ext.strings.ths.projectName).projectDir = new File('./Source/ths/Source/Library/thsuapp')
-project(ext.strings.thsuapp.projectName).projectDir = new File('./Source/ths/Source/DemoUApp/thsUapp')
+
 project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/Library/mya')
 project(ext.strings.csw.projectName).projectDir = new File('./Source/csw/Source/Library/csw')
 project(ext.strings.catk.projectName).projectDir = new File('./Source/csw/Source/Library/catk')
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
-project(ext.strings.ews.projectName).projectDir = new File('./Source/ews/Source/Library/ews-android')
-project(ext.strings.ewsuapp.projectName).projectDir = new File('./Source/ews/Source/DemoUApp/DemoUApp')
+
 //demoapps to be published to artifactory
 //include ':UserRegistrationApp'
 //project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
-//include ':telehealthApp'
-//project(':telehealthApp').projectDir = new File('./Source/ths/Source/DemoApp/app')
+
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':mya-demoapp'
@@ -131,18 +109,12 @@ project(ext.strings.ewsuapp.projectName).projectDir = new File('./Source/ews/Sou
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'
 //project(':product-registration-libApp').projectDir = new File('./Source/prg/Source/DemoApp/DemoApp')
-//include ':dataServicesApp'
-//project(':dataServicesApp').projectDir = new File('./Source/dsc/Source/DemoApp/data_sync_app')
+
 //include ':prxApp'
 //project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountApp'
 //project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
-//include ':commlib-demoapp'
-//project(':commlib-demoapp').projectDir = new File('./Source/cml/Source/DemoApp')
-//include ':ews-demoapp'
-//project(':ews-demoapp').projectDir = new File('./Source/ews/Source/DemoApp')
-//include ':bluelib-demoapp'
-//project(':bluelib-demoapp').projectDir = new File('./Source/bll/Source/DemoApp')
+
 //include ':dcc-demoapp'
 //project(':dcc-demoapp').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include ':ail-demoapp'

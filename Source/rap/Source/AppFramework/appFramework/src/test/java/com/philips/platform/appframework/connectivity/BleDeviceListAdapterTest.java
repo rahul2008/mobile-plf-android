@@ -8,7 +8,6 @@ import android.content.Context;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 import junit.framework.Assert;
 

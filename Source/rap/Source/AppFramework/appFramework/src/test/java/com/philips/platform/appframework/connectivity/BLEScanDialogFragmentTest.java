@@ -16,7 +16,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 
 import org.junit.After;
 import org.junit.Before;

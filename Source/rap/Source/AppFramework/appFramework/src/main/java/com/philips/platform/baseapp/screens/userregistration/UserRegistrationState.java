@@ -11,7 +11,7 @@ import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
+
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -43,10 +43,9 @@ import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
-import com.philips.platform.dscdemo.DemoAppManager;
-import com.philips.platform.dscdemo.utility.SyncScheduler;
+
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.referenceapp.PushNotificationManager;
+
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -236,15 +235,10 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
             //Register GCM token with data services on login success
             if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
-                RALog.d(PushNotificationManager.TAG, "Polling is enabled");
-                SyncScheduler.getInstance().scheduleSync();
 
             } else {
-                RALog.d(PushNotificationManager.TAG, "Push notification is enabled");
-                ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerForReceivingPayload();
-                ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
-                PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext(), new SecureStorageInterface.SecureStorageError());
-            }
+
+                  }
         }
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
@@ -366,8 +360,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserLogoutSuccess() {
         RALog.d(TAG, " User Logout success  ");
-        DemoAppManager.getInstance().getUserRegistrationHandler().clearAccessToken();
-        getAppInfra().getRestClient().clearCacheResponse();
+         getAppInfra().getRestClient().clearCacheResponse();
 
     }
 

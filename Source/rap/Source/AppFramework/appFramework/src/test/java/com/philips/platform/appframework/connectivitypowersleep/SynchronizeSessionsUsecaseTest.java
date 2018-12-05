@@ -8,9 +8,6 @@
 package com.philips.platform.appframework.connectivitypowersleep;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.appframework.connectivity.appliance.PortDataCallback;
-import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionInfoPortProperties;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 
 import org.joda.time.DateTime;

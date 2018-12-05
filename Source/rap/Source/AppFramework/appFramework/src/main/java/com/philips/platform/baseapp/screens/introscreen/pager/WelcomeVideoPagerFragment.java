@@ -20,8 +20,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.appframework.R;
-import com.philips.platform.dscdemo.utility.Utility;
+
 
 
 /**
@@ -94,11 +95,7 @@ public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoF
 
     public void fetchVideoDataSource() {
 
-        if (!new Utility().isOnline(getActivity())) {
-            loadInitialState();
-            Toast.makeText(getActivity(), getString(R.string.RA_DLS_no_internet_connectivity), Toast.LENGTH_LONG).show();
-            return;
-        }
+
         presenter.fetchVideoDataSource();
     }
 

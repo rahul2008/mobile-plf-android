@@ -8,7 +8,6 @@
 package com.philips.platform.appframework.connectivitypowersleep;
 
 
-import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionsOldestToNewest;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;

@@ -7,8 +7,6 @@
 
 package com.philips.platform.appframework.connectivitypowersleep;
 
-import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
-
 import junit.framework.Assert;
 
 import org.junit.Test;

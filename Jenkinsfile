@@ -91,7 +91,7 @@ pipeline {
             }
             steps {
                 script {
-                   build job: 'Platform-Infrastructure/IncontextTest/master', parameters: [string(name: 'branchname', value:BranchName), string(name: 'triggered_from', value:'Platform'), string(name: 'os_platform', value:'Android')], wait: false
+                    build job: 'Platform-Infrastructure/IncontextTest/master', parameters: [string(name: 'branchname', value:BranchName), string(name: 'triggered_from', value:'Platform'), string(name: 'os_platform', value:'Android')], wait: false
                 }
             }
         }
@@ -106,7 +106,7 @@ pipeline {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
                     AcceptanceTest()
-                }               
+                }
             }
             post{
                 always{
@@ -238,7 +238,6 @@ pipeline {
                             parameters: [
                                     string(name: 'JenkinsProjectName', value: env.JOB_NAME),
                                     string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
-                                    string(name: 'TestPlan', value: 'In sprint_cml_bll_ews'),
                                     string(name: 'TestSuitePath', value: 'Android/Automated Tests')
                             ], wait: false)
                 }
@@ -335,31 +334,17 @@ def BuildAndUnitTest() {
             :hsdp:cC \
             :hsdp:testReleaseUnitTest \
             :productselection:cC \
-            :telehealth:testReleaseUnitTest \
-            :bluelib:generateJavadoc \
-            :bluelib:testReleaseUnitTest \
             :product-registration-lib:testReleaseUnitTest \
             :iap:testReleaseUnitTest \
             :digitalCareUApp:cC \
             :digitalCareUApp:testRelease \
             :digitalCare:cC \
             :digitalCare:testRelease \
-            :commlib:testReleaseUnitTest \
-            :commlib-testutils:testReleaseUnitTest \
-            :commlib-integration-tests:testReleaseUnitTest \
-            :commlib-ble:testReleaseUnitTest \
-            :commlib-lan:testReleaseUnitTest \
-            :commlib-cloud:testReleaseUnitTest \
-            :commlib-api:testReleaseUnitTest \
             :mya:cC \
             :mya:testReleaseUnitTest \
             :catk:testReleaseUnitTest \
             :csw:testReleaseUnitTest \
             :pif:testReleaseUnitTest \
-            :dataServices:testReleaseUnitTest \
-            :dataServicesUApp:testReleaseUnitTest \
-            :devicepairingUApp:testReleaseUnitTest \
-            :ews-android:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest 
             
     '''
@@ -401,20 +386,13 @@ def GenerateJavaDocs(){
         :registrationApi:generateJavadocPublicApi \
         :jump:generateJavadocPublicApi \
         :productselection:generateJavadocPublicApi \
-        :dataServices:generateJavadocPublicApi \
         :pif:generateJavadocPublicApi \
         :csw:generateJavadocPublicApi \
         :catk:generateJavadocPublicApi \
         :mya:generateJavadocPublicApi \
         :digitalCare:generateJavadocPublicApi \
         :iap:generateJavadocPublicApi \
-        :ews-android:generateJavadocPublicApi \
-        :commlib-api:generateJavadocPublicApi \
-        :commlib-ble:generateJavadocPublicApi \
-        :commlib-lan:generateJavadocPublicApi \
-        :commlib-cloud:generateJavadocPublicApi \
         :product-registration-lib:generateJavadocPublicApi \
-        :telehealth:generateJavadocPublicApi \
         :referenceApp:generateJavadocPublicApi \
         :hsdp:generateJavadocPublicApi \
         :uid:generateJavadocPublicApi
@@ -432,22 +410,14 @@ def BuildLint() {
          :securedblibrary:lint \
          :registrationApi:lint \
          :productselection:lint \
-         :telehealth:lintRelease \
-         :bluelib:lintDebug \
          :product-registration-lib:lint \
          :iap:lint \
          :digitalCare:lint \
          :cloudcontroller-api:lintDebug \
-         :commlib:lintDebug \
          :mya:lint \
          :catk:lint \
          :csw:lint \
          :pif:lint \
-         :dataServices:lintRelease \
-         :devicepairingUApp:lint \
-         :ews-android:lint \
-         :ewsUApp:lint \
-         :pushnotification:lintRelease \
          :themesettings:lintRelease
         #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
     '''
@@ -586,22 +556,13 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        ./gradlew :bluelib:zipJavadoc :commlib-api:zipJavadoc :commlib-ble:zipJavadoc :commlib-cloud:zipJavadoc :commlib-lan:zipJavadoc  :AppInfra:zipJavadoc :uid:zipJavadoc :dataServices:zipJavadoc :digitalCare:zipJavadoc :ews-android:zipJavadoc :hsdp:zipJavadoc :iap:zipJavadoc :jump:zipJavadoc :mya:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc :pushnotification:zipJavadoc :referenceApp:zipJavadoc :registrationApi:zipJavadoc :telehealth:zipJavadoc :catk:zipJavadoc :csw:zipJavadoc :referenceApp:printPlatformVersion
+        ./gradlew  :AppInfra:zipJavadoc :uid:zipJavadoc :digitalCare:zipJavadoc :hsdp:zipJavadoc :iap:zipJavadoc :jump:zipJavadoc :mya:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :registrationApi:zipJavadoc  :catk:zipJavadoc :csw:zipJavadoc :referenceApp:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
-
-        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/bluelib/$platformVersion/ -T ./Source/bll/Documents/External/bluelib-api.zip
-        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-api/$platformVersion/ -T ./Source/cml/Documents/External/commlib-api-api.zip
-        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-ble/$platformVersion/ -T ./Source/cml/Documents/External/commlib-ble-api.zip
-        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-cloud/$platformVersion/ -T ./Source/cml/Documents/External/commlib-cloud-api.zip
-        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/commlib-lan/$platformVersion/ -T ./Source/cml/Documents/External/commlib-lan-api.zip
-        
+ 
         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/AppInfra/$platformVersion/ -T ./Source/ail/Documents/External/AppInfra-api.zip
         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/catk/$platformVersion/ -T ./Source/csw/Documents/External/catk-api.zip
-        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/csw/$platformVersion/ -T ./Source/csw/Documents/External/commlib-ble-api.zip
-        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/dataServices/$platformVersion/ -T ./Source/dsc/Documents/External/dataServices-api.zip
         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/digitalCare/$platformVersion/ -T ./Source/dcc/Documents/External/digitalCare-api.zip
         
-        curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/ews-android/$platformVersion/ -T ./Source/ews/Documents/External/ews-android-api.zip
         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/hsdp/$platformVersion/ -T ./Source/usr/Documents/External/hsdp-api.zip
         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/iap/$platformVersion/ -T ./Source/iap/Documents/External/iap-api.zip
         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/jump/$platformVersion/ -T ./Source/usr/Documents/External/jump-api.zip
@@ -627,76 +588,49 @@ def PublishUnitTestsResults() {
     junit allowEmptyResults: false, testResults: 'Source/ail/Source/Library/AppInfra/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: false, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
-    
+
     junit allowEmptyResults: false, testResults: 'Source/usr/Source/Library/**/build/test-results/**/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'usr unit test release'])
-    
-    junit allowEmptyResults: false, testResults: 'Source/ths/Source/Library/*/build/test-results/**/*.xml'
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ths/Source/Library/thsuapp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ths unit test release'])
-    
-    junit allowEmptyResults: true,  testResults: 'Source/bll/**/testReleaseUnitTest/*.xml'
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-api', reportFiles: 'index.html', reportName: 'bll Bluelib Public API'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Documents/External/bluelib-plugin-api', reportFiles: 'index.html', reportName: 'bll Bluelib Plugin API'])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true,  keepAll: true, reportDir: 'Source/bll/Source/ShineLib/shinelib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'bll unit test release'])
-    
+
+
     junit allowEmptyResults: true,  testResults: 'Source/prg/Source/Library/*/build/test-results/**/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/prg/Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'prg unit test release'])
-    
+
     junit allowEmptyResults: false, testResults: 'Source/iap/Source/Library/*/build/test-results/**/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/iap/Source/Library/iap/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'iap unit test release'])
-    
+
     junit allowEmptyResults: true,  testResults: 'Source/dcc/Source/DemoUApp/DemoUApp/build/reports/lint-results.xml'
     junit allowEmptyResults: true,  testResults: 'Source/dcc/Source/Library/digitalCare/build/test-results/**/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dcc/Source/Library/digitalCare/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dcc unit test release'])
-    
-    junit allowEmptyResults: true,  testResults: 'Source/cml/**/testReleaseUnitTest/*.xml'
-    junit allowEmptyResults: false, testResults: 'Source/cml/Source/Library/commlib-integration-tests/build/test-results/*/*.xml'    
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/cml/Source/Library/commlib-integration-tests/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'cml integration tests'])
-    
+
     junit allowEmptyResults: true,  testResults: 'Source/mya/Source/DemoUApp/DemoUApp/build/test-results/**/*.xml'
     junit allowEmptyResults: true,  testResults: 'Source/mya/Source/Library/*/build/test-results/**/*.xml'
     publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/DemoUApp/DemoUApp/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya DemoUApp - release test'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/mya/Source/Library/mya/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'mya-mya'])
-    
-    junit allowEmptyResults: false, testResults: 'Source/dsc/Source/Library/*/build/test-results/**/*.xml'
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dsc/Source/Library/dataServices/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'dsc unit test release'])
-    
+
     junit allowEmptyResults: true,  testResults: 'Source/dpr/Source/DemoUApp/*/build/test-results/*/*.xml'
-    junit allowEmptyResults: false, testResults: 'Source/ews/Source/Library/ews-android/build/test-results/*/*.xml'
     junit allowEmptyResults: false, testResults: 'Source/rap/Source/AppFramework/*/build/test-results/*/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/rap/Source/AppFramework/appFramework/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'rap Release UnitTest'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/csw/Source/Library/catk/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'catk'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/csw/Source/Library/csw/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'csw'])
     publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pif/Source/Library/chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'pif'])
-    
-    for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Source/Library/${lib}/build/reports/tests/testReleaseUnitTest", reportFiles: 'index.html', reportName: "cml $lib unit test release"])
-    }
-
-    def cucumber_path = 'Source/cml/Source/Library/commlib-integration-tests/build/cucumber-reports'
-    if (fileExists("$cucumber_path/report.json")) {
-        step([$class: 'CucumberReportPublisher', jsonReportDirectory: cucumber_path, fileIncludePattern: '*.json'])
-        archiveArtifacts artifacts: cucumber_path+'/*.json', fingerprint: true, onlyIfSuccessful: true
-    } else {
-        echo 'No Cucumber result found, nothing to publish.'
-    }
 }
 
 def PublishAcceptanceTestsResults() {
     junit allowEmptyResults: false, testResults: 'Source/ail/Source/Library/*/build/outputs/androidTest-results/*/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests'])
-    
+
     junit allowEmptyResults: false, testResults: 'Source/sdb/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/sdb/Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'sdb connected tests'])
-    
+
     junit allowEmptyResults: false, testResults: 'Source/usr/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests RegistrationApi'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/jump/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests Jump'])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/hsdp/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests hsdp'])
-    
+
     junit allowEmptyResults: false, testResults: 'Source/pse/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'pse connected tests'])
-    
+
     junit allowEmptyResults: false, testResults: 'Source/dcc/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/dcc/Source/Library/digitalCare/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'dcc connected tests'])
 
@@ -706,9 +640,7 @@ def PublishJavaDocs(){
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ail/Documents/External/AppInfra-api", reportFiles: 'index.html', reportName: "AppInfra Library API documentation"])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/csw/Documents/External/catk-api", reportFiles: 'index.html', reportName: "catk Library API documentation"])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/csw/Documents/External/csw-api", reportFiles: 'index.html', reportName: "csw Library API documentation"])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/dsc/Documents/External/dataServices-api", reportFiles: 'index.html', reportName: "dsc Data services Library API documentation"])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/dcc/Documents/External/digitalCare-api", reportFiles: 'index.html', reportName: "dcc Digital careLibrary API documentation"])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ews/Documents/External/ews-android-api", reportFiles: 'index.html', reportName: "ews-android Library API documentation"])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/usr/Documents/External/hsdp-api", reportFiles: 'index.html', reportName: "hsdp Hsdp Library API documentation"])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/iap/Documents/External/iap-api", reportFiles: 'index.html', reportName: "iapp Inapp purchase Library API documentation"])
 
@@ -719,13 +651,9 @@ def PublishJavaDocs(){
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/rap/Documents/External/referenceApp-api", reportFiles: 'index.html', reportName: "Reference app API documentation"])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/usr/Documents/External/registrationApi-api", reportFiles: 'index.html', reportName: "User registration Library API documentation"])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/sdb/Documents/External/securedblibrary-api", reportFiles: 'index.html', reportName: "Secure db Library API documentation"])
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ths/Documents/External/telehealth-api", reportFiles: 'index.html', reportName: "Telehealth Library API documentation"])
 
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/uid/Documents/External/uid-api", reportFiles: 'index.html', reportName: "UID Library API documentation"])
 
-    for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/cml/Documents/External/$lib-api", reportFiles: 'index.html', reportName: "cml $lib API documentation"])
-    }
 }
 
 def PublishLintJacocoResults() {

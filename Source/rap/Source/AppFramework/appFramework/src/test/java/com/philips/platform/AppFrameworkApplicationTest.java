@@ -14,7 +14,6 @@ import com.google.firebase.FirebaseApp;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
-import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;

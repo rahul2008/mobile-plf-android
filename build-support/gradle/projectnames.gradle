@@ -1,17 +1,15 @@
 
 ext.strings = [
         rap: [projectName:':referenceApp', artifactName:'referenceApp'],
-        cca: [projectName:':cloudcontroller-api', artifactName:'cloudcontroller-api'],
-        clc: [projectName:':cloudcontroller', artifactName:'cloudcontroller'],
-        pnf: [projectName:':pushnotification', artifactName:'pushnotification'],
+
         tse: [projectName:':themesettings', artifactName:'themesettings'],
         uid: [projectName:':uid', artifactName:'uid'],
-        ews: [projectName:':ews-android', artifactName:'ews-android'],
+
         csw: [projectName:':csw', artifactName:'csw'],
         pif: [projectName:':pif', artifactName:'pif'],
-        ths: [projectName:':telehealth', artifactName:'telehealth'],
+
         sdb: [projectName:':securedblibrary', artifactName:'securedblibrary'],
-        bll: [projectName:':bluelib', artifactName:'bluelib'],
+
         mya: [projectName:':mya', artifactName:'mya'],
         ail: [projectName:':AppInfra', artifactName:'AppInfra'],
         prx: [projectName:':prx', artifactName:'prx'],
@@ -21,22 +19,17 @@ ext.strings = [
         usr: [projectName:':registrationApi', artifactName:'registrationApi'],
         pse: [projectName:':productselection', artifactName:'productselection'],
         jmp: [projectName:':jump', artifactName:'jump'],
-        dsc: [projectName:':dataServices', artifactName:'dataServices'],
+
         dcc: [projectName:':digitalCare', artifactName:'digitalCare'],
         ufw: [projectName:':uAppFwLib', artifactName:'uAppFwLib'],
         prg: [projectName:':product-registration-lib', artifactName:'product-registration-lib'],
-        cml: [projectName:':commlib', artifactName:'commlib'],
-        cit: [projectName:':commlib-integration-tests', artifactName:'commlib-integration-tests'],
+
+
         prf: [projectName:':pluginreferenceboard', artifactName:'pluginreferenceboard'],
-        ccl: [projectName:':commlib-cloud', artifactName:'commlib-cloud'],
 
         hsdp: [projectName:':hsdp', artifactName:'hsdp'],
         catk: [projectName:':catk', artifactName:'catk'],
 
-        cmlble: [projectName:':commlib-ble', artifactName:'commlib-ble'],
-        cmltu: [projectName:':commlib-testutils', artifactName:'commlib-testutils'],
-        cmlapi: [projectName:':commlib-api', artifactName:'commlib-api'],
-        cmllan: [projectName:':commlib-lan', artifactName:'commlib-lan'],
 
 
         ailuapp:[projectName:':AppInfraUApp', artifactName:'AppInfraUApp'],
@@ -45,10 +38,7 @@ ext.strings = [
         dccuapp:[projectName:':digitalCareUApp', artifactName:'digitalCareUApp'],
         ufwuapp:[projectName:':uAppFwLibUApp', artifactName:'uAppFwLibUApp'],
         prguapp:[projectName:':product-registration-libUApp', artifactName:'product-registration-libUApp'],
-        dscuapp:[projectName:':dataServicesUApp', artifactName:'dataServicesUApp'],
-        dpruapp:[projectName:':devicepairingUApp', artifactName:'devicepairingUApp'],
-        cmluapp:[projectName:':commlib-demouapp', artifactName:'commlib-demouapp'],
-        blluapp:[projectName:':bluelib-demouapp', artifactName:'bluelib-demouapp'],
-        thsuapp:[projectName:':thsUapp', artifactName:'thsUapp'],
-        ewsuapp:[projectName:':ewsUApp', artifactName:'ewsUApp']
+
+        cmluapp:[projectName:':commlib-demouapp', artifactName:'commlib-demouapp']
+
 ]

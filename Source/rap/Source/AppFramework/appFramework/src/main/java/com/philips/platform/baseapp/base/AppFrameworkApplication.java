@@ -5,33 +5,19 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.philips.cdp.cloudcontroller.DefaultCloudController;
-import com.philips.cdp.cloudcontroller.api.CloudController;
-import com.philips.cdp.dicommclient.util.DICommLog;
+
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
-import com.philips.cdp2.commlib.ble.context.BleTransportContext;
-import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
-import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.configuration.RuntimeConfiguration;
-import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-import com.philips.pins.shinelib.utility.SHNLogger;
+
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.abtesting.AbTestingImpl;
-import com.philips.platform.appframework.connectivity.demouapp.RefAppApplianceFactory;
-import com.philips.platform.appframework.connectivity.demouapp.RefAppKpsConfigurationInfo;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
-import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -40,7 +26,6 @@ import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
@@ -49,18 +34,17 @@ import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
 import com.philips.platform.baseapp.screens.neura.NeuraConsentProvider;
 import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
-import com.philips.platform.baseapp.screens.telehealthservices.TeleHealthServicesState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.core.trackers.DataServicesManager;
+
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
-import com.philips.platform.receivers.ConnectivityChangeReceiver;
-import com.philips.platform.referenceapp.PushNotificationManager;
+
+
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -76,18 +60,18 @@ public class AppFrameworkApplication extends Application {
     protected FlowManager targetFlowManager;
     private UserRegistrationState userRegistrationState;
     private IAPState iapState;
-    private DemoDataServicesState dataSyncScreenState;
+
     private ProductRegistrationState productRegistrationState;
     private static boolean isChinaCountry = false;
-    private PushNotificationManager pushNotificationManager;
+
     private LanguagePackInterface languagePackInterface;
-    private ConnectivityChangeReceiver connectivityChangeReceiver;
-    private CommCentral commCentral = null;
-    private RefAppApplianceFactory applianceFactory;
+
+
+
     private MyAccountState myAccountState;
     private static boolean appDataInitializationStatus;
     private SupportFragmentState supportFragmentState;
-    private TeleHealthServicesState teleHealthServicesState;
+
     private PrivacySettingsState privacySettingsState;
 
     public static boolean isAppDataInitialized() {
@@ -119,8 +103,7 @@ public class AppFrameworkApplication extends Application {
             LeakCanary.install(this);
         }
         if (!BuildConfig.BUILD_TYPE.equalsIgnoreCase(PSRA_BUILD_TYPE)) {
-            DICommLog.enableLogging();
-            SHNLogger.registerLogger(new SHNLogger.LogCatLogger());
+
         }
         super.onCreate();
     }
@@ -149,7 +132,7 @@ public class AppFrameworkApplication extends Application {
         initializePrivacySettings();
         RALog.d(LOG, "Privacy settings state end::");
         RALog.d(LOG, "DS state begin::");
-        initDataServiceState();
+
         RALog.d(LOG, "DS state end::");
         initializeIAP();
         /*
@@ -158,32 +141,22 @@ public class AppFrameworkApplication extends Application {
          */
         RALog.d(LOG, "PN state begin::");
         if (BaseAppUtil.isDSPollingEnabled(getApplicationContext())) {
-            RALog.d(PushNotificationManager.TAG, "Polling is enabled");
+
         } else {
-            RALog.d(PushNotificationManager.TAG, "Push notification is enabled");
-            pushNotificationManager = PushNotificationManager.getInstance();
-            pushNotificationManager.init(appInfra, getDataServiceState());
-            pushNotificationManager.startPushNotificationRegistration(getApplicationContext(), new SecureStorageInterface.SecureStorageError());
-            connectivityChangeReceiver = new ConnectivityChangeReceiver();
-            registerReceiver(connectivityChangeReceiver,
-                    new IntentFilter(
-                            ConnectivityManager.CONNECTIVITY_ACTION));
+
         }
         RALog.d("test", "onCreate end::");
         appDataInitializationStatus = true;
         callback.onAppStatesInitialization();
         initializeCC();
-        initializeTHS();
+
         registerNeuraHandler();
     }
     private void initializePrivacySettings() {
         privacySettingsState = new PrivacySettingsState();
         privacySettingsState.init(this);
     }
-    private void initializeTHS() {
-        teleHealthServicesState = new TeleHealthServicesState();
-        teleHealthServicesState.init(this);
-    }
+
 
     private void initializeCC() {
         supportFragmentState = new SupportFragmentState();
@@ -203,11 +176,7 @@ public class AppFrameworkApplication extends Application {
         return userRegistrationState;
     }
 
-    public void initDataServiceState() {
-        dataSyncScreenState = new DemoDataServicesState();
-        dataSyncScreenState.init(this);
-        DataServicesManager.getInstance().synchronize();
-    }
+
 
     public LoggingInterface getLoggingInterface() {
         return loggingInterface;
@@ -259,12 +228,7 @@ public class AppFrameworkApplication extends Application {
         });
     }
 
-    public DemoDataServicesState getDataServiceState() {
-        if (dataSyncScreenState == null) {
-            initDataServiceState();
-        }
-        return dataSyncScreenState;
-    }
+
 
 
     private void initializeMya() {
@@ -287,9 +251,7 @@ public class AppFrameworkApplication extends Application {
 
     @Override
     public void onTerminate() {
-        if (connectivityChangeReceiver != null) {
-            unregisterReceiver(connectivityChangeReceiver);
-        }
+
         AppFrameworkTagging.getInstance().releaseApteligentReceiver();
 
         super.onTerminate();
@@ -308,40 +270,11 @@ public class AppFrameworkApplication extends Application {
         }
     }
 
-    public synchronized CommCentral getCommCentralInstance() {
-        if (commCentral == null) {
-            commCentral = createCommCentral(getApplicationContext(), getAppInfra());
-        }
-        RALog.i(TAG, "getCommCentralInstance - " + commCentral);
-        return commCentral;
-    }
 
-    public RefAppApplianceFactory getApplianceFactory() {
-        return applianceFactory;
-    }
 
-    private CommCentral createCommCentral(final @NonNull Context context, final @NonNull AppInfraInterface appInfraInterface) {
-        final RuntimeConfiguration runtimeConfiguration = new RuntimeConfiguration(context, appInfraInterface);
-        runtimeConfiguration.setTaggingEnabled(true);
-        final CloudController cloudController = setupCloudController(context);
 
-        final CloudTransportContext cloudTransportContext = new CloudTransportContext(runtimeConfiguration, cloudController);
-        final BleTransportContext bleTransportContext = new BleTransportContext(runtimeConfiguration, true);
-        final LanTransportContext lanTransportContext = new LanTransportContext(runtimeConfiguration);
 
-        applianceFactory = new RefAppApplianceFactory(bleTransportContext, lanTransportContext, cloudTransportContext);
-        return new CommCentral(applianceFactory, runtimeConfiguration, bleTransportContext, lanTransportContext, cloudTransportContext);
-    }
 
-    @NonNull
-    private CloudController setupCloudController(final @NonNull Context context) {
-        final CloudController cloudController = new DefaultCloudController(context, new RefAppKpsConfigurationInfo());
-
-        String ICPClientVersion = cloudController.getICPClientVersion();
-        RALog.d(TAG, "ICPClientVersion - " + ICPClientVersion);
-
-        return cloudController;
-    }
 
     /***
      * Initializar app infra

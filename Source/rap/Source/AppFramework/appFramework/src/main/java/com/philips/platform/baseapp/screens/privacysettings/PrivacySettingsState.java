@@ -32,7 +32,7 @@ import com.philips.platform.csw.CswLaunchInput;
 import com.philips.platform.csw.permission.MyAccountUIEventListener;
 import com.philips.platform.csw.permission.PermissionHelper;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.ths.consent.THSLocationConsentProvider;
+
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;

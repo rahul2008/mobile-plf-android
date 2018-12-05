@@ -12,10 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.appframework.connectivity.appliance.PortDataCallback;
-import com.philips.platform.appframework.connectivity.appliance.RefAppBleReferenceAppliance;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Session;
-import com.philips.platform.appframework.connectivitypowersleep.datamodels.SessionDataPortProperties;
 import com.philips.platform.appframework.connectivitypowersleep.datamodels.Summary;
 import com.philips.platform.appframework.connectivitypowersleep.error.InvalidPortPropertiesException;
 import com.philips.platform.appframework.connectivitypowersleep.error.PortErrorException;

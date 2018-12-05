@@ -8,7 +8,6 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.stateimpl.DemoDataServicesState;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.rest.RestInterface;

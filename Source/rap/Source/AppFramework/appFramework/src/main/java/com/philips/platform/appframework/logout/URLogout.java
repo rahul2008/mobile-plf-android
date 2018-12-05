@@ -15,10 +15,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.dscdemo.DemoAppManager;
-import com.philips.platform.dscdemo.utility.SyncScheduler;
-import com.philips.platform.referenceapp.PushNotificationManager;
+
 
 
 public class URLogout implements URLogoutInterface {
@@ -48,19 +45,7 @@ public class URLogout implements URLogoutInterface {
         }
 
         if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext()) && BaseAppUtil.isAutoLogoutEnabled(activityContext.getApplicationContext())) {
-            getPushNotificationInstance().deregisterTokenWithBackend(new PushNotificationManager.DeregisterTokenListener() {
-                @Override
-                public void onSuccess() {
-                    RALog.d(TAG, " performLogout: BaseAppUtil.isDSPollingEnabled: False: deregisterTokenWithBackend: onSuccess");
-                    doLogout(activityContext, user);
-                }
 
-                @Override
-                public void onError() {
-                    RALog.d(TAG, " performLogout: BaseAppUtil.isDSPollingEnabled: False: deregisterTokenWithBackend: onError");
-                    doLogout(activityContext, user);
-                }
-            }, new SecureStorageInterface.SecureStorageError());
         } else {
             RALog.d(TAG, "performLogout: doLogout Being called in BaseAppUtil polling enabled true");
             doLogout(activityContext, user);
@@ -68,13 +53,7 @@ public class URLogout implements URLogoutInterface {
         }
     }
 
-    protected PushNotificationManager getPushNotificationInstance() {
-        return PushNotificationManager.getInstance();
-    }
 
-    protected DataServicesManager getDataServicesManager() {
-        return DataServicesManager.getInstance();
-    }
 
     private void doLogout(final Context activityContext, User user) {
         RALog.d(TAG, "doLogout: The method started");
@@ -110,26 +89,23 @@ public class URLogout implements URLogoutInterface {
                 @Override
                 public void run() {
                     RALog.d(TAG, "stopDataSync: stopSync");
-                    SyncScheduler.getInstance().stopSync();
+
                 }
             });
         } else {
             RALog.d(TAG, "stopDataSync: savingTokenRegState");
-            getPushNotificationInstance().saveTokenRegistrationState(new SecureStorageInterface.SecureStorageError(), false);
+
             RALog.d(TAG, "stopDataSync: deregisterDSForRegisteringToken");
-            ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterDSForRegisteringToken();
             RALog.d(TAG, "stopDataSync: deregisterForReceivingPayload");
-            ((AppFrameworkApplication) activityContext.getApplicationContext()).getDataServiceState().deregisterForReceivingPayload();
+
         }
     }
 
     protected void clearDataInDataServiceMicroApp() {
         RALog.d(TAG, "clearDataInDataServiceMicroApp: get UserRegHandler");
-        getInstance().getUserRegistrationHandler().clearAccessToken();
+
     }
 
-    protected DemoAppManager getInstance() {
-        return DemoAppManager.getInstance();
-    }
+
 
 }

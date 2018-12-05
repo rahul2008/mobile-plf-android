@@ -210,39 +210,35 @@ dependencies {
         implementation project(strings.pif.projectName)
         implementation project(strings.jmp.projectName)
         implementation project(strings.ufw.projectName)
-        implementation project(strings.cmlapi.projectName)
-        implementation project(strings.cmlble.projectName)
+
         implementation project(strings.ail.projectName)
-        implementation project(strings.catk.projectName)
         implementation project(strings.csw.projectName)
-        implementation project(strings.clc.projectName)
-        implementation project(strings.cca.projectName)
+        implementation project(strings.catk.projectName)
+
+
+
         implementation project(strings.pse.projectName)
-        implementation project(strings.ccl.projectName)
-        implementation project(strings.cmllan.projectName)
+
+
         implementation project(strings.prx.projectName)
-        implementation project(strings.ews.projectName)
+
         implementation project(strings.uit.projectName)
         implementation project(strings.usr.projectName)
         implementation project(strings.dcc.projectName)
         implementation project(strings.iap.projectName)
-        implementation project(strings.dsc.projectName)
+
         implementation project(strings.mya.projectName)
-        implementation project(strings.cml.projectName)
-        implementation project(strings.cmluapp.projectName)
+
         implementation project(strings.dccuapp.projectName)
         implementation project(strings.ufwuapp.projectName)
         implementation project(strings.iapuapp.projectName)
-        implementation project(strings.dscuapp.projectName)
+
         implementation project(strings.prguapp.projectName)
         implementation project(strings.usruapp.projectName)
-        implementation project(strings.dpruapp.projectName)
-        implementation project(strings.ths.projectName)
-        implementation project(strings.thsuapp.projectName)
-        implementation project(strings.ewsuapp.projectName)
-        implementation project(strings.blluapp.projectName)
-        implementation project(strings.bll.projectName)
-        implementation project(strings.pnf.projectName)
+
+
+
+
         implementation project(strings.tse.projectName)
         implementation project(strings.ailuapp.projectName)
     } else {
@@ -254,15 +250,16 @@ dependencies {
         implementation philipsdeps.commlib_api
         implementation philipsdeps.commlib_ble
         implementation philipsdeps.AppInfra
-        implementation philipsdeps.catk
         implementation philipsdeps.csw
+        implementation philipsdeps.catk
+
         implementation philipsdeps.cloudcontroller
         implementation philipsdeps.cloudcontroller_api
         implementation philipsdeps.productselection
         implementation philipsdeps.commlib_cloud
         implementation philipsdeps.commlib_lan
         implementation philipsdeps.prx
-        implementation philipsdeps.ews_android
+
         implementation philipsdeps.uikitLib
         implementation philipsdeps.registrationApi
         implementation philipsdeps.digitalCare
@@ -298,15 +295,13 @@ dependencies {
             exclude group: 'com.android.support'
             exclude group: 'com.philips.cdp', module: 'RegistrationApi'
         }
-        implementation(philipsdeps.devicepairingUApp) {
-            exclude group: 'com.android.support'
-        }
+
         implementation philipsdeps.telehealth
         implementation philipsdeps.telehealthUApp
-        implementation philipsdeps.ewsUApp
+
         implementation philipsdeps.bluelib_demouapp
         implementation philipsdeps.bluelib
-        implementation project(strings.pnf.projectName)
+
         implementation project(strings.tse.projectName)
         implementation philipsdeps.AppInfraUApp
     }

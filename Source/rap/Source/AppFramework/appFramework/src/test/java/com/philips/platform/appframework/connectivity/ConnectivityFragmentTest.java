@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
-import com.philips.platform.appframework.AbstractConnectivityBaseFragment;
 import com.philips.platform.appframework.R;
 
 import junit.framework.Assert;
