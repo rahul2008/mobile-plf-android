@@ -61,11 +61,11 @@ public class WelcomePagerFragmentTest {
 
     }
 
-  /*  @Test
+    @Test
     @Config(sdk = 23)
     public void testWelcomeFragmentSubTextWithLowerSdk(){
         assertEquals(launchActivity.getResources().getString(R.string.RA_DLS_onboarding_screen2_sub_text), subText.getText().toString());
-    }*/
+    }
 
     @After
     public void tearDown() {
