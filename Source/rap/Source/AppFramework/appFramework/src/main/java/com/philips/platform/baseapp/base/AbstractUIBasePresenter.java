@@ -20,9 +20,8 @@ abstract public class AbstractUIBasePresenter {
     /*Event ID */
     protected static final int MENU_OPTION_HOME = 0;
     protected static final int MENU_OPTION_SHOP = 1;
-    protected static final int MENU_OPTION_TELEHEALTHSERVICES = 2;
+
     protected static final int MENU_OPTION_TEST_MICROAPP = 3;
-    protected static final int MENU_OPTION_POWER_SLEEP_CONNECTIVITY = 4;
     protected static final int MENU_OPTION_SUPPORT = 5;
     protected static final int MENU_OPTION_ABOUT = 6;
 
@@ -38,9 +37,8 @@ abstract public class AbstractUIBasePresenter {
     protected static final String HOME_TEST_MICROAPP = "testmicroapp";
     protected static final String HOME_COCO_VERSION_INFO="coco_version_info";
     protected static final String HOME_DEBUG="debug";
-    protected static final String HOME_TELEHEALTHSERVICES = "telehealthservices";
 
-    protected static final String HOME_POWER_SLEEP_CONNECTIVITY = "power_sleep_connectivity";
+
     protected static final String HAMBURGER_LOGIN = "login";
     protected static final String SHOPPING_CART = "shopping_cart";
     protected static final String HAMBURGER_LOGOUT = "logout";

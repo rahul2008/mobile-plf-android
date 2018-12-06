@@ -94,10 +94,6 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return SHOPPING_CART;
             case MENU_OPTION_TEST_MICROAPP:
                 return HOME_TEST_MICROAPP;
-            case MENU_OPTION_TELEHEALTHSERVICES:
-                return HOME_TELEHEALTHSERVICES;
-            case MENU_OPTION_POWER_SLEEP_CONNECTIVITY:
-                return HOME_POWER_SLEEP_CONNECTIVITY;
             case Constants.LOGIN_BUTTON_CLICK_CONSTANT:
                 return HAMBURGER_LOGIN;
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
