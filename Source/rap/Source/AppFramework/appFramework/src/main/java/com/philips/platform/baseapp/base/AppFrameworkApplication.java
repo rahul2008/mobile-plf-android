@@ -31,7 +31,6 @@ import com.philips.platform.baseapp.screens.consumercare.SupportFragmentState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.myaccount.MyAccountState;
-import com.philips.platform.baseapp.screens.neura.NeuraConsentProvider;
 import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState;
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
@@ -149,8 +148,6 @@ public class AppFrameworkApplication extends Application {
         appDataInitializationStatus = true;
         callback.onAppStatesInitialization();
         initializeCC();
-
-        registerNeuraHandler();
     }
     private void initializePrivacySettings() {
         privacySettingsState = new PrivacySettingsState();
@@ -166,10 +163,6 @@ public class AppFrameworkApplication extends Application {
     public void initUserRegistrationState() {
         userRegistrationState = new UserRegistrationOnBoardingState();
         userRegistrationState.init(this);
-    }
-
-    private void registerNeuraHandler() {
-        new NeuraConsentProvider(new DeviceStoredConsentHandler(appInfra)).registerConsentHandler(appInfra);
     }
 
     public UserRegistrationState getUserRegistrationState() {
