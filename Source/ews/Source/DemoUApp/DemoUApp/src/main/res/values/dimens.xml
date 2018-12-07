@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="theme_settings_pagemargin">48dp</dimen>
-    <dimen name="done_button_width">12dp</dimen>
-</resources>

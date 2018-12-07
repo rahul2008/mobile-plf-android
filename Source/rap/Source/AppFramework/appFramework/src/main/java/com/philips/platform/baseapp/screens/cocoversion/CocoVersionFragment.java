@@ -82,9 +82,6 @@ public class CocoVersionFragment extends AbstractAppFrameworkBaseFragment {
         uikit.setDescription(getResources().getString(R.string.RA_COCO_UIKIT_desc));
         uikit.setVersion(com.philips.cdp.uikit.BuildConfig.VERSION_NAME);
 
-        CocoVersionItem connectivity = new CocoVersionItem();
-        connectivity.setTitle(getResources().getString(R.string.RA_COCO_Connectivity));
-        connectivity.setDescription(getResources().getString(R.string.RA_COCO_Connectivity_desc));
 
 
         CocoVersionItem iap = new CocoVersionItem();
@@ -102,20 +99,16 @@ public class CocoVersionFragment extends AbstractAppFrameworkBaseFragment {
         prodReg.setDescription(getResources().getString(R.string.RA_COCO_PR_desc));
         prodReg.setVersion(com.philips.cdp.product_registration_lib.BuildConfig.VERSION_NAME);
 
-        CocoVersionItem dataService = new CocoVersionItem();
-        dataService.setTitle(getResources().getString(R.string.RA_COCO_DS));
-        dataService.setDescription(getResources().getString(R.string.RA_COCO_DS_desc));
 
 
 
         cocoVersionItemList.add(ai);
         cocoVersionItemList.add(UserReg);
         cocoVersionItemList.add(uikit);
-        cocoVersionItemList.add(connectivity);
         cocoVersionItemList.add(iap);
         cocoVersionItemList.add(digitalCare);
         cocoVersionItemList.add(prodReg);
-        cocoVersionItemList.add(dataService);
+
 
     }
 }

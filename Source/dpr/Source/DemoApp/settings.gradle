@@ -1,2 +1,0 @@
-include ':DemoUApp'
-project(':DemoUApp').projectDir = new File('../DemoUApp')
