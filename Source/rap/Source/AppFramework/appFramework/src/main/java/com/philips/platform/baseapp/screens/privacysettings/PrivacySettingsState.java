@@ -5,7 +5,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.registration.consents.URConsentProvider;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
@@ -99,7 +98,6 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
         consentDefinitions.addAll(getCATKConsentDefinitions());
         consentDefinitions.add(NeuraConsentProvider.getNeuraConsentDefinition());
-        consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition());
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
         consentDefinitions.add(getClickStreamConsentDefinition(context));
         app.getAppInfra().getConsentManager().registerConsentDefinitions(consentDefinitions);

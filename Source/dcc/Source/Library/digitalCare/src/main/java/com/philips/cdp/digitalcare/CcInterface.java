@@ -43,12 +43,6 @@ public class CcInterface implements UappInterface {
 
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(ccSettings.getContext()
                 , ccDependencies.getAppInfra());
-        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getConsentManager()
-                .deregisterHandler(Collections.singletonList(DigitalCareConstants.CC_CONSENT_TYPE_LOCATION));
-        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getConsentManager()
-                .registerHandler(Collections.singletonList(DigitalCareConstants.CC_CONSENT_TYPE_LOCATION)
-                , CcConsentProvider.fetchDeviceStoredConsentHandler());
-
     }
 
     /**

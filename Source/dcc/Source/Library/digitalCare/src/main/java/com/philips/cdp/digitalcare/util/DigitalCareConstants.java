@@ -69,6 +69,5 @@ public class DigitalCareConstants {
 
     //Consents
     public static final int CC_LOCATION_CONSENT_VERSION = 1;
-    public static final String CC_CONSENT_TYPE_LOCATION = "DCC_LocationConsent";
 
 }

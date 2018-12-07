@@ -106,20 +106,16 @@ dependencies {
     if (directdependencies) {
         implementation project(strings.pse.projectName)
         implementation project(strings.uid.projectName)
-        implementation project(strings.csw.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
         implementation project(strings.prx.projectName)
-        implementation project(strings.catk.projectName)
         implementation project(strings.pif.projectName)
     } else {
         implementation philipsdeps.productselection
         implementation philipsdeps.uid
-        implementation philipsdeps.csw
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
         implementation philipsdeps.prx
-        implementation philipsdeps.catk
         implementation philipsdeps.pif
     }
 

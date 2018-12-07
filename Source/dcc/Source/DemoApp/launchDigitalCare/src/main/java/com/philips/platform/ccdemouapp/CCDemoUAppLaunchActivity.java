@@ -15,7 +15,7 @@ public class CCDemoUAppLaunchActivity extends AppCompatActivity {
 
         CCDemoUAppuAppInterface uAppInterface = new CCDemoUAppuAppInterface();
         uAppInterface.init(new CCDemoUAppuAppDependencies(CCDemoApplication.gAppInfra), new CCDemoUAppuAppSettings(this));// pass App-infra instance instead of null
-        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
+        uAppInterface.launch(new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), null);// pass launch input if required
 
     }
 
