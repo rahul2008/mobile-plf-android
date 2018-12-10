@@ -264,9 +264,6 @@ dependencies {
         implementation philipsdeps.registrationApi
         implementation philipsdeps.digitalCare
         implementation philipsdeps.iap
-        implementation(philipsdeps.dataServices) {
-            exclude group: 'com.android.support'
-        }
         implementation(philipsdeps.mya) {
             exclude group: 'com.android.support'
         }
@@ -283,9 +280,6 @@ dependencies {
             exclude group: 'com.android.support'
         }
         implementation(philipsdeps.iapUApp) {
-            exclude group: 'com.android.support'
-        }
-        implementation(philipsdeps.dataServicesUApp) {
             exclude group: 'com.android.support'
         }
         implementation(philipsdeps.product_registration_libUApp) {
