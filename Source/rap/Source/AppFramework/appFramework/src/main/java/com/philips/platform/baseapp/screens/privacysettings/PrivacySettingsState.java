@@ -19,7 +19,6 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.neura.NeuraConsentProvider;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.catk.CatkInitializer;
@@ -98,7 +97,6 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
         consentDefinitions.addAll(getCATKConsentDefinitions());
-        consentDefinitions.add(NeuraConsentProvider.getNeuraConsentDefinition());
         consentDefinitions.add(CcConsentProvider.fetchLocationConsentDefinition());
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
         consentDefinitions.add(getClickStreamConsentDefinition(context));

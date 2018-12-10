@@ -30,20 +30,6 @@
         ]
       },
       {
-        "state": "power_sleep_connectivity",
-        "events": [
-          {
-            "eventId": "insights",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "insights"
-              }
-            ]
-          }
-        ]
-      },
-      {
         "state": "insights",
         "events": [
           {
@@ -240,20 +226,11 @@
             ]
           },
           {
-            "eventId": "telehealthservices",
+            "eventId": "telehealthservices", // Remove this
             "nextStates": [
               {
                 "condition": [],
                 "nextState": "telehealthservices"
-              }
-            ]
-          },
-          {
-            "eventId": "power_sleep_connectivity",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "power_sleep_connectivity"
               }
             ]
           },
@@ -285,7 +262,7 @@
             ]
           },
           {
-            "eventId": "my_account",
+            "eventId": "my_account", //Need to remove
             "nextStates": [
               {
                 "condition": [],
@@ -303,7 +280,7 @@
             ]
           },
           {
-            "eventId": "telehealth_deeplinking",
+            "eventId": "telehealth_deeplinking",//need to remove this
             "nextStates": [
               {
                 "condition": [
@@ -352,7 +329,7 @@
         ]
       },
       {
-        "state": "my_account",
+        "state": "my_account",//need to remove this
         "events": [
           {
             "eventId": "PrivacySettingsEvent",
@@ -410,7 +387,7 @@
         "state": "testmicroapp",
         "events": [
           {
-            "eventId": "TestDataServicesEvent",
+            "eventId": "TestDataServicesEvent",//remove this
             "nextStates": [
               {
                 "condition": [],
@@ -428,7 +405,7 @@
             ]
           },
           {
-            "eventId": "TestConArtistEvent",
+            "eventId": "TestConArtistEvent",//remove this
             "nextStates": [
               {
                 "condition": [],
@@ -491,7 +468,7 @@
             ]
           },
           {
-            "eventId": "TestDicommClientEvent",
+            "eventId": "TestDicommClientEvent",//remove
             "nextStates": [
               {
                 "condition": [],
@@ -500,7 +477,7 @@
             ]
           },
           {
-            "eventId": "TestBlueLibEvent",
+            "eventId": "TestBlueLibEvent",//remove
             "nextStates": [
               {
                 "condition": [],
@@ -509,7 +486,7 @@
             ]
           },
           {
-            "eventId": "connectivity",
+            "eventId": "connectivity",//remove
             "nextStates": [
               {
                 "condition": [],
@@ -518,7 +495,7 @@
             ]
           },
           {
-            "eventId": "ews",
+            "eventId": "ews",//remove
             "nextStates": [
               {
                 "condition": [],
@@ -527,7 +504,7 @@
             ]
           },
           {
-            "eventId": "device_pairing",
+            "eventId": "device_pairing",//remove
             "nextStates": [
               {
                 "condition": [],
@@ -536,20 +513,11 @@
             ]
           },
           {
-            "eventId": "TestThsDemoEvent",
+            "eventId": "TestThsDemoEvent",//remove
             "nextStates": [
               {
                 "condition": [],
                 "nextState": "telehealthservicesdemo"
-              }
-            ]
-          },
-          {
-            "eventId": "TestNeuraDemoEvent",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "neurademo"
               }
             ]
           }

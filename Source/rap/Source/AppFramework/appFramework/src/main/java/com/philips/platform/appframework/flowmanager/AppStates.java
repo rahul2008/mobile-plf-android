@@ -48,6 +48,4 @@ public class AppStates {
     public static final String MY_OPTIN_STATE="my_optin";
 
     public static final String MY_ORDERS="my_orders";
-    public static final String TESTNEURADEMO = "neurademo";
-    public static final String NEURA ="neura";
 }

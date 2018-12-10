@@ -117,15 +117,6 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TEST_MICROAPP), eventState);
 
             if (baseState != null) {
-               /* if (Objects.equals(eventState, "TestNeuraDemoEvent")) {
-                    ConditionShouldLaunchNeura conditionShouldLaunchNeura = new ConditionShouldLaunchNeura();
-                    if (!conditionShouldLaunchNeura.isSatisfied(view.getFragmentActivity().getApplicationContext())) {
-                        baseState.init(context);
-                        baseState.navigate(getFragmentLauncher());
-                    }else {
-                        new DialogView(view.getFragmentActivity().getApplicationContext().getString(R.string.RA_neura_error_dialog_title), view.getFragmentActivity().getApplicationContext().getString(R.string.RA_neura_error_dialog_message)).showDialog(view.getFragmentActivity());
-                    }
-                } else {*/
                     baseState.init(context);
                     baseState.navigate(getFragmentLauncher());
 //                }
