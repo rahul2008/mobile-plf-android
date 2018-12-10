@@ -387,15 +387,6 @@
         "state": "testmicroapp",
         "events": [
           {
-            "eventId": "TestDataServicesEvent",//remove this
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "demoDataService"
-              }
-            ]
-          },
-          {
             "eventId": "TestInAppPurhcaseEvent",
             "nextStates": [
               {
