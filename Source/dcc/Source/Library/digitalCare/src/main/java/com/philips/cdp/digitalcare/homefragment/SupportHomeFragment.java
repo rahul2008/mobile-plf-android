@@ -25,19 +25,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.philips.cdp.digitalcare.CcConsentProvider;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.activity.DigitalCareBaseActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.fragments.FaqListFragment;
 import com.philips.cdp.digitalcare.fragments.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
-import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
-import com.philips.cdp.digitalcare.locatephilips.fragments.ServiceLocatorFragment;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
@@ -75,7 +71,7 @@ import java.util.Map;
  * The main feature enable screen opens once the ConsumerCare Component is triggered.
  */
 @SuppressWarnings("serial")
-public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxSummaryListener, HomeFragmentContract.View {
+public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxSummaryListener {
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
@@ -83,7 +79,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
     private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
     private static boolean isSupportScreenLaunched;
-    HomeFragmentContract.HomeFragmentPresenter homeFragmentPresenter;
     private SharedPreferences prefs = null;
     private LinearLayout mOptionParent = null;
     private RecyclerView mOptionContainer = null;
@@ -332,23 +327,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     launchProductSelectionComponent();
                 } else
                     showFragment(new ProductDetailsFragment());
-        } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
-            DigiCareLogger.i(TAG, "Clicked on Locate Philips Near You Button");
-            if (isConnectionAvailable()) {
-                if (Utils.isCountryChina()) {
-                    showFragment(new ServiceLocatorFragment());
-                } else {
-                    if (isProductSelected() && isSupportScreenLaunched) {
-                        disableSupportButtonClickable();
-                        launchProductSelectionComponent();
-                    } else {
-                        homeFragmentPresenter = new SupportHomePresenter(this);
-                        homeFragmentPresenter.checkConsent(CcConsentProvider.fetchConsentManager(),
-                                CcConsentProvider.fetchLocationConsentDefinition());
-                    }
-                }
-            }
-        } else if (tag.equals(getStringKey(R.string.FAQ_KEY))) {
+        }  else if (tag.equals(getStringKey(R.string.FAQ_KEY))) {
             DigiCareLogger.i(TAG, "Clicked on ReadFaq button");
             if (isConnectionAvailable())
                 if (isProductSelected() && isSupportScreenLaunched) {
@@ -524,10 +503,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         disabledButtons.add(R.string.product_info);
         disabledButtons.add(R.string.FAQ_KEY);
         disabledButtons.add(R.string.Change_Selected_Product);
-
-        if (!Utils.isCountryChina()) {
-            disabledButtons.add(R.string.find_philips_near_you);
-        }
 
         if (!isProductReviewLinkAvailable() && Utils.isCountryChina()) {
             disabledButtons.add(R.string.dcc_tellUs_header);
@@ -873,32 +848,4 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         });
     }
 
-    @Override
-    public void onConsentProvided(boolean consentProvided) {
-        if (consentProvided) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate();
-            showFragment(new LocatePhilipsFragment());
-        } else {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        }
-    }
-
-    @Override
-    public void isConsentAccepted(boolean consentAccepted) {
-        if (consentAccepted) {
-            showFragment(new LocatePhilipsFragment());
-        } else {
-            if (getActivity() != null) {
-                JustInTimeLauncher justInTimeLauncher = new JustInTimeLauncher();
-                justInTimeLauncher.addJustInTimeConsentDependencies(this);
-                showFragment(justInTimeLauncher.getJustInTimeFragment(getContainerId(), mActionbarUpdateListener));
-            }
-        }
-    }
-
-    private int getContainerId() {
-        return (mContainerId==0 && getActivity() instanceof DigitalCareBaseActivity)? R.id.mainContainer : mContainerId;
-    }
 }
