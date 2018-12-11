@@ -23,6 +23,7 @@
   <string name="RA_COCO_IAP">iap : In-app Purchase</string>
   <string name="RA_COCO_IAP_desc">In App Purchase feature in Reference App, provides the ability to buy products from the app for the users, which would give users the convenience of shopping anytime-anywhere. This approach also will boost marketing and sales.</string>
   <string name="RA_COCO_PR">prg : Product Registration</string>
+  <string name="RA_COCO_PR_desc">Product registration is a common component, which facilitates the user to create/login into My Philips account and Register a Normal Product where by providing CTN Number, Serial Number(Mandatory) and Date of Purchase.</string>
   <string name="RA_COCO_UIKIT">uit : Mobile UI Toolkit Non DLS</string>
   <string name="RA_COCO_UIKIT_desc">UI Toolkit is a component that provides UI controls that are present in the designs provided by the design team on all the screens of the mobile application.</string>
   <string name="RA_COCO_UR">usr : User Registration</string>

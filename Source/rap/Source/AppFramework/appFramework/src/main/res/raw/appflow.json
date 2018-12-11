@@ -225,15 +225,7 @@
               }
             ]
           },
-          {
-            "eventId": "telehealthservices", // Remove this
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "telehealthservices"
-              }
-            ]
-          },
+
           {
             "eventId": "testmicroapp",
             "nextStates": [
@@ -276,21 +268,6 @@
               {
                 "condition": [],
                 "nextState": "my_orders"
-              }
-            ]
-          },
-          {
-            "eventId": "telehealth_deeplinking",//need to remove this
-            "nextStates": [
-              {
-                "condition": [
-                  "isLoggedIn"
-                ],
-                "nextState": "TeleHealthServicesDeepLinkingState"
-              },
-              {
-                "condition": [],
-                "nextState": "onBoarding_registration"
               }
             ]
           }
@@ -459,56 +436,11 @@
             ]
           },
           {
-            "eventId": "TestDicommClientEvent",//remove
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "demoDicommClient"
-              }
-            ]
-          },
-          {
-            "eventId": "TestBlueLibEvent",//remove
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "demoBlueLib"
-              }
-            ]
-          },
-          {
-            "eventId": "connectivity",//remove
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "connectivity"
-              }
-            ]
-          },
-          {
             "eventId": "ews",//remove
             "nextStates": [
               {
                 "condition": [],
                 "nextState": "ews"
-              }
-            ]
-          },
-          {
-            "eventId": "device_pairing",//remove
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "device_pairing"
-              }
-            ]
-          },
-          {
-            "eventId": "TestThsDemoEvent",//remove
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "telehealthservicesdemo"
               }
             ]
           }
