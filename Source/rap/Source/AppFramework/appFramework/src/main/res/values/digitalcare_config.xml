@@ -11,9 +11,7 @@
         <item>@string/product_info</item>
         <item>@string/FAQ_KEY</item>
         <item>@string/contact_us</item>
-        <item>@string/find_philips_near_you</item>
         <item>@string/dcc_tellUs_header</item>
-        <!--<item>@string/myphilips_CC</item>-->
         <item>@string/Change_Selected_Product</item>
         <item>@string/RA_Product_Registration_Text</item>
 
@@ -26,9 +24,7 @@
         <item>@string/dls_information</item>
         <item>@string/dls_questionmark</item>
         <item>@string/dls_balloonspeech</item>
-        <item>@string/dls_location</item>
         <item>@string/dls_conversationspeech</item>
-        <!--<item>@string/dls_revise</item>-->
         <item>@string/dls_revise</item>
         <item>@string/dls_revise</item>
     </array>

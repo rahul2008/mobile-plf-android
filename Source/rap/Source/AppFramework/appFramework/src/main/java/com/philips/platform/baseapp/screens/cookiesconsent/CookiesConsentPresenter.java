@@ -21,7 +21,6 @@ import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.neura.NeuraWhatMeanFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -132,7 +131,7 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter implements 
     }
 
     private void launchWhatDoesItMeanFragment(FragmentActivity fragmentActivity) {
-        FragmentManager mFragmentManager = fragmentActivity.
+        /*FragmentManager mFragmentManager = fragmentActivity.
                 getSupportFragmentManager();
         Fragment whatDoesItMeanFragment = getWhatDoesItMeanFragment();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -140,7 +139,7 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter implements 
                 whatDoesItMeanFragment,
                 NeuraWhatMeanFragment.TAG);
         fragmentTransaction.addToBackStack(NeuraWhatMeanFragment.TAG);
-        fragmentTransaction.commitAllowingStateLoss();
+        fragmentTransaction.commitAllowingStateLoss();*/
     }
 
     public Fragment getWhatDoesItMeanFragment() {

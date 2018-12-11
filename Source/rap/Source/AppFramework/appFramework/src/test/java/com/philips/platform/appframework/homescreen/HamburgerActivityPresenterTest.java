@@ -107,46 +107,4 @@ public class HamburgerActivityPresenterTest extends TestCase {
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
 
-    /*public void testDataServicesLaunch() {
-        final UIStateData uiStateData = mock(UIStateData.class);
-        final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
-        final DemoDataServicesState dataSyncStateMock = mock(DemoDataServicesState.class);
-        final HamburgerActivityState hamburgerActivityState = mock(HamburgerActivityState.class);
-        final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
-        when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        hamburgerActivityPresenter = new HamburgerActivityPresenter(fragmentViewMock) {
-            @Override
-            public void setState(final String stateID) {
-                super.setState(AppStates.HAMBURGER_HOME);
-            }
-
-            @NonNull
-            @Override
-            protected UIStateData setStateData(final String componentID) {
-                return uiStateData;
-            }
-
-            @Override
-            protected FragmentLauncher getFragmentLauncher() {
-                return fragmentLauncherMock;
-            }
-
-            @Override
-            protected AppFrameworkApplication getApplicationContext() {
-                return appFrameworkApplicationMock;
-            }
-        };
-
-        FlowManager uiFlowManager = mock(FlowManager.class);
-        when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManager);
-        when(appFrameworkApplicationMock.getTargetFlowManager().getState(AppStates.HAMBURGER_HOME)).thenReturn(hamburgerActivityState);
-        try {
-            when(uiFlowManager.getNextState(hamburgerActivityState, "data_sync")).thenReturn(dataSyncStateMock);
-            when(uiFlowManager.getNextState(hamburgerActivityState, "some_event")).thenReturn(dataSyncStateMock);
-        } catch (Exception e) {
-            assertTrue(e instanceof NoEventFoundException);
-        }
-        hamburgerActivityPresenter.onEvent(5);
-        verify(dataSyncStateMock, times(1)).navigate(fragmentLauncherMock);
-    }*/
 }
