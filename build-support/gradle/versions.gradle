@@ -62,8 +62,6 @@ ext.philipsdeps = [
         iapUApp                     : [group: 'com.philips.cdp', name: strings.iapuapp.artifactName, version: platformversionsuffix, changing: true],
         IconFont                    : [group: 'com.philips.cdp', name: strings.icf.artifactName, version: '1805.0.1544606829', changing: true],
         jump                        : [group: 'com.philips.cdp', name: strings.jmp.artifactName, version: platformversionsuffix, changing: true],
-        mya                         : [group: 'com.philips.cdp', name: strings.mya.artifactName, version: platformversionsuffix, changing: true],
-        mya_chi                     : [group: 'com.philips.cdp', name: 'mya-chi', version: platformversionsuffix, changing: true],
         pif                         : [group: 'com.philips.cdp', name: strings.pif.artifactName, version: platformversionsuffix, changing: true],
         pluginreferenceboard        : [group: 'com.philips.cdp', name: strings.prf.artifactName, version: platformversionsuffix, changing: true],
         productselection            : [group: 'com.philips.cdp', name: strings.pse.artifactName, version: platformversionsuffix, changing: true],

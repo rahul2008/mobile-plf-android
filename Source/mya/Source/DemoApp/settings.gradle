@@ -1,9 +1,0 @@
-rootProject.setName 'MyAccount'
-include ':app'
-include ':mya'
-project(':mya').projectDir = new File('../Library/mya')
-include ':csw'
-project(':csw').projectDir = new File('../Library/csw')
-include ':catk'
-project(':catk').projectDir = new File('../Library/catk')
-
