@@ -1,7 +1,6 @@
 package com.philips.platform.csw.justintime;
 
 import com.google.common.collect.ImmutableMap;
-import com.philips.platform.catk.datamodel.ConsentDTO;
 import com.philips.platform.csw.BuildConfig;
 import com.philips.platform.csw.R;
 import com.philips.platform.csw.justintime.spy.ConsentManagerInterfaceSpy;
@@ -31,7 +30,6 @@ public class JustInTimeConsentPresenterTest {
     private ConsentManagerInterfaceSpy consentManagerInterface;
     private ConsentDefinition consentDefinition;
     private JustInTimeWidgetHandlerSpy completionListener;
-    private ConsentDTO consentDTO;
     private ConsentError consentError;
 
     @Before
@@ -40,7 +38,6 @@ public class JustInTimeConsentPresenterTest {
         view = new ViewSpy();
         consentManagerInterface = new ConsentManagerInterfaceSpy();
         appInfraMock.consentManagerInterface = consentManagerInterface;
-        consentDTO = new ConsentDTO("", ConsentStates.active, "", 0);
         consentDefinition = new ConsentDefinition(0, 0, Arrays.asList("firstType", "secondType"), 0);
         consentError = new ConsentError("", 1234);
         completionListener = new JustInTimeWidgetHandlerSpy();
@@ -91,7 +88,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentGivenCallsCompletionListenerOnSuccessWhenPostIsSuccessful() {
-        givenPostSucceeds();
         whenGivingConsent();
         thenCompletionHandlerIsCalledOnConsentGiven();
     }
@@ -105,7 +101,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentGivenHidesProgressDialogWhenPostIsSuccessful() {
-        givenPostSucceeds();
         whenGivingConsent();
         thenProgressDialogIsHidden();
     }
@@ -119,7 +114,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentRejectedCallsCompletionHandlerOnFailureWhenPostIsSuccessful() {
-        givenPostSucceeds();
         whenRejectingConsent();
         thenCompletionHandlerIsCalledOnConsentRejected();
     }
@@ -133,7 +127,6 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentRejectedHidesProgressDialogWhenPostIsSuccessful() {
-        givenPostSucceeds();
         whenRejectingConsent();
         thenProgressDialogIsHidden();
     }
@@ -154,24 +147,18 @@ public class JustInTimeConsentPresenterTest {
 
     @Test
     public void onConsentGivenTracksActionWhenPostIsSuccessful() {
-        givenPostSucceeds();
         whenGivingConsent();
         thenActionIsTagged("sendData", "consentAccepted", "firstType|secondType");
     }
 
     @Test
     public void onConsentRejectedTracksActionWhenPostIsSuccessful() {
-        givenPostSucceeds();
         whenRejectingConsent();
         thenActionIsTagged("sendData", "consentRejected", "firstType|secondType");
     }
 
     private void givenUserIsOffline() {
         consentManagerInterface.callsCallback_onPostConsentFailed(consentDefinition, new ConsentError("", ConsentError.CONSENT_ERROR_NO_CONNECTION));
-    }
-
-    private void givenPostSucceeds() {
-        consentManagerInterface.callsCallback_onPostConsentSuccess(consentDTO);
     }
 
     private void givenPostFails() {
