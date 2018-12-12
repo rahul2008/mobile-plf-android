@@ -1,2 +1,0 @@
-include ':icf'
-project(':icf').projectDir = new File('../Library/IconFont')

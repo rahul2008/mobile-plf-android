@@ -101,16 +101,14 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.appcompatv7
-
+    implementation philipsdeps.uid
     if (directdependencies) {
-        implementation project(strings.uid.projectName)
         implementation project(strings.mya.projectName)
         implementation project(strings.csw.projectName)
         implementation project(strings.usruapp.projectName)
     } else {
         implementation philipsdeps.mya
         implementation philipsdeps.mya_csw
-        implementation philipsdeps.uid
         implementation philipsdeps.UserRegistrationUApp
     }
 

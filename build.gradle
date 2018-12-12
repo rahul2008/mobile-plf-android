@@ -65,6 +65,7 @@ subprojects {
                 }
             }
             maven { url repos.jcenter }
+            maven { url repos.release }
             maven {
                 url repos.plugin
                 credentials {
@@ -86,6 +87,7 @@ subprojects {
         maven {
             url repos.jcenter
         }
+        maven { url repos.release }
         maven {
             url repos.plugin
             credentials {

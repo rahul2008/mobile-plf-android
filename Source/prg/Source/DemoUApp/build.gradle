@@ -71,7 +71,7 @@ dependencies {
     implementation deps.support.design
 
     if (directdependencies) {
-        implementation project(strings.uid.projectName)
+        
         implementation project(strings.prg.projectName)
         implementation project(strings.usr.projectName)
         implementation project(strings.prx.projectName)

@@ -187,16 +187,14 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.support.annotations
     implementation deps.support.appcompatv7
-
+    implementation philipsdeps.uid
     if (directdependencies) {
-        implementation project(strings.uid.projectName)
         implementation project(strings.usr.projectName)
         implementation project(strings.iap.projectName)
         implementation project(strings.prx.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
     } else {
-        implementation philipsdeps.uid
         implementation(philipsdeps.registrationApi) {
             exclude group: 'com.android.support', module: 'support-design'
             exclude group: 'com.android.support', module: 'support-supportv4'

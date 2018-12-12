@@ -206,7 +206,7 @@ dependencies {
 
     if (directdependencies) {
         implementation project(strings.ail.projectName)
-        implementation project(strings.uid.projectName)
+
         implementation project(strings.jmp.projectName)
         implementation project(strings.mya.projectName)
         implementation project(strings.usruapp.projectName)

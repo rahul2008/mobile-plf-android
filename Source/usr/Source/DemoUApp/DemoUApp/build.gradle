@@ -69,17 +69,17 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.support.design
     implementation deps.greenrobot
-
+    implementation philipsdeps.uid
     if (directdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
-        implementation project(strings.uid.projectName)
+
         implementation project(strings.usr.projectName)
         implementation project(strings.jmp.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
-        implementation philipsdeps.uid
+
         implementation philipsdeps.registrationApi
     }
 }

@@ -77,16 +77,15 @@ dependencies {
 
     testImplementation deps.junit
     testImplementation deps.mockito
-
+    implementation philipsdeps.uid
     if (directdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.prx.projectName)
-        implementation project(strings.uid.projectName)
+
         implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.prx
-        implementation philipsdeps.uid
     }
 
     androidTestImplementation deps.espresso_core, {

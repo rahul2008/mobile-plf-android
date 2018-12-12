@@ -427,15 +427,6 @@
             ]
           },
           {
-            "eventId": "TestUAPPFrameworkEvent",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "demoUAPPFramework"
-              }
-            ]
-          },
-          {
             "eventId": "ews",//remove
             "nextStates": [
               {

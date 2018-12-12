@@ -13,7 +13,6 @@ import com.philips.platform.appframework.stateimpl.DemoAILState;
 import com.philips.platform.appframework.stateimpl.DemoDCCState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
 import com.philips.platform.appframework.stateimpl.DemoPRGState;
-import com.philips.platform.appframework.stateimpl.DemoUFWState;
 import com.philips.platform.appframework.stateimpl.DemoUSRState;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.appframework.stateimpl.TestFragmentState;
@@ -38,7 +37,6 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TESTUR, new DemoUSRState());
         uiStateMap.put(AppStates.TESTPR, new DemoPRGState());
         uiStateMap.put(AppStates.TESTIAP, new DemoIAPState());
-        uiStateMap.put(AppStates.TESTUAPP, new DemoUFWState());
 
         uiStateMap.put(AppStates.TESTCC, new DemoDCCState());
 

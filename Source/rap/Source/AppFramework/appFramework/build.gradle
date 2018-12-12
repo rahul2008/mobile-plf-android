@@ -203,10 +203,11 @@ dependencies {
     implementation deps.multidex
     implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
-
+    implementation philipsdeps.uid
+    implementation philipsdeps.uikitLib
     if (directdependencies) {
         implementation project(strings.prg.projectName)
-        implementation project(strings.uid.projectName)
+
         implementation project(strings.pif.projectName)
         implementation project(strings.jmp.projectName)
         implementation project(strings.ufw.projectName)
@@ -222,7 +223,7 @@ dependencies {
 
         implementation project(strings.prx.projectName)
 
-        implementation project(strings.uit.projectName)
+
         implementation project(strings.usr.projectName)
         implementation project(strings.dcc.projectName)
         implementation project(strings.iap.projectName)
@@ -230,7 +231,7 @@ dependencies {
         implementation project(strings.mya.projectName)
 
         implementation project(strings.dccuapp.projectName)
-        implementation project(strings.ufwuapp.projectName)
+//        implementation project(strings.ufwuapp.projectName)
         implementation project(strings.iapuapp.projectName)
 
         implementation project(strings.prguapp.projectName)
@@ -243,7 +244,6 @@ dependencies {
         implementation project(strings.ailuapp.projectName)
     } else {
         implementation philipsdeps.product_registration_lib
-        implementation philipsdeps.uid
         implementation philipsdeps.pif
         implementation philipsdeps.jump
         implementation philipsdeps.uAppFwLib
@@ -260,7 +260,6 @@ dependencies {
         implementation philipsdeps.commlib_lan
         implementation philipsdeps.prx
 
-        implementation philipsdeps.uikitLib
         implementation philipsdeps.registrationApi
         implementation philipsdeps.digitalCare
         implementation philipsdeps.iap
@@ -274,9 +273,6 @@ dependencies {
             exclude group: 'com.android.support'
         }
         implementation(philipsdeps.digitalCareUApp) {
-            exclude group: 'com.android.support'
-        }
-        implementation(philipsdeps.uAppFwLibUApp) {
             exclude group: 'com.android.support'
         }
         implementation(philipsdeps.iapUApp) {
