@@ -53,6 +53,6 @@ public class CocoVersionFragmentTest extends TestCase {
     @Test
     public void testadapterSize() {
 
-        assertEquals(6, cocoVersionAdapter.getItemCount());
+        assertEquals(5, cocoVersionAdapter.getItemCount());
     }
 }
