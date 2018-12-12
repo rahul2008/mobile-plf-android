@@ -1,4 +1,0 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ths_welcome" />
-    <item android:alpha = "0.8"/>
-</layer-list>

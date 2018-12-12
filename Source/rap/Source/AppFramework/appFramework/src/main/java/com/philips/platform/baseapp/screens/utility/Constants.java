@@ -34,9 +34,7 @@ public class Constants {
 
     //Error Loging constants
     public static final String FILE_IO = "file_IO_error";
-    public static final String SERVER_DATACREATION="server_data_creation";
-    public static final String SERVER_DATAPARSING="server_data_parsing";
-    public static final String DEVICE_DATAPARSING="device_data_parsing";
+
 
     public static final String SERVICE_DISCOVERY_SPLASH_VIDEO = "app.splashvideo";
 
@@ -49,8 +47,7 @@ public class Constants {
     public static final String TERMS_AND_CONDITIONS = "app.termsandconditions";
     public static final String PRIVACY = "app.privacynotice";
 
-    //TAG PowerSleepConnectivity
-    public static final String POWER_SLEEP_CONNECTIVITY_TAG ="PowerSleepConnectivity";
+
 
 
     public static final String THS_DEEP_LINKING_EVENT = "telehealth_deeplinking";

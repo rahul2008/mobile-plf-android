@@ -21,9 +21,9 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_HOME = 0;
     protected static final int MENU_OPTION_SHOP = 1;
 
-    protected static final int MENU_OPTION_TEST_MICROAPP = 3;
-    protected static final int MENU_OPTION_SUPPORT = 5;
-    protected static final int MENU_OPTION_ABOUT = 6;
+    protected static final int MENU_OPTION_TEST_MICROAPP = 2;
+    protected static final int MENU_OPTION_SUPPORT = 3;
+    protected static final int MENU_OPTION_ABOUT = 4;
 
 
     /* event to state map */
