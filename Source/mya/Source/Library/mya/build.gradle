@@ -5,7 +5,7 @@
 
 apply plugin: 'com.android.library'
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+//apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
@@ -36,7 +36,6 @@ android {
 
     defaultConfig {
         versionCode 1
-        versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.mya.test"
         multiDexEnabled true
         consumerProguardFiles 'proguard-rules-mya.pro'
@@ -105,7 +104,7 @@ dependencies {
     implementation deps.calligraphy
 
     // Philips components
-    if (directdependencies) {
+
         implementation project(strings.uit.projectName)
         implementation project(strings.uid.projectName)
         implementation project(strings.ufw.projectName)
@@ -115,18 +114,7 @@ dependencies {
         implementation project(strings.catk.projectName)
         implementation project(strings.pif.projectName)
 
-    } else {
-        implementation philipsdeps.uikitLib
-        implementation philipsdeps.uid
-        implementation philipsdeps.uAppFwLib
-        implementation philipsdeps.AppInfra
-        implementation(philipsdeps.registrationApi) {
-            exclude group: 'com.android.support', module: 'customtabs'
-        }
-        implementation philipsdeps.csw
-        implementation philipsdeps.catk
-        implementation philipsdeps.pif
-    }
+
 
     // Tests
     testImplementation deps.junit
