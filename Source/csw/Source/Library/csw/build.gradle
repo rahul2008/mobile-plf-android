@@ -92,7 +92,6 @@ dependencies {
         implementation project(strings.usr.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.uit.projectName)
-        implementation project(strings.catk.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
     } else {
@@ -103,7 +102,6 @@ dependencies {
         }
         implementation philipsdeps.pif
         implementation philipsdeps.uikitLib
-        implementation philipsdeps.catk
     }
 
     // Tests

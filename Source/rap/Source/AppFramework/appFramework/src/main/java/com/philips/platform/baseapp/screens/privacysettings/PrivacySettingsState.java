@@ -20,10 +20,6 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
-import com.philips.platform.catk.CatkInitializer;
-import com.philips.platform.catk.CatkInputs;
-import com.philips.platform.catk.CatkInterface;
-import com.philips.platform.catk.CatkConsentTypes;
 import com.philips.platform.csw.CswDependencies;
 import com.philips.platform.csw.CswInterface;
 import com.philips.platform.csw.CswLaunchInput;
@@ -95,53 +91,11 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
     List<ConsentDefinition> createConsentDefinitions(Context context) {
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
         final List<ConsentDefinition> consentDefinitions = new ArrayList<>();
-        consentDefinitions.addAll(getCATKConsentDefinitions());
         consentDefinitions.add(URConsentProvider.fetchMarketingConsentDefinition());
         consentDefinitions.add(getClickStreamConsentDefinition(context));
         app.getAppInfra().getConsentManager().registerConsentDefinitions(consentDefinitions);
         return consentDefinitions;
     }
-
-    private List<ConsentDefinition> getCATKConsentDefinitions() {
-        final List<ConsentDefinition> definitions = new ArrayList<>();
-        definitions.add(new ConsentDefinition(
-                R.string.RA_MYA_Moment_Consent,
-                R.string.RA_MYA_Consent_Moment_Help_Text,
-                Collections.singletonList(CatkConsentTypes.TYPE_MOMENT),
-                1,
-                R.string.RA_MYA_Consent_Moments_Revoke_Warning_Text
-        ));
-        definitions.add(new ConsentDefinition(
-                R.string.RA_MYA_Coaching_Consent,
-                R.string.RA_MYA_Consent_Coaching_Help_Text,
-                Collections.singletonList(CatkConsentTypes.TYPE_COACHING),
-                1,
-                R.string.RA_MYA_Consent_Coaching_Revoke_Warning_Text
-        ));
-        definitions.add(new ConsentDefinition(
-                R.string.RA_MYA_Binary_Hosting_Consent,
-                R.string.RA_MYA_Consent_Binary_Help_Text,
-                Collections.singletonList(CatkConsentTypes.TYPE_BINARY),
-                1,
-                R.string.RA_MYA_Consent_Binary_Revoke_Warning_Text
-        ));
-        definitions.add(new ConsentDefinition(
-                R.string.RA_MYA_Research_Analytics_Consent,
-                R.string.RA_MYA_Consent_Research_Analytics_Help_Text,
-                Arrays.asList(CatkConsentTypes.TYPE_RESEARCH, CatkConsentTypes.TYPE_ANALYTICS),
-                1,
-                R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
-        ));
-        definitions.add(new ConsentDefinition(
-                R.string.RA_MYA_Device_Tagging_Clickstream,
-                R.string.RA_MYA_Device_Tagging_Clickstream_Help_Text,
-                Arrays.asList(CatkConsentTypes.TYPE_DEVICE_TAGGING_CLICKSTREAM),
-                1,
-                R.string.RA_MYA_Consent_Research_Analytics_Revoke_Warning_Text
-        ));
-        return definitions;
-    }
-
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplication();
     }
@@ -168,13 +122,6 @@ public class PrivacySettingsState extends BaseState implements MyAccountUIEventL
         AppFrameworkApplication app = (AppFrameworkApplication) context.getApplicationContext();
 
         createConsentDefinitions(context);
-
-        CatkInputs catkInputs = new CatkInputs.Builder()
-                .setContext(context)
-                .setAppInfraInterface(app.getAppInfra())
-                .build();
-        CatkInterface catkInterface = new CatkInitializer();
-        catkInterface.initCatk(catkInputs);
     }
 
     @Override
