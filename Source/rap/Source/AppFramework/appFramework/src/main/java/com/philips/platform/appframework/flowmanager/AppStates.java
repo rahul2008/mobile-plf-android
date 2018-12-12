@@ -22,30 +22,18 @@ public class AppStates {
     public static final String PR = "pr";
     public static final String SETTINGS = "settings";
     public static final String HAMBURGER_HOME = "home";
-
-
-
     public static final String WEB_VIEW_STATE ="web_view";
     public static final String TEST_MICROAPP="testmicroapp";
     public static final String COCO_VERSION_INFO="coco_version_info";
-
-
     public static final String TESTIAP="demoInAppState";
     public static final String TESTAPPINFRA="AppInfra";
     public static final String TESTCC="demoConsumerCare";
     public static final String TESTPR="demoProductRegistration";
     public static final String TESTUR="demoUserRegistration";
-    public static final String TESTUAPP="demoUAPPFramework";
-
-    public static final String TESTDLS="DLS";
-
-
     public static final String MY_ACCOUNT="my_account";
-
     public static final String SHOPPING_CART_VIEW = "shopping_cart";
     public static final String PRIVACY_SETTINGS_STATE="privacy_settings";
     public static final String MY_DETAILS_STATE="my_details";
     public static final String MY_OPTIN_STATE="my_optin";
-
     public static final String MY_ORDERS="my_orders";
 }
