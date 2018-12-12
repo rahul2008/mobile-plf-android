@@ -9,8 +9,6 @@ import com.philips.platform.csw.justintime.spy.ViewSpy;
 import com.philips.platform.csw.mock.AppInfraInterfaceMock;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
-import com.philips.platform.pif.chi.datamodel.ConsentStates;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,22 +85,10 @@ public class JustInTimeConsentPresenterTest {
     }
 
     @Test
-    public void onConsentGivenCallsCompletionListenerOnSuccessWhenPostIsSuccessful() {
-        whenGivingConsent();
-        thenCompletionHandlerIsCalledOnConsentGiven();
-    }
-
-    @Test
     public void onConsentGivenCallsCompletionListenerOnSuccessWhenPostIsNotSuccessful() {
         givenPostFails();
         whenGivingConsent();
         thenCompletionHandlerIsNotCalledOnConsentGiven();
-    }
-
-    @Test
-    public void onConsentGivenHidesProgressDialogWhenPostIsSuccessful() {
-        whenGivingConsent();
-        thenProgressDialogIsHidden();
     }
 
     @Test
@@ -113,22 +99,10 @@ public class JustInTimeConsentPresenterTest {
     }
 
     @Test
-    public void onConsentRejectedCallsCompletionHandlerOnFailureWhenPostIsSuccessful() {
-        whenRejectingConsent();
-        thenCompletionHandlerIsCalledOnConsentRejected();
-    }
-
-    @Test
     public void onConsentRejectedCallsCompletionListenerOnSuccessWhenPostIsNotSuccessful() {
         givenPostFails();
         whenRejectingConsent();
         thenCompletionHandlerIsNotCalledOnConsentRejected();
-    }
-
-    @Test
-    public void onConsentRejectedHidesProgressDialogWhenPostIsSuccessful() {
-        whenRejectingConsent();
-        thenProgressDialogIsHidden();
     }
 
     @Test
@@ -143,18 +117,6 @@ public class JustInTimeConsentPresenterTest {
         givenPostFails();
         whenRejectingConsent();
         thenShowsErrorDialog();
-    }
-
-    @Test
-    public void onConsentGivenTracksActionWhenPostIsSuccessful() {
-        whenGivingConsent();
-        thenActionIsTagged("sendData", "consentAccepted", "firstType|secondType");
-    }
-
-    @Test
-    public void onConsentRejectedTracksActionWhenPostIsSuccessful() {
-        whenRejectingConsent();
-        thenActionIsTagged("sendData", "consentRejected", "firstType|secondType");
     }
 
     private void givenUserIsOffline() {
@@ -209,9 +171,6 @@ public class JustInTimeConsentPresenterTest {
         assertFalse(completionListener.consentGiven);
     }
 
-    private void thenCompletionHandlerIsCalledOnConsentRejected() {
-        assertTrue(completionListener.consentRejected);
-    }
 
     private void thenCompletionHandlerIsNotCalledOnConsentRejected() {
         assertFalse(completionListener.consentRejected);
@@ -222,9 +181,4 @@ public class JustInTimeConsentPresenterTest {
         assertEquals(consentError.getErrorCode(), view.errorCode_showErrorDialogForCode);
     }
 
-    private void thenActionIsTagged(final String expectedPageName, final String expectedEvent, final String expectedConsentType) {
-        assertEquals(expectedPageName, appInfraMock.taggedActionPageName);
-        assertEquals(expectedEvent, appInfraMock.taggedValues.get("specialEvents"));
-        assertEquals(expectedConsentType, appInfraMock.taggedValues.get("consentType"));
-    }
 }
