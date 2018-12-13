@@ -12,7 +12,6 @@ apply from: buildscript.sourceFile.parent + '/build-support/gradle/projectnames.
 
 include ext.strings.rap.projectName
 include ext.strings.tse.projectName
-include ext.strings.csw.projectName
 include ext.strings.pif.projectName
 
 include ext.strings.sdb.projectName
@@ -77,7 +76,6 @@ project(ext.strings.tse.projectName).projectDir = new File('./Source/rap/Source/
 project(ext.strings.sdb.projectName).projectDir = new File('./Source/sdb/Source/Library/securedblibrary')
 
 project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/Library/mya')
-project(ext.strings.csw.projectName).projectDir = new File('./Source/csw/Source/Library/csw')
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 
 //demoapps to be published to artifactory
