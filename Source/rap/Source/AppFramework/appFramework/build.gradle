@@ -178,6 +178,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
+    implementation deps.support.customtabs
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.gson
@@ -205,6 +206,7 @@ dependencies {
     annotationProcessor deps.butterknife_compiler
     implementation philipsdeps.uid
     implementation philipsdeps.uikitLib
+    implementation philipsdeps.csw
     if (directdependencies) {
         implementation project(strings.prg.projectName)
 
@@ -213,9 +215,6 @@ dependencies {
         implementation project(strings.ufw.projectName)
 
         implementation project(strings.ail.projectName)
-        implementation project(strings.csw.projectName)
-
-
 
         implementation project(strings.pse.projectName)
 
@@ -249,7 +248,7 @@ dependencies {
         implementation philipsdeps.commlib_api
         implementation philipsdeps.commlib_ble
         implementation philipsdeps.AppInfra
-        implementation philipsdeps.csw
+
         implementation philipsdeps.cloudcontroller
         implementation philipsdeps.cloudcontroller_api
         implementation philipsdeps.productselection

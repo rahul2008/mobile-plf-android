@@ -54,7 +54,7 @@ ext.builddeps = [
 ext.philipsdeps = [
         AppInfra                    : [group: 'com.philips.cdp', name: strings.ail.artifactName, version: platformversionsuffix, changing: true],
         AppInfraUApp                : [group: 'com.philips.cdp', name: strings.ailuapp.artifactName, version: platformversionsuffix, changing: true],
-        csw                         : [group: 'com.philips.cdp', name: strings.csw.artifactName, version: platformversionsuffix, changing: true],
+        csw                         : [group: 'com.philips.cdp', name: strings.csw.artifactName, version: '1805.0.1544635223', changing: true],
         digitalCare                 : [group: 'com.philips.cdp', name: strings.dcc.artifactName, version: platformversionsuffix, changing: true],
         digitalCareUApp             : [group: 'com.philips.cdp', name: strings.dccuapp.artifactName, version: platformversionsuffix, changing: true],
         iap                         : [group: 'com.philips.cdp', name: strings.iap.artifactName, version: platformversionsuffix, changing: true],
