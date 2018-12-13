@@ -131,7 +131,7 @@ configurations.all {
 
 dependencies {
     implementation project(strings.pse.projectName)
-    implementation project(strings.uid.projectName)
+    
     implementation project(strings.ail.projectName)
     implementation project(strings.prx.projectName)
     implementation project(strings.ufw.projectName)

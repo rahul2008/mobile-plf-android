@@ -88,17 +88,16 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.robolectric
-
+    api(philipsdeps.uid) {
+        exclude group: 'com.android.support'
+    }
     if (directdependencies) {
         implementation project(strings.ail.projectName)
-        api project(strings.uid.projectName)
     } else {
         implementation(philipsdeps.AppInfra) {
             exclude group: 'com.android.support'
         }
-        api(philipsdeps.uid) {
-            exclude group: 'com.android.support'
-        }
+
     }
 }
 

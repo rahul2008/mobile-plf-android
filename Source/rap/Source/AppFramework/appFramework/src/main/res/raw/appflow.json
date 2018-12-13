@@ -30,20 +30,6 @@
         ]
       },
       {
-        "state": "insights",
-        "events": [
-          {
-            "eventId": "article",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "web_view"
-              }
-            ]
-          }
-        ]
-      },
-      {
         "state": "privacy_settings",
         "events": [
           {
@@ -373,24 +359,6 @@
             ]
           },
           {
-            "eventId": "TestConArtistEvent",//remove this
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "demoConnectvityState"
-              }
-            ]
-          },
-          {
-            "eventId": "TestDLSEvent",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "demoPhilipsDLSKit"
-              }
-            ]
-          },
-          {
             "eventId": "AppInfra",
             "nextStates": [
               {
@@ -423,24 +391,6 @@
               {
                 "condition": [],
                 "nextState": "demoUserRegistration"
-              }
-            ]
-          },
-          {
-            "eventId": "TestUAPPFrameworkEvent",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "demoUAPPFramework"
-              }
-            ]
-          },
-          {
-            "eventId": "ews",//remove
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "ews"
               }
             ]
           }

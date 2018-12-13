@@ -120,14 +120,14 @@ dependencies {
     implementation deps.libphonenumber
 
     // Philips components
+    implementation philipsdeps.uid
     if (directdependencies) {
-        implementation project(strings.uid.projectName)
+
         implementation project(strings.usr.projectName)
         implementation project(strings.prx.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
     } else {
-        implementation philipsdeps.uid
         implementation philipsdeps.registrationApi
         implementation philipsdeps.prx
     }

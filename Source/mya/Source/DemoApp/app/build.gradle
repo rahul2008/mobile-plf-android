@@ -7,18 +7,18 @@ apply plugin: 'com.android.application'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
         classpath builddeps.cdpSCM
     }
 }
 
-archivesBaseName = 'iapApp'
+archivesBaseName = "myaApp"
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -53,7 +53,11 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
+//            artifact("$projectDir/dependencies.lock") {
+//                classifier = '1stleveldependencies'
+//            }
+
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -73,36 +77,55 @@ android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
-
     defaultConfig {
-        applicationId "com.philips.cdp.di.iapdemo"
-        multiDexEnabled true
+        applicationId 'com.philips.platform.mya.demoapp'
+        versionCode 8
+        versionName version + "(" + objcdp.getCommitHash() + ")"
+        vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
+        multiDexEnabled true
+
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
         manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
         ]
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     signingConfigs {
         release
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
+    dexOptions {
+        preDexLibraries = false
+        jumboMode = false
+    }
 
+    buildTypes {
+        def AWSDK_ENABLE_CERTIFICATE_PINNING = "awsdk_enable_certificate_pinning"
+        def AWSDK_PINNED_HOSTS = "awsdk_pinned_hosts"
+        def AWSDK_PINNED_CERTIFICATES = "awsdk_pinned_certificates"
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            proguardFile 'proguard-rules.pro'
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFile file('proguard-rules.pro')
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            AWSDK_ENABLE_CERTIFICATE_PINNING = true
+            AWSDK_PINNED_HOSTS = { "*.amwellintegration.com" }
+            AWSDK_PINNED_CERTIFICATES = {
+                "06 B5 62 EB 37 1B 4E 9A 7B 06 DB 4C 30 07 FC E0 C8 AD BB 21"
+            }
         }
     }
 
@@ -110,8 +133,7 @@ android {
     This defined for signing the apk -- start
      */
     def Properties props = new Properties()
-    println "  projectDir:   " + project.projectDir;
-    def propFile = new File("${project.projectDir}/signing.properties")
+    def propFile = new File("${project.projectDir}/../signing.properties")
     if (propFile.canRead()) {
         props.load(new FileInputStream(propFile))
 
@@ -122,40 +144,16 @@ android {
             android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
             android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
         } else {
-            println 'iap NOPE - signing.properties NOT found'
+            println 'NOPE - signing.properties NOT found'
             android.buildTypes.release.signingConfig = null
         }
     } else {
-        println 'iap signing.properties not found'
+        println 'signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
     /*
     This defined for signing the apk -- end
     */
-    flavorDimensions "default"
-
-    productFlavors {
-        simulator {
-            applicationId 'com.philips.cdp.di.iapdemo'
-            versionCode 2
-            versionName "0.17.8"
-        }
-        device {
-            applicationId 'com.philips.cdp.di.iapdemo'
-            versionCode 2
-            versionName "0.17.8"
-        }
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'InvalidPackage'
-        disable 'GradleCompatible'
-        disable 'MissingTranslation'
-        disable 'TypographyFractions', 'TypographyQuotes'
-        absolutePaths false
-        lintConfig file('lint.xml')
-    }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -168,57 +166,75 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/rxjava.properties'
+
+        pickFirst 'lib/mips/librsjni.so'
+        pickFirst 'lib/mips/libblasV8.so'
+        pickFirst 'lib/mips/libRSSupport.so'
+        pickFirst 'lib/x86/librsjni.so'
+        pickFirst 'lib/x86/libblasV8.so'
+        pickFirst 'lib/x86/libRSSupport.so'
+        pickFirst 'lib/armeabi-v7a/librsjni.so'
+        pickFirst 'lib/armeabi-v7a/libblasV8.so'
+        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/librsjni.so'
     }
 
-    dataBinding {
-        enabled = true
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen { false }
+            }
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
-    debugImplementation deps.leakcanary
-    releaseImplementation deps.leakcanary_no_op
-    testImplementation deps.leakcanary_no_op
-
-    implementation project(strings.iapuapp.projectName)
-
-    implementation deps.constraintlayout
-    implementation deps.support.design
-    implementation deps.support.supportv4
-    implementation deps.support.annotations
     implementation deps.support.appcompatv7
-    implementation philipsdeps.uid
+    implementation deps.constraintlayout
+
     if (directdependencies) {
-        implementation project(strings.usr.projectName)
-        implementation project(strings.iap.projectName)
-        implementation project(strings.prx.projectName)
-        implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
+
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.mya.projectName)
+        implementation project(strings.usruapp.projectName)
+        implementation project(':mya-csw')
+        implementation project(':mya-demoUapp')
     } else {
-        implementation(philipsdeps.registrationApi) {
-            exclude group: 'com.android.support', module: 'support-design'
-            exclude group: 'com.android.support', module: 'support-supportv4'
-            exclude group: 'com.android.support', module: 'support-appcompatv7'
-            exclude group: 'com.android.support', module: 'support-annotations'
+        implementation(philipsdeps.AppInfra) {
+            exclude group: 'com.android.support'
         }
-        implementation philipsdeps.prx
-        implementation philipsdeps.iap
+        implementation(philipsdeps.uid) {
+            exclude group: 'com.android.support'
+        }
+        implementation(philipsdeps.jump) {
+            exclude group: 'com.android.support'
+        }
     }
 
-    androidTestImplementation deps.espresso_core, {
+    androidTestImplementation(deps.espresso_core) {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.dagger'
     }
+}
 
-    androidTestImplementation deps.espresso_contrib, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-    }
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.implementation
 }
 
 tasks.withType(Test) {
     ignoreFailures = true
 }
-
-

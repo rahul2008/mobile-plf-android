@@ -1,5 +1,0 @@
-include ':app'//, ':samplemicroapp'
-include 'uAppFwLib'
-project(':uAppFwLib').projectDir = new File('../Library/uAppFwLib')
-include ':uAppFwLibUApp'
-project(':uAppFwLibUApp').projectDir = new File('../DemoUApp')

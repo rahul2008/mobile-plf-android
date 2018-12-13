@@ -305,7 +305,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     protected ActionBarDrawerToggle configureDrawer() {
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, sideBar,
-                R.string.af_app_name, R.string.af_app_name) {
+                R.string.app_name, R.string.app_name) {
             @Override
             public void onDrawerStateChanged(int newState) {
                 super.onDrawerStateChanged(newState);

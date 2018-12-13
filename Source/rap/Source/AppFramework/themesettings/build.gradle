@@ -42,11 +42,9 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle
 dependencies {
     implementation deps.support.appcompatv7
     implementation deps.support.recyclerview
-
+    implementation philipsdeps.uid
     if (directdependencies) {
-        implementation project(strings.uid.projectName)
-    } else {
-        implementation philipsdeps.uid
+
     }
 
     testImplementation deps.junit

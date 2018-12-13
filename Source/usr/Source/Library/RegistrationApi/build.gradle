@@ -111,14 +111,14 @@ dependencies {
     implementation deps.jackson_annotations
     implementation deps.jackson_core
     implementation deps.jackson_databind
+    implementation philipsdeps.uid
     if (directdependencies) {
-        implementation project(strings.uid.projectName)
+
         implementation project(strings.ufw.projectName)
         implementation project(strings.jmp.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.ail.projectName)
     } else {
-        implementation philipsdeps.uid
         implementation philipsdeps.uAppFwLib
         implementation project(strings.jmp.projectName)
     }

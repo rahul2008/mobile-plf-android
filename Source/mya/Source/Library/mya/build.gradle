@@ -105,8 +105,8 @@ dependencies {
 
     // Philips components
 
-        implementation project(strings.uit.projectName)
-        implementation project(strings.uid.projectName)
+        
+        
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
         implementation project(strings.usr.projectName)

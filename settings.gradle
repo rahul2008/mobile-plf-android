@@ -12,7 +12,6 @@ apply from: buildscript.sourceFile.parent + '/build-support/gradle/projectnames.
 
 include ext.strings.rap.projectName
 include ext.strings.tse.projectName
-include ext.strings.uid.projectName
 include ext.strings.csw.projectName
 include ext.strings.pif.projectName
 
@@ -21,9 +20,7 @@ include ext.strings.sdb.projectName
 include ext.strings.mya.projectName
 include ext.strings.ail.projectName
 include ext.strings.prx.projectName
-include ext.strings.uit.projectName
 include ext.strings.iap.projectName
-include ext.strings.icf.projectName
 include ext.strings.usr.projectName
 include ext.strings.pse.projectName
 include ext.strings.jmp.projectName
@@ -40,7 +37,7 @@ include ext.strings.ailuapp.projectName
 include ext.strings.iapuapp.projectName
 include ext.strings.usruapp.projectName
 include ext.strings.dccuapp.projectName
-include ext.strings.ufwuapp.projectName
+//include ext.strings.ufwuapp.projectName
 include ext.strings.prguapp.projectName
 
 
@@ -57,9 +54,6 @@ include ext.strings.hsdp.projectName
 project(ext.strings.ail.projectName).projectDir = new File('./Source/ail/Source/Library/AppInfra')
 project(ext.strings.ailuapp.projectName).projectDir = new File('./Source/ail/Source/DemoUApp/')
 project(ext.strings.prx.projectName).projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
-project(ext.strings.uit.projectName).projectDir = new File('./Source/uit/Source/UiKit/uikitLib')
-project(ext.strings.uid.projectName).projectDir = new File('./Source/uid/Source/UIKit/uid')
-project(ext.strings.icf.projectName).projectDir = new File('./Source/icf/Source/Library/IconFont/icf')
 project(ext.strings.usr.projectName).projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
 project(ext.strings.usruapp.projectName).projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
 project(ext.strings.jmp.projectName).projectDir = new File('./Source/usr/Source/Library/jump')
@@ -70,7 +64,7 @@ project(ext.strings.dcc.projectName).projectDir = new File('./Source/dcc/Source/
 project(ext.strings.dccuapp.projectName).projectDir = new File('./Source/dcc/Source/DemoUApp/DemoUApp')
 project(ext.strings.pse.projectName).projectDir = new File('./Source/pse/Source/Library/productselection')
 project(ext.strings.ufw.projectName).projectDir = new File('./Source/ufw/Source/Library/uAppFwLib')
-project(ext.strings.ufwuapp.projectName).projectDir = new File('./Source/ufw/Source/DemoUApp')
+//project(ext.strings.ufwuapp.projectName).projectDir = new File('./Source/ufw/Source/DemoUApp')
 project(ext.strings.prg.projectName).projectDir = new File('./Source/prg/Source/Library/product-registration-lib')
 project(ext.strings.prguapp.projectName).projectDir = new File('./Source/prg/Source/DemoUApp')
 

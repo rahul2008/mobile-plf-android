@@ -392,7 +392,6 @@ def GenerateJavaDocs(){
         :product-registration-lib:generateJavadocPublicApi \
         :referenceApp:generateJavadocPublicApi \
         :hsdp:generateJavadocPublicApi \
-        :uid:generateJavadocPublicApi
 '''
 }
 
@@ -401,9 +400,8 @@ def BuildLint() {
     sh '''#!/bin/bash -l
         set -e
         #do not use -PenvCode=${JENKINS_ENV} since the option 'opa' is hardcoded in the archive
-        ./gradlew :IconFont:lint \
+        ./gradlew  \
          :AppInfra:lint \
-         :uikitLib:lint \
          :securedblibrary:lint \
          :registrationApi:lint \
          :productselection:lint \
@@ -552,7 +550,7 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        ./gradlew  :AppInfra:zipJavadoc :uid:zipJavadoc :digitalCare:zipJavadoc :hsdp:zipJavadoc :iap:zipJavadoc :jump:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :registrationApi:zipJavadoc :csw:zipJavadoc :referenceApp:printPlatformVersion
+        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :hsdp:zipJavadoc :iap:zipJavadoc :jump:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :registrationApi:zipJavadoc   :csw:zipJavadoc :referenceApp:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
  
         curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/AppInfra/$platformVersion/ -T ./Source/ail/Documents/External/AppInfra-api.zip
@@ -639,7 +637,6 @@ def PublishJavaDocs(){
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/usr/Documents/External/registrationApi-api", reportFiles: 'index.html', reportName: "User registration Library API documentation"])
     publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/sdb/Documents/External/securedblibrary-api", reportFiles: 'index.html', reportName: "Secure db Library API documentation"])
 
-    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/uid/Documents/External/uid-api", reportFiles: 'index.html', reportName: "UID Library API documentation"])
 
 }
 

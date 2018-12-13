@@ -1,5 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="?attr/uidButtonQuietDefaultDisabledIconColor" android:state_enabled="false" />
-    <item android:color="?attr/uidButtonQuietDefaultPressedIconColor" android:state_pressed="true" />
-    <item android:color="?attr/uidButtonQuietDefaultNormalIconColor" />
-</selector>
