@@ -4,7 +4,6 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.consentmanager.FetchConsentsCallback;
 import com.philips.platform.appinfra.consentmanager.PostConsentCallback;
-import com.philips.platform.catk.datamodel.ConsentDTO;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
@@ -18,20 +17,13 @@ public class ConsentManagerInterfaceSpy implements ConsentManagerInterface {
     public PostConsentCallback callback_storeConsentState;
     private ConsentDefinition definition;
     private ConsentError error;
-    private ConsentDTO consent;
 
     public void callsCallback_onPostConsentFailed(ConsentDefinition definition, ConsentError error) {
         this.definition = definition;
         this.error = error;
     }
 
-    public void callsCallback_onPostConsentSuccess(ConsentDTO consent) {
-        this.consent = consent;
-    }
 
-    private boolean shouldSucceed() {
-        return consent != null;
-    }
 
     private boolean shouldFail() {
         return definition != null && error != null;
@@ -68,9 +60,7 @@ public class ConsentManagerInterfaceSpy implements ConsentManagerInterface {
         this.definition_storeConsentState = consentDefinition;
         this.status_storeConsentState = status;
         this.callback_storeConsentState = callback;
-        if (shouldSucceed()) {
-            this.callback_storeConsentState.onPostConsentSuccess();
-        } else if (shouldFail()) {
+        if (shouldFail()) {
             this.callback_storeConsentState.onPostConsentFailed(error);
         }
     }

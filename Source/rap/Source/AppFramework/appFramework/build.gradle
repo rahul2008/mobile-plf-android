@@ -214,7 +214,6 @@ dependencies {
 
         implementation project(strings.ail.projectName)
         implementation project(strings.csw.projectName)
-        implementation project(strings.catk.projectName)
 
 
 
@@ -251,8 +250,6 @@ dependencies {
         implementation philipsdeps.commlib_ble
         implementation philipsdeps.AppInfra
         implementation philipsdeps.csw
-        implementation philipsdeps.catk
-
         implementation philipsdeps.cloudcontroller
         implementation philipsdeps.cloudcontroller_api
         implementation philipsdeps.productselection

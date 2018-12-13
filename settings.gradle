@@ -45,7 +45,6 @@ include ext.strings.prguapp.projectName
 
 
 include ext.strings.hsdp.projectName
-include ext.strings.catk.projectName
 
 
 
@@ -79,7 +78,6 @@ project(ext.strings.sdb.projectName).projectDir = new File('./Source/sdb/Source/
 
 project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/Library/mya')
 project(ext.strings.csw.projectName).projectDir = new File('./Source/csw/Source/Library/csw')
-project(ext.strings.catk.projectName).projectDir = new File('./Source/csw/Source/Library/catk')
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 
 //demoapps to be published to artifactory
@@ -88,8 +86,6 @@ project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/
 
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
-//include ':mya-demoapp'
-//project(':mya-demoapp').projectDir = new File('./Source/mya/Source/DemoApp/app')
 //include ':uAppFwLibApp'
 //project(':uAppFwLibApp').projectDir = new File('./Source/ufw/Source/DemoApp/app')
 //demoapps NOT to be published to artifactory

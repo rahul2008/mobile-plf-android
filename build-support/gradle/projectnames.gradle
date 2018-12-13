@@ -28,7 +28,6 @@ ext.strings = [
         prf: [projectName:':pluginreferenceboard', artifactName:'pluginreferenceboard'],
 
         hsdp: [projectName:':hsdp', artifactName:'hsdp'],
-        catk: [projectName:':catk', artifactName:'catk'],
 
 
 
