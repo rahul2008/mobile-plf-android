@@ -2,30 +2,23 @@
 <!-- This file is created to remove hardcoding from code. Otherwise you will get lint errors. Its best prectice to define strings in resource file-->
 <resources>
     <string name="RA_HomeTab_Menu_Title">Home</string>
+
+
+    <!--Translations not needed-->
+
     <string name="RA_DebugScreen_Title">Debug and Test</string>
-    <string name="RA_MYA_Device_Tagging_Clickstream">I allow Philips to use my data for device tagging clickstream</string>
-    <string name="RA_MYA_Device_Tagging_Clickstream_Help_Text">The actual content of the device tagging clickstream consent help text here</string>
-    <string name="RA_Code_Tampered">Code has been Tampered</string>
+    <string name="RA_Current_Configuration">Current Configuration</string>
     <string name="RA_Change_Configuration">Change Configuration</string>
+    <string name="RA_Code_Tampered">Code has been Tampered</string>
+    <string name="RA_CTN_Null">CTN is null. Please select or enter CTN value</string><!-- Need to check this-->
+
+    <!-- AB testing -->
     <string name="RA_abTesting_Sonicare">Sonicare</string>
     <string name="RA_abTesting_Kitchen">Kitchen</string>
     <string name="RA_abTest_cache_status">ABTestCacheStatus = </string>
+    <string name="Ra_default_value">default_value</string>
     <string name="RA_mkt_optin_title_text">Here\'s what You Have To Look Forward To:</string><!-- Need to check this-->
     <string name="RA_quessionary_text">Custom Reward Coupons, Holiday Surprises, VIP Shopping Days</string><!-- Need to check this-->
-    <string name="Ra_default_value">default_value</string>
     <string name="Ra_registration_value">registration</string>
-    <string name="RA_CTN_Null">CTN is null. Please select or enter CTN value</string><!-- Need to check this-->
 
-
-    <!-- Connectivity demo screen.-->
-    <string name="RA_Connectivity_Measure_Value">Measurement Value</string>
-    <string name="RA_Connectivity_Moment_Value">Moment Value</string>
-    <string name="RA_Connectivity_Get_Measure_Value">Get Measurement Value from Device</string>
-    <string name="RA_Connectivity_Connection_Status_Connected">Connected</string>
-    <string name="RA_Connectivity_Connection_Status_Disconnected">Disconnected</string>
-    <string name="RA_Connectivity_Get_Moment_Value">Get Moment Value from DataCore</string>
-    <string name="RA_Current_Configuration">Current Configuration</string>
-    <string name="RA_ble_ref_device">ble ref device</string>
-    <string name="RA_unknown_device">Unknown Device</string>
-    <string name="RA_no_device_found">No device found</string>
 </resources>
