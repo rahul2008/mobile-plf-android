@@ -2,23 +2,16 @@
 package com.philips.platform.urdemo;
 
 import android.app.Application;
-import android.content.*;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.*;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.UappInterface;
-import com.philips.platform.uid.thememanager.*;
 import com.philips.themesettings.ThemeHelper;
 import com.squareup.leakcanary.LeakCanary;
 
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.*;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.*;
 

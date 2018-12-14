@@ -2,13 +2,8 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.response.carts.AddToCartData;
 import com.philips.cdp.di.iap.response.voucher.GetAppliedValue;
 import com.philips.cdp.di.iap.store.StoreListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Map;
 

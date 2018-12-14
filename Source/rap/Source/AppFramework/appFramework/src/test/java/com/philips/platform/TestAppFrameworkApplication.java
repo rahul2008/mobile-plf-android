@@ -8,7 +8,6 @@ import android.content.Context;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.UserLoginState;
-
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
@@ -44,7 +43,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

@@ -6,7 +6,6 @@ import com.android.volley.Request;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
-import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.StoreListener;
 
 import org.junit.Assert;

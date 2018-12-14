@@ -9,8 +9,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.annotation.StyleRes;
 
-import com.philips.platform.uid.thememanager.*;
-
 public class ThemeHelper {
     final SharedPreferences sharedPreferences;
 

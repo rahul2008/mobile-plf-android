@@ -2,7 +2,6 @@ package com.philips.cdp.digitalcare.social.twitter;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.digitalcare.util.Utils;
 
 @SuppressWarnings("serial")
 public class TwitterWebFragment extends DigitalCareBaseFragment {

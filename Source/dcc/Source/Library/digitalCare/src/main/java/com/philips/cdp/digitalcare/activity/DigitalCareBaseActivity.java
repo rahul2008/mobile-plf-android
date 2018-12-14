@@ -18,8 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -31,13 +29,13 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.listeners.ActivityTitleListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
-//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-//import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
+
+//import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+//import com.philips.cdp.productselection.launchertype.UiLauncher;
 
 
 public abstract class DigitalCareBaseActivity extends UIDActivity implements ActivityTitleListener{

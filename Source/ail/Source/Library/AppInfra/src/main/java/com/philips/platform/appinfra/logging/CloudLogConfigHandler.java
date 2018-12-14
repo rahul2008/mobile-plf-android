@@ -3,7 +3,6 @@ package com.philips.platform.appinfra.logging;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;

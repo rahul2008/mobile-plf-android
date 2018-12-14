@@ -26,14 +26,13 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.prxclient.PrxConstants.Catalog;
 import com.philips.cdp.prxclient.PrxConstants.Sector;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ccdemouapp.adapter.Listener;
 import com.philips.platform.ccdemouapp.adapter.SampleAdapter;
 import com.philips.platform.ccdemouapp.adapter.SimpleItemTouchHelperCallback;
 import com.philips.platform.ccdemouapp.util.ThemeHelper;
 import com.philips.platform.ccdemouapp.view.CustomDialog;
-
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ccdemouapplibrary.R;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -43,7 +42,6 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;

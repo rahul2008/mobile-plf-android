@@ -33,7 +33,6 @@
 package com.janrain.android.capture;
 
 import com.janrain.android.utils.ApiConnection;
-import com.janrain.android.utils.LogUtils;
 
 import static com.janrain.android.Jump.getCaptureDomain;
 import static com.janrain.android.Jump.getCustomUserAgentContext;

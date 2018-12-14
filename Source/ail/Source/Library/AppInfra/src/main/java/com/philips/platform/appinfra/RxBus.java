@@ -5,9 +5,8 @@
  */
 package com.philips.platform.appinfra;
 
-import io.reactivex.subjects.PublishSubject;
-
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 public class RxBus {
 

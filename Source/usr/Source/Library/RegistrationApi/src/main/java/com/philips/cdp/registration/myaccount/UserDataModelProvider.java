@@ -5,8 +5,6 @@
  */
 package com.philips.cdp.registration.myaccount;
 
-import android.content.Context;
-
 import com.philips.cdp.registration.User;
 
 import java.io.Serializable;

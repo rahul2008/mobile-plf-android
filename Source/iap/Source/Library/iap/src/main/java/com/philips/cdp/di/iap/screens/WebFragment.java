@@ -22,7 +22,6 @@ import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.platform.uid.view.widget.ProgressBar;
 
 public abstract class WebFragment extends InAppBaseFragment {
 

@@ -6,8 +6,6 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.RequestListener;
-
 public abstract class AbstractStore implements StoreListener {
 
     protected boolean mStoreInitialized;

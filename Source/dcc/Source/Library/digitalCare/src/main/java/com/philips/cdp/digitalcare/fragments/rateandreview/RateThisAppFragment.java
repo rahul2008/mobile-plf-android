@@ -23,11 +23,11 @@ import android.widget.ImageView;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.ProductReviewFragment;
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentContract;
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentPresenter;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 
 import java.util.HashMap;
 import java.util.Map;

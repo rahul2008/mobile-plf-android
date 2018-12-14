@@ -11,7 +11,6 @@ package com.philips.platform.appinfra.apisigning;
  */
 
 import android.util.Base64;
-import android.util.Log;
 
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;

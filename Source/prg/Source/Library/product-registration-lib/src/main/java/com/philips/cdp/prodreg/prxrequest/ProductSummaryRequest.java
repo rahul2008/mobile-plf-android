@@ -5,23 +5,14 @@
 */
 package com.philips.cdp.prodreg.prxrequest;
 
-import android.net.Uri;
-import android.util.Log;
-import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+
 import org.json.JSONObject;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Locale;
+
 import java.util.Map;
 
 public class ProductSummaryRequest extends PrxRequest {

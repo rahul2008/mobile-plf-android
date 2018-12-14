@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.screens;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.philips.cdp.di.iap.session.NetworkConstants;

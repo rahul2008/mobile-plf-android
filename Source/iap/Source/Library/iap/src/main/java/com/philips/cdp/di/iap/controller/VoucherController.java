@@ -2,23 +2,15 @@ package com.philips.cdp.di.iap.controller;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.DeleteVoucherRequest;
 import com.philips.cdp.di.iap.model.GetAppliedVoucherRequest;
 import com.philips.cdp.di.iap.model.GetApplyVoucherRequest;
-import com.philips.cdp.di.iap.response.voucher.GetAppliedValue;
-import com.philips.cdp.di.iap.screens.VoucherFragment;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.philips.cdp.di.iap.session.RequestCode.APPLY_VOUCHER;

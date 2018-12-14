@@ -3,7 +3,6 @@ package com.philips.platform.appinfra.logging.rest;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;

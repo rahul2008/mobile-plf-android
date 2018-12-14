@@ -5,13 +5,14 @@
 */
 package com.philips.cdp.prodreg.util;
 
-import android.graphics.*;
-import android.text.*;
-import android.text.style.*;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.StyleSpan;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
-import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 

@@ -8,8 +8,6 @@ import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
-import com.philips.cdp.di.iap.response.carts.TotalDiscountsEntity;
-import com.philips.cdp.di.iap.response.orders.AppliedOrderPromotions;
 
 import java.io.Serializable;
 import java.util.List;

@@ -8,7 +8,6 @@ package com.philips.platform.appinfra.appconfiguration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.response.addresses.DeliveryCost;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.screens.OnSetDeliveryModeListener;
 
 import java.util.List;

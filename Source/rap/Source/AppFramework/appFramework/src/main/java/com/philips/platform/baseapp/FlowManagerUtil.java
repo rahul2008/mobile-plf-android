@@ -6,7 +6,6 @@
 package com.philips.platform.baseapp;
 
 
-
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.Optin.MarketingOptin;
@@ -29,7 +28,6 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnB
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewState;
-
 
 import java.util.Map;
 

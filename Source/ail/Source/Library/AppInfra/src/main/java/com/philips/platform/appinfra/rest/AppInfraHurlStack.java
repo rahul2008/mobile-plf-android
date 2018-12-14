@@ -10,7 +10,6 @@ import com.philips.platform.appinfra.rest.hpkp.HPKPInterface;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.KeyManagementException;

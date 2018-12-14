@@ -7,12 +7,14 @@ package com.philips.platform.uappframework.launcher;
 
 
 import android.support.annotation.AnimRes;
-/**
- * Contains methods for setting animations for the activity
- * @since 1.0.0
- */
 
 import java.io.Serializable;
+
+/**
+ * Contains methods for setting animations for the activity
+ *
+ * @since 1.0.0
+ */
 
 
 public abstract class UiLauncher implements Serializable {

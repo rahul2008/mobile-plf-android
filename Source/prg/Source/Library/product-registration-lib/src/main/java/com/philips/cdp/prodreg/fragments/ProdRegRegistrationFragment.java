@@ -42,7 +42,6 @@ import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prodreg.util.ProgressAlertDialog;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
-import com.philips.platform.appinfra.tagging.AppTaggingConstants;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;

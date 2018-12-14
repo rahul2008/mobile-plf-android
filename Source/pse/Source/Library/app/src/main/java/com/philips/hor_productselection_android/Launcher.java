@@ -7,10 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import com.philips.platform.uid.view.widget.ImageButton;
 import android.widget.Toast;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
@@ -37,6 +35,7 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.ImageButton;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.util.ArrayList;

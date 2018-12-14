@@ -7,15 +7,10 @@
 package com.philips.themesettings;
 
 import android.content.Context;
-import android.graphics.*;
-import android.graphics.drawable.*;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.*;
-import android.widget.*;
 
 import com.philips.platform.urdemolibrary.R;
 

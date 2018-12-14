@@ -33,6 +33,7 @@
 package com.janrain.android.utils;
 
 import android.util.Log;
+
 import com.janrain.android.engage.JREngage;
 
 public class LogUtils {

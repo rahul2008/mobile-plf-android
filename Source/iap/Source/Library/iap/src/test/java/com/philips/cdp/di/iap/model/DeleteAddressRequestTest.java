@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
-import org.robolectric.RobolectricTestRunner;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.Mockito.mock;

@@ -48,6 +48,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.janrain.android.R;
 import com.janrain.android.engage.JROpenIDAppAuth;
 import com.janrain.android.engage.session.JRProvider;

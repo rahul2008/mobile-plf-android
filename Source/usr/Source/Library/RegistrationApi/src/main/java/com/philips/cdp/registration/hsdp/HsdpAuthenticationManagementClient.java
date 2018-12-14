@@ -3,7 +3,6 @@ package com.philips.cdp.registration.hsdp;
 import android.util.Base64;
 
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
-import com.philips.cdp.registration.ui.utils.MapUtils;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.ntputils.ServerTime;
 

@@ -1,19 +1,7 @@
 
 package com.philips.cdp.coppa.registration;
 
-import android.app.*;
-import android.content.*;
-import android.os.*;
-import android.support.multidex.*;
-
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.coppa.utils.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.*;
-import com.philips.platform.appinfra.appconfiguration.*;
-
-import java.util.*;
 
 public class RegistrationCoppaApplication extends Application {
 

@@ -6,7 +6,6 @@ package com.philips.cdp.prodreg.prxrequest;
 
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.RequestType;
-import com.philips.cdp.registration.configuration.Configuration;
 
 import junit.framework.TestCase;
 

@@ -2,7 +2,7 @@ package com.philips.platform.appinfra.securestoragev2;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by abhishek on 2/8/18.

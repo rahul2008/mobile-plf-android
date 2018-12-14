@@ -1,19 +1,10 @@
 package com.janrain.android.engage;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.janrain.android.R;
 import com.janrain.android.engage.session.JRSession;
 import com.janrain.android.utils.LogUtils;
-
-import net.openid.appauth.AuthorizationException;
-import net.openid.appauth.RegistrationResponse;
-
-import java.util.concurrent.Executors;
-
-import static android.R.attr.data;
 
 
 public class OpenIDAppAuthCancelledActivity extends Activity {

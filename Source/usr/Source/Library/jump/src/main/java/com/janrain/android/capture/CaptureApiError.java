@@ -34,6 +34,7 @@ package com.janrain.android.capture;
 
 import com.janrain.android.Jump;
 import com.janrain.android.utils.JsonUtils;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 

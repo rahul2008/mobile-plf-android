@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 

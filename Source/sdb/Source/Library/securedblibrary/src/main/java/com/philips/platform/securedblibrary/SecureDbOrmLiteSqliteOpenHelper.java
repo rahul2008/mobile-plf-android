@@ -5,6 +5,7 @@
 package com.philips.platform.securedblibrary;
 
 import android.content.Context;
+
 import com.j256.ormlite.android.apptools.OrmLiteConfigUtil;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -18,6 +19,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.AndroidConnectionSource;
 import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.AndroidDatabaseConnection;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteDatabase.CursorFactory;
 import net.sqlcipher.database.SQLiteOpenHelper;

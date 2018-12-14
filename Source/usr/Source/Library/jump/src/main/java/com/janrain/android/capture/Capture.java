@@ -34,6 +34,7 @@ package com.janrain.android.capture;
 
 import com.janrain.android.Jump;
 import com.janrain.android.utils.ApiConnection;
+
 import org.json.JSONObject;
 
 import java.security.SecureRandom;

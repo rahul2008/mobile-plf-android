@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;

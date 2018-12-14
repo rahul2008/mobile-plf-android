@@ -7,6 +7,7 @@ package com.philips.platform.mya;
 
 import android.content.Context;
 import android.util.AndroidRuntimeException;
+
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.launcher.MyaDependencies;
 import com.philips.platform.mya.launcher.MyaInterface;
@@ -23,6 +24,7 @@ import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

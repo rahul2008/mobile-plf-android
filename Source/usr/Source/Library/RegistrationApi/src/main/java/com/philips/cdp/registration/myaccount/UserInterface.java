@@ -5,10 +5,6 @@
  */
 package com.philips.cdp.registration.myaccount;
 
-import android.content.Context;
-
-import com.philips.cdp.registration.handlers.LogoutHandler;
-
 import java.io.Serializable;
 
 public abstract class UserInterface implements DataInterface, Serializable {

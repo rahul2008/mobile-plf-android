@@ -1,6 +1,7 @@
 package com.philips.platform.ccdemouapp;
 
 import android.app.Application;
+
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 

@@ -6,43 +6,24 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.voucher.GetAppliedValue;
 import com.philips.cdp.di.iap.response.voucher.Vouchers;
-import com.philips.cdp.di.iap.session.NetworkImageLoader;
-import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.Utility;
-import com.philips.cdp.di.iap.view.CountDropDown;
-import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_APPLY_VOUCHER;
 
 public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

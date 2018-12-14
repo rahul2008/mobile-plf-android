@@ -18,14 +18,13 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.prxclient.PrxConstants.Catalog;
-import com.philips.cdp.prxclient.PrxConstants.Sector;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.platform.ccdemouapp.util.ThemeHelper;
-
+import com.philips.cdp.prxclient.PrxConstants.Catalog;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.ccdemouapp.util.ThemeHelper;
 import com.philips.platform.ccdemouapplibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;

@@ -8,7 +8,6 @@
 
 package com.philips.cdp.digitalcare.social.facebook;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.Utils;
 
 @SuppressWarnings("serial")
 public class FacebookWebFragment extends DigitalCareBaseFragment {

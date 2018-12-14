@@ -34,11 +34,10 @@ package com.janrain.android.utils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.text.util.*;
+
 import com.janrain.android.engage.JREngage;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Set;
 
 /**
  * @internal

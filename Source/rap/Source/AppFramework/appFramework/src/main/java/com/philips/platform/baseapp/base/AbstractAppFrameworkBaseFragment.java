@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uid.view.widget.ActionBarTextView;

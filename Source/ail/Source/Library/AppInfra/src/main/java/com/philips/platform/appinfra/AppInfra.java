@@ -6,7 +6,6 @@
 package com.philips.platform.appinfra;
 
 import android.content.Context;
-import android.os.Build;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;

@@ -60,6 +60,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+
 import com.janrain.android.R;
 import com.janrain.android.engage.JREngageError;
 import com.janrain.android.engage.net.JRConnectionManager;
@@ -69,6 +70,7 @@ import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
 import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.LogUtils;
+
 import org.json.JSONException;
 
 import java.net.URL;

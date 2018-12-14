@@ -43,6 +43,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
 import com.janrain.android.R;
 import com.janrain.android.engage.session.JRSession;
 import com.janrain.android.utils.AndroidUtils;

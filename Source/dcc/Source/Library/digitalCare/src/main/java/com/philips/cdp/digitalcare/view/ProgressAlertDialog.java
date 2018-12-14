@@ -6,6 +6,7 @@ package com.philips.cdp.digitalcare.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
+
 import com.philips.cdp.digitalcare.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 

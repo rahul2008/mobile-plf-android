@@ -38,6 +38,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.janrain.android.R;
 import com.janrain.android.engage.JREngage;
 import com.janrain.android.engage.net.JRConnectionManager;

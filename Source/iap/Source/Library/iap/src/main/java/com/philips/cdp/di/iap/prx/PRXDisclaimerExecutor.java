@@ -1,12 +1,10 @@
 package com.philips.cdp.di.iap.prx;
 
 import android.content.Context;
-import android.os.Message;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
@@ -17,7 +15,6 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PRXDisclaimerExecutor {
 

@@ -1,22 +1,12 @@
 package com.philips.themesettings;
 
 import android.annotation.SuppressLint;
-import android.content.*;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.*;
-import android.support.v7.app.AppCompatActivity;
 
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.uid.thememanager.*;
-import com.philips.platform.uid.utils.*;
-import com.philips.platform.urdemo.*;
 import com.philips.platform.urdemolibrary.R;
-
-import org.greenrobot.eventbus.*;
-
-import java.io.*;
 
 
 public class ThemeSettingsActivity extends UIDActivity {

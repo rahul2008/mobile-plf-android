@@ -5,14 +5,11 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +25,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class WebBuyFromRetailers extends InAppBaseFragment {
     public static final String TAG = WebBuyFromRetailers.class.getName();

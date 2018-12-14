@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-
 import com.philips.platform.ccdemouapp.adapter.Listener;
 import com.philips.platform.ccdemouapplibrary.R;
 import com.philips.platform.uid.view.widget.EditText;

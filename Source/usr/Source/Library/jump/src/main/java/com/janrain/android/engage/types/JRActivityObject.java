@@ -33,12 +33,14 @@ package com.janrain.android.engage.types;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.janrain.android.engage.net.JRConnectionManager;
 import com.janrain.android.engage.net.JRConnectionManagerDelegate;
 import com.janrain.android.engage.net.async.HttpResponseHeaders;
 import com.janrain.android.engage.session.JRSession;
 import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.LogUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;

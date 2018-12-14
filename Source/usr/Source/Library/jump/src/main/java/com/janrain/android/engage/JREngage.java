@@ -68,7 +68,6 @@ package com.janrain.android.engage;
  **/
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -92,11 +91,9 @@ import com.janrain.android.engage.ui.JRCustomInterface;
 import com.janrain.android.engage.ui.JRFragmentHostActivity;
 import com.janrain.android.engage.ui.JRPublishFragment;
 import com.janrain.android.engage.ui.JRUiFragment;
-import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
-import com.janrain.android.utils.UiUtils;
 
 import net.openid.appauth.AuthorizationService;
 

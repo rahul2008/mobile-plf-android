@@ -22,9 +22,9 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.rest.request.RequestQueue;
-import com.philips.platform.appinfra.rest.hpkp.HPKPManager;
 import com.philips.platform.appinfra.rest.hpkp.HPKPInterface;
+import com.philips.platform.appinfra.rest.hpkp.HPKPManager;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.io.File;

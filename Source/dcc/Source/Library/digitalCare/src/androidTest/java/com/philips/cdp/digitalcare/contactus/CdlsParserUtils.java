@@ -1,14 +1,14 @@
 package com.philips.cdp.digitalcare.contactus;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.content.Context;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class CdlsParserUtils {
 

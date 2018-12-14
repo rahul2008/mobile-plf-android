@@ -33,8 +33,10 @@ package com.janrain.android.engage.net;
 
 import android.os.Handler;
 import android.os.Looper;
+
 import com.janrain.android.utils.ApacheSetFromMap;
 import com.janrain.android.utils.ThreadUtils;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;

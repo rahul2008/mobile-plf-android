@@ -33,9 +33,11 @@
 package com.janrain.android.utils;
 
 import android.util.Pair;
+
 import com.janrain.android.engage.net.JRConnectionManager;
 import com.janrain.android.engage.net.JRConnectionManagerDelegate;
 import com.janrain.android.engage.net.async.HttpResponseHeaders;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;

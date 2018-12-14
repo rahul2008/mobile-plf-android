@@ -2,7 +2,6 @@ package com.philips.cdp.registration.controller;
 
 import android.content.Context;
 
-import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;

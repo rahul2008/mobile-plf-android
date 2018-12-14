@@ -1,7 +1,6 @@
 package com.philips.platform.prdemoapp.adaptor;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;

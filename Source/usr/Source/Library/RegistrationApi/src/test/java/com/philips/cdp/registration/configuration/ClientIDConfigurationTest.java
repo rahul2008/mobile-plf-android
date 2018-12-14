@@ -1,13 +1,14 @@
 package com.philips.cdp.registration.configuration;
 
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.logging.*;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import junit.framework.TestCase;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 

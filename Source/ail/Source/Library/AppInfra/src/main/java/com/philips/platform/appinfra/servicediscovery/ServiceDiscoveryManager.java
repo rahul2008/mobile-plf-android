@@ -41,7 +41,19 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AISDURLType.AISDURLTypeProposition;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.*;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PLATFORM_SERVICES_INVOKED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.DOWNLOAD_PREPOSITION_SERVICES_INVOKED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_GEOIP_SUCCESS;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.GET_HOME_COUNTRY_SIM_SUCCESS;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.MALFORMED_URL;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_FORCE_REFRESH_CALLED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_LOCAL_CACHE_DATA_SUCCESS;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_HOME_COUNTRY_STORE_FAILED;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SET_INVALID_COUNTRY_CODE;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_SUCCESS;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_URL_MISMATCH;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
+import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SET_HOME_COUNTRY_SUCCESS;
 
 /**
  * This class downloads list of URLs from service discovery server,

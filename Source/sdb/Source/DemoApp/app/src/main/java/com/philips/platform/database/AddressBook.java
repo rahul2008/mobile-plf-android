@@ -1,9 +1,8 @@
 package com.philips.platform.database;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import com.j256.ormlite.field.DatabaseField;
+
+import java.io.Serializable;
 
 public class AddressBook implements Serializable {
 

@@ -2,9 +2,7 @@
 package com.philips.cdp.digitalcare.util;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 

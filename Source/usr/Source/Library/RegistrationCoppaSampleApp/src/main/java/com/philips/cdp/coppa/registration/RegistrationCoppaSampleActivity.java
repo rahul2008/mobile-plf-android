@@ -9,28 +9,9 @@
 
 package com.philips.cdp.coppa.registration;
 
-import android.app.*;
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.view.*;
 import android.view.View.*;
-import android.widget.*;
 
-import com.janrain.android.*;
-import com.janrain.android.engage.session.*;
-import com.philips.cdp.registration.*;
-import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.coppa.base.*;
 import com.philips.cdp.registration.coppa.utils.*;
-import com.philips.cdp.registration.handlers.*;
-import com.philips.cdp.registration.hsdp.*;
-import com.philips.cdp.registration.listener.*;
-import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.utils.*;
-import com.philips.platform.appinfra.appconfiguration.*;
-import com.philips.platform.uappframework.launcher.*;
 
 public class RegistrationCoppaSampleActivity extends Activity implements OnClickListener,
         UserRegistrationListener,

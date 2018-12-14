@@ -12,7 +12,6 @@ package com.philips.cdp.digitalcare.request;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 

@@ -1,6 +1,5 @@
 package com.philips.cdp.di.iap.screens;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;

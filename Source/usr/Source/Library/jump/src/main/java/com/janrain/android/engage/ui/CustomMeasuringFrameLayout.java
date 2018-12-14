@@ -36,6 +36,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+
 import com.janrain.android.utils.AndroidUtils;
 
 /**

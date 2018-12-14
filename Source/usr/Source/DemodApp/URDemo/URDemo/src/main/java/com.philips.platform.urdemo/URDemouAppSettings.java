@@ -3,6 +3,7 @@ package com.philips.platform.urdemo;
 
 
 import android.content.Context;
+
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 

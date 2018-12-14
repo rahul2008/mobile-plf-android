@@ -10,14 +10,10 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.*;
-import android.support.v7.widget.*;
 import android.util.DisplayMetrics;
-import android.view.*;
 import android.widget.Button;
 
 import com.philips.platform.uid.drawable.SeparatorDrawable;
-import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.urdemolibrary.R;
 
 import org.greenrobot.eventbus.EventBus;

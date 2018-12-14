@@ -5,19 +5,14 @@
 */
 package com.philips.cdp.prodreg.prxrequest;
 
-import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
 
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ProductMetadataRequest extends PrxRequest {

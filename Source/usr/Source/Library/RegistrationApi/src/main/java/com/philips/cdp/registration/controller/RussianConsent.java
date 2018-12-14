@@ -4,7 +4,6 @@ package com.philips.cdp.registration.controller;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONObject;
