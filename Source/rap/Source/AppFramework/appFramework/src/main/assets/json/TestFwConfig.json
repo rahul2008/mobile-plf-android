@@ -1,0 +1,29 @@
+{
+  "chapters": [
+    {
+      "chapterName": "Chapter Mobile",
+      "commonComponents": [
+        {
+          "coconame": "Test User Registration Demo"
+        },
+        {
+          "coconame": "Test Product Registration Demo"
+        },
+        {
+          "coconame": "Test In App Purchase Demo"
+        },
+        {
+          "coconame": "Test Consumer Care Demo"
+        },
+        {
+          "coconame": "Test App Infra Demo"
+        }
+      ]
+    },
+    {
+      "chapterName":"App Info",
+      "commonComponents":[
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Koninklijke Philips N.V., 2018
+   - All rights are reserved. Reproduction or dissemination
+   - in whole or in part is prohibited without the prior written
+   - consent of the copyright holder. -->
+
+<resources>
+  <string name="PRG_AllProducts_Registered_Lbltxt">現在このアプリに接続されている製品はすべて登録が完了しています。</string>
+  <string name="PRG_Already_Registered">既に登録されています</string>
+  <string name="PRG_Already_Registered_ErrMsg">製品は登録済みです</string>
+  <string name="PRG_Already_Registered_title">登録済み製品</string>
+  <string name="PRG_Authentication_ErrMsg">ユーザー認証に失敗しました。しばらくしてからやり直してください</string>
+  <string name="PRG_Authentication_Fail_Title">認証に失敗しました</string>
+  <string name="PRG_Back_Btntxt">戻る</string>
+  <string name="PRG_Back_To_List">リストに戻る </string>
+  <string name="PRG_Btn_ChangeSerialNumber">シリアル番号を変更</string>
+  <string name="PRG_Btn_LookingForProductAlert_Txt">はい、製品を登録します</string>
+  <string name="PRG_Btn_RegisterAnotherProduct">別の製品を登録</string>
+  <string name="PRG_Close">閉じる</string>
+  <string name="PRG_Communication_Err_Title">通信エラー</string>
+  <string name="PRG_Connect_Product_Btntxt">製品を接続</string>
+  <string name="PRG_Connect_Your_Product_Lbltxt">接続されているフィリップス製品がある場合は、製品がこのアプリに接続されていることを確認してください</string>
+  <string name="PRG_Continue">続行 </string>
+  <string name="PRG_Date_Of_Purchase_Lbltxt">ご購入日</string>
+  <string name="PRG_Do_You_Want_To_Reg_Lbltxt">他の製品を登録しますか？</string>
+  <string name="PRG_Eamil_Sent_Lbltxt">保証延長契約に関するメールがお客様のメールアドレスに送信されました</string>
+  <string name="PRG_Enter_Purchase_Date_ErrMsg">購入日を入力してください</string>
+  <string name="PRG_Extended_Warranty_Lbltxt">保証期間が次の日付まで延長されました：</string>
+  <string name="PRG_Find_Serial_Number">シリアル番号はどこで確認できますか？</string>
+  <string name="PRG_Invalid_Date_ErrMsg">2000 年から本日までの期間中の日付を入力してください</string>
+  <string name="PRG_Invalid_Date_Title">購入日が無効です</string>
+  <string name="PRG_Invalid_SerialNum_ErrMsg">有効なシリアル番号を入力してください</string>
+  <string name="PRG_Invalid_SerialNum_Title">シリアル番号が無効です</string>
+  <string name="PRG_Looking_For_Products_Lbltxt">お使いの製品を検索しています...</string>
+  <string name="PRG_Missing_Ctn_ErrMsg">CTN を入力してください </string>
+  <string name="PRG_Missing_Ctn_Title">CTN がありません </string>
+  <string name="PRG_NavBar_Title">製品のご登録</string>
+  <string name="PRG_Network_ErrMsg">しばらくしてからやり直してください</string>
+  <string name="PRG_Network_Err_Title">ネットワークエラー</string>
+  <string name="PRG_No_Internet_ErrorMsg">サーバーに接続できません。\nインターネット接続を確認してから再試行してください。</string>
+  <string name="PRG_No_Internet_Title">インターネット接続なし</string>
+  <string name="PRG_OK">OK </string>
+  <string name="PRG_Please_Enter_Date_Lbltxt">購入日を入力してください</string>
+  <string name="PRG_Please_Enter_SerialNum_Txtfldtxt">シリアル番号を入力してください</string>
+  <string name="PRG_Please_Select">選択してください...</string>
+  <string name="PRG_ProductRegistration_benifits_Txt">製品保証を延長できます</string>
+  <string name="PRG_Product_Not_Found_ErrMsg">この地域ではサポートされていない製品です。当社までお問い合わせください。</string>
+  <string name="PRG_Product_Not_Found_Title">製品が見つかりませんでした</string>
+  <string name="PRG_ReceiveUpdates_Lbltxt">• 製品の最新情報をお届けいたします</string>
+  <string name="PRG_RegLater_Btntxt">いいえ、後で登録します</string>
+  <string name="PRG_RegSuccess_Lbltxt">登録が完了しました</string>
+  <string name="PRG_RegYourProduct_Lbltxt">製品登録のメリット：</string>
+  <string name="PRG_Reg_In_Web_Lbltxt">製品はウェブ版（www.philips.com）で登録することもできます</string>
+  <string name="PRG_Register_Btntxt">ご登録</string>
+  <string name="PRG_Register_Next">次を登録 </string>
+  <string name="PRG_Registering_Products_Lbltxt">登録中</string>
+  <string name="PRG_Req_Purchase_Date_Title">購入日が無効です</string>
+  <string name="PRG_SerialNum_Format_ErrMsg">シリアル番号は次の形式で入力してください：</string>
+  <string name="PRG_SerialNum_Lbltxt">シリアル番号</string>
+  <string name="PRG_Thank_You_Lbltxt">フィリップス製品をお選びいただきありがとうございます。</string>
+  <string name="PRG_This_Serial_No">このシリアル番号は</string>
+  <string name="PRG_Title_AlreadyRegistered">%s は既に登録されています</string>
+  <string name="PRG_Unable_Connect_Server_ErrMsg">サーバーに接続できません。しばらくしてからやり直してください。問題が解消されない場合は、当社までお問い合わせください</string>
+  <string name="PRG_Unknow_ErrMsg">原因不明のエラー</string>
+  <string name="PRG_Yes_Btntxt">はい、保証を延長します</string>
+  <string name="PRG_before">前</string>
+  <string name="PRG_eg">例</string>
+  <string name="PRG_find_serial_number_help_message">製品の背面、プラスチックカバー内のコンパートメント内、トリマーの下部、またはシェービングヘッドの下部に刻印されています</string>
+  <string name="PRG_number_starting">数字、先頭文字</string>
+  <string name="PRG_ok_i_found_it">見つかりました</string>
+  <string name="PRG_registered">登録済み</string>
+  <string name="PRG_registered_on">ご登録日：</string>
+  <string name="PRG_registered_serial">登録済みシリアル</string>
+  <string name="PRG_serial_number_consists">シリアル番号の構成文字</string>
+  <string name="PRG_warranty_until">保証期限：</string>
+</resources>

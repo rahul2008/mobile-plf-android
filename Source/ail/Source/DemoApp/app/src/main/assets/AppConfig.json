@@ -1,0 +1,79 @@
+{
+  "UserRegistration": {
+    "JanRainConfiguration.RegistrationClientID.Development": "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
+    "JanRainConfiguration.RegistrationClientID.Testing": "g52bfma28yjbd24hyjcswudwedcmqy7c",
+    "JanRainConfiguration.RegistrationClientID.Evaluation": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
+    "JanRainConfiguration.RegistrationClientID.Staging": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
+    "JanRainConfiguration.RegistrationClientID.Production": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
+    "PILConfiguration.MicrositeID": "77000",
+    "PILConfiguration.CampaignID": "CL20150501_PC_TB_COPPA",
+    "PILConfiguration.RegistrationEnvironment": "PRODUCTION",
+    "Flow.EmailVerificationRequired" : true,
+    "Flow.TermsAndConditionsAcceptanceRequired" : true,
+    "Flow.MinimumAgeLimit" : { "NL":12 ,"GB":0,"default": 16},
+    "SigninProviders.default": ["facebook","googleplus"],
+    "SigninProviders.NL": ["facebook","googleplus"]
+  },
+   "IAP": {
+    "hostport": "www.occ.shop.philips.com",
+    "propositionid": "Tuscany2016"
+  },
+  "appinfra":{
+    "appidentity.micrositeId": "77001",
+    "appidentity.sector": "b2c",
+    "appidentity.appState": "staging",
+    "appidentity.serviceDiscoveryEnvironment": "production",
+    "restclient.cacheSizeInKB": 51200,
+    "tagging.sensitiveData": ["bundleId"] ,
+    "abtest.precache":["DOT-ReceiveMarketingOptIn"],
+    "abtest.mapping":{
+      "usr.login":"DOT-ReceiveMarketingOptIn"
+     },
+    "contentLoader.limitSize":100,
+    "servicediscovery.platformMicrositeId":"70000",
+    "servicediscovery.platformEnvironment":"production",
+    "servicediscovery.propositionEnabled":true,
+    "timesync.ntp.hosts":["time1.google.com","time2.google.com","time3.google.com","time4.google.com"],
+    "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
+    "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
+    "appUpdate.serviceId":"appinfra.testing.version",
+    "appUpdate.autoRefresh": true,
+    "enableAdobeLogs":true,
+    "logging.releaseConfig":{
+      "fileName":"AppInfraLog",
+      "numberOfFiles":5,
+      "fileSizeInBytes":50000,
+      "logLevel":"Off",
+      "fileLogEnabled":false,
+      "consoleLogEnabled":false,
+      "cloudLogEnabled":false,
+      "cloudBatchLimit":5,
+      "componentLevelLogEnabled":true,
+      "componentIds": [
+        "ail","usr"
+      ]
+    },
+    "logging.debugConfig":{
+      "fileName":"AppInfraLog",
+      "numberOfFiles":5,
+      "fileSizeInBytes":50000,
+      "logLevel":"Error",
+      "fileLogEnabled":false,
+      "consoleLogEnabled":false,
+      "cloudLogEnabled":false,
+      "cloudBatchLimit":5,
+      "componentLevelLogEnabled":false,
+      "componentIds": [
+        "ail"
+      ]
+
+    }
+
+  },
+  "hsdp": {
+    "appInfra.cloudLoggingSecretKey": "96a5cd559d9299e4632faae2320777347d0e35acd77e3c1e9edcf244a30443ad3fcefdbb62806f15bb758c5903a0d7be635e0240cc671261f14cb37cc2ef1153",
+    "appInfra.cloudLoggingSharedKey": "YMV5QLdKOW9vlQ1fgG0txw8Tdglfe2ePIFwkub68eN8=",
+    "appInfra.cloudLoggingProductKey":"a074cf36-ab05-4ad7-9fb8-cb315087c727"
+  }
+
+}

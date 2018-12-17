@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/menu_theme_settings"
+        android:icon="@drawable/ic_theme_setting_entrance_icon"
+        android:title="@string/RA_DLS_theme_title"
+        android:visible="false"
+        app:showAsAction="always" />
+
+    <item
+        android:title="menu_cart_icon"
+        android:id="@+id/badge"
+        app:actionLayout="@layout/af_menu_shopping_cart_action_layout"
+        app:showAsAction="always"/>
+
+</menu>

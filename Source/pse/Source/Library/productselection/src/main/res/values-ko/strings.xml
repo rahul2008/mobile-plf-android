@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">제품 선택</string>
+<string name="Select_Product_Desc">보다 나은 지원을 제공해 드릴 수 있도록 소유하고 계신 제품을 알려 주시겠습니까?</string>
+<string name="Select_Product_Find">제품 찾기</string>
+<string name="Product_Title">제품</string>
+<string name="Product_Details_Select">이 제품 선택</string>
+<string name="Change_Selected_Product">선택한 제품 변경</string>
+<string name="Confirmation_Title">확인</string>
+<string name="Confirmation_Selected">선택 사항</string>
+<string name="Confirmation_Change">변경</string>
+<string name="Confirmation_Change_Selection">언제든 선택 사항을 변경하실 수 있습니다.</string>
+<string name="Confirmation_Continue_Support">계속 지원하기</string>
+<string name="Continue_Btntxt">계속</string>
+<string name="No_Internet">인터넷이 연결되지 않았습니다. 휴대폰의 WiFi 설정 또는 데이터 설정에서 연결이 되어 있는지 확인하십시오.</string>
+    <string name="myphilips_CC">MyPhilips 계정</string>
+
+    <string name="pse_Selected_Product">선택된 제품</string>
+    <string name="pse_Selected">선택됨</string>
+    <string name="pse_Select_Your_Product_Title">제품 선택</string>
+    <string name="pse_Find_Your_Product_Title">제품 찾기</string>
+    <string name="pse_No_Result">다음에 대한 검색 결과 없음:</string>
+    <string name="pse_No_Result_Desc">제품 리스트를 필터링합니다. 필터 용어에 오타가 없는지 확인하십시오.</string>
+    <string name="pse_What_Product">사용하고 있는 제품은 무엇입니까?</string>
+    <string name="pse_Product_Support_Desc">최적의 지원을 해드릴 수 있도록 갖고 계신 제품을 알려주십시오.</string>
+    <string name="pse_Skip_Registration">등록 건너뛰기</string>
+    <string name="pse_Change_Product">제품 선택 변경을 원하실 경우 내 계정에서 변경하실 수 있습니다.</string>
+    <string name="pse_Register_Your_Product">제품 등록하기</string>
+    <string name="pse_My_Account">내 계정</string>
+    <string name="pse_Change_Your_Product">선택된 제품의 변경을 원하실 경우 내 계정에서 변경하실 수 있습니다.</string>
+    <string name="pse_View_Recipes">요리법 보기</string>
+    <string name="pse_Back_My_Account">내 계정으로 돌아가기</string>
+    <string name="pse_Choose_Product_Register.">등록하실 제품을 선택하십시오.</string>
+    <string name="pse_Skip_Step">단계 건너뛰기</string>
+    <string name="pse_Explain_Benefits">혜택을 설명하려면 여기에서 알맞은 제품을 선택해주십시오.</string>
+    <string name="pse_Product_Register">등록할 제품은 무엇입니까?</string>
+    <string name="pse_App_Content">이 앱의 콘텐츠는 현재 귀하에게 맞춤 설정되어 있습니다.</string>
+
+    <string name="search"> 검색 </string>
+
+</resources>

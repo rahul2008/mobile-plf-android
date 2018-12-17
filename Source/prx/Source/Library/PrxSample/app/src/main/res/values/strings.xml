@@ -1,0 +1,132 @@
+<resources>
+    <string name="app_name">PrxSample</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="ctn_list">
+        <item>HCNCTB107</item>
+        <item>QT4001/15</item>
+        <item>HP8100/06</item>
+        <item>HD4928/01</item>
+        <item>SBCHL140/98</item>
+        <item>43PUT7791/V7</item>
+        <item>BT106/94</item>
+        <item>HC9450_15</item>
+        <item>S9711/31</item>
+        <item>65PUS8601/12</item>
+        <item>DVP2880/12</item>
+        <item>PD9025/12</item>
+        <item>SCD888/26</item>
+        <item>RQ1250/16</item>
+        <item>RQ1250/17</item>
+        <item>HD3197/03</item>
+        <item>HX6321_02</item>
+        <item>SC2009/00</item>
+        <item>PR3743/00</item>
+        <item>PR3840/00</item>
+        <item>S9721/84</item>
+        <item>HP6519/01</item>
+        <item>S9711/31</item>
+        <item>S9511/26</item>
+        <item>S9031/12</item>
+        <item>HD8967_01</item>
+        <item>HD9240/90</item>
+        <item>RQ1150/16</item>
+        <item>SC5994/00</item>
+        <item>SC2008/11</item>
+        <item>HR1871_00</item>
+        <item>SC2009/00</item>
+        <item>HX9192/01</item>
+        <item>HX9192/02</item>
+        <item>HX9192/03</item>
+        <item>HX9192/04</item>
+        <item>HX9191/06</item>
+        <item>HP8632/00</item>
+
+    </string-array>
+
+    <string-array name="catalog_list">
+        <item>DEFAULT</item>
+        <item>CONSUMER</item>
+        <item>NONCONSUMER</item>
+        <item>CARE</item>
+        <item>PROFESSIONAL</item>
+        <item>LP_OEM_ATG</item>
+        <item>LP_PROF_ATG</item>
+        <item>HC</item>
+        <item>HHSSHOP</item>
+        <item>MOBILE</item>
+        <item>EXTENDEDCONSENT</item>
+    </string-array>
+
+    <string-array name="sector_list">
+        <item>DEFAULT</item>
+        <item>B2C</item>
+        <item>B2B_LI</item>
+        <item>B2B_HC</item>
+
+    </string-array>
+
+    <!-- country code -->
+    <string-array name="country_code">
+        <item>GB</item>
+        <item>IN</item>
+        <item>US</item>
+        <item>SA</item>
+        <item>BG</item>
+        <item>BA</item>
+        <item>CZ</item>
+        <item>DK</item>
+        <item>DE</item>
+        <item>GR</item>
+        <item>AR</item>
+        <item>ES</item>
+        <item>MX</item>
+        <item>EE</item>
+        <item>IR</item>
+        <item>AF</item>
+        <item>CA</item>
+        <item>FI</item>
+        <item>FR</item>
+        <item>HR</item>
+        <item>HU</item>
+        <item>ID</item>
+        <item>IT</item>
+        <item>KR</item>
+        <item>LT</item>
+        <item>LV</item>
+        <item>MG</item>
+        <item>MK</item>
+        <item>NO</item>
+        <item>NL</item>
+        <item>PL</item>
+        <item>PT</item>
+        <item>BR</item>
+        <item>RO</item>
+        <item>RU</item>
+        <item>SK</item>
+        <item>SI</item>
+        <item>AL</item>
+        <item>RS</item>
+        <item>ME</item>
+        <item>SE</item>
+        <item>TH</item>
+        <item>TR</item>
+        <item>UA</item>
+        <item>VN</item>
+        <item>CN</item>
+        <item>HK</item>
+        <item>TW</item>
+        <item>JP</item>
+        <item>EE</item>
+        <item>IL</item>
+        <item>IE</item>
+        <item>GD</item>
+        <item>KZ</item>
+        <item>MY</item>
+        <item>BR</item>
+        <item>MY</item>
+    </string-array>
+
+
+</resources>

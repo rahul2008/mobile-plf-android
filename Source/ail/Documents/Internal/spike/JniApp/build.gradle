@@ -1,0 +1,22 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'de.felixschulze.gradle.hockeyapp'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: "../scripts/task_verification.gradle"
+apply from: "../scripts/task_reporting.gradle"
+
+buildscript {
+    dependencies {
+        classpath builddeps.gradle
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="locateNearText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:textColor">?attr/uidLabelDescriptorNormalTextColor</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textSize">@dimen/title_text_size_medium</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
+
+    <style name="locateLayouthParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginLeft">200dp</item>
+        <item name="android:layout_marginRight">200dp</item>
+    </style>
+
+</resources>

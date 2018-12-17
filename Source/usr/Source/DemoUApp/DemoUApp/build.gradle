@@ -1,0 +1,89 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+
+archivesBaseName = strings.usruapp.artifactName
+
+buildscript {
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+    }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    dexOptions {
+        jumboMode true
+    }
+
+    defaultConfig {
+        versionCode 1
+        versionName version
+        multiDexEnabled true
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation deps.adobemobilelib
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
+    implementation deps.support.design
+    implementation deps.greenrobot
+    implementation philipsdeps.uid
+    if (directdependencies) {
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+
+        implementation project(strings.usr.projectName)
+        implementation project(strings.jmp.projectName)
+    } else {
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+
+        implementation philipsdeps.registrationApi
+    }
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">تحديد منتج</string>
+<string name="Select_Product_Desc">بهدف توفير دعم أفضل لك، هل يمكنك إطلاعنا على المنتج الذي تملكه؟</string>
+<string name="Select_Product_Find">بحث عن المنتج</string>
+<string name="Product_Title">المنتجات</string>
+<string name="Product_Details_Select">تحديد هذا المنتج</string>
+<string name="Change_Selected_Product">تغيير المنتج المحدد</string>
+<string name="Confirmation_Title">تأكيد</string>
+<string name="Confirmation_Selected">لقد حددت المنتج</string>
+<string name="Confirmation_Change">تغيير</string>
+<string name="Confirmation_Change_Selection">يمكنك تغيير التحديد في أي وقت.</string>
+<string name="Confirmation_Continue_Support">المتابعة إلى الدعم</string>
+<string name="Continue_Btntxt">متابعة</string>
+<string name="No_Internet">ما من اتصال بالإنترنت. يرجى التحقق من توفر اتصال في إعدادات wifi أو إعدادات البيانات على الهاتف</string>
+    <string name="myphilips_CC">حساب MyPhilips</string>
+
+    <string name="pse_Selected_Product">المنتج المحدد</string>
+    <string name="pse_Selected">محدد</string>
+    <string name="pse_Select_Your_Product_Title">تحديد منتجك</string>
+    <string name="pse_Find_Your_Product_Title">البحث عن منتجك</string>
+    <string name="pse_No_Result">لم يتم العثور على أي نتيجة لـ</string>
+    <string name="pse_No_Result_Desc">يسمح ذلك بتصفية قائمة المنتجات التي نقدّمها. يرجى التأكد من عدم وجود أخطاء إملائية في مصطلح عامل التصفية</string>
+    <string name="pse_What_Product">ما المنتج الذي تستخدمه؟</string>
+    <string name="pse_Product_Support_Desc">لنتمكّن من تزويدك بأفضل مستوى من الدعم، يرجى إطلاعنا على المنتج الذي تملكه.</string>
+    <string name="pse_Skip_Registration">تخطي التسجيل</string>
+    <string name="pse_Change_Product">إذا أردت تغيير المنتج المحدد، فيمكنك القيام بذلك من \"حسابي\"</string>
+    <string name="pse_Register_Your_Product">تسجيل منتجك</string>
+    <string name="pse_My_Account">حسابي</string>
+    <string name="pse_Change_Your_Product">إذا أردت تغيير المنتج المحدد، فيمكنك القيام بذلك من \"حسابي\".</string>
+    <string name="pse_View_Recipes">عرض الوصفات</string>
+    <string name="pse_Back_My_Account">عودة إلى \"حسابي\"</string>
+    <string name="pse_Choose_Product_Register.">اختر المنتج الذي تريد تسجيله.</string>
+    <string name="pse_Skip_Step">تخطي الخطوة</string>
+    <string name="pse_Explain_Benefits">لشرح المنافع، الرجاء تحديد المنتج الصحيح هنا.</string>
+    <string name="pse_Product_Register">ما المنتج الذي تريد تسجيله؟</string>
+    <string name="pse_App_Content">تم تخصيص محتوى هذا التطبيق الآن ليتلاءم مع</string>
+
+    <string name="search"> البحث </string>
+
+</resources>

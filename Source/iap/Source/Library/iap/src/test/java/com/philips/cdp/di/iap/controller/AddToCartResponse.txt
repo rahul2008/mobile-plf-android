@@ -1,0 +1,159 @@
+{
+  "carts": [
+    {
+      "calculated": true,
+      "code": "14000132394",
+      "deliveryItemsQuantity": 1,
+      "deliveryOrderGroups": [
+        {
+          "entries": [
+            {
+              "basePrice": {
+                "currencyIso": "USD",
+                "formattedValue": "$30.00",
+                "priceType": "BUY",
+                "value": 30
+              },
+              "entryNumber": 0,
+              "product": {
+                "availableForPickup": false,
+                "categories": [
+                  {
+                    "code": "Tuscany_Campaign",
+                    "url": "/US-Tuscany-Category/c/Tuscany_Campaign"
+                  }
+                ],
+                "code": "HX8071/10",
+                "discountPrice": {
+                  "currencyIso": "USD",
+                  "value": 30
+                },
+                "name": "HX8071/10 TONGUE CLEANER 1 TONG BH AND S",
+                "purchasable": true,
+                "stock": {
+                  "stockLevel": 1080,
+                  "stockLevelStatus": "inStock"
+                },
+                "url": "/US-Tuscany-Category//p/HX8071_10"
+              },
+              "quantity": 1,
+              "totalPrice": {
+                "currencyIso": "USD",
+                "formattedValue": "$30.00",
+                "priceType": "BUY",
+                "value": 30
+              },
+              "updateable": true
+            }
+          ],
+          "totalPriceWithTax": {
+            "currencyIso": "USD",
+            "formattedValue": "$30.00",
+            "priceType": "BUY",
+            "value": 30
+          }
+        }
+      ],
+      "entries": [
+        {
+          "basePrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$30.00",
+            "priceType": "BUY",
+            "value": 30
+          },
+          "entryNumber": 0,
+          "product": {
+            "availableForPickup": false,
+            "categories": [
+              {
+                "code": "Tuscany_Campaign",
+                "url": "/US-Tuscany-Category/c/Tuscany_Campaign"
+              }
+            ],
+            "code": "HX8071/10",
+            "discountPrice": {
+              "currencyIso": "USD",
+              "value": 30
+            },
+            "name": "HX8071/10 TONGUE CLEANER 1 TONG BH AND S",
+            "purchasable": true,
+            "stock": {
+              "stockLevel": 1080,
+              "stockLevelStatus": "inStock"
+            },
+            "url": "/US-Tuscany-Category//p/HX8071_10"
+          },
+          "quantity": 1,
+          "totalPrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$30.00",
+            "priceType": "BUY",
+            "value": 30
+          },
+          "updateable": true
+        }
+      ],
+      "guid": "be56596e-87bb-48dd-9b91-794f60d8cdc6",
+      "net": true,
+      "orderDiscounts": {
+        "currencyIso": "USD",
+        "formattedValue": "$0.00",
+        "priceType": "BUY",
+        "value": 0
+      },
+      "pickupItemsQuantity": 0,
+      "productDiscounts": {
+        "currencyIso": "USD",
+        "formattedValue": "$0.00",
+        "priceType": "BUY",
+        "value": 0
+      },
+      "site": "US_Tuscany",
+      "store": "US_Pub",
+      "subTotal": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "totalDiscounts": {
+        "currencyIso": "USD",
+        "formattedValue": "$0.00",
+        "priceType": "BUY",
+        "value": 0
+      },
+      "totalItems": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "totalPriceWithTax": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "totalTax": {
+        "currencyIso": "USD",
+        "formattedValue": "$0.00",
+        "priceType": "BUY",
+        "value": 0
+      },
+      "potentialOrderPromotions": [
+        {
+          "description": "Spent $70 more to qualify for free shipping",
+          "promotion": {
+            "code": "freeshippingpromoUS",
+            "description": "Free delivery",
+            "endDate": "2099-01-01T00:00:00",
+            "promotionType": "Order threshold change delivery mode"
+          }
+        }
+      ],
+      "totalUnitCount": 1
+    }
+  ]
+}

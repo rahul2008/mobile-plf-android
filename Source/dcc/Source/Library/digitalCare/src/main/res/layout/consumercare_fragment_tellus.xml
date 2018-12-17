@@ -1,0 +1,67 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor">
+
+    <LinearLayout
+        android:id="@+id/tellus_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/tellus_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tellus_bg_height"
+            android:background="@drawable/send_an_email"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_margin_left"
+            android:layout_marginRight="@dimen/activity_margin_right"
+            android:layout_marginTop="@dimen/activity_margin_top"
+            android:layout_marginBottom="@dimen/activity_margin_top"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/tellUsSubTitleLabel"
+                style="@style/UIDLabel"
+                fontPath="fonts/centralesansbold.ttf"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/feedback" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/tellUsDescLabel"
+                style="@style/UIDLabel"
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/dcc_tellUs_sub_header" />
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDDefaultButton"
+                android:id="@+id/tellus_PhilipsReviewButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/dcc_write_review"/>
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDDefaultButton"
+                android:id="@+id/tellus_PlayStoreReviewButton"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/dcc_rate_this_app"
+                app:uidComponentType="Secondary"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

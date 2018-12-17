@@ -1,0 +1,109 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = strings.hsdp.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.buildinfoextractor
+        classpath deps.retrolambda_gradle
+    }
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        versionName version
+        testApplicationId "com.philips.dhpclient.test"
+        multiDexEnabled true
+
+        // replace the below string with your own Google client ID. Make sure this is consistent
+        // with the values used in openid_appauth_idp_configs.xml
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true // NB! see doc below
+            }
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules-hsdp.pro'
+        }
+
+        debug {
+            testCoverageEnabled = true
+            debuggable true
+        }
+    }
+}
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
+dependencies {
+    compileOnly deps.javax_annotation
+
+    implementation project(strings.jmp.projectName)
+    implementation project(strings.ail.projectName)
+    implementation deps.butterknife
+
+    annotationProcessor deps.butterknife
+    annotationProcessor deps.immutables
+    annotationProcessor deps.dagger.compiler
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.dagger.dagger
+    implementation deps.jackson_annotations
+    implementation deps.jackson_core
+    implementation deps.jackson_databind
+    implementation deps.multidex
+    implementation deps.rxjava2
+    implementation deps.support.appcompatv7
+
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric
+
+    androidTestImplementation deps.androidx_test.rules
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.junit
+    androidTestImplementation deps.mockito_android
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}

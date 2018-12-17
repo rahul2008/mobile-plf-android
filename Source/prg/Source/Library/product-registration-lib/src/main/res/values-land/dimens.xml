@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pr_left_padding_sm">80dp</dimen>
+    <dimen name="pr_right_padding_sm">80dp</dimen>
+    <dimen name="pr_top_padding_sm">33dp</dimen>
+    <dimen name="pr_bottom_padding_sm">33dp</dimen>
+</resources>

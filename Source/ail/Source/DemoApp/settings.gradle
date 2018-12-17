@@ -1,0 +1,5 @@
+include ':app'
+include ':AppInfra'
+project(':AppInfra').projectDir =new File('../Library/AppInfra')
+include ':DemoUApp'
+project(':DemoUApp').projectDir = new File('../DemoUApp/app-infra-demo-uapp')

@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <ScrollView
+        android:id="@+id/usr_cookiesConsentScreen_rootLayout_scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:id="@+id/usr_reg_root_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/reg_dimen_16dp"
+            android:layout_marginRight="@dimen/reg_dimen_16dp"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/usr_cookiesConsentScreen_headTitle_Lable"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
+                android:text="@string/RA_cookie_title"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:textSize="@dimen/reg_text_size_20" />
+
+
+            <LinearLayout
+                android:id="@+id/usr_cookiesConsentScreen_newsContainer_linearlayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_dimen_16dp"
+                android:background="?attr/uidContentTertiaryBackgroundColor"
+                android:orientation="vertical">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/usr_cookiesConsentScreen_info_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                    android:layout_marginStart="@dimen/reg_dimen_16dp"
+                    android:layout_marginTop="@dimen/reg_dimen_16dp"
+                    android:text="@string/RA_cookie_description"
+                    android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+                    android:textSize="@dimen/reg_text_size_12" />
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/usr_cookiesConsentScreen_info_weblink_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                    android:layout_marginStart="@dimen/reg_dimen_16dp"
+                    android:text="@string/RA_Settings_Promo_Question_Text"
+                    android:textColor="?attr/uidContentItemSecondaryNormalTextColor"
+                    android:textSize="@dimen/reg_text_size_12" />
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.ProgressBarButton
+                android:id="@+id/usr_cookiesConsentScreen_accept_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_12dp"
+                android:layout_marginTop="@dimen/reg_dimen_24dp"
+                android:enabled="false"
+                android:textStyle="normal"
+                app:uidIsIndeterminateProgressIndicator="true"
+                app:uidProgressIndicatorButtonText="@string/RA_cookie_accept" />
+
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/usr_cookiesConsentScreen_Reject_button"
+                style="@style/UIDImageTextButton.Center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
+                android:text="@string/RA_cookie_reject"
+                android:textStyle="normal"
+                app:uidComponentType="Secondary" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

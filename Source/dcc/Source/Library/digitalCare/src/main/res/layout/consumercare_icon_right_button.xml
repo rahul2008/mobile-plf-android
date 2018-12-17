@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icon_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/icon_button_text1"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:gravity="start|center" />
+
+    <TextView
+        android:id="@+id/icon_button_icon1"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="16dp"
+        fontPath="fonts/iconfont.ttf"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        android:textSize="18sp"
+        android:gravity="center"/>
+
+</RelativeLayout>

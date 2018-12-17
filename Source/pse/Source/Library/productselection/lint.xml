@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="CommitTransaction" severity="ignore" />
+    <issue id="NestedScrolling" severity="ignore" />
+    <issue id="ScrollViewSize" severity="ignore" />
+    <issue id="InlinedApi" severity="ignore" />
+    <issue id="LocaleFolder" severity="ignore" />
+    <issue id="MissingPrefix" severity="ignore" />
+    <issue id="NotSibling" severity="ignore" />
+    <issue id="UnusedAttribute" severity="ignore" />
+    <issue id="InflateParams" severity="ignore" />
+    <issue id="PrivateResource" severity="ignore" />
+
+    <issue id="SpUsage" severity="ignore" />
+    <issue id="MissingTranslation" severity="ignore" />
+    <issue id="UnsafeProtectedBroadcastReceiver" severity="ignore" />
+    <issue id="ObsoleteLayoutParam" severity="ignore" />
+    <issue id="MergeRootFrame" severity="ignore" />
+
+    <issue id="InefficientWeight" severity="ignore" />
+    <issue id="Overdraw" severity="ignore" />
+    <issue id="UnusedResources" severity="ignore" />
+    <issue id="IconDuplicatesConfig" severity="ignore" />
+    <issue id="IconLocation" severity="ignore" />
+
+    <issue id="IconDensities" severity="ignore" />
+    <issue id="SmallSp" severity="ignore" />
+    <issue id="ContentDescription" severity="ignore" />
+    <issue id="HardcodedText" severity="ignore" />
+    <issue id="RtlSymmetry" severity="ignore" />
+
+    <issue id="RtlHardcoded" severity="ignore" />
+
+</lint>

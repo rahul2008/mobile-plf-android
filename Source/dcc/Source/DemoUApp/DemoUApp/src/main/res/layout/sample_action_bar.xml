@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/action_bar_lyt"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/actionbar_height"
+    android:background="?attr/uidButtonPrimaryFocusBackgroundColor">
+
+    <ImageView
+        android:id="@+id/sample_home_icon"
+        style="@style/sampleactionbarIconHomeImageView"
+        android:contentDescription="@string/img_description" />
+
+    <ImageView
+        android:id="@+id/sample_back_to_home_img"
+        style="@style/sampleactionbarIconArrowImageView"
+        android:contentDescription="@string/img_description"
+        />
+
+    <TextView
+        android:id="@+id/sample_action_bar_title"
+        style="@style/sampleactionbarFontTextView"
+        android:text="@string/dummyTitle"/>
+
+</RelativeLayout>

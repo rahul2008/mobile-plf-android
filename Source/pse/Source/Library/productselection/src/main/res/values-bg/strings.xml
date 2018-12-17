@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="Select_Product_Title">Избор на продукт</string>
+    <string name="Select_Product_Desc">Бихте ли ни казали, кой продукт притежавате, за да ви предоставим по-добра поддръжка?</string>
+    <string name="Select_Product_Find">Намерете продукт</string>
+    <string name="Product_Title">Продукти</string>
+    <string name="Product_Details_Select">Избор на този продукт</string>
+    <string name="Change_Selected_Product">Промяна на избран продукт</string>
+    <string name="Confirmation_Title">Потвърждение</string>
+    <string name="Confirmation_Selected">Избрали сте</string>
+    <string name="Confirmation_Change">Промени</string>
+    <string name="Confirmation_Change_Selection">Можете да промените избора си по всяко време.</string>
+    <string name="Confirmation_Continue_Support">Към поддръжката</string>
+    <string name="Continue_Btntxt">Продължи</string>
+    <string name="No_Internet">Няма връзка с интернет. Проверете дали връзката е съвместима с wi-fi настройките или настройките за данни на вашия телефон</string>
+    <string name="myphilips_CC">Акаунт в MyPhilips</string>
+
+    <string name="pse_Selected_Product">Избран продукт</string>
+    <string name="pse_Selected">Избрано</string>
+    <string name="pse_Select_Your_Product_Title">Изберете вашия продукт</string>
+    <string name="pse_Find_Your_Product_Title">Намерете продукта си</string>
+    <string name="pse_No_Result">Открити са 0 резултата за</string>
+    <string name="pse_No_Result_Desc">Така се филтрира нашият продуктов списък. Моля, проверете дали няма правописна грешка в термина, който сте задали за филтриране</string>
+    <string name="pse_What_Product">Какъв продукт използвате?</string>
+    <string name="pse_Product_Support_Desc">За да ви помогнем най-добре, моля, съобщете ни кой продукт притежавате.</string>
+    <string name="pse_Skip_Registration">Прескочи регистрацията</string>
+    <string name="pse_Change_Product">Ако искате да промените избора си на продукт, можете да направите това в \"Моят акаунт\"</string>
+    <string name="pse_Register_Your_Product">Регистрирайте продукта си</string>
+    <string name="pse_My_Account">Моят акаунт</string>
+    <string name="pse_Change_Your_Product">Ако някога пожелаете да промените избрания от вас продукт, можете да го направите в \"Моят акаунт\".</string>
+    <string name="pse_View_Recipes">Преглед на рецепти</string>
+    <string name="pse_Back_My_Account">Назад към \"Моят акаунт\"</string>
+    <string name="pse_Choose_Product_Register.">Изберете продукта, който желаете да регистрирате.</string>
+    <string name="pse_Skip_Step">Пропуснете стъпка</string>
+    <string name="pse_Explain_Benefits">За обяснение на ползите изберете правилния продукт тук.</string>
+    <string name="pse_Product_Register">Какъв продукт искате да регистрирате?</string>
+    <string name="pse_App_Content">Съдържанието на това приложение вече е съобразено с вашите нужди</string>
+
+    <string name="search"> Търсене </string>
+
+</resources>

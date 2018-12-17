@@ -1,0 +1,176 @@
+package com.philips.cdp.registration.app.tagging;
+
+import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+
+import junit.framework.TestCase;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.mockito.Mockito.when;
+
+/**
+ * Created by philips on 12/3/17.
+ */
+@RunWith(MockitoJUnitRunner.Silent.class)
+public class AppTaggingErrorsTest extends TestCase{
+
+    private AppTaggingErrors appTaggingErrors;
+
+    private static final String EMAIL_ALREADY_IN_USE = "email already in use";
+
+    private static final String MOBILE_ALREADY_IN_USE = "mobile no already in use";
+
+    private static final String EMAIL_IS_NOT_VERIFIED = "email is not verified";
+
+    private static final String WE_RE_HAVING_TROUBLE_LOGINING_USER = "login network error";
+
+    private static final String WE_RE_HAVING_TROUBLE_REGISTRING_USER = "registration network error";
+
+    private static final String EMAIL_ADDRESS_NOT_EXIST_ERROR = "no account with this email address";
+
+    private static final String RESEND_VERIFICATION_NETWORK_ERROR = "resend verification network error";
+
+    private static final String FAILURE_FORGOT_PASSWORD_ERROR = "forgot password network error";
+
+    private final static int NETWORK_ERROR_CODE = 111;
+
+    private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
+
+    private final static int INVALID_CREDENTIALS_CODE = 210;
+
+    private final static int EMAIL_NOT_VERIFIED_CODE = 112;
+
+    private final static int FORGOT_PASSWORD_FAILURE_ERROR_CODE = 212;
+
+    @Mock
+    private UserRegistrationFailureInfo userRegistrationFailureInfoMock;
+
+    @Mock
+    private RegistrationComponent registrationComponentMock;
+
+    @Mock
+    private
+    AppTaggingInterface appTaggingInterfaceMock;
+
+    @Mock
+    private
+    AppInfraInterface appInfraInterface;
+
+
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+
+        MockitoAnnotations.initMocks(this);
+
+       // Mockito.when(registrationComponentMock.getAppTaggingInterface()).thenReturn(appTaggingInterfaceMock);
+        RegistrationConfiguration.getInstance().setComponent(registrationComponentMock);
+        AppTagging.setMockAppTaggingInterface(appTaggingInterfaceMock);
+        when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
+        when(appInfraInterface.getTagging().createInstanceForComponent("usr", BuildConfig.VERSION_NAME)).thenReturn(appTaggingInterfaceMock);
+        appTaggingErrors = new AppTaggingErrors();
+    }
+
+    @Test
+    public void trackActionForgotPasswordFailure_forNETWORK_ERROR_CODE() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(NETWORK_ERROR_CODE);
+        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfoMock,"flowType");
+
+        String SEND_DATA = "sendData";
+        String TECHNICAL_ERROR = "error";
+
+//        Mockito.verify(appTaggingErrors).trackActionForErrorMapping(SEND_DATA,
+//               TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD_ERROR);
+    }
+
+    @Test
+    public void trackActionForgotPasswordFailure_forFORGOT_PASSWORD_FAILURE_ERROR_CODE() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(FORGOT_PASSWORD_FAILURE_ERROR_CODE);
+        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfoMock,"flowType");
+
+        String SEND_DATA = "sendData";
+        String TECHNICAL_ERROR = "error";
+
+//        Mockito.verify(appTaggingErrors).trackActionForErrorMapping(SEND_DATA,
+//               TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD_ERROR);
+    }
+
+    @Test
+    public void trackActionForgotPasswordFailure_forDefault() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(1000);
+//        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
+        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfoMock,"flowType");
+
+        String SEND_DATA = "sendData";
+        String TECHNICAL_ERROR = "error";
+
+//        Mockito.verify(appTaggingErrors).trackActionForErrorMapping(SEND_DATA,
+//               TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD_ERROR);
+    }
+
+
+    @Test
+    public void trackActionResendNetworkFailure() {
+
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(NETWORK_ERROR_CODE);
+        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfoMock,"flowType");
+    }
+
+    @Test
+    public void trackActionResendNetworkDefault() {
+
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(100);
+//        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
+        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfoMock,"flowType");
+    }
+
+    @Test
+    public void trackActionLoginError_NETWORK_ERROR_CODE() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(NETWORK_ERROR_CODE);
+        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfoMock,"flowType");
+    }
+
+    @Test
+    public void trackActionLoginError_EMAIL_NOT_VERIFIED_CODE() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(EMAIL_NOT_VERIFIED_CODE);
+        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfoMock,"flowType");
+    }
+
+    @Test
+    public void trackActionLoginError_Default() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(100);
+//        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
+        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfoMock,"flowType");
+    }
+
+    @Test
+    public void trackActionRegisterError_NETWORK_ERROR_CODE() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(NETWORK_ERROR_CODE);
+        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfoMock, "flowType");
+    }
+
+    @Test
+    public void trackActionRegisterError_EMAIL_ADDRESS_ALREADY_USE_CODE() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(EMAIL_ADDRESS_ALREADY_USE_CODE);
+        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfoMock, "flowType");
+    }
+
+    @Test
+    public void trackActionRegisterError_Default() {
+        when(userRegistrationFailureInfoMock.getErrorCode()).thenReturn(100);
+//        Mockito.when(userRegistrationFailureInfoMock.getErrorDescription()).thenReturn("description");
+        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfoMock,"flowType");
+    }
+
+}

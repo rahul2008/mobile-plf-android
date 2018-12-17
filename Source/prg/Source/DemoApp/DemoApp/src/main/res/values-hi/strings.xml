@@ -1,0 +1,26 @@
+<resources tools:ignore="MissingTranslation" xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Product Registration</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="enter_ctn_number" translatable="false">Enter CTN number</string>
+    <string name="user_registration" translatable="false">User Registration</string>
+    <string name="product_registration" translatable="false">Product Registration</string>
+    <string name="my_id" translatable="false">My ID:</string>
+    <string name="device_name" translatable="false">Device name</string>
+    <string name="diCom_integration" translatable="false">DiCom Integration</string>
+    <string name="pairing_successful" translatable="false">Pairing successful</string>
+    <string name="pairing_failed" translatable="false">Pairing failed</string>
+    <string name="zero" translatable="false">0</string>
+    <string name="light_state" translatable="false">Light state</string>
+    <string name="set" translatable="false">Set</string>
+    <string name="pair" translatable="false">Pair</string>
+    <string name="product_registered_successfully" translatable="false">Product registered successfully</string>
+    <string name="user_not_signed" translatable="false">user not signed</string>
+    <string name="integratingApplicationAppsId" translatable="false">integratingApplicationAppsId</string>
+    <string name="demo_app_home" translatable="false">demoapp:home</string>
+    <string name="past_purchase_date_error" translatable="false">error in date selection</string>
+    <string name="register_list" translatable="false">Product List</string>
+    <string name="spinner_title" translatable="false">SPinner</string>
+    <string name="prod_reg_benefits_conf_text" translatable="false">• hi-Extend your warranty for 24 months.\n• Receive 10% discount in the Philips.\n• Receive free product accessories.</string>
+    <string name="prod_reg_success_conf_text" translatable="false">An email with extended warranty contact has been sent to your email address</string>
+    <string name="launch_pr_demo_app" translatable="false">Launch PR Demo App</string>
+</resources>

@@ -1,0 +1,62 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.philips.platform.baseapp.screens.introscreen.pager.WelcomeVideoPagerFragment" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/OnBoarding.Title"
+            android:layout_marginLeft="@dimen/margin_sixteen"
+            android:layout_marginRight="@dimen/margin_sixteen"
+            android:layout_marginTop="64dip"
+            android:gravity="left"
+            android:text="@string/RA_DLS_onboarding_screen1_title" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dip"
+            android:background="@color/black">
+
+            <com.philips.platform.baseapp.screens.introscreen.pager.TextureVideoView
+                android:id="@+id/onboarding_video"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/welcome_video_height" />
+
+            <ProgressBar
+                android:id="@+id/onboarding_video_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/thumb_nail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/welcome_video_height"
+                android:layout_centerInParent="true"
+                android:src="@drawable/thumb_nail" />
+
+            <ImageView
+                android:id="@+id/onboarding_play_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/play" />
+        </RelativeLayout>
+
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/OnBoarding.Description"
+            android:layout_marginLeft="@dimen/margin_sixteen"
+            android:layout_marginRight="@dimen/margin_sixteen"
+            android:layout_marginTop="@dimen/margin_forty_eight"
+            android:gravity="left"
+            android:paddingBottom="@dimen/margin_ninty_six"
+            android:text="@string/RA_DLS_onboarding_screen1_sub_text" />
+    </LinearLayout>
+</ScrollView>

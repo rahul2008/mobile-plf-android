@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /*
+  ~  * Copyright (c) Koninklijke Philips N.V. 2017
+  ~  * All rights are reserved. Reproduction or dissemination in whole or in part
+  ~  * is prohibited without the prior written consent of the copyright holder.
+  ~  */
+  -->
+
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid
+        android:color="#DAA7E4"/>
+
+    <size
+        android:width="84dp"
+        android:height="84dp"/>
+</shape>

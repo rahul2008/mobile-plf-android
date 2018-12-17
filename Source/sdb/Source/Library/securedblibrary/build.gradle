@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = strings.sdb.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+    }
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        versionCode 1
+        versionName version
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            proguardFiles 'proguard-rules-securedb.pro'
+        }
+        debug {
+            debuggable true
+            testCoverageEnabled = true
+        }
+    }
+}
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    if (directdependencies) {
+        api project(':AppInfra')
+    } else {
+        api philipsdeps.AppInfra
+    }
+
+    api deps.ormlite.core
+    api deps.sqlcipher
+
+    implementation deps.ormlite.android
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+    implementation deps.support.annotations
+
+    testImplementation deps.junit
+
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.mockito_android
+    androidTestImplementation deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}

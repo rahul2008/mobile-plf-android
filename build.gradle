@@ -1,0 +1,164 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+buildscript {
+    apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    repositories {
+        maven { url repos.mavengoogle }
+        maven { url repos.jcenter }
+        maven { url repos.pluginsgradle }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath builddeps.cdpSCM
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        // dsc & rap require this
+        classpath builddeps.googleservices // rap-pushnotification requires this
+        classpath builddeps.pitest
+        classpath builddeps.use_latest_versions
+        classpath builddeps.ben_manes_versions
+    }
+}
+
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'se.patrikerdes.use-latest-versions'
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+    println "envCode: ${envCode}"
+} else {
+    println "default envCode"
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+
+println "Working branch: ${objcdp.getWorkingBranch()}"
+
+subprojects {
+    task reportAllProjectDependencies(type: DependencyReportTask) {}
+
+    buildscript {
+        apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+        repositories {
+            maven {
+                url repos.mavengoogle
+                credentials {
+                    username = "readonly"
+                    password = "123qweasdzxc"
+                }
+            }
+            maven { url repos.jcenter }
+            maven { url repos.release }
+            maven {
+                url repos.plugin
+                credentials {
+                    username = "readonly"
+                    password = "123qweasdzxc"
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url repos.mavengoogle
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.jcenter
+        }
+        maven { url repos.release }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    afterEvaluate {
+        android {
+            defaultConfig {
+                minSdkVersion versions.minsdk
+                targetSdkVersion versions.target
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            }
+
+            compileOptions {
+                sourceCompatibility versions.sourceCompatibility
+                targetCompatibility versions.targetCompatibility
+            }
+
+            lintOptions {
+                abortOnError false
+            }
+
+            testOptions {
+                unitTests {
+                    // As per Robolectric documentation
+                    includeAndroidResources true
+
+                    all {
+                        jvmArgs '-noverify'
+                        systemProperty 'robolectric.enabledSdks', '28'
+                    }
+                }
+            }
+
+            packagingOptions {
+                exclude 'META-INF/proguard/androidx-annotations.pro'
+            }
+
+            dependencies {
+                testImplementation deps.robolectric
+                testImplementation deps.robolectric_junit
+                testImplementation deps.robolectric_shadows
+                testImplementation deps.robolectric_shadows_multidex
+                testImplementation deps.robolectric_utils
+            }
+        }
+    }
+
+    group = 'com.philips.cdp'
+    version = platformversion
+
+    if (!it.projectDir.exists()) {
+        throw new GradleException("Project not found ${it}")
+    }
+
+    ext.useprojectdependencies = true
+}
+
+dependencyUpdates.resolutionStrategy {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
+}

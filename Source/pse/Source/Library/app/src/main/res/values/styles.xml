@@ -1,0 +1,90 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="fontButton">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/support_btn_height</item>
+        <item name="android:background">@drawable/consumercare_selector_option_button_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/uidColorWhite</item>
+        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:layout_marginTop">@dimen/marginTopButton</item>
+
+    </style>
+
+    <style name="style_ctnbutton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">2dp</item>
+
+        <item name="android:textSize">@dimen/uid_alert_dialog_message_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:gravity">center</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:checked">true</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">0.6</item>
+        <item name="android:padding">10dip</item>
+    </style>
+<!--
+    &lt;!&ndash;UI Kit Theme&ndash;&gt;
+    <style name="multiprod_theme" parent="Theme.Philips.BrightOrange.Gradient.WhiteBackground"/>-->
+
+    <style name="style_text_cardview">
+
+        <item name="android:background">@drawable/header_ctn_background</item>
+
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">0.9</item>
+    </style>
+
+    <style name="sampleactionbarIconHomeImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:src">@drawable/actionbar_home_icon_white</item>
+        <item name="android:textColor">@color/uidColorWhite</item>
+        <item name="android:paddingLeft">12dp</item>
+    </style>
+
+    <style name="sampleactionbarFontTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">@string/Select_Product_Title</item>
+        <item name="android:textColor">@color/uidColorWhite</item>
+        <item name="android:textSize">@dimen/actionbar_title_text_size</item>
+        <item name="android:layout_toRightOf">@+id/sample_back_to_home_img</item>
+    </style>
+
+    <style name="sampleactionbarIconArrowImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:src">@drawable/ic_back_icon</item>
+        <item name="android:paddingLeft">12dp</item>
+    </style>
+</resources>

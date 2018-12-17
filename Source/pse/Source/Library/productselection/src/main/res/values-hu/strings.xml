@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Válassza ki a terméket</string>
+<string name="Select_Product_Desc">Annak érdekében, hogy jobb támogatást nyújthassunk, meg tudná adni, hogy melyik termékkel rendelkezik?</string>
+<string name="Select_Product_Find">Termék keresése</string>
+<string name="Product_Title">Termékek</string>
+<string name="Product_Details_Select">Válassza ki a terméket</string>
+<string name="Change_Selected_Product">Módosítsa a kiválasztott terméket</string>
+<string name="Confirmation_Title">Jóváhagyás</string>
+<string name="Confirmation_Selected">A következőt választotta:</string>
+<string name="Confirmation_Change">Módosítás</string>
+<string name="Confirmation_Change_Selection">Bármikor módosíthatja a kiválasztást.</string>
+<string name="Confirmation_Continue_Support">Tovább a támogatáshoz</string>
+<string name="Continue_Btntxt">Folytatás</string>
+<string name="No_Internet">Nincs internetkapcsolat. Ellenőrizze telefonja wifi beállításainál vagy adatbeállításainál, hogy a csatlakozás megfelelő-e</string>
+    <string name="myphilips_CC">MyPhilips fiók</string>
+
+    <string name="pse_Selected_Product">Kiválasztott termék</string>
+    <string name="pse_Selected">Kiválasztva</string>
+    <string name="pse_Select_Your_Product_Title">Termék kiválasztása</string>
+    <string name="pse_Find_Your_Product_Title">Termék keresése</string>
+    <string name="pse_No_Result">Nincs találat a következőre:</string>
+    <string name="pse_No_Result_Desc">Ez szűri a terméklistát. Kérjük, ellenőrizze, hogy helyesen írta-e be a szűrőkifejezést.</string>
+    <string name="pse_What_Product">Milyen terméket használ?</string>
+    <string name="pse_Product_Support_Desc">Annak érdekében, hogy a legjobb támogatást nyújthassuk Önnek, adja meg, hogy melyik termékkel rendelkezik.</string>
+    <string name="pse_Skip_Registration">A regisztráció kihagyása</string>
+    <string name="pse_Change_Product">Ha módosítani szeretné a kiválasztott terméket, azt a Saját fiókban teheti meg.</string>
+    <string name="pse_Register_Your_Product">Regisztrálja a terméket</string>
+    <string name="pse_My_Account">Saját fiók</string>
+    <string name="pse_Change_Your_Product">Ha bármikor módosítani szeretné a kiválasztott terméket, azt a Saját fiókban teheti meg.</string>
+    <string name="pse_View_Recipes">Receptek megtekintése</string>
+    <string name="pse_Back_My_Account">Vissza a Saját fiókhoz</string>
+    <string name="pse_Choose_Product_Register.">Válassza ki a terméket, amelyet regisztrálni kíván.</string>
+    <string name="pse_Skip_Step">Lépés kihagyása</string>
+    <string name="pse_Explain_Benefits">Az előnyök leírásához válassza ki itt a megfelelő terméket.</string>
+    <string name="pse_Product_Register">Milyen terméket szeretne regisztrálni?</string>
+    <string name="pse_App_Content">Az alkalmazás tartalma az Ön kiválasztott termékéhez van szabva.</string>
+
+    <string name="search"> Keresés </string>
+
+</resources>

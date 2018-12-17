@@ -1,0 +1,180 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = strings.usr.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath deps.retrolambda_gradle
+        classpath deps.butterknife_gradle
+    }
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+//=======To zip and upload "Documents/External" ==ENDS=============
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        versionName version + "(" + objcdp.getCommitHash() + ")"
+        testApplicationId "com.philips.cdp.registration.test"
+        multiDexEnabled true
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules-usr.pro'
+        }
+
+        debug {
+            debuggable true
+            testCoverageEnabled = true
+        }
+    }
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    annotationProcessor deps.butterknife
+    annotationProcessor deps.butterknife_compiler
+    annotationProcessor deps.dagger.compiler
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.butterknife
+    implementation deps.calligraphy
+    implementation deps.constraintlayout
+    implementation deps.dagger.dagger
+    implementation deps.facebook
+    implementation deps.greenrobot
+    implementation deps.javax_annotation
+    implementation deps.libphonenumber
+    implementation deps.multidex
+    implementation deps.okhttp
+    implementation deps.rxbinding
+    implementation deps.rxjava2
+    implementation deps.support.appcompatv7
+    implementation deps.support.recyclerview
+    implementation deps.support.supportv4
+    implementation deps.volley
+    implementation deps.wechat
+    implementation deps.jackson_annotations
+    implementation deps.jackson_core
+    implementation deps.jackson_databind
+    implementation philipsdeps.uid
+    if (directdependencies) {
+
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.pif.projectName)
+        implementation project(strings.ail.projectName)
+    } else {
+        implementation philipsdeps.uAppFwLib
+        implementation project(strings.jmp.projectName)
+    }
+
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_junit
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.robolectric_utils
+    testImplementation deps.adobemobilelib
+    testImplementation deps.openid_appauth
+
+    androidTestImplementation deps.mockito_android
+    androidTestImplementation deps.androidx_test.rules
+    androidTestImplementation deps.androidx_test.runner
+    androidTestImplementation deps.junit
+    androidTestImplementation deps.uiautomator
+}
+
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/debug/com/philips/')
+    source = fileTree('src/main/java')
+    classpath = files()
+    effort = 'max'
+    excludeFilter = file("findbugs-exclude.xml")
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('src/main/java/com')
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.implementation
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    tools:ignore="MissingPrefix">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_eight">
+
+        <ImageView
+            android:id="@+id/af_home_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ref_app_home_page" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/title"
+                fontPath="fonts/centralesansbold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_sixteen"
+                android:layout_marginRight="@dimen/margin_sixteen"
+                android:layout_marginTop="@dimen/margin_sixteen"
+                android:text="@string/RA_DLS_home_page_text"
+                android:textColor="@color/black"
+                android:textSize="21sp" />
+
+            <com.philips.platform.uid.view.widget.Label
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_sixteen"
+                android:layout_marginRight="@dimen/margin_sixteen"
+                android:layout_marginTop="@dimen/margin_sixteen"
+                android:lineSpacingExtra="3dip"
+                android:text="@string/RA_DLS_home_page_sub_text"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

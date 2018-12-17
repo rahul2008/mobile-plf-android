@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">選擇產品</string>
+<string name="Select_Product_Desc">為向您提供更好的支援，可否請您告知您擁有的產品為何？</string>
+<string name="Select_Product_Find">尋找產品</string>
+<string name="Product_Title">產品</string>
+<string name="Product_Details_Select">選擇此產品</string>
+<string name="Change_Selected_Product">變更所選產品</string>
+<string name="Confirmation_Title">確認</string>
+<string name="Confirmation_Selected">您已選取</string>
+<string name="Confirmation_Change">變更</string>
+<string name="Confirmation_Change_Selection">您可以隨時變更選擇。</string>
+<string name="Confirmation_Continue_Support">繼續前往支援</string>
+<string name="Continue_Btntxt">繼續</string>
+<string name="No_Internet">沒有網際網路連線。請檢查您手機 wifi 設定或數據 設定是否運作正常</string>
+    <string name="myphilips_CC">MyPhilips 帳戶</string>
+
+    <string name="pse_Selected_Product">所選產品</string>
+    <string name="pse_Selected">精挑細選</string>
+    <string name="pse_Select_Your_Product_Title">選擇您的產品</string>
+    <string name="pse_Find_Your_Product_Title">尋找您的產品</string>
+    <string name="pse_No_Result">找到 0 個結果：</string>
+    <string name="pse_No_Result_Desc">這會對我們的產品清單進行篩選。請檢查確認篩選詞彙沒有錯字</string>
+    <string name="pse_What_Product">您使用的產品為何？</string>
+    <string name="pse_Product_Support_Desc">為了向您提供最好的支援服務，請告訴我們您所擁有的產品為何。</string>
+    <string name="pse_Skip_Registration">略過註冊</string>
+    <string name="pse_Change_Product">若想變更產品選擇，可以在「我的帳戶」中辦理</string>
+    <string name="pse_Register_Your_Product">註冊您的產品</string>
+    <string name="pse_My_Account">我的帳戶</string>
+    <string name="pse_Change_Your_Product">若想變更所選的產品，可以在「我的帳戶」中辦理。</string>
+    <string name="pse_View_Recipes">檢視食譜</string>
+    <string name="pse_Back_My_Account">返回我的帳戶</string>
+    <string name="pse_Choose_Product_Register.">選擇要註冊的產品。</string>
+    <string name="pse_Skip_Step">略過步驟</string>
+    <string name="pse_Explain_Benefits">請在此選擇正確的產品說明優點。</string>
+    <string name="pse_Product_Register">您要註冊什麼產品？</string>
+    <string name="pse_App_Content">本應用程式內容現已根據您所選產品量身打造</string>
+
+    <string name="search"> 搜尋 </string>
+
+</resources>

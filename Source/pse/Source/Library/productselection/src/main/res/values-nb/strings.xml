@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="Select_Product_Title">Velg produkt</string>
+    <string name="Select_Product_Desc">Fortell oss hvilket produkt du eier, slik at vi kan gi deg bedre støtte.</string>
+    <string name="Select_Product_Find">Finn produkt</string>
+    <string name="Product_Title">Produkter</string>
+    <string name="Product_Details_Select">Velg dette produktet</string>
+    <string name="Change_Selected_Product">Endre valgte produkt</string>
+    <string name="Confirmation_Title">Bekreftelse</string>
+    <string name="Confirmation_Selected">Du har valgt</string>
+    <string name="Confirmation_Change">Endre</string>
+    <string name="Confirmation_Change_Selection">Du kan endre valget når som helst.</string>
+    <string name="Confirmation_Continue_Support">Fortsett til støtte</string>
+    <string name="Continue_Btntxt">Fortsett</string>
+    <string name="myphilips_CC">MyPhilips-konto</string>
+
+    <string name="pse_Selected_Product">Produkt valgt</string>
+    <string name="pse_Selected">Valgt</string>
+    <string name="pse_Select_Your_Product_Title">Velg produkt</string>
+    <string name="pse_Find_Your_Product_Title">Finn produktet</string>
+    <string name="pse_No_Result">0 treff ble funnet for</string>
+    <string name="pse_No_Result_Desc">Dette filtrerer produktlisten vår. Kontroller at det ikke er noen skrivefeil i filtertermen</string>
+    <string name="pse_What_Product">Hvilket produkt bruker du?</string>
+    <string name="pse_Product_Support_Desc">Fortell oss hvilket produkt du eier, slik at vi kan gi deg best mulig støtte.</string>
+    <string name="pse_Skip_Registration">Hopp over registreringen</string>
+    <string name="pse_Change_Product">Hvis du vil endre produktvalget, kan du gjøre det ved å gå til Min konto</string>
+    <string name="pse_Register_Your_Product">Registrer produktet</string>
+    <string name="pse_My_Account">Min konto</string>
+    <string name="pse_Change_Your_Product">Hvis du på et tidspunkt ønsker å endre det valgte produktet, kan du gjøre det ved å gå til Min konto.</string>
+    <string name="pse_View_Recipes">Vis oppskrifter</string>
+    <string name="pse_Back_My_Account">Tilbake til Min konto</string>
+    <string name="pse_Choose_Product_Register.">Velg produktet du vil registrere.</string>
+    <string name="pse_Skip_Step">Hopp over trinn</string>
+    <string name="pse_Explain_Benefits">Velg riktig produkt her for å forklare fordelene.</string>
+    <string name="pse_Product_Register">Hvilket produkt vil du registrere?</string>
+    <string name="pse_App_Content">Innholdet i denne appen er nå skreddersydd for det valgte produktet</string>
+
+    <string name="search"> Søk </string>
+
+</resources>

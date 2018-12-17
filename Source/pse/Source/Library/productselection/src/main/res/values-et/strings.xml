@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="Select_Product_Title">Valige toode</string>
+    <string name="Select_Product_Desc">Selleks, et teile paremat tuge pakkuda, märkige palun, millise toote omanik te olete?</string>
+    <string name="Select_Product_Find">Otsi toode</string>
+    <string name="Product_Title">Tooted</string>
+    <string name="Product_Details_Select">Valige see toode</string>
+    <string name="Change_Selected_Product">Muutke valitud toodet</string>
+    <string name="Confirmation_Title">Kinnitus</string>
+    <string name="Confirmation_Selected">Teie valitud toode</string>
+    <string name="Confirmation_Change">Muuda</string>
+    <string name="Confirmation_Change_Selection">Valitud toodet saate igal ajal muuta.</string>
+    <string name="Confirmation_Continue_Support">Edasi tootetoe juurde</string>
+    <string name="Continue_Btntxt">Jätka</string>
+    <string name="No_Internet">Internetiühendus puudub. Palun kontrollige ühenduse seisundit oma telefoni wifi sätetest või andmesidesätetest.</string>
+    <string name="myphilips_CC">MyPhilipsi konto</string>
+
+    <string name="pse_Selected_Product">Valitud toode</string>
+    <string name="pse_Selected">Valitud</string>
+    <string name="pse_Select_Your_Product_Title">Valige oma toode</string>
+    <string name="pse_Find_Your_Product_Title">Leidke oma toode</string>
+    <string name="pse_No_Result">0 tulemust leitud otsingule</string>
+    <string name="pse_No_Result_Desc">See filtreerib meie tooteloendit. Palun kontrollige, et filtreerimise määratluses ei esine ühtegi kirjaviga.</string>
+    <string name="pse_What_Product">Milliseid tooteid te kasutate?</string>
+    <string name="pse_Product_Support_Desc">Selleks, et saaksime teile parimat tugiteenust pakkuda, andke meile palun teada, millist toodet omate.</string>
+    <string name="pse_Skip_Registration">Jäta registreerumine vahele</string>
+    <string name="pse_Change_Product">Kui soovite oma tootevalikut muuta, saate seda teha osas Minu konto.</string>
+    <string name="pse_Register_Your_Product">Registreerige oma toode</string>
+    <string name="pse_My_Account">Minu konto</string>
+    <string name="pse_Change_Your_Product">Kui soovite tulevikus valitud toodet muuta, saate seda teha osas Minu konto.</string>
+    <string name="pse_View_Recipes">Vaata retsepte</string>
+    <string name="pse_Back_My_Account">Tagasi osasse Minu konto</string>
+    <string name="pse_Choose_Product_Register.">Valige toode, mida soovite registreerida.</string>
+    <string name="pse_Skip_Step">Jäta see samm vahele.</string>
+    <string name="pse_Explain_Benefits">Toote eeliste selgitamiseks, valige õige toode siin.</string>
+    <string name="pse_Product_Register">Millist toodet soovite registreerida?</string>
+    <string name="pse_App_Content">Selle rakenduse sisu on nüüd kohandatud teie valitud tootest lähtuvalt.</string>
+
+    <string name="search"> Otsing </string>
+
+</resources>

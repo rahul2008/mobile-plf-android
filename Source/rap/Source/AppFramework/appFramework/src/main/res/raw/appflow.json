@@ -1,0 +1,401 @@
+{
+  "appflow": {
+    "states": [
+      {
+        "state": "splash",
+        "events": [
+          {
+            "eventId": "onSplashTimeOut",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "welcome"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "about",
+        "events": [
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "privacy_settings",
+        "events": [
+          {
+            "eventId": "PrivacyNotice",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "cookies_consent",
+        "events": [
+          {
+            "eventId": "accept",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "reject",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "privacyAbTesting",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "AbTesting_web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "onBoarding_registration",
+        "events": [
+          {
+            "eventId": "URComplete",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          },
+          {
+            "eventId": "back",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "welcome",
+        "events": [
+          {
+            "eventId": "welcome_skip",
+            "nextStates": [
+              {
+                "condition": [
+                  "launchCookiesConsent"
+                ],
+                "nextState": "cookies_consent"
+              },
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "welcome_done",
+            "nextStates": [
+              {
+                "condition": [
+                  "launchCookiesConsent"
+                ],
+                "nextState": "cookies_consent"
+              },
+              {
+                "condition": [
+                  "isLoggedIn"
+                ],
+                "nextState": "home"
+              },
+              {
+                "condition": [],
+                "nextState": "onBoarding_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "debug",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "debug"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "home",
+        "events": [
+          {
+            "eventId": "home_fragment",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "support",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "support"
+              }
+            ]
+          },
+          {
+            "eventId": "about",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "about"
+              }
+            ]
+          },
+          {
+            "eventId": "iap",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "iap"
+              }
+            ]
+          },
+          {
+            "eventId": "shopping_cart",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "shopping_cart"
+              }
+            ]
+          },
+
+          {
+            "eventId": "testmicroapp",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "testmicroapp"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "login",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "settings_registration"
+              }
+            ]
+          },
+          {
+            "eventId": "my_account", //Need to remove
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_account"
+              }
+            ]
+          },
+          {
+            "eventId": "my_orders",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_orders"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "settings_registration",
+        "events": [
+          {
+            "eventId": "URComplete",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "logout",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "home_fragment"
+              }
+            ]
+          },
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "web_view"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "my_account",//need to remove this
+        "events": [
+          {
+            "eventId": "PrivacySettingsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "privacy_settings"
+              }
+            ]
+          },
+          {
+            "eventId": "MyOptinEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_optin"
+              }
+            ]
+          },
+          {
+            "eventId": "MyDetailsEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_details"
+              }
+            ]
+          },
+          {
+            "eventId": "MyOrdersEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "my_orders"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "support",
+        "events": [
+          {
+            "eventId": "pr",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "pr"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "state": "testmicroapp",
+        "events": [
+          {
+            "eventId": "TestInAppPurhcaseEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoInAppState"
+              }
+            ]
+          },
+          {
+            "eventId": "AppInfra",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "AppInfra"
+              }
+            ]
+          },
+          {
+            "eventId": "TestConsumerCareEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoConsumerCare"
+              }
+            ]
+          },
+          {
+            "eventId": "TestProductRegistrationEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoProductRegistration"
+              }
+            ]
+          },
+          {
+            "eventId": "TestUserRegistrationEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoUserRegistration"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

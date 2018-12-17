@@ -1,0 +1,184 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = strings.dcc.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+    }
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+//=======To zip and upload "Documents/External" ==ENDS=============
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        versionName version + "(" + objcdp.getCommitHash() + ")"
+        generatedDensities = []
+        testApplicationId "com.philips.cdp.digitalcare.test"
+        multiDexEnabled true
+        manifestPlaceholders = ['appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp']
+    }
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+
+    resourcePrefix 'consumercare'
+
+    buildTypes {
+        release {
+            shrinkResources false
+            consumerProguardFiles 'proguard-dcc.pro'
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            testCoverageEnabled = true
+        }
+
+        android.libraryVariants.all { variant ->
+            task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+                title = "Documentation for Android $android.defaultConfig.versionName b$android.defaultConfig.versionCode"
+                destinationDir = new File("${project.getProjectDir()}/doc/", "ConsumerCare")
+                source = variant.javaCompile.source
+
+                ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+
+                description "Generates Javadoc for $variant.name."
+
+                options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PRIVATE
+                options.links("http://docs.oracle.com/javase/7/docs/api/");
+                options.links("http://developer.android.com/reference/reference/");
+                exclude '**/BuildConfig.java'
+                exclude '**/R.java'
+
+                doFirst {
+                    classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+                }
+            }
+        }
+    }
+
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE'
+    }
+}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    testImplementation deps.junit
+    implementation philipsdeps.uid
+    if (directdependencies) {
+        implementation project(strings.pse.projectName)
+
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.prx.projectName)
+        implementation project(strings.pif.projectName)
+    } else {
+        implementation philipsdeps.productselection
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.prx
+        implementation philipsdeps.pif
+    }
+
+    implementation deps.play_services_maps
+    implementation deps.constraintlayout
+    implementation deps.calligraphy
+    implementation deps.support.appcompatv7
+    implementation deps.support.recyclerview
+    implementation deps.gson
+    implementation deps.volley
+    implementation deps.shamanland_fonticon
+
+    testImplementation deps.opengl
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_shadows_multidex
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_junit_rule_agent
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_classloading_xstream
+
+    androidTestImplementation deps.androidx_test.runner
+}
+
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/simulator/debug')
+    source = fileTree('src/main/java')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("findbugs-exclude.xml")
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
+
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('src/main/java')
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.implementation
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}

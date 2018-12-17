@@ -1,0 +1,9 @@
+{
+  "errors": [
+    {
+      "subject": "Hybris Error",
+      "reason": "Hybris Server Down",
+      "type": "Hybris"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="chatNowHelpText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left|center</item>
+        <item name="android:textColor">@color/chat_can_we_help_you_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/title_text_size_largest</item>
+        <item name="android:text">@string/can_we_help_you</item>
+        <item name="android:paddingRight">@dimen/activity_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_margin</item>
+    </style>
+
+    <style name="chatNowDesc">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textColor">?attr/uidLabelDescriptorNormalTextColor</item>
+        <item name="android:text">@string/dcc_chat_desc</item>
+        <item name="android:textSize">@dimen/title_text_size_medium</item>
+        <item name="android:paddingRight">@dimen/activity_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_margin</item>
+    </style>
+
+</resources>

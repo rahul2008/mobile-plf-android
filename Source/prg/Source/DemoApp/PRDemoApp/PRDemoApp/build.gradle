@@ -1,0 +1,27 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.support.appcompatv7
+    implementation deps.support.cardview
+    implementation(group: 'com.philips.cdp', name: 'product-registration-lib',
+            version: platformversion + objcdp.getVersionSuffix(), changing: true){
+        transitive = true
+    }
+}

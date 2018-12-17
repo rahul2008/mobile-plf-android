@@ -1,0 +1,66 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="prodRegImageButton">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+    </style>
+
+    <!--
+    <style name="prodRegFontButton">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">@dimen/btn_text_size_large</item>
+    </style>
+    -->
+
+    <style name="prodRegHelpText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textColor">@color/text_header_color</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">@dimen/title_text_size_medium</item>
+    </style>
+
+    <style name="prodRegEditTextg">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/support_btn_height</item>
+        <item name="android:gravity">left|top</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingRight">68dp</item>
+        <item name="android:background">@drawable/consumercare_shape_edit_text</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
+    </style>
+
+    <style name="prodRegFontButtonSignUp">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/support_btn_height</item>
+        <item name="android:background">@drawable/consumercare_selector_option_button_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/uidColorWhite</item>
+        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:layout_marginBottom">17dp</item>
+        <item name="android:layout_marginTop">17dp</item>
+    </style>
+
+    <style name="prodRegBottomText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textColor">?attr/uidContentSecondaryBackgroundColor</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
+    </style>
+
+</resources>

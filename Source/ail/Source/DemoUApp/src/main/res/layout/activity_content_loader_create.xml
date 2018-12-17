@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewCLtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Content Loader" />
+
+    <EditText
+        android:id="@+id/editTextServiceId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Service Id" />
+
+    <EditText
+        android:id="@+id/editTextMaxAgeInHours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Max age in hours"
+        android:inputType="number" />
+    <EditText
+        android:id="@+id/editTextContentLoaderLimit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Content Loader Limit(Optional)"
+        android:inputType="number" />
+   <!-- <EditText
+        android:id="@+id/editTextContentClassType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="content class" />
+
+    <EditText
+        android:id="@+id/editTextContentType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="content type" />-->
+
+    <Spinner
+        android:id="@+id/spinnerModelTypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Spinner>
+
+
+    <Button
+        android:id="@+id/createCL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Create Content Loader" />
+    <Button
+        android:id="@+id/gotoCL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Existing Content Loader(s)" />
+
+
+
+
+
+</LinearLayout>

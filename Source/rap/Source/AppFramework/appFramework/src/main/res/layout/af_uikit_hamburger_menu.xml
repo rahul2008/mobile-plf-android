@@ -1,0 +1,52 @@
+<com.philips.platform.uid.view.widget.SideBar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sidebar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.philips.platform.uid.view.widget.NavigationContainer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/uidNavigationSecondaryBackgroundColor"
+                app:elevation="0dp">
+
+                <include layout="@layout/uid_toolbar_layout" />
+            </android.support.design.widget.AppBarLayout>
+
+            <FrameLayout
+                android:id="@+id/frame_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </com.philips.platform.uid.view.widget.NavigationContainer>
+
+    <LinearLayout
+        android:id="@+id/navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/hamburger_menu_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/uidContentPrimaryBackgroundColor">
+
+            <include layout="@layout/hamburger_menu_container" />
+        </FrameLayout>
+    </LinearLayout>
+</com.philips.platform.uid.view.widget.SideBar>

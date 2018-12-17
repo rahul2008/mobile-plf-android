@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icon_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/hamburger_menu_item_padding"
+    android:paddingBottom="@dimen/hamburger_menu_item_padding"
+    android:background="@drawable/uid_list_item_selector">
+
+    <RelativeLayout
+        android:layout_width="@dimen/hamburger_menu_icon_height_width"
+        android:layout_height="@dimen/hamburger_menu_icon_height_width"
+        android:layout_marginLeft="@dimen/hamburger_menu_item_margin_left_right"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/rap_menu_icon"
+            android:layout_width="@dimen/hamburger_menu_icon_height_width"
+            android:layout_height="@dimen/hamburger_menu_icon_height_width"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/rap_menu_title"
+        style="@style/UIDLabel.SidebarFooterText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:gravity="start|center_vertical"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        android:textColor="@color/uid_list_item_text_selector" />
+</LinearLayout>
+
+

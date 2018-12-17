@@ -1,0 +1,43 @@
+
+ext.strings = [
+        rap: [projectName:':referenceApp', artifactName:'referenceApp'],
+
+        tse: [projectName:':themesettings', artifactName:'themesettings'],
+        uid: [projectName:':uid', artifactName:'uid'],
+
+        csw: [projectName:':csw', artifactName:'csw'],
+        pif: [projectName:':pif', artifactName:'pif'],
+
+        sdb: [projectName:':securedblibrary', artifactName:'securedblibrary'],
+
+        mya: [projectName:':mya', artifactName:'mya'],
+        ail: [projectName:':AppInfra', artifactName:'AppInfra'],
+        prx: [projectName:':prx', artifactName:'prx'],
+        uit: [projectName:':uikitLib', artifactName:'uikitLib'],
+        iap: [projectName:':iap', artifactName:'iap'],
+        icf: [projectName:':IconFont', artifactName:'IconFont'],
+        usr: [projectName:':registrationApi', artifactName:'registrationApi'],
+        pse: [projectName:':productselection', artifactName:'productselection'],
+        jmp: [projectName:':jump', artifactName:'jump'],
+
+        dcc: [projectName:':digitalCare', artifactName:'digitalCare'],
+        ufw: [projectName:':uAppFwLib', artifactName:'uAppFwLib'],
+        prg: [projectName:':product-registration-lib', artifactName:'product-registration-lib'],
+
+
+        prf: [projectName:':pluginreferenceboard', artifactName:'pluginreferenceboard'],
+
+        hsdp: [projectName:':hsdp', artifactName:'hsdp'],
+
+
+
+        ailuapp:[projectName:':AppInfraUApp', artifactName:'AppInfraUApp'],
+        iapuapp:[projectName:':iapUApp', artifactName:'iapUApp'],
+        usruapp:[projectName:':UserRegistrationUApp', artifactName:'UserRegistrationUApp'],
+        dccuapp:[projectName:':digitalCareUApp', artifactName:'digitalCareUApp'],
+//        ufwuapp:[projectName:':uAppFwLibUApp', artifactName:'uAppFwLibUApp'],
+        prguapp:[projectName:':product-registration-libUApp', artifactName:'product-registration-libUApp'],
+
+        cmluapp:[projectName:':commlib-demouapp', artifactName:'commlib-demouapp']
+
+]

@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.application'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = 'AppInfraApp'
+
+buildscript {
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+    }
+}
+
+android {
+    signingConfigs {
+        release
+    }
+
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        applicationId "com.philips.platform.appinfra.demoapp"
+        versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionCode 1
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation (deps.firebase_config) {
+        exclude group: 'com.google.android.gms', module: 'play-services-measurement-base'
+    }
+    implementation (deps.firebase_core) {
+        exclude group: 'com.google.firebase', module: 'firebase-iid'
+    }
+    implementation (deps.firebase_iid) {
+        exclude group: 'com.google.android.gms', module: 'play-services-measurement-base'
+    }
+    implementation deps.gson
+    implementation deps.leakcanary
+    implementation deps.support.appcompatv7
+    implementation deps.support.design
+
+    if (directdependencies) {
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ailuapp.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.pif.projectName)
+    } else {
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.pif
+    }
+
+    testImplementation deps.junit
+
+    androidTestImplementation deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile deps.androidx_test.rules
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}
+apply plugin: 'com.google.gms.google-services'

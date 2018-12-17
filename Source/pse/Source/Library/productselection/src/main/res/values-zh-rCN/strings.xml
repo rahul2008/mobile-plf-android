@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">选择产品</string>
+<string name="Select_Product_Desc">为了向您提供更出色的支持，您能否告诉我们您使用的是哪款产品？</string>
+<string name="Select_Product_Find">查找产品</string>
+<string name="Product_Title">产品</string>
+<string name="Product_Details_Select">选择此产品</string>
+<string name="Change_Selected_Product">更改所选产品</string>
+<string name="Confirmation_Title">确认</string>
+<string name="Confirmation_Selected">您已选择</string>
+<string name="Confirmation_Change">更改</string>
+<string name="Confirmation_Change_Selection">您可以随时更改您的选择。</string>
+<string name="Confirmation_Continue_Support">继续以获取支持</string>
+<string name="Continue_Btntxt">继续</string>
+<string name="No_Internet">沒有網際網路連線。請檢查您手機 wifi 設定或數據 設定是否運作正常</string>
+    <string name="myphilips_CC">MyPhilips 帐户</string>
+
+    <string name="pse_Selected_Product">所选产品</string>
+    <string name="pse_Selected">已选择</string>
+    <string name="pse_Select_Your_Product_Title">选择您的产品</string>
+    <string name="pse_Find_Your_Product_Title">查找您的产品</string>
+    <string name="pse_No_Result">找到以下搜索词的 0 个结果：</string>
+    <string name="pse_No_Result_Desc">这会对我们的产品列表进行筛选。请检查以确保您的筛选术语没有拼写错误</string>
+    <string name="pse_What_Product">您使用哪种产品？</string>
+    <string name="pse_Product_Support_Desc">请告诉我们您拥有哪种产品，以便我们为您提供最佳支持。</string>
+    <string name="pse_Skip_Registration">跳过注册</string>
+    <string name="pse_Change_Product">如果想要更改您的产品选择，可以在“我的账户”中进行此操作</string>
+    <string name="pse_Register_Your_Product">注册您的产品</string>
+    <string name="pse_My_Account">我的账户</string>
+    <string name="pse_Change_Your_Product">如果想要更改已选择的产品，可以在“我的账户”中进行此操作。</string>
+    <string name="pse_View_Recipes">查看食谱</string>
+    <string name="pse_Back_My_Account">返回“我的账户”</string>
+    <string name="pse_Choose_Product_Register.">请选择您要注册的产品</string>
+    <string name="pse_Skip_Step">跳过步骤</string>
+    <string name="pse_Explain_Benefits">要阐述优势，请在此处选择正确的产品。</string>
+    <string name="pse_Product_Register">您想要注册哪款产品？</string>
+    <string name="pse_App_Content">此应用程序的内容现已根据您所选的产品量身定制</string>
+
+    <string name="search"> 搜索 </string>
+
+</resources>

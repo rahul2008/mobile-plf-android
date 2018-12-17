@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/usrdemo_mainScreen_standard_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Registration Standard Flow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:padding="@dimen/reg_dimen_8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="36dp" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/usrdemo_mainScreen_standard_text"
+        android:layout_marginTop="48dp"
+        android:padding="@dimen/reg_dimen_8dp"
+        android:text="Change theme"
+        android:id="@+id/change_theme"/>
+
+</android.support.constraint.ConstraintLayout>

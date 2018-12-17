@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "message": "No product found in your Store.",
+      "subject": "PRX Error",
+      "reason": "PRX might not have data",
+      "type": "PRX"
+    }
+  ]
+}

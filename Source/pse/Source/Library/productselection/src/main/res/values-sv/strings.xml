@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Välj produkt</string>
+<string name="Select_Product_Desc">För att kunna ge dig bättre support, kan du berätta vilken produkt du har?</string>
+<string name="Select_Product_Find">Sök efter produkten</string>
+<string name="Product_Title">Produkter</string>
+<string name="Product_Details_Select">Välj den här produkten</string>
+<string name="Change_Selected_Product">Ändra vald produkt</string>
+<string name="Confirmation_Title">Bekräftelse</string>
+<string name="Confirmation_Selected">Du har valt</string>
+<string name="Confirmation_Change">Byt</string>
+<string name="Confirmation_Change_Selection">Du kan när som helst ändra ditt val.</string>
+<string name="Confirmation_Continue_Support">Fortsätt att ge support</string>
+<string name="Continue_Btntxt">Fortsätt</string>
+<string name="No_Internet">Internet-anslutning saknas. Kontrollera om anslutningen fungerar i din telefons WiFi-inställningar eller datainställningar</string>
+    <string name="myphilips_CC">MyPhilips-konto</string>
+
+    <string name="pse_Selected_Product">Vald produkt</string>
+    <string name="pse_Selected">Vald</string>
+    <string name="pse_Select_Your_Product_Title">Välj produkt</string>
+    <string name="pse_Find_Your_Product_Title">Hitta din produkt</string>
+    <string name="pse_No_Result">0 resultat hittades för</string>
+    <string name="pse_No_Result_Desc">Produktlistan filtreras. Kontrollera att det inte finns några stavfel i din filterterm</string>
+    <string name="pse_What_Product">Vilken produkt använder du?</string>
+    <string name="pse_Product_Support_Desc">Meddela oss vilken produkt du använder så att vi kan ge dig bästa möjliga support.</string>
+    <string name="pse_Skip_Registration">Hoppa över registrering</string>
+    <string name="pse_Change_Product">Om du vill ändra ditt produktval kan du göra det i Mitt konto</string>
+    <string name="pse_Register_Your_Product">Registrera produkten</string>
+    <string name="pse_My_Account">Mitt konto</string>
+    <string name="pse_Change_Your_Product">Om du någon gång vill ändra ditt produktval kan du göra det i Mitt konto.</string>
+    <string name="pse_View_Recipes">Visa recept</string>
+    <string name="pse_Back_My_Account">Tillbaka till Mitt konto</string>
+    <string name="pse_Choose_Product_Register.">Välj den produkt du vill registrera.</string>
+    <string name="pse_Skip_Step">Hoppa över det här steget</string>
+    <string name="pse_Explain_Benefits">Välj rätt produkt här för att förklara fördelarna.</string>
+    <string name="pse_Product_Register">Vilken produkt vill du registrera?</string>
+    <string name="pse_App_Content">Innehållet i appen har nu anpassats till dina behov</string>
+
+    <string name="search"> Sök </string>
+
+</resources>

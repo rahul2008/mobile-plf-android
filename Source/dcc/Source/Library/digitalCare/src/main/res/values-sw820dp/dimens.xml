@@ -1,0 +1,16 @@
+<resources>
+
+    <!--
+         Example customization of dimensions originally defined in res/values/dimens.xml
+         (such as screen margins) for screens with more than 820dp of available width. This
+         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
+    -->
+    <dimen name="marginTopButton">24dp</dimen>
+    <dimen name="locate_layout_margin">130dp</dimen>
+    <dimen name="app_review_divider_margin">35dp</dimen>
+    <dimen name="chat_button_top_margin">8dp</dimen>
+    <dimen name="actionbar_icon_margin">65dp</dimen>
+
+    <dimen name="faq_top_margin">3dp</dimen>
+    <dimen name="faq_firstscreen_sidemargin">160dp</dimen>
+</resources>

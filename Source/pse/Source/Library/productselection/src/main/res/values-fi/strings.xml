@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Valitse tuote</string>
+<string name="Select_Product_Desc">Jotta voimme antaa sinulle parhaan tuen, kerro, minkä tuotteen omistat.</string>
+<string name="Select_Product_Find">Tuotehaku</string>
+<string name="Product_Title">Tuotteet</string>
+<string name="Product_Details_Select">Valitse tämä tuote</string>
+<string name="Change_Selected_Product">Vaihda valittu tuote</string>
+<string name="Confirmation_Title">Vahvistus</string>
+<string name="Confirmation_Selected">Valintasi</string>
+<string name="Confirmation_Change">Vaihda</string>
+<string name="Confirmation_Change_Selection">Voit muuttaa valintaasi milloin tahansa.</string>
+<string name="Confirmation_Continue_Support">Jatka tukeen</string>
+<string name="Continue_Btntxt">Jatka</string>
+<string name="No_Internet">Ei internet-yhteyttä. Tarkista yhteys puhelimen Wi-Fi-asetuksissa tai datayhteysasetuksissa</string>
+    <string name="myphilips_CC">MyPhilips-tili</string>
+
+    <string name="pse_Selected_Product">Tuote valittu</string>
+    <string name="pse_Selected">Valittu</string>
+    <string name="pse_Select_Your_Product_Title">Valitse tuote</string>
+    <string name="pse_Find_Your_Product_Title">Etsi tuote</string>
+    <string name="pse_No_Result">Ei tuloksia:</string>
+    <string name="pse_No_Result_Desc">Tämä suodattaa tuotevalikoimamme. Tarkista, että hakusanassa ei ole kirjoitusvirheitä.</string>
+    <string name="pse_What_Product">Mitä tuotetta käytät?</string>
+    <string name="pse_Product_Support_Desc">Kerro meille, mitä tuotetta käytät, niin voimme antaa sinulle parhaan tuen.</string>
+    <string name="pse_Skip_Registration">Ohita rekisteröinti</string>
+    <string name="pse_Change_Product">Voit vaihtaa tuotevalikoimaa Oma tili -sivulla</string>
+    <string name="pse_Register_Your_Product">Rekisteröi tuotteesi</string>
+    <string name="pse_My_Account">Oma tili</string>
+    <string name="pse_Change_Your_Product">Omalla tilillä voit vaihtaa valitun tuotteen milloin vain.</string>
+    <string name="pse_View_Recipes">Näytä reseptit</string>
+    <string name="pse_Back_My_Account">Siirry omaan tiliin</string>
+    <string name="pse_Choose_Product_Register.">Valitse tuote, jonka haluat rekisteröidä.</string>
+    <string name="pse_Skip_Step">Ohita tämä vaihe</string>
+    <string name="pse_Explain_Benefits">Kerro eduista ja valitse oikea tuote täältä.</string>
+    <string name="pse_Product_Register">Minkä tuotteen haluat rekisteröidä?</string>
+    <string name="pse_App_Content">Sovelluksen sisältö on nyt räätälöity tuotteellesi</string>
+
+    <string name="search"> Haku </string>
+
+</resources>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+
+    <!-- 1 .Primary Color -->
+    <!-- All primary buttons -->
+    <!-- Primary button enabled color -->
+    <color name="reg_btn_bg_enabled_color">#013378</color>
+    <!-- Primary button disabled color -->
+    <color name="reg_btn_bg_disabled_color">#EFEFEF</color>
+    <!-- Primary button pressed color -->
+    <color name="reg_btn_pressed_color">#0F204B</color>
+    <!-- Primary button enabled text color -->
+    <color name="reg_btn_text_enable_color">#FFFFFF</color>
+    <!-- Primary button disabled text color -->
+    <color name="reg_btn_text_disabled_color">#DDDDDD</color>
+
+    <!-- Edge of selected input field -->
+    <!-- Edit Text box border disabled color -->
+    <color name="reg_et_border_disable_color">#A6A6A7</color>
+    <!-- Edit Text box background color -->
+    <color name="reg_et_bg_color">#FFFFFF</color>
+    <!-- TEdit ext box border highlight color -->
+    <color name="reg_et_highlight_color">#28558D</color>
+
+    <!-- Secondary buttons (forgot password) -->
+    <!-- Forgot password button -->
+    <!-- Forgot password buton border color -->
+    <color name="reg_btn_forgot_border">#7793B9</color>
+    <!-- Forgot password buton background color -->
+    <color name="reg_btn_forgot_bg">#FFFFFF</color>
+    <!-- Forgot password buton textcolor -->
+    <color name="reg_forgot_text_color">#003377</color>
+    <!-- Forgot password highlight border color -->
+    <color name="reg_highlight_forgot_bg">#7793B9</color>
+
+    <!-- 2. Attention block color -->
+    <!-- Description text background color -->
+    <color name="reg_text_desc_bg">#EBF1F9</color>
+
+    <!-- 3. Link color -->
+    <color name="reg_hyperlink_highlight_color">#1470AA</color>
+
+    <!-- 4.Secondary color -->
+
+    <!-- 5. Navigation bar background -->
+    <!-- Strating color of Header:background start gradient color -->
+    <color name="reg_header_bg_start_color">#28558D</color>
+    <!-- Ending color of Header:background end gradient color -->
+    <color name="reg_header_bg_end_color">#287EB0</color>
+
+    <!-- 6. Navigation bar font color -->
+    <!-- Header title text color -->
+    <color name="reg_header_text_color">#FFFFFF</color>
+
+    <!-- 7.Back icon navigation bar -->
+    <!-- Require Asset -->
+
+    <!-- 8.Font color explanatory texts -->
+    <!-- Description text color -->
+    <color name="reg_text_desc_color">#252525</color>
+
+    <!-- 9. Background -->
+    <!--Layout background-->
+    <drawable name="reg_layout_bg">#FFFFFF</drawable>
+    <!--Dailog background-->
+    <drawable name="reg_dailog_bg">#FFFFFF</drawable>
+
+    <!-- 10.Primary text color -->
+    <color name="reg_text_heading_one_color">#003377</color>
+
+    <!-- 11.Warning color -->
+    <color name="reg_error_box_color">#E88200</color>
+    <color name="reg_err_msg_color">#E88200</color>
+
+    <!-- 12. Social buttons color -->
+    <!-- Social button enabled color -->
+    <color name="reg_btn_social_bg_enabled_color">#0E66A1</color>
+    <!-- Social button pressed color -->
+    <color name="reg_btn_social_highlight_color">#033D78</color>
+
+
+    <!-- Line devider color -->
+    <color name="reg_devider_color">#E4EAFD</color>
+
+    <!-- Provider button text color -->
+    <color name="reg_provider_text_color">#FFFFFF</color>
+
+    <!-- User configuration end -->
+
+    <!-- Socila merge UI blocker color -->
+    <color name="reg_social_to_social_ui_blocker_bg">@android:color/white</color>
+
+   <!-- Create account password hint correct and incorrect symbol colors-->
+    <color name="reg_password_hint_correct_ic_color">#5B8F22</color>
+    <color name="reg_password_hint_incorrect_ic_color">#C4C4C4</color>
+
+
+    <!-- Create account password mask enable and dosable  symbol colors-->
+    <color name="reg_password_mask_enable_ic_color">@android:color/black</color>
+    <color name="reg_password_mask_disable_ic_color">#C4C4C4</color>
+
+
+    <!-- Check box border color-->
+    <!--<color name="reg_check_box_color">#E88200</color>-->
+    <!-- Back arrow color-->
+    <color name="reg_back_arrow_color">#FFFFFF</color>
+
+    <!-- Check box border color -->
+    <color name="reg_check_box_border_color">#003377</color>
+
+    <!-- Check box tick color -->
+    <color name="reg_check_box_tick_color">#003377</color>
+
+    <!-- Check error symbol  color -->
+    <color name="reg_error_symbol_color">#E88200</color>
+
+    <!-- Check error exclamation symbol  color -->
+    <color name="reg_exclamation_color">#FFFFFF</color>
+
+
+    <color name="reg_provider_icon_color">#FFFFFF</color>
+
+    <color name="transparent">#00000000</color>
+
+    <!-- Coppa confirm approval title color -->
+    <color name="reg_coppa_confirm_title_color">#003478</color>
+
+    <!-- shadow color -->
+    <color name="reg_shadow_color">#E4EAFD</color>
+
+    <color name="reg_edit_text_field_color">@android:color/black</color>
+
+    <color name="colorAccent">#FF4081</color>
+    <color name="year">#999999</color>
+    <color name="title">#222222</color>
+
+</resources>

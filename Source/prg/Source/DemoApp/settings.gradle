@@ -1,0 +1,4 @@
+include ':DemoApp', ':product-registration-libUApp'
+project(':product-registration-libUApp').projectDir = new File('../DemoUApp')
+include 'product-registration-lib'
+project(':product-registration-lib').projectDir = new File('../Library/product-registration-lib')

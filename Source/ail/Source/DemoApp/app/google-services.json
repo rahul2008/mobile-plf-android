@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "953856295099",
+    "firebase_url": "https://app-infra-demo-app.firebaseio.com",
+    "project_id": "app-infra-demo-app",
+    "storage_bucket": "app-infra-demo-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953856295099:android:6f0bfac4a614f67c",
+        "android_client_info": {
+          "package_name": "com.philips.platform.appinfra.demoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953856295099-054vrunpjj3h900297phfveu809v8ptr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADI4u324tyHtOhg4I9q05MMG6Odm-5L-k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,132 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = strings.pse.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+    }
+}
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+//=======To zip and upload "Documents/External" ==ENDS===========
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        versionCode 3
+        generatedDensities = []
+        versionName version + "(" + objcdp.getCommitHash() + ")"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable false
+            minifyEnabled false
+            shrinkResources false
+            testCoverageEnabled = true
+        }
+    }
+
+    dexOptions {
+        preDexLibraries = false
+    }
+}
+
+dependencies {
+    implementation deps.shamanland_fonticon
+    implementation deps.constraintlayout
+    implementation deps.support.supportv4
+    implementation deps.support.appcompatv7
+    implementation deps.calligraphy
+    implementation deps.volley
+
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    implementation philipsdeps.uid
+    if (directdependencies) {
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.prx.projectName)
+
+        implementation project(strings.ail.projectName)
+    } else {
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.prx
+    }
+
+    androidTestImplementation deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation deps.androidx_test.runner
+}
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/simulator/debug')
+    source = fileTree('src/main/java')
+    classpath = files()
+    effort = 'max'
+    excludeFilter = file("findbugs-exclude.xml")
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd, dependsOn: "assembleDebug") {
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('src/main/java')
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.implementation
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}

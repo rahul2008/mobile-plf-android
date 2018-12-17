@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ic_reg_close" translatable="false">\uE614</string>
+
+    <string name="ic_reg_question" translatable="false">\uE604</string>
+
+    <string name="ic_reg_plus" translatable="false">\uE613</string>
+
+    <string name="ic_reg_left" translatable="false">\uE60e</string>
+
+    <string name="ic_reg_right" translatable="false">\uE60f</string>
+
+    <string name="ic_reg_up" translatable="false">\uE610</string>
+
+    <string name="ic_reg_down" translatable="false">\uE60d</string>
+
+    <string name="ic_reg_dash" translatable="false">\uE611</string>
+
+    <string name="ic_reg_shield" translatable="false">\uE603</string>
+
+    <string name="ic_reg_heart" translatable="false">\uE602</string>
+
+    <string name="ic_reg_hamburger" translatable="false">\uE615</string>
+
+    <string name="ic_reg_check" translatable="false">\uE60c</string>
+
+    <string name="ic_reg_check2" translatable="false">\uE600</string>
+
+    <string name="ic_reg_exclamation" translatable="false">\uE601</string>
+    <string name="ic_reg_star" translatable="false">\uE612</string>
+
+    <string name="ic_reg_twitter" translatable="false">\uE60a</string>
+
+    <string name="ic_reg_facebook" translatable="false">\uE605</string>
+
+    <string name="ic_reg_youtube" translatable="false">\uE60b</string>
+
+    <string name="ic_reg_googleplus" translatable="false">\uE606</string>
+
+    <string name="ic_reg_pinterest" translatable="false">\uE608</string>
+
+    <string name="ic_reg_stumbleupon" translatable="false">\uE609</string>
+
+    <string name="ic_reg_linkedin" translatable="false">\uE607</string>
+
+    <string name="ic_reg_info" translatable="false">\uE616</string>
+
+    <string name="ic_reg_favoriteStar" translatable="false">\uE618</string>
+
+    <string name="ic_reg_favoriteStarEmpty" translatable="false">\uE617</string>
+
+    <string name="ic_reg_maskPassword" translatable="false">\uE619</string>
+
+    <string name="reg_twitter_ic" translatable="false">\uE61f</string>
+
+    <string name="reg_facebook_ic" translatable="false">\uE61a</string>
+
+    <string name="reg_googleplus_ic" translatable="false">\uE61b</string>
+
+    <string name="reg_wechat_ic" translatable="false">\uE62f</string>
+
+    <string name="reg_sinaweibo_ic" translatable="false">\uE629</string>
+
+    <string name="reg_qq_ic" translatable="false">\uE625</string>
+
+    <string name="uikit_fonticon_tick_light" translatable="false">&#xe600;</string>
+
+</resources>

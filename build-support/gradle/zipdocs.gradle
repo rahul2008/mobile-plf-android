@@ -1,0 +1,22 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+task zipcClogs(type: Zip) {
+    from project.projectDir
+    include '/build/reports/androidTests/connected/**'
+    classifier 'logs'
+}

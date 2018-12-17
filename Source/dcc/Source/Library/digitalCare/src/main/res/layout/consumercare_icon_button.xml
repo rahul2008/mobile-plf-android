@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icon_button"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/uid_recyclerview_item_one_line_height">
+
+    <com.shamanland.fonticon.FontIconView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="16dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/icon_button_icon"
+        android:textSize="18dp"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
+        fontPath="fonts/iconfont.ttf"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/icon_button_text"
+        style="@style/UIDLabel"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:gravity="start|center" />
+</LinearLayout>

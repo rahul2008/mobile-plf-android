@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/uid_list_item_selector"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/title"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:paddingStart="@dimen/reg_dimen_16dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/reg_dimen_48dp"
+        android:layout_alignEnd="@+id/tick"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/reg_dimen_16dp"
+        android:textSize="@dimen/reg_dimen_16dp"/>
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/tick"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:textColor="?attr/uidNavigationPrimaryBackgroundColor"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/reg_dimen_48dp"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/reg_dimen_16dp"
+        android:paddingStart="@dimen/reg_dimen_16dp"
+        fontPath="fonts/iconfont.ttf"
+        android:textSize="@dimen/reg_dimen_16dp"/>
+
+</RelativeLayout>
+

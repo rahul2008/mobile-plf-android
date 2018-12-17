@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">製品を選択</string>
+<string name="Select_Product_Desc">お客様により適切なサポートを提供させていただくため、お持ちの製品をお知らせいただけますか？</string>
+<string name="Select_Product_Find">製品を検索</string>
+<string name="Product_Title">製品</string>
+<string name="Product_Details_Select">この製品を選択</string>
+<string name="Change_Selected_Product">選択した製品を変更</string>
+<string name="Confirmation_Title">確認</string>
+<string name="Confirmation_Selected">選択した製品：</string>
+<string name="Confirmation_Change">変更</string>
+<string name="Confirmation_Change_Selection">選択はいつでも変更することができます。</string>
+<string name="Confirmation_Continue_Support">サポートに進む</string>
+<string name="Continue_Btntxt">続行</string>
+<string name="No_Internet">インターネットに接続されていません。携帯電話の Wi-Fi 設定またはデータ設定で接続が機能していることを確認してください</string>
+    <string name="myphilips_CC">MyPhilips アカウント</string>
+
+    <string name="pse_Selected_Product">選択された製品</string>
+    <string name="pse_Selected">選択済み</string>
+    <string name="pse_Select_Your_Product_Title">製品を選択</string>
+    <string name="pse_Find_Your_Product_Title">製品を検索</string>
+    <string name="pse_No_Result">次に一致する検索結果は見つかりませんでした：</string>
+    <string name="pse_No_Result_Desc">検索条件に基づいて製品リストを絞り込んでいます。入力した条件が正しいことを確認してください。</string>
+    <string name="pse_What_Product">お使いの製品は何ですか？</string>
+    <string name="pse_Product_Support_Desc">最適なサポートをご提供するために、お使いの製品をお知らせください。</string>
+    <string name="pse_Skip_Registration">登録のスキップ</string>
+    <string name="pse_Change_Product">製品の選択はマイアカウントで変更することができます。</string>
+    <string name="pse_Register_Your_Product">製品のご登録</string>
+    <string name="pse_My_Account">マイアカウント</string>
+    <string name="pse_Change_Your_Product">選択済みの製品はマイアカウントで変更することができます。</string>
+    <string name="pse_View_Recipes">レシピを表示</string>
+    <string name="pse_Back_My_Account">マイアカウントに戻る</string>
+    <string name="pse_Choose_Product_Register.">登録する製品を選択してください。</string>
+    <string name="pse_Skip_Step">手順をスキップ</string>
+    <string name="pse_Explain_Benefits">各製品のメリットを確認するには、正しい製品を選択してください。</string>
+    <string name="pse_Product_Register">登録する製品は何ですか？</string>
+    <string name="pse_App_Content">このアプリのコンテンツは次の製品用にカスタマイズされています：</string>
+
+    <string name="search"> 検索 </string>
+
+</resources>

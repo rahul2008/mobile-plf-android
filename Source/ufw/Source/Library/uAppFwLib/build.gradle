@@ -1,0 +1,111 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
+def buildOutputDir
+
+archivesBaseName = strings.ufw.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+    }
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    from files(projectDir.toString() + "/../../../Documents/External/") {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+
+task tgzTask(type: Tar) {
+    classifier = 'src'
+    from projectDir
+    include '**/*'
+    exclude('build')
+    extension = 'tgz'
+    compression = Compression.GZIP
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        multiDexEnabled true
+        versionCode 1
+        versionName version + "(" + objcdp.getCommitHash() + ")"
+        consumerProguardFiles 'proguard-rules-ufw.pro'
+    }
+
+    buildTypes {
+        release {
+            buildOutputDir = "release"
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            buildOutputDir = "debug"
+        }
+    }
+}
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation deps.gson
+
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.robolectric
+    api(philipsdeps.uid) {
+        exclude group: 'com.android.support'
+    }
+    if (directdependencies) {
+        implementation project(strings.ail.projectName)
+    } else {
+        implementation(philipsdeps.AppInfra) {
+            exclude group: 'com.android.support'
+        }
+
+    }
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.implementation
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}

@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="com.philips.platform.themesettings">
+
+    <application>
+        <activity
+            android:name=".ThemeSelectionActivity">
+        </activity>
+
+    </application>
+
+</manifest>

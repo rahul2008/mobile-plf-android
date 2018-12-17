@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Vybrat výrobek</string>
+<string name="Select_Product_Desc">Sdělte nám, který výrobek vlastníte, abychom vám mohli poskytnout co nejlepší podporu.</string>
+<string name="Select_Product_Find">Najít výrobek</string>
+<string name="Product_Title">Výrobky</string>
+<string name="Product_Details_Select">Vybrat tento výrobek</string>
+<string name="Change_Selected_Product">Změnit vybraný výrobek</string>
+<string name="Confirmation_Title">Potvrzení</string>
+<string name="Confirmation_Selected">Vybrali jste</string>
+<string name="Confirmation_Change">Změnit</string>
+<string name="Confirmation_Change_Selection">Váš výběr můžete kdykoliv změnit.</string>
+<string name="Confirmation_Continue_Support">Získat podporu</string>
+<string name="Continue_Btntxt">Pokračovat</string>
+<string name="No_Internet">Není dostupné připojení k internetu. Zkontrolujte, zda máte v telefonu správné nastavení Wi-Fi nebo nastavení dat pro připojení k internetu</string>
+    <string name="myphilips_CC">Účet MyPhilips</string>
+
+    <string name="pse_Selected_Product">Vybraný výrobek</string>
+    <string name="pse_Selected">Vybrané</string>
+    <string name="pse_Select_Your_Product_Title">Vyberte si svůj výrobek</string>
+    <string name="pse_Find_Your_Product_Title">Najít váš výrobek</string>
+    <string name="pse_No_Result">0 výsledků pro:</string>
+    <string name="pse_No_Result_Desc">Zde se filtruje seznamu výrobků. Zkontrolujte, že vámi zadaný výraz neobsahuje žádné překlepy.</string>
+    <string name="pse_What_Product">Jaký výrobek používáte?</string>
+    <string name="pse_Product_Support_Desc">Abychom vám mohli poskytnout co nejlepší podporu, sdělte nám, prosím, jaký výrobek vlastníte.</string>
+    <string name="pse_Skip_Registration">Přeskočit registraci</string>
+    <string name="pse_Change_Product">Chcete-li změnit výběr produktu, můžete tak učinit v sekci Můj účet.</string>
+    <string name="pse_Register_Your_Product">Zaregistrujte svůj výrobek</string>
+    <string name="pse_My_Account">Můj účet</string>
+    <string name="pse_Change_Your_Product">Budete-li někdy chtít změnit výběr produktu, lze tak učinit v sekci Můj účet.</string>
+    <string name="pse_View_Recipes">Zobrazit recepty</string>
+    <string name="pse_Back_My_Account">Zpět na Můj účet</string>
+    <string name="pse_Choose_Product_Register.">Vyberte produkt, který chcete zaregistrovat.</string>
+    <string name="pse_Skip_Step">Přeskočit tento krok</string>
+    <string name="pse_Explain_Benefits">Pro vysvětlení výhod vyberte příslušný výrobek.</string>
+    <string name="pse_Product_Register">Jaký výrobek chcete zaregistrovat?</string>
+    <string name="pse_App_Content">Obsah této aplikace je nyní přizpůsoben vašemu</string>
+
+    <string name="search"> Hledat </string>
+
+</resources>
+

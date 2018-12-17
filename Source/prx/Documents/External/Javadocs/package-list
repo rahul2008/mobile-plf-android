@@ -1,0 +1,10 @@
+cdp.cdp.philips.com.prxclientlib
+com.philips.cdp.prxclient
+com.philips.cdp.prxclient.datamodels.Disclaimer
+com.philips.cdp.prxclient.datamodels.assets
+com.philips.cdp.prxclient.datamodels.summary
+com.philips.cdp.prxclient.datamodels.support
+com.philips.cdp.prxclient.error
+com.philips.cdp.prxclient.network
+com.philips.cdp.prxclient.request
+com.philips.cdp.prxclient.response

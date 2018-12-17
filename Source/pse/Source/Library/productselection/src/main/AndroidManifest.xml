@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philips.cdp.productselection">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- android:theme="@style/multiprod_theme" -->
+    <application android:largeHeap="true">
+        <activity
+            android:name=".activity.ProductSelectionActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="android.intent.action.SUPPORT_PRODUCTSELECTION" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

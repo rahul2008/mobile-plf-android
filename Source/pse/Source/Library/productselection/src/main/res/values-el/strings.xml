@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Επιλογή προϊόντος</string>
+<string name="Select_Product_Desc">Για καλύτερα αποτελέσματα υποστήριξης, μπορείτε να μας πείτε το προϊόν που διαθέτετε;</string>
+<string name="Select_Product_Find">Βρείτε ένα προϊόν</string>
+<string name="Product_Title">Προϊόντα</string>
+<string name="Product_Details_Select">Επιλογή αυτού του προϊόντος</string>
+<string name="Change_Selected_Product">Αλλαγή επιλεγμένου προϊόντος</string>
+<string name="Confirmation_Title">Επιβεβαίωση</string>
+<string name="Confirmation_Selected">Έχετε επιλέξει</string>
+<string name="Confirmation_Change">Αλλαγή</string>
+<string name="Confirmation_Change_Selection">Μπορείτε να αλλάξετε την επιλογή σας ανά πάσα στιγμή.</string>
+<string name="Confirmation_Continue_Support">Συνέχεια στην υποστήριξη</string>
+<string name="Continue_Btntxt">Συνέχεια</string>
+<string name="No_Internet">Δεν υπάρχει σύνδεση στο Internet. Ελέγξτε τη σύνδεση από τις ρυθμίσεις Wi-Fi ή τις ρυθμίσεις δεδομένων του τηλεφώνου σας</string>
+    <string name="myphilips_CC">Λογαριασμός MyPhilips</string>
+
+    <string name="pse_Selected_Product">Επιλέχθηκε προϊόν</string>
+    <string name="pse_Selected">Επιλέχθηκε</string>
+    <string name="pse_Select_Your_Product_Title">Επιλέξτε το προϊόν σας</string>
+    <string name="pse_Find_Your_Product_Title">Βρείτε το προϊόν σας</string>
+    <string name="pse_No_Result">0 αποτελέσματα για</string>
+    <string name="pse_No_Result_Desc">Έτσι φιλτράρεται η λίστα των προϊόντων μας. Ελέγξτε αν υπάρχουν τυπογραφικά λάθη στον όρο του φίλτρου</string>
+    <string name="pse_What_Product">Τι προϊόν χρησιμοποιείτε;</string>
+    <string name="pse_Product_Support_Desc">Για να σας προσφέρουμε την καλύτερη δυνατή υποστήριξη, ενημερώστε μας ποιο προϊόν διαθέτετε.</string>
+    <string name="pse_Skip_Registration">Παράλειψη δήλωσης</string>
+    <string name="pse_Change_Product">Αν θέλετε να αλλάξετε την επιλογή προϊόντος, μπορείτε να το κάνετε από τον λογαριασμό σας</string>
+    <string name="pse_Register_Your_Product">Δήλωση του προϊόντος σας</string>
+    <string name="pse_My_Account">Ο λογαριασμός μου</string>
+    <string name="pse_Change_Your_Product">Αν θελήσετε να αλλάξετε το επιλεγμένο προϊόν, μπορείτε να το κάνετε από τον λογαριασμό σας.</string>
+    <string name="pse_View_Recipes">Προβολή συνταγών</string>
+    <string name="pse_Back_My_Account">Επιστροφή στον λογαριασμό σας</string>
+    <string name="pse_Choose_Product_Register.">Επιλέξτε το προϊόν που επιθυμείτε να καταχωρήσετε.</string>
+    <string name="pse_Skip_Step">Παράλειψη του βήματος</string>
+    <string name="pse_Explain_Benefits">Εδώ επιλέξτε το σωστό προϊόν για να εξηγήσετε τα οφέλη.</string>
+    <string name="pse_Product_Register">Τι προϊόν θέλετε να καταχωρήσετε;</string>
+    <string name="pse_App_Content">Το περιεχόμενο αυτής της εφαρμογής έχει προσαρμοστεί στο προϊόν</string>
+
+    <string name="search"> Αναζήτηση </string>
+
+</resources>
