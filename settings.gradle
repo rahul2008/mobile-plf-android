@@ -79,8 +79,8 @@ project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 
 //demoapps to be published to artifactory
-include ':UserRegistrationApp'
-project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+//include ':UserRegistrationApp'
+//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
@@ -89,17 +89,17 @@ project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoA
 //demoapps NOT to be published to artifactory
 //include ':securedblibraryApp'
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
-include ':launchDigitalCare'
-project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
-include(':iapApp')
-project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
-include ':productselectionApp'
-project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
+//include ':launchDigitalCare'
+//project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
+//include(':iapApp')
+//project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
+//include ':productselectionApp'
+//project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'
 //project(':product-registration-libApp').projectDir = new File('./Source/prg/Source/DemoApp/DemoApp')
 
-include ':prxApp'
-project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
+//include ':prxApp'
+//project(':prxApp').projectDir = new File('./Source/prx/Source/Library/PrxSample/app')
 //include ':MyAccountApp'
 //project(':MyAccountApp').projectDir = new File('./Source/mya/Source/DemoApp/app')
 
