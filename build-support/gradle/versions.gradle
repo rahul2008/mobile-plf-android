@@ -77,20 +77,6 @@ ext.philipsdeps = [
         UserRegistrationUApp        : [group: 'com.philips.cdp', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true]
 ]
 
-ext.repos = [
-        base: 'https://artifactory-ehv.ta.philips.com/artifactory',
-]
-
-ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
-ext.repos.plugin = ext.repos.base + "/platform-plugins-release-local"
-ext.repos.release = ext.repos.base + "/platform-pkgs-android-release"
-ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
-ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
-ext.repos.snapshot_local = ext.repos.base + "/platform-pkgs-android-snapshot-local"
-ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
-ext.repos.mavengoogle = ext.repos.base + "/platform-maven-google-com"
-ext.repos.pluginsgradle = ext.repos.base + "/CDP2_Plugins_Gradle"
-ext.repos.sonatype = ext.repos.base + "/platform-ta-sonatype"
 
 ext.deps = [
         adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.16.1',

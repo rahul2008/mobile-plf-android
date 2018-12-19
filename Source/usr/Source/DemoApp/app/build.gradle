@@ -20,56 +20,6 @@ buildscript {
 
 archivesBaseName = "UserRegistrationApp"
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('apk')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-    clientConfig.timeout = 600
-}
-
-publishing {
-    publications {
-        apk(MavenPublication) {
-            groupId group
-            version = version
-            artifactId archivesBaseName
-
-            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                def resolvedArtifacts = configurations.implementation.allDependencies
-                resolvedArtifacts.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
-                }
-            }
-        }
-    }
-}
-
 android {
     signingConfigs {
         release
@@ -154,7 +104,7 @@ dependencies {
 
     implementation project(':AppInfra')
     implementation project(':uAppFwLib')
-    implementation project(':uid')
+    implementation philipsdeps.uid
     implementation project(':registrationApi')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':UserRegistrationUApp')
