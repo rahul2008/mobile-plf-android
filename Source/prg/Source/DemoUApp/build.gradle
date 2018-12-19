@@ -16,7 +16,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
         classpath builddeps.jruby_gradle
     }
 }
@@ -70,7 +70,7 @@ dependencies {
     implementation deps.calligraphy
     implementation deps.support.design
 
-    if (directdependencies) {
+    if (useprojectdependencies) {
         
         implementation project(strings.prg.projectName)
         implementation project(strings.usr.projectName)

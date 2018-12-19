@@ -39,7 +39,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.cdp.registration.test"
         multiDexEnabled true
         manifestPlaceholders = [
@@ -112,7 +112,7 @@ dependencies {
     implementation deps.jackson_core
     implementation deps.jackson_databind
     implementation philipsdeps.uid
-    if (directdependencies) {
+    if (useprojectdependencies) {
 
         implementation project(strings.ufw.projectName)
         implementation project(strings.jmp.projectName)

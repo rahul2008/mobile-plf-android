@@ -54,12 +54,12 @@ ext.builddeps = [
 ext.philipsdeps = [
         AppInfra                    : [group: 'com.philips.cdp', name: strings.ail.artifactName, version: platformversionsuffix, changing: true],
         AppInfraUApp                : [group: 'com.philips.cdp', name: strings.ailuapp.artifactName, version: platformversionsuffix, changing: true],
-        csw                         : [group: 'com.philips.cdp', name: strings.csw.artifactName, version: '1805.0.1544635223', changing: true],
+        csw                         : [group: 'com.philips.cdp', name: strings.csw.artifactName, version: '1805.0.1544717798', changing: true],
         digitalCare                 : [group: 'com.philips.cdp', name: strings.dcc.artifactName, version: platformversionsuffix, changing: true],
         digitalCareUApp             : [group: 'com.philips.cdp', name: strings.dccuapp.artifactName, version: platformversionsuffix, changing: true],
         iap                         : [group: 'com.philips.cdp', name: strings.iap.artifactName, version: platformversionsuffix, changing: true],
         iapUApp                     : [group: 'com.philips.cdp', name: strings.iapuapp.artifactName, version: platformversionsuffix, changing: true],
-        IconFont                    : [group: 'com.philips.cdp', name: strings.icf.artifactName, version: '1805.0.1544606829', changing: true],
+        IconFont                    : [group: 'com.philips.cdp', name: strings.icf.artifactName, version: '1805.0.1544717798', changing: true],
         jump                        : [group: 'com.philips.cdp', name: strings.jmp.artifactName, version: platformversionsuffix, changing: true],
         pif                         : [group: 'com.philips.cdp', name: strings.pif.artifactName, version: platformversionsuffix, changing: true],
         pluginreferenceboard        : [group: 'com.philips.cdp', name: strings.prf.artifactName, version: platformversionsuffix, changing: true],
@@ -72,8 +72,8 @@ ext.philipsdeps = [
         themesettings               : [group: 'com.philips.cdp', name: strings.tse.artifactName, version: platformversionsuffix, changing: true],
         uAppFwLib                   : [group: 'com.philips.cdp', name: strings.ufw.artifactName, version: platformversionsuffix, changing: true],
 //        uAppFwLibUApp               : [group: 'com.philips.cdp', name: strings.ufwuapp.artifactName, version: platformversionsuffix, changing: true],
-        uid                         : [group: 'com.philips.cdp', name: strings.uid.artifactName, version: '1805.0.1544606829', changing: true],
-        uikitLib                    : [group: 'com.philips.cdp', name: strings.uit.artifactName, version: '1805.0.1544606829', changing: true],
+        uid                         : [group: 'com.philips.cdp', name: strings.uid.artifactName, version: '1805.0.1544717799', changing: true],
+        uikitLib                    : [group: 'com.philips.cdp', name: strings.uit.artifactName, version: '1805.0.1544717798', changing: true],
         UserRegistrationUApp        : [group: 'com.philips.cdp', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true]
 ]
 

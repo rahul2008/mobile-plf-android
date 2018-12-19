@@ -14,7 +14,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
         classpath builddeps.jruby_gradle
     }
 }
@@ -82,7 +82,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.demo"
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 3
         multiDexEnabled true
         testApplicationId "com.philips.cdp.demo.test"
@@ -152,7 +152,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.prguapp.projectName)
     } else {
         implementation philipsdeps.product_registration_libUApp

@@ -20,7 +20,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
     }
 }
 
@@ -44,7 +44,7 @@ android {
     defaultConfig {
         versionCode 3
         generatedDensities = []
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         multiDexEnabled true
     }
 
@@ -78,7 +78,7 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.mockito
     implementation philipsdeps.uid
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.prx.projectName)
 

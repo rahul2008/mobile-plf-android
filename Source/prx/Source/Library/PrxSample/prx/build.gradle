@@ -40,7 +40,7 @@ android {
 
     defaultConfig {
         versionCode 1
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         consumerProguardFiles 'proguard-rules-prx.pro'
         multiDexEnabled true
     }
@@ -65,7 +65,7 @@ dependencies {
     implementation deps.gson
     implementation deps.volley
 
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.AppInfra

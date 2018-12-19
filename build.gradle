@@ -6,49 +6,25 @@ buildscript {
     apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     repositories {
-        maven { url repos.mavengoogle }
-        maven { url repos.jcenter }
-        maven { url repos.pluginsgradle }
+       google()
+        jcenter()
         maven {
-            url repos.plugin
+            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-ios-artifacts/maven/v1'
             credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
+                username "AZURE_ARTIFACTS"
+                password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
             }
         }
     }
 
     dependencies {
-        classpath builddeps.cdpSCM
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         // dsc & rap require this
         classpath builddeps.googleservices // rap-pushnotification requires this
         classpath builddeps.pitest
-        classpath builddeps.use_latest_versions
-        classpath builddeps.ben_manes_versions
     }
 }
-
-apply plugin: 'com.github.ben-manes.versions'
-apply plugin: 'se.patrikerdes.use-latest-versions'
-
-def environment = 'production'
-if (project.hasProperty('envCode')) {
-    environment = envCode
-    println "envCode: ${envCode}"
-} else {
-    println "default envCode"
-}
-
-apply plugin: 'cdpSCM'
-import com.philips.cdp.cdpSCM
-
-def objcdp = new cdpSCM()
-objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-
-println "Working branch: ${objcdp.getWorkingBranch()}"
 
 subprojects {
     task reportAllProjectDependencies(type: DependencyReportTask) {}
@@ -57,42 +33,26 @@ subprojects {
         apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
         repositories {
+            google()
+            jcenter()
             maven {
-                url repos.mavengoogle
+                url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-artifacts/maven/v1'
                 credentials {
-                    username = "readonly"
-                    password = "123qweasdzxc"
-                }
-            }
-            maven { url repos.jcenter }
-            maven { url repos.release }
-            maven {
-                url repos.plugin
-                credentials {
-                    username = "readonly"
-                    password = "123qweasdzxc"
+                    username "AZURE_ARTIFACTS"
+                    password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
                 }
             }
         }
     }
 
     repositories {
+        google()
+        jcenter()
         maven {
-            url repos.mavengoogle
+            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-artifacts/maven/v1'
             credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
-            }
-        }
-        maven {
-            url repos.jcenter
-        }
-        maven { url repos.release }
-        maven {
-            url repos.plugin
-            credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
+                username "AZURE_ARTIFACTS"
+                password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
             }
         }
     }
@@ -150,15 +110,4 @@ subprojects {
     ext.useprojectdependencies = true
 }
 
-dependencyUpdates.resolutionStrategy {
-    componentSelection { rules ->
-        rules.all { ComponentSelection selection ->
-            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
-                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
-            }
-            if (rejected) {
-                selection.reject('Release candidate')
-            }
-        }
-    }
-}
+
