@@ -3,8 +3,7 @@
  * All rights reserved.
  */
 
-apply plugin: 'com.jfrog.artifactory'
-//apply plugin: 'maven-publish'
+apply plugin: 'maven-publish'
 
 buildscript {
     apply from: buildscript.sourceFile.parent + "/versions.gradle"
@@ -27,36 +26,36 @@ buildscript {
 }
 
 
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId "com.philips.platform"
+            version = platformversion
+            artifactId archivesBaseName
 
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-//publishing {
-//    publications {
-//        aar(MavenPublication) {
-//            groupId group
-//            version = version
-//            artifactId archivesBaseName
-//
-//            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-//
-//            pom.withXml {
-//                def dependenciesNode = asNode().appendNode('dependencies')
-//
-//                configurations.getByName("archives").allDependencies.each {
-//                    if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
-//                        def dependencyNode = dependenciesNode.appendNode('dependency')
-//                        dependencyNode.appendNode('groupId', it.group)
-//                        dependencyNode.appendNode('artifactId', it.name)
-//                        dependencyNode.appendNode('version', it.version)
-//                    }
-//                }
-//            }
-//            maven {
-//                url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-artifacts/maven/v1'
-//                credentials {
-//                    username "AZURE_ARTIFACTS"
-//                    password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
-//                }
-//            }
-//        }
-//    }
-//}
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                configurations.getByName("archives").allDependencies.each {
+                    if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+            repositories {
+                maven {
+                    url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-artifacts/maven/v1'
+                    credentials {
+                        username "AZURE_ARTIFACTS"
+                        password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+                    }
+                }
+            }
+        }
+    }
+}

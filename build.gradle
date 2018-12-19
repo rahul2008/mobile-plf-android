@@ -2,6 +2,14 @@
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
+ext.baseplatformversion = "1805.0"
+ext.platformversion = baseplatformversion + "." + epochTime()
+def static epochTime() {
+    def env_epoch = System.getenv('EPOCH_TIME')
+    long local_epoch = System.currentTimeMillis() / 1000
+    def epoch = env_epoch != null ? env_epoch : local_epoch
+    return epoch
+}
 buildscript {
     apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
 

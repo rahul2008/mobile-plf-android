@@ -18,3 +18,4 @@ steps:
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleRelease'
+- task: PublishBuildArtifacts@1

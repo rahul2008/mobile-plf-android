@@ -2,14 +2,13 @@
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
+apply plugin: 'maven-publish'
 apply plugin: 'com.android.application'
 //apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
 apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
 
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
@@ -101,6 +100,40 @@ task tgzTask(type: Tar) {
 //}
 
 def buildType
+
+publishing {
+    publications {
+        apk(MavenPublication) {
+            groupId "com.philips.platform"
+            version = platformversion
+            artifactId archivesBaseName
+
+            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                configurations.getByName("archives").allDependencies.each {
+                    if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+            repositories {
+                maven {
+                    url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-artifacts/maven/v1'
+                    credentials {
+                        username "AZURE_ARTIFACTS"
+                        password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+                    }
+                }
+            }
+        }
+    }
+}
 
 android {
     testOptions {
