@@ -58,7 +58,7 @@ configurations.all {
 }
 
 dependencies {
-    if (directdependencies) {
+    if (useprojectdependencies) {
         api project(':AppInfra')
     } else {
         api philipsdeps.AppInfra

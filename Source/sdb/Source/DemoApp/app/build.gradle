@@ -14,7 +14,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
     }
 }
 
@@ -80,7 +80,7 @@ android {
 
     defaultConfig {
         applicationId 'com.philips.platform.database'
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
     }
 

@@ -19,7 +19,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
     }
 }
 
@@ -54,7 +54,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         versionCode 1
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         consumerProguardFiles 'proguard-rules-ufw.pro'
     }
 
@@ -91,7 +91,7 @@ dependencies {
     api(philipsdeps.uid) {
         exclude group: 'com.android.support'
     }
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.ail.projectName)
     } else {
         implementation(philipsdeps.AppInfra) {

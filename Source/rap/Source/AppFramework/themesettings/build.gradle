@@ -43,7 +43,7 @@ dependencies {
     implementation deps.support.appcompatv7
     implementation deps.support.recyclerview
     implementation philipsdeps.uid
-    if (directdependencies) {
+    if (useprojectdependencies) {
 
     }
 

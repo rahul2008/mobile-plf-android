@@ -17,7 +17,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
         classpath builddeps.jruby_gradle
     }
 }
@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         versionCode 1
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.cdp.test"
         multiDexEnabled true
         manifestPlaceholders = [
@@ -104,7 +104,7 @@ dependencies {
     implementation deps.support.appcompatv7
     implementation deps.volley
 
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.usr.projectName)
         implementation project(strings.prx.projectName)
         

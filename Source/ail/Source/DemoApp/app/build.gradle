@@ -18,7 +18,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
     }
 }
 
@@ -32,7 +32,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demoapp"
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         versionCode 1
     }
 
@@ -60,7 +60,7 @@ dependencies {
     implementation deps.support.appcompatv7
     implementation deps.support.design
 
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ailuapp.projectName)
         implementation project(strings.ail.projectName)

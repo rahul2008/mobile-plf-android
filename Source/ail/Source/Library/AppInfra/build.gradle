@@ -18,7 +18,7 @@ buildscript {
 
     dependencies {
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
         classpath builddeps.gradle
     }
 }
@@ -32,7 +32,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         testApplicationId "com.philips.platform.appinfra.test"
         consumerProguardFiles 'proguard-rules-ail.pro'
     }
@@ -72,7 +72,7 @@ android {
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
 dependencies {
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.pif.projectName)
     } else {
         implementation philipsdeps.pif

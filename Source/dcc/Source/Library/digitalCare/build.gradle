@@ -20,7 +20,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
     }
 }
 
@@ -37,7 +37,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        versionName version + "(" + objcdp.getCommitHash() + ")"
+        //versionName version + "(" + objcdp.getCommitHash() + ")"
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
         multiDexEnabled true
@@ -103,7 +103,7 @@ configurations.all {
 dependencies {
     testImplementation deps.junit
     implementation philipsdeps.uid
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.pse.projectName)
 
         implementation project(strings.ufw.projectName)

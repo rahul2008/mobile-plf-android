@@ -69,7 +69,7 @@ configurations.all {
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 dependencies {
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.AppInfra

@@ -11,7 +11,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        classpath builddeps.cdpSCM
+        //classpath builddeps.cdpSCM
     }
 }
 
@@ -102,7 +102,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.appcompatv7
     implementation philipsdeps.uid
-    if (directdependencies) {
+    if (useprojectdependencies) {
         implementation project(strings.mya.projectName)
         implementation project(strings.csw.projectName)
         implementation project(strings.usruapp.projectName)
