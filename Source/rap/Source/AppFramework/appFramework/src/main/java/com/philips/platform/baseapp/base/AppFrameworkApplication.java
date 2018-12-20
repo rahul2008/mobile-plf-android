@@ -9,9 +9,6 @@ import android.os.StrictMode;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
 import com.philips.cdp.uikit.utils.UikitLocaleHelper;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
