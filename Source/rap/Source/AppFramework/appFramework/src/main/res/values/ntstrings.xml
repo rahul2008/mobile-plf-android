@@ -2,6 +2,7 @@
 <!-- This file is created to remove hardcoding from code. Otherwise you will get lint errors. Its best prectice to define strings in resource file-->
 <resources>
     <string name="RA_HomeTab_Menu_Title">Home</string>
+    <string name="app_name">ReferenceApp</string>
 
 
     <!--Translations not needed-->
