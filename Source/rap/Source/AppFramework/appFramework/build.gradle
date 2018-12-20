@@ -4,7 +4,6 @@
  */
 apply plugin: 'maven-publish'
 apply plugin: 'com.android.application'
-//apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
 apply from: "../scripts/task_verification.gradle"
 apply from: "../scripts/task_reporting_logging.gradle"
@@ -18,9 +17,7 @@ buildscript {
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
-        //classpath builddeps.cdpSCM
         classpath builddeps.bintrayplugin
-//        classpath builddeps.hockeyapp
     }
 }
 
@@ -53,51 +50,6 @@ task tgzTask(type: Tar) {
     extension = 'tgz'
     compression = Compression.GZIP
 }
-//=======To zip and upload "Documents/External" ==ENDS=============
-
-//publishing {
-//    publications {
-//        apk(MavenPublication) {
-//            groupId group
-//            version = version
-//            artifactId archivesBaseName
-//
-//            artifact zipDocuments
-//
-//            artifact("$buildDir/outputs/mapping/release/mapping.txt") {
-//                classifier = 'mapping'
-//            }
-//
-//            artifact("$buildDir/outputs/apk/release/${archivesBaseName}-release.apk")
-//
-//            pom.withXml {
-//                def dependenciesNode = asNode().appendNode('dependencies')
-//
-//                configurations.getByName("implementation").allDependencies.each {
-//                    if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
-//                        def dependencyNode = dependenciesNode.appendNode('dependency')
-//                        dependencyNode.appendNode('groupId', it.group)
-//                        dependencyNode.appendNode('artifactId', it.name)
-//                        dependencyNode.appendNode('version', it.version)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
-
-//hockeyapp {
-//    apiToken = "b9d6e2f453894b4fbcb161b33a94f6c8"
-//    commitSha = objcdp.getCommitHashLong()
-//    buildServerUrl = objcdp.getArtifactoryUrl()
-//    releaseType = 2 // alpha
-//    notify = 2
-//    mappingFileNameRegex = "mapping.txt"
-//    mandatory = 1
-//    status = 2
-//    notesType = 1
-//    notes = new File(projectDir, "/../../../Documents/External/ReleaseNotes.md").getText('UTF-8')
-//}
 
 def buildType
 
@@ -124,7 +76,7 @@ publishing {
             }
             repositories {
                 maven {
-                    url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-artifacts/maven/v1'
+                    url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
                     credentials {
                         username "AZURE_ARTIFACTS"
                         password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
@@ -154,7 +106,7 @@ android {
 
     defaultConfig {
         versionCode 1
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash + ")"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true

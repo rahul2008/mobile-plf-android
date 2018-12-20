@@ -52,7 +52,7 @@ android {
 
     defaultConfig {
         versionCode 1
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         testApplicationId "com.philips.cdp.di.iap.test"
         multiDexEnabled true
         generatedDensities = []

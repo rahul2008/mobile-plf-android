@@ -32,7 +32,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demoapp"
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         versionCode 1
     }
 

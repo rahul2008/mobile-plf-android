@@ -149,7 +149,7 @@ android {
         device {
             applicationId 'com.philips.cdp.registration'
             versionCode 5
-            //versionName version + "(" + objcdp.getCommitHash() + ")"
+            versionName version + "(" + commitHash+ ")"
         }
     }
 }

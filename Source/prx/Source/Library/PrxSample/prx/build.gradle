@@ -40,7 +40,7 @@ android {
 
     defaultConfig {
         versionCode 1
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         consumerProguardFiles 'proguard-rules-prx.pro'
         multiDexEnabled true
     }

@@ -37,7 +37,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
         multiDexEnabled true

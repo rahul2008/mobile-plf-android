@@ -39,7 +39,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         testApplicationId "com.philips.cdp.registration.test"
         multiDexEnabled true
         manifestPlaceholders = [

@@ -16,7 +16,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         multiDexEnabled true
     }
 }

@@ -10,6 +10,31 @@ def static epochTime() {
     def epoch = env_epoch != null ? env_epoch : local_epoch
     return epoch
 }
+ext.branchName=getWorkingBranch()
+def getWorkingBranch() {
+    new ByteArrayOutputStream().withStream { os ->
+        exec {
+            executable = "git"
+            args = ["rev-parse", "--abbrev-ref", "HEAD"]
+            standardOutput = os
+
+        }
+        return os.toString().trim()
+    }
+}
+ext.commitHash=getGitHash()
+def getGitHash(){
+
+    new ByteArrayOutputStream().withStream { os ->
+        exec {
+            executable = "git"
+            args = ["rev-parse", "--short", "HEAD"]
+            standardOutput = os
+
+        }
+        return os.toString().trim()
+    }
+}
 buildscript {
     apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
 
@@ -17,7 +42,7 @@ buildscript {
        google()
         jcenter()
         maven {
-            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-ios-artifacts/maven/v1'
+            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
             credentials {
                 username "AZURE_ARTIFACTS"
                 password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
@@ -44,7 +69,7 @@ subprojects {
             google()
             jcenter()
             maven {
-                url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-artifacts/maven/v1'
+                url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
                 credentials {
                     username "AZURE_ARTIFACTS"
                     password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
@@ -57,7 +82,7 @@ subprojects {
         google()
         jcenter()
         maven {
-            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-artifacts/maven/v1'
+            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
             credentials {
                 username "AZURE_ARTIFACTS"
                 password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"

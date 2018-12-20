@@ -80,7 +80,7 @@ android {
 
     defaultConfig {
         applicationId 'com.philips.platform.database'
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         versionCode 1
     }
 

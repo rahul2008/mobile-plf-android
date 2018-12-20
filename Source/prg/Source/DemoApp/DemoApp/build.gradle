@@ -27,7 +27,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.demo"
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         versionCode 3
         multiDexEnabled true
         testApplicationId "com.philips.cdp.demo.test"

@@ -54,7 +54,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         versionCode 1
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         consumerProguardFiles 'proguard-rules-ufw.pro'
     }
 

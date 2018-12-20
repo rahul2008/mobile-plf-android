@@ -32,7 +32,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        //versionName version + "(" + objcdp.getCommitHash() + ")"
+        versionName version + "(" + commitHash+ ")"
         testApplicationId "com.philips.platform.appinfra.test"
         consumerProguardFiles 'proguard-rules-ail.pro'
     }
