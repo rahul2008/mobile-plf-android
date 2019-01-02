@@ -47,11 +47,4 @@ public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener
         serviceDiscoveryWrapper = wrapper;
     }
 
-    public void registerSMSReceiver() {
-        mobileVerifyCodeContract.getSMSBroadCastReceiver().registerReceiver();
-    }
-
-    public void unRegisterSMSReceiver() {
-        mobileVerifyCodeContract.getSMSBroadCastReceiver().unRegisterReceiver();
-    }
 }

@@ -15,7 +15,6 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.SpannableString;
@@ -156,6 +155,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         homePresenter.registerWeChatApp();
         return view;
     }
+
     @Override
     public void onStart() {
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -289,7 +289,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
             picker.setTargetFragment(this, 100);
             getRegistrationFragment().addFragment(picker);
         } else {
-            disableControlsOnNetworkConnectionGone();
+            enableControlsOnNetworkStatus();
 //            showNotificationBarOnNetworkNotAvailable();
         }
     }
@@ -298,6 +298,8 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     @Override
     public void updateAppLocale(String localeString, String countryName) {
         RLog.d(TAG, "updateAppLocale : is called");
+        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+                RegistrationHelper.getInstance().getCountryCode());
         String localeArr[] = localeString.split("_");
         RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
@@ -457,8 +459,8 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
                 AppTagingConstants.SUCCESS_LOGIN);
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
         abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
-        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
-                RegistrationHelper.getInstance().getCountryCode());
+//        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+//                RegistrationHelper.getInstance().getCountryCode());
         enableControls(true);
         homePresenter.navigateToScreen();
         hideProgressDialog();
@@ -601,11 +603,9 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     }
 
     @Override
-    public void disableControlsOnNetworkConnectionGone() {
+    public void enableControlsOnNetworkStatus() {
         hideProgressDialog();
-        handleBtnClickableStates(false);
-        //updateErrorNotification(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-//        showNotificationBarOnNetworkNotAvailable();
+        handleBtnClickableStates(homePresenter.isNetworkAvailable());
     }
 
 
@@ -939,8 +939,6 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
                 AppTagingConstants.TECHNICAL_ERROR);
         RLog.d(TAG, "genericError ");
         enableControls(true);
-//        updateErrorNotification(mContext.getString(R.string.reg_Generic_Network_Error));
-        //showNotificationBarOnNetworkNotAvailable();
     }
 
     @Override
@@ -969,7 +967,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
-        if (!isOnline ) {
+        if (!isOnline) {
             RLog.i(TAG, " URNotification handleBtnClickableStates");
             showNotificationBarOnNetworkNotAvailable();
         } else hideNotificationBarView();

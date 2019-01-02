@@ -89,6 +89,9 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses, HybrisDelegate.getInstance(addressContractor.getActivityContext()).getStore().getJanRainEmail()));
             setDeliveryAddress(mAddresses.getId());
+            //Track new address creation
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
         } else if (msg.obj instanceof IAPNetworkError) {
             addressContractor.hideProgressbar();
             addressContractor.showErrorMessage(msg);

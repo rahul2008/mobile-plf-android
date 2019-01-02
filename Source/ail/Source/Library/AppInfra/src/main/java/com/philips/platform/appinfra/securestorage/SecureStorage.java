@@ -16,6 +16,8 @@ import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
 import com.philips.platform.appinfra.securestoragev2.SSUtils;
 import com.philips.platform.appinfra.securestoragev2.SecureStorageV2;
 
+import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.security.Key;
 import java.util.ArrayList;
@@ -177,14 +179,21 @@ public class SecureStorage implements SecureStorageInterface {
 
     @NonNull
     protected String getSecureStorageVersion(byte[] dataToBeDecrypted) {
-        ByteBuffer byteBuffer = getWrappedByteArray(dataToBeDecrypted);
-        int ssVersionLenth = byteBuffer.getInt();
         String ssVersion= SecureStorageV1.VERSION;
-        if(ssVersionLenth<=2 && ssVersionLenth>0) {
-            byte[] version = new byte[ssVersionLenth];
-            byteBuffer.get(version);
-            ssVersion = new String(version);
+        ByteBuffer byteBuffer = getWrappedByteArray(dataToBeDecrypted);
+        try{
+            int ssVersionLenth = byteBuffer.getInt();
+            if(ssVersionLenth<=2 && ssVersionLenth>0) {
+                byte[] version = new byte[ssVersionLenth];
+                byteBuffer.get(version);
+                ssVersion = new String(version);
+            }
+        }catch(BufferUnderflowException e){
+            return ssVersion;
+        }catch(BufferOverflowException e){
+            return ssVersion;
         }
+
         return ssVersion;
     }
 

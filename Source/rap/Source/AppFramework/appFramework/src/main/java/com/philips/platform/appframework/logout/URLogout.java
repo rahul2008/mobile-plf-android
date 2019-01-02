@@ -66,7 +66,6 @@ public class URLogout implements URLogoutInterface {
                 if (activityContext != null && activityContext.getApplicationContext() != null && ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra() != null) {
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getLogging().setHSDPUserUUID(null);
                 }
-                clearDataInDataServiceMicroApp();
                 stopDataSync(activityContext);
                 RALog.d(TAG, "doLogout: onLogoutSuccess");
             }
@@ -99,12 +98,6 @@ public class URLogout implements URLogoutInterface {
 
         }
     }
-
-    protected void clearDataInDataServiceMicroApp() {
-        RALog.d(TAG, "clearDataInDataServiceMicroApp: get UserRegHandler");
-
-    }
-
 
 
 }

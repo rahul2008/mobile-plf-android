@@ -81,7 +81,7 @@ dependencies {
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    androidTestCompile deps.androidx_test.rules
+    androidTestImplementation deps.androidx_test.rules
 }
 
 tasks.withType(Test) {

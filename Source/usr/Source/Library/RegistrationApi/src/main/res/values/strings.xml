@@ -281,7 +281,4 @@
   <string name="facebook_app_id" translatable="false">107243606103710</string>
   <string name="fb_login_protocol_scheme" translatable="false">fb107243606103710demoApp</string>
 
-  <!--OTP Sender Mobile Number-->
-  <string name="otp_sender" translatable="false">10690</string>
-
 </resources>

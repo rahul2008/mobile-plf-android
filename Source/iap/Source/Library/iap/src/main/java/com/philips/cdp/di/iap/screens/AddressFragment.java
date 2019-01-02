@@ -101,6 +101,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
                 checkBox.setVisibility(View.VISIBLE);
                 checkBox.setChecked(true);
                 enableView(billingView);
+                getDLSBillingAddress().disableAllFields();
                 disableView(shoppingView);
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
                 getDLSBillingAddress().updateFields(mAddressFieldsHashmap);

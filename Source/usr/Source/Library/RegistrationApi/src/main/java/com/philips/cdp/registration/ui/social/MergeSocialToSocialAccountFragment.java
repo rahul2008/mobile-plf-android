@@ -155,6 +155,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
     @OnClick(R2.id.usr_mergeScreen_logout_button)
     void showLogoutAlert() {
         RLog.i(TAG,TAG+".logoutAlert clicked");
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.LOGOUT_BUTTON_SELECTED);
         final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getContext())
                 .setDialogType(DialogConstants.TYPE_DIALOG)
                 .setDialogLayout(R.layout.social_merge_dialog)

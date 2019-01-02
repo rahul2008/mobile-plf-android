@@ -104,14 +104,14 @@ public class AppTagingConstantsTest  extends TestCase {
     public void testPreviously() {
         assertEquals("you have logged in with a social provider previously", AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
     }
-    @Test
-    public void testTime() {
-        assertEquals("totalTimeInCreateAccount", AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT);
-    }
-    @Test
-    public void testTimeCreatAccount() {
-        assertEquals("totalTimeInCreateAccount", AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT);
-    }
+//    @Test
+//    public void testTime() {
+//        assertEquals("totalTimeInCreateAccount", AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT);
+//    }
+//    @Test
+//    public void testTimeCreatAccount() {
+//        assertEquals("totalTimeInCreateAccount", AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT);
+//    }
 
     @Test
     public void testInvalidEmail() {

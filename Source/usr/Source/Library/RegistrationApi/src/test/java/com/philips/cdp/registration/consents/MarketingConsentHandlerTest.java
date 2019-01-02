@@ -17,14 +17,17 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static com.philips.cdp.registration.consents.URConsentProvider.USR_MARKETING_CONSENT;
@@ -36,6 +39,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class MarketingConsentHandlerTest {
 
     @Captor
@@ -363,4 +367,27 @@ public class MarketingConsentHandlerTest {
 
     }
 
+    @Test
+    public void shouldReturnDatePassingNullAsString() throws Exception {
+        givenConsentDefinitionTypeNotSame();
+        Date date = new Date(0);
+        Date aNull = marketingConsentHandler.getTimestamp("null");
+        assertEquals(aNull, date);
+    }
+
+    @Test
+    public void shouldReturnDateIsNull() throws Exception {
+        givenConsentDefinitionTypeNotSame();
+        Date date = new Date(0);
+        Date aNull = marketingConsentHandler.getTimestamp(null);
+        assertEquals(aNull, date);
+    }
+
+    @Test
+    public void shouldReturnDateIsEmpty() throws Exception {
+        givenConsentDefinitionTypeNotSame();
+        Date date = new Date(0);
+        Date aNull = marketingConsentHandler.getTimestamp("");
+        assertEquals(aNull, date);
+    }
 }

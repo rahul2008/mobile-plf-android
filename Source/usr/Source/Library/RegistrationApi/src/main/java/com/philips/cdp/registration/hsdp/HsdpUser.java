@@ -373,9 +373,13 @@ public class HsdpUser {
 
                 String responseCode = MapUtils.extract(dhpAuthenticationResponse1, "responseCode");
                 String message = MapUtils.extract(dhpAuthenticationResponse1, "responseMessage");
-                if (responseCode.equals(SUCCESS_CODE)) {
+                if (responseCode!=null && responseCode.equals(SUCCESS_CODE)) {
                     onLoginSuccessResponseCode(loginHandler, handler, dhpAuthenticationResponse1);
                 } else {
+                    if(networkUtility.isNetworkAvailable()){
+                        handleNetworkFailure(loginHandler);
+                        return;
+                    }
                     handler.post(() -> {
                         RLog.d(TAG, "Social onHsdpLoginFailure :  responseCode : "
                                 + responseCode +

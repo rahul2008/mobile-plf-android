@@ -513,9 +513,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mProductDiscountedPrice.getVisibility() == View.VISIBLE){
             contextData.put(IAPAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
         }
-        if (mProductStockInfo.getVisibility() == View.VISIBLE && mProductDetail != null){
-            contextData.put(IAPAnalyticsConstant.OUT_OF_STOCK, mProductDetail.getStock().getStockLevelStatus());
-        }
+
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
         IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
@@ -668,6 +666,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mAddToCart.setEnabled(false);
             mProductStockInfo.setText(mContext.getString(R.string.iap_out_of_stock));
             mProductStockInfo.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.OUT_OF_STOCK, stockLevelStatus);
         }
     }
 

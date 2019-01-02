@@ -128,8 +128,8 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
                 SUCCESS_LOGIN);
         ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
         abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
-        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
-                RegistrationHelper.getInstance().getCountryCode());
+//        AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.KEY_COUNTRY_SELECTED,
+//                RegistrationHelper.getInstance().getCountryCode());
     }
 
     @Override

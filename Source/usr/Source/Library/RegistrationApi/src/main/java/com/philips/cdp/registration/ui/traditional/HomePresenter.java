@@ -96,7 +96,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
         if (isOnline) {
             homeContract.enableControlsOnNetworkConnectionArraival();
         } else {
-            homeContract.disableControlsOnNetworkConnectionGone();
+            homeContract.enableControlsOnNetworkStatus();
         }
     }
 
@@ -105,7 +105,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
         if (networkUtility.isNetworkAvailable()) {
             homeContract.enableControlsOnNetworkConnectionArraival();
         } else {
-            homeContract.disableControlsOnNetworkConnectionGone();
+            homeContract.enableControlsOnNetworkStatus();
         }
     }
 

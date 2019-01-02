@@ -19,12 +19,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
-import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.fragments.savedscreen.SavedScreenFragmentSelection;
 
 import java.util.List;
 
@@ -185,6 +183,9 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                 ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo
                         (Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
                                 Constants.ACTION_VALUE_CONTINUE);
+                ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo
+                        (Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_PRODUCT_SELECTED_CTN,
+                                mUserSelectedProduct.getData().getCtn());
                 setPreference(mUserSelectedProduct.getData().getCtn());
                 ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                 clearBackStackHistory(getActivity());

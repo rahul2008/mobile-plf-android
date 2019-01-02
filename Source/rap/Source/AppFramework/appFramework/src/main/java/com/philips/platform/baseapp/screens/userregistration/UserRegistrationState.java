@@ -233,12 +233,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in
             getApplicationContext().getIap().isCartVisible();
 
-            //Register GCM token with data services on login success
-            if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
-
-            } else {
-
-                  }
         }
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;

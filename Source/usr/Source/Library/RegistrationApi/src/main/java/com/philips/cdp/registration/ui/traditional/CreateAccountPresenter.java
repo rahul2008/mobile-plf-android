@@ -110,7 +110,7 @@ public class CreateAccountPresenter implements NetworkStateListener, EventListen
         } else {
             createAccountContract.setTrackCreateAccountTime((System.currentTimeMillis() - createAccountContract.getTrackCreateAccountTime()) / 1000);
         }
-        createAccountContract.tractCreateActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT, String.valueOf(createAccountContract.getTrackCreateAccountTime()));
+//        createAccountContract.tractCreateActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT, String.valueOf(createAccountContract.getTrackCreateAccountTime()));
 
         createAccountContract.setTrackCreateAccountTime(0);
     }

@@ -83,5 +83,7 @@ public class IAPAnalyticsConstant {
     public static final String NO_PRODUCT_FOUND = "NoProductFound";
     public static final String No_IMAGES_FOUND = "NoImagesFound";
     public static final String PRODUCT_DESCRIPTION_MISSING = "ProductDescriptionMissing";
+    public static final String APPLY_VOUCHER = "applyVoucher";
+    public static final String PAYMENT_FAILURE = "paymentFailure";
 }
 

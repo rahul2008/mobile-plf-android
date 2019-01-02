@@ -235,8 +235,12 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                                 if (iapCartListener != null) {
                                     iapCartListener.onSuccess(quantity);
                                 }
+                            } else {
+                                Message message = new Message();
+                                message.obj = "Error Fetching Cart";
+                                iapCartListener.onFailure(message);
                             }
-                            //  }
+
                         }
                     }
 

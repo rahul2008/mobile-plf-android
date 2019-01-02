@@ -9,16 +9,10 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -29,7 +23,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -43,7 +36,6 @@ import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver;
 import com.philips.cdp.registration.ui.utils.UpdateMobile;
 import com.philips.cdp.registration.ui.utils.UpdateToken;
 import com.philips.platform.uid.view.widget.Label;
@@ -58,11 +50,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 import static com.janrain.android.Jump.getRedirectUri;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
-import static com.philips.cdp.registration.ui.utils.SMSBroadCastReceiver.SMS_PERMISSION_CODE;
 
 public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment implements
         MobileForgotPassVerifyCodeContract, OnUpdateListener {
@@ -105,9 +95,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     static final String RESPONSE_TOKEN_KEY = "token";
     static final String RE_DIRECT_URI_KEY = "redirectUri";
 
-    private SMSBroadCastReceiver mSMSBroadCastReceiver;
-    private boolean isUserTyping = false;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -134,7 +121,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         }
 
         mobileVerifyCodePresenter = new MobileForgotPassVerifyCodePresenter(this);
-        mSMSBroadCastReceiver = new SMSBroadCastReceiver(this);
         View view = inflater.inflate(R.layout.reg_mobile_forgotpassword_verify_fragment, container, false);
         trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         ButterKnife.bind(this, view);
@@ -144,13 +130,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         handleVerificationCode();
         return view;
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-          registerSMSReceiver();
-        RLog.d(TAG, "onViewCreated : getParentFragment().requestPermissions(");
-  }
 
     private void setDescription() {
         String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
@@ -167,14 +146,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     private void decideToEnableVerifyButton() {
         disableVerifyButton();
-        isUserTyping = false;
-        if(verificationCodeValidationEditText.getText().length() == 0) return;
-        if (verificationCodeValidationEditText.getText().length() < 6 ) {
-            isUserTyping = true;
-        } else
+        if (verificationCodeValidationEditText.getText().length() == 0) return;
+        if (!(verificationCodeValidationEditText.getText().length() < 6))
             enableVerifyButton();
     }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -249,22 +224,18 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
-        RLog.i(TAG,TAG+".forgotpassword verify clicked");
+        RLog.i(TAG, TAG + ".forgotpassword verify clicked");
         verifyButton.showProgressIndicator();
         smsNotReceived.setEnabled(false);
         verificationCodeValidationEditText.setEnabled(false);
         getRegistrationFragment().hideKeyBoard();
         resetSmsPassword();
-        removeThisFragmentFromStack();
     }
 
-    private void removeThisFragmentFromStack() {
-        getActivity().getFragmentManager().popBackStack();
-    }
 
     public void resetSmsPassword() {
 
-        RLog.d(TAG , "response" + verificationCodeValidationEditText.getText()
+        RLog.d(TAG, "response" + verificationCodeValidationEditText.getText()
                 + " " + redirectUriValue + " " + responseToken);
         constructRedirectUri();
         final String redirectUriKey = "redirectUriValue";
@@ -337,15 +308,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         disableVerifyButton();
     }
 
-    @Override
-    public Activity getActivityContext() {
-        return getActivity();
-    }
-
-    @Override
-    public SMSBroadCastReceiver getSMSBroadCastReceiver() {
-        return mSMSBroadCastReceiver;
-    }
 
 
     public void hideProgressSpinner() {
@@ -356,62 +318,9 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[], @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        RLog.d(TAG, "registerSMSReceiver : requestCode : " + requestCode + "permissions[] :" + permissions + "grantResults :" + grantResults);
-        switch (requestCode) {
-            case SMS_PERMISSION_CODE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    registerSMSReceiver();
-                }
-            }
-
-        }
-    }
-
-
-    @Override
-    public void registerSMSReceiver() {
-        RLog.d(TAG, "registerSMSReceiver : " + mSMSBroadCastReceiver.isSmsPermissionGranted());
-        mobileVerifyCodePresenter.registerSMSReceiver();
-        if (!mSMSBroadCastReceiver.isSmsPermissionGranted()) {
-            RLog.d(TAG, "registerSMSReceiver : isSmsPermissionGranted");
-            requestPermissionSMS();
-        }
-    }
-
-    @Override
-    public void unRegisterSMSReceiver() {
-        mobileVerifyCodePresenter.unRegisterSMSReceiver();
-    }
-
-    @Override
-    public void onOTPReceived(String otp) {
-        RLog.d(TAG, "onOTPReceived : got otp");
-        if (!isUserTyping) {
-            verificationCodeValidationEditText.setText(otp);
-                verifyClicked();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mSMSBroadCastReceiver.isSmsPermissionGranted()) {
-            unRegisterSMSReceiver();
-        }
-    }
-
-    @Override
     public void notificationInlineMsg(String msg) {
         errorMessage.setError(msg);
     }
 
-    void requestPermissionSMS() {
-        requestPermissions(new String[]{Manifest.permission.READ_SMS},
-                SMS_PERMISSION_CODE);
-    }
 
 }

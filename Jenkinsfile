@@ -259,7 +259,7 @@ pipeline {
                     }
                     echo "APK_NAME = ${APK_NAME}"
 
-                    def jobBranchName = "release_platform_1802.0.0"
+                    def jobBranchName = "release_platform_1805"
                     if (BranchName =~ /develop.*/) {
                         jobBranchName = "develop"
                     }

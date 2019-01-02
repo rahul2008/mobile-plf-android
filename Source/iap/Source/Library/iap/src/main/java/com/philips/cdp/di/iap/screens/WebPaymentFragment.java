@@ -110,7 +110,10 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
 //                    mContext.getString(R.string.iap_cancel));
            /* Utility.showActionDialog(mContext, getString(R.string.iap_try_again), getString(R.string.iap_cancel)
                     , mContext.getString(R.string.iap_payment_failed_title), getString(R.string.iap_payment_failed_message), getFragmentManager(), this);
-           */ NetworkUtility.getInstance(). showPaymentMessage(mContext.getString(R.string.iap_payment_failed_title),getString(R.string.iap_payment_failed_message),getFragmentManager(), mContext,this);
+           */
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PAYMENT_FAILURE);
+            NetworkUtility.getInstance(). showPaymentMessage(mContext.getString(R.string.iap_payment_failed_title),getString(R.string.iap_payment_failed_message),getFragmentManager(), mContext,this);
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
@@ -168,14 +171,9 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
 
     @Override
     public void onPositiveBtnClick() {
-        if (mIsPaymentFailed) {
-            //PlaceOrder Again instead handle navigation
-            handleNavigation();
-        } else {
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
-            handleNavigation();
-        }
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CANCEL_PAYMENT);
+        handleNavigation();
     }
 
     @Override

@@ -128,6 +128,8 @@ public class AppTagingConstants {
 
     public static final String VALUE_FORGOT_PASSWORD_CHANNEL_PHONE_NUMBER = "phone number";
 
+    public static final String LOGOUT_BUTTON_SELECTED = "logoutButtonSelected";
+
     public static String SKIP_REGISTRATION = "loginRegistartionSkipped";
 
     public static String KEY_COUNTRY_SELECTED = "countrySelected";
