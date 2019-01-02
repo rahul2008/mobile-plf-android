@@ -131,15 +131,15 @@ public class CookiesConsentPresenter extends AbstractUIBasePresenter implements 
     }
 
     private void launchWhatDoesItMeanFragment(FragmentActivity fragmentActivity) {
-        /*FragmentManager mFragmentManager = fragmentActivity.
+        FragmentManager mFragmentManager = fragmentActivity.
                 getSupportFragmentManager();
         Fragment whatDoesItMeanFragment = getWhatDoesItMeanFragment();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(cookiesConsentFragmentView.getContainerId(),
                 whatDoesItMeanFragment,
-                NeuraWhatMeanFragment.TAG);
-        fragmentTransaction.addToBackStack(NeuraWhatMeanFragment.TAG);
-        fragmentTransaction.commitAllowingStateLoss();*/
+                CookiesConsentInfoFragment.TAG);
+        fragmentTransaction.addToBackStack(CookiesConsentInfoFragment.TAG);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     public Fragment getWhatDoesItMeanFragment() {
