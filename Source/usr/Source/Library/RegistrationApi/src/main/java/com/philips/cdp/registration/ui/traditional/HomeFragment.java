@@ -15,7 +15,6 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.SpannableString;
@@ -156,6 +155,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         homePresenter.registerWeChatApp();
         return view;
     }
+
     @Override
     public void onStart() {
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -289,7 +289,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
             picker.setTargetFragment(this, 100);
             getRegistrationFragment().addFragment(picker);
         } else {
-            disableControlsOnNetworkConnectionGone();
+            enableControlsOnNetworkStatus();
 //            showNotificationBarOnNetworkNotAvailable();
         }
     }
@@ -601,11 +601,9 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     }
 
     @Override
-    public void disableControlsOnNetworkConnectionGone() {
+    public void enableControlsOnNetworkStatus() {
         hideProgressDialog();
-        handleBtnClickableStates(false);
-        //updateErrorNotification(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
-//        showNotificationBarOnNetworkNotAvailable();
+        handleBtnClickableStates(homePresenter.isNetworkAvailable());
     }
 
 
@@ -969,7 +967,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         if (!getRegistrationFragment().isHomeFragment()) {
             return;
         }
-        if (!isOnline ) {
+        if (!isOnline) {
             RLog.i(TAG, " URNotification handleBtnClickableStates");
             showNotificationBarOnNetworkNotAvailable();
         } else hideNotificationBarView();

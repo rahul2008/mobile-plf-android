@@ -18,7 +18,7 @@ interface HomeContract extends FaceBookContractor{
 
     void enableControlsOnNetworkConnectionArraival();
 
-    void disableControlsOnNetworkConnectionGone();
+    void enableControlsOnNetworkStatus();
 
     void hideCountrySelctionLabel();
 
