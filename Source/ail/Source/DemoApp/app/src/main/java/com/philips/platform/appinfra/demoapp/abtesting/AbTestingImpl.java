@@ -1,5 +1,6 @@
 package com.philips.platform.appinfra.demoapp.abtesting;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -146,6 +147,11 @@ public class AbTestingImpl implements ABTestClientInterface, ConsentStatusChange
     @Override
     public String getAbTestingConsentIdentifier() {
         return AB_TESTING_CONSENT;
+    }
+
+    @Override
+    public void tagEvent(String eventName, Bundle params) {
+
     }
 
     private void updateCachesForTestName(String requestNameKey, String testValue, UPDATETYPE updateType) {
