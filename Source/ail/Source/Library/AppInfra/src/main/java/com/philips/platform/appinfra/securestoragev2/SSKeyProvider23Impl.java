@@ -3,8 +3,6 @@ package com.philips.platform.appinfra.securestoragev2;
 import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
-import android.security.keystore.StrongBoxUnavailableException;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -70,28 +68,18 @@ public class SSKeyProvider23Impl extends SSKeyProvider {
             if (!keyStore.containsAlias(SS_KEY_23_IMPL_ALIAS)) {
                 KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(
                         KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE);
-                KeyGenParameterSpec keyGenParameterSpec;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                    keyGenParameterSpec = new KeyGenParameterSpec.Builder(
-                            SS_KEY_23_IMPL_ALIAS,
-                            KeyProperties.PURPOSE_DECRYPT)
-                            .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
-                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-                            .setKeySize(2048)
-                            .setIsStrongBoxBacked(true)
-                            .build();
-                    try{
-                        initAndGenerateKeyPair(keyPairGenerator, keyGenParameterSpec);
-                    } catch (StrongBoxUnavailableException e) {
-                        keyGenParameterSpec = initStrongBoxDisabledKeyGen();
-                        initAndGenerateKeyPair(keyPairGenerator, keyGenParameterSpec);
-                    }
-
-                } else {
-                    keyGenParameterSpec = initStrongBoxDisabledKeyGen();
-                    initAndGenerateKeyPair(keyPairGenerator, keyGenParameterSpec);
-                }
+                keyPairGenerator.initialize(
+                        new KeyGenParameterSpec.Builder(
+                                SS_KEY_23_IMPL_ALIAS,
+                                KeyProperties.PURPOSE_DECRYPT)
+                                .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
+                                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+                                .setKeySize(2048)
+                                .build());
+                keyPairGenerator.generateKeyPair();
             }
+
+
             PublicKey publicKey = keyStore.getCertificate(SS_KEY_23_IMPL_ALIAS).getPublicKey();
             OAEPParameterSpec sp = new OAEPParameterSpec(SHA_256, MGF_1, new MGF1ParameterSpec(SHA_1), PSource.PSpecified.DEFAULT);
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
@@ -104,22 +92,6 @@ public class SSKeyProvider23Impl extends SSKeyProvider {
             throw new SSKeyProviderException("Error while loading keystore");
         }
         return true;
-    }
-
-    private void initAndGenerateKeyPair(KeyPairGenerator keyPairGenerator, KeyGenParameterSpec keyGenParameterSpec) throws GeneralSecurityException {
-        keyPairGenerator.initialize(keyGenParameterSpec);
-        keyPairGenerator.generateKeyPair();
-    }
-
-    @NonNull
-    private KeyGenParameterSpec initStrongBoxDisabledKeyGen() {
-        return new KeyGenParameterSpec.Builder(
-                SS_KEY_23_IMPL_ALIAS,
-                KeyProperties.PURPOSE_DECRYPT)
-                .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
-                .setKeySize(2048)
-                .build();
     }
 
     protected SecretKey unwrapAESKey(String wrappedAESKey) throws SSKeyProviderException {
