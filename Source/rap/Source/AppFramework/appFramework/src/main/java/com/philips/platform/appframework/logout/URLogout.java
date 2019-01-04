@@ -2,7 +2,7 @@
  * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.platform.appframework.logout;
 
 import android.app.Activity;
@@ -14,7 +14,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
-
 
 
 public class URLogout implements URLogoutInterface {
@@ -42,16 +41,10 @@ public class URLogout implements URLogoutInterface {
             }
             return;
         }
-
-        if (!BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext()) && BaseAppUtil.isAutoLogoutEnabled(activityContext.getApplicationContext())) {
-
-        } else {
-            RALog.d(TAG, "performLogout: doLogout Being called in BaseAppUtil polling enabled true");
-            doLogout(activityContext, user);
-            RALog.d(TAG, "performLogout: BaseAppUtil.isDSPollingEnabled: True");
-        }
+        RALog.d(TAG, "performLogout: doLogout Being called in BaseAppUtil polling enabled true");
+        doLogout(activityContext, user);
+        RALog.d(TAG, "performLogout: BaseAppUtil.isDSPollingEnabled: True");
     }
-
 
 
     private void doLogout(final Context activityContext, User user) {
