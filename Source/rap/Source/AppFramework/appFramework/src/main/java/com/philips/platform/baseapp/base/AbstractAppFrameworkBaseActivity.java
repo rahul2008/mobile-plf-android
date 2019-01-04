@@ -213,23 +213,12 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         RALog.d(TAG, " onResume called");
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             startCollectingLifecycleData();
-            startPushNotificationFlow();
             AppFrameworkTagging.getInstance().getTagging().trackActionWithInfo("sendData", "appStatus", "ForeGround");
         }
     }
 
     public void startCollectingLifecycleData() {
         AppFrameworkTagging.getInstance().collectLifecycleData(this);
-    }
-
-    public void startPushNotificationFlow() {
-        if (!BaseAppUtil.isDSPollingEnabled(this)) {
-            BaseFlowManager baseFlowManager = ((AppFrameworkApplication) getApplicationContext()).getTargetFlowManager();
-            if (baseFlowManager != null) {
-                BaseState currentState = baseFlowManager.getCurrentState();
-
-            }
-        }
     }
 
     @Override

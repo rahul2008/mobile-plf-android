@@ -41,9 +41,7 @@ public class URLogout implements URLogoutInterface {
             }
             return;
         }
-        RALog.d(TAG, "performLogout: doLogout Being called in BaseAppUtil polling enabled true");
         doLogout(activityContext, user);
-        RALog.d(TAG, "performLogout: BaseAppUtil.isDSPollingEnabled: True");
     }
 
 
@@ -59,7 +57,6 @@ public class URLogout implements URLogoutInterface {
                 if (activityContext != null && activityContext.getApplicationContext() != null && ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra() != null) {
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getLogging().setHSDPUserUUID(null);
                 }
-                stopDataSync(activityContext);
                 RALog.d(TAG, "doLogout: onLogoutSuccess");
             }
 
@@ -72,25 +69,5 @@ public class URLogout implements URLogoutInterface {
             }
         });
     }
-
-    protected void stopDataSync(Context activityContext) {
-        RALog.d(TAG, "stopDataSync: method started");
-        if (BaseAppUtil.isDSPollingEnabled(activityContext.getApplicationContext())) {
-            ((Activity) activityContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    RALog.d(TAG, "stopDataSync: stopSync");
-
-                }
-            });
-        } else {
-            RALog.d(TAG, "stopDataSync: savingTokenRegState");
-
-            RALog.d(TAG, "stopDataSync: deregisterDSForRegisteringToken");
-            RALog.d(TAG, "stopDataSync: deregisterForReceivingPayload");
-
-        }
-    }
-
 
 }

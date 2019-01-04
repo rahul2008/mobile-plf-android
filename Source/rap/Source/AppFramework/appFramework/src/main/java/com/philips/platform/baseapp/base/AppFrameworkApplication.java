@@ -133,11 +133,6 @@ public class AppFrameworkApplication extends Application {
          * context to gets started.
          */
         RALog.d(LOG, "PN state begin::");
-        if (BaseAppUtil.isDSPollingEnabled(getApplicationContext())) {
-
-        } else {
-
-        }
         RALog.d("test", "onCreate end::");
         appDataInitializationStatus = true;
         callback.onAppStatesInitialization();

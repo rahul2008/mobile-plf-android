@@ -96,7 +96,6 @@ public class SplashFragment extends AbstractOnboardingBaseFragment implements Ba
                         startAppTagging();
                         if (getActivity() instanceof LaunchActivity) {
                             ((LaunchActivity) getActivity()).startCollectingLifecycleData();
-                            ((LaunchActivity) getActivity()).startPushNotificationFlow();
                         }
                         ((AppFrameworkApplication) getActivity().getApplicationContext()).initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
                             @Override
