@@ -323,24 +323,24 @@ def BuildAndUnitTest() {
         set -e
         chmod -R 755 .
         ./gradlew --refresh-dependencies --full-stacktrace assembleRelease \
-            :AppInfra:cC \
+//            :AppInfra:cC \
             :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
-            :securedblibrary:cC \
-            :registrationApi:cC \
+//            :securedblibrary:cC \
+//            :registrationApi:cC \
             :registrationApi:testReleaseUnitTest \
-            :jump:cC \
+//            :jump:cC \
             :jump:testReleaseUnitTest \
-            :hsdp:cC \
+//            :hsdp:cC \
             :hsdp:testReleaseUnitTest \
-            :productselection:cC \
+//            :productselection:cC \
             :product-registration-lib:testReleaseUnitTest \
             :iap:testReleaseUnitTest \
-            :digitalCareUApp:cC \
+//            :digitalCareUApp:cC \
             :digitalCareUApp:testRelease \
-            :digitalCare:cC \
+//            :digitalCare:cC \
             :digitalCare:testRelease \
-            :mya:cC \
+//            :mya:cC \
             :mya:testReleaseUnitTest \
             :pif:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest 
