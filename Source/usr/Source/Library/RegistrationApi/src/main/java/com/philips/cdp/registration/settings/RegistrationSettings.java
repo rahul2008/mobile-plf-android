@@ -103,6 +103,18 @@ public abstract class RegistrationSettings {
                 localeCode = "en-US";
             }
         }
-        initialiseConfigParameters(localeCode);
+        final String lcode = localeCode;
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                initialiseConfigParameters(lcode);
+            }
+        };
+        Thread thread = new Thread(() -> {
+            android.os.Process.setThreadPriority(android.os.Process.
+                    THREAD_PRIORITY_MORE_FAVORABLE);
+            runnable.run();
+        });
+        thread.start();
     }
 }
