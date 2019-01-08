@@ -8,8 +8,6 @@ package com.philips.platform.baseapp.screens.webview;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.contentloader.ContentLoader;
-import com.philips.platform.appinfra.contentloader.ContentLoaderInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -52,14 +50,7 @@ public class WebViewPresenterTest {
 
     ServiceDiscoveryInterface.OnGetServiceUrlListener value;
 
-    @Mock
-    private static ContentLoader contentLoader;
 
-    @Captor
-    private ArgumentCaptor<ContentLoaderInterface.OnRefreshListener> refreshListenerCaptor;
-
-    @Captor
-    private ArgumentCaptor<ContentLoaderInterface.OnResultListener> onResultListenerArgumentCaptor;
 
     @After
     public void tearDown() {

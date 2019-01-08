@@ -27,7 +27,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
     AppInfra mAppInfra;
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
-            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing", "Content Loader", "WhiteBox API", "Internet Check", "Language Pack",
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing",  "WhiteBox API", "Internet Check", "Language Pack",
             "Resolution locale","App Update","Key Bag"};
     byte[] plainByte;
     byte[] encryptedByte;
@@ -205,40 +205,35 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 startActivity(abTesting);
                 break;
 
-            case 10:
-                Intent contentLoaderActivity = new Intent(AppInfraMainActivity.this,
-                        ContentLoaderCreateActivity.class);
-                startActivity(contentLoaderActivity);
-                break;
 
-            case 11:
+            case 10:
                 Intent whiteBoxAPISignInIntent = new Intent(AppInfraMainActivity.this,
                         WhiteBoxAPIActivity.class);
                 startActivity(whiteBoxAPISignInIntent);
                 break;
-            case 12:
+            case 11:
                 Intent secureDbIntent = new Intent(AppInfraMainActivity.this,
                         InternetCheckActivity.class);
                 startActivity(secureDbIntent);
                 break;
 
-            case 13:
+            case 12:
                 Intent languagePackIntent = new Intent(AppInfraMainActivity.this,
                         LanguagePackActivity.class);
                 startActivity(languagePackIntent);
                 break;
-            case 14:
+            case 13:
                 Intent resolutionLocaleIntent = new Intent(AppInfraMainActivity.this,
                         ResolutionLocaleActivity.class);
                 startActivity(resolutionLocaleIntent);
                 break;
 
-            case 15:
+            case 14:
                 Intent appUpdateActivity = new Intent(AppInfraMainActivity.this , AppUpdateActivity.class);
                 startActivity(appUpdateActivity);
                 break;
 
-            case 16:
+            case 15:
                 Intent keyBagActivity = new Intent(AppInfraMainActivity.this , KeyBagActivity.class);
                 startActivity(keyBagActivity);
                 break;
