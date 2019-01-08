@@ -9,8 +9,6 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
-import com.philips.platform.appinfra.aikm.AIKMInterface;
-import com.philips.platform.appinfra.aikm.AIKManager;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
@@ -70,7 +68,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
      */
     private Context appInfraContext;
     private LanguagePackInterface mLanguagePackInterface;
-    private AIKMInterface aikmInterface;
 
 
     private AppInfra(Context pContext) {
@@ -180,9 +177,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         this.mLanguagePackInterface = languagePackInterface;
     }
 
-    private void setAiKmInterface(AIKMInterface aikmInterface) {
-        this.aikmInterface = aikmInterface;
-    }
 
     private void setRestInterface(RestInterface restInterface) {
         mRestInterface = restInterface;
@@ -235,10 +229,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         return BuildConfig.VERSION_NAME;
     }
 
-    @Override
-    public AIKMInterface getAiKmInterface() {
-        return aikmInterface;
-    }
+
 
     @Override
     public ConsentManagerInterface getConsentManager() {
@@ -277,7 +268,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         private RestInterface mRestInterface;
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
-        private AIKMInterface aikmInterface;
         private ConsentManagerInterface consentManager;
         private DeviceStoredConsentHandler deviceStoredConsentHandler;
 
@@ -298,7 +288,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             configInterface = null;
             mRestInterface = null;
             languagePack = null;
-            aikmInterface = null;
             abtesting = null;
             consentManager = null;
             deviceStoredConsentHandler=null;
@@ -399,14 +388,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             this.deviceStoredConsentHandler = deviceStoredConsentHandler;
         }
 
-        /**
-         * Sets Builder aiKm Service overriding the default implementation.
-         *
-         * @param aikmInterface aiKm service interface
-         */
-        public void setAiKmInterface(AIKMInterface aikmInterface) {
-            this.aikmInterface = aikmInterface;
-        }
+
 
         public Builder setConsentManager(ConsentManagerInterface consentMgr) {
             this.consentManager = consentMgr;
@@ -483,16 +465,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
                 }
             }).start();
 
-//            if (AIKManager.isAiKmServiceEnabled(appConfigurationManager, ai)) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final AIKManager aikManager;
-                    aikManager = new AIKManager(ai);
-                    ai.setAiKmInterface(aikmInterface == null ? aikManager : aikmInterface);
-                }
-            }).start();
-//            }
+
 
             ai.setDeviceStoredConsentHandler(deviceStoredConsentHandler==null?new DeviceStoredConsentHandler(ai):deviceStoredConsentHandler);
 

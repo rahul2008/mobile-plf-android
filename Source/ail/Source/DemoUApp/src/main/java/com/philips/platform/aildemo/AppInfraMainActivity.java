@@ -233,10 +233,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 startActivity(appUpdateActivity);
                 break;
 
-            case 15:
-                Intent keyBagActivity = new Intent(AppInfraMainActivity.this , KeyBagActivity.class);
-                startActivity(keyBagActivity);
-                break;
+            
         }
 
     }

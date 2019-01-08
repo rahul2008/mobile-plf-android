@@ -46,7 +46,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener mOnGetServiceUrlMapListener = null;
     AppInfraInterface appInfra;
 
-    TextView resultView, keyBagTextView;
+    TextView resultView;
     EditText idEditText;
     EditText idEditTextCountry;
     String editTextData;
@@ -122,7 +122,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         editTextData = idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2);
-        keyBagTextView = (TextView) findViewById(R.id.keyBagData);
 
 
         receiver = new HomeCountryUpdateReceiver();
@@ -279,14 +278,12 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     public void onSuccess(String services) {
         Log.i("OnGetServicesListener", "" + services);
-        keyBagTextView.setVisibility(View.GONE);
         resultView.setText(services);
     }
 
     @Override
     public void onError(ERRORVALUES error, String message) {
         Log.i("onError", "" + message);
-        keyBagTextView.setVisibility(View.GONE);
         resultView.setText(message);
     }
 
@@ -301,7 +298,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //
 //            url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
 //            URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
-            keyBagTextView.setVisibility(View.GONE);
             resultView.setText("" + url);
 
         } catch (Exception e) {
@@ -311,7 +307,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     public void onSuccess(String countryCode, SOURCE source) {
         resultView.setText("Country Code : " + countryCode + " Source : " + source);
-        keyBagTextView.setVisibility(View.GONE);
     }
 
     @Override
@@ -349,35 +344,11 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //        }
         resultView.setText(" URL Model   : " + mMap);
 
-        displayKeyBagData(service);
 
 
     }
 
-    private void displayKeyBagData(ServiceDiscoveryService service) {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (service.getKMap() != null) {
-            for (Object object : service.getKMap().entrySet()) {
-                Map.Entry pair = (Map.Entry) object;
-                String keyBagKey = (String) pair.getKey();
-                String value = (String) pair.getValue();
-                stringBuilder.append("KeyBag Data --- ");
-                stringBuilder.append(keyBagKey);
-                stringBuilder.append(":");
-                stringBuilder.append(value);
-                stringBuilder.append("  ");
-                keyBagTextView.setVisibility(View.VISIBLE);
-                keyBagTextView.setText(stringBuilder.toString());
-            }
-        }
-        AIKMResponse.KError keyBagError = service.getKError();
-        if (null != keyBagError) {
-            stringBuilder.append("error while fetching key bag -- ");
-            stringBuilder.append(keyBagError.getDescription());
-            keyBagTextView.setVisibility(View.VISIBLE);
-            keyBagTextView.setText(stringBuilder.toString());
-        }
-    }
+
 
     @Override
     protected void onDestroy() {

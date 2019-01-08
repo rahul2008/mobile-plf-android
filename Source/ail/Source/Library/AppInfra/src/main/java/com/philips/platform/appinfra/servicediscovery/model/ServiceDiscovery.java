@@ -376,8 +376,6 @@ public class ServiceDiscovery {
 									final URL replacedUrl = mServiceDiscoveryManager.applyURLParameters(new URL(serviceUrlval), replacement);
 									if (replacedUrl != null) {
 										sdService.init(modelLocale, replacedUrl.toString());
-										AIKMResponse aikmResponse = mAppInfra.getAiKmInterface().getServiceExtension(serviceIds.get(i), urls.get(serviceIds.get(i).concat(".kindex")));
-										mapKeyBagData(sdService, aikmResponse);
 										responseMap.put(serviceIds.get(i), sdService);
 									}
 								} catch (MalformedURLException e) {
@@ -388,8 +386,6 @@ public class ServiceDiscovery {
 								}
 							} else {
 								sdService.init(modelLocale, serviceUrlval);
-								AIKMResponse aikmResponse = mAppInfra.getAiKmInterface().getServiceExtension(serviceIds.get(i), urls.get(serviceIds.get(i).concat(".kindex")));
-								mapKeyBagData(sdService, aikmResponse);
 								responseMap.put(serviceIds.get(i), sdService);
 							}
 
@@ -411,10 +407,7 @@ public class ServiceDiscovery {
 		return responseMap;
 	}
 
-	private void mapKeyBagData(ServiceDiscoveryService sdService, AIKMResponse aikmResponse) {
-		sdService.setKMap(aikmResponse.getkMap());
-		sdService.setKError(aikmResponse.getkError());
-	}
+
 
 	protected String getLocaleWithPreference(AISDResponse.AISDPreference preference) {
 		if (preference.equals(AISDCountryPreference)) {

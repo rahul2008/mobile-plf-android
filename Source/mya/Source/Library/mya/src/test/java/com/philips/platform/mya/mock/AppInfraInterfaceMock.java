@@ -11,7 +11,6 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
@@ -90,11 +89,6 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
 
     @Override
     public AppUpdateInterface getAppUpdate() {
-        return null;
-    }
-
-    @Override
-    public AIKMInterface getAiKmInterface() {
         return null;
     }
 

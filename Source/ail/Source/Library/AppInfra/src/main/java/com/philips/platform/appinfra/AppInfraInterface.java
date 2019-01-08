@@ -3,7 +3,6 @@ package com.philips.platform.appinfra;
 import android.content.Context;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
-import com.philips.platform.appinfra.aikm.AIKMInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
@@ -109,7 +108,7 @@ public interface AppInfraInterface extends Serializable {
      */
     AppUpdateInterface getAppUpdate();
 
-    AIKMInterface getAiKmInterface();
+
 
     /**
      * Gets ConsentManager.
