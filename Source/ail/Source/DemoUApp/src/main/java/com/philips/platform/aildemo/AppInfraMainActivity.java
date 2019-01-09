@@ -28,7 +28,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
             "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing",  "WhiteBox API", "Internet Check", "Language Pack",
-            "Resolution locale","App Update","Key Bag"};
+            "Resolution locale","App Update"};
     byte[] plainByte;
     byte[] encryptedByte;
 
