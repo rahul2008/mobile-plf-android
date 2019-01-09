@@ -124,7 +124,7 @@ public class PRUiHelper {
         } else {
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         }
-        context.startActivity(intent);
+        activityLauncher.getActivityContext().startActivity(intent);
     }
 
     /**
