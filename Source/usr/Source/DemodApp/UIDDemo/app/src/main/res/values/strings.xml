@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">UIDDemo</string>
+    <string-array name="locale_arrays">
+        <item>en-US</item>
+        <item>fr-FR</item>
+    </string-array>
+</resources>
