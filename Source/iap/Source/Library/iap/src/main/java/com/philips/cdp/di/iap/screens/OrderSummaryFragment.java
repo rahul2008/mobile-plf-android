@@ -200,7 +200,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 showCvvDialog(getFragmentManager());
             else {
                 placeOrder(null);
-                mAddressController.getDeliveryModes();
             }
         } else if (v.getId() == R.id.cancel_btn) {
             unregisterEventNotification();
