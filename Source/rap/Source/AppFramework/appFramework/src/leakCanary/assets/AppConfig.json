@@ -27,7 +27,6 @@
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId", "language"],
     "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success","DOT-ReceiveMarketingOptIn"],
-    "contentLoader.limitSize":100,
     "servicediscovery.platformMicrositeId":"70000",
     "servicediscovery.platformEnvironment":"production",
     "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"],

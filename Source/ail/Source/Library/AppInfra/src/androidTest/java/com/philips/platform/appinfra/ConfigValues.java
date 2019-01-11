@@ -49,7 +49,6 @@ public class ConfigValues {
 				" \"TAGGING.SENSITIVEDATA\": [\"bundleId, language\"] ,\n" +
 				"  \"ABTEST.PRECACHE\":[\"philipsmobileappabtest1content\",\"philipsmobileappabtest1success\"],\n" +
 				"  \"ABTEST.MAPPING\":{\"usr.login\":\" philipsmobileappabtest1content\"},\n" +
-				"    \"CONTENTLOADER.LIMITSIZE\":100,\n" +
 				"    \"SERVICEDISCOVERY.PLATFORMMICROSITEID\":\"77000\",\n" +
 				"    \"SERVICEDISCOVERY.PLATFORMENVIRONMENT\":\"production\",\n" +
 				"    \"SERVICEDISCOVERY.PROPOSITIONENABLED\":true,\n" +
@@ -229,7 +228,6 @@ public class ConfigValues {
 				"\"APPIDENTITY.SERVICEDISCOVERYENVIRONMENT\"  : \"Staging\",\n" +
 				"\"RESTCLIENT.CACHESIZEINKB\"  : 1024, \n" +
 				" \"TAGGING.SENSITIVEDATA\": [\"bundleId, language\"] ,\n" +
-				"    \"CONTENTLOADER.LIMITSIZE\":100,\n" +
 				"    \"SERVICEDISCOVERY.PLATFORMMICROSITEID\":\"77000\",\n" +
 				"    \"SERVICEDISCOVERY.PLATFORMENVIRONMENT\":\"production\",\n" +
 				"    \"SERVICEDISCOVERY.PROPOSITIONENABLED\":true,\n" +

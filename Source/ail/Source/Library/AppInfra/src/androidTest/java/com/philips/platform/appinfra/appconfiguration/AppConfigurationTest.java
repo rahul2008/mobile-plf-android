@@ -587,7 +587,6 @@ public class AppConfigurationTest {
                 "\"RESTCLIENT.CACHESIZEINKB\"  : 1024, \n" +
                 " \"TAGGING.SENSITIVEDATA\": [\"bundleId, language\"] ,\n" +
                 "  \"ABTEST.PRECACHE\":[\"philipsmobileappabtest1content\",\"philipsmobileappabtest1success\"],\n" +
-                "    \"CONTENTLOADER.LIMITSIZE\":555,\n" +
                 "    \"SERVICEDISCOVERY.PLATFORMMICROSITEID\":\"77000\",\n" +
                 "    \"SERVICEDISCOVERY.PLATFORMENVIRONMENT\":\"production\",\n" +
                 "    \"SERVICEDISCOVERY.PROPOSITIONENABLED\":\true,\n" +
@@ -615,7 +614,6 @@ public class AppConfigurationTest {
                 "  }, \n" +
                 " \"APPINFRA\": { \n" +
 
-                "    \"CONTENTLOADER.LIMITSIZE\":555\n" +
 
                 "  }\n" +
                 "}\n";
