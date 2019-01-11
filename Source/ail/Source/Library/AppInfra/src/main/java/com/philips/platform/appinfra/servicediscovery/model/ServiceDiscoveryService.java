@@ -13,7 +13,6 @@ public class ServiceDiscoveryService {
     private String mConfigUrl;
     private String mError;
     private Map<?, ?> kMap;
-    private AIKMResponse.KError kError;
 
     public void init(String localeParam, String configUrlParam) {
         mLocale = localeParam;
@@ -48,11 +47,5 @@ public class ServiceDiscoveryService {
         this.kMap = kMap;
     }
 
-    public AIKMResponse.KError getKError() {
-        return kError;
-    }
 
-    public void setKError(AIKMResponse.KError kError) {
-        this.kError = kError;
-    }
 }

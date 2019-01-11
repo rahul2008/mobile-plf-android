@@ -16,7 +16,6 @@ public class AppInfraLogEventID {
     public static final String AI_APP_CONFIGUARTION = "AIAppConfiguartion";
     public static final String AI_APP_IDENTITY = "AIAppIdentity ";
     public static final String AI_APP_UPDATE = "AIAppUpdate ";
-    public static final String AI_CONTENT_LOADER = "AIContentLoader ";
     public static final String AI_INTERNATIONALIZATION = "AIInternationalization ";
     public static final String AI_LANGUAGE_PACK = "AILanguagePack ";
     public static final String AI_LOGGING = "AILogging ";

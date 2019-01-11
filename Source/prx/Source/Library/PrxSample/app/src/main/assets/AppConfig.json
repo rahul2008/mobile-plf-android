@@ -44,7 +44,6 @@
     "abtest.mapping": {
       "usr.login": "DOT-ReceiveMarketingOptIn"
     },
-    "contentLoader.limitSize": 100,
     "servicediscovery.platformMicrositeId": "70000",
     "servicediscovery.platformEnvironment": "production",
     "servicediscovery.propositionEnabled": true,
