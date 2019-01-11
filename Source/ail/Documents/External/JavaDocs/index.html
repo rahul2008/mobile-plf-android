@@ -157,7 +157,7 @@
     <li class="li6"><span class="s3"></span><span class="s4">2) Library Integration: If unable to connect with Philips network then include libraries to your root application. Do follow section 2.</span></li>
   </ul>
   <li class="li6"><span class="s3"></span><span class="s4">1. Maven repository (Artifactory based) Integration: The easiest and preferred way to use these components is using maven. All dependent libraries should be downloaded from artifactory.</span></li>
-  <li class="li9"></li>
+  
   <li class="li6"><span class="s3"></span><span class="s4">2. Library Integration: Below gradle dependencies are used in library</span></li>
   <ul class="ul2">
     <li class="li6"><span class="s3"></span><span class="s4">dependencies { compile project(':AppInfra') }<span class="Apple-converted-space"> </span></span></li>
@@ -165,20 +165,7 @@
   <ul class="ul2">
     <li class="li6"><span class="s3"></span><span class="s4">Refer integration document. Integration document is part of appinfra repo (Documents/External/Integration Document_Appinfra)<span class="Apple-converted-space"> </span></span></li>
   </ul>
-  <li class="li6"><span class="s3"></span><span class="s4">Build Config Current Version:</span></li>
-  <ul class="ul2">
-    <li class="li6"><span class="s3"></span><span class="s4">compileSdkVersion 26</span></li>
-  </ul>
-  <ul class="ul2">
-    <li class="li6"><span class="s3"></span><span class="s4">buildToolsVersion ’26.0.2’</span></li>
-  </ul>
-  <ul class="ul2">
-    <li class="li6"><span class="s3"></span><span class="s4">minSdkVersion 21</span></li>
-  </ul>
-  <ul class="ul2">
-    <li class="li6"><span class="s3"></span><span class="s4">targetSdkVersion 26</span></li>
-  </ul>
-  <li class="li9"></li>
+ 
   <li class="li6"><span class="s3"></span><span class="s4">Proguard rules of AppInfra: -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }</span></li>
 </ul>
 <h2 style="margin: 0.0px 0.0px 14.9px 0.0px; line-height: 22.0px; font: 18.0px Times; color: #000000; -webkit-text-stroke: #000000"><span class="s4"><b>Code Example - Quick integration</b></span></h2>
