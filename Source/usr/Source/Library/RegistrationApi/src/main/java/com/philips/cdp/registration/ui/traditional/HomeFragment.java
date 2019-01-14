@@ -972,4 +972,8 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
             showNotificationBarOnNetworkNotAvailable();
         } else hideNotificationBarView();
     }
+
+    public void enableControlsOnNetworkStatusOnHomeFragment() {
+        handleBtnClickableStates(homePresenter.isNetworkAvailable());
+    }
 }
