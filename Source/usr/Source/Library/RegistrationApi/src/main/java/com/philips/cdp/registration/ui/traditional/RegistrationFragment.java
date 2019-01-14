@@ -164,6 +164,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             if (fragment instanceof ForgotPasswordFragment) {
                 ((ForgotPasswordFragment) (fragment)).backPressed();
             }
+            trackHandler();
             int stackCount = count-1;
             if(fragment instanceof ResetPasswordWebView){
                 currentFragment = mFragmentManager.getFragments().get(stackCount);
@@ -178,7 +179,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 return true;
             }
 
-            trackHandler();
+
             try {
                 currentFragment = mFragmentManager.getFragments().get(count - 1);
                 mFragmentManager.popBackStack();
