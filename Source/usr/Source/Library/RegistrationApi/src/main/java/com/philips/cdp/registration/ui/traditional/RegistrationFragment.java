@@ -168,7 +168,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 currentFragment = mFragmentManager.getFragments().get(count - 1);
                 mFragmentManager.popBackStack();
                 if (currentFragment instanceof HomeFragment && networkUtility.isNetworkAvailable()) {
-                    ((HomeFragment) currentFragment).enableControlsOnNetworkStatus();
+                    ((HomeFragment) currentFragment).enableControlsOnNetworkStatusOnHomeFragment();
                 }
             } catch (IllegalStateException e) {
                 /**
