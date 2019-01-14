@@ -85,7 +85,6 @@ public class ResetPasswordWebView extends RegistrationBaseFragment {
                 view.loadUrl(request.getUrl().toString());
                 String url = "https://stg.philips.com.cn/c-w/user-registration/apps/login.html";
                 if (url.contains("login.html")) {
-                    //getRegistrationFragment().replaceWithHomeFragment();
                     getRegistrationFragment().onBackPressed();
                 }
 
