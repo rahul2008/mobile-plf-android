@@ -83,8 +83,7 @@ public class ResetPasswordWebView extends RegistrationBaseFragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 view.loadUrl(request.getUrl().toString());
-                String url = "https://stg.philips.com.cn/c-w/user-registration/apps/login.html";
-                if (url.contains("login.html")) {
+                if (request.getUrl().toString().endsWith("login.html")) {
                     getRegistrationFragment().onBackPressed();
                 }
 
