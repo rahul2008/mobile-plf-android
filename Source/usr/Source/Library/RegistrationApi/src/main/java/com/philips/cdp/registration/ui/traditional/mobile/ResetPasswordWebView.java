@@ -1,8 +1,9 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +16,41 @@ import android.webkit.WebViewClient;
 import com.philips.cdp.registration.ProgressAlertDialog;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 /**
  * Created by 310190722 on 6/21/2016.
  */
-public class ResetPasswordWebView extends Fragment {
+public class ResetPasswordWebView extends RegistrationBaseFragment {
 
     public static final String TEST_RESET_PASS = "https://tst.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String STAGE_RESET_PASS = "https://acc.philips.com.cn/c-w/user-registration/apps/login.html";
     public static final String PROD_RESET_PASS = "https://www.philips.com.cn/c-w/user-registration/apps/login.html";
     private static final String TAG = "ResetPasswordWebView";
+    private Context mContext;
+
+    @Override
+    protected void setViewParams(Configuration config, int width) {
+      //NOP
+    }
+
+    @Override
+    protected void handleOrientation(View view) {
+        //NOP
+    }
+
+    @Override
+    public int getTitleResourceId() {
+        return R.string.USR_DLS_SigIn_TitleTxt;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +83,11 @@ public class ResetPasswordWebView extends Fragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 view.loadUrl(request.getUrl().toString());
+                String url = "https://stg.philips.com.cn/c-w/user-registration/apps/login.html";
+                if (url.contains("login.html")) {
+                    getRegistrationFragment().onBackPressed();
+                }
+
                 return true;
             }
 
@@ -134,4 +164,8 @@ public class ResetPasswordWebView extends Fragment {
         }
     }
 
+    @Override
+    public void notificationInlineMsg(String msg) {
+
+    }
 }

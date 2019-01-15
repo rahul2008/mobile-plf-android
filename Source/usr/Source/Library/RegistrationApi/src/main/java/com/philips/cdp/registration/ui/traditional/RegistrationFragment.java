@@ -35,6 +35,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.ResetPasswordWebView;
 import com.philips.cdp.registration.ui.utils.CountDownEvent;
 import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -164,6 +165,21 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 ((ForgotPasswordFragment) (fragment)).backPressed();
             }
             trackHandler();
+            int stackCount = count-1;
+            if(fragment instanceof ResetPasswordWebView){
+                currentFragment = mFragmentManager.getFragments().get(stackCount);
+                while(!(currentFragment instanceof HomeFragment)){
+
+                    mFragmentManager.popBackStack();
+                    stackCount--;
+                    currentFragment = mFragmentManager.getFragments().get(stackCount);
+
+                }
+                mFragmentManager.popBackStack();
+                return true;
+            }
+
+
             try {
                 currentFragment = mFragmentManager.getFragments().get(count - 1);
                 mFragmentManager.popBackStack();
