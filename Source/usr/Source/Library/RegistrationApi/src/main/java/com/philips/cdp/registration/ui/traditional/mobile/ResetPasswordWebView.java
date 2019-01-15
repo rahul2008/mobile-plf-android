@@ -32,7 +32,7 @@ public class ResetPasswordWebView extends RegistrationBaseFragment {
 
     @Override
     protected void setViewParams(Configuration config, int width) {
-      //NOP
+        //NOP
     }
 
     @Override
@@ -82,11 +82,12 @@ public class ResetPasswordWebView extends RegistrationBaseFragment {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                view.loadUrl(request.getUrl().toString());
-                if (request.getUrl().toString().endsWith("login.html")) {
-                    getRegistrationFragment().onBackPressed();
+                if (request.getUrl() != null) {
+                    view.loadUrl(request.getUrl().toString());
+                    if (request.getUrl().toString().endsWith("login.html")) {
+                        getRegistrationFragment().onBackPressed();
+                    }
                 }
-
                 return true;
             }
 
