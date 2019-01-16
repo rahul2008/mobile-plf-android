@@ -48,14 +48,6 @@ public abstract class BaseFlowManager {
     private String BACK = "back";
     private Handler flowManagerHandler;
 
-    @Deprecated
-    /**
-     * @deprecated  Deprecated since 1.1.0, request to use default constructor with initialize api.
-     * @since 1.1.0
-     */
-    public BaseFlowManager(final Context context, final String jsonPath) throws JsonAlreadyParsedException {
-        parseFlowManagerJson(context, jsonPath, null);
-    }
 
     /**
      * Base Flow Manager constructor
@@ -274,20 +266,6 @@ public abstract class BaseFlowManager {
         throw new NoStateException();
     }
 
-    @Deprecated
-    /**
-     * @deprecated - deprecated since 1.1.0
-     * @since 1.1.0
-     */
-    public BaseState getFirstState() throws NoStateException {
-        BaseState firstState = stateMap.get(this.firstState);
-        if (firstState != null) {
-            setCurrentState(firstState);
-            flowManagerStack.push(firstState);
-            return firstState;
-        }
-        throw new NoStateException();
-    }
 
     @Nullable
     private BaseState getStateForEventID(boolean isBack, String eventId, List<AppFlowEvent> appFlowEvents) throws NoEventFoundException, NoConditionFoundException, ConditionIdNotSetException {

@@ -21,19 +21,6 @@ public class PRXDependencies {
      * PRXDependencies constructor.
      * @param context Context
      * @param appInfra App Infra Interface
-     * @deprecated Deprecated since 2.2.0
-     * @since 1.0.0
-     */
-    @Deprecated
-    public PRXDependencies(Context context, AppInfraInterface appInfra) {
-        this.mAppInfraInterface = appInfra;
-        this.mContext = context;
-    }
-
-    /**
-     * PRXDependencies constructor.
-     * @param context Context
-     * @param appInfra App Infra Interface
      * @param parentTLA Parent Three Letter Acronym
      * @since 1.0.0
      */

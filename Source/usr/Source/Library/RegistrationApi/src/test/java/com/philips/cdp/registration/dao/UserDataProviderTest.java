@@ -138,11 +138,6 @@ public class UserDataProviderTest extends TestCase{
     }
 
     @Test
-    public void testUserSignedIn(){
-        assertEquals(true, userDataProvider.isUserLoggedIn(contextMock));
-    }
-
-    @Test
     public void testGetDetails() throws Exception {
         ArrayList<String> testArray = new ArrayList<>(Arrays.asList(
                 UserDetailConstants.GIVEN_NAME,

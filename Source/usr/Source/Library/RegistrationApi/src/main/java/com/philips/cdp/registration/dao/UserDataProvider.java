@@ -109,13 +109,6 @@ public class UserDataProvider extends User implements UserDataInterface {
     }
 
     @Override
-    public boolean isUserLoggedIn(Context context) {
-        boolean isLoggedIn = isUserSignIn();
-        RLog.d(TAG, "isUserLoggedIn :  " + isLoggedIn);
-        return isLoggedIn;
-    }
-
-    @Override
     public UserLoggedInState getUserLoggedInState() {
         return getState();
     }
