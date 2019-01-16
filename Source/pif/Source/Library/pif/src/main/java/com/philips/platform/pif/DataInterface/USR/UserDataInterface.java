@@ -71,7 +71,9 @@ public interface UserDataInterface extends Serializable {
      *
      * @param context Context
      * @return returns true if user is logged in
+     * @deprecated Deprecated since 1804.0, with getUserLoginState()
      */
+    @Deprecated
     boolean isUserLoggedIn(Context context);
 
 

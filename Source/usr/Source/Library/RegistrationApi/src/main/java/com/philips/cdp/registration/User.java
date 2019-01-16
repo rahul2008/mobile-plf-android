@@ -618,6 +618,19 @@ public class User {
         }
     }
 
+    /**
+     * {@code isUserSignIn} method checks if a user is logged in
+     * @deprecated
+     * @return boolean
+     * @since 1.0.0
+     * Its deprecated since 1804.0, request to please use getUserLoginState to get the User login state instead of isUserSignIn() api
+     */
+
+    @Deprecated
+    public boolean isUserSignIn() {
+        return (getUserLoginState() == UserLoginState.USER_LOGGED_IN);
+    }
+
     private boolean isSignedInOnAcceptedTermsAndConditions() {
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired();
         if (isAcceptTerms) {
