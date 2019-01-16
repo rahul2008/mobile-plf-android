@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
@@ -106,6 +107,13 @@ public class UserDataProvider extends User implements UserDataInterface {
     public String getHSDPUUID() {
         RLog.d(TAG, "getHSDPUUID : " + getHsdpUUID());
         return getHsdpUUID();
+    }
+
+    @Override
+    public boolean isUserLoggedIn(Context context) {
+        boolean isLoggedIn = getUserLoginState() == UserLoginState.USER_LOGGED_IN;
+        RLog.d(TAG, "isUserLoggedIn :  " + isLoggedIn);
+        return isLoggedIn;
     }
 
     @Override

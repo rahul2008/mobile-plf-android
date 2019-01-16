@@ -5,6 +5,8 @@
  */
 package com.philips.platform.pif.DataInterface.USR;
 
+import android.content.Context;
+
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
@@ -63,6 +65,15 @@ public interface UserDataInterface extends Serializable {
      * @since 2018.1.0
      */
     String getHSDPUUID();
+
+    /**
+     * Check if the user is logged in
+     *
+     * @param context Context
+     * @return returns true if user is logged in
+     */
+    boolean isUserLoggedIn(Context context);
+
 
     /**
      * {@code getUserSignInState} method checks a user is logged in state
