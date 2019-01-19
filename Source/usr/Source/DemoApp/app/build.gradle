@@ -115,6 +115,9 @@ dependencies {
     implementation deps.greenrobot
     implementation deps.wechat
     implementation deps.butterknife
+    implementation deps.adobemobilelib
+    implementation 'net.openid:appauth:0.7.1'
+    implementation 'com.squareup.okio:okio:1.14.1'
 
     testImplementation deps.junit
 
