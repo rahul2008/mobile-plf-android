@@ -87,4 +87,9 @@ public class RegistrationRequestTest extends TestCase {
         registrationRequest.setCountry("india");
         assertEquals("india", registrationRequest.getCountry());
     }
+
+    public void testReceiveMarketingEmail() throws Exception {
+        registrationRequest.setReceiveMarketEmail(true);
+        assertEquals("true", registrationRequest.isReceiveMarketingEmail());
+    }
 }

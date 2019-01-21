@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.prxrequest;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
@@ -39,8 +39,8 @@ public class RegistrationRequest extends PrxRequest {
     private String state;
     private String country;
     private String serviceID;
-    private static int MAX_REQUEST_TIME_OUT= 30000;
-
+    private static int MAX_REQUEST_TIME_OUT = 30000;
+    private boolean receiveMarketingEmail;
     private String shouldSendEmailAfterRegistration = "true";
 
     public RegistrationRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
@@ -49,7 +49,7 @@ public class RegistrationRequest extends PrxRequest {
         this.serviceID = serviceID;
     }
 
-    public void setAccessToken(String accessToken){
+    public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
 
@@ -179,11 +179,12 @@ public class RegistrationRequest extends PrxRequest {
         PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                ProdRegLogger.i("Registration Request","Registration Request :error :"+errorvalues.toString() + ":  message : "+s );
+                ProdRegLogger.i("Registration Request", "Registration Request :error :" + errorvalues.toString() + ":  message : " + s);
             }
+
             @Override
             public void onSuccess(URL url) {
-                if (url.toString().contains(ProdRegConstants.CHINA_DOMAIN)){
+                if (url.toString().contains(ProdRegConstants.CHINA_DOMAIN)) {
                     headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
                 }
             }
@@ -195,12 +196,22 @@ public class RegistrationRequest extends PrxRequest {
     public Map<String, String> getParams() {
         String REGISTRATION_CHANNEL = "registrationChannel";
         String SEND_EMAIL = "sendEmail";
+        String MARKETING_EMAIL = "receiveMarketingEmail";
         Map<String, String> params = new HashMap<>();
         validatePurchaseDate(params, getPurchaseDate());
         validateSerialNumber(params);
         params.put(REGISTRATION_CHANNEL, getRegistrationChannel());
         params.put(SEND_EMAIL, getShouldSendEmailAfterRegistration());
+        params.put(MARKETING_EMAIL, isReceiveMarketingEmail());
         return params;
+    }
+
+    public String isReceiveMarketingEmail() {
+        return String.valueOf(receiveMarketingEmail);
+    }
+
+    public void setReceiveMarketEmail(boolean receiveMarketingEmail) {
+        this.receiveMarketingEmail = receiveMarketingEmail;
     }
 
     private void validateSerialNumber(final Map<String, String> params) {

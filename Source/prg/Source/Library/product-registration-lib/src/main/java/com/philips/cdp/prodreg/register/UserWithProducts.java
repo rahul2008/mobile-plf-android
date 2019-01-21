@@ -291,6 +291,7 @@ public class UserWithProducts {
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));
         registrationRequest.setAccessToken(getUser().getAccessToken());
+        registrationRequest.setReceiveMarketEmail(getUser().getReceiveMarketingEmail());
         return registrationRequest;
     }
 
