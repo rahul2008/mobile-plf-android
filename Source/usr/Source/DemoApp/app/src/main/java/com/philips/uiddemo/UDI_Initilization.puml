@@ -1,0 +1,26 @@
+@startuml
+
+Application -> UDIComponent: Init and Launch
+
+UDIComponent -> ServiceDiscovery: To get well-known open-id configuration on country basis
+ServiceDiscovery ->UDIComponent : return well-known openId  configuration
+UDIComponent -> AuthorizationServer: Prepare Authorization Request
+'UDIComponent ->AuthorizationServer: Authorization Request
+AuthorizationServer ->PIL:Authenticate End User
+PIL -> AuthorizationServer : Consent/authorization
+AuthorizationServer ->PIL :Redirect with Access token and ID token
+
+
+
+box "IT backend" #LightBlue
+participant PIL
+participant CLP
+end box
+
+
+box "OpenID Provider" #LightBlue
+participant AuthorizationServer
+participant JanrainEndpoint
+end box
+
+@enduml
