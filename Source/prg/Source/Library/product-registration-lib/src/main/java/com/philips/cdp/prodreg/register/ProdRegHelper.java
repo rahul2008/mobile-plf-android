@@ -101,7 +101,7 @@ public class ProdRegHelper {
         protected static void registerListerOnUserSignIn() {
             final URLaunchInput urLaunchInput = new URLaunchInput();
            // urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setUserRegistrationUIEventListener(getUserRegistrationListener());
         }
