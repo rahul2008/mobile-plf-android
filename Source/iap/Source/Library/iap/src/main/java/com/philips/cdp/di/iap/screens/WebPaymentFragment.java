@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.webkit.CookieManager;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -97,8 +98,10 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     private boolean verifyResultCallBacks(String url) {
         boolean match = true;
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
+            clearCookies();
             launchConfirmationScreen(createSuccessBundle());
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
+            clearCookies();
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
 //            if (!mIsPaymentFailed)
@@ -181,5 +184,10 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
         if (mIsPaymentFailed) {
             handleNavigation();
         }
+    }
+
+    private void clearCookies(){
+        String cookies = CookieManager.getInstance().getCookie(mUrl);
+        CookieManager.getInstance().removeAllCookies(null);
     }
 }
