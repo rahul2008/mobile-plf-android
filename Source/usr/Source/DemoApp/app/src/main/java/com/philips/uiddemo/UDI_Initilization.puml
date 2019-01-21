@@ -4,12 +4,19 @@ Application -> UDIComponent: Init and Launch
 
 UDIComponent -> ServiceDiscovery: To get well-known open-id configuration on country basis
 ServiceDiscovery ->UDIComponent : return well-known openId  configuration
-UDIComponent -> AuthorizationServer: Prepare Authorization Request
-'UDIComponent ->AuthorizationServer: Authorization Request
-AuthorizationServer ->PIL:Authenticate End User
-PIL -> AuthorizationServer : Consent/authorization
-AuthorizationServer ->PIL :Redirect with Access token and ID token
 
+UDIComponent -> AuthorizationServer: Prepare Authorization Request
+AuthorizationServer ->UDIComponent:success
+
+UDIComponent -> CLP : AuthorizationRequest (performAuthorizationRequest)
+CLP --> AuthorizationServer : open in default browser if no, browsers support Custom Tabs
+note right: with authorize service configuration, client ID, response-type and redirect-url
+
+AuthorizationServer ->CLP :Authorization Code
+CLP ->UDIComponent :Authorization Code
+
+UDIComponent ->AuthorizationServer:request for token end point with auth code
+AuthorizationServer -> UDIComponent: success with access token and refresh token
 
 
 box "IT backend" #LightBlue
