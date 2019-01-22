@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.philips.uiddemo;
+package com.philips.platform.udi;
 
 import android.content.Context;
 import android.content.SharedPreferences;

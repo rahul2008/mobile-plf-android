@@ -45,7 +45,8 @@ include ext.strings.prguapp.projectName
 
 include ext.strings.hsdp.projectName
 
-
+include ext.strings.udi.projectName
+include ext.strings.udiuapp.projectName
 
 
 
@@ -82,6 +83,12 @@ project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/
 include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
+
+project(ext.strings.udi.projectName).projectDir = new File('./Source/udi/Source/Library/udi')
+include(':udiApp')
+project(':udiApp').projectDir = new File('./Source/udi/Source/DemoApp/app')
+project(ext.strings.udi.projectName).projectDir = new File('./Source/udi/Source/Library/udi')
+project(ext.strings.udiuapp.projectName).projectDir = new File('./Source/udi/Source/DemoUApp')
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':uAppFwLibApp'

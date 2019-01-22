@@ -1,4 +1,4 @@
-package com.philips.uiddemo;
+package com.philips.platform.udi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.philips.platform.uid.view.widget.ProgressBarButton;
-import com.philips.platform.urdemo.R;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;

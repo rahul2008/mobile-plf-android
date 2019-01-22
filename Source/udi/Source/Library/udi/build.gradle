@@ -41,7 +41,7 @@ android {
 
     buildTypes {
         release {
-            proguardFiles 'proguard-rules-securedb.pro'
+            proguardFiles 'proguard-rules-udi.pro'
         }
         debug {
             debuggable true
@@ -69,10 +69,11 @@ dependencies {
 
 //    implementation deps.ormlite.android
     implementation 'net.openid:appauth:0.7.1'
+    implementation 'com.squareup.okio:okio:2.0.0'
     implementation deps.support.appcompatv7
     implementation deps.support.design
     implementation deps.support.annotations
-
+    implementation philipsdeps.uid
     testImplementation deps.junit
 
     androidTestImplementation deps.androidx_test.runner

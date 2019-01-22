@@ -38,6 +38,7 @@ ext.strings = [
 //        ufwuapp:[projectName:':uAppFwLibUApp', artifactName:'uAppFwLibUApp'],
         prguapp:[projectName:':product-registration-libUApp', artifactName:'product-registration-libUApp'],
 
-        cmluapp:[projectName:':commlib-demouapp', artifactName:'commlib-demouapp']
-
+        cmluapp:[projectName:':commlib-demouapp', artifactName:'commlib-demouapp'],
+        udiuapp:[projectName:':udiUApp', artifactName:'udiUApp'],
+        udi: [projectName:':udi', artifactName:'udi']
 ]

@@ -1,4 +1,4 @@
-package com.philips.uiddemo;
+package com.philips.platform.udi;
 
 import android.app.Application;
 
@@ -12,7 +12,8 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import net.openid.appauth.AuthState;
 
 public class UIDDemoApplication extends Application {
-    public AuthState authState=new AuthState();
+    public AuthState authState = new AuthState();
+
     @Override
     public void onCreate() {
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.GROUP_BLUE));

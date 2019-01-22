@@ -1,4 +1,4 @@
-package com.philips.uiddemo;
+package com.philips.platform.udi;
 
 import android.content.Intent;
 import android.net.Uri;

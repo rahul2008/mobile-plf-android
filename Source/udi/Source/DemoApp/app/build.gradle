@@ -18,34 +18,34 @@ buildscript {
     }
 }
 
-archivesBaseName = "udiUApp"
+archivesBaseName = "udiApp"
 group = 'com.philips.cdp'
 
-artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
-    publish {
-        repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = objcdp.getArtifactoryUploadUser()
-            password = objcdp.getArtifactoryUploadPwd()
-            defaults {
-                publishPom = true
-                publishIvy = false
-                publishBuildInfo = true
-                publishArtifacts = true
-                publications('apk')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
-            }
-        }
-    }
-    resolve {
-        repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
-        }
-    }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
-}
+//artifactory {
+//    contextUrl = objcdp.getArtifactoryContextUrl()
+//    publish {
+//        repository {
+//            repoKey = objcdp.getArtifactoryPublishRepoKey()
+//            username = objcdp.getArtifactoryUploadUser()
+//            password = objcdp.getArtifactoryUploadPwd()
+//            defaults {
+//                publishPom = true
+//                publishIvy = false
+//                publishBuildInfo = true
+//                publishArtifacts = true
+//                publications('apk')
+//                properties = ['git.commitid': objcdp.getCommitHashLong()]
+//            }
+//        }
+//    }
+//    resolve {
+//        repository {
+//            repoKey = objcdp.getArtifactoryResolveRepoKey()
+//        }
+//    }
+//    clientConfig.timeout = 600
+//    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+//}
 
 publishing {
     publications {
@@ -79,9 +79,12 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        applicationId 'com.philips.platform.database'
+        applicationId 'com.philips.platform.udi'
         versionName version + "(" + commitHash+ ")"
         versionCode 1
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
     }
 
     signingConfigs {
@@ -127,7 +130,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation project(':udilibrary')
+    implementation project(':udi')
     implementation deps.support.appcompatv7
     implementation deps.support.design
     implementation deps.support.annotations
