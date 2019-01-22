@@ -187,7 +187,6 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     }
 
     private void clearCookies(){
-        String cookies = CookieManager.getInstance().getCookie(mUrl);
         CookieManager.getInstance().removeAllCookies(null);
     }
 }
