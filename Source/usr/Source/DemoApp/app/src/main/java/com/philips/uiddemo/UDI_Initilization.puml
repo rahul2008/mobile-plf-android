@@ -1,22 +1,30 @@
 @startuml
+User -> Application : Launch App
+Application -> UDIComponent: Init
+Application -> UDIComponent: launch
 
-Application -> UDIComponent: Init and Launch
 
-UDIComponent -> ServiceDiscovery: To get well-known open-id configuration on country basis
-ServiceDiscovery ->UDIComponent : return well-known openId  configuration
+UDIComponent -> ServiceDiscovery: get configuration urls(on country basis)
+ServiceDiscovery ->UDIComponent : return configuration urls
 
-UDIComponent -> AuthorizationServer: Prepare Authorization Request
-AuthorizationServer ->UDIComponent:success
+User -> UDIComponent : Login pressed
+UDIComponent --> AppAuth:Authorization Request with Redirect URI
 
-UDIComponent -> CLP : AuthorizationRequest (performAuthorizationRequest)
-CLP --> AuthorizationServer : open in default browser if no, browsers support Custom Tabs
-note right: with authorize service configuration, client ID, response-type and redirect-url
+AppAuth  -> Browser : Authorization Request to launch browser
 
-AuthorizationServer ->CLP :Authorization Code
+Browser -> Janrain_OIDC: Authorization Request with redirect url
+
+CLP <-- Janrain_OIDC : Redirect to the CLP page for user authentication
+
+'User input to CLP and CLP validate the credential with Janrain. If yes, Janrain will give
+
+
+
+
 CLP ->UDIComponent :Authorization Code
 
-UDIComponent ->AuthorizationServer:request for token end point with auth code
-AuthorizationServer -> UDIComponent: success with access token and refresh token
+UDIComponent ->Janrain_OIDC:request for token end point with auth code
+Janrain_OIDC -> UDIComponent: success with access token and refresh token
 
 
 box "IT backend" #LightBlue
@@ -24,10 +32,10 @@ participant PIL
 participant CLP
 end box
 
-
-box "OpenID Provider" #LightBlue
-participant AuthorizationServer
-participant JanrainEndpoint
-end box
+'
+'box "Janrain_OIDC" #LightBlue
+'participant AuthorizationServer
+'participant JanrainEndpoint
+'end box
 
 @enduml
