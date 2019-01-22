@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "analytics": {
+    "referrerTimeout": 5,
+    "rsids": "philipsmobileappsdev",
+    //      "server" : "localhost:50000",
+    "server": "philips.112.2o7.net",
+    "charset": "UTF-8",
+    "ssl": true,
+    "offlineEnabled": true,
+    "lifecycleTimeout": 30,
+    "batchLimit": 0,
+    "privacyDefault": "optunknown",
+    "poi": [
+    ]
+  },
+  "target": {
+    "clientCode": "philipselectronicsne",
+    "timeout": 5
+  },
+  "audienceManager": {
+    "server": "",
+    "analyticsForwardingEnabled": false,
+    "timeout": 5
+  },
+  "acquisition": {
+    "server": "c00.adobe.com",
+    "appid": "f87cdac546d694b52ca155d98a74a213422c2368d08a8e8dc5ade531bf3e01e3"
+  }
+}
