@@ -13,9 +13,20 @@ Browser --> Janrain_OIDC: Authorization Request with redirect url
 
 CLP <-- Janrain_OIDC : Redirect to the CLP page for user authentication
 
-CLP ->UDIComponent :Validate the credential with Janrain and and response request code.
+CLP ->Janrain_OIDC :Validate the credential with Janrain
 
-UDIComponent ->Janrain_OIDC:request for token end point with auth code
-Janrain_OIDC -> UDIComponent: success with access token and refresh token
+Janrain_OIDC -> AppAuth:response with request code.
+AppAuth -> UDIComponent:success with request code.
+UDIComponent ->AppAuth:request for token end point with auth code
+AppAuth ->Janrain_OIDC : request for token
+
+Janrain_OIDC ->AppAuth: response with access token
+
+AppAuth -> UDIComponent: success with access token
+UDIComponent ->AppAuth :pass access token with user detail
+AppAuth ->Janrain_OIDC: request for profile details by passing access token
+Janrain_OIDC -> AppAuth: response with user details
+AppAuth -> UDIComponent: success with user details
+
 
 @enduml
