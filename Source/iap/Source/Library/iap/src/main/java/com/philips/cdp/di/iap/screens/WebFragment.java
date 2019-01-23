@@ -27,7 +27,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
     public static final String TAG = WebFragment.class.getName();
     protected WebView mWebView;
-    protected String mUrl;
+    private String mUrl;
     private RelativeLayout mParentContainer;
 
     @Override
