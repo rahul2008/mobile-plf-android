@@ -96,12 +96,11 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     }
 
     private boolean verifyResultCallBacks(String url) {
+        clearCookies();
         boolean match = true;
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
-            clearCookies();
             launchConfirmationScreen(createSuccessBundle());
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
-            clearCookies();
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
 //            if (!mIsPaymentFailed)
