@@ -1,41 +1,12 @@
 @startuml
 User -> Application : Launch App
 Application -> UDIComponent: Init
-Application -> UDIComponent: launch
-
 
 UDIComponent -> ServiceDiscovery: get configuration urls(on country basis)
-ServiceDiscovery ->UDIComponent : return configuration urls
+ServiceDiscovery ->UDIComponent : configuration urls, locale
 
-User -> UDIComponent : Login pressed
-UDIComponent --> AppAuth:Authorization Request with Redirect URI
+UDIComponent ->UDIComponent : set locale
 
-AppAuth  -> Browser : Authorization Request to launch browser
-
-Browser -> Janrain_OIDC: Authorization Request with redirect url
-
-CLP <-- Janrain_OIDC : Redirect to the CLP page for user authentication
-
-'User input to CLP and CLP validate the credential with Janrain. If yes, Janrain will give
-
-
-
-
-CLP ->UDIComponent :Authorization Code
-
-UDIComponent ->Janrain_OIDC:request for token end point with auth code
-Janrain_OIDC -> UDIComponent: success with access token and refresh token
-
-
-box "IT backend" #LightBlue
-participant PIL
-participant CLP
-end box
-
-'
-'box "Janrain_OIDC" #LightBlue
-'participant AuthorizationServer
-'participant JanrainEndpoint
-'end box
-
+UDIComponent -> Janrain_OIDC: get Janrain OIDC configuration
+Janrain_OIDC ->UDIComponent : success Janrain OIDC configuration
 @enduml
