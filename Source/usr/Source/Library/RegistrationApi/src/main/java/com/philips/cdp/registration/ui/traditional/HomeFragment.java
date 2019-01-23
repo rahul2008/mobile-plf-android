@@ -145,9 +145,9 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         registerInlineNotificationListener(this);
         mURFaceBookUtility = new URFaceBookUtility(this);
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
-        homePresenter = new HomePresenter(this, mCallbackManager);
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
+        homePresenter = new HomePresenter(this, mContext);
         view = getViewFromRegistrationFunction(inflater, container);
         ButterKnife.bind(this, view);
         initUI(view);
