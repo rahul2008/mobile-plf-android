@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
-String cron_string = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22)" : ""
+String cron_string = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = 'test'
