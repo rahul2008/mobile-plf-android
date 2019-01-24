@@ -26,6 +26,8 @@ buildscript {
         // dsc & rap require this
         classpath builddeps.googleservices // rap-pushnotification requires this
         classpath builddeps.pitest
+        classpath builddeps.use_latest_versions
+        classpath builddeps.ben_manes_versions
     }
 }
 
