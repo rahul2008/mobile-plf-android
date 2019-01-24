@@ -1,19 +1,19 @@
 package com.philips.platform.udidemo;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.utils.UIDActivity;
 import com.udi.demouapp.UdiDemoAppSettings;
 import com.udi.demouapp.UdiDemoUAppDependencies;
 import com.udi.demouapp.UdiDemoUAppInterface;
 import com.udi.demouapp.UdiLaunchInput;
 
-public class UDIDemoActivity extends Activity {
+public class UDIDemoActivity extends UIDActivity {
 
     private UdiDemoUAppInterface iapDemoUAppInterface;
 
