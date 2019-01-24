@@ -62,9 +62,10 @@ dependencies {
         api project(':AppInfra')
     } else {
         api philipsdeps.AppInfra
+
     }
 
-
+    implementation project(strings.ufw.projectName)
     implementation 'net.openid:appauth:0.7.1'
     implementation 'com.squareup.okio:okio:2.0.0'
     implementation deps.support.appcompatv7
