@@ -2,62 +2,55 @@
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
  */
-ext.baseplatformversion = "1805.0"
-ext.platformversion = baseplatformversion + "." + epochTime()
-def static epochTime() {
-    def env_epoch = System.getenv('EPOCH_TIME')
-    long local_epoch = System.currentTimeMillis() / 1000
-    def epoch = env_epoch != null ? env_epoch : local_epoch
-    return epoch
-}
-ext.branchName=getWorkingBranch()
-def getWorkingBranch() {
-    new ByteArrayOutputStream().withStream { os ->
-        exec {
-            executable = "git"
-            args = ["rev-parse", "--abbrev-ref", "HEAD"]
-            standardOutput = os
-
-        }
-        return os.toString().trim()
-    }
-}
-ext.commitHash=getGitHash()
-def getGitHash(){
-
-    new ByteArrayOutputStream().withStream { os ->
-        exec {
-            executable = "git"
-            args = ["rev-parse", "--short", "HEAD"]
-            standardOutput = os
-
-        }
-        return os.toString().trim()
-    }
-}
 buildscript {
     apply from: projectDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     repositories {
-       google()
-        jcenter()
+        maven { url repos.mavengoogle }
+        maven { url repos.jcenter }
+        maven { url repos.scmplugin }
+        maven { url repos.pluginsgradle }
         maven {
-            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
+            url repos.plugin
             credentials {
-                username "AZURE_ARTIFACTS"
-                password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+                username = "readonly"
+                password = "123qweasdzxc"
             }
         }
     }
 
     dependencies {
+        classpath builddeps.cdpSCM
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
         // dsc & rap require this
         classpath builddeps.googleservices // rap-pushnotification requires this
         classpath builddeps.pitest
+        classpath builddeps.use_latest_versions
+        classpath builddeps.ben_manes_versions
     }
 }
+
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'se.patrikerdes.use-latest-versions'
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+    println "envCode: ${envCode}"
+} else {
+    println "default envCode"
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+ext.commitHash=objcdp.getCommitHash()
+
+println "Working branch: ${objcdp.getWorkingBranch()}"
 
 subprojects {
     task reportAllProjectDependencies(type: DependencyReportTask) {}
@@ -66,26 +59,44 @@ subprojects {
         apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
         repositories {
-            google()
-            jcenter()
             maven {
-                url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
+                url repos.mavengoogle
                 credentials {
-                    username "AZURE_ARTIFACTS"
-                    password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+                    username = "readonly"
+                    password = "123qweasdzxc"
+                }
+            }
+            maven { url repos.jcenter }
+            maven { url repos.release }
+            maven { url repos.scmplugin }
+            maven {
+                url repos.plugin
+                credentials {
+                    username = "readonly"
+                    password = "123qweasdzxc"
                 }
             }
         }
     }
 
     repositories {
-        google()
-        jcenter()
         maven {
-            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
+            url repos.mavengoogle
             credentials {
-                username "AZURE_ARTIFACTS"
-                password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.jcenter
+        }
+        maven { url repos.release }
+        maven { url repos.scmplugin }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
             }
         }
     }
@@ -112,12 +123,12 @@ subprojects {
                     // As per Robolectric documentation
                     includeAndroidResources true
 
-                    all {
-                        jvmArgs '-noverify'
-                        systemProperty 'robolectric.enabledSdks', '28'
+                        all {
+                            jvmArgs '-noverify'
+                            systemProperty 'robolectric.enabledSdks', '27'
+                        }
                     }
                 }
-            }
 
             packagingOptions {
                 exclude 'META-INF/proguard/androidx-annotations.pro'
@@ -143,4 +154,15 @@ subprojects {
     ext.useprojectdependencies = true
 }
 
-
+dependencyUpdates.resolutionStrategy {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
+}
