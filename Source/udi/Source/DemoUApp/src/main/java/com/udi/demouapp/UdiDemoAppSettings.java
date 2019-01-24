@@ -8,9 +8,9 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  * Created by philips on 6/16/17.
  */
 
-public class IapDemoAppSettings extends UappSettings{
+public class UdiDemoAppSettings extends UappSettings{
 
-    public IapDemoAppSettings(Context applicationContext) {
+    public UdiDemoAppSettings(Context applicationContext) {
         super(applicationContext);
     }
 }

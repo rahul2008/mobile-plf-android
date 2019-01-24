@@ -42,37 +42,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textIsSelectable="true" />
 
-            <FrameLayout
-                android:id="@+id/shopping_cart_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:clickable="true"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/cart_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:contentDescription="@string/app_title"
-                    android:paddingRight="12dp"
-                    android:src="@drawable/shopping_cart_xml" />
-
-                <com.philips.platform.uid.view.widget.NotificationBadge
-                    android:id="@+id/item_count"
-                    style="@style/NotificationBadge.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|end"
-
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </FrameLayout>
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 </com.philips.platform.uid.view.widget.NavigationContainer>

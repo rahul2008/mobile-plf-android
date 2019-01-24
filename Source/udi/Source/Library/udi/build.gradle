@@ -64,10 +64,7 @@ dependencies {
         api philipsdeps.AppInfra
     }
 
-//    api deps.ormlite.core
-//    api deps.sqlcipher
 
-//    implementation deps.ormlite.android
     implementation 'net.openid:appauth:0.7.1'
     implementation 'com.squareup.okio:okio:2.0.0'
     implementation deps.support.appcompatv7
@@ -75,6 +72,7 @@ dependencies {
     implementation deps.support.annotations
     implementation philipsdeps.uid
     testImplementation deps.junit
+    implementation deps.adobemobilelib
 
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.mockito_android

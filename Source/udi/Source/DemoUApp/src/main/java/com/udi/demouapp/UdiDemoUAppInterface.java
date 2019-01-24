@@ -15,7 +15,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  * Created by philips on 6/16/17.
  */
 
-public class IapDemoUAppInterface implements UappInterface {
+public class UdiDemoUAppInterface implements UappInterface {
 
     private Context mContext;
     static AppInfraInterface mAppInfra;

@@ -80,7 +80,7 @@ android {
 
     defaultConfig {
         applicationId 'com.philips.platform.udi'
-        versionName version + "(" + commitHash+ ")"
+        versionName version + "(" + commitHash + ")"
         versionCode 1
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
@@ -129,13 +129,16 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
+    implementation project(strings.udiuapp.projectName)
     implementation project(':udi')
     implementation deps.support.appcompatv7
     implementation deps.support.design
     implementation deps.support.annotations
 
     testImplementation deps.junit
+    implementation project(strings.ufw.projectName)
+    implementation project(strings.ail.projectName)
+
 
     androidTestImplementation deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
