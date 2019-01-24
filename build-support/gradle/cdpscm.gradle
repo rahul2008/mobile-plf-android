@@ -3,25 +3,81 @@
  * All rights reserved.
  */
 
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'cdpSCM'
 apply plugin: 'maven-publish'
 
 buildscript {
     apply from: buildscript.sourceFile.parent + "/versions.gradle"
 
     repositories {
-       google()
-        jcenter()
-        maven {
-            url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
+        maven { url repos.jcenter }
+        maven { url repos.scmplugin }
+        maven { url repos.plugin
             credentials {
-                username "AZURE_ARTIFACTS"
-                password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
+                username = "readonly"
+                password = "123qweasdzxc"
             }
         }
     }
 
     dependencies {
         classpath builddeps.buildinfoextractor
+        classpath builddeps.cdpSCM
+    }
+}
+
+import com.philips.cdp.cdpSCM
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+project.ext.directdependencies = project.ext.has('useprojectdependencies')
+
+project.ext.objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = "320049003"
+            password = "#W3llc0m3"
+
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
+            }
+        }
+    }
+
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+}
+
+
+repositories {
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
     }
 }
 
@@ -29,8 +85,8 @@ buildscript {
 publishing {
     publications {
         aar(MavenPublication) {
-            groupId "com.philips.platform"
-            version = platformversion
+            groupId group
+            version = version
             artifactId archivesBaseName
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
@@ -45,24 +101,6 @@ publishing {
                         dependencyNode.appendNode('artifactId', it.name)
                         dependencyNode.appendNode('version', it.version)
                     }
-                }
-            }
-            repositories {
-                maven {
-                    if(branchName=="develop"){
-                        url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-snapshot-artifacts/maven/v1'
-                        credentials {
-                            username "AZURE_ARTIFACTS"
-                            password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
-                        }
-                    }else if(branchName.startsWith("release/platform")){
-                        url 'https://pkgs.dev.azure.com/PhilipsAgile/_packaging/mobile-plf-android-release-artifacts/maven/v1'
-                        credentials {
-                            username "AZURE_ARTIFACTS"
-                            password System.getenv("AZURE_ARTIFACTS_ENV_ACCESS_TOKEN") ?: "${azureArtifactsGradleAccessToken}"
-                        }
-                    }
-
                 }
             }
         }
