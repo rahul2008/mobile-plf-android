@@ -1,26 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.platform.udi">
 
-    <!--<application-->
+    <application>
 
-    <!-- android:icon="@mipmap/pr_source"
-     android:label="@string/app_name"
-     android:roundIcon="@mipmap/pr_source"
-     android:supportsRtl="true"
-     android:testOnly="false"
-     android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
-     <activity
-         android:name=".LoginActivity"
-         android:label="@string/app_name"
-         android:theme="@style/AppTheme.NoActionBar">
-         <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".LoginActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
-             <category android:name="android.intent.category.LAUNCHER" />
-         </intent-filter>
-     </activity>
-
-     <activity android:name=".TokenActivity"></activity>-->
-    <!--</application>-->
+        <activity
+            android:name=".TokenActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+    </application>
 
 </manifest>

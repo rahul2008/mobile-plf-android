@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.udi.integration.UDIInterface;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -52,7 +53,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if (v == mLogin) {
             ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-            udiInterface.launch(activityLauncher, null);
+            udiInterface.launch(activityLauncher, new UappLaunchInput());
+            finish();
         } else if (v == mLogout) {
 
         }

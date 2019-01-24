@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context="com.philips.uiddemo.LoginActivity">
+    tools:context="com.philips.platform.udi.LoginActivity">
 
-    <android.support.design.widget.AppBarLayout
+   <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
