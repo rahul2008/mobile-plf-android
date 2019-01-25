@@ -68,14 +68,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         logoutButton = findViewById(R.id.logout_button);
-        loginButton.setOnClickListener(v -> {
+        logoutButton.setOnClickListener(v -> {
+            logoutButton.showProgressIndicator();
             logout();
-            loginButton.showProgressIndicator();
         });
     }
 
     private void logout() {
-
+        logoutButton.hideProgressIndicator();
     }
 
     private void launchTokenActivity() {
