@@ -144,7 +144,7 @@ subprojects {
         }
     }
 
-    group = 'com.philips.cdp'
+    group = 'com.philips.platform'
     version = platformversion
 
     if (!it.projectDir.exists()) {

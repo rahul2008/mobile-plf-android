@@ -19,7 +19,7 @@ buildscript {
 }
 
 archivesBaseName = "productselectionApp"
-group = 'com.philips.cdp'
+group = 'com.philips.platform'
 
 
 android {
