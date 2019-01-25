@@ -1,11 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_gravity="center_vertical"
+    android:padding="@dimen/fab_margin"
     android:layout_height="match_parent">
 
-   <!-- <include
-        android:id="@+id/app_actionbar"
-        layout="@layout/action_bar" />
--->
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/appversion"
         android:layout_width="wrap_content"
@@ -19,14 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="Login" />
-
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/btn_logout"
-        android:layout_below="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="Logout" />
+        android:text="UDI Launch" />
 
 </RelativeLayout>

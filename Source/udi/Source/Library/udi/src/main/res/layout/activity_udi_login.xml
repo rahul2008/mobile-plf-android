@@ -69,7 +69,15 @@
             android:layout_marginTop="50dp"
             app:uidProgressIndicatorButtonText="LOGIN" />
 
-
+        <com.philips.platform.uid.view.widget.ProgressBarButton
+            android:id="@+id/logout_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_button"
+            app:uidIsIndeterminateProgressIndicator="true"
+            app:uidProgressIndicatorButtonProgressText="Logging out..."
+            android:layout_marginTop="50dp"
+            app:uidProgressIndicatorButtonText="LOGOUT" />
 
     </RelativeLayout>
 

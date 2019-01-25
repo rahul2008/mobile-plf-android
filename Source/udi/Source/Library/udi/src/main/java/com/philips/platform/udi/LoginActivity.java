@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_AUTH = 100;
     private AuthStateManager mStateManager;
     private ExecutorService mExecutor;
-    private ProgressBarButton loginButton;
+    private ProgressBarButton loginButton, logoutButton;
 
     private Spinner localeSpinner;
 
@@ -66,6 +66,16 @@ public class LoginActivity extends AppCompatActivity {
             Analytics.trackState("digitalcare:home", contextData);
             startAuthorizationFlow();
         });
+
+        logoutButton = findViewById(R.id.logout_button);
+        loginButton.setOnClickListener(v -> {
+            logout();
+            loginButton.showProgressIndicator();
+        });
+    }
+
+    private void logout() {
+
     }
 
     private void launchTokenActivity() {

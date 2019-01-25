@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.udi.integration.UDIInterface;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -20,7 +19,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    Button mLogin, mLogout;
+    Button mLogin;
     UDIInterface udiInterface;
 
     @Override
@@ -30,10 +29,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.demo_app_layout);
 
         mLogin = findViewById(R.id.btn_login);
-        mLogout = findViewById(R.id.btn_logout);
         mLogin.setOnClickListener(this);
-        mLogout.setOnClickListener(this);
-
         udiInterface = new UDIInterface();
 
     }
@@ -53,10 +49,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if (v == mLogin) {
             ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-            udiInterface.launch(activityLauncher, new UappLaunchInput());
-            finish();
-        } else if (v == mLogout) {
-
+            udiInterface.launch(activityLauncher, null);
         }
     }
 }

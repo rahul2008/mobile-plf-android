@@ -100,7 +100,7 @@ dependencies {
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
     implementation deps.constraintlayout
-
+    implementation deps.adobemobilelib
     androidTestImplementation(deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
