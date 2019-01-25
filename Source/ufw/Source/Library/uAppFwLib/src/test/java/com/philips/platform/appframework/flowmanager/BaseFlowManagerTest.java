@@ -135,11 +135,6 @@ public class BaseFlowManagerTest extends TestCase {
         }
     }
 
-    public void testGetFirstState() {
-        final BaseState firstState = flowManagerTest.getFirstState();
-        assertTrue(firstState != null);
-    }
-
     public void testNoEventFoundException() {
         try {
             flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "testing");
@@ -210,7 +205,7 @@ public class BaseFlowManagerTest extends TestCase {
         flowManagerTest.getBackState(flowManagerTest.getCurrentState());
         assertEquals(flowManagerTest.getState(AppStates.WELCOME), flowManagerTest.getCurrentState());
 
-        flowManagerTest = new FlowManagerTest(context, path) {
+        flowManagerTest = new FlowManagerTest() {
             @NonNull
             @Override
             protected Handler getHandler(Context context) {
@@ -228,6 +223,7 @@ public class BaseFlowManagerTest extends TestCase {
                 return true;
             }
         };
+        flowManagerTest.initialize(context, path, flowManagerListenerMock);
         sleep(2);
         try {
             flowManagerTest.getBackState();
@@ -255,9 +251,6 @@ public class BaseFlowManagerTest extends TestCase {
         public FlowManagerTest() {
         }
 
-        public FlowManagerTest(Context context, String path) {
-            super(context, path);
-        }
 
         @Override
         public void populateStateMap(final Map<String, BaseState> uiStateMap) {

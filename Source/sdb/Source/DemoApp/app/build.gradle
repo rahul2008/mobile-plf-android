@@ -19,7 +19,7 @@ buildscript {
 }
 
 archivesBaseName = "securedblibraryApp"
-group = 'com.philips.cdp'
+group = 'com.philips.platform'
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()

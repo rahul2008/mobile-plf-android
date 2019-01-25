@@ -67,7 +67,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         initializer.loadLibs(context);
         this.mAppInfraInterface = mAppInfraInterface;
         this.databaseKey = databaseKey;
-        appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb", getSecureDbAppVersion());
+        appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb", mAppInfraInterface.getAppIdentity().getAppVersion());
         createKey();
         connectionSource = new AndroidConnectionSource(this, getKey(), appInfraLogger);
         isOpen = true;
@@ -342,18 +342,6 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     @Override
     public String toString() {
         return getClass().getSimpleName() + "@" + Integer.toHexString(super.hashCode());
-    }
-
-    /**
-     * Get the app version.
-     *
-     * @return returns the app version
-     * @deprecated please use appInfra.getAppIdentity().getAppVersion();
-     * @since 2.2.0
-     */
-    @Deprecated
-    public String getSecureDbAppVersion() {
-        return mAppInfraInterface.getAppIdentity().getAppVersion();
     }
 
     private static InputStream openFileId(Context context, int fileId) {
