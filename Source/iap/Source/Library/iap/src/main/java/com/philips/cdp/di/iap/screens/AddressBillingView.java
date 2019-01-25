@@ -46,6 +46,10 @@ public class AddressBillingView
     private InputValidator inputValidatorLastNameBilling;
     private InputValidationLayout mLlAddressLineOneBilling;
     private InputValidator inputValidatorAddressLineOneBilling;
+
+    private InputValidationLayout mLlHouseNoBilling;
+    private InputValidator inputValidatorHouseNoBilling;
+
     private InputValidationLayout mLlTownBilling;
 
     private final AddressBillingPresenter addressBillingPresenter;
@@ -76,6 +80,7 @@ public class AddressBillingView
     private ValidationEditText mEtLastNameBilling;
     private ValidationEditText mEtSalutationBilling;
     private ValidationEditText mEtAddressLineOneBilling;
+    private ValidationEditText mEtHouseNoBilling;
     private ValidationEditText mEtTownBilling;
     private ValidationEditText mEtPostalCodeBilling;
     private ValidationEditText mEtCountryBilling;
@@ -109,6 +114,10 @@ public class AddressBillingView
         inputValidatorAddressLineOneBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOneBilling.setValidator(inputValidatorAddressLineOneBilling);
 
+        mLlHouseNoBilling = rootView.findViewById(R.id.ll_house_no);
+        inputValidatorHouseNoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
+        mLlHouseNoBilling.setValidator(inputValidatorHouseNoBilling);
+
         mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
         mLlTownBilling.setValidator(inputValidatorTownBilling);
@@ -141,6 +150,7 @@ public class AddressBillingView
         mEtLastNameBilling = rootView.findViewById(R.id.et_billing_last_name);
         mEtSalutationBilling = rootView.findViewById(R.id.et_billing_salutation);
         mEtAddressLineOneBilling = rootView.findViewById(R.id.et_billing_address_line_one);
+        mEtHouseNoBilling = rootView.findViewById(R.id.et_house_no);
         mEtTownBilling = rootView.findViewById(R.id.et_billing_town);
         mEtPostalCodeBilling = rootView.findViewById(R.id.et_billing_postal_code);
         mEtCountryBilling = rootView.findViewById(R.id.et_billing_country);
@@ -173,6 +183,7 @@ public class AddressBillingView
         mEtFirstNameBilling.addTextChangedListener(new IAPTextWatcher(mEtFirstNameBilling));
         mEtLastNameBilling.addTextChangedListener(new IAPTextWatcher(mEtLastNameBilling));
         mEtAddressLineOneBilling.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOneBilling));
+        mEtHouseNoBilling.addTextChangedListener(new IAPTextWatcher(mEtHouseNoBilling));
         mEtTownBilling.addTextChangedListener(new IAPTextWatcher(mEtTownBilling));
         mEtPostalCodeBilling.addTextChangedListener(new IAPTextWatcher(mEtPostalCodeBilling));
         mEtCountryBilling.addTextChangedListener(new IAPTextWatcher(mEtCountryBilling));
@@ -194,7 +205,9 @@ public class AddressBillingView
 
         mEtStateBilling.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
         mStateDropDownBilling = new StateDropDown(this);
-        mStateDropDownBilling.createPopUp(mEtStateBilling,mContext);
+        if(CartModelContainer.getInstance().getRegionList()!=null && !CartModelContainer.getInstance().getRegionList().getRegions().isEmpty()){
+            mStateDropDownBilling.createPopUp(mEtStateBilling,mContext);
+        }
         mEtStateBilling.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -231,7 +244,7 @@ public class AddressBillingView
         mEtLastNameBilling.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutationBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
         mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
-        mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtHouseNoBilling.setText(mAddressFieldsHashmap.get(ModelConstants.HOUSE_NO));
         mEtTownBilling.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCodeBilling.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountryBilling.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
@@ -369,6 +382,13 @@ public class AddressBillingView
                 mLlAddressLineOneBilling.showError();
             }
         }
+        if (editText.getId() == R.id.et_house_no && !hasFocus) {
+            result = inputValidatorHouseNoBilling.isValidAddress(((EditText) editText).getText().toString());
+            if (!result) {
+                mLlHouseNoBilling.setErrorMessage(R.string.iap_address_error);
+                mLlHouseNoBilling.showError();
+            }
+        }
         if ((editText.getId() == R.id.et_billing_salutation || editText.getId() == R.id.et_billing_state) && !hasFocus) {
             checkBillingAddressFields();
         }
@@ -385,6 +405,7 @@ public class AddressBillingView
         final String firstName = mEtFirstNameBilling.getText().toString();
         final String lastName = mEtLastNameBilling.getText().toString();
         final String addressLineOne = mEtAddressLineOneBilling.getText().toString();
+        final String houseNo = mEtHouseNoBilling.getText().toString();
         final String postalCode = mEtPostalCodeBilling.getText().toString().replaceAll(" ", "");
         final String phone1 = mEtPhone1Billing.getText().toString().replaceAll(" ", "");
         final String town = mEtTownBilling.getText().toString();
@@ -394,6 +415,7 @@ public class AddressBillingView
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
                 && mValidator.isValidAddress(addressLineOne)
+                && mValidator.isValidAddress(houseNo)
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
@@ -430,6 +452,7 @@ public class AddressBillingView
         billingAddressFields.setTitleCode(mEtSalutationBilling.getText().toString().trim());
         billingAddressFields.setCountryIsocode(mEtCountryBilling.getText().toString().trim());
         billingAddressFields.setLine1(mEtAddressLineOneBilling.getText().toString().trim());
+        billingAddressFields.setHouseNumber(mEtHouseNoBilling.getText().toString().trim());
         billingAddressFields.setPostalCode(mEtPostalCodeBilling.getText().toString().replaceAll(" ", ""));
         billingAddressFields.setTown(mEtTownBilling.getText().toString().trim());
         billingAddressFields.setPhone1(mEtPhone1Billing.getText().toString().replaceAll(" ", ""));
@@ -453,6 +476,7 @@ public class AddressBillingView
         mEtLastNameBilling.setText("");
         mEtSalutationBilling.setText("");
         mEtAddressLineOneBilling.setText("");
+        mEtHouseNoBilling.setText("");
         mEtTownBilling.setText("");
         mEtPostalCodeBilling.setText("");
         mEtPhone1Billing.setText("");
@@ -488,6 +512,7 @@ public class AddressBillingView
         mEtLastNameBilling.setEnabled(enable);
         mEtSalutationBilling.setEnabled(enable);
         mEtAddressLineOneBilling.setEnabled(enable);
+        mEtHouseNoBilling.setEnabled(enable);
         mEtTownBilling.setEnabled(enable);
         mEtPostalCodeBilling.setEnabled(enable);
         if (mlLStateBilling.getVisibility() == View.VISIBLE) {
@@ -501,6 +526,7 @@ public class AddressBillingView
         mEtLastNameBilling.setFocusable(focusable);
         mEtSalutationBilling.setFocusable(focusable);
         mEtAddressLineOneBilling.setFocusable(focusable);
+        mEtHouseNoBilling.setFocusable(focusable);
         mEtTownBilling.setFocusable(focusable);
         mEtPostalCodeBilling.setFocusable(focusable);
         if (mlLStateBilling.getVisibility() == View.VISIBLE) {
@@ -513,6 +539,7 @@ public class AddressBillingView
             mEtLastNameBilling.setFocusableInTouchMode(true);
             mEtSalutationBilling.setFocusableInTouchMode(true);
             mEtAddressLineOneBilling.setFocusableInTouchMode(true);
+            mEtHouseNoBilling.setFocusableInTouchMode(true);
             mEtTownBilling.setFocusableInTouchMode(true);
             mEtPostalCodeBilling.setFocusableInTouchMode(true);
             if (mlLStateBilling.getVisibility() == View.VISIBLE) {
@@ -537,6 +564,7 @@ public class AddressBillingView
             mEtLastNameBilling.setText(billingAddressFields.getLastName());
             mEtSalutationBilling.setText(billingAddressFields.getTitleCode());
             mEtAddressLineOneBilling.setText(addressPresenter.addressWithNewLineIfNull(billingAddressFields.getLine1()));
+            mEtHouseNoBilling.setText(billingAddressFields.getHouseNumber());
             mEtTownBilling.setText(billingAddressFields.getTown());
             mEtPostalCodeBilling.setText(billingAddressFields.getPostalCode());
             mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());

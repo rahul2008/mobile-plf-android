@@ -209,6 +209,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <!--Start House number -->
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/label_house_no"
+                style="@style/AddressItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/house_no" />
+
+            <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:id="@+id/ll_house_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                app:uidTextBoxValidationErrorText="@string/iap_house_no_error">
+
+                <com.philips.platform.uid.view.widget.ValidationEditText
+                    android:id="@+id/et_house_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/iap_house_no_hint"
+                    android:maxLines="1"
+                    android:inputType="textCapWords"
+                    android:maxLength="35"
+                    app:uidInputTextWithClearButton="true" />
+            </com.philips.platform.uid.view.widget.InputValidationLayout>
+            <!--End House number-->
+
             <!--Start Address 1 Name-->
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/label_address1"

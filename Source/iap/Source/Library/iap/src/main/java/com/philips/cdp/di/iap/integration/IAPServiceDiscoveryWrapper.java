@@ -81,6 +81,7 @@ public class IAPServiceDiscoveryWrapper {
                 pIAPHandler.initIAPRequisite();
                 String locale = serviceDiscoveryService.getLocale();
                 String configUrls = serviceDiscoveryService.getConfigUrls();
+                configUrls = "https://acc.us.pil.shop.philips.com";
                 if (locale != null) {
                     setLangAndCountry(locale);
                 }
@@ -176,6 +177,7 @@ public class IAPServiceDiscoveryWrapper {
                 list.addAll(collection);
                 ServiceDiscoveryService serviceDiscoveryService = list.get(0);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
+                configUrls = "https://acc.us.pil.shop.philips.com";
                 if (configUrls == null) {
                     mIAPSettings.setUseLocalData(true);
                     isCartVisible = false;

@@ -25,6 +25,7 @@ public class Addresses implements Serializable{
 
     private String lastName;
     private String line1;
+    private String houseNumber;
 
     public void setCountry(Country country) {
         this.country = country;
@@ -123,4 +124,7 @@ public class Addresses implements Serializable{
         return formattedAddress;
     }
 
+    public String getHouseNumber() {
+        return houseNumber;
+    }
 }

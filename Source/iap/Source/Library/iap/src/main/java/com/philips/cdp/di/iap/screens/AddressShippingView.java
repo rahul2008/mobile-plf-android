@@ -43,7 +43,9 @@ public class AddressShippingView
     private InputValidationLayout mLlLastName;
     private InputValidator inputValidatorLastName;
     private InputValidationLayout mLlAddressLineOne;
+    private InputValidationLayout mLlHouseNo;
     private InputValidator inputValidatorAddressLineOne;
+    private InputValidator inputValidatorHouseNo;
     private InputValidationLayout mLlTown;
     private InputValidator inputValidatorTown;
     private InputValidationLayout mLlPostalCode;
@@ -59,6 +61,7 @@ public class AddressShippingView
     private ValidationEditText mEtLastName;
     private ValidationEditText mEtSalutation;
     private ValidationEditText mEtAddressLineOne;
+    private ValidationEditText mEtHouseNo;
     private ValidationEditText mEtTown;
     private ValidationEditText mEtPostalCode;
     private ValidationEditText mEtCountry;
@@ -107,6 +110,10 @@ public class AddressShippingView
         inputValidatorAddressLineOne = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
 
+        mLlHouseNo = rootView.findViewById(R.id.ll_house_no);
+        inputValidatorHouseNo = new InputValidator(Validator.ADDRESS_PATTERN);
+        mLlHouseNo.setValidator(inputValidatorHouseNo);
+
         mLlTown = rootView.findViewById(R.id.ll_town);
         inputValidatorTown = new InputValidator(Validator.TOWN_PATTERN);
         mLlTown.setValidator(inputValidatorTown);
@@ -141,6 +148,7 @@ public class AddressShippingView
         mEtLastName = rootView.findViewById(R.id.et_last_name);
         mEtSalutation = rootView.findViewById(R.id.et_salutation);
         mEtAddressLineOne = rootView.findViewById(R.id.et_address_line_one);
+        mEtHouseNo = rootView.findViewById(R.id.et_house_no);
         mEtTown = rootView.findViewById(R.id.et_town);
         mEtPostalCode = rootView.findViewById(R.id.et_postal_code);
         mEtCountry = rootView.findViewById(R.id.et_country);
@@ -173,6 +181,7 @@ public class AddressShippingView
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
         mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
+        mEtHouseNo.addTextChangedListener(new IAPTextWatcher(mEtHouseNo));
         mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
         mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
@@ -196,7 +205,10 @@ public class AddressShippingView
 
         mEtState.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
         mStateDropDown = new StateDropDown(this);
-        mStateDropDown.createPopUp(mEtState, mContext);
+        if(CartModelContainer.getInstance().getRegionList()!=null && !CartModelContainer.getInstance().getRegionList().getRegions().isEmpty()){
+            mStateDropDown.createPopUp(mEtState, mContext);
+        }
+
         mEtState.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -353,6 +365,14 @@ public class AddressShippingView
             }
         }
 
+        if (editText.getId() == R.id.et_house_no && !hasFocus) {
+            result = inputValidatorHouseNo.isValidAddress(mEtHouseNo.getText().toString());
+            if (!result) {
+                mLlHouseNo.setErrorMessage(R.string.iap_house_no_error);
+                mLlHouseNo.showError();
+            }
+        }
+
         if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
             checkFields();
         }
@@ -369,6 +389,7 @@ public class AddressShippingView
         String firstName = mEtFirstName.getText().toString();
         String lastName = mEtLastName.getText().toString();
         String addressLineOne = mEtAddressLineOne.getText().toString();
+        String houseNo = mEtHouseNo.getText().toString();
         String postalCode = mEtPostalCode.getText().toString().replaceAll(" ", "");
         String phone1 = mEtPhone1.getText().toString().replaceAll(" ", "");
         String town = mEtTown.getText().toString();
@@ -378,6 +399,7 @@ public class AddressShippingView
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
                 && mValidator.isValidAddress(addressLineOne)
+                && mValidator.isValidAddress(houseNo)
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
@@ -424,6 +446,7 @@ public class AddressShippingView
         shippingAddressFields.setTitleCode(mEtSalutation.getText().toString().trim());
         shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
         shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString().trim());
+        shippingAddressFields.setHouseNumber(mEtHouseNo.getText().toString().trim());
         shippingAddressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
         shippingAddressFields.setTown(mEtTown.getText().toString().trim());
         shippingAddressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
@@ -442,6 +465,7 @@ public class AddressShippingView
         mEtLastName.setText(mAddressFieldsHashmap.get(ModelConstants.LAST_NAME));
         mEtSalutation.setText(mAddressFieldsHashmap.get(ModelConstants.TITLE_CODE));
         mEtAddressLineOne.setText(addressPresenter.addressWithNewLineIfNull(mAddressFieldsHashmap.get(ModelConstants.LINE_1)));
+        mEtHouseNo.setText(mAddressFieldsHashmap.get(ModelConstants.HOUSE_NO));
         mEtTown.setText(mAddressFieldsHashmap.get(ModelConstants.TOWN));
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));

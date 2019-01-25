@@ -305,5 +305,11 @@ FedEx(parcel postage)</string>
   <string name="iap_total_voucher_discount">Discount</string>
   <string name="iap_cvvpopup_info">This is the 3 digit code on the back of your credit or debit card. Alternatively, if you have an American Express, it is the 4 digit number on the front of the card.</string>
   <string name="iap_delivery_promotion">Delivery is free for this order</string>
+  <string name="house_no">House number</string>
+  <string name="iap_house_no_error">Wrong house number</string>
+  <string name="iap_house_no_hint">Enter house number</string>
+
+
+
 
 </resources>

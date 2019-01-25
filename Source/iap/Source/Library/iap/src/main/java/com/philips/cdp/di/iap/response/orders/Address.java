@@ -10,6 +10,7 @@ public class Address {
     private String id;
     private String lastName;
     private String line1;
+    private String houseNumber;
     private String line2;
     private String phone1;
     private String phone2;
@@ -19,6 +20,7 @@ public class Address {
     private Region region;
     private String town;
     private boolean visibleInAddressBook;
+
 
     public Country getCountry() {
         return country;
