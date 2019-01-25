@@ -229,7 +229,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void handleUiState(boolean isNetworkAvailable) {
-        if (isInstanceofCurrentFragment()) {
+        if (isInstanceofCurrentFragment() && isVisible()) {
             if (isNetworkAvailable) {
                 if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                     mEMailVerifiedError.hideError();

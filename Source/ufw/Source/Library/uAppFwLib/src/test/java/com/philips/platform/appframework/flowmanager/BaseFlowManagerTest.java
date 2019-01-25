@@ -223,6 +223,7 @@ public class BaseFlowManagerTest extends TestCase {
                 return true;
             }
         };
+        flowManagerTest.initialize(context, path, flowManagerListenerMock);
         sleep(2);
         try {
             flowManagerTest.getBackState();

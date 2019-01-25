@@ -20,7 +20,7 @@ buildscript {
 }
 
 archivesBaseName = strings.mya.artifactName
-group = 'com.philips.cdp'
+group = 'com.philips.platform'
 
 android {
     compileSdkVersion versions.sdk

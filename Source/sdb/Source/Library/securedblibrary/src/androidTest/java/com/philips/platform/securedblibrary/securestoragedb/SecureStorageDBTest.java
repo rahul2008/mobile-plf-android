@@ -206,10 +206,6 @@ public class SecureStorageDBTest {
 
         }
 
-        @Override
-        public String getSecureDbAppVersion() {
-            return "1.1.1";
-        }
     }
 }
 

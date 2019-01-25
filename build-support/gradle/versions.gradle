@@ -11,7 +11,7 @@ def static epochTime() {
     return epoch
 }
 
-ext.baseplatformversion = "1805.0"
+ext.baseplatformversion = "1901.0"
 ext.platformversion = baseplatformversion + "." + epochTime()
 ext.platformversionsuffix = baseplatformversion + ".+"
 
@@ -31,13 +31,13 @@ ext.versions = [
         androidx                            : '1.1.0',
         mockito                             : '2.8.9', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
         powermock                           : '1.7.4', // Mockito and Powermock need to be upgraded in tandem, see: https://github.com/powermock/powermock/wiki/Mockito#supported-versions
-        robolectric                         : '4.0.1'
+        robolectric                         : '4.1'
 ]
 
 ext.builddeps = [
         bintrayplugin      : 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4',
         buildinfoextractor : 'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.5',
-        cdpSCM             : [group: 'com.philips.cdp', name: 'cdpSCM', version: '4.4.1', changing: true],
+        cdpSCM             : [group: 'com.philips.platform', name: 'scmPlugin', version: '4.3.0', changing: false],
         googleservices     : 'com.google.gms:google-services:4.0.1', // Version 4.1.0 causes the build to fail in creating the dependency tree
         gradle             : 'com.android.tools.build:gradle:3.1.4',
         hockeyapp          : 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6',
@@ -54,12 +54,12 @@ ext.builddeps = [
 ext.philipsdeps = [
         AppInfra                    : [group: 'com.philips.cdp', name: strings.ail.artifactName, version: platformversionsuffix, changing: true],
         AppInfraUApp                : [group: 'com.philips.cdp', name: strings.ailuapp.artifactName, version: platformversionsuffix, changing: true],
-        csw                         : [group: 'com.philips.cdp', name: strings.csw.artifactName, version: '1805.0.1544717798', changing: true],
+        csw                         : [group: 'com.philips.cdp', name: strings.csw.artifactName, version: '1805.1.1547449170', changing: true],
         digitalCare                 : [group: 'com.philips.cdp', name: strings.dcc.artifactName, version: platformversionsuffix, changing: true],
         digitalCareUApp             : [group: 'com.philips.cdp', name: strings.dccuapp.artifactName, version: platformversionsuffix, changing: true],
         iap                         : [group: 'com.philips.cdp', name: strings.iap.artifactName, version: platformversionsuffix, changing: true],
         iapUApp                     : [group: 'com.philips.cdp', name: strings.iapuapp.artifactName, version: platformversionsuffix, changing: true],
-        IconFont                    : [group: 'com.philips.cdp', name: strings.icf.artifactName, version: '1805.0.1544717798', changing: true],
+        IconFont                    : [group: 'com.philips.cdp', name: strings.icf.artifactName, version: '1805.1.1547449170', changing: true],
         jump                        : [group: 'com.philips.cdp', name: strings.jmp.artifactName, version: platformversionsuffix, changing: true],
         pif                         : [group: 'com.philips.cdp', name: strings.pif.artifactName, version: platformversionsuffix, changing: true],
         pluginreferenceboard        : [group: 'com.philips.cdp', name: strings.prf.artifactName, version: platformversionsuffix, changing: true],
@@ -72,13 +72,28 @@ ext.philipsdeps = [
         themesettings               : [group: 'com.philips.cdp', name: strings.tse.artifactName, version: platformversionsuffix, changing: true],
         uAppFwLib                   : [group: 'com.philips.cdp', name: strings.ufw.artifactName, version: platformversionsuffix, changing: true],
 //        uAppFwLibUApp               : [group: 'com.philips.cdp', name: strings.ufwuapp.artifactName, version: platformversionsuffix, changing: true],
-        uid                         : [group: 'com.philips.cdp', name: strings.uid.artifactName, version: '1805.0.1544717801', changing: true],
-        uikitLib                    : [group: 'com.philips.cdp', name: strings.uit.artifactName, version: '1805.0.1544717798', changing: true],
-        UserRegistrationUApp        : [group: 'com.philips.cdp', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true],
+        uid                         : [group: 'com.philips.cdp', name: strings.uid.artifactName, version: '1805.1.1547449170', changing: true],
+        uikitLib                    : [group: 'com.philips.cdp', name: strings.uit.artifactName, version: '1805.1.1547449170', changing: true],
         udi                         : [group: 'com.philips.cdp', name: strings.udi.artifactName, version: platformversionsuffix, changing: true],
-        udiUApp                     : [group: 'com.philips.cdp', name: strings.udiuapp.artifactName, version: platformversionsuffix, changing: true]
+        udiUApp                     : [group: 'com.philips.cdp', name: strings.udiuapp.artifactName, version: platformversionsuffix, changing: true],
+        UserRegistrationUApp        : [group: 'com.philips.cdp', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true]
 ]
 
+ext.repos = [
+        base: 'https://artifactory-ehv.ta.philips.com/artifactory',
+]
+
+ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
+ext.repos.plugin = ext.repos.base + "/platform-plugins-release-local"
+ext.repos.release = ext.repos.base + "/platform-pkgs-android-release"
+ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
+ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
+ext.repos.snapshot_local = ext.repos.base + "/platform-pkgs-android-snapshot-local"
+ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
+ext.repos.mavengoogle = ext.repos.base + "/platform-maven-google-com"
+ext.repos.pluginsgradle = ext.repos.base + "/CDP2_Plugins_Gradle"
+ext.repos.sonatype = ext.repos.base + "/platform-ta-sonatype"
+ext.repos.scmplugin = ext.repos.base+"/iet-mobile-android-release-local"
 
 ext.deps = [
         adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.16.1',
