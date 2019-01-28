@@ -138,6 +138,9 @@ class IAPHandler {
         if(pLaunchInput.getVoucher()!=null) {
             Utility.setVoucherCode(pLaunchInput.getVoucher());
         }
+        if(pLaunchInput.getPropositionId()!=null){
+            Utility.setPropositionId(pLaunchInput.getPropositionId());
+        }
         intent.putExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         pContext.startActivity(intent);
     }

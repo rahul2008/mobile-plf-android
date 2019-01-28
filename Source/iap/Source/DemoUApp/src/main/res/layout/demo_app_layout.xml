@@ -59,6 +59,29 @@
             android:text="Voucher Add" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_enter_proposition_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_voucher"
+        android:visibility="gone"
+        android:layout_margin="@dimen/border16_margin_left_right"
+        >
+
+        <com.philips.platform.uid.view.widget.EditText
+            android:id="@+id/et_add_proposition_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Propositon ID" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_set_proposition_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Set" />
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/product_list"

@@ -152,6 +152,8 @@ public class IAPServiceDiscoveryWrapper {
         if (configError.getErrorCode() != null) {
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
+
+        if( Utility.getPropositionId()!=null) propositionId = Utility.getPropositionId();
         return propositionId;
     }
 
