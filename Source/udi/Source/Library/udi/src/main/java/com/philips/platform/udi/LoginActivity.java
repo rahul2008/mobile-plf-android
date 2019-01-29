@@ -14,6 +14,7 @@ import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
+import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationResponse;
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_AUTH = 100;
     private AuthStateManager mStateManager;
     private ExecutorService mExecutor;
+    private AuthState authState = new AuthState();
     private ProgressBarButton loginButton, logoutButton;
 
     private Spinner localeSpinner;
@@ -108,8 +110,8 @@ public class LoginActivity extends AppCompatActivity {
                                 ResponseTypeValues.CODE, // the response_type value: we want a code
                                 Uri.parse("com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad://oauthredirect")); // the redirect URI to which the auth response is sent
                 AuthorizationRequest authRequest = authRequestBuilder
-                        .setScope("openid email profile https://idp.example.com/custom-scope")
-                        .setLoginHint("jdoe@user.example.com").setAdditionalParameters(map)
+                        .setScope("openid email profile")
+                        .setAdditionalParameters(map)
                         .build();
                 AuthorizationService authService = new AuthorizationService(LoginActivity.this);
                 Intent authIntent = authService.getAuthorizationRequestIntent(authRequest);
@@ -128,15 +130,16 @@ public class LoginActivity extends AppCompatActivity {
             AuthorizationResponse response = AuthorizationResponse.fromIntent(data);
             AuthorizationException ex = AuthorizationException.fromIntent(data);
             mStateManager.updateAfterAuthorization(response, ex);
-            ((UIDDemoApplication) getApplication()).getAuthState().update(response, ex);
+//            ((UIDDemoApplication) getApplication()).getAuthState().update(response, ex);
+            authState.update(response, ex);
             final AuthorizationService authService = new AuthorizationService(LoginActivity.this);
             try {
                 authService.performTokenRequest(
-                        response.createTokenExchangeRequest(), ((UIDDemoApplication) getApplication()).authState.getClientAuthentication(),
+                        response.createTokenExchangeRequest(), authState.getClientAuthentication(),
                         (resp, ex1) -> {
                             loginButton.hideProgressIndicator();
                             mStateManager.updateAfterTokenResponse(resp, ex1);
-                            ((UIDDemoApplication) getApplication()).getAuthState().update(resp, ex1);
+                            authState.update(resp, ex1);
                             if (resp != null) {
                                 launchTokenActivity();
                                 // exchange succeeded
