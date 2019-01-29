@@ -37,7 +37,7 @@ ext.versions = [
 ext.builddeps = [
         bintrayplugin      : 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4',
         buildinfoextractor : 'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.5',
-        cdpSCM             : [group: 'com.philips.platform', name: 'scmPlugin', version: '4.4.0', changing: false],
+        cdpSCM             : [group: 'com.philips.platform', name: 'scmPlugin', version: '4.3.0', changing: false],
         googleservices     : 'com.google.gms:google-services:4.0.1', // Version 4.1.0 causes the build to fail in creating the dependency tree
         gradle             : 'com.android.tools.build:gradle:3.1.4',
         hockeyapp          : 'de.felixschulze.gradle:gradle-hockeyapp-plugin:3.6',
@@ -52,29 +52,28 @@ ext.builddeps = [
 ]
 
 ext.philipsdeps = [
-        AppInfra                    : [group: 'com.philips.cdp', name: strings.ail.artifactName, version: platformversionsuffix, changing: true],
-        AppInfraUApp                : [group: 'com.philips.cdp', name: strings.ailuapp.artifactName, version: platformversionsuffix, changing: true],
+        AppInfra                    : [group: 'com.philips.platform', name: strings.ail.artifactName, version: platformversionsuffix, changing: true],
+        AppInfraUApp                : [group: 'com.philips.platform', name: strings.ailuapp.artifactName, version: platformversionsuffix, changing: true],
         csw                         : [group: 'com.philips.cdp', name: strings.csw.artifactName, version: '1805.1.1547449170', changing: true],
-        digitalCare                 : [group: 'com.philips.cdp', name: strings.dcc.artifactName, version: platformversionsuffix, changing: true],
-        digitalCareUApp             : [group: 'com.philips.cdp', name: strings.dccuapp.artifactName, version: platformversionsuffix, changing: true],
-        iap                         : [group: 'com.philips.cdp', name: strings.iap.artifactName, version: platformversionsuffix, changing: true],
-        iapUApp                     : [group: 'com.philips.cdp', name: strings.iapuapp.artifactName, version: platformversionsuffix, changing: true],
-        IconFont                    : [group: 'com.philips.cdp', name: strings.icf.artifactName, version: '1805.1.1547449170', changing: true],
-        jump                        : [group: 'com.philips.cdp', name: strings.jmp.artifactName, version: platformversionsuffix, changing: true],
-        pif                         : [group: 'com.philips.cdp', name: strings.pif.artifactName, version: platformversionsuffix, changing: true],
-        pluginreferenceboard        : [group: 'com.philips.cdp', name: strings.prf.artifactName, version: platformversionsuffix, changing: true],
-        productselection            : [group: 'com.philips.cdp', name: strings.pse.artifactName, version: platformversionsuffix, changing: true],
-        prx                         : [group: 'com.philips.cdp', name: strings.prx.artifactName, version: platformversionsuffix, changing: true],
-        product_registration_libUApp: [group: 'com.philips.cdp', name: strings.prguapp.artifactName, version: platformversionsuffix, changing: true],
-        product_registration_lib    : [group: 'com.philips.cdp', name: strings.prg.artifactName, version: platformversionsuffix, changing: true],
-        registrationApi             : [group: 'com.philips.cdp', name: strings.usr.artifactName, version: platformversionsuffix, changing: true],
-        securedblibrary             : [group: 'com.philips.cdp', name: strings.sdb.artifactName, version: platformversionsuffix, changing: true],
-        themesettings               : [group: 'com.philips.cdp', name: strings.tse.artifactName, version: platformversionsuffix, changing: true],
-        uAppFwLib                   : [group: 'com.philips.cdp', name: strings.ufw.artifactName, version: platformversionsuffix, changing: true],
+        digitalCare                 : [group: 'com.philips.platform', name: strings.dcc.artifactName, version: platformversionsuffix, changing: true],
+        digitalCareUApp             : [group: 'com.philips.platform', name: strings.dccuapp.artifactName, version: platformversionsuffix, changing: true],
+        iap                         : [group: 'com.philips.platform', name: strings.iap.artifactName, version: platformversionsuffix, changing: true],
+        iapUApp                     : [group: 'com.philips.platform', name: strings.iapuapp.artifactName, version: platformversionsuffix, changing: true],
+        jump                        : [group: 'com.philips.platform', name: strings.jmp.artifactName, version: platformversionsuffix, changing: true],
+        pif                         : [group: 'com.philips.platform', name: strings.pif.artifactName, version: platformversionsuffix, changing: true],
+        pluginreferenceboard        : [group: 'com.philips.platform', name: strings.prf.artifactName, version: platformversionsuffix, changing: true],
+        productselection            : [group: 'com.philips.platform', name: strings.pse.artifactName, version: platformversionsuffix, changing: true],
+        prx                         : [group: 'com.philips.platform', name: strings.prx.artifactName, version: platformversionsuffix, changing: true],
+        product_registration_libUApp: [group: 'com.philips.platform', name: strings.prguapp.artifactName, version: platformversionsuffix, changing: true],
+        product_registration_lib    : [group: 'com.philips.platform', name: strings.prg.artifactName, version: platformversionsuffix, changing: true],
+        registrationApi             : [group: 'com.philips.platform', name: strings.usr.artifactName, version: platformversionsuffix, changing: true],
+        securedblibrary             : [group: 'com.philips.platform', name: strings.sdb.artifactName, version: platformversionsuffix, changing: true],
+        themesettings               : [group: 'com.philips.platform', name: strings.tse.artifactName, version: platformversionsuffix, changing: true],
+        uAppFwLib                   : [group: 'com.philips.platform', name: strings.ufw.artifactName, version: platformversionsuffix, changing: true],
 //        uAppFwLibUApp               : [group: 'com.philips.cdp', name: strings.ufwuapp.artifactName, version: platformversionsuffix, changing: true],
-        uid                         : [group: 'com.philips.cdp', name: strings.uid.artifactName, version: '1805.1.1547449170', changing: true],
+        uid                         : [group: 'com.philips.hsdp-cp', name: strings.uid.artifactName, version: '2.0.+', changing: true],
         uikitLib                    : [group: 'com.philips.cdp', name: strings.uit.artifactName, version: '1805.1.1547449170', changing: true],
-        UserRegistrationUApp        : [group: 'com.philips.cdp', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true]
+        UserRegistrationUApp        : [group: 'com.philips.platform', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true]
 ]
 
 ext.repos = [
@@ -91,7 +90,9 @@ ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
 ext.repos.mavengoogle = ext.repos.base + "/platform-maven-google-com"
 ext.repos.pluginsgradle = ext.repos.base + "/CDP2_Plugins_Gradle"
 ext.repos.sonatype = ext.repos.base + "/platform-ta-sonatype"
-ext.repos.scmplugin = ext.repos.base+"/iet-mobile-android-snapshot-local"
+ext.repos.ietsnapshot = ext.repos.base+"/iet-mobile-android-snapshot-local"
+ext.repos.ietrelease = ext.repos.base+"/iet-mobile-android-release-local"
+ext.repos.hsdprelease = ext.repos.base+"/HSDP-pkgs-android-release"
 
 ext.deps = [
         adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.16.1',

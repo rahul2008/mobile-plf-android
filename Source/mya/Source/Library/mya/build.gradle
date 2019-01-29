@@ -105,15 +105,22 @@ dependencies {
 
     // Philips components
 
-        
-        
-        implementation project(strings.ufw.projectName)
-        implementation project(strings.ail.projectName)
-        implementation project(strings.usr.projectName)
-        implementation project(strings.pif.projectName)
+        if(useprojectdependencies){
+            implementation project(strings.ufw.projectName)
+            implementation project(strings.ail.projectName)
+            implementation project(strings.usr.projectName)
+            implementation project(strings.pif.projectName)
+        }else{
+            implementation philipsdeps.registrationApi
+            implementation philipsdeps.AppInfra
+            implementation philipsdeps.pif
+            implementation philipsdeps.uAppFwLib
+        }
 
 
 
+
+    implementation philipsdeps.uid
     // Tests
     testImplementation deps.junit
     testImplementation deps.mockito

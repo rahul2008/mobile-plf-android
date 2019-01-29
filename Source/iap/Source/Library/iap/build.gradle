@@ -130,6 +130,8 @@ dependencies {
     } else {
         implementation philipsdeps.registrationApi
         implementation philipsdeps.prx
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
     }
 
     // Tests

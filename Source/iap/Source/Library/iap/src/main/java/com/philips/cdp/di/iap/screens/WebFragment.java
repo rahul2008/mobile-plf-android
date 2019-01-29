@@ -37,6 +37,7 @@ public abstract class WebFragment extends InAppBaseFragment {
         mWebView = (WebView) viewGroup.findViewById(R.id.wv_payment);
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(false);
+        mWebView.getSettings().setSaveFormData(false);
         Utility.isDelvieryFirstTimeUser=false;
         createCustomProgressBar(mParentContainer,BIG);
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
+String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true" : ""
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = 'test'
@@ -16,6 +17,9 @@ pipeline {
     }
     parameters {
         choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs', description: 'What type of build to build?', name: 'buildType')
+    }
+    triggers {
+        parameterizedCron(param_string_cron)
     }
     environment {
         EPOCH_TIME = sh(script: 'date +%s', returnStdout: true).trim()
@@ -190,17 +194,17 @@ pipeline {
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk'
             }
         }
-
-        stage('HPFortify') {
-            when {
-                allOf {
-                    expression { return params.buildType == 'HPFortify' }
-                }
-            }
-            steps {
-                BuildHPFortify()
-            }
-        }
+//TODO: Uncomment this when HP fortify is installed in build machine
+//        stage('HPFortify') {
+//            when {
+//                allOf {
+//                    expression { return params.buildType == 'HPFortify' }
+//                }
+//            }
+//            steps {
+//                BuildHPFortify()
+//            }
+//        }
 
 
 //        stage('Upload Cucumber results to TFS') {
@@ -275,9 +279,24 @@ pipeline {
     post {
         always{
             deleteDir()
-//            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+            notifyBuild(currentBuild.result) 
+
         }
     }
+}
+def notifyBuild(String buildStatus = 'STARTED') {
+    // build status of null means successful
+    buildStatus =  buildStatus ?: 'SUCCESSFUL'
+
+   // Default values
+   def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+   def details = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at ${env.BUILD_URL}"
+
+    emailext (
+        subject: subject,
+        body: details,
+        to: "dl_iet_amaron@philips.com, dl_iet_exide@philips.com, rallapalli.prasad@philips.com"
+    )
 }
 
 def InitialiseBuild() {
