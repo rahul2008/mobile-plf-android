@@ -78,21 +78,21 @@ pipeline {
             }
         }
 
-        stage('Trigger Incontext Test') {
-            when {
-                allOf {
-                    not { expression { return params.buildType == 'LeakCanary' } }
-                    not { expression { return params.buildType == 'PSRA' } }
-                    not { expression { return params.buildType == 'JAVADocs' } }
-                    anyOf { branch 'develop'; branch 'release/platform_*' }
-                }
-            }
-            steps {
-                script {
-                    build job: 'Platform-Infrastructure/IncontextTest/master', parameters: [string(name: 'branchname', value:BranchName), string(name: 'triggered_from', value:'Platform'), string(name: 'os_platform', value:'Android')], wait: false
-                }
-            }
-        }
+//        stage('Trigger Incontext Test') {
+//            when {
+//                allOf {
+//                    not { expression { return params.buildType == 'LeakCanary' } }
+//                    not { expression { return params.buildType == 'PSRA' } }
+//                    not { expression { return params.buildType == 'JAVADocs' } }
+//                    anyOf { branch 'develop'; branch 'release/platform_*' }
+//                }
+//            }
+//            steps {
+//                script {
+//                    build job: 'Platform-Infrastructure/IncontextTest/master', parameters: [string(name: 'branchname', value:BranchName), string(name: 'triggered_from', value:'Platform'), string(name: 'os_platform', value:'Android')], wait: false
+//                }
+//            }
+//        }
 
 //        stage('Acceptance') {
 //            when {

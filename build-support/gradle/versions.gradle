@@ -91,7 +91,7 @@ ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
 ext.repos.mavengoogle = ext.repos.base + "/platform-maven-google-com"
 ext.repos.pluginsgradle = ext.repos.base + "/CDP2_Plugins_Gradle"
 ext.repos.sonatype = ext.repos.base + "/platform-ta-sonatype"
-ext.repos.scmplugin = ext.repos.base + "/iet-mobile-android-snapshot-local"
+ext.repos.scmplugin = ext.repos.base+"/iet-mobile-android-release-local"
 
 ext.deps = [
         adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.16.1',

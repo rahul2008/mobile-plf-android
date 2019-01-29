@@ -191,7 +191,9 @@ dependencies {
     annotationProcessor deps.butterknife_compiler
     implementation philipsdeps.uid
     implementation philipsdeps.uikitLib
-    implementation philipsdeps.csw
+    implementation (philipsdeps.csw){
+        exclude group: 'com.philips.cdp'
+    }
     if (useprojectdependencies) {
         implementation project(strings.prg.projectName)
 
