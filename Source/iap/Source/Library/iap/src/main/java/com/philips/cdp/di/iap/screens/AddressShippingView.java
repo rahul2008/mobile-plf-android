@@ -112,7 +112,7 @@ public class AddressShippingView
 
         mLlHouseNo = rootView.findViewById(R.id.ll_house_no);
         inputValidatorHouseNo = new InputValidator(Validator.ADDRESS_PATTERN);
-        mLlHouseNo.setValidator(inputValidatorHouseNo);
+       // mLlHouseNo.setValidator(inputValidatorHouseNo);
 
         mLlTown = rootView.findViewById(R.id.ll_town);
         inputValidatorTown = new InputValidator(Validator.TOWN_PATTERN);
@@ -399,7 +399,6 @@ public class AddressShippingView
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
                 && mValidator.isValidAddress(addressLineOne)
-                && mValidator.isValidAddress(houseNo)
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
@@ -428,7 +427,6 @@ public class AddressShippingView
 
     protected AddressFields setAddressFields(AddressFields shippingAddressFields) {
         setAddressFiledsFromEditTexts(shippingAddressFields);
-
 
         if (mlLState.getVisibility() == View.VISIBLE) {
             shippingAddressFields.setRegionIsoCode(mRegionIsoCode);

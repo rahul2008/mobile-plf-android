@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -55,6 +56,20 @@ public class NetworkController {
     public void sendHybrisRequest(final int requestCode, final AbstractModel model,
                                   final RequestListener requestListener) {
 
+
+
+        if(model.getUrl()!=null){
+            Log.d("pabitra URL",model.getUrl());
+        }else{
+            Log.d("pabitra URL","Url is null");
+        }
+
+        if(model.requestBody()!=null){
+            Log.d("pabitra request",model.requestBody().toString());
+        }else{
+            Log.d("pabitra request","Empty request");
+        }
+
         if (mStoreListener == null) {
             return;
         }
@@ -67,6 +82,13 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
+
+                if(error!=null && error.getMessage()!=null){
+                    Log.d("pabitra error",error.getMessage());
+                }else {
+                    Log.d("pabitra error","Empty");
+                }
+
                 if (model.getUrl() != null && error != null) {
                     IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
                             .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
@@ -86,6 +108,13 @@ public class NetworkController {
 
             @Override
             public void onResponse(final JSONObject response) {
+
+                if(response!=null && response.length()!=0){
+                    Log.d("pabitra response",response.toString());
+                }else {
+                    Log.d("pabitra response","Empty");
+                }
+
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
