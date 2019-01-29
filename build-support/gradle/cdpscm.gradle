@@ -11,8 +11,16 @@ buildscript {
     apply from: buildscript.sourceFile.parent + "/versions.gradle"
 
     repositories {
+        maven {
+            url repos.mavengoogle
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
         maven { url repos.jcenter }
-        maven { url repos.scmplugin }
+        maven { url repos.ietrelease }
+        maven { url repos.ietsnapshot }
         maven { url repos.plugin
             credentials {
                 username = "readonly"

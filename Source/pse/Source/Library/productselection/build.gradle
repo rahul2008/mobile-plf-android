@@ -81,11 +81,11 @@ dependencies {
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.prx.projectName)
-
         implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.prx
+        implementation philipsdeps.AppInfra
     }
 
     androidTestImplementation deps.espresso_core, {

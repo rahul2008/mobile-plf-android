@@ -105,7 +105,6 @@ dependencies {
     implementation philipsdeps.uid
     if (useprojectdependencies) {
         implementation project(strings.pse.projectName)
-
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
         implementation project(strings.prx.projectName)

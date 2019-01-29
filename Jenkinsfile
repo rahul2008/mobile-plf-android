@@ -194,17 +194,17 @@ pipeline {
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk'
             }
         }
-
-        stage('HPFortify') {
-            when {
-                allOf {
-                    expression { return params.buildType == 'HPFortify' }
-                }
-            }
-            steps {
-                BuildHPFortify()
-            }
-        }
+//TODO: Uncomment this when HP fortify is installed in build machine
+//        stage('HPFortify') {
+//            when {
+//                allOf {
+//                    expression { return params.buildType == 'HPFortify' }
+//                }
+//            }
+//            steps {
+//                BuildHPFortify()
+//            }
+//        }
 
 
 //        stage('Upload Cucumber results to TFS') {

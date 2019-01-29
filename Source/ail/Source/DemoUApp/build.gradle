@@ -26,7 +26,7 @@ dependencies {
 
     implementation deps.support.appcompatv7
     implementation deps.support.design
-
+    implementation deps.constraintlayout
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)

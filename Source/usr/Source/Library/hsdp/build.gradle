@@ -75,9 +75,14 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle
 
 dependencies {
     compileOnly deps.javax_annotation
+    if(useprojectdependencies){
+        implementation project(strings.jmp.projectName)
+        implementation project(strings.ail.projectName)
+    }else{
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.jump
 
-    implementation project(strings.jmp.projectName)
-    implementation project(strings.ail.projectName)
+    }
     implementation deps.butterknife
 
     annotationProcessor deps.butterknife
