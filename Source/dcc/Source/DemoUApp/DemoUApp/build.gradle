@@ -42,16 +42,17 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.support.design
-
+    implementation philipsdeps.uid
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
-        
         implementation project(strings.prx.projectName)
         implementation project(strings.pse.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
+        implementation philipsdeps.prx
+        implementation philipsdeps.productselection
     }
 
     implementation deps.support.recyclerview

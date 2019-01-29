@@ -8,7 +8,9 @@ buildscript {
     repositories {
         maven { url repos.mavengoogle }
         maven { url repos.jcenter }
-        maven { url repos.scmplugin }
+        maven { url repos.ietsnapshot }
+        maven { url repos.ietrelease }
+
         maven { url repos.pluginsgradle }
         maven {
             url repos.plugin
@@ -68,7 +70,10 @@ subprojects {
             }
             maven { url repos.jcenter }
             maven { url repos.release }
-            maven { url repos.scmplugin }
+            maven { url repos.ietsnapshot }
+            maven { url repos.ietrelease }
+            maven { url repos.hsdprelease }
+
             maven {
                 url repos.plugin
                 credentials {
@@ -91,7 +96,10 @@ subprojects {
             url repos.jcenter
         }
         maven { url repos.release }
-        maven { url repos.scmplugin }
+        maven { url repos.ietsnapshot }
+        maven { url repos.ietrelease }
+        maven { url repos.hsdprelease }
+
         maven {
             url repos.plugin
             credentials {

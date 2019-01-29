@@ -24,6 +24,7 @@ buildscript {
     }
 }
 
+
 archivesBaseName = strings.rap.artifactName
 
 artifactory {
@@ -191,6 +192,8 @@ dependencies {
     annotationProcessor deps.butterknife_compiler
     implementation philipsdeps.uid
     implementation philipsdeps.uikitLib
+    implementation project(strings.mya.projectName)
+
     implementation (philipsdeps.csw){
         exclude group: 'com.philips.cdp'
     }
@@ -213,8 +216,6 @@ dependencies {
         implementation project(strings.dcc.projectName)
         implementation project(strings.iap.projectName)
 
-        implementation project(strings.mya.projectName)
-
         implementation project(strings.dccuapp.projectName)
 //        implementation project(strings.ufwuapp.projectName)
         implementation project(strings.iapuapp.projectName)
@@ -232,29 +233,14 @@ dependencies {
         implementation philipsdeps.pif
         implementation philipsdeps.jump
         implementation philipsdeps.uAppFwLib
-        implementation philipsdeps.commlib_api
-        implementation philipsdeps.commlib_ble
         implementation philipsdeps.AppInfra
 
-        implementation philipsdeps.cloudcontroller
-        implementation philipsdeps.cloudcontroller_api
         implementation philipsdeps.productselection
-        implementation philipsdeps.commlib_cloud
-        implementation philipsdeps.commlib_lan
         implementation philipsdeps.prx
 
         implementation philipsdeps.registrationApi
         implementation philipsdeps.digitalCare
         implementation philipsdeps.iap
-        implementation(philipsdeps.mya) {
-            exclude group: 'com.android.support'
-        }
-        implementation(philipsdeps.commlib) {
-            exclude group: 'com.android.support'
-        }
-        implementation(philipsdeps.commlib_demouapp) {
-            exclude group: 'com.android.support'
-        }
         implementation(philipsdeps.digitalCareUApp) {
             exclude group: 'com.android.support'
         }
@@ -266,14 +252,8 @@ dependencies {
         }
         implementation(philipsdeps.UserRegistrationUApp) {
             exclude group: 'com.android.support'
-            exclude group: 'com.philips.cdp', module: 'RegistrationApi'
+            exclude group: 'com.philips.platform', module: 'registrationApi'
         }
-
-        implementation philipsdeps.telehealth
-        implementation philipsdeps.telehealthUApp
-
-        implementation philipsdeps.bluelib_demouapp
-        implementation philipsdeps.bluelib
 
         implementation project(strings.tse.projectName)
         implementation philipsdeps.AppInfraUApp

@@ -15,7 +15,6 @@ ext.strings = [
         prx: [projectName:':prx', artifactName:'prx'],
         uit: [projectName:':uikitLib', artifactName:'uikitLib'],
         iap: [projectName:':iap', artifactName:'iap'],
-        icf: [projectName:':IconFont', artifactName:'IconFont'],
         usr: [projectName:':registrationApi', artifactName:'registrationApi'],
         pse: [projectName:':productselection', artifactName:'productselection'],
         jmp: [projectName:':jump', artifactName:'jump'],
