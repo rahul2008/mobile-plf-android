@@ -291,7 +291,7 @@ pipeline {
 }
 def notifyBuild(String buildStatus = 'STARTED') {
     // build status of null means successful
-    buildStatus =  buildStatus ?: 'success' || 'failure' || 'fixed' || 'unstable'
+    buildStatus =  buildStatus ?: 'aborted' || 'failure' || 'fixed' || 'unstable'
    // Default values
    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
    def details = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at ${env.BUILD_URL}"
