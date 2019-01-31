@@ -819,7 +819,10 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     @Override
     public void loginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (!homePresenter.isNetworkAvailable()) return;
-        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
+
+        if (userRegistrationFailureInfo == null) {
+            genericError();
+        } else if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
             userCancelledSocialLogin();
         } else {
             handleLoginFailedWithError(userRegistrationFailureInfo);

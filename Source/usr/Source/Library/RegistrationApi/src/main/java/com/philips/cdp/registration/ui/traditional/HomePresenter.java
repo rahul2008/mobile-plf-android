@@ -301,12 +301,19 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
 
     void completeRegistation() {
+
+        if (homeContract.getActivityContext() == null) {
+            homeContract.loginFailed(null);
+            return;
+        }
+
         String emailorMobile;
         if (FieldsValidator.isValidEmail(user.getEmail())) {
             emailorMobile = user.getEmail();
         } else {
             emailorMobile = user.getMobile();
         }
+
         if (emailorMobile != null && RegistrationConfiguration.getInstance().
                 isTermsAndConditionsAcceptanceRequired() &&
                 !RegPreferenceUtility.getPreferenceValue(homeContract.getActivityContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !user.getReceiveMarketingEmail()) {
