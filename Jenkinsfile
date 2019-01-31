@@ -3,7 +3,6 @@
 BranchName = env.BRANCH_NAME
 String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true" : ""
 
-def MailRecipient = 'DL_CDP2_Callisto@philips.com'
 def nodes = 'test'
 if (BranchName == "develop") {
     nodes = nodes + " && TICS"
@@ -292,8 +291,7 @@ pipeline {
 }
 def notifyBuild(String buildStatus = 'STARTED') {
     // build status of null means successful
-    buildStatus =  buildStatus ?: 'SUCCESSFUL'
-
+    buildStatus =  buildStatus ?: 'success' || 'failure' || 'fixed' || 'unstable'
    // Default values
    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
    def details = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at ${env.BUILD_URL}"
