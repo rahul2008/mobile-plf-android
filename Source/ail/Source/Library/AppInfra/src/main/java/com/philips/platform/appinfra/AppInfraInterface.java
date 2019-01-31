@@ -10,6 +10,7 @@ import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -51,6 +52,13 @@ public interface AppInfraInterface extends Serializable {
      * @return the logging
      */
     LoggingInterface getLogging();
+
+    /**
+     * Gets logging.
+     *
+     * @return the logging
+     */
+    CloudLoggingInterface getCloudLogging();
 
     /**
      * Gets service discovery interface.

@@ -40,7 +40,7 @@ public class LoginTraditionalTest {
         MockitoAnnotations.initMocks(this);
         RegistrationConfiguration.getInstance().setComponent(componentMock);
         RLog.setMockLogger(mockLoggingInterface);
-        when(componentMock.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        when(componentMock.getCloudLoggingInterface()).thenReturn(mockLoggingInterface);
 //        AppTagging.setMockAppTaggingInterface(mockAppTaggingInterface);
 //        when(componentMock.getAppTaggingInterface()).thenReturn(mockAppTaggingInterface);
 

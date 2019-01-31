@@ -55,7 +55,7 @@ public class ResendVerificationEmailTest {
         RegistrationConfiguration.getInstance().setComponent(mockComponent);
         RLog.setMockLogger(mockLoggingInterface);
 
-        when(mockComponent.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        when(mockComponent.getCloudLoggingInterface()).thenReturn(mockLoggingInterface);
 //        AppTagging.setMockAppTaggingInterface(mockAppTaggingInterface);
 //        when(mockComponent.getAppTaggingInterface()).thenReturn(mockAppTaggingInterface);
         // when(appInfraInterface.getTagging().createInstanceForComponent("usr", BuildConfig.VERSION_NAME)).thenReturn(mockAppTaggingInterface);

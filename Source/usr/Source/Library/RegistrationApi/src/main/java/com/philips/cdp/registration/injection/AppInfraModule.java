@@ -6,6 +6,7 @@ import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -64,6 +65,12 @@ public class AppInfraModule {
     @Provides
     public LoggingInterface providesLoggingInterface() {
         return appInfraInterface.getLogging();
+    }
+
+    @Singleton
+    @Provides
+    public CloudLoggingInterface providescloudLoggingInterface() {
+        return appInfraInterface.getCloudLogging();
     }
 
     @Provides

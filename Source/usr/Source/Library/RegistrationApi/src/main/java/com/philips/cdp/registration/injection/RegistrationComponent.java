@@ -41,6 +41,7 @@ import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyResendCode
 import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -62,6 +63,8 @@ public interface RegistrationComponent {
     TimeInterface getTimeInterface();
 
     LoggingInterface getLoggingInterface();
+
+    CloudLoggingInterface getCloudLoggingInterface();
 
     ServiceDiscoveryInterface getServiceDiscoveryInterface();
 

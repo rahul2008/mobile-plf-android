@@ -35,6 +35,7 @@ import com.philips.cdp.registration.ui.utils.MapUtils;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -51,7 +52,7 @@ import javax.inject.Inject;
  */
 public class HsdpUser {
 
-    private final LoggingInterface loggingInterface;
+    private final CloudLoggingInterface cloudLoggingInterface;
     private String TAG = "HsdpUser";
 
     @Inject
@@ -83,7 +84,7 @@ public class HsdpUser {
     public HsdpUser(Context context) {
         this.mContext = context;
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
+        cloudLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getCloudLoggingInterface();
     }
 
 
@@ -310,9 +311,10 @@ public class HsdpUser {
                     accessCredential.setAccessToken(hsdpUserRecord.getAccessCredential().getAccessToken());
                     hsdpUserRecordV2.setAccessCredential(accessCredential);
                     HsdpUserInstance.getInstance().setHsdpUserRecordV2(hsdpUserRecordV2);
-                    if (loggingInterface != null) {
-                        loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
+                    if (cloudLoggingInterface != null) {
+                        cloudLoggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
                     }
+
                     sendEncryptedUUIDToAnalytics(hsdpUserRecordV2);
                     saveToDisk(new UserFileWriteListener() {
                         @Override
@@ -403,8 +405,8 @@ public class HsdpUser {
         saveToDisk(new UserFileWriteListener() {
             @Override
             public void onFileWriteSuccess() {
-                if (loggingInterface != null) {
-                    loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
+                if (cloudLoggingInterface != null) {
+                    cloudLoggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
                 }
                 handler.post(() -> {
                     RLog.d(TAG, "Social onHsdpLoginSuccess : response :"
