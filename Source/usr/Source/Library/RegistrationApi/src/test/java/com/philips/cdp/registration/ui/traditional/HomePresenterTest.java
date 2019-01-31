@@ -45,9 +45,6 @@ public class HomePresenterTest {
     @Mock
     private URFaceBookUtility urFaceBookUtilityMock;
 
-    @Mock
-    private Context mockContext;
-
     private AccessToken accessToken;
 
     private HomePresenter homePresenter;
@@ -60,7 +57,7 @@ public class HomePresenterTest {
         CallbackManager callbackManagerMock = CallbackManager.Factory.create();
         accessToken = new AccessToken("someToken", "someApplicationId", "someUserId", null, null, null, null, null);
         Mockito.when(loginResultMock.getAccessToken()).thenReturn(accessToken);
-        homePresenter = new HomePresenter(homeContractMock, mockContext);
+        homePresenter = new HomePresenter(homeContractMock, callbackManagerMock);
 
     }
 

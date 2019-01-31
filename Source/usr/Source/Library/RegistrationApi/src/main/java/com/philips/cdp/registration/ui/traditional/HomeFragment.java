@@ -147,7 +147,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         mCallbackManager = mURFaceBookUtility.getCallBackManager();
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
-        homePresenter = new HomePresenter(this, mContext);
+        homePresenter = new HomePresenter(this, mCallbackManager);
         view = getViewFromRegistrationFunction(inflater, container);
         ButterKnife.bind(this, view);
         initUI(view);
@@ -819,7 +819,10 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     @Override
     public void loginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (!homePresenter.isNetworkAvailable()) return;
-        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
+
+        if (userRegistrationFailureInfo == null) {
+            genericError();
+        } else if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.AUTHENTICATION_CANCELLED_BY_USER) {
             userCancelledSocialLogin();
         } else {
             handleLoginFailedWithError(userRegistrationFailureInfo);
@@ -837,8 +840,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     }
 
     @Override
-    public void completeSocialLogin() {
-        homePresenter.completeRegistation();
+    public void updateUIState() {
         enableControls(true);
         hideProgressDialog();
     }
