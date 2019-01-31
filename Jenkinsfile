@@ -194,17 +194,17 @@ pipeline {
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk'
             }
         }
-//TODO: Uncomment this when HP fortify is installed in build machine
-//        stage('HPFortify') {
-//            when {
-//                allOf {
-//                    expression { return params.buildType == 'HPFortify' }
-//                }
-//            }
-//            steps {
-//                BuildHPFortify()
-//            }
-//        }
+        
+        stage('HPFortify') {
+            when {
+                allOf {
+                    expression { return params.buildType == 'HPFortify' }
+                }
+            }
+            steps {
+                BuildHPFortify()
+            }
+        }
 
 
 //        stage('Upload Cucumber results to TFS') {
@@ -416,7 +416,7 @@ def BuildHPFortify() {
         echo "*** sourceanalyzer -b 001 -scan -f results.fpr ***"
         sourceanalyzer -b 001 -scan -f results.fpr
         echo "*** fortifyclient -url https://fortify.philips.com/ssc ***"
-        fortifyclient -url https://fortify.philips.com/ssc -authtoken 59f58b28-62a3-4770-87dd-e0cddb3c7bba uploadFPR -file results.fpr -project CDPP_CoCo -version plf_android
+        fortifyclient -url https://fortify.philips.com/ssc -authtoken b7f82273-bec3-4cbf-a2df-539274e37cca uploadFPR -file results.fpr -project CDPP_CoCo -version plf_android
     '''
 }
 
