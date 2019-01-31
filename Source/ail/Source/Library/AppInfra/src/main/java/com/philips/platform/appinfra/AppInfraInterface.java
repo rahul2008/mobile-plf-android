@@ -54,9 +54,9 @@ public interface AppInfraInterface extends Serializable {
     LoggingInterface getLogging();
 
     /**
-     * Gets logging.
+     * Gets cloud logging.
      *
-     * @return the logging
+     * @return the  cloud logging
      */
     CloudLoggingInterface getCloudLogging();
 

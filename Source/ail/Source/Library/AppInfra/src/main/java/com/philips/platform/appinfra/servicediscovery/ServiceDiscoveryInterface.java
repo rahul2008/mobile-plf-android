@@ -62,18 +62,6 @@ public interface ServiceDiscoveryInterface extends Serializable {
         void onSuccess(String countryCode, SOURCE source);
     }
 
-    /**
-     * This is the callback method from getServiceUrlWithLanguagePreference() API.
-     * the call back will have success method for actions completed successfully.
-     * onSuccess returns the successful response
-     *
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    interface OnGetServiceUrlListener extends OnErrorListener {
-        void onSuccess(URL url);
-    }
 
     /**
      * This is the callback method from getServiceUrlWithLanguagePreference() API.
@@ -86,27 +74,6 @@ public interface ServiceDiscoveryInterface extends Serializable {
         void onSuccess(Map<String, ServiceDiscoveryService> urlMap);
     }
 
-    /**
-     * This is the callback method from getServiceLocaleWithLanguagePreference() API.
-     * the call back will have success method for actions completed successfully.
-     * onSuccess returns the successful response
-     *
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    interface OnGetServiceLocaleListener extends OnErrorListener {
-        void onSuccess(String locale);
-    }
-    /**
-     * This is the callback method from getServicesWithCountryPreference() API.
-     * the call back will have success method for actions completed successfully.
-     * onSuccess returns the successful response
-     */
-//    interface OnGetServicesListener extends OnErrorListener {
-////        void onSuccess(Map<String, ServiceUrlandLocale> services);
-//            void onSuccess(String services);
-//    }
 
     /**
      * This is the callback method from refresh() API.
@@ -145,45 +112,6 @@ public interface ServiceDiscoveryInterface extends Serializable {
      */
     void setHomeCountry(String countryCode);
 
-    /**
-     * URL for a specific service with a preference for the current language.
-     *
-     * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
-     *                  or returns onError the error code when retrieval failed.
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener);
-
-    /**
-     * URL for a specific service with a preference for the current language.
-     *
-     * @param serviceId   name of the service for which the URL is to be retrieved
-     * @param listener    asynchronously returns using onSuccess the URL of the requested service;
-     *                    or returns onError the error code when retrieval failed.
-     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener,
-                                             Map<String, String> replacement);
-
-
-    /**
-     * Hashmap with  URL  mapped specific service with a preference for the current language.
-     *
-     * @param serviceId ArrayList of the service for which the URL is to be retrieved
-     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
-     *                  or returns onError the error code when retrieval failed.
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    void getServicesWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
-
 
     /**
      * Hashmap with  URL  mapped specific service with a preference for the current language.
@@ -196,47 +124,6 @@ public interface ServiceDiscoveryInterface extends Serializable {
      */
     void getServicesWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener,
                                            Map<String, String> replacement);
-
-    /**
-     * URL for a specific service with a preference for the current home country.
-     *
-     * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
-     *                  or returns onError the error code when retrieval failed.
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener);
-
-
-    /**
-     * URL for a specific service with a preference for the current home country.
-     *
-     * @param serviceId   name of the service for which the URL is to be retrieved
-     * @param listener    asynchronously returns using onSuccess the URL of the requested service;
-     *                    or returns onError the error code when retrieval failed.
-     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener,
-                                            Map<String, String> replacement);
-
-
-    /**
-     * Hashmap with  URL  mapped for a specific service with a
-     * preference for the current home country.
-     *
-     * @param serviceId List of the services for which the URL is to be retrieved
-     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
-     *                  or returns onError the error code when retrieval failed.
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
 
     /**
      * Hashmap with  URL  mapped for a specific service with a
@@ -253,46 +140,16 @@ public interface ServiceDiscoveryInterface extends Serializable {
 
 
     /**
-     * Locale to be used for a specific service with a preference for the current language.
-     *
-     * @param serviceId name of the service for which the URL is to be retrieved
-     * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
-     *                  or returns onError the error code when retrieval failed.
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    void getServiceLocaleWithLanguagePreference(String serviceId, OnGetServiceLocaleListener listener);
-
-    /**
      * Locale to be used for a specific service with a preference for the current home country.
      *
      * @param serviceId name of the service for which the URL is to be retrieved
      * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
      *                  or returns onError the error code when retrieval failed.
      * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
+     * @deprecated Deprecated since 1901.0
      */
     @Deprecated
     void getServiceLocaleWithCountryPreference(String serviceId, OnGetServiceLocaleListener listener);
-
-    /**
-     * URLs + locales for a set of services with a preference for the current language.
-     * @param serviceIds list of service names for which the URL + locale are to be retrieved
-     * @param listener asynchronously returns using onSuccess a map containing the requested service names (key)
-     *                 and their URL + locale (value), the value will be null if the service is unknown;
-     *                 or returns onError the error code when retrieval failed.
-     */
-//    void getServicesWithLanguagePreference(String serviceIds, OnGetServicesListener listener);
-    /**
-     * URLs + locales for a set of services with a preference for the current home country.
-     * @param serviceIds list of service names for which the URL + locale are to be retrieved
-     * @param listener asynchronously returns using onSuccess a map containing the requested service names (key)
-     *                 and their URL + locale (value), the value will be null if the service is unknown;
-     *                 or returns onError the error code when retrieval failed.
-     */
-//    void getServicesWithCountryPreference(String serviceIds, OnGetServicesListener listener);
-
 
     /**
      * Replaces all '%key%' placeholders in the given URL, where the key is the key in the replacement table and the placeholder is replaced with the value of the entry in the replacement table
@@ -304,20 +161,6 @@ public interface ServiceDiscoveryInterface extends Serializable {
      */
     URL applyURLParameters(URL url, Map<String, String> replacement);
 
-
-    /**
-     * Start negotiation with cloud service for the list of service for this application. List is based on sector, microsite, home country, and language.
-     * The retrieved list is cached internally (not persistently).
-     * The cached list is automatically refreshed every 24hours.
-     * A refresh is only required, to ensure the very first service request after app start can be processed from the cache quickly, or when a previous sync failed.
-     *
-     * @param listener asynchronously returns using onSuccess when retrieval was successful;
-     *                 or returns onError the error code when retrieval failed.
-     * @since 1.0.0
-     * @deprecated Deprecated since 1901.0,
-     */
-    @Deprecated
-    void refresh(OnRefreshListener listener);
 
     /**
      * Start negotiation with cloud service for the list of service for this application. List is based on sector, microsite, home country, and language.
@@ -347,4 +190,137 @@ public interface ServiceDiscoveryInterface extends Serializable {
      * @since 1.0.0
      */
     void registerOnHomeCountrySet(BroadcastReceiver receiver);
+
+    /**
+     * This is the callback method from getServiceUrlWithLanguagePreference() API.
+     * the call back will have success method for actions completed successfully.
+     * onSuccess returns the successful response
+     *
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    interface OnGetServiceUrlListener extends OnErrorListener {
+        void onSuccess(URL url);
+    }
+
+    /**
+     * This is the callback method from getServiceLocaleWithLanguagePreference() API.
+     * the call back will have success method for actions completed successfully.
+     * onSuccess returns the successful response
+     *
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    interface OnGetServiceLocaleListener extends OnErrorListener {
+        void onSuccess(String locale);
+    }
+
+    /**
+     * URL for a specific service with a preference for the current language.
+     *
+     * @param serviceId name of the service for which the URL is to be retrieved
+     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
+     *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener);
+
+    /**
+     * URL for a specific service with a preference for the current language.
+     *
+     * @param serviceId   name of the service for which the URL is to be retrieved
+     * @param listener    asynchronously returns using onSuccess the URL of the requested service;
+     *                    or returns onError the error code when retrieval failed.
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener,
+                                             Map<String, String> replacement);
+
+    /**
+     * Hashmap with  URL  mapped specific service with a preference for the current language.
+     *
+     * @param serviceId ArrayList of the service for which the URL is to be retrieved
+     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
+     *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    void getServicesWithLanguagePreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
+
+    /**
+     * Start negotiation with cloud service for the list of service for this application. List is based on sector, microsite, home country, and language.
+     * The retrieved list is cached internally (not persistently).
+     * The cached list is automatically refreshed every 24hours.
+     * A refresh is only required, to ensure the very first service request after app start can be processed from the cache quickly, or when a previous sync failed.
+     *
+     * @param listener asynchronously returns using onSuccess when retrieval was successful;
+     *                 or returns onError the error code when retrieval failed.
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    void refresh(OnRefreshListener listener);
+
+
+    /**
+     * Locale to be used for a specific service with a preference for the current language.
+     *
+     * @param serviceId name of the service for which the URL is to be retrieved
+     * @param listener  asynchronously returns using onSuccess the recommended locale for the requested service;
+     *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    void getServiceLocaleWithLanguagePreference(String serviceId, OnGetServiceLocaleListener listener);
+
+    /**
+     * URL for a specific service with a preference for the current home country.
+     *
+     * @param serviceId name of the service for which the URL is to be retrieved
+     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
+     *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener);
+
+
+    /**
+     * URL for a specific service with a preference for the current home country.
+     *
+     * @param serviceId   name of the service for which the URL is to be retrieved
+     * @param listener    asynchronously returns using onSuccess the URL of the requested service;
+     *                    or returns onError the error code when retrieval failed.
+     * @param replacement lookup table to be use to replace placeholders (key) with the given value, see {@link #applyURLParameters(URL, Map)}
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener,
+                                            Map<String, String> replacement);
+
+
+    /**
+     * Hashmap with  URL  mapped for a specific service with a
+     * preference for the current home country.
+     *
+     * @param serviceId List of the services for which the URL is to be retrieved
+     * @param listener  asynchronously returns using onSuccess the URL of the requested service;
+     *                  or returns onError the error code when retrieval failed.
+     * @since 1.0.0
+     * @deprecated Deprecated since 1901.0
+     */
+    @Deprecated
+    void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener);
+
 }

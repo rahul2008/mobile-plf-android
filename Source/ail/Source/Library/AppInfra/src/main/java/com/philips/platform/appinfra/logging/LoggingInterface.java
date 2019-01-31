@@ -57,7 +57,7 @@ public interface LoggingInterface extends Serializable {
      * To identify log originated from which user set/reset when user login/logout can be empty (will not be able to track based on user)
      * @param userUUID
      * @since 1802.0.0
-     * @deprecated Deprecated since 1901.0,
+     * @deprecated Deprecated since 1901.0
      */
     @Deprecated
     void setHSDPUserUUID(String userUUID);
@@ -65,7 +65,7 @@ public interface LoggingInterface extends Serializable {
      *
      * @return This method returns the Cloud Logging consent identifier
      * @since 1802.0
-     * @deprecated Deprecated since 1901.0,
+     * @deprecated Deprecated since 1901.0
      */
     @Deprecated
     String getCloudLoggingConsentIdentifier();
