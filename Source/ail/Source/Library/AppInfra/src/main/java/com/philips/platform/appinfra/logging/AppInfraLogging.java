@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.AIL_HOME_COUNTRY;
 
 
-public class AppInfraLogging implements LoggingInterface, AppInfraInitialisationCompleteListener {
+public class AppInfraLogging implements CloudLoggingInterface, AppInfraInitialisationCompleteListener {
 
     public final static String CLOUD_CONSENT = "AIL_CloudConsent";
 
@@ -132,6 +132,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     public void setHSDPUserUUID(String userUUID) {
         ailCloudLogMetaData.setUserUUID(userUUID);
     }
+
 
     @Override
     public String getCloudLoggingConsentIdentifier() {

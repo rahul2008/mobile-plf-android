@@ -23,6 +23,7 @@ import com.philips.platform.appinfra.internationalization.InternationalizationMa
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.RestManager;
@@ -47,6 +48,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     private SecureStorageInterface secureStorage;
 
     private LoggingInterface logger;
+    private CloudLoggingInterface cloudLogger;
     private DeviceStoredConsentHandler deviceStoredConsentHandler;
     private AppTaggingInterface tagging;
     private LoggingInterface appInfraLogger;
@@ -127,6 +129,15 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     @Override
     public LoggingInterface getLogging() {
         return logger;
+    }
+
+    @Override
+    public CloudLoggingInterface getCloudLogging() {
+        return cloudLogger;
+    }
+
+    private void setCloudLogging(CloudLoggingInterface cloudLogger) {
+        this.cloudLogger = cloudLogger;
     }
 
     private void setLogging(LoggingInterface log) {
@@ -230,7 +241,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     }
 
 
-
     @Override
     public ConsentManagerInterface getConsentManager() {
         return consentManager;
@@ -255,6 +265,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
         private SecureStorageInterface secStor;
         private LoggingInterface logger; // builder logger
+        private CloudLoggingInterface cloudLogger;
         //   private LoggingInterface aiLogger; // app infra logger
         private AppTaggingInterface tagging;
         private AppIdentityInterface appIdentity;
@@ -279,6 +290,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         public Builder() {
             secStor = null;
             logger = null;
+            cloudLogger = null;
             //aiLogger = null;
             tagging = null;
             appIdentity = null;
@@ -290,7 +302,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             languagePack = null;
             abtesting = null;
             consentManager = null;
-            deviceStoredConsentHandler=null;
+            deviceStoredConsentHandler = null;
         }
 
 
@@ -389,7 +401,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
         }
 
 
-
         public Builder setConsentManager(ConsentManagerInterface consentMgr) {
             this.consentManager = consentMgr;
             return this;
@@ -411,6 +422,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
+            ai.setCloudLogging(logger == null ? new AppInfraLogging(ai) : (CloudLoggingInterface) logger);
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             ai.setLocal(local == null ? new InternationalizationManager(ai) : local);
@@ -466,8 +478,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
             }).start();
 
 
-
-            ai.setDeviceStoredConsentHandler(deviceStoredConsentHandler==null?new DeviceStoredConsentHandler(ai):deviceStoredConsentHandler);
+            ai.setDeviceStoredConsentHandler(deviceStoredConsentHandler == null ? new DeviceStoredConsentHandler(ai) : deviceStoredConsentHandler);
 
             new Thread(new Runnable() {
                 @Override

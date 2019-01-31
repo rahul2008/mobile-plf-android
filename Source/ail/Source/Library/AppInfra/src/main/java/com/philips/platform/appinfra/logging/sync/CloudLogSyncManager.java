@@ -118,9 +118,9 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
 
     private void checkForConsentAndSync() {
         try {
-            ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier());
+            ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getCloudLogging().getCloudLoggingConsentIdentifier());
             if (consentDefinition != null) {
-                appInfra.getConsentManager().addConsentStatusChangedListener(appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier()),this);
+                appInfra.getConsentManager().addConsentStatusChangedListener(appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getCloudLogging().getCloudLoggingConsentIdentifier()),this);
                 appInfra.getConsentManager().fetchConsentState(consentDefinition, new FetchConsentCallback() {
                     @Override
                     public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {
