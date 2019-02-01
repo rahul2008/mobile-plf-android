@@ -26,10 +26,6 @@ ext.strings = [
 
         prf: [projectName:':pluginreferenceboard', artifactName:'pluginreferenceboard'],
 
-        hsdp: [projectName:':hsdp', artifactName:'hsdp'],
-
-
-
         ailuapp:[projectName:':AppInfraUApp', artifactName:'AppInfraUApp'],
         iapuapp:[projectName:':iapUApp', artifactName:'iapUApp'],
         usruapp:[projectName:':UserRegistrationUApp', artifactName:'UserRegistrationUApp'],

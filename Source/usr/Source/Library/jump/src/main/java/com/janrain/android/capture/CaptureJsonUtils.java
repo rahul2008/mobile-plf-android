@@ -94,7 +94,7 @@ public class CaptureJsonUtils {
             if (o instanceof JSONObject) {
                 Object maybeId = ((JSONObject) o).opt("id");
                // if (maybeId instanceof Integer || maybeId instanceof Long) return true;
-                if (maybeId instanceof Long) return true;
+                if (maybeId instanceof Long) return true; //It should return true only if maybeId is instanceof Integer otherwise it should return false.
             }
         }
         return false;
@@ -221,8 +221,8 @@ public class CaptureJsonUtils {
                     newKeys.toString());
         }
         if (goneKeys.size() > 0) {
-            //throw new InvalidApidChangeException("Cannot delete keys from JSONObjects. Removed " +
-                //    "keys: " + goneKeys.toString());
+            throw new InvalidApidChangeException("Cannot delete keys from JSONObjects. Removed " +
+                    "keys: " + goneKeys.toString());
         }
 
         SortedSet<String> intersectionKeys = new TreeSet<String>(originalKeys);

@@ -5,8 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.ntputils.ServerTime;
-import com.philips.ntputils.constants.ServerTimeConstants;
+import com.philips.cdp.registration.ui.utils.ServerTime;
 import com.philips.platform.appinfra.apisigning.HSDPPHSApiSigning;
 
 import java.io.BufferedInputStream;
@@ -144,7 +143,7 @@ class HsdpRequestClient {
     }
 
     private String UTCDatetimeAsString() {
-        return ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT);
+        return ServerTime.getCurrentUTCTimeWithFormat(ServerTime.DATE_FORMAT);
     }
 
 }

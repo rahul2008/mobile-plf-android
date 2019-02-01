@@ -63,7 +63,6 @@ import com.janrain.android.utils.CollectionUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.PrefUtils;
 import com.janrain.android.utils.StringUtils;
-import com.philips.AppNameToEnglish;
 
 import net.openid.appauth.AuthorizationService;
 
@@ -259,8 +258,9 @@ public class JRSession implements JRConnectionManagerDelegate {
         mUniqueIdentifier = this.getUniqueIdentifier();
 
         ApplicationInfo ai = AndroidUtils.getApplicationInfo();
-        AppNameToEnglish appNameEnglish = new AppNameToEnglish();
-        String appName =  appNameEnglish.getApplicationName(getApplicationContext());
+
+
+        String appName =  AndroidUtils.getApplicationNameToEnglish(getApplicationContext());
         appName += ":" + getApplicationContext().getPackageName();
         mUrlEncodedAppName = AndroidUtils.urlEncode(appName);
         mUrlEncodedLibraryVersion =
@@ -272,7 +272,7 @@ public class JRSession implements JRConnectionManagerDelegate {
                 // any invalid state.
                 throw new Archiver.LoadException("New library version with old serialized state");
             }
-            mUserAgent = appNameEnglish.getApplicationName(getApplicationContext());
+            mUserAgent = AndroidUtils.getApplicationNameToEnglish(getApplicationContext());
             PackageInfo info = null;
             try {
                 String packageName = getApplicationContext().getPackageName();
@@ -502,7 +502,7 @@ public class JRSession implements JRConnectionManagerDelegate {
     }
 
     public void setReturningAuthProvider(String returningAuthProvider) {
-      //  if (TextUtils.isEmpty(returningAuthProvider)) returningAuthProvider = ""; // nulls -> ""s
+        if (TextUtils.isEmpty(returningAuthProvider)) returningAuthProvider = ""; // nulls -> ""s
         if (!getAuthProviders().contains(getProviderByName(returningAuthProvider))) {
             returningAuthProvider = "";
         }
@@ -890,10 +890,11 @@ public class JRSession implements JRConnectionManagerDelegate {
 
     private String getWelcomeMessageFromCookieString() {
         String cookies = CookieManager.getInstance().getCookie(getRpBaseUrl());
-        
+        if(cookies == null)
+            return null;
+
         String cookieString = null;
-        if(cookies!=null)
-            cookieString= cookies.replaceAll(".*welcome_info=([^;]*).*", "$1");
+        cookieString= cookies.replaceAll(".*welcome_info=([^;]*).*", "$1");
 
         if (!TextUtils.isEmpty(cookieString)) {
             String[] parts = cookieString.split("%22");

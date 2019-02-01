@@ -75,6 +75,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Locale;
 
 /**
  * @internal
@@ -292,5 +293,35 @@ public class AndroidUtils {
             context = JREngage.getApplicationContext();
             return context != null && isApplicationDebuggable(context);
         }
+    }
+
+    public static String getApplicationNameToEnglish(Context context) {
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        int stringId = applicationInfo.labelRes;
+        return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : getLocaleStringResource(new Locale("en"), stringId, context);
+    }
+
+    private static String getLocaleStringResource(Locale requestedLocale, int resourceId, Context context) {
+        String result;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) { // use latest api
+            Configuration config = new Configuration(context.getResources().getConfiguration());
+            config.setLocale(requestedLocale);
+            result = context.createConfigurationContext(config).getText(resourceId).toString();
+        } else { // support older android versions
+            Resources resources = context.getResources();
+            Configuration conf = resources.getConfiguration();
+            Locale savedLocale = conf.locale;
+            conf.locale = requestedLocale;
+            resources.updateConfiguration(conf, null);
+
+            // retrieve resources from desired locale
+            result = resources.getString(resourceId);
+
+            // restore original locale
+            conf.locale = savedLocale;
+            resources.updateConfiguration(conf, null);
+        }
+
+        return result;
     }
 }

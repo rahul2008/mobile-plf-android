@@ -112,15 +112,14 @@ dependencies {
     implementation deps.jackson_core
     implementation deps.jackson_databind
     implementation philipsdeps.uid
+    //implementation philipsdeps.jump
+    implementation project(strings.jmp.projectName)
     if (useprojectdependencies) {
-
         implementation project(strings.ufw.projectName)
-        implementation project(strings.jmp.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
-        implementation project(strings.jmp.projectName)
     }
 
     testImplementation deps.junit

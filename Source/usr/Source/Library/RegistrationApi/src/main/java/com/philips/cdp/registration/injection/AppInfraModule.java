@@ -9,6 +9,7 @@ import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
@@ -76,5 +77,11 @@ public class AppInfraModule {
     @Provides
     public ServiceDiscoveryWrapper providesServiceDiscoveryWrapper() {
         return new ServiceDiscoveryWrapper(appInfraInterface.getServiceDiscovery());
+    }
+
+    @Singleton
+    @Provides
+    public SecureStorageInterface providesSecureStorageInterface(){
+        return appInfraInterface.getSecureStorage();
     }
 }
