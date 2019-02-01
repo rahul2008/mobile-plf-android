@@ -95,7 +95,7 @@ ext.repos.ietrelease = ext.repos.base+"/iet-mobile-android-release-local"
 ext.repos.hsdprelease = ext.repos.base+"/HSDP-pkgs-android-release"
 
 ext.deps = [
-        adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.16.1',
+        adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.17.2',
         americanwell                  : 'com.americanwell:awsdk:4.0.5', // Held at 3.x.x since newest release is 4.x.x and has API breakers
         butterknife                   : 'com.jakewharton:butterknife:8.8.1',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
