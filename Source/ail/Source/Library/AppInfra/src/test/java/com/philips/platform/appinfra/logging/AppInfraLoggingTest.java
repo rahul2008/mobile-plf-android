@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
@@ -48,7 +48,7 @@ public class AppInfraLoggingTest {
     private Context contextMock;
 
     @Mock
-    private AppInfra appInfraMock;
+    private AppInfraInterface appInfraMock;
 
     @Mock
     private ApplicationInfo applicationInfoMock;

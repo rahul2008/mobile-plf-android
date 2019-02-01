@@ -1,6 +1,6 @@
 package com.philips.platform.appinfra.logging;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 
 import java.io.IOException;
@@ -15,14 +15,14 @@ import java.util.logging.Logger;
 public class LoggerFactory {
     private static Logger logger;
 
-    public static synchronized Logger getLoggerInstance(AppInfra appInfra, LoggingConfiguration loggingConfiguration){
+    public static synchronized Logger getLoggerInstance(AppInfraInterface appInfra, LoggingConfiguration loggingConfiguration){
         if(logger==null){
             logger=createLoggerWithLogConfiguration(appInfra,loggingConfiguration);
         }
         return logger;
     }
 
-    private static Logger createLoggerWithLogConfiguration(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
+    private static Logger createLoggerWithLogConfiguration(AppInfraInterface appInfra, LoggingConfiguration loggingConfiguration) {
         Logger javaLogger = Logger.getLogger(appInfra.getAppInfraContext().getPackageName());
         if (loggingConfiguration.isLoggingEnabled()) {
             LogManager.getLogManager().addLogger(javaLogger);

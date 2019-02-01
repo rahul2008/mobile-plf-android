@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -410,7 +411,7 @@ public class SecureStorageV2Test {
 
     private class SecureStorageV2ImplForTest extends SecureStorageV2 {
 
-        SecureStorageV2ImplForTest(AppInfra bAppInfra) {
+        SecureStorageV2ImplForTest(AppInfraInterface bAppInfra) {
             super(bAppInfra);
         }
 

@@ -496,26 +496,6 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
     }
 
 
-    private static void initializeLogs(AppInfra ai) {
-        final StringBuilder appInfraLogStatement = new StringBuilder();
-
-        try {
-            appInfraLogStatement.append("AppInfra initialized for application \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppName());
-            appInfraLogStatement.append("\" version \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
-            appInfraLogStatement.append("\" in state \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppState());
-
-        } catch (IllegalArgumentException e) {
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    AppInfraLogEventID.AI_APPINFRA, "IllegalArgumentException in InitializeLogs " + e.getMessage());
-        }
-        appInfraLogStatement.append("\"");
-        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-                AppInfraLogEventID.AI_APPINFRA, "AppInfra initialized " + appInfraLogStatement.toString());
-    }
-
     public RxBus getRxBus() {
         if (rxBus == null) {
             rxBus = new RxBus();

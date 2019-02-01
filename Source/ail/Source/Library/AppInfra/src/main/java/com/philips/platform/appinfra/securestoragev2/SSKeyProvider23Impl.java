@@ -7,7 +7,7 @@ import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -41,10 +41,10 @@ public class SSKeyProvider23Impl extends SSKeyProvider {
 
     private SSFileCache ssFileCache;
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
 
-    public SSKeyProvider23Impl(AppInfra appInfra, SSFileCache ssFileCache) {
+    public SSKeyProvider23Impl(AppInfraInterface appInfra, SSFileCache ssFileCache) {
         this.ssFileCache = ssFileCache;
         this.appInfra = appInfra;
 

@@ -139,4 +139,4 @@ public interface AppInfraInterface extends Serializable {
      */
     Context getAppInfraContext();
 
-    }
+}

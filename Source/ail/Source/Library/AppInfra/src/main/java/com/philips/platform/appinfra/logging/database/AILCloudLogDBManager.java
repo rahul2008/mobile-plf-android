@@ -3,7 +3,7 @@ package com.philips.platform.appinfra.logging.database;
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 
 import java.util.List;
@@ -30,18 +30,18 @@ public class AILCloudLogDBManager {
         }
     }
 
-    AILCloudLogDBManager(AppInfra appInfra) {
+    AILCloudLogDBManager(AppInfraInterface appInfra) {
         ailCloudLogDatabase = getPersistenceDatabase(appInfra);
         SupportSQLiteDatabase sqLiteDatabase = ailCloudLogDatabase.getOpenHelper().getWritableDatabase();
         sqLiteDatabase.execSQL("create trigger if not exists clear_data_trigger before insert on AILCloudLogData  when (select count(*) from AILCloudLogData)>=1000 Begin delete FROM AILCloudLogData where logId in (select logId from AILCloudLogData order by logTime LIMIT 25); end");
         sqLiteDatabase.execSQL("update AILCloudLogData set status='New'");
     }
 
-    AILCloudLogDatabase getPersistenceDatabase(AppInfra appInfra) {
+    AILCloudLogDatabase getPersistenceDatabase(AppInfraInterface appInfra) {
         return AILCloudLogDatabase.getPersistenceDatabase(appInfra.getAppInfraContext());
     }
 
-    public static synchronized AILCloudLogDBManager getInstance(AppInfra appInfra) {
+    public static synchronized AILCloudLogDBManager getInstance(AppInfraInterface appInfra) {
         if (ailCloudLogDBManager == null) {
             ailCloudLogDBManager = new AILCloudLogDBManager(appInfra);
         }

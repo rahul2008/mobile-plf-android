@@ -6,7 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -36,11 +36,11 @@ public class SSKeyProvider18Impl extends SSKeyProvider {
     public static final String ANDROID_KEY_STORE = "AndroidKeyStore";
     public static final String RSA = "RSA";
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     private SSFileCache ssFileCache;
 
-    public SSKeyProvider18Impl(AppInfra appInfra, SSFileCache ssFileCache) {
+    public SSKeyProvider18Impl(AppInfraInterface appInfra, SSFileCache ssFileCache) {
         this.appInfra = appInfra;
         this.ssFileCache = ssFileCache;
     }

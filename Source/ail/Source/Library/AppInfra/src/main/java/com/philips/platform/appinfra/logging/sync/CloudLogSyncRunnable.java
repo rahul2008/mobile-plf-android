@@ -7,7 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.apisigning.HSDPLoggingV2ApiSigning;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingUtils;
@@ -35,11 +35,11 @@ public class CloudLogSyncRunnable implements Runnable {
     private String prouctKey;
     private AILCloudLogDBManager ailCloudLogDBManager;
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
     private String sharedKey;
     private String secretKey;
 
-    public CloudLogSyncRunnable(AppInfra appInfra, String sharedKey, String secretKey, String productKey) {
+    public CloudLogSyncRunnable(AppInfraInterface appInfra, String sharedKey, String secretKey, String productKey) {
         this.secretKey = secretKey;
         this.sharedKey = sharedKey;
         this.prouctKey = productKey;

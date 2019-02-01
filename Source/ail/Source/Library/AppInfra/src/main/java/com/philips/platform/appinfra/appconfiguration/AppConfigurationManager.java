@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
@@ -50,7 +51,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     private static final long serialVersionUID = 7173449930783456564L;
     public static final String APP_CONFIG_CHANGE_ACTION = "com.philips.platform.APP_CONFIG_CHANGE";
-    private final AppInfra mAppInfra;
+    private final AppInfraInterface mAppInfra;
     private final Context mContext;
     private transient JSONObject dynamicConfigJsonCache;
     private transient JSONObject cloudConfigJsonCache;
@@ -68,11 +69,11 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
 
 
-    public AppConfigurationManager(AppInfra appInfra) {
+    public AppConfigurationManager(AppInfraInterface appInfra) {
         mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
         VolleyLog.DEBUG = false;
-        appInfra.getRxBus().toObservable()
+        ((AppInfra)mAppInfra).getRxBus().toObservable()
                 .subscribe(object -> {
                     if(object instanceof ServiceDiscoveryDownloadEvent){
                         //Log.d("SyncTesting", "Received service discovery download event");
@@ -565,7 +566,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
      *  */
 
     private void logAppConfiguration(LoggingInterface.LogLevel level, String event, String message) {
-        LoggingInterface loggingInterface = mAppInfra.getAppInfraLogInstance();
+        LoggingInterface loggingInterface = ((AppInfra)mAppInfra).getAppInfraLogInstance();
         if (null != loggingInterface) {
             loggingInterface.log(level, event, message);
         }

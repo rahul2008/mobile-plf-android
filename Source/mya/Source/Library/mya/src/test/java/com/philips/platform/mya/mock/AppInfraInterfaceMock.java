@@ -10,6 +10,7 @@ package com.philips.platform.mya.mock;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.RxBus;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
@@ -112,4 +113,5 @@ public class AppInfraInterfaceMock implements AppInfraInterface {
     public Context getAppInfraContext() {
         return null;
     }
+
 }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import org.junit.Before;
@@ -35,7 +36,7 @@ import static org.mockito.Mockito.when;
 public class LoggingConfigurationTest {
 
     private LoggingConfiguration loggingConfiguration;
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
     @Mock
     private AppConfigurationInterface.AppConfigurationError appConfigurationError;
 

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -29,9 +30,9 @@ public class HPKPManager implements HPKPInterface {
     private HPKPLoggingHelper hpkpLoggingHelper;
     private HPKPStorageHelper hpkpStorageHelper;
 
-    public HPKPManager(AppInfra appInfra) {
+    public HPKPManager(AppInfraInterface appInfra) {
         this.hpkpStorageHelper = new HPKPStorageHelper(appInfra.getSecureStorage());
-        this.hpkpLoggingHelper = new HPKPLoggingHelper(appInfra.getAppInfraLogInstance());
+        this.hpkpLoggingHelper = new HPKPLoggingHelper(((AppInfra)appInfra).getAppInfraLogInstance());
     }
 
     @Override

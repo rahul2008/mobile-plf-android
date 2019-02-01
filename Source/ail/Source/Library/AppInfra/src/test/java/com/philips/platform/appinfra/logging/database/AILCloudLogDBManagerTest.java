@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.db.SupportSQLiteOpenHelper;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 
 import junit.framework.TestCase;
@@ -24,7 +24,7 @@ public class AILCloudLogDBManagerTest extends TestCase {
     private AILCloudLogDBManager ailCloudLogDBManager;
 
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     @Mock
     private AILCloudLogDatabase ailCloudLogDatabase;
@@ -47,7 +47,7 @@ public class AILCloudLogDBManagerTest extends TestCase {
         when(ailCloudLogDatabase.logModel()).thenReturn(ailCloudLogDao);
         ailCloudLogDBManager = new AILCloudLogDBManager(appInfra) {
             @Override
-            AILCloudLogDatabase getPersistenceDatabase(AppInfra appInfra) {
+            AILCloudLogDatabase getPersistenceDatabase(AppInfraInterface appInfra) {
                 return ailCloudLogDatabase;
             }
         };

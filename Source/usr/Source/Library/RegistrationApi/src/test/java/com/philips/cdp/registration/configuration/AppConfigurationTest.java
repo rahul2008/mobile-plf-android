@@ -4,6 +4,7 @@ import com.philips.cdp.registration.app.infra.AppInfraWrapper;
 import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
 import junit.framework.TestCase;
@@ -45,8 +46,6 @@ public class AppConfigurationTest extends TestCase {
 
     @Mock
    private AppInfraWrapper mockAppInfraWrapper;
-    AppInfra mockAppInfra;
-
     @Mock
    private RegistrationComponent mockComponent;
 

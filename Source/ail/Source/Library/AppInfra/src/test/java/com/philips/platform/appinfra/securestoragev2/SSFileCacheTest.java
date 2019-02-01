@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.securestoragev2;
 import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 
 import org.junit.Before;
@@ -103,7 +104,7 @@ public class SSFileCacheTest {
     }
     static class SSFileCacheMock extends SSFileCache{
 
-        public SSFileCacheMock(AppInfra appInfra) {
+        public SSFileCacheMock(AppInfraInterface appInfra) {
             super(appInfra);
         }
 

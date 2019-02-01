@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -67,7 +68,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
 
     public static final String CANCELLED_REQUEST = "Request cancelled";
 
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
     private Context context;
     AISDResponse serviceDiscovery = null;
     //    boolean isDataAvailable = false;
@@ -99,16 +100,16 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
 //        refresh(new OnRefreshListener() {
 //            @Override
 //            public void onSuccess() {
-//                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "refresh ", "refresh" );
+//                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "refresh ", "refresh" );
 //            }
 //
 //            @Override
 //            public void onError(ERRORVALUES error, String message) {
-//                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "refresh", "refresh" );
+//                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "refresh", "refresh" );
 //            }
 //        });
     }
-    public void init (AppInfra aAppInfra){
+    public void init (AppInfraInterface aAppInfra){
         // to be called after builder pattern
         mAppInfra = aAppInfra;
         context = mAppInfra.getAppInfraContext();
@@ -265,13 +266,13 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
                 if (countryHome != null) {
                     url += "&country=" + countryHome;
                 }
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
             } else {
                 // TODO RayKlo ??
             }
             return url;
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery", e.toString());
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery", e.toString());
         }
         return null;
     }*/
@@ -284,7 +285,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
     @Override
     public void getHomeCountry(OnGetHomeCountryListener listener) {
         if (listener == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlListener is null initialized");
         } else {
             homeCountryCode(listener);
@@ -319,7 +320,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
                 }
             });
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Null not Allowed", "Null not Allowed");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Null not Allowed", "Null not Allowed");
         }
     }
 
@@ -387,7 +388,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
     private void getURlwithLanguageOrCountry(final String serviceId, final OnGetServiceUrlListener urlListener,
                                              final Map<String, String> replacement, final AISDResponse.AISDPreference preference) {
         if (urlListener == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlListener is null initialized");
         } else {
             if (serviceId == null || serviceId.isEmpty()) {
@@ -408,7 +409,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
     private void getURlMAPwithLanguageOrCountry(final ArrayList<String> serviceIds, final OnGetServiceUrlMapListener urlMapListener,
                                                 final Map<String, String> replacement, final AISDResponse.AISDPreference preference) {
         if (urlMapListener == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlMapListener is null initialized");
         } else {
             if (serviceIds == null || serviceIds.isEmpty()) {
@@ -429,7 +430,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
     private void getServiceLocale(final String serviceId, final OnGetServiceLocaleListener localeListener,
                                   final AISDResponse.AISDPreference preference) {
         if (localeListener == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
                     "OnGetServiceUrlMapListener is null initialized");
         } else {
             if (serviceId == null) {
@@ -512,15 +513,6 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
     }
 
 
-    private boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
-
-
-
-
     @Override
     public void refresh(final OnRefreshListener listener) { // TODO RayKlo: refresh only works if we have no data?
         refresh(listener, false);
@@ -550,7 +542,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
             LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
                     .unregisterReceiver(receiver);
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
                     "unregister Home country update" + "context is null");
         }
     }
@@ -561,7 +553,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
             LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
                     .registerReceiver(receiver, new IntentFilter(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION));
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                     AppInfraLogEventID.AI_SERVICE_DISCOVERY, "unregister Home country update "+ "context is null");
         }
     }
@@ -611,7 +603,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
             }
             return countryCode;
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery URL error",
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery URL error",
                     e.toString());
         }
         return countryCode;
@@ -643,10 +635,10 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
                 ServiceDiscovery error = new ServiceDiscovery();
                 error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "DOWNLOAD FAILED"));
                 error.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.SERVER_ERROR, "DOWNLOAD FAILED"));
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
             }
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
                     "Download failed");
         }
         return response;

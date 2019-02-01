@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.rest;
 
 import com.android.volley.VolleyLog;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -20,7 +21,7 @@ import java.io.File;
  */
 public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
 
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
 
     /**
      * Default maximum disk usage in bytes.
@@ -29,11 +30,11 @@ public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
 
     /**
      * Constructs an instance of the DiskBasedCache at the specified directory.
-     *
-     * @param rootDirectory       The root directory of the cache.
+     *  @param rootDirectory       The root directory of the cache.
      * @param maxCacheSizeInBytes The maximum size of the cache in bytes.
+     * @param appInfra
      */
-    public DiskBasedCache(File rootDirectory, int maxCacheSizeInBytes, AppInfra appInfra) {
+    public DiskBasedCache(File rootDirectory, int maxCacheSizeInBytes, AppInfraInterface appInfra) {
         super(rootDirectory, maxCacheSizeInBytes);
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
@@ -45,16 +46,16 @@ public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
     @Override
     public synchronized Entry get(String key) {
         Entry e = super.get(key);
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache read "+key + " before decryption");
+        ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache read "+key + " before decryption");
         SecureStorageInterface secureStorage = mAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         if (e != null)
             e.data = secureStorage.decryptData(e.data, sse);
         if (sse.getErrorCode() != null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest "+key + " response Decryption Error");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest "+key + " response Decryption Error");
             return null;
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache read "+key + " after decryption");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache read "+key + " after decryption");
         }
         return e;
     }
@@ -64,15 +65,15 @@ public class DiskBasedCache extends com.android.volley.toolbox.DiskBasedCache {
      */
     @Override
     public synchronized void put(String key, Entry entry) {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest Cache write "+key + " before encryption");
+        ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest Cache write "+key + " before encryption");
         final SecureStorageInterface secureStorage = mAppInfra.getSecureStorage();
         final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
         entry.data = secureStorage.encryptData(entry.data, mSecureStorageError);
 
         if (mSecureStorageError.getErrorCode() != null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest "+ key + " response Encryption Error");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_REST, "AI Rest "+ key + " response Encryption Error");
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache write "+key + " after encryption");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_REST,"AI Rest Cache write "+key + " after encryption");
             super.put(key, entry);
         }
     }
