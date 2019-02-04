@@ -7,6 +7,9 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'cdpSCM'
 apply plugin: 'maven-publish'
 
+/**
+ *  All required repositories path and build dependencies
+ */
 buildscript {
     apply from: buildscript.sourceFile.parent + "/versions.gradle"
 
@@ -34,7 +37,9 @@ buildscript {
         classpath builddeps.cdpSCM
     }
 }
-
+/**
+ *
+ */
 import com.philips.cdp.cdpSCM
 
 def environment = 'production'

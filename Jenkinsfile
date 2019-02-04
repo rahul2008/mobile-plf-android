@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
+//cron scheduling
 String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true" : ""
 
 def nodes = 'test'
@@ -8,12 +9,16 @@ if (BranchName == "develop") {
     nodes = nodes + " && TICS"
 }
 
+/**
+ * defined pipe on stages basis
+ */
 pipeline {
     agent {
         node {
             label nodes
         }
     }
+    //build types
     parameters {
         choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs', description: 'What type of build to build?', name: 'buildType')
     }
@@ -28,6 +33,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '24'))
         skipDefaultCheckout(true)
     }
+    //Initial stage to checkout branch
     stages {
         stage('Initialize') {
             steps {
@@ -64,6 +70,7 @@ pipeline {
             }
         }
 
+        //stage to publish arr to artifactory
         stage('Publish to artifactory') {
             when {
                 allOf {
@@ -134,12 +141,14 @@ pipeline {
 //            }
 //        }
 
+        //stage to run lint and jacoco
         stage('Lint+Jacoco') {
             steps {
                 BuildLint()
             }
         }
 
+        //stage to run PSRA build
         stage('PSRAbuild') {
             when {
                 allOf {
@@ -154,6 +163,7 @@ pipeline {
             }
         }
 
+        //stage to run leak canary build
         stage('LeakCanarybuild') {
             when {
                 allOf {
@@ -170,6 +180,7 @@ pipeline {
             }
         }
 
+        //stage to run java docs
         stage('java docs') {
             when {
                 anyOf {
@@ -183,6 +194,7 @@ pipeline {
             }
         }
 
+        //stage to publish apk for PSRA
         stage('Publish PSRA apk') {
             when {
                 allOf {
@@ -316,6 +328,7 @@ def InitialiseBuild() {
     echo currentBuild.displayName
 }
 
+// assemble release and running unit test cases and connected test case
 def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
@@ -369,6 +382,7 @@ def AcceptanceTest() {
 //    '''
 //}
 
+// generate java docs for specific components
 def GenerateJavaDocs(){
     sh '''#!/bin/bash -l
         set -e
@@ -386,7 +400,7 @@ def GenerateJavaDocs(){
 '''
 }
 
-
+// generate lint issues for specific components
 def BuildLint() {
     sh '''#!/bin/bash -l
         set -e
@@ -406,6 +420,7 @@ def BuildLint() {
     '''
 }
 
+//building HPFortify build
 def BuildHPFortify() {
     sh '''#!/bin/bash -l
         set -e
@@ -419,7 +434,7 @@ def BuildHPFortify() {
         fortifyclient -url https://fortify.philips.com/ssc -authtoken 59f58b28-62a3-4770-87dd-e0cddb3c7bba uploadFPR -file results.fpr -project CDPP_CoCo -version plf_android
     '''
 }
-
+//deploying leakcanary build to artifactory
 def DeployingLeakCanaryArtifacts() {
     boolean MasterBranch = (BranchName ==~ /master.*/)
     boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
@@ -470,6 +485,7 @@ def DeployingLeakCanaryArtifacts() {
     sh shellcommand
 }
 
+//Deploying connected test logs while publish to artifactory
 def DeployingConnectedTestsLogs() {
     boolean MasterBranch = (BranchName ==~ /master.*/)
     boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
@@ -512,6 +528,7 @@ def DeployingConnectedTestsLogs() {
     sh shellcommand
 }
 
+//deploying java docs for specified components
 def DeployingJavaDocs() {
     boolean MasterBranch = (BranchName ==~ /master.*/)
     boolean ReleaseBranch = (BranchName ==~ /release\/platform_.*/)
@@ -563,6 +580,7 @@ def DeployingJavaDocs() {
     sh shellcommand
 }
 
+// Publishing junit test case report
 def PublishUnitTestsResults() {
     junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/AppInfra/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
@@ -589,6 +607,7 @@ def PublishUnitTestsResults() {
     publishHTML([allowMissing: true,  alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pif/Source/Library/chi/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'pif'])
 }
 
+// Publishing connected test case report
 def PublishAcceptanceTestsResults() {
     junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/*/build/outputs/androidTest-results/*/*.xml'
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ail/Source/Library/AppInfra/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'ail connected tests'])

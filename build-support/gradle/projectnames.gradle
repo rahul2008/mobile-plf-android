@@ -1,4 +1,6 @@
-
+/* *
+ * To specify the acronyms of project/component names
+ * */
 ext.strings = [
         rap: [projectName:':referenceApp', artifactName:'referenceApp'],
 
