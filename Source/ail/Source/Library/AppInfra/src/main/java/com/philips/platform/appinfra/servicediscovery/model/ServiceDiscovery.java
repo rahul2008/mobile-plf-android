@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.servicediscovery.model;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.RequestManager;
@@ -38,14 +39,14 @@ public class ServiceDiscovery {
 	String country;
 	private MatchByCountryOrLanguage matchByCountry;
 	private MatchByCountryOrLanguage matchByLanguage;
-	private AppInfra mAppInfra;
+	private AppInfraInterface mAppInfra;
 	private Context mContext;
 	private ServiceDiscoveryManager mServiceDiscoveryManager;
 	Error error = null;
 
 	public ServiceDiscovery() {}
 
-	public ServiceDiscovery(AppInfra mAppInfra) {
+	public ServiceDiscovery(AppInfraInterface mAppInfra) {
 		this.mAppInfra = mAppInfra;
 	}
 
@@ -127,7 +128,7 @@ public class ServiceDiscovery {
 	}
 
 
-	public void parseResponse(Context context, AppInfra appInfra, JSONObject response) {
+	public void parseResponse(Context context, AppInfraInterface appInfra, JSONObject response) {
 		this.mAppInfra = appInfra;
 		this.mContext = context;
 		try {
@@ -135,7 +136,7 @@ public class ServiceDiscovery {
 			setHttpStatus(response.optString("httpStatus"));
 			final JSONObject payloadJSONObject = response.getJSONObject("payload");
 			final String country = response.getJSONObject("payload").optString("country");
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery country"+country);
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery country"+country);
 			this.country = country.toUpperCase();
 			parseMatchByCountryJSON(payloadJSONObject.getJSONObject("matchByCountry"));
 			parseMatchByLanguageJSON(payloadJSONObject.getJSONObject("matchByLanguage"));
@@ -307,7 +308,7 @@ public class ServiceDiscovery {
 			}
 
 		} catch (MalformedURLException exception) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error"+
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error"+
 					exception.toString());
 			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
 		}
@@ -379,7 +380,7 @@ public class ServiceDiscovery {
 										responseMap.put(serviceIds.get(i), sdService);
 									}
 								} catch (MalformedURLException e) {
-									mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+									((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 											AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery URL error Malformed URL");
 									setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
 											"MalformedURLException");

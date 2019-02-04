@@ -2,7 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import junit.framework.TestCase;
 
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 public class CloudLogHandlerTest extends TestCase {
 
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
     @Mock
     private CloudLogProcessor cloudLogProcessor;
 

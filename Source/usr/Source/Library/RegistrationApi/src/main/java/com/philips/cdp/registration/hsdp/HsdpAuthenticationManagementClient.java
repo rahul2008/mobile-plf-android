@@ -4,7 +4,7 @@ import android.util.Base64;
 
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.ntputils.ServerTime;
+import com.philips.cdp.registration.ui.utils.ServerTime;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;

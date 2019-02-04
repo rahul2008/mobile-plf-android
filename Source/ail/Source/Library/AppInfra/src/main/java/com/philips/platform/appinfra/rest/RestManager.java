@@ -19,6 +19,7 @@ import com.android.volley.toolbox.BaseHttpStack;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -39,11 +40,11 @@ public class RestManager implements RestInterface {
 
     private static final long serialVersionUID = -5276610949381468217L;
     private transient RequestQueue mRequestQueue;
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
     private HPKPInterface pinnedSignatureManager;
     private ArrayList<NetworkConnectivityChangeListener> networkConnectivityChangeListeners = new ArrayList<>();
 
-    public RestManager(AppInfra appInfra) {
+    public RestManager(AppInfraInterface appInfra) {
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
         pinnedSignatureManager = new HPKPManager(mAppInfra);
@@ -116,7 +117,7 @@ public class RestManager implements RestInterface {
     }
 
     private Network getNetwork() {
-        BaseHttpStack stack = new AppInfraHurlStack(pinnedSignatureManager, new ServiceIDResolver(), mAppInfra.getAppInfraLogInstance());
+        BaseHttpStack stack = new AppInfraHurlStack(pinnedSignatureManager, new ServiceIDResolver(), ((AppInfra)mAppInfra).getAppInfraLogInstance());
         return new BasicNetwork(stack);
     }
 
@@ -150,7 +151,7 @@ public class RestManager implements RestInterface {
                     cacheSize=cacheSize*1024;
                 }
             } catch (IllegalArgumentException i) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR while getRequestQueue");
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR while getRequestQueue");
             }
         }
 
@@ -180,7 +181,7 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
+                            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
                     });
                 } else {
@@ -192,13 +193,13 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
+                            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
                     });
                 }
                 //  waitResult.await();
             } catch (Exception e) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR");
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR");
             }
             if (resultURL.length() == 0)
                 return null;

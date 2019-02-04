@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 
 import com.google.gson.Gson;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingUtils;
@@ -34,7 +34,7 @@ public class CloudLogRequestBodyBuilder {
     private AILCloudLogMetaData ailCloudLogMetaData;
 
 
-    public CloudLogRequestBodyBuilder(AppInfra appInfra,String productKey) {
+    public CloudLogRequestBodyBuilder(AppInfraInterface appInfra, String productKey) {
         if (appInfra.getLogging() instanceof AppInfraLogging) {
             this.ailCloudLogMetaData = ((AppInfraLogging) appInfra.getLogging()).getAilCloudLogMetaData();
             this.productKey=productKey;

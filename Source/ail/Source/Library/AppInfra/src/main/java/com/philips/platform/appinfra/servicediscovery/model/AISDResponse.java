@@ -1,6 +1,7 @@
 package com.philips.platform.appinfra.servicediscovery.model;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -20,10 +21,10 @@ public class AISDResponse {
 	private ServiceDiscovery platformURLs = null;
 	private ServiceDiscovery propositionURLs = null;
 	private final String SDEmptyURL = "https://delete.delete";
-	private final AppInfra mAppInfra;
+	private final AppInfraInterface mAppInfra;
 
 
-	public AISDResponse(AppInfra appInfra) {
+	public AISDResponse(AppInfraInterface appInfra) {
 		this.mAppInfra = appInfra;
 	}
 
@@ -54,12 +55,12 @@ public class AISDResponse {
 		}
 
 		if (propositionUrl != null && platformUrl != null) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Service Discovery Platform URL is overriden by proposition URL ");
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Service Discovery Platform URL is overriden by proposition URL ");
 		}
 
 		if (propositionUrl != null) {
 			if (propositionUrl.toString().equalsIgnoreCase(SDEmptyURL)) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery Proposition has empty URL , So ignoring platform URL");
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery Proposition has empty URL , So ignoring platform URL");
 				return null;
 			}
 			return propositionUrl;
@@ -97,7 +98,7 @@ public class AISDResponse {
 
 			if (propositionService != null && platformService != null) {
 				if (propositionService.getConfigUrls() != null && platformService.getConfigUrls() != null) {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery Platform URL is overridden by proposition URL for serviceId" + " " + serviceId);
+					((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery Platform URL is overridden by proposition URL for serviceId" + " " + serviceId);
 				}
 			}
 
@@ -105,7 +106,7 @@ public class AISDResponse {
 				if (propositionService.getConfigUrls().equalsIgnoreCase(SDEmptyURL)) {
 					propositionService.setConfigUrl(null);
 					propositionService.setmError("ServiceDiscovery cannot find the URL for serviceID" + serviceId);
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery Proposition has empty URL , So ignoring platform URL for serviceId" + " " + serviceId);
+					((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery Proposition has empty URL , So ignoring platform URL for serviceId" + " " + serviceId);
 				}
 				response.put(serviceId, propositionService);
 			} else {
@@ -123,7 +124,7 @@ public class AISDResponse {
 		if (getPropositionURLs() != null) {
 			locale = getPropositionURLs().getLocaleWithPreference(preference);
 			if (locale != null) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery get Locale With Preference"+locale);
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery get Locale With Preference"+locale);
 				return locale;
 			}
 		}
@@ -131,7 +132,7 @@ public class AISDResponse {
 		if (getPlatformURLs() != null) {
 			locale = getPlatformURLs().getLocaleWithPreference(preference);
 			if (locale != null) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery get Locale With Preference"+locale);
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery get Locale With Preference"+locale);
 				return locale;
 			}
 		}
@@ -143,14 +144,14 @@ public class AISDResponse {
 		if (getPropositionURLs() != null) {
 			country = getPropositionURLs().getCountry();
 			if (country != null) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery get Country Code"+country);
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery get Country Code"+country);
 				return country;
 			}
 		}
 		if (getPlatformURLs() != null) {
 			country = getPlatformURLs().getCountry();
 			if (country != null) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery get Country Code"+country);
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Service Discovery get Country Code"+country);
 				return country;
 			}
 		}

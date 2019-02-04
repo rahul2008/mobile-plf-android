@@ -5,6 +5,6 @@ package com.philips.platform.appinfra;
  */
 
 public interface AppInfraInitialisationCompleteListener {
-   void onAppInfraInitialised(AppInfra appInfra);
+   void onAppInfraInitialised(AppInfraInterface appInfra);
 
 }

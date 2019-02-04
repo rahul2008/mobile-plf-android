@@ -40,6 +40,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -477,7 +478,12 @@ public abstract class JRUiFragment extends Fragment {
     }
     */
     int getColor(Context context, int id) {
-        return ContextCompat.getColor(context, id);
+        final int version = Build.VERSION.SDK_INT;
+        if (version >= 23) {
+            return ContextCompat.getColor(context, id);
+        } else {
+            return context.getResources().getColor(id);
+        }
     }
 
 

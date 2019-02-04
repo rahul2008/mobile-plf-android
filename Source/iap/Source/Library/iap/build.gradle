@@ -149,7 +149,6 @@ dependencies {
     testImplementation deps.support.design
 
     testImplementation project(strings.pif.projectName)
-    testImplementation project(strings.jmp.projectName)
 
     // Android test
     androidTestImplementation deps.assertj

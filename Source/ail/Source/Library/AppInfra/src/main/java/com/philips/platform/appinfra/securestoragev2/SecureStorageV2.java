@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -30,7 +31,7 @@ public class SecureStorageV2 implements SecureStorageInterface {
     static final String RSA_WRAPPED_AES_KEY_MAIN = "rsa_wrapped_aes_encrypted_key";
 
     private final Context mContext;
-    private final AppInfra mAppInfra;
+    private final AppInfraInterface mAppInfra;
     private final Lock writeLock;
     private final Lock readLock;
     private SSEncoderDecoder ssEncoderDecoder;
@@ -39,7 +40,7 @@ public class SecureStorageV2 implements SecureStorageInterface {
 
     public static final String VERSION = "v2";
 
-    public SecureStorageV2(AppInfra bAppInfra) {
+    public SecureStorageV2(AppInfraInterface bAppInfra) {
         mAppInfra = bAppInfra;
         mContext = mAppInfra.getAppInfraContext();
         ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
@@ -362,8 +363,8 @@ public class SecureStorageV2 implements SecureStorageInterface {
     }
 
     private void log(LoggingInterface.LogLevel logLevel, String eventId, String message) {
-        if (mAppInfra != null && mAppInfra.getAppInfraLogInstance() != null) {
-            mAppInfra.getAppInfraLogInstance().log(logLevel, eventId, message);
+        if (mAppInfra != null && ((AppInfra)mAppInfra).getAppInfraLogInstance() != null) {
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(logLevel, eventId, message);
         }
     }
 

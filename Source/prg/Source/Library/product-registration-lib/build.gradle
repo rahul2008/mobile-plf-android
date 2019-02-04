@@ -123,8 +123,6 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.mockito
     testImplementation deps.robolectric
-
-    testImplementation project(strings.jmp.projectName)
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

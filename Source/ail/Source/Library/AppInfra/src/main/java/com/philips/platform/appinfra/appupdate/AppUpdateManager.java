@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -41,14 +42,14 @@ public class AppUpdateManager implements AppUpdateInterface {
 
 	private static final long serialVersionUID = 86938410214278272L;
 	private Context mContext;
-	private AppInfra mAppInfra;
+	private AppInfraInterface mAppInfra;
 	private transient Handler mHandler;
 	private transient AppUpdateModel mAppUpdateModel;
 	private transient Gson mGson;
 	private transient FileUtils mFileUtils;
 
 
-	public AppUpdateManager(AppInfra appInfra) {
+	public AppUpdateManager(AppInfraInterface appInfra) {
 		this.mAppInfra = appInfra;
 		this.mContext = appInfra.getAppInfraContext();
 		VolleyLog.DEBUG = false;
@@ -75,7 +76,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 			public void onErrorResponse(VolleyError error) {
 				final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
 				final String errMsg = " Error Code:" + errorcode;
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE,"AI AppUpdate_URL"+ errMsg);
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE,"AI AppUpdate_URL"+ errMsg);
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 			}
 		};
@@ -85,7 +86,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE, "AI AppUpate"+response.toString());
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE, "AI AppUpate"+response.toString());
 				try {
 					final JSONObject resp = response.getJSONObject("android");
 					if (resp != null) {
@@ -103,7 +104,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 					}
 				} catch (JSONException e) {
 					refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "JSON EXCEPTION");
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_UPDATE, "JSON EXCEPTION"+e.getMessage());
+					((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_UPDATE, "JSON EXCEPTION"+e.getMessage());
 				}
 			}
 		};
@@ -193,16 +194,16 @@ public class AppUpdateManager implements AppUpdateInterface {
 			@Override
 			public void onSuccess(URL url) {
 				final String appUpdateURL = url.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,  AppInfraLogEventID.AI_APP_UPDATE,"AppUpdate_URL"+url.toString());
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,  AppInfraLogEventID.AI_APP_UPDATE,"AppUpdate_URL"+url.toString());
 				downloadAppUpdate(appUpdateURL, refreshListener);
 			}
 
 			@Override
 			public void onError(ERRORVALUES error, String message) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
 						AppInfraLogEventID.AI_APP_UPDATE, " Error Code:" + error.toString() + " , Error Message:" + message);
 				final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE, errMsg);
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE, errMsg);
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 			}
 		};
@@ -228,7 +229,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 				return AppUpdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
 						AppUpdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 			} catch (ParseException e) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_UPDATE, "Parse Exception"+e.getMessage());
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_UPDATE, "Parse Exception"+e.getMessage());
 			}
 		}
 		return false;
@@ -279,7 +280,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 			try {
 				return formatter.parse(getAppUpdateModel().getVersion().getDeprecationDate());
 			} catch (ParseException e) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
 						AppInfraLogEventID.AI_APP_UPDATE, "Date Parse Exception"+e.getMessage());
 			}
 		}
@@ -323,7 +324,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 		File appupdateCache = getAppUpdatefromCache(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
 				, AppUpdateConstants.APPUPDATE_PATH);
 		if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APPINFRA,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APPINFRA,
 					"appupdate info already downloaded");
 			return;
 		}
@@ -335,33 +336,33 @@ public class AppUpdateManager implements AppUpdateInterface {
 					refresh(new OnRefreshListener() {
 						@Override
 						public void onError(AIAppUpdateRefreshResult error, String message) {
-							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
+							((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
 									"AppConfiguration Auto refresh failed- AppUpdate" + " " + error);
 						}
 
 						@Override
 						public void onSuccess(AIAppUpdateRefreshResult result) {
-							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APPINFRA,
+							((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APPINFRA,
 									"AppConfiguration Auto refresh success- AppUpdate" + " " + result);
 						}
 					});
 				} else {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
+					((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
 							"AppConfiguration Auto refresh failed- AppUpdate");
 				}
 			}
 		} catch (IllegalArgumentException exception) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
 					"AppConfiguration " + exception.toString());
 		}
 	}
 
-	public static Object getAutoRefreshValue(AppConfigurationInterface appConfigurationInterface , AppInfra ai) {
+	public static Object getAutoRefreshValue(AppConfigurationInterface appConfigurationInterface , AppInfraInterface ai) {
 		try {
 			AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface.AppConfigurationError();
 			return appConfigurationInterface.getPropertyForKey("appUpdate.autoRefresh", "appinfra", error);
 		} catch (IllegalArgumentException exception) {
-			ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
+			((AppInfra)ai).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
 					AppInfraLogEventID.AI_APPINFRA,"Error in reading AppUpdate  Config "
 							+exception.toString());
 		}

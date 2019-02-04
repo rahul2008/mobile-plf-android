@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentStatusChangedListener;
 import com.philips.platform.appinfra.consentmanager.FetchConsentCallback;
 import com.philips.platform.appinfra.logging.LoggingConfiguration;
@@ -43,7 +43,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
 
     private ThreadPoolExecutor threadPoolExecutor;
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     private LoggingConfiguration loggingConfiguration;
 
@@ -55,7 +55,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
 
     private boolean isInternetAvailable;
 
-    private CloudLogSyncManager(AppInfra appInfra, final LoggingConfiguration loggingConfiguration) {
+    private CloudLogSyncManager(AppInfraInterface appInfra, final LoggingConfiguration loggingConfiguration) {
         this.appInfra = appInfra;
         this.loggingConfiguration = loggingConfiguration;
         mSyncDataWorkQueue = new LinkedBlockingQueue<>();
@@ -80,7 +80,7 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
        return (NUMBER_OF_CORES>MAX_NUMBER_OF_CORES) ?  NUMBER_OF_CORES : MAX_NUMBER_OF_CORES;
     }
 
-    public static CloudLogSyncManager getInstance(AppInfra appInfra, LoggingConfiguration loggingConfiguration) {
+    public static CloudLogSyncManager getInstance(AppInfraInterface appInfra, LoggingConfiguration loggingConfiguration) {
         if (cloudLogSyncManager == null) {
             cloudLogSyncManager = new CloudLogSyncManager(appInfra, loggingConfiguration);
         }
@@ -118,9 +118,9 @@ public class CloudLogSyncManager implements Observer<Integer>, RestInterface.Net
 
     private void checkForConsentAndSync() {
         try {
-            ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier());
+            ConsentDefinition consentDefinition = appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getCloudLogging().getCloudLoggingConsentIdentifier());
             if (consentDefinition != null) {
-                appInfra.getConsentManager().addConsentStatusChangedListener(appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getLogging().getCloudLoggingConsentIdentifier()),this);
+                appInfra.getConsentManager().addConsentStatusChangedListener(appInfra.getConsentManager().getConsentDefinitionForType(appInfra.getCloudLogging().getCloudLoggingConsentIdentifier()),this);
                 appInfra.getConsentManager().fetchConsentState(consentDefinition, new FetchConsentCallback() {
                     @Override
                     public void onGetConsentSuccess(ConsentDefinitionStatus consentDefinitionStatus) {

@@ -1,6 +1,6 @@
 package com.philips.platform.appinfra.logging.database;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.CloudLoggingConstants;
 import com.philips.platform.appinfra.logging.LoggingUtils;
@@ -18,9 +18,9 @@ public class AILCloudLogDataBuilder {
 
 
     public static final String UUID_PREFIX = "hsdp_";
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
-    public AILCloudLogDataBuilder(AppInfra appInfra) {
+    public AILCloudLogDataBuilder(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 

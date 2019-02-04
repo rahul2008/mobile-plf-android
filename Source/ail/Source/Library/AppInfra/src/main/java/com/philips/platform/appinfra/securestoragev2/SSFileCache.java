@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -16,9 +17,9 @@ public class SSFileCache {
 
     private static final String SS_DATA_FILE_STORE="AppInfra.ssdata";
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
-    public SSFileCache(AppInfra appInfra){
+    public SSFileCache(AppInfraInterface appInfra){
         this.appInfra=appInfra;
     }
 
@@ -53,7 +54,7 @@ public class SSFileCache {
             }
 
         } catch (Exception e) {
-            appInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting secure key"+e.getMessage());
+            ((AppInfra)appInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting secure key"+e.getMessage());
             deleteResult = false;
             return deleteResult;
         }
@@ -96,7 +97,7 @@ public class SSFileCache {
             }
 
         } catch (Exception e) {
-            appInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting e-data"+e.getMessage());
+            ((AppInfra)appInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting e-data"+e.getMessage());
             deleteResult = false;
             return deleteResult;
 

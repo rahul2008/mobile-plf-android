@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.logging;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
@@ -28,9 +29,9 @@ import java.util.logging.LogRecord;
 public class LogFormatter extends Formatter {
     // Create a DateFormat to format the logger ;.
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.ENGLISH);
-    AppInfra mappInfra;
+    AppInfraInterface mappInfra;
 
-    public LogFormatter(AppInfra mAppinfra) {
+    public LogFormatter(AppInfraInterface mAppinfra) {
         mappInfra = mAppinfra;
     }
 
@@ -69,7 +70,7 @@ public class LogFormatter extends Formatter {
                     if (params[AppInfraLogging.LOG_METADATA_INDEX] instanceof Map)
                         dictionary = (Map) params[AppInfraLogging.LOG_METADATA_INDEX];
                 } catch (Exception e) {
-                    mappInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "Not a valid Map(Dictionary)");
+                    ((AppInfra)mappInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "Not a valid Map(Dictionary)");
                 }
             }
         }

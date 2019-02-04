@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 
 import java.io.File;
@@ -23,13 +24,13 @@ import static java.util.logging.LogManager.getLogManager;
 
 public class FileLogConfigurationHandler {
 
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
 
     private static final String DIRECTORY_FILE_NAME = "AppInfraLogs";
 
     private FileHandler mFileHandler;
 
-    public FileLogConfigurationHandler(AppInfra appInfra) {
+    public FileLogConfigurationHandler(AppInfraInterface appInfra) {
         mAppInfra = appInfra;
     }
 
@@ -51,7 +52,7 @@ public class FileLogConfigurationHandler {
 
             } else {
                 // nothing to do, fileHandler already added to Logger
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "File logger already added to current Logger" + logger.getName());
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_LOGGING, "File logger already added to current Logger" + logger.getName());
             }
         } else { // remove file log if any
             final Handler[] currentComponentHandlers = logger.getHandlers();
@@ -97,42 +98,42 @@ public class FileLogConfigurationHandler {
             final String LOG_FILE_NAME_KEY = "fileName"; //AppInfraLog0, AppInfraLog1, AppInfraLog2, AppInfraLog3, AppInfraLog4
             final HashMap<?, ?> loggingProperty = loggingConfiguration.getLoggingProperties();
             if (null == loggingProperty) {
-                if (mAppInfra.getAppInfraLogInstance() != null) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log config 'logging.releaseConfig' OR 'logging.debugConfig' not present in appconfig.json so reading logging.properties file");//
+                if (((AppInfra)mAppInfra).getAppInfraLogInstance() != null) {
+                    ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log config 'logging.releaseConfig' OR 'logging.debugConfig' not present in appconfig.json so reading logging.properties file");//
                 }
                 return getFileHandlerFromLoggingProperties();
             }
             final String logFileName = (String) loggingProperty.get(LOG_FILE_NAME_KEY);
             if (null == logFileName) {
-                if (mAppInfra.getAppInfraLogInstance() != null) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key 'fileName'  not present in app configuration");//
+                if (((AppInfra)mAppInfra).getAppInfraLogInstance() != null) {
+                    ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key 'fileName'  not present in app configuration");//
                 }
                 return null;
             }
             final String LOG_FILE_SIZE_KEY = "fileSizeInBytes";
             Integer logFileSize = (Integer) loggingProperty.get(LOG_FILE_SIZE_KEY);
             if (logFileSize == null) {
-                if (mAppInfra.getAppInfraLogInstance() != null) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key   'fileSizeInBytes' not present in app configuration");//
+                if (((AppInfra)mAppInfra).getAppInfraLogInstance() != null) {
+                    ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key   'fileSizeInBytes' not present in app configuration");//
                 }
                 return null;
             }
             final String LOG_FILE_COUNT_KEY = "numberOfFiles";
             final Integer maxLogFileCount = (Integer) loggingProperty.get(LOG_FILE_COUNT_KEY);
             if (maxLogFileCount == null) {
-                if (mAppInfra.getAppInfraLogInstance() != null) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key 'numberOfFiles' not present in app configuration");//
+                if (((AppInfra)mAppInfra).getAppInfraLogInstance() != null) {
+                    ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "Appinfra log file  key 'numberOfFiles' not present in app configuration");//
                 }
                 return null;
             }
             final String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
-            if (mAppInfra.getAppInfraLogInstance() != null) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
+            if (((AppInfra)mAppInfra).getAppInfraLogInstance() != null) {
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
             }
             fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, true);
         } catch (Exception e) {
-            if (mAppInfra.getAppInfraLogInstance() != null) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, "FileHandler exception");
+            if (((AppInfra)mAppInfra).getAppInfraLogInstance() != null) {
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, "FileHandler exception");
             }
         }
         return fileHandler;
@@ -151,15 +152,15 @@ public class FileLogConfigurationHandler {
             final String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
             final boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
             if (isDebuggable) { // debug mode is for development environment where logs and property file will be written to device external memory if available
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, " log File Path" + filePath);// this path will be dynamic for each device
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, " log File Path" + filePath);// this path will be dynamic for each device
             }
             final int logFileSize = Integer.parseInt(getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
             final int maxLogFileCount = Integer.parseInt(getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
             //boolean logFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LOGGING, "log File Path" + filePath);// this path will be dynamic for each device
             fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, true);
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, "FileHandler exception" + e.getMessage());
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING, "FileHandler exception" + e.getMessage());
         }
 
         return fileHandler;

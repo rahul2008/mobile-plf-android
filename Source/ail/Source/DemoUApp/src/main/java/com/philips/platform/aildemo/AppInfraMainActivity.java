@@ -18,13 +18,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 
 import java.util.ArrayList;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
-    AppInfra mAppInfra;
+    AppInfraInterface mAppInfra;
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
             "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing",  "WhiteBox API", "Internet Check", "Language Pack",
@@ -36,11 +37,11 @@ public class AppInfraMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_infra_main);
-        mAppInfra = (AppInfra) AILDemouAppInterface.getInstance().getAppInfra();
+        mAppInfra = AILDemouAppInterface.getInstance().getAppInfra();
         final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
-        componentIDTextView.setText(mAppInfra.getComponentId());
+        componentIDTextView.setText(((AppInfra)mAppInfra).getComponentId());
         final TextView versionTextView = (TextView) findViewById(R.id.appInfraVersion);
-        versionTextView.setText(mAppInfra.getVersion());
+        versionTextView.setText(((AppInfra)mAppInfra).getVersion());
         listView = (ListView) findViewById(R.id.listViewAppInfraComponents);
         listView.setAdapter(new AppInfraListAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
