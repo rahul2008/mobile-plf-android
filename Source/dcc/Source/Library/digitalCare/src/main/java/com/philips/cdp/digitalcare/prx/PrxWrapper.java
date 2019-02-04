@@ -367,7 +367,7 @@ public class PrxWrapper {
                                     if (assetResource != null) {
                                         usermanual = assetResource;
                                     }
-                                if (assetExtension.equalsIgnoreCase(PRX_ASSETS_VIDEO_URL))
+                                if (null!=assetExtension && assetExtension.equalsIgnoreCase(PRX_ASSETS_VIDEO_URL))
                                     if (assetResource != null) {
                                         mVideoList.add(assetResource);
                                     }
