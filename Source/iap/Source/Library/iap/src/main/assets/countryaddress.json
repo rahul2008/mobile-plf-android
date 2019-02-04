@@ -1,0 +1,26 @@
+{
+  "US": {
+    "salutation": true,
+    "firstName": true,
+    "lastNme": true,
+    "email": true,
+    "phone": true,
+    "houseNumber": false,
+    "address1": true,
+    "town": true,
+    "postalCode": true,
+    "state": true
+  },
+  "DE": {
+    "salutation": true,
+    "firstName": true,
+    "lastName": true,
+    "email": true,
+    "phone": true,
+    "houseNumber": true,
+    "address1": true,
+    "town": true,
+    "postalCode": true,
+    "state": true
+  }
+}

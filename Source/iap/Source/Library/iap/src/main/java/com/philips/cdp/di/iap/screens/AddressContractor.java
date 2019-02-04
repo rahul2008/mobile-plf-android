@@ -15,7 +15,7 @@ import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
  * consent of the copyright holder.
  */
 
-public interface AddressContractor {
+public interface AddressContractor extends AddressFieldDecider{
 
 
     void setContinueButtonState(boolean state);
@@ -69,8 +69,5 @@ public interface AddressContractor {
     void setBillingAddressFilledStatus(boolean status);
     void setAddressFilledFromDeliveryAddressStatus(boolean status);
     void setDeliveryFirstTimeUserStatus(boolean status);
-
-    boolean isHouseNoEnabled();
-    boolean isStateEnabled();
 
 }
