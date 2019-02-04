@@ -10,6 +10,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  */
 public class SecureStorage implements SecureStorageInterface {
 
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
 
 
     private SecureStorageInterface latestSecureStorage;
@@ -35,7 +36,7 @@ public class SecureStorage implements SecureStorageInterface {
     private Context context;
 
 
-    public SecureStorage(AppInfra bAppInfra) {
+    public SecureStorage(AppInfraInterface bAppInfra) {
         mAppInfra = bAppInfra;
         latestSecureStorage = getLatestSecureStorage();
         context = mAppInfra.getAppInfraContext();
@@ -81,8 +82,8 @@ public class SecureStorage implements SecureStorageInterface {
     }
 
     private void log(LoggingInterface.LogLevel logLevel, String eventId, String message) {
-        if(mAppInfra !=null && mAppInfra.getAppInfraLogInstance()!=null) {
-            mAppInfra.getAppInfraLogInstance().log(logLevel, eventId,message);
+        if(mAppInfra !=null && ((AppInfra)mAppInfra).getAppInfraLogInstance()!=null) {
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(logLevel, eventId,message);
         }
     }
 

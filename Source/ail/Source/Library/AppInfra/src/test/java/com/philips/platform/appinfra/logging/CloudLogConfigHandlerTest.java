@@ -2,7 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import junit.framework.TestCase;
 
@@ -27,7 +27,7 @@ public class CloudLogConfigHandlerTest extends TestCase {
     private CloudLogConfigHandler cloudLogConfigHandler;
 
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     @Mock
     private LoggingConfiguration loggingConfiguration;

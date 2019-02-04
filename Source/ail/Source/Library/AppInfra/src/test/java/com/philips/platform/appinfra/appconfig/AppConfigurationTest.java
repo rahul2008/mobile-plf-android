@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.appconfig;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
@@ -27,7 +28,7 @@ public class AppConfigurationTest extends TestCase {
 
 	AppConfigurationInterface mConfigInterface = null;
 
-	private AppInfra mAppInfra;
+	private AppInfraInterface mAppInfra;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -85,7 +86,7 @@ public class AppConfigurationTest extends TestCase {
 			assertNull(mConfigInterface.getPropertyForKey("", "", configError));
 
 		} catch (IllegalArgumentException exception) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
 					"Error in GetPropertyForKey");
 		}
 
@@ -104,7 +105,7 @@ public class AppConfigurationTest extends TestCase {
 			assertEquals(null, configError.getErrorCode());
 
 		} catch (IllegalArgumentException exception) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
 					"Error in SetPropertyForKey");
 		}
 	}
@@ -166,7 +167,7 @@ public class AppConfigurationTest extends TestCase {
 			assertNull(mConfigInterface.getDefaultPropertyForKey("EE", "AI", configError));//  Existing Group and  Existing key
 
 		} catch (IllegalArgumentException exception) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
 					"Error in Default PropertyForKey");
 		}
 
@@ -182,7 +183,7 @@ public class AppConfigurationTest extends TestCase {
             method.invoke(mConfigInterface, jsonObj);
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfig",
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppConfig",
                     e.getMessage());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -299,7 +300,7 @@ public class AppConfigurationTest extends TestCase {
 
 
 		} catch (NoSuchMethodException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
 					"Error in test RefreshCloudConfig");
 		}
 	}
@@ -324,7 +325,7 @@ public class AppConfigurationTest extends TestCase {
 			};
 
 		} catch (NoSuchMethodException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
 					"Error in  test FetchCloudConfig");
 		}
 	}
@@ -338,7 +339,7 @@ public class AppConfigurationTest extends TestCase {
 			JSONObject jObject = new JSONObject();
 
 		} catch (NoSuchMethodException  e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
 					"Error in test  SaveCloudConfig");
 		}
 	}
@@ -351,7 +352,7 @@ public class AppConfigurationTest extends TestCase {
 			method.setAccessible(true);
 
 		} catch (NoSuchMethodException  e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
+			((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,
 					"Error in  test ClearCloudConfigFile");
 		}
 	}

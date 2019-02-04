@@ -13,6 +13,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -63,7 +64,7 @@ public class ServiceDiscoveryTestcase {
 
     private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
     private ServiceDiscoveryManager mServiceDiscoveryManager = null;
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
     private ServiceDiscovery mserviceDiscovery = null;
     private MatchByCountryOrLanguage mMatchByCountryOrLanguage = null;
     private String mServiceId = "userreg.janrain.cdn";
@@ -124,7 +125,7 @@ public class ServiceDiscoveryTestcase {
 
     @Test
     public void testProcessRequest() {
-        AppInfra mAppInfra = getAppInfraMocked();
+        AppInfraInterface mAppInfra = getAppInfraMocked();
         ServiceDiscovery serviceDiscovery = new ServiceDiscovery();
         serviceDiscovery.setSuccess(true);
         RestInterface restInterfaceMock = mock(RestInterface.class);
@@ -140,7 +141,7 @@ public class ServiceDiscoveryTestcase {
         final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
             @Override
-            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfraInterface aAppInfra) {
                 return appInfraTaggingUtil;
             }
 
@@ -174,7 +175,7 @@ public class ServiceDiscoveryTestcase {
             }
 
             @Override
-            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfraInterface aAppInfra) {
 
                 return appInfraTaggingUtil;
             }
@@ -187,13 +188,13 @@ public class ServiceDiscoveryTestcase {
     @Test
     public void testSetGetHomeCountryTagging() {
         final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
-        AppInfra appInfra = getAppInfraMocked();
+        AppInfraInterface appInfra = getAppInfraMocked();
         SecureStorageInterface secureStorageInterfaceMock = mock(SecureStorageInterface.class);
         when(appInfra.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
 
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
             @Override
-            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfraInterface aAppInfra) {
                 return appInfraTaggingUtil;
             }
         };
@@ -208,7 +209,7 @@ public class ServiceDiscoveryTestcase {
         when(appInfra.getAppInfraContext()).thenReturn(context);
         mServiceDiscoveryManager = new ServiceDiscoveryManager(appInfra) {
             @Override
-            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfraInterface aAppInfra) {
                 return appInfraTaggingUtil;
             }
         };
@@ -234,7 +235,7 @@ public class ServiceDiscoveryTestcase {
         final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
             @Override
-            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfraInterface aAppInfra) {
                 return appInfraTaggingUtil;
             }
         };
@@ -248,7 +249,7 @@ public class ServiceDiscoveryTestcase {
         final AppInfraTaggingUtil appInfraTaggingUtil = mock(AppInfraTaggingUtil.class);
         mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra) {
             @Override
-            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfra aAppInfra) {
+            AppInfraTaggingUtil getAppInfraTaggingUtil(AppInfraInterface aAppInfra) {
                 return appInfraTaggingUtil;
             }
         };
@@ -1403,7 +1404,7 @@ public class ServiceDiscoveryTestcase {
     }
 
     @NonNull
-    private AppInfra getAppInfraMocked() {
+    private AppInfraInterface getAppInfraMocked() {
         AppInfra mAppInfra = mock(AppInfra.class);
         LoggingInterface loggingInterfaceMock = mock(LoggingInterface.class);
         when(mAppInfra.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);

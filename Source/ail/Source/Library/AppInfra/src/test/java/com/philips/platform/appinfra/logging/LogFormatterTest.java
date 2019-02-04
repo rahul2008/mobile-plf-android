@@ -5,7 +5,7 @@
 
 package com.philips.platform.appinfra.logging;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.junit.Before;
@@ -31,7 +31,7 @@ public class LogFormatterTest {
     private LogFormatter logFormatter;
 
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     @Before
     public void setUp() throws Exception {

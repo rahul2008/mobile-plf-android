@@ -8,6 +8,7 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
@@ -62,6 +63,9 @@ public class PrivacySettingsStateTest {
     private LoggingInterface loggingInterfaceMock;
 
     @Mock
+    private CloudLoggingInterface cloudloggingInterfaceMock;
+
+    @Mock
     private ABTestClientInterface abTestClientInterfaceMock;
     private PrivacySettingsState privacySettingsState;
 
@@ -75,6 +79,7 @@ public class PrivacySettingsStateTest {
         when(application.getAppInfra()).thenReturn(appInfraInterface);
         when(appInfraInterface.getTagging()).thenReturn(appTaggingInterfaceMock);
         when(appInfraInterface.getLogging()).thenReturn(loggingInterfaceMock);
+        when(appInfraInterface.getCloudLogging()).thenReturn(cloudloggingInterfaceMock);
         when(appInfraInterface.getAbTesting()).thenReturn(abTestClientInterfaceMock);
         when(appInfraInterface.getConsentManager()).thenReturn(consentManagerInterfaceMock);
         when(resources.getString(anyInt())).thenReturn("ABC");

@@ -41,9 +41,6 @@ import com.janrain.android.Jump;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
-import com.philips.ntputils.ServerTime;
-import com.philips.ntputils.constants.ServerTimeConstants;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,8 +117,8 @@ public class CaptureRecord extends JSONObject {
         String fileContents = null;
 
         try {
-            fileContents = Jump.getSecureStorageInterface().fetchValueForKey(
-                    JR_CAPTURE_SIGNED_IN_USER_FILENAME, new SecureStorageInterface.SecureStorageError());
+            fileContents = Jump.mStorageInterface.fetchValueForKey(
+                    JR_CAPTURE_SIGNED_IN_USER_FILENAME);
             LogUtils.logd("isUserSign fileContents != null" + (fileContents != null));
 
             if (fileContents != null) {
@@ -154,9 +151,8 @@ public class CaptureRecord extends JSONObject {
     public void saveToDisk(Context applicationContext) {
 
         try {
-            Jump.getSecureStorageInterface().storeValueForKey(
-                    JR_CAPTURE_SIGNED_IN_USER_FILENAME, deflateCaptureRecord(), new
-                            SecureStorageInterface.SecureStorageError());
+            Jump.mStorageInterface.storeValueForKey(
+                    JR_CAPTURE_SIGNED_IN_USER_FILENAME, deflateCaptureRecord());
 
         } catch (Exception e) {
             throwDebugException(new RuntimeException("Unexpected", e));
@@ -178,7 +174,7 @@ public class CaptureRecord extends JSONObject {
      */
     public static void deleteFromDisk(Context applicationContext) {
         applicationContext.deleteFile(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
-        Jump.getSecureStorageInterface().removeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
+        Jump.mStorageInterface.removeValueForKey(JR_CAPTURE_SIGNED_IN_USER_FILENAME);
     }
 
     private String getRefreshSignature(String date) {
@@ -355,7 +351,8 @@ System.out.println("UTC time " +utcTime);
 }*/
 
     private String getUTCdatetimeAsString() {
-        return ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
+        String DATE_FORMAT_FOR_JUMP = "yyyy-MM-dd HH:mm:ss";
+        return Jump.mServerTimeInterface.getCurrentUTCTimeWithFormat(DATE_FORMAT_FOR_JUMP);
     }
 
     /**
@@ -475,17 +472,22 @@ System.out.println("UTC time " +utcTime);
     }
 
     public boolean hasPassword() {
-        String password = getPasswordSchemaInfoFromFlow(Jump.getCaptureFlow());
+        String password = getSchemaInfoFromFlow(Jump.getCaptureFlow(), "password");
         if (password == null || password.isEmpty()) {
-            return true;
-        } else return false;
+            return false;
+        } else return true;
     }
 
-    private String getPasswordSchemaInfoFromFlow(Map<String, Object> captureFlow) {
+    public String getEmail() {
+        String email = getSchemaInfoFromFlow(Jump.getCaptureFlow(), "email");
+        return email;
+    }
+
+    private String getSchemaInfoFromFlow(Map<String, Object> captureFlow, String fieldName) {
         if (captureFlow == null) return null;
         Map form = (Map) captureFlow.get("schema_info");
         Map fieldNames = (Map) form.get("paths");
-        String type = (String) fieldNames.get("password");
+        String type = (String) fieldNames.get(fieldName);
         String formFieldValue = CaptureJsonUtils.valueForAttrByDotPath(this, type);
         return formFieldValue;
     }

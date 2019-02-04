@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.File;
@@ -26,12 +27,13 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.REGISTRATION_AP
 
 public class RegPreferenceUtility {
 
+
     public static void storePreference(Context context, String key, String value) {
-        String oldVal = Jump.getSecureStorageInterface().fetchValueForKey(key, new SecureStorageInterface.SecureStorageError());
+        String oldVal = RegistrationConfiguration.getInstance().getComponent().getSecureStorageInterface().fetchValueForKey(key, new SecureStorageInterface.SecureStorageError());
         List<String> oldValArray = stringToList(oldVal);
         oldValArray.add(value);
         String newVal = listToString(oldValArray);
-        Jump.getSecureStorageInterface().storeValueForKey(key, newVal, new SecureStorageInterface.SecureStorageError());
+        RegistrationConfiguration.getInstance().getComponent().getSecureStorageInterface().storeValueForKey(key, newVal, new SecureStorageInterface.SecureStorageError());
     }
 
     protected void storeMicrositeId(Context context) {
@@ -47,7 +49,7 @@ public class RegPreferenceUtility {
             deletePreference(value);
             return true;
         } else {
-            String prefValue = Jump.getSecureStorageInterface().fetchValueForKey(key,
+            String prefValue = RegistrationConfiguration.getInstance().getComponent().getSecureStorageInterface().fetchValueForKey(key,
                     new SecureStorageInterface.SecureStorageError());
 
             if (prefValue == null) {
@@ -79,7 +81,7 @@ public class RegPreferenceUtility {
         if (isFileExists(oldPrefeFileBackUp)) {
             deleteFile(oldPrefeFileBackUp);
         }
-        return Boolean.parseBoolean(Jump.getSecureStorageInterface().
+        return Boolean.parseBoolean(RegistrationConfiguration.getInstance().getComponent().getSecureStorageInterface().
                 fetchValueForKey(key, new SecureStorageInterface.SecureStorageError()));
     }
 
@@ -92,7 +94,7 @@ public class RegPreferenceUtility {
                 REGISTRATION_API_PREFERENCE, 0);
         Map<String, ?> allEntries = myPrefs.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            Jump.getSecureStorageInterface().storeValueForKey(entry.getKey(),
+            RegistrationConfiguration.getInstance().getComponent().getSecureStorageInterface().storeValueForKey(entry.getKey(),
                     String.valueOf(entry.getValue()),
                     new SecureStorageInterface.SecureStorageError());
         }
@@ -104,7 +106,7 @@ public class RegPreferenceUtility {
     }
 
     public static void deletePreference(String key) {
-        Jump.getSecureStorageInterface().removeValueForKey(key);
+        RegistrationConfiguration.getInstance().getComponent().getSecureStorageInterface().removeValueForKey(key);
     }
 
     private static String listToString(List<String> list) {

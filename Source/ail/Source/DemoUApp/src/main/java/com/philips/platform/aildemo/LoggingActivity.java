@@ -18,6 +18,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -26,7 +27,7 @@ import java.util.logging.Logger;
 
 public class LoggingActivity extends AppCompatActivity {
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
     static Logger logger;
     String[] LogLevels = {"ERROR", "WARNING", "INFO", "DEBUG", "VERBOSE"};
     LoggingInterface.LogLevel currentLogLevel = LoggingInterface.LogLevel.VERBOSE; //default
@@ -40,7 +41,7 @@ public class LoggingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logging);
-        appInfra = (AppInfra) AILDemouAppInterface.getInstance().getAppInfra();
+        appInfra = AILDemouAppInterface.getInstance().getAppInfra();
 
         /////////////////////////////////////
 

@@ -22,7 +22,8 @@ import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.ntputils.ServerTime;
+import com.philips.cdp.registration.ui.utils.ServerTime;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -66,9 +67,12 @@ public class RegistrationHelper {
     }
 
     private UappSettings urSettings;
+    private JanrainDataImpln mJanrainDataImpln;
 
     private RegistrationHelper() {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
+        SecureStorageInterface mSecureStorageInterface = RegistrationConfiguration.getInstance().getComponent().getSecureStorageInterface();
+        mJanrainDataImpln = new JanrainDataImpln(mSecureStorageInterface);
     }
 
     /**
@@ -83,6 +87,10 @@ public class RegistrationHelper {
             }
         }
         return mRegistrationHelper;
+    }
+
+    public void initializeJump(Context context){
+        Jump.init(context, mJanrainDataImpln, mJanrainDataImpln);
     }
 
     /*
@@ -109,7 +117,6 @@ public class RegistrationHelper {
             setLocale(languageCode, countryCode);
 
         }
-
         UserRegistrationInitializer.getInstance().resetInitializationState();
         UserRegistrationInitializer.getInstance().setJanrainIntialized(false);
         //   generateKeyAndMigrateData(context);
@@ -140,7 +147,7 @@ public class RegistrationHelper {
     private void deleteLegacyDIProfileFile(Context context) {
         RLog.d(TAG, "deleteLegacyDIProfileFile is called");
         context.deleteFile(RegConstants.DI_PROFILE_FILE);
-        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
+        mJanrainDataImpln.removeValueForKey(RegConstants.DI_PROFILE_FILE);
     }
 
 

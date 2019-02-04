@@ -33,9 +33,7 @@
 package com.janrain.android.capture;
 
 import android.util.Pair;
-
 import com.janrain.android.Jump;
-
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -122,21 +120,13 @@ public class CaptureFlowUtils {
         }
 
         final Map fields = (Map) captureFlow.get("fields");
-		
-		
-        Map form;
+        final Map form;
         if(fields.containsKey(formName)) {
             form = (Map) fields.get(formName);
-            // Temp : Fix for since there no staging for china flow yet . hard coding user form name
-            if(form == null){
-                form = (Map)fields.get("userInformationForm");
-            }
         }else{
             throwDebugException(new RuntimeException("captureTraditionalSignInFormName not found in flow"));
             return null;
         }
-        
-     
         final List fieldNames = (List) form.get("fields");
 
         if (fieldNames.size() != 2) {
@@ -226,9 +216,7 @@ public class CaptureFlowUtils {
      */
     public static String getUserIdFieldName(String formName, Map<String, Object> captureFlow) {
         if (formName == null || captureFlow == null) return null;
-        if (formName == null ){
-            throwDebugException(new RuntimeException("Missing capture configuration setting forgottenPasswordFormName"));
-        }
+
         Map form = (Map) ((Map) captureFlow.get("fields")).get(formName);
         final List fieldNames = (List) form.get("fields");
         Map flowFieldNames = (Map) captureFlow.get("fields");

@@ -3,13 +3,11 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.janrain.android.Jump;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -47,7 +45,6 @@ public class URInterface implements UappInterface {
 
     private static RegistrationComponent component;
     private Context context;
-
     private static final long serialVersionUID = 1128016096756071381L;
 
     private static String TAG = "URInterface";
@@ -199,8 +196,8 @@ public class URInterface implements UappInterface {
         RegistrationConfiguration.getInstance().setComponent(component);
         RLog.init();
         AppTagging.init();
-        Jump.init(uappSettings.getContext(), uappDependencies.getAppInfra().getSecureStorage());
         RegistrationHelper.getInstance().setUrSettings(uappSettings);
+        RegistrationHelper.getInstance().initializeJump(context);
         RegistrationHelper.getInstance().initializeUserRegistration(uappSettings.getContext());
         uappDependencies.getAppInfra().getConsentManager().deregisterHandler(Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT));
         uappDependencies.getAppInfra().getConsentManager().registerHandler(Collections.singletonList(URConsentProvider.USR_MARKETING_CONSENT), new MarketingConsentHandler(uappDependencies.getAppInfra(), context));

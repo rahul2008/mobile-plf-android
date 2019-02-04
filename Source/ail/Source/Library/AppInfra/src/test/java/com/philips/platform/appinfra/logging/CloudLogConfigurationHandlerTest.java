@@ -5,7 +5,7 @@
 
 package com.philips.platform.appinfra.logging;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class CloudLogConfigurationHandlerTest {
 
     private CloudLogConfigHandler cloudLogConfigHandler;
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
     @Mock
     private LoggingConfiguration loggingConfiguration;
     @Mock

@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.securestorage;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestoragev1.SecureStorageV1;
 import com.philips.platform.appinfra.securestoragev2.SecureStorageV2;
@@ -285,7 +286,7 @@ public class SecureStorageTest {
 
     static class SecureStorageMock extends  SecureStorage{
 
-        public SecureStorageMock(AppInfra bAppInfra) {
+        public SecureStorageMock(AppInfraInterface bAppInfra) {
             super(bAppInfra);
         }
 

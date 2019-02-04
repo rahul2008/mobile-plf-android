@@ -6,10 +6,9 @@
  * /
  */
 
-package com.philips.cdp.servertime;
+package com.philips.cdp.registration.ui.utils;
 
-import com.philips.ntputils.ServerTime;
-import com.philips.ntputils.constants.ServerTimeConstants;
+
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import junit.framework.TestCase;
@@ -47,12 +46,12 @@ public class ServerTimeTest extends TestCase {
 
     @Test
     public void testRefreshOffsetCall() {
-        final SimpleDateFormat sdf = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT, Locale.ROOT);
+        final SimpleDateFormat sdf = new SimpleDateFormat(ServerTime.DATE_FORMAT, Locale.ROOT);
         Date date = new Date(0);
-        sdf.setTimeZone(TimeZone.getTimeZone(ServerTimeConstants.UTC));
+        sdf.setTimeZone(TimeZone.getTimeZone(ServerTime.UTC));
         String firstJan1970 = sdf.format(date);
 
-        assertNotSame(firstJan1970, ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT));
+        assertNotSame(firstJan1970, ServerTime.getCurrentUTCTimeWithFormat(ServerTime.DATE_FORMAT));
     }
 
 }

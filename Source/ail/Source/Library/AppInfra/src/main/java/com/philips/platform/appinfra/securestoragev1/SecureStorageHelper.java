@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -46,10 +47,10 @@ class SecureStorageHelper {
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
     private Context mContext;
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
     private final String deLimiter = "delimiter";
 
-    SecureStorageHelper(AppInfra mAppInfra) {
+    SecureStorageHelper(AppInfraInterface mAppInfra) {
         this.mAppInfra = mAppInfra;
         this.mContext = mAppInfra.getAppInfraContext();
     }
@@ -99,7 +100,7 @@ class SecureStorageHelper {
             storeEncryptedDataResult = editor.commit();
         } catch (Exception e) {
             storeEncryptedDataResult = false;
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage while storing e-data");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage while storing e-data");
         }
         return storeEncryptedDataResult;
     }
@@ -130,7 +131,7 @@ class SecureStorageHelper {
         try {
             return java.net.URLDecoder.decode(data, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                     AppInfraLogEventID.AI_SECURE_STORAGE, "Unsupported encoding exception " + e.getMessage());
         }
         return null;
@@ -180,7 +181,7 @@ class SecureStorageHelper {
 
             return Base64.encodeToString(AESbytes, Base64.DEFAULT);
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when gen k-pair" + e.getMessage());
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when gen k-pair" + e.getMessage());
         }
         return null;
     }
@@ -198,7 +199,7 @@ class SecureStorageHelper {
             }
 
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting e-data" + e.getMessage());
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in S-Storage when deleting e-data" + e.getMessage());
             deleteResult = false;
         }
         return deleteResult;
@@ -223,7 +224,7 @@ class SecureStorageHelper {
             final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             return in.readLine() != null;
         } catch (Throwable t) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Throwable exception");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Throwable exception");
             return false;
         } finally {
             if (process != null) process.destroy();

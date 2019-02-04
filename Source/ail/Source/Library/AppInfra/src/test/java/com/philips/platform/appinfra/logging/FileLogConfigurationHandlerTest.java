@@ -3,6 +3,7 @@ package com.philips.platform.appinfra.logging;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import junit.framework.TestCase;
 

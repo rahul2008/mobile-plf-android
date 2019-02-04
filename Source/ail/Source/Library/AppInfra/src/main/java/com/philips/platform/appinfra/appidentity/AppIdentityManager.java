@@ -5,7 +5,7 @@
  */
 package com.philips.platform.appinfra.appidentity;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 
 /**
@@ -16,7 +16,7 @@ public class AppIdentityManager implements AppIdentityInterface {
     private static final long serialVersionUID = 7416890164115573406L;
     private transient AppIdentityManagerHelper mAppIdentityManagerHelper;
 
-    public AppIdentityManager(AppInfra aAppInfra) {
+    public AppIdentityManager(AppInfraInterface aAppInfra) {
         mAppIdentityManagerHelper = new AppIdentityManagerHelper(aAppInfra);
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.

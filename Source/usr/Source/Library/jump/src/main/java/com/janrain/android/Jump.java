@@ -58,8 +58,6 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
-import com.philips.AppNameToEnglish;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import net.openid.appauth.AppAuthConfiguration;
 import net.openid.appauth.AuthorizationService;
@@ -100,7 +98,8 @@ public class Jump {
     public static final String JR_DOWNLOAD_FLOW_SUCCESS = "com.janrain.android.Jump.DOWNLOAD_FLOW_SUCCESS";
 
     public static final String JR_PROVIDER_FLOW_SUCCESS = "com.janrain.android.Jump.PROVIDER_FLOW_SUCCESS";
-
+    public static ServerTimeInterface mServerTimeInterface;
+    public static StorageInterface mStorageInterface;
 
 
     /*package*/ enum State {
@@ -132,10 +131,10 @@ public class Jump {
         /*package*/ String userAgent;
 
         /*package*/ String accessToken;
-        
+
         String captureRedirectUri;
         String captureRecoverUri;
-		
+
         /*package*/ String engageAppUrl;
         /*package*/ String downloadFlowUrl;
 
@@ -153,24 +152,20 @@ public class Jump {
 
     private Jump() {}
 
-
-
-    private static SecureStorageInterface mSecureStorageInterface;
-
-    public static void init(final Context context , final SecureStorageInterface secureStorageInterface) {
-        mSecureStorageInterface = secureStorageInterface;
+    public static void init(final Context context, ServerTimeInterface serverTimeInterface, StorageInterface storageInterface) {
+        mServerTimeInterface = serverTimeInterface;
+        mStorageInterface = storageInterface;
         ThreadUtils.executeInBg(new Runnable() {
             public void run() {
                 loadUserFromDiskInternal(context);
                 loadRefreshSecretFromDiskInternal(context);
             }
         });
-
     }
 
-    public static SecureStorageInterface getSecureStorageInterface(){
+   /* public static SecureStorageInterface getSecureStorageInterface(){
      return mSecureStorageInterface;
-    }
+    }*/
     /**
      * @deprecated
      * Initialize the Jump library with you configuration data
@@ -212,7 +207,7 @@ public class Jump {
         state.initCalled = true;
 
         state.context = context;
-    
+
         state.captureSocialRegistrationFormName = jumpConfig.captureSocialRegistrationFormName;
         state.captureTraditionalRegistrationFormName = jumpConfig.captureTraditionalRegistrationFormName;
         state.captureEditUserProfileFormName = jumpConfig.captureEditUserProfileFormName;
@@ -239,9 +234,9 @@ public class Jump {
         state.jrEngage = JREngage.initInstance(context.getApplicationContext(), jumpConfig.engageAppId,
                 jumpConfig.engageAppUrl, null, null, jumpConfig.customProviders);
         state.captureRecoverUri = jumpConfig.captureRecoverUri;
-        state.refreshSecret = mSecureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET,new SecureStorageInterface.SecureStorageError());
+        state.refreshSecret = mStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET);
 
-    
+
         state.engageAppUrl = jumpConfig.engageAppUrl;
         state.downloadFlowUrl = jumpConfig.downloadFlowUrl;
 
@@ -394,8 +389,8 @@ public class Jump {
         PackageInfo info = null;
         try {
             info = state.context.getApplicationContext().getPackageManager().getPackageInfo(packageName, 0);
-            AppNameToEnglish appNameEnglish = new AppNameToEnglish();
-            state.userAgent = appNameEnglish.getApplicationName(state.context);
+           // AppNameToEnglish appNameEnglish = new AppNameToEnglish();
+            state.userAgent = AndroidUtils.getApplicationNameToEnglish(state.context);
              state.userAgent += "/" + info.versionCode + " JRML" + AndroidUtils.urlEncode(state.context.getString(R.string.jr_git_describe)) + " ";
         } catch (PackageManager.NameNotFoundException e) {
             throwDebugException(new RuntimeException("User agent create failed : ", e));
@@ -978,7 +973,7 @@ public class Jump {
 
 
     private static void loadRefreshSecretFromDiskInternal(Context context) {
-        state.refreshSecret = mSecureStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET, new SecureStorageInterface.SecureStorageError());
+        state.refreshSecret = mStorageInterface.fetchValueForKey(Capture.JR_REFRESH_SECRET);
     }
 
     private static void loadFlow() {
@@ -990,7 +985,7 @@ public class Jump {
             ois = new ObjectInputStream(fis);
             state.captureFlow = (Map<String, Object>) ois.readObject();
             state.context.deleteFile(JR_CAPTURE_FLOW);
-            mSecureStorageInterface.storeValueForKey(JR_CAPTURE_FLOW, state.captureFlow.toString() ,new SecureStorageInterface.SecureStorageError());
+            mStorageInterface.storeValueForKey(JR_CAPTURE_FLOW, state.captureFlow.toString());
 
         } catch (ClassCastException e) {
             throwDebugException(e);
@@ -1015,7 +1010,7 @@ public class Jump {
         }
 
 
-        String fetchedValue = mSecureStorageInterface.fetchValueForKey(JR_CAPTURE_FLOW,new SecureStorageInterface.SecureStorageError());
+        String fetchedValue = mStorageInterface.fetchValueForKey(JR_CAPTURE_FLOW);
         ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> map = null;
         try {
@@ -1031,7 +1026,7 @@ public class Jump {
 
     private static void downloadFlow() {
         String flowVersion = state.captureFlowVersion != null ? state.captureFlowVersion : "HEAD";
-      
+
 
         String flowUrlString = "";
 
@@ -1076,7 +1071,7 @@ public class Jump {
         ThreadUtils.executeInBg(new Runnable() {
             public void run() {
                 try {
-                    mSecureStorageInterface.storeValueForKey(JR_CAPTURE_FLOW,state.captureFlow.toString(), new SecureStorageInterface.SecureStorageError());
+                    mStorageInterface.storeValueForKey(JR_CAPTURE_FLOW,state.captureFlow.toString());
                     state.context.deleteFile("jr_capture_signed_in_user");
                     triggerDownloadFlowStatus(JR_DOWNLOAD_FLOW_SUCCESS,"Download flow Success!!");
                 }  catch (Exception e) {
@@ -1092,7 +1087,7 @@ public class Jump {
         ThreadUtils.executeInBg(new Runnable() {
             public void run() {
                 try {
-                    mSecureStorageInterface.storeValueForKey(tokenType,token, new SecureStorageInterface.SecureStorageError());
+                    mStorageInterface.storeValueForKey(tokenType,token);
 
                     state.context.deleteFile(tokenType);
                 }  catch (Exception e) {
@@ -1406,8 +1401,8 @@ public class Jump {
         Capture.performUpdateSignedUserData(new Capture.CaptureApiResultHandler() {
             @Override
             public void onSuccess(JSONObject response) {
-               
-			   
+
+
 			                   if (updateSignedInUser) {
                     final String accessToken = state.signedInUser.getAccessToken();
                     final CaptureRecord record = getResultAsCaptureRecord(accessToken);
@@ -1415,7 +1410,7 @@ public class Jump {
                         state.signedInUser = record;
                     }
                 }
-				
+
 				 Object userRecord = response.opt("result");
                 if (userRecord instanceof JSONObject && null != state.signedInUser){
                     JsonUtils.deepCopy((JSONObject) userRecord, state.signedInUser);
@@ -1452,7 +1447,7 @@ public class Jump {
             handler_.onSuccess(response);
         }
     }
-    
+
     /*Added */
     public static void reinitialize(Context context, JumpConfig jumpConfig) {
         state.initCalled = false;

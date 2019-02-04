@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
@@ -36,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 public class ConsentManager implements ConsentManagerInterface {
 
     protected long timeout = 60;
-    private final AppInfra mAppInfra;
+    private final AppInfraInterface mAppInfra;
     private Map<String, ConsentHandlerInterface> consentHandlerMapping = new HashMap<>();
     private Map<String, ConsentDefinition> consentDefinitionMapping = new HashMap<>();
     private ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
@@ -44,7 +45,7 @@ public class ConsentManager implements ConsentManagerInterface {
     @VisibleForTesting
     ConsentStatusChangeMapper consentStatusChangeMapper = new ConsentStatusChangeMapper();
 
-    public ConsentManager(AppInfra aAppInfra) {
+    public ConsentManager(AppInfraInterface aAppInfra) {
         mAppInfra = aAppInfra;
     }
 
@@ -196,7 +197,7 @@ public class ConsentManager implements ConsentManagerInterface {
         try {
             return countDownLatch.await(timeout, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "", "");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "", "");
         }
         return false;
     }

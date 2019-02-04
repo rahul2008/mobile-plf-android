@@ -44,7 +44,7 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
         isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
         toggleButton.setChecked(isOldSSEnabled);
         if(isOldSSEnabled) {
-            mSecureStorage = new SecureStorageV1((AppInfra) appInfra);
+            mSecureStorage = new SecureStorageV1(appInfra);
             Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
         }else{
             mSecureStorage=appInfra.getSecureStorage();
@@ -123,7 +123,7 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         boolean isOldSSEnabled=intent.getBooleanExtra(IS_OLD_SS_ENABLED,false);
         if(isOldSSEnabled) {
-            mSecureStorage = new SecureStorageV1((AppInfra) appInfra);
+            mSecureStorage = new SecureStorageV1(appInfra);
             Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
         }else{
             mSecureStorage=appInfra.getSecureStorage();
