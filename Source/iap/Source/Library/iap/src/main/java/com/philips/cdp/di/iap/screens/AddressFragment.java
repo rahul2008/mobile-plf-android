@@ -95,49 +95,60 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     private void upDateUi(boolean isChecked) {
         Bundle bundle = getArguments();
         updateCheckoutStepNumber("1"); // for default
-        if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
-            if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
-                updateCheckoutStepNumber("2");
-                checkBox.setVisibility(View.VISIBLE);
-                checkBox.setChecked(true);
-                enableView(billingView);
-                getDLSBillingAddress().disableAllFields();
-                disableView(shoppingView);
-                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-                getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
+        if (null == bundle) {
+            return;
+        } else {
+
+            if (bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+                updateBillingAddressFromPaymentSelection(bundle);
+            }
+
+            if (bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+                updateShippingAddress(bundle);
+            }
+
+            if (bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+                addOrUpdateBillingAddress(isChecked, bundle);
             }
         }
+    }
 
-        if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            updateCheckoutStepNumber("1");
-            checkBox.setVisibility(View.GONE);
-            HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-            addressShippingView.updateFields(mAddressFieldsHashmap);
+    private void addOrUpdateBillingAddress(boolean isChecked, Bundle bundle) {
+        updateCheckoutStepNumber("2");
+        checkBox.setVisibility(View.VISIBLE);
+        if (!isChecked) {
+            getDLSBillingAddress().clearAllFields();
+            mBtnContinue.setEnabled(false);
+            setAddressFilledFromDeliveryAddressStatus(true);
+            getDLSBillingAddress().enableAllFields();
+
+        } else {
+            getDLSBillingAddress().disableAllFields();
+            setAddressFilledFromDeliveryAddressStatus(true);
+            mBtnContinue.setEnabled(true);
+            HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
+            getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
         }
+        disableView(shoppingView);
+        enableView(billingView);
+    }
 
-        if (null != bundle && bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
-            updateCheckoutStepNumber("2");
-            checkBox.setVisibility(View.VISIBLE);
-            if (!isChecked) {
-                //((AddressBillingView) billingFragment).disableAllFields();
-                getDLSBillingAddress().clearAllFields();
-                mBtnContinue.setEnabled(false);
-                setAddressFilledFromDeliveryAddressStatus(true);
-                getDLSBillingAddress().enableAllFields();
+    private void updateShippingAddress(Bundle bundle) {
+        updateCheckoutStepNumber("1");
+        checkBox.setVisibility(View.GONE);
+        HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+        addressShippingView.updateFields(mAddressFieldsHashmap);
+    }
 
-            } else {
-                // ((AddressBillingView) billingFragment).enableAllFields();
-                getDLSBillingAddress().disableAllFields();
-                setAddressFilledFromDeliveryAddressStatus(true);
-                mBtnContinue.setEnabled(true);
-                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-                getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
-
-            }
-            disableView(shoppingView);
-            enableView(billingView);
-
-        }
+    private void updateBillingAddressFromPaymentSelection(Bundle bundle) {
+        updateCheckoutStepNumber("2");
+        checkBox.setVisibility(View.VISIBLE);
+        checkBox.setChecked(true);
+        enableView(billingView);
+        getDLSBillingAddress().disableAllFields();
+        disableView(shoppingView);
+        HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
+        getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
     }
 
     private void updateCheckoutStepNumber(String checkoutSteps) {
@@ -177,13 +188,14 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
             createCustomProgressBar(mParentContainer, BIG);
-            //Edit and save address
+
             if (mBtnContinue.getText().toString().equalsIgnoreCase(mContext.getString(R.string.iap_save))) {
                 saveShippingAddressToBackend();
             } else {
                 createNewAddressOrUpdateIfAddressIDPresent();
             }
         } else if (v == mBtnCancel) {
+
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
                 moveToVerticalAppByClearingStack();
@@ -416,6 +428,16 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void setDeliveryFirstTimeUserStatus(boolean status) {
         this.isDeliveryFirstTimeUser = status;
+    }
+
+    @Override
+    public boolean isHouseNoEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isStateEnabled() {
+        return false;
     }
 
     @Override

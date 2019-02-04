@@ -28,6 +28,8 @@
         style="@style/iapCentralesansMediumFont"
         android:textStyle="bold"/>
 
+    <!--Start Salutation-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -216,9 +218,11 @@
                 style="@style/AddressItemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/house_no" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
+                android:visibility="gone"
                 android:id="@+id/ll_house_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -315,9 +319,11 @@
             <!--End Postal Code-->
             <!--Start State-->
             <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/lebel_state"
                 style="@style/AddressItemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/iap_state" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -325,6 +331,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+                android:visibility="gone"
                 app:uidTextBoxValidationErrorText="@string/iap_state_hint">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText

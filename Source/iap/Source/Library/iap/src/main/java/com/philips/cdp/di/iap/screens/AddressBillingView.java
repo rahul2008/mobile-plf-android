@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -55,8 +56,7 @@ public class AddressBillingView
     private final AddressBillingPresenter addressBillingPresenter;
 
     private AddressContractor addressContractor;
-
-
+    private TextView tvHouseNo,tvState;
 
     public AddressBillingView(AddressPresenter addressPresenter) {
         this.addressPresenter = addressPresenter;
@@ -114,9 +114,17 @@ public class AddressBillingView
         inputValidatorAddressLineOneBilling = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOneBilling.setValidator(inputValidatorAddressLineOneBilling);
 
+        tvHouseNo = rootView.findViewById(R.id.label_house_no);
         mLlHouseNoBilling = rootView.findViewById(R.id.ll_house_no);
-        inputValidatorHouseNoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
-        mLlHouseNoBilling.setValidator(inputValidatorHouseNoBilling);
+        mEtHouseNoBilling = rootView.findViewById(R.id.et_house_no);
+
+        if(addressContractor.isHouseNoEnabled()) {
+            tvHouseNo.setVisibility(View.VISIBLE);
+            mLlHouseNoBilling.setVisibility(View.VISIBLE);
+            inputValidatorHouseNoBilling = new InputValidator(Validator.ADDRESS_PATTERN);
+            mLlHouseNoBilling.setValidator(inputValidatorHouseNoBilling);
+            mEtHouseNoBilling.addTextChangedListener(new IAPTextWatcher(mEtHouseNoBilling));
+        }
 
         mLlTownBilling = rootView.findViewById(R.id.ll_billing_town);
         inputValidatorTownBilling = new InputValidator(Validator.TOWN_PATTERN);
@@ -132,6 +140,7 @@ public class AddressBillingView
         mLlCountryBilling.setValidator(inputValidatorCountryBilling);
 
         mlLStateBilling = rootView.findViewById(R.id.ll_billing_state);
+        tvState = rootView.findViewById(R.id.tv_billing_state);
         InputValidator inputValidatorStateBilling = new InputValidator(Validator.NAME_PATTERN);
         mlLStateBilling.setValidator(inputValidatorStateBilling);
 
@@ -150,7 +159,6 @@ public class AddressBillingView
         mEtLastNameBilling = rootView.findViewById(R.id.et_billing_last_name);
         mEtSalutationBilling = rootView.findViewById(R.id.et_billing_salutation);
         mEtAddressLineOneBilling = rootView.findViewById(R.id.et_billing_address_line_one);
-        mEtHouseNoBilling = rootView.findViewById(R.id.et_house_no);
         mEtTownBilling = rootView.findViewById(R.id.et_billing_town);
         mEtPostalCodeBilling = rootView.findViewById(R.id.et_billing_postal_code);
         mEtCountryBilling = rootView.findViewById(R.id.et_billing_country);
@@ -176,14 +184,13 @@ public class AddressBillingView
 
         mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
         mEtCountryBilling.setEnabled(false);
-        addressBillingPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling);
+        addressBillingPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling,tvState);
 
         //For billing address fields
         mValidator = new Validator();
         mEtFirstNameBilling.addTextChangedListener(new IAPTextWatcher(mEtFirstNameBilling));
         mEtLastNameBilling.addTextChangedListener(new IAPTextWatcher(mEtLastNameBilling));
         mEtAddressLineOneBilling.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOneBilling));
-        mEtHouseNoBilling.addTextChangedListener(new IAPTextWatcher(mEtHouseNoBilling));
         mEtTownBilling.addTextChangedListener(new IAPTextWatcher(mEtTownBilling));
         mEtPostalCodeBilling.addTextChangedListener(new IAPTextWatcher(mEtPostalCodeBilling));
         mEtCountryBilling.addTextChangedListener(new IAPTextWatcher(mEtCountryBilling));
@@ -354,7 +361,7 @@ public class AddressBillingView
             }
         }
         if (editText.getId() == R.id.et_billing_country && !hasFocus) {
-            addressBillingPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling);
+            addressBillingPresenter.showUSRegions(mEtCountryBilling,mlLStateBilling, tvState);
             result = inputValidatorCountryBilling.isValidCountry(((EditText) editText).getText().toString());
             if (!result) {
                 mLlCountryBilling.setErrorMessage(R.string.iap_country_error);
@@ -382,7 +389,7 @@ public class AddressBillingView
                 mLlAddressLineOneBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_house_no && !hasFocus) {
+        if (editText.getId() == R.id.et_house_no && !hasFocus &&  addressContractor.isHouseNoEnabled()) {
             result = inputValidatorHouseNoBilling.isValidAddress(((EditText) editText).getText().toString());
             if (!result) {
                 mLlHouseNoBilling.setErrorMessage(R.string.iap_address_error);
@@ -415,7 +422,7 @@ public class AddressBillingView
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
                 && mValidator.isValidAddress(addressLineOne)
-                && mValidator.isValidAddress(houseNo)
+                && addressContractor.isHouseNoEnabled() ? mValidator.isValidAddress(houseNo) : true
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)

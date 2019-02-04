@@ -70,4 +70,7 @@ public interface AddressContractor {
     void setAddressFilledFromDeliveryAddressStatus(boolean status);
     void setDeliveryFirstTimeUserStatus(boolean status);
 
+    boolean isHouseNoEnabled();
+    boolean isStateEnabled();
+
 }

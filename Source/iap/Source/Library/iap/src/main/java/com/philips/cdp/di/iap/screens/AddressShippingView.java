@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
@@ -68,6 +69,7 @@ public class AddressShippingView
     private ValidationEditText mEtState;
     private ValidationEditText mEtEmail;
     private ValidationEditText mEtPhone1;
+    private TextView tvState,tvHouseNo;
     private Validator mValidator;
     private SalutationDropDown mSalutationDropDown;
     private StateDropDown mStateDropDown;
@@ -110,9 +112,7 @@ public class AddressShippingView
         inputValidatorAddressLineOne = new InputValidator(Validator.ADDRESS_PATTERN);
         mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
 
-        mLlHouseNo = rootView.findViewById(R.id.ll_house_no);
-        inputValidatorHouseNo = new InputValidator(Validator.ADDRESS_PATTERN);
-       // mLlHouseNo.setValidator(inputValidatorHouseNo);
+
 
         mLlTown = rootView.findViewById(R.id.ll_town);
         inputValidatorTown = new InputValidator(Validator.TOWN_PATTERN);
@@ -148,13 +148,24 @@ public class AddressShippingView
         mEtLastName = rootView.findViewById(R.id.et_last_name);
         mEtSalutation = rootView.findViewById(R.id.et_salutation);
         mEtAddressLineOne = rootView.findViewById(R.id.et_address_line_one);
-        mEtHouseNo = rootView.findViewById(R.id.et_house_no);
+
         mEtTown = rootView.findViewById(R.id.et_town);
         mEtPostalCode = rootView.findViewById(R.id.et_postal_code);
         mEtCountry = rootView.findViewById(R.id.et_country);
         mEtState = rootView.findViewById(R.id.et_state);
         mEtEmail = rootView.findViewById(R.id.et_email);
         mEtPhone1 = rootView.findViewById(R.id.et_phone1);
+
+        tvHouseNo = rootView.findViewById(R.id.label_house_no);
+        mEtHouseNo = rootView.findViewById(R.id.et_house_no);
+        mLlHouseNo = rootView.findViewById(R.id.ll_house_no);
+        if(addressContractor.isHouseNoEnabled()) {
+            tvHouseNo.setVisibility(View.VISIBLE);
+            mLlHouseNo.setVisibility(View.VISIBLE);
+            inputValidatorHouseNo = new InputValidator(Validator.ADDRESS_PATTERN);
+            mLlHouseNo.setValidator(inputValidatorHouseNo);
+            mEtHouseNo.addTextChangedListener(new IAPTextWatcher(mEtHouseNo));
+        }
 
 
         mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
@@ -164,9 +175,9 @@ public class AddressShippingView
         mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
 
         String familyName = HybrisDelegate.getInstance(mContext).getStore().getFamilyName();
-        if(!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")){
+        if (!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
             mEtLastName.setText(familyName);
-        }else {
+        } else {
             mEtLastName.setText("");
         }
 
@@ -181,7 +192,6 @@ public class AddressShippingView
         mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
         mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
-        mEtHouseNo.addTextChangedListener(new IAPTextWatcher(mEtHouseNo));
         mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
         mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
@@ -202,23 +212,26 @@ public class AddressShippingView
             }
         });
 
+        if (addressContractor.isStateEnabled()) {
+            CartModelContainer.getInstance().setAddessStateVisible(true);
+            tvState = rootView.findViewById(R.id.lebel_state);
+            tvState.setVisibility(View.VISIBLE);
+            mlLState.setVisibility(View.VISIBLE);
+            mEtState.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
+            mStateDropDown = new StateDropDown(this);
 
-        mEtState.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
-        mStateDropDown = new StateDropDown(this);
-        if(CartModelContainer.getInstance().getRegionList()!=null && !CartModelContainer.getInstance().getRegionList().getRegions().isEmpty()){
             mStateDropDown.createPopUp(mEtState, mContext);
+
+
+            mEtState.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Utility.hideKeypad(mContext);
+                    mStateDropDown.show();
+                    return false;
+                }
+            });
         }
-
-        mEtState.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Utility.hideKeypad(mContext);
-                mStateDropDown.show();
-                return false;
-            }
-        });
-
-
     }
 
     @Override
@@ -365,7 +378,7 @@ public class AddressShippingView
             }
         }
 
-        if (editText.getId() == R.id.et_house_no && !hasFocus) {
+        if (editText.getId() == R.id.et_house_no && !hasFocus && addressContractor.isHouseNoEnabled()) {
             result = inputValidatorHouseNo.isValidAddress(mEtHouseNo.getText().toString());
             if (!result) {
                 mLlHouseNo.setErrorMessage(R.string.iap_house_no_error);
@@ -399,6 +412,7 @@ public class AddressShippingView
 
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
                 && mValidator.isValidAddress(addressLineOne)
+                && addressContractor.isHouseNoEnabled() ? mValidator.isValidAddress(houseNo) :true
                 && mValidator.isValidPostalCode(postalCode)
                 && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
@@ -407,14 +421,14 @@ public class AddressShippingView
 
             setAddressFields(shippingAddressFields);
             IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
-            if (addressContractor.getCheckBoxState() && shippingAddressFields!=null ) {
+            if (addressContractor.getCheckBoxState() && shippingAddressFields != null) {
                 addressContractor.setContinueButtonState(true);
                 addressContractor.setShippingAddressFilledStatus(true);
                 addressContractor.setShippingAddressFields(shippingAddressFields);
-            } else if(shippingAddressFields!=null && addressContractor.isBillingAddressFilled()) {
+            } else if (shippingAddressFields != null && addressContractor.isBillingAddressFilled()) {
                 addressContractor.setContinueButtonState(true);
                 addressContractor.setShippingAddressFilledStatus(true);
-            }else{
+            } else {
                 addressContractor.setShippingAddressFilledStatus(false);
             }
 

@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.platform.uid.view.widget.EditText;
@@ -19,11 +20,12 @@ public class AddressBillingPresenter {
     return editText.getText().toString().equals("US");
     }
 
-    void showUSRegions(EditText mEtCountryBilling, InputValidationLayout mlLStateBilling) {
+    void showUSRegions(EditText mEtCountryBilling, InputValidationLayout mlLStateBilling, TextView tvState) {
         if (isUSSelected(mEtCountryBilling)) {
             mlLStateBilling.setVisibility(View.VISIBLE);
             CartModelContainer.getInstance().setAddessStateVisible(true);
         } else {
+            tvState.setVisibility(View.GONE);
             mlLStateBilling.setVisibility(View.GONE);
             CartModelContainer.getInstance().setAddessStateVisible(false);
         }
