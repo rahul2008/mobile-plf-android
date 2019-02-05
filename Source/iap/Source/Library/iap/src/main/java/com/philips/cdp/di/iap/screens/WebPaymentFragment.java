@@ -96,7 +96,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     }
 
     private boolean verifyResultCallBacks(String url) {
-        clearCookies();
+
         boolean match = true;
         if (url.startsWith(PAYMENT_SUCCESS_CALLBACK_URL)) {
             launchConfirmationScreen(createSuccessBundle());
@@ -122,6 +122,9 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
             moveToPreviousFragment();
         } else {
             match = false;
+        }
+        if(match){
+            clearCookies();;
         }
         return match;
     }
@@ -175,6 +178,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     public void onPositiveBtnClick() {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CANCEL_PAYMENT);
+        clearCookies();
         handleNavigation();
     }
 
@@ -186,6 +190,6 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     }
 
     private void clearCookies(){
-        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().removeSessionCookies(null);
     }
 }
