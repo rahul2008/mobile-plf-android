@@ -16,8 +16,7 @@ import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.ntputils.ServerTime;
-import com.philips.ntputils.constants.ServerTimeConstants;
+import com.philips.cdp.registration.ui.utils.ServerTime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,7 +92,7 @@ public class CoppaExtension {
     private long hoursSinceLastConsent() {
 
         Date date;
-        SimpleDateFormat format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_COPPA,
+        SimpleDateFormat format = new SimpleDateFormat(ServerTime.DATE_FORMAT_COPPA,
                 Locale.ROOT);
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         long diff = 0;
@@ -102,8 +101,8 @@ public class CoppaExtension {
             long millisecondsatConsentGiven = date.getTime();
 
             final String timeNow = ServerTime.getCurrentUTCTimeWithFormat(
-                    ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
-            format = new SimpleDateFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP, Locale.ROOT);
+                    ServerTime.DATE_FORMAT_FOR_JUMP);
+            format = new SimpleDateFormat(ServerTime.DATE_FORMAT_FOR_JUMP, Locale.ROOT);
             format.setTimeZone(TimeZone.getTimeZone("UTC"));
             date = format.parse(timeNow);
             long timeinMillisecondsNow = date.getTime();

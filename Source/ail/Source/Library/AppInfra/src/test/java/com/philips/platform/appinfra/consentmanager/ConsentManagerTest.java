@@ -3,7 +3,7 @@ package com.philips.platform.appinfra.consentmanager;
 import android.os.Looper;
 
 import com.google.common.collect.ImmutableList;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
@@ -57,7 +57,7 @@ public class ConsentManagerTest {
     private Date latestTimestamp;
 
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     @Mock
     private ConsentStatusChangedListener statusChangedListener;

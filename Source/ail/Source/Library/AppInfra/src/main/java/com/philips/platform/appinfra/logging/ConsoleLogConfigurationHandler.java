@@ -2,7 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -15,10 +15,10 @@ import java.util.logging.Logger;
 
 public class ConsoleLogConfigurationHandler {
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
 
-    public ConsoleLogConfigurationHandler(AppInfra appInfra) {
+    public ConsoleLogConfigurationHandler(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 

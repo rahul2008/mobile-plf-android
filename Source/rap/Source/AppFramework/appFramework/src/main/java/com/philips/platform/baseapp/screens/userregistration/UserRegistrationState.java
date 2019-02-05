@@ -378,7 +378,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     protected void setUrCompleted() {
         if (userObject != null) {
-            getApplicationContext().getAppInfra().getLogging().setHSDPUserUUID(userObject.getHsdpUUID());
+            getApplicationContext().getAppInfra().getCloudLogging().setHSDPUserUUID(userObject.getHsdpUUID());
             getAppInfra().getAbTesting().tagEvent("MarketingOptinstatusSuccess", null);
         }
         SharedPreferences.Editor editor = getSharedPreferences().edit();

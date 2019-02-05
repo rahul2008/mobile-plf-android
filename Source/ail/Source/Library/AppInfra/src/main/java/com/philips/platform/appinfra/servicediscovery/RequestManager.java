@@ -17,6 +17,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.RequestFuture;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -43,21 +44,21 @@ public class RequestManager {
 
     //    RequestQueue mRequestQueue;
     private static final String TAG = "RequestManager";//this.class.getSimpleName();
-    private final AppInfra mAppInfra;
+    private final AppInfraInterface mAppInfra;
     private static final String SERVICE_DISCOVERY_CACHE_FILE = "SDCacheFile";
     private final Context mContext;
     private SharedPreferences mSharedPreference;
     private SharedPreferences.Editor mPrefEditor;
     private AppInfraTaggingUtil appInfraTaggingUtil;
 
-    public RequestManager(Context context, AppInfra appInfra) {
+    public RequestManager(Context context, AppInfraInterface appInfra) {
         mContext = context;
         mAppInfra = appInfra;
         VolleyLog.DEBUG = false;
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    RequestManager(Context context, AppInfra appInfra, AppInfraTaggingUtil appInfraTaggingUtil) {
+    RequestManager(Context context, AppInfraInterface appInfra, AppInfraTaggingUtil appInfraTaggingUtil) {
         mContext = context;
         mAppInfra = appInfra;
         this.appInfraTaggingUtil = appInfraTaggingUtil;
@@ -83,24 +84,24 @@ public class RequestManager {
             final Throwable error = e.getCause();
             ServiceDiscovery.Error volleyError;
             if (error instanceof TimeoutError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "TimeoutORNoConnection");
             } else if (error instanceof NoConnectionError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK, "NoConnectionError");
             } else if (error instanceof AuthFailureError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "AuthFailureError");
             } else if (error instanceof ServerError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error" +
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error" +
                         error.toString());
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
             } else if (error instanceof NetworkError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error" +
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error" +
                         error.toString());
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "NetworkError");
             } else if (error instanceof ParseError) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery error");
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.SERVER_ERROR, "ServerError");
             } else {
                 volleyError = new ServiceDiscovery.Error(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "error while execute");
@@ -153,7 +154,7 @@ public class RequestManager {
             mPrefEditor.putLong("SDrefreshTime", refreshTimeExpiry);
             mPrefEditor.apply();
             if (urlType == ServiceDiscoveryManager.AISDURLType.AISDURLTypePlatform) {
-                mAppInfra.getRxBus().send(new ServiceDiscoveryDownloadEvent());
+                ((AppInfra)mAppInfra).getRxBus().send(new ServiceDiscoveryDownloadEvent());
             }
         } catch (Exception e) {
             appInfraTaggingUtil.trackErrorAction(SERVICE_DISCOVERY, SD_STORE_FAILED);
@@ -178,7 +179,7 @@ public class RequestManager {
                         return cachedResponse;
                     }
                 } catch (Exception exception) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                             AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data" + exception.getMessage());
                 }
             } else {
@@ -197,7 +198,7 @@ public class RequestManager {
                         return cachedResponse;
                     }
                 } catch (Exception exception) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                             AppInfraLogEventID.AI_SERVICE_DISCOVERY, "while getting cached data" + exception.getMessage());
                 }
             }
@@ -246,7 +247,7 @@ public class RequestManager {
     }
 
     //TODO - need to change api name as it work in opposite way
-    boolean getPropositionEnabled(AppInfra appInfra) {
+    boolean getPropositionEnabled(AppInfraInterface appInfra) {
         final AppConfigurationInterface.AppConfigurationError appConfigurationError = new AppConfigurationInterface
                 .AppConfigurationError();
 
@@ -261,11 +262,11 @@ public class RequestManager {
                         return true;
                     }
                 } else {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "servicediscovery.propositionEnabled instance should be boolean value true or false");
+                    ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "servicediscovery.propositionEnabled instance should be boolean value true or false");
                 }
             }
         } catch (IllegalArgumentException illegalArgumentException) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "IllegalArgumentException while getPropositionEnabled");
+            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "IllegalArgumentException while getPropositionEnabled");
         }
         return false;
     }

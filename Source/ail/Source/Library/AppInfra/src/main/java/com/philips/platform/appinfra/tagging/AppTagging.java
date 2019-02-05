@@ -10,7 +10,7 @@ import android.content.Context;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 
@@ -31,7 +31,7 @@ public class AppTagging implements AppTaggingInterface {
     static final String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
     static final String CLICKSTREAM_CONSENT_TYPE = "AIL_ClickStream";
     private static String prevPage;
-    private final AppInfra mAppInfra;
+    private final AppInfraInterface mAppInfra;
     protected String mComponentID;
     protected String mComponentVersion;
     private transient AppTaggingHandler appTaggingHandle;
@@ -39,7 +39,7 @@ public class AppTagging implements AppTaggingInterface {
     private ClickStreamConsentHandler mConsentHandler;
 
 
-    public AppTagging(AppInfra aAppInfra) {
+    public AppTagging(AppInfraInterface aAppInfra) {
         mAppInfra = aAppInfra;
         init(mAppInfra.getAppInfraContext());
         // Class shall not presume appInfra to be completely initialized at this point.

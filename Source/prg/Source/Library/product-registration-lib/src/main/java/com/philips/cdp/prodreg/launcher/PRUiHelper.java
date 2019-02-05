@@ -60,7 +60,7 @@ public class PRUiHelper {
     private UiLauncher mUiLauncher;
     private ProdRegUiListener prodRegUiListener;
     private Context context;
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
     private String mCountryCode;
     private String mLocale;
     ThemeConfiguration themeConfiguration;
@@ -200,7 +200,7 @@ public class PRUiHelper {
 
     protected void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
-        this.appInfra = (AppInfra) uappDependencies.getAppInfra();
+        this.appInfra = uappDependencies.getAppInfra();
         new ProdRegHelper().init();
         ProdRegTagging.init();
     }

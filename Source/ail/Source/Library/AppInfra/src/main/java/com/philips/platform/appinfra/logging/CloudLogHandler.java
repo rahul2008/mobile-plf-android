@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDataBuilder;
 
@@ -20,7 +21,7 @@ public class CloudLogHandler extends Handler {
 
     private static final String TAG = CloudLogHandler.class.getSimpleName();
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     private AILCloudLogDataBuilder ailCloudLogDataBuilder;
 
@@ -28,7 +29,7 @@ public class CloudLogHandler extends Handler {
     private CloudLogProcessor cloudLogProcessor;
 
 
-    public CloudLogHandler(AppInfra appInfra) {
+    public CloudLogHandler(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
         ailCloudLogDataBuilder = getAilCloudLogDataBuilder(appInfra);
         cloudLogProcessor = getCloudLogProcessor();
@@ -37,7 +38,7 @@ public class CloudLogHandler extends Handler {
     }
 
     @NonNull
-    AILCloudLogDataBuilder getAilCloudLogDataBuilder(AppInfra appInfra) {
+    AILCloudLogDataBuilder getAilCloudLogDataBuilder(AppInfraInterface appInfra) {
         return new AILCloudLogDataBuilder(appInfra);
     }
 
@@ -78,7 +79,7 @@ public class CloudLogHandler extends Handler {
     private boolean checkIfComponentIdIsAppInfra(LogRecord logRecord) {
         if (logRecord != null && logRecord.getParameters() != null) {
             List<Object> parameters = Arrays.asList(logRecord.getParameters());
-            if (parameters != null && parameters.get(AppInfraLogging.COMPONENT_ID_INDEX) != null && parameters.get(AppInfraLogging.COMPONENT_ID_INDEX).toString().equalsIgnoreCase(appInfra.getComponentId())) {
+            if (parameters != null && parameters.get(AppInfraLogging.COMPONENT_ID_INDEX) != null && parameters.get(AppInfraLogging.COMPONENT_ID_INDEX).toString().equalsIgnoreCase(((AppInfra)appInfra).getComponentId())) {
                 return true;
             }
         }

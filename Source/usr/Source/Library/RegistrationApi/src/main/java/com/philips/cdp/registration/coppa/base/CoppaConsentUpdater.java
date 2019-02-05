@@ -17,8 +17,7 @@ import com.janrain.android.capture.CaptureRecord;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.ntputils.ServerTime;
-import com.philips.ntputils.constants.ServerTimeConstants;
+import com.philips.cdp.registration.ui.utils.ServerTime;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.json.JSONArray;
@@ -95,7 +94,7 @@ class CoppaConsentUpdater {
         consentsObject.put(CoppaConfiguration.LOCALE,locale);
         consentsObject.put(CoppaConfiguration.STORED_AT,
                 ServerTime.
-                        getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
+                        getCurrentUTCTimeWithFormat(ServerTime.DATE_FORMAT_FOR_JUMP));
     }
 
     private void buildConsentConfirmation(boolean coppaConsentConfirmationStatus,
@@ -108,7 +107,7 @@ class CoppaConsentUpdater {
                 Boolean.toString(coppaConsentConfirmationStatus));
         consentsObject.put(CoppaConfiguration.CONFIRMATION_STORED_AT,
                 ServerTime.
-                        getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP));
+                        getCurrentUTCTimeWithFormat(ServerTime.DATE_FORMAT_FOR_JUMP));
     }
 
     /**

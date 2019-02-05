@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppInfraTaggingUtil;
 
 import org.json.JSONArray;
@@ -123,7 +124,7 @@ public class RequestManagerTestCase {
             }
 
             @Override
-            boolean getPropositionEnabled(AppInfra appInfra) {
+            boolean getPropositionEnabled(AppInfraInterface appInfra) {
                 return true;
             }
         };

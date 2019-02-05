@@ -43,7 +43,7 @@ public class SecureStorageBulkActivity extends Activity {
         appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         isOldSSEnabled=getIntent().getBooleanExtra(Constants.IS_OLD_SS_ENABLED,false);
         if(isOldSSEnabled) {
-            mSecureStorage = new SecureStorageV1((AppInfra) appInfra);
+            mSecureStorage = new SecureStorageV1(appInfra);
             Toast.makeText(this,"Old secure storage is enabled",Toast.LENGTH_SHORT).show();
         }else{
             mSecureStorage=appInfra.getSecureStorage();

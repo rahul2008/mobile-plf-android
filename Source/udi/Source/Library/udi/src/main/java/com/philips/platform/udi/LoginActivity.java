@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private AuthStateManager mStateManager;
     private ExecutorService mExecutor;
     private AuthState authState = new AuthState();
-    private ProgressBarButton loginButton, logoutButton;
+    private ProgressBarButton loginButton;
 
     private Spinner localeSpinner;
 
@@ -69,15 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             startAuthorizationFlow();
         });
 
-        logoutButton = findViewById(R.id.logout_button);
-        logoutButton.setOnClickListener(v -> {
-            logoutButton.showProgressIndicator();
-            logout();
-        });
-    }
 
-    private void logout() {
-        logoutButton.hideProgressIndicator();
     }
 
     private void launchTokenActivity() {

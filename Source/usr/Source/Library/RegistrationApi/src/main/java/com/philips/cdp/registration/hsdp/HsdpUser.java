@@ -35,6 +35,7 @@ import com.philips.cdp.registration.ui.utils.MapUtils;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -51,11 +52,13 @@ import javax.inject.Inject;
  */
 public class HsdpUser {
 
-    private final LoggingInterface loggingInterface;
+    private final CloudLoggingInterface cloudLoggingInterface;
     private String TAG = "HsdpUser";
 
     @Inject
     HSDPConfiguration hsdpConfiguration;
+
+    private SecureStorageInterface mSecureStorageInterface;
 
     @Inject
     NetworkUtility networkUtility;
@@ -83,7 +86,8 @@ public class HsdpUser {
     public HsdpUser(Context context) {
         this.mContext = context;
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
+        cloudLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getCloudLoggingInterface();
+        mSecureStorageInterface = RegistrationConfiguration.getInstance().getComponent().getSecureStorageInterface();
     }
 
 
@@ -255,7 +259,7 @@ public class HsdpUser {
         String parcelString = Base64.encodeToString(parcel.marshall(), Base64.DEFAULT);
         try {
             mContext.deleteFile(HSDP_RECORD_FILE);
-            Jump.getSecureStorageInterface().storeValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
+            mSecureStorageInterface.storeValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
                     parcelString, new SecureStorageInterface.SecureStorageError());
             userFileWriteListener.onFileWriteSuccess();
         } catch (Exception e) {
@@ -278,9 +282,9 @@ public class HsdpUser {
         }
         //Check if HsdpRecord v2 is present in secure storage or not.
         RLog.d(TAG, "Checking if hsdp record v2 is present in SS or not?");
-        if (Jump.getSecureStorageInterface().doesStorageKeyExist(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD)) {
+        if (mSecureStorageInterface.doesStorageKeyExist(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD)) {
             RLog.d(TAG, "Hsdp record v2 present");
-            String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
+            String hsdpRecord = mSecureStorageInterface.fetchValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD,
                     new SecureStorageInterface.SecureStorageError());
             if (hsdpRecord != null) {
                 byte[] hsdpRecordByteArray = Base64.decode(hsdpRecord, Base64.DEFAULT);
@@ -294,7 +298,7 @@ public class HsdpUser {
             }
         } else {
 
-            String hsdpRecord = Jump.getSecureStorageInterface().fetchValueForKey(HSDP_RECORD_FILE,
+            String hsdpRecord = mSecureStorageInterface.fetchValueForKey(HSDP_RECORD_FILE,
                     new SecureStorageInterface.SecureStorageError());
             RLog.d(TAG, "getHsdpUserRecordV2 hsdpRecord = " + hsdpRecord + " Not keeping in secure storage");
             if (hsdpRecord != null) {
@@ -310,15 +314,16 @@ public class HsdpUser {
                     accessCredential.setAccessToken(hsdpUserRecord.getAccessCredential().getAccessToken());
                     hsdpUserRecordV2.setAccessCredential(accessCredential);
                     HsdpUserInstance.getInstance().setHsdpUserRecordV2(hsdpUserRecordV2);
-                    if (loggingInterface != null) {
-                        loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
+                    if (cloudLoggingInterface != null) {
+                        cloudLoggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
                     }
+
                     sendEncryptedUUIDToAnalytics(hsdpUserRecordV2);
                     saveToDisk(new UserFileWriteListener() {
                         @Override
                         public void onFileWriteSuccess() {
                             RLog.d(TAG, "Deleting v1 record");
-                            Jump.getSecureStorageInterface().removeValueForKey(HSDP_RECORD_FILE);
+                            mSecureStorageInterface.removeValueForKey(HSDP_RECORD_FILE);
                         }
 
                         @Override
@@ -353,8 +358,8 @@ public class HsdpUser {
      */
     public void deleteFromDisk() {
         mContext.deleteFile(HSDP_RECORD_FILE);
-        Jump.getSecureStorageInterface().removeValueForKey(HSDP_RECORD_FILE);
-        Jump.getSecureStorageInterface().removeValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD);
+        mSecureStorageInterface.removeValueForKey(HSDP_RECORD_FILE);
+        mSecureStorageInterface.removeValueForKey(HsdpUserRecordV2.SS_KEY_FOR_SAVING_RECORD);
         HsdpUserInstance.getInstance().setHsdpUserRecordV2(null);
     }
 
@@ -373,10 +378,10 @@ public class HsdpUser {
 
                 String responseCode = MapUtils.extract(dhpAuthenticationResponse1, "responseCode");
                 String message = MapUtils.extract(dhpAuthenticationResponse1, "responseMessage");
-                if (responseCode!=null && responseCode.equals(SUCCESS_CODE)) {
+                if (responseCode != null && responseCode.equals(SUCCESS_CODE)) {
                     onLoginSuccessResponseCode(loginHandler, handler, dhpAuthenticationResponse1);
                 } else {
-                    if(networkUtility.isNetworkAvailable()){
+                    if (networkUtility.isNetworkAvailable()) {
                         handleNetworkFailure(loginHandler);
                         return;
                     }
@@ -403,8 +408,8 @@ public class HsdpUser {
         saveToDisk(new UserFileWriteListener() {
             @Override
             public void onFileWriteSuccess() {
-                if (loggingInterface != null) {
-                    loggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
+                if (cloudLoggingInterface != null) {
+                    cloudLoggingInterface.setHSDPUserUUID(hsdpUserRecordV2.getUserUUID());
                 }
                 handler.post(() -> {
                     RLog.d(TAG, "Social onHsdpLoginSuccess : response :"

@@ -24,7 +24,6 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
-import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 /**
  * Created by philips on 25/07/17.
@@ -58,7 +57,7 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             RALog.d(TAG, e.getMessage());
-            Toast.makeText(getApplicationContext(), context.getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
         if (null != baseState) {
             WebViewStateData webViewStateData = new WebViewStateData();

@@ -1,6 +1,6 @@
 package com.philips.platform.appinfra.logging;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import junit.framework.TestCase;
 
@@ -23,7 +23,7 @@ public class ConsoleLogConfigurationHandlerTest extends TestCase {
 
     private ConsoleLogConfigurationHandler consoleLogConfigurationHandler;
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
     @Mock
     private LoggingConfiguration loggingConfiguration;
     @Mock

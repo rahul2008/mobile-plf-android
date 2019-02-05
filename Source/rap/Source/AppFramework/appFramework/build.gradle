@@ -201,7 +201,6 @@ dependencies {
         implementation project(strings.prg.projectName)
 
         implementation project(strings.pif.projectName)
-        implementation project(strings.jmp.projectName)
         implementation project(strings.ufw.projectName)
 
         implementation project(strings.ail.projectName)
@@ -231,7 +230,6 @@ dependencies {
     } else {
         implementation philipsdeps.product_registration_lib
         implementation philipsdeps.pif
-        implementation philipsdeps.jump
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
 

@@ -9,7 +9,7 @@ package com.philips.platform.appinfra.logging.rest;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
@@ -36,7 +36,7 @@ public class CloudLogRequestBodyBuilderTest {
 
 
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     @Mock
     private AppInfraLogging appInfraLogging;

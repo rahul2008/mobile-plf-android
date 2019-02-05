@@ -50,7 +50,7 @@ interface HomeContract extends FaceBookContractor{
 
     void SocialLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo);
 
-    void completeSocialLogin();
+    void updateUIState();
 
     void initSuccess();
 

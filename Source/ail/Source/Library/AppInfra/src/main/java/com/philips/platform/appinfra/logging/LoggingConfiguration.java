@@ -11,7 +11,7 @@ import android.content.pm.ApplicationInfo;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import org.json.JSONArray;
@@ -33,11 +33,11 @@ public class LoggingConfiguration {
     public final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
     public final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
     private HashMap<?, ?> mLoggingProperties;
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
     private String mComponentID = "";
 
 
-    public AppInfra getAppInfra() {
+    public AppInfraInterface getAppInfra() {
         return mAppInfra;
     }
 
@@ -52,7 +52,7 @@ public class LoggingConfiguration {
 
     private String mComponentVersion = "";
 
-    LoggingConfiguration(AppInfra mAppInfra, String mComponentID, String mComponentVersion) {
+    LoggingConfiguration(AppInfraInterface mAppInfra, String mComponentID, String mComponentVersion) {
         this.mAppInfra = mAppInfra;
         this.mComponentID = mComponentID;
         this.mComponentVersion = mComponentVersion;

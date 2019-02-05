@@ -5,7 +5,7 @@
 
 package com.philips.platform.appinfra.logging.database;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 
@@ -30,7 +30,7 @@ public class AILCloudLogDataBuilderTest {
     private AILCloudLogDataBuilder ailCloudLogDataBuilder;
 
     @Mock
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
     @Mock
     private AppInfraLogging loggingInterface;

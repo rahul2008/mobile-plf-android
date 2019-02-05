@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.internationalization;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -20,9 +21,9 @@ public class InternationalizationManager implements InternationalizationInterfac
 
     private static final long serialVersionUID = -238589639136393116L;
     private final Context context;
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
 
-    public InternationalizationManager(AppInfra aAppInfra) {
+    public InternationalizationManager(AppInfraInterface aAppInfra) {
 
         context = aAppInfra.getAppInfraContext();
         this.mAppInfra = aAppInfra;
@@ -31,13 +32,13 @@ public class InternationalizationManager implements InternationalizationInterfac
 
     @Override
     public String getUILocaleString() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI Locale String");
+        ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI Locale String");
         return context.getResources().getString(R.string.ail_locale);
     }
 
     @Override
     public String getBCP47UILocale() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get full UI Locale String");
+        ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get full UI Locale String");
         return context.getResources().getString(R.string.ail_fullLocale);
     }
 }

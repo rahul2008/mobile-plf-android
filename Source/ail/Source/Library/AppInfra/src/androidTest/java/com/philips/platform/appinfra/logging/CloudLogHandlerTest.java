@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.logging;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDBManager;
 import com.philips.platform.appinfra.logging.database.AILCloudLogData;
 import com.philips.platform.appinfra.logging.database.AILCloudLogDataBuilder;
@@ -43,7 +44,7 @@ public class CloudLogHandlerTest {
         CloudLogHandler cloudLogHandler = new CloudLogHandler(appInfra) {
             @NonNull
             @Override
-            AILCloudLogDataBuilder getAilCloudLogDataBuilder(AppInfra appInfra) {
+            AILCloudLogDataBuilder getAilCloudLogDataBuilder(AppInfraInterface appInfra) {
                 return ailCloudLogDataBuilder;
             }
 

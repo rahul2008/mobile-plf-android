@@ -12,8 +12,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInitialisationCompleteListener;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.consenthandler.DeviceStoredConsentHandler;
 import com.philips.platform.appinfra.logging.model.AILCloudLogMetaData;
 import com.philips.platform.appinfra.logging.sync.CloudLogSyncManager;
@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.AIL_HOME_COUNTRY;
 
 
-public class AppInfraLogging implements LoggingInterface, AppInfraInitialisationCompleteListener {
+public class AppInfraLogging implements CloudLoggingInterface, AppInfraInitialisationCompleteListener {
 
     public final static String CLOUD_CONSENT = "AIL_CloudConsent";
 
@@ -38,7 +38,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     public static final int PARAM_SIZE_WITH_METADATA=4;
 
     private static final long serialVersionUID = -4898715486015827285L;
-    private AppInfra mAppInfra;
+    private AppInfraInterface mAppInfra;
     private transient Logger mJavaLogger;
     private String componentId, componentVersion;
 
@@ -51,11 +51,11 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     }
 
 
-    public AppInfraLogging(AppInfra aAppInfra) {
+    public AppInfraLogging(AppInfraInterface aAppInfra) {
         this(aAppInfra, "", "");
     }
 
-    public AppInfraLogging(AppInfra aAppInfra, String componentId, String componentVersion) {
+    public AppInfraLogging(AppInfraInterface aAppInfra, String componentId, String componentVersion) {
         mAppInfra = aAppInfra;
         loggingConfiguration = new LoggingConfiguration(mAppInfra, componentId, componentVersion);
         mJavaLogger = getJavaLogger(componentId, componentVersion);
@@ -133,6 +133,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
         ailCloudLogMetaData.setUserUUID(userUUID);
     }
 
+
     @Override
     public String getCloudLoggingConsentIdentifier() {
         return CLOUD_CONSENT;
@@ -148,7 +149,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
     }
 
     @Override
-    public void onAppInfraInitialised(final AppInfra appInfra) {
+    public void onAppInfraInitialised(final AppInfraInterface appInfra) {
         if (loggingConfiguration.isCloudLogEnabled()) {
             updateMetadata(appInfra);
         }
@@ -162,7 +163,7 @@ public class AppInfraLogging implements LoggingInterface, AppInfraInitialisation
      *
      * @param appInfra
      */
-    public void updateMetadata(AppInfra appInfra) {
+    public void updateMetadata(AppInfraInterface appInfra) {
         try {
             if (appInfra.getAppIdentity() != null) {
                 ailCloudLogMetaData.setAppName(appInfra.getAppIdentity().getAppName());

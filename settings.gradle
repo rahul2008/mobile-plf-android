@@ -30,20 +30,12 @@ include ext.strings.prg.projectName
 
 
 
-
-
 include ext.strings.ailuapp.projectName
 include ext.strings.iapuapp.projectName
 include ext.strings.usruapp.projectName
 include ext.strings.dccuapp.projectName
 //include ext.strings.ufwuapp.projectName
 include ext.strings.prguapp.projectName
-
-
-
-
-
-include ext.strings.hsdp.projectName
 
 include ext.strings.udi.projectName
 include ext.strings.udiuapp.projectName
@@ -57,7 +49,6 @@ project(ext.strings.prx.projectName).projectDir = new File('./Source/prx/Source/
 project(ext.strings.usr.projectName).projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
 project(ext.strings.usruapp.projectName).projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
 project(ext.strings.jmp.projectName).projectDir = new File('./Source/usr/Source/Library/jump')
-project(ext.strings.hsdp.projectName).projectDir = new File('./Source/usr/Source/Library/hsdp')
 project(ext.strings.iap.projectName).projectDir = new File('./Source/iap/Source/Library/iap')
 project(ext.strings.iapuapp.projectName).projectDir = new File('./Source/iap/Source/DemoUApp')
 project(ext.strings.dcc.projectName).projectDir = new File('./Source/dcc/Source/Library/digitalCare')
@@ -80,8 +71,8 @@ project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 
 //demoapps to be published to artifactory
-include ':UserRegistrationApp'
-project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+//include ':UserRegistrationApp'
+//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
 
 project(ext.strings.udi.projectName).projectDir = new File('./Source/udi/Source/Library/udi')

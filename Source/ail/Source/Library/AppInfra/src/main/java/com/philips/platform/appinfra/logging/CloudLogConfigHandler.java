@@ -2,7 +2,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.support.annotation.NonNull;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 
 public class CloudLogConfigHandler {
 
-    private AppInfra appInfra;
+    private AppInfraInterface appInfra;
 
-    public CloudLogConfigHandler(AppInfra appInfra) {
+    public CloudLogConfigHandler(AppInfraInterface appInfra) {
         this.appInfra = appInfra;
     }
 
