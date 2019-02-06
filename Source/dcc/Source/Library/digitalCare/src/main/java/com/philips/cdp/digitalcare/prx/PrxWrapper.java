@@ -359,18 +359,18 @@ public class PrxWrapper {
                                 String assetType = assetObject.getType();
                                 String assetResource = assetObject.getAsset();
                                 String assetExtension = assetObject.getExtension();
-                                if (assetType.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_QSG_PDF))
-                                    if (assetResource != null) {
+
+                                if(assetResource == null) return;
+
+                                if (isaBoolean(assetType, PRX_ASSETS_USERMANUAL_QSG_PDF))
                                         qsgManual = assetResource;
-                                    }
-                                if ((mProductDetailsObject.getManualLink() == null) && (assetDescription.equalsIgnoreCase(PRX_ASSETS_USERMANUAL_PDF)))
-                                    if (assetResource != null) {
+
+                                if (isaBoolean(assetDescription,PRX_ASSETS_USERMANUAL_PDF) && (mProductDetailsObject.getManualLink() == null))
                                         usermanual = assetResource;
-                                    }
-                                if (null!=assetExtension && assetExtension.equalsIgnoreCase(PRX_ASSETS_VIDEO_URL))
-                                    if (assetResource != null) {
+
+                                if (isaBoolean(assetExtension, PRX_ASSETS_VIDEO_URL))
                                         mVideoList.add(assetResource);
-                                    }
+
                             }
                             if (qsgManual != null) {
                                 viewProductDetailsData.setManualLink(qsgManual);
@@ -391,6 +391,10 @@ public class PrxWrapper {
 
                     }
                 }
+            }
+
+            private boolean isaBoolean(String object, String prxAssetsUsermanual) {
+                return null != object && object.equalsIgnoreCase(prxAssetsUsermanual);
             }
 
             @Override
