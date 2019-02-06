@@ -13,7 +13,10 @@ public interface AddressFieldDecider {
     boolean isLastNameEnabled();
     boolean isPhoneNumberEnabled();
     boolean isAddressLineOneEnabled();
-    boolean isCityEnabled();
+    boolean isAddressLineTwoEnabled();
+    boolean isTownEnabled();
     boolean isPostalCodeEnabled();
+    boolean isCountryEnabled();
+    boolean isEmailEnabled();
 
 }

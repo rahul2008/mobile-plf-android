@@ -69,7 +69,7 @@ public class AddressShippingView
     private ValidationEditText mEtState;
     private ValidationEditText mEtEmail;
     private ValidationEditText mEtPhone1;
-    private TextView tvState,tvHouseNo;
+    private TextView tvState,tvHouseNo,tvFirstName,tvLastName,tvSalutation,tvAddressLineOne,tvTown,tvPostalCode,tvCountry,tvEmail,tvPhone;
     private Validator mValidator;
     private SalutationDropDown mSalutationDropDown;
     private StateDropDown mStateDropDown;
@@ -92,131 +92,194 @@ public class AddressShippingView
     private void initializeViews(View rootView) {
 
         shippingAddressFields = new AddressFields();
+        mValidator = new Validator();
 
+        tvFirstName = rootView.findViewById(R.id.label_first_name);
         mLlFirstName = rootView.findViewById(R.id.ll_first_name);
-        inputValidatorFirstName = new InputValidator(Validator.NAME_PATTERN);
-        mLlFirstName.setValidator(inputValidatorFirstName);
-
+        mEtFirstName = rootView.findViewById(R.id.et_first_name);
 
         mLlLastName = rootView.findViewById(R.id.ll_last_name);
-        inputValidatorLastName = new InputValidator(Validator.NAME_PATTERN);
-        mLlLastName.setValidator(inputValidatorLastName);
-
-
-        InputValidationLayout mLlSalutation = rootView.findViewById(R.id.ll_salutation);
-        InputValidator inputValidatorSalutation = new InputValidator(Validator.ADDRESS_PATTERN);
-        mLlSalutation.setValidator(inputValidatorSalutation);
-
-
-        mLlAddressLineOne = rootView.findViewById(R.id.ll_address_line_one);
-        inputValidatorAddressLineOne = new InputValidator(Validator.ADDRESS_PATTERN);
-        mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
-
-
-
-        mLlTown = rootView.findViewById(R.id.ll_town);
-        inputValidatorTown = new InputValidator(Validator.TOWN_PATTERN);
-        mLlTown.setValidator(inputValidatorTown);
-
-
-        mLlPostalCode = rootView.findViewById(R.id.ll_postal_code);
-        inputValidatorPostalCode = new InputValidator(Validator.POSTAL_CODE_PATTERN);
-        mLlPostalCode.setValidator(inputValidatorPostalCode);
-
-
-        mLlCountry = rootView.findViewById(R.id.ll_country);
-        inputValidatorCountry = new InputValidator(Validator.COUNTRY_PATTERN);
-        mLlCountry.setValidator(inputValidatorCountry);
-
-
-        mlLState = rootView.findViewById(R.id.ll_state);
-        InputValidator inputValidatorState = new InputValidator(Validator.NAME_PATTERN);
-        mlLState.setValidator(inputValidatorState);
-
-
-        mLlEmail = rootView.findViewById(R.id.ll_email);
-        inputValidatorEmail = new InputValidator(Validator.EMAIL_PATTERN);
-        mLlEmail.setValidator(inputValidatorEmail);
-
-
-        mLlPhone1 = rootView.findViewById(R.id.ll_phone1);
-        inputValidatorPhone = new InputValidator(Validator.PHONE_NUMBER_PATTERN);
-        mLlPhone1.setValidator(inputValidatorPhone);
-
-
-        mEtFirstName = rootView.findViewById(R.id.et_first_name);
         mEtLastName = rootView.findViewById(R.id.et_last_name);
+        tvLastName = rootView.findViewById(R.id.lable_last_name);
+
+        tvSalutation = rootView.findViewById(R.id.tv_salutation);
+        InputValidationLayout mLlSalutation = rootView.findViewById(R.id.ll_salutation);
         mEtSalutation = rootView.findViewById(R.id.et_salutation);
+
+
+        tvAddressLineOne = rootView.findViewById(R.id.label_address1);
+        mLlAddressLineOne = rootView.findViewById(R.id.ll_address_line_one);
         mEtAddressLineOne = rootView.findViewById(R.id.et_address_line_one);
 
+        tvTown = rootView.findViewById(R.id.label_town);
+        mLlTown = rootView.findViewById(R.id.ll_town);
         mEtTown = rootView.findViewById(R.id.et_town);
+
+        tvPostalCode = rootView.findViewById(R.id.label_postal_code);
+        mLlPostalCode = rootView.findViewById(R.id.ll_postal_code);
         mEtPostalCode = rootView.findViewById(R.id.et_postal_code);
+
+
+        tvCountry = rootView.findViewById(R.id.label_country);
+        mLlCountry = rootView.findViewById(R.id.ll_country);
         mEtCountry = rootView.findViewById(R.id.et_country);
-        mEtState = rootView.findViewById(R.id.et_state);
+
+
+        tvEmail = rootView.findViewById(R.id.label_email);
+        mLlEmail = rootView.findViewById(R.id.ll_email);
         mEtEmail = rootView.findViewById(R.id.et_email);
+
+
+        tvPhone = rootView.findViewById(R.id.label_phone);
+        mLlPhone1 = rootView.findViewById(R.id.ll_phone1);
         mEtPhone1 = rootView.findViewById(R.id.et_phone1);
 
         tvHouseNo = rootView.findViewById(R.id.label_house_no);
         mEtHouseNo = rootView.findViewById(R.id.et_house_no);
         mLlHouseNo = rootView.findViewById(R.id.ll_house_no);
+
+
+        mlLState = rootView.findViewById(R.id.ll_state);
+        tvState = rootView.findViewById(R.id.lebel_state);
+        mEtState = rootView.findViewById(R.id.et_state);
+
+
+
+
+
+        if(addressContractor.isFirstNameEnabled()) {
+            setViewVisible(mLlFirstName,tvFirstName,mEtFirstName);
+            inputValidatorFirstName = new InputValidator(Validator.NAME_PATTERN);
+            mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
+            mLlFirstName.setValidator(inputValidatorFirstName);
+            mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
+        }else{
+            setViewInVisible(mLlFirstName,tvFirstName,mEtFirstName);
+        }
+
+        if(addressContractor.isLastNameEnabled()) {
+            setViewVisible(mLlLastName,tvLastName,mEtLastName);
+            inputValidatorLastName = new InputValidator(Validator.NAME_PATTERN);
+            mLlLastName.setValidator(inputValidatorLastName);
+            mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
+            String familyName = HybrisDelegate.getInstance(mContext).getStore().getFamilyName();
+            if (!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
+                mEtLastName.setText(familyName);
+            } else {
+                mEtLastName.setText("");
+            }
+        }else{
+            setViewInVisible(mLlLastName,tvLastName,mEtLastName);
+        }
+
+
+        if(addressContractor.isSalutationEnabled()) {
+            setViewVisible(mLlSalutation,tvSalutation,mEtSalutation);
+            InputValidator inputValidatorSalutation = new InputValidator(Validator.ADDRESS_PATTERN);
+            mLlSalutation.setValidator(inputValidatorSalutation);
+
+            mEtSalutation.setKeyListener(null);
+            mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
+            mEtSalutation.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
+            mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
+
+            mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    mSalutationDropDown.show();
+                    return false;
+                }
+            });
+
+        }else{
+            setViewInVisible(mLlSalutation,tvSalutation,mEtSalutation);
+        }
+
+
+        if(addressContractor.isAddressLineOneEnabled()){
+            setViewVisible(mLlAddressLineOne,tvAddressLineOne,mEtAddressLineOne);
+            inputValidatorAddressLineOne = new InputValidator(Validator.ADDRESS_PATTERN);
+            mLlAddressLineOne.setValidator(inputValidatorAddressLineOne);
+            mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
+        }else{
+            setViewInVisible(mLlAddressLineOne,tvAddressLineOne,mEtAddressLineOne);
+        }
+
+        if(addressContractor.isTownEnabled()) {
+            setViewVisible(mLlTown,tvTown,mEtTown);
+            tvTown.setVisibility(View.VISIBLE);
+            mLlTown.setVisibility(View.VISIBLE);
+            inputValidatorTown = new InputValidator(Validator.TOWN_PATTERN);
+            mLlTown.setValidator(inputValidatorTown);
+            mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
+        }else{
+            setViewInVisible(mLlTown,tvTown,mEtTown);
+        }
+
+        if(addressContractor.isPostalCodeEnabled()) {
+            setViewVisible(mLlPostalCode,tvPostalCode,mEtPostalCode);
+            inputValidatorPostalCode = new InputValidator(Validator.POSTAL_CODE_PATTERN);
+            mLlPostalCode.setValidator(inputValidatorPostalCode);
+            mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+            mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
+        }else{
+            setViewInVisible(mLlPostalCode,tvPostalCode,mEtPostalCode);
+        }
+
+        if(addressContractor.isCountryEnabled()) {
+            setViewVisible(mLlCountry,tvCountry,mEtCountry);
+            inputValidatorCountry = new InputValidator(Validator.COUNTRY_PATTERN);
+            mLlCountry.setValidator(inputValidatorCountry);
+            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+            mEtCountry.setEnabled(false);
+            mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
+        }else{
+            setViewInVisible(mLlCountry,tvCountry,mEtCountry);
+        }
+
+        if(addressContractor.isEmailEnabled()) {
+            setViewVisible(mLlEmail,tvEmail,mEtEmail);
+            inputValidatorEmail = new InputValidator(Validator.EMAIL_PATTERN);
+            mLlEmail.setValidator(inputValidatorEmail);
+            mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+            mEtEmail.setEnabled(false);
+            mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
+        }else{
+            setViewInVisible(mLlEmail,tvEmail,mEtEmail);
+        }
+
+        if(addressContractor.isPhoneNumberEnabled()) {
+            setViewVisible(mLlPhone1,tvPhone,mEtPhone1);
+            tvPhone.setVisibility(View.VISIBLE);
+            mLlPhone1.setVisibility(View.VISIBLE);
+            inputValidatorPhone = new InputValidator(Validator.PHONE_NUMBER_PATTERN);
+            mLlPhone1.setValidator(inputValidatorPhone);
+            mEtPhone1.addTextChangedListener(new IAPTextWatcherPhone(mEtPhone1));
+        }else{
+            setViewInVisible(mLlPhone1,tvPhone,mEtPhone1);
+        }
+
+
         if(addressContractor.isHouseNoEnabled()) {
-            tvHouseNo.setVisibility(View.VISIBLE);
-            mLlHouseNo.setVisibility(View.VISIBLE);
+            setViewVisible(mLlHouseNo,tvHouseNo,mEtHouseNo);
             inputValidatorHouseNo = new InputValidator(Validator.ADDRESS_PATTERN);
             mLlHouseNo.setValidator(inputValidatorHouseNo);
             mEtHouseNo.addTextChangedListener(new IAPTextWatcher(mEtHouseNo));
+        }else{
+            setViewInVisible(mLlHouseNo,tvHouseNo,mEtHouseNo);
         }
 
-
-        mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-        mEtSalutation.setKeyListener(null);
-        mEtState.setKeyListener(null);
-
-        mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
-
-        String familyName = HybrisDelegate.getInstance(mContext).getStore().getFamilyName();
-        if (!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
-            mEtLastName.setText(familyName);
-        } else {
-            mEtLastName.setText("");
-        }
-
-        mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
-        mEtEmail.setEnabled(false);
-
-        mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-        mEtCountry.setEnabled(false);
-        showUSRegions();
-
-        mValidator = new Validator();
-        mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
-        mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
-        mEtAddressLineOne.addTextChangedListener(new IAPTextWatcher(mEtAddressLineOne));
-        mEtTown.addTextChangedListener(new IAPTextWatcher(mEtTown));
-        mEtPostalCode.addTextChangedListener(new IAPTextWatcher(mEtPostalCode));
-        mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
-        mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
-        mEtPhone1.addTextChangedListener(new IAPTextWatcherPhone(mEtPhone1));
-        mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
-        mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
-
-
-        mEtSalutation.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
-        mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
-
-        mEtSalutation.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mSalutationDropDown.show();
-                return false;
-            }
-        });
 
         if (addressContractor.isStateEnabled()) {
+
+            InputValidator inputValidatorState = new InputValidator(Validator.NAME_PATTERN);
+            mlLState.setValidator(inputValidatorState);
+
+            mEtState.setKeyListener(null);
+            mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
+
             CartModelContainer.getInstance().setAddessStateVisible(true);
-            tvState = rootView.findViewById(R.id.lebel_state);
-            tvState.setVisibility(View.VISIBLE);
-            mlLState.setVisibility(View.VISIBLE);
+            setViewVisible(mlLState,tvState,mEtState);
             mEtState.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
             mStateDropDown = new StateDropDown(this);
 
@@ -231,6 +294,8 @@ public class AddressShippingView
                     return false;
                 }
             });
+        }else{
+            setViewInVisible(mlLState,tvState,mEtState);
         }
     }
 
@@ -306,41 +371,30 @@ public class AddressShippingView
 
     }
 
-    private void showUSRegions() {
-        if (mEtCountry.getText().toString().equals("US")) {
-            mlLState.setVisibility(View.VISIBLE);
-            CartModelContainer.getInstance().setAddessStateVisible(true);
-        } else {
-            mlLState.setVisibility(View.GONE);
-            CartModelContainer.getInstance().setAddessStateVisible(false);
-        }
-    }
-
-
     public void validateShippingAddress(View editText, boolean hasFocus) {
         boolean result = true;
-        if (editText.getId() == R.id.et_first_name && !hasFocus) {
+        if (editText.getId() == R.id.et_first_name && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             result = inputValidatorFirstName.isValidName(((EditText) editText).getText().toString());
             if (!result) {
                 mLlFirstName.setErrorMessage(R.string.iap_first_name_error);
                 mLlFirstName.showError();
             }
         }
-        if (editText.getId() == R.id.et_last_name && !hasFocus) {
+        if (editText.getId() == R.id.et_last_name && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             result = inputValidatorLastName.isValidName(mEtLastName.getText().toString());
             if (!result) {
                 mLlLastName.setErrorMessage(R.string.iap_last_name_error);
                 mLlLastName.showError();
             }
         }
-        if (editText.getId() == R.id.et_town && !hasFocus) {
+        if (editText.getId() == R.id.et_town && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             result = inputValidatorTown.isValidTown(mEtTown.getText().toString());
             if (!result) {
                 mLlTown.setErrorMessage(R.string.iap_town_error);
                 mLlTown.showError();
             }
         }
-        if (editText.getId() == R.id.et_phone1 && !hasFocus && mEtPhone1.getText() != null) {
+        if (editText.getId() == R.id.et_phone1 && !hasFocus && mEtPhone1.getText() != null && editText.getVisibility() == View.VISIBLE) {
             result = addressPresenter.validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
                     , mEtPhone1.getText().toString());
             if (!result) {
@@ -348,29 +402,28 @@ public class AddressShippingView
                 mLlPhone1.showError();
             }
         }
-        if (editText.getId() == R.id.et_country && !hasFocus) {
-            showUSRegions();
+        if (editText.getId() == R.id.et_country && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             result = inputValidatorCountry.isValidCountry(mEtCountry.getText().toString());
             if (!result) {
                 mLlCountry.setErrorMessage(R.string.iap_country_error);
                 mLlCountry.showError();
             }
         }
-        if (editText.getId() == R.id.et_postal_code && !hasFocus) {
+        if (editText.getId() == R.id.et_postal_code && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             result = inputValidatorPostalCode.isValidPostalCode(mEtPostalCode.getText().toString());
             if (!result) {
                 mLlPostalCode.setErrorMessage(R.string.iap_postal_code_error);
                 mLlPostalCode.showError();
             }
         }
-        if (editText.getId() == R.id.et_email && !hasFocus) {
+        if (editText.getId() == R.id.et_email && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             result = inputValidatorEmail.isValidEmail(mEtEmail.getText().toString());
             if (!result) {
                 mLlEmail.setErrorMessage(R.string.iap_email_error);
                 mLlEmail.showError();
             }
         }
-        if (editText.getId() == R.id.et_address_line_one && !hasFocus) {
+        if (editText.getId() == R.id.et_address_line_one && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             result = inputValidatorAddressLineOne.isValidAddress(mEtAddressLineOne.getText().toString());
             if (!result) {
                 mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
@@ -378,7 +431,7 @@ public class AddressShippingView
             }
         }
 
-        if (editText.getId() == R.id.et_house_no && !hasFocus && addressContractor.isHouseNoEnabled()) {
+        if (editText.getId() == R.id.et_house_no && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             result = inputValidatorHouseNo.isValidAddress(mEtHouseNo.getText().toString());
             if (!result) {
                 mLlHouseNo.setErrorMessage(R.string.iap_house_no_error);
@@ -386,7 +439,7 @@ public class AddressShippingView
             }
         }
 
-        if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus) {
+        if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus && editText.getVisibility() == View.VISIBLE) {
             checkFields();
         }
 
@@ -410,14 +463,7 @@ public class AddressShippingView
         String email = mEtEmail.getText().toString();
 
 
-        if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
-                && mValidator.isValidAddress(addressLineOne)
-                && addressContractor.isHouseNoEnabled() ? mValidator.isValidAddress(houseNo) :true
-                && mValidator.isValidPostalCode(postalCode)
-                && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
-                && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
-                && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
-                && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
+        if (isValidEntry(firstName, lastName, addressLineOne, houseNo, postalCode, phone1, town, country, email)) {
 
             setAddressFields(shippingAddressFields);
             IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
@@ -437,6 +483,21 @@ public class AddressShippingView
             addressContractor.setShippingAddressFilledStatus(false);
         }
         return false;
+    }
+
+    private boolean isValidEntry(String firstName, String lastName, String addressLineOne, String houseNo, String postalCode, String phone1, String town, String country, String email) {
+        boolean isValid =  (mEtFirstName.getVisibility() == View.GONE || mValidator.isValidName(firstName) )
+                && (mEtLastName.getVisibility() == View.GONE || mValidator.isValidName(lastName))
+                && (mEtAddressLineOne.getVisibility() == View.GONE || mValidator.isValidAddress(addressLineOne))
+                && (mEtHouseNo.getVisibility()== View.GONE || mValidator.isValidAddress(houseNo))
+                && (mEtPostalCode.getVisibility()==View.GONE || mValidator.isValidPostalCode(postalCode))
+                && (mEtEmail.getVisibility() == View.GONE || mValidator.isValidEmail(email))
+                && (mEtPhone1.getVisibility() == View.GONE || mValidator.isValidPhoneNumber(phone1))
+                && (mEtTown.getVisibility() == View.GONE || mValidator.isValidTown(town))
+                && (mEtCountry.getVisibility() == View.GONE || mValidator.isValidCountry(country))
+                && (mEtSalutation.getVisibility() == View.GONE || !mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
+                && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")));
+        return isValid;
     }
 
     protected AddressFields setAddressFields(AddressFields shippingAddressFields) {
@@ -493,6 +554,19 @@ public class AddressShippingView
         } else {
             mEtState.setVisibility(View.GONE);
             mlLState.setVisibility(View.GONE);
+        }
+    }
+
+    void setViewVisible(View... args) {
+
+        for (View view : args) {
+            view.setVisibility(View.VISIBLE);
+        }
+    }
+    void setViewInVisible(View... args) {
+
+        for (View view : args) {
+            view.setVisibility(View.GONE);
         }
     }
 }

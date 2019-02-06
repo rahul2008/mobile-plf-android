@@ -60,6 +60,16 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
     }
 
+    public void getRegions(String countryISO) {
+        String country = getStore().getCountry();
+        getStore().setLangAndCountry(getStore().getLocale(),countryISO);
+        GetRegionsRequest model = new GetRegionsRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
+
+        // Todo : Its a hack ,need to be fixed
+        getStore().setLangAndCountry(getStore().getLocale(),country);
+    }
+
     public void getUser() {
         GetUserRequest model = new GetUserRequest(getStore(), null, this);
         getHybrisDelegate().sendRequest(RequestCode.GET_USER, model, model);

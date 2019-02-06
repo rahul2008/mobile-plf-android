@@ -8,6 +8,7 @@
 package com.philips.cdp.di.iap.screens;
 
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.philips.cdp.di.iap.Constants.AddressFieldJsonEnum;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -22,6 +24,8 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
+import com.philips.cdp.di.iap.model.AddressFieldEnabler;
+import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
@@ -37,12 +41,18 @@ import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class AddressPresenter implements AddressController.AddressListener,PaymentController.PaymentListener {
+public class AddressPresenter implements AddressController.AddressListener, PaymentController.PaymentListener {
 
     private final AddressContractor addressContractor;
 
@@ -72,9 +82,19 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
         addressContractor.setBillingAddressFields(addressFields);
     }
 
+    public void getRegions(String countryISO){
+        mAddressController.getRegions(countryISO);
+    }
+
     @Override
     public void onGetRegions(Message msg) {
-
+        if (msg.obj instanceof IAPNetworkError) {
+            CartModelContainer.getInstance().setRegionList(null);
+        } else if (msg.obj instanceof RegionsList) {
+            CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+        } else {
+            CartModelContainer.getInstance().setRegionList(null);
+        }
     }
 
     @Override
@@ -120,7 +140,7 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
         if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
             DeliveryModes deliveryMode = addressContractor.getDeliveryModes();
             if (deliveryMode == null)
-               getDeliveryModes();
+                getDeliveryModes();
             else
                 mPaymentController.getPaymentDetails();
         } else {
@@ -145,7 +165,7 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
                 setBillingAddressAndOpenOrderSummary();
         } else {
             addressContractor.hideProgressbar();
-            NetworkUtility.getInstance().showErrorMessage(msg,addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
+            NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
         }
     }
 
@@ -215,10 +235,10 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
     }
 
     public void setBillingAddressAndOpenOrderSummary() {
-        if(addressContractor.getShippingAddressFields()!=null)
-        CartModelContainer.getInstance().setShippingAddressFields(addressContractor.getShippingAddressFields());
-        if(addressContractor.getBillingAddressFields()!=null)
-        CartModelContainer.getInstance().setBillingAddress(addressContractor.getBillingAddressFields());
+        if (addressContractor.getShippingAddressFields() != null)
+            CartModelContainer.getInstance().setShippingAddressFields(addressContractor.getShippingAddressFields());
+        if (addressContractor.getBillingAddressFields() != null)
+            CartModelContainer.getInstance().setBillingAddress(addressContractor.getBillingAddressFields());
         addressContractor.hideProgressbar();
         addressContractor.addOrderSummaryFragment();
     }
@@ -271,7 +291,7 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
         return mShippingAddressHashMap;
     }
 
-    //This method can be further refactored as this is not testable
+    //This method can be further refactored as this is not testableF
     boolean validatePhoneNumber(EditText editText, String country, String number) {
         try {
             Phonenumber.PhoneNumber phoneNumber = phoneNumberUtil.parse(number, country);
@@ -286,10 +306,98 @@ public class AddressPresenter implements AddressController.AddressListener,Payme
         return false;
     }
 
-    String addressWithNewLineIfNull( String code) {
+    String addressWithNewLineIfNull(String code) {
         if (!TextUtils.isEmpty(code)) {
             return code.replaceAll("null", " ").trim();
         }
         return null;
+    }
+
+    AddressFieldEnabler getAddressFieldEnabler(String country) {
+
+        String addressFieldEnablerJson = null;
+        AddressFieldEnabler addressFieldEnabler = null;
+        try {
+            addressFieldEnablerJson = getAddressFieldEnablerJson();
+
+            JSONObject jsonObject = null;
+
+            jsonObject = new JSONObject(addressFieldEnablerJson);
+
+            JSONObject addressEnablerJsonObject = jsonObject.getJSONObject("excludedFields");
+            addressFieldEnabler = new AddressFieldEnabler();
+
+            JSONArray jsonArray = addressEnablerJsonObject.getJSONArray(country);
+
+
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                final String excludedField = jsonArray.getString(i);
+                AddressFieldJsonEnum addressFieldJsonEnum = AddressFieldJsonEnum.getAddressFieldJsonEnumFromField(excludedField);
+                setAddressFieldEnabler(addressFieldEnabler,addressFieldJsonEnum);
+            }
+
+        } catch (JSONException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        return addressFieldEnabler;
+    }
+
+    private String getAddressFieldEnablerJson() throws IOException {
+
+        AssetManager manager = addressContractor.getActivityContext().getAssets();
+        InputStream file = manager.open("addressFieldConfiguration.json");
+        byte[] formArray = new byte[file.available()];
+        file.read(formArray);
+        file.close();
+        return new String(formArray);
+    }
+
+    private void setAddressFieldEnabler(AddressFieldEnabler addressFieldEnabler, AddressFieldJsonEnum field){
+
+        switch (field){
+
+            case ADDRESS_ONE:
+                addressFieldEnabler.setAddress1Enabled(false);
+                break;
+
+            case ADDRESS_TWO:
+                addressFieldEnabler.setAddress2Enabled(false);
+                break;
+            case EMAIL:
+                addressFieldEnabler.setEmailEnabled(false);
+                break;
+            case PHONE:
+                addressFieldEnabler.setPhoneEnabled(false);
+                break;
+            case FIRST_NAME:
+                addressFieldEnabler.setFirstNameEnabled(false);
+                break;
+            case LAST_NAME:
+                addressFieldEnabler.setLastNmeEnabled(false);
+                break;
+            case STATE:
+                addressFieldEnabler.setStateEnabled(false);
+                break;
+            case SALUTATION:
+                addressFieldEnabler.setSalutationEnabled(false);
+                break;
+            case COUNTRY:
+                addressFieldEnabler.setCountryEnabled(false);
+                break;
+            case POSTAL_CODE:
+                addressFieldEnabler.setPostalCodeEnabled(false);
+                break;
+            case HOUSEN_UMBER:
+                addressFieldEnabler.setHouseNumberEnabled(false);
+                break;
+            case TOWN:
+                addressFieldEnabler.setTownEnabled(false);
+                break;
+
+        }
     }
 }
