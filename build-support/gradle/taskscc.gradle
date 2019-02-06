@@ -11,6 +11,9 @@ jacoco {
     toolVersion versions.jacocoToolVersion
 }
 
+/**
+ * task to run jacoco connected test report
+ */
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
     reports {
         xml.enabled = true

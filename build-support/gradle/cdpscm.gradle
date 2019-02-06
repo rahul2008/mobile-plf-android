@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'cdpSCM'
 apply plugin: 'maven-publish'
@@ -13,6 +8,7 @@ apply plugin: 'maven-publish'
 buildscript {
     apply from: buildscript.sourceFile.parent + "/versions.gradle"
 
+    //resolve dependencies
     repositories {
         maven {
             url repos.mavengoogle
@@ -37,9 +33,7 @@ buildscript {
         classpath builddeps.cdpSCM
     }
 }
-/**
- *
- */
+
 import com.philips.cdp.cdpSCM
 
 def environment = 'production'
@@ -53,14 +47,15 @@ project.ext.objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 
+
 artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()
+    contextUrl = objcdp.getArtifactoryContextUrl()      //artifactory base url
 
     publish {
         repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = "320049003"
-            password = "#W3llc0m3"
+            repoKey = objcdp.getArtifactoryPublishRepoKey() //artifactory key to publish to
+            username = "320049003"      //publisher user name
+            password = "#W3llc0m3"      //publisher password
 
             defaults {
                 publishPom = true
@@ -68,7 +63,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
                 publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
+                properties = ['git.commitid': objcdp.getCommitHashLong()]   //set commit id
             }
         }
     }
@@ -83,7 +78,9 @@ artifactory {
     clientConfig.timeout = 600
 }
 
-
+/**
+ * Resolve dependencies from given url
+ */
 repositories {
     maven {
         url objcdp.getArtifactoryUrl()
@@ -94,7 +91,9 @@ repositories {
     }
 }
 
-
+/**
+ * publish aar file to artifactory
+ */
 publishing {
     publications {
         aar(MavenPublication) {
@@ -102,7 +101,7 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")       //release.aar directory
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -110,9 +109,9 @@ publishing {
                 configurations.getByName("archives").allDependencies.each {
                     if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
                         def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
+                        dependencyNode.appendNode('groupId', it.group)  //append group id
+                        dependencyNode.appendNode('artifactId', it.name)    //append aar name
+                        dependencyNode.appendNode('version', it.version)    //append aar version
                     }
                 }
             }

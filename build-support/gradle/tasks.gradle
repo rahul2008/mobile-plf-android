@@ -11,6 +11,9 @@ jacoco {
     toolVersion versions.jacocoToolVersionForRobolectricTests
 }
 
+/**
+ * task to run jacoco test report
+ */
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     reports {
         xml.enabled = true
