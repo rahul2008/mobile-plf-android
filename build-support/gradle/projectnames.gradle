@@ -1,5 +1,9 @@
 /* *
- * To specify the acronyms of project/component names
+ * To specify the acronyms of projectName and artifactName.
+ * acronym: used to refer current project from other project
+ * projectName: name of the project
+ * artifactName: name published to artifactory
+ *
  * */
 ext.strings = [
         rap: [projectName:':referenceApp', artifactName:'referenceApp'],

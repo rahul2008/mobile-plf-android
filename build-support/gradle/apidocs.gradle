@@ -1,5 +1,5 @@
 /* *
- * This task to generate java docs and publish to the specified file path.
+ * This task to generate java docs for specified component.
 * */
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
