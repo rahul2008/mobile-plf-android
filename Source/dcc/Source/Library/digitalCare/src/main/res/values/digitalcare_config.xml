@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
-
-    <!-- UiTheme Start -->
-    <drawable name="consumercare_background">#FFFFFF</drawable>
-    <!--compat for API v19 arrtibute color not able to use in shapes-->
-    <color name="button_background">#003478</color>
-    <color name="button_background_pressed">#005A8B</color>
-    <color name="actionbar_background_start">@color/button_background</color>
-    <color name="actionbar_background_end">@color/button_background_pressed</color>
-    <!-- UiTheme End -->
-
     <!--
         &lt;!&ndash; List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions &ndash;&gt; -->
     <array name="main_menu_title">
