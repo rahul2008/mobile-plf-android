@@ -392,8 +392,8 @@ public class PrxWrapper {
                 }
             }
 
-            private boolean isEquals(String object, String prxAssetsUsermanual) {
-                return prxAssetsUsermanual.equalsIgnoreCase(object);
+            private boolean isEquals(String str, String prxAssetsUsermanual) {
+                return prxAssetsUsermanual.equalsIgnoreCase(str);
             }
 
             @Override
