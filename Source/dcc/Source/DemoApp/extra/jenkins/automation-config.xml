@@ -71,19 +71,6 @@
             <fingerprint>false</fingerprint>
             <defaultExcludes>true</defaultExcludes>
         </hudson.tasks.ArtifactArchiver>
-        <net.masterthought.jenkins.CucumberReportPublisher plugin="cucumber-reports@0.1.0">
-            <jsonReportDirectory></jsonReportDirectory>
-            <pluginUrlPath></pluginUrlPath>
-            <fileIncludePattern></fileIncludePattern>
-            <fileExcludePattern></fileExcludePattern>
-            <skippedFails>false</skippedFails>
-            <pendingFails>false</pendingFails>
-            <undefinedFails>false</undefinedFails>
-            <missingFails>false</missingFails>
-            <noFlashCharts>false</noFlashCharts>
-            <ignoreFailedTests>false</ignoreFailedTests>
-            <parallelTesting>false</parallelTesting>
-        </net.masterthought.jenkins.CucumberReportPublisher>
         <hudson.plugins.claim.ClaimPublisher plugin="claim@2.7"/>
         <net.hurstfrost.hudson.sounds.HudsonSoundsNotifier plugin="sounds@0.4.3">
             <soundEvents>
