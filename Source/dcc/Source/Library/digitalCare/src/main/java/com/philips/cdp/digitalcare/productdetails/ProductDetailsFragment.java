@@ -69,8 +69,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private static int mScrollPosition = 0;
     private RecyclerView mProdButtonsParent = null;
     private LinearLayout mProdVideoContainer = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
     private TextView mProductTitle = null;
     private TextView mProductVideoHeader = null;
     private TextView mCtn = null;
@@ -103,8 +101,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProdVideoContainer = view.findViewById(
                 R.id.videoContainerParent);
 
-        mActionBarMenuIcon = view.findViewById(R.id.home_icon);
-        mActionBarArrow = view.findViewById(R.id.back_to_home_img);
 
         mProductImageTablet = view.findViewById(R.id.productImageTablet);
         mProductImage = view.findViewById(R.id.productimage);
@@ -118,7 +114,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
         createProductDetailsMenu();
         updateViewsWithData();
@@ -386,7 +381,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override

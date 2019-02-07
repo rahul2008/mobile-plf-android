@@ -121,7 +121,7 @@ public class WebViewActivityTest {
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
-            setTheme(R.style.Theme_Philips_BrightBlue_Gradient_NoActionBar);
+            setTheme(R.style.Theme.DLS.GroupBlue.UltraLight);
             super.onCreate(savedInstanceState);
         }
 

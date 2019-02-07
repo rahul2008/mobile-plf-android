@@ -29,8 +29,6 @@ public class ProductInformationFragment extends DigitalCareBaseFragment {
 
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,14 +45,12 @@ public class ProductInformationFragment extends DigitalCareBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         loadFaq();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     public void loadFaq() {
@@ -71,8 +67,6 @@ public class ProductInformationFragment extends DigitalCareBaseFragment {
         mProgressBar = (ProgressBar) view
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
-        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
     }
 
     private String getPhilipsProductPageUrl() {

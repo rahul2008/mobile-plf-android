@@ -86,8 +86,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     private boolean mIsFirstScreenLaunch = false;
     private boolean mSupportButtonClickable = true;
     private CommonRecyclerViewAdapter<MenuItem> mAdapter;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
     private ProgressAlertDialog mProgressDialog = null;
     protected ResponseCallback categoryResponseCallbak = new ResponseCallback() {
         @Override
@@ -210,11 +208,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 R.id.supportMenuContainer);
         mParams = (LinearLayout.LayoutParams) mOptionParent.getLayoutParams();
 
-        if (getActivity() != null) {
-            mActionBarMenuIcon = getActivity().findViewById(R.id.home_icon);
-            mActionBarArrow = getActivity().findViewById(R.id.back_to_home_img);
-        }
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
 
@@ -659,7 +652,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarHamburgerIcon(mActionBarMenuIcon, mActionBarArrow);
         enableSupportButtonClickable();
     }
 
