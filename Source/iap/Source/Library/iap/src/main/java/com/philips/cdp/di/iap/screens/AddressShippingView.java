@@ -271,7 +271,7 @@ public class AddressShippingView
 
 
         if (addressContractor.isStateEnabled()) {
-
+            setViewVisible(mlLState,tvState,mEtState);
             InputValidator inputValidatorState = new InputValidator(Validator.NAME_PATTERN);
             mlLState.setValidator(inputValidatorState);
 
@@ -279,7 +279,7 @@ public class AddressShippingView
             mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
 
             CartModelContainer.getInstance().setAddessStateVisible(true);
-            setViewVisible(mlLState,tvState,mEtState);
+
             mEtState.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
             mStateDropDown = new StateDropDown(this);
 

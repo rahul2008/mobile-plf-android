@@ -224,31 +224,7 @@ public class AddressBillingView
             setViewInVisible(mLlPostalCodeBilling, tvPostalCode,mEtPostalCodeBilling);
         }
 
-        if (addressContractor.isStateEnabled()) {
-            setViewVisible(mlLStateBilling, tvState,mEtStateBilling);
-            InputValidator inputValidatorStateBilling = new InputValidator(Validator.NAME_PATTERN);
-            mlLStateBilling.setValidator(inputValidatorStateBilling);
-            mEtStateBilling.setKeyListener(null);
-            mEtStateBilling.addTextChangedListener(new IAPTextWatcher(mEtStateBilling));
-            CartModelContainer.getInstance().setAddessStateVisible(true);
-
-            mEtStateBilling.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
-            mStateDropDownBilling = new StateDropDown(this);
-            if (CartModelContainer.getInstance().getRegionList() != null && !CartModelContainer.getInstance().getRegionList().getRegions().isEmpty()) {
-                mStateDropDownBilling.createPopUp(mEtStateBilling, mContext);
-            }
-            mEtStateBilling.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    Utility.hideKeypad(mContext);
-                    mStateDropDownBilling.show();
-                    return false;
-                }
-            });
-        }else{
-
-            setViewInVisible(mlLStateBilling, tvState,mEtStateBilling);
-        }
+        enableStateFields();
 
         if (addressContractor.isEmailEnabled()) {
             setViewVisible(mLlEmailBilling, tvEmail, mEtEmailBilling);
@@ -282,6 +258,34 @@ public class AddressBillingView
             setViewInVisible(mLlCountryBilling, tvCountry, mEtCountryBilling);
         }
 
+    }
+
+    private void enableStateFields() {
+        if (addressContractor.isStateEnabled()) {
+//           setViewVisible(mlLStateBilling, tvState,mEtStateBilling);
+            InputValidator inputValidatorStateBilling = new InputValidator(Validator.NAME_PATTERN);
+            mlLStateBilling.setValidator(inputValidatorStateBilling);
+            mEtStateBilling.setKeyListener(null);
+            mEtStateBilling.addTextChangedListener(new IAPTextWatcher(mEtStateBilling));
+            CartModelContainer.getInstance().setAddessStateVisible(true);
+
+            mEtStateBilling.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
+            mStateDropDownBilling = new StateDropDown(this);
+
+            mStateDropDownBilling.createPopUp(mEtStateBilling, mContext);
+
+            mEtStateBilling.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    Utility.hideKeypad(mContext);
+                    mStateDropDownBilling.show();
+                    return false;
+                }
+            });
+        }else{
+
+            setViewInVisible(mlLStateBilling, tvState,mEtStateBilling);
+        }
     }
 
     @Override
@@ -515,7 +519,7 @@ public class AddressBillingView
                         && (mEtTownBilling.getVisibility() == View.GONE || mValidator.isValidTown(town))
                         && (mEtCountryBilling.getVisibility() == View.GONE || mValidator.isValidCountry(country))
                         && (mEtSalutationBilling.getVisibility() == View.GONE || (!mEtSalutationBilling.getText().toString().trim().equalsIgnoreCase("")))
-                        && (mlLStateBilling.getVisibility() == View.GONE || (mlLStateBilling.getVisibility() == View.VISIBLE && !mEtStateBilling.getText().toString().trim().equalsIgnoreCase("")));
+                        && (mlLStateBilling.getVisibility() == View.VISIBLE && !mEtStateBilling.getText().toString().trim().equalsIgnoreCase(""));
         return isValid;
     }
 
@@ -555,10 +559,13 @@ public class AddressBillingView
         mEtPostalCodeBilling.setText("");
         mEtPhone1Billing.setText("");
         mEtStateBilling.setText("");
-        if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
+        if (addressContractor.isStateEnabled()) {
+            tvState.setVisibility(View.VISIBLE);
             mlLStateBilling.setVisibility(View.VISIBLE);
+            mEtStateBilling.setVisibility(View.VISIBLE);
         } else {
             mlLStateBilling.setVisibility(View.GONE);
+            mEtStateBilling.setVisibility(View.GONE);
         }
         mIgnoreTextChangeListener = false;
     }
@@ -589,8 +596,11 @@ public class AddressBillingView
         mEtHouseNoBilling.setEnabled(enable);
         mEtTownBilling.setEnabled(enable);
         mEtPostalCodeBilling.setEnabled(enable);
-        if (mlLStateBilling.getVisibility() == View.VISIBLE) {
+        if (addressContractor.isStateEnabled()) {
+            tvState.setVisibility(View.VISIBLE);
+            mlLStateBilling.setVisibility(View.VISIBLE);
             mEtStateBilling.setEnabled(enable);
+            mEtStateBilling.setVisibility(View.VISIBLE);
         }
         mEtPhone1Billing.setEnabled(enable);
     }
@@ -603,7 +613,7 @@ public class AddressBillingView
         mEtHouseNoBilling.setFocusable(focusable);
         mEtTownBilling.setFocusable(focusable);
         mEtPostalCodeBilling.setFocusable(focusable);
-        if (mlLStateBilling.getVisibility() == View.VISIBLE) {
+        if (addressContractor.isStateEnabled()) {
             mEtStateBilling.setFocusable(focusable);
         }
         mEtPhone1Billing.setFocusable(focusable);
@@ -616,7 +626,7 @@ public class AddressBillingView
             mEtHouseNoBilling.setFocusableInTouchMode(true);
             mEtTownBilling.setFocusableInTouchMode(true);
             mEtPostalCodeBilling.setFocusableInTouchMode(true);
-            if (mlLStateBilling.getVisibility() == View.VISIBLE) {
+            if (addressContractor.isStateEnabled()) {
                 mEtStateBilling.setFocusableInTouchMode(true);
             }
             mEtPhone1Billing.setFocusableInTouchMode(true);
@@ -644,8 +654,8 @@ public class AddressBillingView
             mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
             mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
 
-            if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US") &&
-                    billingAddressFields.getRegionName() != null) {
+            if (addressContractor.isStateEnabled() && billingAddressFields.getRegionName() != null) {
+                mEtStateBilling.setVisibility(View.VISIBLE);
                 mEtStateBilling.setText(billingAddressFields.getRegionName());
                 mlLStateBilling.setVisibility(View.VISIBLE);
             } else {

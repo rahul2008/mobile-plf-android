@@ -85,7 +85,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
         checkBox = rootView.findViewById(R.id.use_this_address_checkbox);
-
+        inflateShippingAndBillingView(null);
         disableView(billingView);
         upDateUi(true);
         checkBox.setOnCheckedChangeListener(this);
@@ -111,25 +111,24 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         Bundle bundle = getArguments();
         updateCheckoutStepNumber("1"); // for default
         if (null == bundle) {
-            inflateShippingAndBillingView(null);
             return;
         } else {
 
             if (bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-                inflateShippingAndBillingView(mAddressFieldsHashmap);
+                //inflateShippingAndBillingView(mAddressFieldsHashmap);
                 updateBillingAddressFromPaymentSelection(bundle,mAddressFieldsHashmap);
             }
 
             if (bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-                inflateShippingAndBillingView(mAddressFieldsHashmap);
+                //inflateShippingAndBillingView(mAddressFieldsHashmap);
                 updateShippingAddress(bundle,mAddressFieldsHashmap);
             }
 
             if (bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-                inflateShippingAndBillingView(mAddressFieldsHashmap);
+                //inflateShippingAndBillingView(mAddressFieldsHashmap);
                 addOrUpdateBillingAddress(isChecked, bundle,mAddressFieldsHashmap);
             }
         }
@@ -238,7 +237,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
             CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
         }
-        if (!CartModelContainer.getInstance().isAddessStateVisible()) {
+        if (!isStateEnabled()) {
             shippingAddressFields.setRegionIsoCode(null);
         }
 
@@ -253,7 +252,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
         if (!getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (CartModelContainer.getInstance().getAddressId() != null && CartModelContainer.getInstance().getAddressFromDelivery() != null) {
-                if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
+                if (isStateEnabled() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
                     updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
                 }
 
