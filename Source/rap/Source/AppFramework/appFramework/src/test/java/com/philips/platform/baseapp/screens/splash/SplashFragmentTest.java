@@ -68,7 +68,7 @@ public class SplashFragmentTest {
     public static class LaunchActivityMockAbstract extends LaunchActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
-            setTheme(R.style.Theme.DLS.GroupBlue.UltraLight);
+            setTheme(R.style.Theme_DLS_GroupBlue_UltraLight);
             super.onCreate(savedInstanceState);
         }
 
