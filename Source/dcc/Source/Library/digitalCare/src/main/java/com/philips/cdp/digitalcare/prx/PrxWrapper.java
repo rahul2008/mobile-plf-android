@@ -362,12 +362,12 @@ public class PrxWrapper {
 
                                 if(assetResource == null) return;
 
-                                if (isaBoolean(assetType, PRX_ASSETS_USERMANUAL_QSG_PDF))
+                                if (isEquals(assetType, PRX_ASSETS_USERMANUAL_QSG_PDF))
                                         qsgManual = assetResource;
 
-                                if (isaBoolean(assetDescription,PRX_ASSETS_USERMANUAL_PDF) && (mProductDetailsObject.getManualLink() == null))
+                                if (isEquals(assetDescription,PRX_ASSETS_USERMANUAL_PDF) && (mProductDetailsObject.getManualLink() == null))
                                         usermanual = assetResource;
-                                if (isaBoolean(assetExtension, PRX_ASSETS_VIDEO_URL))
+                                if (isEquals(assetExtension, PRX_ASSETS_VIDEO_URL))
                                         mVideoList.add(assetResource);
 
                             }
@@ -392,8 +392,8 @@ public class PrxWrapper {
                 }
             }
 
-            private boolean isaBoolean(String object, String prxAssetsUsermanual) {
-                return null != object && object.equalsIgnoreCase(prxAssetsUsermanual);
+            private boolean isEquals(String object, String prxAssetsUsermanual) {
+                return prxAssetsUsermanual.equalsIgnoreCase(object);
             }
 
             @Override
