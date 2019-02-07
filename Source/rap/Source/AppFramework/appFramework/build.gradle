@@ -194,7 +194,7 @@ dependencies {
     implementation project(strings.mya.projectName)
 
     implementation (philipsdeps.csw){
-        exclude group: 'com.philips.cdp'
+        exclude group: 'com.philips.platform'
     }
     if (useprojectdependencies) {
         implementation project(strings.prg.projectName)
