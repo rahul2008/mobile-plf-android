@@ -49,8 +49,6 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     private RecyclerView mFaqList = null;
     private LinkedHashMap<String, List<Item>> mSupportData = null;
     private View view = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
     private Activity mContext = null;
 
     public FaqListFragment(){
@@ -73,14 +71,11 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_FAQ, getPreviousName(), getPreviousName());
     }
 
     private void initView(View view) {
-        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
         if (mFaqList != null) {
             return;
         }
@@ -193,7 +188,6 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override

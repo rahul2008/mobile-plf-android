@@ -190,7 +190,6 @@ dependencies {
     implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
     implementation philipsdeps.uid
-    implementation philipsdeps.uikitLib
     implementation project(strings.mya.projectName)
 
     implementation (philipsdeps.csw){

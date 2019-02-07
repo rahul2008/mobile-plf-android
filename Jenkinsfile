@@ -283,26 +283,6 @@ pipeline {
         }
 
 
-//        stage('Upload Cucumber results to TFS') {
-//            when {
-//                allOf {
-//                    not { expression { return params.buildType == 'PSRA' }}
-//                    not { expression { return params.buildType == 'HPFortify' }}
-//                    anyOf { branch 'develop'; }
-//                }
-//            }
-//            steps {
-//                script {
-//                    build(job: 'Platform-Infrastructure/CucumberToTfs/master',
-//                            parameters: [
-//                                    string(name: 'JenkinsProjectName', value: env.JOB_NAME),
-//                                    string(name: 'JenkinsProjectBuild', value: env.BUILD_ID),
-//                                    string(name: 'TestSuitePath', value: 'Android/Automated Tests')
-//                            ], wait: false)
-//                }
-//            }
-//        }
-//
 //        stage('Trigger E2E Test') {
 //            when {
 //                allOf {
