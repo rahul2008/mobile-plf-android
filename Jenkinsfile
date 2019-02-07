@@ -129,6 +129,10 @@ pipeline {
                     anyOf { branch 'master'; branch 'develop*'; branch 'release/platform_*' }
                 }
             }
+            //execute gradle task to save resource dependencies,to save all resolved dependencies in gradle format
+            // to zip documents, publish artifactory for specified component and to zip connected test logs in this order.
+            //fetch apk name from apkname.txt file which is generated in reference app's build.gradle
+            //flushing all gradle dependencies to allprojects.gradledependencies.gz
             steps {
                 sh '''#!/bin/bash -l
                     set -e
@@ -140,7 +144,8 @@ pipeline {
                     curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
                 '''
 
-                archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'      //archive the build artifacts
+                //archive all .lock files from below directory
+                archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/*dependencies*.lock'
                 DeployingConnectedTestsLogs()       //deploy connected test logs
             }
         }
@@ -425,7 +430,7 @@ def BuildAndUnitTest() {
             
     '''
 
-    //archive the build artifacts so that they can be downloaded later. archive files can be accessible from the jenkins webpage.
+    //archive the apk type files from below source
     archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/release/*.apk'
 }
 

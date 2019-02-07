@@ -18,7 +18,7 @@ task zipDocuments(type: Zip) {
 }
 
 /**
- * task to zip connected logs.
+ * task to zip connected test logs.
  */
 task zipcClogs(type: Zip) {
     from project.projectDir
