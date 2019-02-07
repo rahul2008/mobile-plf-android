@@ -228,11 +228,8 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
 
     private void createNewAddressOrUpdateIfAddressIDPresent() {
-        if (shippingAddressFields != null) {
-            CartModelContainer.getInstance().setShippingAddressFields(shippingAddressFields);
-        }else{
-            shippingAddressFields =  CartModelContainer.getInstance().getShippingAddressFields();
-        }
+
+        shippingAddressFields =  CartModelContainer.getInstance().getShippingAddressFields();
         if (checkBox.isChecked()) {
             CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
