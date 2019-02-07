@@ -168,8 +168,8 @@ ext.deps = [
         apache_http_legacy            : 'org.apache.http.legacy:org.apache.http.legacy:1.0.0',
         apache_httpclient             : 'org.apache.httpcomponents:httpclient:4.5.7',
         assertj                       : 'com.squareup.assertj:assertj-android:1.2.0',
-        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.4.0',
-        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.4.0', // Held at 8.4.0 since 8.8.1 is giving an issue, see: https://github.com/JakeWharton/butterknife/issues/1130
+        butterknife_compiler          : 'com.jakewharton:butterknife-compiler:8.8.1',
+        butterknife_gradle            : 'com.jakewharton:butterknife-gradle-plugin:8.4.0', // Held at 8.4.0 since 10.0.0 is giving an issue
 
         cucumber_java                 : 'io.cucumber:cucumber-java:4.2.2',
         cucumber_junit                : 'io.cucumber:cucumber-junit:4.2.2',
