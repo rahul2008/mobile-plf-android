@@ -210,6 +210,56 @@ pipeline {
                 BuildHPFortify()
             }
         }
+
+        
+//        stage('Trigger E2E Test') {
+//            when {
+//                allOf {
+//                    not { expression { return params.buildType == 'LeakCanary' } }
+//                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+//                }
+//            }
+//            steps {
+//                script {
+//                    APK_NAME = readFile("apkname.txt").trim()
+//                    if (params.buildType == 'PSRA') {
+//                        APK_NAME=APK_NAME.replace('.apk', '_PSRA.apk')
+//                    }
+//                    echo "APK_NAME = ${APK_NAME}"
+//
+//                    def jobBranchName = "release_platform_1805"
+//                    if (BranchName =~ /develop.*/) {
+//                        jobBranchName = "develop"
+//                    }
+//                    echo "BranchName changed to ${jobBranchName}"
+//
+//                    sh """#!/bin/bash -le
+//                        curl -X POST http://platform-ubuntu-ehv-002.ddns.htc.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
+//                    """
+//                }
+//            }
+//        }
+//
+//        stage('LeakCanary E2E Test') {
+//            when {
+//                allOf {
+//                    expression { return params.buildType == 'LeakCanary' }
+//                    anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
+//                }
+//            }
+//            steps {
+//                script {
+//                    APK_NAME = readFile("apkname.txt").trim()
+//                    echo "APK_NAME = ${APK_NAME}"
+//
+//                    def jobBranchName = BranchName.replace('/', '_')
+//                    echo "jobBranchName = ${jobBranchName}"
+//                    sh """#!/bin/bash -le
+//                        curl -X POST http://310256016:61a84d6f3e9343128dff5736ef68259e@cdp2-jenkins.htce.nl.philips.com:8080/job/Platform-Infrastructure/job/E2E_Tests/job/Reliability/job/LeakCanary_Android_develop/buildWithParameters?APKPATH=$APK_NAME
+//                    """
+//                }
+//            }
+//        }
     }
     post {
         always{
