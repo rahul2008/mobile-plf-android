@@ -69,7 +69,6 @@ subprojects {
                 }
             }
             maven { url repos.jcenter }
-            maven { url repos.release }
             maven { url repos.ietsnapshot }
             maven { url repos.ietrelease }
             maven { url repos.hsdprelease }
@@ -95,7 +94,6 @@ subprojects {
         maven {
             url repos.jcenter
         }
-        maven { url repos.release }
         maven { url repos.ietsnapshot }
         maven { url repos.ietrelease }
         maven { url repos.hsdprelease }

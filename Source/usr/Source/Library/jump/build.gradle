@@ -72,16 +72,16 @@ dependencies {
     annotationProcessor deps.immutables
     annotationProcessor deps.dagger.compiler
 
-    implementation deps.apache_http_legacy
+    implementation 'org.apache.http.legacy:org.apache.http.legacy:1.0.0'
     implementation deps.dagger.dagger
     implementation deps.jackson_databind
     implementation deps.javax_annotation
     implementation deps.multidex
-    implementation deps.okhttp3
-    implementation deps.okhttp_apache3
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    implementation 'com.squareup.okhttp3:okhttp-apache:3.12.1'
     implementation deps.openid_appauth
     implementation deps.rxjava2
-    implementation deps.squareup_okio
+    implementation 'com.squareup.okio:okio:2.2.2'
     implementation deps.support.appcompatv7
     implementation deps.wechat
 
