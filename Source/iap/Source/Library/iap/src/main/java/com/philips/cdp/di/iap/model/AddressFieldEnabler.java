@@ -6,8 +6,11 @@ package com.philips.cdp.di.iap.model;
 
 public class AddressFieldEnabler {
 
-   private boolean isSalutationEnabled = true, isFirstNameEnabled = true, isLastNmeEnabled = true, isEmailEnabled = true, isPhoneEnabled = true,
-            isHouseNumberEnabled = true, isAddress1Enabled = true , isAddress2Enabled = true, isTownEnabled = true, isPostalCodeEnabled = true, isStateEnabled = true ,isCountryEnabled = true;
+    private boolean isSalutationEnabled = true, isFirstNameEnabled = true, isLastNmeEnabled = true,
+            isEmailEnabled = true, isPhoneEnabled = true, isHouseNumberEnabled = true,
+            isAddress1Enabled = true, isAddress2Enabled = true,
+            isTownEnabled = true, isPostalCodeEnabled = true, isStateEnabled = true,
+            isCountryEnabled = true;
 
     public boolean isSalutationEnabled() {
         return isSalutationEnabled;

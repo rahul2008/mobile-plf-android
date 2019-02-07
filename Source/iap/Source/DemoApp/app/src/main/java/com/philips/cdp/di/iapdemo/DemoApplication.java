@@ -30,7 +30,6 @@ public class DemoApplication extends Application{
         UIDHelper.injectCalligraphyFonts();
         getTheme().applyStyle(R.style.Theme_DLS_Blue_UltraLight, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         // HSDPConfiguration();
         initRegistration(Configuration.STAGING);

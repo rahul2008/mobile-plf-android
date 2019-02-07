@@ -516,7 +516,8 @@ public class AddressShippingView
     private void setAddressFiledsFromEditTexts(AddressFields shippingAddressFields) {
         shippingAddressFields.setFirstName(mEtFirstName.getText().toString().trim());
         shippingAddressFields.setLastName(mEtLastName.getText().toString().trim());
-        shippingAddressFields.setTitleCode(mEtSalutation.getText().toString().trim());
+        String englishSalutation = addressPresenter.getEnglishSalutation((mEtSalutation.getText().toString().trim())).getField();
+        shippingAddressFields.setTitleCode(englishSalutation);
         shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
         shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString().trim());
         shippingAddressFields.setHouseNumber(mEtHouseNo.getText().toString().trim());

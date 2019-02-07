@@ -98,9 +98,9 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         }else{
             country = HybrisDelegate.getInstance(getActivityContext()).getStore().getCountry();
         }
-        if( !mAddressFieldsHashmap.get(COUNTRY_ISOCODE).equalsIgnoreCase(HybrisDelegate.getInstance(getActivityContext()).getStore().getCountry())){
+       /* if( !mAddressFieldsHashmap.get(COUNTRY_ISOCODE).equalsIgnoreCase(HybrisDelegate.getInstance(getActivityContext()).getStore().getCountry())){
             addressPresenter.getRegions(country);
-        }
+        }*/
 
         addressFieldEnabler = addressPresenter.getAddressFieldEnabler(country);
         addressBillingView = new AddressBillingView(addressPresenter);

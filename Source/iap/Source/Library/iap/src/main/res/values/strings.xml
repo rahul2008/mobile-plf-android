@@ -124,8 +124,8 @@
   <string name="iap_less_review">show less</string>
   <string name="iap_mastercard">Master card</string>
   <string name="iap_more_review">show more</string>
-  <string name="iap_mr">Mr</string>
-  <string name="iap_mrs">Ms</string>
+  <string name="iap_mr">Mr.</string>
+  <string name="iap_mrs">Ms.</string>
   <string name="iap_my_orders">My orders</string>
   <string name="iap_no_do_not_delete">No, don’t delete</string>
   <string name="iap_no_internet">Your internet connection does not seem to be working. Please check and try again</string>

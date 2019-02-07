@@ -522,7 +522,8 @@ public class AddressBillingView
     protected AddressFields setBillingAddressFields(AddressFields billingAddressFields) {
         billingAddressFields.setFirstName(mEtFirstNameBilling.getText().toString().trim());
         billingAddressFields.setLastName(mEtLastNameBilling.getText().toString().trim());
-        billingAddressFields.setTitleCode(mEtSalutationBilling.getText().toString().trim());
+        String englishSalutation = addressPresenter.getEnglishSalutation((mEtSalutationBilling.getText().toString().trim())).getField();
+        billingAddressFields.setTitleCode(englishSalutation);
         billingAddressFields.setCountryIsocode(mEtCountryBilling.getText().toString().trim());
         billingAddressFields.setLine1(mEtAddressLineOneBilling.getText().toString().trim());
         billingAddressFields.setHouseNumber(mEtHouseNoBilling.getText().toString().trim());

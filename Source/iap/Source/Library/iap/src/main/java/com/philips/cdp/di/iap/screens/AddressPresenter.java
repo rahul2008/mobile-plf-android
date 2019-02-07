@@ -25,6 +25,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.controller.PaymentController;
 import com.philips.cdp.di.iap.model.AddressFieldEnabler;
+import com.philips.cdp.di.iap.model.SalutationEnum;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
@@ -398,6 +399,15 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 addressFieldEnabler.setTownEnabled(false);
                 break;
 
+        }
+    }
+
+    public SalutationEnum getEnglishSalutation(String salutation){
+
+        if(salutation.equalsIgnoreCase((addressContractor.getActivityContext().getString(R.string.iap_mr)))){
+            return SalutationEnum.MR;
+        }else{
+            return SalutationEnum.MS;
         }
     }
 }
