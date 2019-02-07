@@ -15,6 +15,7 @@ import java.sql.SQLException;
 public class SecureDataBaseHelper<T> extends SecureDbOrmLiteSqliteOpenHelper {
     private  Class tableName;
     Context context;
+    AppInfraInterface mAppInfraInterface;
 
 
 
@@ -22,6 +23,7 @@ public class SecureDataBaseHelper<T> extends SecureDbOrmLiteSqliteOpenHelper {
         super(context, mAppInfraInterface,dataBaseName, null, databaseVersion, databaseKey);
         this.tableName=tableName;
         this.context=context;
+        this.mAppInfraInterface = mAppInfraInterface;
 
     }
 
@@ -58,7 +60,7 @@ public class SecureDataBaseHelper<T> extends SecureDbOrmLiteSqliteOpenHelper {
 
     public String getAppVersion()
     {
-      return getSecureDbAppVersion();
+      return mAppInfraInterface.getAppIdentity().getAppVersion();
     }
 
 

@@ -65,8 +65,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private Button mCallPhilipsBtn = null;
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
     private RecyclerView mContactUsSocilaProviderButtonsParent = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
@@ -107,12 +105,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         mCallPhilipsBtn = view.findViewById(R.id.contactUsCall);
         mContactUsOpeningHours = view.findViewById(R.id.contactUsOpeningHours);
         mFirstRowText = view.findViewById(R.id.firstRowText);
-        mActionBarMenuIcon = view.findViewById(R.id.home_icon);
-        mActionBarArrow = view.findViewById(R.id.back_to_home_img);
         mLLSocialParent = view.findViewById(R.id.contactUsSocialParent);
         mUtils = new Utils();
         mContactUsUtils = new ContactUsUtils();
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         final float density = getResources().getDisplayMetrics().density;
         setHelpButtonParams(density);
         mChatBtn.setOnClickListener(this);
@@ -182,7 +177,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
         setViewParams(config);
     }
 

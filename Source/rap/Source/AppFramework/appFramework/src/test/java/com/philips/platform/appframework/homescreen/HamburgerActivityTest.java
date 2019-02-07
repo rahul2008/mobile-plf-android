@@ -104,9 +104,6 @@ public class HamburgerActivityTest {
         navigationView = (LinearLayout) hamburgerActivity.findViewById(R.id.navigation_view);
         sideBar = (SideBar) hamburgerActivity.findViewById(R.id.sidebar_layout);
 
-        View customView = LayoutInflater.from(hamburgerActivity).
-                inflate(R.layout.af_action_bar_with_shopping_cart, null);
-     //   hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);
         resource = hamburgerActivity.getResources();
     }
 

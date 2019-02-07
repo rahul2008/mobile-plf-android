@@ -4,7 +4,6 @@
  */
 
 apply plugin: 'com.android.application'
-apply from: '../extra/calabash.gradle'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
@@ -95,10 +94,6 @@ android {
     packagingOptions {
         pickFirst 'META-INF/LICENSE'
     }
-}
-
-calabash {
-    calabashPath "../TestAutomation"
 }
 
 dependencies {

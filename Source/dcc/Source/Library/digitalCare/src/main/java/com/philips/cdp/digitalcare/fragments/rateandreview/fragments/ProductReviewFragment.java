@@ -31,8 +31,6 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     private View mProductReviewView = null;
     private WebView mProductReviewWebView = null;
     private ProgressBar mProgressBar = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
     private String TAG = ProductReviewFragment.class.getSimpleName();
     private String productPageUri;
 
@@ -51,10 +49,6 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-
         DigitalCareConfigManager.getInstance().getTaggingInterface().
                 trackPageWithInfo(AnalyticsConstants.PAGE_REVIEW_WRITING,
                         getPreviousName(), getPreviousName());
@@ -66,7 +60,6 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     public void loadProductpage(String productPageUri) {
