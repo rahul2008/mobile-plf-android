@@ -33,8 +33,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
     private LinearLayout mChatNowParentPort = null;
     private LinearLayout mChatNowParentLand = null;
     private ImageView mChatNowBG = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,9 +58,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
                 R.id.chatNowLand);
         mChatNowBG = (ImageView) view.findViewById(R.id.chatnow_bg);
 
-        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
         mChatNow.setOnClickListener(this);
         mChatNowLand.setOnClickListener(this);
@@ -79,7 +74,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override

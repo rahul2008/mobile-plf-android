@@ -72,7 +72,6 @@ ext.philipsdeps = [
         uAppFwLib                   : [group: 'com.philips.platform', name: strings.ufw.artifactName, version: platformversionsuffix, changing: true],
 //        uAppFwLibUApp               : [group: 'com.philips.cdp', name: strings.ufwuapp.artifactName, version: platformversionsuffix, changing: true],
         uid                         : [group: 'com.philips.hsdp-cp', name: strings.uid.artifactName, version: '2.0.+', changing: true],
-        uikitLib                    : [group: 'com.philips.cdp', name: strings.uit.artifactName, version: '1805.1.1547449170', changing: true],
         UserRegistrationUApp        : [group: 'com.philips.platform', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true]
 ]
 

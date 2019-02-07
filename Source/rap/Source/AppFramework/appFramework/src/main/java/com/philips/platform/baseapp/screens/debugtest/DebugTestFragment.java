@@ -91,7 +91,6 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
         int position = getList(configurationType).indexOf(getApplicationContext().getAppState());
         setSpinnerSelection(position, configurationType);
         getSpinner().setOnItemSelectedListener(getSpinnerListener(getList(configurationType)));
-        getConfigurationTextView().setTextColor(ContextCompat.getColor(context, R.color.uikit_white));
     }
 
     @NonNull
