@@ -73,7 +73,7 @@ pipeline {
                 deleteDir()     //Recursively delete current directory from workspace.
                 sh """
                     if [ -d ~/workspace/master ]; then
-                        git clone ~/workspace/master ${WORKSPACE}       //Clone master branch
+                        git clone ~/workspace/master ${WORKSPACE}
                     fi
                 """
 
