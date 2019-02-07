@@ -29,15 +29,11 @@ ext.strings = [
         prg: [projectName:':product-registration-lib', artifactName:'product-registration-lib'],
 
 
-        prf: [projectName:':pluginreferenceboard', artifactName:'pluginreferenceboard'],
-
         ailuapp:[projectName:':AppInfraUApp', artifactName:'AppInfraUApp'],
         iapuapp:[projectName:':iapUApp', artifactName:'iapUApp'],
         usruapp:[projectName:':UserRegistrationUApp', artifactName:'UserRegistrationUApp'],
         dccuapp:[projectName:':digitalCareUApp', artifactName:'digitalCareUApp'],
-//        ufwuapp:[projectName:':uAppFwLibUApp', artifactName:'uAppFwLibUApp'],
         prguapp:[projectName:':product-registration-libUApp', artifactName:'product-registration-libUApp'],
 
-        cmluapp:[projectName:':commlib-demouapp', artifactName:'commlib-demouapp']
 
 ]
