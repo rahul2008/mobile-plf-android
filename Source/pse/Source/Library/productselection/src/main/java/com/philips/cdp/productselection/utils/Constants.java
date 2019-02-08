@@ -41,4 +41,7 @@ public class Constants {
 	public static final String COMPONENT_NAME_PS = "pse";
     public static final String ACTION_PRODUCT_SELECTED_CTN = "productModel";
 
+    public static final String SET_ERROR = "setError";
+    public static final String TECHNICAL_ERROR = "technicalError";
+    public static final String CTN_NOT_FOUND = " CTN not found";
 }
