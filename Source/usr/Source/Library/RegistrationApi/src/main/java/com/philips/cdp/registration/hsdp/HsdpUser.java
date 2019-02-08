@@ -381,7 +381,7 @@ public class HsdpUser {
                 if (responseCode != null && responseCode.equals(SUCCESS_CODE)) {
                     onLoginSuccessResponseCode(loginHandler, handler, dhpAuthenticationResponse1);
                 } else {
-                    if (networkUtility.isNetworkAvailable()) {
+                    if (!networkUtility.isNetworkAvailable()) {
                         handleNetworkFailure(loginHandler);
                         return;
                     }
