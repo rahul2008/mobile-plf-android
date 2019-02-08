@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
+ * define versions for all dependencies.
  */
 apply from: buildscript.sourceFile.parent + "/projectnames.gradle"
 
+// method to append time stamp for platform builds
 def static epochTime() {
     def env_epoch = System.getenv('EPOCH_TIME')
     long local_epoch = System.currentTimeMillis() / 1000
@@ -11,10 +11,14 @@ def static epochTime() {
     return epoch
 }
 
-ext.baseplatformversion = "1901.0"
-ext.platformversion = baseplatformversion + "." + epochTime()
+
+ext.baseplatformversion = "1901.0" //platform initial version
+ext.platformversion = baseplatformversion + "." + epochTime() // platform initial version appended with current timestamp.
 ext.platformversionsuffix = baseplatformversion + ".+"
 
+/**
+ * Android tools and environment versions
+ */
 ext.versions = [
         sdk                                 : 28,
         target                              : 28,
@@ -34,6 +38,9 @@ ext.versions = [
         robolectric                         : '4.1'
 ]
 
+/**
+ * external build dependencies with versions
+ */
 ext.builddeps = [
         bintrayplugin      : 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4',
         buildinfoextractor : 'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.5',
@@ -51,6 +58,9 @@ ext.builddeps = [
         ben_manes_versions : 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
 ]
 
+/**
+ * philips build dependencies with versions
+ */
 ext.philipsdeps = [
         AppInfra                    : [group: 'com.philips.platform', name: strings.ail.artifactName, version: platformversionsuffix, changing: true],
         AppInfraUApp                : [group: 'com.philips.platform', name: strings.ailuapp.artifactName, version: platformversionsuffix, changing: true],
@@ -73,10 +83,16 @@ ext.philipsdeps = [
         UserRegistrationUApp        : [group: 'com.philips.platform', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true]
 ]
 
+/**
+ * base url of artifactory repo
+ */
 ext.repos = [
         base: 'https://artifactory-ehv.ta.philips.com/artifactory',
 ]
 
+/**
+ * repositories urls
+ */
 ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
 ext.repos.plugin = ext.repos.base + "/platform-plugins-release-local"
 ext.repos.mavengoogle = ext.repos.base + "/platform-maven-google-com"
@@ -85,6 +101,9 @@ ext.repos.ietsnapshot = ext.repos.base+"/iet-mobile-android-snapshot-local"
 ext.repos.ietrelease = ext.repos.base+"/iet-mobile-android-release-local"
 ext.repos.hsdprelease = ext.repos.base+"/HSDP-pkgs-android-release"
 
+/**
+ * third-party library dependencies with versions
+ */
 ext.deps = [
         adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.17.2',
         butterknife                   : 'com.jakewharton:butterknife:8.8.1',
