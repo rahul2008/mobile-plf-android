@@ -2,7 +2,11 @@
 // please look at: https://jenkins.io/doc/book/pipeline/syntax/
 BranchName = env.BRANCH_NAME
 
-
+/**Cron string to define interval time at which pipeline should be retriggered.
+ * Applicable for develop branch and build type is PSRA at 8:00 pm to 9:00 pm
+ * Applicable for develop branch and build type is Java API doc at 9:00 pm to 10:00 pm
+ */
+String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true" : ""
 
 //label for pipeline
 def nodes = 'test'
@@ -33,12 +37,6 @@ pipeline {
         //specify values for buildType (Normal/PSRA/LeakCanary/HPFortify/Javadocs).
         choice(choices: 'Normal\nPSRA\nLeakCanary\nHPFortify\nJAVADocs', description: 'What type of build to build?', name: 'buildType')
     }
-
-    /**Cron string to define interval time at which pipeline should be retriggered.
-     * Applicable for develop branch and build type is PSRA at 8:00 pm to 9:00 pm
-     * Applicable for develop branch and build type is Java API doc at 9:00 pm to 10:00 pm
-     */
-    String param_string_cron = BranchName == "develop" ? "H H(20-21) * * * %buildType=PSRA \nH H(21-22) * * * %GenerateAPIDocs=true" : ""
 
     /**
      * Cron is a linux utility tool to schedule job at certain interval time.
