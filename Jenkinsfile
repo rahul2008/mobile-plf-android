@@ -204,12 +204,13 @@ pipeline {
 
         //stage to run PSRA build
         stage('PSRAbuild') {
-            //current stage will be executed only if bbuildType is 'PSRA'
+            //steps will run only for buildType PSRA
             when {
                 allOf {
                     expression { return params.buildType == 'PSRA' }
                 }
             }
+            //execute command to build assemblePsraRelease for reference app
             steps {
                 sh '''#!/bin/bash -l
                     chmod -R 775 .
@@ -220,13 +221,15 @@ pipeline {
 
         //stage to run leak canary build
         stage('LeakCanarybuild') {
-            //Current stage will be executed only if buildType is LeakCanary and branch starts with 'release/platform_'
+            //steps will run only for LeakCanary build
+            //steps will run for master,develop or release/platform_* branch
             when {
                 allOf {
                     expression { return params.buildType == 'LeakCanary' }
                     anyOf { branch 'master'; branch 'develop'; branch 'release/platform_*' }
                 }
             }
+            //execute command to build assembleLeakCanary for reference app
             steps {
                 sh '''#!/bin/bash -l
                     chmod -R 775 .
@@ -236,9 +239,9 @@ pipeline {
             }
         }
 
-        //stage to run java docs
+        //stage to run JAVADocs build
         stage('java docs') {
-            //Current stage will be executed only if buildType is JavaDocs
+            //steps will execute only for JAVADocs build
             when {
                 anyOf {
                     expression { return params.buildType == 'JAVADocs' }
@@ -251,13 +254,18 @@ pipeline {
             }
         }
 
-        //stage to publish apk for PSRA
+        //stage to publish PSRA apk
         stage('Publish PSRA apk') {
+            //steps will executed only for PSRA build
             when {
                 allOf {
                     expression { return params.buildType == 'PSRA' }
                 }
             }
+
+            //print referenceApp artifactory path
+            //fetch apk name from apkname.txt file which is generated in reference app's build.gradle
+            //flushing psra apk to specified path
             steps {
                 sh '''#!/bin/bash -le
                     ./gradlew :referenceApp:printArtifactoryApkPath
@@ -265,10 +273,13 @@ pipeline {
                     PSRA_APK_NAME=${apkname/.apk/_PSRA.apk}
                     curl -L -u 320049003:#W3llc0m3 -X PUT ${PSRA_APK_NAME} -T Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk
                 '''
+
+                //archive referenceApp-psraRelease apk from below path
                 archiveArtifacts 'Source/rap/Source/AppFramework/appFramework/build/outputs/apk/psraRelease/referenceApp-psraRelease.apk'
             }
         }
-        
+
+        //stage to run HPFortify build
         stage('HPFortify') {
             when {
                 allOf {
@@ -276,7 +287,7 @@ pipeline {
                 }
             }
             steps {
-                BuildHPFortify()
+                BuildHPFortify()   //build HPFortify
             }
         }
 
@@ -354,6 +365,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
    def details = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': Check console output at ${env.BUILD_URL}"
 
+    //send notification email
     emailext (
         subject: subject,
         body: details,
@@ -563,6 +575,7 @@ def DeployingConnectedTestsLogs() {
     boolean DevelopBranch = (BranchName ==~ /develop.*/)
 
     //construct shell command to publish logs to artifactory
+    //If branch is develop,master or release then only publish log
     def shellcommand = '''#!/bin/bash -l
         export BASE_PATH=`pwd`
         echo $BASE_PATH

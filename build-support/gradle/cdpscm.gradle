@@ -11,19 +11,20 @@ buildscript {
     //resolve dependencies
     repositories {
         maven {
+            //maven repo url
             url repos.mavengoogle
             credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
+                username = "readonly"       //username for maven repo
+                password = "123qweasdzxc"   //password for maven repo
             }
         }
-        maven { url repos.jcenter }
-        maven { url repos.ietrelease }
-        maven { url repos.ietsnapshot }
-        maven { url repos.plugin
+        maven { url repos.jcenter }         //resolve dependencies from jcenter
+        maven { url repos.ietrelease }      //resolve artifactory dependencies for release build
+        maven { url repos.ietsnapshot }     //resolved artifactory dependencies for develop build
+        maven { url repos.plugin            //resolve adobeMobileLibrary,cdpSCM plugin dependencies
             credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
+                username = "readonly"       //username for plugin repo
+                password = "123qweasdzxc"   //password for plugin repo
             }
         }
     }
@@ -47,13 +48,21 @@ project.ext.objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 
-
+/**
+ * task to publish to artifactory
+ */
 artifactory {
-    contextUrl = objcdp.getArtifactoryContextUrl()      //artifactory base url
+
+    //it will get artifactory base url from cdpSCM class
+    contextUrl = objcdp.getArtifactoryContextUrl()
 
     publish {
         repository {
-            repoKey = objcdp.getArtifactoryPublishRepoKey() //artifactory key to publish to
+
+            //return pubbblish repo key that will append with conext url
+            // iet-mobile-android-snapshot-local for develop branch
+            // iet-mobile-android-release-local for release branch
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = "320049003"      //publisher user name
             password = "#W3llc0m3"      //publisher password
 
@@ -92,7 +101,7 @@ repositories {
 }
 
 /**
- * publish aar file to artifactory
+ * publish aar and pom to artifactory
  */
 publishing {
     publications {
@@ -101,7 +110,7 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")       //release.aar directory
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")  //copy .aar to given directory
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
