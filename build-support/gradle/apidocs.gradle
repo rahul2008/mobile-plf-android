@@ -1,8 +1,6 @@
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
+/* *
+ * This task to generate java docs for specified component.
+* */
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
@@ -27,10 +25,13 @@ task generateJavadocPublicApi(type: Javadoc) {
     failOnError false
 }
 
+/**
+ * task to zip java doc
+ */
 task zipJavadoc(type: Zip) {
-    from "${projectDir}/../../../Documents/External/${project.name}-api/"
+    from "${projectDir}/../../../Documents/External/${project.name}-api/"  //java doc source directory
     include '*'
     include '*/*' //to include contents of a folder present inside Reports directory
     archiveName "${project.name}-api.zip"
-    destinationDir(file("${projectDir}/../../../Documents/External/"))
+    destinationDir(file("${projectDir}/../../../Documents/External/"))  // .zip file directory
 }

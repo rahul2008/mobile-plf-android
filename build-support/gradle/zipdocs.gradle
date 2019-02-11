@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
+ * This is used to create zip for generated java docs.
  */
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -8,6 +7,9 @@ artifacts {
     archives zipDoc
 }
 
+/**
+ * task to zip documents
+ */
 task zipDocuments(type: Zip) {
     from files(projectDir.toString() + "/../../../Documents/External/") {
         baseName = project.name
@@ -15,6 +17,9 @@ task zipDocuments(type: Zip) {
     }
 }
 
+/**
+ * task to zip connected test logs.
+ */
 task zipcClogs(type: Zip) {
     from project.projectDir
     include '/build/reports/androidTests/connected/**'
