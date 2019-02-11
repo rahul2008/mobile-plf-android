@@ -57,7 +57,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private LinearLayout mAddCTNLl,ll_voucher;
-
     private FrameLayout mShoppingCart;
     private EditText mEtCTN,mEtVoucherCode,mEtPropositionId;
 
@@ -71,7 +70,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private Button mShopNowCategorizedWithRetailer;
     private ProgressDialog mProgressDialog = null;
     private ArrayList<String> mCategorizedProductList;
-
     private TextView mTitleTextView;
     private TextView mCountText;
 
