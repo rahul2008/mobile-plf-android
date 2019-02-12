@@ -20,7 +20,6 @@ buildscript {
         classpath builddeps.buildinfoextractor
         classpath builddeps.cdpSCM
         classpath builddeps.bintrayplugin
-        classpath builddeps.cdpSCM
     }
 }
 
