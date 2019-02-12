@@ -156,7 +156,7 @@ public class PrxWrapper {
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + finalI);
                     if (error.getStatusCode() == 404) {
                         if (ProductModelSelectionHelper.getInstance().getTaggingInterface() != null && mAppInfraInterface.getServiceDiscovery() != null) {
-                            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo(Constants.SET_ERROR, Constants.TECHNICAL_ERROR, finalI + Constants.CTN_NOT_FOUND);
+                            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo(Constants.ACTION_KEY_SEND_DATA, Constants.TECHNICAL_ERROR, finalI + Constants.CTN_NOT_FOUND);
                         }
                     }
                     countDownLatch.countDown();
