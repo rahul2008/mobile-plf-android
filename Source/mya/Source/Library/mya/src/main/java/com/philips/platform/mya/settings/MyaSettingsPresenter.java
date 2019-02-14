@@ -11,6 +11,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.mya.MyaHelper;
 import com.philips.platform.mya.MyaLocalizationHandler;
 import com.philips.platform.mya.R;
@@ -19,6 +20,7 @@ import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +36,12 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error) {
-        appInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference("userreg.landing.myphilips", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add("userreg.landing.myphilips");
+        appInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(URL url) {
-                view.setLinkUrl(url.toString());
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                view.setLinkUrl(urlMap.get(serviceIDList.get(0)).getConfigUrls());
             }
 
             @Override
@@ -45,7 +49,7 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
                 MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG,"error while fetching url ",message);
                 view.setLinkUrl("https://".concat(view.getFragmentActivity().getString(R.string.MYA_philips_website)));
             }
-        });
+        },null);
         view.showSettingsItems(getSettingsMap(appInfra));
     }
 

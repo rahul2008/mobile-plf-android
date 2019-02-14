@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 
@@ -22,6 +23,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -44,11 +48,11 @@ public class WebViewPresenterTest {
     WebViewPresenter webViewPresenter;
 
     @Captor
-    private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlListener> captor;
+    private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlMapListener> captor;
 
     ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
 
-    ServiceDiscoveryInterface.OnGetServiceUrlListener value;
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener value;
 
 
 
@@ -77,16 +81,24 @@ public class WebViewPresenterTest {
     @Test
     public void loadUrlTest_onUrlLoadSuccess() throws Exception {
         webViewPresenter.loadUrl(Constants.TERMS_AND_CONDITIONS);
-        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(Constants.TERMS_AND_CONDITIONS), captor.capture());
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(eq(Constants.TERMS_AND_CONDITIONS));
+        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(serviceIDList, captor.capture(),null);
         value= captor.getValue();
-        value.onSuccess(new URL("https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html"));
+        Map<String, ServiceDiscoveryService> urlMap = new HashMap<>();
+        ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
+        serviceDiscoveryService.setConfigUrl("https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
+        urlMap.put(serviceIDList.get(0),serviceDiscoveryService);
+        value.onSuccess(urlMap);
         verify(view).onUrlLoadSuccess(any(String.class));
     }
 
     @Test
     public void loadUrlTest_onUrlLoadError() throws Exception {
         webViewPresenter.loadUrl(Constants.TERMS_AND_CONDITIONS);
-        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(Constants.TERMS_AND_CONDITIONS), captor.capture());
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(eq(Constants.TERMS_AND_CONDITIONS));
+        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(serviceIDList, captor.capture(),null);
         value= captor.getValue();
         value.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK,"");
         verify(view).onUrlLoadError(any(String.class));

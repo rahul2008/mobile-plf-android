@@ -477,24 +477,24 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        getURlwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDLanguagePreference, SD_REQUEST_TYPE.getServiceUrlWithLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
     public void getServiceUrlWithLanguagePreference(final String serviceId, final OnGetServiceUrlListener listener,
                                                     final Map<String, String> replacement) {
-        getURlwithLanguageOrCountry(serviceId, listener, replacement, AISDResponse.AISDPreference.AISDLanguagePreference, SD_REQUEST_TYPE.getServiceUrlWithLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        getURlwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDCountryPreference, SD_REQUEST_TYPE.getServiceUrlWithCountryPreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener,
                                                    final Map<String, String> replacement) {
-        getURlwithLanguageOrCountry(serviceId, listener, replacement, AISDResponse.AISDPreference.AISDCountryPreference, SD_REQUEST_TYPE.getServiceUrlWithLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     private void getURlwithLanguageOrCountry(final String serviceId, final OnGetServiceUrlListener urlListener,
@@ -539,7 +539,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void getServicesWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        getURlMAPwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDLanguagePreference, SD_REQUEST_TYPE.getServicesWithLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
@@ -550,7 +550,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void getServicesWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        getURlMAPwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDCountryPreference, SD_REQUEST_TYPE.getServicesWithCountryPreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
@@ -600,12 +600,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
     @Override
     public void getServiceLocaleWithLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-        getServiceLocale(serviceId, listener, AISDResponse.AISDPreference.AISDLanguagePreference, SD_REQUEST_TYPE.getServiceLocaleWithLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
     public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-        getServiceLocale(serviceId, listener, AISDResponse.AISDPreference.AISDCountryPreference, SD_REQUEST_TYPE.getServiceLocaleWithCountryPreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     private void getServiceLocale(final String serviceId, final OnGetServiceLocaleListener localeListener,

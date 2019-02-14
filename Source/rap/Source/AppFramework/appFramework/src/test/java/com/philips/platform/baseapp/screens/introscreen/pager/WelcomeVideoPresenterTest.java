@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 
@@ -17,6 +19,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -43,12 +48,12 @@ public class WelcomeVideoPresenterTest {
     WelcomeVideoPresenter welcomeVideoPresenter;
 
     @Captor
-    private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlListener> captor;
+    private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlMapListener> captor;
 
     @Mock
     ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
 
-    ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener;
+    ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlListener;
 
     @Before
     public void setUp() {
@@ -57,14 +62,20 @@ public class WelcomeVideoPresenterTest {
         when(appFrameworkApplicationMock.getAppInfra()).thenReturn(appInfraInterfaceMock);
         when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         welcomeVideoPresenter.fetchVideoDataSource();
-        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithLanguagePreference(eq(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO), captor.capture());
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(eq(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO));
+        verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(serviceIDList, captor.capture(),null);
         onGetServiceUrlListener = captor.getValue();
     }
 
     @Test
     public void fetchVideoUrlSuccess() throws Exception {
         String urlString = "https://images.philips.com/skins/PhilipsConsumer/CDP2_reference_app_vid_short";
-        onGetServiceUrlListener.onSuccess(new URL(urlString));
+        Map<String, ServiceDiscoveryService> mapUrl = new HashMap<>();
+        ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
+        serviceDiscoveryService.setConfigUrl(urlString);
+        mapUrl.put(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO,serviceDiscoveryService);
+        onGetServiceUrlListener.onSuccess(mapUrl);
         verify(view).setVideoDataSource(urlString+WelcomeVideoPresenter.COMPRESSED_VIDEO_EXTENSION);
     }
 

@@ -123,7 +123,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
             public void onError(ERRORVALUES errorvalues, String s) {
                 Log.i("SD CSV", "" + "Error");
             }
-        });
+        },false);
     }
 
 
@@ -318,7 +318,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
                 public void onError(ERRORVALUES errorvalues, String s) {
 
                 }
-            });
+            },false);
         } else {
             ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Null not Allowed", "Null not Allowed");
         }
@@ -326,29 +326,29 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
 
     @Override
     public void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener) {
-        getURlwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
     public void getServiceUrlWithLanguagePreference(String serviceId, OnGetServiceUrlListener listener, Map<String, String> replacement) {
-        getURlwithLanguageOrCountry(serviceId, listener, replacement, AISDResponse.AISDPreference.AISDLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
 
     @Override
     public void getServiceUrlWithCountryPreference(final String serviceId, final OnGetServiceUrlListener listener) {
-        getURlwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDCountryPreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
     public void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener, Map<String, String> replacement) {
-        getURlwithLanguageOrCountry(serviceId, listener, replacement, AISDResponse.AISDPreference.AISDCountryPreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
 
     @Override
     public void getServicesWithLanguagePreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        getURlMAPwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
@@ -359,7 +359,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
 
     @Override
     public void getServicesWithCountryPreference(final ArrayList<String> serviceId, final OnGetServiceUrlMapListener listener) {
-        getURlMAPwithLanguageOrCountry(serviceId, listener, null, AISDResponse.AISDPreference.AISDCountryPreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
@@ -370,13 +370,12 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
 
     @Override
     public void getServiceLocaleWithLanguagePreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-
-        getServiceLocale(serviceId, listener, AISDResponse.AISDPreference.AISDLanguagePreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override
     public void getServiceLocaleWithCountryPreference(final String serviceId, final OnGetServiceLocaleListener listener) {
-        getServiceLocale(serviceId, listener, AISDResponse.AISDPreference.AISDCountryPreference);
+        //TODO: API is depreciated so removed implementation.
     }
 
     @Override

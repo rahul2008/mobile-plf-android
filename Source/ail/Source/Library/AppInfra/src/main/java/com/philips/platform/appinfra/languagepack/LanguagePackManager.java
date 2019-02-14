@@ -19,6 +19,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackMetadata;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
@@ -26,12 +27,14 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONObject;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY;
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LOCALE_FILE_ACTIVATED;
@@ -97,6 +100,51 @@ public class  LanguagePackManager implements LanguagePackInterface {
         };
     }
 
+    protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final OnRefreshListener aILPRefreshResult){
+        return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                final String languagePackServiceId = getLanguagePackConfig(mAppInfra.getConfigInterface(), mAppInfra);
+                final String languagePackConfigURL = urlMap.get(languagePackServiceId).getConfigUrls();
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LANGUAGE_PACK, "Langauge pack get Service Discovery Listener OnSuccess URL" + languagePackConfigURL.toString()); // US requirement to show language pack URL
+
+                JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, languagePackConfigURL, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(final JSONObject response) {
+                                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LANGUAGE_PACK, "onResponse " + response.toString());
+                                languagePackHandler = getHandler(context);
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        processForLanguagePack(response, aILPRefreshResult);
+                                    }
+                                }).start();
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+                        final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
+                        ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LANGUAGE_PACK, "on Error Response" + errMsg);
+                        aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
+
+                    }
+                }, null, null, null);
+                mRestInterface.getRequestQueue().add(jsonRequest);
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                        AppInfraLogEventID.AI_LANGUAGE_PACK, " Error Code:" + error.toString() + " , Error Message:" + message);
+                final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LANGUAGE_PACK, "on Error URL" + errMsg);
+                aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
+            }
+        };
+    }
+
 	private Handler languagePackHandler;
 
     public LanguagePackManager(AppInfraInterface appInfra) {
@@ -121,7 +169,9 @@ public class  LanguagePackManager implements LanguagePackInterface {
             aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
         } else {
             ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-            mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(languagePackServiceId, getServiceDiscoveryListener(aILPRefreshResult));
+            ArrayList<String> serviceIDList = new ArrayList<>();
+            serviceIDList.add(languagePackServiceId);
+            mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,getServiceUrlMapListener(aILPRefreshResult),null);
         }
     }
 
