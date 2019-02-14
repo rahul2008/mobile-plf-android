@@ -456,7 +456,7 @@ public class AddressShippingView
         String lastName = mEtLastName.getText().toString();
         String addressLineOne = mEtAddressLineOne.getText().toString();
         String houseNo = mEtHouseNo.getText().toString();
-        String postalCode = mEtPostalCode.getText().toString().replaceAll(" ", "");
+        String postalCode = mEtPostalCode.getText().toString().trim();
         String phone1 = mEtPhone1.getText().toString().replaceAll(" ", "");
         String town = mEtTown.getText().toString();
         String country = mEtCountry.getText().toString();
@@ -500,7 +500,9 @@ public class AddressShippingView
         return isValid;
     }
 
-    protected AddressFields setAddressFields(AddressFields shippingAddressFields) {
+    protected AddressFields
+
+    setAddressFields(AddressFields shippingAddressFields) {
         setAddressFiledsFromEditTexts(shippingAddressFields);
 
         if (mlLState.getVisibility() == View.VISIBLE) {
@@ -521,7 +523,7 @@ public class AddressShippingView
         shippingAddressFields.setCountryIsocode(mEtCountry.getText().toString().trim());
         shippingAddressFields.setLine1(mEtAddressLineOne.getText().toString().trim());
         shippingAddressFields.setHouseNumber(mEtHouseNo.getText().toString().trim());
-        shippingAddressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
+        shippingAddressFields.setPostalCode(mEtPostalCode.getText().toString().trim());
         shippingAddressFields.setTown(mEtTown.getText().toString().trim());
         shippingAddressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
         shippingAddressFields.setPhone2(mEtPhone1.getText().toString().replaceAll(" ", ""));

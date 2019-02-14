@@ -262,7 +262,7 @@ public class AddressBillingView
 
     private void enableStateFields() {
         if (addressContractor.isStateEnabled()) {
-//           setViewVisible(mlLStateBilling, tvState,mEtStateBilling);
+            setViewVisible(mlLStateBilling, tvState,mEtStateBilling);
             InputValidator inputValidatorStateBilling = new InputValidator(Validator.NAME_PATTERN);
             mlLStateBilling.setValidator(inputValidatorStateBilling);
             mEtStateBilling.setKeyListener(null);
@@ -476,7 +476,7 @@ public class AddressBillingView
         final String lastName = mEtLastNameBilling.getText().toString();
         final String addressLineOne = mEtAddressLineOneBilling.getText().toString();
         final String houseNo = mEtHouseNoBilling.getText().toString();
-        final String postalCode = mEtPostalCodeBilling.getText().toString().replaceAll(" ", "");
+        final String postalCode = mEtPostalCodeBilling.getText().toString().trim();
         final String phone1 = mEtPhone1Billing.getText().toString().replaceAll(" ", "");
         final String town = mEtTownBilling.getText().toString();
         final String country = mEtCountryBilling.getText().toString();
@@ -531,7 +531,7 @@ public class AddressBillingView
         billingAddressFields.setCountryIsocode(mEtCountryBilling.getText().toString().trim());
         billingAddressFields.setLine1(mEtAddressLineOneBilling.getText().toString().trim());
         billingAddressFields.setHouseNumber(mEtHouseNoBilling.getText().toString().trim());
-        billingAddressFields.setPostalCode(mEtPostalCodeBilling.getText().toString().replaceAll(" ", ""));
+        billingAddressFields.setPostalCode(mEtPostalCodeBilling.getText().toString().trim());
         billingAddressFields.setTown(mEtTownBilling.getText().toString().trim());
         billingAddressFields.setPhone1(mEtPhone1Billing.getText().toString().replaceAll(" ", ""));
         billingAddressFields.setPhone2(mEtPhone1Billing.getText().toString().replaceAll(" ", ""));
