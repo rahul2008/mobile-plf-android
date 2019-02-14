@@ -38,6 +38,8 @@ import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -108,8 +110,16 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         btnSetPropositionId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mIapLaunchInput!=null) mIapLaunchInput.setPropositionId(mEtPropositionId.getText().toString());
+
+                AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
+                AppConfigurationInterface configInterface = appInfra.getConfigInterface();
+                AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+                configInterface.setPropertyForKey("propositionid", "IAP",mEtPropositionId.getText().toString(), configError);
+
                 Toast.makeText(DemoAppActivity.this,"Proposition id is set",Toast.LENGTH_SHORT).show();
+
+
+                finish();
             }
         });
 
@@ -181,6 +191,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         ignorelistedRetailer.add("Frys.com");
         ignorelistedRetailer.add("Amazon - US");
         ignorelistedRetailer.add("BestBuy.com");
+
+
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mIapLaunchInput = new IAPLaunchInput();

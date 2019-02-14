@@ -1,5 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
+import android.util.Log;
+
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -120,8 +122,7 @@ public class IAPServiceDiscoveryWrapper {
         if (configError.getErrorCode() != null) {
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
-
-        if( Utility.getPropositionId()!=null) propositionId = Utility.getPropositionId();
+        
         return propositionId;
     }
 

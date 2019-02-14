@@ -35,7 +35,6 @@ public class Utility {
     private static AlertDialogFragment alertDialogFragment;
     public static boolean isDelvieryFirstTimeUser = false;
     public static String voucherCodeVal;
-    public static String propositionId;
     public static boolean isPromotionRunning=false;
 
     public static void hideKeypad(Activity pContext) {
@@ -395,15 +394,6 @@ public class Utility {
             IAPLog.e(IAPLog.LOG, "IllegalArgumentException while voucherCode enable");
         }
         return false;
-    }
-
-
-    public static void setPropositionId(String id) {
-        propositionId = id;
-    }
-
-    public static String getPropositionId() {
-       return propositionId ;
     }
 
 }

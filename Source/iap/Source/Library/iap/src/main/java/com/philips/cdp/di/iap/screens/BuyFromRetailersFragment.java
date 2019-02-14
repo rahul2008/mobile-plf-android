@@ -100,8 +100,6 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
         String propositionId = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
 
-        if(Utility.getPropositionId()!=null) propositionId = Utility.getPropositionId();
-
         if (configError.getErrorCode() != null) {
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
