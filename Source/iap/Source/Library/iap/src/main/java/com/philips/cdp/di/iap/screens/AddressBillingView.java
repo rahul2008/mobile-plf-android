@@ -52,7 +52,6 @@ public class AddressBillingView
 
     private InputValidationLayout mLlTownBilling;
 
-    private final AddressBillingPresenter addressBillingPresenter;
 
     private AddressContractor addressContractor;
     private TextView tvState, tvHouseNo, tvFirstName, tvLastName, tvSalutation, tvAddressLineOne, tvTown, tvPostalCode, tvCountry, tvEmail, tvPhone;
@@ -62,7 +61,6 @@ public class AddressBillingView
         addressContractor = addressPresenter.getAddressContractor();
         this.mContext = this.addressPresenter.getAddressContractor().getActivityContext();
         this.view = this.addressPresenter.getAddressContractor().getBillingAddressView();
-        addressBillingPresenter = new AddressBillingPresenter();
         initializeViews(view);
     }
 
@@ -424,7 +422,6 @@ public class AddressBillingView
             }
         }
         if (editText.getId() == R.id.et_billing_country && !hasFocus && editText.getVisibility() == View.VISIBLE) {
-            addressBillingPresenter.showUSRegions(mEtCountryBilling, mlLStateBilling, tvState);
             result = inputValidatorCountryBilling.isValidCountry(((EditText) editText).getText().toString());
             if (!result) {
                 mLlCountryBilling.setErrorMessage(R.string.iap_country_error);

@@ -58,7 +58,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         UserRegistrationUIEventListener, UserRegistrationListener {
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
-    private LinearLayout mAddCTNLl,ll_voucher;
+    private LinearLayout mAddCTNLl, mLL_voucher;
     private FrameLayout mShoppingCart;
     private EditText mEtCTN,mEtVoucherCode,mEtPropositionId;
 
@@ -68,7 +68,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private Button mBuyDirect;
     private Button mPurchaseHistory;
     private Button mLaunchProductDetail;
-    private Button mAddCtn,btn_add_voucher,btnSetPropositionId;
+    private Button mAddCtn, mBtn_add_voucher, mBtnSetPropositionId;
     private Button mShopNowCategorizedWithRetailer;
     private ProgressDialog mProgressDialog = null;
     private ArrayList<String> mCategorizedProductList;
@@ -84,7 +84,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     String voucherCode;
 
     private ArrayList<String> ignorelistedRetailer;
-    private View ll_propositionId;
+    private View mLL_propositionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +104,10 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
 
         mEtPropositionId = findViewById(R.id.et_add_proposition_id);
-        btnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
+        mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
 
 
-        btnSetPropositionId.setOnClickListener(new View.OnClickListener() {
+        mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -145,14 +145,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShopNowCategorized.setOnClickListener(this);
 
 
-        ll_voucher=  findViewById(R.id.ll_voucher);
-        ll_propositionId = findViewById(R.id.ll_enter_proposition_id);
+        mLL_voucher =  findViewById(R.id.ll_voucher);
+        mLL_propositionId = findViewById(R.id.ll_enter_proposition_id);
 
         mAddCtn = findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
-        btn_add_voucher= findViewById(R.id.btn_add_voucher);
-        btn_add_voucher.setOnClickListener(this);
+        mBtn_add_voucher = findViewById(R.id.btn_add_voucher);
+        mBtn_add_voucher.setOnClickListener(this);
 
         mShopNowCategorizedWithRetailer = findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
         mShopNowCategorizedWithRetailer.setOnClickListener(this);
@@ -222,8 +222,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void onResumeRetailer(){
         mAddCTNLl.setVisibility(View.VISIBLE);
-        ll_voucher.setVisibility(View.VISIBLE);
-        ll_propositionId.setVisibility(View.VISIBLE);
+        mLL_voucher.setVisibility(View.VISIBLE);
+        mLL_propositionId.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -238,8 +238,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private void displayFlowViews(boolean b) {
 
         mAddCTNLl.setVisibility(View.VISIBLE);
-        ll_voucher.setVisibility(View.VISIBLE);
-        ll_propositionId.setVisibility(View.VISIBLE);
+        mLL_voucher.setVisibility(View.VISIBLE);
+        mLL_propositionId.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -398,7 +398,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             mEtCTN.setText("");
             hideKeypad(this);
         }
-        else if(view==btn_add_voucher){
+        else if(view== mBtn_add_voucher){
             if(mEtVoucherCode.getText().toString().length()>0) {
                 voucherCode = mEtVoucherCode.getText().toString();
             }
@@ -428,8 +428,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void displayViews() {
         mAddCTNLl.setVisibility(View.VISIBLE);
-        ll_voucher.setVisibility(View.VISIBLE);
-        ll_propositionId.setVisibility(View.VISIBLE);
+        mLL_voucher.setVisibility(View.VISIBLE);
+        mLL_propositionId.setVisibility(View.VISIBLE);
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
@@ -443,8 +443,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mCountText.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
-        ll_voucher.setVisibility(View.GONE);
-        ll_propositionId.setVisibility(View.GONE);
+        mLL_voucher.setVisibility(View.GONE);
+        mLL_propositionId.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mBuyDirect.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);

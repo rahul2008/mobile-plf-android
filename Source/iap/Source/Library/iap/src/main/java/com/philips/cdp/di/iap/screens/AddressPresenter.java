@@ -392,7 +392,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             case POSTAL_CODE:
                 addressFieldEnabler.setPostalCodeEnabled(false);
                 break;
-            case HOUSEN_UMBER:
+            case HOUSE_NUMBER:
                 addressFieldEnabler.setHouseNumberEnabled(false);
                 break;
             case TOWN:

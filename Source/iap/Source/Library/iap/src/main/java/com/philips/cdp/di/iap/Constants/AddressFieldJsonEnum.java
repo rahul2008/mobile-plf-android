@@ -8,10 +8,10 @@ public enum AddressFieldJsonEnum {
 
     SALUTATION("salutation"),
     FIRST_NAME("firstName"),
-    LAST_NAME("lastNme"),
+    LAST_NAME("lastName"),
     EMAIL("email"),
     PHONE("phone"),
-    HOUSEN_UMBER("houseNumber"),
+    HOUSE_NUMBER("houseNumber"),
     ADDRESS_ONE("address1"),
     ADDRESS_TWO("address2"),
     TOWN("town"),
@@ -19,15 +19,15 @@ public enum AddressFieldJsonEnum {
     STATE ("state"),
     COUNTRY ("country");
 
-   private String field ;
+   private String addressField;
 
 
-   AddressFieldJsonEnum(String field){
-       this.field = field;
+   AddressFieldJsonEnum(String addressField){
+       this.addressField = addressField;
    }
 
-   public String getField(){
-       return this.field;
+   public String getAddressField(){
+       return this.addressField;
     }
 
     public static AddressFieldJsonEnum getAddressFieldJsonEnumFromField(String field){
@@ -35,7 +35,7 @@ public enum AddressFieldJsonEnum {
 
         for(AddressFieldJsonEnum addressFieldJsonEnum:values){
 
-            if(addressFieldJsonEnum.getField().equalsIgnoreCase(field.trim())){
+            if(addressFieldJsonEnum.getAddressField().equalsIgnoreCase(field.trim())){
                 return addressFieldJsonEnum;
             }
         }
