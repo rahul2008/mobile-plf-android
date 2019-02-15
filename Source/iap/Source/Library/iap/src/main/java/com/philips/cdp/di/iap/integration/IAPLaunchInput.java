@@ -16,7 +16,6 @@ public class IAPLaunchInput extends UappLaunchInput {
     private ArrayList<String> mIgnoreRetailers;
     private ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
     private String voucherCode;
-
     /**
      * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
      * @param pLandingView  pass int value from IAPFlows enums
@@ -84,8 +83,6 @@ public class IAPLaunchInput extends UappLaunchInput {
     public String getVoucher(){
         return voucherCode;
     }
-
-
 
     /**
      * This enum is used to set the landing view of IAP

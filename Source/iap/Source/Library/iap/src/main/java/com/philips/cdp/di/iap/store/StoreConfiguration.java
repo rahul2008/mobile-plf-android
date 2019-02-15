@@ -42,6 +42,10 @@ public class StoreConfiguration {
         return mWebStoreConfig.getSiteID();
     }
 
+    public String getCampaign() {
+        return mWebStoreConfig.getCampaignID();
+    }
+
     public String getLocale() {
         return mWebStoreConfig.getLocale();
     }

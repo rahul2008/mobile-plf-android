@@ -1,5 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
+import android.util.Log;
+
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -31,37 +33,6 @@ public class IAPServiceDiscoveryWrapper {
         serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
     }
-
-//    void initializeStoreFromServiceDiscoveryResponse(final IAPHandler iapHandler) {
-//
-//        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-//            @Override
-//            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-//                IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
-//                Collection<ServiceDiscoveryService> collection = map.values();
-//
-//                List<ServiceDiscoveryService> list = new ArrayList<>();
-//                list.addAll(collection);
-//                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
-//
-//                String locale = serviceDiscoveryService.getLocale();
-//                String configUrls = serviceDiscoveryService.getConfigUrls();
-//                if (configUrls == null) {
-//                    mIAPSettings.setUseLocalData(true);
-//                } else {
-//                    mIAPSettings.setUseLocalData(false);
-//                }
-//                iapHandler.initIAPRequisite();
-//            }
-//
-//            @Override
-//            public void onError(ERRORVALUES errorvalues, String s) {
-//                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
-//            }
-//        };
-//        serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
-//    }
-
 
     void getLocaleFromServiceDiscovery(final UiLauncher pUiLauncher, final IAPHandler pIAPHandler, final IAPLaunchInput pIapLaunchInput, final IAPListener iapListener, final String entry) {
 
@@ -151,6 +122,7 @@ public class IAPServiceDiscoveryWrapper {
         if (configError.getErrorCode() != null) {
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
+        
         return propositionId;
     }
 

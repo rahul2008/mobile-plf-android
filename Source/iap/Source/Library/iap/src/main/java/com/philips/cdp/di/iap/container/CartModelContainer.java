@@ -41,7 +41,7 @@ public class CartModelContainer {
     private String country;
 
     private AppInfraInterface appInfraInstance;
-    private boolean addessStateVisible;
+    private boolean addessStateVisible = false;
     private String mAddressIdFromDelivery;
     private String voucherCode;
 
