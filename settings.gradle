@@ -22,7 +22,6 @@ include ext.strings.prx.projectName
 include ext.strings.iap.projectName
 include ext.strings.usr.projectName
 include ext.strings.pse.projectName
-include ext.strings.jmp.projectName
 
 include ext.strings.dcc.projectName
 include ext.strings.ufw.projectName
@@ -43,7 +42,6 @@ project(ext.strings.ailuapp.projectName).projectDir = new File('./Source/ail/Sou
 project(ext.strings.prx.projectName).projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
 project(ext.strings.usr.projectName).projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
 project(ext.strings.usruapp.projectName).projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
-project(ext.strings.jmp.projectName).projectDir = new File('./Source/usr/Source/Library/jump')
 project(ext.strings.iap.projectName).projectDir = new File('./Source/iap/Source/Library/iap')
 project(ext.strings.iapuapp.projectName).projectDir = new File('./Source/iap/Source/DemoUApp')
 project(ext.strings.dcc.projectName).projectDir = new File('./Source/dcc/Source/Library/digitalCare')

@@ -134,7 +134,7 @@ pipeline {
             steps {
                 sh '''#!/bin/bash -l
                     set -e
-                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :jump:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs 
+                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :registrationApi:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs 
 
                     apkname=`xargs < apkname.txt`
                     dependenciesName=${apkname/.apk/.gradledependencies.gz}
@@ -404,8 +404,6 @@ def BuildAndUnitTest() {
             :uAppFwLib:testReleaseUnitTest \
             :registrationApi:cC \
             :registrationApi:testReleaseUnitTest \
-            :jump:cC \
-            :jump:testReleaseUnitTest \
             :productselection:cC \
             :product-registration-lib:testReleaseUnitTest \
             :iap:testReleaseUnitTest \
@@ -435,7 +433,6 @@ def AcceptanceTest() {
             :AppInfra:cC \
             :securedblibrary:cC \
             :registrationApi:cC \
-            :jump:cC \
             :productselection:cC \
             :digitalCareUApp:cC \
             :digitalCare:cC \
@@ -461,7 +458,6 @@ def GenerateJavaDocs(){
         ./gradlew :AppInfra:generateJavadocPublicApi \
         :securedblibrary:generateJavadocPublicApi \
         :registrationApi:generateJavadocPublicApi \
-        :jump:generateJavadocPublicApi \
         :productselection:generateJavadocPublicApi \
         :pif:generateJavadocPublicApi \
         :digitalCare:generateJavadocPublicApi \
@@ -644,14 +640,13 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :jump:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :registrationApi:zipJavadoc :referenceApp:printPlatformVersion
+        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :registrationApi:zipJavadoc :referenceApp:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
  
         curl -L -u 320049003:#W3llc0m3 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/AppInfra/$platformVersion/ -T ./Source/ail/Documents/External/AppInfra-api.zip
         curl -L -u 320049003:#W3llc0m3 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/digitalCare/$platformVersion/ -T ./Source/dcc/Documents/External/digitalCare-api.zip
         
         curl -L -u 320049003:#W3llc0m3 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/iap/$platformVersion/ -T ./Source/iap/Documents/External/iap-api.zip
-        curl -L -u 320049003:#W3llc0m3 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/jump/$platformVersion/ -T ./Source/usr/Documents/External/jump-api.zip
         
         curl -L -u 320049003:#W3llc0m3 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/product-registration-lib/$platformVersion/ -T ./Source/prg/Documents/External/product-registration-lib-api.zip
         curl -L -u 320049003:#W3llc0m3 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/productselection/$platformVersion/ -T ./Source/pse/Documents/External/productselection-api.zip
@@ -709,7 +704,6 @@ def PublishAcceptanceTestsResults() {
 
     junit allowEmptyResults: true, testResults: 'Source/usr/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/RegistrationApi/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests RegistrationApi'])
-    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/usr/Source/Library/jump/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'usr connected tests Jump'])
 
     junit allowEmptyResults: true, testResults: 'Source/pse/Source/Library/**/build/outputs/androidTest-results/*/*.xml'
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/pse/Source/Library/productselection/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'pse connected tests'])

@@ -22,7 +22,6 @@ ext.strings = [
         iap: [projectName:':iap', artifactName:'iap'],
         usr: [projectName:':registrationApi', artifactName:'registrationApi'],
         pse: [projectName:':productselection', artifactName:'productselection'],
-        jmp: [projectName:':jump', artifactName:'jump'],
 
         dcc: [projectName:':digitalCare', artifactName:'digitalCare'],
         ufw: [projectName:':uAppFwLib', artifactName:'uAppFwLib'],
