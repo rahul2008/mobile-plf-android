@@ -235,17 +235,15 @@ public class LanguagePackTest {
         Mockito.when(appInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
         Mockito.when(appInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         LanguagePackInterface.OnRefreshListener onRefreshListener = mock(LanguagePackInterface.OnRefreshListener.class);
-        final ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener = mock(ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
+        final ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = mock(ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
 
         final AppConfigurationInterface.AppConfigurationError appConfigurationError = mock(AppConfigurationInterface.AppConfigurationError.class);
 
         mLanguagePackManager = new LanguagePackManager(appInfra) {
-            @NonNull
             @Override
-            protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener(OnRefreshListener aILPRefreshResult) {
-                return onGetServiceUrlListener;
+            protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(OnRefreshListener aILPRefreshResult) {
+                return onGetServiceUrlMapListener;
             }
-
         };
         mLanguagePackManager.refresh(onRefreshListener);
         Mockito.verify(onRefreshListener).onError(LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");

@@ -54,52 +54,6 @@ public class  LanguagePackManager implements LanguagePackInterface {
 	private Context context;
 
 
-    @NonNull
-    protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener(final OnRefreshListener aILPRefreshResult) {
-        return new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-            @Override
-            public void onSuccess(URL url) {
-                final String languagePackConfigURL = url.toString();
-                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LANGUAGE_PACK, "Langauge pack get Service Discovery Listener OnSuccess URL" + url.toString()); // US requirement to show language pack URL
-
-                JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, languagePackConfigURL, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(final JSONObject response) {
-                                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LANGUAGE_PACK, "onResponse " + response.toString());
-                                languagePackHandler = getHandler(context);
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        processForLanguagePack(response, aILPRefreshResult);
-                                    }
-                                }).start();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-                        final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
-                        ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LANGUAGE_PACK, "on Error Response" + errMsg);
-                        aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
-
-                    }
-                }, null, null, null);
-                mRestInterface.getRequestQueue().add(jsonRequest);
-            }
-
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        AppInfraLogEventID.AI_LANGUAGE_PACK, " Error Code:" + error.toString() + " , Error Message:" + message);
-                final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
-                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LANGUAGE_PACK, "on Error URL" + errMsg);
-                aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
-
-            }
-        };
-    }
-
     protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final OnRefreshListener aILPRefreshResult){
         return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override

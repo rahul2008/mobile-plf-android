@@ -192,28 +192,6 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return mAppInfra.getConfigInterface();
 	}
 
-	@NonNull
-	protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener
-			(final OnRefreshListener refreshListener) {
-		return new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-			@Override
-			public void onSuccess(URL url) {
-				final String appUpdateURL = url.toString();
-				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,  AppInfraLogEventID.AI_APP_UPDATE,"AppUpdate_URL"+url.toString());
-				downloadAppUpdate(appUpdateURL, refreshListener);
-			}
-
-			@Override
-			public void onError(ERRORVALUES error, String message) {
-				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,
-						AppInfraLogEventID.AI_APP_UPDATE, " Error Code:" + error.toString() + " , Error Message:" + message);
-				final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
-				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE, errMsg);
-				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
-			}
-		};
-	}
-
 	protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final OnRefreshListener refreshListener){
 		return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
 			@Override

@@ -3,13 +3,11 @@ package com.philips.cdp.registration.app.infra;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
 import io.reactivex.Single;
 
-import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlListener;
 
 public class ServiceDiscoveryWrapper {
 

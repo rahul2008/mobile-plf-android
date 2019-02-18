@@ -383,28 +383,6 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
         return null;
     }
 
-
-    private void getURlwithLanguageOrCountry(final String serviceId, final OnGetServiceUrlListener urlListener,
-                                             final Map<String, String> replacement, final AISDResponse.AISDPreference preference) {
-        if (urlListener == null) {
-            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
-                    "OnGetServiceUrlListener is null initialized");
-        } else {
-            if (serviceId == null || serviceId.isEmpty()) {
-                urlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
-            } else {
-                URL url = serviceDiscovery.getServiceURL(serviceId, preference,
-                        replacement);
-                if (url != null) {
-                    urlListener.onSuccess(url);
-                } else {
-                    urlListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
-                            "ServiceDiscovery cannot find the locale");
-                }
-            }
-        }
-    }
-
     private void getURlMAPwithLanguageOrCountry(final ArrayList<String> serviceIds, final OnGetServiceUrlMapListener urlMapListener,
                                                 final Map<String, String> replacement, final AISDResponse.AISDPreference preference) {
         if (urlMapListener == null) {
@@ -423,91 +401,6 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
                             "ServiceDiscovery cannot find the locale");
                 }
             }
-        }
-    }
-
-    private void getServiceLocale(final String serviceId, final OnGetServiceLocaleListener localeListener,
-                                  final AISDResponse.AISDPreference preference) {
-        if (localeListener == null) {
-            ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
-                    "OnGetServiceUrlMapListener is null initialized");
-        } else {
-            if (serviceId == null) {
-                localeListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
-            } else {
-                String locale = serviceDiscovery.getLocaleWithPreference(preference);
-                if (locale != null) {
-                    localeListener.onSuccess(locale);
-                } else {
-                    localeListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR,
-                            "ServiceDiscovery cannot find the locale");
-                }
-            }
-        }
-    }
-
-    private void filterDataForUrlbyLang(ServiceDiscovery service, String serviceId, OnGetServiceUrlListener onGetServiceUrlListener) {
-        if (onGetServiceUrlListener != null && serviceId != null && service.getMatchByLanguage().getConfigs() != null) {
-            try {
-                URL url = new URL(service.getMatchByLanguage().getConfigs().get(0).getUrls().get(serviceId));
-                if (url.toString().contains("%22")) {
-                    url = new URL(url.toString().replace("%22", "\""));
-                }
-                if (url == null) {
-                    onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-                } else {
-                    onGetServiceUrlListener.onSuccess(url);
-                }
-            } catch (MalformedURLException e) {
-                onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-            }
-        } else if (onGetServiceUrlListener != null) {
-            onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-        }
-    }
-
-    private void filterDataForUrlbyCountry(ServiceDiscovery service, String serviceId, OnGetServiceUrlListener onGetServiceUrlListener) {
-        if (onGetServiceUrlListener != null && serviceId != null && service.getMatchByCountry().getConfigs() != null) {
-            try {
-                URL url = new URL(service.getMatchByCountry().getConfigs().get(0).getUrls().get(serviceId));
-                if (url.toString().contains("%22")) {
-                    url = new URL(url.toString().replace("%22", "\""));
-                }
-                if (url == null) {
-                    onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-                } else {
-                    onGetServiceUrlListener.onSuccess(url);
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-            }
-        } else {
-            onGetServiceUrlListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-        }
-    }
-
-    private void filterDataForLocalByLang(ServiceDiscovery service, String serviceId, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-        if (onGetServiceLocaleListener != null && service.getMatchByLanguage().getConfigs() != null) {
-            if (service.getMatchByLanguage().getLocale() == null) {
-                onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-            } else {
-                onGetServiceLocaleListener.onSuccess(service.getMatchByLanguage().getLocale());
-            }
-        } else if (onGetServiceLocaleListener != null) {
-            onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-        }
-    }
-
-    private void filterDataForLocalByCountry(ServiceDiscovery service, String serviceId, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-        if (onGetServiceLocaleListener != null && service.getMatchByCountry().getConfigs() != null) {
-            if (service.getMatchByCountry().getLocale() == null) {
-                onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
-            } else {
-                onGetServiceLocaleListener.onSuccess(service.getMatchByCountry().getLocale());
-            }
-        } else {
-            onGetServiceLocaleListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
         }
     }
 

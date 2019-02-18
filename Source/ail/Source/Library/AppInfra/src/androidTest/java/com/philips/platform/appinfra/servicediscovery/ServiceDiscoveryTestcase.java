@@ -741,12 +741,13 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyLang", ServiceDiscovery.class,
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class, Map.class);
+                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class, Map.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+
                 @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getConfigUrls());
                 }
 
                 @Override
@@ -786,12 +787,12 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry", ServiceDiscovery.class,
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class, Map.class);
+                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class, Map.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getConfigUrls());
                 }
 
                 @Override
@@ -858,12 +859,13 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getDataForUrl", ServiceDiscovery.class,
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class, Map.class);
+                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class, Map.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+
                 @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getConfigUrls());
                 }
 
                 @Override
@@ -884,9 +886,9 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForLocalByLang", ServiceDiscovery.class,
-                    ServiceDiscoveryInterface.OnGetServiceLocaleListener.class);
+                    ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
 
                 @Override
                 public void onError(ERRORVALUES error, String message) {
@@ -894,8 +896,8 @@ public class ServiceDiscoveryTestcase {
                 }
 
                 @Override
-                public void onSuccess(String locale) {
-                    assertNotNull(locale);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getLocale());
                 }
             });
 
@@ -910,17 +912,17 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForLocalByCountry", ServiceDiscovery.class,
-                    ServiceDiscoveryInterface.OnGetServiceLocaleListener.class);
+                    ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
                     assertNotNull(message);
                 }
 
                 @Override
-                public void onSuccess(String locale) {
-                    assertNotNull(locale);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getLocale());
                 }
             });
 

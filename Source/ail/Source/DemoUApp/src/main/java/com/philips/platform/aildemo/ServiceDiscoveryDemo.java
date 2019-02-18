@@ -37,7 +37,7 @@ import java.util.Map;
 /**
  * Created by 310238655 on 6/7/2016.
  */
-public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetServiceLocaleListener, ServiceDiscoveryInterface.OnGetServiceUrlListener, ServiceDiscoveryInterface.OnGetHomeCountryListener, ServiceDiscoveryInterface.OnGetServiceUrlMapListener {
+public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetHomeCountryListener, ServiceDiscoveryInterface.OnGetServiceUrlMapListener {
 
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
    ServiceDiscoveryInterface.OnGetHomeCountryListener mOnGetHomeCountryListener = null;
@@ -283,33 +283,11 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         return map;
     }
 
-    @Override
-    public void onSuccess(String services) {
-        Log.i("OnGetServicesListener", "" + services);
-        resultView.setText(services);
-    }
 
     @Override
     public void onError(ERRORVALUES error, String message) {
         Log.i("onError", "" + message);
         resultView.setText(message);
-    }
-
-    @Override
-    public void onSuccess(URL url) {
-        Log.i("Success", "" + url);
-        try {
-//            Map<String, String> parameters = new HashMap<>();
-//            parameters.put("ctn", "HD9740");
-//            parameters.put("sector", "B2C");
-//            parameters.put("catalog", "shavers");
-//
-//            url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
-//            URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
-            resultView.setText("" + url);
-
-        } catch (Exception e) {
-        }
     }
 
     @Override
