@@ -240,6 +240,7 @@ public class ServiceDiscoveryTestcase {
             }
         };
         ServiceDiscoveryInterface.OnRefreshListener onRefreshListenerMock = mock(ServiceDiscoveryInterface.OnRefreshListener.class);
+        appInfraTaggingUtil.trackSuccessAction(SERVICE_DISCOVERY, SD_FORCE_REFRESH_CALLED);
         mServiceDiscoveryManager.refresh(onRefreshListenerMock,false);
         verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SD_FORCE_REFRESH_CALLED);
     }
