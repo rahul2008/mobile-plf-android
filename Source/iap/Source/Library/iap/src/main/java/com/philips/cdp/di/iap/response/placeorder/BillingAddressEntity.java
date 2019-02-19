@@ -10,6 +10,7 @@ public class BillingAddressEntity {
     private Country country;
     private String id;
     private String line1;
+    private String houseNumber;
     private String line2;
     private String postalCode;
     private String town;
@@ -24,6 +25,10 @@ public class BillingAddressEntity {
 
     public String getLine1() {
         return line1;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
     }
 
     public String getLine2() {

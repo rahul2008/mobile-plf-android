@@ -69,7 +69,6 @@ ext.philipsdeps = [
         digitalCareUApp             : [group: 'com.philips.platform', name: strings.dccuapp.artifactName, version: platformversionsuffix, changing: true],
         iap                         : [group: 'com.philips.platform', name: strings.iap.artifactName, version: platformversionsuffix, changing: true],
         iapUApp                     : [group: 'com.philips.platform', name: strings.iapuapp.artifactName, version: platformversionsuffix, changing: true],
-        jump                        : [group: 'com.philips.platform', name: strings.jmp.artifactName, version: platformversionsuffix, changing: true],
         pif                         : [group: 'com.philips.platform', name: strings.pif.artifactName, version: platformversionsuffix, changing: true],
         productselection            : [group: 'com.philips.platform', name: strings.pse.artifactName, version: platformversionsuffix, changing: true],
         prx                         : [group: 'com.philips.platform', name: strings.prx.artifactName, version: platformversionsuffix, changing: true],
@@ -106,6 +105,7 @@ ext.repos.hsdprelease = ext.repos.base+"/HSDP-pkgs-android-release"
  */
 ext.deps = [
         adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.17.2',
+        jump                          : 'com.janrain.android:jump-android:7.1.1',   //Consuming from the forked version of jump in azure repo.
         butterknife                   : 'com.jakewharton:butterknife:8.8.1',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',
         constraintlayout              : 'com.android.support.constraint:constraint-layout:1.1.3',

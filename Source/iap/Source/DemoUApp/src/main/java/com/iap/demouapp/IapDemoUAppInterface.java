@@ -18,10 +18,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class IapDemoUAppInterface implements UappInterface {
 
     private Context mContext;
-    static AppInfraInterface mAppInfra;
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        mAppInfra=uappDependencies.getAppInfra();
         this.mContext=uappSettings.getContext();
     }
 

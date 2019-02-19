@@ -51,22 +51,12 @@ public class SalutationDropDown {
 //        return rowItems;
 //    }
     private String[] createRowItems(Context context) {
-        // List<String> rowItems = new ArrayList<>();
-//        mRegionList = CartModelContainer.getInstance().getRegionList();
-//        String[] rowItems = new String[mRegionList.getRegions().size()];
-//
-//        if (mRegionList != null) {
-//            for (int i = 0; i < mRegionList.getRegions().size(); i++) {
-//                //rowItems.add(mRegionList.getRegions().get(i).getName());
-//                rowItems[i] = mRegionList.getRegions().get(i).getName();
-//            }
-//        }
+
         String mr = context.getResources().getString(R.string.iap_mr);
         String ms = context.getResources().getString(R.string.iap_mrs);
         String[] rowItems = new String[2];
-        rowItems[0] = mr + ".";
-        rowItems[1] = ms + ".";
-
+        rowItems[0] = mr;
+        rowItems[1] = ms;
 
         return rowItems;
     }

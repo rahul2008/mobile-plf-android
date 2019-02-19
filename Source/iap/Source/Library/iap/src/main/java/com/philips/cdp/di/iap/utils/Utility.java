@@ -115,6 +115,8 @@ public class Utility {
         StringBuilder sb = new StringBuilder();
 
         final String line1 = address.getLine1();
+        final String houseNo = address.getHouseNumber();
+        appendAddressWithNewLineIfNotNull(sb, houseNo);
         appendAddressWithNewLineIfNotNull(sb, line1);
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
         appendAddressWithNewLineIfNotNull(sb, address.getRegionName()+" "+address.getPostalCode());
@@ -394,7 +396,5 @@ public class Utility {
         return false;
     }
 
-
-
-    }
+}
 

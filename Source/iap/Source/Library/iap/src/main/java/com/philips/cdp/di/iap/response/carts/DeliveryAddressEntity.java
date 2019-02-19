@@ -14,6 +14,7 @@ public class DeliveryAddressEntity {
     private String id;
     private String lastName;
     private String line1;
+    private String houseNumber;
     private String line2;
     private String phone;
     private String postalCode;
@@ -72,5 +73,9 @@ public class DeliveryAddressEntity {
 
     public boolean isVisibleInAddressBook() {
         return visibleInAddressBook;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
     }
 }

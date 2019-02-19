@@ -1,0 +1,28 @@
+{
+    "addressfields":[
+        "salutation",
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "houseNumber",
+        "address1",
+        "address2",
+        "town",
+        "postalCode",
+        "state",
+        "country"
+    ],
+    "excludedFields" :{
+      "US" :[
+          "houseNumber",
+          "address2"
+      ],
+      "DE" :[
+          "address2"
+      ],
+        "NL" :[
+            "state"
+        ]
+    }
+}

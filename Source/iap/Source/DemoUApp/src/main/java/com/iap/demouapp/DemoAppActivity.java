@@ -38,6 +38,8 @@ import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -56,12 +58,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         UserRegistrationUIEventListener, UserRegistrationListener {
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
-    // private DemoApplication mApplicationContext;
-
-    private LinearLayout mAddCTNLl,ll_voucher;
-
+    private LinearLayout mAddCTNLl, mLL_voucher;
     private FrameLayout mShoppingCart;
-    private EditText mEtCTN,mEtVoucherCode;
+    private EditText mEtCTN,mEtVoucherCode,mEtPropositionId;
 
     private Button mRegister;
     private Button mShopNow;
@@ -69,11 +68,10 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private Button mBuyDirect;
     private Button mPurchaseHistory;
     private Button mLaunchProductDetail;
-    private Button mAddCtn,btn_add_voucher;
+    private Button mAddCtn, mBtn_add_voucher, mBtnSetPropositionId;
     private Button mShopNowCategorizedWithRetailer;
     private ProgressDialog mProgressDialog = null;
     private ArrayList<String> mCategorizedProductList;
-
     private TextView mTitleTextView;
     private TextView mCountText;
 
@@ -86,6 +84,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     String voucherCode;
 
     private ArrayList<String> ignorelistedRetailer;
+    private View mLL_propositionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +100,28 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mEtCTN = findViewById(R.id.et_add_ctn);
         mEtVoucherCode= findViewById(R.id.et_add_voucher);
         mAddCTNLl = findViewById(R.id.ll_ctn);
+
+
+
+        mEtPropositionId = findViewById(R.id.et_add_proposition_id);
+        mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
+
+
+        mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
+                AppConfigurationInterface configInterface = appInfra.getConfigInterface();
+                AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+                configInterface.setPropertyForKey("propositionid", "IAP",mEtPropositionId.getText().toString(), configError);
+
+                Toast.makeText(DemoAppActivity.this,"Proposition id is set",Toast.LENGTH_SHORT).show();
+
+
+                finish();
+            }
+        });
 
         mRegister = findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
@@ -124,13 +145,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShopNowCategorized.setOnClickListener(this);
 
 
-        ll_voucher=  findViewById(R.id.ll_voucher);
+        mLL_voucher =  findViewById(R.id.ll_voucher);
+        mLL_propositionId = findViewById(R.id.ll_enter_proposition_id);
 
         mAddCtn = findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
-        btn_add_voucher= findViewById(R.id.btn_add_voucher);
-        btn_add_voucher.setOnClickListener(this);
+        mBtn_add_voucher = findViewById(R.id.btn_add_voucher);
+        mBtn_add_voucher.setOnClickListener(this);
 
         mShopNowCategorizedWithRetailer = findViewById(R.id.btn_categorized_shop_now_with_ignore_retailer);
         mShopNowCategorizedWithRetailer.setOnClickListener(this);
@@ -140,7 +162,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         mCategorizedProductList = new ArrayList<>();
         showScreenSizeInDp();
-        // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
         try {
             mUser = new User(this);
             mUser.registerUserRegistrationListener(this);
@@ -150,7 +171,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         //Integration interface
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
-        // enableViews();
         actionBar();
         initializeIAPComponant();
     }
@@ -171,20 +191,17 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         ignorelistedRetailer.add("Frys.com");
         ignorelistedRetailer.add("Amazon - US");
         ignorelistedRetailer.add("BestBuy.com");
+
+
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
-
-        //ignorelistedRetailer.add("John Lewis ");
         displayUIOnCartVisible();
     }
 
     private void displayUIOnCartVisible() {
         mIapInterface.isCartVisible(this);
-      //  mIapInterface.getCompleteProductList(this);
-//        onResumeRetailer();
-
     }
 
     @Override
@@ -205,7 +222,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void onResumeRetailer(){
         mAddCTNLl.setVisibility(View.VISIBLE);
-        ll_voucher.setVisibility(View.VISIBLE);
+        mLL_voucher.setVisibility(View.VISIBLE);
+        mLL_propositionId.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -220,7 +238,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private void displayFlowViews(boolean b) {
 
         mAddCTNLl.setVisibility(View.VISIBLE);
-        ll_voucher.setVisibility(View.VISIBLE);
+        mLL_voucher.setVisibility(View.VISIBLE);
+        mLL_propositionId.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -229,11 +248,11 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
             mCountText.setVisibility(View.VISIBLE);
-            try {
+           /* try {
                 mIapInterface.getCompleteProductList(this);
             } catch (RuntimeException e) {
 
-            }
+            }*/
             mShopNow.setVisibility(View.VISIBLE);
             mShopNow.setEnabled(true);
             mPurchaseHistory.setVisibility(View.VISIBLE);
@@ -261,36 +280,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    /*
-    * CA6702/00
-    CA6700/47
-    DL8791/00
-    DIS362/03
-    DL8781/37
-    DL8760/37
-    HD8967/47
-    HD8645/47
-    * */
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (mUser.isUserSignIn()) {
-//            displayUIOnCartVisible();
-//        }
-//    }
-//
-//    private void enableViews() {
-//        if (!mUser.isUserSignIn()) {
-//            hideViews();
-//            return;
-//        }
-//        displayViews();
-//        // if (!mIAPSettings.isUseLocalData()) {
-//
-//        // }
-//        showScreenSizeInDp();
-//    }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -312,39 +301,18 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.iap_app_name));
-
-//         mCartIcon = (ImageView) findViewById(R.id.cart_iv);
-
-        //if (!mIAPSettings.isUseLocalData()) {
-//        mCartIcon.setVisibility(View.VISIBLE);
-//        mCountText.setVisibility(View.VISIBLE);
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // showFragment(ShoppingCartFragment.TAG);
-               // mShoppingCart.setOnClickListener(null);
                 launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
             }
         });
-
-
-//        } else {
-//            mCartIcon.setVisibility(View.GONE);
-//            mCountText.setVisibility(View.GONE);
-//        }
     }
 
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         mTitleTextView.setText(title);
-    }
-
-    @Override
-    protected void onDestroy() {
-//        dismissProgressDialog();
-
-        super.onDestroy();
     }
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
@@ -366,7 +334,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(final View view) {
         if (view == mShoppingCart) {
-            //mShoppingCart.setOnClickListener(null);
             launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
@@ -402,20 +369,16 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mRegister) {
-            // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
-            //RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             if (mRegister.getText().toString().equalsIgnoreCase(this.getString(R.string.log_out))) {
                 if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                     mUser.logout(new LogoutHandler() {
                         @Override
                         public void onLogoutSuccess() {
-
                             finish();
                         }
 
                         @Override
                         public void onLogoutFailure(int i, String s) {
-
                             Toast.makeText(DemoAppActivity.this, "Logout went wrong", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -435,7 +398,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             mEtCTN.setText("");
             hideKeypad(this);
         }
-        else if(view==btn_add_voucher){
+        else if(view== mBtn_add_voucher){
             if(mEtVoucherCode.getText().toString().length()>0) {
                 voucherCode = mEtVoucherCode.getText().toString();
             }
@@ -463,17 +426,10 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-//    private void updateCartIcon() {
-////        if (mIAPSettings.isUseLocalData()) {
-////            mShoppingCart.setVisibility(View.GONE);
-////        } else {
-//        mShoppingCart.setVisibility(View.VISIBLE);
-////        }
-//    }
-
     private void displayViews() {
         mAddCTNLl.setVisibility(View.VISIBLE);
-        ll_voucher.setVisibility(View.VISIBLE);
+        mLL_voucher.setVisibility(View.VISIBLE);
+        mLL_propositionId.setVisibility(View.VISIBLE);
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
@@ -481,18 +437,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShopNow.setEnabled(true);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);
-//        mPurchaseHistory.setVisibility(View.VISIBLE);
-//        mPurchaseHistory.setEnabled(true);
-
-
     }
 
     private void hideViews() {
         mCountText.setVisibility(View.GONE);
-        //mLaunchFragment.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
-        ll_voucher.setVisibility(View.GONE);
+        mLL_voucher.setVisibility(View.GONE);
+        mLL_propositionId.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mBuyDirect.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);
@@ -569,19 +521,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        //Toast.makeText(this, "Fetched product list done", Toast.LENGTH_SHORT).show();
         mShoppingCart.setOnClickListener(this);
-//        mEtCTN.setText(productList.get(1));
-//        ArrayList<String> arrayList = new ArrayList<>();
-//        arrayList.add(productList.get(1));
-//        IAPFlowInput input = new IAPFlowInput(arrayList);
-//        launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input);
         dismissProgressDialog();
     }
 
     @Override
     public void onSuccess() {
-       // mShoppingCart.setOnClickListener(this);
     }
 
     @Override
@@ -602,7 +547,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         activity.finish();
         mRegister.setText(this.getString(R.string.log_out));
         initializeIAPComponant();
-        // displayUIOnCartVisible();
     }
 
     @Override
@@ -631,7 +575,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     void showScreenSizeInDp() {
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         Toast.makeText(this, "Screen width in dp is :" + dpWidth, Toast.LENGTH_LONG).show();
     }
