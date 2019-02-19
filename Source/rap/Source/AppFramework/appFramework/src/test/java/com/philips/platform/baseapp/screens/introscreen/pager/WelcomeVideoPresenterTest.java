@@ -21,8 +21,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -63,8 +65,9 @@ public class WelcomeVideoPresenterTest {
         when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         welcomeVideoPresenter.fetchVideoDataSource();
         ArrayList<String> serviceIDList = new ArrayList<>();
-        serviceIDList.add(eq(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO));
-        verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(serviceIDList, captor.capture(),null);
+        serviceIDList.add(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO);
+        ArgumentCaptor<ArrayList<String>> captorList = ArgumentCaptor.forClass(ArrayList.class);
+        verify(serviceDiscoveryInterfaceMock).getServicesWithLanguagePreference(captorList.capture(), captor.capture(),eq(null));
         onGetServiceUrlListener = captor.getValue();
     }
 
