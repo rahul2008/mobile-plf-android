@@ -50,6 +50,9 @@ public class WebViewPresenterTest {
     @Captor
     private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlMapListener> captor;
 
+    @Captor
+    private ArgumentCaptor<ArrayList<String>> captorArrayList;
+
     ServiceDiscoveryInterface serviceDiscoveryInterfaceMock;
 
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener value;
@@ -81,14 +84,12 @@ public class WebViewPresenterTest {
     @Test
     public void loadUrlTest_onUrlLoadSuccess() throws Exception {
         webViewPresenter.loadUrl(Constants.TERMS_AND_CONDITIONS);
-        ArrayList<String> serviceIDList = new ArrayList<>();
-        serviceIDList.add(eq(Constants.TERMS_AND_CONDITIONS));
-        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(serviceIDList, captor.capture(),null);
+        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(),eq(null));
         value= captor.getValue();
         Map<String, ServiceDiscoveryService> urlMap = new HashMap<>();
         ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
         serviceDiscoveryService.setConfigUrl("https://www.usa.philips.com/content/B2C/en_US/apps/77000/deep-sleep/sleep-score/articles/sleep-score/high-sleepscore.html");
-        urlMap.put(serviceIDList.get(0),serviceDiscoveryService);
+        urlMap.put(Constants.TERMS_AND_CONDITIONS,serviceDiscoveryService);
         value.onSuccess(urlMap);
         verify(view).onUrlLoadSuccess(any(String.class));
     }
@@ -96,9 +97,7 @@ public class WebViewPresenterTest {
     @Test
     public void loadUrlTest_onUrlLoadError() throws Exception {
         webViewPresenter.loadUrl(Constants.TERMS_AND_CONDITIONS);
-        ArrayList<String> serviceIDList = new ArrayList<>();
-        serviceIDList.add(eq(Constants.TERMS_AND_CONDITIONS));
-        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(serviceIDList, captor.capture(),null);
+        verify(serviceDiscoveryInterfaceMock).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(),eq(null));
         value= captor.getValue();
         value.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK,"");
         verify(view).onUrlLoadError(any(String.class));
