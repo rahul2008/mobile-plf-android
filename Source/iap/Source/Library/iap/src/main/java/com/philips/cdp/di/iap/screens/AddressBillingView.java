@@ -516,7 +516,7 @@ public class AddressBillingView
                         && (mEtTownBilling.getVisibility() == View.GONE || mValidator.isValidTown(town))
                         && (mEtCountryBilling.getVisibility() == View.GONE || mValidator.isValidCountry(country))
                         && (mEtSalutationBilling.getVisibility() == View.GONE || (!mEtSalutationBilling.getText().toString().trim().equalsIgnoreCase("")))
-                        && (mlLStateBilling.getVisibility() == View.VISIBLE && !mEtStateBilling.getText().toString().trim().equalsIgnoreCase(""));
+                        && (mlLStateBilling.getVisibility() == View.GONE && (mlLStateBilling.getVisibility() == View.VISIBLE && !mEtStateBilling.getText().toString().trim().isEmpty()));
         return isValid;
     }
 
