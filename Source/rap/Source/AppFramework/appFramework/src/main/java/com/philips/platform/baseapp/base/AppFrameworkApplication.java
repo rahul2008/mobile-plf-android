@@ -102,6 +102,7 @@ public class AppFrameworkApplication extends Application {
         super.onCreate();
 
         if(BuildConfig.BUILD_TYPE.equalsIgnoreCase("debug")) {
+            //Facebook stetho library is used for browsing database using chrome developer tool.
             Stetho.initializeWithDefaults(this);
         }
     }
