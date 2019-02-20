@@ -43,8 +43,6 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
 
     private String FAQ_PAGE_URL = null;
     private String TAG = FaqDetailedFragment.class.getSimpleName();
@@ -103,9 +101,6 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         initView();
         loadFaq(FAQ_PAGE_URL);
     }
@@ -113,7 +108,6 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
         initView();
         loadFaq(FAQ_PAGE_URL);
     }

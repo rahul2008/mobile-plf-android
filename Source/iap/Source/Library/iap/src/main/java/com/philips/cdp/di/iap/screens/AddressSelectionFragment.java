@@ -292,6 +292,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         addressHashMap.put(ModelConstants.TITLE_CODE, titleCode);
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, address.getCountry().getIsocode());
         addressHashMap.put(ModelConstants.LINE_1, address.getLine1());
+        addressHashMap.put(ModelConstants.HOUSE_NO, address.getHouseNumber());
         addressHashMap.put(ModelConstants.LINE_2, address.getLine2());
         addressHashMap.put(ModelConstants.POSTAL_CODE, address.getPostalCode());
         addressHashMap.put(ModelConstants.TOWN, address.getTown());

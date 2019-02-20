@@ -274,29 +274,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         return false;
     }
 
-    protected void enableActionBarLeftArrow(ImageView hambergermenu, ImageView backarrow) {
-        DigiCareLogger.d(TAG, "BackArrow icon Enabled");
-        if (hambergermenu != null && backarrow != null) {
-            backarrow.setVisibility(View.VISIBLE);
-            backarrow.bringToFront();
-        }
-    }
 
-    protected void enableActionBarHamburgerIcon(ImageView hambergermenu, ImageView backarrow) {
-        DigiCareLogger.d(TAG, "Hamburger icon Enabled");
-        if (hambergermenu != null && backarrow != null) {
-            hambergermenu.setVisibility(View.VISIBLE);
-            hambergermenu.bringToFront();
-        }
-    }
-
-    protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {
-        DigiCareLogger.d(TAG, "Hide menu & arrow icons");
-        if (hambergermenu != null && backarrow != null) {
-            hambergermenu.setVisibility(View.GONE);
-            backarrow.setVisibility(View.GONE);
-        }
-    }
 
     protected void showAlert(final String message) {
         mHandler.post(new Runnable() {
@@ -322,25 +300,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         getAppName();
-    }
-
-	/*
-     * This method can be called directly from outside and helps to invoke the
-	 * fragments, instead of full screen activity. DigitalCare fragments will be
-	 * added in the root container of hosting app. Integrating app has to pass
-	 * some parameters in order to do smooth operations.
-	 */
-
-    private void enableActionBarLeftArrow() {
-        mBackToHome = mFragmentActivityContext
-                .findViewById(R.id.back_to_home_img);
-        mHomeIcon = mFragmentActivityContext
-                .findViewById(R.id.home_icon);
-        if (mHomeIcon != null) mHomeIcon.setVisibility(View.GONE);
-        if (mBackToHome != null) {
-            mBackToHome.setVisibility(View.VISIBLE);
-            mBackToHome.bringToFront();
-        }
     }
 
     /*
@@ -373,7 +332,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             containerId = mContainerId;
             mFragmentActivityContext = mFragmentLauncher.getFragmentActivity();
         } else {
-            enableActionBarLeftArrow();
             InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             if (mFragmentActivityContext.getWindow() != null

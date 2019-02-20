@@ -7,9 +7,9 @@ package com.philips.platform.baseapp.base;
 import android.app.Application;
 import android.os.StrictMode;
 
+import com.facebook.stetho.Stetho;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.philips.cdp.uikit.utils.UikitLocaleHelper;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.abtesting.AbTestingImpl;
@@ -38,6 +38,7 @@ import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinitionStatus;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
+import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -99,6 +100,11 @@ public class AppFrameworkApplication extends Application {
 
         }
         super.onCreate();
+
+        if(BuildConfig.BUILD_TYPE.equalsIgnoreCase("debug")) {
+            //Facebook stetho library is used for browsing database using chrome developer tool.
+            Stetho.initializeWithDefaults(this);
+        }
     }
 
     /**
@@ -287,7 +293,7 @@ public class AppFrameworkApplication extends Application {
                 languagePackInterface.activate(new LanguagePackInterface.OnActivateListener() {
                     @Override
                     public void onSuccess(String filePath) {
-                        UikitLocaleHelper.getUikitLocaleHelper().setFilePath(filePath);
+                        UIDLocaleHelper.getInstance().setFilePath(filePath);
                         RALog.d(LOG, "Success language pack activate " + "---" + filePath);
                     }
 

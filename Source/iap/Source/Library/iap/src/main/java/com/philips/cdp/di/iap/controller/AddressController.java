@@ -60,6 +60,16 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
     }
 
+    public void getRegions(String countryISO) {
+        String country = getStore().getCountry();
+        getStore().setLangAndCountry(getStore().getLocale(),countryISO);
+        GetRegionsRequest model = new GetRegionsRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
+
+        // Todo : Its a hack ,need to be fixed
+        getStore().setLangAndCountry(getStore().getLocale(),country);
+    }
+
     public void getUser() {
         GetUserRequest model = new GetUserRequest(getStore(), null, this);
         getHybrisDelegate().sendRequest(RequestCode.GET_USER, model, model);
@@ -164,6 +174,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         params.put(ModelConstants.TITLE_CODE, addressFields.getTitleCode().toLowerCase(Locale.getDefault()));
         params.put(ModelConstants.COUNTRY_ISOCODE, addressFields.getCountryIsocode());
         params.put(ModelConstants.LINE_1, addressFields.getLine1());
+        params.put(ModelConstants.HOUSE_NO, addressFields.getHouseNumber());
         params.put(ModelConstants.POSTAL_CODE, addressFields.getPostalCode());
         params.put(ModelConstants.TOWN, addressFields.getTown());
         params.put(ModelConstants.PHONE_1, addressFields.getPhone1());
@@ -183,6 +194,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         addressHashMap.put(ModelConstants.TITLE_CODE, addr.getTitleCode());
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, addr.getCountry().getIsocode());
         addressHashMap.put(ModelConstants.LINE_1, addr.getLine1());
+        addressHashMap.put(ModelConstants.HOUSE_NO, addr.getHouseNumber());
         addressHashMap.put(ModelConstants.LINE_2, addr.getLine2());
         addressHashMap.put(ModelConstants.POSTAL_CODE, addr.getPostalCode());
         addressHashMap.put(ModelConstants.TOWN, addr.getTown());

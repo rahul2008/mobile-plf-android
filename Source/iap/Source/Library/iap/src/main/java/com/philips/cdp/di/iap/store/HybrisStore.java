@@ -35,7 +35,7 @@ public class HybrisStore extends AbstractStore {
     private static final String SUFFIX_ENTRIES = "/entries";
 
     /*ToDO : using lang=en instead of locale as backend not support*/
-    private static final String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign&lang=";
+    private String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign&lang=";
 
     private static final String SUFFIX_PRODUCTS = "products";
     private static final String SUFFIX_CURRENT_PAGE = "&currentPage=%s";
@@ -231,6 +231,8 @@ public class HybrisStore extends AbstractStore {
     }
 
     protected void generateGenericUrls() {
+
+        SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:"+mStoreConfig.getCampaign()+"&lang=";
 
         //Carts
         String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);

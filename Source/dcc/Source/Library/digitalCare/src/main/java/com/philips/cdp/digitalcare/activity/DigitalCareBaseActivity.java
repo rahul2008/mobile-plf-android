@@ -41,10 +41,6 @@ import com.philips.platform.uid.utils.UIDActivity;
 public abstract class DigitalCareBaseActivity extends UIDActivity implements ActivityTitleListener{
     private static String TAG = DigitalCareBaseActivity.class.getSimpleName();
 
-    protected RelativeLayout mActionbarlayout = null;
-    protected ImageView mActionBarMenuIcon = null;
-    protected ImageView mActionBarArrow = null;
-    protected TextView mActionBarTitle = null;
     protected FragmentManager fragmentManager = null;
     protected DigitalCareConfigManager mDigitalCareConfigManager = null;
     private Toolbar toolbar;

@@ -20,7 +20,6 @@ buildscript {
         classpath builddeps.buildinfoextractor
         classpath builddeps.cdpSCM
         classpath builddeps.bintrayplugin
-        classpath builddeps.cdpSCM
     }
 }
 
@@ -191,8 +190,10 @@ dependencies {
     implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
     implementation philipsdeps.uid
-    implementation philipsdeps.uikitLib
     implementation project(strings.mya.projectName)
+
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 
     implementation (philipsdeps.csw){
         exclude group: 'com.philips.platform'

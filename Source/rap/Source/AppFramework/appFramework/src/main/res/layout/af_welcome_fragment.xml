@@ -62,7 +62,7 @@
 
         <ImageView
             android:id="@+id/welcome_rightarrow"
-            style="@style/FontIcon.WelcomeArrow"
+            style="@style/WelcomeArrow"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:paddingBottom="@dimen/margin_twelve"
@@ -72,7 +72,7 @@
 
         <ImageView
             android:id="@+id/welcome_leftarrow"
-            style="@style/FontIcon.WelcomeArrow"
+            style="@style/WelcomeArrow"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:paddingBottom="@dimen/margin_twelve"

@@ -112,8 +112,7 @@ dependencies {
     implementation deps.jackson_core
     implementation deps.jackson_databind
     implementation philipsdeps.uid
-    //implementation philipsdeps.jump
-    implementation project(strings.jmp.projectName)
+    implementation deps.jump
     if (useprojectdependencies) {
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)

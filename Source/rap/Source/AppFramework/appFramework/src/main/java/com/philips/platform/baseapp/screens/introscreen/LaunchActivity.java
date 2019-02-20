@@ -67,7 +67,7 @@ public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements 
     @Override
     public void updateActionBarIcon(boolean showBackButton) {
         if (showBackButton) {
-            toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), R.drawable.left_arrow, getTheme()));
+            toolbar.setNavigationIcon(R.drawable.back_icon);
         } else {
             toolbar.setNavigationIcon(null);
         }

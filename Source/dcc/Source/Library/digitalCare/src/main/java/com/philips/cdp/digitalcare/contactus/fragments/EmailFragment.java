@@ -31,9 +31,6 @@ public class EmailFragment extends DigitalCareBaseFragment {
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
-    private String EMAIL_URL = "https://%s/content/%s/%s_%s/support-home/support-contact-form-mrs.html?param1=%s";
     private String TAG = EmailFragment.class.getSimpleName();
     private String mEmailUrl;
 
@@ -66,9 +63,6 @@ public class EmailFragment extends DigitalCareBaseFragment {
         mWebView = (WebView) mView.findViewById(R.id.webView);
         mProgressBar = (ProgressBar) mView
                 .findViewById(R.id.common_webview_progress);
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -111,7 +105,6 @@ public class EmailFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override

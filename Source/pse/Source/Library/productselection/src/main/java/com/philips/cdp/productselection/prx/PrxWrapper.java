@@ -2,6 +2,7 @@ package com.philips.cdp.productselection.prx;
 
 import android.content.Context;
 
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
@@ -153,6 +154,11 @@ public class PrxWrapper {
                 @Override
                 public void onResponseError(PrxError error) {
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + finalI);
+                    if (error.getStatusCode() == 404) {
+                        if (ProductModelSelectionHelper.getInstance().getTaggingInterface() != null && mAppInfraInterface.getServiceDiscovery() != null) {
+                            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo(Constants.ACTION_KEY_SEND_DATA, Constants.TECHNICAL_ERROR, finalI + Constants.CTN_NOT_FOUND);
+                        }
+                    }
                     countDownLatch.countDown();
                     if (countDownLatch.getCount() == 0)
                         listener.onSuccess(summaryModelList);

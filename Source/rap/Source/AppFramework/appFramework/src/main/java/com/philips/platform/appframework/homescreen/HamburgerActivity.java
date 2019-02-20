@@ -136,7 +136,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         if (!(savedInstanceState != null && !AppFrameworkApplication.isAppDataInitialized())) {
             presenter = getActivityPresenter();
             sharedPreferenceUtility = new SharedPreferenceUtility(this);
-            setContentView(R.layout.af_uikit_hamburger_menu);
+            setContentView(R.layout.af_uid_hamburger_menu);
             ButterKnife.bind(this);
             initializeActivityContents();
             SharedPreferenceUtility sharedPreferenceUtility = new SharedPreferenceUtility(getFragmentActivity().getApplicationContext());
@@ -416,7 +416,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
      */
     public void updateActionBarIcon(boolean isBackButtonVisible) {
         RALog.d(TAG, " updateActionBarIcon : " + isBackButtonVisible);
-        int navigationDrawableId = isBackButtonVisible ? R.drawable.left_arrow : R.drawable.ic_hamburger_icon;
+        int navigationDrawableId = isBackButtonVisible ? R.drawable.back_arrow : R.drawable.ic_hamburger_icon;
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getResources(), navigationDrawableId, getTheme()));
         toolbar.setNavigationContentDescription(isBackButtonVisible ? NAVIGATION_CONTENT_DESC_BACK : NAVIGATION_CONTENT_DESC_HAMBURGER);
         this.isBackButtonVisible = isBackButtonVisible;
