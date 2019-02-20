@@ -40,7 +40,7 @@ import java.util.Map;
 public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetHomeCountryListener, ServiceDiscoveryInterface.OnGetServiceUrlMapListener {
 
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-   ServiceDiscoveryInterface.OnGetHomeCountryListener mOnGetHomeCountryListener = null;
+    ServiceDiscoveryInterface.OnGetHomeCountryListener mOnGetHomeCountryListener = null;
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener mOnGetServiceUrlMapListener = null;
     AppInfraInterface appInfra;
 
@@ -328,13 +328,20 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //            Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
 //            Log.i("SD", ""+urlMap.get(i).getConfigUrls());
 //        }
-        resultView.setText(" URL Model   : " + mMap);
 
-
-
+        String selReqType = requestTypeSpinner.getSelectedItem().toString().trim();
+        if (selReqType.equalsIgnoreCase("Get local by lang") ||
+                selReqType.equalsIgnoreCase("Get local by country")) {
+            resultView.setText(locale);
+        }else if (selReqType.equalsIgnoreCase("Get url by lang") ||
+                    selReqType.equalsIgnoreCase("Get url by country") ||
+                    selReqType.equalsIgnoreCase("Get Url by language with replaced url") ||
+                    selReqType.equalsIgnoreCase("Get Url by country with replaced url")) {
+            resultView.setText(configUrl);
+        }else {
+            resultView.setText(" URL Model   : " + mMap);
+        }
     }
-
-
 
     @Override
     protected void onDestroy() {
