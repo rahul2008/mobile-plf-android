@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -110,6 +111,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private boolean mIsFromVertical;
     private ArrayList<StoreEntity> mUpdtedStoreEntity;
     private RelativeLayout mParentLayout;
+    private ProgressBar mProgresImage;
 
 
     private IAPCartListener mBuyProductListener = new IAPCartListener() {
@@ -174,6 +176,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     void initializeViews(View rootView) {
         mDetailLayout = rootView.findViewById(R.id.scrollView);
         mProductDescription = rootView.findViewById(R.id.iap_productDetailScreen_productDescription_lebel);
+        mProgresImage = rootView.findViewById(R.id.progress_image);
         mCTN = rootView.findViewById(R.id.iap_productDetailsScreen_ctn_lebel);
         mPrice = rootView.findViewById(R.id.iap_productDetailsScreen_individualPrice_lebel);
         mProductOverview = rootView.findViewById(R.id.iap_productDetailsScreen_productOverview);
@@ -248,6 +251,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void makeAssetRequest() {
         if (!CartModelContainer.getInstance().isPRXAssetPresent(mCTNValue)) {
+            mProgresImage.setVisibility(View.VISIBLE);
             final PRXAssetExecutor builder = new PRXAssetExecutor(mContext, mCTNValue, this);
             builder.build();
         } else {
@@ -257,6 +261,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
                     mAsset = entry.getValue();
                     break;
+
                 }
             }
             mImageAdapter = new ImageAdapter(mContext, mAsset);
@@ -470,6 +475,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onFetchAssetSuccess(final Message msg) {
         if (mContext == null)
             return;
+        mProgresImage.setVisibility(View.GONE);
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
@@ -484,6 +490,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onFetchAssetFailure(final Message msg) {
+        mProgresImage.setVisibility(View.GONE);
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if (mBuyFromRetailers.isActivated()) {
             mBuyFromRetailers.hideProgressIndicator();
@@ -497,7 +504,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             final  IAPNetworkError obj = (IAPNetworkError) msg.obj;
             mIapListener.onFailure(obj.getIAPErrorCode());
         }
-
     }
 
     void buyProduct(final String ctnNumber) {

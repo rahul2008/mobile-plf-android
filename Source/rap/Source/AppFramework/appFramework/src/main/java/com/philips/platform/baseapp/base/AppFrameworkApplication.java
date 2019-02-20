@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.base;
 import android.app.Application;
 import android.os.StrictMode;
 
+import com.facebook.stetho.Stetho;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.philips.platform.appframework.BuildConfig;
@@ -99,6 +100,11 @@ public class AppFrameworkApplication extends Application {
 
         }
         super.onCreate();
+
+        if(BuildConfig.BUILD_TYPE.equalsIgnoreCase("debug")) {
+            //Facebook stetho library is used for browsing database using chrome developer tool.
+            Stetho.initializeWithDefaults(this);
+        }
     }
 
     /**
