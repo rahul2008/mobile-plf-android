@@ -155,7 +155,7 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                                     ProdRegLogger.i("Success values ***", uriSubString);
                                     onUrlReceived.onSuccess(uriSubString);
                                 } catch (MalformedURLException e) {
-
+                                    ProdRegLogger.e("Exception values ***",e.getMessage());
                                 }
                             }
 

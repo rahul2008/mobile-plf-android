@@ -186,8 +186,10 @@ public class RegistrationRequest extends PrxRequest {
                     @Override
                     public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                         String url = urlMap.get(serviceID).getConfigUrls();
-                        if (url.toString().contains(ProdRegConstants.CHINA_DOMAIN)) {
+                        if (url.contains(ProdRegConstants.CHINA_DOMAIN)) {
                             headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
+                        }else{
+                            ProdRegLogger.i("Registration Request",url+ "does not contain china domain.");
                         }
                     }
 

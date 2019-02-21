@@ -56,7 +56,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,7 +79,7 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPref
 public class User {
 
     private final String TAG = "User";
-    private final LoggingInterface loggingInterface;
+    private final CloudLoggingInterface cloudLoggingInterface;
 
     @Inject
     NetworkUtility networkUtility;
@@ -124,7 +124,7 @@ public class User {
      */
     public User(Context context) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
+        cloudLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getCloudLoggingInterface();
         mContext = context;
     }
 
@@ -1072,8 +1072,8 @@ public class User {
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        if (loggingInterface != null) {
-            loggingInterface.setHSDPUserUUID(null);
+        if (cloudLoggingInterface != null) {
+            cloudLoggingInterface.setHSDPUserUUID(null);
         }
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
