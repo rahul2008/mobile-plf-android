@@ -106,16 +106,16 @@ dependencies {
     })
 
     testImplementation deps.junit
+    implementation deps.support.design
+    implementation deps.greenrobot
     implementation philipsdeps.uid
+    implementation project(path: ':udi')
     if (useprojectdependencies) {
-        implementation project(strings.udi.projectName)
-       // implementation project(strings.usr.projectName)
-
-        implementation project(strings.ail.projectName)
         implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
     } else {
-        implementation philipsdeps.udi
-        //implementation philipsdeps.registrationApi
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
     }
 }
 

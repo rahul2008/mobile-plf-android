@@ -128,21 +128,24 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(strings.udiuapp.projectName)
+    debugImplementation deps.leakcanary
+    releaseImplementation deps.leakcanary_no_op
+    testImplementation deps.leakcanary_no_op
+    annotationProcessor deps.butterknife_compiler
+
+    implementation project(':AppInfra')
+    implementation project(':uAppFwLib')
+    implementation philipsdeps.uid
     implementation project(':udi')
+    implementation project(':udiUApp')
     implementation deps.support.appcompatv7
+    implementation deps.constraintlayout
     implementation deps.support.design
-    implementation deps.support.annotations
+    implementation deps.multidex
+    implementation deps.greenrobot
+    implementation deps.butterknife
+    implementation deps.adobemobilelib
 
-    testImplementation deps.junit
-    implementation project(strings.ufw.projectName)
-    implementation project(strings.ail.projectName)
-
-
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
 }
 
 tasks.withType(Test) {

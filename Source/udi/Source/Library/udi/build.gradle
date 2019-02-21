@@ -68,20 +68,21 @@ dependencies {
     } else {
         implementation philipsdeps.uAppFwLib
     }
-
+    annotationProcessor deps.dagger.compiler
     implementation project(strings.ufw.projectName)
-    implementation 'com.squareup.okio:okio:2.0.0'
     implementation deps.calligraphy
     implementation deps.constraintlayout
     implementation deps.support.appcompatv7
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.support.annotations
+    implementation deps.dagger.dagger
     implementation philipsdeps.uid
     implementation deps.support.recyclerview
     testImplementation deps.junit
     implementation deps.adobemobilelib
     implementation deps.openid_appauth
+    implementation deps.rxjava2
 
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.mockito_android

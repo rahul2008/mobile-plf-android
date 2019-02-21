@@ -1,13 +1,15 @@
 package com.philips.platform.udidemo;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.Button;
+import com.udi.demouapp.DemoAppActivity;
 import com.udi.demouapp.UdiDemoAppSettings;
 import com.udi.demouapp.UdiDemoUAppDependencies;
 import com.udi.demouapp.UdiDemoUAppInterface;
@@ -15,19 +17,24 @@ import com.udi.demouapp.UdiLaunchInput;
 
 public class UDIDemoActivity extends UIDActivity {
 
-    private UdiDemoUAppInterface iapDemoUAppInterface;
+    private UdiDemoUAppInterface uAppInterface;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_luncher);
+        setContentView(R.layout.activity_urdemo);
+        uAppInterface = new UdiDemoUAppInterface();
+        Button changeTheme = findViewById(R.id.change_theme);
+        changeTheme.setOnClickListener(v -> {
+            Intent intent = new Intent(UDIDemoActivity.this, DemoAppActivity.class);
+            startActivity(intent);
+        });
+
+        AppInfraInterface appInfraInterface = UDIDemoApplication.getInstance().getAppInfra();
+        uAppInterface.init(new UdiDemoUAppDependencies(appInfraInterface), new UdiDemoAppSettings(this.getApplicationContext()));
     }
 
     public void launch(View v) {
-        UDIDemoApplication demoApplication = (UDIDemoApplication) getApplicationContext();
-        AppInfra appInfra = demoApplication.getAppInfra();
-        iapDemoUAppInterface = new UdiDemoUAppInterface();
-        iapDemoUAppInterface.init(new UdiDemoUAppDependencies(appInfra), new UdiDemoAppSettings(this));
-        iapDemoUAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null), new UdiLaunchInput());
+        uAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null), new UdiLaunchInput());
     }
 }

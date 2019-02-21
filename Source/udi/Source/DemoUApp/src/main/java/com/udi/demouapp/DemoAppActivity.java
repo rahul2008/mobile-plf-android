@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.udi.integration.UDIDependencies;
 import com.philips.platform.udi.integration.UDIInterface;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -30,8 +32,10 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         mLogin = findViewById(R.id.btn_login);
         mLogin.setOnClickListener(this);
+        UdiDemoUAppDependencies udiDemoUAppDependencies = new UdiDemoUAppDependencies(new AppInfra.Builder().build(this));
+        UdiDemoAppSettings udiDemoAppSettings = new UdiDemoAppSettings(this);
         udiInterface = new UDIInterface();
-
+        udiInterface.init(udiDemoUAppDependencies, udiDemoAppSettings);
     }
 
     private void initTheme() {
