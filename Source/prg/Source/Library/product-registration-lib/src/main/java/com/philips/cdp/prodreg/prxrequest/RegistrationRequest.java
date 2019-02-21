@@ -189,13 +189,13 @@ public class RegistrationRequest extends PrxRequest {
                         if (url.contains(ProdRegConstants.CHINA_DOMAIN)) {
                             headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
                         }else{
-                            ProdRegLogger.i("Registration Request",url+ "does not contain china domain.");
+                            ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
                         }
                     }
 
                     @Override
                     public void onError(ERRORVALUES error, String message) {
-                        ProdRegLogger.i("Registration Request", "Registration Request :error :" + error.toString() + ":  message : " + message);
+                        ProdRegLogger.i("Product Registration Request", "error :" + error.toString() + ":  message : " + message);
                     }
                 },null);
         return headers;
