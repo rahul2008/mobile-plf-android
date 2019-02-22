@@ -4,27 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/usrdemo_mainScreen_standard_text"
+    <TextView
+        android:id="@+id/udi_txtview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:padding="@dimen/activity_vertical_margin"
-        android:onClick="launch"
         android:text="UDI Login"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/change_theme"
+        android:id="@+id/launch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:padding="@dimen/activity_vertical_margin"
-        android:text="Change theme"
+        android:onClick="launch"
+        android:text="Launch UDI MicroApp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/usrdemo_mainScreen_standard_text" />
+        app:layout_constraintTop_toTopOf="@+id/udi_txtview" />
 
 </android.support.constraint.ConstraintLayout>

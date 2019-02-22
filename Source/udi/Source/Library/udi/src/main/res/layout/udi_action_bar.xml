@@ -1,0 +1,47 @@
+<com.philips.platform.uid.view.widget.NavigationContainer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/uid_shadow_level_two"
+        android:padding="0dp"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/udi_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false">
+
+            <FrameLayout
+                android:id="@+id/udi_header_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:clickable="true"
+                android:paddingStart="16dp">
+
+                <ImageView
+                    android:id="@+id/udi_iv_header_back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+            </FrameLayout>
+
+            <com.philips.platform.uid.view.widget.ActionBarTextView
+                android:id="@+id/udi_actionBar_headerTitle_lebel"
+                style="@style/UIDToolbarBarTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/udi_app_name"
+                android:textIsSelectable="true" />
+
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+</com.philips.platform.uid.view.widget.NavigationContainer>

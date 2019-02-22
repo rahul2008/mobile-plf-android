@@ -17,6 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:text="UDI Launch" />
+        android:text="UDI Activity Launch" />
 
 </RelativeLayout>

@@ -18,7 +18,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener {
-    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
+    final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     Button mLogin;

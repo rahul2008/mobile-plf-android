@@ -24,7 +24,7 @@ public class UDIDemoActivity extends UIDActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_urdemo);
         uAppInterface = new UdiDemoUAppInterface();
-        Button changeTheme = findViewById(R.id.change_theme);
+        Button changeTheme = findViewById(R.id.launch);
         changeTheme.setOnClickListener(v -> {
             Intent intent = new Intent(UDIDemoActivity.this, DemoAppActivity.class);
             startActivity(intent);

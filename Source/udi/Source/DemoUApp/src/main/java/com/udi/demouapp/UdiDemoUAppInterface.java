@@ -32,7 +32,6 @@ public class UdiDemoUAppInterface implements UappInterface {
 
         if(uiLauncher instanceof ActivityLauncher){
             Intent intent=new Intent(mContext,DemoAppActivity.class);
-            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         }
     }

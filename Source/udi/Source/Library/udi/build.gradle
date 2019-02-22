@@ -37,6 +37,7 @@ android {
         versionCode 1
         versionName version
         multiDexEnabled true
+        generatedDensities = []
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad'
         ]
@@ -67,28 +68,27 @@ dependencies {
         implementation project(strings.ail.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
     }
     annotationProcessor deps.dagger.compiler
-    implementation project(strings.ufw.projectName)
     implementation deps.calligraphy
     implementation deps.constraintlayout
     implementation deps.support.appcompatv7
-    implementation deps.support.design
     implementation deps.support.supportv4
+    implementation deps.support.design
+    implementation deps.constraintlayout
     implementation deps.support.annotations
     implementation deps.dagger.dagger
     implementation philipsdeps.uid
     implementation deps.support.recyclerview
-    testImplementation deps.junit
     implementation deps.adobemobilelib
     implementation deps.openid_appauth
     implementation deps.rxjava2
 
+    testImplementation deps.junit
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.mockito_android
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+
 }
 
 tasks.withType(Test) {
