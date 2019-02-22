@@ -53,8 +53,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             "Get home country",
             "Get services by lang",
             "Get services by country",
-            "Get Url by country with replaced url",
-            "Get Url by language with replaced url",
             "Refresh",
             "Get home country Synchronous"
     };
@@ -145,25 +143,13 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                     editTextData = idEditText.getText().toString();
                     mServiceDiscoveryInterface.getHomeCountry(mOnGetHomeCountryListener);
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get services by lang")) {
-                    editTextData = idEditText.getText().toString();
-                    ArrayList<String> serviceIDList = new ArrayList<>();
-                    serviceIDList.add(editTextData);
+                    String[] serviceIds = idEditText.getText().toString().split(",");
+                    ArrayList<String> serviceIDList = new ArrayList<String>(Arrays.asList(serviceIds));
                     mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList,mOnGetServiceUrlMapListener,null);
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get services by country")) {
-                    editTextData = idEditText.getText().toString();
-                    ArrayList<String> serviceIDList = new ArrayList<>();
-                    serviceIDList.add(editTextData);
+                    String[] serviceIds = idEditText.getText().toString().split(",");
+                    ArrayList<String> serviceIDList = new ArrayList<String>(Arrays.asList(serviceIds));
                     mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,mOnGetServiceUrlMapListener,null);
-                }else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with replaced url")) {
-                    editTextData = idEditText.getText().toString();
-                    ArrayList<String> serviceIDList = new ArrayList<>();
-                    serviceIDList.add(editTextData);
-                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,mOnGetServiceUrlMapListener,parameters);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by language with replaced url")) {
-                    editTextData = idEditText.getText().toString();
-                    ArrayList<String> serviceIDList = new ArrayList<>();
-                    serviceIDList.add(editTextData);
-                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList, mOnGetServiceUrlMapListener, parameters);
                 }else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Refresh")) {
                     mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
                         @Override
@@ -171,7 +157,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                             resultView.setText("SD REFRESH Success");
                             Log.i("SD REFRESH", "Success");
                         }
-
                         @Override
                         public void onError(ERRORVALUES error, String message) {
                             resultView.setText("SD REFRESH Error:  " + message);
