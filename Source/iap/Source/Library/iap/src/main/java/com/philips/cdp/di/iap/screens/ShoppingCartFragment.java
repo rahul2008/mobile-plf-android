@@ -279,7 +279,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
-
         goToAddressSelection();
     }
 
