@@ -48,19 +48,17 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     EditText idEditText;
     EditText idEditTextCountry;
     String editTextData;
-    String[] requestTypeOption = {"Get local by lang",
-            "Get local by country",
-            "Get url by lang",
-            "Get url by country",
+
+    String[] requestTypeOption = {
             "Get home country",
-            "Get Url by country with multiple service id",
-            "Get Url by language with multiple service id",
+            "Get services by lang",
+            "Get services by country",
             "Get Url by country with replaced url",
             "Get Url by language with replaced url",
-            "Get replaced Url by country with multiple service id",
-            "Get replaced Url by Language with multiple service id",
             "Refresh",
-            "Get home country Synchronous"};
+            "Get home country Synchronous"
+    };
+
     private Button getUrl;
     private Spinner requestTypeSpinner;
     private HashMap<String, String> parameters;
@@ -143,79 +141,30 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         getUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get local by lang")) {
-                    editTextData = idEditText.getText().toString();
-                    ArrayList<String> serviceIDList = new ArrayList<>();
-                    serviceIDList.add(editTextData);
-                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList,mOnGetServiceUrlMapListener,null);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get local by country")) {
-                    editTextData = idEditText.getText().toString();
-                    ArrayList<String> serviceIDList = new ArrayList<>();
-                    serviceIDList.add(editTextData);
-                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,mOnGetServiceUrlMapListener,null);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get url by lang")) {
-                    editTextData = idEditText.getText().toString();
-                    ArrayList<String> serviceIDList = new ArrayList<>();
-                    serviceIDList.add(editTextData);
-                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList,mOnGetServiceUrlMapListener,null);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get url by country")) {
-                    editTextData = idEditText.getText().toString();
-                    ArrayList<String> serviceIDList = new ArrayList<>();
-                    serviceIDList.add(editTextData);
-                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,mOnGetServiceUrlMapListener,null);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country")) {
+                if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country")) {
                     editTextData = idEditText.getText().toString();
                     mServiceDiscoveryInterface.getHomeCountry(mOnGetHomeCountryListener);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with multiple service id")) {
-                    String[] serviceIds = idEditText.getText().toString().split(",");
-                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener, null);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by language with multiple service id")) {
-                    String[] serviceIds = idEditText.getText().toString().split(",");
-                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener,null);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with replaced url")) {
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get services by lang")) {
                     editTextData = idEditText.getText().toString();
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
+                    ArrayList<String> serviceIDList = new ArrayList<>();
+                    serviceIDList.add(editTextData);
+                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList,mOnGetServiceUrlMapListener,null);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get services by country")) {
+                    editTextData = idEditText.getText().toString();
+                    ArrayList<String> serviceIDList = new ArrayList<>();
+                    serviceIDList.add(editTextData);
+                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,mOnGetServiceUrlMapListener,null);
+                }else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with replaced url")) {
+                    editTextData = idEditText.getText().toString();
                     ArrayList<String> serviceIDList = new ArrayList<>();
                     serviceIDList.add(editTextData);
                     mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,mOnGetServiceUrlMapListener,parameters);
-
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by language with replaced url")) {
                     editTextData = idEditText.getText().toString();
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
                     ArrayList<String> serviceIDList = new ArrayList<>();
                     serviceIDList.add(editTextData);
                     mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList, mOnGetServiceUrlMapListener, parameters);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get replaced Url by country with multiple service id")) {
-
-                    String[] serviceIds = idEditText.getText().toString().split(",");
-                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
-                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener, parameters);
-
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get replaced Url by Language with multiple service id")) {
-
-                    String[] serviceIds = idEditText.getText().toString().split(",");
-                    ArrayList<String> serviceId = new ArrayList<>(Arrays.asList(serviceIds));
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
-                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener, parameters);
-
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Refresh")) {
-
-
+                }else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Refresh")) {
                     mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
                         @Override
                         public void onSuccess() {
@@ -234,17 +183,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                     String homeCountry = mServiceDiscoveryInterface.getHomeCountry();
                     Toast.makeText(ServiceDiscoveryDemo.this, "Home country is " + homeCountry, Toast.LENGTH_SHORT).show();
                 }
-//                else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Replace Url")) {
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
-//
-//                    url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
-//                    URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
-//
-//
-//                }
             }
         });
     }
@@ -330,15 +268,14 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //        }
 
         String selReqType = requestTypeSpinner.getSelectedItem().toString().trim();
-        if (selReqType.equalsIgnoreCase("Get local by lang") ||
-                selReqType.equalsIgnoreCase("Get local by country")) {
-            resultView.setText(locale);
-        }else if (selReqType.equalsIgnoreCase("Get url by lang") ||
-                    selReqType.equalsIgnoreCase("Get url by country") ||
-                    selReqType.equalsIgnoreCase("Get Url by language with replaced url") ||
-                    selReqType.equalsIgnoreCase("Get Url by country with replaced url")) {
-            resultView.setText(configUrl);
-        }else {
+        if (selReqType.equalsIgnoreCase("Get services by lang")) {
+            resultView.setText("Locale : "+locale + " Url : "+configUrl );
+        }else if (selReqType.equalsIgnoreCase("Get services by country")) {
+            resultView.setText("Locale : "+locale + " Url : "+configUrl);
+        }else if (selReqType.equalsIgnoreCase("Get Url by country with replaced url") ||
+                selReqType.equalsIgnoreCase("Get Url by language with replaced url")) {
+            resultView.setText(configUrl );
+        }else{
             resultView.setText(" URL Model   : " + mMap);
         }
     }
