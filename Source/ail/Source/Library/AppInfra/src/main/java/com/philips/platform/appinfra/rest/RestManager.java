@@ -30,7 +30,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -181,7 +180,12 @@ public class RestManager implements RestInterface {
                     mAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                         @Override
                         public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                            resultURL.append(urlMap.get(sid).getConfigUrls());
+                            String configurl = urlMap.get(sid).getConfigUrls();
+                            if(null == configurl){
+                                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "restUrl is null");
+                            }else {
+                                resultURL.append(configurl);
+                            }
                         }
 
                         @Override
@@ -193,8 +197,12 @@ public class RestManager implements RestInterface {
                      mAppInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                         @Override
                         public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                            String url = urlMap.get(serviceIDList.get(0)).getConfigUrls();
-                            resultURL.append(url);
+                            String url = urlMap.get(sid).getConfigUrls();
+                            if(url == null) {
+                                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "restUrl is null");
+                            }else{
+                                resultURL.append(url);
+                            }
                         }
 
                         @Override

@@ -31,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -197,8 +196,12 @@ public class AppUpdateManager implements AppUpdateInterface {
 			@Override
 			public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
 				final String appUpdateURL = urlMap.get(getServiceIdFromAppConfig()).getConfigUrls();
-				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,  AppInfraLogEventID.AI_APP_UPDATE,"AppUpdate_URL"+appUpdateURL);
-				downloadAppUpdate(appUpdateURL, refreshListener);
+				if(null == appUpdateURL) {
+					refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "appUpdateURL is null");
+				}else{
+					((AppInfra) mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE, "AppUpdate_URL" + appUpdateURL);
+					downloadAppUpdate(appUpdateURL, refreshListener);
+				}
 			}
 
 			@Override

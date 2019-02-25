@@ -36,7 +36,6 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -751,18 +750,23 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void serviceDiscovery() {
+        String smsServiceID = "userreg.urx.verificationsmscode";
         RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
         ArrayList<String> serviceIDList = new ArrayList<>();
-        serviceIDList.add("userreg.urx.verificationsmscode");
+        serviceIDList.add(smsServiceID);
         serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                String url = urlMap.get("userreg.urx.verificationsmscode").getConfigUrls();
-                RLog.d(TAG, " onSuccess  : userreg.urx.verificationsmscode:" + url);
-                String uriSubString = getBaseString(url.toString());
-                verificationSmsCodeURL = uriSubString + USER_REQUEST_PW_RESET_SMS_CODE;
-                resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PW_REDIRECT_URI_SMS;
-                createResendSMSIntent(verificationSmsCodeURL);
+                String url = urlMap.get(smsServiceID).getConfigUrls();
+                if(null == url){
+                    RLog.e(TAG, " onError serviceDiscovery : userreg.urx.verificationsmscode : " + "fetched url is null");
+                 }else {
+                    RLog.d(TAG, " onSuccess  : userreg.urx.verificationsmscode:" + url);
+                    String uriSubString = getBaseString(url);
+                    verificationSmsCodeURL = uriSubString + USER_REQUEST_PW_RESET_SMS_CODE;
+                    resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PW_REDIRECT_URI_SMS;
+                    createResendSMSIntent(verificationSmsCodeURL);
+                }
             }
 
             @Override

@@ -30,7 +30,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -433,17 +432,21 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                     logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Successfully refresh CloudConfig");
                     mSharedPreferences = getCloudConfigSharedPreferences();
-                    String url  = urlMap.get(serviceIDList.get(0)).getConfigUrls();
-                    if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_URL)) {
-                        final String savedURL = mSharedPreferences.getString(CLOUD_APP_CONFIG_URL, null);
-                        if (url.trim().equalsIgnoreCase(savedURL)) { // cloud config url has not changed
-                            onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
-                        } else { // cloud config url has  changed
-                            clearCloudConfigFile(); // clear old cloud config data
+                    String url  = urlMap.get(cloudServiceId).getConfigUrls();
+                    if(null == url){
+                        onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey,"fetched url is null");
+                    }else{
+                        if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_URL)) {
+                            final String savedURL = mSharedPreferences.getString(CLOUD_APP_CONFIG_URL, null);
+                            if (url.trim().equalsIgnoreCase(savedURL)) { // cloud config url has not changed
+                                onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
+                            } else { // cloud config url has  changed
+                                clearCloudConfigFile(); // clear old cloud config data
+                                fetchCloudConfig(url, onRefreshListener);
+                            }
+                        } else {
                             fetchCloudConfig(url, onRefreshListener);
                         }
-                    } else {
-                        fetchCloudConfig(url, onRefreshListener);
                     }
                 }
 

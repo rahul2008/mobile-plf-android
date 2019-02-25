@@ -19,7 +19,6 @@ import com.philips.platform.mya.base.MyaBasePresenter;
 import com.philips.platform.mya.interfaces.MyaListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,12 +35,18 @@ class MyaSettingsPresenter extends MyaBasePresenter<MyaSettingsContract.View> im
 
     @Override
     public void getSettingItems(AppInfraInterface appInfra, AppConfigurationInterface.AppConfigurationError error) {
+        final String serviceID = "userreg.landing.myphilips";
         ArrayList<String> serviceIDList = new ArrayList<>();
-        serviceIDList.add("userreg.landing.myphilips");
+        serviceIDList.add(serviceID);
         appInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                view.setLinkUrl(urlMap.get(serviceIDList.get(0)).getConfigUrls());
+                String url = urlMap.get(serviceID).getConfigUrls();
+                if(url == null){
+                    MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG,"error while fetching url : ","url is null");
+                }else {
+                    view.setLinkUrl(url);
+                }
             }
 
             @Override

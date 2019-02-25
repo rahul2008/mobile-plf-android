@@ -7,7 +7,6 @@ package com.philips.platform.appinfra.languagepack;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -19,7 +18,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackMetadata;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
@@ -32,7 +30,6 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 import org.json.JSONObject;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -60,7 +57,11 @@ public class  LanguagePackManager implements LanguagePackInterface {
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 final String languagePackServiceId = getLanguagePackConfig(mAppInfra.getConfigInterface(), mAppInfra);
                 final String languagePackConfigURL = urlMap.get(languagePackServiceId).getConfigUrls();
-                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LANGUAGE_PACK, "Langauge pack get Service Discovery Listener OnSuccess URL" + languagePackConfigURL.toString()); // US requirement to show language pack URL
+
+                if(null == languagePackConfigURL){
+                    aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "languagePackConfigURL is null");
+                }else{
+                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_LANGUAGE_PACK, "Langauge pack get Service Discovery Listener OnSuccess URL" + languagePackConfigURL); // US requirement to show language pack URL
 
                 JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, languagePackConfigURL, null,
                         new Response.Listener<JSONObject>() {
@@ -86,6 +87,7 @@ public class  LanguagePackManager implements LanguagePackInterface {
                     }
                 }, null, null, null);
                 mRestInterface.getRequestQueue().add(jsonRequest);
+                }
             }
 
             @Override

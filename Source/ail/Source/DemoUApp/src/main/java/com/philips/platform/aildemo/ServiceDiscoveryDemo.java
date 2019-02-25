@@ -17,7 +17,6 @@ import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.AIKMResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONException;
@@ -27,7 +26,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -257,9 +255,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             resultView.setText("Locale : "+locale + " Url : "+configUrl );
         }else if (selReqType.equalsIgnoreCase("Get services by country")) {
             resultView.setText("Locale : "+locale + " Url : "+configUrl);
-        }else if (selReqType.equalsIgnoreCase("Get Url by country with replaced url") ||
-                selReqType.equalsIgnoreCase("Get Url by language with replaced url")) {
-            resultView.setText(configUrl );
         }else{
             resultView.setText(" URL Model   : " + mMap);
         }

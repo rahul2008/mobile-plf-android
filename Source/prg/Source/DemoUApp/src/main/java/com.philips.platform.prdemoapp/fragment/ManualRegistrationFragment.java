@@ -65,6 +65,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     private boolean mandatoryConfiguration = false;
     private FragmentActivity fragmentActivity;
     private LinearLayout mandatoryTextViewLayout;
+    private final String userRegServiceID = "userreg.janrain.api";
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -240,14 +241,18 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
 
         //serviceDiscoveryInterface.getServiceLocaleWithCountryPreference();
         ArrayList<String> serviceIDList = new ArrayList<>();
-        serviceIDList.add("userreg.janrain.api");
+        serviceIDList.add(userRegServiceID);
         serviceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                String locale = urlMap.get("userreg.janrain.api").getLocale();
-                PRUiHelper.getInstance().setLocale(locale);
-                String localeArr[] = locale.split("_");
-                PRUiHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
+                String locale = urlMap.get(userRegServiceID).getLocale();
+                if(null == locale){
+                    Toast.makeText(fragmentActivity, "Not able to set country code since locale is null", Toast.LENGTH_SHORT).show();
+                }else {
+                    PRUiHelper.getInstance().setLocale(locale);
+                    String localeArr[] = locale.split("_");
+                    PRUiHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
+                }
             }
 
             @Override
