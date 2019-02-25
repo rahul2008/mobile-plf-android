@@ -136,7 +136,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             return;
         }
 
-        for (int i = 0; i < mVideoLength.size(); i++) {
+        final int totalVideoCount = mVideoLength.size()>20?20:mVideoLength.size(); // Max video count 20 to avoid any out of memory situation
+        for (int i = 0; i < totalVideoCount; i++) {
             View child = getActivity().getLayoutInflater().inflate(R.layout.consumercare_viewproduct_video_view, null);
             ImageView videoThumbnail = child.findViewById(R.id.videoContainer);
             TextView videoPlay = child.findViewById(R.id.videoPlay);
