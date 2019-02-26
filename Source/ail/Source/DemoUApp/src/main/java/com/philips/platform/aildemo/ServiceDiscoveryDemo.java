@@ -227,7 +227,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         Map mMap = new HashMap<String, Map>();
 
         while (it.hasNext()) {
-
             Map dataMap = new HashMap<String, String>();
             Map.Entry pair = (Map.Entry) it.next();
             key = pair.getKey().toString();
@@ -243,21 +242,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             mMap.put(key, dataMap);
             it.remove(); // avoids a ConcurrentModificationException
         }
-
-//        for (int i = 0; i < urlMap.size(); i++)
-//        {
-//            Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
-//            Log.i("SD", ""+urlMap.get(i).getConfigUrls());
-//        }
-
-        String selReqType = requestTypeSpinner.getSelectedItem().toString().trim();
-        if (selReqType.equalsIgnoreCase("Get services by lang")) {
-            resultView.setText("Locale : "+locale + " Url : "+configUrl );
-        }else if (selReqType.equalsIgnoreCase("Get services by country")) {
-            resultView.setText("Locale : "+locale + " Url : "+configUrl);
-        }else{
-            resultView.setText(" URL Model   : " + mMap);
-        }
+        resultView.setText(" URL Model   : " + mMap);
     }
 
     @Override
