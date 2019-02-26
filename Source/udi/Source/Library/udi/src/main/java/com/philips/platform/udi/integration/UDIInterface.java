@@ -3,6 +3,7 @@ package com.philips.platform.udi.integration;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.philips.platform.uappframework.UappInterface;
@@ -13,9 +14,10 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.udi.UDIActivity;
+import com.philips.platform.udi.configration.UdiConfiguration;
+import com.philips.platform.udi.fragment.UDIFragment;
 import com.philips.platform.udi.injection.AppAuthComponent;
 import com.philips.platform.udi.injection.AppInfraModule;
-import com.philips.platform.udi.configration.UdiConfiguration;
 import com.philips.platform.udi.injection.DaggerAppAuthComponent;
 import com.philips.platform.udi.utilities.AuthLog;
 import com.philips.platform.udi.utilities.AuthTagging;
@@ -48,11 +50,16 @@ public class UDIInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        addFragment( uiLauncher, uappLaunchInput);
+        UDIFragment udiFragment = new UDIFragment();
+        addFragment( uiLauncher, udiFragment);
     }
 
-    private void addFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-
+    private void addFragment(FragmentLauncher uiLauncher, Fragment fragment) {
+        uiLauncher.getFragmentActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(uiLauncher.getParentContainerResourceID(),fragment, fragment.getClass().getSimpleName())
+                .addToBackStack(fragment.getClass().getSimpleName())
+                .commit();
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {

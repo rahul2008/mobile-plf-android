@@ -1,0 +1,50 @@
+@startuml
+interface UappInterface
+interface ServiceDiscoveryInterface
+ServiceDiscoveryInterface *- ServiceDiscoveryWrapper
+ServiceDiscoveryWrapper <|-- UdiInterface
+interface AppAuthComponent{
+LoggingInterface :
+SecureStorageInterface
+ServiceDiscoveryInterface
+AppTaggingInterface
+}
+
+AppAuthComponent <|-- UdiConfiguration
+UdiActivity *- UdiFragment
+
+class UdiActivity
+class UdiFragment
+UappInterface *- UdiInterface
+class UdiInterface {
+
+}
+class UdiDependencies
+class UdiConfiguration
+class PimLog{
+LoggingInterface: mLoggingInterface
+===
+void init()
+void d()
+void i()
+void e()
+}
+
+class PimTagging{
+AppTaggingInterface : appTaggingInterface
+void init()
+void collectLifecycleData(Activity activity)
+void pauseCollectingLifecycleData()
+void trackPage(String currPage)
+void trackFirstPage(String currPage)
+void trackAction(String state, String key, String value)
+void trackMultipleActions(String state, Map<String, String> map)
+}
+class ServiceDiscoveryWrapper
+class UdiConstant{
+String COMPONENT_TAGS_ID
+String UDI_KEY_ACTIVITY_THEME
+String getAppAuthApiVersion()
+}
+
+@enduml
