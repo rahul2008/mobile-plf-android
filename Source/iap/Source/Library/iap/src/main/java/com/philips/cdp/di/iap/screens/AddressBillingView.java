@@ -156,13 +156,13 @@ public class AddressBillingView
             setViewVisible(mLlLastNameBilling, tvLastName,mEtLastNameBilling);
             inputValidatorLastNameBilling = new InputValidator(Validator.NAME_PATTERN);
             mLlLastNameBilling.setValidator(inputValidatorLastNameBilling);
-            mEtLastNameBilling.addTextChangedListener(new IAPTextWatcher(mEtLastNameBilling));
             String familyName = HybrisDelegate.getInstance(mContext).getStore().getFamilyName();
             if (!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
                 mEtLastNameBilling.setText(familyName);
             } else {
                 mEtLastNameBilling.setText("");
             }
+            mEtLastNameBilling.addTextChangedListener(new IAPTextWatcher(mEtLastNameBilling));
         }else{
             setViewInVisible(mLlLastNameBilling, tvLastName,mEtLastNameBilling);
         }
@@ -172,7 +172,6 @@ public class AddressBillingView
             final InputValidator inputValidatorSalutationBilling = new InputValidator(Validator.ADDRESS_PATTERN);
             mLlSalutationBilling.setValidator(inputValidatorSalutationBilling);
             mEtSalutationBilling.setKeyListener(null);
-            mEtSalutationBilling.addTextChangedListener(new IAPTextWatcher(mEtSalutationBilling));
             mEtSalutationBilling.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
             mSalutationDropDownBilling = new SalutationDropDown(mContext, mEtSalutationBilling, this);
             mEtSalutationBilling.setOnTouchListener(new View.OnTouchListener() {
@@ -182,6 +181,7 @@ public class AddressBillingView
                     return false;
                 }
             });
+            mEtSalutationBilling.addTextChangedListener(new IAPTextWatcher(mEtSalutationBilling));
         }else{
             setViewInVisible(mLlSalutationBilling, tvSalutation,mEtSalutationBilling);
         }
@@ -392,28 +392,28 @@ public class AddressBillingView
     public void validate(View editText, boolean hasFocus) {
 
         boolean result = true;
-        if (editText.getId() == R.id.et_billing_first_name && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_billing_first_name && !hasFocus && addressContractor.isFirstNameEnabled()) {
             result = inputValidatorFirstNameBilling.isValidName(((EditText) editText).getText().toString());
             if (!result) {
                 mLlFirstNameBilling.setErrorMessage(R.string.iap_first_name_error);
                 mLlFirstNameBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_billing_last_name && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_billing_last_name && !hasFocus && addressContractor.isLastNameEnabled()) {
             result = inputValidatorLastNameBilling.isValidName(((EditText) editText).getText().toString());
             if (!result) {
                 mLlLastNameBilling.setErrorMessage(R.string.iap_last_name_error);
                 mLlLastNameBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_billing_town && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_billing_town && !hasFocus && addressContractor.isTownEnabled()) {
             result = inputValidatorTownBilling.isValidTown(((EditText) editText).getText().toString());
             if (!result) {
                 mLlTownBilling.setErrorMessage(R.string.iap_town_error);
                 mLlTownBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_billing_phone1 && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_billing_phone1 && !hasFocus && addressContractor.isPhoneNumberEnabled()) {
             result = addressPresenter.validatePhoneNumber(mEtPhone1Billing, HybrisDelegate.getInstance().getStore().getCountry()
                     , mEtPhone1Billing.getText().toString());
             if (!result) {
@@ -421,42 +421,42 @@ public class AddressBillingView
                 mLlPhone1Billing.showError();
             }
         }
-        if (editText.getId() == R.id.et_billing_country && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_billing_country && !hasFocus && addressContractor.isCountryEnabled()) {
             result = inputValidatorCountryBilling.isValidCountry(((EditText) editText).getText().toString());
             if (!result) {
                 mLlCountryBilling.setErrorMessage(R.string.iap_country_error);
                 mLlCountryBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_billing_postal_code && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_billing_postal_code && !hasFocus && addressContractor.isPostalCodeEnabled()) {
             result = inputValidatorPostalCodeBilling.isValidPostalCode(((EditText) editText).getText().toString());
             if (!result) {
                 mLlPostalCodeBilling.setErrorMessage(R.string.iap_postal_code_error);
                 mLlPostalCodeBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_billing_email && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_billing_email && !hasFocus && addressContractor.isEmailEnabled()) {
             result = inputValidatorEmailBilling.isValidEmail(((EditText) editText).getText().toString());
             if (!result) {
                 mLlEmailBilling.setErrorMessage(R.string.iap_email_error);
                 mLlEmailBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_billing_address_line_one && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_billing_address_line_one && !hasFocus && addressContractor.isAddressLineOneEnabled()) {
             result = inputValidatorAddressLineOneBilling.isValidAddress(((EditText) editText).getText().toString());
             if (!result) {
                 mLlAddressLineOneBilling.setErrorMessage(R.string.iap_address_error);
                 mLlAddressLineOneBilling.showError();
             }
         }
-        if (editText.getId() == R.id.et_house_no && !hasFocus && addressContractor.isHouseNoEnabled() && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_house_no && !hasFocus && addressContractor.isHouseNoEnabled()) {
             result = inputValidatorHouseNoBilling.isValidAddress(((EditText) editText).getText().toString());
             if (!result) {
                 mLlHouseNoBilling.setErrorMessage(R.string.iap_address_error);
                 mLlHouseNoBilling.showError();
             }
         }
-        if ((editText.getId() == R.id.et_billing_salutation || editText.getId() == R.id.et_billing_state) && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if ((editText.getId() == R.id.et_billing_salutation || editText.getId() == R.id.et_billing_state) && !hasFocus && addressContractor.isSalutationEnabled()) {
             checkBillingAddressFields();
         }
         if (!result) {
