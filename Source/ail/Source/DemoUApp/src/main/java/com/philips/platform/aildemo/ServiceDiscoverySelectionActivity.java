@@ -55,7 +55,7 @@ public class ServiceDiscoverySelectionActivity extends AppCompatActivity {
                     Toast.makeText(ServiceDiscoverySelectionActivity.this, "Some thing went wrong while setting local service discovery", Toast.LENGTH_SHORT).show();
 
                 }
-            });
+            },false);
 
         } else {
             AppInfra.Builder builder = new AppInfra.Builder();

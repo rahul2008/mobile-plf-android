@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra.appupdate;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 
 import com.android.volley.NetworkResponse;
@@ -20,6 +21,8 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONObject;
 import org.junit.Before;
@@ -27,6 +30,9 @@ import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
@@ -73,20 +79,19 @@ public class AppupdateTest {
         assertNotNull(mConfigInterface);
 
         // override service discovery getServiceUrlWithCountryPreference to verify correct service id is being passed to SD
-        ServiceDiscoveryInterface mServiceDiscoveryInterface = new ServiceDiscoveryManager(mAppInfra) {
-            @Override
-            public void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener) {
-                if (serviceId != null && serviceId.equals(APPUPDATE_SERVICEID_KEY)) {
-                    try {
-                        URL url = new URL(APPUPDATE_URL);
-                        listener.onSuccess(url);
-                    } catch (MalformedURLException e) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE,
-                                "Error in App version");
-                    }
-                } else {
-                    listener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "Invalid ServiceID");
-                }
+       ServiceDiscoveryInterface mServiceDiscoveryInterface = new ServiceDiscoveryManager(mAppInfra) {
+
+           @Override
+           public void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener, Map<String, String> replacement) {
+               if (serviceId != null && serviceId.get(0).equals(APPUPDATE_SERVICEID_KEY)) {
+                   Map<String, ServiceDiscoveryService> mapUrl = new HashMap<>();
+                   ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
+                   serviceDiscoveryService.setConfigUrl(APPUPDATE_URL);
+                   mapUrl.put(serviceId.get(0),serviceDiscoveryService);
+                   listener.onSuccess(mapUrl);
+               } else {
+                   listener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "Invalid ServiceID");
+               }
             }
         };
         assertNotNull(mServiceDiscoveryInterface);
