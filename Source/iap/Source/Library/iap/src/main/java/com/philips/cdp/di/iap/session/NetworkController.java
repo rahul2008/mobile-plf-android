@@ -56,8 +56,16 @@ public class NetworkController {
     public void sendHybrisRequest(final int requestCode, final AbstractModel model,
                                   final RequestListener requestListener) {
 
-        if (mStoreListener == null || model == null || model.getUrl() == null) {
-            return;
+        if (mStoreListener == null) {
+            Message message = new Message();
+            message.obj = "StoreListener Null";
+            requestListener.onError(message);
+        }
+
+        if(model == null || model.getUrl() == null){
+            Message message = new Message();
+            message.obj = "Url Null";
+            requestListener.onError(message);
         }
 
         if (mStoreListener.isNewUser()) {
