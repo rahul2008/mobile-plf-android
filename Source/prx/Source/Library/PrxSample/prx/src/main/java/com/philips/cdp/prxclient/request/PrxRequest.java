@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,8 +23,18 @@ public abstract class PrxRequest {
     private PrxConstants.Catalog mCatalog;
     private int maxRetries = 0;
     private int requestTimeOut = 5000;
-    private final String mCtn;
+    private String mCtn;
     private final String mServiceId;
+
+    public List<String> getCtns() {
+        return mCtns;
+    }
+
+    public void setCtns(List<String> mCtns) {
+        this.mCtns = mCtns;
+    }
+
+    private List<String> mCtns;
 
     /**
      * PRX request constructor.
@@ -46,6 +57,21 @@ public abstract class PrxRequest {
      */
     public PrxRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         this.mCtn = ctn;
+        this.mServiceId = serviceID;
+        this.mSector = sector;
+        this.mCatalog = catalog;
+    }
+
+    /**
+     * PRX request constructor.
+     * @param ctns ctns of the products
+     * @param serviceID PRX ServiceId
+     * @param sector sector
+     * @param catalog catalog
+     * @since 1.0.0
+     */
+    public PrxRequest(List<String> ctns, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
+        this.mCtns = ctns;
         this.mServiceId = serviceID;
         this.mSector = sector;
         this.mCatalog = catalog;
@@ -119,7 +145,13 @@ public abstract class PrxRequest {
                     @Override
                     public void onSuccess(URL url) {
                         appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+url);
-                        listener.onSuccess(url.toString());
+
+                        // https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/products/%ctn%.summary
+
+                       // String urlHardCoded = "https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/listproducts?ctnlist=HD5061_01,HD7870_10";
+                        String urlHardCoded  = "https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/listproducts?ctnlist=S9721/84,FS9185/49";
+
+                        listener.onSuccess(urlHardCoded);
                     }
 
                     @Override

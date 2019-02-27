@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.prx;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -17,12 +18,14 @@ import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductSummaryListRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PRXSummaryExecutor {
 
@@ -43,9 +46,11 @@ public class PRXSummaryExecutor {
     }
 
     public void preparePRXDataRequest() {
-        for (String ctn : mCtns) {
-            executeRequest(ctn, prepareSummaryRequest(ctn));
-        }
+        executeRequest(prepareProductSummaryListRequest(mCtns));
+
+       /* for(String ctn:mCtns){
+            executeRequest(ctn,prepareSummaryRequest(ctn));
+        }*/
 
         if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
             Message result = Message.obtain();
@@ -77,6 +82,26 @@ public class PRXSummaryExecutor {
                     notifyError(ctn, prxError.getStatusCode(), "Product not found in your store");
                 } else
                     notifyError(ctn, prxError.getStatusCode(), prxError.getDescription());
+            }
+        });
+    }
+
+    protected void executeRequest(final ProductSummaryListRequest productSummaryListBuilder) {
+        RequestManager mRequestManager = new RequestManager();
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), IAPAnalyticsConstant.COMPONENT_NAME);
+        mRequestManager.init(prxDependencies);
+        mRequestManager.executeRequest(productSummaryListBuilder, new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
+
+                Log.d("pabbitra",responseData.toString());
+
+                notifySuccess((SummaryModel) responseData);
+            }
+
+            @Override
+            public void onResponseError(final PrxError prxError) {
+
             }
         });
     }
@@ -117,6 +142,11 @@ public class PRXSummaryExecutor {
         // productSummaryRequest.setLocaleMatchResult(locale);
         productSummaryRequest.setCatalog(PrxConstants.Catalog.CONSUMER);
         return productSummaryRequest;
+    }
+
+    private ProductSummaryListRequest prepareProductSummaryListRequest(List<String> ctns) {
+
+        return new ProductSummaryListRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
     }
 
 }

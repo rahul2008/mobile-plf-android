@@ -5,7 +5,8 @@ package com.philips.cdp.prxclient;
 public class PrxConstants {
 	
 	public static final String PRX_NETWORK_WRAPPER = "PRXNetworkWrapper";
-	public static final String PRX_REQUEST_MANAGER = "PRXRequestManager";
+	public static final String
+            PRX_REQUEST_MANAGER = "PRXRequestManager";
 
 	public enum Catalog {
 

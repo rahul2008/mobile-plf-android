@@ -76,8 +76,8 @@ project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
 //include ':launchDigitalCare'
 //project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
-//include(':iapApp')
-//project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
+include(':iapApp')
+project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'
