@@ -250,16 +250,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RLog.d(TAG,
                 " register: NetworkStateListener,strength " + strength);
         if (strength > strengthMedium) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.uid_signal_lime_level_60,R.color.uid_signal_lime_level_30,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.strong_strength_progress,R.color.strong_strength_background,
                     R.drawable.reg_password_strength_strong, 0, true);
         } else if (strength == strengthMedium) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Medium), strengthMeterMedium, true, R.color.uid_signal_yellow_level_60, R.color.uid_signal_yellow_level_30,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Medium), strengthMeterMedium, true, R.color.medium_strength_progress, R.color.medium_strength_background,
                     R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthWeak) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_60,R.color.uid_signal_red_level_30,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.weak_strength_progress,R.color.weak_strength_background,
                     R.drawable.reg_password_strength_weak, R.string.USR_InValid_PwdErrorMsg, false);
         } else {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.uid_signal_red_level_60, R.color.uid_signal_red_level_30,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.weak_strength_progress, R.color.weak_strength_background,
                     R.drawable.reg_password_strength_weak, R.string.USR_PasswordField_ErrorMsg, false);
         }
         return 0;
