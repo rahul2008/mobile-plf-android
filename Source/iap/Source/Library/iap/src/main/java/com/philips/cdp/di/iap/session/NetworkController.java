@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
 import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
@@ -56,8 +57,16 @@ public class NetworkController {
     public void sendHybrisRequest(final int requestCode, final AbstractModel model,
                                   final RequestListener requestListener) {
 
-        if (mStoreListener == null || model == null || model.getUrl() == null) {
-            return;
+        if (mStoreListener == null && requestListener != null) {
+            Message message = new Message();
+            message.obj = IAPConstant.IAP_ERROR;
+            requestListener.onError(message);
+        }
+
+        if(model == null || model.getUrl() == null && requestListener != null){
+            Message message = new Message();
+            message.obj = IAPConstant.IAP_ERROR;
+            requestListener.onError(message);
         }
 
         if (mStoreListener.isNewUser()) {
