@@ -47,11 +47,6 @@ public class PRXSummaryListExecutor {
 
     public void preparePRXDataRequest() {
         executeRequest(prepareProductSummaryListRequest(mCtns));
-        if (mDataLoadListener != null) {
-            Message result = Message.obtain();
-            result.obj = mPRXSummaryData;
-            mDataLoadListener.onModelDataLoadFinished(result);
-        }
     }
 
     protected void executeRequest(final ProductSummaryListRequest productSummaryListBuilder) {
@@ -85,9 +80,7 @@ public class PRXSummaryListExecutor {
     protected void notifySuccess(PRXSummaryListResponse model) {
 
     }
-
     private ProductSummaryListRequest prepareProductSummaryListRequest(List<String> ctns) {
         return new ProductSummaryListRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
     }
-
 }

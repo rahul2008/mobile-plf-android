@@ -35,7 +35,7 @@ public class ProductCatalogHelper {
         mGetProductCatalogListener = productListener;
     }
 
-    public void sendPRXRequest(Products productData) {
+   /* public void sendPRXRequest(Products productData) {
         ArrayList<String> productsToBeShown = new ArrayList<>();
         String ctn;
 
@@ -50,7 +50,7 @@ public class ProductCatalogHelper {
         PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, productsToBeShown,
                 mGetProductCatalogListener);
         builder.preparePRXDataRequest();
-    }
+    }*/
 
     @SuppressWarnings("unchecked")
     public boolean processPRXResponse(final Message msg, Products productData, IAPListener listener) {
