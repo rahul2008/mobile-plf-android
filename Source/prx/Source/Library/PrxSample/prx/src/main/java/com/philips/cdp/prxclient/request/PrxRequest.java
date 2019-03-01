@@ -123,7 +123,7 @@ public abstract class PrxRequest {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+urlMap.get(mServiceId));
-                listener.onSuccess(urlMap.get(mServiceId).toString());
+                listener.onSuccess(urlMap.get(mServiceId).getConfigUrls());
             }
 
             @Override
