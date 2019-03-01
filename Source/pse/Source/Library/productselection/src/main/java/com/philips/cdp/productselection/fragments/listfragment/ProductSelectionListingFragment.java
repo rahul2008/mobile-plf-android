@@ -3,6 +3,7 @@ package com.philips.cdp.productselection.fragments.listfragment;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.view.MotionEvent;
@@ -25,9 +27,11 @@ import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.CustomSearchView;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -36,16 +40,18 @@ import java.util.Map;
  * @author : ritesh.jha@philips.com
  * @since : 29 Jan 2016
  */
-public class ProductSelectionListingFragment extends ProductSelectionBaseFragment implements TextWatcher {
+public class ProductSelectionListingFragment extends ProductSelectionBaseFragment implements TextWatcher, SearchBox.ExpandListener, SearchBox.QuerySubmitListener  {
 
     private String TAG = ProductSelectionListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
     private ListViewWithOptions mProductAdapter = null;
     private ProgressDialog mSummaryDialog = null;
     private ArrayList<SummaryModel> productList = null;
-    private CustomSearchView mSearchBox = null;
+    private SearchBox mSearchBox = null;
 
     private LinearLayout noresult = null;
+    private AppCompatAutoCompleteTextView mSearchTextView;
+
 
     public ProductSelectionListingFragment() {
 
@@ -60,19 +66,53 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     }
 
     private void initView(View view) {
-        mSearchBox = (CustomSearchView) view.findViewById(R.id.search_box);
-        mSearchBox.addTextChangedListener(this);
-        mSearchBox.setOnTouchListener(new View.OnTouchListener() {
+//        mSearchBox = (CustomSearchView) view.findViewById(R.id.search_box);
+//        mSearchBox.addTextChangedListener(this);
+//        mSearchBox.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                view.setFocusable(true);
+//                view.setFocusableInTouchMode(true);
+//                return false;
+//            }
+//        });
+        mSearchBox = view.findViewById(R.id.iap_search_box);
+
+        setUpSearch();
+        noresult = (LinearLayout) view.findViewById(R.id.ll_no_result_found);
+
+    }
+
+    private void setUpSearch() {
+
+        ImageView mClearIconView = mSearchBox.getClearIconView();
+        mSearchBox.setExpandListener(this);
+        mSearchBox.setQuerySubmitListener(this);
+        mSearchTextView = mSearchBox.getSearchTextView();
+        mSearchTextView.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                view.setFocusable(true);
-                view.setFocusableInTouchMode(true);
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Do nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                    showListView();
             }
         });
 
-        noresult = (LinearLayout) view.findViewById(R.id.ll_no_result_found);
-
+        mClearIconView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSearchTextView.getText().clear();
+                showListView();
+            }
+        });
     }
 
     @Override
@@ -89,7 +129,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (isConnectionAvailable()) {
 
-                    if(mSearchBox.getText().length() == 0)
+                    if(mSearchTextView.getText().length() == 0)
                     {
                         mUserSelectedProduct = (productList.get(position));
                     }else {
@@ -153,7 +193,9 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     private void showListView() {
 
-       final String constrain = mSearchBox.getText().toString().trim();
+       final String constrain = mSearchTextView.getText().toString().trim();
+
+System.out.println("constrain  "+constrain);
 
         if (productList != null && mProductAdapter.getFilter()!=null) {
             mProductAdapter.getFilter().filter(constrain,
@@ -199,5 +241,20 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     @Override
     public void afterTextChanged(Editable s) {
             showListView();
+    }
+
+    @Override
+    public void onSearchExpanded() {
+
+    }
+
+    @Override
+    public void onSearchCollapsed() {
+
+    }
+
+    @Override
+    public void onQuerySubmit(CharSequence charSequence) {
+
     }
 }
