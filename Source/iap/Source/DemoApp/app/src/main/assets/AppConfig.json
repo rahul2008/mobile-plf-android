@@ -31,7 +31,7 @@
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
     "appidentity.appState": "STAGING",
-    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appidentity.serviceDiscoveryEnvironment": "STAGING",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [
       "bundleId",
@@ -43,7 +43,7 @@
       "DOT-ReceiveMarketingOptIn"
     ],
     "servicediscovery.platformMicrositeId": "70000",
-    "servicediscovery.platformEnvironment": "production",
+    "servicediscovery.platformEnvironment": "STAGING",
     "timesync.ntp.hosts": [
       "0.pool.ntp.org",
       "1.pool.ntp.org",
