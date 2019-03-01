@@ -40,7 +40,7 @@ import java.util.Map;
  * @author : ritesh.jha@philips.com
  * @since : 29 Jan 2016
  */
-public class ProductSelectionListingFragment extends ProductSelectionBaseFragment implements TextWatcher, SearchBox.ExpandListener, SearchBox.QuerySubmitListener  {
+public class ProductSelectionListingFragment extends ProductSelectionBaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener  {
 
     private String TAG = ProductSelectionListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
@@ -66,16 +66,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     }
 
     private void initView(View view) {
-//        mSearchBox = (CustomSearchView) view.findViewById(R.id.search_box);
-//        mSearchBox.addTextChangedListener(this);
-//        mSearchBox.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                view.setFocusable(true);
-//                view.setFocusableInTouchMode(true);
-//                return false;
-//            }
-//        });
+
         mSearchBox = view.findViewById(R.id.iap_search_box);
 
         setUpSearch();
@@ -226,21 +217,6 @@ System.out.println("constrain  "+constrain);
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-            showListView();
     }
 
     @Override
