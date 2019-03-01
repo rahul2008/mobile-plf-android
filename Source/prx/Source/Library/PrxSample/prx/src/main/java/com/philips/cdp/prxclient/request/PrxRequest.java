@@ -5,10 +5,12 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,26 +142,22 @@ public abstract class PrxRequest {
         replaceUrl.put("sector", getSector().toString());
         replaceUrl.put("catalog", getCatalog().toString());
         // replaceUrl.put("locale", locale);
-        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+url);
 
-                        // https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/products/%ctn%.summary
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(mServiceId);
+        appInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+urlMap.get(mServiceId));
+                listener.onSuccess(urlMap.get(mServiceId).toString());
+            }
 
-                       // String urlHardCoded = "https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/listproducts?ctnlist=HD5061_01,HD7870_10";
-                        String urlHardCoded  = "https://stg.philips.com/prx/product/B2C/en_US/CONSUMER/listproducts?ctnlist=S9721/84,FS9185/49";
-
-                        listener.onSuccess(urlHardCoded);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
-                        listener.onError(error, message);
-                    }
-                }, replaceUrl);
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
+                listener.onError(error, message);
+            }
+        },replaceUrl);
     }
 
 

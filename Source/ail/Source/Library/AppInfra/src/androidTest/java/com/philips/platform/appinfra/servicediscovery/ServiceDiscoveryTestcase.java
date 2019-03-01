@@ -240,7 +240,8 @@ public class ServiceDiscoveryTestcase {
             }
         };
         ServiceDiscoveryInterface.OnRefreshListener onRefreshListenerMock = mock(ServiceDiscoveryInterface.OnRefreshListener.class);
-        mServiceDiscoveryManager.refresh(onRefreshListenerMock);
+        appInfraTaggingUtil.trackSuccessAction(SERVICE_DISCOVERY, SD_FORCE_REFRESH_CALLED);
+        mServiceDiscoveryManager.refresh(onRefreshListenerMock,false);
         verify(appInfraTaggingUtil).trackSuccessAction(SERVICE_DISCOVERY, SD_FORCE_REFRESH_CALLED);
     }
 
@@ -314,85 +315,9 @@ public class ServiceDiscoveryTestcase {
                 assertNotNull(error);
                 assertNotNull(message);
             }
-        });
+        },false);
     }
 
-    @Test
-    public void testGetServiceUrlWithLanguagePreference() throws Exception {
-        try {
-            method = ServiceDiscoveryManager.class.getDeclaredMethod("getServiceUrlWithLanguagePreference",
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
-            method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, "userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                @Override
-                public void onSuccess(URL url) {
-                }
-
-                @Override
-                public void onError(ERRORVALUES error, String message) {
-                }
-            });
-
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
-        }
-
-        mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(message);
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url.toString());
-                    }
-                });
-
-        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference(null, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-                assertNotNull(error);
-            }
-
-            @Override
-            public void onSuccess(URL url) {
-
-            }
-        });
-
-        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference("userreg.janrain.api", null);
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("ctn", "HD9740");
-        parameters.put("sector", "B2C");
-        parameters.put("catalog", "shavers");
-
-        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference("prxclient.assets", null, parameters);
-
-        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference(null, new ServiceDiscoveryManager.OnGetServiceUrlListener() {
-            @Override
-            public void onSuccess(URL url) {
-
-            }
-
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-                assertNotNull(error);
-            }
-        }, parameters);
-
-        mServiceDiscoveryManager.getServiceUrlWithLanguagePreference("prxclient.assets", new ServiceDiscoveryManager.OnGetServiceUrlListener() {
-            @Override
-            public void onSuccess(URL url) {
-                assertNotNull(url);
-            }
-
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-                assertNotNull(error);
-            }
-        }, parameters);
-    }
 
     @Test
     public void testgetServicesWithLanguageMapUrl() throws Exception {
@@ -408,85 +333,9 @@ public class ServiceDiscoveryTestcase {
                     public void onError(ERRORVALUES error, String message) {
                         assertNotNull(message);
                     }
-                });
+                },null);
     }
 
-    @Test
-    public void testgetServiceUrlWithCountryPreference() throws Exception {
-        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(message);
-                    }
-                });
-
-        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(message);
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url.toString());
-                    }
-                });
-
-        mServiceDiscoveryManager.getServiceUrlWithCountryPreference(null,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-
-                    }
-                });
-
-        mServiceDiscoveryManager.getServiceUrlWithCountryPreference("userreg.janrain.api", null);
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("ctn", "HD9740");
-        parameters.put("sector", "B2C");
-        parameters.put("catalog", "shavers");
-
-        mServiceDiscoveryManager.getServiceUrlWithCountryPreference("prxclient.assets", null, parameters);
-
-        mServiceDiscoveryManager.getServiceUrlWithCountryPreference(null,
-                new ServiceDiscoveryManager.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-                }, parameters);
-
-        mServiceDiscoveryManager.getServiceUrlWithCountryPreference("prxclient.assets",
-                new ServiceDiscoveryManager.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url);
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-                }, parameters);
-
-    }
 
     @Test
     public void testgetServicesWithCountryMapUrl() throws Exception {
@@ -502,69 +351,7 @@ public class ServiceDiscoveryTestcase {
                     public void onError(ERRORVALUES error, String message) {
                         assertNotNull(message);
                     }
-                });
-    }
-
-    @Test
-    public void testgetServiceLocaleWithCountryPreference() throws Exception {
-        mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(message);
-                    }
-
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
-                });
-
-        mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(null,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(message);
-                    }
-
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
-                });
-
-        mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(mServiceId, null);
-    }
-
-    @Test
-    public void testgetServiceLocaleWithLanguagePreference() throws Exception {
-        mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(message);
-                    }
-
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
-                });
-        mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(null,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(message);
-                    }
-
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
-                });
-
-        mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(mServiceId, null);
+                },null);
     }
 
     @Test
@@ -584,47 +371,6 @@ public class ServiceDiscoveryTestcase {
         });
     }
 
-    @Test
-    public void testgetServiceUrlWithCountryPreferenceReplacedUrl() {
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("ctn", "HD9740");
-        parameters.put("sector", "B2C");
-        parameters.put("catalog", "shavers");
-        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("prxclient.assets", new
-                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url);
-                    }
-
-                }, parameters);
-    }
-
-    @Test
-    public void testgetServiceUrlWithLanguagePreferenceReplacedUrl() {
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("ctn", "HD9740");
-        parameters.put("sector", "B2C");
-        parameters.put("catalog", "shavers");
-        mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference("prxclient.assets", new
-                ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-
-                    @Override
-                    public void onSuccess(URL url) {
-                        assertNotNull(url);
-                    }
-
-                }, parameters);
-    }
 
     @Test
     public void testgetServicesWithCountryPreferencewithServiceIds() {
@@ -634,34 +380,6 @@ public class ServiceDiscoveryTestcase {
         parameters.put("ctn", "HD9740");
         parameters.put("sector", "B2C");
         parameters.put("catalog", "shavers");
-        mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, new
-                ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        assertNotNull(urlMap);
-                    }
-                });
-
-        mServiceDiscoveryInterface.getServicesWithCountryPreference(null, new
-                ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        assertNotNull(urlMap);
-                    }
-                });
-
-        mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, null);
-
         mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, new
                 ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                     @Override
@@ -712,34 +430,6 @@ public class ServiceDiscoveryTestcase {
         parameters.put("ctn", "HD9740");
         parameters.put("sector", "B2C");
         parameters.put("catalog", "shavers");
-
-        mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, new
-                ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        assertNotNull(urlMap);
-                    }
-                });
-
-        mServiceDiscoveryInterface.getServicesWithLanguagePreference(null, new
-                ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                    }
-
-                    @Override
-                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                        assertNotNull(urlMap);
-                    }
-                });
-
-        mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, null);
 
         mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, new
                 ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -810,19 +500,20 @@ public class ServiceDiscoveryTestcase {
         } catch (JSONException ignored) {
         }
         serviceDiscovery.parseResponse(context, mAppInfra, jsonObject);
-        mServiceDiscoveryManager.getServiceLocaleWithCountryPreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
-                    @Override
-                    public void onSuccess(String locale) {
-                        assertNotNull(locale);
-                    }
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(mServiceId);
+        mServiceDiscoveryManager.getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                assertNotNull(urlMap.get(mServiceId).getLocale());
+            }
 
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        assertNotNull(error);
-                        assertNotNull(message);
-                    }
-                });
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                assertNotNull(error);
+                assertNotNull(message);
+            }
+        },null);
     }
 
     @Test
@@ -1050,12 +741,13 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyLang", ServiceDiscovery.class,
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class, Map.class);
+                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class, Map.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+
                 @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getConfigUrls());
                 }
 
                 @Override
@@ -1095,12 +787,12 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForUrlbyCountry", ServiceDiscovery.class,
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class, Map.class);
+                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class, Map.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getConfigUrls());
                 }
 
                 @Override
@@ -1167,12 +859,13 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("getDataForUrl", ServiceDiscovery.class,
-                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlListener.class, Map.class);
+                    String.class, ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class, Map.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+
                 @Override
-                public void onSuccess(URL url) {
-                    assertNotNull(url);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getConfigUrls());
                 }
 
                 @Override
@@ -1193,9 +886,9 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForLocalByLang", ServiceDiscovery.class,
-                    ServiceDiscoveryInterface.OnGetServiceLocaleListener.class);
+                    ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
 
                 @Override
                 public void onError(ERRORVALUES error, String message) {
@@ -1203,8 +896,8 @@ public class ServiceDiscoveryTestcase {
                 }
 
                 @Override
-                public void onSuccess(String locale) {
-                    assertNotNull(locale);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getLocale());
                 }
             });
 
@@ -1219,17 +912,17 @@ public class ServiceDiscoveryTestcase {
         mMatchByCountryOrLanguage.setLocale("IN");
         try {
             method = ServiceDiscoveryManager.class.getDeclaredMethod("filterDataForLocalByCountry", ServiceDiscovery.class,
-                    ServiceDiscoveryInterface.OnGetServiceLocaleListener.class);
+                    ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
             method.setAccessible(true);
-            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            method.invoke(mServiceDiscoveryManager, mserviceDiscovery, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
                     assertNotNull(message);
                 }
 
                 @Override
-                public void onSuccess(String locale) {
-                    assertNotNull(locale);
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                    assertNotNull(urlMap.get(mServiceId).getLocale());
                 }
             });
 
@@ -1250,9 +943,11 @@ public class ServiceDiscoveryTestcase {
         }
         serviceDiscovery.parseResponse(context, mAppInfra, jsonObject);
         serviceDiscovery.parseResponse(context, mAppInfra, sdPlatformObj);
-        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference("appinfra.appconfigdownload", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add("appinfra.appconfigdownload");
+        mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(URL url) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 assertEquals("https://test.prod.appinfra.testing.service/en_SG/B2C/77001", "https://test.prod.appinfra.testing.service/en_SG/B2C/77001");
             }
 
@@ -1260,7 +955,7 @@ public class ServiceDiscoveryTestcase {
             public void onError(ERRORVALUES error, String message) {
                 assertNotNull(error);
             }
-        });
+        },null);
         String[] serviceIds = {"appinfra.appconfigdownload", "appinfra.testing.service"};
         ArrayList<String> serviceId = new ArrayList<>(Arrays.asList(serviceIds));
 
@@ -1275,7 +970,7 @@ public class ServiceDiscoveryTestcase {
             public void onError(ERRORVALUES error, String message) {
 
             }
-        });
+        },null);
     }
 
     @Test

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="weak_strength_background">#40FA5A4B</color>
+    <color name="weak_strength_progress">#FFFA5A4B</color>
+    <color name="medium_strength_background">#40FFCD05</color>
+    <color name="medium_strength_progress">#FFFFCD05</color>
+    <color name="strong_strength_background">#4D9FEB07</color>
+    <color name="strong_strength_progress">#FF9FEB07</color>
+</resources>

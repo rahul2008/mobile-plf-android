@@ -10,10 +10,13 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class WelcomeVideoPresenter implements WelcomeVideoFragmentContract.Presenter {
 
@@ -31,17 +34,18 @@ public class WelcomeVideoPresenter implements WelcomeVideoFragmentContract.Prese
         AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
         ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
-        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        view.setVideoDataSource(url.toString() + COMPRESSED_VIDEO_EXTENSION);
-                    }
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO);
+        serviceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                view.setVideoDataSource(urlMap.get(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO).getConfigUrls() + COMPRESSED_VIDEO_EXTENSION);
+            }
 
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        view.onFetchError();
-                    }
-                });
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                view.onFetchError();
+            }
+        },null);
     }
 }

@@ -21,6 +21,7 @@ import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryDownloadEvent;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +30,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -424,21 +424,29 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         final String cloudServiceId = (String) getPropertyForKey("appconfig.cloudServiceId", "APPINFRA", mAppConfigError);
         if (cloudServiceId != null) {
             final ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-            serviceDiscoveryInterface.getServiceUrlWithCountryPreference(cloudServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+            ArrayList<String> serviceIDList = new ArrayList<>();
+            serviceIDList.add(cloudServiceId);
+            serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
-                public void onSuccess(URL url) {
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                     logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Successfully refresh CloudConfig");
                     mSharedPreferences = getCloudConfigSharedPreferences();
-                    if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_URL)) {
-                        final String savedURL = mSharedPreferences.getString(CLOUD_APP_CONFIG_URL, null);
-                        if (url.toString().trim().equalsIgnoreCase(savedURL)) { // cloud config url has not changed
-                            onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
-                        } else { // cloud config url has  changed
-                            clearCloudConfigFile(); // clear old cloud config data
-                            fetchCloudConfig(url.toString(), onRefreshListener);
+                    String url  = urlMap.get(cloudServiceId).getConfigUrls();
+                    if(null == url){
+                        onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey,"fetched url is null");
+                    }else{
+                        if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_URL)) {
+                            final String savedURL = mSharedPreferences.getString(CLOUD_APP_CONFIG_URL, null);
+                            if (url.trim().equalsIgnoreCase(savedURL)) { // cloud config url has not changed
+                                onRefreshListener.onSuccess(OnRefreshListener.REFRESH_RESULT.NO_REFRESH_REQUIRED);
+                            } else { // cloud config url has  changed
+                                clearCloudConfigFile(); // clear old cloud config data
+                                fetchCloudConfig(url, onRefreshListener);
+                            }
+                        } else {
+                            fetchCloudConfig(url, onRefreshListener);
                         }
-                    } else {
-                        fetchCloudConfig(url.toString(), onRefreshListener);
                     }
                 }
 
@@ -447,7 +455,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION, "Error in refresh CloudConfig");
                     onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.ServerError, error.toString());
                 }
-            });
+            },null);
         } else {
             logAppConfiguration(LoggingInterface.LogLevel.ERROR,
                     AppInfraLogEventID.AI_APP_CONFIGUARTION, "appconfig.cloudServiceId is missing in appconfig");
