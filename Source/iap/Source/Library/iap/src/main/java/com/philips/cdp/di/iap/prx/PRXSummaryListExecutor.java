@@ -34,7 +34,7 @@ public class PRXSummaryListExecutor {
     Context mContext;
     ArrayList<String> mCtns;
     AbstractModel.DataLoadListener mDataLoadListener;
-    private HashMap<String, PRXSummaryListResponse> mPRXSummaryData;
+    private HashMap<String, Data> mPRXSummaryData;
 
     //Handling error cases where Product is in Hybris but not in PRX store.
     protected int mProductPresentInPRX;
@@ -62,18 +62,18 @@ public class PRXSummaryListExecutor {
 
             @Override
             public void onResponseError(final PrxError prxError) {
-
+                notifyError(prxError);
             }
         });
     }
 
-    protected void notifyError(final String ctn, final int errorCode, final String error) {
+    protected void notifyError(PrxError prxError) {
         Message result = Message.obtain();
-        result.obj = error;
+        result.obj = prxError.getDescription();
 
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + ctn + "_" + errorCode + error);
-
+                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + "_" + prxError.getStatusCode() + prxError.getDescription());
+        mDataLoadListener.onModelDataError(result);
     }
 
     protected void notifySuccess(PRXSummaryListResponse model) {
@@ -81,9 +81,11 @@ public class PRXSummaryListExecutor {
         if (!model.getData().isEmpty()) {
 
             for(Data data:model.getData())
-            mPRXSummaryData.put(data.getCtn(), model);
+            mPRXSummaryData.put(data.getCtn(), data);
         }
-
+        Message result = Message.obtain();
+        result.obj = mPRXSummaryData;
+        mDataLoadListener.onModelDataLoadFinished(result);
         Log.d("pabitra", "got data");
     }
     private ProductSummaryListRequest prepareProductSummaryListRequest(List<String> ctns) {

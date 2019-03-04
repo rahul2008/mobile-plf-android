@@ -384,7 +384,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     public ArrayList<ShoppingCartData> getShoppingCartDatas(CartsEntity cartsEntity, List<EntriesEntity> entries) {
-        final HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
+        final ArrayList<Data> list = (ArrayList<Data>) CartModelContainer.getInstance().getPRXSummaryList();
         final ArrayList<ShoppingCartData> products = new ArrayList<>();
         String ctn;
         for (EntriesEntity entry : entries) {
@@ -393,8 +393,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             final ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
             cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
-            if (list.containsKey(ctn)) {
-                data = list.get(ctn).getData();
+            if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
+                data = CartModelContainer.getInstance().getProductSummary(ctn);
             } else {
                 continue;
             }
