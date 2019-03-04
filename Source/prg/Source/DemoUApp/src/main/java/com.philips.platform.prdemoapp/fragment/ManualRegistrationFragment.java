@@ -34,6 +34,8 @@ import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.prdemoapp.PRDemoAppuAppDependencies;
+import com.philips.platform.prdemoapp.PRDemoAppuAppSettings;
 import com.philips.platform.prdemoapp.activity.MainActivity;
 import com.philips.platform.prdemoapp.theme.fragments.BaseFragment;
 import com.philips.platform.prdemoapplibrary.R;
@@ -258,6 +260,12 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
         PRLaunchInput prLaunchInput;
+
+        PRDemoAppuAppDependencies appuAppDependencies = new PRDemoAppuAppDependencies(PRUiHelper.getInstance().getAppInfraInstance());
+        PRDemoAppuAppSettings appuAppSettings = new PRDemoAppuAppSettings(getContext());
+        URInterface urInterface = new URInterface();
+        urInterface.init(appuAppDependencies,appuAppSettings);
+
         if (!isActivity) {
            FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, R.id.mainContainer, new ActionBarListener() {
@@ -284,7 +292,6 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
 
             prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
             prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
-            URInterface urInterface = new URInterface();
             prLaunchInput.setUserDataInterface(urInterface.getUserDataInterface());
             prInterface.launch(fragLauncher, prLaunchInput);
         } else {
@@ -299,7 +306,6 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
             prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
             prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
-            URInterface urInterface = new URInterface();
             prLaunchInput.setUserDataInterface(urInterface.getUserDataInterface());
             new PRInterface().launch(activityLauncher, prLaunchInput);
         }

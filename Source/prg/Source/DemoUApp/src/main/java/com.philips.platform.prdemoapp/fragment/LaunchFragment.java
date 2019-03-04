@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -17,6 +18,8 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.prdemoapp.PRDemoAppuAppDependencies;
+import com.philips.platform.prdemoapp.PRDemoAppuAppSettings;
 import com.philips.platform.prdemoapp.activity.MainActivity;
 import com.philips.platform.prdemoapp.theme.fragments.BaseFragment;
 import com.philips.platform.prdemoapplibrary.R;
@@ -71,7 +74,15 @@ public class LaunchFragment extends BaseFragment implements View.OnClickListener
             showFragment(new ManualRegistrationFragment(), ManualRegistrationFragment.TAG);
 
         } else if (i == R.id.btn_register_list) {
-            showFragment(new ProductListFragment(), ProductListFragment.TAG);
+            ProductListFragment productListFragment = new ProductListFragment();
+            Bundle bundle = new Bundle();
+            PRDemoAppuAppDependencies appuAppDependencies = new PRDemoAppuAppDependencies(PRUiHelper.getInstance().getAppInfraInstance());
+            PRDemoAppuAppSettings appuAppSettings = new PRDemoAppuAppSettings(getContext());
+            URInterface urInterface = new URInterface();
+            urInterface.init(appuAppDependencies,appuAppSettings);
+            bundle.putSerializable(ProdRegConstants.USR_DATA_INTERFACE,urInterface.getUserDataInterface());
+            productListFragment.setArguments(bundle);
+            showFragment(productListFragment, ProductListFragment.TAG);
 
         } else {
         }

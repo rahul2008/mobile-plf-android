@@ -25,10 +25,10 @@ import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
-import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -127,9 +127,10 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
         }
     }
 
-    protected void handleCallBack(final boolean onBack) {
+    protected void handleCallBack(final boolean onBack, UserDataInterface userDataInterface) {
         final ProdRegUiListener prodRegUiListener = PRUiHelper.getInstance().getProdRegUiListener();
-        final UserWithProducts signedInUserWithProducts = new ProdRegHelper().getSignedInUserWithProducts(getActivity());
+        //final UserWithProducts signedInUserWithProducts = new ProdRegHelper().getSignedInUserWithProducts(getActivity());
+        final UserWithProducts signedInUserWithProducts = new UserWithProducts(getContext(),userDataInterface,null);
         if (onBack && prodRegUiListener != null)
             prodRegUiListener.onProdRegBack(getRegisteredProducts(), signedInUserWithProducts);
         else if (prodRegUiListener != null)

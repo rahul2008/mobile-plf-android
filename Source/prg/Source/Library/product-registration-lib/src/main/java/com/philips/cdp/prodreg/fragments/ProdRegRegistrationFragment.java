@@ -191,7 +191,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             @Override
             public void onClick(final View v) {
                 clearFragmentStack();
-                handleCallBack(false);
+                handleCallBack(false,mUserDataInterface);
                 unRegisterProdRegListener();
             }
         };
@@ -419,7 +419,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public boolean handleBackEvent() {
         if (mActivity != null && !mActivity.isFinishing()) {
             final boolean fragmentStack = clearFragmentStack();
-            handleCallBack(true);
+            handleCallBack(true,mUserDataInterface);
             hideKeyboard();
             unRegisterProdRegListener();
             return fragmentStack;
@@ -549,6 +549,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         bundle.putString(ProdRegConstants.PROD_REG_CTN, productCtnTextView.getText().toString());
         bundle.putString(ProdRegConstants.PROD_REG_TITLE, productTitleTextView.getText().toString());
         bundle.putString(ProdRegConstants.PROD_REG_WARRANTY, this.getRegisteredProduct().getEndWarrantyDate());
+        bundle.putSerializable(ProdRegConstants.USR_DATA_INTERFACE,mUserDataInterface);
         prodRegSuccessFragment.setArguments(bundle);
         showFragment(prodRegSuccessFragment);
     }
@@ -602,7 +603,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 alertDialogFragment.dismiss();
                 clearFragmentStack();
                 hideProgressDialog();
-                handleCallBack(true);
+                handleCallBack(true,mUserDataInterface);
                 unRegisterProdRegListener();
             });
             closeDialog.setOnClickListener(v -> {

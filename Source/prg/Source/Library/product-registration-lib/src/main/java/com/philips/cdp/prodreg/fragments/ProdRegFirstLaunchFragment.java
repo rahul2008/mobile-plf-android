@@ -113,7 +113,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             @Override
             public void onClick(final View v) {
                 clearFragmentStack();
-                handleCallBack(true);
+                handleCallBack(true,mUserDataInterface);
                 unRegisterProdRegListener();
             }
         };

@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     private String imgURL;
     private TextView prSuccessConfigurableTextView, prg_product_title, prg_product_description, prg_success_thanks_textView;
     private static final long serialVersionUID = -6635233525340545672L;
+    private UserDataInterface userDataInterface;
 
 
     @Override
@@ -72,7 +74,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             @Override
             public void onClick(final View v) {
                 clearFragmentStack();
-                handleCallBack(false);
+                handleCallBack(false,userDataInterface);
                 unRegisterProdRegListener();
             }
         });
@@ -85,6 +87,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         super.onActivityCreated(savedInstanceState);
         final Bundle arguments = getArguments();
         if (arguments != null) {
+            userDataInterface = (UserDataInterface) arguments.getSerializable(ProdRegConstants.USR_DATA_INTERFACE);
             RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             imgURL = arguments.getString(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
@@ -117,7 +120,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             final boolean fragmentStack = clearFragmentStack();
-            handleCallBack(true);
+            handleCallBack(true,userDataInterface);
             unRegisterProdRegListener();
             return fragmentStack;
         }

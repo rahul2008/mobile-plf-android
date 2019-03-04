@@ -180,9 +180,11 @@ public class ProdRegRegistrationController {
             if (getRegisteredProduct().getRegistrationState() != RegistrationState.REGISTERED)
                 getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
-            ProdRegHelper prodRegHelper = getProdRegHelper();
+            /*ProdRegHelper prodRegHelper = getProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
-            prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());
+            prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());*/
+            UserWithProducts userWithProducts = new UserWithProducts(fragmentActivity,mUserDataInterface,null);
+            userWithProducts.registerProduct(getRegisteredProduct());
         } else {
             registerControllerCallBacks.hideProgress();
             registerControllerCallBacks.showAlertOnError(UNKNOWN);

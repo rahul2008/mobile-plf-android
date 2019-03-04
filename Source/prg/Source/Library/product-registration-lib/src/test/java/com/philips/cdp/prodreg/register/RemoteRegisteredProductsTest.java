@@ -89,13 +89,13 @@ public class RemoteRegisteredProductsTest extends TestCase {
                 return requestManager;
             }
 
-           /* @NonNull
+            @NonNull
             @Override
-            protected RegisteredProductsRequest getRegisteredProductsRequest(final User user) {
+            protected RegisteredProductsRequest getRegisteredProductsRequest(UserDataInterface userDataInterface) {
                 return registeredProductsRequest;
-            }*/
+            }
         };
-       // User user = mock(User.class);
+
         UserWithProducts userWithProducts = mock(UserWithProducts.class);
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
         remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, userDataInterface, registeredProductsListener);
@@ -104,7 +104,7 @@ public class RemoteRegisteredProductsTest extends TestCase {
 
     @Test
     public void testGetRegisteredProductsRequest() {
-        when(userDataInterface.getHSDPAccessToken()).thenReturn("access_token");
+        when(userDataInterface.getJanrainAccessToken()).thenReturn("access_token");
         RegisteredProductsRequest registeredProductsRequest = remoteRegisteredProducts.getRegisteredProductsRequest(userDataInterface);
         assertEquals(registeredProductsRequest.getAccessToken(), "access_token");
     }

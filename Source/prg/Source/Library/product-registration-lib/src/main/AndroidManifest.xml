@@ -32,7 +32,6 @@
             android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
             android:label="SimpleDemoApplication"
             android:exported="false"
-            android:theme="@style/prg_Custom_Dialog_Style"
             android:windowSoftInputMode="stateHidden">
         </activity>
 
@@ -40,7 +39,6 @@
             android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
             android:label="SimpleDemoApplication"
             android:exported="false"
-            android:theme="@style/prg_Custom_Dialog_Style"
             android:windowSoftInputMode="stateHidden">
         </activity>
     </application>

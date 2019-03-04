@@ -10,9 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
+import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.prdemoapp.activity.MainActivity;
 import com.philips.platform.prdemoapp.adaptor.ProductAdapter;
 import com.philips.platform.prdemoapp.theme.fragments.BaseFragment;
@@ -29,6 +32,15 @@ public class ProductListFragment extends BaseFragment {
     public static final String TAG = ProductListFragment.class.getName();
     private RecyclerView mRecyclerView;
     private ProgressBar progressBar;
+    private UserDataInterface userDataInterface;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if(bundle != null)
+            userDataInterface = (UserDataInterface) bundle.getSerializable(ProdRegConstants.USR_DATA_INTERFACE);
+    }
 
     @Nullable
     @Override
@@ -51,7 +63,9 @@ public class ProductListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         ProdRegHelper prodRegHelper = new ProdRegHelper();
-        prodRegHelper.getSignedInUserWithProducts(getActivity()).getRegisteredProducts(new RegisteredProductsListener() {
+        UserWithProducts userWithProducts = new UserWithProducts(getContext(), userDataInterface, null);
+
+        userWithProducts.getRegisteredProducts(new RegisteredProductsListener() {
             @Override
             public void getRegisteredProducts(final List<RegisteredProduct> registeredProducts, final long timeStamp) {
                 final OnItemClickListener onItemClickListener = new OnItemClickListener() {

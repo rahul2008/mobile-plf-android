@@ -93,7 +93,7 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public String getJanrainUUID() {
-        RLog.d(TAG, "getJanrainUUID : " + getJanrainUUID());
+        //RLog.d(TAG, "getJanrainUUID : " + getJanrainUUID());
         return super.getJanrainUUID();
     }
 
