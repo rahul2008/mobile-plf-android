@@ -36,8 +36,8 @@ include ext.strings.dccuapp.projectName
 //include ext.strings.ufwuapp.projectName
 include ext.strings.prguapp.projectName
 
-include ext.strings.udi.projectName
-include ext.strings.udiuapp.projectName
+include ext.strings.pim.projectName
+include ext.strings.pimuapp.projectName
 
 
 
@@ -68,16 +68,16 @@ project(ext.strings.sdb.projectName).projectDir = new File('./Source/sdb/Source/
 project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/Library/mya')
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 
-project(ext.strings.udiuapp.projectName).projectDir = new File('./Source/udi/Source/DemoUApp')
-project(ext.strings.udi.projectName).projectDir = new File('./Source/udi/Source/Library/udi')
+project(ext.strings.pimuapp.projectName).projectDir = new File('./Source/pim/Source/DemoUApp')
+project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/Library/pim')
 
 //demoapps to be published to artifactory
 include ':UserRegistrationApp'
 project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
 
-include(':udiApp')
-project(':udiApp').projectDir = new File('./Source/udi/Source/DemoApp/app')
+include(':pimApp')
+project(':pimApp').projectDir = new File('./Source/pim/Source/DemoApp/app')
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':uAppFwLibApp'

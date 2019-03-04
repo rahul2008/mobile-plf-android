@@ -34,6 +34,6 @@ ext.strings = [
         dccuapp:[projectName:':digitalCareUApp', artifactName:'digitalCareUApp'],
         prguapp:[projectName:':product-registration-libUApp', artifactName:'product-registration-libUApp'],
 
-        udiuapp:[projectName:':udiUApp', artifactName:'udiUApp'],
-        udi: [projectName:':udi', artifactName:'udi']
+        pimuapp:[projectName:':pimUApp', artifactName:'pimUApp'],
+        pim: [projectName:':pim', artifactName:'pim']
 ]

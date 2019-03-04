@@ -1,4 +1,0 @@
-include ':app', ':udiUApp'
-project(':udiUApp').projectDir = new File('../DemoUApp')
-include ':udi'
-project(':udi').projectDir = new File('../Library/udi')

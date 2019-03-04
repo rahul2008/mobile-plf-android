@@ -1,0 +1,44 @@
+@startuml
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+interface PIMRestClientInterface{
+url : String
+Header : Map<String, String?
+body : String
+methodType : String
+}
+
+class PIMRequest extends StringRequest{
+Request getRequest(PIMRestClientInterface, )
+
+}
+
+PIMRestClientInterface <|.. PIMRequest
+class UserProfileRequest
+PIMRequest <|- UserProfileRequest
+PIMRequest <|- RefreshTokenRequest
+PIMRequest <|- LogoutRequest
+class Usermanager
+class PIMRestClient{
+void invokeRequest()
+}
+@enduml
