@@ -7,6 +7,8 @@ import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by philips on 2/28/19.
  */
@@ -18,7 +20,7 @@ public class PRXSummaryListResponse extends ResponseData {
     private boolean success;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private ArrayList<Data> data;
 
     /**
      * No args constructor for use in serialization
@@ -32,7 +34,7 @@ public class PRXSummaryListResponse extends ResponseData {
      * @param data
      * @param success
      */
-    public PRXSummaryListResponse(boolean success, Data data) {
+    public PRXSummaryListResponse(boolean success, ArrayList<Data> data) {
         this.success = success;
         this.data = data;
     }
@@ -60,7 +62,7 @@ public class PRXSummaryListResponse extends ResponseData {
      * @return
      * The data
      */
-    public Data getData() {
+    public ArrayList<Data> getData() {
         return data;
     }
 
@@ -69,7 +71,7 @@ public class PRXSummaryListResponse extends ResponseData {
      * @param data
      * The data
      */
-    public void setData(Data data) {
+    public void setData(ArrayList<Data> data) {
         this.data = data;
     }
 

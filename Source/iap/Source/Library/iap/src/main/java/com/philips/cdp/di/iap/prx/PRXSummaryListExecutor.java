@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.PRXSummaryListResponse;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
@@ -33,7 +34,7 @@ public class PRXSummaryListExecutor {
     Context mContext;
     ArrayList<String> mCtns;
     AbstractModel.DataLoadListener mDataLoadListener;
-    private HashMap<String, SummaryModel> mPRXSummaryData;
+    private HashMap<String, PRXSummaryListResponse> mPRXSummaryData;
 
     //Handling error cases where Product is in Hybris but not in PRX store.
     protected int mProductPresentInPRX;
@@ -56,8 +57,6 @@ public class PRXSummaryListExecutor {
         mRequestManager.executeRequest(productSummaryListBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-
-                Log.d("pabitra", responseData.toString());
                 notifySuccess((PRXSummaryListResponse) responseData);
             }
 
@@ -79,6 +78,13 @@ public class PRXSummaryListExecutor {
 
     protected void notifySuccess(PRXSummaryListResponse model) {
 
+        if (!model.getData().isEmpty()) {
+
+            for(Data data:model.getData())
+            mPRXSummaryData.put(data.getCtn(), model);
+        }
+
+        Log.d("pabitra", "got data");
     }
     private ProductSummaryListRequest prepareProductSummaryListRequest(List<String> ctns) {
         return new ProductSummaryListRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);

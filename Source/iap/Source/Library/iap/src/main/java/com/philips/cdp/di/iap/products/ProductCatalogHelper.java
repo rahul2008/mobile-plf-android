@@ -12,6 +12,7 @@ import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
+import com.philips.cdp.di.iap.prx.PRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
@@ -51,6 +52,23 @@ public class ProductCatalogHelper {
                 mGetProductCatalogListener);
         builder.preparePRXDataRequest();
     }*/
+
+    public void sendPRXRequest(Products productData) {
+        ArrayList<String> productsToBeShown = new ArrayList<>();
+        String ctn;
+
+        if (productData != null) {
+            final List<ProductsEntity> productsEntities = productData.getProducts();
+            if (productsEntities != null)
+                for (ProductsEntity entry : productsEntities) {
+                    ctn = entry.getCode();
+                    productsToBeShown.add(ctn);
+                }
+        }
+        PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, productsToBeShown,
+                mGetProductCatalogListener);
+        builder.preparePRXDataRequest();
+    }
 
     @SuppressWarnings("unchecked")
     public boolean processPRXResponse(final Message msg, Products productData, IAPListener listener) {

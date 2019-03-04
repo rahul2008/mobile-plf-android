@@ -124,9 +124,8 @@ public class PRXSummaryExecutor {
     }
 
     protected void notifySuccess(SummaryModel model) {
-        if (model.getData() != null) {
-            mPRXSummaryData.put(model.getData().getCtn(), model);
-        }
+
+        
         if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
             Message result = Message.obtain();
             result.obj = mPRXSummaryData;

@@ -2,6 +2,7 @@ package com.philips.cdp.prxclient.request;
 
 
 import com.philips.cdp.prxclient.PrxConstants;
+import com.philips.cdp.prxclient.datamodels.summary.PRXSummaryListResponse;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -56,7 +57,7 @@ public class ProductSummaryListRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        return new SummaryModel().parseJsonResponseData(jsonObject);
+        return new PRXSummaryListResponse().parseJsonResponseData(jsonObject);
     }
 
     /**
