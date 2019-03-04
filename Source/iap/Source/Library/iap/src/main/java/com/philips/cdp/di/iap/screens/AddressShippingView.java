@@ -161,13 +161,13 @@ public class AddressShippingView
             setViewVisible(mLlLastName,tvLastName,mEtLastName);
             inputValidatorLastName = new InputValidator(Validator.NAME_PATTERN);
             mLlLastName.setValidator(inputValidatorLastName);
-            mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
             String familyName = HybrisDelegate.getInstance(mContext).getStore().getFamilyName();
             if (!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
                 mEtLastName.setText(familyName);
             } else {
                 mEtLastName.setText("");
             }
+            mEtLastName.addTextChangedListener(new IAPTextWatcher(mEtLastName));
         }else{
             setViewInVisible(mLlLastName,tvLastName,mEtLastName);
         }
@@ -179,7 +179,6 @@ public class AddressShippingView
             mLlSalutation.setValidator(inputValidatorSalutation);
 
             mEtSalutation.setKeyListener(null);
-            mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
             mEtSalutation.setCompoundDrawables(null, null, Utility.getImageArrow(mContext), null);
             mSalutationDropDown = new SalutationDropDown(mContext, mEtSalutation, this);
 
@@ -190,6 +189,7 @@ public class AddressShippingView
                     return false;
                 }
             });
+            mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
 
         }else{
             setViewInVisible(mLlSalutation,tvSalutation,mEtSalutation);
@@ -373,28 +373,28 @@ public class AddressShippingView
 
     public void validateShippingAddress(View editText, boolean hasFocus) {
         boolean result = true;
-        if (editText.getId() == R.id.et_first_name && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_first_name && !hasFocus && addressContractor.isFirstNameEnabled()) {
             result = inputValidatorFirstName.isValidName(((EditText) editText).getText().toString());
             if (!result) {
                 mLlFirstName.setErrorMessage(R.string.iap_first_name_error);
                 mLlFirstName.showError();
             }
         }
-        if (editText.getId() == R.id.et_last_name && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_last_name && !hasFocus && addressContractor.isLastNameEnabled()) {
             result = inputValidatorLastName.isValidName(mEtLastName.getText().toString());
             if (!result) {
                 mLlLastName.setErrorMessage(R.string.iap_last_name_error);
                 mLlLastName.showError();
             }
         }
-        if (editText.getId() == R.id.et_town && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_town && !hasFocus && addressContractor.isTownEnabled()) {
             result = inputValidatorTown.isValidTown(mEtTown.getText().toString());
             if (!result) {
                 mLlTown.setErrorMessage(R.string.iap_town_error);
                 mLlTown.showError();
             }
         }
-        if (editText.getId() == R.id.et_phone1 && !hasFocus && mEtPhone1.getText() != null && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_phone1 && !hasFocus && mEtPhone1.getText() != null && addressContractor.isPhoneNumberEnabled()) {
             result = addressPresenter.validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
                     , mEtPhone1.getText().toString());
             if (!result) {
@@ -402,28 +402,28 @@ public class AddressShippingView
                 mLlPhone1.showError();
             }
         }
-        if (editText.getId() == R.id.et_country && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_country && !hasFocus && addressContractor.isCountryEnabled()) {
             result = inputValidatorCountry.isValidCountry(mEtCountry.getText().toString());
             if (!result) {
                 mLlCountry.setErrorMessage(R.string.iap_country_error);
                 mLlCountry.showError();
             }
         }
-        if (editText.getId() == R.id.et_postal_code && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_postal_code && !hasFocus && addressContractor.isPostalCodeEnabled()) {
             result = inputValidatorPostalCode.isValidPostalCode(mEtPostalCode.getText().toString());
             if (!result) {
                 mLlPostalCode.setErrorMessage(R.string.iap_postal_code_error);
                 mLlPostalCode.showError();
             }
         }
-        if (editText.getId() == R.id.et_email && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_email && !hasFocus && addressContractor.isEmailEnabled()) {
             result = inputValidatorEmail.isValidEmail(mEtEmail.getText().toString());
             if (!result) {
                 mLlEmail.setErrorMessage(R.string.iap_email_error);
                 mLlEmail.showError();
             }
         }
-        if (editText.getId() == R.id.et_address_line_one && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_address_line_one && !hasFocus && addressContractor.isAddressLineOneEnabled()) {
             result = inputValidatorAddressLineOne.isValidAddress(mEtAddressLineOne.getText().toString());
             if (!result) {
                 mLlAddressLineOne.setErrorMessage(R.string.iap_address_error);
@@ -431,7 +431,7 @@ public class AddressShippingView
             }
         }
 
-        if (editText.getId() == R.id.et_house_no && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if (editText.getId() == R.id.et_house_no && !hasFocus && addressContractor.isHouseNoEnabled()) {
             result = inputValidatorHouseNo.isValidAddress(mEtHouseNo.getText().toString());
             if (!result) {
                 mLlHouseNo.setErrorMessage(R.string.iap_house_no_error);
@@ -439,7 +439,7 @@ public class AddressShippingView
             }
         }
 
-        if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus && editText.getVisibility() == View.VISIBLE) {
+        if ((editText.getId() == R.id.et_salutation || editText.getId() == R.id.et_state) && !hasFocus && addressContractor.isSalutationEnabled()) {
             checkFields();
         }
 
@@ -460,6 +460,7 @@ public class AddressShippingView
         String phone1 = mEtPhone1.getText().toString().replaceAll(" ", "");
         String town = mEtTown.getText().toString();
         String country = mEtCountry.getText().toString();
+
         String email = mEtEmail.getText().toString();
 
 

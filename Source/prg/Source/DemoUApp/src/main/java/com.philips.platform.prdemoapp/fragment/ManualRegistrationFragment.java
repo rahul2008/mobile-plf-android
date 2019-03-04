@@ -33,6 +33,7 @@ import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.prdemoapp.activity.MainActivity;
 import com.philips.platform.prdemoapp.theme.fragments.BaseFragment;
 import com.philips.platform.prdemoapplibrary.R;
@@ -46,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -63,6 +65,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     private boolean mandatoryConfiguration = false;
     private FragmentActivity fragmentActivity;
     private LinearLayout mandatoryTextViewLayout;
+    private final String userRegServiceID = "userreg.janrain.api";
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -237,19 +240,26 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
         //serviceDiscoveryInterface.getServiceLocaleWithCountryPreference();
-        serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(userRegServiceID);
+        serviceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(String locale) {
-                PRUiHelper.getInstance().setLocale(locale);
-                String localeArr[] = locale.split("_");
-                PRUiHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                String locale = urlMap.get(userRegServiceID).getLocale();
+                if(null == locale){
+                    Toast.makeText(fragmentActivity, "Not able to set country code since locale is null", Toast.LENGTH_SHORT).show();
+                }else {
+                    PRUiHelper.getInstance().setLocale(locale);
+                    String localeArr[] = locale.split("_");
+                    PRUiHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
+                }
             }
 
             @Override
-            public void onError(ERRORVALUES errorvalues, String errDescription) {
-                Toast.makeText(fragmentActivity, errDescription, Toast.LENGTH_SHORT).show();
+            public void onError(ERRORVALUES error, String message) {
+                Toast.makeText(fragmentActivity, message, Toast.LENGTH_SHORT).show();
             }
-        });
+        },null);
 
     }
 

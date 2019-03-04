@@ -36,7 +36,6 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.platform.appinfra.logging.CloudLoggingInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import java.io.ByteArrayInputStream;

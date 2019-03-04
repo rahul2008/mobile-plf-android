@@ -24,17 +24,19 @@ import com.philips.platform.appinfra.appupdate.model.AppUpdateModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 
@@ -165,7 +167,9 @@ public class AppUpdateManager implements AppUpdateInterface {
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Could not read service id");
 			} else {
 				ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-				mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(appupdateServiceId, getServiceDiscoveryListener(refreshListener));
+				ArrayList<String> serviceIDList = new ArrayList<>();
+				serviceIDList.add(appupdateServiceId);
+				mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,getServiceUrlMapListener(refreshListener),null);
 			}
 		} catch (IllegalArgumentException exception) {
 			refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "App configuration error");
@@ -187,15 +191,17 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return mAppInfra.getConfigInterface();
 	}
 
-	@NonNull
-	protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener
-			(final OnRefreshListener refreshListener) {
-		return new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+	protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(final OnRefreshListener refreshListener){
+		return new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
 			@Override
-			public void onSuccess(URL url) {
-				final String appUpdateURL = url.toString();
-				((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,  AppInfraLogEventID.AI_APP_UPDATE,"AppUpdate_URL"+url.toString());
-				downloadAppUpdate(appUpdateURL, refreshListener);
+			public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+				final String appUpdateURL = urlMap.get(getServiceIdFromAppConfig()).getConfigUrls();
+				if(null == appUpdateURL) {
+					refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "appUpdateURL is null");
+				}else{
+					((AppInfra) mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_UPDATE, "AppUpdate_URL" + appUpdateURL);
+					downloadAppUpdate(appUpdateURL, refreshListener);
+				}
 			}
 
 			@Override

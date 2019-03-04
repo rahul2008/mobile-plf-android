@@ -14,10 +14,13 @@ import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -176,19 +179,25 @@ public class RegistrationRequest extends PrxRequest {
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
         headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
-        PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(serviceID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                ProdRegLogger.i("Registration Request", "Registration Request :error :" + errorvalues.toString() + ":  message : " + s);
-            }
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(serviceID);
+        PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
+                getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+                    @Override
+                    public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                        String url = urlMap.get(serviceID).getConfigUrls();
+                        if (url.contains(ProdRegConstants.CHINA_DOMAIN)) {
+                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
+                        }else{
+                            ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+                        }
+                    }
 
-            @Override
-            public void onSuccess(URL url) {
-                if (url.toString().contains(ProdRegConstants.CHINA_DOMAIN)) {
-                    headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
-                }
-            }
-        });
+                    @Override
+                    public void onError(ERRORVALUES error, String message) {
+                        ProdRegLogger.i("Product Registration Request", "error :" + error.toString() + ":  message : " + message);
+                    }
+                },null);
         return headers;
     }
 

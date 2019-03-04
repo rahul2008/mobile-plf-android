@@ -284,7 +284,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                 ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
             }
-        });
+        },null);
 
 
     }

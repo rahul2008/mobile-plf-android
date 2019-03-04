@@ -19,6 +19,7 @@ import com.philips.platform.appinfra.languagepack.model.LanguageList;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,6 +33,8 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LOCALE_FILE_ACTIVATED;
@@ -85,20 +88,21 @@ public class LanguagePackTest {
 
         // override service discovery getServiceUrlWithCountryPreference to verify correct service id is being passed to SD
         mServiceDiscoveryInterface = new ServiceDiscoveryManager(mAppInfra) {
+
             @Override
-            public void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener) {
-                if (serviceId != null && serviceId.equals(LANGUAGE_PACK_CONFIG_SERVICE_ID)) {
-                    try {
-                        URL url = new URL(LANGUAGE_PACK_OVERVIEW_URL);
-                        listener.onSuccess(url);
-                    } catch (MalformedURLException e) {
-                        Log.e(getClass() + "", "Error in Language pack test setup service discovery interface callback");
-                    }
+            public void getServicesWithCountryPreference(ArrayList<String> serviceId, OnGetServiceUrlMapListener listener, Map<String, String> replacement) {
+                if (serviceId != null && serviceId.get(0).equals(LANGUAGE_PACK_CONFIG_SERVICE_ID)) {
+                    Map<String, ServiceDiscoveryService> mapUrl = new HashMap<>();
+                    ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
+                    serviceDiscoveryService.setConfigUrl(LANGUAGE_PACK_OVERVIEW_URL);
+                    mapUrl.put(serviceId.get(0),serviceDiscoveryService);
+                    listener.onSuccess(mapUrl);
                 } else {
                     listener.onError(OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "Invalid ServiceID");
                 }
             }
         };
+
         assertNotNull(mServiceDiscoveryInterface);
 
         mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).setServiceDiscovery(mServiceDiscoveryInterface).build(context);
@@ -178,16 +182,14 @@ public class LanguagePackTest {
         assertEquals(LANGUAGE_PACK_CONFIG_SERVICE_ID, languagePackServiceId);
 
         //fetch overview json file url from service discovery
-        ServiceDiscoveryInterface.OnGetServiceUrlListener listener = new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(languagePackServiceId);
+        mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(URL url) {
-                try {
-                    URL expectedURL = new URL(LANGUAGE_PACK_OVERVIEW_URL);
-                    Log.i("SD TEST", "OVERVIEW URL: " + url.toString());
-                    assertEquals(expectedURL, url);
-                } catch (MalformedURLException e) {
-                    fail();
-                }
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                String url = urlMap.get(serviceIDList.get(0)).getConfigUrls();
+                Log.i("SD TEST", "OVERVIEW URL: " + url.toString());
+                assertEquals(LANGUAGE_PACK_OVERVIEW_URL, url);
             }
 
             @Override
@@ -195,8 +197,7 @@ public class LanguagePackTest {
                 fail();
                 assertNotNull(message);
             }
-        };
-        mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(languagePackServiceId, listener);
+        }, null);
 
     }
 
@@ -234,17 +235,15 @@ public class LanguagePackTest {
         Mockito.when(appInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
         Mockito.when(appInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
         LanguagePackInterface.OnRefreshListener onRefreshListener = mock(LanguagePackInterface.OnRefreshListener.class);
-        final ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener = mock(ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
+        final ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = mock(ServiceDiscoveryInterface.OnGetServiceUrlMapListener.class);
 
         final AppConfigurationInterface.AppConfigurationError appConfigurationError = mock(AppConfigurationInterface.AppConfigurationError.class);
 
         mLanguagePackManager = new LanguagePackManager(appInfra) {
-            @NonNull
             @Override
-            protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener(OnRefreshListener aILPRefreshResult) {
-                return onGetServiceUrlListener;
+            protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener getServiceUrlMapListener(OnRefreshListener aILPRefreshResult) {
+                return onGetServiceUrlMapListener;
             }
-
         };
         mLanguagePackManager.refresh(onRefreshListener);
         Mockito.verify(onRefreshListener).onError(LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
