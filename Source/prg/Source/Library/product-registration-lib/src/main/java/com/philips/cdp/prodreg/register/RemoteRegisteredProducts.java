@@ -21,8 +21,8 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 public class RemoteRegisteredProducts {
     private static final String TAG = RemoteRegisteredProducts.class.getSimpleName();
@@ -60,17 +60,17 @@ public class RemoteRegisteredProducts {
         return new Gson();
     }
 
-    public void getRegisteredProducts(final Context mContext, final UserWithProducts userWithProducts, final User user, final RegisteredProductsListener registeredProductsListener) {
-        RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(user);
+    public void getRegisteredProducts(final Context mContext, final UserWithProducts userWithProducts, UserDataInterface userDataInterface, final RegisteredProductsListener registeredProductsListener) {
+        RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(userDataInterface);
         final RequestManager mRequestManager = getRequestManager(mContext);
-        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(userWithProducts, new LocalRegisteredProducts(user), registeredProductsListener));
+        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(userWithProducts, new LocalRegisteredProducts(userDataInterface), registeredProductsListener));
     }
 
     @NonNull
-    protected RegisteredProductsRequest getRegisteredProductsRequest(final User user) {
+    protected RegisteredProductsRequest getRegisteredProductsRequest(UserDataInterface userDataInterface) {
 
         RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest(null, ProdRegConstants.REGISTEREDPRODUCTSREQUEST_SERVICE_ID,null,null);
-        registeredProductsRequest.setAccessToken(user.getAccessToken());
+        registeredProductsRequest.setAccessToken(userDataInterface.getJanrainAccessToken());
         return registeredProductsRequest;
     }
 

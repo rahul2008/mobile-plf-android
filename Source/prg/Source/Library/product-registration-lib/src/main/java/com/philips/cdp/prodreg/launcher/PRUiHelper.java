@@ -26,18 +26,16 @@ import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.fragments.ProdRegFirstLaunchFragment;
 import com.philips.cdp.prodreg.fragments.ProdRegRegistrationFragment;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
-import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -137,6 +135,7 @@ public class PRUiHelper {
      */
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final PRLaunchInput PRLaunchInput) {
         if (prodRegUiListener != null) {
+            UserDataInterface userDataInterface = PRLaunchInput.getUserDataInterface();
             final Bundle arguments = new Bundle();
             final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(PRLaunchInput.getProducts());
             arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
@@ -144,14 +143,15 @@ public class PRUiHelper {
             arguments.putBoolean(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE,PRLaunchInput.getMandatoryProductRegistration());
             arguments.putString(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT,PRLaunchInput.getMandatoryRegisterButtonText());
             arguments.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, PRLaunchInput.isAppLaunchFlow());
+            arguments.putSerializable(ProdRegConstants.USR_DATA_INTERFACE,userDataInterface);
             ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_PRODUCT_REGISTRATION);
-            final User user = new User(fragmentLauncher.getFragmentActivity());
+            //final User user = new User(fragmentLauncher.getFragmentActivity());
             if (PRLaunchInput.isAppLaunchFlow()) {
                 ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
                 prodRegFirstLaunchFragment.setArguments(arguments);
                 prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
                         fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
-            } else if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+            } else if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
                 prodRegUiListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
                 if (fragmentLauncher.getFragmentActivity() instanceof ProdRegBaseActivity)
                     fragmentLauncher.getFragmentActivity().finish();
@@ -201,8 +201,8 @@ public class PRUiHelper {
     protected void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
         this.appInfra = uappDependencies.getAppInfra();
-        new ProdRegHelper().init();
-        ProdRegTagging.init();
+        //new ProdRegHelper().init();
+        ProdRegTagging.init(appInfra.getTagging());
     }
 
     protected void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {

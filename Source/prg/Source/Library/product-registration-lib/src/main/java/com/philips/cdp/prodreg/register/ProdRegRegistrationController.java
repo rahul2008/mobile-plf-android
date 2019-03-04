@@ -26,7 +26,7 @@ import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
-import com.philips.cdp.registration.User;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,18 +80,18 @@ public class ProdRegRegistrationController {
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
     private RegisteredProduct registeredProduct;
-    private User user;
     private ProdRegUtil prodRegUtil = new ProdRegUtil();
+    private UserDataInterface mUserDataInterface;
 
-    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
+   /* public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity, UserDataInterface userDataInterface) {
         this.registerControllerCallBacks = registerControllerCallBacks;
         this.fragmentActivity = fragmentActivity;
-        this.user = new User(fragmentActivity);
-    }
+        mUserDataInterface = userDataInterface;
+    }*/
 
-    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity, User user) {
+    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity, UserDataInterface userDataInterface) {
         this.registerControllerCallBacks = registerControllerCallBacks;
-        this.user = user;
+        mUserDataInterface = userDataInterface;
         this.fragmentActivity = fragmentActivity;
     }
 
@@ -109,7 +109,7 @@ public class ProdRegRegistrationController {
 
     @NonNull
     protected LocalRegisteredProducts getLocalRegisteredProducts() {
-        return new LocalRegisteredProducts(user);
+        return new LocalRegisteredProducts(mUserDataInterface);
     }
 
     @SuppressWarnings("unchecked")
@@ -242,10 +242,6 @@ public class ProdRegRegistrationController {
                 }
             }
         };
-    }
-
-    protected User getUser() {
-        return user;
     }
 
     public RegisteredProduct getRegisteredProduct() {

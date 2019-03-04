@@ -25,7 +25,7 @@ public class PRInterface implements UappInterface {
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         PRUiHelper.getInstance().init(uappDependencies, uappSettings);
         PRUiHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
-        ProdRegLogger.init();
+        ProdRegLogger.init(uappDependencies.getAppInfra().getLogging());
     }
 
     /**

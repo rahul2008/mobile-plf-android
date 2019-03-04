@@ -5,18 +5,10 @@
 */
 package com.philips.cdp.prodreg.register;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
-import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.cdp.registration.ui.utils.URLaunchInput;
 
 /**
  * <b> Helper class used to process product registration backend calls</b>
@@ -25,7 +17,7 @@ public class ProdRegHelper {
 
     private ProdRegListener prodRegListener;
 
-    @NonNull
+    /*@NonNull
     private static UserRegistrationUIEventListener getUserRegistrationListener() {
         return new UserRegistrationUIEventListener() {
             @Override
@@ -57,13 +49,13 @@ public class ProdRegHelper {
 
             }
         };
-    }
+    }*/
 
     /**
      * API to be called to initialize product registration
      */
     public void init() {
-        UserRegistrationObserver.registerListerOnUserSignIn();
+        //UserRegistrationObserver.registerListerOnUserSignIn();
     }
 
     /**
@@ -85,7 +77,8 @@ public class ProdRegHelper {
      * @return - returns instance of UserWithProducts
      */
     public UserWithProducts getSignedInUserWithProducts(Context context) {
-        return new UserWithProducts(context, new User(context), prodRegListener);
+        //return new UserWithProducts(context , prodRegListener);
+        return null;
     }
 
     /**
@@ -97,14 +90,14 @@ public class ProdRegHelper {
         return BuildConfig.VERSION_NAME;
     }
 
-    private static class UserRegistrationObserver {
-        protected static void registerListerOnUserSignIn() {
-            final URLaunchInput urLaunchInput = new URLaunchInput();
-           // urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
-            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
-            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-            urLaunchInput.setUserRegistrationUIEventListener(getUserRegistrationListener());
-        }
-    }
+//    private static class UserRegistrationObserver {
+//        protected static void registerListerOnUserSignIn() {
+//            final URLaunchInput urLaunchInput = new URLaunchInput();
+//           // urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+//            urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
+//            urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+//            urLaunchInput.setUserRegistrationUIEventListener(getUserRegistrationListener());
+//        }
+//    }
 
 }

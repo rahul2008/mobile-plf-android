@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.product_registration_lib.BuildConfig;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
 
 import junit.framework.TestCase;
 
@@ -22,7 +21,6 @@ public class ProdRegHelperTest extends TestCase {
     private ProdRegHelper prodRegHelper;
     private Context context;
     private ProdRegListener prodRegListener;
-    private UserRegistrationListener userRegistrationListener;
 
     @Before
     public void setUp() throws Exception {

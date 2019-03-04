@@ -4,6 +4,7 @@ import android.support.annotation.IdRes;
 
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
@@ -25,6 +26,16 @@ public class PRLaunchInput extends UappLaunchInput {
     boolean showExtendWarrantyNothanksButton;
 
     String mandatoryRegisterButtonText;
+
+    public UserDataInterface getUserDataInterface() {
+        return userDataInterface;
+    }
+
+    public void setUserDataInterface(UserDataInterface userDataInterface) {
+        this.userDataInterface = userDataInterface;
+    }
+
+    private UserDataInterface userDataInterface;
 
     /**
      *

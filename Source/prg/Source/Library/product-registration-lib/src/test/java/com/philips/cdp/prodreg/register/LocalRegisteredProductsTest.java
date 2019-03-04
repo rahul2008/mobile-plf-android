@@ -7,8 +7,8 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prxclient.PrxConstants;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import junit.framework.TestCase;
 
@@ -38,10 +38,10 @@ public class LocalRegisteredProductsTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         prodRegCache = mock(ProdRegCache.class);
-        User user = mock(User.class);
+        UserDataInterface userDataInterface = mock(UserDataInterface.class);
         gson = new Gson();
         addDummyProjects();
-        localRegisteredProducts = new LocalRegisteredProducts(user) {
+        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
                 return registeredProducts;
@@ -98,11 +98,11 @@ public class LocalRegisteredProductsTest extends TestCase {
 
     @Test
     public void testGetRegisteredProducts() {
-        User userMock = mock(User.class);
-        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
+        UserDataInterface userDataInterface = mock(UserDataInterface.class);
+        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN.USER_LOGGED_IN);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null)};
 
-        localRegisteredProducts = new LocalRegisteredProducts(userMock) {
+        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
                 return registeredProducts;
@@ -116,17 +116,17 @@ public class LocalRegisteredProductsTest extends TestCase {
         when(prodRegCache.getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY)).thenReturn("");
         assertTrue(localRegisteredProducts.getRegisteredProducts().size() == 3);
 //        when(userMock.isUserSignIn()).thenReturn(false);
-        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_NOT_LOGGED_IN);
+        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_NOT_LOGGED_IN);
         assertTrue(localRegisteredProducts.getRegisteredProducts().size() == 0);
     }
 
     @Test
     public void testGettingUniqueRegisteredProducts() {
-        User userMock = mock(User.class);
-        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
+        UserDataInterface userDataInterface = mock(UserDataInterface.class);
+        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null)};
 
-        localRegisteredProducts = new LocalRegisteredProducts(userMock) {
+        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
                 return registeredProducts;
@@ -143,11 +143,11 @@ public class LocalRegisteredProductsTest extends TestCase {
 
     @Test
     public void testRemoveProductFromCache() {
-        User userMock = mock(User.class);
+        UserDataInterface userDataInterface = mock(UserDataInterface.class);
         RegisteredProduct registeredProductMock = new RegisteredProduct("ctn", null, null);
-        when(userMock.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
+        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
         final ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
-        localRegisteredProducts = new LocalRegisteredProducts(userMock) {
+        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
                 return registeredProducts;

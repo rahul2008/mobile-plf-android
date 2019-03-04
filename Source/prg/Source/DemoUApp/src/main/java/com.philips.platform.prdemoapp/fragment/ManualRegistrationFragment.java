@@ -31,6 +31,7 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prxclient.PrxConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.prdemoapp.activity.MainActivity;
@@ -283,7 +284,8 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
 
             prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
             prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
-
+            URInterface urInterface = new URInterface();
+            prLaunchInput.setUserDataInterface(urInterface.getUserDataInterface());
             prInterface.launch(fragLauncher, prLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
@@ -297,7 +299,8 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
             prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
             prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
-
+            URInterface urInterface = new URInterface();
+            prLaunchInput.setUserDataInterface(urInterface.getUserDataInterface());
             new PRInterface().launch(activityLauncher, prLaunchInput);
         }
     }

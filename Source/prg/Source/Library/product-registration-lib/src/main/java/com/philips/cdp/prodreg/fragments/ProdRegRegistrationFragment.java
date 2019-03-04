@@ -41,7 +41,7 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prodreg.util.ProgressAlertDialog;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.User;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -86,6 +86,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private String purchaseDateStr = "";
     ProdRegUtil prodRegUtil;
     private static final long serialVersionUID = -6635233525340545671L;
+    private UserDataInterface mUserDataInterface;
 
 
     @SuppressWarnings("SimpleDateFormat")
@@ -144,8 +145,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
+
+        bundle = getArguments();
+        if (bundle != null) {
+            isFirstLaunch = bundle.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
+            mUserDataInterface = (UserDataInterface) bundle.getSerializable(ProdRegConstants.USR_DATA_INTERFACE);
+        }
+
         setRetainInstance(true);
-        prodRegRegistrationController = new ProdRegRegistrationController(this, mActivity);
+        prodRegRegistrationController = new ProdRegRegistrationController(this, mActivity,mUserDataInterface);
         dismissLoadingDialog();
     }
 
@@ -194,13 +202,15 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         textWatcherCalled = false;
-        bundle = getArguments();
+        /*bundle = getArguments();
         if (bundle != null) {
             isFirstLaunch = bundle.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
-        }
+            PRLaunchInput prLaunchInput = (PRLaunchInput) bundle.getSerializable("LAUNCH_INPUT");
+            mUserDataInterface = prLaunchInput.getUserDataInterface();
+        }*/
         setRetainInstance(true);
         final FragmentActivity activity = getActivity();
-        prodRegRegistrationController = new ProdRegRegistrationController(this, activity);
+        prodRegRegistrationController = new ProdRegRegistrationController(this, activity,mUserDataInterface);
         if (savedInstanceState == null) {
             showLoadingDialog();
         } else {
@@ -653,7 +663,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     void intializeProgressAlertDialog() {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressAlertDialog(getActivity(), com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
+            mProgressDialog = new ProgressAlertDialog(getActivity(), R.style.prg_Custom_loaderTheme);
             mProgressDialog.setCancelable(false);
         }
     }
@@ -684,7 +694,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 mProgressDialog.show();
             }
 
-            userWithProducts = new UserWithProducts(getContext(), new User(getContext()), new ProdRegListener() {
+            userWithProducts = new UserWithProducts(getContext(), mUserDataInterface, new ProdRegListener() {
                 @Override
                 public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
                     registeredProduct1 = registeredProduct;

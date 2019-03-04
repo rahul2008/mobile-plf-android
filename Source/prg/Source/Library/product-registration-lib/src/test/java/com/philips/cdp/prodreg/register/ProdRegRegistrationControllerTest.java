@@ -15,7 +15,7 @@ import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
-import com.philips.cdp.registration.User;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,8 +54,8 @@ public class ProdRegRegistrationControllerTest {
         bundle = mock(Bundle.class);
         productMetadataResponseData = mock(ProductMetadataResponseData.class);
         summaryDataMock = mock(Data.class);
-        User user = mock(User.class);
-        prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock,fragmentActivity,user) {
+        UserDataInterface userDataInterface = mock(UserDataInterface.class);
+        prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock,fragmentActivity,userDataInterface) {
             @Override
             public RegisteredProduct getRegisteredProduct() {
                 return registeredProductMock;

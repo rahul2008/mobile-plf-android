@@ -22,8 +22,8 @@ import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.util.List;
@@ -38,6 +38,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     private TextView benefitsMessage;
     private Button registerButton;
     private static final long serialVersionUID = -6635233525340545669L;
+    private UserDataInterface mUserDataInterface;
 
 
     @Override
@@ -102,6 +103,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
                     registerButton.setText(dependencies.getString(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT));
                 }
             }
+            mUserDataInterface = (UserDataInterface) dependencies.getSerializable(ProdRegConstants.USR_DATA_INTERFACE);
         }
     }
 
@@ -123,9 +125,9 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             @Override
             public void onClick(final View v) {
                 final FragmentActivity activity = getActivity();
-                final User user = new User(activity);
-                if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
-                    final ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
+                //final User user = new User(activity);
+                if (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                    final  ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
                     processFragment.setArguments(dependencies);
                     registerButton.setClickable(false);
                     showFragment(processFragment);
