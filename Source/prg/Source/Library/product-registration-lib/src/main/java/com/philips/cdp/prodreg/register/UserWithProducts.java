@@ -312,36 +312,11 @@ public class UserWithProducts {
      * @param registeredProduct - List of products to be registered
      */
     public void onAccessTokenExpire(final RegisteredProduct registeredProduct) {
-        //final User user = getUser();
-        //user.refreshLoginSession(getUserProduct().getRefreshLoginSessionHandler(registeredProduct, mContext));
+        mUserDataInterface.refreshLoginSession(getRefreshListener(registeredProduct,mContext));
     }
 
-    public void onAccessTokenExpireNew(UserDataInterface userDataInterface){
-        userDataInterface.refreshLoginSession(new RefreshListener() {
-            @Override
-            public void onRefreshSessionSuccess() {
 
-            }
-
-            @Override
-            public void onRefreshSessionFailure(int error) {
-
-            }
-
-            @Override
-            public void onRefreshSessionInProgress(String message) {
-
-            }
-
-            @Override
-            public void onForcedLogout() {
-
-            }
-        });
-    }
-
-    @NonNull
-    protected RefreshListener getRefreshLoginSessionHandler(final RegisteredProduct registeredProduct, final Context mContext) {
+    protected RefreshListener getRefreshListener(final RegisteredProduct registeredProduct, final Context mContext){
         return new RefreshListener() {
             @Override
             public void onRefreshSessionSuccess() {
@@ -369,32 +344,6 @@ public class UserWithProducts {
             }
         };
     }
-
-        /*@NonNull
-    protected RefreshLoginSessionHandler getRefreshLoginSessionHandler(final RegisteredProduct registeredProduct, final Context mContext) {
-        return new RefreshLoginSessionHandler() {
-            @Override
-            public void onRefreshLoginSessionSuccess() {
-                getUserProduct().retryRequests(mContext, registeredProduct);
-            }
-
-            @Override
-            public void onRefreshLoginSessionFailedWithError(final int error) {
-                if (requestType == PRODUCT_REGISTRATION && registeredProduct != null) {
-                    getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-                    getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
-                } else if (requestType == FETCH_REGISTERED_PRODUCTS && registeredProductsListener != null) {
-                    registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
-                }
-            }
-
-            @Override
-            public void onRefreshLoginSessionInProgress(final String s) {
-
-            }
-        };
-
-    }*/
 
     protected void retryRequests(final Context mContext, final RegisteredProduct registeredProduct) {
         switch (requestType) {
@@ -475,10 +424,6 @@ public class UserWithProducts {
         return localRegisteredProducts;
     }
 
-    /*@NonNull
-    protected User getUser() {
-        return user;
-    }*/
 
     protected RegisteredProduct createDummyRegisteredProduct(final Product product) {
         if (product != null) {

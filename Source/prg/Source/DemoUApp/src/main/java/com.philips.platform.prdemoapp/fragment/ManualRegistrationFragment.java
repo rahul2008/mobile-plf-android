@@ -66,6 +66,8 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     private boolean mandatoryConfiguration = false;
     private FragmentActivity fragmentActivity;
     private LinearLayout mandatoryTextViewLayout;
+    PRLaunchInput prLaunchInput;
+
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -259,7 +261,6 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
-        PRLaunchInput prLaunchInput;
 
         PRDemoAppuAppDependencies appuAppDependencies = new PRDemoAppuAppDependencies(PRUiHelper.getInstance().getAppInfraInstance());
         PRDemoAppuAppSettings appuAppSettings = new PRDemoAppuAppSettings(getContext());
@@ -361,4 +362,5 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     public int getPageTitle() {
         return 0;
     }
+
 }

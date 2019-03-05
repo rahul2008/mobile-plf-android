@@ -202,12 +202,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         textWatcherCalled = false;
-        /*bundle = getArguments();
-        if (bundle != null) {
-            isFirstLaunch = bundle.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
-            PRLaunchInput prLaunchInput = (PRLaunchInput) bundle.getSerializable("LAUNCH_INPUT");
-            mUserDataInterface = prLaunchInput.getUserDataInterface();
-        }*/
         setRetainInstance(true);
         final FragmentActivity activity = getActivity();
         prodRegRegistrationController = new ProdRegRegistrationController(this, activity,mUserDataInterface);

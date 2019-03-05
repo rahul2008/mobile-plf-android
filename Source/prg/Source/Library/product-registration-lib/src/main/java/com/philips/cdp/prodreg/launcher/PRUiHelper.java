@@ -61,7 +61,9 @@ public class PRUiHelper {
     private AppInfraInterface appInfra;
     private String mCountryCode;
     private String mLocale;
-    ThemeConfiguration themeConfiguration;
+    private ThemeConfiguration themeConfiguration;
+    private UserDataInterface mUserDataInterface;
+    private PRLaunchInput PRLaunchInput;
 
     int theme;
 
@@ -117,6 +119,7 @@ public class PRUiHelper {
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prLaunchInput.getBackgroundImageResourceId());
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE,prLaunchInput.getMandatoryProductRegistration());
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT,prLaunchInput.getMandatoryRegisterButtonText());
+        mUserDataInterface = prLaunchInput.getUserDataInterface();
         if ((Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         } else {
@@ -166,6 +169,10 @@ public class PRUiHelper {
         }
     }
 
+    public PRLaunchInput getPRLaunchInput(){
+        return PRLaunchInput;
+    }
+
     /**
      * @return - returns the instance of listener set
      */
@@ -208,7 +215,7 @@ public class PRUiHelper {
     protected void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         this.mUiLauncher = uiLauncher;
 
-        final PRLaunchInput PRLaunchInput = (PRLaunchInput) uappLaunchInput;
+        PRLaunchInput = (PRLaunchInput) uappLaunchInput;
         this.prodRegUiListener = PRLaunchInput.getProdRegUiListener();
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;

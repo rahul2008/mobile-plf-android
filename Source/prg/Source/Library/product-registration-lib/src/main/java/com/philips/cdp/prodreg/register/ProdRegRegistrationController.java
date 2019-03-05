@@ -183,7 +183,7 @@ public class ProdRegRegistrationController {
             /*ProdRegHelper prodRegHelper = getProdRegHelper();
             prodRegHelper.addProductRegistrationListener(getProdRegListener());
             prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());*/
-            UserWithProducts userWithProducts = new UserWithProducts(fragmentActivity,mUserDataInterface,null);
+            UserWithProducts userWithProducts = new UserWithProducts(fragmentActivity, mUserDataInterface, getProdRegListener());
             userWithProducts.registerProduct(getRegisteredProduct());
         } else {
             registerControllerCallBacks.hideProgress();

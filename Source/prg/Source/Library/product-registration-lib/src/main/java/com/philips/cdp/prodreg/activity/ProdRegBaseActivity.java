@@ -22,10 +22,8 @@ import android.view.View;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRInterface;
-import com.philips.cdp.prodreg.launcher.PRLaunchInput;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
-import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -34,8 +32,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.ActionBarTextView;
-
-import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -108,15 +104,6 @@ public class ProdRegBaseActivity extends UIDActivity {
     @SuppressWarnings({"unchecked", "serial"})
     protected void showFragment() {
         try {
-            boolean isFirstLaunch = false;
-            int imageResID = 0;
-            ArrayList<Product> regProdList = null;
-            final Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                isFirstLaunch = extras.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
-                regProdList = (ArrayList<Product>) extras.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
-                imageResID = extras.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
-            }
             FragmentLauncher fragLauncher = new FragmentLauncher(
                     this, R.id.mainContainer, new ActionBarListener() {
                 @Override
@@ -131,10 +118,7 @@ public class ProdRegBaseActivity extends UIDActivity {
             });
             fragLauncher.setCustomAnimation(0, 0);
             final PRUiHelper prUiHelper = PRUiHelper.getInstance();
-            final PRLaunchInput prLaunchInput = new PRLaunchInput(regProdList, isFirstLaunch);
-            prLaunchInput.setProdRegUiListener(prUiHelper.getProdRegUiListener());
-            prLaunchInput.setBackgroundImageResourceId(imageResID);
-            new PRInterface().launch(fragLauncher, prLaunchInput);
+            new PRInterface().launch(fragLauncher, prUiHelper.getPRLaunchInput());
         } catch (IllegalStateException e) {
             ProdRegLogger.e(TAG, e.getMessage());
         }
