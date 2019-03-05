@@ -59,7 +59,7 @@ public class PRXSummaryExecutor {
         }
     }
 
-    protected void executeRequest(final String ctn, final ProductSummaryRequest productSummaryBuilder) {
+   /* protected void executeRequest(final String ctn, final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
         PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), IAPAnalyticsConstant.COMPONENT_NAME);
         mRequestManager.init(prxDependencies);
@@ -84,7 +84,7 @@ public class PRXSummaryExecutor {
                     notifyError(ctn, prxError.getStatusCode(), prxError.getDescription());
             }
         });
-    }
+    }*/
 
     protected void executeRequest(final ProductSummaryListRequest productSummaryListBuilder) {
         RequestManager mRequestManager = new RequestManager();

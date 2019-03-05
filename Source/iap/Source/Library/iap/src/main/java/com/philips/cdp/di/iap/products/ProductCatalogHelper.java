@@ -93,7 +93,6 @@ public class ProductCatalogHelper {
     private ArrayList<ProductCatalogData> mergeHybrisAndPRX(Products productData,
                                                             HashMap<String, SummaryModel> prxModel) {
         List<ProductsEntity> entries = productData.getProducts();
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
         if (entries != null)
@@ -103,8 +102,8 @@ public class ProductCatalogHelper {
                 Data data;
                 if (prxModel.containsKey(ctn)) {
                     data = prxModel.get(ctn).getData();
-                } else if (list.containsKey(ctn)) {
-                    data = list.get(ctn).getData();
+                } else if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
+                    data = CartModelContainer.getInstance().getProductSummary(ctn);
                 } else {
                     continue;
                 }

@@ -290,8 +290,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             final PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
         } else {
-            final ArrayList<Data> prxAssetObjects =
-                    (ArrayList<Data>) CartModelContainer.getInstance().getPRXSummaryList();
+            final ArrayList<Data> prxAssetObjects = CartModelContainer.getInstance().getPRXSummaryList();
 
             for (Data data : prxAssetObjects) {
                 populateData(data);

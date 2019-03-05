@@ -127,7 +127,6 @@ public class OrderController implements AbstractModel.DataLoadListener {
 
     public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {
 
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductData> products = new ArrayList<>();
         String ctn;
         for(OrderDetail detail : orderDetail) {
@@ -137,8 +136,8 @@ public class OrderController implements AbstractModel.DataLoadListener {
                     ctn = entry.getProduct().getCode();
                     ProductData productItem = new ProductData(entry);
                     Data data;
-                    if (list.containsKey(ctn)) {
-                        data = list.get(ctn).getData();
+                    if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
+                        data = CartModelContainer.getInstance().getProductSummary(ctn);
                     } else {
                         continue;
                     }

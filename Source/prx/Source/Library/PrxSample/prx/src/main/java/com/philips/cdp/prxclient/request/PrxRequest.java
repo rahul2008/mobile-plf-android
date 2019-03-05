@@ -24,7 +24,7 @@ public abstract class PrxRequest {
     private PrxConstants.Sector mSector;
     private PrxConstants.Catalog mCatalog;
     private int maxRetries = 0;
-    private int requestTimeOut = 5000;
+    private int requestTimeOut = 10000;
     private String mCtn;
     private final String mServiceId;
 
@@ -163,6 +163,7 @@ public abstract class PrxRequest {
 
     /**
      * Interface which gives callback on Url Received.
+
      * @since 1.0.0
      */
     public interface OnUrlReceived extends ServiceDiscoveryInterface.OnErrorListener {
