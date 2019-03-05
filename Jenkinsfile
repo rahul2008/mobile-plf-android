@@ -314,8 +314,9 @@ pipeline {
                       echo "BranchName changed to ${jobBranchName}"
 
                       sh """#!/bin/bash -le
-                          curl -X POST http://pil.ietjenkins.pic.philips.com:8080/job/E2E_Tests/job/E2E_Android_develop/buildWithParameters?APKPATH <http://pil.ietjenkins.pic.philips.com:8080/job/E2E_Tests/job/E2E_Android_develop/buildWithParameters?APKPATH>
+                          curl -X POST curl -X POST http://pil.ietjenkins.pic.philips.com:8080/job/E2E_Tests/job/E2E_Android_${jobBranchName}/buildWithParameters?APKPATH=$APK_NAME
                       """
+                      
                   }
               }
           }
