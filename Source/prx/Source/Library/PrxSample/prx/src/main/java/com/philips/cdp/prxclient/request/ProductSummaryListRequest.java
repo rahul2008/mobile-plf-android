@@ -72,7 +72,7 @@ public class ProductSummaryListRequest extends PrxRequest {
      */
     public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
         Map<String, String> replaceUrl = new HashMap<>();
-        replaceUrl.put("ctn", getString(ctns));
+        replaceUrl.put("ctns", getString(ctns));
         replaceUrl.put("sector", getSector().toString());
         replaceUrl.put("catalog", getCatalog().toString());
 
@@ -90,7 +90,7 @@ public class ProductSummaryListRequest extends PrxRequest {
                 appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
                 listener.onError(error, message);
             }
-        },replaceUrl);
+        }, replaceUrl);
     }
 
     private String getString(List<String> ctns) {

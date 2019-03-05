@@ -9,10 +9,12 @@ import android.content.Context;
 import android.os.Message;
 import android.util.Log;
 
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.AbstractModel;
+import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
@@ -68,6 +70,9 @@ public class PRXSummaryListExecutor {
     }
 
     protected void notifyError(PrxError prxError) {
+
+        // String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+
         Message result = Message.obtain();
         result.obj = prxError.getDescription();
 
@@ -89,6 +94,8 @@ public class PRXSummaryListExecutor {
         Log.d("pabitra", "got data");
     }
     private ProductSummaryListRequest prepareProductSummaryListRequest(List<String> ctns) {
-        return new ProductSummaryListRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
+        ProductSummaryListRequest productSummaryListRequest = new ProductSummaryListRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
+        productSummaryListRequest.setRequestTimeOut(NetworkConstants.DEFAULT_TIMEOUT_MS);
+        return productSummaryListRequest;
     }
 }

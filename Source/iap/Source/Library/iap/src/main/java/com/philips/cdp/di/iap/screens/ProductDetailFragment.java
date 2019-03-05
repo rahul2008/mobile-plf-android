@@ -42,7 +42,7 @@ import com.philips.cdp.di.iap.eventhelper.EventListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.PRXAssetExecutor;
 import com.philips.cdp.di.iap.prx.PRXDisclaimerExecutor;
-import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
+import com.philips.cdp.di.iap.prx.PRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.products.ProductDetailEntity;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
@@ -58,7 +58,6 @@ import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.Disclaimer;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -287,7 +286,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 }
                 mBuyFromRetailers.showProgressIndicator();
             }
-            final PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnList, this);
+            final PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
         } else {
             final ArrayList<Data> prxAssetObjects = CartModelContainer.getInstance().getPRXSummaryList();

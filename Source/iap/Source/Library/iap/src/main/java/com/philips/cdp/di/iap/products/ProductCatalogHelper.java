@@ -11,14 +11,12 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.prx.PRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.response.products.ProductsEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,23 +34,6 @@ public class ProductCatalogHelper {
         mGetProductCatalogListener = productListener;
     }
 
-   /* public void sendPRXRequest(Products productData) {
-        ArrayList<String> productsToBeShown = new ArrayList<>();
-        String ctn;
-
-        if (productData != null) {
-            final List<ProductsEntity> productsEntities = productData.getProducts();
-            if (productsEntities != null)
-                for (ProductsEntity entry : productsEntities) {
-                    ctn = entry.getCode();
-                    productsToBeShown.add(ctn);
-                }
-        }
-        PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, productsToBeShown,
-                mGetProductCatalogListener);
-        builder.preparePRXDataRequest();
-    }*/
-
     public void sendPRXRequest(Products productData) {
         ArrayList<String> productsToBeShown = new ArrayList<>();
         String ctn;
@@ -67,13 +48,14 @@ public class ProductCatalogHelper {
         }
         PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, productsToBeShown,
                 mGetProductCatalogListener);
+
         builder.preparePRXDataRequest();
     }
 
     @SuppressWarnings("unchecked")
     public boolean processPRXResponse(final Message msg, Products productData, IAPListener listener) {
         if (msg.obj instanceof HashMap) {
-            HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
+            HashMap<String, Data> prxModel = (HashMap<String, Data>) msg.obj;
 
             if (checkForEmptyCart(prxModel))
                 return true;
@@ -91,7 +73,7 @@ public class ProductCatalogHelper {
     }
 
     private ArrayList<ProductCatalogData> mergeHybrisAndPRX(Products productData,
-                                                            HashMap<String, SummaryModel> prxModel) {
+                                                            HashMap<String, Data> prxModel) {
         List<ProductsEntity> entries = productData.getProducts();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
@@ -101,7 +83,7 @@ public class ProductCatalogHelper {
                 ProductCatalogData productItem = new ProductCatalogData();
                 Data data;
                 if (prxModel.containsKey(ctn)) {
-                    data = prxModel.get(ctn).getData();
+                    data = prxModel.get(ctn);
                 } else if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
                     data = CartModelContainer.getInstance().getProductSummary(ctn);
                 } else {
@@ -134,7 +116,7 @@ public class ProductCatalogHelper {
         EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
     }
 
-    private boolean checkForEmptyCart(final HashMap<String, SummaryModel> prxModel) {
+    private boolean checkForEmptyCart(final HashMap<String, Data> prxModel) {
         if (prxModel == null || prxModel.size() == 0) {
             notifyEmptyCartFragment();
             return true;
@@ -164,12 +146,9 @@ public class ProductCatalogHelper {
         CartModelContainer container = CartModelContainer.getInstance();
         if (data == null) return;
 
-       // String currentCountry = container.getCountry();
         String CTN;
         for (ProductCatalogData entry : data) {
             CTN = entry.getCtnNumber();
-            //String countryFromPreferenceForKey = Utility.getCountryFromPreferenceForKey(mContext, IAPConstant.IAP_COUNTRY_KEY);
-           // if (countryFromPreferenceForKey != null) {
                 if (CTN != null ) {
                     if (!container.isProductCatalogDataPresent(CTN)) {
                         container.addProduct(CTN, entry);
@@ -177,8 +156,6 @@ public class ProductCatalogHelper {
                 } else {
                     CartModelContainer.getInstance().clearCategorisedProductList();
                 }
-//            }
         }
-       // Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, container.getCountry());
     }
 }

@@ -12,7 +12,6 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ContactCallRequest;
 import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderHistoryRequest;
-import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
 import com.philips.cdp.di.iap.prx.PRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.orders.Entries;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
@@ -22,7 +21,6 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
