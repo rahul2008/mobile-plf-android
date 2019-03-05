@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.StoreConfiguration;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.json.JSONObject;
 import org.mockito.Mock;
@@ -36,7 +37,7 @@ public class MockNetworkController extends NetworkController {
         super(context);
         mContext = context;
         setIapSettings(iapSetting);
-        setNetworkEssentials(new HybrisNetworkEssentials());
+        setNetworkEssentials(new HybrisNetworkEssentials(mock(UserDataInterface.class)));
     }
 
     @Override

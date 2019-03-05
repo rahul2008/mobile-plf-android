@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.iapHandler.LocalHandler;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
@@ -90,7 +92,7 @@ public class IAPHandlerTest {
     @Test(expected = NullPointerException.class)
     public void testInitHybrisDelegate() {
         mIAPSettings.setUseLocalData(true);
-        mMockIAPHandler.initHybrisDelegate();
+        mMockIAPHandler.initHybrisDelegate(mock(UserDataInterface.class));
     }
 
     @Test(expected = NullPointerException.class)
@@ -377,7 +379,7 @@ public class IAPHandlerTest {
 
     @Test(expected = NullPointerException.class)
     public void testInitIAPRequisite() throws Exception {
-        mMockIAPHandler.initIAPRequisite();
+        mMockIAPHandler.initIAPRequisite(mock(UserDataInterface.class));
     }
 
 }

@@ -123,7 +123,7 @@ dependencies {
     implementation philipsdeps.uid
     if (useprojectdependencies) {
 
-        implementation project(strings.usr.projectName)
+        implementation project(strings.pif.projectName)
         implementation project(strings.prx.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)

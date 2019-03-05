@@ -7,10 +7,12 @@ package com.philips.cdp.di.iap.store;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.mockito.Mockito;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class MockStore {
@@ -32,14 +34,15 @@ public class MockStore {
     }
 
     public StoreListener getStore(IAPSettings pIAPSettings) {
-        HybrisStore hybrisStore = new HybrisStore(mContext, pIAPSettings) {
+        UserDataInterface userDataInterface = mock(UserDataInterface.class);
+        HybrisStore hybrisStore = new HybrisStore(mContext, pIAPSettings,userDataInterface) {
             @Override
             protected StoreConfiguration getStoreConfig(final Context context, final IAPSettings mIapSettings) {
                 return getStoreConfiguration(this, mIapSettings);
             }
 
             @Override
-            IAPUser createUser(final Context context) {
+            IAPUser createUser(final Context context,UserDataInterface userDataInterface) {
                 return mUser;
             }
 

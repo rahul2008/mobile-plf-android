@@ -1,11 +1,14 @@
 package com.philips.cdp.di.iap.core;
 
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentialsFactory;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by indrajitkumar on 27/09/16.
@@ -20,10 +23,10 @@ public class NetworkEssentialsFactoryTest {
 
     @Test
     public void getNetworkEssentialsForLocalData() throws Exception{
-        NetworkEssentialsFactory.getNetworkEssentials(true);
+        NetworkEssentialsFactory.getNetworkEssentials(true, mock(UserDataInterface.class));
     }
     @Test
     public void getNetworkEssentialsForHybrisData() throws Exception{
-        NetworkEssentialsFactory.getNetworkEssentials(false);
+        NetworkEssentialsFactory.getNetworkEssentials(false, mock(UserDataInterface.class));
     }
 }

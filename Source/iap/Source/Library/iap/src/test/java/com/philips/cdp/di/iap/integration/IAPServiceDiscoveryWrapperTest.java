@@ -9,6 +9,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import org.junit.Before;
@@ -152,7 +153,7 @@ public class IAPServiceDiscoveryWrapperTest {
         map.put("iap.baseurl", discoveryService);
         iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
         iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
-        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class));
+        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class), mock(UserDataInterface.class));
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
     }
 
@@ -164,7 +165,7 @@ public class IAPServiceDiscoveryWrapperTest {
         map.put("iap.baseurl", discoveryService);
         iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
         iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
-        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class));
+        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class), mock(UserDataInterface.class));
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onSuccess(map);
     }
 
@@ -176,7 +177,7 @@ public class IAPServiceDiscoveryWrapperTest {
         map.put("iap.baseurl", discoveryService);
         iapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
         iapServiceDiscoveryWrapper.serviceUrlMapListener = serviceUrlMapListenerMock;
-        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class));
+        iapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mock(IAPListener.class), mock(IAPHandler.class), mock(UserDataInterface.class));
         iapServiceDiscoveryWrapper.serviceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "No Connection");
     }
 }

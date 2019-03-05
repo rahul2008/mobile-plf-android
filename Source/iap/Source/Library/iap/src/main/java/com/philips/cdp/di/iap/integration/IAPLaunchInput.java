@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
 
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
@@ -83,6 +84,17 @@ public class IAPLaunchInput extends UappLaunchInput {
     public String getVoucher(){
         return voucherCode;
     }
+
+    public UserDataInterface getUserDataInterface() {
+        return userDataInterface;
+    }
+
+    public void setUserDataInterface(UserDataInterface userDataInterface) {
+        this.userDataInterface = userDataInterface;
+    }
+
+    private UserDataInterface userDataInterface;
+
 
     /**
      * This enum is used to set the landing view of IAP

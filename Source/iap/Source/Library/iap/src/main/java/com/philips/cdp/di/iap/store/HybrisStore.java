@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 public class HybrisStore extends AbstractStore {
 
@@ -96,8 +97,11 @@ public class HybrisStore extends AbstractStore {
 
     private String mApplyVoucherUrl;
 
-    public HybrisStore(Context context, IAPSettings iapSettings) {
-        mIAPUser = createUser(context);
+    private UserDataInterface mUserDataInterface;
+
+    public HybrisStore(Context context, IAPSettings iapSettings,UserDataInterface userDataInterface) {
+        mUserDataInterface = userDataInterface;
+        mIAPUser = createUser(context,mUserDataInterface);
         mStoreConfig = getStoreConfig(context, iapSettings);
     }
 
@@ -118,15 +122,15 @@ public class HybrisStore extends AbstractStore {
         return mIsNewUser;
     }
 
-    IAPUser createUser(Context context) {
+    IAPUser createUser(Context context, UserDataInterface userDataInterface) {
         mIsNewUser = false;
-        mIAPUser = new IAPUser(context, this);
+        mIAPUser = new IAPUser(context, this,userDataInterface);
         return mIAPUser;
     }
 
     @Override
     public void createNewUser(Context context) {
-        createUser(context);
+        createUser(context,mUserDataInterface);
         generateStoreUrls();
     }
 

@@ -29,6 +29,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -48,16 +49,16 @@ class IAPHandler {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
     }
 
-    void initIAPRequisite() {
-        initHybrisDelegate();
+    void initIAPRequisite(UserDataInterface userDataInterface) {
+        initHybrisDelegate(userDataInterface);
     }
 
     void initControllerFactory() {
         ControllerFactory.getInstance().init(mIAPSetting.isUseLocalData());
     }
 
-    void initHybrisDelegate() {
-        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
+    void initHybrisDelegate(UserDataInterface userDataInterface) {
+        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData(),userDataInterface);
         HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
     }
 

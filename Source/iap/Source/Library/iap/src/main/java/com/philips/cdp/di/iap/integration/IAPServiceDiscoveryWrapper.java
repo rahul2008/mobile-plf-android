@@ -1,7 +1,5 @@
 package com.philips.cdp.di.iap.integration;
 
-import android.util.Log;
-
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -11,6 +9,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class IAPServiceDiscoveryWrapper {
                 list.addAll(collection);
                 ServiceDiscoveryService serviceDiscoveryService = list.get(0);
 
-                pIAPHandler.initIAPRequisite();
+                pIAPHandler.initIAPRequisite(pIapLaunchInput.getUserDataInterface());
                 String locale = serviceDiscoveryService.getLocale();
                 String configUrls = serviceDiscoveryService.getConfigUrls();
                 if (locale != null) {
@@ -135,7 +134,7 @@ public class IAPServiceDiscoveryWrapper {
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
-    public Boolean getCartVisiblityByConfigUrl(final IAPListener listener, final IAPHandler iapHandler) {
+    public Boolean getCartVisiblityByConfigUrl(final IAPListener listener, final IAPHandler iapHandler, UserDataInterface mUserDataInterface) {
 
 
         serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -155,7 +154,7 @@ public class IAPServiceDiscoveryWrapper {
                     mIAPSettings.setUseLocalData(false);
                     isCartVisible = true;
                 }
-                iapHandler.initIAPRequisite();
+                iapHandler.initIAPRequisite(mUserDataInterface);
                 listener.onSuccess(isCartVisible);
             }
 

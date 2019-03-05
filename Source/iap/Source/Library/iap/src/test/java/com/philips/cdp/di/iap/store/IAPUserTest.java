@@ -4,10 +4,8 @@
  */
 package com.philips.cdp.di.iap.store;
 
-import android.content.Context;
-
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,18 +22,19 @@ public class IAPUserTest {
     @Mock
     private HybrisStore mHybrisStore;
     @Mock
-    private User mJainrain;
+    private UserDataInterface userDataInterface;
+
     @Mock
-    private RefreshLoginSessionHandler refreshLoginSessionHandler;
+    private RefreshListener refreshLoginSessionHandler;
 
     private IAPUser mIAPUser;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        Mockito.when(mJainrain.getJanrainUUID()).thenReturn("");
-        Mockito.when(mJainrain.getAccessToken()).thenReturn("");
-        Mockito.when(mJainrain.getEmail()).thenReturn("");
+        Mockito.when(userDataInterface.getJanrainUUID()).thenReturn("");
+        Mockito.when(userDataInterface.getJanrainAccessToken()).thenReturn("");
+        //Mockito.when(userDataInterface.getUserDetails(new ArrayList<>())).thenReturn("");
         mIAPUser = new MockIAPUser(mHybrisStore);
     }
 
@@ -59,7 +58,7 @@ public class IAPUserTest {
     public void testrefreshLoginSession() {
         // refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
 
-        refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+        refreshLoginSessionHandler.onRefreshSessionSuccess();
         mIAPUser.refreshLoginSession();
     }
 
@@ -76,6 +75,6 @@ public class IAPUserTest {
 
     @Test
     public void testLogout() {
-        mIAPUser.onUserLogoutSuccess();
+        mIAPUser.onLogoutSuccess();
     }
 }

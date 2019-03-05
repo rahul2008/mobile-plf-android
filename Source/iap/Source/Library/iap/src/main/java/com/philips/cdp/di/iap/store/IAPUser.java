@@ -7,59 +7,85 @@ package com.philips.cdp.di.iap.store;
 import android.content.Context;
 
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-public class IAPUser implements UserRegistrationListener {
+public class IAPUser implements LogoutListener {
     private final static String TAG = IAPUser.class.getSimpleName();
 
     Semaphore mSemaphore = new Semaphore(0);
-    private User mJanRainUser;
     private HybrisStore mStore;
     private boolean mTokenRefreshSuccessful;
 
     private volatile boolean mLockReleaseRequested;
+    private UserDataInterface mUserDataInterface;
 
     public IAPUser() {
     }
 
-    public IAPUser(final Context context, final HybrisStore store) {
-        RegistrationHelper.getInstance().registerUserRegistrationListener(this);
+    public IAPUser(final Context context, final HybrisStore store,UserDataInterface userDataInterface) {
+        mUserDataInterface = userDataInterface;
         mStore = store;
-        mJanRainUser = new User(context);
     }
 
     public String getJanRainID() {
-        return mJanRainUser.getAccessToken();
+        return mUserDataInterface.getJanrainAccessToken();
     }
 
     public String getJanRainEmail() {
-        return mJanRainUser.getEmail();
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.EMAIL);
+        String janrainEmail = null;
+        try {
+               janrainEmail = mUserDataInterface.getUserDetails(detailsKey).get(UserDetailConstants.EMAIL).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return janrainEmail;
     }
 
     public String getDisplayName() {
-        return mJanRainUser.getUserInstance().getDisplayName();
+        //return mJanRainUser.getUserInstance().getDisplayName();
+        return getGivenName();
     }
 
     public String getGivenName() {
-        return mJanRainUser.getUserInstance().getGivenName();
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.GIVEN_NAME);
+        String givenName = null;
+        try {
+            givenName = mUserDataInterface.getUserDetails(detailsKey).get(UserDetailConstants.GIVEN_NAME).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return givenName;
     }
 
     public String getFamilyName() {
-        return mJanRainUser.getUserInstance().getFamilyName();
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.GIVEN_NAME);
+        String familyName = null;
+        try {
+            familyName = mUserDataInterface.getUserDetails(detailsKey).get(UserDetailConstants.GIVEN_NAME).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return familyName;
     }
 
     public void refreshLoginSession() {
         mTokenRefreshSuccessful = false;
         mLockReleaseRequested = false;
         IAPLog.d(TAG, " requesting refresh login session for user");
-        mJanRainUser.refreshLoginSession(new RefreshLoginSessionHandler() {
+
+        mUserDataInterface.refreshLoginSession(new RefreshListener() {
             @Override
-            public void onRefreshLoginSessionSuccess() {
+            public void onRefreshSessionSuccess() {
                 IAPLog.d(TAG, " refreshLoginSuccessful");
                 mStore.updateJanRainIDBasedUrls();
                 mTokenRefreshSuccessful = true;
@@ -68,14 +94,20 @@ public class IAPUser implements UserRegistrationListener {
             }
 
             @Override
-            public void onRefreshLoginSessionFailedWithError(final int i) {
-                IAPLog.d(TAG, " refreshLoginSuccessful failed with error=" + i);
+            public void onRefreshSessionFailure(int error) {
+                IAPLog.d(TAG, " refreshLoginSuccessful failed with error=" + error);
                 mLockReleaseRequested = true;
                 unlockOAuthThread();
             }
 
             @Override
-            public void onRefreshLoginSessionInProgress(final String s) {
+            public void onRefreshSessionInProgress(String message) {
+
+            }
+
+            @Override
+            public void onForcedLogout() {
+
             }
         });
 
@@ -102,19 +134,15 @@ public class IAPUser implements UserRegistrationListener {
         }
     }
 
+
     @Override
-    public void onUserLogoutSuccess() {
-        RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
+    public void onLogoutSuccess() {
+        //RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
         mStore.setNewUser(true);
     }
 
     @Override
-    public void onUserLogoutFailure() {
-        //NOP
-    }
+    public void onLogoutFailure(int errorCode, String errorMessage) {
 
-    @Override
-    public void onUserLogoutSuccessWithInvalidAccessToken() {
-        //NOP
     }
 }

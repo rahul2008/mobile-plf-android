@@ -85,6 +85,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private ArrayList<String> ignorelistedRetailer;
     private View mLL_propositionId;
+    URInterface urInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +169,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         }catch (Exception e){
             this.finish();
         }
+        urInterface = new URInterface();
         //Integration interface
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
@@ -197,6 +199,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
+        mIapLaunchInput.setUserDataInterface(urInterface.getUserDataInterface());
         displayUIOnCartVisible();
     }
 
@@ -417,7 +420,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
         urLaunchInput.setRegistrationContentConfiguration(contentConfiguration);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-        URInterface urInterface = new URInterface();
+
 
         ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.
                 ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null,  0, null);
