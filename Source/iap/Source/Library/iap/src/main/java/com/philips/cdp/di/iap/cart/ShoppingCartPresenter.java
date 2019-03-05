@@ -218,9 +218,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                         } else {
                             CartsEntity carts = (CartsEntity) msg.obj;
                             if (carts != null && carts.getEntries() != null) {
-//                                if (carts.getEntries().size() > 1) {
-//                                    deleteCart(context, iapCartListener);
-//                                } else {
                                 int quantity = 0;
                                 int totalItems = carts.getTotalItems();
                                 List<EntriesEntity> entries = carts.getEntries();

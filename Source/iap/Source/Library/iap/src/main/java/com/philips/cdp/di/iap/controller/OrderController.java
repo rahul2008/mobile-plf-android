@@ -95,20 +95,6 @@ public class OrderController implements AbstractModel.DataLoadListener {
         }
     }
 
-   /* public void requestPrxData(final List<OrderDetail> details, AbstractModel.DataLoadListener listener) {
-        ArrayList<String> ctnToBeRequested = new ArrayList<>();
-        for (OrderDetail detail : details) {
-            if (detail.getDeliveryOrderGroups() != null) {
-                List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
-                for (Entries entry : entries) {
-                    ctnToBeRequested.add(entry.getProduct().getCode());
-                }
-            }
-        }
-        PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnToBeRequested, listener);
-        builder.preparePRXDataRequest();
-    }*/
-
     public void requestPrxData(final List<OrderDetail> details, AbstractModel.DataLoadListener listener) {
         ArrayList<String> ctnToBeRequested = new ArrayList<>();
         for (OrderDetail detail : details) {

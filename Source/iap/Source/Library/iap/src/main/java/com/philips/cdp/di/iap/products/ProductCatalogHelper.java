@@ -56,7 +56,6 @@ public class ProductCatalogHelper {
     public boolean processPRXResponse(final Message msg, Products productData, IAPListener listener) {
         if (msg.obj instanceof HashMap) {
             HashMap<String, Data> prxModel = (HashMap<String, Data>) msg.obj;
-
             if (checkForEmptyCart(prxModel))
                 return true;
 

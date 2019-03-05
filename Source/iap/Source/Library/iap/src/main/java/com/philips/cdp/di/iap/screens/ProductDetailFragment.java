@@ -77,7 +77,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
 
     public static final String TAG = ProductDetailFragment.class.getName();
-
     private Context mContext;
     private Bundle mBundle;
     private Data mProductSummary;
@@ -100,8 +99,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private TextView mQuantity;
     private Button mDeleteProduct;
     private Label mProductDisclaimer;
-
-
     private ArrayList<String> mAsset;
     private boolean mLaunchedFromProductCatalog = false;
     private String mCTNValue;
