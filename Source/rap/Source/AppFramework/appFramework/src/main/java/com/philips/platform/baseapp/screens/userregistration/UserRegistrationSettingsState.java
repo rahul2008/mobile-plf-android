@@ -5,8 +5,21 @@
 */
 package com.philips.platform.baseapp.screens.userregistration;
 
+import android.widget.Toast;
+
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
+import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
+import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
+import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
+import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class UserRegistrationSettingsState extends UserRegistrationState {
     public static final String TAG = UserRegistrationSettingsState.class.getSimpleName();
@@ -21,7 +34,7 @@ public class UserRegistrationSettingsState extends UserRegistrationState {
     }
 
 
-   /* @Override
+    @Override
     public void onUserLogoutSuccess() {
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
@@ -34,7 +47,7 @@ public class UserRegistrationSettingsState extends UserRegistrationState {
             RALog.d(TAG, e.getMessage());
             Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
-    }*/
+    }
 
     protected AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplication();

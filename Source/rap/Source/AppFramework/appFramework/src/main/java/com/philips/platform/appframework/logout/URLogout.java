@@ -55,7 +55,6 @@ public class URLogout implements URLogoutInterface {
                 }
                 if (activityContext != null && activityContext.getApplicationContext() != null && ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra() != null) {
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getCloudLogging().setHSDPUserUUID(null);
-                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getRestClient().clearCacheResponse();
                 }
                 RALog.d(TAG, "doLogout: onLogoutSuccess");
 

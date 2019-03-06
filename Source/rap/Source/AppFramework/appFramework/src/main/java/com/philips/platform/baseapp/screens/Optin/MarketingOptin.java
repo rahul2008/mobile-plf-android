@@ -25,7 +25,6 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
 
     Context context;
     private FragmentLauncher fragmentLauncher;
-    //private User userObject;
     public static String AB_TEST_OPTIN_IMAGE_KEY = "optin_image";
 
     public MarketingOptin() {
@@ -75,11 +74,6 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
     public void updateDataModel() {
 
     }
-
-   /* public User getUserObject(Context context) {
-        userObject = new User(context);
-        return userObject;
-    }*/
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {

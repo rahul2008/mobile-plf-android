@@ -196,9 +196,7 @@ public class MyAccountState extends BaseState{
                         RALog.d(TAG,"onLogoutClicked: onNetworkError completed");
                     }
                 });
-                //User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);
-                RALog.d(TAG,"onLogoutClicked: User Object created");
-                urLogout.performLogout(actContext);
+               urLogout.performLogout(actContext);
             }
         };
     }
