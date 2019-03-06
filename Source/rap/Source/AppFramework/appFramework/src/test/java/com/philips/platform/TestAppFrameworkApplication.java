@@ -6,8 +6,6 @@ package com.philips.platform;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
@@ -31,6 +29,8 @@ import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -97,7 +97,7 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     private UserRegistrationState userRegistrationState;
 
     @Mock
-    private User user;
+    private UserDataInterface userDataInterface;
 	
 
 
@@ -135,8 +135,8 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         when(appIdentityInterface.getAppState()).thenReturn(AppIdentityInterface.AppState.STAGING);
         when(appInfraInterface.getRestClient()).thenReturn(restInterface);
         when(restInterface.isInternetReachable()).thenReturn(true);
-        when(userRegistrationState.getUserObject(any(Context.class))).thenReturn(user);
-        when(user.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
+        when(userRegistrationState.getUserDataInterface()).thenReturn(userDataInterface);
+        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
         initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {

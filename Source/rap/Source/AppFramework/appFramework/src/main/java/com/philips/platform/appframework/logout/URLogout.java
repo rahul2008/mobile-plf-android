@@ -69,27 +69,6 @@ public class URLogout implements URLogoutInterface {
                 RALog.d(TAG, "doLogout: onLogoutFailure");
             }
         });
-        /*user.logout(new LogoutHandler() {
-            @Override
-            public void onLogoutSuccess() {
-                if (urLogoutListener != null) {
-                    RALog.d(TAG, "doLogout: URLogoutListener onLogoutSuccess started");
-                    urLogoutListener.onLogoutResultSuccess();
-                }
-                if (activityContext != null && activityContext.getApplicationContext() != null && ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra() != null) {
-                    ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getCloudLogging().setHSDPUserUUID(null);
-                }
-                RALog.d(TAG, "doLogout: onLogoutSuccess");
-            }
-
-            @Override
-            public void onLogoutFailure(int i, String errorMessage) {
-                if (urLogoutListener != null) {
-                    urLogoutListener.onLogoutResultFailure(i, errorMessage);
-                }
-                RALog.d(TAG, "doLogout: onLogoutFailure");
-            }
-        });*/
     }
 
 }

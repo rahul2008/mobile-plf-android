@@ -30,6 +30,6 @@ public class ConditionIsLoggedIn extends BaseCondition {
 
     protected boolean isUserSignIn(Context context) {
         RALog.d(TAG," isUserSignIn called");
-        return ((AppFrameworkApplication)context).getUserRegistrationState().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN;
+        return ((AppFrameworkApplication)context.getApplicationContext()).getUserRegistrationState().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN;
     }
 }
