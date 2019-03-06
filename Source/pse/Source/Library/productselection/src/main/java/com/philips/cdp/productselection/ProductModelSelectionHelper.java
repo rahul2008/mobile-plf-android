@@ -200,6 +200,7 @@ public class ProductModelSelectionHelper {
         intent.putExtra(Constants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(Constants.STOP_ANIMATION_ID, endAnimation);
         intent.putExtra(Constants.SCREEN_ORIENTATION, orientation.getOrientationValue());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getContext().startActivity(intent);
     }
 

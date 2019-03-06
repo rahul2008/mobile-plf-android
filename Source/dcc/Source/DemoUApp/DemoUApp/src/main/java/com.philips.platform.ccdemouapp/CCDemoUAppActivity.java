@@ -41,6 +41,7 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
     private static boolean mFragmentButtonSelected = true;
     private Button mLaunchDigitalCare = null;
     private Button mLaunchAsFragment = null;
-    private Button mChangeTheme = null;
+    private Label mChangeTheme = null;
     private Button mAddButton = null;
     private RecyclerView mRecyclerView = null;
     private SampleAdapter adapter = null;
@@ -81,7 +82,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
 
         mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
         mLaunchAsFragment = (Button) findViewById(R.id.launchAsFragment);
-        mChangeTheme = (Button) findViewById(R.id.change_theme);
+        mChangeTheme = (Label) findViewById(R.id.textViewChangeTheme);
         mAddButton = (Button) findViewById(R.id.addimageButton);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAddButton.setOnClickListener(this);
@@ -89,7 +90,6 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         // set listener
         mLaunchDigitalCare.setOnClickListener(this);
         mLaunchAsFragment.setOnClickListener(this);
-        mChangeTheme.setOnClickListener(this);
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
         mCountry = getResources().getStringArray(R.array.dccuapp_country);
@@ -365,10 +365,6 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
             else{
                 Toast.makeText(this, getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
             }
-
-        } else if (i1 == R.id.change_theme) {
-            changeTheme();
-            relaunchActivity();
 
         }
     }
