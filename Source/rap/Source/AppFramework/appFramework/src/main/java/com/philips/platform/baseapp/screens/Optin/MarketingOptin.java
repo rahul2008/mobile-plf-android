@@ -2,10 +2,8 @@ package com.philips.platform.baseapp.screens.Optin;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -27,7 +25,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
 
     Context context;
     private FragmentLauncher fragmentLauncher;
-    private User userObject;
+    //private User userObject;
     public static String AB_TEST_OPTIN_IMAGE_KEY = "optin_image";
 
     public MarketingOptin() {
@@ -78,10 +76,10 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
 
     }
 
-    public User getUserObject(Context context) {
+   /* public User getUserObject(Context context) {
         userObject = new User(context);
         return userObject;
-    }
+    }*/
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {

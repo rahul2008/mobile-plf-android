@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -169,7 +170,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         }catch (Exception e){
             this.finish();
         }
-        urInterface = new URInterface();
+        IapDemoUAppDependencies appuAppDependencies = new IapDemoUAppDependencies(CartModelContainer.getInstance().getAppInfraInstance());
+        IapDemoAppSettings appuAppSettings = new IapDemoAppSettings(getApplicationContext());
+        URInterface urInterface = new URInterface();
+        urInterface.init(appuAppDependencies,appuAppSettings);
+
+
         //Integration interface
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);

@@ -14,7 +14,6 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -23,6 +22,7 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -117,6 +117,8 @@ public abstract class IAPState extends BaseState implements IAPListener {
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput,null);
+
+        iapLaunchInput.setUserDataInterface(((AppFrameworkApplication)getApplicationContext()).getUserRegistrationState().getUserDataInterface());
         iapLaunchInput.setIapListener(this);
         try {
             ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
@@ -163,7 +165,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     public void setListener() {
-        if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+        if (getApplicationContext().getUserRegistrationState().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             RALog.d(TAG, "Setting Listener");
             ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
             getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);

@@ -381,7 +381,7 @@ public class UserWithProductsTest {
         };
         errorHandlerMock.handleError(userWithProductsMock, product, 403);
         RefreshListener refreshLoginSessionHandler = mock(RefreshListener.class);
-        when(userWithProductsMock.getRefreshLoginSessionHandler(product, context)).thenReturn(refreshLoginSessionHandler);
+        when(userWithProductsMock.getRefreshListener(product, context)).thenReturn(refreshLoginSessionHandler);
         userWithProducts.onAccessTokenExpire(product);
         verify(userDataInterface).refreshLoginSession(refreshLoginSessionHandler);
     }
@@ -405,7 +405,7 @@ public class UserWithProductsTest {
             }
         };
         userWithProducts.setRequestType(UserWithProducts.PRODUCT_REGISTRATION);
-        RefreshListener refreshListener = userWithProducts.getRefreshLoginSessionHandler(product, context);
+        RefreshListener refreshListener = userWithProducts.getRefreshListener(product, context);
         refreshListener.onRefreshSessionFailure(50);
         verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
         verify(localRegisteredProductsMock).updateRegisteredProducts(product);

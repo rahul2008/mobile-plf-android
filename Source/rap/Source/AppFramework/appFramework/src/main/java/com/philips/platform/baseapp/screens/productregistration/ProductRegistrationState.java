@@ -129,6 +129,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         PRLaunchInput prodRegLaunchInput;
         prodRegLaunchInput = new PRLaunchInput(getProductList(), true);
         prodRegLaunchInput.setProdRegUiListener(this);
+        prodRegLaunchInput.setUserDataInterface(((AppFrameworkApplication)applicationContext).getUserRegistrationState().getUserDataInterface());
 
         boolean isCountryIndia = getApplicationContext().getAppInfra()
                 .getServiceDiscovery().getHomeCountry().equalsIgnoreCase("IN");
