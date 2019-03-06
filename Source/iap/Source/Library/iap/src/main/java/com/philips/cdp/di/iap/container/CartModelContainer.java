@@ -171,10 +171,6 @@ public class CartModelContainer {
         return null;
     }
 
-    public void addProductSummary(String ctn, Data data) {
-        mPRXSummaryObjects.add(data);
-    }
-
     public void addProductDisclaimer(String ctn, DisclaimerModel model) {
         mPRXDisclaimerObjects.put(ctn, model);
     }

@@ -7,9 +7,7 @@ package com.philips.cdp.di.iap.prx;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
@@ -20,10 +18,8 @@ import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.PRXSummaryListResponse;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryListRequest;
-import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 
@@ -37,9 +33,6 @@ public class PRXSummaryListExecutor {
     ArrayList<String> mCtns;
     AbstractModel.DataLoadListener mDataLoadListener;
     private HashMap<String, Data> mPRXSummaryData;
-
-    //Handling error cases where Product is in Hybris but not in PRX store.
-    protected int mProductPresentInPRX;
 
     public PRXSummaryListExecutor(Context context, ArrayList<String> ctns, AbstractModel.DataLoadListener listener) {
         mContext = context;
@@ -70,9 +63,6 @@ public class PRXSummaryListExecutor {
     }
 
     protected void notifyError(PrxError prxError) {
-
-        // String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-
         Message result = Message.obtain();
         result.obj = prxError.getDescription();
 
@@ -91,7 +81,6 @@ public class PRXSummaryListExecutor {
         Message result = Message.obtain();
         result.obj = mPRXSummaryData;
         mDataLoadListener.onModelDataLoadFinished(result);
-        Log.d("pabitra", "got data");
     }
     private ProductSummaryListRequest prepareProductSummaryListRequest(List<String> ctns) {
         ProductSummaryListRequest productSummaryListRequest = new ProductSummaryListRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);

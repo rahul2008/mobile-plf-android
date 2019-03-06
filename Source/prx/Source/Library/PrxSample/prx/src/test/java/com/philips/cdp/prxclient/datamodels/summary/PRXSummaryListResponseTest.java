@@ -20,12 +20,7 @@ import static org.junit.Assert.*;
 public class PRXSummaryListResponseTest {
 
 
-    private static final String TAG = PRXSummaryListResponseTest.class.getSimpleName();
     private PrxRequest mProductSummaryListBuilder = null;
-    private ReviewStatistics mReviewStatistics = null;
-    private Price mPrice = null;
-    private Brand mBrand = null;
-
     ArrayList<String> ctns ;
 
     @Before
@@ -73,6 +68,8 @@ public class PRXSummaryListResponseTest {
             assertNotNull(data.getKeyAwards());
             assertNotNull(data.getLeafletUrl());
             assertNotNull(data.getLocale());
+            assertNull(data.getMarketingTextHeader());
+            assertNull(data.getPrice());
             assertNotNull(data.getPriority());
             assertNotNull(data.getProductPagePath());
             assertNotNull(data.getProductStatus());
@@ -81,6 +78,8 @@ public class PRXSummaryListResponseTest {
             assertNotNull(data.getSomp());
             assertNotNull(data.getSop());
             assertNotNull(data.getSubcategory());
+            assertNull(data.getSubWOW());
+            assertNotNull(data.getVersions());
             assertNotNull(data.getWow());
             assertFalse(data.isIsDeleted());
         }
