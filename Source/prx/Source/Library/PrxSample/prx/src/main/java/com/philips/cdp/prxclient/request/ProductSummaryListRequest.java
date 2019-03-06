@@ -30,19 +30,6 @@ public class ProductSummaryListRequest extends PrxRequest {
     private String mRequestTag = null;
     private List<String> ctns;
 
-
-    /**
-     * Instantiates a new Product summary request.
-     *
-     * @param ctn        product ctn
-     * @param requestTag requestTag
-     * @since 1.0.0
-     */
-    public ProductSummaryListRequest(String ctn, String requestTag) {
-        super(ctn, PRXSummaryDataServiceID);
-        this.mRequestTag = requestTag;
-    }
-
     /**
      * Instantiates a new Product summary request.
      *
