@@ -1,12 +1,13 @@
 package com.philips.cdp.registration.app.infra;
 
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Map;
 
 import io.reactivex.Single;
 
-import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.OnGetServiceUrlListener;
 
 public class ServiceDiscoveryWrapper {
 
@@ -18,62 +19,69 @@ public class ServiceDiscoveryWrapper {
 
     public Single<String> getServiceUrlWithCountryPreferenceSingle(String serviceId) {
         return Single.create(emitter -> {
-            OnGetServiceUrlListener listener = new OnGetServiceUrlListener() {
+            ServiceDiscoveryInterface.OnGetServiceUrlMapListener listener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
-                public void onSuccess(URL url) {
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                     if (!emitter.isDisposed())
-                        emitter.onSuccess(url.toString());
+                        emitter.onSuccess(urlMap.get(serviceId).getConfigUrls());
                 }
 
                 @Override
-                public void onError(ERRORVALUES errorvalues, String s) {
+                public void onError(ERRORVALUES error, String message) {
                     if (!emitter.isDisposed())
-                        emitter.onError(new Throwable(s));
+                        emitter.onError(new Throwable(message));
                     return;
                 }
             };
-            serviceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, listener);
+            ArrayList<String> serviceIDList = new ArrayList<>();
+            serviceIDList.add(serviceId);
+            serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList, listener,null);
         });
     }
 
     public Single<String> getServiceLocaleWithLanguagePreferenceSingle(String serviceId) {
         return Single.create(emitter -> {
-            ServiceDiscoveryInterface.OnGetServiceLocaleListener listener = new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            ArrayList<String> serviceIDList = new ArrayList<>();
+            serviceIDList.add(serviceId);
+            ServiceDiscoveryInterface.OnGetServiceUrlMapListener listener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
-                public void onSuccess(String s) {
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                     if (!emitter.isDisposed())
-                        emitter.onSuccess(s);
+                        emitter.onSuccess(urlMap.get(serviceId).getLocale());
                 }
 
                 @Override
-                public void onError(ERRORVALUES errorvalues, String s) {
+                public void onError(ERRORVALUES error, String message) {
                     if (!emitter.isDisposed())
-                        emitter.onError(new Throwable(s));
+                        emitter.onError(new Throwable(message));
                     return;
-
                 }
             };
-            serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference(serviceId, listener);
+            serviceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList, listener,null);
         });
     }
 
     public Single<String> getServiceLocaleWithCountryPreferenceSingle(String serviceId) {
         return Single.create(emitter -> {
-            ServiceDiscoveryInterface.OnGetServiceLocaleListener listener = new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            ServiceDiscoveryInterface.OnGetServiceUrlMapListener listener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
-                public void onSuccess(String s) {
+                public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                     if (!emitter.isDisposed())
-                        emitter.onSuccess(s);
+                        emitter.onSuccess(urlMap.get(serviceId).getLocale());
                 }
 
                 @Override
-                public void onError(ERRORVALUES errorvalues, String s) {
+                public void onError(ERRORVALUES error, String message) {
                     if (!emitter.isDisposed())
-                        emitter.onError(new Throwable(s));
+                        emitter.onError(new Throwable(message));
                     return;
                 }
             };
-            serviceDiscoveryInterface.getServiceLocaleWithCountryPreference(serviceId, listener);
+
+            ArrayList<String> serviceIDList = new ArrayList<>();
+            serviceIDList.add(serviceId);
+
+            serviceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList,listener,null);
         });
     }
 }

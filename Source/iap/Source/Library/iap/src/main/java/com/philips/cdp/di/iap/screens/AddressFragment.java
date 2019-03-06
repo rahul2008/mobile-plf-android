@@ -76,6 +76,8 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         mParentContainer = rootView.findViewById(R.id.address_container);
         billingView = rootView.findViewById(R.id.dls_iap_address_billing);
         shoppingView = rootView.findViewById(R.id.dls_iap_address_shipping);
+
+        inflateShippingAndBillingView(null);
         tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
 
         updateCheckoutStepNumber("1");
@@ -85,7 +87,6 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
         checkBox = rootView.findViewById(R.id.use_this_address_checkbox);
-        inflateShippingAndBillingView(null);
         disableView(billingView);
         upDateUi(true);
         checkBox.setOnCheckedChangeListener(this);

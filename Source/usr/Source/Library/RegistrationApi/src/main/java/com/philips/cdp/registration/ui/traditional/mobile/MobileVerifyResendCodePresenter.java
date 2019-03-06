@@ -15,10 +15,11 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONObject;
 
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,16 +53,24 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 
 
     private void getURLFromServiceDiscoveryAndRequestVerificationCode(String mobileNumber) {
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(VERIFICATION_SMS_CODE_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(VERIFICATION_SMS_CODE_SERVICE_ID);
+        serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(URL url) {
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 Map<String, String> header = new HashMap<>();
                 header.put("Content-Type", "application/json; charset=UTF-8");
-                RLog.i(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
-                URRequest urRequest = new URRequest(getSmsVerificationUrl(url.toString(), mobileNumber), null, header
-                        , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response),
-                        mobileVerifyCodeContract::onErrorResponse);
-                urRequest.makeRequest(true);
+                String url = urlMap.get(VERIFICATION_SMS_CODE_SERVICE_ID).getConfigUrls();
+                if(null == url){
+                    RLog.d(TAG, "getURLFromServiceDiscoveryAndRequestVerificationCode : " + "fetched url is null");
+                }else {
+                    RLog.i(TAG, VERIFICATION_SMS_CODE_SERVICE_ID + " URL is " + url);
+                    URRequest urRequest = new URRequest(getSmsVerificationUrl(url, mobileNumber), null, header
+                            , response -> mobileVerifyCodeContract.onSuccessResponse(RESEND_OTP_REQUEST_CODE, response),
+                            mobileVerifyCodeContract::onErrorResponse);
+                    urRequest.makeRequest(true);
+                }
             }
 
             @Override
@@ -70,7 +79,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
                         error.name() + "and error message is " + message);
                 mobileVerifyCodeContract.enableResendButton();
             }
-        });
+        },null);
     }
 
     void resendOTPRequest(final String mobileNumber) {
@@ -155,13 +164,20 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
 
 
     private void initServiceDiscoveryForUpdateMobilenumber(String mobilenumberURL) {
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(BASE_URL_CODE_SERVICE_ID, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(BASE_URL_CODE_SERVICE_ID);
 
+        serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(URL url) {
-                RLog.i(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
-                URRequest urRequest = new URRequest(url + "/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), null, response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
-                urRequest.makeRequest(false);
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                String url = urlMap.get(BASE_URL_CODE_SERVICE_ID).getConfigUrls();
+                if(null == url){
+                    RLog.d(TAG, BASE_URL_CODE_SERVICE_ID + " :  URL is null");
+                }else {
+                    RLog.i(TAG, BASE_URL_CODE_SERVICE_ID + " URL is " + url);
+                    URRequest urRequest = new URRequest(url + "/oauth/update_profile_native", getUpdateMobileNUmberURL(mobilenumberURL), null, response -> mobileVerifyCodeContract.onSuccessResponse(CHANGE_NUMBER_REQUEST_CODE, response), mobileVerifyCodeContract::onErrorResponse);
+                    urRequest.makeRequest(false);
+                }
             }
 
             @Override
@@ -169,7 +185,7 @@ public class MobileVerifyResendCodePresenter implements NetworkStateListener {
                 RLog.d(TAG, error.name() + "and error message is " + message);
                 mobileVerifyCodeContract.enableUpdateButton();
             }
-        });
+        },null);
     }
 
     void updatePhoneNumber(String mobilenumberURL) {

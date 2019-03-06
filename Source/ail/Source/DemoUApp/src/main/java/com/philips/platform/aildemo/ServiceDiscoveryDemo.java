@@ -17,7 +17,6 @@ import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.AIKMResponse;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONException;
@@ -27,7 +26,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -37,11 +35,9 @@ import java.util.Map;
 /**
  * Created by 310238655 on 6/7/2016.
  */
-public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetServiceLocaleListener, ServiceDiscoveryInterface.OnGetServiceUrlListener, ServiceDiscoveryInterface.OnGetHomeCountryListener, ServiceDiscoveryInterface.OnGetServiceUrlMapListener {
+public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDiscoveryInterface.OnGetHomeCountryListener, ServiceDiscoveryInterface.OnGetServiceUrlMapListener {
 
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    ServiceDiscoveryInterface.OnGetServiceLocaleListener mOnGetServiceLocaleListener = null;
-    ServiceDiscoveryInterface.OnGetServiceUrlListener mOnGetServiceUrlListener = null;
     ServiceDiscoveryInterface.OnGetHomeCountryListener mOnGetHomeCountryListener = null;
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener mOnGetServiceUrlMapListener = null;
     AppInfraInterface appInfra;
@@ -50,19 +46,15 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     EditText idEditText;
     EditText idEditTextCountry;
     String editTextData;
-    String[] requestTypeOption = {"Get local by lang",
-            "Get local by country",
-            "Get url by lang",
-            "Get url by country",
+
+    String[] requestTypeOption = {
             "Get home country",
-            "Get Url by country with multiple service id",
-            "Get Url by language with multiple service id",
-            "Get Url by country with replaced url",
-            "Get Url by language with replaced url",
-            "Get replaced Url by country with multiple service id",
-            "Get replaced Url by Language with multiple service id",
+            "Get services by lang",
+            "Get services by country",
             "Refresh",
-            "Get home country Synchronous"};
+            "Get home country Synchronous"
+    };
+
     private Button getUrl;
     private Spinner requestTypeSpinner;
     private HashMap<String, String> parameters;
@@ -76,8 +68,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         appInfra = AILDemouAppInterface.getInstance().getAppInfra();
 
         mServiceDiscoveryInterface = appInfra.getServiceDiscovery();
-        mOnGetServiceLocaleListener = this;
-        mOnGetServiceUrlListener = this;
         mOnGetHomeCountryListener = this;
         mOnGetServiceUrlMapListener = this;
 
@@ -147,96 +137,35 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         getUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get local by lang")) {
-                    editTextData = idEditText.getText().toString();
-                    mServiceDiscoveryInterface.getServiceLocaleWithLanguagePreference(editTextData, mOnGetServiceLocaleListener);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get local by country")) {
-                    editTextData = idEditText.getText().toString();
-                    mServiceDiscoveryInterface.getServiceLocaleWithCountryPreference(editTextData, mOnGetServiceLocaleListener);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get url by lang")) {
-                    editTextData = idEditText.getText().toString();
-                    mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(editTextData, mOnGetServiceUrlListener);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get url by country")) {
-                    editTextData = idEditText.getText().toString();
-                    mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(editTextData, mOnGetServiceUrlListener);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country")) {
+                if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country")) {
                     editTextData = idEditText.getText().toString();
                     mServiceDiscoveryInterface.getHomeCountry(mOnGetHomeCountryListener);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with multiple service id")) {
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get services by lang")) {
                     String[] serviceIds = idEditText.getText().toString().split(",");
-                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by language with multiple service id")) {
+                    ArrayList<String> serviceIDList = new ArrayList<String>(Arrays.asList(serviceIds));
+                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceIDList,mOnGetServiceUrlMapListener,null);
+                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get services by country")) {
                     String[] serviceIds = idEditText.getText().toString().split(",");
-                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by country with replaced url")) {
-                    editTextData = idEditText.getText().toString();
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
-                    mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(editTextData, mOnGetServiceUrlListener, parameters);
-
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get Url by language with replaced url")) {
-                    editTextData = idEditText.getText().toString();
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
-                    mServiceDiscoveryInterface.getServiceUrlWithLanguagePreference(editTextData, mOnGetServiceUrlListener, parameters);
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get replaced Url by country with multiple service id")) {
-
-                    String[] serviceIds = idEditText.getText().toString().split(",");
-                    ArrayList<String> serviceId = new ArrayList<String>(Arrays.asList(serviceIds));
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
-                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceId, mOnGetServiceUrlMapListener, parameters);
-
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get replaced Url by Language with multiple service id")) {
-
-                    String[] serviceIds = idEditText.getText().toString().split(",");
-                    ArrayList<String> serviceId = new ArrayList<>(Arrays.asList(serviceIds));
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
-                    mServiceDiscoveryInterface.getServicesWithLanguagePreference(serviceId, mOnGetServiceUrlMapListener, parameters);
-
-                } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Refresh")) {
-
-
+                    ArrayList<String> serviceIDList = new ArrayList<String>(Arrays.asList(serviceIds));
+                    mServiceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList,mOnGetServiceUrlMapListener,null);
+                }else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Refresh")) {
                     mServiceDiscoveryInterface.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
                         @Override
                         public void onSuccess() {
                             resultView.setText("SD REFRESH Success");
                             Log.i("SD REFRESH", "Success");
                         }
-
                         @Override
                         public void onError(ERRORVALUES error, String message) {
                             resultView.setText("SD REFRESH Error:  " + message);
                             Log.i("SD REFRESH", "Error");
                         }
-                    });
+                    },false);
 
                 } else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country Synchronous")) {
                     String homeCountry = mServiceDiscoveryInterface.getHomeCountry();
                     Toast.makeText(ServiceDiscoveryDemo.this, "Home country is " + homeCountry, Toast.LENGTH_SHORT).show();
                 }
-//                else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Replace Url")) {
-//                    Map<String, String> parameters = new HashMap<>();
-//                    parameters.put("ctn", "HD9740");
-//                    parameters.put("sector", "B2C");
-//                    parameters.put("catalog", "shavers");
-//
-//                    url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
-//                    URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
-//
-//
-//                }
             }
         });
     }
@@ -275,33 +204,11 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         return map;
     }
 
-    @Override
-    public void onSuccess(String services) {
-        Log.i("OnGetServicesListener", "" + services);
-        resultView.setText(services);
-    }
 
     @Override
     public void onError(ERRORVALUES error, String message) {
         Log.i("onError", "" + message);
         resultView.setText(message);
-    }
-
-    @Override
-    public void onSuccess(URL url) {
-        Log.i("Success", "" + url);
-        try {
-//            Map<String, String> parameters = new HashMap<>();
-//            parameters.put("ctn", "HD9740");
-//            parameters.put("sector", "B2C");
-//            parameters.put("catalog", "shavers");
-//
-//            url = new URL("https://acc.philips.com/prx/product/%sector%/ar_RW/%catalog%/products/%ctn%.assets");
-//            URL newURl = mServiceDiscoveryInterface.replacePlaceholders(url, parameters);
-            resultView.setText("" + url);
-
-        } catch (Exception e) {
-        }
     }
 
     @Override
@@ -320,7 +227,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         Map mMap = new HashMap<String, Map>();
 
         while (it.hasNext()) {
-
             Map dataMap = new HashMap<String, String>();
             Map.Entry pair = (Map.Entry) it.next();
             key = pair.getKey().toString();
@@ -336,19 +242,8 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             mMap.put(key, dataMap);
             it.remove(); // avoids a ConcurrentModificationException
         }
-
-//        for (int i = 0; i < urlMap.size(); i++)
-//        {
-//            Log.i("SD", ""+urlMap.get(arryaLsit.get(i)).getConfigUrls());
-//            Log.i("SD", ""+urlMap.get(i).getConfigUrls());
-//        }
         resultView.setText(" URL Model   : " + mMap);
-
-
-
     }
-
-
 
     @Override
     protected void onDestroy() {

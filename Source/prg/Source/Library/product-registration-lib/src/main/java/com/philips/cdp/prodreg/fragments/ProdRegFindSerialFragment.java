@@ -22,11 +22,15 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
@@ -139,20 +143,27 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
             final String asset = serialNumberSampleContent.getAsset();
             ProdRegLogger.i("Success values ***", serialNumberSampleContent.getAsset());
             if (asset != null) {
+                ArrayList<String> serviceIDList = new ArrayList<>();
+                serviceIDList.add(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID);
                 PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
-                        getServiceUrlWithCountryPreference(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,
-                                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                                    public void onSuccess(URL url) {
+                        getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+                            @Override
+                            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                                try {
+                                    URL url = new URL(urlMap.get(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID).getConfigUrls());
+                                    String uriSubString = (url.getProtocol() + urlBaseSeparator + url.getHost()).concat(asset);
+                                    ProdRegLogger.i("Success values ***", uriSubString);
+                                    onUrlReceived.onSuccess(uriSubString);
+                                } catch (MalformedURLException e) {
+                                    ProdRegLogger.e("Exception values ***",e.getMessage());
+                                }
+                            }
 
-                                        String uriSubString = (url.getProtocol() + urlBaseSeparator + url.getHost()).concat(asset);
-                                        ProdRegLogger.i("Success values ***", uriSubString);
-                                        onUrlReceived.onSuccess(uriSubString);
-                                    }
-
-                                    public void onError(ERRORVALUES error, String message) {
-                                        ProdRegLogger.i("ERRORVALUES ***", "" + message);
-                                    }
-                                });
+                            @Override
+                            public void onError(ERRORVALUES error, String message) {
+                                ProdRegLogger.i("ERRORVALUES ***", "" + message);
+                            }
+                        },null);
             }
         }
         return null;

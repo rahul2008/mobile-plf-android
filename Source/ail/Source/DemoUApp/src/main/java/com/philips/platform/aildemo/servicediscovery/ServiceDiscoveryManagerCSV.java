@@ -123,7 +123,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
             public void onError(ERRORVALUES errorvalues, String s) {
                 Log.i("SD CSV", "" + "Error");
             }
-        });
+        },false);
     }
 
 
@@ -318,7 +318,7 @@ public class ServiceDiscoveryManagerCSV implements ServiceDiscoveryInterface {
                 public void onError(ERRORVALUES errorvalues, String s) {
 
                 }
-            });
+            },false);
         } else {
             ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Null not Allowed", "Null not Allowed");
         }

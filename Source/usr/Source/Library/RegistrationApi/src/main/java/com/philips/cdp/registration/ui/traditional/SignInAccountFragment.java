@@ -36,7 +36,6 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -69,6 +68,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -82,7 +82,9 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -748,27 +750,33 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void serviceDiscovery() {
+        String smsServiceID = "userreg.urx.verificationsmscode";
         RLog.d(TAG, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-        //TODO: optimize the class as the service discovery is not there every time
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference("userreg.urx.verificationsmscode", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(smsServiceID);
+        serviceDiscoveryInterface.getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                String url = urlMap.get(smsServiceID).getConfigUrls();
+                if(null == url){
+                    RLog.e(TAG, " onError serviceDiscovery : userreg.urx.verificationsmscode : " + "fetched url is null");
+                 }else {
+                    RLog.d(TAG, " onSuccess  : userreg.urx.verificationsmscode:" + url);
+                    String uriSubString = getBaseString(url);
+                    verificationSmsCodeURL = uriSubString + USER_REQUEST_PW_RESET_SMS_CODE;
+                    resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PW_REDIRECT_URI_SMS;
+                    createResendSMSIntent(verificationSmsCodeURL);
+                }
+            }
 
             @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
+            public void onError(ERRORVALUES error, String message) {
                 hideForgotPasswordSpinner();
-                RLog.e(TAG, " onError serviceDiscovery : userreg.urx.verificationsmscode : " + errorvalues);
+                RLog.e(TAG, " onError serviceDiscovery : userreg.urx.verificationsmscode : " + error);
                 verificationSmsCodeURL = null;
                 mEtEmailInputValidation.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
             }
-
-            @Override
-            public void onSuccess(URL url) {
-                RLog.d(TAG, " onSuccess  : userreg.urx.verificationsmscode:" + url.toString());
-                String uriSubString = getBaseString(url.toString());
-                verificationSmsCodeURL = uriSubString + USER_REQUEST_PW_RESET_SMS_CODE;
-                resetPasswordSmsRedirectUri = uriSubString + USER_REQUEST_RESET_PW_REDIRECT_URI_SMS;
-                createResendSMSIntent(verificationSmsCodeURL);
-            }
-        });
+        },null);
     }
 
     private void uiEnableState(boolean state) {
