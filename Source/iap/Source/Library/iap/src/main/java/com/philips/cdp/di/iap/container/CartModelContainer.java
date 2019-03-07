@@ -179,6 +179,10 @@ public class CartModelContainer {
         return mPRXSummaryObjects;
     }
 
+    public void setPRXSummaryList(ArrayList<Data> data){
+        mPRXSummaryObjects = data;
+    }
+
     //PRX Assets
     public boolean isPRXAssetPresent(String ctn) {
         return mPRXAssetObjects.containsKey(ctn);

@@ -29,6 +29,7 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.request.ProductSummaryListRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -179,25 +180,19 @@ public class OrderControllerTest {
     }
 
     private void makePRXData() throws JSONException {
-        PrxRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
+
+        ArrayList<String> ctns = new ArrayList<>();
+        ctns.add("HD5061/01");
+        ctns.add("HD7870/10");
+
+
+        PrxRequest mProductSummaryBuilder = new ProductSummaryListRequest(ctns, null,null,null);
 
         JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryListExecutor
                 .class, "get_prx_success_response_HX9033_64.txt"));
         ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9033/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
-        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryListExecutor
-                .class, "get_prx_success_response_HX9023_64.txt"));
-        responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9023/64", (SummaryModel) responseData);
-        mMockPRXDataBuilder.sendSuccess(responseData);
-
-        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryListExecutor
-                .class, "get_prx_success_response_HX9003_64.txt"));
-        responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9003/64", (SummaryModel) responseData);
-        mMockPRXDataBuilder.sendSuccess(responseData);
     }
 
     @Test

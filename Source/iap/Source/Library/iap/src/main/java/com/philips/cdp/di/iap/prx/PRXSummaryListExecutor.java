@@ -52,7 +52,8 @@ public class PRXSummaryListExecutor {
         mRequestManager.executeRequest(productSummaryListBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                notifySuccess((PRXSummaryListResponse) responseData);
+                CartModelContainer.getInstance().setPRXSummaryList(((PRXSummaryListResponse) responseData).getData());
+                notifySuccess(responseData);
             }
 
             @Override
@@ -71,17 +72,23 @@ public class PRXSummaryListExecutor {
         mDataLoadListener.onModelDataError(result);
     }
 
-    protected void notifySuccess(PRXSummaryListResponse model) {
+    protected void notifySuccess(ResponseData model) {
 
-        if (!model.getData().isEmpty()) {
+        if (model != null) {
 
-            for(Data data:model.getData())
-            mPRXSummaryData.put(data.getCtn(), data);
+            PRXSummaryListResponse prxSummaryListResponse = (PRXSummaryListResponse) model;
+
+            if (!prxSummaryListResponse.getData().isEmpty()) {
+
+                for (Data data : prxSummaryListResponse.getData())
+                    mPRXSummaryData.put(data.getCtn(), data);
+            }
         }
         Message result = Message.obtain();
         result.obj = mPRXSummaryData;
         mDataLoadListener.onModelDataLoadFinished(result);
     }
+
     private ProductSummaryListRequest prepareProductSummaryListRequest(List<String> ctns) {
         ProductSummaryListRequest productSummaryListRequest = new ProductSummaryListRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
         productSummaryListRequest.setRequestTimeOut(NetworkConstants.DEFAULT_TIMEOUT_MS);
