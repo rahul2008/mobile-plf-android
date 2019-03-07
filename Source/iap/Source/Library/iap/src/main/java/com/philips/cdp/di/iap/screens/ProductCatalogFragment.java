@@ -91,22 +91,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 .getProductCatalogPresenter(mContext, this);
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
 
-        mBundle = getArguments();
-
-        boolean isLocalData = ControllerFactory.getInstance().isPlanB();
-
-        if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-            return;
-        } else {
-            if (!isLocalData &&
-                    CartModelContainer.getInstance().getProductList() != null
-                    && CartModelContainer.getInstance().getProductList().size() != 0) {
-                onLoadFinished(getCachedProductList(), null);
-            } else {
-                fetchProductList();
-            }
-        }
     }
+
 
     private ArrayList<ProductCatalogData> getCachedProductList() {
         ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
@@ -209,6 +195,23 @@ public class ProductCatalogFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
+
+        mBundle = getArguments();
+
+        boolean isLocalData = ControllerFactory.getInstance().isPlanB();
+
+        if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
+            return;
+        } else {
+            if (!isLocalData &&
+                    CartModelContainer.getInstance().getProductList() != null
+                    && CartModelContainer.getInstance().getProductList().size() != 0) {
+                onLoadFinished(getCachedProductList(), null);
+            } else {
+                fetchProductList();
+            }
+        }
+
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
 
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, false);
@@ -276,7 +279,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         if (!mPresenter.getProductCatalog(mCurrentPage++, page_size, null)) {
             mIsProductsAvailable = false;
-            hideProgressBar();
         }
 
     }
@@ -298,7 +300,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mAdapter.tagProducts();
 
             mIapListener.onSuccess();
-            hideProgressBar();
+
 
             if (paginationEntity == null)
                 return;
@@ -310,6 +312,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mCurrentPage = paginationEntity.getCurrentPage();
             mTotalPages = paginationEntity.getTotalPages();
             mIsLoading = false;
+
+            hideProgressBar();
         } else {
             onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                     ("", mContext.getString(R.string.iap_no_product_available)));
