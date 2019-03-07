@@ -52,7 +52,6 @@ public class PRXSummaryListExecutor {
         mRequestManager.executeRequest(productSummaryListBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
-                CartModelContainer.getInstance().setPRXSummaryList(((PRXSummaryListResponse) responseData).getData());
                 notifySuccess(responseData);
             }
 
@@ -77,6 +76,7 @@ public class PRXSummaryListExecutor {
         if (model != null) {
 
             PRXSummaryListResponse prxSummaryListResponse = (PRXSummaryListResponse) model;
+            CartModelContainer.getInstance().setPRXSummaryList(prxSummaryListResponse.getData());
 
             if (!prxSummaryListResponse.getData().isEmpty()) {
 
