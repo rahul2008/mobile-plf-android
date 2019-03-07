@@ -26,7 +26,6 @@ import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,17 +80,9 @@ public class ProdRegRegistrationController {
     private ProductMetadataResponseData productMetadataResponseData;
     private RegisteredProduct registeredProduct;
     private ProdRegUtil prodRegUtil = new ProdRegUtil();
-    private UserDataInterface mUserDataInterface;
 
-   /* public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity, UserDataInterface userDataInterface) {
+    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
-        this.fragmentActivity = fragmentActivity;
-        mUserDataInterface = userDataInterface;
-    }*/
-
-    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity, UserDataInterface userDataInterface) {
-        this.registerControllerCallBacks = registerControllerCallBacks;
-        mUserDataInterface = userDataInterface;
         this.fragmentActivity = fragmentActivity;
     }
 
@@ -109,7 +100,7 @@ public class ProdRegRegistrationController {
 
     @NonNull
     protected LocalRegisteredProducts getLocalRegisteredProducts() {
-        return new LocalRegisteredProducts(mUserDataInterface);
+        return new LocalRegisteredProducts();
     }
 
     @SuppressWarnings("unchecked")
@@ -180,10 +171,8 @@ public class ProdRegRegistrationController {
             if (getRegisteredProduct().getRegistrationState() != RegistrationState.REGISTERED)
                 getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
-            /*ProdRegHelper prodRegHelper = getProdRegHelper();
-            prodRegHelper.addProductRegistrationListener(getProdRegListener());
-            prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());*/
-            UserWithProducts userWithProducts = new UserWithProducts(fragmentActivity, mUserDataInterface, getProdRegListener());
+
+            UserWithProducts userWithProducts = new UserWithProducts(fragmentActivity,getProdRegListener());
             userWithProducts.registerProduct(getRegisteredProduct());
         } else {
             registerControllerCallBacks.hideProgress();

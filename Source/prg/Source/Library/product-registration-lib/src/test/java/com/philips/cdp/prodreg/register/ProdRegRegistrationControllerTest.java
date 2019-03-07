@@ -55,7 +55,7 @@ public class ProdRegRegistrationControllerTest {
         productMetadataResponseData = mock(ProductMetadataResponseData.class);
         summaryDataMock = mock(Data.class);
         UserDataInterface userDataInterface = mock(UserDataInterface.class);
-        prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock,fragmentActivity,userDataInterface) {
+        prodRegRegistrationController = new ProdRegRegistrationController(registerControllerCallBacksMock,fragmentActivity) {
             @Override
             public RegisteredProduct getRegisteredProduct() {
                 return registeredProductMock;

@@ -52,11 +52,6 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
         //mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
         iapLaunchInput = (IAPLaunchInput) uappLaunchInput;
-        if(iapLaunchInput != null && iapLaunchInput.getUserDataInterface() != null)
-            mUserDataInterface = ((IAPLaunchInput) uappLaunchInput).getUserDataInterface();
-        else
-            return;
-
         if (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             ConnectivityManager connectivityManager
                     = (ConnectivityManager) mIAPSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -111,7 +106,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
             return false;
         }
         if ( mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-            return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler,mUserDataInterface);
+            return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
         } else throw new RuntimeException("User is not logged in.");
     }
 }

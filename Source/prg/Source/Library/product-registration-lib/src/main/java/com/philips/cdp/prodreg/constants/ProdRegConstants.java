@@ -54,6 +54,6 @@ public class ProdRegConstants {
     public static final String PROD_REG_DATE_FORMAT_SERVER = "yyyy-MM-dd";
     public static final String PROD_REG_DATE_FORMAT_UI = "dd-MM-yyyy";
 
-    public static final String USR_DATA_INTERFACE = "usr_data_interface";
+
 
 }

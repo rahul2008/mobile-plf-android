@@ -41,7 +41,7 @@ public class LocalRegisteredProductsTest extends TestCase {
         UserDataInterface userDataInterface = mock(UserDataInterface.class);
         gson = new Gson();
         addDummyProjects();
-        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
+        localRegisteredProducts = new LocalRegisteredProducts() {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
                 return registeredProducts;
@@ -102,7 +102,7 @@ public class LocalRegisteredProductsTest extends TestCase {
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN.USER_LOGGED_IN);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null)};
 
-        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
+        localRegisteredProducts = new LocalRegisteredProducts() {
             @Override
             protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
                 return registeredProducts;
@@ -126,7 +126,7 @@ public class LocalRegisteredProductsTest extends TestCase {
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null)};
 
-        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
+        localRegisteredProducts = new LocalRegisteredProducts() {
             @Override
             protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
                 return registeredProducts;
@@ -147,7 +147,7 @@ public class LocalRegisteredProductsTest extends TestCase {
         RegisteredProduct registeredProductMock = new RegisteredProduct("ctn", null, null);
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
         final ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
-        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
+        localRegisteredProducts = new LocalRegisteredProducts() {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
                 return registeredProducts;

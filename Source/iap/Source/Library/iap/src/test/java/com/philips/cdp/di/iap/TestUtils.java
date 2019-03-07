@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.MockNetworkController;
@@ -14,6 +15,8 @@ import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,7 +37,7 @@ public class TestUtils {
         delegate = HybrisDelegate.getInstance();
         Context context = getInstrumentation().getContext();
 
-        NetworkController mockController = new MockNetworkController(context, new MockIAPSetting(context));
+        NetworkController mockController = new MockNetworkController(context, new MockIAPSetting(context),new MockIAPDependencies(mock(AppInfra.class),mock(UserDataInterface.class)));
         try {
             //Set the controller
             Class<?> cls = delegate.getClass();
@@ -50,7 +53,7 @@ public class TestUtils {
 
     public static StoreListener getStubbedStore() {
         Context context = getInstrumentation().getContext();
-        StoreListener mockStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context));
+        StoreListener mockStore = new MockStore(context, mock(IAPUser.class)).getStore(new MockIAPSetting(context),new MockIAPDependencies(mock(AppInfra.class),mock(UserDataInterface.class)));
         mockStore.initStoreConfig(/*"en", "US",*/ null);
 
         return mockStore;

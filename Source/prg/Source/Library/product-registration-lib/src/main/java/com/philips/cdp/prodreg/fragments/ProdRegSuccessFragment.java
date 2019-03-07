@@ -74,7 +74,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
             @Override
             public void onClick(final View v) {
                 clearFragmentStack();
-                handleCallBack(false,userDataInterface);
+                handleCallBack(false);
                 unRegisterProdRegListener();
             }
         });
@@ -87,7 +87,6 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         super.onActivityCreated(savedInstanceState);
         final Bundle arguments = getArguments();
         if (arguments != null) {
-            userDataInterface = (UserDataInterface) arguments.getSerializable(ProdRegConstants.USR_DATA_INTERFACE);
             RegisteredProduct registeredProduct = (RegisteredProduct) arguments.getSerializable(ProdRegConstants.PROD_REG_PRODUCT);
             regProdList = (ArrayList<RegisteredProduct>) arguments.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             imgURL = arguments.getString(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
@@ -120,7 +119,7 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
         final FragmentActivity activity = getActivity();
         if (activity != null && !activity.isFinishing()) {
             final boolean fragmentStack = clearFragmentStack();
-            handleCallBack(true,userDataInterface);
+            handleCallBack(true);
             unRegisterProdRegListener();
             return fragmentStack;
         }

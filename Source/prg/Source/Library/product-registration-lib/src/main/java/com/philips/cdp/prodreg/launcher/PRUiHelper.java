@@ -63,8 +63,6 @@ public class PRUiHelper {
     private String mLocale;
     private ThemeConfiguration themeConfiguration;
     private UserDataInterface mUserDataInterface;
-    private PRLaunchInput PRLaunchInput;
-
     int theme;
 
     /*
@@ -119,7 +117,6 @@ public class PRUiHelper {
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prLaunchInput.getBackgroundImageResourceId());
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE,prLaunchInput.getMandatoryProductRegistration());
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT,prLaunchInput.getMandatoryRegisterButtonText());
-        mUserDataInterface = prLaunchInput.getUserDataInterface();
         if ((Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         } else {
@@ -138,7 +135,6 @@ public class PRUiHelper {
      */
     private void invokeProductRegistrationAsFragment(FragmentLauncher fragmentLauncher, final PRLaunchInput PRLaunchInput) {
         if (prodRegUiListener != null) {
-            UserDataInterface userDataInterface = PRLaunchInput.getUserDataInterface();
             final Bundle arguments = new Bundle();
             final ArrayList<RegisteredProduct> registeredProducts = getRegisteredProductsList(PRLaunchInput.getProducts());
             arguments.putSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT, registeredProducts);
@@ -146,15 +142,13 @@ public class PRUiHelper {
             arguments.putBoolean(ProdRegConstants.PROD_REG_FIRST_NO_THANKS_BTN_VISIBLE,PRLaunchInput.getMandatoryProductRegistration());
             arguments.putString(ProdRegConstants.PROD_REG_FIRST_REG_BTN_TEXT,PRLaunchInput.getMandatoryRegisterButtonText());
             arguments.putBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, PRLaunchInput.isAppLaunchFlow());
-            arguments.putSerializable(ProdRegConstants.USR_DATA_INTERFACE,userDataInterface);
             ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_PRODUCT_REGISTRATION);
-            //final User user = new User(fragmentLauncher.getFragmentActivity());
             if (PRLaunchInput.isAppLaunchFlow()) {
                 ProdRegFirstLaunchFragment prodRegFirstLaunchFragment = new ProdRegFirstLaunchFragment();
                 prodRegFirstLaunchFragment.setArguments(arguments);
                 prodRegFirstLaunchFragment.showFragment(prodRegFirstLaunchFragment,
                         fragmentLauncher, fragmentLauncher.getEnterAnimation(), fragmentLauncher.getExitAnimation());
-            } else if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+            } else if (mUserDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
                 prodRegUiListener.onProdRegFailed(ProdRegError.USER_NOT_SIGNED_IN);
                 if (fragmentLauncher.getFragmentActivity() instanceof ProdRegBaseActivity)
                     fragmentLauncher.getFragmentActivity().finish();
@@ -167,10 +161,6 @@ public class PRUiHelper {
         } else {
             throw new RuntimeException("Listener not set");
         }
-    }
-
-    public PRLaunchInput getPRLaunchInput(){
-        return PRLaunchInput;
     }
 
     /**
@@ -208,6 +198,7 @@ public class PRUiHelper {
     protected void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
         this.appInfra = uappDependencies.getAppInfra();
+        this.mUserDataInterface = ((PRDependencies) uappDependencies).getUserDataInterface();
         //new ProdRegHelper().init();
         ProdRegTagging.init(appInfra.getTagging());
     }
@@ -215,7 +206,7 @@ public class PRUiHelper {
     protected void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
         this.mUiLauncher = uiLauncher;
 
-        PRLaunchInput = (PRLaunchInput) uappLaunchInput;
+        final PRLaunchInput PRLaunchInput = (PRLaunchInput) uappLaunchInput;
         this.prodRegUiListener = PRLaunchInput.getProdRegUiListener();
         if (uiLauncher instanceof ActivityLauncher) {
             ActivityLauncher activityLauncher = (ActivityLauncher) uiLauncher;
@@ -266,6 +257,10 @@ public class PRUiHelper {
 
     public AppInfraInterface getAppInfraInstance() {
         return appInfraInterface;
+    }
+
+    public UserDataInterface getUserDataInstance(){
+        return mUserDataInterface;
     }
 
     public String getCountryCode() {

@@ -6,7 +6,11 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +22,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
@@ -27,6 +32,7 @@ public class HybrisStoreTest {
 
     private StoreListener mStore;
     private MockIAPSetting mockIAPSetting;
+    private MockIAPDependencies mockIAPDependencies;
     private Context mContext;
 
     @Before
@@ -36,8 +42,9 @@ public class HybrisStoreTest {
         when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
         mContext = getInstrumentation().getContext();
         mockIAPSetting = new MockIAPSetting(mContext);
+        mockIAPDependencies = new MockIAPDependencies(mock(AppInfra.class),mock(UserDataInterface.class));
         mockIAPSetting.setUseLocalData(false);
-        mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting);
+        mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting,mockIAPDependencies);
         mStore.initStoreConfig(/*"en", "US",*/ null);
     }
 
@@ -92,7 +99,7 @@ public class HybrisStoreTest {
 
     @Test
     public void checkSetNewUserNotSameAsMockedUser() {
-        mStore.createNewUser(mContext);
+        mStore.createNewUser(mContext,mockIAPDependencies);
     }
 
     @Test
@@ -126,7 +133,7 @@ public class HybrisStoreTest {
 
     @Test
     public void testCreateNewUser() {
-        mStore.createNewUser(mContext);
+        mStore.createNewUser(mContext,mockIAPDependencies);
     }
 
     @Test

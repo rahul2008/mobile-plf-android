@@ -32,9 +32,11 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,12 +58,12 @@ public class UserWithProducts {
     private int processCacheProductsCount;
     private UserDataInterface mUserDataInterface;
 
-    public UserWithProducts(final Context context, UserDataInterface userDataInterface , final ProdRegListener appListener) {
+    public UserWithProducts(final Context context, final ProdRegListener appListener) {
         this.mContext = context;
-        mUserDataInterface = userDataInterface;
+        mUserDataInterface = PRUiHelper.getInstance().getUserDataInstance();
         this.appListener = appListener;
         setUuid();
-        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface);
+        localRegisteredProducts = new LocalRegisteredProducts();
         errorHandler = new ErrorHandler();
     }
 
@@ -293,17 +295,22 @@ public class UserWithProducts {
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));
-        //registrationRequest.setAccessToken(getUser().getAccessToken());
-        //registrationRequest.setAccessToken(mUserDataInterface.getA());
-        //registrationRequest.setReceiveMarketEmail(getUser().getReceiveMarketingEmail());
-        return registrationRequest;
+        registrationRequest.setAccessToken(mUserDataInterface.getJanrainAccessToken());
+        try {
+            ArrayList<String> detailskey = new ArrayList<>();
+            detailskey.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            boolean isRcvMrktEmail = (boolean) mUserDataInterface.getUserDetails(detailskey).get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       return registrationRequest;
     }
 
     @NonNull
     protected String getRegistrationChannel() {
         final String MICRO_SITE_ID = "MS";
-        //return MICRO_SITE_ID + RegistrationConfiguration.getInstance().getMicrositeId();
-        return MICRO_SITE_ID;
+        return MICRO_SITE_ID + PRUiHelper.getInstance().getAppInfraInstance().getAppIdentity().getMicrositeId();
     }
 
     /**

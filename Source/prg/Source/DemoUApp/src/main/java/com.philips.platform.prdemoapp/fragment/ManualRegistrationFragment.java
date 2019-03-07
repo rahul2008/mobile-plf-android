@@ -21,8 +21,10 @@ import android.widget.ToggleButton;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRLaunchInput;
+import com.philips.cdp.prodreg.launcher.PRSettings;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -277,6 +279,11 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         URInterface urInterface = new URInterface();
         urInterface.init(appuAppDependencies,appuAppSettings);
 
+        PRInterface prInterface = new PRInterface();
+        PRSettings prSettings = new PRSettings(getContext());
+        PRDependencies prDependencies = new PRDependencies(PRUiHelper.getInstance().getAppInfraInstance(),urInterface.getUserDataInterface());
+        prInterface.init(prDependencies,prSettings);
+
         if (!isActivity) {
            FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, R.id.mainContainer, new ActionBarListener() {
@@ -298,12 +305,12 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
                 prLaunchInput = new PRLaunchInput(products, false);
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
-            PRInterface prInterface = new PRInterface();
+
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
 
             prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
             prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
-            prLaunchInput.setUserDataInterface(urInterface.getUserDataInterface());
+
             prInterface.launch(fragLauncher, prLaunchInput);
         } else {
             ActivityLauncher activityLauncher = new ActivityLauncher(getActivity(), ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,  ((MainActivity) getActivity()).getThemeConfig(), ((MainActivity) getActivity()).getThemeResourceId(), null);
@@ -317,8 +324,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
             prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
             prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
-            prLaunchInput.setUserDataInterface(urInterface.getUserDataInterface());
-            new PRInterface().launch(activityLauncher, prLaunchInput);
+            prInterface.launch(activityLauncher, prLaunchInput);
         }
     }
 

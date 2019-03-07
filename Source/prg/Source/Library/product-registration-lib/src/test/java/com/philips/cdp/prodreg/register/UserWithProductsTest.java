@@ -65,7 +65,7 @@ public class UserWithProductsTest {
         prodRegListener = mock(ProdRegListener.class);
         errorHandlerMock = mock(ErrorHandler.class);
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
-        userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener) {
+        userWithProducts = new UserWithProducts(context, prodRegListener) {
             @NonNull
             @Override
             UserWithProducts getUserProduct() {
@@ -89,7 +89,7 @@ public class UserWithProductsTest {
     public void testIsUserSignedIn() {
         final UserDataInterface userDataInterface = mock(UserDataInterface.class);
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
-        UserWithProducts userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener);
+        UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener);
         assertFalse(userWithProducts.isUserSignedIn(context));
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
         assertFalse(userWithProducts.isUserSignedIn(context));
@@ -101,14 +101,14 @@ public class UserWithProductsTest {
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN.USER_LOGGED_IN);
       //  when(userMock.getEmailOrMobileVerificationStatus()).thenReturn(true);
         when(userDataInterface.getJanrainUUID()).thenReturn("Janrain_id");
-        UserWithProducts userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener);
+        UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener);
         userWithProducts.setUuid();
         assertEquals(userWithProducts.getUuid(), "Janrain_id");
     }
 
     @Test
     public void testRegisterProductWhenNotSignedIn() {
-        UserWithProducts userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener) {
+        UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener) {
             @Override
             protected boolean isUserSignedIn(final Context context) {
                 return false;
@@ -137,7 +137,7 @@ public class UserWithProductsTest {
         registeredProductSet.add(new RegisteredProduct("ctn1", null, null));
         when(localRegisteredProducts.getRegisteredProducts()).thenReturn(registeredProducts);
         when(localRegisteredProducts.getUniqueRegisteredProducts()).thenReturn(registeredProductSet);
-        final UserWithProducts userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener) {
+        final UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener) {
             @Override
             protected boolean isUserSignedIn(final Context context) {
                 return true;
@@ -187,7 +187,7 @@ public class UserWithProductsTest {
         registeredProductSet.add(new RegisteredProduct("ctn1", null, null));
         when(localRegisteredProducts.getRegisteredProducts()).thenReturn(registeredProducts);
         when(localRegisteredProducts.getUniqueRegisteredProducts()).thenReturn(registeredProductSet);
-        final UserWithProducts userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener) {
+        final UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener) {
             @Override
             protected boolean isUserSignedIn(final Context context) {
                 return true;
@@ -372,7 +372,7 @@ public class UserWithProductsTest {
 
         RegisteredProduct product = new RegisteredProduct("ctn", null, null);
         final UserDataInterface userDataInterface = mock(UserDataInterface.class);
-        UserWithProducts userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener) {
+        UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener) {
             @NonNull
             @Override
             UserWithProducts getUserProduct() {
@@ -391,7 +391,7 @@ public class UserWithProductsTest {
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
         RegisteredProduct product = mock(RegisteredProduct.class);
         final LocalRegisteredProducts localRegisteredProductsMock = mock(LocalRegisteredProducts.class);
-        UserWithProducts userWithProducts = new UserWithProducts(context,userDataInterface, prodRegListener) {
+        UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener) {
             @NonNull
             @Override
             UserWithProducts getUserProduct() {
@@ -430,7 +430,7 @@ public class UserWithProductsTest {
         final String serialNumber = "1344";
         when(productMock.getSerialNumber()).thenReturn(serialNumber);
 
-        UserWithProducts userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener) {
+        UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener) {
 
             @NonNull
             @Override
@@ -512,7 +512,7 @@ public class UserWithProductsTest {
     public void testGetMetadataListener() {
         RegisteredProduct productMock = new RegisteredProduct("ctn", null, null);
         final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
-        final UserWithProducts userWithProducts = new UserWithProducts(context, userDataInterface, prodRegListener) {
+        final UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener) {
             @Override
             protected boolean isValidSerialNumber(final ProductMetadataResponseData data, final RegisteredProduct product) {
                 return true;

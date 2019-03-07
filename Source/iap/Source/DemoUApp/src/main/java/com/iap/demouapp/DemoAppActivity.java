@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -42,6 +41,8 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+import com.philips.platform.uappframework.uappinput.UappSettings;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -170,11 +171,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         }catch (Exception e){
             this.finish();
         }
-        IapDemoUAppDependencies appuAppDependencies = new IapDemoUAppDependencies(CartModelContainer.getInstance().getAppInfraInstance());
-        IapDemoAppSettings appuAppSettings = new IapDemoAppSettings(getApplicationContext());
-        URInterface urInterface = new URInterface();
-        urInterface.init(appuAppDependencies,appuAppSettings);
-
 
         //Integration interface
         mIapInterface = new IAPInterface();
@@ -200,12 +196,15 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         ignorelistedRetailer.add("Amazon - US");
         ignorelistedRetailer.add("BestBuy.com");
 
+        UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(this));
+        UappSettings uappSettings = new UappSettings(getApplicationContext());
+        urInterface.init(uappDependencies,uappSettings);
 
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
+        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this),urInterface.getUserDataInterface());
+
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
-        mIapLaunchInput.setUserDataInterface(urInterface.getUserDataInterface());
         displayUIOnCartVisible();
     }
 

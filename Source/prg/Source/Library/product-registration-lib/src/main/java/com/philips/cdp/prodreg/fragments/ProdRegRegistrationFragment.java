@@ -6,7 +6,6 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,7 +42,6 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prodreg.util.ProgressAlertDialog;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -89,7 +86,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private String purchaseDateStr = "";
     ProdRegUtil prodRegUtil;
     private static final long serialVersionUID = -6635233525340545671L;
-    private UserDataInterface mUserDataInterface;
 
 
     @SuppressWarnings("SimpleDateFormat")
@@ -152,11 +148,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         bundle = getArguments();
         if (bundle != null) {
             isFirstLaunch = bundle.getBoolean(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH);
-            mUserDataInterface = (UserDataInterface) bundle.getSerializable(ProdRegConstants.USR_DATA_INTERFACE);
         }
 
         setRetainInstance(true);
-        prodRegRegistrationController = new ProdRegRegistrationController(this, mActivity,mUserDataInterface);
+        prodRegRegistrationController = new ProdRegRegistrationController(this, mActivity);
         dismissLoadingDialog();
     }
 
@@ -194,7 +189,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
             @Override
             public void onClick(final View v) {
                 clearFragmentStack();
-                handleCallBack(false,mUserDataInterface);
+                handleCallBack(false);
                 unRegisterProdRegListener();
             }
         };
@@ -217,7 +212,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         textWatcherCalled = false;
         setRetainInstance(true);
         final FragmentActivity activity = getActivity();
-        prodRegRegistrationController = new ProdRegRegistrationController(this, activity,mUserDataInterface);
+        prodRegRegistrationController = new ProdRegRegistrationController(this, activity);
         if (savedInstanceState == null) {
             showLoadingDialog();
         } else {
@@ -426,7 +421,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public boolean handleBackEvent() {
         if (mActivity != null && !mActivity.isFinishing()) {
             final boolean fragmentStack = clearFragmentStack();
-            handleCallBack(true,mUserDataInterface);
+            handleCallBack(true);
             hideKeyboard();
             unRegisterProdRegListener();
             return fragmentStack;
@@ -556,7 +551,6 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         bundle.putString(ProdRegConstants.PROD_REG_CTN, productCtnTextView.getText().toString());
         bundle.putString(ProdRegConstants.PROD_REG_TITLE, productTitleTextView.getText().toString());
         bundle.putString(ProdRegConstants.PROD_REG_WARRANTY, this.getRegisteredProduct().getEndWarrantyDate());
-        bundle.putSerializable(ProdRegConstants.USR_DATA_INTERFACE,mUserDataInterface);
         prodRegSuccessFragment.setArguments(bundle);
         showFragment(prodRegSuccessFragment);
     }
@@ -610,7 +604,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 alertDialogFragment.dismiss();
                 clearFragmentStack();
                 hideProgressDialog();
-                handleCallBack(true,mUserDataInterface);
+                handleCallBack(true);
                 unRegisterProdRegListener();
             });
             closeDialog.setOnClickListener(v -> {
@@ -702,7 +696,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 mProgressDialog.show();
             }
 
-            userWithProducts = new UserWithProducts(getContext(), mUserDataInterface, new ProdRegListener() {
+            userWithProducts = new UserWithProducts(getContext(), new ProdRegListener() {
                 @Override
                 public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
                     registeredProduct1 = registeredProduct;

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -24,12 +25,11 @@ public class LocalRegisteredProducts {
 
     private ProdRegCache prodRegCache;
     private String uuid;
-    //private User user;
     UserDataInterface userDataInterface;
     private Gson gson;
 
-    public LocalRegisteredProducts(UserDataInterface userDataInterface) {
-        this.userDataInterface = userDataInterface;
+    public LocalRegisteredProducts() {
+        this.userDataInterface = PRUiHelper.getInstance().getUserDataInstance();
         prodRegCache = new ProdRegCache();
         gson = new Gson();
         uuid = userDataInterface.getJanrainUUID() != null ? userDataInterface.getJanrainUUID() : "";

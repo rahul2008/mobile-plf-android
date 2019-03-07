@@ -4,14 +4,12 @@
  */
 package com.philips.cdp.di.iap.networkEssential;
 
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-
 public class NetworkEssentialsFactory {
-    public static NetworkEssentials getNetworkEssentials(boolean isPlanB, UserDataInterface userDataInterface) {
+    public static NetworkEssentials getNetworkEssentials(boolean isPlanB) {
         if (isPlanB) {
             return new LocalNetworkEssentials();
         } else {
-            return new HybrisNetworkEssentials(userDataInterface);
+            return new HybrisNetworkEssentials();
         }
     }
 }

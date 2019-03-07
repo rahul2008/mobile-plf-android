@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
@@ -28,10 +29,11 @@ public class IAPUser implements LogoutListener {
     public IAPUser() {
     }
 
-    public IAPUser(final Context context, final HybrisStore store,UserDataInterface userDataInterface) {
-        mUserDataInterface = userDataInterface;
+    public IAPUser(final Context context, final HybrisStore store, IAPDependencies iapDependencies) {
+        mUserDataInterface = iapDependencies.getUserDataInterface();
         mStore = store;
     }
+
 
     public String getJanRainID() {
         return mUserDataInterface.getJanrainAccessToken();
@@ -50,7 +52,6 @@ public class IAPUser implements LogoutListener {
     }
 
     public String getDisplayName() {
-        //return mJanRainUser.getUserInstance().getDisplayName();
         return getGivenName();
     }
 

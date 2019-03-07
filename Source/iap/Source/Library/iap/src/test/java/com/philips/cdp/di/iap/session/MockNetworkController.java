@@ -9,6 +9,7 @@ import android.content.Context;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.networkEssential.HybrisNetworkEssentials;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
@@ -16,7 +17,6 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.StoreConfiguration;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.json.JSONObject;
 import org.mockito.Mock;
@@ -33,11 +33,12 @@ public class MockNetworkController extends NetworkController {
     IAPDependencies mIAPDependencies;
     Context mContext;
 
-    public MockNetworkController(final Context context, final MockIAPSetting iapSetting) {
+    public MockNetworkController(final Context context, final MockIAPSetting iapSetting, final MockIAPDependencies iapDependencies) {
         super(context);
         mContext = context;
         setIapSettings(iapSetting);
-        setNetworkEssentials(new HybrisNetworkEssentials(mock(UserDataInterface.class)));
+        setmIapDependencies(iapDependencies);
+        setNetworkEssentials(new HybrisNetworkEssentials());
     }
 
     @Override
@@ -47,8 +48,8 @@ public class MockNetworkController extends NetworkController {
     }
 
     @Override
-    public void initStore(Context context, IAPSettings iapSettings) {
-        mStoreListener = new MockStore(context, mock(IAPUser.class)).getStore(iapSettings);
+    public void initStore(Context context, IAPSettings iapSettings,IAPDependencies iapDependencies) {
+        mStoreListener = new MockStore(context, mock(IAPUser.class)).getStore(iapSettings,iapDependencies);
     }
 
     @Override

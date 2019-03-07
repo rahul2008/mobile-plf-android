@@ -7,9 +7,9 @@ package com.philips.cdp.di.iap.store;
 import android.content.Context;
 import android.util.Log;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 public class HybrisStore extends AbstractStore {
 
@@ -97,11 +97,8 @@ public class HybrisStore extends AbstractStore {
 
     private String mApplyVoucherUrl;
 
-    private UserDataInterface mUserDataInterface;
-
-    public HybrisStore(Context context, IAPSettings iapSettings,UserDataInterface userDataInterface) {
-        mUserDataInterface = userDataInterface;
-        mIAPUser = createUser(context,mUserDataInterface);
+    public HybrisStore(Context context, IAPSettings iapSettings, IAPDependencies iapDependencies) {
+        mIAPUser = createUser(context,iapDependencies);
         mStoreConfig = getStoreConfig(context, iapSettings);
     }
 
@@ -122,15 +119,15 @@ public class HybrisStore extends AbstractStore {
         return mIsNewUser;
     }
 
-    IAPUser createUser(Context context, UserDataInterface userDataInterface) {
+    IAPUser createUser(Context context,IAPDependencies iapDependencies) {
         mIsNewUser = false;
-        mIAPUser = new IAPUser(context, this,userDataInterface);
+        mIAPUser = new IAPUser(context, this,iapDependencies);
         return mIAPUser;
     }
 
     @Override
-    public void createNewUser(Context context) {
-        createUser(context,mUserDataInterface);
+    public void createNewUser(Context context, IAPDependencies iapDependencies) {
+        createUser(context,iapDependencies);
         generateStoreUrls();
     }
 
