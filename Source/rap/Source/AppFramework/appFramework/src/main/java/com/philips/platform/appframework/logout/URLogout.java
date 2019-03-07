@@ -11,7 +11,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 
 
@@ -40,13 +39,13 @@ public class URLogout implements URLogoutInterface {
             }
             return;
         }
-        doLogout(activityContext, ((AppFrameworkApplication)activityContext.getApplicationContext()).getUserRegistrationState().getUserDataInterface());
+        doLogout(activityContext);
     }
 
 
-    private void doLogout(final Context activityContext, UserDataInterface userDataInterface) {
+    private void doLogout(final Context activityContext) {
         RALog.d(TAG, "doLogout: The method started");
-        userDataInterface.logOut(new LogoutListener() {
+        ((AppFrameworkApplication)activityContext.getApplicationContext()).getUserRegistrationState().getUserDataInterface().logOut(new LogoutListener() {
             @Override
             public void onLogoutSuccess() {
                 if (urLogoutListener != null) {

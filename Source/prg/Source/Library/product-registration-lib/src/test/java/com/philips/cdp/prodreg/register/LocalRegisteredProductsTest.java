@@ -29,19 +29,21 @@ import static org.mockito.Mockito.when;
  */
 public class LocalRegisteredProductsTest extends TestCase {
 
+
     private LocalRegisteredProducts localRegisteredProducts;
     private ProdRegCache prodRegCache;
     private HashSet<RegisteredProduct> registeredProducts = new HashSet<>();
     private Gson gson;
+    private UserDataInterface userDataInterface;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         prodRegCache = mock(ProdRegCache.class);
-        UserDataInterface userDataInterface = mock(UserDataInterface.class);
         gson = new Gson();
         addDummyProjects();
-        localRegisteredProducts = new LocalRegisteredProducts() {
+        userDataInterface = mock(UserDataInterface.class);
+        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
                 return registeredProducts;
@@ -98,11 +100,10 @@ public class LocalRegisteredProductsTest extends TestCase {
 
     @Test
     public void testGetRegisteredProducts() {
-        UserDataInterface userDataInterface = mock(UserDataInterface.class);
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN.USER_LOGGED_IN);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null), new RegisteredProduct(null, null, null)};
 
-        localRegisteredProducts = new LocalRegisteredProducts() {
+        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
                 return registeredProducts;
@@ -122,11 +123,10 @@ public class LocalRegisteredProductsTest extends TestCase {
 
     @Test
     public void testGettingUniqueRegisteredProducts() {
-        UserDataInterface userDataInterface = mock(UserDataInterface.class);
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
         final RegisteredProduct[] registeredProducts = {new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null), new RegisteredProduct("ctn", null, null)};
 
-        localRegisteredProducts = new LocalRegisteredProducts() {
+        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected RegisteredProduct[] getRegisteredProducts(final Gson gson, final String data) {
                 return registeredProducts;
@@ -143,11 +143,10 @@ public class LocalRegisteredProductsTest extends TestCase {
 
     @Test
     public void testRemoveProductFromCache() {
-        UserDataInterface userDataInterface = mock(UserDataInterface.class);
         RegisteredProduct registeredProductMock = new RegisteredProduct("ctn", null, null);
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
         final ProdRegCache prodRegCacheMock = mock(ProdRegCache.class);
-        localRegisteredProducts = new LocalRegisteredProducts() {
+        localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
                 return registeredProducts;

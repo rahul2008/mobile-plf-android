@@ -129,7 +129,6 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
 
     protected void handleCallBack(final boolean onBack) {
         final ProdRegUiListener prodRegUiListener = PRUiHelper.getInstance().getProdRegUiListener();
-        //final UserWithProducts signedInUserWithProducts = new ProdRegHelper().getSignedInUserWithProducts(getActivity());
         final UserWithProducts signedInUserWithProducts = new UserWithProducts(getContext(),  new ProdRegListener() {
             @Override
             public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {

@@ -19,5 +19,6 @@ public class IapDemoUAppDependencies extends UappDependencies {
     public IapDemoUAppDependencies(AppInfraInterface appInfra) {
         super(appInfra);
         this.appInfra = appInfra;
+
     }
 }

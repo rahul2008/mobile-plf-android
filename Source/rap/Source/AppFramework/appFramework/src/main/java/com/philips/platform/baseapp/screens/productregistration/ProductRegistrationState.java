@@ -18,7 +18,6 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prxclient.PrxConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
@@ -27,8 +26,6 @@ import com.philips.platform.baseapp.screens.utility.CTNUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,11 +87,6 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     public void init(Context context) {
         RALog.d(TAG , " init called ");
         applicationContext = context;
-
-        UappSettings uappSettings = new UappSettings(applicationContext);
-        UappDependencies uappDependencies = new UappDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
-        URInterface urInterface = new URInterface();
-        urInterface.init(uappDependencies,uappSettings);
 
         PRSettings prodSettings = new PRSettings(context);
         PRDependencies prodRegDependencies = new PRDependencies(((AppFrameworkApplication)applicationContext).getAppInfra(),((AppFrameworkApplication)applicationContext).getUserRegistrationState().getUserDataInterface());

@@ -63,7 +63,7 @@ public class UserWithProducts {
         mUserDataInterface = PRUiHelper.getInstance().getUserDataInstance();
         this.appListener = appListener;
         setUuid();
-        localRegisteredProducts = new LocalRegisteredProducts();
+        localRegisteredProducts = new LocalRegisteredProducts(mUserDataInterface);
         errorHandler = new ErrorHandler();
     }
 
@@ -77,7 +77,10 @@ public class UserWithProducts {
     }
 
     protected void setUuid() {
-        this.uuid = mUserDataInterface.getJanrainUUID() != null ? mUserDataInterface.getJanrainUUID() : "";
+        if(mUserDataInterface != null)
+            this.uuid = mUserDataInterface.getJanrainUUID() != null ? mUserDataInterface.getJanrainUUID() : "";
+        else
+            ProdRegLogger.i(TAG,"setUuid failed, userDataInterface null");
     }
 
     /**
@@ -152,7 +155,7 @@ public class UserWithProducts {
      * @param registeredProductsListener - callback listener to get list of products
      */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
-        if (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             setRequestType(FETCH_REGISTERED_PRODUCTS);
             this.registeredProductsListener = registeredProductsListener;
             final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
@@ -189,8 +192,7 @@ public class UserWithProducts {
     }
 
     protected boolean isUserSignedIn(final Context context) {
-        //return (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) && (mUser.isEmailVerified() || mUser.isMobileVerified());
-        return ((mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN));
+        return (mUserDataInterface != null && (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN));
     }
 
     @NonNull
@@ -319,7 +321,10 @@ public class UserWithProducts {
      * @param registeredProduct - List of products to be registered
      */
     public void onAccessTokenExpire(final RegisteredProduct registeredProduct) {
-        mUserDataInterface.refreshLoginSession(getRefreshListener(registeredProduct,mContext));
+        if(mUserDataInterface != null)
+            mUserDataInterface.refreshLoginSession(getRefreshListener(registeredProduct,mContext));
+        else
+            ProdRegLogger.i(TAG,"onAccessTokenExpire :: mUserDataInterface null");
     }
 
 

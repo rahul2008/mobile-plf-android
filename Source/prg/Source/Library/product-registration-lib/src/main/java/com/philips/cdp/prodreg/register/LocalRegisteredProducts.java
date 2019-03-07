@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
-import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -28,11 +27,12 @@ public class LocalRegisteredProducts {
     UserDataInterface userDataInterface;
     private Gson gson;
 
-    public LocalRegisteredProducts() {
-        this.userDataInterface = PRUiHelper.getInstance().getUserDataInstance();
+    public LocalRegisteredProducts(UserDataInterface userDataInterface) {
+        this.userDataInterface = userDataInterface;
         prodRegCache = new ProdRegCache();
         gson = new Gson();
-        uuid = userDataInterface.getJanrainUUID() != null ? userDataInterface.getJanrainUUID() : "";
+        if(userDataInterface != null)
+            uuid = userDataInterface.getJanrainUUID() != null ? userDataInterface.getJanrainUUID() : "";
     }
 
     void store(RegisteredProduct registeredProduct) {
@@ -63,7 +63,7 @@ public class LocalRegisteredProducts {
         Gson gson = getGSon();
         String data = getProdRegCache().getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY);
         RegisteredProduct[] products = getRegisteredProducts(gson, data);
-        if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN && products != null) {
+        if (userDataInterface != null && userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN && products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
             for (RegisteredProduct registeredProduct : products) {
                 if (registeredProduct.getUserUUid().length() == 0 || registeredProduct.getUserUUid().equals(uuid)) {

@@ -94,7 +94,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         initTheme();
         super.onCreate(savedInstanceState);
 
-
+        urInterface = new URInterface();
         ignorelistedRetailer = new ArrayList<>();
         IAPLog.enableLogging(true);
         setContentView(R.layout.demo_app_layout);

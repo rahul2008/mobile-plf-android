@@ -100,7 +100,7 @@ public class ProdRegRegistrationController {
 
     @NonNull
     protected LocalRegisteredProducts getLocalRegisteredProducts() {
-        return new LocalRegisteredProducts();
+        return new LocalRegisteredProducts(PRUiHelper.getInstance().getUserDataInstance());
     }
 
     @SuppressWarnings("unchecked")

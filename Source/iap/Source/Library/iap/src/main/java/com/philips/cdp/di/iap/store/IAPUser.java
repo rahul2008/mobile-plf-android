@@ -138,7 +138,6 @@ public class IAPUser implements LogoutListener {
 
     @Override
     public void onLogoutSuccess() {
-        //RegistrationHelper.getInstance().unRegisterUserRegistrationListener(this);
         mStore.setNewUser(true);
     }
 

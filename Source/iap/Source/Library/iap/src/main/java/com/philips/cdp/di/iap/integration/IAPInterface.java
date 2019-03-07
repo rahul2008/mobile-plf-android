@@ -24,7 +24,6 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     protected IAPSettings mIAPSettings;
     private IAPServiceDiscoveryWrapper mIapServiceDiscoveryWrapper;
     private UserDataInterface mUserDataInterface;
-    private IAPLaunchInput iapLaunchInput;
 
     /**
      * API to initialize IAP
@@ -34,9 +33,10 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
+        IAPDependencies iapDependencies = (IAPDependencies) uappDependencies;
+        mUserDataInterface = iapDependencies.getUserDataInterface();
         mIAPSettings = (IAPSettings) uappSettings;
-        mIAPHandler = new IAPHandler(mIAPDependencies, mIAPSettings);
+        mIAPHandler = new IAPHandler(iapDependencies, mIAPSettings);
         mIAPHandler.initPreRequisite();
         mIapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
     }
@@ -50,9 +50,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
-        //mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
-        iapLaunchInput = (IAPLaunchInput) uappLaunchInput;
-        if (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             ConnectivityManager connectivityManager
                     = (ConnectivityManager) mIAPSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
@@ -71,10 +69,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void getProductCartCount(IAPListener iapListener) {
-        if(mUserDataInterface == null)
-            return;
-        if (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
-            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, iapLaunchInput, iapListener, "productCartCount");
+       if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "productCartCount");
         else throw new RuntimeException("User is not logged in.");
     }
 
@@ -85,11 +81,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
-        if(mUserDataInterface == null)
-            return ;
-
-        if (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, iapLaunchInput, iapListener, "completeProductList");
+       if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "completeProductList");
         } else throw new RuntimeException("User is not logged in.");
     }
 
@@ -101,11 +94,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public boolean isCartVisible(IAPListener iapListener) {
-        //mUser = new User(mIAPSettings.getContext());
-        if(mUserDataInterface == null) {
-            return false;
-        }
-        if ( mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
         } else throw new RuntimeException("User is not logged in.");
     }

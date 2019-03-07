@@ -22,6 +22,7 @@ import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uid.view.widget.Button;
 
@@ -122,7 +123,8 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             @Override
             public void onClick(final View v) {
                 final FragmentActivity activity = getActivity();
-                if (PRUiHelper.getInstance().getUserDataInstance().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                UserDataInterface userDataInterface = PRUiHelper.getInstance().getUserDataInstance();
+                if (userDataInterface != null && PRUiHelper.getInstance().getUserDataInstance().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                     final  ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
                     processFragment.setArguments(dependencies);
                     registerButton.setClickable(false);

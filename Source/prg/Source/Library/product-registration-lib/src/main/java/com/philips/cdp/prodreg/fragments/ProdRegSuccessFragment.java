@@ -23,7 +23,6 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,6 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
     private String imgURL;
     private TextView prSuccessConfigurableTextView, prg_product_title, prg_product_description, prg_success_thanks_textView;
     private static final long serialVersionUID = -6635233525340545672L;
-    private UserDataInterface userDataInterface;
 
 
     @Override

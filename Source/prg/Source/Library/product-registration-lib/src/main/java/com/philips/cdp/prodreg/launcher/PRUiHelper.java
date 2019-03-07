@@ -199,7 +199,6 @@ public class PRUiHelper {
         this.context = uappSettings.getContext();
         this.appInfra = uappDependencies.getAppInfra();
         this.mUserDataInterface = ((PRDependencies) uappDependencies).getUserDataInterface();
-        //new ProdRegHelper().init();
         ProdRegTagging.init(appInfra.getTagging());
     }
 
