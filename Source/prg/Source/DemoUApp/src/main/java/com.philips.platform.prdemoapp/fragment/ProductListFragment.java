@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -52,17 +51,7 @@ public class ProductListFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        UserWithProducts userWithProducts = new UserWithProducts(getContext(), new ProdRegListener() {
-            @Override
-            public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
-
-            }
-
-            @Override
-            public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
-
-            }
-        });
+        UserWithProducts userWithProducts = new UserWithProducts(getContext(), null);
 
         userWithProducts.getRegisteredProducts(new RegisteredProductsListener() {
             @Override

@@ -304,7 +304,7 @@ public class UserWithProducts {
             boolean isRcvMrktEmail = (boolean) mUserDataInterface.getUserDetails(detailskey).get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
             registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
         } catch (Exception e) {
-            e.printStackTrace();
+            ProdRegLogger.e(TAG,"Error in getUserDetails : "+e.getMessage());
         }
        return registrationRequest;
     }
@@ -347,12 +347,12 @@ public class UserWithProducts {
 
             @Override
             public void onRefreshSessionInProgress(String message) {
-
+                //NOP
             }
 
             @Override
             public void onForcedLogout() {
-
+                //NOP
             }
         };
     }
