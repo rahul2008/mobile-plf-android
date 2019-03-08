@@ -288,7 +288,6 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             try {
                 avatarName.setText(userDataInterface.getUserDetails(detailskey).get(UserDetailConstants.GIVEN_NAME).toString());
             } catch (Exception e) {
-                e.printStackTrace();
                 RALog.e(TAG,"Error in set avatar name");
             }
             if (!appState.name().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name()))
