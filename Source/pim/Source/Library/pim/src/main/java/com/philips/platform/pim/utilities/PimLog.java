@@ -3,6 +3,8 @@ package com.philips.platform.pim.utilities;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pim.BuildConfig;
+import com.philips.platform.pim.configration.PimConfiguration;
 
 public class PimLog {
     private static LoggingInterface mLoggingInterface;
@@ -11,8 +13,8 @@ public class PimLog {
      * Initialize the logger with AppInfra logger Taken care by USR coponent no need to call explicitly
      */
     public static void init() {
-//        mLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
-//        mLoggingInterface = mLoggingInterface.createInstanceForComponent(RegConstants.COMPONENT_TAGS_ID, RegistrationHelper.getRegistrationApiVersion());
+        mLoggingInterface = PimConfiguration.getInstance().getComponent().getLoggingInterface();
+        mLoggingInterface = mLoggingInterface.createInstanceForComponent(PimConstants.COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
     }
 
 
@@ -64,4 +66,6 @@ public class PimLog {
     public static void setMockLogger(LoggingInterface mockLoggingInterface) {
         mLoggingInterface = mockLoggingInterface;
     }
+
+
 }

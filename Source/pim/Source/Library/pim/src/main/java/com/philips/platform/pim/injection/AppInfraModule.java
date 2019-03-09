@@ -8,7 +8,6 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pim.BuildConfig;
-import com.philips.platform.pim.utilities.ServiceDiscoveryWrapper;
 
 import javax.inject.Singleton;
 
@@ -48,11 +47,6 @@ public class AppInfraModule {
         return appInfraInterface.getLogging();
     }
 
-
-    @Provides
-    public ServiceDiscoveryWrapper providesServiceDiscoveryWrapper() {
-        return new ServiceDiscoveryWrapper(appInfraInterface.getServiceDiscovery());
-    }
 
     @Singleton
     @Provides

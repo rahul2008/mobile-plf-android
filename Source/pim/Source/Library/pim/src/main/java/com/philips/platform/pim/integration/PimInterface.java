@@ -2,19 +2,17 @@ package com.philips.platform.pim.integration;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PimActivity;
-import com.philips.platform.pim.configration.PimConfiguration;
+import com.philips.platform.pim.configration.PimDataProvider;
 import com.philips.platform.pim.fragment.PimFragment;
-import com.philips.platform.pim.injection.AppInfraModule;
-import com.philips.platform.pim.injection.DaggerPimComponent;
 import com.philips.platform.pim.injection.PimComponent;
+import com.philips.platform.pim.manager.PimConfigManager;
 import com.philips.platform.pim.utilities.PimConstants;
 import com.philips.platform.pim.utilities.PimLog;
-import com.philips.platform.pim.utilities.PimTagging;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -32,11 +30,13 @@ public class PimInterface implements UappInterface {
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        component = initDaggerComponents(uappDependencies, uappSettings);
+//        component = initDaggerComponents(uappDependencies, uappSettings);
         context = uappSettings.getContext();
-        PimConfiguration.getInstance().setComponent(component);
-        PimLog.init();
-        PimTagging.init();
+        //PimConfiguration.getInstance().setComponent(component);
+//        PimLog.init();
+//        PimTagging.init();
+        PimConfigManager pimConfigManager = new PimConfigManager(uappDependencies.getAppInfra());
+        pimConfigManager.downloadSDServiceURLSWithCompletion(uappDependencies.getAppInfra().getServiceDiscovery());
     }
 
     @Override
@@ -52,13 +52,13 @@ public class PimInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         PimFragment udiFragment = new PimFragment();
-        addFragment( uiLauncher, udiFragment);
+        addFragment(uiLauncher, udiFragment);
     }
 
     private void addFragment(FragmentLauncher uiLauncher, Fragment fragment) {
         uiLauncher.getFragmentActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(uiLauncher.getParentContainerResourceID(),fragment, fragment.getClass().getSimpleName())
+                .replace(uiLauncher.getParentContainerResourceID(), fragment, fragment.getClass().getSimpleName())
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
     }
@@ -69,10 +69,23 @@ public class PimInterface implements UappInterface {
         uiLauncher.getActivityContext().startActivity(intent);
     }
 
-    @NonNull
-    private PimComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
-        return DaggerPimComponent.builder()
-                .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra()))
-                .build();
+//    @NonNull
+//    private PimComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+//        return DaggerPimComponent.builder()
+//                .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra()))
+//                .build();
+//    }
+
+    /**
+     * Get the User Data Interface
+     *
+     * @since 2018.1.0
+     */
+    public UserDataInterface getUserDataInterface() {
+        if (context == null) {
+            PimLog.d(TAG, "getUserDataInterface: Context is null");
+            return null;
+        }
+        return new PimDataProvider(context);
     }
 }

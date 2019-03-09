@@ -9,11 +9,11 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.Button;
-import com.udi.demouapp.DemoAppActivity;
-import com.udi.demouapp.UdiDemoAppSettings;
-import com.udi.demouapp.UdiDemoUAppDependencies;
-import com.udi.demouapp.UdiDemoUAppInterface;
-import com.udi.demouapp.UdiLaunchInput;
+import com.pim.demouapp.DemoAppActivity;
+import com.pim.demouapp.PimDemoAppSettings;
+import com.pim.demouapp.PimDemoUAppDependencies;
+import com.pim.demouapp.PimDemoUAppInterface;
+import com.pim.demouapp.PimLaunchInput;
 
 public class PimDemoActivity extends UIDActivity {
 
@@ -23,18 +23,18 @@ public class PimDemoActivity extends UIDActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_urdemo);
-        uAppInterface = new UdiDemoUAppInterface();
+        uAppInterface = new PimDemoUAppInterface();
         Button changeTheme = findViewById(R.id.launch);
         changeTheme.setOnClickListener(v -> {
-            Intent intent = new Intent(UDIDemoActivity.this, DemoAppActivity.class);
+            Intent intent = new Intent(PimDemoActivity.this, DemoAppActivity.class);
             startActivity(intent);
         });
 
-        AppInfraInterface appInfraInterface = UDIDemoApplication.getInstance().getAppInfra();
-        uAppInterface.init(new UdiDemoUAppDependencies(appInfraInterface), new UdiDemoAppSettings(this.getApplicationContext()));
+        AppInfraInterface appInfraInterface = PimDemoApplication.getInstance().getAppInfra();
+        uAppInterface.init(new PimDemoUAppDependencies(appInfraInterface), new PimDemoAppSettings(this.getApplicationContext()));
     }
 
     public void launch(View v) {
-        uAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null), new UdiLaunchInput());
+        uAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null), new PimLaunchInput());
     }
 }

@@ -10,7 +10,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.squareup.leakcanary.LeakCanary;
 
 public class PimDemoApplication extends Application {
-    private static UDIDemoApplication mPimApplication = null;
+    private static PimDemoApplication mPimApplication = null;
 
     private AppInfraInterface mAppInfraInterface;
 
