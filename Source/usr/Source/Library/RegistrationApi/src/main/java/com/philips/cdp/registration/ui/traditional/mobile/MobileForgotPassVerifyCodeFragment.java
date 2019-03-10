@@ -15,6 +15,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.LocaleSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
@@ -44,6 +46,8 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -106,7 +110,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
                              Bundle savedInstanceState) {
 
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
 
 
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -133,9 +137,16 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
 
     private void setDescription() {
         String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
-        SpannableString str = new SpannableString(String.format(normalText, mobileNumber));
-        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        String formattedStr = String.format(normalText, mobileNumber);
+        String number = formattedStr.replaceAll("[^0-9]", "");
+        SpannableString str = new SpannableString(formattedStr);
+        if (Locale.getDefault().getScript().equalsIgnoreCase("Hans")) {
+            str.setSpan(new StyleSpan(Typeface.BOLD), formattedStr.indexOf(number), formattedStr.indexOf(number) + number.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         verifyPasswordDesc1.setText(str);
     }
 
