@@ -22,6 +22,7 @@ public class IAPDependencies extends UappDependencies {
      * @param appInfra  to pass the instance of AppInfraInterface
      * @since 1.0.0
      * @deprecated Deprecated since 1902
+     * TODO: Need to update deprecated version before merge
      *
      */
     public IAPDependencies(AppInfraInterface appInfra) {
@@ -34,6 +35,7 @@ public class IAPDependencies extends UappDependencies {
      * @param appInfra  to pass the instance of AppInfraInterface
      * @param userDataInterface to pass the instance of UserDataInterface
      * @since 1902
+     * TODO: Need to update version before merge
      */
     public IAPDependencies(AppInfraInterface appInfra, UserDataInterface userDataInterface) {
         super(appInfra);

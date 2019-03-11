@@ -19,6 +19,7 @@ public class PRDependencies extends UappDependencies {
      * @param appInfra - to pass the instance of AppInfraInterface
      * @since 1.0.0
      * @deprecated Deprecated since 1902
+     * TODO: Need to update deprecated version before merge to develop
      */
     public PRDependencies(final AppInfraInterface appInfra) {
         super(appInfra);
@@ -29,6 +30,7 @@ public class PRDependencies extends UappDependencies {
      * @param appInfra - to pass the instance of AppInfraInterface
      * @param userDataInterface - to pass thee instance of UserDataInterface
      * @since 1902
+     * TODO: Need to update version before merge to develop
      */
     public PRDependencies(final AppInfraInterface appInfra, final UserDataInterface userDataInterface) {
         super(appInfra);
