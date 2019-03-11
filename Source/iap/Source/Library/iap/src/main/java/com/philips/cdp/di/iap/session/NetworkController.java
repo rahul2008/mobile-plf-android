@@ -64,7 +64,7 @@ public class NetworkController {
             requestListener.onError(message);
         }
 
-        if(model == null || model.getUrl() == null && requestListener != null){
+        if(model == null || model.getUrl() == null){
             Message message = new Message();
             message.obj = IAPConstant.IAP_ERROR;
             requestListener.onError(message);

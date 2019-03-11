@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -88,6 +89,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<String> ignorelistedRetailer;
     private View mLL_propositionId;
     URInterface urInterface;
+    private long mLastClickTime =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -312,6 +314,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isClickable())
                 launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
             }
         });
@@ -341,6 +344,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(final View view) {
+        if(!isClickable()) return;
+
         if (view == mShoppingCart) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
@@ -452,7 +457,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShoppingCart.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
         mLL_voucher.setVisibility(View.GONE);
-        mLL_propositionId.setVisibility(View.GONE);
+       // mLL_propositionId.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mBuyDirect.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);
@@ -628,5 +633,15 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
+    }
+
+    boolean isClickable(){
+
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            return false;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
+        return true;
     }
 }
