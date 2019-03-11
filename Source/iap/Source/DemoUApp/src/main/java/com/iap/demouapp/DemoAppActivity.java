@@ -449,7 +449,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShoppingCart.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
         mLL_voucher.setVisibility(View.GONE);
-        mLL_propositionId.setVisibility(View.GONE);
+       // mLL_propositionId.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mBuyDirect.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);
