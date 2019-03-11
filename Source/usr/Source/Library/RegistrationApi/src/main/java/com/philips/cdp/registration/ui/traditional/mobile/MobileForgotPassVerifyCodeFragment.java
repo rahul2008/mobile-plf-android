@@ -138,15 +138,10 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     private void setDescription() {
         String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
         String formattedStr = String.format(normalText, mobileNumber);
-        String number = formattedStr.replaceAll("[^0-9]", "");
+        StringBuilder fStringBuilder = new StringBuilder(formattedStr);
         SpannableString str = new SpannableString(formattedStr);
-        if (Locale.getDefault().getScript().equalsIgnoreCase("Hans")) {
-            str.setSpan(new StyleSpan(Typeface.BOLD), formattedStr.indexOf(number), formattedStr.indexOf(number) + number.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else {
-            str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
+        str.setSpan(new StyleSpan(Typeface.BOLD), fStringBuilder.indexOf(mobileNumber), fStringBuilder.indexOf(mobileNumber) + mobileNumber.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         verifyPasswordDesc1.setText(str);
     }
 
