@@ -220,20 +220,19 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                             createCart(context, iapCartListener, null, false);
                         } else {
                             CartsEntity carts = (CartsEntity) msg.obj;
-                            if (carts != null && carts.getEntries() != null) {
-//                                if (carts.getEntries().size() > 1) {
-//                                    deleteCart(context, iapCartListener);
-//                                } else {
-                                int quantity = 0;
+                            if (carts != null) {
                                 int totalItems = carts.getTotalItems();
-                                List<EntriesEntity> entries = carts.getEntries();
-                                if (totalItems != 0 && null != entries) {
-                                    for (int i = 0; i < entries.size(); i++) {
-                                        quantity = quantity + entries.get(i).getQuantity();
+                                if (carts.getEntries() != null) {
+                                    int quantity = 0;
+                                    List<EntriesEntity> entries = carts.getEntries();
+                                    if (totalItems != 0 && null != entries) {
+                                        for (int i = 0; i < entries.size(); i++) {
+                                            quantity = quantity + entries.get(i).getQuantity();
+                                        }
                                     }
-                                }
-                                if (iapCartListener != null) {
                                     iapCartListener.onSuccess(quantity);
+                                } else {
+                                    iapCartListener.onSuccess(totalItems);
                                 }
                             } else {
                                 Message message = new Message();
