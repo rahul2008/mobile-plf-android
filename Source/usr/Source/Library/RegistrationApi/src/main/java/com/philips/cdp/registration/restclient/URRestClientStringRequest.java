@@ -26,6 +26,7 @@ import java.util.Map;
 
 public class URRestClientStringRequest extends StringRequest {
     public static final String TAG = "URRestClientStringRequest";
+    private static int DEFAULT_TIMEOUT_MS = 30000;//30 SECONDS
     private String mBody = "";
     private Response.Listener<String> mResponseListener;
     private Response.ErrorListener mErrorListener;
@@ -48,7 +49,7 @@ public class URRestClientStringRequest extends StringRequest {
     @Override
     public Request<?> setRetryPolicy(final RetryPolicy retryPolicy) {
         return super.setRetryPolicy(new DefaultRetryPolicy(
-                30000,
+                URRestClientStringRequest.DEFAULT_TIMEOUT_MS,
                 0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
