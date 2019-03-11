@@ -222,24 +222,21 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                             CartsEntity carts = (CartsEntity) msg.obj;
                             if (carts != null) {
                                 int totalItems = carts.getTotalItems();
+                                int quantity = 0;
                                 if (carts.getEntries() != null) {
-                                    int quantity = 0;
                                     List<EntriesEntity> entries = carts.getEntries();
                                     if (totalItems != 0 && null != entries) {
                                         for (int i = 0; i < entries.size(); i++) {
                                             quantity = quantity + entries.get(i).getQuantity();
                                         }
                                     }
-                                    iapCartListener.onSuccess(quantity);
-                                } else {
-                                    iapCartListener.onSuccess(totalItems);
                                 }
+                                iapCartListener.onSuccess(quantity);
                             } else {
                                 Message message = new Message();
                                 message.obj = "Error Fetching Cart";
                                 iapCartListener.onFailure(message);
                             }
-
                         }
                     }
 
