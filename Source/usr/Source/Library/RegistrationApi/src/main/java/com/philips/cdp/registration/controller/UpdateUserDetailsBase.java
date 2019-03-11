@@ -130,6 +130,11 @@ public class UpdateUserDetailsBase implements
         //PerformNothing
     }
 
+    @Override
+    public void onRefreshLoginSessionFailedAndLoggedout() {
+        //NOP
+    }
+
     @Nullable
     protected JSONObject getCurrentUserAsJsonObject() {
         JSONObject userData = null;

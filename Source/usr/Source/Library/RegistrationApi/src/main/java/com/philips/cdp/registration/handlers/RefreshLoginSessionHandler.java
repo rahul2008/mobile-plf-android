@@ -35,4 +35,9 @@ public interface RefreshLoginSessionHandler {
      */
 	void onRefreshLoginSessionInProgress(String message);
 
+	/**
+	 * method is invoked on user refresh Failure due to excess login at multiple devices and gets forced logged out on refresh session
+	 * @since 1902
+	 */
+	void onRefreshLoginSessionFailedAndLoggedout();
 }

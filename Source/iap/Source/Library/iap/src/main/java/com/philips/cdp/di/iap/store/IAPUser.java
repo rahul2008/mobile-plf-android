@@ -31,6 +31,7 @@ public class IAPUser implements LogoutListener {
 
     public IAPUser(final Context context, final HybrisStore store, IAPDependencies iapDependencies) {
         mUserDataInterface = iapDependencies.getUserDataInterface();
+        mUserDataInterface.registerLogOutListener(this);
         mStore = store;
     }
 
@@ -103,12 +104,12 @@ public class IAPUser implements LogoutListener {
 
             @Override
             public void onRefreshSessionInProgress(String message) {
-
+                //NOP
             }
 
             @Override
             public void onForcedLogout() {
-
+                mStore.setNewUser(true);
             }
         });
 
@@ -138,11 +139,12 @@ public class IAPUser implements LogoutListener {
 
     @Override
     public void onLogoutSuccess() {
+        mUserDataInterface.unregisterLogOutListener(this);
         mStore.setNewUser(true);
     }
 
     @Override
     public void onLogoutFailure(int errorCode, String errorMessage) {
-
+        //NOP
     }
 }

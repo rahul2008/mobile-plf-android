@@ -133,6 +133,11 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                         @Override
                         public void onRefreshLoginSessionInProgress(String message) {
                         }
+
+                        @Override
+                        public void onRefreshLoginSessionFailedAndLoggedout() {
+                            //NOP
+                        }
                     });
                 }
                 handler.onRefreshUserFailed(0);

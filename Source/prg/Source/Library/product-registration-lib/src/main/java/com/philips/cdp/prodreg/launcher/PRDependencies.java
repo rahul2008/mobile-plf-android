@@ -18,6 +18,17 @@ public class PRDependencies extends UappDependencies {
      * Create PRDependencies instance from AppInfraInterface object
      * @param appInfra - to pass the instance of AppInfraInterface
      * @since 1.0.0
+     * @deprecated Deprecated since 1902
+     */
+    public PRDependencies(final AppInfraInterface appInfra) {
+        super(appInfra);
+    }
+
+    /**
+     * Create PRDependencies instance from AppInfraInterface and UserDataInterface object
+     * @param appInfra - to pass the instance of AppInfraInterface
+     * @param userDataInterface - to pass thee instance of UserDataInterface
+     * @since 1902
      */
     public PRDependencies(final AppInfraInterface appInfra, final UserDataInterface userDataInterface) {
         super(appInfra);

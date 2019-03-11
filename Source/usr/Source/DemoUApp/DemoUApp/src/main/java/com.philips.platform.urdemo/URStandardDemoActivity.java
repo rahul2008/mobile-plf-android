@@ -690,6 +690,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 public void onRefreshLoginSessionInProgress(String message) {
                     showToast(message);
                 }
+
+                @Override
+                public void onRefreshLoginSessionFailedAndLoggedout() {
+                    //NOP
+                }
             });
         } else {
             showToast("Please login");
@@ -731,6 +736,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     public void onUserLogoutSuccessWithInvalidAccessToken() {
         RLog.d(TAG, "  : onUserLogoutSuccessWithInvalidAccessToken");
         showToast("onUserLogoutSuccessWithInvalidAccessToken ");
+    }
+
+    @Override
+    public void onRefreshLoginSessionFailedAndLoggedout() {
+        //NOP
     }
 
     @Override
