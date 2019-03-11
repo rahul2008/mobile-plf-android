@@ -629,7 +629,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     boolean isClickable(){
 
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1500){
             return false;
         }
         mLastClickTime = SystemClock.elapsedRealtime();
