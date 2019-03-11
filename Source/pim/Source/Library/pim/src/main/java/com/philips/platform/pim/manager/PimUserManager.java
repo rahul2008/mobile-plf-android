@@ -1,5 +1,6 @@
 package com.philips.platform.pim.manager;
 
+import com.philips.platform.pim.models.OIDCConfig;
 import com.philips.platform.pim.models.PimUserProfile;
 import com.philips.platform.pim.rest.PimRestClient;
 import com.philips.platform.pim.rest.PimRestClientInterface;
@@ -12,8 +13,8 @@ public class PimUserManager {
         return new PimUserProfile();
     }
 
-    private void makeUserProfileRequest() {
-        PimRestClientInterface userInfoRequest = new UserProfileRequest();
+    private void makeUserProfileRequest(OIDCConfig config) {
+        PimRestClientInterface userInfoRequest = new UserProfileRequest(config);
         PimRestClient pimRestClient = new PimRestClient();
         pimRestClient.invokeRequest(userInfoRequest, response -> handleSuccess(), error -> handleError());
     }
