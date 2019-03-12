@@ -279,8 +279,16 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
+        goToAddressSelection();
+    }
 
-        mAddressController.getAddresses();
+    private void goToAddressSelection() {
+        hideProgressBar();
+        Bundle bundle = new Bundle();
+        if (mSelectedDeliveryMode != null)
+            bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
+            addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
+                    AddressSelectionFragment.TAG,true);
     }
 
     @Override

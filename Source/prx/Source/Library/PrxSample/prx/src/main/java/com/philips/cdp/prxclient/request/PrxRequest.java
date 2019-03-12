@@ -5,10 +5,12 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,20 +116,22 @@ public abstract class PrxRequest {
         replaceUrl.put("sector", getSector().toString());
         replaceUrl.put("catalog", getCatalog().toString());
         // replaceUrl.put("locale", locale);
-        appInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+url);
-                        listener.onSuccess(url.toString());
-                    }
 
-                    @Override
-                    public void onError(ERRORVALUES error, String message) {
-                        appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
-                        listener.onError(error, message);
-                    }
-                }, replaceUrl);
+        ArrayList<String> serviceIDList = new ArrayList<>();
+        serviceIDList.add(mServiceId);
+        appInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+urlMap.get(mServiceId));
+                listener.onSuccess(urlMap.get(mServiceId).getConfigUrls());
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
+                listener.onError(error, message);
+            }
+        },replaceUrl);
     }
 
 

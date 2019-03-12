@@ -17,8 +17,10 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.model.AddressFieldEnabler;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.error.Error;
+import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -28,6 +30,8 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.view.widget.CheckBox;
 
 import java.util.HashMap;
+
+import static com.philips.cdp.di.iap.utils.ModelConstants.COUNTRY_ISOCODE;
 
 /* Copyright (c) Koninklijke Philips N.V., 2017
  * All rights are reserved. Reproduction or dissemination
@@ -56,6 +60,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     private boolean isBillingAddressFilled = false;
     private boolean isAddressFilledFromDeliveryAddress = false;
     private boolean isDeliveryFirstTimeUser = Utility.isDelvieryFirstTimeUser;
+    private AddressFieldEnabler addressFieldEnabler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,9 +77,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         billingView = rootView.findViewById(R.id.dls_iap_address_billing);
         shoppingView = rootView.findViewById(R.id.dls_iap_address_shipping);
 
-        addressBillingView = new AddressBillingView(addressPresenter);
-        addressShippingView = new AddressShippingView(addressPresenter);
-
+        inflateShippingAndBillingView(null);
         tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
 
         updateCheckoutStepNumber("1");
@@ -84,60 +87,87 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         mBtnContinue.setOnClickListener(this);
         mBtnCancel.setOnClickListener(this);
         checkBox = rootView.findViewById(R.id.use_this_address_checkbox);
-
         disableView(billingView);
-
         upDateUi(true);
-
         checkBox.setOnCheckedChangeListener(this);
+    }
+
+    private void inflateShippingAndBillingView(HashMap<String, String> mAddressFieldsHashmap) {
+        String country;
+        if(mAddressFieldsHashmap!=null){
+            country = mAddressFieldsHashmap.get(COUNTRY_ISOCODE);
+        }else{
+            country = HybrisDelegate.getInstance(getActivityContext()).getStore().getCountry();
+        }
+       /* if( !mAddressFieldsHashmap.get(COUNTRY_ISOCODE).equalsIgnoreCase(HybrisDelegate.getInstance(getActivityContext()).getStore().getCountry())){
+            addressPresenter.getRegions(country);
+        }*/
+
+        addressFieldEnabler = addressPresenter.getAddressFieldEnabler(country);
+        addressBillingView = new AddressBillingView(addressPresenter);
+        addressShippingView = new AddressShippingView(addressPresenter);
     }
 
     private void upDateUi(boolean isChecked) {
         Bundle bundle = getArguments();
         updateCheckoutStepNumber("1"); // for default
-        if (null != bundle && bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION)) {
-            if (bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
-                updateCheckoutStepNumber("2");
-                checkBox.setVisibility(View.VISIBLE);
-                checkBox.setChecked(true);
-                enableView(billingView);
-                getDLSBillingAddress().disableAllFields();
-                disableView(shoppingView);
+        if (null == bundle) {
+            return;
+        } else {
+
+            if (bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
                 HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-                getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
+                //inflateShippingAndBillingView(mAddressFieldsHashmap);
+                updateBillingAddressFromPaymentSelection(bundle,mAddressFieldsHashmap);
+            }
+
+            if (bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+                //inflateShippingAndBillingView(mAddressFieldsHashmap);
+                updateShippingAddress(bundle,mAddressFieldsHashmap);
+            }
+
+            if (bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
+                //inflateShippingAndBillingView(mAddressFieldsHashmap);
+                addOrUpdateBillingAddress(isChecked, bundle,mAddressFieldsHashmap);
             }
         }
+    }
 
-        if (null != bundle && bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-            updateCheckoutStepNumber("1");
-            checkBox.setVisibility(View.GONE);
-            HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
-            addressShippingView.updateFields(mAddressFieldsHashmap);
+    private void addOrUpdateBillingAddress(boolean isChecked, Bundle bundle,HashMap<String, String> mAddressFieldsHashmap) {
+        updateCheckoutStepNumber("2");
+        checkBox.setVisibility(View.VISIBLE);
+        if (!isChecked) {
+            getDLSBillingAddress().clearAllFields();
+            mBtnContinue.setEnabled(false);
+            setAddressFilledFromDeliveryAddressStatus(true);
+            getDLSBillingAddress().enableAllFields();
+
+        } else {
+            getDLSBillingAddress().disableAllFields();
+            setAddressFilledFromDeliveryAddressStatus(true);
+            mBtnContinue.setEnabled(true);
+            getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
         }
+        disableView(shoppingView);
+        enableView(billingView);
+    }
 
-        if (null != bundle && bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
-            updateCheckoutStepNumber("2");
-            checkBox.setVisibility(View.VISIBLE);
-            if (!isChecked) {
-                //((AddressBillingView) billingFragment).disableAllFields();
-                getDLSBillingAddress().clearAllFields();
-                mBtnContinue.setEnabled(false);
-                setAddressFilledFromDeliveryAddressStatus(true);
-                getDLSBillingAddress().enableAllFields();
+    private void updateShippingAddress(Bundle bundle,HashMap<String, String> mAddressFieldsHashmap) {
+        updateCheckoutStepNumber("1");
+        checkBox.setVisibility(View.GONE);
+        addressShippingView.updateFields(mAddressFieldsHashmap);
+    }
 
-            } else {
-                // ((AddressBillingView) billingFragment).enableAllFields();
-                getDLSBillingAddress().disableAllFields();
-                setAddressFilledFromDeliveryAddressStatus(true);
-                mBtnContinue.setEnabled(true);
-                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-                getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
-
-            }
-            disableView(shoppingView);
-            enableView(billingView);
-
-        }
+    private void updateBillingAddressFromPaymentSelection(Bundle bundle, HashMap<String, String> mAddressFieldsHashmap) {
+        updateCheckoutStepNumber("2");
+        checkBox.setVisibility(View.VISIBLE);
+        checkBox.setChecked(true);
+        enableView(billingView);
+        getDLSBillingAddress().disableAllFields();
+        disableView(shoppingView);
+        getDLSBillingAddress().updateFields(mAddressFieldsHashmap);
     }
 
     private void updateCheckoutStepNumber(String checkoutSteps) {
@@ -177,13 +207,14 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
             createCustomProgressBar(mParentContainer, BIG);
-            //Edit and save address
+
             if (mBtnContinue.getText().toString().equalsIgnoreCase(mContext.getString(R.string.iap_save))) {
                 saveShippingAddressToBackend();
             } else {
                 createNewAddressOrUpdateIfAddressIDPresent();
             }
         } else if (v == mBtnCancel) {
+
             Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
             if (fragment != null) {
                 moveToVerticalAppByClearingStack();
@@ -205,7 +236,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
             CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
         }
-        if (!CartModelContainer.getInstance().isAddessStateVisible()) {
+        if (!isStateEnabled()) {
             shippingAddressFields.setRegionIsoCode(null);
         }
 
@@ -220,7 +251,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
         if (!getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
             if (CartModelContainer.getInstance().getAddressId() != null && CartModelContainer.getInstance().getAddressFromDelivery() != null) {
-                if (CartModelContainer.getInstance().isAddessStateVisible() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
+                if (isStateEnabled() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
                     updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
                 }
 
@@ -414,6 +445,66 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void setDeliveryFirstTimeUserStatus(boolean status) {
         this.isDeliveryFirstTimeUser = status;
+    }
+
+    @Override
+    public boolean isHouseNoEnabled() {
+        return addressFieldEnabler.isHouseNumberEnabled();
+    }
+
+    @Override
+    public boolean isStateEnabled() {
+        return addressFieldEnabler.isStateEnabled();
+    }
+
+    @Override
+    public boolean isSalutationEnabled() {
+        return addressFieldEnabler.isSalutationEnabled();
+    }
+
+    @Override
+    public boolean isFirstNameEnabled() {
+        return addressFieldEnabler.isFirstNameEnabled();
+    }
+
+    @Override
+    public boolean isLastNameEnabled() {
+        return addressFieldEnabler.isLastNmeEnabled();
+    }
+
+    @Override
+    public boolean isPhoneNumberEnabled() {
+        return addressFieldEnabler.isPhoneEnabled();
+    }
+
+    @Override
+    public boolean isAddressLineOneEnabled() {
+        return addressFieldEnabler.isAddress1Enabled();
+    }
+
+    @Override
+    public boolean isAddressLineTwoEnabled() {
+        return addressFieldEnabler.isAddress2Enabled();
+    }
+
+    @Override
+    public boolean isTownEnabled() {
+        return addressFieldEnabler.isTownEnabled();
+    }
+
+    @Override
+    public boolean isPostalCodeEnabled() {
+        return addressFieldEnabler.isPostalCodeEnabled();
+    }
+
+    @Override
+    public boolean isCountryEnabled() {
+        return addressFieldEnabler.isCountryEnabled();
+    }
+
+    @Override
+    public boolean isEmailEnabled() {
+        return addressFieldEnabler.isEmailEnabled();
     }
 
     @Override

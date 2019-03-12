@@ -27,11 +27,13 @@ import com.philips.platform.appinfra.rest.hpkp.HPKPInterface;
 import com.philips.platform.appinfra.rest.hpkp.HPKPManager;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * The Rest webservice request class .
@@ -171,31 +173,43 @@ public class RestManager implements RestInterface {
             //lock.lock();
 
             final String sid = ServiceIDUrlFormatting.getServiceID(originalUrl);
+            ArrayList<String> serviceIDList = new ArrayList<>();
+            serviceIDList.add(sid);
             try {
                 if (ServiceIDUrlFormatting.getPreference(originalUrl) == ServiceIDUrlFormatting.SERVICEPREFERENCE.BYLANGUAGE) {
-                    mAppInfra.getServiceDiscovery().getServiceUrlWithLanguagePreference(sid, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                    mAppInfra.getServiceDiscovery().getServicesWithLanguagePreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                         @Override
-                        public void onSuccess(URL url) {
-                            resultURL.append(url);
+                        public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                            String configurl = urlMap.get(sid).getConfigUrls();
+                            if(null == configurl){
+                                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "restUrl is null");
+                            }else {
+                                resultURL.append(configurl);
+                            }
                         }
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
                             ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
-                    });
+                    },null);
                 } else {
-                    mAppInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(sid, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                     mAppInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                         @Override
-                        public void onSuccess(URL url) {
-                            resultURL.append(url);
+                        public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                            String url = urlMap.get(sid).getConfigUrls();
+                            if(url == null) {
+                                ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "restUrl is null");
+                            }else{
+                                resultURL.append(url);
+                            }
                         }
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
                             ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
-                    });
+                    }, null);
                 }
                 //  waitResult.await();
             } catch (Exception e) {

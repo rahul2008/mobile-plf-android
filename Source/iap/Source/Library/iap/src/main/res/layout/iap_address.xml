@@ -41,7 +41,7 @@
             android:layout_marginStart="@dimen/border16_margin_left_right"
             android:layout_marginTop="@dimen/border12_margin"
             android:checked="true"
-            android:text="Use this address as my billing address" />
+            android:text="@string/iap_use_as_billing_address" />
 
         <include
             layout="@layout/dls_iap_address_billing"

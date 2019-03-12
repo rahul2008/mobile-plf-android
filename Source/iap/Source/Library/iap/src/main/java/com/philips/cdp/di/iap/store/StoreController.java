@@ -29,6 +29,7 @@ public class StoreController {
     protected StoreConfiguration mStoreConfig;
     protected RequestListener mRequestListener;
     protected String mSiteID;
+    protected String mCampaignID;
 
     public StoreController(Context context, StoreConfiguration storeConfig) {
         mContext = context;
@@ -42,6 +43,10 @@ public class StoreController {
 
     String getSiteID() {
         return mSiteID;
+    }
+
+    String getCampaignID() {
+        return mCampaignID;
     }
 
     String getLocale() {
@@ -73,6 +78,7 @@ public class StoreController {
                 HybrisConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
                         HybrisConfigResponse.class);
                 mSiteID = resp.getSiteId();
+                mCampaignID = resp.getRootCategory();
                 mStoreConfig.generateStoreUrls();
                 notifyConfigListener(true, null);
             }

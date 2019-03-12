@@ -11,6 +11,7 @@ public class DeliveryAddressEntity {
     private Country country;
     private String id;
     private String line1;
+    private String houseNumber;
     private String line2;
     private String postalCode;
     private String town;
@@ -37,5 +38,9 @@ public class DeliveryAddressEntity {
 
     public String getTown() {
         return town;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
     }
 }

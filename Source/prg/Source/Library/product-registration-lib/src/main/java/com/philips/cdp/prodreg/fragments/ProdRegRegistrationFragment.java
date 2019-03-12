@@ -6,6 +6,7 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -189,15 +192,16 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         };
     }
 
-    @Override
-    public void onStart() {
-        //     dismissLoadingDialog();
-        super.onStart();
-        //resetErrorDialogIfExists();
-        final Bundle arguments = getArguments();
-        prodRegRegistrationController.process(arguments);
-    }
 
+    @Override
+    public void onResume() {
+        Fragment f = this.getActivity().getSupportFragmentManager().findFragmentById(getId());
+        if(!(f instanceof ProdRegRegistrationFragment)){
+            getActivity().getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }
+        super.onResume();
+    }
 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
@@ -233,6 +237,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                     return prodRegRegistrationController.isValidDate(purchaseDateStr);
             }
         });
+        prodRegRegistrationController.process(bundle);
     }
 
     @Override
@@ -634,6 +639,18 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
 
     private void intiateRegistration() {
+        if (serialNumberParentLayout.getVisibility() == View.VISIBLE) {
+            if (!prodRegRegistrationController.isValidSerialNumber(field_serial.getText().toString())) {
+                return;
+            }
+        }
+
+        if (dateParentLayout.getVisibility() == View.VISIBLE) {
+            if (!prodRegRegistrationController.isValidDate(purchaseDateStr)) {
+                return;
+            }
+        }
+
         if (isVisible() && registerButton.isClickable()) {
             buttonClickable(false);
             intializeProgressAlertDialog();
@@ -658,11 +675,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                buttonClickable(true);
-                if (isVisible())
+                if (isVisible()) {
+                    buttonClickable(true);
                     registerButton.setText(getResources().getString(R.string.PRG_Register_Btntxt));
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                    mProgressDialog.cancel();
+                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                        mProgressDialog.cancel();
+                    }
                 }
             }
         });
@@ -702,7 +720,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 {
                     hideProgressDialog();
                     RegisteredProduct ctnRegistered = userWithProducts.isCtnRegistered(registeredProducts, getRegisteredProduct());
-                    if (ctnRegistered.getRegistrationState() == RegistrationState.REGISTERED) {
+                    if (null != ctnRegistered && ctnRegistered.getRegistrationState() == RegistrationState.REGISTERED) {
                         showAlreadyRegisteredDialog(ctnRegistered);
                     }
                 }

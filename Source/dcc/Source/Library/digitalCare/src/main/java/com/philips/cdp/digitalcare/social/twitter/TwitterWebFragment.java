@@ -18,8 +18,6 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 public class TwitterWebFragment extends DigitalCareBaseFragment {
 
     private WebView mTwitterWebView = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
     private ProgressBar mProgressBar = null;
     private String mTwitterPageName = null;
     private String TWITTTERURL = "https://twitter.com/intent/tweet?source=webclient&text=@";
@@ -46,7 +44,6 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         loadInAppTwitter();
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
@@ -61,8 +58,6 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
         mTwitterWebView = (WebView) view.findViewById(R.id.webView);
         mProgressBar = (ProgressBar) view
                 .findViewById(R.id.common_webview_progress);
-        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -121,7 +116,6 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
         initView(getView());
         loadInAppTwitter();
     }

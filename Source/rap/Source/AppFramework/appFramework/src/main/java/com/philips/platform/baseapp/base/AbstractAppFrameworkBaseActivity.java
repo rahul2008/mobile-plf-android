@@ -16,11 +16,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
-import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -28,19 +25,21 @@ import com.philips.platform.baseapp.screens.utility.OverlayDialogFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.themesettings.ThemeHelper;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
 
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements EWSActionBarListener {
+public abstract class AbstractAppFrameworkBaseActivity extends  UIDActivity implements ActionBarListener {
     private static final String TAG = AbstractAppFrameworkBaseActivity.class.getName();
 
     public AbstractUIBasePresenter presenter;
@@ -61,7 +60,6 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initUIKIT();
         initTheme();
         if(BuildConfig.BUILD_TYPE=="psraRelease"){
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
@@ -77,10 +75,6 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
             progressDialog.setMessage(getString(R.string.RA_Settings_Progress_Title));
             progressDialog.setCancelable(false);
         }
-    }
-
-    public void initUIKIT() {
-        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
     }
 
     protected void initTheme() {
@@ -246,8 +240,4 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         }
     }
 
-    @Override
-    public void closeButton(boolean b) {
-        //TODO: Handle here the close button
-    }
 }

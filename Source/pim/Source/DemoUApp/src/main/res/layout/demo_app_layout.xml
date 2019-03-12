@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_gravity="center_vertical"
+    android:padding="@dimen/fab_margin"
+    android:layout_height="match_parent">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/appversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/demoScreen_toolbar"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="UDI Activity Launch" />
+
+</RelativeLayout>

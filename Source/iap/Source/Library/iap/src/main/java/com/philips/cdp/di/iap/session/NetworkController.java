@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,6 +18,7 @@ import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
 import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
@@ -55,8 +57,16 @@ public class NetworkController {
     public void sendHybrisRequest(final int requestCode, final AbstractModel model,
                                   final RequestListener requestListener) {
 
-        if (mStoreListener == null) {
-            return;
+        if (mStoreListener == null && requestListener != null) {
+            Message message = new Message();
+            message.obj = IAPConstant.IAP_ERROR;
+            requestListener.onError(message);
+        }
+
+        if(model == null || model.getUrl() == null && requestListener != null){
+            Message message = new Message();
+            message.obj = IAPConstant.IAP_ERROR;
+            requestListener.onError(message);
         }
 
         if (mStoreListener.isNewUser()) {
@@ -67,6 +77,7 @@ public class NetworkController {
         Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
+
                 if (model.getUrl() != null && error != null) {
                     IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
                             .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
@@ -86,6 +97,7 @@ public class NetworkController {
 
             @Override
             public void onResponse(final JSONObject response) {
+                
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;

@@ -60,7 +60,7 @@
 
         <activity
             android:name="com.philips.platform.referenceapp.wxapi.WXEntryActivity"
-            android:exported="true"></activity>
+            android:exported="true"/>
 
         <!--<receiver-->
         <!--android:name="NetworkReceiver"-->
@@ -126,7 +126,7 @@
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name="com.philips.platform.baseapp.screens.webview.WebViewActivity"
-            android:theme="@style/Theme.Philips.DarkBlue.Gradient" />
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

@@ -56,7 +56,8 @@ public class ImageAdapter extends PagerAdapter {
                 .getImageLoader();
 
         mImageLoader.get(imageURL, ImageLoader.getImageListener(imageView,
-                0, R.drawable
+                R.drawable
+                        .no_icon, R.drawable
                         .no_icon));
         imageView.setImageUrl(imageURL, mImageLoader);
     }

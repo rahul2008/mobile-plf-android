@@ -26,8 +26,6 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 public class FacebookWebFragment extends DigitalCareBaseFragment {
 
     private WebView mFacebookWebView = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
     private ProgressBar mProgressBar = null;
 
     private String mFacebookUrl = null;
@@ -50,7 +48,6 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         loadInAppFacebook();
         DigitalCareConfigManager.getInstance().getTaggingInterface().
                 trackPageWithInfo(AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK,
@@ -66,8 +63,6 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
         mFacebookWebView = (WebView) view.findViewById(R.id.webView);
         mProgressBar = (ProgressBar) view
                 .findViewById(R.id.common_webview_progress);
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -100,7 +95,6 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
         initView(getView());
         loadInAppFacebook();
     }

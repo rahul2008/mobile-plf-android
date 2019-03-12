@@ -9,9 +9,11 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class WebViewPresenter implements WebViewContract.Action {
 
@@ -28,17 +30,19 @@ public class WebViewPresenter implements WebViewContract.Action {
 
     @Override
     public void loadUrl(String serviceId) {
-        getAppInfra().getServiceDiscovery().getServiceUrlWithCountryPreference(serviceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        ArrayList<String> serviceIdList = new ArrayList<>();
+        serviceIdList.add(serviceId);
+        getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(serviceIdList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(URL url) {
-                viewListener.onUrlLoadSuccess(url.toString());
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                viewListener.onUrlLoadSuccess(urlMap.toString());
             }
 
             @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                viewListener.onUrlLoadError(s);
+            public void onError(ERRORVALUES error, String message) {
+                viewListener.onUrlLoadError(message);
             }
-        });
+        },null );
     }
 
     protected AppInfraInterface getAppInfra() {

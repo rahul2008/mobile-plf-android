@@ -1,30 +1,30 @@
-/*
- * Copyright (c) 2015-2018 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'cdpSCM'
 apply plugin: 'maven-publish'
 
+/**
+ *  All required repositories path and build dependencies
+ */
 buildscript {
     apply from: buildscript.sourceFile.parent + "/versions.gradle"
 
+    //resolve dependencies
     repositories {
         maven {
+            //maven repo url
             url repos.mavengoogle
             credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
+                username = "readonly"       //username for maven repo
+                password = "123qweasdzxc"   //password for maven repo
             }
         }
-        maven { url repos.jcenter }
-        maven { url repos.ietrelease }
-        maven { url repos.ietsnapshot }
-        maven { url repos.plugin
+        maven { url repos.jcenter }         //resolve dependencies from jcenter
+        maven { url repos.ietrelease }      //resolve artifactory dependencies for release build
+        maven { url repos.ietsnapshot }     //resolved artifactory dependencies for develop build
+        maven { url repos.plugin            //resolve adobeMobileLibrary,cdpSCM plugin dependencies
             credentials {
-                username = "readonly"
-                password = "123qweasdzxc"
+                username = "readonly"       //username for plugin repo
+                password = "123qweasdzxc"   //password for plugin repo
             }
         }
     }
@@ -48,14 +48,23 @@ project.ext.objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
 
+/**
+ * task to publish to artifactory
+ */
 artifactory {
+
+    //it will get artifactory base url from cdpSCM class
     contextUrl = objcdp.getArtifactoryContextUrl()
 
     publish {
         repository {
+
+            //return publish repo key that will append with context url
+            // iet-mobile-android-snapshot-local for develop branch
+            // iet-mobile-android-release-local for release branch
             repoKey = objcdp.getArtifactoryPublishRepoKey()
-            username = "320049003"
-            password = "#W3llc0m3"
+            username = "320049003"      //IET functional account user name
+            password = "#W3llc0m3"      //IET functional account password
 
             defaults {
                 publishPom = true
@@ -63,7 +72,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
                 publications('aar')
-                properties = ['git.commitid': objcdp.getCommitHashLong()]
+                properties = ['git.commitid': objcdp.getCommitHashLong()]   //set commit id
             }
         }
     }
@@ -78,7 +87,9 @@ artifactory {
     clientConfig.timeout = 600
 }
 
-
+/**
+ * Resolve dependencies from given url
+ */
 repositories {
     maven {
         url objcdp.getArtifactoryUrl()
@@ -89,7 +100,9 @@ repositories {
     }
 }
 
-
+/**
+ * publish aar and pom to artifactory
+ */
 publishing {
     publications {
         aar(MavenPublication) {
@@ -97,7 +110,7 @@ publishing {
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")  //copy .aar to given directory
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -105,9 +118,9 @@ publishing {
                 configurations.getByName("archives").allDependencies.each {
                     if (it.group != null && (it.name != null || "unspecified".equals(it.name)) && it.version != null) {
                         def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
+                        dependencyNode.appendNode('groupId', it.group)  //append group id
+                        dependencyNode.appendNode('artifactId', it.name)    //append aar name
+                        dependencyNode.appendNode('version', it.version)    //append aar version
                     }
                 }
             }

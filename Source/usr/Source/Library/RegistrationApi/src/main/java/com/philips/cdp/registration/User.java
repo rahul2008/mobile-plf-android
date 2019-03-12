@@ -11,6 +11,7 @@ package com.philips.cdp.registration;
 import android.app.Activity;
 import android.content.Context;
 
+import com.facebook.login.LoginManager;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureRecord;
 import com.janrain.android.engage.session.JRSession;
@@ -56,7 +57,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.logging.CloudLoggingInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,6 +65,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -79,7 +81,7 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPref
 public class User {
 
     private final String TAG = "User";
-    private final LoggingInterface loggingInterface;
+    private final CloudLoggingInterface cloudLoggingInterface;
 
     @Inject
     NetworkUtility networkUtility;
@@ -124,7 +126,7 @@ public class User {
      */
     public User(Context context) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        loggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
+        cloudLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getCloudLoggingInterface();
         mContext = context;
     }
 
@@ -770,6 +772,10 @@ public class User {
                 logoutHandler.onLogoutSuccess();
             }
         }
+
+        String countryCode = RegistrationHelper.getInstance().getCountryCode();
+        if (RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode).contains(RegConstants.SOCIAL_PROVIDER_FACEBOOK))
+            LoginManager.getInstance().logOut();
     }
 
     /**
@@ -1072,8 +1078,8 @@ public class User {
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        if (loggingInterface != null) {
-            loggingInterface.setHSDPUserUUID(null);
+        if (cloudLoggingInterface != null) {
+            cloudLoggingInterface.setHSDPUserUUID(null);
         }
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();

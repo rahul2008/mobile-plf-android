@@ -43,8 +43,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
     private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
     private Button mRatePlayStoreBtn = null;
     private Button mRatePhilipsBtn = null;
-    private ImageView mActionBarMenuIcon = null;
-    private ImageView mActionBarArrow = null;
     private Uri mStoreUri = null;
     private RateThisAppFragmentPresenter rateThisAppFragmentPresenter;
 
@@ -65,9 +63,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
         mRatePhilipsBtn = (Button) view.findViewById(
                 R.id.tellus_PhilipsReviewButton);
 
-        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override
@@ -116,7 +111,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
     @Override
     public void onResume() {
         super.onResume();
-        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override

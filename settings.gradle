@@ -22,7 +22,6 @@ include ext.strings.prx.projectName
 include ext.strings.iap.projectName
 include ext.strings.usr.projectName
 include ext.strings.pse.projectName
-include ext.strings.jmp.projectName
 
 include ext.strings.dcc.projectName
 include ext.strings.ufw.projectName
@@ -37,8 +36,8 @@ include ext.strings.dccuapp.projectName
 //include ext.strings.ufwuapp.projectName
 include ext.strings.prguapp.projectName
 
-include ext.strings.udi.projectName
-include ext.strings.udiuapp.projectName
+include ext.strings.pim.projectName
+include ext.strings.pimuapp.projectName
 
 
 
@@ -48,7 +47,6 @@ project(ext.strings.ailuapp.projectName).projectDir = new File('./Source/ail/Sou
 project(ext.strings.prx.projectName).projectDir = new File('./Source/prx/Source/Library/PrxSample/prx')
 project(ext.strings.usr.projectName).projectDir = new File('./Source/usr/Source/Library/RegistrationApi')
 project(ext.strings.usruapp.projectName).projectDir = new File('./Source/usr/Source/DemoUApp/DemoUApp')
-project(ext.strings.jmp.projectName).projectDir = new File('./Source/usr/Source/Library/jump')
 project(ext.strings.iap.projectName).projectDir = new File('./Source/iap/Source/Library/iap')
 project(ext.strings.iapuapp.projectName).projectDir = new File('./Source/iap/Source/DemoUApp')
 project(ext.strings.dcc.projectName).projectDir = new File('./Source/dcc/Source/Library/digitalCare')
@@ -70,16 +68,16 @@ project(ext.strings.sdb.projectName).projectDir = new File('./Source/sdb/Source/
 project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/Library/mya')
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 
+project(ext.strings.pimuapp.projectName).projectDir = new File('./Source/pim/Source/DemoUApp')
+project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/Library/pim')
+
 //demoapps to be published to artifactory
-//include ':UserRegistrationApp'
-//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+include ':UserRegistrationApp'
+project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
 
-project(ext.strings.udi.projectName).projectDir = new File('./Source/udi/Source/Library/udi')
-include(':udiApp')
-project(':udiApp').projectDir = new File('./Source/udi/Source/DemoApp/app')
-project(ext.strings.udi.projectName).projectDir = new File('./Source/udi/Source/Library/udi')
-project(ext.strings.udiuapp.projectName).projectDir = new File('./Source/udi/Source/DemoUApp')
+include(':pimApp')
+project(':pimApp').projectDir = new File('./Source/pim/Source/DemoApp/app')
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':uAppFwLibApp'

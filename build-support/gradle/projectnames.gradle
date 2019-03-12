@@ -1,4 +1,10 @@
-
+/* *
+ * To specify the acronyms of projectName and artifactName.
+ * acronym: used to refer current project from other project
+ * projectName: name of the project
+ * artifactName: name published to artifactory
+ *
+ * */
 ext.strings = [
         rap: [projectName:':referenceApp', artifactName:'referenceApp'],
 
@@ -13,27 +19,21 @@ ext.strings = [
         mya: [projectName:':mya', artifactName:'mya'],
         ail: [projectName:':AppInfra', artifactName:'AppInfra'],
         prx: [projectName:':prx', artifactName:'prx'],
-        uit: [projectName:':uikitLib', artifactName:'uikitLib'],
         iap: [projectName:':iap', artifactName:'iap'],
         usr: [projectName:':registrationApi', artifactName:'registrationApi'],
         pse: [projectName:':productselection', artifactName:'productselection'],
-        jmp: [projectName:':jump', artifactName:'jump'],
 
         dcc: [projectName:':digitalCare', artifactName:'digitalCare'],
         ufw: [projectName:':uAppFwLib', artifactName:'uAppFwLib'],
         prg: [projectName:':product-registration-lib', artifactName:'product-registration-lib'],
 
 
-        prf: [projectName:':pluginreferenceboard', artifactName:'pluginreferenceboard'],
-
         ailuapp:[projectName:':AppInfraUApp', artifactName:'AppInfraUApp'],
         iapuapp:[projectName:':iapUApp', artifactName:'iapUApp'],
         usruapp:[projectName:':UserRegistrationUApp', artifactName:'UserRegistrationUApp'],
         dccuapp:[projectName:':digitalCareUApp', artifactName:'digitalCareUApp'],
-//        ufwuapp:[projectName:':uAppFwLibUApp', artifactName:'uAppFwLibUApp'],
         prguapp:[projectName:':product-registration-libUApp', artifactName:'product-registration-libUApp'],
 
-        cmluapp:[projectName:':commlib-demouapp', artifactName:'commlib-demouapp'],
-        udiuapp:[projectName:':udiUApp', artifactName:'udiUApp'],
-        udi: [projectName:':udi', artifactName:'udi']
+        pimuapp:[projectName:':pimUApp', artifactName:'pimUApp'],
+        pim: [projectName:':pim', artifactName:'pim']
 ]

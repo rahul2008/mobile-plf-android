@@ -221,8 +221,8 @@ FedEx (Päckchen)</string>
   <string name="iap_reviewer_profile">Profil des Verfassers</string>
   <string name="iap_reviews">Bewertungen</string>
   <string name="iap_revoke_promotion_voucher">Klicken Sie auf die Schaltfläche, um Ihren Aktionsgutschein zurückzuziehen.</string>
-  <string name="iap_salutation">Anrede</string>
-  <string name="iap_salutation_none">Keine</string>
+  <string name="iap_salutation">Anrede.</string>
+  <string name="iap_salutation_none">Keine.</string>
   <string name="iap_save">Speichern</string>
   <string name="iap_search">Nach Name oder ID suchen</string>
   <string name="iap_search_box_hint">Suche</string>

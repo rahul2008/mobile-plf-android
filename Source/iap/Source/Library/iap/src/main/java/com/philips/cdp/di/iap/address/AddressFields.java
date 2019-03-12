@@ -17,6 +17,7 @@ public class AddressFields implements Serializable{
     private String countryIsocode;
     private String email;
     private String line1;
+    private String houseNumber;
     private String postalCode;
     private String town;
     private String phone1;
@@ -25,7 +26,6 @@ public class AddressFields implements Serializable{
     private String regionIsoCode;
     private String regionName;
     private String country;
-
 
 
 
@@ -133,4 +133,11 @@ public class AddressFields implements Serializable{
         this.regionName = regionName;
     }
 
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
 }
