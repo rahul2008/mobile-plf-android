@@ -25,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/consumercare_viewproduct_video_leftarrow"></ImageView>
+        android:padding="@dimen/dimen_4dp"
+        android:src="@drawable/consumercare_viewproduct_video_leftarrow"></ImageView>
 
     <ImageView
         android:id="@+id/videoRightArrow"
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/consumercare_viewproduct_videorightarrow"></ImageView>
+        android:padding="@dimen/dimen_4dp"
+        android:src="@drawable/consumercare_viewproduct_videorightarrow"></ImageView>
 
 </RelativeLayout>
