@@ -2,7 +2,7 @@
     <string name="app_name">Philips Registration</string>
     <string name="action_settings">Settings</string>
     <string name="udi_app_name">My Philips</string>
-
+    <string name="redirectURL">com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad</string>
     <string-array name="locale_arrays">
         <item>en-US</item>
         <item>fr-FR</item>

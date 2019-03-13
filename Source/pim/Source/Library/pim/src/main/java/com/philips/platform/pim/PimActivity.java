@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.philips.platform.pim.fragment.PimFragment;
 import com.philips.platform.pim.utilities.PimConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -27,6 +28,8 @@ public class PimActivity extends UIDActivity implements ActionBarListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.udi_activity);
         createActionBar();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fl_mainFragmentContainer, new PimFragment(), PimFragment.class.getSimpleName()).addToBackStack(null).commit();
     }
 
 
