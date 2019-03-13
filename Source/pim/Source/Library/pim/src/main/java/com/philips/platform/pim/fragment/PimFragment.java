@@ -53,6 +53,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.android.volley.VolleyLog.TAG;
 
 public class PimFragment extends Fragment implements View.OnClickListener {
+    private static String TAG = PimFragment.class.getSimpleName();
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private static final String EXTRA_AUTH_STATE = "authState";
     AuthorizationService mAuthService;
@@ -195,8 +196,10 @@ public class PimFragment extends Fragment implements View.OnClickListener {
      */
     public void refreshTokens() {
         if (mAuthState != null) {
-            performTokenRequest(mAuthState.createTokenRefreshRequest());
-            writeAuthState(mAuthState);
+            //performTokenRequest(mAuthState.createTokenRefreshRequest());
+//            writeAuthState(mAuthState);
+            readAuthState().setNeedsTokenRefresh(true);
+            fetchUserInfo();
             Log.d(TAG, "Refreshed Access Token");
         } else {
             createAlert("Error", "Not authenticated");
@@ -398,7 +401,7 @@ public class PimFragment extends Fragment implements View.OnClickListener {
      * @return mAuthState
      */
     public AuthState getAuthState() {
-        return mAuthState;
+        return readAuthState();
     }
 
     @Override
@@ -437,6 +440,12 @@ public class PimFragment extends Fragment implements View.OnClickListener {
                                 Log.d(TAG, "Token refresh failed when fetching user info");
                                 return;
                             }
+                            String currnetAccessToken = mAuthState.getLastTokenResponse().accessToken;
+                            if (!currnetAccessToken.equals(token)) {
+                                Log.e(TAG, "Access token was refreshed automatically");
+                            } else {
+                                Log.e(TAG, "Access token was fresh and not updated" + token);
+                            }
                             performRequest(accessToken);
                         }
                     });
@@ -458,10 +467,11 @@ public class PimFragment extends Fragment implements View.OnClickListener {
             Log.d(TAG, "Cannot make userInfo request without service configuration");
         }
 
-        AuthorizationServiceDiscovery discoveryDoc = getDiscoveryDocFromIntent(getActivity().getIntent());
+        AuthorizationServiceDiscovery discoveryDoc = readAuthState().getLastTokenResponse().request.configuration.discoveryDoc;//getDiscoveryDocFromIntent(getActivity().getIntent());
         if (discoveryDoc == null) {
             throw new IllegalStateException("no available discovery doc");
         }
+
 
         URL userInfoEndpoint = null;
 
@@ -470,6 +480,8 @@ public class PimFragment extends Fragment implements View.OnClickListener {
         } catch (MalformedURLException urlEx) {
             Log.e(TAG, "Failed to construct user info endpoint URL", urlEx);
         }
+
+
 
         InputStream userInfoResponse = null;
 
@@ -553,21 +565,15 @@ public class PimFragment extends Fragment implements View.OnClickListener {
         mAuthService.dispose();
     }
 
-//    @NonNull
-//    public AuthState replace(@NonNull AuthState state) {
-//        writeState(state);
-////        mCurrentAuthState.set(state);
-//        return state;
-//    }
-
-
     @NonNull
-    public AuthState readAuthState() {
+    private AuthState readAuthState() {
 //        SharedPreferences authPrefs = mContext.getSharedPreferences("auth", MODE_PRIVATE);
 //        String stateJson = authPrefs.getString("stateJson", "");
         if (mAuthState != null) {
             try {
+                Log.i(TAG, "Start readAuthState time" + System.currentTimeMillis());
                 String authData = getAuthFromSecureStorage(PimInterface.sAppInfraInterface.getSecureStorage());
+                Log.i(TAG, "End readAuthState time" + System.currentTimeMillis());
                 return AuthState.jsonDeserialize(authData);//fromJsonString(stateJson);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -578,7 +584,7 @@ public class PimFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void writeAuthState(@NonNull AuthState state) {
+    private void writeAuthState(@NonNull AuthState state) {
 //        SharedPreferences authPrefs = mContext.getSharedPreferences("auth", MODE_PRIVATE);
 //        authPrefs.edit()
 //                .putString("stateJson", state.jsonSerializeString())
@@ -586,7 +592,9 @@ public class PimFragment extends Fragment implements View.OnClickListener {
 //
 
         String data = state.jsonSerializeString();
+        Log.i(TAG, "Start writeAuthState time" + System.currentTimeMillis());
         storeAuthInSecureStorage(PimInterface.sAppInfraInterface.getSecureStorage(), data);
+        Log.i(TAG, "End writeAuthState time" + System.currentTimeMillis());
         byte[] byteArray = new byte[0];
         try {
             byteArray = data.getBytes("UTF-8");
