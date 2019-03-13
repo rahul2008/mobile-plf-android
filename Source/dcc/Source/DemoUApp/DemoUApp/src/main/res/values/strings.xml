@@ -234,6 +234,7 @@
     <string name="launch_button_as_activity">Launch DigitalCare as Activity</string>
     <string name="launch_button_as_fragment">Launch DigitalCare as Fragment</string>
     <string name="change_theme">Change Theme</string>
+    <string name="change_theme_from_reference_app">Change Theme from Reference app</string>
     <string name="app_not_description">DigitalCare Library is dependent on &quot;v4 library&quot;.&quot; Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;DigitalCare_Config.xml&quot; under res>values.</string>
     <string name="app_note">Note:</string>
     <string name="lanuauge">Langauage :</string>
