@@ -24,7 +24,7 @@ public abstract class PrxRequest {
     private PrxConstants.Sector mSector;
     private PrxConstants.Catalog mCatalog;
     private int maxRetries = 0;
-    private int requestTimeOut = 30000;
+    private int requestTimeOut = 15000;
     private String mCtn;
     private final String mServiceId;
 
