@@ -31,8 +31,8 @@ artifacts {
 }
 
 android {
-    compileSdkVersion versions.sdk
-    buildToolsVersion versions.buildtools
+    compileSdkVersion 26
+    buildToolsVersion '28.0.2'
 
     defaultConfig {
         versionCode 1
@@ -86,12 +86,9 @@ dependencies {
     implementation deps.adobemobilelib
     implementation deps.openid_appauth
     implementation deps.rxjava2
-
     testImplementation deps.junit
     androidTestImplementation deps.androidx_test.runner
     androidTestImplementation deps.mockito_android
-
-
 }
 
 tasks.withType(Test) {

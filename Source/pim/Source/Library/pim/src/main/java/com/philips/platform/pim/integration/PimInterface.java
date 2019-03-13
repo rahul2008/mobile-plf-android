@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.configration.PimDataProvider;
@@ -27,6 +28,7 @@ public class PimInterface implements UappInterface {
     private String TAG = PimInterface.class.getSimpleName();
     private PimComponent component;
     private Context context;
+    public static  AppInfra mAppInfra;
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -35,6 +37,7 @@ public class PimInterface implements UappInterface {
         //PimConfiguration.getInstance().setComponent(component);
 //        PimLog.init();
 //        PimTagging.init();
+        mAppInfra =(AppInfra) uappDependencies.getAppInfra();
         PimConfigManager pimConfigManager = new PimConfigManager(uappDependencies.getAppInfra());
         pimConfigManager.downloadSDServiceURLSWithCompletion(uappDependencies.getAppInfra().getServiceDiscovery());
     }
