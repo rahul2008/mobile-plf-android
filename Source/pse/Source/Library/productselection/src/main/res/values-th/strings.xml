@@ -37,6 +37,7 @@
     <string name="pse_Product_Register">ผลิตภัณฑ์ใดที่คุณต้องการจะลงทะเบียน</string>
     <string name="pse_App_Content">คอนเทนต์ของแอพนี้ได้ปรับเปลี่ยนให้เข้ากับ</string>
 
+    <string name="iap_product_detail_title"> รายละเอียดผลิตภัณฑ์</string>
     <string name="search"> เมนูหน้าหลัก, ค้นหา </string>
 
 </resources>

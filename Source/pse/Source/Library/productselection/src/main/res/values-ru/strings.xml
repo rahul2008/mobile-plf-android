@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">Чтобы указать преимущества, выберите нужный продукт.</string>
     <string name="pse_Product_Register">Какой продукт вы хотите зарегистрировать?</string>
     <string name="pse_App_Content">Контент приложения теперь подобран для продукта:</string>
+    <string name="iap_product_detail_title"> Сведения о приборе</string>
 
     <string name="search"> Recherche </string>
 
