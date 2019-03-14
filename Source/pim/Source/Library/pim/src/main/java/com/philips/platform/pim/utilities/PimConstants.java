@@ -10,5 +10,6 @@ public class PimConstants {
     public static String getAppAuthApiVersion() {
         return BuildConfig.VERSION_NAME;
     }
+
 }
 
