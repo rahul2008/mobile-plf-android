@@ -8,9 +8,9 @@ import com.philips.platform.pim.rest.UserProfileRequest;
 
 public class PimUserManager {
 
-    protected PimUserProfile fetchuserprofile(){
+    public PimUserProfile fetchuserprofile(){
         //Fetch from server and make PimUserProfile
-        return new PimUserProfile();
+        //return new PimUserProfile();
     }
 
     private void makeUserProfileRequest(OIDCConfig config) {

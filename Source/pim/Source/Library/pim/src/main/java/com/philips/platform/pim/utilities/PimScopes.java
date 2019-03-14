@@ -1,8 +1,19 @@
 package com.philips.platform.pim.utilities;
 
-public class PimScopes {
-    public static final String FULL_PROFILE                    = "profile";
-    public static final String ADDRESS                         = "address";
-    public static final String EMAIL                           = "email";
-    public static final String PHONE                           = "phone";
+public enum PimScopes {
+    OPENID("openid"),
+    PROFILE("profile"),
+    ADDRESS("address"),
+    EMAIL("email"),
+    PHONE("phone");
+
+    private final String text;
+
+    PimScopes(String text){
+        this.text = text;
+    }
+
+    public String getText(){
+            return text;
+    }
 }

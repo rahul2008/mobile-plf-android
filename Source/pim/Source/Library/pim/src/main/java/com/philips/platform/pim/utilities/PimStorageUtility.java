@@ -9,9 +9,9 @@ public class PimStorageUtility {
 
     }
 
-    public PimUserProfile fetchUserProfileFromSecureStorage() {
+    /*public PimUserProfile fetchUserProfileFromSecureStorage() {
         return new PimUserProfile();
-    }
+    }*/
 
     public void storeOidcConfigration(OIDCConfig docJson, PimListener listener) {
 //
