@@ -1,24 +1,24 @@
 package com.philips.platform.pim.manager;
 
 import com.philips.platform.pim.models.OIDCConfig;
-import com.philips.platform.pim.rest.PimListener;
-import com.philips.platform.pim.utilities.PimStorageUtility;
+import com.philips.platform.pim.rest.PIMListener;
+import com.philips.platform.pim.utilities.PIMStorageUtility;
 
-public class PimOidcDiscoveryManager {
+public class PIMOidcDiscoveryManager {
 
-    private PimStorageUtility pimStorageUtility;
-    private PimAuthManager pimAuthManager;
+    private PIMStorageUtility pimStorageUtility;
+    private PIMAuthManager pimAuthManager;
 
-    public PimOidcDiscoveryManager(PimAuthManager pimAuthManager, PimStorageUtility pimStorageUtility) {
+    public PIMOidcDiscoveryManager(PIMAuthManager pimAuthManager, PIMStorageUtility pimStorageUtility) {
         this.pimStorageUtility = pimStorageUtility;
         this.pimAuthManager = pimAuthManager;
     }
 
-     void downloadOidcUrls(String baseUrl, PimListener listener) {
+     void downloadOidcUrls(String baseUrl, PIMListener listener) {
         pimAuthManager.fetchAuthWellKnownConfiguration(baseUrl);
     }
 
-     void storeDiscoveryConfig(OIDCConfig oidcConfig, PimListener listener) {
+     void storeDiscoveryConfig(OIDCConfig oidcConfig, PIMListener listener) {
         pimStorageUtility.storeOidcConfigration(oidcConfig, listener);
     }
 

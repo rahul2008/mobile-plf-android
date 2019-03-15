@@ -1,26 +1,26 @@
 package com.philips.platform.pim.configration;
 
-import com.philips.platform.pim.injection.PimComponent;
+import com.philips.platform.pim.injection.PIMComponent;
 
-public class PimConfiguration {
-    private PimComponent component;
+public class PIMConfiguration {
+    private PIMComponent component;
 
-    public PimComponent getComponent() {
+    public PIMComponent getComponent() {
         return component;
     }
 
-    public void setComponent(PimComponent component) {
+    public void setComponent(PIMComponent component) {
         this.component = component;
         this.component.inject(this);
     }
 
-    private static volatile PimConfiguration pimConfiguration;
+    private static volatile PIMConfiguration pimConfiguration;
 
-    public static synchronized PimConfiguration getInstance() {
+    public static synchronized PIMConfiguration getInstance() {
         if (pimConfiguration == null) {
-            synchronized (PimConfiguration.class) {
+            synchronized (PIMConfiguration.class) {
                 if (pimConfiguration == null) {
-                    pimConfiguration = new PimConfiguration();
+                    pimConfiguration = new PIMConfiguration();
                 }
             }
         }

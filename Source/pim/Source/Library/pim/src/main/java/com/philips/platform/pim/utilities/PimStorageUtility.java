@@ -1,19 +1,19 @@
 package com.philips.platform.pim.utilities;
 
 import com.philips.platform.pim.models.OIDCConfig;
-import com.philips.platform.pim.models.PimUserProfile;
-import com.philips.platform.pim.rest.PimListener;
+import com.philips.platform.pim.models.PIMUserProfile;
+import com.philips.platform.pim.rest.PIMListener;
 
-public class PimStorageUtility {
-    public void storeUserProfileToSecureStorage(PimUserProfile pimUserProfile, PimListener listener) {
+public class PIMStorageUtility {
+    public void storeUserProfileToSecureStorage(PIMUserProfile pimUserProfile, PIMListener listener) {
 
     }
 
-    /*public PimUserProfile fetchUserProfileFromSecureStorage() {
-        return new PimUserProfile();
+    /*public PIMUserProfile fetchUserProfileFromSecureStorage() {
+        return new PIMUserProfile();
     }*/
 
-    public void storeOidcConfigration(OIDCConfig docJson, PimListener listener) {
+    public void storeOidcConfigration(OIDCConfig docJson, PIMListener listener) {
 //
     }
 
@@ -21,7 +21,7 @@ public class PimStorageUtility {
         return new OIDCConfig();
     }
 
-    public void storeAccessTokenToSecureStorage(String accessToken, PimListener listener) {
+    public void storeAccessTokenToSecureStorage(String accessToken, PIMListener listener) {
 
     }
 

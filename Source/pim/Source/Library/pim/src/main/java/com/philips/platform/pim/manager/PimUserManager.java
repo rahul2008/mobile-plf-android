@@ -1,21 +1,21 @@
 package com.philips.platform.pim.manager;
 
 import com.philips.platform.pim.models.OIDCConfig;
-import com.philips.platform.pim.models.PimUserProfile;
-import com.philips.platform.pim.rest.PimRestClient;
-import com.philips.platform.pim.rest.PimRestClientInterface;
+import com.philips.platform.pim.models.PIMUserProfile;
+import com.philips.platform.pim.rest.PIMRestClient;
+import com.philips.platform.pim.rest.PIMRestClientInterface;
 import com.philips.platform.pim.rest.UserProfileRequest;
 
-public class PimUserManager {
+public class PIMUserManager {
 
-    public PimUserProfile fetchuserprofile(){
-        //Fetch from server and make PimUserProfile
-        //return new PimUserProfile();
+    public PIMUserProfile fetchuserprofile(){
+        //Fetch from server and make PIMUserProfile
+        return new PIMUserProfile();
     }
 
     private void makeUserProfileRequest(OIDCConfig config) {
-        PimRestClientInterface userInfoRequest = new UserProfileRequest(config);
-        PimRestClient pimRestClient = new PimRestClient();
+        PIMRestClientInterface userInfoRequest = new UserProfileRequest(config);
+        PIMRestClient pimRestClient = new PIMRestClient();
         pimRestClient.invokeRequest(userInfoRequest, response -> handleSuccess(), error -> handleError());
     }
 
