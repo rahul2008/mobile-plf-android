@@ -51,7 +51,7 @@ public class URRestClientStringRequest extends StringRequest {
         return super.setRetryPolicy(new DefaultRetryPolicy(
                 URRestClientStringRequest.DEFAULT_TIMEOUT_MS,
                 0,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                0.0f));
     }
 
     @Override
