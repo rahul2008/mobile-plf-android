@@ -9,7 +9,7 @@
 <string name="Change_Selected_Product">Изменить выбранный продукт</string>
 <string name="Confirmation_Title">Подтверждение</string>
 <string name="Confirmation_Selected">Вы выбрали</string>
-<string name="Confirmation_Change">Изменение</string>
+<string name="Confirmation_Change">Изменить</string>
 <string name="Confirmation_Change_Selection">Вы можете в любой момент изменить свой выбор.</string>
 <string name="Confirmation_Continue_Support">Получить поддержку</string>
 <string name="Continue_Btntxt">Продолжить</string>
@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">Чтобы указать преимущества, выберите нужный продукт.</string>
     <string name="pse_Product_Register">Какой продукт вы хотите зарегистрировать?</string>
     <string name="pse_App_Content">Контент приложения теперь подобран для продукта:</string>
+    <string name="iap_product_detail_title"> Сведения о приборе</string>
 
     <string name="search"> Recherche </string>
 

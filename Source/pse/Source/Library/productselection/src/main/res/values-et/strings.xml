@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">Toote eeliste selgitamiseks, valige õige toode siin.</string>
     <string name="pse_Product_Register">Millist toodet soovite registreerida?</string>
     <string name="pse_App_Content">Selle rakenduse sisu on nüüd kohandatud teie valitud tootest lähtuvalt.</string>
+    <string name="iap_product_detail_title"> Toote üksikasjad</string>
 
     <string name="search"> Otsing </string>
 
