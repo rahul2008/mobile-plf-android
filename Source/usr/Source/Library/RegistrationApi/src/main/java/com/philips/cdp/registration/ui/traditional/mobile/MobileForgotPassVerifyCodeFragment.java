@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.LocaleSpan;
@@ -98,6 +99,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     static final String MOBILE_NUMBER_KEY = "mobileNumber";
     static final String RESPONSE_TOKEN_KEY = "token";
     static final String RE_DIRECT_URI_KEY = "redirectUri";
+    String normalText;
 
     @Override
     public void onAttach(Context context) {
@@ -130,19 +132,22 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
-        setDescription();
+        normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
+
+        String description = setDescription(normalText, mobileNumber);
+        verifyPasswordDesc1.setText(description);
         handleVerificationCode();
         return view;
     }
 
-    private void setDescription() {
-        String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
+    @VisibleForTesting
+    protected String setDescription( String normalText, String mobileNumber) {
         String formattedStr = String.format(normalText, mobileNumber);
         StringBuilder fStringBuilder = new StringBuilder(formattedStr);
         SpannableString str = new SpannableString(formattedStr);
         str.setSpan(new StyleSpan(Typeface.BOLD), fStringBuilder.indexOf(mobileNumber), fStringBuilder.indexOf(mobileNumber) + mobileNumber.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        verifyPasswordDesc1.setText(str);
+       return str.toString();
     }
 
     private void handleVerificationCode() {
@@ -177,7 +182,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onEvent(UpdateMobile event) {
         if (this.isVisible()) {
             mobileNumber = event.getMobileNumber();
-            setDescription();
+            setDescription(normalText, mobileNumber);
         }
     }
 
