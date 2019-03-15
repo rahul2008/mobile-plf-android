@@ -3,6 +3,7 @@ package com.philips.platform.pim.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+//Not Used
 public class PIMUserAddress implements Parcelable {
     private String house_number;
     private String address1;

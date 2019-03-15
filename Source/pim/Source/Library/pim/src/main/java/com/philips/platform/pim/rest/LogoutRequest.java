@@ -4,7 +4,7 @@ import com.philips.platform.pim.models.OIDCConfig;
 
 import java.util.Map;
 
-public class LogoutRequest implements PimRestClientInterface {
+public class LogoutRequest implements PIMRestClientInterface {
     public LogoutRequest(OIDCConfig oidcConfig) {
     }
 

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.pim.integration.PimInterface;
+import com.philips.platform.pim.integration.PIMInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -21,7 +21,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     Button mLogin;
-    PimInterface pimInterface;
+    PIMInterface pimInterface;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mLogin.setOnClickListener(this);
         PimDemoUAppDependencies pimDemoUAppDependencies = new PimDemoUAppDependencies(new AppInfra.Builder().build(this));
         PimDemoAppSettings pimDemoAppSettings = new PimDemoAppSettings(this);
-        pimInterface = new PimInterface();
+        pimInterface = new PIMInterface();
         pimInterface.init(pimDemoUAppDependencies, pimDemoAppSettings);
     }
 

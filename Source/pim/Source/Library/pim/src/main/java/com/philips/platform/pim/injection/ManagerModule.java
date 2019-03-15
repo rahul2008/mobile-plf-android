@@ -1,6 +1,6 @@
 package com.philips.platform.pim.injection;
 
-import com.philips.platform.pim.utilities.PimStorageUtility;
+import com.philips.platform.pim.utilities.PIMStorageUtility;
 
 import dagger.Module;
 import dagger.Provides;
@@ -9,7 +9,7 @@ import dagger.Provides;
 public class ManagerModule {
 
     @Provides
-    public PimStorageUtility providesPimStorageUtility() {
-        return new PimStorageUtility();
+    public PIMStorageUtility providesPimStorageUtility() {
+        return new PIMStorageUtility();
     }
 }

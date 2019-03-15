@@ -4,7 +4,7 @@ import com.philips.platform.pim.models.OIDCConfig;
 
 import java.util.Map;
 
-public class RefreshTokenRequest implements PimRestClientInterface {
+public class RefreshTokenRequest implements PIMRestClientInterface {
     public RefreshTokenRequest(OIDCConfig config) {
     }
 

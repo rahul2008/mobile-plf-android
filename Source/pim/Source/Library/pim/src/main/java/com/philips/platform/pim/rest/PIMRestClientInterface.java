@@ -2,7 +2,7 @@ package com.philips.platform.pim.rest;
 
 import java.util.Map;
 
-public interface PimRestClientInterface {
+public interface PIMRestClientInterface {
 
     String getUrl();
 

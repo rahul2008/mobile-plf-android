@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.philips.platform.pim.fragment.PimFragment;
+import com.philips.platform.pim.fragment.PIMFragment;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
@@ -13,7 +13,7 @@ import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
 
-public class PimAuthManager {
+public class PIMAuthManager {
     private Fragment mFragment;
 
 
@@ -36,7 +36,7 @@ public class PimAuthManager {
     }
 
 
-    void performLoginWithAccessToken(PimOidcDiscoveryManager pimOidcDiscoveryManager) {
+    void performLoginWithAccessToken(PIMOidcDiscoveryManager pimOidcDiscoveryManager) {
        // makeAuthRequest(pimOidcDiscoveryManager.getAuthorizationServiceConfiguration(), mAuthService);
     }
 
@@ -54,9 +54,9 @@ public class PimAuthManager {
                 "9317be6b-193f-4187-9ec2-5e1802a8d8ad",
                 ResponseTypeValues.CODE,
                 Uri.parse("com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad://oauthredirect")).setScope("openid profile email address phone").build();
-        Log.d("PimAuthManager", "Making auth request to " + authorizationServiceConfiguration.authorizationEndpoint);
+        Log.d("PIMAuthManager", "Making auth request to " + authorizationServiceConfiguration.authorizationEndpoint);
         mAuthService.performAuthorizationRequest(
-                authorizationRequest, ((PimFragment) mFragment).createPostAuthorizationIntent(
+                authorizationRequest, ((PIMFragment) mFragment).createPostAuthorizationIntent(
                         authorizationRequest,
                         authorizationServiceConfiguration.discoveryDoc
                 ));

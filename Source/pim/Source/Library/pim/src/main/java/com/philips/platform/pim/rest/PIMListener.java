@@ -1,6 +1,6 @@
 package com.philips.platform.pim.rest;
 
-public interface PimListener {
+public interface PIMListener {
     void onSuccess();
 
     void onError();

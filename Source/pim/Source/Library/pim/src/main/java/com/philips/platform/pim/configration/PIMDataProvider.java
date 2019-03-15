@@ -12,8 +12,8 @@ import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PimDataProvider implements UserDataInterface {
-    public PimDataProvider(Context context) {
+public class PIMDataProvider implements UserDataInterface {
+    public PIMDataProvider(Context context) {
     }
 
     @Override

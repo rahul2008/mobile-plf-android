@@ -12,19 +12,19 @@ import android.app.Activity;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.pim.configration.PimConfiguration;
+import com.philips.platform.pim.configration.PIMConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class PimTagging {
+public class PIMTagging {
 
     private static AppTaggingInterface appTaggingInterface;
 
     public static void init(){
-        appTaggingInterface = PimConfiguration.getInstance().getComponent().getAppTaggingInterface();
-        appTaggingInterface = appTaggingInterface.createInstanceForComponent(PimConstants.COMPONENT_TAGS_ID, PimConstants.getAppAuthApiVersion());
+        appTaggingInterface = PIMConfiguration.getInstance().getComponent().getAppTaggingInterface();
+        appTaggingInterface = appTaggingInterface.createInstanceForComponent(PIMConstants.COMPONENT_TAGS_ID, PIMConstants.getAppAuthApiVersion());
     }
 
     public static void trackPage(String currPage) {

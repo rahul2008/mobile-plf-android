@@ -1,16 +1,16 @@
 package com.philips.platform.pim.manager;
 
-public class PimLoginManager {
-    PimAuthManager pimAuthManager;
-    PimUserManager pimUserManager;
+public class PIMLoginManager {
+    PIMAuthManager pimAuthManager;
+    PIMUserManager pimUserManager;
 
-    public PimLoginManager(PimAuthManager authManager, PimUserManager userManager) {
+    public PIMLoginManager(PIMAuthManager authManager, PIMUserManager userManager) {
         pimAuthManager = authManager;
         pimUserManager = userManager;
     }
 
 //    void login(OIDCConfig oidcConfig) {
-//        pimAuthManager.performLoginWithAccessToken(new PimListener(){
+//        pimAuthManager.performLoginWithAccessToken(new PIMListener(){
 //
 //            @Override
 //            public void onSuccess() {

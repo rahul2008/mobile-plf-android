@@ -8,12 +8,12 @@ import android.util.Log;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PimActivity;
-import com.philips.platform.pim.configration.PimDataProvider;
-import com.philips.platform.pim.fragment.PimFragment;
-import com.philips.platform.pim.injection.PimComponent;
-import com.philips.platform.pim.manager.PimConfigManager;
-import com.philips.platform.pim.utilities.PimConstants;
-import com.philips.platform.pim.utilities.PimLog;
+import com.philips.platform.pim.configration.PIMDataProvider;
+import com.philips.platform.pim.fragment.PIMFragment;
+import com.philips.platform.pim.injection.PIMComponent;
+import com.philips.platform.pim.manager.PIMConfigManager;
+import com.philips.platform.pim.utilities.PIMConstants;
+import com.philips.platform.pim.utilities.PIMLog;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -23,10 +23,10 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
-public class PimInterface implements UappInterface {
+public class PIMInterface implements UappInterface {
 
-    private String TAG = PimInterface.class.getSimpleName();
-    private PimComponent component;
+    private String TAG = PIMInterface.class.getSimpleName();
+    private PIMComponent component;
     private Context context;
     public static  AppInfra mAppInfra;
 
@@ -34,11 +34,11 @@ public class PimInterface implements UappInterface {
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
 //        component = initDaggerComponents(uappDependencies, uappSettings);
         context = uappSettings.getContext();
-        //PimConfiguration.getInstance().setComponent(component);
-//        PimLog.init();
-//        PimTagging.init();
+        //PIMConfiguration.getInstance().setComponent(component);
+//        PIMLog.init();
+//        PIMTagging.init();
         mAppInfra =(AppInfra) uappDependencies.getAppInfra();
-        PimConfigManager pimConfigManager = new PimConfigManager(uappDependencies.getAppInfra());
+        PIMConfigManager pimConfigManager = new PIMConfigManager(uappDependencies.getAppInfra());
         pimConfigManager.downloadSDServiceURLSWithCompletion(uappDependencies.getAppInfra().getServiceDiscovery());
     }
 
@@ -54,7 +54,7 @@ public class PimInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        PimFragment udiFragment = new PimFragment();
+        PIMFragment udiFragment = new PIMFragment();
         addFragment(uiLauncher, udiFragment);
     }
 
@@ -68,12 +68,12 @@ public class PimInterface implements UappInterface {
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         Intent intent = new Intent(uiLauncher.getActivityContext(), PimActivity.class);
-        intent.putExtra(PimConstants.PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
+        intent.putExtra(PIMConstants.PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
         uiLauncher.getActivityContext().startActivity(intent);
     }
 
 //    @NonNull
-//    private PimComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
+//    private PIMComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
 //        return DaggerPimComponent.builder()
 //                .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra()))
 //                .build();
@@ -86,9 +86,9 @@ public class PimInterface implements UappInterface {
      */
     public UserDataInterface getUserDataInterface() {
         if (context == null) {
-            PimLog.d(TAG, "getUserDataInterface: Context is null");
+            PIMLog.d(TAG, "getUserDataInterface: Context is null");
             return null;
         }
-        return new PimDataProvider(context);
+        return new PIMDataProvider(context);
     }
 }

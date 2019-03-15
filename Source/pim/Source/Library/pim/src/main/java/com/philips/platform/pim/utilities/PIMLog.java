@@ -4,17 +4,17 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.BuildConfig;
-import com.philips.platform.pim.configration.PimConfiguration;
+import com.philips.platform.pim.configration.PIMConfiguration;
 
-public class PimLog {
+public class PIMLog {
     private static LoggingInterface mLoggingInterface;
 
     /**
      * Initialize the logger with AppInfra logger Taken care by USR coponent no need to call explicitly
      */
     public static void init() {
-        mLoggingInterface = PimConfiguration.getInstance().getComponent().getLoggingInterface();
-        mLoggingInterface = mLoggingInterface.createInstanceForComponent(PimConstants.COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
+        mLoggingInterface = PIMConfiguration.getInstance().getComponent().getLoggingInterface();
+        mLoggingInterface = mLoggingInterface.createInstanceForComponent(PIMConstants.COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
     }
 
 

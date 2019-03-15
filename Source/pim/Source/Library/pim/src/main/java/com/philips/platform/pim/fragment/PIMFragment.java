@@ -18,7 +18,7 @@ import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 
-public class PimFragment extends Fragment {
+public class PIMFragment extends Fragment {
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private static final String EXTRA_AUTH_STATE = "authState";
     AuthorizationService mAuthService;
@@ -39,7 +39,7 @@ public class PimFragment extends Fragment {
         return view;
     }
 //
-//    private void login(PimAuthManager pimAuthManager, PimUserManager pimUserManager) {
+//    private void login(PIMAuthManager pimAuthManager, PIMUserManager pimUserManager) {
 //        init();
 //    }
 
@@ -50,10 +50,10 @@ public class PimFragment extends Fragment {
 //        if (savedInstanceState != null) {
 //            if (savedInstanceState.containsKey(KEY_USER_INFO)) {
 //                try {
-//                    PimLog.d("PimFragment", "Grabbing userInfo from savedInstance");
+//                    PIMLog.d("PIMFragment", "Grabbing userInfo from savedInstance");
 //                    mUserInfoJson = new JSONObject(savedInstanceState.getString(KEY_USER_INFO));
 //                } catch (JSONException e) {
-//                    PimLog.e("PimFragment", "Failed to parse saved user info JSON" + e);
+//                    PIMLog.e("PIMFragment", "Failed to parse saved user info JSON" + e);
 //                }
 //            }
 //        }

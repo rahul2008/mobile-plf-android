@@ -4,22 +4,35 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PIMUserCustomClaims implements Parcelable {
-    private String created;
-    private String consent_data_transfer;
-    private String consent_data_usage;
-    private String consent_email_marketing;
-    private String consent_terms_and_conditions;
     private String uuid;
-    private String locale;
+    private String social_profiles;
+    private boolean consent_email_marketing;
+    private String consent_email_marketing_timestamp;
+    private boolean consent_terms_and_conditions;
+    private String consent_terms_and_conditions_timestamp;
 
     protected PIMUserCustomClaims(Parcel in) {
-        created = in.readString();
-        consent_data_transfer = in.readString();
-        consent_data_usage = in.readString();
-        consent_email_marketing = in.readString();
-        consent_terms_and_conditions = in.readString();
         uuid = in.readString();
-        locale = in.readString();
+        social_profiles = in.readString();
+        consent_email_marketing = in.readByte() != 0;
+        consent_email_marketing_timestamp = in.readString();
+        consent_terms_and_conditions = in.readByte() != 0;
+        consent_terms_and_conditions_timestamp = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uuid);
+        dest.writeString(social_profiles);
+        dest.writeByte((byte) (consent_email_marketing ? 1 : 0));
+        dest.writeString(consent_email_marketing_timestamp);
+        dest.writeByte((byte) (consent_terms_and_conditions ? 1 : 0));
+        dest.writeString(consent_terms_and_conditions_timestamp);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<PIMUserCustomClaims> CREATOR = new Creator<PIMUserCustomClaims>() {
@@ -34,46 +47,6 @@ public class PIMUserCustomClaims implements Parcelable {
         }
     };
 
-    public String getCreated() {
-        return created;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
-    }
-
-    public String getConsent_data_transfer() {
-        return consent_data_transfer;
-    }
-
-    public void setConsent_data_transfer(String consent_data_transfer) {
-        this.consent_data_transfer = consent_data_transfer;
-    }
-
-    public String getConsent_data_usage() {
-        return consent_data_usage;
-    }
-
-    public void setConsent_data_usage(String consent_data_usage) {
-        this.consent_data_usage = consent_data_usage;
-    }
-
-    public String getConsent_email_marketing() {
-        return consent_email_marketing;
-    }
-
-    public void setConsent_email_marketing(String consent_email_marketing) {
-        this.consent_email_marketing = consent_email_marketing;
-    }
-
-    public String getConsent_terms_and_conditions() {
-        return consent_terms_and_conditions;
-    }
-
-    public void setConsent_terms_and_conditions(String consent_terms_and_conditions) {
-        this.consent_terms_and_conditions = consent_terms_and_conditions;
-    }
-
     public String getUuid() {
         return uuid;
     }
@@ -82,27 +55,43 @@ public class PIMUserCustomClaims implements Parcelable {
         this.uuid = uuid;
     }
 
-    public String getLocale() {
-        return locale;
+    public String getSocial_profiles() {
+        return social_profiles;
     }
 
-    public void setLocale(String locale) {
-        this.locale = locale;
+    public void setSocial_profiles(String social_profiles) {
+        this.social_profiles = social_profiles;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean isConsent_email_marketing() {
+        return consent_email_marketing;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(created);
-        dest.writeString(consent_data_transfer);
-        dest.writeString(consent_data_usage);
-        dest.writeString(consent_email_marketing);
-        dest.writeString(consent_terms_and_conditions);
-        dest.writeString(uuid);
-        dest.writeString(locale);
+    public void setConsent_email_marketing(boolean consent_email_marketing) {
+        this.consent_email_marketing = consent_email_marketing;
+    }
+
+    public String getConsent_email_marketing_timestamp() {
+        return consent_email_marketing_timestamp;
+    }
+
+    public void setConsent_email_marketing_timestamp(String consent_email_marketing_timestamp) {
+        this.consent_email_marketing_timestamp = consent_email_marketing_timestamp;
+    }
+
+    public boolean isConsent_terms_and_conditions() {
+        return consent_terms_and_conditions;
+    }
+
+    public void setConsent_terms_and_conditions(boolean consent_terms_and_conditions) {
+        this.consent_terms_and_conditions = consent_terms_and_conditions;
+    }
+
+    public String getConsent_terms_and_conditions_timestamp() {
+        return consent_terms_and_conditions_timestamp;
+    }
+
+    public void setConsent_terms_and_conditions_timestamp(String consent_terms_and_conditions_timestamp) {
+        this.consent_terms_and_conditions_timestamp = consent_terms_and_conditions_timestamp;
     }
 }

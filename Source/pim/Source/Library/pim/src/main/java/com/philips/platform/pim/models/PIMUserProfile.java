@@ -3,7 +3,9 @@ package com.philips.platform.pim.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class PimUserProfile implements Parcelable {
+import java.util.HashMap;
+
+public class PIMUserProfile implements Parcelable {
     private String given_name;
     private String family_name;
     private String email;
@@ -12,10 +14,10 @@ public class PimUserProfile implements Parcelable {
     private String birthday;
     private boolean email_verified;
     private boolean phone_number_verified;
-    private PIMUserAddress address;
+    private HashMap<String,Object> address;
     private PIMUserCustomClaims userClaims;
 
-    protected PimUserProfile(Parcel in) {
+    protected PIMUserProfile(Parcel in) {
         given_name = in.readString();
         family_name = in.readString();
         email = in.readString();
@@ -24,17 +26,21 @@ public class PimUserProfile implements Parcelable {
         birthday = in.readString();
         email_verified = in.readByte() != 0;
         phone_number_verified = in.readByte() != 0;
+        userClaims = in.readParcelable(PIMUserCustomClaims.class.getClassLoader());
     }
 
-    public static final Creator<PimUserProfile> CREATOR = new Creator<PimUserProfile>() {
+    public PIMUserProfile() {
+    }
+
+    public static final Creator<PIMUserProfile> CREATOR = new Creator<PIMUserProfile>() {
         @Override
-        public PimUserProfile createFromParcel(Parcel in) {
-            return new PimUserProfile(in);
+        public PIMUserProfile createFromParcel(Parcel in) {
+            return new PIMUserProfile(in);
         }
 
         @Override
-        public PimUserProfile[] newArray(int size) {
-            return new PimUserProfile[size];
+        public PIMUserProfile[] newArray(int size) {
+            return new PIMUserProfile[size];
         }
     };
 
@@ -102,11 +108,11 @@ public class PimUserProfile implements Parcelable {
         this.phone_number_verified = phone_number_verified;
     }
 
-    public PIMUserAddress getAddress() {
+    public HashMap<String, Object> getAddress() {
         return address;
     }
 
-    public void setAddress(PIMUserAddress address) {
+    public void setAddress(HashMap<String, Object> address) {
         this.address = address;
     }
 
@@ -133,6 +139,7 @@ public class PimUserProfile implements Parcelable {
         dest.writeString(birthday);
         dest.writeByte((byte) (email_verified ? 1 : 0));
         dest.writeByte((byte) (phone_number_verified ? 1 : 0));
+        dest.writeParcelable(userClaims, flags);
     }
 }
 

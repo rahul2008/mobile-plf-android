@@ -4,7 +4,7 @@ import com.philips.platform.pim.models.OIDCConfig;
 
 import java.util.Map;
 
-public class UserProfileRequest implements PimRestClientInterface {
+public class UserProfileRequest implements PIMRestClientInterface {
 
     public UserProfileRequest(OIDCConfig oidcConfig) {
     }

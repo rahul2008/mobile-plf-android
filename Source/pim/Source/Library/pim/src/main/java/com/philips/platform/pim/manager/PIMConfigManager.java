@@ -2,23 +2,23 @@ package com.philips.platform.pim.manager;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.pim.rest.PimListener;
-import com.philips.platform.pim.utilities.PimStorageUtility;
+import com.philips.platform.pim.rest.PIMListener;
+import com.philips.platform.pim.utilities.PIMStorageUtility;
 
 import java.util.ArrayList;
 
-public class PimConfigManager {
+public class PIMConfigManager {
     private final ArrayList<String> listOfServiceId;
     private ServiceDiscoveryInterface serviceDiscoveryInterface;
-    private PimOidcDiscoveryManager pimOidcDiscoveryManager;
+    private PIMOidcDiscoveryManager pimOidcDiscoveryManager;
 
-    public PimConfigManager(AppInfraInterface appInfraInterface) {
+    public PIMConfigManager(AppInfraInterface appInfraInterface) {
         serviceDiscoveryInterface = appInfraInterface.getServiceDiscovery();
         listOfServiceId = new ArrayList<>();
         listOfServiceId.add("pim.baseurl");
-        PimAuthManager pimAuthManager = new PimAuthManager();
-        PimStorageUtility pimStorageUtility = new PimStorageUtility();
-        pimOidcDiscoveryManager = new PimOidcDiscoveryManager(pimAuthManager, pimStorageUtility);
+        PIMAuthManager pimAuthManager = new PIMAuthManager();
+        PIMStorageUtility pimStorageUtility = new PIMStorageUtility();
+        pimOidcDiscoveryManager = new PIMOidcDiscoveryManager(pimAuthManager, pimStorageUtility);
 
 
     }
@@ -39,7 +39,7 @@ public class PimConfigManager {
     }
 
     private void downloadOidcConfigration(String baseUrl) {
-        pimOidcDiscoveryManager.downloadOidcUrls(baseUrl, new PimListener() {
+        pimOidcDiscoveryManager.downloadOidcUrls(baseUrl, new PIMListener() {
             @Override
             public void onSuccess() {
 
