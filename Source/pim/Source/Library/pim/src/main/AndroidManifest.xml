@@ -13,6 +13,15 @@
         <activity
             android:name=".PimActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" />
+        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/redirectURL" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

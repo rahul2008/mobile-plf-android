@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.philips.platform.pim.utilities.PIMConstants;
+import com.philips.platform.pim.fragment.PimFragment;
+import com.philips.platform.pim.utilities.PimConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -27,6 +28,8 @@ public class PimActivity extends UIDActivity implements ActionBarListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.udi_activity);
         createActionBar();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fl_mainFragmentContainer, new PimFragment(), PimFragment.class.getSimpleName()).addToBackStack(null).commit();
     }
 
 
@@ -65,7 +68,7 @@ public class PimActivity extends UIDActivity implements ActionBarListener {
     }
 
     private void initTheme() {
-        int themeIndex = getIntent().getIntExtra(PIMConstants.PIM_KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        int themeIndex = getIntent().getIntExtra(PimConstants.PIM_KEY_ACTIVITY_THEME, DEFAULT_THEME);
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }
