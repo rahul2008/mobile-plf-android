@@ -58,7 +58,7 @@ public interface PIMUserDataInterface {
 
         void onHSDPLoginSuccess();
 
-        void onHSDPLoginFailure(int errorCode, String msg);
+        void onHSDPLoginFailure(PIMError error);
     }
 
     enum PIMError {

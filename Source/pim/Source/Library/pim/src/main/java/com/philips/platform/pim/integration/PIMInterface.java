@@ -10,10 +10,8 @@ import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.configration.PIMDataProvider;
 import com.philips.platform.pim.fragment.PIMFragment;
-import com.philips.platform.pim.injection.PIMComponent;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.utilities.PIMConstants;
-import com.philips.platform.pim.utilities.PIMLog;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -26,7 +24,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class PIMInterface implements UappInterface {
 
     private String TAG = PIMInterface.class.getSimpleName();
-    private PIMComponent component;
+
     private Context context;
     public static  AppInfra mAppInfra;
 
@@ -86,7 +84,7 @@ public class PIMInterface implements UappInterface {
      */
     public UserDataInterface getUserDataInterface() {
         if (context == null) {
-            PIMLog.d(TAG, "getUserDataInterface: Context is null");
+            Log.d(TAG, "getUserDataInterface: Context is null");
             return null;
         }
         return new PIMDataProvider(context);

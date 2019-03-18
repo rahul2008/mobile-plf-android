@@ -2,6 +2,7 @@ package com.philips.platform.pim.models;
 
 import com.philips.platform.pif.DataInterface.USR.UserProfileInterface;
 
+import java.util.Date;
 import java.util.HashMap;
 
 public class PIMHsdpUserProfile implements UserProfileInterface {
@@ -37,7 +38,7 @@ public class PIMHsdpUserProfile implements UserProfileInterface {
     }
 
     @Override
-    public String getBirthday() {
+    public Date getBirthDate() {
         return null;
     }
 

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,7 +23,7 @@ import android.widget.ImageButton;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.R;
-import com.philips.platform.pim.integration.PimInterface;
+import com.philips.platform.pim.integration.PIMInterface;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
@@ -49,11 +48,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.android.volley.VolleyLog.TAG;
-
-public class PimFragment extends Fragment implements View.OnClickListener {
-    private static String TAG = PimFragment.class.getSimpleName();
+public class PIMFragment extends Fragment implements View.OnClickListener {
+    private static String TAG = PIMFragment.class.getSimpleName();
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private static final String EXTRA_AUTH_STATE = "authState";
     AuthorizationService mAuthService;
@@ -382,7 +378,7 @@ public class PimFragment extends Fragment implements View.OnClickListener {
      */
     public void fetchUserInfo() {
         if (mAuthState != null) {
-            PimFragment.RequestTask requestTask = new RequestTask();
+            PIMFragment.RequestTask requestTask = new RequestTask();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 requestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } else {
@@ -572,7 +568,7 @@ public class PimFragment extends Fragment implements View.OnClickListener {
         if (mAuthState != null) {
             try {
                 Log.i(TAG, "Start readAuthState time" + System.currentTimeMillis());
-                String authData = getAuthFromSecureStorage(PimInterface.sAppInfraInterface.getSecureStorage());
+                String authData = getAuthFromSecureStorage(PIMInterface.mAppInfra.getSecureStorage());
                 Log.i(TAG, "End readAuthState time" + System.currentTimeMillis());
                 return AuthState.jsonDeserialize(authData);//fromJsonString(stateJson);
             } catch (JSONException e) {
@@ -593,7 +589,7 @@ public class PimFragment extends Fragment implements View.OnClickListener {
 
         String data = state.jsonSerializeString();
         Log.i(TAG, "Start writeAuthState time" + System.currentTimeMillis());
-        storeAuthInSecureStorage(PimInterface.sAppInfraInterface.getSecureStorage(), data);
+        storeAuthInSecureStorage(PIMInterface.mAppInfra.getSecureStorage(), data);
         Log.i(TAG, "End writeAuthState time" + System.currentTimeMillis());
         byte[] byteArray = new byte[0];
         try {

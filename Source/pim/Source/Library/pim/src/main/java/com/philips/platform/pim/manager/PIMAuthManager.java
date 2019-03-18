@@ -1,19 +1,15 @@
 package com.philips.platform.pim.manager;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.philips.platform.pim.fragment.PimFragment;
+import com.philips.platform.pim.rest.PIMListener;
 
 import net.openid.appauth.AuthorizationException;
-import net.openid.appauth.AuthorizationRequest;
-import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
-import net.openid.appauth.ResponseTypeValues;
 
-public class PimAuthManager {
+public class PIMAuthManager {
     private Fragment mFragment;
 
 
@@ -36,7 +32,7 @@ public class PimAuthManager {
     }
 
 
-    void performLoginWithAccessToken(PimOidcDiscoveryManager pimOidcDiscoveryManager) {
+    void performLoginWithAccessToken(PIMListener listenern) {
        // makeAuthRequest(pimOidcDiscoveryManager.getAuthorizationServiceConfiguration(), mAuthService);
     }
 

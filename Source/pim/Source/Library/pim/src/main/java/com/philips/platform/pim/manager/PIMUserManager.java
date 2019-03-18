@@ -6,7 +6,7 @@ import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.PIMRestClientInterface;
 import com.philips.platform.pim.rest.UserProfileRequest;
 
-public class PIMUserManager {
+class PIMUserManager {
 
     public PIMUserProfile fetchuserprofile(){
         //Fetch from server and make PIMUserProfile

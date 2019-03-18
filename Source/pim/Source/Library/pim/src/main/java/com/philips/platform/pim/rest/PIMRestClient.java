@@ -1,7 +1,6 @@
 package com.philips.platform.pim.rest;
 
 import com.android.volley.Response;
-import com.philips.platform.pim.configration.PIMConfiguration;
 
 public class PIMRestClient {
 
@@ -9,7 +8,7 @@ public class PIMRestClient {
 
         PIMRequest request = makePimRequest(pimRestClientInterface, successListener, errorListener);
 
-        PIMConfiguration.getInstance().getComponent().getRestClientInterface().getRequestQueue().add(request);
+//        PIMConfiguration.getInstance().getComponent().getRestClientInterface().getRequestQueue().add(request);
     }
 
     private PIMRequest makePimRequest(PIMRestClientInterface pimRestClientInterface, Response.Listener<String> successListener, Response.ErrorListener errorListener) {

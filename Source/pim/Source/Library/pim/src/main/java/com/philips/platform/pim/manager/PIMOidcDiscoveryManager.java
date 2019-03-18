@@ -4,7 +4,7 @@ import com.philips.platform.pim.models.OIDCConfig;
 import com.philips.platform.pim.rest.PIMListener;
 import com.philips.platform.pim.utilities.PIMStorageUtility;
 
-public class PIMOidcDiscoveryManager {
+class PIMOidcDiscoveryManager {
 
     private PIMStorageUtility pimStorageUtility;
     private PIMAuthManager pimAuthManager;
