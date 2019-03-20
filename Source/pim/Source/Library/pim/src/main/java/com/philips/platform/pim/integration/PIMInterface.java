@@ -12,6 +12,7 @@ import com.philips.platform.pim.configration.PIMDataProvider;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
+import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.utilities.PIMConstants;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -35,12 +36,16 @@ public class PIMInterface implements UappInterface {
         context = uappSettings.getContext();
 
         PIMSettingManager.getInstance().setDependencies((PIMDependencies) uappDependencies);
-
-        new PIMConfigManager();
+        PIMConfigManager pimConfigManager = new PIMConfigManager();
+        pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
+        PIMUserManager pimUserManager = new PIMUserManager();
+        pimUserManager.init(uappDependencies.getAppInfra().getSecureStorage());
+        // TODO: Usermanager.init is missing to fetch user profile
     }
 
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
             Log.i(TAG, "Launch : Launched as activity");

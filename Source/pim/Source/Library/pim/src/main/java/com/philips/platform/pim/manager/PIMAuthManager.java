@@ -33,7 +33,7 @@ public class PIMAuthManager {
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
-
+//for Login
     void performLoginWithAccessToken() {
         // makeAuthRequest(pimOidcDiscoveryManager.getAuthorizationServiceConfiguration(), mAuthService);
     }

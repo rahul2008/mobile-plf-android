@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PIMHsdpUserProfile implements UserProfileInterface {
-    HashMap<String,Object> hsdpUserProfileMap;
+    HashMap<String, Object> hsdpUserProfileMap;
 
-    public PIMHsdpUserProfile(HashMap<String,Object> hsdpUserProfileMap) {
-        this.hsdpUserProfileMap  = hsdpUserProfileMap;
+    public PIMHsdpUserProfile(HashMap<String, Object> hsdpUserProfileMap) {
+        this.hsdpUserProfileMap = hsdpUserProfileMap;
     }
 
     @Override
@@ -56,6 +56,10 @@ public class PIMHsdpUserProfile implements UserProfileInterface {
 
     @Override
     public String getAccessToken() {
+        return null;
+    }
+
+    public String refreshToken() {
         return null;
     }
 }

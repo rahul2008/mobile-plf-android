@@ -15,8 +15,6 @@ import com.philips.platform.pim.integration.PIMDependencies;
 import com.philips.platform.pim.utilities.PIMConstants;
 import com.philips.platform.pim.utilities.PIMUtilities;
 
-import net.openid.appauth.AuthorizationServiceDiscovery;
-
 
 public class PIMSettingManager {
     private static final PIMSettingManager instance = new PIMSettingManager();
@@ -30,13 +28,18 @@ public class PIMSettingManager {
     private PIMOIDCConfigration mPimoidcConfigration;
     private PIMHSDPConfigration mPimhsdpConfigration;
 
-    //TODO : This could be null once AuthorizationServiceDiscovery stored in SecureStorage
-    public void setPimOidcConfigration(PIMConfigration mPimoidcConfigration) {
-        this.mPimoidcConfigration = (PIMOIDCConfigration) mPimoidcConfigration;
+    //TODO : We should make be null once AuthorizationServiceDiscovery stored in SecureStorage
+    public void setPimOidcConfigration(PIMOIDCConfigration pimOidcConfigration) {
+        mPimoidcConfigration = pimOidcConfigration;
     }
 
-    public void setPimhsdpConfigration(PIMHSDPConfigration mPimhsdpConfigration) {
-        this.mPimhsdpConfigration = (PIMHSDPConfigration) mPimhsdpConfigration;
+
+    public PIMOIDCConfigration getPiOidcConfigration() {
+        return mPimoidcConfigration;
+    }
+
+    public void setPimhsdpConfigration() {
+        this.mPimhsdpConfigration = new PIMHSDPConfigration();
     }
 
     public void setDependencies(PIMDependencies pimDependencies) {
@@ -51,19 +54,6 @@ public class PIMSettingManager {
 
     public static PIMSettingManager getInstance() {
         return instance;
-    }
-
-
-    public PIMOIDCConfigration getPIMOIDCConfigration(AuthorizationServiceDiscovery authorizationServiceDiscovery) {
-        return new PIMOIDCConfigration(authorizationServiceDiscovery);
-    }
-
-    public PIMHSDPConfigration getPIMHSDPConfigration() {
-        return new PIMHSDPConfigration();
-    }
-
-    public PIMUserManager getPIMUserManager(AuthorizationServiceDiscovery authorizationServiceDiscovery) {
-        return new PIMUserManager(authorizationServiceDiscovery);
     }
 
 

@@ -10,32 +10,35 @@ import static com.philips.platform.pim.utilities.PIMConstants.PIM_BASEURL;
 
 public class PIMConfigManager {
     private final ArrayList<String> listOfServiceId;
-    private ServiceDiscoveryInterface serviceDiscoveryInterface;
     private PIMOidcDiscoveryManager pimOidcDiscoveryManager;
     private PIMAuthManager pimAuthManager;
 
+    // TODO: Create init method, inject servicediscovery for testing purpose
     public PIMConfigManager() {
-        serviceDiscoveryInterface = PIMSettingManager.getInstance().getmServiceDiscoveryInterface();
         listOfServiceId = new ArrayList<>();
         listOfServiceId.add(PIM_BASEURL);
-        downloadSDServiceURLs();
     }
 
-    private void downloadSDServiceURLs() {
+    private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface) {
         serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 pimAuthManager = new PIMAuthManager();
                 pimOidcDiscoveryManager = new PIMOidcDiscoveryManager(pimAuthManager);
+                // TODO: Populate config if already downloaded from usermanager's authstate
                 pimOidcDiscoveryManager.downloadOidcUrls("baseurl");
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
+                // TODO: Handle error
 
             }
         }, null);
     }
 
 
+    public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+        downloadSDServiceURLs(serviceDiscoveryInterface);
+    }
 }
