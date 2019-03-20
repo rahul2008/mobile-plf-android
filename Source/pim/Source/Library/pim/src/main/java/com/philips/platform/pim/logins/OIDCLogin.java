@@ -21,7 +21,7 @@ public class OIDCLogin {
         // If logged in get user profile from User manager.
         // Not logged in- inject AppAuth manager to do login by passing OIDCConfiguration
         //if not then connect to AppAuth Manager
-        //UserManager: Injecting UserManage for now but someone should hod this Object
+        //UserManager: Injecting UserManage for now but someone should hold this Object
         PIMOIDCUserProfile pimoidcUserProfile = pimUserManager.fetchOIDCUserProfile();
         if (pimoidcUserProfile != null) {
 

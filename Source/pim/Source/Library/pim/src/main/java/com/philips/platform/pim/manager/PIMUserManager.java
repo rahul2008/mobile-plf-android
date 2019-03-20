@@ -1,5 +1,7 @@
 package com.philips.platform.pim.manager;
 
+import android.util.Log;
+
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.models.PIMHsdpUserProfile;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
@@ -27,8 +29,14 @@ public class PIMUserManager {
     }
 
     private PIMOIDCUserProfile getUserProfileFromSecureStorage(SecureStorageInterface secureStorage) {
-        secureStorage.fetchValueForKey("ProfileKey", new SecureStorageInterface.SecureStorageError());
-        return null;
+        SecureStorageInterface.SecureStorageError secureStorageError = new SecureStorageInterface.SecureStorageError();
+        String profile = secureStorage.fetchValueForKey("ProfileKey", secureStorageError);
+        SecureStorageInterface.SecureStorageError.secureStorageError errorCode = secureStorageError.getErrorCode();
+        if (profile != null && secureStorageError.getErrorMessage() != null) {
+            Log.e("PimUserManager", "Error Occured" + secureStorageError.getErrorMessage());
+            return null;
+        } else
+            return null;
     }
 
 }
