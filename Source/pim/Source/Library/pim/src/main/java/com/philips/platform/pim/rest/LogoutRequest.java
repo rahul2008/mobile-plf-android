@@ -1,16 +1,19 @@
 package com.philips.platform.pim.rest;
 
-import com.philips.platform.pim.models.OIDCConfig;
+import net.openid.appauth.AuthorizationServiceConfiguration;
 
 import java.util.Map;
 
-public class LogoutRequest implements PIMRestClientInterface {
-    public LogoutRequest(OIDCConfig oidcConfig) {
+public class LogoutRequest implements PIMRequestInterface {
+    private AuthorizationServiceConfiguration mAuthorizationServiceConfiguration;
+
+    public LogoutRequest(AuthorizationServiceConfiguration pAuthorizationServiceConfiguration) {
+        mAuthorizationServiceConfiguration = pAuthorizationServiceConfiguration;
     }
 
     @Override
     public String getUrl() {
-        return null;
+        return mAuthorizationServiceConfiguration.discoveryDoc.getIssuer() + "/token/revoke";
     }
 
     @Override

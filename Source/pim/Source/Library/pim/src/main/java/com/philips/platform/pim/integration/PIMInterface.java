@@ -9,6 +9,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.configration.PIMDataProvider;
+import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.utilities.PIMConstants;
@@ -26,7 +27,7 @@ public class PIMInterface implements UappInterface {
     private String TAG = PIMInterface.class.getSimpleName();
 
     private Context context;
-    public static  AppInfra mAppInfra;
+    public static AppInfra mAppInfra;
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -35,9 +36,11 @@ public class PIMInterface implements UappInterface {
         //PIMConfiguration.getInstance().setComponent(component);
 //        PIMLog.init();
 //        PIMTagging.init();
-        mAppInfra =(AppInfra) uappDependencies.getAppInfra();
-        PIMConfigManager pimConfigManager = new PIMConfigManager(uappDependencies.getAppInfra());
-        pimConfigManager.downloadSDServiceURLSWithCompletion(uappDependencies.getAppInfra().getServiceDiscovery());
+        mAppInfra = (AppInfra) uappDependencies.getAppInfra();
+
+        PIMSettingManager.getInstance().setDependencies((PIMDependencies) uappDependencies);
+
+        new PIMConfigManager();
     }
 
     @Override

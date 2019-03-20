@@ -1,7 +1,7 @@
 package com.philips.platform.pim.rest;
 
-import com.philips.platform.appinfra.rest.request.StringRequest;
 import com.android.volley.Response;
+import com.philips.platform.appinfra.rest.request.StringRequest;
 
 import java.util.Map;
 

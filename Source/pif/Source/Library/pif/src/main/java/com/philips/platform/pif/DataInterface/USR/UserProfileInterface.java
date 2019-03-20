@@ -1,6 +1,7 @@
 package com.philips.platform.pif.DataInterface.USR;
 
 import java.util.Date;
+import java.util.Map;
 
 public interface UserProfileInterface {
     String getFirstName();
@@ -16,9 +17,9 @@ public interface UserProfileInterface {
     //TODo: Convert String to Date in implemnetation
     Date getBirthDate();
 
-    String getAddress();
+    Map<String, Object> getAddress();
 
-    String getReceiveMarketingEmail();
+
 
     String getUUID();
 

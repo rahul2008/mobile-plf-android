@@ -4,13 +4,14 @@ import com.philips.platform.pif.DataInterface.USR.UserProfileInterface;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
-public class PIMJanrainUserProfile implements UserProfileInterface {
+public class PIMOIDCUserProfile implements UserProfileInterface {
 
-    HashMap<String,Object> hsdpUserProfileMap;
+    HashMap<String, Object> mUserProfileMap;
 
-    public PIMJanrainUserProfile(HashMap<String,Object> hsdpUserProfileMap) {
-        this.hsdpUserProfileMap  = hsdpUserProfileMap;
+    public PIMOIDCUserProfile(HashMap<String, Object> pUserProfileMap) {
+         mUserProfileMap = pUserProfileMap;
     }
 
     @Override
@@ -44,12 +45,7 @@ public class PIMJanrainUserProfile implements UserProfileInterface {
     }
 
     @Override
-    public String getAddress() {
-        return null;
-    }
-
-    @Override
-    public String getReceiveMarketingEmail() {
+    public Map getAddress() {
         return null;
     }
 
@@ -62,4 +58,13 @@ public class PIMJanrainUserProfile implements UserProfileInterface {
     public String getAccessToken() {
         return null;
     }
+
+    String getReceiveMarketingEmail() {
+        return null;
+    }
+
+    Date getReceiveMarketingEmailGivenTimestamp() {
+        return null;
+    }
+
 }

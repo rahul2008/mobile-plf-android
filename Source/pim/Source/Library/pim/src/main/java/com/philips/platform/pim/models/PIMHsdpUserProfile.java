@@ -4,6 +4,7 @@ import com.philips.platform.pif.DataInterface.USR.UserProfileInterface;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PIMHsdpUserProfile implements UserProfileInterface {
     HashMap<String,Object> hsdpUserProfileMap;
@@ -43,12 +44,7 @@ public class PIMHsdpUserProfile implements UserProfileInterface {
     }
 
     @Override
-    public String getAddress() {
-        return null;
-    }
-
-    @Override
-    public String getReceiveMarketingEmail() {
+    public Map getAddress() {
         return null;
     }
 
@@ -56,6 +52,7 @@ public class PIMHsdpUserProfile implements UserProfileInterface {
     public String getUUID() {
         return null;
     }
+
 
     @Override
     public String getAccessToken() {

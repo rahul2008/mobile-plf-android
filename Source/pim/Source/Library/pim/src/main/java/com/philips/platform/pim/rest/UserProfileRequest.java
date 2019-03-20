@@ -1,17 +1,19 @@
 package com.philips.platform.pim.rest;
 
-import com.philips.platform.pim.models.OIDCConfig;
+import net.openid.appauth.AuthorizationServiceConfiguration;
 
 import java.util.Map;
 
-public class UserProfileRequest implements PIMRestClientInterface {
+public class UserProfileRequest implements PIMRequestInterface {
+    private AuthorizationServiceConfiguration mAuthorizationServiceConfiguration;
 
-    public UserProfileRequest(OIDCConfig oidcConfig) {
+    public UserProfileRequest(AuthorizationServiceConfiguration pAuthorizationServiceConfiguration) {
+        mAuthorizationServiceConfiguration = pAuthorizationServiceConfiguration;
     }
 
     @Override
     public String getUrl() {
-        return null;
+        return mAuthorizationServiceConfiguration.discoveryDoc.getUserinfoEndpoint().toString();
     }
 
     @Override

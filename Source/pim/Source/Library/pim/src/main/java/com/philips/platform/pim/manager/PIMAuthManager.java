@@ -4,17 +4,17 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.philips.platform.pim.rest.PIMListener;
+import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 
 public class PIMAuthManager {
     private Fragment mFragment;
+    private PIMAuthorizationServiceConfigurationListener listener;
 
 
-
-     void fetchAuthWellKnownConfiguration(String baseUrl) {
+    void fetchAuthWellKnownConfiguration(String baseUrl,  PIMAuthorizationServiceConfigurationListener listener) {
         // String discoveryEndpoint = configuration.kIssuer + "/.well-known/openid-configuration";
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
 //
@@ -23,17 +23,19 @@ public class PIMAuthManager {
                 (AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationException e) -> {
                     if (e != null) {
                         Log.d("", "Failed to retrieve configuration for " + e);
+                        listener.onError();
                     } else {
-                        Log.d("", "Configuration retrieved for  proceeding"+ authorizationServiceConfiguration.discoveryDoc);
+                        Log.d("", "Configuration retrieved for  proceeding" + authorizationServiceConfiguration.discoveryDoc);
                         // makeAuthRequest(authorizationServiceConfiguration, mAuthService);
+                        listener.onSuccess(authorizationServiceConfiguration.discoveryDoc);
                     }
                 };
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
 
-    void performLoginWithAccessToken(PIMListener listenern) {
-       // makeAuthRequest(pimOidcDiscoveryManager.getAuthorizationServiceConfiguration(), mAuthService);
+    void performLoginWithAccessToken() {
+        // makeAuthRequest(pimOidcDiscoveryManager.getAuthorizationServiceConfiguration(), mAuthService);
     }
 
 

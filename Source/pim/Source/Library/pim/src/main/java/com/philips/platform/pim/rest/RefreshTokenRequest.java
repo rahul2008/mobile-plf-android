@@ -1,11 +1,14 @@
 package com.philips.platform.pim.rest;
 
-import com.philips.platform.pim.models.OIDCConfig;
+import net.openid.appauth.AuthorizationServiceConfiguration;
 
 import java.util.Map;
 
-public class RefreshTokenRequest implements PIMRestClientInterface {
-    public RefreshTokenRequest(OIDCConfig config) {
+public class RefreshTokenRequest implements PIMRequestInterface {
+    private AuthorizationServiceConfiguration mAuthorizationServiceConfiguration;
+
+    public RefreshTokenRequest(AuthorizationServiceConfiguration pAuthorizationServiceConfiguration) {
+        mAuthorizationServiceConfiguration = pAuthorizationServiceConfiguration;
     }
 
     @Override

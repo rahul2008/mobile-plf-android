@@ -1,36 +1,26 @@
 package com.philips.platform.pim.manager;
 
-import com.philips.platform.pim.models.OIDCConfig;
-import com.philips.platform.pim.rest.PIMListener;
+import com.philips.platform.pim.configration.PIMHSDPConfigration;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.listeners.PIMLoginListener;
+import com.philips.platform.pim.logins.HSDPLogin;
+import com.philips.platform.pim.logins.OIDCLogin;
 
 public class PIMLoginManager {
-    PIMAuthManager pimAuthManager;
-    PIMUserManager pimUserManager;
+    private PIMLoginListener pimLoginListener;
 
-    public PIMLoginManager(PIMAuthManager authManager, PIMUserManager userManager) {
-        pimAuthManager = authManager;
-        pimUserManager = userManager;
+    public PIMLoginManager(PIMLoginListener loginListener) {
+        this.pimLoginListener = loginListener;
     }
 
-    void login(OIDCConfig oidcConfig) {
-        pimAuthManager.performLoginWithAccessToken(new PIMListener(){
-
-            @Override
-            public void onSuccess() {
-                pimUserManager.fetchuserprofile();
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
+    public void oidcLogin(PIMOIDCConfigration mPimoidcConfigration) {
+        OIDCLogin odOidcLogin = new OIDCLogin(mPimoidcConfigration);
+        odOidcLogin.login(pimLoginListener);
     }
 
-    void refreshToken(PIMListener listener){
-
-    }
-    void revokeToken(PIMListener listener){
-
+    public void hsdpLogin(PIMHSDPConfigration mPimhsdpConfigration) {
+        HSDPLogin hsdpLogin = new HSDPLogin(mPimhsdpConfigration);
+        hsdpLogin.login(pimLoginListener);
     }
 }
+

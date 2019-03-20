@@ -4,14 +4,14 @@ import com.android.volley.Response;
 
 public class PIMRestClient {
 
-    public void invokeRequest(PIMRestClientInterface pimRestClientInterface, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
+    public void invokeRequest(PIMRequestInterface pimRequestInterface, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
 
-        PIMRequest request = makePimRequest(pimRestClientInterface, successListener, errorListener);
+        PIMRequest request = makePimRequest(pimRequestInterface, successListener, errorListener);
 
 //        PIMConfiguration.getInstance().getComponent().getRestClientInterface().getRequestQueue().add(request);
     }
 
-    private PIMRequest makePimRequest(PIMRestClientInterface pimRestClientInterface, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
-        return new PIMRequest(pimRestClientInterface.getMethodType(), pimRestClientInterface.getUrl(), successListener, errorListener, pimRestClientInterface.getHeader());
+    private PIMRequest makePimRequest(PIMRequestInterface pimRequestInterface, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
+        return new PIMRequest(pimRequestInterface.getMethodType(), pimRequestInterface.getUrl(), successListener, errorListener, pimRequestInterface.getHeader());
     }
 }
