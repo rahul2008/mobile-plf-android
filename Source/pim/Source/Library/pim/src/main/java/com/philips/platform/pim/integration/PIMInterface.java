@@ -33,10 +33,6 @@ public class PIMInterface implements UappInterface {
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
 //        component = initDaggerComponents(uappDependencies, uappSettings);
         context = uappSettings.getContext();
-        //PIMConfiguration.getInstance().setComponent(component);
-//        PIMLog.init();
-//        PIMTagging.init();
-        mAppInfra = (AppInfra) uappDependencies.getAppInfra();
 
         PIMSettingManager.getInstance().setDependencies((PIMDependencies) uappDependencies);
 

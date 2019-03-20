@@ -15,7 +15,6 @@ import com.philips.platform.pim.integration.PIMDependencies;
 import com.philips.platform.pim.utilities.PIMConstants;
 import com.philips.platform.pim.utilities.PIMUtilities;
 
-import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 
 
@@ -32,7 +31,7 @@ public class PIMSettingManager {
     private PIMHSDPConfigration mPimhsdpConfigration;
 
     //TODO : This could be null once AuthorizationServiceDiscovery stored in SecureStorage
-    public void setPimoidcConfigration(PIMConfigration mPimoidcConfigration) {
+    public void setPimOidcConfigration(PIMConfigration mPimoidcConfigration) {
         this.mPimoidcConfigration = (PIMOIDCConfigration) mPimoidcConfigration;
     }
 

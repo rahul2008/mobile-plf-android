@@ -6,6 +6,8 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 import java.util.ArrayList;
 import java.util.Map;
 
+import static com.philips.platform.pim.utilities.PIMConstants.PIM_BASEURL;
+
 public class PIMConfigManager {
     private final ArrayList<String> listOfServiceId;
     private ServiceDiscoveryInterface serviceDiscoveryInterface;
@@ -15,11 +17,11 @@ public class PIMConfigManager {
     public PIMConfigManager() {
         serviceDiscoveryInterface = PIMSettingManager.getInstance().getmServiceDiscoveryInterface();
         listOfServiceId = new ArrayList<>();
-        listOfServiceId.add("pim.baseurl");
-        downloadSDServiceURLSWithCompletion();
+        listOfServiceId.add(PIM_BASEURL);
+        downloadSDServiceURLs();
     }
 
-    private void downloadSDServiceURLSWithCompletion() {
+    private void downloadSDServiceURLs() {
         serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
