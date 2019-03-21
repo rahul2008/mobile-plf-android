@@ -1,5 +1,6 @@
 package com.philips.platform.pim.models;
 
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.DataInterface.USR.UserProfileInterface;
 
 import java.util.Date;
@@ -8,10 +9,12 @@ import java.util.Map;
 
 public class PIMOIDCUserProfile implements UserProfileInterface {
 
-    HashMap<String, Object> mUserProfileMap;
+    private HashMap<String, Object> mUserProfileMap;
+    private String profileJson;
 
-    public PIMOIDCUserProfile(HashMap<String, Object> pUserProfileMap) {
-         mUserProfileMap = pUserProfileMap;
+    public PIMOIDCUserProfile(SecureStorageInterface pSecureStorageInterface,HashMap<String, Object> pUserProfileMap) {
+        mUserProfileMap = pUserProfileMap;
+        //get data from Secure Storage
     }
 
     @Override

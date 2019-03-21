@@ -8,63 +8,88 @@
     "PILConfiguration.MicrositeID": "77000",
     "PILConfiguration.CampaignID": "CL20150501_PC_TB_COPPA",
     "PILConfiguration.RegistrationEnvironment": "PRODUCTION",
-    "Flow.EmailVerificationRequired" : true,
-    "Flow.TermsAndConditionsAcceptanceRequired" : true,
-    "Flow.MinimumAgeLimit" : { "NL":12 ,"GB":0,"default": 16},
-    "SigninProviders.default": ["facebook","googleplus"],
-    "SigninProviders.NL": ["facebook","googleplus"]
+    "Flow.EmailVerificationRequired": true,
+    "Flow.TermsAndConditionsAcceptanceRequired": true,
+    "Flow.MinimumAgeLimit": {
+      "NL": 12,
+      "GB": 0,
+      "default": 16
+    },
+    "SigninProviders.default": [
+      "facebook",
+      "googleplus"
+    ],
+    "SigninProviders.NL": [
+      "facebook",
+      "googleplus"
+    ]
   },
-   "IAP": {
+  "PIM": {
+    "clientId": "9317be6b-193f-4187-9ec2-5e1802a8d8ad"
+  },
+  "IAP": {
     "hostport": "www.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
-  "appinfra":{
+  "appinfra": {
     "appidentity.micrositeId": "77001",
     "appidentity.sector": "b2c",
     "appidentity.appState": "production",
     "appidentity.serviceDiscoveryEnvironment": "production",
     "restclient.cacheSizeInKB": 51200,
-    "tagging.sensitiveData": ["bundleId", "language"] ,
-    "abtest.precache":["DOT-ReceiveMarketingOptIn"],
-    "abtest.mapping":{
-      "usr.login":"DOT-ReceiveMarketingOptIn"
-     },
-    "servicediscovery.platformMicrositeId":"77000",
-    "servicediscovery.platformEnvironment":"production",
-    "servicediscovery.propositionEnabled":true,
-    "appconfig.cloudServiceId":"appinfra.appconfigdownload",
-    "timesync.ntp.hosts":["time1.google.com","time2.google.com","time3.google.com","time4.google.com"],
-    "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
-    "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
-    "appUpdate.serviceId":"appinfra.testing.version",
-    "appUpdate.autoRefresh":true,
-    "logging.releaseConfig":{
-      "fileName":"AppInfraLog",
-      "numberOfFiles":5,
-      "fileSizeInBytes":50000,
-      "logLevel":"Off",
-      "fileLogEnabled":false,
-      "consoleLogEnabled":true,
-      "componentLevelLogEnabled":false,
+    "tagging.sensitiveData": [
+      "bundleId",
+      "language"
+    ],
+    "abtest.precache": [
+      "DOT-ReceiveMarketingOptIn"
+    ],
+    "abtest.mapping": {
+      "usr.login": "DOT-ReceiveMarketingOptIn"
+    },
+    "servicediscovery.platformMicrositeId": "77000",
+    "servicediscovery.platformEnvironment": "production",
+    "servicediscovery.propositionEnabled": true,
+    "appconfig.cloudServiceId": "appinfra.appconfigdownload",
+    "timesync.ntp.hosts": [
+      "time1.google.com",
+      "time2.google.com",
+      "time3.google.com",
+      "time4.google.com"
+    ],
+    "LANGUAGEPACK.SERVICEID": "appinfra.languagepack",
+    "servicediscovery.countryMapping": {
+      "LU": "BE",
+      "MO": "HK"
+    },
+    "appUpdate.serviceId": "appinfra.testing.version",
+    "appUpdate.autoRefresh": true,
+    "logging.releaseConfig": {
+      "fileName": "AppInfraLog",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "Off",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "componentLevelLogEnabled": false,
       "componentIds": [
         "DemoAppInfra",
         "PhilipsRegistration"
       ]
     },
-    "logging.debugConfig":{
-      "fileName":"AppInfraLog",
-      "numberOfFiles":5,
-      "fileSizeInBytes":50000,
-      "logLevel":"All",
-      "fileLogEnabled":false,
-      "consoleLogEnabled":true,
-      "componentLevelLogEnabled":false,
+    "logging.debugConfig": {
+      "fileName": "AppInfraLog",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "All",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "componentLevelLogEnabled": false,
       "componentIds": [
         "DemoAppInfra",
-        "PhilipsRegistration","component1"
+        "PhilipsRegistration",
+        "component1"
       ]
     }
-
   }
-
 }

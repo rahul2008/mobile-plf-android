@@ -1,4 +1,4 @@
-package com.philips.platform;
+package com.philips.platform.pim.listeners;
 
 import net.openid.appauth.AuthorizationServiceDiscovery;
 

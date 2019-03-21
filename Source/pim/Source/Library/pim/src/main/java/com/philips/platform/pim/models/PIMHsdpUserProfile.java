@@ -1,5 +1,6 @@
 package com.philips.platform.pim.models;
 
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.DataInterface.USR.UserProfileInterface;
 
 import java.util.Date;
@@ -9,7 +10,8 @@ import java.util.Map;
 public class PIMHsdpUserProfile implements UserProfileInterface {
     HashMap<String, Object> hsdpUserProfileMap;
 
-    public PIMHsdpUserProfile(HashMap<String, Object> hsdpUserProfileMap) {
+
+    public PIMHsdpUserProfile(SecureStorageInterface pSecureStorageInterface,HashMap<String, Object> hsdpUserProfileMap) {
         this.hsdpUserProfileMap = hsdpUserProfileMap;
     }
 
