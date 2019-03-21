@@ -20,7 +20,6 @@ import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
-import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
@@ -172,7 +171,7 @@ public class ProdRegRegistrationController {
                 getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
 
-            UserWithProducts userWithProducts = new UserWithProducts(fragmentActivity,getProdRegListener());
+            UserWithProducts userWithProducts = new UserWithProducts(fragmentActivity,getProdRegListener(),PRUiHelper.getInstance().getUserDataInstance());
             userWithProducts.registerProduct(getRegisteredProduct());
         } else {
             registerControllerCallBacks.hideProgress();
@@ -180,17 +179,6 @@ public class ProdRegRegistrationController {
         }
 
     }
-
-    @NonNull
-    protected ProdRegHelper getProdRegHelper() {
-        return new ProdRegHelper();
-    }
-
-    @NonNull
-    protected ProdRegCache getProdRegCache() {
-        return new ProdRegCache();
-    }
-
 
     private boolean validatePurchaseDate(final String purchaseDate) {
         boolean validPurchaseDate = true;

@@ -282,7 +282,11 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
         PRInterface prInterface = new PRInterface();
         PRSettings prSettings = new PRSettings(getContext());
         PRDependencies prDependencies = new PRDependencies(PRUiHelper.getInstance().getAppInfraInstance(),urInterface.getUserDataInterface());
-        prInterface.init(prDependencies,prSettings);
+        try {
+            prInterface.init(prDependencies, prSettings);
+        }catch (RuntimeException ex){
+            ProdRegLogger.d(TAG,ex.getMessage());
+        }
 
         if (!isActivity) {
            FragmentLauncher fragLauncher = new FragmentLauncher(

@@ -31,6 +31,7 @@ import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -704,7 +705,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
 
                 }
-            });
+            }, PRUiHelper.getInstance().getUserDataInstance());
             userWithProducts.getRegisteredProducts(getRegisteredProductsListener(getRegisteredProduct()));
         }
     }

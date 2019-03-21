@@ -41,12 +41,10 @@ public class ProdRegRegistrationControllerTest {
     private ProductMetadataResponseData productMetadataResponseData;
     private Data summaryDataMock;
     private ProdRegCache prodRegCacheMock;
-    private ProdRegHelper prodRegHelperMock;
 
     @Before
     public void setUp() throws Exception {
         fragmentActivity = mock(FragmentActivity.class);
-        prodRegHelperMock = mock(ProdRegHelper.class);
         prodRegCacheMock = mock(ProdRegCache.class);
         registerControllerCallBacksMock = mock(ProdRegRegistrationController.RegisterControllerCallBacks.class);
         registeredProductMock = mock(RegisteredProduct.class);
@@ -65,17 +63,6 @@ public class ProdRegRegistrationControllerTest {
             @Override
             protected LocalRegisteredProducts getLocalRegisteredProducts() {
                 return localRegisteredProductsMock;
-            }
-            @NonNull
-            @Override
-            protected ProdRegHelper getProdRegHelper() {
-                return prodRegHelperMock;
-            }
-
-            @NonNull
-            @Override
-            protected ProdRegCache getProdRegCache() {
-                return prodRegCacheMock;
             }
         };
         when(fragmentActivity.isFinishing()).thenReturn(false);
@@ -156,8 +143,6 @@ public class ProdRegRegistrationControllerTest {
     @Test
     public void testGetMethods() {
         assertTrue(prodRegRegistrationController.getLocalRegisteredProducts() != null);
-        assertTrue(prodRegRegistrationController.getProdRegCache() != null);
-        assertTrue(prodRegRegistrationController.getProdRegHelper() != null);
         assertTrue(prodRegRegistrationController.getRegisteredProduct() != null);
     }
 }

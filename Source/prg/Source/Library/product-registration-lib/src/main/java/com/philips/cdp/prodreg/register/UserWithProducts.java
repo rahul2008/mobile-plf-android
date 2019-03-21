@@ -58,9 +58,9 @@ public class UserWithProducts {
     private int processCacheProductsCount;
     private UserDataInterface mUserDataInterface;
 
-    public UserWithProducts(final Context context, final ProdRegListener appListener) {
+    public UserWithProducts(final Context context, final ProdRegListener appListener,UserDataInterface userDataInterface) {
         this.mContext = context;
-        mUserDataInterface = PRUiHelper.getInstance().getUserDataInstance();
+        mUserDataInterface = userDataInterface;
         this.appListener = appListener;
         setUuid();
         localRegisteredProducts = new LocalRegisteredProducts(mUserDataInterface);
@@ -80,7 +80,7 @@ public class UserWithProducts {
         if(mUserDataInterface != null)
             this.uuid = mUserDataInterface.getJanrainUUID() != null ? mUserDataInterface.getJanrainUUID() : "";
         else
-            ProdRegLogger.i(TAG,"setUuid failed, userDataInterface null");
+            ProdRegLogger.d(TAG,"setUuid failed, userDataInterface null");
     }
 
     /**
@@ -304,7 +304,7 @@ public class UserWithProducts {
             boolean isRcvMrktEmail = (boolean) mUserDataInterface.getUserDetails(detailskey).get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
             registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
         } catch (Exception e) {
-            ProdRegLogger.e(TAG,"Error in getUserDetails : "+e.getMessage());
+            ProdRegLogger.e(TAG,"Error in fetching user details.");
         }
        return registrationRequest;
     }

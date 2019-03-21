@@ -92,7 +92,11 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
         PRDependencies prodRegDependencies = new PRDependencies(((AppFrameworkApplication)applicationContext).getAppInfra(),((AppFrameworkApplication)applicationContext).getUserRegistrationState().getUserDataInterface());
 
         PRInterface prInterface = new PRInterface();
-        prInterface.init(prodRegDependencies, prodSettings);
+        try {
+            prInterface.init(prodRegDependencies, prodSettings);
+        }catch (RuntimeException ex){
+            RALog.d(TAG,ex.getMessage());
+        }
     }
 
     @Override
