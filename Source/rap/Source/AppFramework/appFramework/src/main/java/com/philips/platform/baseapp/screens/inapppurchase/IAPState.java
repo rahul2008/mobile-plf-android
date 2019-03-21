@@ -155,7 +155,11 @@ public abstract class IAPState extends BaseState implements IAPListener {
         iapInterface = new IAPInterface();
         iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra(),((AppFrameworkApplication) applicationContext).getUserRegistrationState().getUserDataInterface());
-        iapInterface.init(iapDependencies, iapSettings);
+        try {
+            iapInterface.init(iapDependencies, iapSettings);
+        }catch (RuntimeException ex){
+            RALog.d(TAG,ex.getMessage());
+        }
     }
 
     public void isCartVisible() {

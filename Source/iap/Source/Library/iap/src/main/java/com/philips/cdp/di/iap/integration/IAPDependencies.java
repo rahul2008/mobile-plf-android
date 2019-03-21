@@ -18,19 +18,6 @@ public class IAPDependencies extends UappDependencies {
     private UserDataInterface userDataInterface;
 
     /**
-     * Create IAPDependencies instance from AppInfraInterface object
-     * @param appInfra  to pass the instance of AppInfraInterface
-     * @since 1.0.0
-     * @deprecated Deprecated since 1902
-     * TODO: Need to update deprecated version before merge
-     *
-     */
-    public IAPDependencies(AppInfraInterface appInfra) {
-        super(appInfra);
-        CartModelContainer.getInstance().setAppInfraInstance(appInfra);
-    }
-
-    /**
      * Create IAPDependencies instance from AppInfraInterface and UserDataInterface object
      * @param appInfra  to pass the instance of AppInfraInterface
      * @param userDataInterface to pass the instance of UserDataInterface

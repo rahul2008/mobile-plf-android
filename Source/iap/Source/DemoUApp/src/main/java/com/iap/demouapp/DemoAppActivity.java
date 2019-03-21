@@ -60,6 +60,7 @@ import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
         UserRegistrationUIEventListener, UserRegistrationListener {
 
+    private final String TAG = DemoAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private LinearLayout mAddCTNLl, mLL_voucher;
     private FrameLayout mShoppingCart;
@@ -200,11 +201,16 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(this));
         UappSettings uappSettings = new UappSettings(getApplicationContext());
+
         urInterface.init(uappDependencies,uappSettings);
 
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this),urInterface.getUserDataInterface());
 
-        mIapInterface.init(mIapDependencies, mIAPSettings);
+        try {
+            mIapInterface.init(mIapDependencies, mIAPSettings);
+        }catch (RuntimeException ex){
+            IAPLog.d(TAG,ex.getMessage());
+        }
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
         displayUIOnCartVisible();
