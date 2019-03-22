@@ -323,6 +323,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         handleRefreshUserFailed(error);
     }
 
+
     private void handleRefreshUserFailed(int error) {
         RLog.d(TAG, "onRefreshUserFailed");
         if (error == ErrorCodes.HSDP_ACTIVATE_ACCOUNT_FAILED) {

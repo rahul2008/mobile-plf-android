@@ -235,6 +235,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
         RLog.d(TAG, " : onRefreshUserFailed");
     }
 
+
     @Override
     public void onUpdate() {
         handleUI();

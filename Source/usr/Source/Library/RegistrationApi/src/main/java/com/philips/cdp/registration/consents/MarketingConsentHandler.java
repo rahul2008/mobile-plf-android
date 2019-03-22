@@ -71,7 +71,6 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
                     getMarketingConsentDefinition(consentType, callback);
                     RLog.e(TAG, "refreshUserOrGetMarketingConsent : onRefreshUserFailed ");
                 }
-
             });
         } else {
             getMarketingConsentDefinition(consentType, callback);
