@@ -290,7 +290,9 @@ public class RegistrationConfiguration {
     }
 
     public boolean isHsdpFlow() {
-        return isEnvironementSet() && isHsdpInfoAvailable();
+        boolean bool = isEnvironementSet() && isHsdpInfoAvailable();
+        RLog.i(TAG, "isHSDP = " + bool);
+        return bool;
     }
 
     private boolean isHsdpInfoAvailable() {
