@@ -408,6 +408,16 @@ public class AccountActivationResendMailFragment extends RegistrationBaseFragmen
         updateErrorNotification(new URError(mContext).getLocalizedError(ErrorType.NETWOK, error));
     }
 
+    @Override
+    public void onRefreshUserInProgress(String message) {
+        RLog.d(TAG, "onRefreshUserInProgress");
+    }
+
+    @Override
+    public void onRefreshUserFailedAndLoggedout() {
+        RLog.d(TAG, "onRefreshUserFailedAndLoggedout");
+    }
+
     boolean proceedResend = true;
 
     public void updateResendTime(long timeLeft) {

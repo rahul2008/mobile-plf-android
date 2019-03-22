@@ -740,7 +740,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     public void onRefreshLoginSessionFailedAndLoggedout() {
-        //NOP
+        RLog.d(TAG, "  : onRefreshLoginSessionFailedAndLoggedout");
     }
 
     @Override

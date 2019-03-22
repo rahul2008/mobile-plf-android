@@ -277,4 +277,8 @@ public class PRUiHelper {
     public void setLocale(String mLocale) {
         this.mLocale = mLocale;
     }
+
+    public String getLibVersion() {
+        return BuildConfig.VERSION_NAME;
+    }
 }

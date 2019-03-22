@@ -30,4 +30,19 @@ public interface RefreshUserHandler {
      */
 	public void onRefreshUserFailed(int error);
 
+	/**
+	 * {@code onRefreshUserInProgress}method is invoked on refresh login session in progress
+	 * @param message  progress message on refresh user in progress
+	 * @since 1902
+	 * ToDo : Need to update since version before merge to develop
+	 */
+	void onRefreshUserInProgress(String message);
+
+	/**
+	 * {@code onRefreshUserFailedAndLoggedout}method is invoked on user refresh Failure due to excess login at multiple devices and gets forced logged out on refresh session
+	 * @since 1902
+	 * TODO : Need to update version before merge to develop
+	 */
+	void onRefreshUserFailedAndLoggedout();
+
 }

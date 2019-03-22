@@ -223,6 +223,16 @@ public class UserDataProvider extends User implements UserDataInterface {
                 RLog.d(TAG, "onRefreshUserFailed : " + error);
                 userDetailsListener.onRefetchFailure(error);
             }
+
+            @Override
+            public void onRefreshUserInProgress(String message) {
+                RLog.d(TAG, "onRefreshUserInProgress : "+message);
+            }
+
+            @Override
+            public void onRefreshUserFailedAndLoggedout() {
+                RLog.d(TAG, "onRefreshUserFailedAndLoggedout");
+            }
         };
     }
 

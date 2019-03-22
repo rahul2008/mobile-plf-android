@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
-import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.platform.prdemoapp.activity.MainActivity;
@@ -43,15 +43,14 @@ public class ProductListFragment extends BaseFragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         final TextView mVersion = (TextView) view.findViewById(R.id.txt_version);
-        final ProdRegHelper prodRegHelper = new ProdRegHelper();
-        mVersion.setText("versionName :" + prodRegHelper.getLibVersion());
+        mVersion.setText("versionName :" + PRUiHelper.getInstance().getLibVersion());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        UserWithProducts userWithProducts = new UserWithProducts(getContext(), null);
+        UserWithProducts userWithProducts = new UserWithProducts(getContext(), null,PRUiHelper.getInstance().getUserDataInstance());
 
         userWithProducts.getRegisteredProducts(new RegisteredProductsListener() {
             @Override
