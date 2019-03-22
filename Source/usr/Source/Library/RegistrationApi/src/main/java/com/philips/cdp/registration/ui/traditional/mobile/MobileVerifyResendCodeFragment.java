@@ -236,17 +236,6 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
     @Override
-    public void onRefreshUserInProgress(String message) {
-        RLog.d(TAG, " : onRefreshUserInProgress : "+message);
-    }
-
-    @Override
-    public void onRefreshUserFailedAndLoggedout() {
-        hideProgressSpinner();
-        RLog.d(TAG, " : onRefreshUserFailedAndLoggedout");
-    }
-
-    @Override
     public void onUpdate() {
         handleUI();
     }

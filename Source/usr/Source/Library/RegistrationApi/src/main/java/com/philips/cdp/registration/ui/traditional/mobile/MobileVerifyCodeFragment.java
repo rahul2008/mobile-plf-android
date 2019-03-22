@@ -212,16 +212,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void onRefreshUserInProgress(String message) {
-        RLog.d(TAG, "onRefreshUserInProgress");
-    }
-
-    @Override
-    public void onRefreshUserFailedAndLoggedout() {
-        RLog.d(TAG, "onRefreshUserFailedAndLoggedout");
-    }
-
-    @Override
     public void onUpdate() {
         handleUI();
     }

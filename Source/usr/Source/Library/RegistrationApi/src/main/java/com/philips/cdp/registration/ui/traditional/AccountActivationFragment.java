@@ -323,16 +323,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         handleRefreshUserFailed(error);
     }
 
-    @Override
-    public void onRefreshUserInProgress(String message) {
-        RLog.d(TAG, "onRefreshUserInProgress : "+message);
-    }
-
-    @Override
-    public void onRefreshUserFailedAndLoggedout() {
-        RLog.d(TAG, "onRefreshUserFailedAndLoggedout");
-    }
-
     private void handleRefreshUserFailed(int error) {
         RLog.d(TAG, "onRefreshUserFailed");
         if (error == ErrorCodes.HSDP_ACTIVATE_ACCOUNT_FAILED) {
