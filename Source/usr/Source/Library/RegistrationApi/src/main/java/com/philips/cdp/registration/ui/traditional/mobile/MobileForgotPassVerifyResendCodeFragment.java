@@ -275,7 +275,7 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
         RLog.d(TAG, " onRefreshUserFailed");
     }
 
-    @Overrideß
+    @Override
     public void onRefreshUserInProgress(String message) {
         RLog.d(TAG, " onRefreshUserInProgress :"+message);
     }
