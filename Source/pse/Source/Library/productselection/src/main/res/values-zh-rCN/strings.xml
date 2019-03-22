@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">要阐述优势，请在此处选择正确的产品。</string>
     <string name="pse_Product_Register">您想要注册哪款产品？</string>
     <string name="pse_App_Content">此应用程序的内容现已根据您所选的产品量身定制</string>
+    <string name="iap_product_detail_title"> 产品详细信息</string>
 
     <string name="search"> 搜索 </string>
 

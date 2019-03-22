@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/Confirmation_Selected_new"
+            android:text="@string/pse_Selected_Product"
             android:paddingLeft="@dimen/view_padding"
             android:layout_marginBottom="16dp"
             android:paddingRight="@dimen/view_padding"

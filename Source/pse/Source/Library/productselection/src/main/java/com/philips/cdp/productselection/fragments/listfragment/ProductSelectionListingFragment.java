@@ -79,6 +79,8 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         ImageView mClearIconView = mSearchBox.getClearIconView();
         mSearchBox.setExpandListener(this);
         mSearchBox.setQuerySubmitListener(this);
+        mSearchBox.setSearchBoxHint(R.string.search);
+        mSearchBox.setDecoySearchViewHint(R.string.search);
         mSearchTextView = mSearchBox.getSearchTextView();
         mSearchTextView.addTextChangedListener(new TextWatcher() {
             @Override

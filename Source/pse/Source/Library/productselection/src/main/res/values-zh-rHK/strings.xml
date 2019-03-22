@@ -37,5 +37,6 @@
     <string name="pse_App_Content">本應用程式的內容現已特別為您而設</string>
 
     <string name="search"> 搜尋 </string>
+    <string name="iap_product_detail_title"> 產品詳細資料</string>
 
 </resources>
