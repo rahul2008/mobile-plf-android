@@ -72,20 +72,15 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
     }
-    annotationProcessor deps.dagger.compiler
-    implementation deps.calligraphy
     implementation deps.constraintlayout
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.support.annotations
-    implementation deps.dagger.dagger
     implementation deps.volley
-    implementation deps.support.recyclerview
     implementation deps.adobemobilelib
     implementation deps.openid_appauth
-    implementation deps.rxjava2
 
     testImplementation deps.junit
     androidTestImplementation deps.androidx_test.runner
