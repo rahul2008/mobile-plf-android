@@ -9,6 +9,7 @@ package com.philips.platform.baseapp.screens.debugtest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -29,6 +31,10 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
+import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.Arrays;
@@ -122,10 +128,32 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
             }
         };
     }
-
     protected void settingState(AdapterView<?> adapter, int position) {
-        final String configuration = adapter.getItemAtPosition(position).toString();
-        getUserRegistration().getUserDataInterface().logOut(null);
+        if (!BaseAppUtil.isNetworkAvailable(getApplicationContext())) {
+            showToast("Setting configuration failed. Please check your network!!");
+        }else {
+            final String configuration = adapter.getItemAtPosition(position).toString();
+            UserRegistrationSettingsState userRegistrationState = getUserRegistration();
+            userRegistrationState.init(getApplicationContext());
+            UserDataInterface userDataInterface = userRegistrationState.getUserDataInterface();
+            if (userDataInterface != null && userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                userRegistrationState.getUserDataInterface().logOut(new LogoutListener() {
+                    @Override
+                    public void onLogoutSuccess() {
+                        setConfiguration(configuration);
+                    }
+                    @Override
+                    public void onLogoutFailure(int errorCode, String errorMessage) {
+                        showToast("Setting configuration failed on failure of logout with errorcode : " + errorCode);
+                    }
+                });
+            } else {
+                setConfiguration(configuration);
+            }
+        }
+    }
+
+    private void setConfiguration(String configuration){
         if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.DEVELOPMENT.name())) {
             setState(AppIdentityInterface.AppState.DEVELOPMENT);
         } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.TEST.name())) {
@@ -135,6 +163,19 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
         }
         getConfigurationTextView().setText(configuration);
     }
+
+    final Handler handler = new Handler();
+
+    private void showToast(final String msg) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 
     private TextView getConfigurationTextView() {
         return configurationTextView;
