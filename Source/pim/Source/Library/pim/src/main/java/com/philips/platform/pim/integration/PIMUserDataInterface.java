@@ -1,7 +1,6 @@
 package com.philips.platform.pim.integration;
 
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
-import com.philips.platform.pim.models.ServiceIdentifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +10,11 @@ public interface PIMUserDataInterface {
     //Listener name should be LogoutSessionListener
     void logoutSession(LogoutSessionListener logoutSessionListener);
 
-    void refreshSession(ServiceIdentifier serviceIdentifier, RefreshSessionListener refreshSessionListener);
+    void refreshSession( RefreshSessionListener refreshSessionListener);
 
     void refetchUserDetails(RefetchUserDetailsListener userDetailsListener);
 
-    HashMap<String, Object> getUserDetails(ServiceIdentifier serviceIdentifiers, ArrayList<String> detailKeys) throws Exception;
+    HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception;
 
     //ToDo: Could be generic for Service ID to be conclud
     boolean authorizeLoginToHSDP(HSDPAuthenticationListener hsdpListener);

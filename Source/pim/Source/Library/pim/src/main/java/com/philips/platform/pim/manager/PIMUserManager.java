@@ -1,42 +1,65 @@
 package com.philips.platform.pim.manager;
 
-import android.util.Log;
-
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.pim.models.PIMHsdpUserProfile;
+import com.philips.platform.pim.listeners.PIMListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
+import com.philips.platform.pim.rest.PIMRestClient;
+import com.philips.platform.pim.rest.UserProfileRequest;
+
+import net.openid.appauth.AuthState;
 
 public class PIMUserManager {
     private PIMOIDCUserProfile pimoidcUserProfile;
-    private PIMHsdpUserProfile pimHsdpUserProfile;
-
-    public PIMUserManager() {
-
-    }
+    private SecureStorageInterface secureStorage;
+    private AuthState authState;
 
     public void init(SecureStorageInterface secureStorage) {
         //get Secure Storage user profile
-        pimoidcUserProfile = getUserProfileFromSecureStorage(secureStorage);
+        this.secureStorage = secureStorage;
+
+        //TODO : fetch authstate from secure storage
+        pimoidcUserProfile = new PIMOIDCUserProfile(secureStorage, authState);
     }
 
 
-    public PIMOIDCUserProfile fetchOIDCUserProfile() {
+
+    public void requestUserProfile(AuthState oidcAuthState, PIMListener pimListener) {
+        //Create PimRequestInterface with confiration
+        UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState.getLastAuthorizationResponse().request.configuration);
+        new PIMRestClient().invokeRequest(userProfileRequest, (String response) -> {
+            onSuccess(response);
+        }, error -> onError());
+        //Store AuthState and fetch user profile then authstate
+
+    }
+
+    private void onError() {
+        //Log
+    }
+
+    private void onSuccess(String resprofileMap) {
+        //saveAuthStateIntoSecureStorage(apthState);
+        saveUserProfileToSecureStorage(resprofileMap);
+        //TODO: set inmemory oidc user profile
+    }
+
+    public PIMOIDCUserProfile getOIDCUserProfile() {
         return pimoidcUserProfile;
     }
 
-    protected PIMHsdpUserProfile fetchHSDPUserProfile() {
-        return pimHsdpUserProfile;
+//    public AuthState getAuthState() {
+//        return
+//    }
+
+
+    private void saveUserProfileToSecureStorage(String profileMap) {
+        //  pimoidcUserProfile = new PIMOIDCUserProfile(secureStorage, profileMap);
+        secureStorage.storeValueForKey("USER_PROFILE", profileMap.toString(), new SecureStorageInterface.SecureStorageError());
     }
 
-    private PIMOIDCUserProfile getUserProfileFromSecureStorage(SecureStorageInterface secureStorage) {
-        SecureStorageInterface.SecureStorageError secureStorageError = new SecureStorageInterface.SecureStorageError();
-        String profile = secureStorage.fetchValueForKey("ProfileKey", secureStorageError);
-        SecureStorageInterface.SecureStorageError.secureStorageError errorCode = secureStorageError.getErrorCode();
-        if (profile != null && secureStorageError.getErrorMessage() != null) {
-            Log.e("PimUserManager", "Error Occured" + secureStorageError.getErrorMessage());
-            return null;
-        } else
-            return null;
+    private void saveAuthStateIntoSecureStorage(AuthState authState) {
+        secureStorage.storeValueForKey("AuthState", authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
     }
+
 
 }

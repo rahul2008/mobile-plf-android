@@ -24,6 +24,7 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.integration.PIMInterface;
+import com.philips.platform.pim.manager.PIMLoginManager;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
@@ -61,7 +62,7 @@ public class PIMFragment extends Fragment implements View.OnClickListener {
     public static final String SCOPE = "openid profile email address phone";
     public String kClientID = "9317be6b-193f-4187-9ec2-5e1802a8d8ad";
     public String kRedirectURI = "com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad://oauthredirect";
-
+    private PIMLoginManager pimLoginManager;
 
     @Override
     public void onAttach(Context context) {
@@ -69,6 +70,11 @@ public class PIMFragment extends Fragment implements View.OnClickListener {
         mContext = context;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        pimLoginManager = new PIMLoginManager();
+    }
 
     @Nullable
     @Override
@@ -476,7 +482,6 @@ public class PIMFragment extends Fragment implements View.OnClickListener {
         } catch (MalformedURLException urlEx) {
             Log.e(TAG, "Failed to construct user info endpoint URL", urlEx);
         }
-
 
 
         InputStream userInfoResponse = null;

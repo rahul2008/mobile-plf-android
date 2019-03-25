@@ -7,7 +7,7 @@ import com.philips.platform.pim.R;
 
 import net.openid.appauth.AuthorizationServiceDiscovery;
 
-public class PIMOIDCConfigration extends PIMConfigration {
+public class PIMOIDCConfigration {
     private static String TAG = PIMOIDCConfigration.class.getSimpleName();
     private static final String GROUP_PIM = "PIM";
     private static final String CLIENT_ID = "clientId";

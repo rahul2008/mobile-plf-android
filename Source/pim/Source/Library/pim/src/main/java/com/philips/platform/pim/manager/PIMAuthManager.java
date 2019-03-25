@@ -4,7 +4,9 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
+import com.philips.platform.pim.listeners.PIMOIDCAuthStateListener;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationServiceConfiguration;
@@ -12,9 +14,10 @@ import net.openid.appauth.AuthorizationServiceConfiguration;
 public class PIMAuthManager {
     private Fragment mFragment;
     private PIMAuthorizationServiceConfigurationListener listener;
+    private AuthorizationServiceConfiguration authorizationServiceConfiguration;
 
 
-    void fetchAuthWellKnownConfiguration(String baseUrl,  PIMAuthorizationServiceConfigurationListener listener) {
+    void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
         // String discoveryEndpoint = configuration.kIssuer + "/.well-known/openid-configuration";
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
 //
@@ -33,10 +36,15 @@ public class PIMAuthManager {
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
-//for Login
+    //for Login
     void performLoginWithAccessToken() {
         // makeAuthRequest(pimOidcDiscoveryManager.getAuthorizationServiceConfiguration(), mAuthService);
     }
+
+    public void loginToOIDC(PIMOIDCConfigration pimoidcConfigration, PIMOIDCAuthStateListener pimoidcAuthStateListener) {
+        //Get Authsate after authrization for AppAuth
+    }
+
 
 
 //    private void makeAuthRequest(@NonNull AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationService mAuthService) {

@@ -40,7 +40,8 @@ public class PIMInterface implements UappInterface {
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
         PIMUserManager pimUserManager = new PIMUserManager();
         pimUserManager.init(uappDependencies.getAppInfra().getSecureStorage());
-        // TODO: Usermanager.init is missing to fetch user profile
+        PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
+        // TODO: Usermanager.init is missing to fetch user profile and set to Setting manager for getting later
     }
 
     @Override
@@ -73,13 +74,6 @@ public class PIMInterface implements UappInterface {
         intent.putExtra(PIMConstants.PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
         uiLauncher.getActivityContext().startActivity(intent);
     }
-
-//    @NonNull
-//    private PIMComponent initDaggerComponents(UappDependencies uappDependencies, UappSettings uappSettings) {
-//        return DaggerPimComponent.builder()
-//                .appInfraModule(new AppInfraModule(uappDependencies.getAppInfra()))
-//                .build();
-//    }
 
     /**
      * Get the User Data Interface
