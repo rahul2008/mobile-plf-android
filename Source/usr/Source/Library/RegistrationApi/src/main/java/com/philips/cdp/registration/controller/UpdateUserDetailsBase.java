@@ -132,7 +132,12 @@ public class UpdateUserDetailsBase implements
 
     @Override
     public void onRefreshLoginSessionFailedAndLoggedout() {
-        //NOP
+        if (null != mUpdateUserDetails) {
+            RLog.e(TAG, "onRefreshLoginSessionFailedAndLoggedout");
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mUpdateUserDetails
+                            .onUpdateFailedWithError(ErrorCodes.HSDP_INPUT_ERROR_1151));
+        }
     }
 
     @Nullable

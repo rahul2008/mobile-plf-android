@@ -109,7 +109,7 @@ public class IAPUser implements LogoutListener {
 
             @Override
             public void onForcedLogout() {
-                mStore.setNewUser(true);
+                mUserDataInterface.logOut(IAPUser.this);
             }
         });
 

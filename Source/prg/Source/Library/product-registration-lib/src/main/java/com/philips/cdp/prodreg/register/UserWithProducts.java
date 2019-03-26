@@ -34,6 +34,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 
 import java.util.ArrayList;
@@ -352,7 +353,18 @@ public class UserWithProducts {
 
             @Override
             public void onForcedLogout() {
-                //NOP
+                if(mUserDataInterface != null)
+                    mUserDataInterface.logOut(new LogoutListener() {
+                        @Override
+                        public void onLogoutSuccess() {
+                            ProdRegLogger.d(TAG,"onLogoutSuccess");
+                        }
+
+                        @Override
+                        public void onLogoutFailure(int errorCode, String errorMessage) {
+                            ProdRegLogger.d(TAG,"onLogoutFailure");
+                        }
+                    });
             }
         };
     }

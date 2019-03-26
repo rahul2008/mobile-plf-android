@@ -693,7 +693,17 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
                 @Override
                 public void onRefreshLoginSessionFailedAndLoggedout() {
-                    //NOP
+                   mUser.logout(new LogoutHandler() {
+                       @Override
+                       public void onLogoutSuccess() {
+                           RLog.d(TAG, " : onLogoutSuccess");
+                       }
+
+                       @Override
+                       public void onLogoutFailure(int responseCode, String message) {
+                           RLog.d(TAG, " : onLogoutFailure");
+                       }
+                   });
                 }
             });
         } else {
@@ -741,6 +751,18 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onRefreshLoginSessionFailedAndLoggedout() {
         RLog.d(TAG, "  : onRefreshLoginSessionFailedAndLoggedout");
+        if(mUser != null)
+            mUser.logout(new LogoutHandler() {
+                @Override
+                public void onLogoutSuccess() {
+                    RLog.d(TAG, " : onLogoutSuccess");
+                }
+
+                @Override
+                public void onLogoutFailure(int responseCode, String message) {
+                    RLog.d(TAG, " : onLogoutFailure");
+                }
+            });
     }
 
     @Override
@@ -794,7 +816,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     public void onRefreshLoginSessionInProgress(String message) {
-        showToast(message);
+        //NOP
     }
 
 
