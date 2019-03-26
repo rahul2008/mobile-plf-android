@@ -134,20 +134,20 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         getRegistrationFragment().startCountDownTimer();
         normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
 
-        String description = setDescription(normalText, mobileNumber);
+        SpannableString description = setDescription(normalText, mobileNumber);
         verifyPasswordDesc1.setText(description);
         handleVerificationCode();
         return view;
     }
 
     @VisibleForTesting
-    protected String setDescription( String normalText, String mobileNumber) {
+    protected SpannableString setDescription( String normalText, String mobileNumber) {
         String formattedStr = String.format(normalText, mobileNumber);
         StringBuilder fStringBuilder = new StringBuilder(formattedStr);
         SpannableString str = new SpannableString(formattedStr);
         str.setSpan(new StyleSpan(Typeface.BOLD), fStringBuilder.indexOf(mobileNumber), fStringBuilder.indexOf(mobileNumber) + mobileNumber.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-       return str.toString();
+       return str;
     }
 
     private void handleVerificationCode() {
