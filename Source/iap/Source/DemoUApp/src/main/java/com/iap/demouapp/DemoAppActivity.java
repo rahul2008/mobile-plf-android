@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -108,20 +109,22 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mEtPropositionId = findViewById(R.id.et_add_proposition_id);
         mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
 
+        AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppConfigurationInterface configInterface = appInfra.getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+
+        String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "IAP", configError);
+        mEtPropositionId.setText(propertyForKey);
 
         mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
-                AppConfigurationInterface configInterface = appInfra.getConfigInterface();
-                AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
                 configInterface.setPropertyForKey("propositionid", "IAP",mEtPropositionId.getText().toString(), configError);
 
                 Toast.makeText(DemoAppActivity.this,"Proposition id is set",Toast.LENGTH_SHORT).show();
-
-
-                finish();
+                finishAffinity();
+                System.exit(0);
             }
         });
 
@@ -629,7 +632,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     boolean isClickable(){
 
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1500){
             return false;
         }
         mLastClickTime = SystemClock.elapsedRealtime();

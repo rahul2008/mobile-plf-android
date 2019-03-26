@@ -1,5 +1,8 @@
 {
   "UserRegistration": {
+    "HSDPConfiguration.ApplicationName":"OneBackend",
+    "HSDPConfiguration.Secret":{"CN":"a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22","default":"f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda"},
+    "HSDPConfiguration.Shared":{"CN":"6036461d-0914-4afe-9e6e-eefe27fb529a","default":"f52cd90d-c955-43e1-8380-999e03d0d4c0"},
     "JanRainConfiguration.RegistrationClientID.Development": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Testing": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Evaluation": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
@@ -22,7 +25,7 @@
   "appinfra": {
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
-    "appidentity.appState"  : "DEVELOPMENT",
+    "appidentity.appState"  : "STAGING",
     "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId", "language"],

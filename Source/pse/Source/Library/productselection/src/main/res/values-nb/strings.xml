@@ -35,6 +35,7 @@
     <string name="pse_Explain_Benefits">Velg riktig produkt her for å forklare fordelene.</string>
     <string name="pse_Product_Register">Hvilket produkt vil du registrere?</string>
     <string name="pse_App_Content">Innholdet i denne appen er nå skreddersydd for det valgte produktet</string>
+    <string name="iap_product_detail_title"> Produktdetaljer</string>
 
     <string name="search"> Søk </string>
 
