@@ -6,6 +6,7 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -87,6 +90,10 @@ public abstract class AbstractAppFrameworkBaseActivity extends  UIDActivity impl
         UIDHelper.init(themeConfig);
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @StyleRes
     int getThemeResourceId(Resources resources, final String packageName, final ColorRange colorRange, final ContentColor contentColor) {

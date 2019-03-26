@@ -195,7 +195,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 }
             }
         });
-
+        updateSkipHsdpStatus(true);
 
         mSkipHSDPSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -225,8 +225,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         });
 
         mCheckBox = findViewById(R.id.cd_hsdp);
-        if (restoredHSDPText != null) {
+        if (restoredHSDPText != null || RegistrationConfiguration.getInstance().isHsdpFlow()) {
             mCheckBox.setChecked(true);
+        } else {
+            mCheckBox.setChecked(false);
         }
         updateHSDPUuidSwitch(false);
 
@@ -325,6 +327,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         RLog.d("updateSkipHsdpStatus", " Going to set :" + b);
         final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
         appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_SKIP_HSDP_LOGIN, "UserRegistration", String.valueOf(b), configError);
+        mSkipHSDPSwitch.setChecked(b);
     }
 
 
@@ -834,7 +837,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
 //        registrationContentConfiguration.setOptInBannerText(optInBannerText);
         registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
-     //   registrationContentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
+        //   registrationContentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
         registrationContentConfiguration.enableLastName(true);
         registrationContentConfiguration.enableContinueWithouAccount(true);
         return registrationContentConfiguration;
