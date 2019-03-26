@@ -2,6 +2,7 @@ package com.philips.platform.pim.configration;
 
 import android.util.Log;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.pim.R;
 
@@ -13,11 +14,11 @@ public class PIMOIDCConfigration {
     private static final String CLIENT_ID = "clientId";
     private AuthorizationServiceDiscovery authorizationServiceDiscovery;
 
-    private AppConfigurationInterface appConfigurationInterface;
+    private AppInfraInterface appInfraInterface;
 
-    public PIMOIDCConfigration(AuthorizationServiceDiscovery authorizationServiceDiscovery, AppConfigurationInterface appConfigurationInterface) {
+    public PIMOIDCConfigration(AuthorizationServiceDiscovery authorizationServiceDiscovery, AppInfraInterface appInfraInterface) {
         this.authorizationServiceDiscovery = authorizationServiceDiscovery;
-        this.appConfigurationInterface = appConfigurationInterface;
+        this.appInfraInterface = appInfraInterface;
     }
 
     //TODO: Note once saved AuthState, do we need to populate PIMOIDCConfigration class through AuthState
@@ -45,6 +46,6 @@ public class PIMOIDCConfigration {
     }
 
     private Object getProperty(String key, String group) {
-        return appConfigurationInterface.getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
+        return appInfraInterface.getConfigInterface().getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
     }
 }

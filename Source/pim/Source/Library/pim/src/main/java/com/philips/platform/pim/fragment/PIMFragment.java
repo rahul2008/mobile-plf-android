@@ -73,7 +73,7 @@ public class PIMFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pimLoginManager = new PIMLoginManager();
+//        pimLoginManager = new PIMLoginManager();
     }
 
     @Nullable

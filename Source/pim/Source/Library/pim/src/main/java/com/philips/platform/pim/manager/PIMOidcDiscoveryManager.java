@@ -23,7 +23,7 @@ class PIMOidcDiscoveryManager implements PIMAuthorizationServiceConfigurationLis
     @Override
     public void onSuccess(AuthorizationServiceDiscovery discoveryDoc) {
 
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(discoveryDoc, PIMSettingManager.getInstance().getAppConfigurationInterface());
+        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(discoveryDoc, PIMSettingManager.getInstance().getAppInfraInterface());
         PIMSettingManager.getInstance().setPimOidcConfigration(pimoidcConfigration);
     }
 

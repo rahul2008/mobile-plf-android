@@ -13,14 +13,15 @@ import net.openid.appauth.AuthorizationServiceDiscovery;
 
 public class OIDCFragment extends Fragment implements PIMListener {
     PIMLoginManager pimLoginManager;
+    PIMOIDCConfigration pimoidcConfigration;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pimLoginManager = new PIMLoginManager();
+        pimLoginManager = new PIMLoginManager(pimoidcConfigration);
         //Get from settingManger and inject
         PIMOIDCConfigration piOidcConfigration = PIMSettingManager.getInstance().getPiOidcConfigration();
-        pimLoginManager.oidcLogin(piOidcConfigration, this);
+        pimLoginManager.oidcLogin(this);
     }
 
     @Override
