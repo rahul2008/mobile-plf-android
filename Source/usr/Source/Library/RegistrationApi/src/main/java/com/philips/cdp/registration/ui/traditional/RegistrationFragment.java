@@ -255,16 +255,16 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     private void handleUseRLoginStateFragments() {
         User mUser = new User(getParentActivity().getApplicationContext());
         final boolean hsdpSkipLoginConfigurationAvailable = RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable();
-        boolean isUserSignIn = (hsdpSkipLoginConfigurationAvailable && mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal() || mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN);
+        boolean isUserSignIn = ((hsdpSkipLoginConfigurationAvailable && mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal())|| mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN);
         boolean isEmailVerified = (mUser.isEmailVerified() || mUser.isMobileVerified());
         boolean isEmailVerificationRequired = RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
         boolean isEmailVerifiedOrNotRequired = isEmailVerified || !isEmailVerificationRequired;
 
-        if (isUserSignIn && isEmailVerifiedOrNotRequired && mRegistrationLaunchMode != null) {
+        if (isUserSignIn && isEmailVerifiedOrNotRequired && mRegistrationLaunchMode != null && mUser.isHSDPUserSignedIn()) {
 
-            if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)) {
+            if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode) ) {
                 launchMarketingAccountFragment();
                 RLog.d(TAG, "handleUseRLoginStateFragments : launchMarketingAccountFragment");
             } else {
@@ -301,8 +301,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     private void trackPage(String currPage) {
-        User mUser = new User(getParentActivity().getApplicationContext());
-        AppTagging.trackPage(currPage);
+      AppTagging.trackPage(currPage);
     }
 
     public void replaceWithHomeFragment() {
