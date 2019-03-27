@@ -565,15 +565,10 @@ public class User {
             RLog.i(TAG, "getUserLoginState PENDING_TERM_CONDITION");
             return UserLoginState.PENDING_TERM_CONDITION;
         }
-        boolean isHsdpDelayEnabled = RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable();
-        if (isHsdpDelayEnabled && isHsdpFlow && !isHSDPUserSignedIn()) {
+        if (isHsdpFlow && !isHSDPUserSignedIn()) {
             RLog.i(TAG, "getUserLoginState PENDING_HSDP_LOGIN");
             return UserLoginState.PENDING_HSDP_LOGIN;
-        }else  if(!isHsdpDelayEnabled && isHsdpFlow && !isHSDPUserSignedIn()){
-            RLog.i(TAG, "getUserLoginState PENDING_HSDP_LOGIN");
-            return UserLoginState.USER_NOT_LOGGED_IN;
         }
-
         RLog.d(TAG, "getUserLoginState USER_LOGGED_IN");
         return UserLoginState.USER_LOGGED_IN;
     }
@@ -651,7 +646,7 @@ public class User {
         return true;
     }
 
-    public boolean isHSDPUserSignedIn() {
+    private boolean isHSDPUserSignedIn() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         final boolean hsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
         boolean hsdpUserSignedIn = false;

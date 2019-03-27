@@ -493,6 +493,6 @@ public class HsdpUser {
                 getHsdpUserRecord().getAccessCredential().getAccessToken() != null);
         RLog.d(TAG, "isHsdpUserSignedIn : isSignedIn" + isSignedIn);
         RLog.d(TAG, "HsdpUserRecordV2 : hsdpUserRecord is available" + (hsdpUserRecordV2 != null ? hsdpUserRecordV2.toString() : null));
-        return false;
+        return isSignedIn;
     }
 }

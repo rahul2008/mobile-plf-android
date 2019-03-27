@@ -256,15 +256,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         User mUser = new User(getParentActivity().getApplicationContext());
         final boolean hsdpSkipLoginConfigurationAvailable = RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable();
         boolean isUserSignIn = ((hsdpSkipLoginConfigurationAvailable && mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal())|| mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN);
-        boolean isEmailVerified = (mUser.isEmailVerified() || mUser.isMobileVerified());
-        boolean isEmailVerificationRequired = RegistrationConfiguration.
-                getInstance().isEmailVerificationRequired();
 
-        boolean isEmailVerifiedOrNotRequired = isEmailVerified || !isEmailVerificationRequired;
 
-        if (isUserSignIn && isEmailVerifiedOrNotRequired && mRegistrationLaunchMode != null && mUser.isHSDPUserSignedIn()) {
-
-            if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode) ) {
+        if (isUserSignIn ) {
+            if (mRegistrationLaunchMode != null && RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode) ) {
                 launchMarketingAccountFragment();
                 RLog.d(TAG, "handleUseRLoginStateFragments : launchMarketingAccountFragment");
             } else {

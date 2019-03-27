@@ -64,8 +64,8 @@ project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 
 //demoapps to be published to artifactory
-//include ':UserRegistrationApp'
-//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+include ':UserRegistrationApp'
+project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
