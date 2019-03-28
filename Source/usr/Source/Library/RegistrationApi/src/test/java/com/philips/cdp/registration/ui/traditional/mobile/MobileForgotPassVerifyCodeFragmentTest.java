@@ -1,6 +1,7 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.os.Bundle;
+import android.text.SpannableString;
 
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -66,17 +67,18 @@ public class MobileForgotPassVerifyCodeFragmentTest {
     public void should_AppendAtLast() {
         callRegistrationFragment();
         String normalText = "We’ve just sent an SMS with a six digit code to your phone number %s";
-        String expText = "We’ve just sent an SMS with a six digit code to your phone number 342342342342";
-        assertEquals(expText, mobileForgotPassVerifyCodeFragment.setDescription(normalText, "342342342342"));
-
+        SpannableString expText = new SpannableString("We’ve just sent an SMS with a six digit code to your phone number 342342342342");
+        SpannableString actual = mobileForgotPassVerifyCodeFragment.setDescription(normalText, "342342342342");
+        assertEquals(expText.toString(), actual.toString());
     }
 
     @Test
     public void should_AppendInBetween() {
         callRegistrationFragment();
         String normalText = "We’ve just sent an SMS with a six digit code %s to your phone number";
-        String expText = "We’ve just sent an SMS with a six digit code 342342342342 to your phone number";
-        assertEquals(expText, mobileForgotPassVerifyCodeFragment.setDescription(normalText, "342342342342"));
+        SpannableString expText = new SpannableString("We’ve just sent an SMS with a six digit code 342342342342 to your phone number");
+        SpannableString actual = mobileForgotPassVerifyCodeFragment.setDescription(normalText, "342342342342");
+        assertEquals(expText.toString(), actual.toString());
 
     }
 
@@ -84,8 +86,9 @@ public class MobileForgotPassVerifyCodeFragmentTest {
     public void should_AppendAtStart() {
         callRegistrationFragment();
         String normalText = "%s We’ve just sent an SMS with a six digit code to your phone number";
-        String expText = "342342342342 We’ve just sent an SMS with a six digit code to your phone number";
-        assertEquals(expText, mobileForgotPassVerifyCodeFragment.setDescription(normalText, "342342342342"));
+        SpannableString expText = new SpannableString("342342342342 We’ve just sent an SMS with a six digit code to your phone number");
+        SpannableString actual = mobileForgotPassVerifyCodeFragment.setDescription(normalText, "342342342342");
+        assertEquals(expText.toString(), actual.toString());
 
     }
 }
