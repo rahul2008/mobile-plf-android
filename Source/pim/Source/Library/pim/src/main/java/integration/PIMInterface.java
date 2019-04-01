@@ -1,7 +1,9 @@
-package com.philips.platform.pim.integration;
+package integration;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -9,6 +11,8 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.configration.PIMDataProvider;
+import com.philips.platform.pim.manager.PIMAuthManager;
+import com.philips.platform.pim.manager.PIMOidcDiscoveryManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
@@ -28,14 +32,12 @@ public class PIMInterface implements UappInterface {
     private String TAG = PIMInterface.class.getSimpleName();
 
     private Context context;
-    public static AppInfra mAppInfra;
 
     @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-//        component = initDaggerComponents(uappDependencies, uappSettings);
+    public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
 
-        PIMSettingManager.getInstance().setDependencies((PIMDependencies) uappDependencies);
+        PIMSettingManager.getInstance().setDependencies(uappDependencies);
         PIMConfigManager pimConfigManager = new PIMConfigManager();
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
         PIMUserManager pimUserManager = new PIMUserManager();

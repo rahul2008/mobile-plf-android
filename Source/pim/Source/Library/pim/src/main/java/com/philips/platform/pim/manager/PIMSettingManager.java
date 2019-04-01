@@ -3,10 +3,14 @@ package com.philips.platform.pim.manager;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pim.BuildConfig;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
-import com.philips.platform.pim.integration.PIMDependencies;
+import com.philips.platform.uappframework.uappinput.UappDependencies;
+
+import integration.PIMDependencies;
+import integration.PIMInterface;
 
 
 public class PIMSettingManager {
@@ -17,6 +21,7 @@ public class PIMSettingManager {
     private AppTaggingInterface mTaggingInterface;
     private PIMOIDCConfigration mPimoidcConfigration;
     private PIMUserManager pimUserManager;
+    private RestInterface mRestInterface;
 
     public static PIMSettingManager getInstance() {
         return instance;
@@ -34,10 +39,11 @@ public class PIMSettingManager {
     }
 
 
-    public void setDependencies(PIMDependencies pimDependencies) {
+    public void setDependencies(UappDependencies pimDependencies) {
         mAppInfraInterface = pimDependencies.getAppInfra();
         mLoggingInterface = mAppInfraInterface.getLogging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
         mTaggingInterface = mAppInfraInterface.getTagging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
+        mRestInterface = mAppInfraInterface.getRestClient();
     }
 
 
@@ -60,5 +66,9 @@ public class PIMSettingManager {
 
     public void setPimUserManager(PIMUserManager pimUserManager) {
         this.pimUserManager = pimUserManager;
+    }
+
+    public RestInterface getRestClient() {
+        return mRestInterface;
     }
 }

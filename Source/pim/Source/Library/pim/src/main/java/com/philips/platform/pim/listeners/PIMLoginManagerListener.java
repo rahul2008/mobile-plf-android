@@ -1,6 +1,6 @@
 package com.philips.platform.pim.listeners;
 
-import com.philips.platform.pim.integration.PIMUserDataInterface;
+import integration.PIMUserDataInterface;
 
 public interface PIMLoginManagerListener {
     void onSuccess();

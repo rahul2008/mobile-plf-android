@@ -32,9 +32,9 @@
     "propositionid": "Tuscany2016"
   },
   "appinfra": {
-    "appidentity.micrositeId": "77001",
+    "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
-    "appidentity.appState": "production",
+    "appidentity.appState": "STAGING",
     "appidentity.serviceDiscoveryEnvironment": "production",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [

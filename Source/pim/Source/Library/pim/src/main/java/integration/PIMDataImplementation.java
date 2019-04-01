@@ -1,4 +1,4 @@
-package com.philips.platform.pim.integration;
+package integration;
 
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pim.manager.PIMUserManager;

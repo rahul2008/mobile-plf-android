@@ -1,6 +1,6 @@
 package com.philips.platform.pim.listeners;
 
-import com.philips.platform.pim.integration.PIMUserDataInterface;
+import integration.PIMUserDataInterface;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
 
 public interface PIMOIDCLoginListener {

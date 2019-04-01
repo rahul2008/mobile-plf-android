@@ -26,7 +26,7 @@ public class PIMUserManager {
     public void requestUserProfile(AuthState oidcAuthState, PIMListener pimListener) {
         //Create PimRequestInterface with confiration
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState.getLastAuthorizationResponse().request.configuration);
-        new PIMRestClient().invokeRequest(userProfileRequest, (String response) -> {
+        new PIMRestClient(PIMSettingManager.getInstance().getRestClient()).invokeRequest(userProfileRequest, (String response) -> {
             onSuccess(response);
         }, error -> onError());
         //Store AuthState and fetch user profile then authstate

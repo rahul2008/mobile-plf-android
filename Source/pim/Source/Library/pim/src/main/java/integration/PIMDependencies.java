@@ -1,4 +1,4 @@
-package com.philips.platform.pim.integration;
+package integration;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;

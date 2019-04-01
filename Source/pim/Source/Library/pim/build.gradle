@@ -52,6 +52,10 @@ android {
             testCoverageEnabled = true
         }
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
@@ -81,11 +85,13 @@ dependencies {
     implementation deps.volley
     implementation deps.adobemobilelib
     implementation deps.openid_appauth
-
     testImplementation deps.junit
-    androidTestImplementation deps.androidx_test.runner
-    androidTestImplementation deps.mockito_android
-
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_junit_rule_agent
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_classloading_xstream
 
 }
 

@@ -23,7 +23,7 @@ import android.widget.ImageButton;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.R;
-import com.philips.platform.pim.integration.PIMInterface;
+import integration.PIMInterface;
 import com.philips.platform.pim.manager.PIMLoginManager;
 
 import net.openid.appauth.AuthState;
