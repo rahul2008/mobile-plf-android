@@ -245,10 +245,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private void loadFirstFragment() {
         try {
+
+            boolean hsdpSkipLoginConfigurationAvailable = RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable();
             User mUser = new User(getParentActivity().getApplicationContext());
-            final boolean hsdpSkipLoginConfigurationAvailable = RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable();
-            boolean isUserSignIn = ((hsdpSkipLoginConfigurationAvailable && mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) || mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN);
-            handleUseRLoginStateFragments(isUserSignIn, mFragmentManager);
+            handleUseRLoginStateFragments(hsdpSkipLoginConfigurationAvailable, mFragmentManager,mUser);
         } catch (IllegalStateException e) {
             RLog.e(TAG, "loadFirstFragment :FragmentTransaction " +
                     "Exception occured in loadFirstFragment  :" + e.getMessage());
@@ -256,8 +256,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     }
 
     @VisibleForTesting
-    protected Fragment handleUseRLoginStateFragments(boolean isUserSignIn, FragmentManager pFragmentManager) {
-        Fragment fragment = null;
+    protected Fragment handleUseRLoginStateFragments(boolean hsdpSkipLoginConfiguration, FragmentManager pFragmentManager, User pUser) {
+
+        boolean isUserSignIn = ((hsdpSkipLoginConfiguration && pUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) || pUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN);
+        Fragment fragment;
         if (isUserSignIn) {
             if (mRegistrationLaunchMode != null && RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)) {
                 fragment = launchMarketingAccountFragment(pFragmentManager);

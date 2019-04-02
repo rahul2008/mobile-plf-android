@@ -71,25 +71,28 @@ public class RegistrationFragmentTest {
     @Test
     public void shouldUserDetailsFragment() {
         when(mFragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
-        Fragment fragment = registrationFragment.handleUseRLoginStateFragments(true, mFragmentManager);
+        when(mUser.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
+        Fragment fragment = registrationFragment.handleUseRLoginStateFragments(true, mFragmentManager, mUser);
         Assert.assertTrue(fragment instanceof UserDetailsFragment);
     }
 
     @Test
     public void shouldHomeFragment() {
         when(mFragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
-        Fragment fragment = registrationFragment.handleUseRLoginStateFragments(false, mFragmentManager);
+        when(mUser.getUserLoginState()).thenReturn(UserLoginState.USER_NOT_LOGGED_IN);
+        Fragment fragment = registrationFragment.handleUseRLoginStateFragments(false, mFragmentManager, mUser);
         Assert.assertTrue(fragment instanceof HomeFragment);
     }
 
     @Test
     public void shouldMarketingAccountFragment() {
+        when(mUser.getUserLoginState()).thenReturn(UserLoginState.PENDING_HSDP_LOGIN);
         Bundle bundle = new Bundle();
         bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, RegistrationLaunchMode.MARKETING_OPT);
         registrationFragment.setArguments(bundle);
         registrationFragment.onCreate(null);
         when(mFragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
-        Fragment fragment = registrationFragment.handleUseRLoginStateFragments(true, mFragmentManager);
+        Fragment fragment = registrationFragment.handleUseRLoginStateFragments(true, mFragmentManager,mUser);
         Assert.assertTrue(fragment instanceof MarketingAccountFragment);
     }
 
