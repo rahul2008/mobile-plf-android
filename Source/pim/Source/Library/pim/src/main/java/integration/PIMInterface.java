@@ -3,16 +3,12 @@ package integration;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.configration.PIMDataProvider;
-import com.philips.platform.pim.manager.PIMAuthManager;
-import com.philips.platform.pim.manager.PIMOidcDiscoveryManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;

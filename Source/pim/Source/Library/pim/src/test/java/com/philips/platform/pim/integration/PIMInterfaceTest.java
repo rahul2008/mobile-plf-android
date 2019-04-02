@@ -2,17 +2,12 @@ package com.philips.platform.pim.integration;
 
 import android.content.Context;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
-import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
@@ -24,11 +19,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import integration.PIMInterface;
 
-@RunWith(MockitoJUnitRunner.class)
+@PrepareForTest({PIMSettingManager.class})
+@RunWith(PowerMockRunner.class)
 public class PIMInterfaceTest extends TestCase {
 
     private PIMInterface pimInterface;
@@ -50,7 +48,7 @@ public class PIMInterfaceTest extends TestCase {
     SecureStorageInterface mockSecureStorageInterface;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         pimInterface = new PIMInterface();
         Mockito.when(mockUappSettings.getContext()).thenReturn(mockContext);
@@ -59,6 +57,10 @@ public class PIMInterfaceTest extends TestCase {
         Mockito.when(mockAppInfraInterface.getServiceDiscovery()).thenReturn(mockServiceDiscoveryInterface);
         Mockito.when(mockAppInfraInterface.getSecureStorage()).thenReturn(mockSecureStorageInterface);
         Mockito.when(mockUappDependencies.getAppInfra()).thenReturn(mockAppInfraInterface);
+
+        PowerMockito.mockStatic(PIMSettingManager.class);
+        PIMSettingManager mockPimSettingManager = PowerMockito.mock(PIMSettingManager.class);
+        PowerMockito.when(PIMSettingManager.class,"getInstance").thenReturn(mockPimSettingManager);
     }
 
     @Test
@@ -69,6 +71,13 @@ public class PIMInterfaceTest extends TestCase {
         assertNotNull(mockUappDependencies);
         assertNotNull(mockUappSettings);
     }
+
+//    @Test
+//    public void testSetPIMUserManager_NotNull() {
+//        PIMUserManager mockPIMUserManager = Mockito.mock(PIMUserManager.class);
+//        PIMSettingManager.getInstance().setPimUserManager(mockPIMUserManager);
+//        assertNotNull(mockPIMUserManager);
+//    }
 
     @Override
     public void tearDown() throws Exception {

@@ -3,8 +3,8 @@ package com.philips.platform.pim.manager;
 import android.net.Uri;
 
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
-import com.philips.platform.pim.utilities.PIMConstants;
 
 import junit.framework.TestCase;
 
@@ -23,12 +23,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @PrepareForTest({Uri.class})
 @RunWith(PowerMockRunner.class)
@@ -58,29 +56,111 @@ public class PIMConfigManagerTest extends TestCase {
     }
 
     @Test
-    public void testPIMConfigManagerInit_VerifyCountryPreference(){
+    public void testPIMConfigManagerInit_VerifyCountryPreference() {
         pimConfigManager.init(mockServiceDiscoveryInterface);
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
     }
 
-
+    /**
+     * Can't verify downloadOidcUrls() from here,as instance of PIMOidcDiscoveryManager
+     * and PIMAuthManager are created locally onSuccess
+     */
     @Test
-    public void testOnSuccess_VerifyDownloadOidcUrl() {
+    public void verifyGetServicesWithCountryPreference_OnSuccess() {
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
+        
         Map<String, ServiceDiscoveryService> urlMap = new HashMap<>();
         ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
         serviceDiscoveryService.setConfigUrl("https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
         urlMap.put("userreg.janrainoidc.issuer", serviceDiscoveryService);
         mockOnGetServiceUrlMapListener.onSuccess(urlMap);
-        mockPimOidcDiscoveryManager.downloadOidcUrls(urlMap.get(PIMConstants.PIM_BASEURL).getConfigUrls());
-        verify(mockPimOidcDiscoveryManager).downloadOidcUrls(any(String.class));
     }
 
+    @Test
+    public void verifyGetServicesWithCountryPreference_OnError_NoNetwork_NotNull() {
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
 
+        ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                .OnErrorListener.ERRORVALUES.NO_NETWORK, "No Network");
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        assertNotNull(sdError.getErrorvalue());
+    }
 
     @Test
-    public void testOnError() {
-         mockOnGetServiceUrlMapListener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.NO_NETWORK, "");
+    public void verifyGetServicesWithCountryPreference_OnError_SecurityError_NotNull() {
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
+
+        ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                .OnErrorListener.ERRORVALUES.SECURITY_ERROR, "Security Error");
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        assertNotNull(sdError.getErrorvalue());
+    }
+
+    @Test
+    public void verifyGetServicesWithCountryPreference_OnError_ServerError_NotNull() {
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
+
+        ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                .OnErrorListener.ERRORVALUES.SERVER_ERROR, "ErrorMessage");
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        assertNotNull(sdError.getErrorvalue());
+    }
+
+    @Test
+    public void verifyGetServicesWithCountryPreference_OnError_CONNECTIONTIMEOUT_NotNull() {
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
+
+        ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                .OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "ErrorMessage");
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        assertNotNull(sdError.getErrorvalue());
+    }
+
+    @Test
+    public void verifyGetServicesWithCountryPreference_OnError_INVALIDRESPONSE_NotNull() {
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
+
+        ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                .OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "ErrorMessage");
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        assertNotNull(sdError.getErrorvalue());
+    }
+
+    @Test
+    public void verifyGetServicesWithCountryPreference_OnError_UNKNOWNERROR_NotNull() {
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
+
+        ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                .OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "ErrorMessage");
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        assertNotNull(sdError.getErrorvalue());
+    }
+
+    @Test
+    public void verifyGetServicesWithCountryPreference_OnError_NoServiceLocalEreror_NotNull() {
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
+
+        ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
+                .OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "ErrorMessage");
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        assertNotNull(sdError.getErrorvalue());
     }
 
     @Override

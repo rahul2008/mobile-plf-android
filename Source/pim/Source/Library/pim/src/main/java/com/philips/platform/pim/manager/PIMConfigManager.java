@@ -7,7 +7,6 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 import com.philips.platform.pim.utilities.PIMConstants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.pim.utilities.PIMConstants.PIM_BASEURL;
@@ -15,8 +14,7 @@ import static com.philips.platform.pim.utilities.PIMConstants.PIM_BASEURL;
 public class PIMConfigManager {
     private static final String TAG = PIMConfigManager.class.getSimpleName();
     private final ArrayList<String> listOfServiceId;
-    private PIMOidcDiscoveryManager pimOidcDiscoveryManager;
-    private PIMAuthManager pimAuthManager;
+
 
     // TODO: Create init method, inject servicediscovery for testing purpose
     public PIMConfigManager() {
@@ -28,8 +26,8 @@ public class PIMConfigManager {
         serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                pimAuthManager = new PIMAuthManager();
-                pimOidcDiscoveryManager = new PIMOidcDiscoveryManager(pimAuthManager);
+                PIMAuthManager pimAuthManager = new PIMAuthManager();
+                PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager(pimAuthManager);
                 // TODO: Populate config if already downloaded from usermanager's authstate
                 ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
                 pimOidcDiscoveryManager.downloadOidcUrls(serviceDiscoveryService.getConfigUrls());
@@ -37,6 +35,7 @@ public class PIMConfigManager {
 
             @Override
             public void onError(ERRORVALUES error, String message) {
+
                 Log.d(TAG,"onError : "+error+" message : "+message);
 
             }

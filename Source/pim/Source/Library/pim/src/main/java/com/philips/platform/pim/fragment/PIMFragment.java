@@ -23,8 +23,8 @@ import android.widget.ImageButton;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.PimActivity;
 import com.philips.platform.pim.R;
-import integration.PIMInterface;
 import com.philips.platform.pim.manager.PIMLoginManager;
+import com.philips.platform.pim.manager.PIMSettingManager;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
@@ -573,7 +573,7 @@ public class PIMFragment extends Fragment implements View.OnClickListener {
         if (mAuthState != null) {
             try {
                 Log.i(TAG, "Start readAuthState time" + System.currentTimeMillis());
-                String authData = getAuthFromSecureStorage(PIMInterface.mAppInfra.getSecureStorage());
+                String authData = getAuthFromSecureStorage(PIMSettingManager.getInstance().getAppInfraInterface().getSecureStorage());
                 Log.i(TAG, "End readAuthState time" + System.currentTimeMillis());
                 return AuthState.jsonDeserialize(authData);//fromJsonString(stateJson);
             } catch (JSONException e) {
@@ -594,7 +594,7 @@ public class PIMFragment extends Fragment implements View.OnClickListener {
 
         String data = state.jsonSerializeString();
         Log.i(TAG, "Start writeAuthState time" + System.currentTimeMillis());
-        storeAuthInSecureStorage(PIMInterface.mAppInfra.getSecureStorage(), data);
+        storeAuthInSecureStorage(PIMSettingManager.getInstance().getAppInfraInterface().getSecureStorage(), data);
         Log.i(TAG, "End writeAuthState time" + System.currentTimeMillis());
         byte[] byteArray = new byte[0];
         try {
