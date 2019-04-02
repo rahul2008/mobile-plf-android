@@ -96,4 +96,15 @@ public class RegistrationFragmentTest {
         Assert.assertTrue(fragment instanceof MarketingAccountFragment);
     }
 
+    @Test
+    public void shouldHomeFragment_WhenHSDPConfigrationNotAvailable() {
+        when(mUser.getUserLoginState()).thenReturn(UserLoginState.PENDING_HSDP_LOGIN);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, RegistrationLaunchMode.MARKETING_OPT);
+        registrationFragment.setArguments(bundle);
+        registrationFragment.onCreate(null);
+        when(mFragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
+        Fragment fragment = registrationFragment.handleUseRLoginStateFragments(false, mFragmentManager,mUser);
+        Assert.assertTrue(fragment instanceof HomeFragment);
+    }
 }
