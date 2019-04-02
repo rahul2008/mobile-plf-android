@@ -69,7 +69,7 @@ public class RegistrationFragmentTest {
 
 
     @Test
-    public void shouldUserDetailsFragment() {
+    public void shouldUserDetailsFragment_WhenHSDPConfigrationAvailable_LogginStateUSER_LOGGED_IN() {
         when(mFragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
         when(mUser.getUserLoginState()).thenReturn(UserLoginState.USER_LOGGED_IN);
         Fragment fragment = registrationFragment.handleUseRLoginStateFragments(true, mFragmentManager, mUser);
@@ -77,7 +77,7 @@ public class RegistrationFragmentTest {
     }
 
     @Test
-    public void shouldHomeFragment() {
+    public void shouldHomeFragment_WhenHSDPConfigrationNotAvailable_LogginStateUSER_NOT_LOGGED_IN() {
         when(mFragmentManager.beginTransaction()).thenReturn(fragmentTransaction);
         when(mUser.getUserLoginState()).thenReturn(UserLoginState.USER_NOT_LOGGED_IN);
         Fragment fragment = registrationFragment.handleUseRLoginStateFragments(false, mFragmentManager, mUser);
@@ -85,7 +85,7 @@ public class RegistrationFragmentTest {
     }
 
     @Test
-    public void shouldMarketingAccountFragment() {
+    public void shouldMarketingAccountFragment_WhenHSDPConfigrationAvailable_LogginStateHSDPPENDING() {
         when(mUser.getUserLoginState()).thenReturn(UserLoginState.PENDING_HSDP_LOGIN);
         Bundle bundle = new Bundle();
         bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, RegistrationLaunchMode.MARKETING_OPT);
@@ -97,7 +97,7 @@ public class RegistrationFragmentTest {
     }
 
     @Test
-    public void shouldHomeFragment_WhenHSDPConfigrationNotAvailable_LogginStatePENDING() {
+    public void shouldHomeFragment_WhenHSDPConfigrationNotAvailable_LogginStateHSDP_PENDING() {
         when(mUser.getUserLoginState()).thenReturn(UserLoginState.PENDING_HSDP_LOGIN);
         Bundle bundle = new Bundle();
         bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, RegistrationLaunchMode.MARKETING_OPT);
