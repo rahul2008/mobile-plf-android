@@ -16,6 +16,7 @@ public class PIMDataProvider implements UserDataInterface {
     public PIMDataProvider(Context context) {
     }
 
+
     @Override
     public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception {
         return null;
@@ -73,6 +74,16 @@ public class PIMDataProvider implements UserDataInterface {
 
     @Override
     public void updateMarketingOptInConsent(UserDetailsListener userDetailsListener) {
+
+    }
+
+    @Override
+    public void registerLogOutListener(LogoutListener logoutListener) {
+
+    }
+
+    @Override
+    public void unregisterLogOutListener(LogoutListener logoutListener) {
 
     }
 }
