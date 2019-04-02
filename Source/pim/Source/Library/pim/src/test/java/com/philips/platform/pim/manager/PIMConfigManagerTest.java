@@ -42,8 +42,6 @@ public class PIMConfigManagerTest extends TestCase {
     private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlMapListener> captor;
     @Captor
     private ArgumentCaptor<ArrayList<String>> captorArrayList;
-    @Mock
-    private PIMOidcDiscoveryManager mockPimOidcDiscoveryManager;
 
 
     @Before
@@ -53,13 +51,6 @@ public class PIMConfigManagerTest extends TestCase {
         Uri uri = mock(Uri.class);
         PowerMockito.when(Uri.class, "parse", anyString()).thenReturn(uri);
         pimConfigManager = new PIMConfigManager();
-    }
-
-    @Test
-    public void testPIMConfigManagerInit_VerifyCountryPreference() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
-        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
-        mockOnGetServiceUrlMapListener = captor.getValue();
     }
 
     /**
@@ -167,7 +158,6 @@ public class PIMConfigManagerTest extends TestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
         pimConfigManager = null;
-        mockPimOidcDiscoveryManager = null;
         mockServiceDiscoveryInterface = null;
         mockOnGetServiceUrlMapListener = null;
     }
