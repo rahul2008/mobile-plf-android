@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.platform.appinfra.AppInfra;
-import integration.PIMInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -16,7 +15,9 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 
-public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener {
+import integration.PIMInterface;
+
+public class PimDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
     final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
@@ -32,9 +33,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mLogin = findViewById(R.id.btn_login);
         mLogin.setOnClickListener(this);
         PimDemoUAppDependencies pimDemoUAppDependencies = new PimDemoUAppDependencies(new AppInfra.Builder().build(this));
-        PimDemoAppSettings pimDemoAppSettings = new PimDemoAppSettings(this);
+        PimDemoUAppSettings pimDemoUAppSettings = new PimDemoUAppSettings(this);
         pimInterface = new PIMInterface();
-        pimInterface.init(pimDemoUAppDependencies, pimDemoAppSettings);
+        pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
     }
 
     private void initTheme() {

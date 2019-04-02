@@ -11,8 +11,6 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
 /**
  * Created by philips on 6/16/17.
  */
@@ -31,7 +29,7 @@ public class PimDemoUAppInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
         if(uiLauncher instanceof ActivityLauncher){
-            Intent intent=new Intent(mContext,DemoAppActivity.class);
+            Intent intent=new Intent(mContext, PimDemoUAppActivity.class);
             mContext.startActivity(intent);
         }
     }

@@ -61,5 +61,4 @@ public class PIMUserManager {
         secureStorage.storeValueForKey("AuthState", authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
     }
 
-
 }

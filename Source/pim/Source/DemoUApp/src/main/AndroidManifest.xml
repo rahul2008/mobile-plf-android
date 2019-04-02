@@ -3,7 +3,7 @@
     <application android:theme="@style/Theme.DLS">
 
         <activity
-            android:name=".DemoAppActivity"
+            android:name=".PimDemoUAppActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 

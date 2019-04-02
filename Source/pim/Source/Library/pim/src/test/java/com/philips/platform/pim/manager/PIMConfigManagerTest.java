@@ -52,7 +52,7 @@ public class PIMConfigManagerTest extends TestCase {
         PowerMockito.mockStatic(Uri.class);
         Uri uri = mock(Uri.class);
         PowerMockito.when(Uri.class, "parse", anyString()).thenReturn(uri);
-        pimConfigManager = new PIMConfigManager();
+        pimConfigManager = new PIMConfigManager(uappDependencies.getAppInfra().getServiceDiscovery());
     }
 
     @Test

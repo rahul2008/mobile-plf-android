@@ -39,7 +39,7 @@ public class PIMSettingManager {
     }
 
 
-    public void setDependencies(UappDependencies pimDependencies) {
+    public void init(UappDependencies pimDependencies) {
         mAppInfraInterface = pimDependencies.getAppInfra();
         mLoggingInterface = mAppInfraInterface.getLogging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
         mTaggingInterface = mAppInfraInterface.getTagging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);

@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PimActivity;
-import com.philips.platform.pim.configration.PIMDataProvider;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
@@ -33,13 +32,12 @@ public class PIMInterface implements UappInterface {
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
 
-        PIMSettingManager.getInstance().setDependencies(uappDependencies);
+        PIMSettingManager.getInstance().init(uappDependencies);
         PIMConfigManager pimConfigManager = new PIMConfigManager();
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
         PIMUserManager pimUserManager = new PIMUserManager();
         pimUserManager.init(uappDependencies.getAppInfra().getSecureStorage());
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
-        // TODO: Usermanager.init is missing to fetch user profile and set to Setting manager for getting later
     }
 
     @Override
@@ -83,6 +81,6 @@ public class PIMInterface implements UappInterface {
             Log.d(TAG, "getUserDataInterface: Context is null");
             return null;
         }
-        return new PIMDataProvider(context);
+        return new PIMDataImplementation(context, PIMSettingManager.getInstance().getPimUserManager());
     }
 }

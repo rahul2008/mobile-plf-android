@@ -26,7 +26,7 @@ public class PimActivity extends UIDActivity implements ActionBarListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.udi_activity);
+        setContentView(R.layout.pim_activity);
         createActionBar();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fl_mainFragmentContainer, new PIMFragment(), PIMFragment.class.getSimpleName()).addToBackStack(null).commit();

@@ -38,9 +38,6 @@ android {
         versionCode 1
         versionName version
         multiDexEnabled true
-        manifestPlaceholders = [
-                appAuthRedirectScheme: 'com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad'
-        ]
     }
 
     buildTypes {
@@ -82,8 +79,7 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.support.annotations
-    implementation deps.volley
-    implementation deps.adobemobilelib
+
     implementation deps.openid_appauth
     testImplementation deps.junit
     testImplementation deps.powermock_core

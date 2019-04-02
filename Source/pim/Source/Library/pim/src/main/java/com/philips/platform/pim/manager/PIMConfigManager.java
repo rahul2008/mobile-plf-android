@@ -18,6 +18,7 @@ public class PIMConfigManager {
 
     // TODO: Create init method, inject servicediscovery for testing purpose
     public PIMConfigManager() {
+
         listOfServiceId = new ArrayList<>();
         listOfServiceId.add(PIMConstants.PIM_BASEURL);
     }
@@ -43,7 +44,7 @@ public class PIMConfigManager {
     }
 
 
-    public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    private void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
         downloadSDServiceURLs(serviceDiscoveryInterface);
     }
 }
