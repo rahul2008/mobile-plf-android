@@ -97,7 +97,7 @@ public class RegistrationFragmentTest {
     }
 
     @Test
-    public void shouldHomeFragment_WhenHSDPConfigrationNotAvailable() {
+    public void shouldHomeFragment_WhenHSDPConfigrationNotAvailable_LogginStatePENDING() {
         when(mUser.getUserLoginState()).thenReturn(UserLoginState.PENDING_HSDP_LOGIN);
         Bundle bundle = new Bundle();
         bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, RegistrationLaunchMode.MARKETING_OPT);
