@@ -35,8 +35,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.di.iap.screens.InAppBaseFragment;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
@@ -53,6 +51,9 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.themesettings.ThemeSelectionActivity;
@@ -277,12 +278,18 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     }
 
     public void setUserNameAndLogoutText() {
-        User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
-        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+        UserDataInterface userDataInterface = ((AppFrameworkApplication)getApplicationContext()).getUserRegistrationState().getUserDataInterface();
+        if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
             AppIdentityInterface.AppState appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
-            avatarName.setText(user.getGivenName());
+            ArrayList<String> detailskey = new ArrayList<>();
+            detailskey.add(UserDetailConstants.GIVEN_NAME);
+            try {
+                avatarName.setText(userDataInterface.getUserDetails(detailskey).get(UserDetailConstants.GIVEN_NAME).toString());
+            } catch (Exception e) {
+                RALog.e(TAG,"Error in set avatarName : "+e.getMessage());
+            }
             if (!appState.name().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name()))
                 envInfo.setText(appState.name());
 
@@ -573,7 +580,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         sideBar.closeDrawer(navigationView);
         switch (view.getId()) {
             case R.id.hamburger_menu_header_container:
-                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                     selectedIndex = Constants.HAMBURGER_MY_ACCOUNT_CLICK;
                     hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);

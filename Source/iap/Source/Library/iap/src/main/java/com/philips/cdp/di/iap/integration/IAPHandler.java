@@ -58,7 +58,7 @@ class IAPHandler {
 
     void initHybrisDelegate() {
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
-        HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
+        HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting,mIAPDependencies);
     }
 
     void initIAP(final UiLauncher uiLauncher, final IAPLaunchInput pLaunchInput) {

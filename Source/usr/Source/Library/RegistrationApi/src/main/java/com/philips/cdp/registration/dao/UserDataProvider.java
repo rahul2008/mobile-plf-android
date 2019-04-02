@@ -26,16 +26,19 @@ import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserDataProvider extends User implements UserDataInterface {
     private final String TAG = "UserDataProvider";
     private static final long serialVersionUID = 1995972602210564L;
     private transient Context context;
     private HashMap<String, Object> userDataMap;
+    private final CopyOnWriteArrayList<LogoutListener> userLogoutListeners;
 
     public UserDataProvider(Context context) {
         super(context);
         this.context = context;
+        userLogoutListeners = new CopyOnWriteArrayList<>();
     }
 
     private ArrayList<String> getAllValidKeyNames() {
@@ -93,8 +96,9 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public String getJanrainUUID() {
-        RLog.d(TAG, "getJanrainUUID : " + getJanrainUUID());
-        return super.getJanrainUUID();
+        String janrainID = super.getJanrainUUID();
+        RLog.d(TAG, "getJanrainUUID : " + janrainID);
+        return janrainID;
     }
 
     @Override
@@ -189,6 +193,12 @@ public class UserDataProvider extends User implements UserDataInterface {
                 RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionInProgress : " + message);
                 refreshListener.onRefreshSessionInProgress(message);
             }
+
+            @Override
+            public void onRefreshLoginSessionFailedAndLoggedout() {
+                RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionFailedAndLoggedout : ");
+                refreshListener.onForcedLogout();
+            }
         };
     }
 
@@ -213,6 +223,7 @@ public class UserDataProvider extends User implements UserDataInterface {
                 RLog.d(TAG, "onRefreshUserFailed : " + error);
                 userDetailsListener.onRefetchFailure(error);
             }
+
         };
     }
 
@@ -230,14 +241,36 @@ public class UserDataProvider extends User implements UserDataInterface {
             public void onLogoutSuccess() {
                 RLog.d(TAG, "onLogoutSuccess");
                 logoutListener.onLogoutSuccess();
+                notifyLogOutSuccess();
             }
 
             @Override
             public void onLogoutFailure(int responseCode, String message) {
                 RLog.d(TAG, "onLogoutFailure : responseCode = " + responseCode + " message = " + message);
                 logoutListener.onLogoutFailure(responseCode, message);
+                notifyLogoutFailure(responseCode,message);
             }
         };
+    }
+
+    private void notifyLogOutSuccess(){
+        synchronized (userLogoutListeners) {
+            for (LogoutListener eventListener : userLogoutListeners) {
+                if (eventListener != null) {
+                    eventListener.onLogoutSuccess();
+                }
+            }
+        }
+    }
+
+    private void notifyLogoutFailure(int responseCode, String errorMessage){
+        synchronized (userLogoutListeners) {
+            for (LogoutListener eventListener : userLogoutListeners) {
+                if (eventListener != null) {
+                    eventListener.onLogoutFailure(responseCode,errorMessage);
+                }
+            }
+        }
     }
 
     @Override
@@ -245,6 +278,16 @@ public class UserDataProvider extends User implements UserDataInterface {
         RLog.d(TAG, "updateMarketingOptInConsent");
         updateReceiveMarketingEmail(getUpdateReceiveMarketingEmailHandler(userDetailsListener), getReceiveMarketingEmail());
 
+    }
+
+    @Override
+    public void registerLogOutListener(LogoutListener logoutListener) {
+        userLogoutListeners.add(logoutListener);
+    }
+
+    @Override
+    public void unregisterLogOutListener(LogoutListener logoutListener) {
+        userLogoutListeners.remove(logoutListener);
     }
 
     @NonNull

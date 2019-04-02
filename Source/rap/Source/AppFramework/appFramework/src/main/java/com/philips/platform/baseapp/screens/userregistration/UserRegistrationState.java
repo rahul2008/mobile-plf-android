@@ -34,16 +34,23 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static android.content.Context.MODE_PRIVATE;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 import static com.philips.platform.baseapp.screens.Optin.MarketingOptin.AB_TEST_OPTIN_IMAGE_KEY;
 
 /**
@@ -111,7 +118,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserRegistrationComplete(Activity activity) {
 
-        if (null != activity && getUserObject(activity).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+        if (null != activity && getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             setUrCompleted();
             getApplicationContext().determineChinaFlow();
             //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in

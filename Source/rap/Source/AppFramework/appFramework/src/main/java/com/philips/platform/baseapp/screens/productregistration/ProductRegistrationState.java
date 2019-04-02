@@ -12,6 +12,7 @@ import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRLaunchInput;
+import com.philips.cdp.prodreg.launcher.PRSettings;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
@@ -25,7 +26,6 @@ import com.philips.platform.baseapp.screens.utility.CTNUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,11 +87,16 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     public void init(Context context) {
         RALog.d(TAG , " init called ");
         applicationContext = context;
-        PRDependencies prodRegDependencies = new PRDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
 
-        UappSettings uappSettings = new UappSettings(applicationContext);
+        PRSettings prodSettings = new PRSettings(context);
+        PRDependencies prodRegDependencies = new PRDependencies(((AppFrameworkApplication)applicationContext).getAppInfra(),((AppFrameworkApplication)applicationContext).getUserRegistrationState().getUserDataInterface());
+
         PRInterface prInterface = new PRInterface();
-        prInterface.init(prodRegDependencies, uappSettings);
+        try {
+            prInterface.init(prodRegDependencies, prodSettings);
+        }catch (RuntimeException ex){
+            RALog.d(TAG,ex.getMessage());
+        }
     }
 
     @Override

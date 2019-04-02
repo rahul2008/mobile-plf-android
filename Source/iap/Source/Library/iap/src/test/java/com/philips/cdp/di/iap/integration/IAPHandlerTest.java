@@ -18,6 +18,7 @@ import com.philips.cdp.di.iap.iapHandler.LocalHandler;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -42,6 +43,9 @@ public class IAPHandlerTest {
     private AppInfra mAppInfra;
 
     @Mock
+    private UserDataInterface mUserDataInterface;
+
+    @Mock
     private IAPListener mIapListener;
 
     private Context mContext;
@@ -57,7 +61,7 @@ public class IAPHandlerTest {
         TestUtils.getStubbedHybrisDelegate();
 
         mContext = getInstrumentation().getContext();
-        mIAPDependencies = new MockIAPDependencies(mAppInfra);
+        mIAPDependencies = new MockIAPDependencies(mAppInfra,mUserDataInterface);
         mIAPSettings = new IAPSettings(mContext);
 
         mMockIAPHandler = new IAPHandler(mIAPDependencies, mIAPSettings);

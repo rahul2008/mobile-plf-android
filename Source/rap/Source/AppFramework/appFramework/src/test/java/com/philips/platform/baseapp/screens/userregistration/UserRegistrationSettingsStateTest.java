@@ -20,7 +20,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -32,9 +31,9 @@ import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@Ignore
 @RunWith(RobolectricTestRunner.class)
 @Config(application = TestAppFrameworkApplication.class)
 public class UserRegistrationSettingsStateTest {
@@ -70,12 +69,12 @@ public class UserRegistrationSettingsStateTest {
         when(flowManager.getNextState(any(BaseState.class), any(String.class))).thenReturn(homeFragmentState);
     }
 
-    @Ignore
+   /* @Ignore
     @Test
     public void onUserLogoutSuccess() throws Exception {
         userRegState.onUserLogoutSuccess();
         verify(homeFragmentState).navigate(any(UiLauncher.class));
-    }
+    }*/
 
     @After
     public void tearDown() {

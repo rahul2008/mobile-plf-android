@@ -5,15 +5,13 @@
  */
 package com.philips.platform.appframework.logout;
 
-import android.app.Activity;
 import android.content.Context;
 
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 
 
 public class URLogout implements URLogoutInterface {
@@ -31,7 +29,7 @@ public class URLogout implements URLogoutInterface {
     }
 
     @Override
-    public void performLogout(final Context activityContext, final User user) {
+    public void performLogout(final Context activityContext) {
         RALog.d(TAG, "performLogout: perform Logout method started");
         if (!BaseAppUtil.isNetworkAvailable(activityContext.getApplicationContext())) {
             RALog.d(TAG, "performLogout: isNetworkAvailable : Network Error");
@@ -41,13 +39,13 @@ public class URLogout implements URLogoutInterface {
             }
             return;
         }
-        doLogout(activityContext, user);
+        doLogout(activityContext);
     }
 
 
-    private void doLogout(final Context activityContext, User user) {
+    private void doLogout(final Context activityContext) {
         RALog.d(TAG, "doLogout: The method started");
-        user.logout(new LogoutHandler() {
+        ((AppFrameworkApplication)activityContext.getApplicationContext()).getUserRegistrationState().getUserDataInterface().logOut(new LogoutListener() {
             @Override
             public void onLogoutSuccess() {
                 if (urLogoutListener != null) {
@@ -58,12 +56,13 @@ public class URLogout implements URLogoutInterface {
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getCloudLogging().setHSDPUserUUID(null);
                 }
                 RALog.d(TAG, "doLogout: onLogoutSuccess");
+
             }
 
             @Override
-            public void onLogoutFailure(int i, String errorMessage) {
+            public void onLogoutFailure(int errorCode, String errorMessage) {
                 if (urLogoutListener != null) {
-                    urLogoutListener.onLogoutResultFailure(i, errorMessage);
+                    urLogoutListener.onLogoutResultFailure(errorCode, errorMessage);
                 }
                 RALog.d(TAG, "doLogout: onLogoutFailure");
             }

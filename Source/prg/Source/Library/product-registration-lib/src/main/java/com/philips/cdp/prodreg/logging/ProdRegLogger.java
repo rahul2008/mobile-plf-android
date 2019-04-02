@@ -5,9 +5,8 @@
  */
 package com.philips.cdp.prodreg.logging;
 
-import com.philips.cdp.registration.BuildConfig;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.BuildConfig;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -17,9 +16,8 @@ import java.net.UnknownHostException;
 public class ProdRegLogger {
     private static LoggingInterface mLoggingInterface;
 
-    public static void init() {
-        mLoggingInterface = RegistrationConfiguration.getInstance().getComponent().getLoggingInterface();
-        mLoggingInterface = mLoggingInterface.createInstanceForComponent("prg", BuildConfig.VERSION_NAME);
+    public static void init(LoggingInterface pLoggingInterface) {
+        mLoggingInterface = pLoggingInterface.createInstanceForComponent("prg", BuildConfig.VERSION_NAME);
     }
 
     public static void v(String tag, String msg) {

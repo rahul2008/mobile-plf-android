@@ -32,7 +32,6 @@ import com.philips.platform.baseapp.screens.privacysettings.PrivacySettingsState
 import com.philips.platform.baseapp.screens.productregistration.ProductRegistrationState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
-import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;

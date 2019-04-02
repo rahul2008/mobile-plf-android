@@ -6,6 +6,8 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
+
 public abstract class AbstractStore implements StoreListener {
 
     protected boolean mStoreInitialized;
@@ -13,7 +15,7 @@ public abstract class AbstractStore implements StoreListener {
     protected String mLanguage;
 
     @Override
-    public void createNewUser(final Context context) {
+    public void createNewUser(final Context context, final IAPDependencies iapDependencies) {
     }
 
     @Override

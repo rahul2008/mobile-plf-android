@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.session;
 import android.content.Context;
 import android.os.Message;
 
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
 import com.philips.platform.appinfra.AppInfra;
@@ -30,6 +31,7 @@ public class NetworkControllerTest {
     NetworkEssentials mNetworkEssentials;
     NetworkController mNetworkController;
     MockIAPSetting mockIAPSetting;
+    MockIAPDependencies mockIAPDependencies;
 
     @Before
     public void setUp() {
@@ -38,6 +40,7 @@ public class NetworkControllerTest {
         mockIAPSetting = new MockIAPSetting(mContext);
         mNetworkController = new NetworkController(mContext);
         mNetworkController.setIapSettings(mockIAPSetting);
+        mNetworkController.setmIapDependencies(mockIAPDependencies);
         mNetworkController.setNetworkEssentials(mNetworkEssentials);
     }
 

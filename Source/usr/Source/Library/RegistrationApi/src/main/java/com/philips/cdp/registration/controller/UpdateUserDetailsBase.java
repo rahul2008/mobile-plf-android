@@ -130,6 +130,16 @@ public class UpdateUserDetailsBase implements
         //PerformNothing
     }
 
+    @Override
+    public void onRefreshLoginSessionFailedAndLoggedout() {
+        if (null != mUpdateUserDetails) {
+            RLog.e(TAG, "onRefreshLoginSessionFailedAndLoggedout");
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mUpdateUserDetails
+                            .onUpdateFailedWithError(ErrorCodes.HSDP_INPUT_ERROR_1151));
+        }
+    }
+
     @Nullable
     protected JSONObject getCurrentUserAsJsonObject() {
         JSONObject userData = null;

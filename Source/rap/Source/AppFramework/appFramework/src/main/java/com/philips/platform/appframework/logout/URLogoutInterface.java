@@ -7,11 +7,9 @@ package com.philips.platform.appframework.logout;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.User;
-
 public interface URLogoutInterface {
 
-    void performLogout(Context context, User user);
+    void performLogout(Context context);
 
     void setUrLogoutListener(URLogoutListener urLogoutListener);
 

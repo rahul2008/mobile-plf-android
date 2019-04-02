@@ -125,4 +125,23 @@ public interface UserDataInterface extends Serializable {
      */
     void updateMarketingOptInConsent(UserDetailsListener userDetailsListener);
 
+    /**
+     * Register logout listener
+     *
+     * @param logoutListener Instance of LogoutListener
+     *                       Need to notify on logout success or failure
+     * @since 1902
+     * TODO : need to discuss for PIM
+     */
+    void registerLogOutListener(LogoutListener logoutListener);
+
+    /**
+     * Unregister logout listener
+     *
+     * @param logoutListener instance of LogoutListener which is previously registered
+     * @since 1902
+     * TODO : need to discuss for PIM
+     */
+    void unregisterLogOutListener(LogoutListener logoutListener);
+
 }

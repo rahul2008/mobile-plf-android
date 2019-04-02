@@ -11,7 +11,7 @@ import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.User;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import junit.framework.TestCase;
 
@@ -35,12 +35,14 @@ public class RemoteRegisteredProductsTest extends TestCase {
     @Mock
     RegisteredProduct registeredProduct;
     private Context context;
+    private UserDataInterface userDataInterface;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         remoteRegisteredProducts = new RemoteRegisteredProducts();
         context = mock(Context.class);
+        userDataInterface = mock(UserDataInterface.class);
     }
 
     @Test
@@ -89,22 +91,21 @@ public class RemoteRegisteredProductsTest extends TestCase {
 
             @NonNull
             @Override
-            protected RegisteredProductsRequest getRegisteredProductsRequest(final User user) {
+            protected RegisteredProductsRequest getRegisteredProductsRequest(UserDataInterface userDataInterface) {
                 return registeredProductsRequest;
             }
         };
-        User user = mock(User.class);
+
         UserWithProducts userWithProducts = mock(UserWithProducts.class);
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, user, registeredProductsListener);
+        remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, userDataInterface, registeredProductsListener);
         verify(requestManager).executeRequest(registeredProductsRequest, responseListenerMock);
     }
 
     @Test
     public void testGetRegisteredProductsRequest() {
-        User user = mock(User.class);
-        when(user.getAccessToken()).thenReturn("access_token");
-        RegisteredProductsRequest registeredProductsRequest = remoteRegisteredProducts.getRegisteredProductsRequest(user);
+        when(userDataInterface.getJanrainAccessToken()).thenReturn("access_token");
+        RegisteredProductsRequest registeredProductsRequest = remoteRegisteredProducts.getRegisteredProductsRequest(userDataInterface);
         assertEquals(registeredProductsRequest.getAccessToken(), "access_token");
     }
 }

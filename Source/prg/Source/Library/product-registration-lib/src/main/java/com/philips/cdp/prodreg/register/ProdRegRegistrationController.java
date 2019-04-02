@@ -20,13 +20,11 @@ import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
-import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.summary.Data;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
-import com.philips.cdp.registration.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,18 +78,10 @@ public class ProdRegRegistrationController {
     private RegisterControllerCallBacks registerControllerCallBacks;
     private ProductMetadataResponseData productMetadataResponseData;
     private RegisteredProduct registeredProduct;
-    private User user;
     private ProdRegUtil prodRegUtil = new ProdRegUtil();
 
     public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity) {
         this.registerControllerCallBacks = registerControllerCallBacks;
-        this.fragmentActivity = fragmentActivity;
-        this.user = new User(fragmentActivity);
-    }
-
-    public ProdRegRegistrationController(final RegisterControllerCallBacks registerControllerCallBacks, final FragmentActivity fragmentActivity, User user) {
-        this.registerControllerCallBacks = registerControllerCallBacks;
-        this.user = user;
         this.fragmentActivity = fragmentActivity;
     }
 
@@ -109,7 +99,7 @@ public class ProdRegRegistrationController {
 
     @NonNull
     protected LocalRegisteredProducts getLocalRegisteredProducts() {
-        return new LocalRegisteredProducts(user);
+        return new LocalRegisteredProducts(PRUiHelper.getInstance().getUserDataInstance());
     }
 
     @SuppressWarnings("unchecked")
@@ -180,26 +170,15 @@ public class ProdRegRegistrationController {
             if (getRegisteredProduct().getRegistrationState() != RegistrationState.REGISTERED)
                 getRegisteredProduct().setPurchaseDate(purchaseDate);
             getRegisteredProduct().setSerialNumber(serialNumber);
-            ProdRegHelper prodRegHelper = getProdRegHelper();
-            prodRegHelper.addProductRegistrationListener(getProdRegListener());
-            prodRegHelper.getSignedInUserWithProducts(fragmentActivity).registerProduct(getRegisteredProduct());
+
+            UserWithProducts userWithProducts = new UserWithProducts(fragmentActivity,getProdRegListener(),PRUiHelper.getInstance().getUserDataInstance());
+            userWithProducts.registerProduct(getRegisteredProduct());
         } else {
             registerControllerCallBacks.hideProgress();
             registerControllerCallBacks.showAlertOnError(UNKNOWN);
         }
 
     }
-
-    @NonNull
-    protected ProdRegHelper getProdRegHelper() {
-        return new ProdRegHelper();
-    }
-
-    @NonNull
-    protected ProdRegCache getProdRegCache() {
-        return new ProdRegCache();
-    }
-
 
     private boolean validatePurchaseDate(final String purchaseDate) {
         boolean validPurchaseDate = true;
@@ -242,10 +221,6 @@ public class ProdRegRegistrationController {
                 }
             }
         };
-    }
-
-    protected User getUser() {
-        return user;
     }
 
     public RegisteredProduct getRegisteredProduct() {

@@ -74,7 +74,7 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
                         || error == ErrorCodes.HSDP_INPUT_ERROR_1151) {
 
                     clearData();
-                    RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
+                    mRefreshLoginSessionHandler.onRefreshLoginSessionFailedAndLoggedout();
                 }
                 ThreadUtils.postInMainThread(mContext, () ->
                         mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error));
@@ -85,6 +85,13 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
                 RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionInProgress is called");
                 ThreadUtils.postInMainThread(mContext, () ->
                         mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message));
+            }
+
+            @Override
+            public void onRefreshLoginSessionFailedAndLoggedout() {
+                RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionFailedAndLoggedout is called");
+                ThreadUtils.postInMainThread(mContext, () ->
+                        mRefreshLoginSessionHandler.onRefreshLoginSessionFailedAndLoggedout());
             }
         });
     }
@@ -149,6 +156,12 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     public void onRefreshLoginSessionInProgress(String message) {
         RLog.d(TAG, "onRefreshLoginSessionInProgress : is called");
         mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message);
+    }
+
+    @Override
+    public void onRefreshLoginSessionFailedAndLoggedout() {
+        RLog.d(TAG, "onRefreshLoginSessionFailedAndLoggedout : is called");
+        mRefreshLoginSessionHandler.onRefreshLoginSessionFailedAndLoggedout();
     }
 
     private void clearData() {

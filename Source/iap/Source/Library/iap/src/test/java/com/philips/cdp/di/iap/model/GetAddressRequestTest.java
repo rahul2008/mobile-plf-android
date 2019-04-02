@@ -8,11 +8,14 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +27,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetAddressRequestTest {
@@ -37,7 +41,7 @@ public class GetAddressRequestTest {
     @Before
     public void setUP() {
         mContext = getInstrumentation().getContext();
-        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
+        StoreListener mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext),new MockIAPDependencies(mock(AppInfra.class),mock(UserDataInterface.class)));
         mStore.initStoreConfig(/*"en", "US",*/ null);
         mModel = new GetAddressRequest(mStore, null, null);
     }

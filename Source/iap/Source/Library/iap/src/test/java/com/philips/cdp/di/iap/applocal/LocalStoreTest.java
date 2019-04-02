@@ -6,12 +6,13 @@ package com.philips.cdp.di.iap.applocal;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.store.LocalStore;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
@@ -31,7 +32,7 @@ public class LocalStoreTest {
 
     @Test
     public void testSetNewUser() {
-        mAppLocalStore.createNewUser(mContext);
+        mAppLocalStore.createNewUser(mContext, Mockito.mock(IAPDependencies.class));
     }
 
     @Test

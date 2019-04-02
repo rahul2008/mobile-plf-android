@@ -22,8 +22,8 @@ import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.util.List;
@@ -78,7 +78,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onActivityCreated(@Nullable final Bundle    savedInstanceState) {
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         dependencies = getArguments();
         if (dependencies != null) {
@@ -123,9 +123,9 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
             @Override
             public void onClick(final View v) {
                 final FragmentActivity activity = getActivity();
-                final User user = new User(activity);
-                if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
-                    final ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
+                UserDataInterface userDataInterface = PRUiHelper.getInstance().getUserDataInstance();
+                if (userDataInterface != null && PRUiHelper.getInstance().getUserDataInstance().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                    final  ProdRegRegistrationFragment processFragment = new ProdRegRegistrationFragment();
                     processFragment.setArguments(dependencies);
                     registerButton.setClickable(false);
                     showFragment(processFragment);

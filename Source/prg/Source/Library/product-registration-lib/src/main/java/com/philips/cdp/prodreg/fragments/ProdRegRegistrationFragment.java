@@ -6,7 +6,6 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +31,7 @@ import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.error.ProdRegErrorMap;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
+import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -44,7 +43,6 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prodreg.util.ProgressAlertDialog;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.registration.User;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.DialogConstants;
@@ -666,7 +664,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     void intializeProgressAlertDialog() {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressAlertDialog(getActivity(), com.philips.cdp.registration.R.style.reg_Custom_loaderTheme);
+            mProgressDialog = new ProgressAlertDialog(getActivity(), R.style.prg_Custom_loaderTheme);
             mProgressDialog.setCancelable(false);
         }
     }
@@ -697,7 +695,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 mProgressDialog.show();
             }
 
-            userWithProducts = new UserWithProducts(getContext(), new User(getContext()), new ProdRegListener() {
+            userWithProducts = new UserWithProducts(getContext(), new ProdRegListener() {
                 @Override
                 public void onProdRegSuccess(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
                     registeredProduct1 = registeredProduct;
@@ -707,7 +705,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
                 public void onProdRegFailed(RegisteredProduct registeredProduct, UserWithProducts userWithProduct) {
 
                 }
-            });
+            }, PRUiHelper.getInstance().getUserDataInstance());
             userWithProducts.getRegisteredProducts(getRegisteredProductsListener(getRegisteredProduct()));
         }
     }
