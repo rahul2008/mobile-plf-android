@@ -3,8 +3,10 @@ package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,13 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.google.gson.Gson;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPMockInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
@@ -51,13 +55,18 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationUIEventListener, UserRegistrationListener {
+        UserRegistrationUIEventListener, UserRegistrationListener ,IAPMockInterface{
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private LinearLayout mAddCTNLl, mLL_voucher;
@@ -639,4 +648,173 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         return true;
     }
+
+    @Override
+    public boolean isMockEnabled() {
+        return true;
+    }
+
+    @Override
+    public JSONObject GetProductCatalogResponse() {
+        return getResponseJson("product.json");
+    }
+
+    @Override
+    public JSONObject CartAddProductResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject CartCreateResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject CartDeleteProductResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject CartUpdateProductQuantityResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject ContactCallResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject CreateAddressResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject DeleteAddressResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject DeleteCartResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject DeleteVoucherResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetAddressResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetAppliedVoucherResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetApplyVoucherResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetCartsResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetCurrentCartResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetDeliveryModesResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetPaymentDetailResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetRegionsResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetUserResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject OAuthResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject PaymentResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject ProductDetailResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject RefreshOAuthResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject SetDeliveryAddressModeResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject SetDeliveryAddressResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject SetPaymentDetailsResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject UpdateAddressResponse() {
+        return null;
+    }
+
+    @Override
+    public JSONObject GetRetailersInfoResponse() {
+        return null;
+    }
+
+    public JSONObject getResponseJson(String fileName)  {
+        AssetManager manager = getAssets();
+        byte[] formArray = new byte[0];
+        InputStream file = null;
+        try {
+            file = manager.open(fileName);
+            formArray = new byte[0];
+            formArray = new byte[file.available()];
+            file.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+            return new JSONObject(new String(formArray));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

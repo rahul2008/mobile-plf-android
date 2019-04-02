@@ -319,7 +319,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         String addressFieldEnablerJson = null;
         AddressFieldEnabler addressFieldEnabler = null;
         try {
-            addressFieldEnablerJson = getAddressFieldEnablerJson();
+            addressFieldEnablerJson = new Utility().getAddressFieldEnablerJson(addressContractor.getActivityContext(),"addressFieldConfiguration.json");
 
             JSONObject jsonObject = null;
 
@@ -345,16 +345,6 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         }
 
         return addressFieldEnabler;
-    }
-
-    private String getAddressFieldEnablerJson() throws IOException {
-
-        AssetManager manager = addressContractor.getActivityContext().getAssets();
-        InputStream file = manager.open("addressFieldConfiguration.json");
-        byte[] formArray = new byte[file.available()];
-        file.read(formArray);
-        file.close();
-        return new String(formArray);
     }
 
     private void setAddressFieldEnabler(AddressFieldEnabler addressFieldEnabler, AddressFieldJsonEnum field){
