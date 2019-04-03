@@ -12,13 +12,13 @@
         app:elevation="0dp">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/udi_toolbar"
+            android:id="@+id/pim_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false">
 
             <FrameLayout
-                android:id="@+id/udi_header_back_button"
+                android:id="@+id/pim_header_back_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -26,7 +26,7 @@
                 android:paddingStart="16dp">
 
                 <ImageView
-                    android:id="@+id/udi_iv_header_back_button"
+                    android:id="@+id/pim_iv_header_back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />

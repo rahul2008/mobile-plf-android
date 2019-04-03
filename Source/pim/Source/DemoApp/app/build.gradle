@@ -93,7 +93,3 @@ dependencies {
     implementation deps.adobemobilelib
 
 }
-
-tasks.withType(Test) {
-    ignoreFailures = true
-}

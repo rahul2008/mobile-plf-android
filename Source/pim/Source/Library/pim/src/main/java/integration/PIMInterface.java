@@ -53,8 +53,8 @@ public class PIMInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        DummyFragment udiFragment = new DummyFragment();
-        addFragment(uiLauncher, udiFragment);
+        DummyFragment pimFragment = new DummyFragment();
+        addFragment(uiLauncher, pimFragment);
     }
 
     private void addFragment(FragmentLauncher uiLauncher, Fragment fragment) {

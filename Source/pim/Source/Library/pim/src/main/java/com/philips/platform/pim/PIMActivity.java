@@ -34,7 +34,7 @@ public class PIMActivity extends UIDActivity implements ActionBarListener {
 
 
     private void createActionBar() {
-        FrameLayout frameLayout = findViewById(R.id.udi_header_back_button);
+        FrameLayout frameLayout = findViewById(R.id.pim_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -42,11 +42,10 @@ public class PIMActivity extends UIDActivity implements ActionBarListener {
             }
         });
 
-        mBackImage = findViewById(R.id.udi_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.udi_back_arrow, getTheme());
+        mBackImage = findViewById(R.id.pim_iv_header_back_button);
+        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
         setTitle(getString(R.string.action_bar_title_texrt));
-
     }
 
     @Override

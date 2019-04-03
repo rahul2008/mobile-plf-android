@@ -117,7 +117,3 @@ dependencies {
         implementation philipsdeps.AppInfra
     }
 }
-
-tasks.withType(Test) {
-    ignoreFailures = true
-}

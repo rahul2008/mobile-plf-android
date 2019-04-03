@@ -90,7 +90,3 @@ dependencies {
     testImplementation deps.powermock_classloading_xstream
 
 }
-
-tasks.withType(Test) {
-    ignoreFailures = true
-}
