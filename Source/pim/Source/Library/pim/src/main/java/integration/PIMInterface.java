@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PIMActivity;
-import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.fragment.DummyFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
+import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.utilities.PIMConstants;
 import com.philips.platform.uappframework.UappInterface;
@@ -21,16 +21,21 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
+
 
 public class PIMInterface implements UappInterface {
 
-    private String TAG = PIMInterface.class.getSimpleName();
+    private final String TAG = PIMInterface.class.getSimpleName();
+    private LoggingInterface mLoggingInterface;
 
     private Context context;
 
     @Override
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
+        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
+        mLoggingInterface.log(DEBUG,TAG,"PIMInterface init called");
 
         PIMSettingManager.getInstance().init(uappDependencies);
         PIMConfigManager pimConfigManager = new PIMConfigManager();
@@ -45,10 +50,10 @@ public class PIMInterface implements UappInterface {
 
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
-            Log.i(TAG, "Launch : Launched as activity");
+            mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as activity");
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
-            Log.i(TAG, "Launch : Launched as fragment");
+            mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as fragment");
         }
     }
 
@@ -78,7 +83,7 @@ public class PIMInterface implements UappInterface {
      */
     public UserDataInterface getUserDataInterface() {
         if (context == null) {
-            Log.d(TAG, "getUserDataInterface: Context is null");
+            mLoggingInterface.log(DEBUG, TAG, "getUserDataInterface: Context is null");
             return null;
         }
         return new PIMDataImplementation(context, PIMSettingManager.getInstance().getPimUserManager());

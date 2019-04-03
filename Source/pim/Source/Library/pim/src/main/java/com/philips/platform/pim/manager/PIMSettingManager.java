@@ -9,8 +9,7 @@ import com.philips.platform.pim.BuildConfig;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
-import integration.PIMDependencies;
-import integration.PIMInterface;
+import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 
 public class PIMSettingManager {
@@ -22,6 +21,7 @@ public class PIMSettingManager {
     private PIMOIDCConfigration mPimoidcConfigration;
     private PIMUserManager pimUserManager;
     private RestInterface mRestInterface;
+    private final String TAG = PIMSettingManager.class.getSimpleName();
 
     public static PIMSettingManager getInstance() {
         return instance;
@@ -44,6 +44,7 @@ public class PIMSettingManager {
         mLoggingInterface = mAppInfraInterface.getLogging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
         mTaggingInterface = mAppInfraInterface.getTagging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
         mRestInterface = mAppInfraInterface.getRestClient();
+        mLoggingInterface.log(DEBUG,TAG,"PIMInterface init done");
     }
 
 
