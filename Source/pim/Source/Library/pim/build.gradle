@@ -39,7 +39,7 @@ android {
         versionName version
         multiDexEnabled true
         manifestPlaceholders = [
-                appAuthRedirectScheme: 'com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad'
+                appAuthRedirectScheme: ''
         ]
     }
 
@@ -83,7 +83,6 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.support.annotations
     implementation deps.volley
-    implementation deps.adobemobilelib
     implementation deps.openid_appauth
     testImplementation deps.junit
     testImplementation deps.powermock_core
@@ -93,8 +92,4 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
 
-}
-
-tasks.withType(Test) {
-    ignoreFailures = true
 }

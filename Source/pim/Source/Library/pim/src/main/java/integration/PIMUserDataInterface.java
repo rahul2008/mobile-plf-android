@@ -1,11 +1,12 @@
 package integration;
 
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public interface PIMUserDataInterface {
+public interface PIMUserDataInterface extends UserDataInterface {
 
     //Listener name should be LogoutSessionListener
     void logoutSession(LogoutSessionListener logoutSessionListener);

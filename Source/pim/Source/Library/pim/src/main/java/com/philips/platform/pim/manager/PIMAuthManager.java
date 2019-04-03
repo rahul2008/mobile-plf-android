@@ -2,8 +2,8 @@ package com.philips.platform.pim.manager;
 
 import android.net.Uri;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 import com.philips.platform.pim.listeners.PIMOIDCAuthStateListener;
@@ -11,25 +11,30 @@ import com.philips.platform.pim.listeners.PIMOIDCAuthStateListener;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 
+import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
+
 public class PIMAuthManager {
     private Fragment mFragment;
     private PIMAuthorizationServiceConfigurationListener listener;
     private AuthorizationServiceConfiguration authorizationServiceConfiguration;
+    private final String TAG = PIMAuthManager.class.getSimpleName();
+    private LoggingInterface mLoggingInterface;
 
+    public PIMAuthManager(){
+        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
+    }
 
     void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
-        // String discoveryEndpoint = configuration.kIssuer + "/.well-known/openid-configuration";
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
-//
+        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration discoveryEndpoint : "+discoveryEndpoint);
 
         final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
                 (AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationException e) -> {
                     if (e != null) {
-                        Log.d("", "Failed to retrieve configuration for " + e);
+                        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : "+e);
                         listener.onError();
                     } else {
-                        Log.d("", "Configuration retrieved for  proceeding" + authorizationServiceConfiguration.discoveryDoc);
-                        // makeAuthRequest(authorizationServiceConfiguration, mAuthService);
+                        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : "+authorizationServiceConfiguration.discoveryDoc);
                         listener.onSuccess(authorizationServiceConfiguration.discoveryDoc);
                     }
                 };

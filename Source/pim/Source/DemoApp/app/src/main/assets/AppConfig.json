@@ -47,7 +47,7 @@
     "abtest.mapping": {
       "usr.login": "DOT-ReceiveMarketingOptIn"
     },
-    "servicediscovery.platformMicrositeId": "77000",
+    "servicediscovery.platformMicrositeId": "70000",
     "servicediscovery.platformEnvironment": "production",
     "servicediscovery.propositionEnabled": true,
     "appconfig.cloudServiceId": "appinfra.appconfigdownload",

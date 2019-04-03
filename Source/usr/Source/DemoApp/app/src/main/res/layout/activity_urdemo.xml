@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="@+id/change_theme"
         android:layout_marginTop="50dp"
         android:padding="@dimen/reg_dimen_8dp"
-        android:text="UDI Login"
+        android:text="PIM Login"
         android:id="@+id/udi_login"/>
 
 </android.support.constraint.ConstraintLayout>

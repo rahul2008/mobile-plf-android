@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.pim.R;
 
 import net.openid.appauth.AuthorizationServiceDiscovery;
 
@@ -34,11 +33,6 @@ public class PIMOIDCConfigration {
             return (String) obj;
         }
         return null;
-    }
-
-
-    protected int getRedirectURI() {
-        return R.string.redirectURL;
     }
 
     private Object getPIMProperty(String key) {
