@@ -52,6 +52,11 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+
 public class NetworkController {
     protected Context context;
     protected HurlStack mIapHurlStack;
@@ -96,16 +101,35 @@ public class NetworkController {
         }
 
         if(model == null || model.getUrl() == null){
+
+
             Message message = new Message();
             message.obj = IAPConstant.IAP_ERROR;
             requestListener.onError(message);
             return;
+        }else{
+            String encode = null;
+
+
+                try {
+                    encode = URLEncoder.encode(model.getUrl(), "utf-8");
+
+                    Log.d("Pabitra" ,encode);
+                    Log.d("pabitra",model.getUrl());
+
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+            if(isMocked()){
+                sendMockResponse(model,requestListener,requestCode,encode);
+                return;
+            }
+
         }
 
-        if(isMocked()){
-            sendMockResponse(model,requestListener,requestCode);
-            return;
-        }
+
 
         if (mStoreListener.isNewUser()) {
             mStoreListener.createNewUser(context);
@@ -194,19 +218,23 @@ public class NetworkController {
     }
 
 
-    void sendMockResponse(AbstractModel model, RequestListener requestListener, int requestCode){
+    void sendMockResponse(AbstractModel model, RequestListener requestListener, int requestCode , String encodedUrl){
 
         IAPMockInterface iapMockInterface = mIapSettings.getIapMockInterface();
         Message msg = Message.obtain();
         msg.what = requestCode;
         msg.obj = NetworkConstants.EMPTY_RESPONSE;
-        JSONObject mockJsonObject = null;
+        JSONObject mockJsonObject = iapMockInterface.GetMockJson(getMethodName(model.getMethod())+encodedUrl);
 
             if(model instanceof GetProductCatalogRequest){
 
                 mockJsonObject = iapMockInterface.GetProductCatalogResponse();
             }
-            if(model instanceof CartAddProductRequest){
+
+        if(model instanceof OAuthRequest){
+            mockJsonObject = iapMockInterface.OAuthResponse();
+        }
+          /*  if(model instanceof CartAddProductRequest){
                 mockJsonObject = iapMockInterface.CartAddProductResponse();
             }
 
@@ -293,8 +321,37 @@ public class NetworkController {
             }
             if(mockJsonObject!=null){
                 msg.obj = model.parseResponse(mockJsonObject);
-            }
+            }*/
+
+        if(mockJsonObject!=null){
+            msg.obj = model.parseResponse(mockJsonObject);
+        }
             requestListener.onSuccess(msg);
+        }
+
+        String getMethodName(int method){
+
+           switch (method){
+
+               case 0:
+                   return "GET";
+               case 1:
+                   return "POST";
+               case 2:
+                   return "PUT";
+               case 3:
+                   return "DELETE";
+               case 4:
+                   return "HEAD";
+               case 5:
+                   return "OPTIONS";
+               case 6:
+                   return "TRACE";
+               case 7:
+                   return "PATCH";
+           }
+
+           return "PUT";
         }
 
 }

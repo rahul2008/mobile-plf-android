@@ -1,4 +1,5 @@
-{"type": "productCategorySearchPageWsDTO",
+{
+  "type": "productCategorySearchPageWsDTO",
   "breadcrumbs": [
     {
       "facetCode": "category",

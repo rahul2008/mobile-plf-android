@@ -11,6 +11,8 @@ public interface IAPMockInterface {
 
      boolean isMockEnabled();
 
+     JSONObject GetMockJson(String fileName);
+
      JSONObject GetProductCatalogResponse();
 
      JSONObject CartAddProductResponse();

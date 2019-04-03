@@ -16,11 +16,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.gson.Gson;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
@@ -97,6 +99,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<String> ignorelistedRetailer;
     private View mLL_propositionId;
     private long mLastClickTime =0;
+    private ToggleButton toggleMock;
+    private boolean enableMock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +122,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mEtPropositionId = findViewById(R.id.et_add_proposition_id);
         mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
 
+
         AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
         AppConfigurationInterface configInterface = appInfra.getConfigInterface();
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
@@ -134,6 +139,18 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(DemoAppActivity.this,"Proposition id is set",Toast.LENGTH_SHORT).show();
                 finishAffinity();
                 System.exit(0);
+            }
+        });
+
+        toggleMock = findViewById(R.id.toggleMock);
+
+        toggleMock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                enableMock = isChecked;
+                mIAPSettings.setIapMockInterface((IAPMockInterface)DemoAppActivity.this);
+                initializeIAPComponant();
             }
         });
 
@@ -185,6 +202,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         //Integration interface
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
+        mIAPSettings.setIapMockInterface(this);
         actionBar();
         initializeIAPComponant();
     }
@@ -651,7 +669,13 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public boolean isMockEnabled() {
-        return true;
+        return enableMock;
+    }
+
+    @Override
+    public JSONObject GetMockJson(String fileName) {
+        fileName = fileName + ".json";
+        return getResponseJson(fileName);
     }
 
     @Override
@@ -751,7 +775,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public JSONObject OAuthResponse() {
-        return null;
+        return getResponseJson("bearerAuth.json");
     }
 
     @Override
