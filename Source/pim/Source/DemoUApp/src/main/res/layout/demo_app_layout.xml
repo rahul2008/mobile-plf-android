@@ -18,6 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appversion"
         android:layout_marginTop="2dp"
-        android:text="UDI Activity Launch" />
+        android:text="PIM Activity Launch" />
 
 </RelativeLayout>

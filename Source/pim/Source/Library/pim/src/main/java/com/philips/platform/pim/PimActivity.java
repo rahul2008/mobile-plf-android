@@ -45,7 +45,7 @@ public class PimActivity extends UIDActivity implements ActionBarListener {
         mBackImage = findViewById(R.id.udi_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.udi_back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
-        setTitle(getString(R.string.pim_app_name));
+        setTitle(getString(R.string.action_bar_title_texrt));
 
     }
 
