@@ -33,6 +33,7 @@ public class PIMActivity extends UIDActivity implements ActionBarListener {
         setContentView(R.layout.pim_activity);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG,TAG,"onCreate called");
+
         createActionBar();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fl_mainFragmentContainer, new DummyFragment(), DummyFragment.class.getSimpleName()).addToBackStack(null).commit();
@@ -84,6 +85,5 @@ public class PIMActivity extends UIDActivity implements ActionBarListener {
         }
         getTheme().applyStyle(themeIndex, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-        mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG,TAG,"Init theme called");
     }
 }

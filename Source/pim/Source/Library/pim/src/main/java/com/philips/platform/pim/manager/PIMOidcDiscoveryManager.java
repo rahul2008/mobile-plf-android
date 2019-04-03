@@ -1,7 +1,5 @@
 package com.philips.platform.pim.manager;
 
-import android.util.Log;
-
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
@@ -37,6 +35,7 @@ public  class PIMOidcDiscoveryManager implements PIMAuthorizationServiceConfigur
 
     @Override
     public void onError() {
-        Log.i(TAG,"onError");
+        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onError.  ");
+
     }
 }

@@ -34,10 +34,11 @@ public class PIMInterface implements UappInterface {
     @Override
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
+        PIMSettingManager.getInstance().init(uappDependencies);
+
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG,TAG,"PIMInterface init called");
 
-        PIMSettingManager.getInstance().init(uappDependencies);
         PIMConfigManager pimConfigManager = new PIMConfigManager();
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
         PIMUserManager pimUserManager = new PIMUserManager();

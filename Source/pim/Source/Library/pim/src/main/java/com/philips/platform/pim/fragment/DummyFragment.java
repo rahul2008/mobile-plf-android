@@ -570,11 +570,12 @@ public class DummyFragment extends Fragment implements View.OnClickListener {
     private AuthState readAuthState() {
 //        SharedPreferences authPrefs = mContext.getSharedPreferences("auth", MODE_PRIVATE);
 //        String stateJson = authPrefs.getString("stateJson", "");
-        if (mAuthState != null) {
+        Log.i(TAG, "Start readAuthState time" + System.currentTimeMillis());
+        String authData = getAuthFromSecureStorage(PIMSettingManager.getInstance().getAppInfraInterface().getSecureStorage());
+        Log.i(TAG, "End readAuthState time" + System.currentTimeMillis());
+
+        if (mAuthState != null && authData != null) {
             try {
-                Log.i(TAG, "Start readAuthState time" + System.currentTimeMillis());
-                String authData = getAuthFromSecureStorage(PIMSettingManager.getInstance().getAppInfraInterface().getSecureStorage());
-                Log.i(TAG, "End readAuthState time" + System.currentTimeMillis());
                 return AuthState.jsonDeserialize(authData);//fromJsonString(stateJson);
             } catch (JSONException e) {
                 e.printStackTrace();

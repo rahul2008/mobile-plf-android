@@ -25,6 +25,11 @@ public class PIMConfigManager {
         mLoggingInterface.log(DEBUG,TAG,"Added Service id : "+listOfServiceId.get(listOfServiceId.size()-1));
     }
 
+    public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+        mLoggingInterface.log(DEBUG,TAG,"init called");
+        downloadSDServiceURLs(serviceDiscoveryInterface);
+    }
+
     private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface) {
         mLoggingInterface.log(DEBUG,TAG,"downloadSDServiceURLs called");
         serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -50,11 +55,5 @@ public class PIMConfigManager {
                 mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onError. ERRORVALUES: "+error+" Message: "+message);
             }
         }, null);
-    }
-
-
-    public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        mLoggingInterface.log(DEBUG,TAG,"init called");
-        downloadSDServiceURLs(serviceDiscoveryInterface);
     }
 }
