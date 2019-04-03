@@ -18,7 +18,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 import integration.PIMInterface;
 
-public class PimDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
     final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
@@ -29,14 +29,14 @@ public class PimDemoUAppActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.demo_app_layout);
+        setContentView(R.layout.activity_pim_demo_uapp);
 
         Label appversion = findViewById(R.id.appversion);
         appversion.setText("Version : " + BuildConfig.VERSION_NAME);
         mLogin = findViewById(R.id.btn_login);
         mLogin.setOnClickListener(this);
-        PimDemoUAppDependencies pimDemoUAppDependencies = new PimDemoUAppDependencies(new AppInfra.Builder().build(this));
-        PimDemoUAppSettings pimDemoUAppSettings = new PimDemoUAppSettings(this);
+        PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(new AppInfra.Builder().build(this));
+        PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
         pimInterface = new PIMInterface();
         pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
     }

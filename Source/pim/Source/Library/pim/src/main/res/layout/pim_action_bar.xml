@@ -32,14 +32,6 @@
                     android:layout_gravity="center_vertical" />
             </FrameLayout>
 
-            <com.philips.platform.uid.view.widget.ActionBarTextView
-                android:id="@+id/udi_actionBar_headerTitle_lebel"
-                style="@style/UIDToolbarBarTitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/pim_app_name"
-                android:textIsSelectable="true" />
 
 
         </android.support.v7.widget.Toolbar>

@@ -7,7 +7,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
  * Created by philips on 6/16/17.
  */
 
-public class PimDemoUAppDependencies extends UappDependencies {
+public class PIMDemoUAppDependencies extends UappDependencies {
 
     private final AppInfraInterface appInfra;
 
@@ -16,7 +16,7 @@ public class PimDemoUAppDependencies extends UappDependencies {
         return appInfra;
     }
 
-    public PimDemoUAppDependencies(AppInfraInterface appInfra) {
+    public PIMDemoUAppDependencies(AppInfraInterface appInfra) {
         super(appInfra);
         this.appInfra = appInfra;
 

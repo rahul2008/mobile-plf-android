@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-import com.philips.platform.pim.PimActivity;
+import com.philips.platform.pim.PIMActivity;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
@@ -49,8 +49,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class PIMFragment extends Fragment implements View.OnClickListener {
-    private static String TAG = PIMFragment.class.getSimpleName();
+public class DummyFragment extends Fragment implements View.OnClickListener {
+    private static String TAG = DummyFragment.class.getSimpleName();
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private static final String EXTRA_AUTH_STATE = "authState";
     AuthorizationService mAuthService;
@@ -369,7 +369,7 @@ public class PIMFragment extends Fragment implements View.OnClickListener {
             @NonNull AuthorizationRequest request,
             @Nullable AuthorizationServiceDiscovery discoveryDoc
     ) {
-        Intent intent = new Intent(context, PimActivity.class);
+        Intent intent = new Intent(context, PIMActivity.class);
         intent.putExtra(EXTRA_AUTH_STATE, discoveryDoc.docJson.toString());
         if (discoveryDoc != null) {
             intent.putExtra(EXTRA_AUTH_SERVICE_DISCOVERY, discoveryDoc.docJson.toString());
@@ -384,7 +384,7 @@ public class PIMFragment extends Fragment implements View.OnClickListener {
      */
     public void fetchUserInfo() {
         if (mAuthState != null) {
-            PIMFragment.RequestTask requestTask = new RequestTask();
+            DummyFragment.RequestTask requestTask = new RequestTask();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 requestTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             } else {

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.philips.platform.pim.fragment.PIMFragment;
+import com.philips.platform.pim.fragment.DummyFragment;
 import com.philips.platform.pim.utilities.PIMConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -18,7 +18,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
-public class PimActivity extends UIDActivity implements ActionBarListener {
+public class PIMActivity extends UIDActivity implements ActionBarListener {
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private ImageView mBackImage;
 
@@ -29,7 +29,7 @@ public class PimActivity extends UIDActivity implements ActionBarListener {
         setContentView(R.layout.pim_activity);
         createActionBar();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fl_mainFragmentContainer, new PIMFragment(), PIMFragment.class.getSimpleName()).addToBackStack(null).commit();
+                .replace(R.id.fl_mainFragmentContainer, new DummyFragment(), DummyFragment.class.getSimpleName()).addToBackStack(null).commit();
     }
 
 

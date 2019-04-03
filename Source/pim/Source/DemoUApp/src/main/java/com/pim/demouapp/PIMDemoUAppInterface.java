@@ -15,7 +15,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
  * Created by philips on 6/16/17.
  */
 
-public class PimDemoUAppInterface implements UappInterface {
+public class PIMDemoUAppInterface implements UappInterface {
 
     private Context mContext;
     static AppInfraInterface mAppInfra;
@@ -29,7 +29,7 @@ public class PimDemoUAppInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
         if(uiLauncher instanceof ActivityLauncher){
-            Intent intent=new Intent(mContext, PimDemoUAppActivity.class);
+            Intent intent=new Intent(mContext, PIMDemoUAppActivity.class);
             mContext.startActivity(intent);
         }
     }

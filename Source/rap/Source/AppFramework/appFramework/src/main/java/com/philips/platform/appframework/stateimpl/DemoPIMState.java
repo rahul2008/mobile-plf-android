@@ -9,7 +9,7 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.pim.demouapp.PimDemoUAppInterface;
+import com.pim.demouapp.PIMDemoUAppInterface;
 
 /**
  * Created by philips on 30/03/17.
@@ -25,15 +25,15 @@ public class DemoPIMState extends DemoBaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        PimDemoUAppInterface pimDemoUAppDependencies = getPimDemoUAppInterface();
+        PIMDemoUAppInterface pimDemoUAppDependencies = getPimDemoUAppInterface();
         pimDemoUAppDependencies.init(new IapDemoUAppDependencies(((AppFrameworkApplication)appContext.getApplicationContext()).getAppInfra()), new IapDemoAppSettings(appContext));
         pimDemoUAppDependencies.launch(new ActivityLauncher(appContext, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 getDLSThemeConfiguration(appContext.getApplicationContext()), 0, null), null);
     }
 
     @NonNull
-    protected PimDemoUAppInterface getPimDemoUAppInterface() {
-        return new PimDemoUAppInterface();
+    protected PIMDemoUAppInterface getPimDemoUAppInterface() {
+        return new PIMDemoUAppInterface();
     }
 
     @Override

@@ -7,9 +7,9 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pim.PimActivity;
+import com.philips.platform.pim.PIMActivity;
 import com.philips.platform.pim.manager.PIMSettingManager;
-import com.philips.platform.pim.fragment.PIMFragment;
+import com.philips.platform.pim.fragment.DummyFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.utilities.PIMConstants;
@@ -53,7 +53,7 @@ public class PIMInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        PIMFragment udiFragment = new PIMFragment();
+        DummyFragment udiFragment = new DummyFragment();
         addFragment(uiLauncher, udiFragment);
     }
 
@@ -66,7 +66,7 @@ public class PIMInterface implements UappInterface {
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        Intent intent = new Intent(uiLauncher.getActivityContext(), PimActivity.class);
+        Intent intent = new Intent(uiLauncher.getActivityContext(), PIMActivity.class);
         intent.putExtra(PIMConstants.PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
         uiLauncher.getActivityContext().startActivity(intent);
     }
