@@ -14,6 +14,7 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import integration.PIMInterface;
 
@@ -30,6 +31,8 @@ public class PimDemoUAppActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_app_layout);
 
+        Label appversion = findViewById(R.id.appversion);
+        appversion.setText("Version : " + BuildConfig.VERSION_NAME);
         mLogin = findViewById(R.id.btn_login);
         mLogin.setOnClickListener(this);
         PimDemoUAppDependencies pimDemoUAppDependencies = new PimDemoUAppDependencies(new AppInfra.Builder().build(this));

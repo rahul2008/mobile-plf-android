@@ -44,7 +44,7 @@ public class PIMConfigManager {
     }
 
 
-    private void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
         downloadSDServiceURLs(serviceDiscoveryInterface);
     }
 }

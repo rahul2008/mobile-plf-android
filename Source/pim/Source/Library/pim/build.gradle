@@ -79,7 +79,7 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.supportv4
     implementation deps.support.annotations
-
+    implementation deps.volley
     implementation deps.openid_appauth
     testImplementation deps.junit
     testImplementation deps.powermock_core

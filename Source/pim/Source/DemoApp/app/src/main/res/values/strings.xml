@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">PIM Demo App</string>
+    <string name="app_name" translatable="false">PIM Demo App</string>
+    <string name="redirectURL" translatable="false"></string>
 </resources>
