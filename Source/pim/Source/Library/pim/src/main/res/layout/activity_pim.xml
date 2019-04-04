@@ -9,7 +9,7 @@
         android:id="@+id/action_bar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/pim_action_bar" />
+        layout="@layout/action_bar_pim" />
 
     <FrameLayout
         android:id="@+id/fl_mainFragmentContainer"

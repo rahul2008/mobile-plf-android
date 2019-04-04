@@ -1,7 +1,6 @@
 package com.philips.platform.pim.manager;
 
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
@@ -14,9 +13,6 @@ import net.openid.appauth.AuthorizationServiceConfiguration;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 public class PIMAuthManager {
-    private Fragment mFragment;
-    private PIMAuthorizationServiceConfigurationListener listener;
-    private AuthorizationServiceConfiguration authorizationServiceConfiguration;
     private final String TAG = PIMAuthManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
 
@@ -65,7 +61,6 @@ public class PIMAuthManager {
 //                "9317be6b-193f-4187-9ec2-5e1802a8d8ad",
 //                ResponseTypeValues.CODE,
 //                Uri.parse("com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad://oauthredirect")).setScope("openid profile email address phone").build();
-//        Log.d("PimAuthManager", "Making auth request to " + authorizationServiceConfiguration.authorizationEndpoint);
 //        mAuthService.performAuthorizationRequest(
 //                authorizationRequest, ((PimFragment) mFragment).createPostAuthorizationIntent(
 //                        authorizationRequest,

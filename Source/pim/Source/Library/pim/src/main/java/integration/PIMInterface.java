@@ -41,25 +41,27 @@ public class PIMInterface implements UappInterface {
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
         PIMSettingManager.getInstance().init(uappDependencies);
+        PIMUserManager pimUserManager = new PIMUserManager();
+        PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG,TAG,"PIMInterface init called.");
 
-        long startrtime = System.currentTimeMillis();
-        mLoggingInterface.log(DEBUG,TAG,"Init started. Start time : "+startrtime);
+       /* long startrtime = System.currentTimeMillis();
+        mLoggingInterface.log(DEBUG,TAG,"Init started. Start time : "+startrtime);*/
         PIMConfigManager pimConfigManager = new PIMConfigManager();
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
-        PIMUserManager pimUserManager = new PIMUserManager();
+
+
         pimUserManager.init(uappDependencies.getAppInfra().getSecureStorage());
 
-        PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
-
-        //pimUserManager.saveUserProfileJsonToStorage(context);
+        /*pimUserManager.saveUserProfileJsonToStorage(context);
         String userprofileString = pimUserManager.getUserProfileJsonFromStorage();
         mLoggingInterface.log(DEBUG,TAG,"User Profile fetched : "+userprofileString);
         long endtime = System.currentTimeMillis();
-        mLoggingInterface.log(DEBUG,TAG,"Init completed at : "+endtime+".  Duration: "+(endtime-startrtime));
+        mLoggingInterface.log(DEBUG,TAG,"Init completed at : "+endtime+".  Duration: "+(endtime-startrtime));*/
     }
+
     /**
      * Launches the PIM user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
      *

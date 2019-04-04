@@ -1,7 +1,6 @@
 package com.philips.platform.pim.manager;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.listeners.PIMListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
@@ -74,9 +73,4 @@ public class PIMUserManager {
         }
     }*/
 
-    public String getUserProfileJsonFromStorage(){
-        SecureStorage.SecureStorageError sserror = new SecureStorageInterface.SecureStorageError();
-        String val = secureStorage.fetchValueForKey("uuid_userprofile",sserror);
-        return val;
-    }
 }

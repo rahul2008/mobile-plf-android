@@ -1,7 +1,5 @@
 package com.philips.platform.pim.configration;
 
-import android.util.Log;
-
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
@@ -29,8 +27,7 @@ public class PIMOIDCConfigration {
     protected String getClientId() {
         Object obj = getPIMProperty(CLIENT_ID);
         if (obj != null) {
-            Log.d(TAG, "getClientId : " + obj);
-            return (String) obj;
+           return (String) obj;
         }
         return null;
     }

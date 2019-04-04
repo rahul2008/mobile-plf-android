@@ -47,6 +47,7 @@ public class PIMInterfaceTest extends TestCase {
     @Mock
     SecureStorageInterface mockSecureStorageInterface;
 
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);

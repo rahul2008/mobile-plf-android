@@ -30,7 +30,7 @@ public class PIMActivity extends UIDActivity implements ActionBarListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pim_activity);
+        setContentView(R.layout.activity_pim);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG,TAG,"onCreate called");
 
@@ -53,7 +53,7 @@ public class PIMActivity extends UIDActivity implements ActionBarListener {
         mBackImage = findViewById(R.id.pim_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
-        setTitle(getString(R.string.action_bar_title_texrt));
+        setTitle(getString(R.string.action_bar_title_text));
     }
 
     @Override

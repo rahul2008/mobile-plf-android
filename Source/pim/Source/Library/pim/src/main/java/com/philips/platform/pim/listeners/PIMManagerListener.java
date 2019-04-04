@@ -1,4 +1,4 @@
-package com.philips.platform.pim.manager;
+package com.philips.platform.pim.listeners;
 
 interface PIMManagerListener {
     void onSuccess();
