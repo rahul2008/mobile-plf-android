@@ -14,7 +14,7 @@
         <activity
             android:name=".PimDemoActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.DLS.Blue.UltraLight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

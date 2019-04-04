@@ -15,13 +15,15 @@ public class PIMOIDCUserProfile implements UserProfileInterface {
     private String profileJson;
     private AuthState authState;
 
-    public PIMOIDCUserProfile(SecureStorageInterface pSecureStorageInterface, AuthState authState) {
+    //AuthState can be null.
+    public PIMOIDCUserProfile(SecureStorageInterface secureStorageInterface, AuthState authState) {
         this.authState = authState;
         //get data from Secure Storage
-        mUserProfileMap = (Map<String, String>) pSecureStorageInterface.getKey("UserProfile", null);
+        mUserProfileMap = (Map<String, String>) secureStorageInterface.getKey("UserProfile", null);
 
     }
 
+    //TODO: Fill user profile map information to all values
     @Override
     public String getFirstName() {
         return null;
@@ -76,6 +78,8 @@ public class PIMOIDCUserProfile implements UserProfileInterface {
     }
 
     Map<String, String> fetchUserDetails(ArrayList<String> stringArrayList) {
+
+        //Get data from user profile map
         return null;
     }
 }

@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pim.PimActivity;
-import com.philips.platform.pim.configration.PIMDataProvider;
-import com.philips.platform.pim.manager.PIMSettingManager;
-import com.philips.platform.pim.fragment.PIMFragment;
+import com.philips.platform.pim.PIMActivity;
+import com.philips.platform.pim.fragment.DummyFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
+import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.utilities.PIMConstants;
 import com.philips.platform.uappframework.UappInterface;
@@ -22,24 +21,29 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
+
 
 public class PIMInterface implements UappInterface {
 
-    private String TAG = PIMInterface.class.getSimpleName();
+    private final String TAG = PIMInterface.class.getSimpleName();
+    private LoggingInterface mLoggingInterface;
 
     private Context context;
 
     @Override
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
+        PIMSettingManager.getInstance().init(uappDependencies);
 
-        PIMSettingManager.getInstance().setDependencies(uappDependencies);
+        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
+        mLoggingInterface.log(DEBUG,TAG,"PIMInterface init called");
+
         PIMConfigManager pimConfigManager = new PIMConfigManager();
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
         PIMUserManager pimUserManager = new PIMUserManager();
         pimUserManager.init(uappDependencies.getAppInfra().getSecureStorage());
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
-        // TODO: Usermanager.init is missing to fetch user profile and set to Setting manager for getting later
     }
 
     @Override
@@ -47,16 +51,16 @@ public class PIMInterface implements UappInterface {
 
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
-            Log.i(TAG, "Launch : Launched as activity");
+            mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as activity");
         } else if (uiLauncher instanceof FragmentLauncher) {
             launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
-            Log.i(TAG, "Launch : Launched as fragment");
+            mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as fragment");
         }
     }
 
     private void launchAsFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        PIMFragment udiFragment = new PIMFragment();
-        addFragment(uiLauncher, udiFragment);
+        DummyFragment pimFragment = new DummyFragment();
+        addFragment(uiLauncher, pimFragment);
     }
 
     private void addFragment(FragmentLauncher uiLauncher, Fragment fragment) {
@@ -68,7 +72,7 @@ public class PIMInterface implements UappInterface {
     }
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        Intent intent = new Intent(uiLauncher.getActivityContext(), PimActivity.class);
+        Intent intent = new Intent(uiLauncher.getActivityContext(), PIMActivity.class);
         intent.putExtra(PIMConstants.PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
         uiLauncher.getActivityContext().startActivity(intent);
     }
@@ -80,9 +84,9 @@ public class PIMInterface implements UappInterface {
      */
     public UserDataInterface getUserDataInterface() {
         if (context == null) {
-            Log.d(TAG, "getUserDataInterface: Context is null");
+            mLoggingInterface.log(DEBUG, TAG, "getUserDataInterface: Context is null");
             return null;
         }
-        return new PIMDataProvider(context);
+        return new PIMDataImplementation(context, PIMSettingManager.getInstance().getPimUserManager());
     }
 }
