@@ -627,7 +627,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void replaceWithHomeFragment() {
         if (getRegistrationFragment() != null) {
-            getRegistrationFragment().replaceWithHomeFragment();
+            getRegistrationFragment().replaceWithHomeFragment(getRegistrationFragment().getFragmentManager());
         }
     }
 
