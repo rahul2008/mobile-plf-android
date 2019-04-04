@@ -239,7 +239,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                     List<Item> questionsList = faq.getItem();
                     for (Item item : questionsList) {
                         String langCode = item.getLang();
-                        if (langCode.equalsIgnoreCase("AEN") || langCode.equalsIgnoreCase("ENG"))
+                        if (null!= langCode && (langCode.equalsIgnoreCase("AEN") || langCode.equalsIgnoreCase("ENG")))
                             engFaqItems.add(item);
                         else
                             nonEngItems.add(item);
