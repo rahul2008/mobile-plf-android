@@ -1,5 +1,7 @@
 package com.philips.platform.pim.manager;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.listeners.PIMListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
@@ -12,11 +14,13 @@ public class PIMUserManager {
     private PIMOIDCUserProfile pimoidcUserProfile;
     private SecureStorageInterface secureStorage;
     private AuthState authState;
+    private LoggingInterface mLoggingInterface;
+    private final String TAG = PIMUserManager.class.getSimpleName();
 
     public void init(SecureStorageInterface secureStorage) {
         //get Secure Storage user profile
         this.secureStorage = secureStorage;
-
+        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         //TODO : fetch authstate from secure storage
         pimoidcUserProfile = new PIMOIDCUserProfile(secureStorage, authState);
     }
@@ -30,7 +34,6 @@ public class PIMUserManager {
             onSuccess(response);
         }, error -> onError());
         //Store AuthState and fetch user profile then authstate
-
     }
 
     private void onError() {
@@ -47,18 +50,33 @@ public class PIMUserManager {
         return pimoidcUserProfile;
     }
 
-//    public AuthState getAuthState() {
-//        return
-//    }
-
 
     private void saveUserProfileToSecureStorage(String profileMap) {
-        //  pimoidcUserProfile = new PIMOIDCUserProfile(secureStorage, profileMap);
-        secureStorage.storeValueForKey("USER_PROFILE", profileMap.toString(), new SecureStorageInterface.SecureStorageError());
+       secureStorage.storeValueForKey("USER_PROFILE", profileMap.toString(), new SecureStorageInterface.SecureStorageError());
     }
 
     private void saveAuthStateIntoSecureStorage(AuthState authState) {
         secureStorage.storeValueForKey("AuthState", authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
     }
 
+   /* public void saveUserProfileJsonToStorage(Context context){
+        try {
+            InputStream ins = context.getAssets().open("userprofile.json");
+            int size = ins.available();
+            byte[] buffer = new byte[size];
+            ins.read(buffer);
+            ins.close();
+            String jsonString = new String(buffer, "UTF-8");
+            SecureStorage.SecureStorageError sserror = new SecureStorageInterface.SecureStorageError();
+            secureStorage.storeValueForKey("uuid_userprofile",jsonString,sserror);
+            mLoggingInterface.log(DEBUG,TAG,"Store uuid_userprofile errorcode: "+sserror.getErrorCode()+" errormessage : "+sserror.getErrorMessage());
+        }catch (Exception ex){
+        }
+    }*/
+
+    public String getUserProfileJsonFromStorage(){
+        SecureStorage.SecureStorageError sserror = new SecureStorageInterface.SecureStorageError();
+        String val = secureStorage.fetchValueForKey("uuid_userprofile",sserror);
+        return val;
+    }
 }
