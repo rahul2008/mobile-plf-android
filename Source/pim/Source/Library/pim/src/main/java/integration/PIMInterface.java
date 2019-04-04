@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.PIMActivity;
-import com.philips.platform.pim.fragment.DummyFragment;
+import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
@@ -30,7 +30,13 @@ public class PIMInterface implements UappInterface {
     private LoggingInterface mLoggingInterface;
 
     private Context context;
-
+    /**
+     * API to initialize PIM. Please make sure no propositions are being used before URInterface$init.
+     *
+     * @param uappDependencies pass instance of UappDependencies
+     * @param uappSettings     pass instance of UappSettings
+     * @since TODO
+     */
     @Override
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
@@ -45,7 +51,13 @@ public class PIMInterface implements UappInterface {
         pimUserManager.init(uappDependencies.getAppInfra().getSecureStorage());
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
     }
-
+    /**
+     * Launches the PIM user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
+     *
+     * @param uiLauncher      pass ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput pass instance of  URLaunchInput
+     * @since TODO
+     */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
@@ -59,7 +71,7 @@ public class PIMInterface implements UappInterface {
     }
 
     private void launchAsFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
-        DummyFragment pimFragment = new DummyFragment();
+        PIMFragment pimFragment = new PIMFragment();
         addFragment(uiLauncher, pimFragment);
     }
 
@@ -79,8 +91,7 @@ public class PIMInterface implements UappInterface {
 
     /**
      * Get the User Data Interface
-     *
-     * @since 2018.1.0
+     * @since TODO
      */
     public UserDataInterface getUserDataInterface() {
         if (context == null) {

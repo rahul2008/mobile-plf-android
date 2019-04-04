@@ -11,7 +11,7 @@ import com.philips.platform.pim.manager.PIMSettingManager;
 
 import net.openid.appauth.AuthorizationServiceDiscovery;
 
-public class OIDCFragment extends Fragment implements PIMListener {
+public class PIMFragment extends Fragment implements PIMListener {
     PIMLoginManager pimLoginManager;
     PIMOIDCConfigration pimoidcConfigration;
 

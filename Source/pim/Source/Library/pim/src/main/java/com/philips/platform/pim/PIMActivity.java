@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.pim.fragment.DummyFragment;
+import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.utilities.PIMConstants;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -36,7 +36,7 @@ public class PIMActivity extends UIDActivity implements ActionBarListener {
 
         createActionBar();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fl_mainFragmentContainer, new DummyFragment(), DummyFragment.class.getSimpleName()).addToBackStack(null).commit();
+                .replace(R.id.fl_mainFragmentContainer, new PIMFragment(), PIMFragment.class.getSimpleName()).addToBackStack(null).commit();
     }
 
 

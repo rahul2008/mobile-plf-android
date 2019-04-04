@@ -17,9 +17,6 @@ public interface PIMUserDataInterface extends UserDataInterface {
 
     HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception;
 
-    //ToDo: Could be generic for Service ID to be conclud
-    boolean authorizeLoginToHSDP(HSDPAuthenticationListener hsdpListener);
-
     UserLoggedInState getUserLoggedInState();
 
     //We need to maintain list of listeners
@@ -52,13 +49,6 @@ public interface PIMUserDataInterface extends UserDataInterface {
 
         void onRefetchFailure(PIMError error);
 
-    }
-
-    public interface HSDPAuthenticationListener {
-
-        void onHSDPLoginSuccess();
-
-        void onHSDPLoginFailure(PIMError error);
     }
 
     enum PIMError {

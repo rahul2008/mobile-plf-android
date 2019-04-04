@@ -3,6 +3,7 @@ package integration;
 import android.content.Context;
 
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
@@ -52,11 +53,23 @@ public class PIMDataImplementation implements PIMUserDataInterface {
         return null;
     }
 
+    /**
+     * Get the HSDP access token
+     *
+     * @return returns the HSDP access token
+     * @since 2018.1.0
+     */
     @Override
     public String getHSDPAccessToken() {
         return null;
     }
 
+    /**
+     * Get the HSDP UUID
+     *
+     * @return returns the HSDP UUID
+     * @since 2018.1.0
+     */
     @Override
     public String getHSDPUUID() {
         return null;
@@ -68,19 +81,22 @@ public class PIMDataImplementation implements PIMUserDataInterface {
     }
 
     @Override
-    public boolean authorizeLoginToHSDP(HSDPAuthenticationListener hsdpListener) {
-        return false;
-    }
-
-    @Override
     public UserLoggedInState getUserLoggedInState() {
         return null;
     }
 
+    /**
+     * {@code authorizeHSDP} method authorize a user is log-in in HSDP Backend
+     * TODO :Need to remove
+     *
+     * @param hsdpAuthenticationListener
+     * @since 1804.0
+     */
     @Override
-    public void authorizeHsdp(com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener hsdpAuthenticationListener) {
+    public void authorizeHsdp(HSDPAuthenticationListener hsdpAuthenticationListener) {
 
     }
+
 
     @Override
     public void refreshLoginSession(RefreshListener refreshListener) {
