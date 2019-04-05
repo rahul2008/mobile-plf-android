@@ -116,7 +116,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         if(getActivity()==null ) {return;}
         ProductSelectionLogger.i(TAG, "Displaying the list of products for user to select their product");
         mProductListView = (ListView) getView().findViewById(R.id.productListView);
-
+        mSearchBox.clearFocus();
         injectSummaryDataList();
         mProductListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,9 +129,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     }else {
                         mUserSelectedProduct = mProductAdapter.getData();
                     }
-                    mSearchTextView.clearFocus();
-
-                    hideSoftInputboard();
                     DetailedScreenFragmentSelection detailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
                     detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
                     showFragment(detailedScreenFragmentSelection);
@@ -144,6 +141,10 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
                     ProductModelSelectionHelper.getInstance().getTaggingInterface().
                             trackActionWithInfo(Constants.ACTION_KEY_SEND_DATA, contextData);
+
+                    mSearchTextView.setText("");
+                    mSearchBox.setSearchCollapsed(true);
+                    hideSoftInputboard();
                 }
             }
         });
@@ -196,7 +197,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
        final String constrain = mSearchTextView.getText().toString().trim();
 
-System.out.println("constrain  "+constrain);
+        System.out.println("constrain  "+constrain);
 
         if (productList != null && mProductAdapter.getFilter()!=null) {
             mProductAdapter.getFilter().filter(constrain,
