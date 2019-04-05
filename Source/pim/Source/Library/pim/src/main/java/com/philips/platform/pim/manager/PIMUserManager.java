@@ -1,5 +1,6 @@
 package com.philips.platform.pim.manager;
 
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.listeners.PIMListener;
@@ -11,17 +12,17 @@ import net.openid.appauth.AuthState;
 
 public class PIMUserManager {
     private PIMOIDCUserProfile pimoidcUserProfile;
-    private SecureStorageInterface secureStorage;
     private AuthState authState;
+    private AppInfraInterface appInfraInterface;
     private LoggingInterface mLoggingInterface;
     private final String TAG = PIMUserManager.class.getSimpleName();
 
-    public void init(SecureStorageInterface secureStorage) {
+    public void init(AppInfraInterface appInfraInterface) {
         //get Secure Storage user profile
-        this.secureStorage = secureStorage;
+        this.appInfraInterface = appInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         //TODO : fetch authstate from secure storage
-        pimoidcUserProfile = new PIMOIDCUserProfile(secureStorage, authState);
+        pimoidcUserProfile = new PIMOIDCUserProfile(appInfraInterface.getSecureStorage(), authState);
     }
 
 
@@ -51,11 +52,11 @@ public class PIMUserManager {
 
 
     private void saveUserProfileToSecureStorage(String profileMap) {
-       secureStorage.storeValueForKey("USER_PROFILE", profileMap.toString(), new SecureStorageInterface.SecureStorageError());
+       appInfraInterface.getSecureStorage().storeValueForKey("USER_PROFILE", profileMap.toString(), new SecureStorageInterface.SecureStorageError());
     }
 
     private void saveAuthStateIntoSecureStorage(AuthState authState) {
-        secureStorage.storeValueForKey("AuthState", authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
+        appInfraInterface.getSecureStorage().storeValueForKey("AuthState", authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
     }
 
    /* public void saveUserProfileJsonToStorage(Context context){

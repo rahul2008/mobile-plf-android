@@ -2,6 +2,7 @@ package com.philips.platform.pim.manager;
 
 import android.net.Uri;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -15,7 +16,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -25,10 +25,12 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.when;
 
-@PrepareForTest({Uri.class})
+@PrepareForTest({Uri.class,PIMSettingManager.class})
 @RunWith(PowerMockRunner.class)
 public class PIMConfigManagerTest extends TestCase {
 
@@ -43,23 +45,25 @@ public class PIMConfigManagerTest extends TestCase {
     @Captor
     private ArgumentCaptor<ArrayList<String>> captorArrayList;
     @Mock
-    private PIMOidcDiscoveryManager mockPimOidcDiscoveryManager;
+    LoggingInterface mockLoggingInterface;
+    @Mock
+    PIMSettingManager mockPimSettingManager;
 
 
     @Before
     public void setup() throws Exception {
+        super.setUp();
         MockitoAnnotations.initMocks(this);
-        PowerMockito.mockStatic(Uri.class);
-        Uri uri = mock(Uri.class);
-        PowerMockito.when(Uri.class, "parse", anyString()).thenReturn(uri);
-        pimConfigManager = new PIMConfigManager();
-    }
 
-    @Test
-    public void testPIMConfigManagerInit_VerifyCountryPreference() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
-        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
-        mockOnGetServiceUrlMapListener = captor.getValue();
+        mockStatic(PIMSettingManager.class);
+        when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
+        when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+
+        mockStatic(Uri.class);
+        Uri uri = mock(Uri.class);
+        when(Uri.class, "parse", anyString()).thenReturn(uri);
+
+        pimConfigManager = new PIMConfigManager();
     }
 
     /**
@@ -71,7 +75,7 @@ public class PIMConfigManagerTest extends TestCase {
         pimConfigManager.init(mockServiceDiscoveryInterface);
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
-        
+
         Map<String, ServiceDiscoveryService> urlMap = new HashMap<>();
         ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
         serviceDiscoveryService.setConfigUrl("https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
@@ -87,7 +91,7 @@ public class PIMConfigManagerTest extends TestCase {
 
         ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
                 .OnErrorListener.ERRORVALUES.NO_NETWORK, "No Network");
-        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(), sdError.getMessage());
         assertNotNull(sdError.getErrorvalue());
     }
 
@@ -99,7 +103,7 @@ public class PIMConfigManagerTest extends TestCase {
 
         ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
                 .OnErrorListener.ERRORVALUES.SECURITY_ERROR, "Security Error");
-        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(), sdError.getMessage());
         assertNotNull(sdError.getErrorvalue());
     }
 
@@ -111,7 +115,7 @@ public class PIMConfigManagerTest extends TestCase {
 
         ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
                 .OnErrorListener.ERRORVALUES.SERVER_ERROR, "ErrorMessage");
-        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(), sdError.getMessage());
         assertNotNull(sdError.getErrorvalue());
     }
 
@@ -123,7 +127,7 @@ public class PIMConfigManagerTest extends TestCase {
 
         ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
                 .OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "ErrorMessage");
-        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(), sdError.getMessage());
         assertNotNull(sdError.getErrorvalue());
     }
 
@@ -135,7 +139,7 @@ public class PIMConfigManagerTest extends TestCase {
 
         ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
                 .OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "ErrorMessage");
-        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(), sdError.getMessage());
         assertNotNull(sdError.getErrorvalue());
     }
 
@@ -147,7 +151,7 @@ public class PIMConfigManagerTest extends TestCase {
 
         ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
                 .OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "ErrorMessage");
-        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(), sdError.getMessage());
         assertNotNull(sdError.getErrorvalue());
     }
 
@@ -159,7 +163,7 @@ public class PIMConfigManagerTest extends TestCase {
 
         ServiceDiscovery.Error sdError = new ServiceDiscovery.Error(ServiceDiscoveryInterface
                 .OnErrorListener.ERRORVALUES.NO_SERVICE_LOCALE_ERROR, "ErrorMessage");
-        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(),sdError.getMessage());
+        mockOnGetServiceUrlMapListener.onError(sdError.getErrorvalue(), sdError.getMessage());
         assertNotNull(sdError.getErrorvalue());
     }
 
@@ -167,8 +171,10 @@ public class PIMConfigManagerTest extends TestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
         pimConfigManager = null;
-        mockPimOidcDiscoveryManager = null;
         mockServiceDiscoveryInterface = null;
         mockOnGetServiceUrlMapListener = null;
+        mockPimSettingManager = null;
+        captor = null;
+        captorArrayList = null;
     }
 }

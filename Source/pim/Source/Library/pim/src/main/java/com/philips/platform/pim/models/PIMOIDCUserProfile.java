@@ -1,7 +1,6 @@
 package com.philips.platform.pim.models;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.DataInterface.USR.UserProfileInterface;
 import com.philips.platform.pim.manager.PIMSettingManager;
@@ -173,11 +172,15 @@ public class PIMOIDCUserProfile implements UserProfileInterface {
     }
 
     private void parseUserProfileDataToMap(SecureStorageInterface secureStorageInterface) {
-        SecureStorage.SecureStorageError sserror = new SecureStorageInterface.SecureStorageError();
-        String userProfileString = secureStorageInterface.fetchValueForKey("uuid_userprofile",sserror);
+        String userProfileString = secureStorageInterface.fetchValueForKey("uuid_userprofile",new SecureStorageInterface.SecureStorageError());
+        if(userProfileString == null){
+            mLoggingInterface.log(DEBUG,TAG,"fetchValueForKey returns null");
+            return;
+        }
         try {
             JSONObject jsonObject = new JSONObject(userProfileString);
             Iterator<String> keys = jsonObject.keys();
+
             while (keys.hasNext()) {
                 String key = keys.next();
                 mUserProfileMap.put(key, jsonObject.get(key));

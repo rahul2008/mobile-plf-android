@@ -53,7 +53,7 @@ public class PIMInterface implements UappInterface {
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
 
 
-        pimUserManager.init(uappDependencies.getAppInfra().getSecureStorage());
+        pimUserManager.init(uappDependencies.getAppInfra());
 
         /*pimUserManager.saveUserProfileJsonToStorage(context);
         String userprofileString = pimUserManager.getUserProfileJsonFromStorage();

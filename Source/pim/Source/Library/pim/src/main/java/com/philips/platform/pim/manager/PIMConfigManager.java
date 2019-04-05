@@ -3,25 +3,24 @@ package com.philips.platform.pim.manager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
-import com.philips.platform.pim.utilities.PIMConstants;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
-import static com.philips.platform.pim.utilities.PIMConstants.PIM_BASEURL;
 
 public class PIMConfigManager {
     private static final String TAG = PIMConfigManager.class.getSimpleName();
     private final ArrayList<String> listOfServiceId;
     private LoggingInterface mLoggingInterface;
+    private final String PIM_BASEURL = "userreg.janrainoidc.issuer";
 
 
     // TODO: Create init method, inject servicediscovery for testing purpose
     public PIMConfigManager() {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         listOfServiceId = new ArrayList<>();
-        listOfServiceId.add(PIMConstants.PIM_BASEURL);
+        listOfServiceId.add(PIM_BASEURL);
         mLoggingInterface.log(DEBUG,TAG,"Added Service id : "+listOfServiceId.get(listOfServiceId.size()-1));
     }
 

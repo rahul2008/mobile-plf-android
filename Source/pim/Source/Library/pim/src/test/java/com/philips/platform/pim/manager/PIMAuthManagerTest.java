@@ -2,6 +2,7 @@ package com.philips.platform.pim.manager;
 
 import android.net.Uri;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 
 import junit.framework.TestCase;
@@ -22,8 +23,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.when;
 
-@PrepareForTest({Uri.class,AuthorizationServiceConfiguration.class})
+@PrepareForTest({Uri.class,AuthorizationServiceConfiguration.class,PIMSettingManager.class})
 @RunWith(PowerMockRunner.class)
 public class PIMAuthManagerTest extends TestCase {
 
@@ -36,6 +39,10 @@ public class PIMAuthManagerTest extends TestCase {
     private PIMAuthorizationServiceConfigurationListener mockConfigurationListener;
     @Mock
     private AuthorizationServiceDiscovery mockAuthorizationServiceDiscovery;
+    @Mock
+    private PIMSettingManager mockPimSettingManager;
+    @Mock
+    private LoggingInterface mockLoggingInterface;
 
     @Mock
     private AuthorizationServiceConfiguration.RetrieveConfigurationCallback mockConfigurationCallback;
@@ -46,12 +53,18 @@ public class PIMAuthManagerTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
-        pimAuthManager = new PIMAuthManager();
+
+        mockStatic(PIMSettingManager.class);
+        when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
+        when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+
         PowerMockito.mockStatic(AuthorizationServiceConfiguration.class);
         mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
         PowerMockito.mockStatic(Uri.class);
         Uri uri = mock(Uri.class);
-        PowerMockito.when(Uri.class,"parse", ArgumentMatchers.anyString()).thenReturn(uri);
+        when(Uri.class,"parse", ArgumentMatchers.anyString()).thenReturn(uri);
+
+        pimAuthManager = new PIMAuthManager();
     }
 
     @Test
