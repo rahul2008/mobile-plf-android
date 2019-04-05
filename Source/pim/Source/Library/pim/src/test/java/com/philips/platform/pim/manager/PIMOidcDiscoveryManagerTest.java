@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -39,8 +40,8 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
     @Mock
     private PIMSettingManager mockPimSettingManager;
     @Captor
-    ArgumentCaptor<PIMAuthorizationServiceConfigurationListener> captorListener;
-    String baseurl = "https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
+    private ArgumentCaptor<PIMAuthorizationServiceConfigurationListener> captorListener;
+    private String baseurl = "https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
 
     @Before
     public void setUp() throws Exception {
@@ -62,6 +63,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         AuthorizationServiceDiscovery mockAuthServiceDiscovery = mock(AuthorizationServiceDiscovery.class);
 
         mockServiceConfigurationListener.onSuccess(mockAuthServiceDiscovery);
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onSuccess. discoveryDoc : "+mockAuthServiceDiscovery);
     }
 
     @Test
@@ -72,6 +74,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         mockServiceConfigurationListener = captorListener.getValue();
 
          mockServiceConfigurationListener.onError();
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onError.  ");
     }
 
     @After
