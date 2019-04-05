@@ -35,11 +35,11 @@ public class PIMConfigManager {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess");
-                PIMAuthManager pimAuthManager = new PIMAuthManager();
-                PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager(pimAuthManager);
                 // TODO: Populate config if already downloaded from usermanager's authstate
                 ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
                 if(serviceDiscoveryService != null && serviceDiscoveryService.getConfigUrls() != null) {
+                    PIMAuthManager pimAuthManager = new PIMAuthManager();
+                    PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager(pimAuthManager);
                     mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess : getConfigUrls : "+serviceDiscoveryService.getConfigUrls());
                     pimOidcDiscoveryManager.downloadOidcUrls(serviceDiscoveryService.getConfigUrls());
                 }else if(serviceDiscoveryService == null){
