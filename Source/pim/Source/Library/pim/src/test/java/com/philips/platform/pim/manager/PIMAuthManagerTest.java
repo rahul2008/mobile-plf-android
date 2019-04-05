@@ -7,6 +7,7 @@ import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationLi
 
 import junit.framework.TestCase;
 
+import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 
@@ -22,7 +23,9 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -43,6 +46,11 @@ public class PIMAuthManagerTest extends TestCase {
     private PIMSettingManager mockPimSettingManager;
     @Mock
     private LoggingInterface mockLoggingInterface;
+
+    /*@Mock
+    AuthorizationServiceConfiguration mockServiceConfiguration;*/
+   /* @Mock
+    AuthorizationException mockAuthorizationException;*/
 
     @Mock
     private AuthorizationServiceConfiguration.RetrieveConfigurationCallback mockConfigurationCallback;
@@ -68,40 +76,32 @@ public class PIMAuthManagerTest extends TestCase {
     }
 
     @Test
-    public void fetchFromUrl_testOnSuccess_AuthServiceNotNull() throws AuthorizationServiceDiscovery.MissingArgumentException, JSONException {
+    public void shouldFetchFromUrl_Verify_OnSuccess() throws AuthorizationServiceDiscovery.MissingArgumentException, JSONException {
         pimAuthManager.fetchAuthWellKnownConfiguration(baseurl,mockConfigurationListener);
 
         PowerMockito.verifyStatic(AuthorizationServiceConfiguration.class);
         AuthorizationServiceConfiguration.fetchFromUrl(ArgumentMatchers.any(Uri.class),captorRetrieveConfigCallback.capture());
 
         mockConfigurationCallback = captorRetrieveConfigCallback.getValue();
+        mockConfigurationCallback.onFetchConfigurationCompleted(mockAuthorizationServiceConfiguration,null);
 
-        mockConfigurationListener.onSuccess(mockAuthorizationServiceDiscovery);
-        assertNotNull(mockAuthorizationServiceDiscovery);
+        verify(mockConfigurationListener).onSuccess(mockAuthorizationServiceConfiguration.discoveryDoc);
+        verify(mockLoggingInterface).log(DEBUG,PIMAuthManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : "+mockAuthorizationServiceConfiguration.discoveryDoc);
     }
 
+
     @Test
-    public void fetchFromUrl_testOnSuccess_AuthServiceNull() throws AuthorizationServiceDiscovery.MissingArgumentException, JSONException {
+    public void shouldFetchFromUrl_Verify_OnError(){
         pimAuthManager.fetchAuthWellKnownConfiguration(baseurl,mockConfigurationListener);
 
         PowerMockito.verifyStatic(AuthorizationServiceConfiguration.class);
         AuthorizationServiceConfiguration.fetchFromUrl(ArgumentMatchers.any(Uri.class),captorRetrieveConfigCallback.capture());
 
         mockConfigurationCallback = captorRetrieveConfigCallback.getValue();
-
-        mockConfigurationListener.onSuccess(mockAuthorizationServiceConfiguration.discoveryDoc);
-        assertNull(mockAuthorizationServiceConfiguration.discoveryDoc);
-    }
-
-    @Test
-    public void fetchFromUrl_testOnError(){
-        pimAuthManager.fetchAuthWellKnownConfiguration(baseurl,mockConfigurationListener);
-
-        PowerMockito.verifyStatic(AuthorizationServiceConfiguration.class);
-        AuthorizationServiceConfiguration.fetchFromUrl(ArgumentMatchers.any(Uri.class),captorRetrieveConfigCallback.capture());
-
-        mockConfigurationCallback = captorRetrieveConfigCallback.getValue();
-        mockConfigurationListener.onError();
+        AuthorizationException ex = new AuthorizationException(0, 0, null, null, null, null);
+        mockConfigurationCallback.onFetchConfigurationCompleted(mockAuthorizationServiceConfiguration, ex);
+        verify(mockConfigurationListener).onError();
+        verify(mockLoggingInterface).log(DEBUG,PIMAuthManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : "+ex);
     }
 
     public void tearDown() throws Exception {
