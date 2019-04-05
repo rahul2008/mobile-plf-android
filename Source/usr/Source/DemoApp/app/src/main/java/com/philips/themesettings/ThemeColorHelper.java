@@ -9,7 +9,14 @@ package com.philips.themesettings;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.urdemolibrary.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class ThemeColorHelper {
     private static HashMap<String, ArrayList<AccentRange>> accentMap = new HashMap<>();

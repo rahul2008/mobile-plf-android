@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -81,7 +82,6 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RLog.d(TAG, "onCreate");
-
 
         RegistrationBaseFragment.setHeightWidthToZero();
         Bundle bundle = getArguments();
@@ -165,10 +165,10 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
                 ((ForgotPasswordFragment) (fragment)).backPressed();
             }
             trackHandler();
-            int stackCount = count-1;
-            if(fragment instanceof ResetPasswordWebView){
+            int stackCount = count - 1;
+            if (fragment instanceof ResetPasswordWebView) {
                 currentFragment = mFragmentManager.getFragments().get(stackCount);
-                while(!(currentFragment instanceof HomeFragment)){
+                while (!(currentFragment instanceof HomeFragment)) {
 
                     mFragmentManager.popBackStack();
                     stackCount--;
@@ -245,45 +245,44 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private void loadFirstFragment() {
         try {
-            handleUseRLoginStateFragments();
+
+            boolean hsdpSkipLoginConfigurationAvailable = RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable();
+            User mUser = new User(getParentActivity().getApplicationContext());
+            handleUseRLoginStateFragments(hsdpSkipLoginConfigurationAvailable, mFragmentManager,mUser);
         } catch (IllegalStateException e) {
             RLog.e(TAG, "loadFirstFragment :FragmentTransaction " +
                     "Exception occured in loadFirstFragment  :" + e.getMessage());
         }
     }
 
-    private void handleUseRLoginStateFragments() {
-        User mUser = new User(getParentActivity().getApplicationContext());
-        final boolean hsdpSkipLoginConfigurationAvailable = RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable();
-        boolean isUserSignIn = (hsdpSkipLoginConfigurationAvailable && mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal() || mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN);
-        boolean isEmailVerified = (mUser.isEmailVerified() || mUser.isMobileVerified());
-        boolean isEmailVerificationRequired = RegistrationConfiguration.
-                getInstance().isEmailVerificationRequired();
+    @VisibleForTesting
+    protected Fragment handleUseRLoginStateFragments(boolean hsdpSkipLoginConfiguration, FragmentManager pFragmentManager, User pUser) {
 
-        boolean isEmailVerifiedOrNotRequired = isEmailVerified || !isEmailVerificationRequired;
-
-        if (isUserSignIn && isEmailVerifiedOrNotRequired && mRegistrationLaunchMode != null) {
-
-            if (RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)) {
-                launchMarketingAccountFragment();
+        boolean isUserSignIn = ((hsdpSkipLoginConfiguration && pUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) || pUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN);
+        Fragment fragment;
+        if (isUserSignIn) {
+            if (mRegistrationLaunchMode != null && RegistrationLaunchMode.MARKETING_OPT.equals(mRegistrationLaunchMode)) {
+                fragment = launchMarketingAccountFragment(pFragmentManager);
                 RLog.d(TAG, "handleUseRLoginStateFragments : launchMarketingAccountFragment");
             } else {
-                launchMyAccountFragment();
+                fragment = launchMyAccountFragment(pFragmentManager);
                 RLog.d(TAG, "handleUseRLoginStateFragments : launchMyAccountFragment");
             }
 
         } else {
             RLog.d(TAG, "handleUseRLoginStateFragments : launchHomeFragment");
             AppTagging.trackFirstPage(AppTaggingPages.HOME);
-            replaceWithHomeFragment();
+            fragment = replaceWithHomeFragment(pFragmentManager);
         }
+        return fragment;
     }
 
-    private void launchMyAccountFragment() {
+    protected Fragment launchMyAccountFragment(FragmentManager pFragmentManager) {
         UserDetailsFragment userDetailsFragment = new UserDetailsFragment();
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = pFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_reg_fragment_container, userDetailsFragment);
         fragmentTransaction.commitAllowingStateLoss();
+        return userDetailsFragment;
     }
 
     public void userRegistrationComplete() {
@@ -295,21 +294,20 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         }
     }
 
-    private void launchMarketingAccountFragment() {
+    private Fragment launchMarketingAccountFragment(FragmentManager pFragmentManager) {
         AppTagging.trackFirstPage(AppTaggingPages.MARKETING_OPT_IN);
-        replaceMarketingAccountFragment();
+        return replaceMarketingAccountFragment(pFragmentManager);
     }
 
     private void trackPage(String currPage) {
-        User mUser = new User(getParentActivity().getApplicationContext());
         AppTagging.trackPage(currPage);
     }
 
-    public void replaceWithHomeFragment() {
+    public Fragment replaceWithHomeFragment(FragmentManager pFragmentManager) {
         try {
-            if (null != mFragmentManager) {
+            if (null != pFragmentManager) {
                 currentFragment = new HomeFragment();
-                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction = pFragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl_reg_fragment_container, currentFragment);
                 fragmentTransaction.commitAllowingStateLoss();
             }
@@ -317,6 +315,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
             RLog.d(TAG, "replaceWithHomeFragment :FragmentTransaction " +
                     "Exception occurred in addFragment  :" + e.getMessage());
         }
+        return currentFragment;
     }
 
     public boolean isHomeFragment() {
@@ -338,16 +337,12 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         hideKeyBoard();
     }
 
-    private void replaceMarketingAccountFragment() {
-        try {
-            MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fl_reg_fragment_container, marketingAccountFragment);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(TAG, "RegistrationFragment :FragmentTransaction Exception " +
-                    "occured in addFragment  :" + e.getMessage());
-        }
+    private Fragment replaceMarketingAccountFragment(FragmentManager pFragmentManager) {
+        MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();
+        FragmentTransaction fragmentTransaction = pFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fl_reg_fragment_container, marketingAccountFragment);
+        fragmentTransaction.commitAllowingStateLoss();
+        return marketingAccountFragment;
     }
 
 
