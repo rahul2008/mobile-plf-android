@@ -7,7 +7,6 @@ package com.philips.cdp.di.iap.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.FragmentManager;
@@ -24,8 +23,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -397,17 +394,6 @@ public class Utility {
             IAPLog.e(IAPLog.LOG, "IllegalArgumentException while voucherCode enable");
         }
         return false;
-    }
-
-
-    public String getAddressFieldEnablerJson(Context context,String fileName) throws IOException {
-
-        AssetManager manager = context.getAssets();
-        InputStream file = manager.open(fileName);
-        byte[] formArray = new byte[file.available()];
-        file.read(formArray);
-        file.close();
-        return new String(formArray);
     }
 
 }
