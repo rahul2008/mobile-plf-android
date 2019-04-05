@@ -96,6 +96,10 @@ public class PIMConfigManagerTest extends TestCase {
         verify(mockLoggingInterface).log(DEBUG,PIMConfigManager.class.getSimpleName(),"getServicesWithCountryPreference : onSuccess : serviceDiscoveryService is null");
     }
 
+    /**
+     * Can't verify downloadOidcUrls() from here,as instance of PIMOidcDiscoveryManager
+     * and PIMAuthManager are created locally onSuccess
+     */
     @Test
     public void verifyGetServicesWithCountryPreference_OnSuccess_ConfigURLIsNull() {
         pimConfigManager.init(mockServiceDiscoveryInterface);
