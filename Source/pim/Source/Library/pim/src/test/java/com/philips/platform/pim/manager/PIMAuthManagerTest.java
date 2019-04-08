@@ -66,9 +66,9 @@ public class PIMAuthManagerTest extends TestCase {
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
 
-        PowerMockito.mockStatic(AuthorizationServiceConfiguration.class);
+        mockStatic(AuthorizationServiceConfiguration.class);
         mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
-        PowerMockito.mockStatic(Uri.class);
+        mockStatic(Uri.class);
         Uri uri = mock(Uri.class);
         when(Uri.class,"parse", ArgumentMatchers.anyString()).thenReturn(uri);
 
