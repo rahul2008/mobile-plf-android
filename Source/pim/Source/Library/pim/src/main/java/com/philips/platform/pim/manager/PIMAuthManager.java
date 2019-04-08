@@ -27,7 +27,7 @@ public class PIMAuthManager {
         final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
                 (AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationException e) -> {
                     if (e != null) {
-                        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : "+e);
+                        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : "+e.getMessage());
                         listener.onError();
                     } else {
                         mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : "+authorizationServiceConfiguration.discoveryDoc);
