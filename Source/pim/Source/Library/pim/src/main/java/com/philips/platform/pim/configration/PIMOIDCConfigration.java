@@ -20,22 +20,17 @@ public class PIMOIDCConfigration {
 
     // TODO: Get appinfra via settings manager or create constructor to inject what is required
     protected String getClientId() {
-        Object obj = getProperty(CLIENT_ID,GROUP_PIM);
+        Object obj = getProperty(CLIENT_ID, GROUP_PIM);
         if (obj != null) {
-           return (String) obj;
+            return (String) obj;
         }
         return null;
     }
 
     private Object getProperty(String key, String group) {
         //TODO: Deepthi  ( Low ) check impact of cloud config
-        try {
-            AppConfigurationInterface appConfigurationInterface = appInfraInterface.getConfigInterface();
-            Object obj = appConfigurationInterface.getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
-            return obj;
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-       return null;
+        AppConfigurationInterface appConfigurationInterface = appInfraInterface.getConfigInterface();
+        Object obj = appConfigurationInterface.getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
+        return obj;
     }
 }
