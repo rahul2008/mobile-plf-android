@@ -1,5 +1,7 @@
 package com.philips.platform.pim.manager;
 
+import android.net.Uri;
+
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 
@@ -15,17 +17,19 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@PrepareForTest({PIMSettingManager.class})
+@PrepareForTest({Uri.class,PIMSettingManager.class,PIMOidcDiscoveryManager.class})
 @RunWith(PowerMockRunner.class)
 public class PIMOidcDiscoveryManagerTest extends TestCase {
 
@@ -51,8 +55,13 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         mockStatic(PIMSettingManager.class);
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        PowerMockito.whenNew(PIMAuthManager.class).withNoArguments().thenReturn(mockPimAuthManager);
 
-        pimOidcDiscoveryManager = new PIMOidcDiscoveryManager(mockPimAuthManager);
+        mockStatic(Uri.class);
+        Uri uri = PowerMockito.mock(Uri.class);
+        when(Uri.class, "parse", anyString()).thenReturn(uri);
+
+        pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
     }
 
     @Test

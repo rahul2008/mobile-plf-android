@@ -45,7 +45,6 @@ public class PIMOIDCUserProfile implements UserProfileInterface {
         parseUserProfileDataToMap(secureStorageInterface);
     }
 
-    //TODO: Fill user profile map information to all values
     @Override
     public String getFirstName() {
         if(mUserProfileMap == null) {

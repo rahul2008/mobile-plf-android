@@ -20,10 +20,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -48,6 +48,8 @@ public class PIMConfigManagerTest extends TestCase {
     private LoggingInterface mockLoggingInterface;
     @Mock
     private PIMSettingManager mockPimSettingManager;
+    @Mock
+    private ServiceDiscoveryService mockServiceDiscoveryService;
 
 
     @Before
@@ -76,12 +78,12 @@ public class PIMConfigManagerTest extends TestCase {
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
 
-        Map<String, ServiceDiscoveryService> urlMap = new HashMap<>();
-        ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
-        serviceDiscoveryService.setConfigUrl("https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
-        urlMap.put("userreg.janrainoidc.issuer", serviceDiscoveryService);
-        mockOnGetServiceUrlMapListener.onSuccess(urlMap);
-        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onSuccess : getConfigUrls : " + serviceDiscoveryService.getConfigUrls());
+        Map<String,ServiceDiscoveryService> mockMap = mock(Map.class);
+        when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
+        when(mockServiceDiscoveryService.getConfigUrls()).thenReturn(new String());
+
+        mockOnGetServiceUrlMapListener.onSuccess(mockMap);
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onSuccess : getConfigUrls : " + mockServiceDiscoveryService.getConfigUrls());
     }
 
     @Test
@@ -90,10 +92,10 @@ public class PIMConfigManagerTest extends TestCase {
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
 
-        Map<String, ServiceDiscoveryService> urlMap = new HashMap<>();
-        urlMap.put("userreg.janrainoidc.issuer", null);
-        mockOnGetServiceUrlMapListener.onSuccess(urlMap);
-        verify(mockLoggingInterface).log(DEBUG,PIMConfigManager.class.getSimpleName(),"getServicesWithCountryPreference : onSuccess : serviceDiscoveryService is null");
+        Map<String,ServiceDiscoveryService> mockMap = mock(Map.class);
+        when(mockMap.get(any())).thenReturn(null);
+        mockOnGetServiceUrlMapListener.onSuccess(mockMap);
+        verify(mockLoggingInterface).log(DEBUG,PIMConfigManager.class.getSimpleName(),"getServicesWithCountryPreference : onSuccess : serviceDiscovery response is null");
     }
 
     /**
@@ -106,11 +108,12 @@ public class PIMConfigManagerTest extends TestCase {
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
 
-        Map<String, ServiceDiscoveryService> urlMap = new HashMap<>();
-        ServiceDiscoveryService serviceDiscoveryService = new ServiceDiscoveryService();
-        urlMap.put("userreg.janrainoidc.issuer", serviceDiscoveryService);
-        mockOnGetServiceUrlMapListener.onSuccess(urlMap);
-        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onSuccess : getConfigUrls is null");
+        Map<String,ServiceDiscoveryService> mockMap = mock(Map.class);
+        when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
+        when(mockServiceDiscoveryService.getConfigUrls()).thenReturn(null);
+
+        mockOnGetServiceUrlMapListener.onSuccess(mockMap);
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onSuccess : No service url found for Issuer service id");
     }
 
     @Test

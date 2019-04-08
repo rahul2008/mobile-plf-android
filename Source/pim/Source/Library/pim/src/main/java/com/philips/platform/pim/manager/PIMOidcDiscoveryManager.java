@@ -10,21 +10,19 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 
 public  class PIMOidcDiscoveryManager implements PIMAuthorizationServiceConfigurationListener {
 
-    private PIMAuthManager pimAuthManager;
     private final String TAG = PIMOidcDiscoveryManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
 
 
-    public PIMOidcDiscoveryManager(PIMAuthManager pimAuthManager) {
-        this.pimAuthManager = pimAuthManager;
+    public PIMOidcDiscoveryManager() {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
     public void downloadOidcUrls(String baseUrl) {
         mLoggingInterface.log(DEBUG,TAG,"downloadOidcUrls called with baseUrl : "+baseUrl);
+        PIMAuthManager pimAuthManager = new PIMAuthManager();
         pimAuthManager.fetchAuthWellKnownConfiguration(baseUrl, this);
     }
-
 
     @Override
     public void onSuccess(AuthorizationServiceDiscovery discoveryDoc) {

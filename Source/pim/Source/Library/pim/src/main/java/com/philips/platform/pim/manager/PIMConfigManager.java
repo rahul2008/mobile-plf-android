@@ -11,41 +11,41 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 
 public class PIMConfigManager {
     private static final String TAG = PIMConfigManager.class.getSimpleName();
-    private final ArrayList<String> listOfServiceId;
     private LoggingInterface mLoggingInterface;
     private final String PIM_BASEURL = "userreg.janrainoidc.issuer";
 
 
-    // TODO: Create init method, inject servicediscovery for testing purpose
     public PIMConfigManager() {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        listOfServiceId = new ArrayList<>();
-        listOfServiceId.add(PIM_BASEURL);
-        mLoggingInterface.log(DEBUG,TAG,"Added Service id : "+listOfServiceId.get(listOfServiceId.size()-1));
     }
 
     public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
         mLoggingInterface.log(DEBUG,TAG,"init called");
-        downloadSDServiceURLs(serviceDiscoveryInterface);
+        ArrayList<String> listOfServiceId = new ArrayList<>();
+        listOfServiceId.add(PIM_BASEURL);
+        downloadSDServiceURLs(serviceDiscoveryInterface,listOfServiceId);
     }
 
-    private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface,ArrayList<String> listOfServiceId) {
         mLoggingInterface.log(DEBUG,TAG,"downloadSDServiceURLs called");
         serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess");
-                // TODO: Populate config if already downloaded from usermanager's authstate
+                // TODO: Populate config if already downloaded from usermanager's authstate and implement 24 hours expiry, after fetching from physical memory, need to fill settings manager
                 ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
-                if(serviceDiscoveryService != null && serviceDiscoveryService.getConfigUrls() != null) {
-                    PIMAuthManager pimAuthManager = new PIMAuthManager();
-                    PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager(pimAuthManager);
-                    mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess : getConfigUrls : "+serviceDiscoveryService.getConfigUrls());
-                    pimOidcDiscoveryManager.downloadOidcUrls(serviceDiscoveryService.getConfigUrls());
-                }else if(serviceDiscoveryService == null){
-                    mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess : serviceDiscoveryService is null");
+
+                if(serviceDiscoveryService == null) {
+                    mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess : serviceDiscovery response is null");
                 }else{
-                    mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess : getConfigUrls is null");
+                    String configUrls = serviceDiscoveryService.getConfigUrls();
+                    if(configUrls != null){
+                        PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
+                        mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess : getConfigUrls : "+configUrls);
+                        pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
+                    }else{
+                        mLoggingInterface.log(DEBUG,TAG,"getServicesWithCountryPreference : onSuccess : No service url found for Issuer service id");
+                    }
                 }
             }
 

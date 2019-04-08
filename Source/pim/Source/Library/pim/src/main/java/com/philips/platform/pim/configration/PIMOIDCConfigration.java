@@ -18,25 +18,24 @@ public class PIMOIDCConfigration {
         this.appInfraInterface = appInfraInterface;
     }
 
-    //TODO: Note once saved AuthState, do we need to populate PIMOIDCConfigration class through AuthState
-    public AuthorizationServiceDiscovery getAuthorizationServiceDiscovery() {
-        return authorizationServiceDiscovery;
-    }
-
     // TODO: Get appinfra via settings manager or create constructor to inject what is required
     protected String getClientId() {
-        Object obj = getPIMProperty(CLIENT_ID);
+        Object obj = getProperty(CLIENT_ID,GROUP_PIM);
         if (obj != null) {
            return (String) obj;
         }
         return null;
     }
 
-    private Object getPIMProperty(String key) {
-        return getProperty(key, GROUP_PIM);
-    }
-
     private Object getProperty(String key, String group) {
-        return appInfraInterface.getConfigInterface().getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
+        //TODO: Deepthi  ( Low ) check impact of cloud config
+        try {
+            AppConfigurationInterface appConfigurationInterface = appInfraInterface.getConfigInterface();
+            Object obj = appConfigurationInterface.getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
+            return obj;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+       return null;
     }
 }
