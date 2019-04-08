@@ -18,6 +18,11 @@ public class PIMOIDCConfigration {
         this.appInfraInterface = appInfraInterface;
     }
 
+    //TODO: Note once saved AuthState, do we need to populate PIMOIDCConfigration class through AuthState
+    public AuthorizationServiceDiscovery getAuthorizationServiceDiscovery() {
+        return authorizationServiceDiscovery;
+    }
+
     // TODO: Get appinfra via settings manager or create constructor to inject what is required
     protected String getClientId() {
         Object obj = getProperty(CLIENT_ID, GROUP_PIM);
