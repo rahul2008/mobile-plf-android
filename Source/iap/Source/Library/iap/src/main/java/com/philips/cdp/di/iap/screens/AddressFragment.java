@@ -236,9 +236,6 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
             CartModelContainer.getInstance().setSwitchToBillingAddress(true);
             CartModelContainer.getInstance().setBillingAddress(shippingAddressFields);
         }
-        if (!isStateEnabled()) {
-            shippingAddressFields.setRegionIsoCode(null);
-        }
 
         HashMap<String, String> updateAddressPayload = new HashMap<>();
 
