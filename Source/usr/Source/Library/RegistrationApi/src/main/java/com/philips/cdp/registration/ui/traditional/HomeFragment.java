@@ -156,6 +156,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         return view;
     }
 
+
     @Override
     public void onStart() {
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
@@ -659,8 +660,8 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
 
     private void updateCountryText(String text) {
-        mCountryDisplay.setText(String.format("%s %s", getString(R.string.USR_Country_Region) + ":", text));
-        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.USR_Country_Region) + ":", text));
+        mCountryDisplay.setText(String.format("%s %s", mContext.getString(R.string.USR_Country_Region) + ":", text));
+        mCountryDisplay2.setText(String.format("%s %s", mContext.getString(R.string.USR_Country_Region) + ":", text));
 
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
         linkifyPrivacyPolicy(mCountryDisplay2, countryClickListener);
