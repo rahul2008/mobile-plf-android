@@ -3,8 +3,10 @@ package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,19 +16,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.google.gson.Gson;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
+import com.philips.cdp.di.iap.integration.IAPMockInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
+import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.User;
@@ -51,18 +57,23 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationUIEventListener, UserRegistrationListener {
+        UserRegistrationUIEventListener, UserRegistrationListener, IAPMockInterface {
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private LinearLayout mAddCTNLl, mLL_voucher;
     private FrameLayout mShoppingCart;
-    private EditText mEtCTN,mEtVoucherCode,mEtPropositionId;
+    private EditText mEtCTN, mEtVoucherCode, mEtPropositionId;
 
     private Button mRegister;
     private Button mShopNow;
@@ -87,7 +98,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private ArrayList<String> ignorelistedRetailer;
     private View mLL_propositionId;
-    private long mLastClickTime =0;
+    private long mLastClickTime = 0;
+    private ToggleButton toggleMock;
+    private boolean enableMock = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,13 +114,13 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
         showAppVersion();
         mEtCTN = findViewById(R.id.et_add_ctn);
-        mEtVoucherCode= findViewById(R.id.et_add_voucher);
+        mEtVoucherCode = findViewById(R.id.et_add_voucher);
         mAddCTNLl = findViewById(R.id.ll_ctn);
-
 
 
         mEtPropositionId = findViewById(R.id.et_add_proposition_id);
         mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
+
 
         AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
         AppConfigurationInterface configInterface = appInfra.getConfigInterface();
@@ -120,11 +133,23 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {
 
-                configInterface.setPropertyForKey("propositionid", "IAP",mEtPropositionId.getText().toString(), configError);
+                configInterface.setPropertyForKey("propositionid", "IAP", mEtPropositionId.getText().toString(), configError);
 
-                Toast.makeText(DemoAppActivity.this,"Proposition id is set",Toast.LENGTH_SHORT).show();
+                Toast.makeText(DemoAppActivity.this, "Proposition id is set", Toast.LENGTH_SHORT).show();
                 finishAffinity();
                 System.exit(0);
+            }
+        });
+
+        toggleMock = findViewById(R.id.toggleMock);
+
+        toggleMock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                enableMock = isChecked;
+                mIAPSettings.setIapMockInterface((IAPMockInterface) DemoAppActivity.this);
+                initializeIAPComponant();
             }
         });
 
@@ -150,7 +175,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShopNowCategorized.setOnClickListener(this);
 
 
-        mLL_voucher =  findViewById(R.id.ll_voucher);
+        mLL_voucher = findViewById(R.id.ll_voucher);
         mLL_propositionId = findViewById(R.id.ll_enter_proposition_id);
 
         mAddCtn = findViewById(R.id.btn_add_ctn);
@@ -170,12 +195,13 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         try {
             mUser = new User(this);
             mUser.registerUserRegistrationListener(this);
-        }catch (Exception e){
+        } catch (Exception e) {
             this.finish();
         }
         //Integration interface
         mIapInterface = new IAPInterface();
         mIAPSettings = new IAPSettings(this);
+        mIAPSettings.setIapMockInterface(this);
         actionBar();
         initializeIAPComponant();
     }
@@ -212,9 +238,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        try{
+        try {
             mIapInterface.getProductCartCount(this);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -225,7 +251,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShoppingCart.setOnClickListener(this);
     }
 
-    private void onResumeRetailer(){
+    private void onResumeRetailer() {
         mAddCTNLl.setVisibility(View.VISIBLE);
         mLL_voucher.setVisibility(View.VISIBLE);
         mLL_propositionId.setVisibility(View.VISIBLE);
@@ -240,6 +266,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mPurchaseHistory.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.GONE);
     }
+
     private void displayFlowViews(boolean b) {
 
         mAddCTNLl.setVisibility(View.VISIBLE);
@@ -309,8 +336,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isClickable())
-                launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
+                if (isClickable())
+                    launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
             }
         });
     }
@@ -325,7 +352,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         if (pIgnoreRetailerList == null)
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode);
         else
-            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode,pIgnoreRetailerList);
+            mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode, pIgnoreRetailerList);
 
         try {
             mIapInterface.launch(new ActivityLauncher
@@ -339,7 +366,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(final View view) {
-        if(!isClickable()) return;
+        if (!isClickable()) return;
 
         if (view == mShoppingCart) {
             launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
@@ -349,8 +376,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
 
-            if (null!=mCategorizedProductList && mCategorizedProductList.size() > 0) {
-                IAPFlowInput iapFlowInput = new IAPFlowInput(mCategorizedProductList.get(mCategorizedProductList.size()-1).toString().toUpperCase().replaceAll("\\s+", ""));
+            if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
+                IAPFlowInput iapFlowInput = new IAPFlowInput(mCategorizedProductList.get(mCategorizedProductList.size() - 1).toString().toUpperCase().replaceAll("\\s+", ""));
                 launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput, null);
             } else {
                 Toast.makeText(DemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
@@ -405,9 +432,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             }
             mEtCTN.setText("");
             hideKeypad(this);
-        }
-        else if(view== mBtn_add_voucher){
-            if(mEtVoucherCode.getText().toString().length()>0) {
+        } else if (view == mBtn_add_voucher) {
+            if (mEtVoucherCode.getText().toString().length() > 0) {
                 voucherCode = mEtVoucherCode.getText().toString();
             }
             mEtVoucherCode.setText("");
@@ -428,7 +454,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         URInterface urInterface = new URInterface();
 
         ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.
-                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null,  0, null);
+                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
         urInterface.launch(activityLauncher, urLaunchInput);
 
 
@@ -452,7 +478,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShoppingCart.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
         mLL_voucher.setVisibility(View.GONE);
-       // mLL_propositionId.setVisibility(View.GONE);
+        // mLL_propositionId.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mBuyDirect.setVisibility(View.GONE);
         mLaunchProductDetail.setVisibility(View.GONE);
@@ -483,7 +509,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
         }
-        if(errorText!=null) {
+        if (errorText != null) {
             Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
@@ -610,7 +636,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-     public void showProgressDialog() {
+    public void showProgressDialog() {
         mProgressDialog = new ProgressDialog(UIDHelper.getPopupThemedContext(this));
         mProgressDialog.getWindow().setGravity(Gravity.CENTER);
         mProgressDialog.setCancelable(false);
@@ -623,20 +649,72 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-
     public void dismissProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
     }
 
-    boolean isClickable(){
+    boolean isClickable() {
 
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1500){
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1500) {
             return false;
         }
         mLastClickTime = SystemClock.elapsedRealtime();
 
         return true;
     }
+
+    @Override
+    public boolean isMockEnabled() {
+        return enableMock;
+    }
+
+    @Override
+    public JSONObject GetMockJson(String fileName) {
+        fileName = fileName + ".json";
+        return getResponseJson(fileName);
+    }
+
+    @Override
+    public JSONObject GetProductCatalogResponse() {
+        return getResponseJson("product.json");
+    }
+
+    @Override
+    public JSONObject OAuthResponse() {
+        return getResponseJson("bearerAuth.json");
+    }
+
+
+    public JSONObject getResponseJson(String fileName) {
+
+        String jsonString = loadJSONFromAsset(fileName);
+
+        try {
+            return new JSONObject(jsonString);
+        } catch (JSONException e) {
+            return null;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    public String loadJSONFromAsset(String fileName) {
+        String json = null;
+        try {
+            InputStream is = this.getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            return null;
+        }catch (Exception e){
+            return null;
+        }
+        return json;
+    }
+
 }
