@@ -1,11 +1,11 @@
 package com.philips.platform.pim.listeners;
 
-import net.openid.appauth.AuthorizationServiceDiscovery;
+import net.openid.appauth.AuthorizationServiceConfiguration;
 
 public interface PIMAuthorizationServiceConfigurationListener {
 
 
-    void onError();
+    void onError(String errorMessage);
 
-    void onSuccess(AuthorizationServiceDiscovery authorizationServiceDiscovery);
+    void onSuccess(AuthorizationServiceConfiguration authorizationServiceConfiguration);
 }

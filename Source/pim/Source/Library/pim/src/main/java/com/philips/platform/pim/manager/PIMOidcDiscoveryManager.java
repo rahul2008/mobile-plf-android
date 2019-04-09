@@ -4,7 +4,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 
-import net.openid.appauth.AuthorizationServiceDiscovery;
+import net.openid.appauth.AuthorizationServiceConfiguration;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
@@ -25,15 +25,14 @@ public  class PIMOidcDiscoveryManager implements PIMAuthorizationServiceConfigur
     }
 
     @Override
-    public void onSuccess(AuthorizationServiceDiscovery discoveryDoc) {
-        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onSuccess. discoveryDoc : "+discoveryDoc);
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(discoveryDoc, PIMSettingManager.getInstance().getAppInfraInterface());
+    public void onSuccess(AuthorizationServiceConfiguration authorizationServiceConfiguration) {
+        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onSuccess. authorizationServiceConfiguration : "+authorizationServiceConfiguration);
+        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(authorizationServiceConfiguration, PIMSettingManager.getInstance().getAppInfraInterface());
         PIMSettingManager.getInstance().setPimOidcConfigration(pimoidcConfigration);
     }
 
     @Override
-    public void onError() {
-        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onError.  ");
-
+    public void onError(String errorMessage) {
+        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onError :  "+errorMessage);
     }
 }

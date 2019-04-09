@@ -5,7 +5,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
 import junit.framework.TestCase;
 
-import net.openid.appauth.AuthorizationServiceDiscovery;
+import net.openid.appauth.AuthorizationServiceConfiguration;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 public class PIMOIDCConfigrationTest extends TestCase {
 
     @Mock
-    private AuthorizationServiceDiscovery mockAuthorizationServiceDiscovery;
+    private AuthorizationServiceConfiguration mockAuthorizationServiceConfiguration;
     @Mock
     private AppInfraInterface mockAppInfraInterface;
     @Mock
@@ -43,7 +43,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @Test
     public void shouldGetClientID_Correct_ClientID_Correct_GroupName() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceDiscovery, mockAppInfraInterface);
+        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
         when(mockAppConfigurationInterface.getPropertyForKey(CLIENT_ID, "PIM", mockAppConfigurationError)).thenReturn("clientId");
         String clientID = pimoidcConfigration.getClientId();
         assertEquals(CLIENT_ID, clientID);
@@ -51,7 +51,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @Test
     public void shouldGetClientID_Correct_ClientID_Wrong_GroupName() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceDiscovery, mockAppInfraInterface);
+        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
         when(mockAppConfigurationInterface.getPropertyForKey(CLIENT_ID, "Dummy_Group", mockAppConfigurationError)).thenReturn("clientId");
         String clientID = pimoidcConfigration.getClientId();
         assertNull(clientID);
@@ -59,7 +59,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @Test
     public void shouldGetClientID_Wrong_ClientID_Correct_GroupName() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceDiscovery, mockAppInfraInterface);
+        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
         when(mockAppConfigurationInterface.getPropertyForKey("Dummy_ClientID", "PIM", mockAppConfigurationError)).thenReturn("clientId");
         String clientID = pimoidcConfigration.getClientId();
         assertNull(clientID);
@@ -67,7 +67,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @Test
     public void shouldGetClientID_Wromg_ClientID_Wrong_GroupName() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceDiscovery, mockAppInfraInterface);
+        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
         when(mockAppConfigurationInterface.getPropertyForKey("Dummy_ClientID", "Dummy_Group", mockAppConfigurationError)).thenReturn("clientId");
         String clientID = pimoidcConfigration.getClientId();
         assertNull(clientID);
@@ -75,7 +75,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @After
     public void tearDown() throws Exception {
-        mockAuthorizationServiceDiscovery = null;
+        mockAuthorizationServiceConfiguration = null;
         mockAppInfraInterface = null;
         mockAppConfigurationInterface = null;
     }
