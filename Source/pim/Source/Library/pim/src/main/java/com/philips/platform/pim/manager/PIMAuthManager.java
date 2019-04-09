@@ -41,10 +41,10 @@ public class PIMAuthManager {
                 (AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationException e) -> {
                     if (e != null) {
                         mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : "+e.getMessage());
-                        listener.onError();
+                        listener.onError(e.getMessage());
                     } else {
-                        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : "+authorizationServiceConfiguration.discoveryDoc);
-                        listener.onSuccess(authorizationServiceConfiguration.discoveryDoc);
+                        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : "+authorizationServiceConfiguration);
+                        listener.onSuccess(authorizationServiceConfiguration);
                     }
                 };
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);

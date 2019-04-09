@@ -7,7 +7,7 @@ import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationLi
 
 import junit.framework.TestCase;
 
-import net.openid.appauth.AuthorizationServiceDiscovery;
+import net.openid.appauth.AuthorizationServiceConfiguration;
 
 import org.junit.After;
 import org.junit.Before;
@@ -69,10 +69,10 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         pimOidcDiscoveryManager.downloadOidcUrls(baseurl);
         verify(mockPimAuthManager).fetchAuthWellKnownConfiguration(any(String.class),captorListener.capture());
         mockServiceConfigurationListener = captorListener.getValue();
-        AuthorizationServiceDiscovery mockAuthServiceDiscovery = mock(AuthorizationServiceDiscovery.class);
+        AuthorizationServiceConfiguration mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
 
-        mockServiceConfigurationListener.onSuccess(mockAuthServiceDiscovery);
-        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onSuccess. discoveryDoc : "+mockAuthServiceDiscovery);
+        mockServiceConfigurationListener.onSuccess(mockAuthorizationServiceConfiguration);
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onSuccess. authorizationServiceConfiguration : "+mockAuthorizationServiceConfiguration);
     }
 
     @Test
@@ -81,9 +81,9 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         verify(mockPimAuthManager).fetchAuthWellKnownConfiguration(any(String.class),captorListener.capture());
 
         mockServiceConfigurationListener = captorListener.getValue();
-
-         mockServiceConfigurationListener.onError();
-        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onError.  ");
+        String errorMessage = "errorMessage";
+        mockServiceConfigurationListener.onError(errorMessage);
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onError :  "+errorMessage);
     }
 
     @After

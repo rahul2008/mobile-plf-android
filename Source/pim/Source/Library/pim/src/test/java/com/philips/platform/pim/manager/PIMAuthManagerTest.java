@@ -85,8 +85,8 @@ public class PIMAuthManagerTest extends TestCase {
         mockConfigurationCallback = captorRetrieveConfigCallback.getValue();
         mockConfigurationCallback.onFetchConfigurationCompleted(mockAuthorizationServiceConfiguration,null);
 
-        verify(mockConfigurationListener).onSuccess(mockAuthorizationServiceConfiguration.discoveryDoc);
-        verify(mockLoggingInterface).log(DEBUG,PIMAuthManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : "+mockAuthorizationServiceConfiguration.discoveryDoc);
+        verify(mockConfigurationListener).onSuccess(mockAuthorizationServiceConfiguration);
+        verify(mockLoggingInterface).log(DEBUG,PIMAuthManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : "+mockAuthorizationServiceConfiguration);
     }
 
 
@@ -100,7 +100,7 @@ public class PIMAuthManagerTest extends TestCase {
         mockConfigurationCallback = captorRetrieveConfigCallback.getValue();
         AuthorizationException ex = new AuthorizationException(0, 0, null, null, null, null);
         mockConfigurationCallback.onFetchConfigurationCompleted(mockAuthorizationServiceConfiguration, ex);
-        verify(mockConfigurationListener).onError();
+        verify(mockConfigurationListener).onError(ex.getMessage());
         verify(mockLoggingInterface).log(DEBUG,PIMAuthManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : "+ex.getMessage());
     }
 
