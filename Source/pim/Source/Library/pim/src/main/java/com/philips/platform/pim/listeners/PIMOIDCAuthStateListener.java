@@ -4,5 +4,5 @@ import net.openid.appauth.AuthState;
 
 public interface PIMOIDCAuthStateListener {
     void onSuccess(AuthState state);
-    void onError();
+    void onError(Object e);
 }

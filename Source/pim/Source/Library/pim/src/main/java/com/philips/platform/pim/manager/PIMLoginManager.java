@@ -1,5 +1,8 @@
 package com.philips.platform.pim.manager;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMListener;
 import com.philips.platform.pim.listeners.PIMOIDCAuthStateListener;
@@ -17,17 +20,18 @@ public class PIMLoginManager {
     }
 
     // TODO: is it required to pass context to launch web page
-    public void oidcLogin(PIMListener pimListener) {
-        pimAuthManager.loginToOIDC(mPimoidcConfigration, new PIMOIDCAuthStateListener() {
+    public void oidcLogin(Context context, PIMListener pimListener) {
+        pimAuthManager.loginToOIDC(context, mPimoidcConfigration, new PIMOIDCAuthStateListener() {
             @Override
             public void onSuccess(AuthState state) {
                 PIMSettingManager.getInstance().getPimUserManager().requestUserProfile(state, pimListener);
             }
 
             @Override
-            public void onError() {
+            public void onError(Object e) {
 
             }
+
         });
     }
 
