@@ -197,7 +197,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onDestroy() {
         super.onDestroy();
         RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
-        mobileVerifyCodePresenter.cleanUp();
     }
 
     @Override
