@@ -279,7 +279,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Email_Text));
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Mobile_Text));
+            String string = mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Base_Text);
+            almostDoneDescriptionLabel.setText(String.format(string,mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Mobile_Text)));
         }
         continueButton.setEnabled(false);
 
