@@ -388,8 +388,14 @@ public class HsdpUser {
                         RLog.d(TAG, "Social onHsdpLoginFailure :  responseCode : "
                                 + responseCode +
                                 " message : " + message);
-                        handleSocialConnectionFailed(loginHandler, Integer.parseInt(
-                                responseCode), new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(responseCode)), message);
+                        if (responseCode != null) {
+                            try {
+                                int errorCode = Integer.parseInt(responseCode);
+                                handleSocialConnectionFailed(loginHandler, errorCode, new URError(mContext).getLocalizedError(ErrorType.HSDP, errorCode), message);
+                            } catch (NumberFormatException e) {
+                                handleNetworkFailure(loginHandler);
+                            }
+                        }
                     });
                 }
             }).start();
