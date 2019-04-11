@@ -40,26 +40,24 @@ public class PIMInterface implements UappInterface {
     @Override
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
+
+        long startrtime = System.currentTimeMillis();
+
         PIMSettingManager.getInstance().init(uappDependencies);
         PIMUserManager pimUserManager = new PIMUserManager();
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG,TAG,"PIMInterface init called.");
-
-       /* long startrtime = System.currentTimeMillis();
-        mLoggingInterface.log(DEBUG,TAG,"Init started. Start time : "+startrtime);*/
         PIMConfigManager pimConfigManager = new PIMConfigManager();
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
-
+        long sd_oidc_time = System.currentTimeMillis();
+        mLoggingInterface.log(DEBUG,TAG,"time taken for sd_oidc download : "+(sd_oidc_time-startrtime));
 
         pimUserManager.init(uappDependencies.getAppInfra());
-
-        /*pimUserManager.saveUserProfileJsonToStorage(context);
-        String userprofileString = pimUserManager.getUserProfileJsonFromStorage();
-        mLoggingInterface.log(DEBUG,TAG,"User Profile fetched : "+userprofileString);
+        //pimUserManager.saveUserProfileJsonToStorage(context);
         long endtime = System.currentTimeMillis();
-        mLoggingInterface.log(DEBUG,TAG,"Init completed at : "+endtime+".  Duration: "+(endtime-startrtime));*/
+        mLoggingInterface.log(DEBUG,TAG,"time taken to fetch from secure storage : "+(endtime-sd_oidc_time));
     }
 
     /**

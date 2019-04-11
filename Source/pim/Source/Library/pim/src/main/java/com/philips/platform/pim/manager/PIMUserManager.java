@@ -1,7 +1,10 @@
 package com.philips.platform.pim.manager;
 
+import android.content.Context;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pim.listeners.PIMListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
@@ -9,6 +12,10 @@ import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.UserProfileRequest;
 
 import net.openid.appauth.AuthState;
+
+import java.io.InputStream;
+
+import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 public class PIMUserManager {
     private PIMOIDCUserProfile pimoidcUserProfile;
@@ -59,7 +66,7 @@ public class PIMUserManager {
         appInfraInterface.getSecureStorage().storeValueForKey("AuthState", authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
     }
 
-   /* public void saveUserProfileJsonToStorage(Context context){
+    public void saveUserProfileJsonToStorage(Context context){
         try {
             InputStream ins = context.getAssets().open("userprofile.json");
             int size = ins.available();
@@ -68,10 +75,10 @@ public class PIMUserManager {
             ins.close();
             String jsonString = new String(buffer, "UTF-8");
             SecureStorage.SecureStorageError sserror = new SecureStorageInterface.SecureStorageError();
-            secureStorage.storeValueForKey("uuid_userprofile",jsonString,sserror);
+            appInfraInterface.getSecureStorage().storeValueForKey("uuid_userprofile",jsonString,sserror);
             mLoggingInterface.log(DEBUG,TAG,"Store uuid_userprofile errorcode: "+sserror.getErrorCode()+" errormessage : "+sserror.getErrorMessage());
         }catch (Exception ex){
         }
-    }*/
+    }
 
 }

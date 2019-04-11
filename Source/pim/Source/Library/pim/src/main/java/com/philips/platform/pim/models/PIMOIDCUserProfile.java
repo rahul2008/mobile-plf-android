@@ -172,6 +172,7 @@ public class PIMOIDCUserProfile implements UserProfileInterface {
 
     private void parseUserProfileDataToMap(SecureStorageInterface secureStorageInterface) {
         String userProfileString = secureStorageInterface.fetchValueForKey("uuid_userprofile",new SecureStorageInterface.SecureStorageError());
+        mLoggingInterface.log(DEBUG,TAG,"fetched userProfileString from Secure Storage : "+userProfileString);
         if(userProfileString == null){
             mLoggingInterface.log(DEBUG,TAG,"fetchValueForKey returns null");
             return;
