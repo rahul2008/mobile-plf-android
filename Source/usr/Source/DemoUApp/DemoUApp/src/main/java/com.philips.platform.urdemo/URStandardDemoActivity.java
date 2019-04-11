@@ -475,19 +475,19 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
         } else if (i == R.id.btn_update_gender) {
 
-            User user1 = new User(mContext);
-            if (user1.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-                showToast("Please login before refreshing access token");
-            } else {
+//            User user1 = new User(mContext);
+//            if (user1.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+//                showToast("Please login before refreshing access token");
+//            } else {
                 handleGender();
-            }
+//            }
         } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
-            if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-                showToast("Please login before updating user");
-            } else {
+//            if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+//                showToast("Please login before updating user");
+//            } else {
                 handleDoBUpdate(user.getDateOfBirth());
-            }
+//            }
         } else if (i == R.id.fetchConcent) {
             if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                 coppaExtension = new CoppaExtension(mContext);

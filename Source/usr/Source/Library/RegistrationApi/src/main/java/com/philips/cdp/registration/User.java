@@ -34,6 +34,7 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
+import com.philips.cdp.registration.errors.NetworkErrorEnum;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
@@ -337,6 +338,9 @@ public class User {
      */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
         RLog.d(TAG, "refreshLoginSession");
+        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+            refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(getUserLoginState().ordinal());
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -344,7 +348,7 @@ public class User {
                     RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
                     refreshUserSession.refreshUserSession();
                 } else {
-                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.UNKNOWN_ERROR));
+                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.NO_NETWORK));
                 }
             }
         }).start();
@@ -710,6 +714,9 @@ public class User {
     public void updateReceiveMarketingEmail(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
+        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+        }
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
                 UpdateReceiveMarketingEmail(
                 mContext);
@@ -728,6 +735,9 @@ public class User {
     public void updateDateOfBirth(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Date date) {
+        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+        }
         UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
         RLog.d(TAG, "updateDateOfBirth called : " + date.toString());
         updateDateOfBirth.updateDateOfBirth(updateUserDetailsHandler, date);
@@ -744,6 +754,9 @@ public class User {
     public void updateGender(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Gender gender) {
+        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+        }
         UpdateGender updateGender = new UpdateGender(mContext);
         RLog.d(TAG, "updateGender called : " + gender.toString());
         updateGender.updateGender(updateUserDetailsHandler, gender);
