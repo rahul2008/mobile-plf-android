@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
-import com.philips.platform.pim.listeners.PIMListener;
-import com.philips.platform.pim.listeners.PIMOIDCAuthStateListener;
+import com.philips.platform.pim.fragment.PIMFragment;
 
-import net.openid.appauth.AuthState;
+import net.openid.appauth.AuthorizationService;
 
 //TODO : initilize instance and call login methods from Fragment
 public class PIMLoginManager {
@@ -19,22 +18,16 @@ public class PIMLoginManager {
         this.pimAuthManager = new PIMAuthManager();
     }
 
-    // TODO: is it required to pass context to launch web page
-    public void oidcLogin(Context context, PIMListener pimListener) {
-        pimAuthManager.loginToOIDC(context, mPimoidcConfigration, new PIMOIDCAuthStateListener() {
-            @Override
-            public void onSuccess(AuthState state) {
-                PIMSettingManager.getInstance().getPimUserManager().requestUserProfile(state, pimListener);
-            }
-
-            @Override
-            public void onError(Object e) {
-
-            }
-
-        });
+    public void oidcLogin(Context context, AuthorizationService authorizationService) {
+       // pimAuthManager.makeAuthRequest(context, authorizationService);
     }
 
+    public void makeAuthRequest(PIMFragment pimFragment){
+        pimAuthManager.makeAuthRequest(pimFragment);
+    }
 
+    public void exchangeAuthorizationCode(Context context, Intent intent, AuthorizationService.TokenResponseCallback tokenResponseCallback){
+       pimAuthManager.performTokenRequest(context,intent,tokenResponseCallback);
+    }
 }
 

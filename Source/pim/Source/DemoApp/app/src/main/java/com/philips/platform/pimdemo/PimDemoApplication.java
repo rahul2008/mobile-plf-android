@@ -14,13 +14,6 @@ public class PimDemoApplication extends Application {
 
     private AppInfraInterface mAppInfraInterface;
 
-    /**
-     * @return instance of this class
-     */
-    public synchronized static PimDemoApplication getInstance() {
-        return mPimApplication;
-    }
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

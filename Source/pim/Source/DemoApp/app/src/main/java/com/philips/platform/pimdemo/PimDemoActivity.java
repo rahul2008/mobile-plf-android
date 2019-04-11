@@ -10,10 +10,10 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.Button;
 import com.pim.demouapp.PIMDemoUAppActivity;
-import com.pim.demouapp.PIMDemoUAppSettings;
 import com.pim.demouapp.PIMDemoUAppDependencies;
 import com.pim.demouapp.PIMDemoUAppInterface;
 import com.pim.demouapp.PIMDemoUAppLaunchInput;
+import com.pim.demouapp.PIMDemoUAppSettings;
 
 public class PimDemoActivity extends UIDActivity {
 
@@ -30,8 +30,9 @@ public class PimDemoActivity extends UIDActivity {
             startActivity(intent);
         });
 
-        AppInfraInterface appInfraInterface = PimDemoApplication.getInstance().getAppInfra();
-        uAppInterface.init(new PIMDemoUAppDependencies(appInfraInterface), new PIMDemoUAppSettings(this.getApplicationContext()));
+        PimDemoApplication pimDemoApplication = (PimDemoApplication)getApplicationContext();
+        AppInfraInterface appInfraInterface = pimDemoApplication.getAppInfra();
+        uAppInterface.init(new PIMDemoUAppDependencies(appInfraInterface), new PIMDemoUAppSettings(getApplicationContext()));
     }
 
     public void launch(View v) {
