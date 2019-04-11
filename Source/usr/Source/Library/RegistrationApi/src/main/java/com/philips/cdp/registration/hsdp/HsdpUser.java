@@ -153,9 +153,13 @@ public class HsdpUser {
                             responseCode +
                             " message : " + message);
                     ThreadUtils.postInMainThread(mContext, () ->
+                    {
+                        if (responseCode != null) {
                             logoutHandler.onLogoutFailure(Integer.
                                             parseInt(responseCode),
-                                    new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(responseCode))));
+                                    new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(responseCode)));
+                        }
+                    });
                 });
             }
         }
@@ -233,8 +237,14 @@ public class HsdpUser {
                                     + responseCode +
                                     " message : " + message);
                             ThreadUtils.postInMainThread(mContext, () ->
+                            {
+                                if (responseCode != null) {
                                     refreshHandler.onRefreshLoginSessionFailedWithError(Integer.
-                                            parseInt(responseCode)));
+                                            parseInt(responseCode));
+                                }else{
+                                    refreshHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.NETWORK_ERROR);
+                                }
+                            });
                         });
                     }
                 }
@@ -395,6 +405,8 @@ public class HsdpUser {
                             } catch (NumberFormatException e) {
                                 handleNetworkFailure(loginHandler);
                             }
+                        }else{
+                            handleNetworkFailure(loginHandler);
                         }
                     });
                 }
