@@ -110,7 +110,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-        ;
         if (null != activity && (getUserObject(activity).getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal())) {
             setUrCompleted();
             getApplicationContext().determineChinaFlow();
