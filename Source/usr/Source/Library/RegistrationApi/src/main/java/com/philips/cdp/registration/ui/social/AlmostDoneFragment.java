@@ -111,7 +111,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     boolean isValidEmail;
 
 
-
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
         public int isValid(boolean valid) {
@@ -151,7 +150,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         initializeUI(view);
-        RLog.i(TAG,"Screen name is"+ TAG);
+        RLog.i(TAG, "Screen name is" + TAG);
         return view;
     }
 
@@ -277,9 +276,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         emailEditText.setVisibility(View.VISIBLE);
         emailTitleLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Email_Text));
+        String baseString = mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Base_Text);
+        almostDoneDescriptionLabel.setText(String.format(baseString, mContext.getResources().getString(R.string.USR_Email_address_TitleTxt)));
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Mobile_Text));
+            almostDoneDescriptionLabel.setText(String.format(baseString, mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Mobile_Text)));
         }
         continueButton.setEnabled(false);
 
