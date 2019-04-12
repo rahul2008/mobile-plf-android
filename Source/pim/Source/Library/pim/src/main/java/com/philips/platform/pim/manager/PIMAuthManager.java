@@ -14,6 +14,7 @@ import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
+import net.openid.appauth.TokenRequest;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,24 +50,10 @@ public class PIMAuthManager {
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
-    //for Login
-    void performLoginWithAccessToken() {
-        // makeAuthRequest(pimOidcDiscoveryManager.getAuthorizationServiceConfiguration(), mAuthService);
-    }
-
-    protected void performTokenRequest(Context context, Intent intent, AuthorizationService.TokenResponseCallback tokenResponseCallback) {
-
-        AuthorizationResponse response = AuthorizationResponse.fromIntent(intent);
-        AuthorizationException ex = AuthorizationException.fromIntent(intent);
-        AuthorizationService authService = new AuthorizationService(context);
-        authService.performTokenRequest(response.createTokenExchangeRequest(),tokenResponseCallback);
-    }
-
-
     protected void makeAuthRequest(PIMFragment pimFragment) {
         AuthorizationServiceConfiguration serviceConfiguration = null;
         try {
-            serviceConfiguration = PIMSettingManager.getInstance().getPiOidcConfigration().getAuthorizationServiceConfiguration();
+            serviceConfiguration = PIMSettingManager.getInstance().getPimOidcConfigration().getAuthorizationServiceConfiguration();
         }catch (NullPointerException exp){
             mLoggingInterface.log(DEBUG,TAG,"Service configuration is not available");
         }
@@ -86,12 +73,10 @@ public class PIMAuthManager {
 
         pimFragment.startActivityForResult(authIntent, 100);
     }
-
-       public void fetchUserInfo(String accessToken, String idToken, AuthorizationException ex) {
-
-
-
-
-
+    protected void performTokenRequest(Context context, AuthorizationResponse authResponse, AuthorizationService.TokenResponseCallback tokenResponseCallback) {
+        AuthorizationService authService = new AuthorizationService(context);
+        TokenRequest tokenRequest = authResponse.createTokenExchangeRequest();
+        authService.performTokenRequest(tokenRequest,tokenResponseCallback);
     }
+
 }

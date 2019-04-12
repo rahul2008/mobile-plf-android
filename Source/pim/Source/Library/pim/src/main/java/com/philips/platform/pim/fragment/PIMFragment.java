@@ -22,6 +22,7 @@ import com.philips.platform.pim.manager.PIMSettingManager;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
+import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 import net.openid.appauth.TokenResponse;
@@ -42,18 +43,18 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PIMOIDCConfigration pimoidcConfigration = PIMSettingManager.getInstance().getPiOidcConfigration();
+        PIMOIDCConfigration pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
         pimLoginManager = new PIMLoginManager(pimoidcConfigration);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       View view = inflater.inflate(R.layout.fragment_pim, container, false);
+        View view = inflater.inflate(R.layout.fragment_pim, container, false);
         pbPimRequestProgress = (ProgressBar) view.findViewById(R.id.pbPimRequest);
         tvPimReqStatus = (TextView) view.findViewById(R.id.tvPimRequestStatus);
-                startAuthorization();
-       return view;
+        startAuthorization();
+        return view;
     }
 
     @Override
@@ -83,7 +84,7 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG,"onActivityResult : "+requestCode);
+        Log.d(TAG, "onActivityResult : " + requestCode);
         if (resultCode == RESULT_CANCELED) {
             pbPimRequestProgress.setVisibility(View.GONE);
             tvPimReqStatus.setVisibility(View.GONE);
@@ -92,7 +93,15 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
             tvPimReqStatus.setVisibility(View.VISIBLE);
             tvPimReqStatus.setText("Login in progress...");
 
-            pimLoginManager.exchangeAuthorizationCode(mContext,data,this);
+            AuthorizationResponse response = AuthorizationResponse.fromIntent(data);
+            AuthorizationException exception = AuthorizationException.fromIntent(data);
+
+            if (response != null)
+                pimLoginManager.exchangeAuthorizationCode(mContext, response, this);
+
+            if(exception != null) {
+                //log exception
+            }
         }
     }
 
@@ -101,7 +110,7 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
         pbPimRequestProgress.setVisibility(View.GONE);
         tvPimReqStatus.setVisibility(View.VISIBLE);
         if (response != null) {
-            tvPimReqStatus.setText("Access Token : "+response.accessToken);
+            tvPimReqStatus.setText("Access Token : " + response.accessToken);
         } else {
             tvPimReqStatus.setText(ex.errorDescription);
         }

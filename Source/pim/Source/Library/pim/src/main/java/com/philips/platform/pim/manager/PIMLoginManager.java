@@ -1,11 +1,11 @@
 package com.philips.platform.pim.manager;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.fragment.PIMFragment;
 
+import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
 
 //TODO : initilize instance and call login methods from Fragment
@@ -26,8 +26,8 @@ public class PIMLoginManager {
         pimAuthManager.makeAuthRequest(pimFragment);
     }
 
-    public void exchangeAuthorizationCode(Context context, Intent intent, AuthorizationService.TokenResponseCallback tokenResponseCallback){
-       pimAuthManager.performTokenRequest(context,intent,tokenResponseCallback);
+    public void exchangeAuthorizationCode(Context context, AuthorizationResponse authResponse, AuthorizationService.TokenResponseCallback tokenResponseCallback){
+       pimAuthManager.performTokenRequest(context,authResponse,tokenResponseCallback);
     }
 }
 

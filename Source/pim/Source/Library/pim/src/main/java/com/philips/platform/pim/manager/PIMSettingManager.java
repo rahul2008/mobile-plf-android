@@ -34,7 +34,7 @@ public class PIMSettingManager {
     }
 
 
-    public PIMOIDCConfigration getPiOidcConfigration() {
+    public PIMOIDCConfigration getPimOidcConfigration() {
         return mPimoidcConfigration;
     }
 
