@@ -34,7 +34,6 @@ import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
-import com.philips.cdp.registration.errors.NetworkErrorEnum;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
@@ -714,8 +713,9 @@ public class User {
     public void updateReceiveMarketingEmail(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
-        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+        if (getUserNotLoggedInState()) {
             updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
         }
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
                 UpdateReceiveMarketingEmail(
@@ -735,12 +735,18 @@ public class User {
     public void updateDateOfBirth(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Date date) {
-        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+        if (getUserNotLoggedInState()) {
             updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
         }
         UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
         RLog.d(TAG, "updateDateOfBirth called : " + date.toString());
         updateDateOfBirth.updateDateOfBirth(updateUserDetailsHandler, date);
+    }
+
+
+    private boolean getUserNotLoggedInState() {
+        return getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal();
     }
 
 
@@ -754,8 +760,9 @@ public class User {
     public void updateGender(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Gender gender) {
-        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+        if (getUserNotLoggedInState()) {
             updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
         }
         UpdateGender updateGender = new UpdateGender(mContext);
         RLog.d(TAG, "updateGender called : " + gender.toString());
