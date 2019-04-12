@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.platform.baseapp.screens.userregistration;
 
 import android.app.Activity;
@@ -110,8 +110,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-
-        if (null != activity && getUserObject(activity).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+        ;
+        if (null != activity && (getUserObject(activity).getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal())) {
             setUrCompleted();
             getApplicationContext().determineChinaFlow();
             //calling this method again after successful login to update the hybris flow boolean value if user changes the country while logging-in
@@ -168,22 +168,21 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             contentConfiguration.enableMarketImage(R.drawable.abtesting_sonicare);
             contentConfiguration.setOptInTitleText(applicationContext.getString(R.string.RA_mkt_optin_title_text));
             contentConfiguration.setOptInQuessionaryText(applicationContext.getString(R.string.RA_quessionary_text));
-        } else if(testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Kitchen))){
+        } else if (testValue.equalsIgnoreCase(applicationContext.getString(R.string.RA_abTesting_Kitchen))) {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_kitchen);
-        }
-        else {
+        } else {
             contentConfiguration.enableMarketImage(R.drawable.abtesting_norelco);
         }
 
         String testValue2 = abTesting.getTestValue(AB_TEST_UR_PRIORITY_KEY, applicationContext.getString(R.string.Ra_registration_value), ABTestClientInterface.UPDATETYPE.APP_UPDATE);
-        RALog.d(TAG, "Ra_registration_value testValue2 " + testValue2 + "  val "+applicationContext.getString(R.string.Ra_registration_value));
+        RALog.d(TAG, "Ra_registration_value testValue2 " + testValue2 + "  val " + applicationContext.getString(R.string.Ra_registration_value));
 
         if (testValue2.equalsIgnoreCase(applicationContext.getString(R.string.Ra_registration_value))) {
-            RALog.d(TAG, "Ra_registration_value Registration " );
+            RALog.d(TAG, "Ra_registration_value Registration ");
             RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
 
-        }else{
+        } else {
             RALog.d(TAG, " Ra_registration_value SignIn ");
             RegistrationConfiguration.getInstance().setPrioritisedFunction(RegistrationFunction.SignIn);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
@@ -238,7 +237,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void onUserLogoutSuccess() {
         RALog.d(TAG, " User Logout success  ");
-         getAppInfra().getRestClient().clearCacheResponse();
+        getAppInfra().getRestClient().clearCacheResponse();
 
     }
 
