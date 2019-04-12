@@ -241,7 +241,7 @@ public class HsdpUser {
                                 if (responseCode != null) {
                                     refreshHandler.onRefreshLoginSessionFailedWithError(Integer.
                                             parseInt(responseCode));
-                                }else{
+                                } else {
                                     refreshHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.NETWORK_ERROR);
                                 }
                             });
@@ -404,9 +404,11 @@ public class HsdpUser {
                                 handleSocialConnectionFailed(loginHandler, errorCode, new URError(mContext).getLocalizedError(ErrorType.HSDP, errorCode), message);
                             } catch (NumberFormatException e) {
                                 handleNetworkFailure(loginHandler);
+                                RLog.d(TAG, "onHsdpLoginFailure :  NumberFormatException : " + e.getMessage());
                             }
-                        }else{
+                        } else {
                             handleNetworkFailure(loginHandler);
+                            RLog.d(TAG, "onHsdpLoginFailure :  responseCode : null");
                         }
                     });
                 }
