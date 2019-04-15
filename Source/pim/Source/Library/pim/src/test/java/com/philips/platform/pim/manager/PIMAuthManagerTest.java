@@ -139,7 +139,7 @@ public class PIMAuthManagerTest extends TestCase {
         Intent mockIntent = mock(Intent.class);
         AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
         when(mockAuthorizationService.getAuthorizationRequestIntent(mockAuthorizationRequest)).thenReturn(mockIntent);
-        pimAuthManager.makeAuthRequest(mockContext, mockPimoidcConfigration);
+        pimAuthManager.makeAuthRequest(mockContext, mockPimoidcConfigration, mBundle);
 
         verify(mockPimFragment).startActivityForResult(any(Intent.class),any(Integer.class));
     }

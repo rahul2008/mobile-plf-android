@@ -29,9 +29,9 @@ public class PIMUserManager {
         this.appInfraInterface = appInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         //TODO : Deepthi apr 15 fetch authstate from secure storage, auth state fetching is not clear.
-        pimoidcUserProfile = new PIMOIDCUserProfile(appInfraInterface.getSecureStorage(), authState);
+        if (authState == null)
+            pimoidcUserProfile = new PIMOIDCUserProfile(appInfraInterface.getSecureStorage(), authState);
     }
-
 
 
     public void requestUserProfile(AuthState oidcAuthState, PIMListener pimListener) {
@@ -57,16 +57,19 @@ public class PIMUserManager {
         return pimoidcUserProfile;
     }
 
+    public AuthState getAuthState() {
+        return authState;
+    }
 
     private void saveUserProfileToSecureStorage(String profileMap) {
-       appInfraInterface.getSecureStorage().storeValueForKey("USER_PROFILE", profileMap.toString(), new SecureStorageInterface.SecureStorageError());
+        appInfraInterface.getSecureStorage().storeValueForKey("USER_PROFILE", profileMap.toString(), new SecureStorageInterface.SecureStorageError());
     }
 
     private void saveAuthStateIntoSecureStorage(AuthState authState) {
         appInfraInterface.getSecureStorage().storeValueForKey("AuthState", authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
     }
 
-    public void saveUserProfileJsonToStorage(Context context){
+    public void saveUserProfileJsonToStorage(Context context) {
         try {
             InputStream ins = context.getAssets().open("userprofile.json");
             int size = ins.available();
@@ -75,9 +78,9 @@ public class PIMUserManager {
             ins.close();
             String jsonString = new String(buffer, "UTF-8");
             SecureStorage.SecureStorageError sserror = new SecureStorageInterface.SecureStorageError();
-            appInfraInterface.getSecureStorage().storeValueForKey("uuid_userprofile",jsonString,sserror);
-            mLoggingInterface.log(DEBUG,TAG,"Store uuid_userprofile errorcode: "+sserror.getErrorCode()+" errormessage : "+sserror.getErrorMessage());
-        }catch (Exception ex){
+            appInfraInterface.getSecureStorage().storeValueForKey("uuid_userprofile", jsonString, sserror);
+            mLoggingInterface.log(DEBUG, TAG, "Store uuid_userprofile errorcode: " + sserror.getErrorCode() + " errormessage : " + sserror.getErrorMessage());
+        } catch (Exception ex) {
         }
     }
 

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pim.integration.PIMLaunchInput;
+import com.philips.platform.pim.utilities.PIMScopes;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -18,6 +20,8 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import com.philips.platform.pim.integration.PIMInterface;
+
+import java.util.ArrayList;
 
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
     final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -56,14 +60,22 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        PIMLaunchInput launchInput = new PIMLaunchInput();
+        ArrayList<String> pimScopes = new ArrayList<>();
+        pimScopes.add(PIMScopes.EMAIL);
+        pimScopes.add(PIMScopes.OPENID);
+        pimScopes.add(PIMScopes.PROFILE);
+        pimScopes.add(PIMScopes.EMAIL);
+        pimScopes.add(PIMScopes.PHONE);
+        launchInput.setPimScopes(pimScopes);
         if (v == btnLoginActivity) {
             ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-            pimInterface.launch(activityLauncher, null);
+            pimInterface.launch(activityLauncher, launchInput);
         }else if(v == btnLoginFragment){
             btnLoginActivity.setVisibility(View.GONE);
             btnLoginFragment.setVisibility(View.GONE);
             FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
-            pimInterface.launch(fragmentLauncher, null);
+            pimInterface.launch(fragmentLauncher, launchInput);
         }
     }
 }

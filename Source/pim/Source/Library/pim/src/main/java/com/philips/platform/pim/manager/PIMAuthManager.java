@@ -3,11 +3,13 @@ package com.philips.platform.pim.manager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
-import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
+import com.philips.platform.pim.utilities.PIMConstants;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
@@ -17,16 +19,20 @@ import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
 import net.openid.appauth.TokenRequest;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 public class PIMAuthManager {
     private final String TAG = PIMAuthManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
-    private static final String EXTRA_AUTH_STATE = "authState";
-    private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private ExecutorService executorService;
 
     public PIMAuthManager() {
@@ -51,46 +57,38 @@ public class PIMAuthManager {
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
-//    protected void makeAuthRequest(PIMFragment pimFragment) {
-//        AuthorizationServiceConfiguration serviceConfiguration = null;
-//        try {
-//            serviceConfiguration = PIMSettingManager.getInstance().getPimOidcConfigration().getAuthorizationServiceConfiguration();
-//        } catch (NullPointerException exp) {
-//            mLoggingInterface.log(DEBUG, TAG, "Service configuration is not available");
-//        }
-//
-//        AuthorizationRequest.Builder authRequestBuilder =
-//                new AuthorizationRequest.Builder(
-//                        serviceConfiguration, // the authorization service configuration
-//                        "9317be6b-193f-4187-9ec2-5e1802a8d8ad", // the client ID, typically pre-registered and static
-//                        ResponseTypeValues.CODE, // the response_type value: we want a code
-//                        Uri.parse("com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad://oauthredirect")); // the redirect URI to which the auth response is sent
-//        AuthorizationRequest authRequest = authRequestBuilder
-//                .setScope("openid email profile")
-//                .build();
-//        AuthorizationService authService = new AuthorizationService(pimFragment.getContext());
-//        Intent authIntent = authService.getAuthorizationRequestIntent(authRequest);
-//
-//        pimFragment.startActivityForResult(authIntent, 100);
-//    }
-
     protected void performTokenRequest(Context context, AuthorizationResponse authResponse, AuthorizationService.TokenResponseCallback tokenResponseCallback) {
         AuthorizationService authService = new AuthorizationService(context);
         TokenRequest tokenRequest = authResponse.createTokenExchangeRequest();
         authService.performTokenRequest(tokenRequest, tokenResponseCallback);
     }
 
-    public Intent makeAuthRequest(Context pimFragmentContext, PIMOIDCConfigration pimoidcConfigration) {
+    public Intent makeAuthRequest(Context pimFragmentContext, PIMOIDCConfigration pimoidcConfigration, Bundle mBundle) {
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(
                         pimoidcConfigration.getAuthorizationServiceConfiguration(), // the authorization service configuration
                         pimoidcConfigration.getClientId(), // the client ID, typically pre-registered and static
                         ResponseTypeValues.CODE, // the response_type value: we want a code
-                        Uri.parse("com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad://oauthredirect")); // the redirect URI to which the auth response is sent
+                        Uri.parse(pimFragmentContext.getString(R.string.redirectURL))); // the redirect URI to which the auth response is sent
         AuthorizationRequest authRequest = authRequestBuilder
-                .setScope("openid email profile")
+                .setScope(getScopes(mBundle))
                 .build();
         AuthorizationService authService = new AuthorizationService(pimFragmentContext);
         return authService.getAuthorizationRequestIntent(authRequest);
+    }
+
+    private String getScopes(Bundle mBundle) {
+        ArrayList<String> scopes = mBundle.getStringArrayList(PIMConstants.PIM_KEY_SCOPES);
+        //Remove duplicate scopes if proposition add duplicates
+        Set set = new HashSet();
+        set.addAll(scopes);
+        scopes.clear();
+        scopes.addAll(set);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String scope : scopes) {
+            stringBuilder = stringBuilder.append(scope + " ");
+        }
+        return stringBuilder.toString();
     }
 }

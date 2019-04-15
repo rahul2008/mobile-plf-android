@@ -3,6 +3,7 @@ package com.philips.platform.pim.manager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.fragment.PIMFragment;
@@ -15,14 +16,14 @@ public class PIMLoginManager {
     private PIMOIDCConfigration mPimoidcConfigration;
     private PIMAuthManager pimAuthManager;
 
-    public PIMLoginManager(PIMOIDCConfigration mPimoidcConfigration) {
-        this.mPimoidcConfigration = mPimoidcConfigration;
-        this.pimAuthManager = new PIMAuthManager();
+    public PIMLoginManager(PIMOIDCConfigration pimoidcConfigration) {
+        mPimoidcConfigration = pimoidcConfigration;
+        pimAuthManager = new PIMAuthManager();
     }
 
-    // TODO: Deepthi Apr 15 what is this API all about, take  PIMOIDC from init
-    public Intent oidcLogin(Context context, PIMOIDCConfigration pimoidcConfigration) {
-        return pimAuthManager.makeAuthRequest(context, pimoidcConfigration);
+    // TODO:Address Deepthi Apr 15 what is this API all about, take  PIMOIDC from init
+    public Intent oidcLogin(Context context, Bundle mBundle) {
+        return pimAuthManager.makeAuthRequest(context, mPimoidcConfigration,mBundle);
     }
 
     // TODO: Deepthi Apr 15 This is not needed , check

@@ -2,6 +2,7 @@ package com.philips.platform.pim.integration;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
@@ -30,6 +31,7 @@ public class PIMInterface implements UappInterface {
     private LoggingInterface mLoggingInterface;
 
     private Context context;
+
     /**
      * API to initialize PIM. Please make sure no propositions are being used before URInterface$init.
      *
@@ -48,16 +50,16 @@ public class PIMInterface implements UappInterface {
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        mLoggingInterface.log(DEBUG,TAG,"PIMInterface init called.");
-        PIMConfigManager pimConfigManager = new PIMConfigManager();
+        mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
+        PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
         long sd_oidc_time = System.currentTimeMillis();
-        mLoggingInterface.log(DEBUG,TAG,"time taken for sd_oidc download : "+(sd_oidc_time-startrtime));
+        mLoggingInterface.log(DEBUG, TAG, "time taken for sd_oidc download : " + (sd_oidc_time - startrtime));
 
         pimUserManager.init(uappDependencies.getAppInfra());
         //pimUserManager.saveUserProfileJsonToStorage(context);
         long endtime = System.currentTimeMillis();
-        mLoggingInterface.log(DEBUG,TAG,"time taken to fetch from secure storage : "+(endtime-sd_oidc_time));
+        mLoggingInterface.log(DEBUG, TAG, "time taken to fetch from secure storage : " + (endtime - sd_oidc_time));
     }
 
     /**
@@ -74,13 +76,18 @@ public class PIMInterface implements UappInterface {
             launchAsActivity(((ActivityLauncher) uiLauncher), uappLaunchInput);
             mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as activity");
         } else if (uiLauncher instanceof FragmentLauncher) {
-            launchAsFragment((FragmentLauncher) uiLauncher, uappLaunchInput);
+            launchAsFragment((FragmentLauncher) uiLauncher, (PIMLaunchInput) uappLaunchInput);
             mLoggingInterface.log(DEBUG, TAG, "Launch : Launched as fragment");
         }
     }
 
-    private void launchAsFragment(FragmentLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
+    private void launchAsFragment(FragmentLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
         PIMFragment pimFragment = new PIMFragment();
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(PIMConstants.PIM_KEY_SCOPES, pimLaunchInput.getPimScopes());
+        bundle.putStringArrayList(PIMConstants.PIM_KEY_STANDARD_CLAIMS, pimLaunchInput.getPimStandardClaims());
+        bundle.putStringArrayList(PIMConstants.PIM_KEY_CUSTOM_CLAIMS, pimLaunchInput.getPimCustomClaims());
+        pimFragment.setArguments(bundle);
         addFragment(uiLauncher, pimFragment);
     }
 
@@ -100,6 +107,7 @@ public class PIMInterface implements UappInterface {
 
     /**
      * Get the User Data Interface
+     *
      * @since TODO
      */
     public UserDataInterface getUserDataInterface() {

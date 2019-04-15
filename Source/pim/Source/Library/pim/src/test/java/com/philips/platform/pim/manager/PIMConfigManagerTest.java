@@ -65,7 +65,7 @@ public class PIMConfigManagerTest extends TestCase {
         Uri uri = mock(Uri.class);
         when(Uri.class, "parse", anyString()).thenReturn(uri);
 
-        pimConfigManager = new PIMConfigManager();
+        pimConfigManager = new PIMConfigManager(pimUserManager);
     }
 
     /**

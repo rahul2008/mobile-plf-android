@@ -13,21 +13,23 @@ public class PIMConfigManager {
     private static final String TAG = PIMConfigManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
     private final String PIM_BASEURL = "userreg.janrainoidc.issuer";
+    private PIMUserManager mPimUserManager;
 
 
-    public PIMConfigManager() {
+    public PIMConfigManager(PIMUserManager pimUserManager) {
+        mPimUserManager = pimUserManager;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
     public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
-        mLoggingInterface.log(DEBUG,TAG,"init called");
+        mLoggingInterface.log(DEBUG, TAG, "init called");
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(PIM_BASEURL);
-        downloadSDServiceURLs(serviceDiscoveryInterface,listOfServiceId);
+        downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
     }
 
-    private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface,ArrayList<String> listOfServiceId) {
-        mLoggingInterface.log(DEBUG,TAG,"downloadSDServiceURLs called");
+    private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface, ArrayList<String> listOfServiceId) {
+        mLoggingInterface.log(DEBUG, TAG, "downloadSDServiceURLs called");
         new Thread(() -> {
             serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
@@ -43,8 +45,9 @@ public class PIMConfigManager {
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
                             mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : getConfigUrls : " + configUrls);
-                            // TODO: Deepthi 15 Apr Populate config if already downloaded from usermanager's authstate
-                            pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
+                            // TODO: Addressed:Deepthi 15 Apr Populate config if already downloaded from usermanager's authstate
+                            if (mPimUserManager.getAuthState() == null)
+                                pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
                         } else {
                             mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : No service url found for Issuer service id");
                         }

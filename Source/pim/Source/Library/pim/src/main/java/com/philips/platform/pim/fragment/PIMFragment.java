@@ -39,12 +39,13 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
     private String TAG = PIMFragment.class.getSimpleName();
     private ProgressBar pbPimRequestProgress;
     private TextView tvPimReqStatus;
+    private Bundle mBundle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PIMOIDCConfigration pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
-
+        mBundle = getArguments();
         pimLoginManager = new PIMLoginManager(pimoidcConfigration);
     }
 
@@ -55,7 +56,7 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
         pbPimRequestProgress = (ProgressBar) view.findViewById(R.id.pbPimRequest);
         tvPimReqStatus = (TextView) view.findViewById(R.id.tvPimRequestStatus);
         // TODO: Deepthi, check if user is logged in before launching web page
-        startAuthorization();
+        startAuthorization(mBundle);
         return view;
     }
 
@@ -76,13 +77,13 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
     }
 
 
-    private void startAuthorization() {
+    private void startAuthorization(Bundle mBundle) {
         pbPimRequestProgress.setVisibility(View.VISIBLE);
         tvPimReqStatus.setVisibility(View.VISIBLE);
         tvPimReqStatus.setText("Login in progress...");
-        // TODO: Deepthi, 15 Apr.. invoke login method after getting auth request obj as return type
+        // TODO:Addressed Deepthi, 15 Apr.. invoke login method after getting auth request obj as return type
         // To form auth request, inject whatever is needed, contetx etc, Then start activity from here
-        Intent oidcLoginIntent = pimLoginManager.oidcLogin(mContext, PIMSettingManager.getInstance().getPimOidcConfigration());
+        Intent oidcLoginIntent = pimLoginManager.oidcLogin(mContext,mBundle);
         startActivityForResult(oidcLoginIntent, 100);
     }
 
