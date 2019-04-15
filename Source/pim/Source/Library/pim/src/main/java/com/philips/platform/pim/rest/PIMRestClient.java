@@ -4,8 +4,6 @@ import com.android.volley.Response;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.pim.manager.PIMSettingManager;
 
-import integration.PIMInterface;
-
 public class PIMRestClient {
 
     private RestInterface restInterface;
