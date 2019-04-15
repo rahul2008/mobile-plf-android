@@ -44,6 +44,7 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PIMOIDCConfigration pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
+
         pimLoginManager = new PIMLoginManager(pimoidcConfigration);
     }
 
@@ -53,6 +54,7 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
         View view = inflater.inflate(R.layout.fragment_pim, container, false);
         pbPimRequestProgress = (ProgressBar) view.findViewById(R.id.pbPimRequest);
         tvPimReqStatus = (TextView) view.findViewById(R.id.tvPimRequestStatus);
+        // TODO: Deepthi, check if user is logged in before launching web page
         startAuthorization();
         return view;
     }
@@ -78,7 +80,8 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
         pbPimRequestProgress.setVisibility(View.VISIBLE);
         tvPimReqStatus.setVisibility(View.VISIBLE);
         tvPimReqStatus.setText("Login in progress...");
-
+        // TODO: Deepthi, 15 Apr.. invoke login method after getting auth request obj as return type
+        // To form auth request, inject whatever is needed, contetx etc, Then start activity from here
         pimLoginManager.makeAuthRequest(this);
     }
 
@@ -93,6 +96,7 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
             tvPimReqStatus.setVisibility(View.VISIBLE);
             tvPimReqStatus.setText("Login in progress...");
 
+            // TODO: Deepthi, 15 Apr below code is not needed, after checking alternative APIs
             AuthorizationResponse response = AuthorizationResponse.fromIntent(data);
             AuthorizationException exception = AuthorizationException.fromIntent(data);
 

@@ -28,7 +28,7 @@ public class PIMUserManager {
         //get Secure Storage user profile
         this.appInfraInterface = appInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        //TODO : fetch authstate from secure storage
+        //TODO : Deepthi apr 15 fetch authstate from secure storage, auth state fetching is not clear.
         pimoidcUserProfile = new PIMOIDCUserProfile(appInfraInterface.getSecureStorage(), authState);
     }
 

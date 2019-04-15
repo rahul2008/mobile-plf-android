@@ -18,14 +18,17 @@ public class PIMLoginManager {
         this.pimAuthManager = new PIMAuthManager();
     }
 
+    // TODO: Deepthi Apr 15 what is this API all about, take  PIMOIDC from init
     public void oidcLogin(Context context, AuthorizationService authorizationService) {
        // pimAuthManager.makeAuthRequest(context, authorizationService);
     }
 
+    // TODO: Deepthi Apr 15 This should be private method, check
     public void makeAuthRequest(PIMFragment pimFragment){
         pimAuthManager.makeAuthRequest(pimFragment);
     }
 
+    // TODO: Deepthi Apr 15 This is not needed , check
     public void exchangeAuthorizationCode(Context context, AuthorizationResponse authResponse, AuthorizationService.TokenResponseCallback tokenResponseCallback){
        pimAuthManager.performTokenRequest(context,authResponse,tokenResponseCallback);
     }

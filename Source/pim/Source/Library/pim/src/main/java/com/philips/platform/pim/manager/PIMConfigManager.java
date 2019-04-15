@@ -33,7 +33,7 @@ public class PIMConfigManager {
                 @Override
                 public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                     mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess");
-                    // TODO: Populate config if already downloaded from usermanager's authstate and implement 24 hours expiry, after fetching from physical memory, need to fill settings manager
+
                     ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
 
                     if (serviceDiscoveryService == null) {
@@ -43,6 +43,7 @@ public class PIMConfigManager {
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
                             mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : getConfigUrls : " + configUrls);
+                            // TODO: Deepthi 15 Apr Populate config if already downloaded from usermanager's authstate
                             pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
                         } else {
                             mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : No service url found for Issuer service id");
