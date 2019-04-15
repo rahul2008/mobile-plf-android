@@ -337,6 +337,9 @@ public class User {
      */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
         RLog.d(TAG, "refreshLoginSession");
+        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+            refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(getUserLoginState().ordinal());
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -344,7 +347,7 @@ public class User {
                     RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
                     refreshUserSession.refreshUserSession();
                 } else {
-                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.UNKNOWN_ERROR));
+                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.NO_NETWORK));
                 }
             }
         }).start();
@@ -710,6 +713,10 @@ public class User {
     public void updateReceiveMarketingEmail(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
+        if (getUserNotLoggedInState()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
+        }
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
                 UpdateReceiveMarketingEmail(
                 mContext);
@@ -728,9 +735,18 @@ public class User {
     public void updateDateOfBirth(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Date date) {
+        if (getUserNotLoggedInState()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
+        }
         UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
         RLog.d(TAG, "updateDateOfBirth called : " + date.toString());
         updateDateOfBirth.updateDateOfBirth(updateUserDetailsHandler, date);
+    }
+
+
+    private boolean getUserNotLoggedInState() {
+        return getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal();
     }
 
 
@@ -744,6 +760,10 @@ public class User {
     public void updateGender(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Gender gender) {
+        if (getUserNotLoggedInState()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
+        }
         UpdateGender updateGender = new UpdateGender(mContext);
         RLog.d(TAG, "updateGender called : " + gender.toString());
         updateGender.updateGender(updateUserDetailsHandler, gender);
