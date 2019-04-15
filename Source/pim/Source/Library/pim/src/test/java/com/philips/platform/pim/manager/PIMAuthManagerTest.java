@@ -1,15 +1,24 @@
 package com.philips.platform.pim.manager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 
 import junit.framework.TestCase;
 
 import net.openid.appauth.AuthorizationException;
+import net.openid.appauth.AuthorizationRequest;
+import net.openid.appauth.AuthorizationResponse;
+import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.AuthorizationServiceDiscovery;
+import net.openid.appauth.TokenRequest;
+import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
 import org.junit.Test;
@@ -24,12 +33,14 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({Uri.class,AuthorizationServiceConfiguration.class,PIMSettingManager.class})
+@PrepareForTest({Uri.class,AuthorizationServiceConfiguration.class,PIMSettingManager.class,PIMAuthManager.class,AuthorizationResponse.class})
 @RunWith(PowerMockRunner.class)
 public class PIMAuthManagerTest extends TestCase {
 
@@ -47,15 +58,27 @@ public class PIMAuthManagerTest extends TestCase {
     @Mock
     private LoggingInterface mockLoggingInterface;
 
-    /*@Mock
-    AuthorizationServiceConfiguration mockServiceConfiguration;*/
-   /* @Mock
-    AuthorizationException mockAuthorizationException;*/
-
     @Mock
     private AuthorizationServiceConfiguration.RetrieveConfigurationCallback mockConfigurationCallback;
     @Captor
     private ArgumentCaptor<AuthorizationServiceConfiguration.RetrieveConfigurationCallback> captorRetrieveConfigCallback;
+
+    @Mock
+    private AuthorizationService.TokenResponseCallback mockTokenResponseCallback;
+    @Captor
+    private ArgumentCaptor<AuthorizationService.TokenResponseCallback> captorTokenResponse;
+    @Mock
+    private AuthorizationService mockAuthorizationService;
+    @Mock
+    private AuthorizationResponse mockAuthorizationResponse;
+    @Mock
+    private Context mockContext;
+    @Mock
+    private TokenRequest mockTokenRequest;
+    @Mock
+    private PIMOIDCConfigration mockPimoidcConfigration;
+
+
     private String baseurl = "https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
 
     public void setUp() throws Exception {
@@ -65,12 +88,16 @@ public class PIMAuthManagerTest extends TestCase {
         mockStatic(PIMSettingManager.class);
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        when(mockPimSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
 
         mockStatic(AuthorizationServiceConfiguration.class);
         mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
+        when(mockPimoidcConfigration.getAuthorizationServiceConfiguration()).thenReturn(mockAuthorizationServiceConfiguration);
         mockStatic(Uri.class);
         Uri uri = mock(Uri.class);
         when(Uri.class,"parse", ArgumentMatchers.anyString()).thenReturn(uri);
+
+        whenNew(AuthorizationService.class).withArguments(mockContext).thenReturn(mockAuthorizationService);
 
         pimAuthManager = new PIMAuthManager();
     }
@@ -102,6 +129,28 @@ public class PIMAuthManagerTest extends TestCase {
         mockConfigurationCallback.onFetchConfigurationCompleted(mockAuthorizationServiceConfiguration, ex);
         verify(mockConfigurationListener).onError(ex.getMessage());
         verify(mockLoggingInterface).log(DEBUG,PIMAuthManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : "+ex.getMessage());
+    }
+
+    @Test
+    public void shouldPerformAuthRequest(){
+        PIMFragment mockPimFragment = mock(PIMFragment.class);
+        when(mockPimFragment.getContext()).thenReturn(mockContext);
+
+        Intent mockIntent = mock(Intent.class);
+        AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
+        when(mockAuthorizationService.getAuthorizationRequestIntent(mockAuthorizationRequest)).thenReturn(mockIntent);
+        pimAuthManager.makeAuthRequest(mockPimFragment);
+
+        verify(mockPimFragment).startActivityForResult(any(Intent.class),any(Integer.class));
+    }
+
+    @Test
+    public void shouldPerformTokenRequest() {
+        when(mockAuthorizationResponse.createTokenExchangeRequest()).thenReturn(mockTokenRequest);
+        pimAuthManager.performTokenRequest(mockContext,mockAuthorizationResponse,mockTokenResponseCallback);
+        verify(mockAuthorizationService).performTokenRequest(any(TokenRequest.class),captorTokenResponse.capture());
+        mockTokenResponseCallback = captorTokenResponse.getValue();
+        mockTokenResponseCallback.onTokenRequestCompleted(any(TokenResponse.class),any(AuthorizationException.class));
     }
 
     public void tearDown() throws Exception {

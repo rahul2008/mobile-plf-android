@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -22,7 +23,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    Button mLogin;
+    Button btnLoginActivity, btnLoginFragment;
     PIMInterface pimInterface;
 
     @Override
@@ -33,8 +34,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
         Label appversion = findViewById(R.id.appversion);
         appversion.setText("Version : " + BuildConfig.VERSION_NAME);
-        mLogin = findViewById(R.id.btn_login);
-        mLogin.setOnClickListener(this);
+        btnLoginActivity = findViewById(R.id.btn_login_activity);
+        btnLoginActivity.setOnClickListener(this);
+        btnLoginFragment = findViewById(R.id.btn_login_fragment);
+        btnLoginFragment.setOnClickListener(this);
         PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(new AppInfra.Builder().build(this));
         PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
         pimInterface = new PIMInterface();
@@ -48,15 +51,19 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
         getTheme().applyStyle(themeIndex, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-
     }
 
 
     @Override
     public void onClick(View v) {
-        if (v == mLogin) {
+        if (v == btnLoginActivity) {
             ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
             pimInterface.launch(activityLauncher, null);
+        }else if(v == btnLoginFragment){
+            btnLoginActivity.setVisibility(View.GONE);
+            btnLoginFragment.setVisibility(View.GONE);
+            FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
+            pimInterface.launch(fragmentLauncher, null);
         }
     }
 }
