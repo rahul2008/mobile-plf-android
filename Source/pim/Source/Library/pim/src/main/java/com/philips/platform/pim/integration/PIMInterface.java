@@ -1,4 +1,4 @@
-package integration;
+package com.philips.platform.pim.integration;
 
 import android.content.Context;
 import android.content.Intent;

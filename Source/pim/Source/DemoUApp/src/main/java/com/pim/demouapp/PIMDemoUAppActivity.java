@@ -17,7 +17,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
-import integration.PIMInterface;
+import com.philips.platform.pim.integration.PIMInterface;
 
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
     final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;

@@ -65,8 +65,7 @@ public class PIMAuthManager {
                         ResponseTypeValues.CODE, // the response_type value: we want a code
                         Uri.parse("com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad://oauthredirect")); // the redirect URI to which the auth response is sent
         AuthorizationRequest authRequest = authRequestBuilder
-                .setScope("openid email profile https://idp.example.com/custom-scope")
-                .setLoginHint("jdoe@user.example.com")
+                .setScope("openid email profile")
                 .build();
         AuthorizationService authService = new AuthorizationService(pimFragment.getContext());
         Intent authIntent = authService.getAuthorizationRequestIntent(authRequest);

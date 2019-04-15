@@ -1,4 +1,4 @@
-package integration;
+package com.philips.platform.pim.integration;
 
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
