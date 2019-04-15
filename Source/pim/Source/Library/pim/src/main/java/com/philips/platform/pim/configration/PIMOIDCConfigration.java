@@ -24,7 +24,7 @@ public class PIMOIDCConfigration {
     }
 
     // TODO: Get appinfra via settings manager or create constructor to inject what is required
-    protected String getClientId() {
+    public String getClientId() {
         Object obj = getProperty(CLIENT_ID, GROUP_PIM);
         if (obj != null) {
             return (String) obj;

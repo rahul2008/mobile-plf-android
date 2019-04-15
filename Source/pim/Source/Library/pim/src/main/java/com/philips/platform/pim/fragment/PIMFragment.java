@@ -82,7 +82,8 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
         tvPimReqStatus.setText("Login in progress...");
         // TODO: Deepthi, 15 Apr.. invoke login method after getting auth request obj as return type
         // To form auth request, inject whatever is needed, contetx etc, Then start activity from here
-        pimLoginManager.makeAuthRequest(this);
+        Intent oidcLoginIntent = pimLoginManager.oidcLogin(mContext, PIMSettingManager.getInstance().getPimOidcConfigration());
+        startActivityForResult(oidcLoginIntent, 100);
     }
 
     @Override
@@ -103,7 +104,7 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
             if (response != null)
                 pimLoginManager.exchangeAuthorizationCode(mContext, response, this);
 
-            if(exception != null) {
+            if (exception != null) {
                 //log exception
             }
         }

@@ -1,6 +1,8 @@
 package com.philips.platform.pim.manager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.Intent;
 
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.fragment.PIMFragment;
@@ -19,13 +21,8 @@ public class PIMLoginManager {
     }
 
     // TODO: Deepthi Apr 15 what is this API all about, take  PIMOIDC from init
-    public void oidcLogin(Context context, AuthorizationService authorizationService) {
-       // pimAuthManager.makeAuthRequest(context, authorizationService);
-    }
-
-    // TODO: Deepthi Apr 15 This should be private method, check
-    public void makeAuthRequest(PIMFragment pimFragment){
-        pimAuthManager.makeAuthRequest(pimFragment);
+    public Intent oidcLogin(Context context, PIMOIDCConfigration pimoidcConfigration) {
+        return pimAuthManager.makeAuthRequest(context, pimoidcConfigration);
     }
 
     // TODO: Deepthi Apr 15 This is not needed , check
