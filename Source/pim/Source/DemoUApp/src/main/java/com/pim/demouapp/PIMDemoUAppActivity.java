@@ -8,7 +8,9 @@ import android.view.View;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pim.integration.PIMLaunchInput;
+import com.philips.platform.pim.utilities.PIMCustomClaims;
 import com.philips.platform.pim.utilities.PIMScopes;
+import com.philips.platform.pim.utilities.PIMStandardClaims;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -61,21 +63,53 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         PIMLaunchInput launchInput = new PIMLaunchInput();
-        ArrayList<String> pimScopes = new ArrayList<>();
-        pimScopes.add(PIMScopes.EMAIL);
-        pimScopes.add(PIMScopes.OPENID);
-        pimScopes.add(PIMScopes.PROFILE);
-        pimScopes.add(PIMScopes.EMAIL);
-        pimScopes.add(PIMScopes.PHONE);
+        ArrayList<String> pimScopes = setScopes();
+        ArrayList<String> pimCustomClaims = setCustomClaims();
         launchInput.setPimScopes(pimScopes);
+        launchInput.setPimCustomClaims(pimCustomClaims);
         if (v == btnLoginActivity) {
             ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
             pimInterface.launch(activityLauncher, launchInput);
-        }else if(v == btnLoginFragment){
+        } else if (v == btnLoginFragment) {
             btnLoginActivity.setVisibility(View.GONE);
             btnLoginFragment.setVisibility(View.GONE);
             FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
             pimInterface.launch(fragmentLauncher, launchInput);
         }
+    }
+
+    private ArrayList<String> setStandardClaims() {
+        ArrayList<String> pimStandardClaims = new ArrayList<>();
+        pimStandardClaims.add(PIMStandardClaims.FAMILY_NAME);
+        pimStandardClaims.add(PIMStandardClaims.EMAIL);
+        pimStandardClaims.add(PIMStandardClaims.BIRTH_DATE);
+        pimStandardClaims.add(PIMStandardClaims.EMAIL_VERIFIED);
+        pimStandardClaims.add(PIMStandardClaims.GENDER);
+        pimStandardClaims.add(PIMStandardClaims.PHONE_NUMBER);
+        pimStandardClaims.add(PIMStandardClaims.PHONE_NUMBER_VERIFIED);
+        pimStandardClaims.add(PIMStandardClaims.GIVEN_NAME);
+        pimStandardClaims.add(PIMStandardClaims.ADDRESS);
+        pimStandardClaims.add(PIMStandardClaims.UPDATED_AT);
+        return pimStandardClaims;
+    }
+
+    private ArrayList<String> setCustomClaims() {
+        ArrayList<String> pimCustomClaims = new ArrayList<>();
+        pimCustomClaims.add(PIMCustomClaims.RECEIVE_MARKETING_EMAIL);
+        pimCustomClaims.add(PIMCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP);
+        pimCustomClaims.add(PIMCustomClaims.SOCIAL_PROFILES);
+        pimCustomClaims.add(PIMCustomClaims.UUID);
+        return pimCustomClaims;
+    }
+
+    private ArrayList<String> setScopes() {
+        ArrayList<String> pimScopes = new ArrayList<>();
+        pimScopes.add(PIMScopes.EMAIL);
+        pimScopes.add(PIMScopes.OPENID);
+        pimScopes.add(PIMScopes.ADDRESS);
+        pimScopes.add(PIMScopes.PROFILE);
+        pimScopes.add(PIMScopes.EMAIL);
+        pimScopes.add(PIMScopes.PHONE);
+        return pimScopes;
     }
 }

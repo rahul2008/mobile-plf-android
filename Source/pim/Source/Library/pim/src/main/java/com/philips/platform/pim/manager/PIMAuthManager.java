@@ -19,10 +19,16 @@ import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
 import net.openid.appauth.TokenRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -70,8 +76,13 @@ public class PIMAuthManager {
                         pimoidcConfigration.getClientId(), // the client ID, typically pre-registered and static
                         ResponseTypeValues.CODE, // the response_type value: we want a code
                         Uri.parse(pimFragmentContext.getString(R.string.redirectURL))); // the redirect URI to which the auth response is sent
+        Map<String, String> parameter = new HashMap<>();
+        ArrayList<String> stringArrayList = mBundle.getStringArrayList(PIMConstants.PIM_KEY_CUSTOM_CLAIMS);
+        String customClaims = "";
+        parameter.put("claims", customClaims);
         AuthorizationRequest authRequest = authRequestBuilder
                 .setScope(getScopes(mBundle))
+                .setAdditionalParameters(parameter)
                 .build();
         AuthorizationService authService = new AuthorizationService(pimFragmentContext);
         return authService.getAuthorizationRequestIntent(authRequest);
@@ -79,12 +90,6 @@ public class PIMAuthManager {
 
     private String getScopes(Bundle mBundle) {
         ArrayList<String> scopes = mBundle.getStringArrayList(PIMConstants.PIM_KEY_SCOPES);
-        //Remove duplicate scopes if proposition add duplicates
-        Set set = new HashSet();
-        set.addAll(scopes);
-        scopes.clear();
-        scopes.addAll(set);
-
         StringBuilder stringBuilder = new StringBuilder();
         for (String scope : scopes) {
             stringBuilder = stringBuilder.append(scope + " ");

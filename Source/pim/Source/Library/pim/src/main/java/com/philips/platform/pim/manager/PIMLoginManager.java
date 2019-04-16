@@ -21,7 +21,7 @@ public class PIMLoginManager {
         pimAuthManager = new PIMAuthManager();
     }
 
-    // TODO:Address Deepthi Apr 15 what is this API all about, take  PIMOIDC from init
+    // TODO:Addressed Deepthi Apr 15 what is this API all about, take  PIMOIDC from init
     public Intent oidcLogin(Context context, Bundle mBundle) {
         return pimAuthManager.makeAuthRequest(context, mPimoidcConfigration,mBundle);
     }
