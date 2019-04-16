@@ -85,7 +85,7 @@ public class PIMInterface implements UappInterface {
         PIMFragment pimFragment = new PIMFragment();
         Bundle bundle = new Bundle();
         bundle.putStringArrayList(PIMConstants.PIM_KEY_SCOPES, pimLaunchInput.getPimScopes());
-        bundle.putStringArrayList(PIMConstants.PIM_KEY_CUSTOM_CLAIMS, pimLaunchInput.getPimCustomClaims());
+        bundle.putSerializable(PIMConstants.PIM_KEY_CUSTOM_CLAIMS, pimLaunchInput.getPimCustomClaims());
         pimFragment.setArguments(bundle);
         addFragment(uiLauncher, pimFragment);
     }

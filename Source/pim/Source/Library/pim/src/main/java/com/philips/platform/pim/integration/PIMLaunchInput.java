@@ -3,16 +3,17 @@ package com.philips.platform.pim.integration;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PIMLaunchInput extends UappLaunchInput {
-    private ArrayList<String> pimCustomClaims;
+    private HashMap<String, String> pimCustomClaims;
     private ArrayList<String> pimScopes;
 
-    public ArrayList<String> getPimCustomClaims() {
+    public HashMap<String, String> getPimCustomClaims() {
         return pimCustomClaims;
     }
 
-    public void setPimCustomClaims(ArrayList<String> pimCustomClaims) {
+    public void setPimCustomClaims(HashMap<String, String> pimCustomClaims) {
         this.pimCustomClaims = pimCustomClaims;
     }
 

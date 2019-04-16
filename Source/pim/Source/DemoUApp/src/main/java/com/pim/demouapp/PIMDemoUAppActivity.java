@@ -24,6 +24,7 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.pim.integration.PIMInterface;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
     final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -64,7 +65,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         PIMLaunchInput launchInput = new PIMLaunchInput();
         ArrayList<String> pimScopes = setScopes();
-        ArrayList<String> pimCustomClaims = setCustomClaims();
+        HashMap<String, String> pimCustomClaims = setCustomClaims();
         launchInput.setPimScopes(pimScopes);
         launchInput.setPimCustomClaims(pimCustomClaims);
         if (v == btnLoginActivity) {
@@ -78,27 +79,12 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private ArrayList<String> setStandardClaims() {
-        ArrayList<String> pimStandardClaims = new ArrayList<>();
-        pimStandardClaims.add(PIMStandardClaims.FAMILY_NAME);
-        pimStandardClaims.add(PIMStandardClaims.EMAIL);
-        pimStandardClaims.add(PIMStandardClaims.BIRTH_DATE);
-        pimStandardClaims.add(PIMStandardClaims.EMAIL_VERIFIED);
-        pimStandardClaims.add(PIMStandardClaims.GENDER);
-        pimStandardClaims.add(PIMStandardClaims.PHONE_NUMBER);
-        pimStandardClaims.add(PIMStandardClaims.PHONE_NUMBER_VERIFIED);
-        pimStandardClaims.add(PIMStandardClaims.GIVEN_NAME);
-        pimStandardClaims.add(PIMStandardClaims.ADDRESS);
-        pimStandardClaims.add(PIMStandardClaims.UPDATED_AT);
-        return pimStandardClaims;
-    }
-
-    private ArrayList<String> setCustomClaims() {
-        ArrayList<String> pimCustomClaims = new ArrayList<>();
-        pimCustomClaims.add(PIMCustomClaims.RECEIVE_MARKETING_EMAIL);
-        pimCustomClaims.add(PIMCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP);
-        pimCustomClaims.add(PIMCustomClaims.SOCIAL_PROFILES);
-        pimCustomClaims.add(PIMCustomClaims.UUID);
+    private HashMap<String, String> setCustomClaims() {
+        HashMap<String, String> pimCustomClaims = new HashMap<>();
+        pimCustomClaims.put(PIMCustomClaims.RECEIVE_MARKETING_EMAIL, null);
+        pimCustomClaims.put(PIMCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP, null);
+        pimCustomClaims.put(PIMCustomClaims.SOCIAL_PROFILES, null);
+        pimCustomClaims.put(PIMCustomClaims.UUID, null);
         return pimCustomClaims;
     }
 

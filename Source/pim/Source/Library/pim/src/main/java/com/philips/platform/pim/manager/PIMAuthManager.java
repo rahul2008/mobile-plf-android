@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -64,6 +65,7 @@ public class PIMAuthManager {
     }
 
     protected void performTokenRequest(Context context, AuthorizationResponse authResponse, AuthorizationService.TokenResponseCallback tokenResponseCallback) {
+        mLoggingInterface.log(DEBUG, TAG, "performTokenRequest for code exchange to get Access token");
         AuthorizationService authService = new AuthorizationService(context);
         TokenRequest tokenRequest = authResponse.createTokenExchangeRequest();
         authService.performTokenRequest(tokenRequest, tokenResponseCallback);
@@ -77,12 +79,12 @@ public class PIMAuthManager {
                         ResponseTypeValues.CODE, // the response_type value: we want a code
                         Uri.parse(pimFragmentContext.getString(R.string.redirectURL))); // the redirect URI to which the auth response is sent
         Map<String, String> parameter = new HashMap<>();
-        ArrayList<String> stringArrayList = mBundle.getStringArrayList(PIMConstants.PIM_KEY_CUSTOM_CLAIMS);
-        String customClaims = "";
+        Serializable serializable = mBundle.getSerializable(PIMConstants.PIM_KEY_CUSTOM_CLAIMS);
+        String customClaims = "id_token =" + serializable.toString();
         parameter.put("claims", customClaims);
         AuthorizationRequest authRequest = authRequestBuilder
                 .setScope(getScopes(mBundle))
-                .setAdditionalParameters(parameter)
+//                .setAdditionalParameters(parameter)
                 .build();
         AuthorizationService authService = new AuthorizationService(pimFragmentContext);
         return authService.getAuthorizationRequestIntent(authRequest);
