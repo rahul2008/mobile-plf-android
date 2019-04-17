@@ -133,14 +133,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         return view;
     }
 
-//    private void setDescription() {
-//        String userId = user.getMobile();
-//        String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
-//        SpannableString str = new SpannableString(String.format(normalText, userId));
-//        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        regVerifyMobileDesc1.setText(str);
-//    }
-
     @VisibleForTesting
     protected SpannableString setDescription(String normalText, String mobileNumber) {
         String formattedStr = String.format(normalText, mobileNumber);
