@@ -10,8 +10,6 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.squareup.leakcanary.LeakCanary;
 
 public class PimDemoApplication extends Application {
-    private static PimDemoApplication mPimApplication = null;
-
     private AppInfraInterface mAppInfraInterface;
 
     @Override
@@ -26,7 +24,6 @@ public class PimDemoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        mPimApplication = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
 
     }

@@ -45,7 +45,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnLoginActivity.setOnClickListener(this);
         btnLoginFragment = findViewById(R.id.btn_login_fragment);
         btnLoginFragment.setOnClickListener(this);
-        PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(new AppInfra.Builder().build(this));
+        PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(PIMDemoUAppInterface.mAppInfra);
         PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
         pimInterface = new PIMInterface();
         pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
