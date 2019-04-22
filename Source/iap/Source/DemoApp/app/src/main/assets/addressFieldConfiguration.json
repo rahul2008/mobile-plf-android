@@ -29,6 +29,22 @@
     "GB": [
       "address2",
       "state"
+    ],
+    "BE": [
+      "address2",
+      "state"
+    ],
+    "AT": [
+      "address2",
+      "state"
+    ],
+    "SE": [
+      "address2",
+      "state"
+    ],
+    "ES": [
+      "address2",
+      "state"
     ]
   }
 }

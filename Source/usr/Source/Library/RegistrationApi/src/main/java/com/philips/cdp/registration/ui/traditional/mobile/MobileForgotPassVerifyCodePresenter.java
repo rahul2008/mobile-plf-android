@@ -9,16 +9,12 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.CompositeDisposable;
-
 public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener {
 
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;
 
     private final MobileForgotPassVerifyCodeContract mobileVerifyCodeContract;
-
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public MobileForgotPassVerifyCodePresenter(MobileForgotPassVerifyCodeContract
                                                        mobileVerifyCodeContract) {
@@ -28,9 +24,6 @@ public class MobileForgotPassVerifyCodePresenter implements NetworkStateListener
 
     }
 
-    public void cleanUp() {
-        compositeDisposable.clear();
-    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {

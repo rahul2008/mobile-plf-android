@@ -4,14 +4,13 @@ package com.philips.platform.urdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.utils.UIDActivity;
-import com.philips.platform.uid.view.widget.Button;
 import com.philips.themesettings.ThemeSettingsActivity;
-import com.philips.uiddemo.LoginActivity;
 
 public class URDemoActivity extends UIDActivity {
 
@@ -30,15 +29,6 @@ public class URDemoActivity extends UIDActivity {
                 startActivity(intent);
             }
         });
-
-        Button udiLogin = findViewById(R.id.udi_login);
-        udiLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(URDemoActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
         AppInfraInterface appInfraInterface = URDemoApplication.getInstance().getAppInfra();
         uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(this.getApplicationContext()));
         setStandardFlow();
@@ -49,7 +39,7 @@ public class URDemoActivity extends UIDActivity {
         standardFlow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uAppInterface.launch(new ActivityLauncher(URDemoActivity.this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null, 0, null), null);
+                uAppInterface.launch(new ActivityLauncher(URDemoActivity.this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, null,0,null), null);
             }
         });
     }
