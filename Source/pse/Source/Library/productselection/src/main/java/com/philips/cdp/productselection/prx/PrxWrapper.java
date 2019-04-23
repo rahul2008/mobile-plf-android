@@ -139,7 +139,7 @@ public class PrxWrapper {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
 
-                getSummaryModels(responseData, listener);
+                getSummaryModels(responseData, listener ,ctnList);
 
             }
 
@@ -155,17 +155,28 @@ public class PrxWrapper {
 
     }
 
-    private void getSummaryModels(ResponseData responseData, SummaryDataListener listener) {
+    private void getSummaryModels(ResponseData responseData, SummaryDataListener listener, String[] ctnList) {
         PRXSummaryListResponse summaryListResponse = (PRXSummaryListResponse) responseData;
         List<SummaryModel> summaryModels = new ArrayList<>();
+        List<String> responseCtns = new ArrayList<>();
 
-        for (Data data : summaryListResponse.getData()) {
-            SummaryModel summaryModel = new SummaryModel();
-            summaryModel.setData(data);
-            summaryModels.add(summaryModel);
+        if (summaryListResponse.isSuccess()) {
+            for (Data data : summaryListResponse.getData()) {
+                SummaryModel summaryModel = new SummaryModel();
+                summaryModel.setData(data);
+                summaryModels.add(summaryModel);
+                responseCtns.add(data.getCtn());
+            }
         }
+        //log the errors
 
+        for(int i=0 ;i< ctnList.length;i++){
+            if(!responseCtns.contains(ctnList[i])){
+                ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + ctnList[i]);
+            }
+        }
         listener.onSuccess(summaryModels);
+
     }
 
 }
