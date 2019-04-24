@@ -48,18 +48,14 @@ public class PIMInterface implements UappInterface {
         PIMSettingManager.getInstance().init(uappDependencies);
         PIMUserManager pimUserManager = new PIMUserManager();
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
+        pimUserManager.init(uappDependencies.getAppInfra());
+        PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);
+        pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
-        PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);
-        pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
-        long sd_oidc_time = System.currentTimeMillis();
-        mLoggingInterface.log(DEBUG, TAG, "time taken for sd_oidc download : " + (sd_oidc_time - startrtime));
 
-        pimUserManager.init(uappDependencies.getAppInfra());
-        //pimUserManager.saveUserProfileJsonToStorage(context);
-        long endtime = System.currentTimeMillis();
-        mLoggingInterface.log(DEBUG, TAG, "time taken to fetch from secure storage : " + (endtime - sd_oidc_time));
+
     }
 
     /**

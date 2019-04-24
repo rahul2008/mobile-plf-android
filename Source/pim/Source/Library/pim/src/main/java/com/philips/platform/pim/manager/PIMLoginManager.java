@@ -1,13 +1,11 @@
 package com.philips.platform.pim.manager;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
-import com.philips.platform.pim.fragment.PIMFragment;
 
+import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
 
@@ -22,7 +20,7 @@ public class PIMLoginManager {
     }
 
     // TODO:Addressed Deepthi Apr 15 what is this API all about, take  PIMOIDC from init
-    public Intent oidcLogin(Context context, Bundle mBundle) {
+    public AuthorizationRequest oidcLogin(Context context, Bundle mBundle) {
         return pimAuthManager.makeAuthRequest(context, mPimoidcConfigration,mBundle);
     }
 

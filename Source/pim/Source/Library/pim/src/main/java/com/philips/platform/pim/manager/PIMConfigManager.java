@@ -46,7 +46,7 @@ public class PIMConfigManager {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
                             mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : getConfigUrls : " + configUrls);
                             // TODO: Addressed:Deepthi 15 Apr Populate config if already downloaded from usermanager's authstate
-                            if (mPimUserManager.getAuthState() == null && mPimUserManager.getOIDCUserProfile() == null)
+                            //if (mPimUserManager.getAuthState() == null && mPimUserManager.getOIDCUserProfile() == null)
                                 pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
                         } else {
                             mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : No service url found for Issuer service id");

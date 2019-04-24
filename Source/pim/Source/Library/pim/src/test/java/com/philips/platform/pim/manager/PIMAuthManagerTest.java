@@ -1,7 +1,6 @@
 package com.philips.platform.pim.manager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,6 +9,7 @@ import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
+import com.philips.platform.pim.utilities.PIMConstants;
 
 import junit.framework.TestCase;
 
@@ -34,16 +34,19 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.io.Serializable;
+
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({Uri.class, AuthorizationServiceConfiguration.class, PIMSettingManager.class, PIMAuthManager.class, AuthorizationResponse.class})
+@PrepareForTest({Uri.class, AuthorizationServiceConfiguration.class, PIMSettingManager.class, PIMAuthManager.class, AuthorizationResponse.class,AuthorizationRequest.Builder.class,AuthorizationRequest.class})
 @RunWith(PowerMockRunner.class)
 public class PIMAuthManagerTest extends TestCase {
 
@@ -82,6 +85,8 @@ public class PIMAuthManagerTest extends TestCase {
     private PIMOIDCConfigration mockPimoidcConfigration;
     @Mock
     private Bundle mockBundle;
+    @Mock
+    private Uri mockUri;
 
 
     private String baseurl = "https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
@@ -100,8 +105,8 @@ public class PIMAuthManagerTest extends TestCase {
         mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
         when(mockPimoidcConfigration.getAuthorizationServiceConfiguration()).thenReturn(mockAuthorizationServiceConfiguration);
         mockStatic(Uri.class);
-        Uri uri = mock(Uri.class);
-        when(Uri.class, "parse", ArgumentMatchers.anyString()).thenReturn(uri);
+        mockUri = mock(Uri.class);
+        when(Uri.class, "parse", ArgumentMatchers.anyString()).thenReturn(mockUri);
 
         whenNew(AuthorizationService.class).withArguments(mockContext).thenReturn(mockAuthorizationService);
 
@@ -138,14 +143,22 @@ public class PIMAuthManagerTest extends TestCase {
     }
 
     @Test
-    public void shouldPerformAuthRequest() {
+    public void shouldPerformAuthRequest() throws Exception {
         PIMFragment mockPimFragment = mock(PIMFragment.class);
+
         when(mockPimFragment.getContext()).thenReturn(mockContext);
         when(mockContext.getString(R.string.redirectURL)).thenReturn("");
 
+        mockStatic(AuthorizationRequest.Builder.class);
+        AuthorizationRequest.Builder mockAuthReqBuilder = mock(AuthorizationRequest.Builder.class);
         AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
-        Intent intent = pimAuthManager.makeAuthRequest(mockContext, mockPimoidcConfigration, mockBundle);
-        assertEquals(mockAuthorizationService.getAuthorizationRequestIntent(mockAuthorizationRequest), intent);
+        when(mockAuthReqBuilder.build()).thenReturn(mockAuthorizationRequest);
+        Serializable mockSerializable = mock(Serializable.class);
+        when(mockBundle.getSerializable(PIMConstants.PIM_KEY_CUSTOM_CLAIMS)).thenReturn(mockSerializable);
+
+        whenNew(AuthorizationRequest.Builder.class).withArguments(eq(mockAuthorizationServiceConfiguration), anyString(),anyString(),eq(mockUri)).thenReturn(mockAuthReqBuilder);
+        AuthorizationRequest authRequest = pimAuthManager.makeAuthRequest(mockContext, mockPimoidcConfigration, mockBundle);
+        assertEquals(mockAuthorizationRequest, authRequest);
     }
 
     @Test

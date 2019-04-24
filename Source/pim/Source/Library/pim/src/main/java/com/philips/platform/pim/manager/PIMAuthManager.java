@@ -1,7 +1,6 @@
 package com.philips.platform.pim.manager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,21 +18,12 @@ import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
 import net.openid.appauth.TokenRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
@@ -47,7 +37,7 @@ public class PIMAuthManager {
         executorService = Executors.newSingleThreadExecutor();
     }
 
-    void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
+    protected void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration discoveryEndpoint : " + discoveryEndpoint);
 
@@ -71,7 +61,7 @@ public class PIMAuthManager {
         authService.performTokenRequest(tokenRequest, tokenResponseCallback);
     }
 
-    public Intent makeAuthRequest(Context pimFragmentContext, PIMOIDCConfigration pimoidcConfigration, Bundle mBundle) {
+    public AuthorizationRequest makeAuthRequest(Context pimFragmentContext, PIMOIDCConfigration pimoidcConfigration, Bundle mBundle) {
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(
                         pimoidcConfigration.getAuthorizationServiceConfiguration(), // the authorization service configuration
@@ -86,8 +76,7 @@ public class PIMAuthManager {
                 .setScope(getScopes(mBundle))
 //                .setAdditionalParameters(parameter)
                 .build();
-        AuthorizationService authService = new AuthorizationService(pimFragmentContext);
-        return authService.getAuthorizationRequestIntent(authRequest);
+        return authRequest;
     }
 
     private String getScopes(Bundle mBundle) {

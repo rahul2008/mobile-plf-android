@@ -1,24 +1,27 @@
 package com.philips.platform.pim.rest;
 
-import net.openid.appauth.AuthorizationServiceConfiguration;
+import net.openid.appauth.AuthState;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserProfileRequest implements PIMRequestInterface {
-    private AuthorizationServiceConfiguration mAuthorizationServiceConfiguration;
+    private AuthState mAuthState;
 
-    public UserProfileRequest(AuthorizationServiceConfiguration pAuthorizationServiceConfiguration) {
-        mAuthorizationServiceConfiguration = pAuthorizationServiceConfiguration;
+    public UserProfileRequest(AuthState mAuthState) {
+        this.mAuthState = mAuthState;
     }
 
     @Override
     public String getUrl() {
-        return mAuthorizationServiceConfiguration.discoveryDoc.getUserinfoEndpoint().toString();
+        return mAuthState.getLastAuthorizationResponse().request.configuration.discoveryDoc.getUserinfoEndpoint().toString();
     }
 
     @Override
     public Map<String, String> getHeader() {
-        return null;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + mAuthState.getAccessToken());
+        return headers;
     }
 
     @Override

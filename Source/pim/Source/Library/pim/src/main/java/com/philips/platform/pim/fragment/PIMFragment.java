@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +18,18 @@ import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMListener;
 import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
+import com.philips.platform.pim.manager.PIMUserManager;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
+import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 import net.openid.appauth.TokenResponse;
 
 import static android.app.Activity.RESULT_CANCELED;
+import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 public class PIMFragment extends Fragment implements PIMListener, AuthorizationService.TokenResponseCallback {
     private PIMLoginManager pimLoginManager;
@@ -44,7 +46,8 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PIMOIDCConfigration pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
+        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
+        pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
         mBundle = getArguments();
         pimLoginManager = new PIMLoginManager(pimoidcConfigration);
     }
@@ -83,13 +86,19 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
         tvPimReqStatus.setText("Login in progress...");
         // TODO:Addressed Deepthi, 15 Apr.. invoke login method after getting auth request obj as return type
         // To form auth request, inject whatever is needed, contetx etc, Then start activity from here
-        Intent oidcLoginIntent = pimLoginManager.oidcLogin(mContext,mBundle);
-        startActivityForResult(oidcLoginIntent, 100);
+        if(pimoidcConfigration != null) {
+            AuthorizationRequest authRequest = pimLoginManager.oidcLogin(mContext,mBundle);
+            AuthorizationService authService = new AuthorizationService(mContext);
+            Intent authReqIntent = authService.getAuthorizationRequestIntent(authRequest);
+            startActivityForResult(authReqIntent, 100);
+        }else {
+            mLoggingInterface.log(DEBUG,TAG,"OIDC Configuration not available");
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult : " + requestCode);
+        mLoggingInterface.log(DEBUG,TAG,"onActivityResult : " + requestCode);
         if (resultCode == RESULT_CANCELED) {
             pbPimRequestProgress.setVisibility(View.GONE);
             tvPimReqStatus.setVisibility(View.GONE);
@@ -98,15 +107,20 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
             tvPimReqStatus.setVisibility(View.VISIBLE);
             tvPimReqStatus.setText("Login in progress...");
 
+
             // TODO: Deepthi, 15 Apr below code is not needed, after checking alternative APIs
             AuthorizationResponse response = AuthorizationResponse.fromIntent(data);
             AuthorizationException exception = AuthorizationException.fromIntent(data);
+
+            if(exception != null || response != null) {
+                mAuthState = new AuthState(response, exception);
+            }
 
             if (response != null)
                 pimLoginManager.exchangeAuthorizationCode(mContext, response, this);
 
             if (exception != null) {
-                //log exception
+                mLoggingInterface.log(DEBUG,TAG,"onActivityResult : exception : " + exception.getMessage());
             }
         }
     }
@@ -115,8 +129,16 @@ public class PIMFragment extends Fragment implements PIMListener, AuthorizationS
     public void onTokenRequestCompleted(@Nullable TokenResponse response, @Nullable AuthorizationException ex) {
         pbPimRequestProgress.setVisibility(View.GONE);
         tvPimReqStatus.setVisibility(View.VISIBLE);
+        mAuthState.update(response,ex);
         if (response != null) {
+            String msg = "Access Token: \n" + mAuthState.getAccessToken()
+                    + "\n\nID Token: \n" + mAuthState.getIdToken()
+                    + "\n\nRefresh Token: \n" + mAuthState.getRefreshToken();
+            mLoggingInterface.log(DEBUG,TAG, msg);
             tvPimReqStatus.setText("Access Token : " + response.accessToken);
+            PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
+            pimUserManager.requestUserProfile(mAuthState);
+
         } else {
             tvPimReqStatus.setText(ex.errorDescription);
         }

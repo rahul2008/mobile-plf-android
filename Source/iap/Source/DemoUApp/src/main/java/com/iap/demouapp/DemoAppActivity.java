@@ -3,10 +3,8 @@ package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.google.gson.Gson;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -32,7 +29,6 @@ import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPMockInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -69,7 +65,7 @@ import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationUIEventListener, LogoutListener {
+        UserRegistrationUIEventListener, LogoutListener, IAPMockInterface {
 
     private final String TAG = DemoAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;

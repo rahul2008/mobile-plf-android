@@ -13,8 +13,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.integration.IAPMockInterface;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.philips.cdp.di.iap.integration.IAPMockInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
@@ -23,9 +23,6 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class NetworkController {
     protected Context context;
@@ -163,6 +160,10 @@ public class NetworkController {
 
     public void setIapSettings(IAPSettings iapSettings) {
         this.mIapSettings = iapSettings;
+    }
+
+    public void setmIapDependencies(IAPDependencies iapDependencies) {
+        this.mIapDependencies = iapDependencies;
     }
 
     boolean isMocked() {
