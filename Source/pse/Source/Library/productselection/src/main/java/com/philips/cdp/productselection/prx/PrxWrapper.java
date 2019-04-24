@@ -76,6 +76,7 @@ public class PrxWrapper {
                     listener.onSuccess(summaryModel);
                 } else
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
+                    listener.onFail("Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
             }
 
             @Override
@@ -111,6 +112,7 @@ public class PrxWrapper {
 
                 } else
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
+                    listener.onFail("Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
 
             }
 
@@ -168,11 +170,12 @@ public class PrxWrapper {
                 responseCtns.add(data.getCtn());
             }
         }
-        //log the errors
-
-        for(int i=0 ;i< ctnList.length;i++){
-            if(!responseCtns.contains(ctnList[i])){
-                ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + ctnList[i]);
+        //log the error if , we do not get information for all the ctns ,we asked for .
+        if(responseCtns.size() != ctnList.length) {
+            for (int i = 0; i < ctnList.length; i++) {
+                if (!responseCtns.contains(ctnList[i])) {
+                    ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + ctnList[i]);
+                }
             }
         }
         listener.onSuccess(summaryModels);
