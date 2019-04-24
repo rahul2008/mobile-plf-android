@@ -157,6 +157,7 @@ public class PIMAuthManagerTest extends TestCase {
         when(mockBundle.getSerializable(PIMConstants.PIM_KEY_CUSTOM_CLAIMS)).thenReturn(mockSerializable);
 
         whenNew(AuthorizationRequest.Builder.class).withArguments(eq(mockAuthorizationServiceConfiguration), anyString(),anyString(),eq(mockUri)).thenReturn(mockAuthReqBuilder);
+        when(mockAuthReqBuilder.setScope(anyString())).thenReturn(mockAuthReqBuilder);
         AuthorizationRequest authRequest = pimAuthManager.makeAuthRequest(mockContext, mockPimoidcConfigration, mockBundle);
         assertEquals(mockAuthorizationRequest, authRequest);
     }

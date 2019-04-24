@@ -1,7 +1,5 @@
 package com.philips.platform.pim.manager;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -38,29 +36,15 @@ public class PIMUserManager {
         pimRestClient.invokeRequest(userProfileRequest, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                String key = PIMSettingManager.getInstance().getKeyForStoringUserInfo(response);
-                if(key != null)
-                    saveUserProfileToSecureStorage(key,response);
-                else
-                    mLoggingInterface.log(DEBUG,TAG,"Key is null");
+                saveUserProfileAuthState(response, authState);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG,"error : "+error);
+                mLoggingInterface.log(DEBUG,TAG, "error : " + error.getMessage());
             }
         });
         //Store AuthState and fetch user profile then authstate
-    }
-
-    private void onError(String resprofileMap) {
-        Log.d(TAG,"resprofileMap"+resprofileMap);
-    }
-
-    private void onSuccess(String resprofileMap) {
-        //saveAuthStateIntoSecureStorage(apthState);
-
-        //TODO: set inmemory oidc user profile
     }
 
     public PIMOIDCUserProfile getOIDCUserProfile() {
@@ -71,13 +55,28 @@ public class PIMUserManager {
         return authState;
     }
 
-    private void saveUserProfileToSecureStorage(String key,String jsonUserProfile) {
-        boolean isStored = appInfraInterface.getSecureStorage().storeValueForKey(key, jsonUserProfile, new SecureStorageInterface.SecureStorageError());
-        mLoggingInterface.log(DEBUG,TAG,"UserProfile Stored to Secure storage : "+isStored);
+    private void saveUserProfileAuthState(String jsonUserProfileResponse, AuthState authState) {
+        storeUserProfileToSecureStorage(jsonUserProfileResponse);
+
+        String authStateKey = PIMSettingManager.getInstance().getKeyForStoringAuthState(jsonUserProfileResponse);
+        storeAuthStateToSecureStorage(authStateKey, authState);
     }
 
-    private void saveAuthStateIntoSecureStorage(AuthState authState) {
-        boolean isStored = appInfraInterface.getSecureStorage().storeValueForKey("AuthState", authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
-        mLoggingInterface.log(DEBUG,TAG,"AuthState Stored to Secure storage : "+isStored);
+    private void storeUserProfileToSecureStorage(String jsonUserProfileResponse) {
+        String userInfoKey = PIMSettingManager.getInstance().getKeyForStoringUserInfo(jsonUserProfileResponse);
+        if (userInfoKey != null) {
+            boolean isStored = appInfraInterface.getSecureStorage().storeValueForKey(userInfoKey, jsonUserProfileResponse, new SecureStorageInterface.SecureStorageError());
+            mLoggingInterface.log(DEBUG, TAG, "UserProfile Stored to Secure storage : " + isStored);
+        } else
+            mLoggingInterface.log(DEBUG, TAG, "Key is null");
+    }
+
+    private void storeAuthStateToSecureStorage(String authStateKey, AuthState authState) {
+        if (authStateKey != null) {
+            boolean isStored = appInfraInterface.getSecureStorage().storeValueForKey(authStateKey, authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
+            mLoggingInterface.log(DEBUG, TAG, "AuthState Stored to Secure storage : " + isStored);
+        } else
+            mLoggingInterface.log(DEBUG, TAG, "authStateKey is null");
+
     }
 }
