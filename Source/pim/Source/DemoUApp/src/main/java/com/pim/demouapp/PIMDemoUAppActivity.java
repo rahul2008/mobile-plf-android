@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.pim.integration.PIMLaunchInput;
+import com.philips.platform.pim.PIMInterface;
+import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.pim.utilities.PIMCustomClaims;
 import com.philips.platform.pim.utilities.PIMScopes;
 import com.philips.platform.pim.utilities.PIMStandardClaims;
@@ -20,9 +21,6 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
-
-import com.philips.platform.pim.integration.PIMInterface;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
