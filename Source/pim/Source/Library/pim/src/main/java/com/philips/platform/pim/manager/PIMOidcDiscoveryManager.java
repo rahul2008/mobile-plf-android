@@ -14,11 +14,11 @@ public  class PIMOidcDiscoveryManager implements PIMAuthorizationServiceConfigur
     private LoggingInterface mLoggingInterface;
 
 
-    public PIMOidcDiscoveryManager() {
+    PIMOidcDiscoveryManager() {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    public void downloadOidcUrls(String baseUrl) {
+    void downloadOidcUrls(String baseUrl) {
         mLoggingInterface.log(DEBUG,TAG,"downloadOidcUrls called with baseUrl : "+baseUrl);
         PIMAuthManager pimAuthManager = new PIMAuthManager();
         pimAuthManager.fetchAuthWellKnownConfiguration(baseUrl, this);

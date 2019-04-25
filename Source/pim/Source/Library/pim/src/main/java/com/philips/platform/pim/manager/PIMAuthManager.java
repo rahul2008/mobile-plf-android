@@ -29,16 +29,16 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
-public class PIMAuthManager {
+class PIMAuthManager {
     private final String TAG = PIMAuthManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
     private AuthState mAuthState;
 
-    public PIMAuthManager() {
+    PIMAuthManager() {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    protected void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
+    void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration discoveryEndpoint : " + discoveryEndpoint);
 
@@ -55,7 +55,7 @@ public class PIMAuthManager {
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
-    public Intent getAuthorizationRequestIntent(Context context,AuthorizationServiceConfiguration authServiceConfiguration,String clientID,Bundle bundle){
+    Intent getAuthorizationRequestIntent(Context context, AuthorizationServiceConfiguration authServiceConfiguration, String clientID, Bundle bundle){
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(
                         authServiceConfiguration,
@@ -80,7 +80,7 @@ public class PIMAuthManager {
         return authReqIntent;
     }
 
-    protected void performTokenRequest(Context context, Intent dataIntent, PIMLoginListener pimLoginListener) {
+    void performTokenRequest(Context context, Intent dataIntent, PIMLoginListener pimLoginListener) {
         AuthorizationResponse response = AuthorizationResponse.fromIntent(dataIntent);
         AuthorizationException exception = AuthorizationException.fromIntent(dataIntent);
 
@@ -117,7 +117,7 @@ public class PIMAuthManager {
         return stringBuilder.toString();
     }
 
-    public AuthState getAuthState() {
+    AuthState getAuthState() {
         return mAuthState;
     }
 }

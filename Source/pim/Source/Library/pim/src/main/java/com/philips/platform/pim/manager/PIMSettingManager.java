@@ -13,7 +13,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 
 
 public class PIMSettingManager {
-    public static final String COMPONENT_TAGS_ID = "pim";
+    private static final String COMPONENT_TAGS_ID = "pim";
     private static final PIMSettingManager instance = new PIMSettingManager();
     private AppInfraInterface mAppInfraInterface;
     private LoggingInterface mLoggingInterface;
@@ -29,7 +29,7 @@ public class PIMSettingManager {
 
 
     //TODO : We should make be null once AuthorizationServiceDiscovery stored in SecureStorage
-    public void setPimOidcConfigration(PIMOIDCConfigration pimOidcConfigration) {
+    void setPimOidcConfigration(PIMOIDCConfigration pimOidcConfigration) {
         mPimoidcConfigration = pimOidcConfigration;
     }
 
@@ -69,7 +69,7 @@ public class PIMSettingManager {
         this.pimUserManager = pimUserManager;
     }
 
-    public RestInterface getRestClient() {
+    RestInterface getRestClient() {
         return mRestInterface;
     }
 }

@@ -44,7 +44,7 @@ public class PIMUserManager {
     }
 
 
-    public void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
+    void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState);
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         pimRestClient.invokeRequest(userProfileRequest, new Response.Listener<String>() {
@@ -65,7 +65,7 @@ public class PIMUserManager {
         });
     }
 
-    public PIMOIDCUserProfile getOIDCUserProfile() {
+    PIMOIDCUserProfile getOIDCUserProfile() {
         return pimoidcUserProfile;
     }
 
@@ -137,17 +137,19 @@ public class PIMUserManager {
         return sharedPreferences.getString("com.pim.activeuuid", null);
     }
 
-    private boolean saveSubIDToPreference(String userInfoJson) {
+    private void saveSubIDToPreference(String userInfoJson) {
         String subID = getSubjectIDFromUserProfileJson(userInfoJson);
-        if (subID == null || context == null)
-            return false;
-        SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("com.pim.activeuuid", subID);
-        return editor.commit();
+        if (subID != null || context != null) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("com.pim.activeuuid", subID);
+            editor.apply();
+        }else{
+            mLoggingInterface.log(DEBUG, TAG, "SubID or context is null");
+        }
     }
 
-    public AuthState getAuthState() {
+    AuthState getAuthState() {
         return authState;
     }
 }
