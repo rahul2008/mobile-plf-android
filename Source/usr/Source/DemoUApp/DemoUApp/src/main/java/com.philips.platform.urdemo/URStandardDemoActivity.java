@@ -92,6 +92,9 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private Label btn_registration_with_hsdp_status_lbl;
 
+    URInterface urInterface;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Config.setDebugLogging(true);
@@ -116,7 +119,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
         btn_registration_with_hsdp_status_lbl = findViewById(R.id.btn_registration_with_hsdp_status_lbl);
-
+        urInterface = new URInterface();
         final Button mBtnHsdpRefreshAccessToken = findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(this);
@@ -195,7 +198,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 }
             }
         });
-        updateSkipHsdpStatus(true);
+        updateSkipHsdpStatus(false);
 
         mSkipHSDPSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -277,7 +280,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     editor.putString("reg_environment", restoredText);
                     if (mCheckBox.isChecked()) {
                         editor.putString("reg_hsdp_environment", restoredText).apply();
+                        InitHsdp init = new InitHsdp();
+                        init.initHSDP(RegUtility.getConfiguration(restoredText),getApplicationContext(),URDemouAppInterface.appInfra);
                         mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
+                        urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
+
                     } else {
                         editor.remove("reg_hsdp_environment").commit();
                         mBtnHsdpRefreshAccessToken.setVisibility(GONE);
@@ -285,6 +292,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
                     if (mSkipHSDPSwitch.isChecked()) {
                         editor.putBoolean("reg_delay_hsdp_configuration", true).apply();
+                        InitHsdp init = new InitHsdp();
+                        init.initHSDP(RegUtility.getConfiguration(restoredText),getApplicationContext(),URDemouAppInterface.appInfra);
+                        urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
+
                     } else {
                         editor.remove("reg_delay_hsdp_configuration").apply();
                     }
@@ -423,7 +434,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         URLaunchInput urLaunchInput;
         CoppaExtension coppaExtension;
         ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-        URInterface urInterface = new URInterface();
         int i = v.getId();
         if (i == R.id.btn_registration_with_account) {
             RLog.d(TAG, "Logout");

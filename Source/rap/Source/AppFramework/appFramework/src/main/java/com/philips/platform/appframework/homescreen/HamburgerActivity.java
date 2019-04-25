@@ -278,7 +278,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     public void setUserNameAndLogoutText() {
         User user = ((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this);
-        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
+        if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN && user.getUserLoginState() != UserLoginState.PENDING_HSDP_LOGIN) {
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
             AppIdentityInterface.AppState appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
