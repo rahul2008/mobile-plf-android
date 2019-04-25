@@ -26,7 +26,6 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -78,7 +77,7 @@ public class PIMConfigManagerTest extends TestCase {
 
     /**
      * Can't verify downloadOidcUrls() from here,as instance of PIMOidcDiscoveryManager
-     * and PIMAuthManager are created locally onSuccess
+     * and PIMAuthManager are created locally onLoginSuccess
      */
     @Test
     public void verifyGetServicesWithCountryPreference_OnSuccess() {
@@ -91,7 +90,7 @@ public class PIMConfigManagerTest extends TestCase {
         when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
         when(mockServiceDiscoveryService.getConfigUrls()).thenReturn(new String());
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onSuccess : getConfigUrls : " + mockServiceDiscoveryService.getConfigUrls());
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onLoginSuccess : getConfigUrls : " + mockServiceDiscoveryService.getConfigUrls());
     }
 
     @Test
@@ -104,12 +103,12 @@ public class PIMConfigManagerTest extends TestCase {
         Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
         when(mockMap.get(any())).thenReturn(null);
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onSuccess : serviceDiscovery response is null");
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onLoginSuccess : serviceDiscovery response is null");
     }
 
     /**
      * Can't verify downloadOidcUrls() from here,as instance of PIMOidcDiscoveryManager
-     * and PIMAuthManager are created locally onSuccess
+     * and PIMAuthManager are created locally onLoginSuccess
      */
     @Test
     public void verifyGetServicesWithCountryPreference_OnSuccess_ConfigURLIsNull() {
@@ -123,7 +122,7 @@ public class PIMConfigManagerTest extends TestCase {
         when(mockServiceDiscoveryService.getConfigUrls()).thenReturn(null);
 
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onSuccess : No service url found for Issuer service id");
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onLoginSuccess : No service url found for Issuer service id");
     }
 
     @Test

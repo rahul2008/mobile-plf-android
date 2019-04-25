@@ -9,9 +9,6 @@ import com.philips.platform.pim.BuildConfig;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 
@@ -74,33 +71,5 @@ public class PIMSettingManager {
 
     public RestInterface getRestClient() {
         return mRestInterface;
-    }
-
-    public String getKeyForStoringUserInfo(String userInfoJson) {
-        String subID = getSubjectIDFromUserProfileJson(userInfoJson);
-        if(subID == null)
-            return null;
-        else
-            return "UID_" + subID + "_UserInfo";
-    }
-
-    public String getKeyForStoringAuthState(String userInfoJson){
-        String subID = getSubjectIDFromUserProfileJson(userInfoJson);
-        if(subID == null)
-            return null;
-        else
-            return "UID_" + subID + "_AuthState";
-    }
-
-    private String getSubjectIDFromUserProfileJson(String userProfileJson){
-        if (userProfileJson == null)
-            return null;
-        try {
-            JSONObject jsonObject = new JSONObject(userProfileJson);
-            return jsonObject.getString("sub");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

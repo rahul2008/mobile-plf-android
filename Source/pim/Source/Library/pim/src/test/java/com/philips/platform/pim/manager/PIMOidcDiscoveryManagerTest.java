@@ -72,7 +72,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         AuthorizationServiceConfiguration mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
 
         mockServiceConfigurationListener.onSuccess(mockAuthorizationServiceConfiguration);
-        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onSuccess. authorizationServiceConfiguration : "+mockAuthorizationServiceConfiguration);
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onLoginSuccess. authorizationServiceConfiguration : "+mockAuthorizationServiceConfiguration);
     }
 
     @Test
@@ -83,7 +83,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         mockServiceConfigurationListener = captorListener.getValue();
         String errorMessage = "errorMessage";
         mockServiceConfigurationListener.onError(errorMessage);
-        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onError :  "+errorMessage);
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onLoginFailed :  "+errorMessage);
     }
 
     @After

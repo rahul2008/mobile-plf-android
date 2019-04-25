@@ -26,13 +26,13 @@ public  class PIMOidcDiscoveryManager implements PIMAuthorizationServiceConfigur
 
     @Override
     public void onSuccess(AuthorizationServiceConfiguration authorizationServiceConfiguration) {
-        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onSuccess. authorizationServiceConfiguration : "+authorizationServiceConfiguration);
+        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onLoginSuccess. authorizationServiceConfiguration : "+authorizationServiceConfiguration);
         PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(authorizationServiceConfiguration, PIMSettingManager.getInstance().getAppInfraInterface());
         PIMSettingManager.getInstance().setPimOidcConfigration(pimoidcConfigration);
     }
 
     @Override
     public void onError(String errorMessage) {
-        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onError :  "+errorMessage);
+        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onLoginFailed :  "+errorMessage);
     }
 }

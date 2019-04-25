@@ -25,7 +25,8 @@ public class PIMConfigManager {
         mLoggingInterface.log(DEBUG, TAG, "init called");
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(PIM_BASEURL);
-        downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
+        if (mPimUserManager.getAuthState() == null && mPimUserManager.getOIDCUserProfile() == null)
+            downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
     }
 
     private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface, ArrayList<String> listOfServiceId) {
@@ -34,29 +35,28 @@ public class PIMConfigManager {
             serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
                 public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                    mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess");
+                    mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess");
 
                     ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
 
                     if (serviceDiscoveryService == null) {
-                        mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : serviceDiscovery response is null");
+                        mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : serviceDiscovery response is null");
                     } else {
                         String configUrls = serviceDiscoveryService.getConfigUrls();
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
-                            mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : getConfigUrls : " + configUrls);
+                            mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : getConfigUrls : " + configUrls);
                             // TODO: Addressed:Deepthi 15 Apr Populate config if already downloaded from usermanager's authstate
-                            //if (mPimUserManager.getAuthState() == null && mPimUserManager.getOIDCUserProfile() == null)
-                                pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
+                            pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
                         } else {
-                            mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onSuccess : No service url found for Issuer service id");
+                            mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : No service url found for Issuer service id");
                         }
                     }
                 }
 
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-                    mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onError. ERRORVALUES: " + error + " Message: " + message);
+                    mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginFailed. ERRORVALUES: " + error + " Message: " + message);
                 }
             }, null);
         }).start();

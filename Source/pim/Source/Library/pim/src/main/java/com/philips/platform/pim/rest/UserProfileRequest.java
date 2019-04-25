@@ -31,6 +31,6 @@ public class UserProfileRequest implements PIMRequestInterface {
 
     @Override
     public int getMethodType() {
-        return 0;
+       return PIMRequestInterface.METHOD_TYPE_GET;
     }
 }
