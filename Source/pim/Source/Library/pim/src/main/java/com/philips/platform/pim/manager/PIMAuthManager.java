@@ -56,6 +56,9 @@ class PIMAuthManager {
     }
 
     Intent getAuthorizationRequestIntent(Context context, AuthorizationServiceConfiguration authServiceConfiguration, String clientID, Bundle bundle){
+        if(context == null || authServiceConfiguration == null || clientID == null)
+            return null;
+
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(
                         authServiceConfiguration,
@@ -81,13 +84,17 @@ class PIMAuthManager {
     }
 
     void performTokenRequest(Context context, Intent dataIntent, PIMLoginListener pimLoginListener) {
+        if(context == null || dataIntent == null){
+            if(pimLoginListener != null)
+                pimLoginListener.onLoginFailed(0);
+            mLoggingInterface.log(DEBUG, TAG, "Token request failed. context :"+context+" dataIntent :"+dataIntent);
+        }
         AuthorizationResponse response = AuthorizationResponse.fromIntent(dataIntent);
         AuthorizationException exception = AuthorizationException.fromIntent(dataIntent);
 
         if (exception != null || response != null) {
             mAuthState = new AuthState(response, exception);
         }
-        mLoggingInterface.log(DEBUG, TAG, "performTokenRequest for code exchange to get Access token");
         AuthorizationService authService = new AuthorizationService(context);
 
         TokenRequest tokenRequest = response.createTokenExchangeRequest();

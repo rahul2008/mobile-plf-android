@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
 import com.philips.platform.pim.rest.PIMRestClient;
@@ -28,16 +29,21 @@ public class PIMUserManager {
     private final String TAG = PIMUserManager.class.getSimpleName();
     private AuthState authState;
 
+    // TODO: Deepthi Implement getuserlogged in state API.(Done)
+
     public void init(Context context, AppInfraInterface appInfraInterface) {
         //get Secure Storage user profile
         this.context = context;
         this.appInfraInterface = appInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        //TODO : Deepthi apr 15 fetch authstate from secure storage, auth state fetching is not clear.
+        //TODO : Deepthi apr 15 fetch authstate from secure storage, auth state fetching is not clear. (Done)
         String subid = getSubIDFromPref();
         if (subid != null) {
+            //TODO : Deepthi auth state is not required, only fetch from SS. (Done)
             authState = getAuthStateFromSecureStorage(subid);
-            pimoidcUserProfile = new PIMOIDCUserProfile(appInfraInterface.getSecureStorage(), authState);
+            String userProfileJson = getUserProfileFromSecureStorage(subid);
+            //TODO : Deepthi create profile using stored json obj and auth state to fill access token(Done)
+            pimoidcUserProfile = new PIMOIDCUserProfile(userProfileJson, authState);
         }
 
         mLoggingInterface.log(DEBUG, TAG, "User  manager initialized");
@@ -79,6 +85,11 @@ public class PIMUserManager {
             mLoggingInterface.log(DEBUG, TAG, "Key is null");
     }
 
+    private String getUserProfileFromSecureStorage(String subID){
+        String userInfoKey = "UUID_" + subID + "_AuthState";
+        return appInfraInterface.getSecureStorage().fetchValueForKey(userInfoKey,new SecureStorageInterface.SecureStorageError());
+    }
+
     private void storeAuthStateToSecureStorage(String jsonUserProfileResponse, AuthState authState) {
         String authStateKey = getKeyForStoringAuthState(jsonUserProfileResponse);
         if (authStateKey != null) {
@@ -89,14 +100,14 @@ public class PIMUserManager {
     }
 
     private AuthState getAuthStateFromSecureStorage(String subID) {
-        String authstatekey = "UUID_" + subID + "_UserInfo";
+        String authstatekey = "UUID_" + subID + "_AuthState";
         String authStateString = appInfraInterface.getSecureStorage().fetchValueForKey(authstatekey, new SecureStorageInterface.SecureStorageError());
         AuthState authState = null;
         if (authStateString != null) {
             try {
                 authState = AuthState.jsonDeserialize(authStateString);
             } catch (JSONException e) {
-                e.printStackTrace();
+               mLoggingInterface.log(DEBUG,TAG,"exception in getAuthStateFromSecureStorage : "+e.getMessage());
             }
         }
         return authState;
@@ -130,6 +141,7 @@ public class PIMUserManager {
         return null;
     }
 
+    // Here Sub id means subject id which is equivalent to UUID
     private String getSubIDFromPref() {
         if (context == null)
             return null;
@@ -149,7 +161,15 @@ public class PIMUserManager {
         }
     }
 
-    AuthState getAuthState() {
-        return authState;
+    public UserLoggedInState getUserLoggedInState(){
+        if(authState != null && pimoidcUserProfile != null)
+            return UserLoggedInState.USER_LOGGED_IN;
+        else
+            return UserLoggedInState.USER_NOT_LOGGED_IN;
+    }
+
+    //TODO: Shashi, added for getting PIMOIDCUserProfile in Data Impl class.Need to Confirm with Deepthi
+    public PIMOIDCUserProfile getUserProfile(){
+        return pimoidcUserProfile;
     }
 }

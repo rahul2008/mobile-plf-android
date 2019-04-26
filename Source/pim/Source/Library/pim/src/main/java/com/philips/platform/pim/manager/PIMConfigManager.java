@@ -3,6 +3,7 @@ package com.philips.platform.pim.manager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,8 +26,12 @@ public class PIMConfigManager {
         mLoggingInterface.log(DEBUG, TAG, "init called");
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(PIM_BASEURL);
-        if (mPimUserManager.getAuthState() == null && mPimUserManager.getOIDCUserProfile() == null)
+        // TODO: Deepthi This condition is equal to user not logged in case, so use getuserloggedinState API impln (Done)
+        if (mPimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN)
             downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
+        else {
+            mLoggingInterface.log(DEBUG,TAG,"downloadSDServiceURLs skipped as user is logged in. ");
+        }
     }
 
     private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface, ArrayList<String> listOfServiceId) {
@@ -46,7 +51,7 @@ public class PIMConfigManager {
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
                             mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : getConfigUrls : " + configUrls);
-                            // TODO: Addressed:Deepthi 15 Apr Populate config if already downloaded from usermanager's authstate
+                            // TODO: Addressed:Deepthi 15 Apr Populate config if already downloaded from usermanager's authstate (Done)
                             pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
                         } else {
                             mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : No service url found for Issuer service id");

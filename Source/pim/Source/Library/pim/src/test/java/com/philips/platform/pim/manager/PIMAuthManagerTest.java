@@ -1,6 +1,7 @@
 package com.philips.platform.pim.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
+import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.utilities.PIMConstants;
 
 import junit.framework.TestCase;
@@ -20,7 +22,6 @@ import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 import net.openid.appauth.TokenRequest;
-import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
 import org.junit.Test;
@@ -37,7 +38,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.Serializable;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -78,6 +78,8 @@ public class PIMAuthManagerTest extends TestCase {
     @Mock
     private AuthorizationResponse mockAuthorizationResponse;
     @Mock
+    private AuthorizationException mockAuthorizationException;
+    @Mock
     private Context mockContext;
     @Mock
     private TokenRequest mockTokenRequest;
@@ -87,6 +89,12 @@ public class PIMAuthManagerTest extends TestCase {
     private Bundle mockBundle;
     @Mock
     private Uri mockUri;
+    @Mock
+    private Intent mockIntent;
+    @Mock
+    private PIMLoginListener mockPIMLoginListener;
+    @Captor
+    ArgumentCaptor<PIMLoginListener> captorLoginListener;
 
 
     private String baseurl = "https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
@@ -106,7 +114,7 @@ public class PIMAuthManagerTest extends TestCase {
         when(mockPimoidcConfigration.getAuthorizationServiceConfiguration()).thenReturn(mockAuthorizationServiceConfiguration);
         mockStatic(Uri.class);
         mockUri = mock(Uri.class);
-        when(Uri.class, "parse", ArgumentMatchers.anyString()).thenReturn(mockUri);
+        when(Uri.class, "parse", anyString()).thenReturn(mockUri);
 
         whenNew(AuthorizationService.class).withArguments(mockContext).thenReturn(mockAuthorizationService);
 
@@ -143,7 +151,7 @@ public class PIMAuthManagerTest extends TestCase {
     }
 
     @Test
-    public void shouldPerformAuthRequest() throws Exception {
+    public void shouldGetAuthorizationRequestIntent() throws Exception {
         PIMFragment mockPimFragment = mock(PIMFragment.class);
 
         when(mockPimFragment.getContext()).thenReturn(mockContext);
@@ -153,22 +161,44 @@ public class PIMAuthManagerTest extends TestCase {
         AuthorizationRequest.Builder mockAuthReqBuilder = mock(AuthorizationRequest.Builder.class);
         AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
         when(mockAuthReqBuilder.build()).thenReturn(mockAuthorizationRequest);
+
         Serializable mockSerializable = mock(Serializable.class);
         when(mockBundle.getSerializable(PIMConstants.PIM_KEY_CUSTOM_CLAIMS)).thenReturn(mockSerializable);
 
         whenNew(AuthorizationRequest.Builder.class).withArguments(eq(mockAuthorizationServiceConfiguration), anyString(),anyString(),eq(mockUri)).thenReturn(mockAuthReqBuilder);
         when(mockAuthReqBuilder.setScope(anyString())).thenReturn(mockAuthReqBuilder);
-        //AuthorizationRequest authRequest = pimAuthManager.makeAuthRequest(mockContext, mockPimoidcConfigration, mockBundle);
-        //assertEquals(mockAuthorizationRequest, authRequest);
+        when(mockAuthorizationService.getAuthorizationRequestIntent(mockAuthorizationRequest)).thenReturn(mockIntent);
+
+        Intent intent = pimAuthManager.getAuthorizationRequestIntent(mockContext,mockAuthorizationServiceConfiguration,new String(),mockBundle);
+        assertEquals(mockIntent, intent);
     }
 
     @Test
-    public void shouldPerformTokenRequest() {
-        when(mockAuthorizationResponse.createTokenExchangeRequest()).thenReturn(mockTokenRequest);
-        pimAuthManager.performTokenRequest(mockContext, mockAuthorizationResponse, mockTokenResponseCallback);
-        verify(mockAuthorizationService).performTokenRequest(any(TokenRequest.class), captorTokenResponse.capture());
-        mockTokenResponseCallback = captorTokenResponse.getValue();
-        mockTokenResponseCallback.onTokenRequestCompleted(any(TokenResponse.class), any(AuthorizationException.class));
+    public void getAuthorizationRequestIntent_ContextNull() {
+        Intent intent = pimAuthManager.getAuthorizationRequestIntent(null,mockAuthorizationServiceConfiguration,new String(),mockBundle);
+        assertEquals(null,intent);
+    }
+
+    @Test
+    public void getAuthorizationRequestIntent_AuthServiceConfigurationNull() {
+        Intent intent = pimAuthManager.getAuthorizationRequestIntent(mockContext,null,new String(),mockBundle);
+        assertEquals(null,intent);
+    }
+
+    @Test
+    public void getAuthorizationRequestIntent_ClientIdNull() {
+        Intent intent = pimAuthManager.getAuthorizationRequestIntent(mockContext,mockAuthorizationServiceConfiguration,null,mockBundle);
+        assertEquals(null,intent);
+    }
+
+    @Test
+    public void shouldPerformTokenRequest(){
+        AuthorizationException authorizationException = AuthorizationException.fromIntent(mockIntent);
+        AuthorizationException mock = mock(AuthorizationException.class);
+
+        when(AuthorizationResponse.fromIntent(mockIntent)).thenReturn(mockAuthorizationResponse);
+        when(AuthorizationException.fromIntent(mockIntent)).thenReturn(mock);
+        pimAuthManager.performTokenRequest(mockContext,mockIntent,mockPIMLoginListener);
     }
 
     public void tearDown() throws Exception {

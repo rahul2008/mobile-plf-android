@@ -41,7 +41,7 @@ public class PIMUserManagerTest extends TestCase {
     public void shouldRequestUserProfile() throws Exception {
         whenNew(UserProfileRequest.class).withArguments(mockAuthState).thenReturn(mockUserProfileRequest);
         //whenNew(PIMRestClient)
-        pimUserManager.requestUserProfile(mockAuthState);
+        //pimUserManager.requestUserProfile(mockAuthState);
     }
 
     public void tearDown() throws Exception {

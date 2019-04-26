@@ -35,15 +35,14 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
         }else if(mPimoidcConfigration == null) {
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : PIMOIDCConfigration is null.");
             mPimLoginListener.onLoginFailed(0);
-        }else if(mPimoidcConfigration.getAuthorizationServiceConfiguration() == null) {
-            mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : AuthorizationServiceConfiguration is null.");
-            mPimLoginListener.onLoginFailed(0);
-        }else if(mPimoidcConfigration.getClientId() == null) {
-            mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : Client ID is null.");
-            mPimLoginListener.onLoginFailed(0);
         }else{
             Intent authReqIntent = mPimAuthManager.getAuthorizationRequestIntent(context, mPimoidcConfigration.getAuthorizationServiceConfiguration(), mPimoidcConfigration.getClientId(), bundle);
-            ((Activity) context).startActivityForResult(authReqIntent, 100);
+            if(authReqIntent != null)
+                ((Activity) context).startActivityForResult(authReqIntent, 100);
+            else {
+                mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : authReqIntent is null.");
+                mPimLoginListener.onLoginFailed(0);
+            }
         }
     }
 

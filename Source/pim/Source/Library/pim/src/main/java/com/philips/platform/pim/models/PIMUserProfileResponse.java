@@ -4,7 +4,7 @@ import com.philips.platform.pim.utilities.PIMCustomClaims;
 
 import java.util.Map;
 
-// TODO: Deepthi Rename this class as PIMUserProfileResponse
+// TODO: Deepthi Rename this class as PIMUserProfileResponse (Done)
 public class PIMUserProfileResponse {
     String given_name;
     String family_name;

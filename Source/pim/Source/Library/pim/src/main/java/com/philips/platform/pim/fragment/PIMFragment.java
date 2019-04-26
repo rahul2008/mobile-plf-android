@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
+import com.philips.platform.pim.manager.PIMUserManager;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
@@ -45,8 +47,14 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pim, container, false);
         pimLoginProgreassBar = (ProgressBar) view.findViewById(R.id.pbPimRequest);
-        // TODO: Deepthi, check if user is logged in before launching web page
-        startAuthorization(mBundle);
+        // TODO: Deepthi, check if user is logged in before launching web page. (Done)
+        PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
+        if(pimUserManager != null && pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN){
+            mLoggingInterface.log(DEBUG,TAG,"OIDC Login skipped, as user is already logged in");
+        }else {
+            pimLoginProgreassBar.setVisibility(View.VISIBLE);
+            pimLoginManager.oidcLogin(mContext,mBundle,this);
+        }
         return view;
     }
 
@@ -64,11 +72,6 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
     @Override
     public void onLoginFailed(int errorCode) {
         pimLoginProgreassBar.setVisibility(View.GONE);
-    }
-
-    private void startAuthorization(Bundle mBundle) {
-            pimLoginProgreassBar.setVisibility(View.VISIBLE);
-            pimLoginManager.oidcLogin(mContext,mBundle,this);
     }
 
     @Override
