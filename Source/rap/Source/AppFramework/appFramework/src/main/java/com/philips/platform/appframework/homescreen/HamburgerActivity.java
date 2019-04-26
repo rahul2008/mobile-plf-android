@@ -573,7 +573,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         sideBar.closeDrawer(navigationView);
         switch (view.getId()) {
             case R.id.hamburger_menu_header_container:
-                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserObject(this).getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
                     selectedIndex = Constants.HAMBURGER_MY_ACCOUNT_CLICK;
                     hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);

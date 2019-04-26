@@ -233,6 +233,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } else {
             mCheckBox.setChecked(false);
         }
+
+        if (getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).getBoolean("reg_delay_hsdp_configuration", false)) {
+            mSkipHSDPSwitch.setChecked(true);
+        }
         updateHSDPUuidSwitch(false);
 
         hsdpUuidUpload.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -293,11 +297,12 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     if (mSkipHSDPSwitch.isChecked()) {
                         editor.putBoolean("reg_delay_hsdp_configuration", true).apply();
                         InitHsdp init = new InitHsdp();
-                        init.initHSDP(RegUtility.getConfiguration(restoredText),getApplicationContext(),URDemouAppInterface.appInfra);
+                        init.initHSDP(RegUtility.getConfiguration(restoredText), getApplicationContext(), URDemouAppInterface.appInfra);
                         urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
 
                     } else {
                         editor.remove("reg_delay_hsdp_configuration").apply();
+
                     }
                     updateSkipHsdpStatus(mSkipHSDPSwitch.isChecked());
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
