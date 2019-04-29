@@ -220,8 +220,8 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
                 getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         countMeButton.setOnClickListener(this);
         mayBeLaterButton.setOnClickListener(this);
-        handleUiState();
         mUser = new User(mContext);
+        handleUiState();
     }
 
     private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
@@ -295,17 +295,9 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             hideNotificationBarView();
-            boolean janrainIntialized = UserRegistrationInitializer.getInstance().isJanrainIntialized();
-            if (janrainIntialized) {
-                RLog.i(TAG, "isJanrainIntialized : " + janrainIntialized);
-                errorRegError.hideError();
-                countMeButton.setEnabled(true);
-                mayBeLaterButton.setEnabled(true);
-            } else {
-                countMeButton.setEnabled(false);
-                mayBeLaterButton.setEnabled(false);
-                // showNotificationBarOnNetworkNotAvailable();
-            }
+            errorRegError.hideError();
+            countMeButton.setEnabled(true);
+            mayBeLaterButton.setEnabled(true);
         } else {
             showNotificationBarOnNetworkNotAvailable();
             countMeButton.setEnabled(false);

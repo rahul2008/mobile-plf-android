@@ -50,7 +50,7 @@ public class MarketingOptin extends BaseState implements UserRegistrationUIEvent
 
     }
 
-    public RegistrationContentConfiguration getRegistrationContentConfiguration() {
+    RegistrationContentConfiguration getRegistrationContentConfiguration() {
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         ABTestClientInterface abTesting = getAppInfra().getAbTesting();
         String testValue = abTesting.getTestValue(AB_TEST_OPTIN_IMAGE_KEY, context.getString(R.string.Ra_default_value), ABTestClientInterface.UPDATETYPE.APP_UPDATE);

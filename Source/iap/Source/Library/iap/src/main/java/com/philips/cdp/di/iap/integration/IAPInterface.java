@@ -50,7 +50,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
         mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
-        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+        if (mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
             ConnectivityManager connectivityManager
                     = (ConnectivityManager) mIAPSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
@@ -70,7 +70,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     @Override
     public void getProductCartCount(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
-        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN)
+        if (mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal())
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "productCartCount");
         else throw new RuntimeException("User is not logged in.");
     }
@@ -83,7 +83,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
-        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+        if (mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "completeProductList");
         } else throw new RuntimeException("User is not logged in.");
     }
@@ -97,7 +97,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     @Override
     public boolean isCartVisible(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
-        if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+        if (mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
             return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
         } else throw new RuntimeException("User is not logged in.");
     }
