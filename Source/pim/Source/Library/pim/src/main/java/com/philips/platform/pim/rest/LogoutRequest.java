@@ -1,24 +1,33 @@
 package com.philips.platform.pim.rest;
 
-import net.openid.appauth.AuthorizationServiceConfiguration;
+import com.android.volley.Request;
+import com.philips.platform.pim.manager.PIMSettingManager;
 
+import net.openid.appauth.AuthState;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class LogoutRequest implements PIMRequestInterface {
-    private AuthorizationServiceConfiguration mAuthorizationServiceConfiguration;
+    private AuthState mAuthState;
 
-    public LogoutRequest(AuthorizationServiceConfiguration pAuthorizationServiceConfiguration) {
-        mAuthorizationServiceConfiguration = pAuthorizationServiceConfiguration;
+    public LogoutRequest(AuthState authState) {
+        mAuthState = authState;
     }
 
     @Override
     public String getUrl() {
-        return mAuthorizationServiceConfiguration.discoveryDoc.getIssuer() + "/token/revoke";
+        return mAuthState.getLastAuthorizationResponse().request.configuration.discoveryDoc.getIssuer() + "/token/revoke";
     }
 
     @Override
     public Map<String, String> getHeader() {
-        return null;
+        Map<String, String> headers = new HashMap<>();
+        headers.put("token", mAuthState.getAccessToken());
+        headers.put("token_type_hint", "access_token");
+        headers.put("client_id", PIMSettingManager.getInstance().getPimOidcConfigration().getClientId());
+        headers.put("client_secret", mAuthState.getClientSecret());
+        return headers;
     }
 
     @Override
@@ -28,7 +37,7 @@ public class LogoutRequest implements PIMRequestInterface {
 
     @Override
     public int getMethodType() {
-        return 0;
+        return Request.Method.POST;
     }
 
 }

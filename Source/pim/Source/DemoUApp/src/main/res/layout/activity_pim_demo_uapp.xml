@@ -30,6 +30,16 @@
         android:layout_marginTop="10dp"
         android:text="Launch As Fragment" />
 
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="6dp"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_login_fragment"
+        android:layout_marginTop="10dp"
+        android:text="Logout" />
+
     <FrameLayout
         android:id="@+id/pimDemoU_mainFragmentContainer"
         android:layout_width="fill_parent"

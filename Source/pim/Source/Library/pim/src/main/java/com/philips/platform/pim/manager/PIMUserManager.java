@@ -3,14 +3,14 @@ package com.philips.platform.pim.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
+import com.philips.platform.pim.rest.LogoutRequest;
 import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.UserProfileRequest;
 
@@ -22,13 +22,16 @@ import org.json.JSONObject;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 public class PIMUserManager {
+    public static final String COM_PIM_ACTIVEUUID = "com.pim.activeuuid";
     private PIMOIDCUserProfile pimoidcUserProfile;
     private Context context;
     private AppInfraInterface appInfraInterface;
     private LoggingInterface mLoggingInterface;
     private final String TAG = PIMUserManager.class.getSimpleName();
     private AuthState authState;
-
+    private PIMRestClient pimRestClient;
+    private String userInfoKey;
+    private String authStateKey;
     // TODO: Deepthi Implement getuserlogged in state API.(Done)
 
     public void init(Context context, AppInfraInterface appInfraInterface) {
@@ -45,29 +48,22 @@ public class PIMUserManager {
             //TODO : Deepthi create profile using stored json obj and auth state to fill access token(Done)
             pimoidcUserProfile = new PIMOIDCUserProfile(userProfileJson, authState);
         }
-
+        pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         mLoggingInterface.log(DEBUG, TAG, "User  manager initialized");
     }
 
 
     void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState);
-        PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
-        pimRestClient.invokeRequest(userProfileRequest, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                authState = oidcAuthState;
-                saveSubIDToPreference(response);
-                userProfileRequestListener.onUserProfileDownloadSuccess();
-                storeUserProfileToSecureStorage(response);
-                storeAuthStateToSecureStorage(response, oidcAuthState);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                userProfileRequestListener.onUserProfileDownloadFailed(0);
-                mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
-            }
+        pimRestClient.invokeRequest(userProfileRequest, response -> {
+            authState = oidcAuthState;
+            saveSubIDToPreference(response);
+            userProfileRequestListener.onUserProfileDownloadSuccess();
+            storeUserProfileToSecureStorage(response);
+            storeAuthStateToSecureStorage(response, oidcAuthState);
+        }, error -> {
+            userProfileRequestListener.onUserProfileDownloadFailed(0);
+            mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
         });
     }
 
@@ -85,9 +81,9 @@ public class PIMUserManager {
             mLoggingInterface.log(DEBUG, TAG, "Key is null");
     }
 
-    private String getUserProfileFromSecureStorage(String subID){
+    private String getUserProfileFromSecureStorage(String subID) {
         String userInfoKey = "UUID_" + subID + "_AuthState";
-        return appInfraInterface.getSecureStorage().fetchValueForKey(userInfoKey,new SecureStorageInterface.SecureStorageError());
+        return appInfraInterface.getSecureStorage().fetchValueForKey(userInfoKey, new SecureStorageInterface.SecureStorageError());
     }
 
     private void storeAuthStateToSecureStorage(String jsonUserProfileResponse, AuthState authState) {
@@ -107,7 +103,7 @@ public class PIMUserManager {
             try {
                 authState = AuthState.jsonDeserialize(authStateString);
             } catch (JSONException e) {
-               mLoggingInterface.log(DEBUG,TAG,"exception in getAuthStateFromSecureStorage : "+e.getMessage());
+                mLoggingInterface.log(DEBUG, TAG, "exception in getAuthStateFromSecureStorage : " + e.getMessage());
             }
         }
         return authState;
@@ -117,16 +113,20 @@ public class PIMUserManager {
         String subID = getSubjectIDFromUserProfileJson(userInfoJson);
         if (subID == null)
             return null;
-        else
-            return "UUID_" + subID + "_UserInfo";
+        else {
+            userInfoKey = "UUID_" + subID + "_UserInfo";
+            return userInfoKey;
+        }
     }
 
     private String getKeyForStoringAuthState(String userInfoJson) {
         String subID = getSubjectIDFromUserProfileJson(userInfoJson);
         if (subID == null)
             return null;
-        else
-            return "UUID_" + subID + "_AuthState";
+        else {
+            authStateKey = "UUID_" + subID + "_AuthState";
+            return authStateKey;
+        }
     }
 
     private String getSubjectIDFromUserProfileJson(String userProfileJson) {
@@ -156,20 +156,43 @@ public class PIMUserManager {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("com.pim.activeuuid", subID);
             editor.apply();
-        }else{
+        } else {
             mLoggingInterface.log(DEBUG, TAG, "SubID or context is null");
         }
     }
 
-    public UserLoggedInState getUserLoggedInState(){
-        if(authState != null && pimoidcUserProfile != null)
+    private void removeSubIDFromPref() {
+        if (context == null)
+            return;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(COM_PIM_ACTIVEUUID);
+        editor.apply();
+    }
+
+    public UserLoggedInState getUserLoggedInState() {
+        if (authState != null && pimoidcUserProfile != null)
             return UserLoggedInState.USER_LOGGED_IN;
         else
             return UserLoggedInState.USER_NOT_LOGGED_IN;
     }
 
     //TODO: Shashi, added for getting PIMOIDCUserProfile in Data Impl class.Need to Confirm with Deepthi
-    public PIMOIDCUserProfile getUserProfile(){
+    public PIMOIDCUserProfile getUserProfile() {
         return pimoidcUserProfile;
+    }
+
+
+    public void logout(LogoutListener logoutListener) {
+        LogoutRequest logoutRequest = new LogoutRequest(authState);
+        pimRestClient.invokeRequest(logoutRequest, response -> {
+            logoutListener.onLogoutSuccess();
+            appInfraInterface.getSecureStorage().removeValueForKey(userInfoKey);
+            appInfraInterface.getSecureStorage().removeValueForKey(authStateKey);
+            removeSubIDFromPref();
+            authState = null;
+        }, error -> {
+            logoutListener.onLogoutFailure(0, "error message");
+        });
     }
 }

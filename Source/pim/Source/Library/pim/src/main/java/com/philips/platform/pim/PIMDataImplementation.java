@@ -19,7 +19,7 @@ public class PIMDataImplementation implements PIMUserDataInterface {
     private Context mContext;
 
     //TODO: Do we need context here?
-    public PIMDataImplementation(Context context,PIMUserManager pimUserManager) {
+    public PIMDataImplementation(Context context, PIMUserManager pimUserManager) {
         mContext = context;
         this.pimUserManager = pimUserManager;
     }
@@ -125,7 +125,7 @@ public class PIMDataImplementation implements PIMUserDataInterface {
 
     @Override
     public UserLoggedInState getUserLoggedInState() {
-        if(pimUserManager != null)
+        if (pimUserManager != null)
             return pimUserManager.getUserLoggedInState();
         return UserLoggedInState.USER_NOT_LOGGED_IN;
     }
@@ -150,7 +150,7 @@ public class PIMDataImplementation implements PIMUserDataInterface {
 
     @Override
     public void logOut(LogoutListener logoutListener) {
-
+        pimUserManager.logout(logoutListener);
     }
 
     @Override

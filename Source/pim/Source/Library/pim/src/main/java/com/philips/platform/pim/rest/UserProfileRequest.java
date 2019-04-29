@@ -1,5 +1,7 @@
 package com.philips.platform.pim.rest;
 
+import com.android.volley.Request;
+
 import net.openid.appauth.AuthState;
 
 import java.util.HashMap;
@@ -31,6 +33,6 @@ public class UserProfileRequest implements PIMRequestInterface {
 
     @Override
     public int getMethodType() {
-       return PIMRequestInterface.METHOD_TYPE_GET;
+        return Request.Method.GET;
     }
 }

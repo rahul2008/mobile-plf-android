@@ -4,8 +4,12 @@ package com.pim.demouapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.pim.utilities.PIMCustomClaims;
@@ -23,11 +27,12 @@ import com.philips.platform.uid.view.widget.Label;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, LogoutListener {
+    private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    Button btnLoginActivity, btnLoginFragment;
+    Button btnLoginActivity, btnLoginFragment, btnLogout;
     PIMInterface pimInterface;
 
     @Override
@@ -42,6 +47,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnLoginActivity.setOnClickListener(this);
         btnLoginFragment = findViewById(R.id.btn_login_fragment);
         btnLoginFragment.setOnClickListener(this);
+        btnLogout = findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(this);
         PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(PIMDemoUAppInterface.mAppInfra);
         PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
         pimInterface = new PIMInterface();
@@ -71,8 +78,18 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         } else if (v == btnLoginFragment) {
             btnLoginActivity.setVisibility(View.GONE);
             btnLoginFragment.setVisibility(View.GONE);
+            btnLogout.setVisibility(View.GONE);
             FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
             pimInterface.launch(fragmentLauncher, launchInput);
+        } else if (v == btnLogout) {
+            if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                btnLoginActivity.setVisibility(View.GONE);
+                btnLoginFragment.setVisibility(View.GONE);
+                btnLogout.setVisibility(View.GONE);
+                pimInterface.getUserDataInterface().logOut(this);
+            } else {
+                Toast.makeText(this, "User is not loged-in, Please login!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -94,5 +111,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         pimScopes.add(PIMScopes.EMAIL);
         pimScopes.add(PIMScopes.PHONE);
         return pimScopes;
+    }
+
+    @Override
+    public void onLogoutSuccess() {
+        Log.d(TAG, "PIM Logout success");
+    }
+
+    @Override
+    public void onLogoutFailure(int errorCode, String errorMessage) {
+        Log.d(TAG, "PIM Logout failed due to : " + errorMessage);
     }
 }
