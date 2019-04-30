@@ -43,7 +43,6 @@ public class PIMConfigManager {
                     mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess");
 
                     ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
-
                     if (serviceDiscoveryService == null) {
                         mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : serviceDiscovery response is null");
                     } else {

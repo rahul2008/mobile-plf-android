@@ -45,7 +45,7 @@ public class PIMInterface implements UappInterface {
         PIMSettingManager.getInstance().init(uappDependencies);
         PIMUserManager pimUserManager = new PIMUserManager();
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
-        pimUserManager.init(context,uappDependencies.getAppInfra());
+        pimUserManager.init(context, uappDependencies.getAppInfra());
         PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);
         pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
 
@@ -77,8 +77,7 @@ public class PIMInterface implements UappInterface {
     private void launchAsFragment(FragmentLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
         PIMFragment pimFragment = new PIMFragment();
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList(PIMConstants.PIM_KEY_SCOPES, pimLaunchInput.getPimScopes());
-        bundle.putSerializable(PIMConstants.PIM_KEY_CUSTOM_CLAIMS, pimLaunchInput.getPimCustomClaims());
+        bundle.putString(PIMConstants.PIM_KEY_CUSTOM_CLAIMS, pimLaunchInput.getCustomClaims());
         pimFragment.setArguments(bundle);
         addFragment(uiLauncher, pimFragment);
     }

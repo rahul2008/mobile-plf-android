@@ -3,14 +3,13 @@ package com.philips.platform.pim.manager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 import com.philips.platform.pim.listeners.PIMLoginListener;
-import com.philips.platform.pim.utilities.PIMConstants;
+import com.philips.platform.pim.utilities.PIMScopes;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
@@ -22,9 +21,7 @@ import net.openid.appauth.ResponseTypeValues;
 import net.openid.appauth.TokenRequest;
 import net.openid.appauth.TokenResponse;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
@@ -55,8 +52,8 @@ class PIMAuthManager {
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
-    Intent getAuthorizationRequestIntent(Context context, AuthorizationServiceConfiguration authServiceConfiguration, String clientID, Bundle bundle){
-        if(context == null || authServiceConfiguration == null || clientID == null)
+    Intent getAuthorizationRequestIntent(Context context, AuthorizationServiceConfiguration authServiceConfiguration, String clientID, Map parameter) {
+        if (context == null || authServiceConfiguration == null || clientID == null)
             return null;
 
         AuthorizationRequest.Builder authRequestBuilder =
@@ -65,18 +62,10 @@ class PIMAuthManager {
                         clientID,
                         ResponseTypeValues.CODE,
                         Uri.parse(context.getString(R.string.redirectURL)));
-        Map<String, String> parameter = new HashMap<>();
 
-        if(bundle != null) {
-            Serializable serializable = bundle.getSerializable(PIMConstants.PIM_KEY_CUSTOM_CLAIMS);
-            String customClaims = "id_token =" + serializable.toString();
-            parameter.put("claims", customClaims);
-        }else {
-            mLoggingInterface.log(DEBUG,TAG,"Custom clain not set. Reason : bundle is null");
-        }
         AuthorizationRequest authRequest = authRequestBuilder
-                .setScope(getScopes(bundle))
-//                .setAdditionalParameters(parameter)
+                .setScope(getScopes())
+                .setAdditionalParameters(parameter)
                 .build();
         AuthorizationService authService = new AuthorizationService(context);
         Intent authReqIntent = authService.getAuthorizationRequestIntent(authRequest);
@@ -84,10 +73,10 @@ class PIMAuthManager {
     }
 
     void performTokenRequest(Context context, Intent dataIntent, PIMLoginListener pimLoginListener) {
-        if(context == null || dataIntent == null){
-            if(pimLoginListener != null)
+        if (context == null || dataIntent == null) {
+            if (pimLoginListener != null)
                 pimLoginListener.onLoginFailed(0);
-            mLoggingInterface.log(DEBUG, TAG, "Token request failed. context :"+context+" dataIntent :"+dataIntent);
+            mLoggingInterface.log(DEBUG, TAG, "Token request failed. context :" + context + " dataIntent :" + dataIntent);
             return;
         }
         AuthorizationResponse response = AuthorizationResponse.fromIntent(dataIntent);
@@ -103,12 +92,12 @@ class PIMAuthManager {
             @Override
             public void onTokenRequestCompleted(@Nullable TokenResponse response, @Nullable AuthorizationException ex) {
                 if (response != null) {
-                    mAuthState.update(response,ex);
-                    mLoggingInterface.log(DEBUG, TAG, "onTokenRequestCompleted => access token : "+response.accessToken);
+                    mAuthState.update(response, ex);
+                    mLoggingInterface.log(DEBUG, TAG, "onTokenRequestCompleted => access token : " + response.accessToken);
                     pimLoginListener.onLoginSuccess();
                 }
 
-                if(ex != null) {
+                if (ex != null) {
                     mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage());
                     pimLoginListener.onLoginFailed(ex.code);
                 }
@@ -116,14 +105,20 @@ class PIMAuthManager {
         });
     }
 
-    private String getScopes(Bundle mBundle) {
-        ArrayList<String> scopes = mBundle.getStringArrayList(PIMConstants.PIM_KEY_SCOPES);
+    private String getScopes() {
+        ArrayList<String> scopes = new ArrayList<>();
+        scopes.add(PIMScopes.PHONE);
+        scopes.add(PIMScopes.EMAIL);
+        scopes.add(PIMScopes.PROFILE);
+        scopes.add(PIMScopes.ADDRESS);
+        scopes.add(PIMScopes.OPENID);
         StringBuilder stringBuilder = new StringBuilder();
         for (String scope : scopes) {
             stringBuilder = stringBuilder.append(scope + " ");
         }
         return stringBuilder.toString();
     }
+
 
     AuthState getAuthState() {
         return mAuthState;

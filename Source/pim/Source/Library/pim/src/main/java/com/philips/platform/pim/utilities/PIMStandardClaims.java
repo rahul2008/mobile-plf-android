@@ -2,6 +2,7 @@ package com.philips.platform.pim.utilities;
 
 /**
  * Internal to OIDC
+ * TODO : Need to be remove as not required to Set
  */
 public class PIMStandardClaims {
     public static final String EMAIL = "email";

@@ -25,7 +25,6 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, LogoutListener {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
@@ -69,9 +68,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         PIMLaunchInput launchInput = new PIMLaunchInput();
         ArrayList<String> pimScopes = setScopes();
-        HashMap<String, String> pimCustomClaims = setCustomClaims();
-        launchInput.setPimScopes(pimScopes);
-        launchInput.setPimCustomClaims(pimCustomClaims);
+        ArrayList<String> pimCustomClaims = setCustomClaims();
+        launchInput.setCustomClaims(pimCustomClaims);
         if (v == btnLoginActivity) {
             ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
             pimInterface.launch(activityLauncher, launchInput);
@@ -93,12 +91,12 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private HashMap<String, String> setCustomClaims() {
-        HashMap<String, String> pimCustomClaims = new HashMap<>();
-        pimCustomClaims.put(PIMCustomClaims.RECEIVE_MARKETING_EMAIL, null);
-        pimCustomClaims.put(PIMCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP, null);
-        pimCustomClaims.put(PIMCustomClaims.SOCIAL_PROFILES, null);
-        pimCustomClaims.put(PIMCustomClaims.UUID, null);
+    private ArrayList<String> setCustomClaims() {
+        ArrayList<String> pimCustomClaims = new ArrayList<>();
+        pimCustomClaims.add(PIMCustomClaims.RECEIVE_MARKETING_EMAIL);
+        pimCustomClaims.add(PIMCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP);
+        pimCustomClaims.add(PIMCustomClaims.SOCIAL_PROFILES);
+        pimCustomClaims.add(PIMCustomClaims.UUID);
         return pimCustomClaims;
     }
 
@@ -108,7 +106,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         pimScopes.add(PIMScopes.OPENID);
         pimScopes.add(PIMScopes.ADDRESS);
         pimScopes.add(PIMScopes.PROFILE);
-        pimScopes.add(PIMScopes.EMAIL);
         pimScopes.add(PIMScopes.PHONE);
         return pimScopes;
     }

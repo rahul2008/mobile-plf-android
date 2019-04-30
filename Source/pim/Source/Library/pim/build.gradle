@@ -76,6 +76,7 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
     }
+    implementation deps.adobemobilelib
     implementation deps.constraintlayout
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
