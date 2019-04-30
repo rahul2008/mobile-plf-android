@@ -29,7 +29,7 @@
   "appinfra": {
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
-    "appidentity.appState": "DEVELOPMENT",
+    "appidentity.appState": "STAGING",
     "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
     "appUpdate.serviceID": "appinfra.testing.version",
     "appUpdate.autoRefresh": true,
@@ -92,7 +92,7 @@
       "cloudLogEnabled":false,
       "cloudBatchLimit":5,
       "consoleLogEnabled": true,
-      "componentLevelLogEnabled": false,
+      "componentLevelLogEnabled": true,
       "componentIds": [
         "usr",
         "ail:",
@@ -131,4 +131,5 @@
     "DEVELOPMENT": "urn:cdp|datareceiver_dev",
     "TEST": "urn:cdp|datareceiver_dev"
   }
+
 }

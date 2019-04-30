@@ -181,7 +181,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
             homeContract.wechatAppNotInstalled();
             return false;
         }
-        if (!mWeChatApi.isWXAppSupportAPI()) {
+        if (mWeChatApi.getWXAppSupportAPI() == 0) {
             homeContract.wechatAppNotSupported();
             return false;
         }

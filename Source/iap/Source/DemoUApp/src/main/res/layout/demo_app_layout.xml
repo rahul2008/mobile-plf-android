@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -81,6 +82,27 @@
             android:text="Set" />
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/ll_mocking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_enter_proposition_id"
+        android:layout_margin="@dimen/border16_margin_left_right"
+        >
+
+
+        <ToggleButton
+            android:id="@+id/toggleMock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Mock ON"
+            android:textOff="Mock OFF"
+            android:textSize="25sp"
+             />
+
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/product_list"
@@ -153,5 +175,6 @@
         android:layout_marginTop="2dp"
         android:text="@string/categorized_shop_now_ignore_retailer"
         android:visibility="gone" />
+
 
 </RelativeLayout>

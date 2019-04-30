@@ -153,9 +153,13 @@ public class HsdpUser {
                             responseCode +
                             " message : " + message);
                     ThreadUtils.postInMainThread(mContext, () ->
+                    {
+                        if (responseCode != null) {
                             logoutHandler.onLogoutFailure(Integer.
                                             parseInt(responseCode),
-                                    new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(responseCode))));
+                                    new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(responseCode)));
+                        }
+                    });
                 });
             }
         }
@@ -232,8 +236,14 @@ public class HsdpUser {
                                     + responseCode +
                                     " message : " + message);
                             ThreadUtils.postInMainThread(mContext, () ->
+                            {
+                                if (responseCode != null) {
                                     refreshHandler.onRefreshLoginSessionFailedWithError(Integer.
-                                            parseInt(responseCode)));
+                                            parseInt(responseCode));
+                                } else {
+                                    refreshHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.NETWORK_ERROR);
+                                }
+                            });
                         });
                     }
                 }
@@ -387,8 +397,18 @@ public class HsdpUser {
                         RLog.d(TAG, "Social onHsdpLoginFailure :  responseCode : "
                                 + responseCode +
                                 " message : " + message);
-                        handleSocialConnectionFailed(loginHandler, Integer.parseInt(
-                                responseCode), new URError(mContext).getLocalizedError(ErrorType.HSDP, Integer.parseInt(responseCode)), message);
+                        if (responseCode != null) {
+                            try {
+                                int errorCode = Integer.parseInt(responseCode);
+                                handleSocialConnectionFailed(loginHandler, errorCode, new URError(mContext).getLocalizedError(ErrorType.HSDP, errorCode), message);
+                            } catch (NumberFormatException e) {
+                                handleNetworkFailure(loginHandler);
+                                RLog.d(TAG, "onHsdpLoginFailure :  NumberFormatException : " + e.getMessage());
+                            }
+                        } else {
+                            handleNetworkFailure(loginHandler);
+                            RLog.d(TAG, "onHsdpLoginFailure :  responseCode : null");
+                        }
                     });
                 }
             }).start();
