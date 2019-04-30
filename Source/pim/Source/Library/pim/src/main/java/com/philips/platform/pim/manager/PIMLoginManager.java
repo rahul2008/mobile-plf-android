@@ -13,7 +13,9 @@ import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
-//TODO : initilize instance and call login methods from Fragment
+//TODO : initilize instance and call login methods from Fragment(Done)
+//TODO: Shashi,Handle backend issues in test case(Such as invalid client id)
+
 public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownloadListener {
     private String TAG = PIMLoginManager.class.getSimpleName();
     private PIMOIDCConfigration mPimoidcConfigration;
