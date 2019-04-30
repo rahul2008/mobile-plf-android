@@ -9,9 +9,10 @@ import android.content.Context;
 
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,21 +35,6 @@ public interface UserDataInterface extends Serializable {
      */
     HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception;
 
-    /**
-     * Get the janrain UUID
-     *
-     * @return returns the UUID
-     * @since 2018.1.0
-     */
-    String getJanrainUUID();
-
-    /**
-     * Get the janrain access token
-     *
-     * @return returns the access token
-     * @since 2018.1.0
-     */
-    String getJanrainAccessToken();
 
     /**
      * Get the HSDP access token
@@ -56,6 +42,7 @@ public interface UserDataInterface extends Serializable {
      * @return returns the HSDP access token
      * @since 2018.1.0
      */
+    @Deprecated
     String getHSDPAccessToken();
 
     /**
@@ -64,18 +51,8 @@ public interface UserDataInterface extends Serializable {
      * @return returns the HSDP UUID
      * @since 2018.1.0
      */
-    String getHSDPUUID();
-
-    /**
-     * Check if the user is logged in
-     *
-     * @param context Context
-     * @return returns true if user is logged in
-     * @deprecated Deprecated since 1804.0, with getUserLoginState()
-     */
     @Deprecated
-    boolean isUserLoggedIn(Context context);
-
+    String getHSDPUUID();
 
     /**
      * {@code getUserSignInState} method checks a user is logged in state
@@ -91,6 +68,7 @@ public interface UserDataInterface extends Serializable {
      * @param hsdpAuthenticationListener
      * @since 1804.0
      */
+    @Deprecated
     void authorizeHsdp(HSDPAuthenticationListener hsdpAuthenticationListener);
 
     /**
@@ -99,7 +77,8 @@ public interface UserDataInterface extends Serializable {
      * @param refreshListener listener for user refresh
      * @since 2018.1.0
      */
-    void refreshLoginSession(RefreshListener refreshListener);
+    void refreshSession(RefreshSessionListener refreshSessionListener);
+
 
     /**
      * log out the user
@@ -107,7 +86,7 @@ public interface UserDataInterface extends Serializable {
      * @param logoutListener listener for logout
      * @since 2018.1.0
      */
-    void logOut(LogoutListener logoutListener);
+    void logoutSession(LogoutSessionListener logoutSessionListener);
 
     /**
      * Refetch the details of the user from server
@@ -115,33 +94,12 @@ public interface UserDataInterface extends Serializable {
      * @param userDetailsListener listener for refetching the details
      * @since 2018.1.0
      */
-    void refetch(UserDetailsListener userDetailsListener);
+    void refetchUserDetails(RefetchUserDetailsListener userDetailsListener);
 
-    /**
-     * Update the marketing consent of the user
-     *
-     * @param userDetailsListener listener for updating marketing consent
-     * @since 2018.1.0
-     */
-    void updateMarketingOptInConsent(UserDetailsListener userDetailsListener);
 
-    /**
-     * Register logout listener
-     *
-     * @param logoutListener Instance of LogoutListener
-     *                       Need to notify on logout success or failure
-     * @since 1902
-     * TODO : need to discuss for PIM
-     */
-    void registerLogOutListener(LogoutListener logoutListener);
+    void addUserDataInterfaceListener(UserDataListener listener);
 
-    /**
-     * Unregister logout listener
-     *
-     * @param logoutListener instance of LogoutListener which is previously registered
-     * @since 1902
-     * TODO : need to discuss for PIM
-     */
-    void unregisterLogOutListener(LogoutListener logoutListener);
+    void removeUserDataInterfaceListener(UserDataListener listener);
+
 
 }

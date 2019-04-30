@@ -1,5 +1,6 @@
 package com.philips.platform.pif.DataInterface.USR.listeners;
 
+@Deprecated
 public interface HSDPAuthenticationListener {
 
     /**
