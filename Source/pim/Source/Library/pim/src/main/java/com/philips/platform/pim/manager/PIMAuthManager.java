@@ -88,6 +88,7 @@ class PIMAuthManager {
             if(pimLoginListener != null)
                 pimLoginListener.onLoginFailed(0);
             mLoggingInterface.log(DEBUG, TAG, "Token request failed. context :"+context+" dataIntent :"+dataIntent);
+            return;
         }
         AuthorizationResponse response = AuthorizationResponse.fromIntent(dataIntent);
         AuthorizationException exception = AuthorizationException.fromIntent(dataIntent);

@@ -1,47 +1,46 @@
 package com.philips.platform.pim.manager;
 
-import com.philips.platform.pim.rest.PIMRestClient;
-import com.philips.platform.pim.rest.UserProfileRequest;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.Uri;
+
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 
 import junit.framework.TestCase;
 
 import net.openid.appauth.AuthState;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.powermock.api.mockito.PowerMockito.whenNew;
-
+//TODO: Shashi, Add test cases
 @RunWith(PowerMockRunner.class)
 public class PIMUserManagerTest extends TestCase {
 
     private PIMUserManager pimUserManager;
     @Mock
+    Context mockContext;
+    @Mock
+    AppInfraInterface mockAppInfraInterface;
+    @Mock
+    PIMSettingManager mockPimSettingManager;
+    @Mock
+    LoggingInterface mockLoggingInterface;
+    @Mock
+    SharedPreferences mockSharedPreferences;
+    @Mock
     AuthState mockAuthState;
     @Mock
-    UserProfileRequest mockUserProfileRequest;
+    PIMUserProfileDownloadListener mockUserProfileDownloadListener;
     @Mock
-    PIMRestClient mockPimRestClient;
+    Uri mockUri;
+
 
     public void setUp() throws Exception {
         super.setUp();
-        MockitoAnnotations.initMocks(this);
-        pimUserManager = new PIMUserManager();
-    }
-
-    @Test
-    public void testInit(){
-
-    }
-
-    @Test
-    public void shouldRequestUserProfile() throws Exception {
-        whenNew(UserProfileRequest.class).withArguments(mockAuthState).thenReturn(mockUserProfileRequest);
-        //whenNew(PIMRestClient)
-        //pimUserManager.requestUserProfile(mockAuthState);
     }
 
     public void tearDown() throws Exception {

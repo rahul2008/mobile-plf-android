@@ -42,8 +42,6 @@ public class PIMInterface implements UappInterface {
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
 
-        long startrtime = System.currentTimeMillis();
-
         PIMSettingManager.getInstance().init(uappDependencies);
         PIMUserManager pimUserManager = new PIMUserManager();
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);

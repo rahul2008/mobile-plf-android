@@ -15,6 +15,7 @@ import com.philips.platform.pim.utilities.PIMConstants;
 
 import junit.framework.TestCase;
 
+import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationResponse;
@@ -22,6 +23,7 @@ import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 import net.openid.appauth.TokenRequest;
+import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
 import org.junit.Test;
@@ -46,7 +48,8 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({Uri.class, AuthorizationServiceConfiguration.class, PIMSettingManager.class, PIMAuthManager.class, AuthorizationResponse.class,AuthorizationRequest.Builder.class,AuthorizationRequest.class})
+@PrepareForTest({Uri.class, AuthorizationServiceConfiguration.class, PIMSettingManager.class, PIMAuthManager.class, AuthorizationResponse.class,AuthorizationRequest.Builder.class,
+        AuthorizationRequest.class,AuthorizationException.class})
 @RunWith(PowerMockRunner.class)
 public class PIMAuthManagerTest extends TestCase {
 
@@ -75,10 +78,6 @@ public class PIMAuthManagerTest extends TestCase {
     private ArgumentCaptor<AuthorizationService.TokenResponseCallback> captorTokenResponse;
     @Mock
     private AuthorizationService mockAuthorizationService;
-    @Mock
-    private AuthorizationResponse mockAuthorizationResponse;
-    @Mock
-    private AuthorizationException mockAuthorizationException;
     @Mock
     private Context mockContext;
     @Mock
@@ -192,13 +191,34 @@ public class PIMAuthManagerTest extends TestCase {
     }
 
     @Test
-    public void shouldPerformTokenRequest(){
-        AuthorizationException authorizationException = AuthorizationException.fromIntent(mockIntent);
-        AuthorizationException mock = mock(AuthorizationException.class);
+    public void shouldPerformTokenRequest() throws Exception {
+        mockStatic(AuthorizationResponse.class);
+        mockStatic(AuthorizationException.class);
+        AuthorizationResponse mockAuthResponse = mock(AuthorizationResponse.class);
+        AuthorizationException mockAuthException = mock(AuthorizationException.class);
+        AuthState mockAuthState = mock(AuthState.class);
+        when(AuthorizationResponse.fromIntent(mockIntent)).thenReturn(mockAuthResponse);
+        when(AuthorizationException.fromIntent(mockIntent)).thenReturn(mockAuthException);
+        whenNew(AuthState.class).withArguments(mockAuthResponse,mockAuthException).thenReturn(mockAuthState);
+        when(mockAuthResponse.createTokenExchangeRequest()).thenReturn(mockTokenRequest);
 
-        when(AuthorizationResponse.fromIntent(mockIntent)).thenReturn(mockAuthorizationResponse);
-        when(AuthorizationException.fromIntent(mockIntent)).thenReturn(mock);
         pimAuthManager.performTokenRequest(mockContext,mockIntent,mockPIMLoginListener);
+
+        verify(mockAuthorizationService).performTokenRequest(eq(mockTokenRequest),captorTokenResponse.capture());
+        mockTokenResponseCallback = captorTokenResponse.getValue();
+
+        TokenResponse mockTokenResponse = mock(TokenResponse.class);
+        mockTokenResponseCallback.onTokenRequestCompleted(mockTokenResponse,null);
+        verify(mockPIMLoginListener).onLoginSuccess();
+
+        mockTokenResponseCallback.onTokenRequestCompleted(null,mockAuthException);
+        verify(mockPIMLoginListener).onLoginFailed(0);
+    }
+
+    @Test
+    public void performTokenRequestNullCheck(){
+        pimAuthManager.performTokenRequest(null,null,mockPIMLoginListener);
+        verify(mockPIMLoginListener).onLoginFailed(0);
     }
 
     public void tearDown() throws Exception {
