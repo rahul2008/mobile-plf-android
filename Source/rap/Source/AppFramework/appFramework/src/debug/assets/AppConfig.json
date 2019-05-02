@@ -95,7 +95,7 @@
       "componentLevelLogEnabled": true,
       "componentIds": [
         "usr",
-        "ail:",
+        "ail",
         "uit",
         "cml",
         "iap",
