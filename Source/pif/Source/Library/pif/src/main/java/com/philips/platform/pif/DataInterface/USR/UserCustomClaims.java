@@ -1,6 +1,6 @@
-package com.philips.platform.pim.utilities;
+package com.philips.platform.pif.DataInterface.USR;
 
-public class PIMCustomClaims {
+public class UserCustomClaims {
     public static final String UUID ="uuid";
     public static final String SOCIAL_PROFILES = "social_profiles";
     public static final String RECEIVE_MARKETING_EMAIL = "consent_email_marketing.given";

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
+import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMLoginListener;
@@ -91,8 +92,12 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
     private Map<String, String> createAdditionalParameterForLogin(Bundle bundle) {
         Map<String, String> parameter = new HashMap<>();
         parameter.put("claims", bundle.getString(PIMConstants.PIM_KEY_CUSTOM_CLAIMS));
-        parameter.put("cookie_consent", Config.getPrivacyStatus().toString());
-        parameter.put("adobe_mc", Analytics.getTrackingIdentifier());
+        parameter.put("cookie_consent", String.valueOf(Config.getPrivacyStatus() == MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN));
+        if (Analytics.getTrackingIdentifier() != null) {
+            parameter.put("adobe_mc", Analytics.getTrackingIdentifier());
+        } else {
+            mLoggingInterface.log(DEBUG, TAG, "ADBMonbile tracking Identifier is not set.");
+        }
         parameter.put("ui_locales", "en_US");
         return parameter;
     }

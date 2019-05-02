@@ -11,30 +11,27 @@ import java.util.HashMap;
 
 
 public class PIMLaunchInput extends UappLaunchInput {
+    public static final String USERINFO = "userinfo";
     private String TAG = PIMLaunchInput.class.getSimpleName();
 
     private ArrayList<String> pimCustomClaims;
 
     String getCustomClaims() {
-        return getCustomClaim(pimCustomClaims);
+        if (pimCustomClaims == null) return null;
+        HashMap<String, String> claimMap = new HashMap<>();
+        for (String claim : pimCustomClaims) {
+            claimMap.put(claim, "null");
+        }
+        HashMap<String, HashMap<String, String>> customClaim = new HashMap<>();
+        customClaim.put(USERINFO, claimMap);
+        Gson prettyGson = new GsonBuilder().create();
+        String prettyJson = prettyGson.toJson(customClaim);
+        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "PIM_KEY_CUSTOM_CLAIMS: HashMap string" + prettyJson);
+        return prettyJson;
     }
 
     public void setCustomClaims(ArrayList<String> pimCustomClaims) {
         this.pimCustomClaims = pimCustomClaims;
     }
 
-    private String getCustomClaim(ArrayList<String> pimCustomClaims) {
-//        ArrayList<String> claims = mBundle.getStringArrayList(PIMConstants.PIM_KEY_CUSTOM_CLAIMS);
-
-        HashMap<String, String> claimMap = new HashMap<>();
-        for (String claim : pimCustomClaims) {
-            claimMap.put(claim, "null");
-        }
-        HashMap<String, HashMap<String, String>> customClaim = new HashMap<>();
-        customClaim.put("userinfo", claimMap);
-        Gson prettyGson = new GsonBuilder().create();
-        String prettyJson = prettyGson.toJson(customClaim);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "PIM_KEY_CUSTOM_CLAIMS: HashMap string" + prettyJson);
-        return prettyJson;
-    }
 }

@@ -8,12 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.philips.platform.pif.DataInterface.USR.UserCustomClaims;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
-import com.philips.platform.pim.utilities.PIMCustomClaims;
-import com.philips.platform.pim.utilities.PIMScopes;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -67,7 +66,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         PIMLaunchInput launchInput = new PIMLaunchInput();
-        ArrayList<String> pimScopes = setScopes();
         ArrayList<String> pimCustomClaims = setCustomClaims();
         launchInput.setCustomClaims(pimCustomClaims);
         if (v == btnLoginActivity) {
@@ -93,21 +91,11 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     private ArrayList<String> setCustomClaims() {
         ArrayList<String> pimCustomClaims = new ArrayList<>();
-        pimCustomClaims.add(PIMCustomClaims.RECEIVE_MARKETING_EMAIL);
-        pimCustomClaims.add(PIMCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP);
-        pimCustomClaims.add(PIMCustomClaims.SOCIAL_PROFILES);
-        pimCustomClaims.add(PIMCustomClaims.UUID);
+        pimCustomClaims.add(UserCustomClaims.RECEIVE_MARKETING_EMAIL);
+        pimCustomClaims.add(UserCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP);
+        pimCustomClaims.add(UserCustomClaims.SOCIAL_PROFILES);
+        pimCustomClaims.add(UserCustomClaims.UUID);
         return pimCustomClaims;
-    }
-
-    private ArrayList<String> setScopes() {
-        ArrayList<String> pimScopes = new ArrayList<>();
-        pimScopes.add(PIMScopes.EMAIL);
-        pimScopes.add(PIMScopes.OPENID);
-        pimScopes.add(PIMScopes.ADDRESS);
-        pimScopes.add(PIMScopes.PROFILE);
-        pimScopes.add(PIMScopes.PHONE);
-        return pimScopes;
     }
 
     @Override

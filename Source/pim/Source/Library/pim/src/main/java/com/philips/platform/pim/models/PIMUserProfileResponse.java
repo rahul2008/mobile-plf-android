@@ -1,22 +1,23 @@
 package com.philips.platform.pim.models;
 
-import com.philips.platform.pim.utilities.PIMCustomClaims;
+
+import com.philips.platform.pif.DataInterface.USR.UserCustomClaims;
 
 import java.util.Map;
 
 // TODO: Deepthi Rename this class as PIMUserProfileResponse (Done)
 public class PIMUserProfileResponse {
-    String given_name;
-    String family_name;
-    String email;
-    String gender;
-    String phone_number;
-    String birthday;
-    String email_verified;
-    String phone_number_verified;
-    Map<String, String> address;
-    String sub;
-    PIMCustomClaims userClaims;
+    private String given_name;
+    private String family_name;
+    private String email;
+    private String gender;
+    private String phone_number;
+    private String birthday;
+    private String email_verified;
+    private String phone_number_verified;
+    private Map<String, String> address;
+    private String sub;
+    private UserCustomClaims userClaims;
 
     public String getGiven_name() {
         return given_name;
@@ -58,7 +59,7 @@ public class PIMUserProfileResponse {
         return sub;
     }
 
-    public PIMCustomClaims getUserClaims() {
+    public UserCustomClaims getUserClaims() {
         return userClaims;
     }
 }
