@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
@@ -41,7 +43,6 @@ import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_VOUCHER_CODE;
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
-        OnSetDeliveryModeListener,AlertListener,VoucherController.VoucherListener {
+        OnSetDeliveryModeListener,AlertListener,VoucherController.VoucherListener, IAPCartListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
@@ -67,6 +68,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private TextView mNumberOfProducts;
     private String voucherCode;
     VoucherController mVoucherController;
+    boolean isDiscountFlowEnabled = true;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -159,19 +161,14 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
-            createCustomProgressBar(mParentLayout, BIG);
-            mAddressController.getRegions();
 
-
-            //Track checkout action
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
-
-            if (mAdapter!=null && mAdapter.isFreeDelivery()) {
-                //Action to track free delivery
-                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
+            if(isDiscountFlowEnabled){
+                createCustomProgressBar(mParentLayout, BIG);
+                mShoppingCartAPI.getProductCartCount(getActivity(),this);
+            }else{
+                getRegionAndTag();
             }
+
         }
         if (v == mContinuesBtn) {
             if (!isNetworkConnected()) return;
@@ -180,6 +177,20 @@ public class ShoppingCartFragment extends InAppBaseFragment
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
+        }
+    }
+
+    private void getRegionAndTag() {
+        createCustomProgressBar(mParentLayout, BIG);
+        mAddressController.getRegions();
+
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
+
+        if (mAdapter!=null && mAdapter.isFreeDelivery()) {
+            //Action to track free delivery
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
         }
     }
 
@@ -306,8 +317,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
         if (getActivity() == null) return;
 
-
-
         if(mData!=null && mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
 
             onOutOfStock(false);
@@ -425,5 +434,25 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onDeleteAppliedVoucherResponse(Message msg) {
 
+    }
+
+    @Override
+    public void onSuccess(int count) {
+        hideProgressBar();
+
+        if(isDiscountFlowEnabled){
+
+            if(count > 2){
+                Log.d("Pabitra" , "You can not add more than 2 product");
+            }else{
+                getRegionAndTag();
+            }
+        }
+
+    }
+
+    @Override
+    public void onFailure(Message msg) {
+        hideProgressBar();
     }
 }
