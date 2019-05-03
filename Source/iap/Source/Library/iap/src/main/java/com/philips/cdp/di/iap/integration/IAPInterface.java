@@ -98,6 +98,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public boolean isCartVisible(IAPListener iapListener) {
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
-        } else throw new RuntimeException("User is not logged in.");
+        } else
+            throw new RuntimeException("User is not logged in.");
+
     }
 }

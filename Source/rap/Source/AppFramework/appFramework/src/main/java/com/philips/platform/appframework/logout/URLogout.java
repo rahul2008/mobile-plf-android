@@ -11,7 +11,8 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 
 
 public class URLogout implements URLogoutInterface {
@@ -45,9 +46,9 @@ public class URLogout implements URLogoutInterface {
 
     private void doLogout(final Context activityContext) {
         RALog.d(TAG, "doLogout: The method started");
-        ((AppFrameworkApplication)activityContext.getApplicationContext()).getUserRegistrationState().getUserDataInterface().logOut(new LogoutListener() {
+        ((AppFrameworkApplication)activityContext.getApplicationContext()).getUserRegistrationState().getUserDataInterface().logoutSession(new LogoutSessionListener() {
             @Override
-            public void onLogoutSuccess() {
+            public void logoutSessionSuccess() {
                 if (urLogoutListener != null) {
                     RALog.d(TAG, "doLogout: URLogoutListener onLogoutSuccess started");
                     urLogoutListener.onLogoutResultSuccess();
@@ -56,17 +57,15 @@ public class URLogout implements URLogoutInterface {
                     ((AppFrameworkApplication) activityContext.getApplicationContext()).getAppInfra().getCloudLogging().setHSDPUserUUID(null);
                 }
                 RALog.d(TAG, "doLogout: onLogoutSuccess");
-
             }
 
             @Override
-            public void onLogoutFailure(int errorCode, String errorMessage) {
+            public void logoutSessionFailed(Error error) {
                 if (urLogoutListener != null) {
-                    urLogoutListener.onLogoutResultFailure(errorCode, errorMessage);
+                    urLogoutListener.onLogoutResultFailure(error.getErrCode(),error.getErrDesc());
                 }
                 RALog.d(TAG, "doLogout: onLogoutFailure");
             }
         });
     }
-
 }

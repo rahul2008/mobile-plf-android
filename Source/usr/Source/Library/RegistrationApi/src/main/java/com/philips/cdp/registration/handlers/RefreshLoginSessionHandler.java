@@ -12,6 +12,8 @@ package com.philips.cdp.registration.handlers;
 /**
  * It is a callback class to proposition for handling Refresh login session
  * @since 1.0.0
+ *
+ * TODO: Shashi, Can we pass errDesc also onRefreshLoginSessionFailedWithError
  */
 public interface RefreshLoginSessionHandler {
 

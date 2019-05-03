@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.register;
 
 import android.support.annotation.NonNull;
@@ -11,17 +11,22 @@ import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class LocalRegisteredProducts {
 
+    private final String TAG = LogoutSessionListener.class.getSimpleName();
     private ProdRegCache prodRegCache;
     private String uuid;
     UserDataInterface userDataInterface;
@@ -31,8 +36,16 @@ public class LocalRegisteredProducts {
         this.userDataInterface = userDataInterface;
         prodRegCache = new ProdRegCache();
         gson = new Gson();
-        if(userDataInterface != null)
-            uuid = userDataInterface.getJanrainUUID() != null ? userDataInterface.getJanrainUUID() : "";
+        if (userDataInterface != null) {
+            ArrayList<String> detailsKey = new ArrayList<>();
+            detailsKey.add(UserDetailConstants.UUID);
+            try {
+                HashMap<String, Object> userDetailsMap = userDataInterface.getUserDetails(detailsKey);
+                uuid = userDetailsMap.get(UserDetailConstants.UUID).toString() != null ? userDetailsMap.get(UserDetailConstants.UUID).toString() : "";
+            } catch (Exception e) {
+                ProdRegLogger.d(TAG, "Exception in fetching uuid : " + e.getMessage());
+            }
+        }
     }
 
     void store(RegisteredProduct registeredProduct) {

@@ -1,11 +1,11 @@
 package com.philips.platform.pif.DataInterface.USR.listeners;
 
-import com.philips.platform.pif.DataInterface.USR.enums.PIMError;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 
 public interface RefreshSessionListener {
     void refreshSessionSuccess();
 
-    void refreshSessionFailed(PIMError error);
+    void refreshSessionFailed(Error error);
 
     void forcedLogout();
 }

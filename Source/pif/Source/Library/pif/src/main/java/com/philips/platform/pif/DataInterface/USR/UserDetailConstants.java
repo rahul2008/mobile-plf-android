@@ -13,4 +13,6 @@ public class UserDetailConstants {
     public static final String MOBILE_NUMBER = "mobileNumber";
     public static final String BIRTHDAY = "birthday";
     public static final String RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
+    public static final String UUID = "uuid";
+    public static final String ACCESS_TOKEN = "accessToken";
 }

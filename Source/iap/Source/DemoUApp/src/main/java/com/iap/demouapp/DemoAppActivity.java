@@ -3,10 +3,8 @@ package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.google.gson.Gson;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -32,7 +29,6 @@ import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPMockInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.response.products.Products;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -45,8 +41,9 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -69,7 +66,7 @@ import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationUIEventListener, LogoutListener , IAPMockInterface{
+        UserRegistrationUIEventListener, IAPMockInterface {
 
     private final String TAG = DemoAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -101,7 +98,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<String> ignorelistedRetailer;
     private View mLL_propositionId;
     URInterface urInterface;
-    private long mLastClickTime =0;
+    private long mLastClickTime = 0;
     private ToggleButton toggleMock;
     private boolean enableMock = false;
 
@@ -196,13 +193,10 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mCountText = findViewById(R.id.item_count);
 
         mCategorizedProductList = new ArrayList<>();
-        showScreenSizeInDp();
-        try {
-            mUserDataInterface = urInterface.getUserDataInterface();
-            mUserDataInterface.registerLogOutListener(this);
-        }catch (Exception e){
-            this.finish();
-        }
+        //showScreenSizeInDp();
+
+        mUserDataInterface = urInterface.getUserDataInterface();
+
 
         //Integration interface
         mIapInterface = new IAPInterface();
@@ -232,14 +226,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(this));
         UappSettings uappSettings = new UappSettings(getApplicationContext());
 
-        urInterface.init(uappDependencies,uappSettings);
+        urInterface.init(uappDependencies, uappSettings);
 
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this),urInterface.getUserDataInterface());
+        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this), urInterface.getUserDataInterface());
 
         try {
             mIapInterface.init(mIapDependencies, mIAPSettings);
-        }catch (RuntimeException ex){
-            IAPLog.d(TAG,ex.getMessage());
+        } catch (RuntimeException ex) {
+            IAPLog.d(TAG, ex.getMessage());
         }
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
@@ -330,8 +324,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onStop() {
         super.onStop();
-        mUserDataInterface.unregisterLogOutListener(this);
         mCategorizedProductList.clear();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void actionBar() {
@@ -421,16 +419,17 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         } else if (view == mRegister) {
             if (mRegister.getText().toString().equalsIgnoreCase(this.getString(R.string.log_out))) {
                 if (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-                    mUserDataInterface.logOut(new LogoutListener() {
+                    mUserDataInterface.logoutSession(new LogoutSessionListener() {
                         @Override
-                        public void onLogoutSuccess() {
+                        public void logoutSessionSuccess() {
                             finish();
                         }
 
                         @Override
-                        public void onLogoutFailure(int errorCode, String errorMessage) {
+                        public void logoutSessionFailed(Error error) {
                             Toast.makeText(DemoAppActivity.this, "Logout went wrong", Toast.LENGTH_SHORT).show();
                         }
+
                     });
                 } else {
                     Toast.makeText(DemoAppActivity.this, "User is not logged in", Toast.LENGTH_SHORT).show();
@@ -606,17 +605,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     public void onTermsAndConditionClick(Activity activity) {
     }
 
-    @Override
-    public void onLogoutSuccess() {
-        hideViews();
-    }
-
-    @Override
-    public void onLogoutFailure(int errorCode, String errorMessage) {
-
-    }
-
-
     void showScreenSizeInDp() {
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -706,7 +694,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             return new JSONObject(jsonString);
         } catch (JSONException e) {
             return null;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -722,10 +710,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
             return null;
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
         return json;
     }
-
 }

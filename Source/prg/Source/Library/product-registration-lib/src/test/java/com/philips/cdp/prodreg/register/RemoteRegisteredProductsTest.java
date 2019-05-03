@@ -104,7 +104,6 @@ public class RemoteRegisteredProductsTest extends TestCase {
 
     @Test
     public void testGetRegisteredProductsRequest() {
-        when(userDataInterface.getJanrainAccessToken()).thenReturn("access_token");
         RegisteredProductsRequest registeredProductsRequest = remoteRegisteredProducts.getRegisteredProductsRequest(userDataInterface);
         assertEquals(registeredProductsRequest.getAccessToken(), "access_token");
     }

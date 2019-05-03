@@ -5,8 +5,6 @@
  */
 package com.philips.platform.pif.DataInterface.USR;
 
-import android.content.Context;
-
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
@@ -41,6 +39,7 @@ public interface UserDataInterface extends Serializable {
      *
      * @return returns the HSDP access token
      * @since 2018.1.0
+     * @deprecated since 1903
      */
     @Deprecated
     String getHSDPAccessToken();
@@ -50,6 +49,7 @@ public interface UserDataInterface extends Serializable {
      *
      * @return returns the HSDP UUID
      * @since 2018.1.0
+     * @deprecated since 1903
      */
     @Deprecated
     String getHSDPUUID();
@@ -67,6 +67,7 @@ public interface UserDataInterface extends Serializable {
      *
      * @param hsdpAuthenticationListener
      * @since 1804.0
+     * @deprecated since 1903
      */
     @Deprecated
     void authorizeHsdp(HSDPAuthenticationListener hsdpAuthenticationListener);
@@ -74,7 +75,7 @@ public interface UserDataInterface extends Serializable {
     /**
      * To refesh the user
      *
-     * @param refreshListener listener for user refresh
+     * @param refreshSessionListener listener for user refresh
      * @since 2018.1.0
      */
     void refreshSession(RefreshSessionListener refreshSessionListener);
@@ -83,7 +84,7 @@ public interface UserDataInterface extends Serializable {
     /**
      * log out the user
      *
-     * @param logoutListener listener for logout
+     * @param logoutSessionListener listener for logout
      * @since 2018.1.0
      */
     void logoutSession(LogoutSessionListener logoutSessionListener);
@@ -97,9 +98,23 @@ public interface UserDataInterface extends Serializable {
     void refetchUserDetails(RefetchUserDetailsListener userDetailsListener);
 
 
-    void addUserDataInterfaceListener(UserDataListener listener);
+    /**
+     * Register UserDataListener for logout,refreshSession and refechUserDeatils
+     *
+     * @param userDataListener listener
+     *
+     * @since 1903
+     */
+    void addUserDataInterfaceListener(UserDataListener userDataListener);
 
-    void removeUserDataInterfaceListener(UserDataListener listener);
+    /**
+     * Remove UserDataListener
+     *
+     * @param userDataListener
+     *
+     * @since 1903
+     */
+    void removeUserDataInterfaceListener(UserDataListener userDataListener);
 
 
 }

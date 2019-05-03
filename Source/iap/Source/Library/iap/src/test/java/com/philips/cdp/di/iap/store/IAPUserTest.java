@@ -5,14 +5,14 @@
 package com.philips.cdp.di.iap.store;
 
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.reflect.Whitebox;
 import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertNotNull;
@@ -25,16 +25,13 @@ public class IAPUserTest {
     private UserDataInterface userDataInterface;
 
     @Mock
-    private RefreshListener refreshLoginSessionHandler;
+    private RefreshSessionListener refreshLoginSessionHandler;
 
     private IAPUser mIAPUser;
 
     @Before
     public void setUP() {
         MockitoAnnotations.initMocks(this);
-        Mockito.when(userDataInterface.getJanrainUUID()).thenReturn("");
-        Mockito.when(userDataInterface.getJanrainAccessToken()).thenReturn("");
-        //Mockito.when(userDataInterface.getUserDetails(new ArrayList<>())).thenReturn("");
         mIAPUser = new MockIAPUser(mHybrisStore);
     }
 
@@ -58,7 +55,7 @@ public class IAPUserTest {
     public void testrefreshLoginSession() {
         // refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
 
-        refreshLoginSessionHandler.onRefreshSessionSuccess();
+        refreshLoginSessionHandler.refreshSessionSuccess();
         mIAPUser.refreshLoginSession();
     }
 
@@ -75,6 +72,8 @@ public class IAPUserTest {
 
     @Test
     public void testLogout() {
-        mIAPUser.onLogoutSuccess();
+        Whitebox.setInternalState(mIAPUser,"mStore",mHybrisStore);
+        Whitebox.setInternalState(mIAPUser,"mUserDataInterface",userDataInterface);
+        mIAPUser.logoutSessionSuccess();
     }
 }
