@@ -64,7 +64,7 @@ public class UserWithProducts {
         this.mContext = context;
         mUserDataInterface = userDataInterface;
         this.appListener = appListener;
-        //setUuid();
+        setUuid();
         localRegisteredProducts = new LocalRegisteredProducts(mUserDataInterface);
         errorHandler = new ErrorHandler();
     }
