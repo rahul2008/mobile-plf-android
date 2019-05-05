@@ -6,6 +6,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import junit.framework.TestCase;
 
@@ -46,7 +47,7 @@ public class PIMConfigManagerTest extends TestCase {
     @Captor
     private ArgumentCaptor<ArrayList<String>> captorArrayList;
     @Captor
-    private ArgumentCaptor<Runnable> runnables = ArgumentCaptor.forClass(Runnable.class);
+    private ArgumentCaptor<Runnable> runnables;
     @Mock
     private Thread mockThread;
     @Mock
@@ -67,11 +68,12 @@ public class PIMConfigManagerTest extends TestCase {
         mockStatic(PIMSettingManager.class);
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        runnables = ArgumentCaptor.forClass(Runnable.class);
         whenNew(Thread.class).withParameterTypes(Runnable.class).withArguments(runnables.capture()).thenReturn(mockThread);
         mockStatic(Uri.class);
         Uri uri = mock(Uri.class);
         when(Uri.class, "parse", anyString()).thenReturn(uri);
-
+        when(mockPimUserManager.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_NOT_LOGGED_IN);
         pimConfigManager = new PIMConfigManager(mockPimUserManager);
     }
 
@@ -85,13 +87,20 @@ public class PIMConfigManagerTest extends TestCase {
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
-
         Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
         when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
         when(mockServiceDiscoveryService.getConfigUrls()).thenReturn(new String());
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
         verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onLoginSuccess : getConfigUrls : " + mockServiceDiscoveryService.getConfigUrls());
     }
+
+    @Test
+    public void verifyLog_IfUserIsLoggedIn() {
+        when(mockPimUserManager.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
+        pimConfigManager.init(mockServiceDiscoveryInterface);
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "downloadSDServiceURLs skipped as user is logged in. ");
+    }
+
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnSuccess_ServiceDiscoveryServiceIsNull() {

@@ -68,8 +68,7 @@ class PIMAuthManager {
                 .setAdditionalParameters(parameter)
                 .build();
         AuthorizationService authService = new AuthorizationService(context);
-        Intent authReqIntent = authService.getAuthorizationRequestIntent(authRequest);
-        return authReqIntent;
+        return authService.getAuthorizationRequestIntent(authRequest);
     }
 
     void performTokenRequest(Context context, Intent dataIntent, PIMLoginListener pimLoginListener) {
