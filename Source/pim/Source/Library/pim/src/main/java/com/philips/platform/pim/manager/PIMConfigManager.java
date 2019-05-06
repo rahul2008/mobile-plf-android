@@ -30,7 +30,7 @@ public class PIMConfigManager {
         if (mPimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN)
             downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
         else {
-            mLoggingInterface.log(DEBUG,TAG,"downloadSDServiceURLs skipped as user is logged in. ");
+            mLoggingInterface.log(DEBUG, TAG, "downloadSDServiceURLs skipped as user is logged in. ");
         }
     }
 
@@ -43,6 +43,7 @@ public class PIMConfigManager {
                     mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess");
 
                     ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
+                    PIMSettingManager.getInstance().setLocale(serviceDiscoveryService.getLocale());
                     if (serviceDiscoveryService == null) {
                         mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : serviceDiscovery response is null");
                     } else {

@@ -9,6 +9,8 @@ import com.philips.platform.pim.BuildConfig;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
+import java.util.Locale;
+
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 
@@ -21,7 +23,9 @@ public class PIMSettingManager {
     private PIMOIDCConfigration mPimoidcConfigration;
     private PIMUserManager pimUserManager;
     private RestInterface mRestInterface;
+    private Locale mLocale;
     private final String TAG = PIMSettingManager.class.getSimpleName();
+    private String locale;
 
     public static PIMSettingManager getInstance() {
         return instance;
@@ -71,5 +75,13 @@ public class PIMSettingManager {
 
     RestInterface getRestClient() {
         return mRestInterface;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 }

@@ -244,7 +244,7 @@
   <string name="USR_Update_Email_Button_Text">Update Email address</string>
   <string name="USR_Update_MobileNumber_Button_Text">Update PhoneNumber</string>
   <string name="USR_Update_MobileNumber_Thanks_Got_It">Thanks, I got it.</string>
-  <string name="USR_VerificationCode_ErrorText">The verification code you entered is incorrect. Please try again.</string>
+  <string name="USR_VerificationCode_ErrorText">The verification  code you entered is incorrect. Please try again.</string>
   <string name="USR_Welcome_Alternate_SignInAccount_lbltxt">Or log in with</string>
   <string name="USR_amazon">Amazon</string>
   <string name="USR_aol">AOL</string>
