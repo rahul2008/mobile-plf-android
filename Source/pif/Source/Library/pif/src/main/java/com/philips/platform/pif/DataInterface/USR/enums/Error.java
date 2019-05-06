@@ -9,8 +9,8 @@ public class Error {
         InvalidFields(1000, "INVALID FIELDS"),
         NotLoggedIn(1001, "USER NOT LOGGED IN");
 
-        int errorCode;
-        String errorMsg;
+        private int errorCode;
+        private String errorMsg;
 
         UserDetailError(int errorCode, String errorMsg) {
             this.errorCode = errorCode;
