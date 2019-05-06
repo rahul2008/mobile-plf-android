@@ -8,6 +8,7 @@ import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import junit.framework.TestCase;
@@ -15,6 +16,8 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,6 +46,12 @@ public class LocalRegisteredProductsTest extends TestCase {
         gson = new Gson();
         addDummyProjects();
         userDataInterface = mock(UserDataInterface.class);
+        HashMap<String,Object> userdetailsMap = new HashMap<>();
+        userdetailsMap.put(UserDetailConstants.UUID,"uuid");
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.UUID);
+        when(userDataInterface.getUserDetails(detailsKey)).thenReturn(userdetailsMap);
+
         localRegisteredProducts = new LocalRegisteredProducts(userDataInterface) {
             @Override
             protected Set<RegisteredProduct> getUniqueRegisteredProducts() {
