@@ -45,6 +45,30 @@
     "ES": [
       "address2",
       "state"
+    ],
+    "DK" :[
+      "address2",
+      "state"
+    ],
+    "CH" :[
+      "address2",
+      "state"
+    ],
+    "IT" :[
+      "address2",
+      "state"
+    ],
+    "FR" :[
+      "address2",
+      "state"
+    ],
+    "FI" :[
+      "address2",
+      "state"
+    ],
+    "NO" :[
+      "address2",
+      "state"
     ]
   }
 }
