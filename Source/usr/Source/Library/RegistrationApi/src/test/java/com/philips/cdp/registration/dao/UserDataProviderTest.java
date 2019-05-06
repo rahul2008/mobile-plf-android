@@ -8,9 +8,11 @@ import com.philips.cdp.registration.injection.RegistrationComponent;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 
 import junit.framework.TestCase;
 
@@ -27,6 +29,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @RunWith(MockitoJUnitRunner.class)
 public class UserDataProviderTest extends TestCase{
 
@@ -42,13 +46,13 @@ public class UserDataProviderTest extends TestCase{
     private UserDataProvider userDataProvider;
 
     @Mock
-    UserDetailsListener userDetailsListenerMock;
+    RefetchUserDetailsListener userDetailsListenerMock;
 
     @Mock
-    RefreshListener refreshListenerMock;
+    RefreshSessionListener refreshListenerMock;
 
     @Mock
-    LogoutListener logoutListenerMock;
+    LogoutSessionListener logoutListenerMock;
 
     @Before
     public void setUp() {
@@ -72,11 +76,6 @@ public class UserDataProviderTest extends TestCase{
             @Override
             public String getHSDPAccessToken() {
                 return "hsdpAccessToken";
-            }
-
-            @Override
-            public String getJanrainAccessToken() {
-                return "accessToken";
             }
 
             @Override
@@ -110,10 +109,9 @@ public class UserDataProviderTest extends TestCase{
             }
 
             @Override
-            public boolean isUserLoggedIn(Context context) {
-                return true;
+            public UserLoggedInState getUserLoggedInState() {
+                return UserLoggedInState.USER_LOGGED_IN;
             }
-
 
             @Override
             public void authorizeHSDP(HSDPAuthenticationListener hsdpAuthenticationListener) {
@@ -139,7 +137,8 @@ public class UserDataProviderTest extends TestCase{
 
     @Test
     public void testUserSignedIn(){
-        assertEquals(true, userDataProvider.isUserLoggedIn(contextMock));
+        boolean expected = userDataProvider.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ? true : false;
+        assertEquals(expected, true);
     }
 
     @Test
@@ -189,37 +188,25 @@ public class UserDataProviderTest extends TestCase{
     @Test
     public void testOnLogoutSuccess(){
         userDataProvider.getLogoutHandler(logoutListenerMock).onLogoutSuccess();
-        Mockito.verify(logoutListenerMock).onLogoutSuccess();
+        Mockito.verify(logoutListenerMock).logoutSessionSuccess();
     }
 
     @Test
     public void testOnLogoutFailure(){
         userDataProvider.getLogoutHandler(logoutListenerMock).onLogoutFailure(404,"No internet");
-        Mockito.verify(logoutListenerMock).onLogoutFailure(404,"No internet");
+        Mockito.verify(logoutListenerMock).logoutSessionFailed(any(Error.class));
     }
 
     @Test
     public void testOnRefreshSuccess(){
         userDataProvider.getRefreshHandler(refreshListenerMock).onRefreshLoginSessionSuccess();
-        Mockito.verify(refreshListenerMock).onRefreshSessionSuccess();
+        Mockito.verify(refreshListenerMock).refreshSessionSuccess();
     }
 
     @Test
     public void testOnRefreshfailure(){
         userDataProvider.getRefreshHandler(refreshListenerMock).onRefreshLoginSessionFailedWithError(404);
-        Mockito.verify(refreshListenerMock).onRefreshSessionFailure(404);
-    }
-
-    @Test
-    public void testOnUpdateMarketingEmail(){
-        userDataProvider.getUpdateReceiveMarketingEmailHandler(userDetailsListenerMock).onUpdateSuccess();
-        Mockito.verify(userDetailsListenerMock).onUpdateSuccess();
-    }
-
-    @Test
-    public void testOnUpdateMarketingEmailFailure(){
-        userDataProvider.getUpdateReceiveMarketingEmailHandler(userDetailsListenerMock).onUpdateFailedWithError(404);
-        Mockito.verify(userDetailsListenerMock).onUpdateFailure(404);
+        Mockito.verify(refreshListenerMock).refreshSessionFailed(any(Error.class));
     }
 
 }
