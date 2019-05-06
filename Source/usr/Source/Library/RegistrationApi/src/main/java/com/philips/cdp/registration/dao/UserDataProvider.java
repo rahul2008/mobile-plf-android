@@ -14,6 +14,7 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.pif.DataInterface.USR.DataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
@@ -66,7 +67,7 @@ public class UserDataProvider extends User implements UserDataInterface {
     }
 
     @Override
-    public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception {
+    public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws DataInterfaceException  {
         RLog.d(TAG, "getUserDetails : " + detailKeys);
         if (detailKeys.isEmpty()) {
             fillUserData();
@@ -76,7 +77,7 @@ public class UserDataProvider extends User implements UserDataInterface {
     }
 
 
-    private HashMap<String, Object> fillRequiredUserDataMap(ArrayList<String> detailKeys) throws Exception {
+    private HashMap<String, Object> fillRequiredUserDataMap(ArrayList<String> detailKeys) throws DataInterfaceException {
         RLog.d(TAG, "fillRequiredUserDataMap : " + detailKeys);
         fillUserData();
         HashMap<String, Object> requiredUserDataMap = new HashMap<>();
@@ -84,7 +85,7 @@ public class UserDataProvider extends User implements UserDataInterface {
             if (getAllValidKeyNames().contains(key)) {
                 requiredUserDataMap.put(key, userDataMap.get(key));
             } else {
-                throw new Exception("Invalid key : " + key);
+                throw new DataInterfaceException(new Error(Error.UserDetailError.InvalidFields));
             }
         }
         return requiredUserDataMap;

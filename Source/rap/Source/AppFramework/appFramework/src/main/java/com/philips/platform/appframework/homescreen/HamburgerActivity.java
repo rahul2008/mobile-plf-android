@@ -51,6 +51,7 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.pif.DataInterface.USR.DataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -287,7 +288,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             detailskey.add(UserDetailConstants.GIVEN_NAME);
             try {
                 avatarName.setText(userDataInterface.getUserDetails(detailskey).get(UserDetailConstants.GIVEN_NAME).toString());
-            } catch (Exception e) {
+            } catch (DataInterfaceException e) {
                 RALog.e(TAG,"Error in set avatarName : "+e.getMessage());
             }
             if (!appState.name().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name()))

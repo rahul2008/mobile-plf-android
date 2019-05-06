@@ -5,9 +5,28 @@ public class Error {
     private int errCode;
     private String errDesc;
 
+    public enum UserDetailError {
+        InvalidFields(1000, "INVALID FIELDS"),
+        NotLoggedIn(1001, "USER NOT LOGGED IN");
+
+        int errorCode;
+        String errorMsg;
+
+        UserDetailError(int errorCode, String errorMsg) {
+            this.errorCode = errorCode;
+            this.errorMsg = errorMsg;
+        }
+    }
+
+
     public Error(int errCode, String errDesc) {
         this.errCode = errCode;
         this.errDesc = errDesc;
+    }
+
+    public Error(UserDetailError userDetailError){
+        errCode = userDetailError.errorCode;
+        errDesc = userDetailError.errorMsg;
     }
 
     public int getErrCode() {

@@ -31,7 +31,7 @@ public interface UserDataInterface extends Serializable {
      * @return hashmap of user's details
      * @since 2018.1.0
      */
-    HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception;
+    HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws DataInterfaceException;
 
 
     /**
