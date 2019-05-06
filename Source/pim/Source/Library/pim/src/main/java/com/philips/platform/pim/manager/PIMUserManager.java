@@ -56,11 +56,11 @@ public class PIMUserManager {
     void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState);
         pimRestClient.invokeRequest(userProfileRequest, response -> {
-            authState = oidcAuthState;
+            authState = oidcAuthState; //TODO: Shashi, Do we really need this. check impact?
             saveSubIDToPreference(response);
-            userProfileRequestListener.onUserProfileDownloadSuccess();
             storeUserProfileToSecureStorage(response);
             storeAuthStateToSecureStorage(response, oidcAuthState);
+            userProfileRequestListener.onUserProfileDownloadSuccess();
         }, error -> {
             userProfileRequestListener.onUserProfileDownloadFailed(0);
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
