@@ -14,7 +14,7 @@ public class IAPUtility {
     private IAPOrderFlowCompletion iapOrderFlowCompletion;
     private boolean isHybrisSupported = true;
     private View bannerView;
-    private boolean isVoucherEnable;
+    private boolean isVoucherEnable = false;
 
     private IAPUtility() {
     }
