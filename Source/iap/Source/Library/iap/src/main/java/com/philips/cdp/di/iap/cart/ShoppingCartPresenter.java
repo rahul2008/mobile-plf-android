@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.cart;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
@@ -233,7 +232,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                                         }
                                     }
                                 }
-                                Log.d("pabitra", "Quantity shopping presenter"+quantity);
                                 iapCartListener.onSuccess(quantity);
                             } else {
                                 Message message = new Message();
@@ -384,9 +382,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     public ArrayList<ShoppingCartData> getShoppingCartDatas(CartsEntity cartsEntity, List<EntriesEntity> entries) {
         final HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
-        int totalUnitCount = cartsEntity.getTotalUnitCount();
-        setCartQuntity(totalUnitCount);
-        Log.d("pabitra","totalUnitCount"+ totalUnitCount);
         final ArrayList<ShoppingCartData> products = new ArrayList<>();
         String ctn;
         for (EntriesEntity entry : entries) {
@@ -499,11 +494,5 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         return;
     }
 
-    public int getCartQuntity() {
-        return mCartQuntity;
-    }
 
-    public void setCartQuntity(int mCartQuntity) {
-        this.mCartQuntity = mCartQuntity;
-    }
 }

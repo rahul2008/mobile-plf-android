@@ -17,6 +17,9 @@ public class IAPLaunchInput extends UappLaunchInput {
     private ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
     private String voucherCode;
     private IAPOrderFlowCompletion mIapOrderFlowCompletion;
+    private int maxCartCount;
+    private boolean isHybrisSupported;
+    private IAPBannerEnabler iapBannerEnabler;
     /**
      * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
      * @param pLandingView  pass int value from IAPFlows enums
@@ -91,6 +94,30 @@ public class IAPLaunchInput extends UappLaunchInput {
 
     public void setIapOrderFlowCompletion(IAPOrderFlowCompletion mIapOrderFlowCompletion) {
         this.mIapOrderFlowCompletion = mIapOrderFlowCompletion;
+    }
+
+    public int getMaxCartCount() {
+        return maxCartCount;
+    }
+
+    public void setMaxCartCount(int maxCartCount) {
+        this.maxCartCount = maxCartCount;
+    }
+
+    public boolean isHybrisSupported() {
+        return isHybrisSupported;
+    }
+
+    public void setHybrisSupported(boolean hybrisSupported) {
+        isHybrisSupported = hybrisSupported;
+    }
+
+    public IAPBannerEnabler getIapBannerEnabler() {
+        return iapBannerEnabler;
+    }
+
+    public void setIapBannerEnabler(IAPBannerEnabler iapBannerEnabler) {
+        this.iapBannerEnabler = iapBannerEnabler;
     }
 
     /**

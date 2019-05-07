@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
@@ -75,6 +77,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private boolean mIsProductsAvailable = true;
     private RelativeLayout mParentLayout;
     private AppCompatAutoCompleteTextView mSearchTextView;
+    private LinearLayout mBannerLayout;
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
@@ -144,6 +147,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
         final View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
         mSearchBox = rootView.findViewById(R.id.iap_search_box);
+        mBannerLayout = rootView.findViewById(R.id.ll_banner_place_holder);
+
+        if(IAPUtility.getInstance().getBannerView()!=null){
+            mBannerLayout.addView(IAPUtility.getInstance().getBannerView());
+            mBannerLayout.setVisibility(View.VISIBLE);
+        }
         mParentLayout = rootView.findViewById(R.id.parent_layout);
         setUpSearch();
 

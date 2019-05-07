@@ -41,8 +41,10 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_VOUCHER_CODE;
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
-        OnSetDeliveryModeListener,AlertListener,VoucherController.VoucherListener, IAPCartListener {
+        OnSetDeliveryModeListener, AlertListener, VoucherController.VoucherListener, IAPCartListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
@@ -68,7 +70,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private TextView mNumberOfProducts;
     private String voucherCode;
     VoucherController mVoucherController;
-    boolean isDiscountFlowEnabled = true;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -162,11 +163,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
 
-            if(isDiscountFlowEnabled){
-                createCustomProgressBar(mParentLayout, BIG);
-                mShoppingCartAPI.getProductCartCount(getActivity(),this);
-            }else{
+            if (IAPUtility.getInstance().getMaxCartCount() == IAPConstant.UN_LIMIT_CART_COUNT) {
                 getRegionAndTag();
+            } else {
+                createCustomProgressBar(mParentLayout, BIG);
+                mShoppingCartAPI.getProductCartCount(getActivity(), this);
             }
 
         }
@@ -187,7 +188,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
 
-        if (mAdapter!=null && mAdapter.isFreeDelivery()) {
+        if (mAdapter != null && mAdapter.isFreeDelivery()) {
             //Action to track free delivery
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
@@ -317,6 +318,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
         if (getActivity() == null) return;
 
+
+
         if(mData!=null && mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
 
             onOutOfStock(false);
@@ -439,14 +442,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onSuccess(int count) {
         hideProgressBar();
-
-        if(isDiscountFlowEnabled){
-
-            if(count > 2){
-                Log.d("Pabitra" , "You can not add more than 2 product");
-            }else{
-                getRegionAndTag();
-            }
+        if (count > IAPUtility.getInstance().getMaxCartCount()) {
+            NetworkUtility.getInstance().showErrorDialog(getActivity(),getFragmentManager(),
+                    getString(R.string.iap_ok),"Exceed Cart limit","You can not add more than "+IAPUtility.getInstance().getMaxCartCount()+ " product in your cart");
+        } else {
+            getRegionAndTag();
         }
 
     }
@@ -455,4 +455,5 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onFailure(Message msg) {
         hideProgressBar();
     }
+
 }

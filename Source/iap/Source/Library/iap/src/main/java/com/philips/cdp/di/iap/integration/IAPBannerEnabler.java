@@ -6,9 +6,8 @@ import android.view.View;
  * Created by philips on 4/26/19.
  */
 
-public interface IAPDiscountInput {
+public interface IAPBannerEnabler {
 
     View getBannerView();
 
-    int getCartCount();
 }

@@ -6,7 +6,24 @@
     android:background="?attr/uidContentPrimaryBackgroundColor">
 
     <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/ll_banner_place_holder"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/border8_margin"
+        android:layout_marginEnd="@dimen/border16_margin_left_right"
+        android:layout_marginStart="@dimen/border16_margin_left_right"
+        android:layout_marginTop="@dimen/border8_margin"
+        android:paddingBottom="@dimen/border8_margin"
+        android:paddingTop="@dimen/border8_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/iap_ll_search_box"
+        android:layout_below="@+id/ll_banner_place_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -14,7 +31,6 @@
             android:id="@+id/iap_search_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/border8_margin"
             android:layout_marginEnd="@dimen/border16_margin_left_right"
             android:layout_marginStart="@dimen/border16_margin_left_right"
