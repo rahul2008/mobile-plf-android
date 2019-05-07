@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class user registration failure info
@@ -163,5 +164,19 @@ public class UserRegistrationFailureInfo {
         }
     }
 
+    public String getLocalizedValidationErrorMessages() {
+
+        Map<String, List<String>> localizedErrorMsg = error.getLocalizedValidationErrorMessages();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Map.Entry<String, List<String>> entry : localizedErrorMsg.entrySet()) {
+            List<String> list = entry.getValue();
+            for (String val : list) {
+                stringBuilder.append(val +"\n");
+            }
+        }
+
+        return String.valueOf(stringBuilder);
+    }
 
 }

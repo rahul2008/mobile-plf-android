@@ -502,8 +502,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             return;
         }
 
-        if (null != userRegistrationFailureInfo.getErrorDescription()) {
-            updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
+        if (null != userRegistrationFailureInfo.getLocalizedValidationErrorMessages()) {
+            updateErrorNotification(userRegistrationFailureInfo.getLocalizedValidationErrorMessages(), userRegistrationFailureInfo.getErrorCode());
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             uiEnableState(true);
             return;
