@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -77,8 +76,6 @@ public class NetworkController {
             requestListener.onError(message);
             return;
         } else {
-            Log.d("pabitra","URL :-"+model.getUrl());
-            Log.d("pabitra", "input map :-"+model.requestBody());
             if (isMocked()) {
                 new MockResponseSender(mIapSettings).sendMockResponse(model, requestListener, requestCode);
                 return;
@@ -105,7 +102,6 @@ public class NetworkController {
                 }
                 if (requestListener != null) {
                     new IAPNetworkError(error, requestCode, requestListener);
-                    Log.d("pabitra","Error :-"+error.getMessage());
                 }
             }
         };
@@ -121,14 +117,12 @@ public class NetworkController {
 
                     if (response != null && response.length() == 0) {
                         msg.obj = NetworkConstants.EMPTY_RESPONSE;
-                        Log.d("pabitra","Response :-"+NetworkConstants.EMPTY_RESPONSE);
                     } else {
                         msg.obj = model.parseResponse(response);
-                        if(response != null)
-                        Log.d("pabitra","Response :-"+response.toString());
                     }
 
                     requestListener.onSuccess(msg);
+
 
                     //For testing purpose
                     if (model.getUrl() != null) {

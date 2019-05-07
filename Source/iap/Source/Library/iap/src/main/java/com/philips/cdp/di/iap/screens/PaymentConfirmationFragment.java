@@ -24,7 +24,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.AlertListener;
-import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -132,9 +131,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         if (fragment != null) {
             moveToVerticalAppByClearingStack();
         } else {
-            if(IAPUtility.getInstance().getIapOrderFlowCompletion().shouldPopToProductList()) {
-                moveToProductCatalog();
-            }
+            moveToProductCatalog();
         }
     }
 
