@@ -389,6 +389,8 @@ public class Utility {
                 } else {
                     IAPLog.e(IAPLog.LOG,"voucherCode.enable instance should be boolean value true or false");
                 }
+            }else{
+                return IAPUtility.getInstance().isVoucherEnable();
             }
         } catch (IllegalArgumentException illegalArgumentException) {
             IAPLog.e(IAPLog.LOG, "IllegalArgumentException while voucherCode enable");

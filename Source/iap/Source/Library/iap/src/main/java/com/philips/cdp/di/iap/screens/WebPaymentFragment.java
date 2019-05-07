@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.AlertListener;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -103,7 +104,16 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
         } else if (url.startsWith(PAYMENT_PENDING_CALLBACK_URL)) {
             launchConfirmationScreen(createErrorBundle());
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
+//            if (!mIsPaymentFailed)
+//                mDialogFragment = null;
             mIsPaymentFailed = true;
+//            showTwoButtonDialog(mContext.getString(R.string.iap_payment_failed_title),
+//                    mContext.getString(R.string.iap_payment_failed_message),
+//                    mContext.getString(R.string.iap_try_again),
+//                    mContext.getString(R.string.iap_cancel));
+           /* Utility.showActionDialog(mContext, getString(R.string.iap_try_again), getString(R.string.iap_cancel)
+                    , mContext.getString(R.string.iap_payment_failed_title), getString(R.string.iap_payment_failed_message), getFragmentManager(), this);
+           */
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PAYMENT_FAILURE);
             NetworkUtility.getInstance(). showPaymentMessage(mContext.getString(R.string.iap_payment_failed_title),getString(R.string.iap_payment_failed_message),getFragmentManager(), mContext,this);
@@ -123,10 +133,49 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     @Override
     public boolean handleBackEvent() {
         mIsPaymentFailed = false;
+//        showTwoButtonDialog(mContext.getString(R.string.iap_cancel_order_title),
+//                mContext.getString(R.string.iap_cancel_payment),
+//                mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_cancel));
         Utility.showActionDialog(mContext, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_cancel), mContext.getString(R.string.iap_cancel_order_title), mContext.getString(R.string.iap_cancel_payment), getFragmentManager(), this);
         return true;
     }
+
+//    private void showTwoButtonDialog(String title, String description, String positiveText, String negativeText) {
+//        Bundle bundle = new Bundle();
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_TITLE, title);
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_DESCRIPTION, description);
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_POSITIVE_TEXT, positiveText);
+//        bundle.putString(IAPConstant.TWO_BUTTON_DIALOG_NEGATIVE_TEXT, negativeText);
+//
+//        try {
+//            if (mDialogFragment == null) {
+//                mDialogFragment = new TwoButtonDialogFragment();
+//                mDialogFragment.setArguments(bundle);
+//                mDialogFragment.setOnDialogClickListener(this);
+//                mDialogFragment.setShowsDialog(false);
+//            }
+//            mDialogFragment.show(getFragmentManager(), "TwoButtonDialog");
+//            mDialogFragment.setShowsDialog(true);
+//        } catch (Exception e) {
+//            IAPLog.e(IAPLog.LOG, e.getMessage());
+//        }
+//    }
+
+//    @Override
+//    public void onPositiveButtonClicked() {
+//
+//    }
+//
+//    @Override
+//    public void onNegativeButtonClicked() {
+//
+//    }
+
     private void handleNavigation() {
+        if(shouldGiveCallBack()){
+            sendCallback(false);
+            return;
+        }
         showProductCatalogFragment(WebPaymentFragment.TAG);
     }
 

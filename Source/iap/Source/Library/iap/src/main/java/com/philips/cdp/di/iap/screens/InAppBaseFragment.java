@@ -27,6 +27,7 @@ import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -316,6 +317,19 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
             if(getActivity()!=null) {
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
+        }
+    }
+
+    public boolean shouldGiveCallBack(){
+       return IAPUtility.getInstance().getIapOrderFlowCompletion()!=null && !IAPUtility.getInstance().getIapOrderFlowCompletion().shouldPopToProductList();
+    }
+
+    public void sendCallback(boolean isSuccess){
+        moveToVerticalAppByClearingStack();
+        if(isSuccess){
+            IAPUtility.getInstance().getIapOrderFlowCompletion().didPlaceOrder();
+        }else{
+            IAPUtility.getInstance().getIapOrderFlowCompletion().didCancelOrder();
         }
     }
 }

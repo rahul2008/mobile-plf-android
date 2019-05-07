@@ -13,6 +13,5 @@ public interface IAPOrderFlowCompletion {
     default void didCancelOrder() {
 
     }
-
     boolean shouldPopToProductList();
 }

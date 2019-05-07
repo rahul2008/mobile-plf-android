@@ -21,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -108,6 +109,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private boolean isHybrisEnable = true;
     private ToggleButton toggleBanner;
     private boolean isBannerEnabled = false;
+    private ToggleButton toggleListener;
+    private boolean isToggleListener= true;
+    private RadioGroup rgVoucher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +180,35 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 isHybrisEnable = isChecked;
+                initializeIAPComponant();
+            }
+        });
+
+        rgVoucher = findViewById(R.id.rg_voucher);
+
+        rgVoucher.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+               if(checkedId == R.id.rb_null){
+                   IAPUtility.getInstance().setVoucherEnable(false);
+               }
+               if(checkedId == R.id.rb_disable){
+                   IAPUtility.getInstance().setVoucherEnable(false);
+               }
+               if(checkedId == R.id.rb_enabble){
+                   IAPUtility.getInstance().setVoucherEnable(true);
+               }
+            }
+        });
+        
+
+        toggleListener = findViewById(R.id.toggleListener);
+
+        toggleListener.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isToggleListener = isChecked;
                 initializeIAPComponant();
             }
         });
@@ -274,7 +307,11 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         }
         mIapLaunchInput.setIapBannerEnabler(this);
         mIapLaunchInput.setIapListener(this);
-        mIapLaunchInput.setIapOrderFlowCompletion(this);
+        if(isToggleListener) {
+            mIapLaunchInput.setIapOrderFlowCompletion(this);
+        }else{
+            mIapLaunchInput.setIapOrderFlowCompletion(null);
+        }
         IAPUtility.getInstance().setHybrisSupported(isHybrisEnable);
         displayUIOnCartVisible();
     }
@@ -777,7 +814,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public boolean shouldPopToProductList() {
-        return false;
+        return !isToggleListener;
     }
 
     @Override

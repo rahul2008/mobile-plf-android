@@ -14,6 +14,7 @@ public class IAPUtility {
     private IAPOrderFlowCompletion iapOrderFlowCompletion;
     private boolean isHybrisSupported = true;
     private View bannerView;
+    private boolean isVoucherEnable;
 
     private IAPUtility() {
     }
@@ -50,6 +51,14 @@ public class IAPUtility {
         this.bannerView = bannerView;
     }
 
+    public boolean isVoucherEnable() {
+        return isVoucherEnable;
+    }
+
+    public void setVoucherEnable(boolean voucherEnable) {
+        isVoucherEnable = voucherEnable;
+    }
+
     private static class IAPUtilitySingleton
     {
         private static final IAPUtility INSTANCE = new IAPUtility();
@@ -59,4 +68,5 @@ public class IAPUtility {
     {
         return IAPUtilitySingleton.INSTANCE;
     }
+
 }
