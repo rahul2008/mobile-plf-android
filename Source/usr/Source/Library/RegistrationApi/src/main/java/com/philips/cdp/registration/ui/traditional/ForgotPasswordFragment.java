@@ -411,7 +411,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void forgotPasswordErrorMessage(String errorMsg) {
-        usr_forgotpassword_inputId_inputValidation.setErrorMessage(errorMsg);
+        if (null == errorMsg || errorMsg.isEmpty()) {
+            usr_forgotpassword_inputId_inputValidation.setErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, RegConstants.UNKNOWN_ERROR_ID));
+        } else {
+            usr_forgotpassword_inputId_inputValidation.setErrorMessage(errorMsg);
+        }
         usr_forgotpassword_inputId_inputValidation.showError();
     }
 

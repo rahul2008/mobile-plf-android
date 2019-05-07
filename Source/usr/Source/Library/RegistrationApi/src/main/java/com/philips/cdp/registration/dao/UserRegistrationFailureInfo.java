@@ -170,9 +170,14 @@ public class UserRegistrationFailureInfo {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (Map.Entry<String, List<String>> entry : localizedErrorMsg.entrySet()) {
-            List<String> list = entry.getValue();
-            for (String val : list) {
-                stringBuilder.append(val +"\n");
+
+            Iterator<String> list = entry.getValue().iterator();
+
+            while (list.hasNext()) {
+                stringBuilder.append(list.next());
+                if (list.hasNext()) {
+                    stringBuilder.append("\n");
+                }
             }
         }
 
