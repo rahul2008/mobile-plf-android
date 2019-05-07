@@ -127,7 +127,6 @@ public class URDemoApplication extends Application {
 
         initAppIdentity(configuration);
 
-
         UappInterface standardRegistrationInterface = new URDemouAppInterface();
         standardRegistrationInterface.init(new URDemouAppDependencies(mAppInfraInterface), new URDemouAppSettings(this));
 

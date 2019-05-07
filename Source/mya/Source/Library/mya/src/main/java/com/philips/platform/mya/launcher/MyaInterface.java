@@ -10,6 +10,7 @@ package com.philips.platform.mya.launcher;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.mya.MyaHelper;
@@ -68,7 +69,7 @@ public class MyaInterface implements UappInterface {
             MyaHelper.getInstance().getMyaLogger().log(LoggingInterface.LogLevel.DEBUG, MyaHelper.MYA_TLA, "Mya Listener not set");
 
         UserDataInterface userDataInterface = getUserDataInterface();
-        if (!userDataInterface.isUserLoggedIn(myaLaunchInput.getContext())) {
+        if (userDataInterface.getUserLoggedInState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
             myaLaunchInput.getMyaListener().onError(MyaError.USERNOTLOGGEDIN);
             return;
         }
@@ -77,7 +78,6 @@ public class MyaInterface implements UappInterface {
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(USER_PLUGIN, userDataInterface);
-
 
 
         if (uiLauncher instanceof ActivityLauncher) {
