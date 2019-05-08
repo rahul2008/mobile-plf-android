@@ -1,7 +1,7 @@
 {
   "UserRegistration": {
-    "JanRainConfiguration.RegistrationClientID.Development": "{\"CN\":\"qhq9jvkx35q8duef2fh6wwzceujjs9gs\",\"default\":\"8kaxdrpvkwyr7pnp987amu4aqb4wmnte\"}",
-    "JanRainConfiguration.RegistrationClientID.Testing": "{\"CN\":\"g8r8rbk4n5688xpsxqewmnwuqjb5ugag\",\"default\":\"g52bfma28yjbd24hyjcswudwedcmqy7c\"}",
+    "JanRainConfiguration.RegistrationClientID.Development": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
+    "JanRainConfiguration.RegistrationClientID.Testing": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Evaluation": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Staging": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Production": "{\"CN\":\"brhyp23jh8jrutmghjtht68yv4mvqvhu\",\"default\":\"9z23k3q8bhqyfwx78aru6bz8zksga54u\"}",
