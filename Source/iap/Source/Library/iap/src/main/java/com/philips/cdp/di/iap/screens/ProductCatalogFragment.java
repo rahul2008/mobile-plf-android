@@ -150,6 +150,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mBannerLayout = rootView.findViewById(R.id.ll_banner_place_holder);
 
         if(IAPUtility.getInstance().getBannerView()!=null){
+            if(IAPUtility.getInstance().getBannerView().getParent()!=null){
+                ((ViewGroup)IAPUtility.getInstance().getBannerView().getParent()).removeAllViews();
+            }
             mBannerLayout.addView(IAPUtility.getInstance().getBannerView());
             mBannerLayout.setVisibility(View.VISIBLE);
         }
