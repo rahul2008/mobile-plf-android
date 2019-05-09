@@ -268,6 +268,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
 
     public void createCustomProgressBar(ViewGroup group, int size) {
+        if(getContext() == null) return;
         ViewGroup parentView = (ViewGroup) getView();
         ViewGroup layoutViewGroup = group;
         if (parentView != null) {
