@@ -50,7 +50,8 @@
         android:visibility="gone"
         android:layout_below="@id/ll_ctn"
         android:weightSum="1"
-        android:layout_margin="@dimen/border8_margin"
+        android:layout_marginLeft="@dimen/border8_margin"
+        android:layout_marginRight="@dimen/border8_margin"
         >
 
         <com.philips.platform.uid.view.widget.EditText
@@ -75,7 +76,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ll_voucher"
         android:weightSum="1"
-        android:layout_margin="@dimen/border8_margin"
+        android:layout_marginLeft="@dimen/border8_margin"
+        android:layout_marginRight="@dimen/border8_margin"
         >
 
         <com.philips.platform.uid.view.widget.EditText
@@ -125,11 +127,6 @@
 
     </LinearLayout>
 
-
-
-
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/ll_mocking"
@@ -138,7 +135,7 @@
         android:layout_below="@id/ll_maxCount"
         android:layout_marginLeft="@dimen/border8_margin"
         android:layout_marginRight="@dimen/border8_margin"
-        android:weightSum="3"
+        android:weightSum="4"
         >
         <ToggleButton
             android:layout_weight="1"
@@ -176,14 +173,57 @@
             android:textSize="15sp"
             />
 
+        <ToggleButton
+            android:layout_weight="1"
+            android:id="@+id/toggleListener"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="Listener ON"
+            android:textOff="Listener OFF"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15sp"
+            />
     </LinearLayout>
+
+
+    <RadioGroup
+        android:id="@+id/rg_voucher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/ll_mocking"
+        android:layout_marginLeft="@dimen/border8_margin"
+        android:layout_marginRight="@dimen/border8_margin"
+        >
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rb_null"
+            android:text="Nullify Voucher"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rb_enabble"
+            android:text="Enable"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rb_disable"
+            android:text="Disable"/>
+
+    </RadioGroup>
 
 
     <ListView
         android:id="@+id/product_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/border8_margin"
+        android:layout_marginRight="@dimen/border8_margin"
         android:visibility="gone" />
 
     <com.philips.platform.uid.view.widget.Button
@@ -250,5 +290,6 @@
         android:layout_marginTop="2dp"
         android:text="@string/categorized_shop_now_ignore_retailer"
         android:visibility="gone" />
+
 
 </RelativeLayout>
