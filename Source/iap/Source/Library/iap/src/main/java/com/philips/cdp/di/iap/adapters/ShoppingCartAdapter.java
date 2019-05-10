@@ -270,7 +270,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }else {
                 setDelvieryVisibility(false);
             }
-            if(Utility.isVoucherEnable()){
+            if(Utility.isVoucherEnable() ||  deliveryMethod != null){
                 shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
             }else{
                 shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
