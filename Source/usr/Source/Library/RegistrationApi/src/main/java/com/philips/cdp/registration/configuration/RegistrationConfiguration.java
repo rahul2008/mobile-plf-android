@@ -247,8 +247,8 @@ public class RegistrationConfiguration {
             RLog.d(TAG, "isFacebookSDKSupport : " + Boolean.parseBoolean((String) obj));
             return Boolean.parseBoolean((String) obj);
         }
-        RLog.d(TAG, "isFacebookSDKSupport : false");
-        return false;
+        RLog.d(TAG, "isFacebookSDKSupport : true");
+        return true;
     }
 
     /**
