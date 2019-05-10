@@ -76,12 +76,6 @@ public class ProductListFragment extends BaseFragment {
     }
 
     private void showFragment(final BaseFragment fragment) {
-        /*FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.parent_layout, fragment,
-                ManualRegistrationFragment.TAG);
-        fragmentTransaction.addToBackStack(ManualRegistrationFragment.TAG);
-        fragmentTransaction.commitAllowingStateLoss();*/
         ((MainActivity) getActivity()).getNavigationController().switchFragment(fragment);
     }
 
@@ -93,22 +87,4 @@ public class ProductListFragment extends BaseFragment {
     public interface OnItemClickListener {
         void onItemClick(RegisteredProduct item);
     }
-
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        getView().setFocusableInTouchMode(true);
-//        getView().requestFocus();
-//        getView().setOnKeyListener(new View.OnKeyListener() {
-//            @Override
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-//                    Log.e("gif--","fragment back key is clicked");
-//                    getActivity().getSupportFragmentManager().popBackStack("ProductListFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-//    }
 }

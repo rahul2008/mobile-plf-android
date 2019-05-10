@@ -29,7 +29,7 @@ public interface UserDataInterface extends Serializable {
      *
      * @param detailKeys the list of the keys for which user data is needed
      * @return hashmap of user's details
-     * @since 2018.1.0
+     * @since 1903
      */
     HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws DataInterfaceException;
 

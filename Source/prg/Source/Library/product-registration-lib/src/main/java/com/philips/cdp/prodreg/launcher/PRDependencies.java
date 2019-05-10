@@ -1,5 +1,7 @@
 package com.philips.cdp.prodreg.launcher;
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -18,10 +20,10 @@ public class PRDependencies extends UappDependencies {
      * Create PRDependencies instance from AppInfraInterface and UserDataInterface object
      * @param appInfra - to pass the instance of AppInfraInterface
      * @param userDataInterface - to pass thee instance of UserDataInterface
-     * @since 1902
+     * @since 1903
      * TODO: Need to update version before merge to develop
      */
-    public PRDependencies(final AppInfraInterface appInfra, final UserDataInterface userDataInterface) {
+    public PRDependencies(@NonNull AppInfraInterface appInfra, @NonNull UserDataInterface userDataInterface) {
         super(appInfra);
         this.userDataInterface = userDataInterface;
     }

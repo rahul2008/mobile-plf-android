@@ -61,6 +61,7 @@ public class IAPUser implements UserDataListener {
         return janrainEmail;
     }
 
+    //TODO: Shashi, Do we need this api? as display name field is not defined in UserDetailsConstant. Check with Deepthi.
     public String getDisplayName() {
         return getGivenName();
     }
@@ -79,7 +80,7 @@ public class IAPUser implements UserDataListener {
 
     public String getFamilyName() {
         ArrayList<String> detailsKey = new ArrayList<>();
-        detailsKey.add(UserDetailConstants.GIVEN_NAME);
+        detailsKey.add(UserDetailConstants.FAMILY_NAME);
         String familyName = null;
         try {
             familyName = mUserDataInterface.getUserDetails(detailsKey).get(UserDetailConstants.GIVEN_NAME).toString();
