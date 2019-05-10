@@ -5,85 +5,112 @@
     "JanRainConfiguration.RegistrationClientID.Evaluation": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Staging": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Production": "{\"CN\":\"brhyp23jh8jrutmghjtht68yv4mvqvhu\",\"default\":\"9z23k3q8bhqyfwx78aru6bz8zksga54u\"}",
-
-    "Flow.TermsAndConditionsAcceptanceRequired" : "true",
-    "Flow.MinimumAgeLimit" : "{ \"NL\":12 ,\"GB\":16,\"default\": 16}",
-    "SigninProviders.default": ["facebook","googleplus"],
-    "SigninProviders.NL": ["facebook","googleplus"],
-    "SigninProviders.CN": ["wechat"],
-    "weChatAppId" : "wx5b3bfa4e2970475e",
-    "weChatAppSecret":"b2f6437ea42bacca704493bce8226125",
-    "ShowCountrySelection":"true",
-    "SkipFacebookSDK": "true"
+    "Flow.TermsAndConditionsAcceptanceRequired": "true",
+    "Flow.MinimumAgeLimit": "{ \"NL\":12 ,\"GB\":16,\"default\": 16}",
+    "SigninProviders.default": [
+      "facebook",
+      "googleplus"
+    ],
+    "SigninProviders.NL": [
+      "facebook",
+      "googleplus"
+    ],
+    "SigninProviders.CN": [
+      "wechat"
+    ],
+    "weChatAppId": "wx5b3bfa4e2970475e",
+    "weChatAppSecret": "b2f6437ea42bacca704493bce8226125",
+    "ShowCountrySelection": "true"
   },
   "IAP": {
     "propositionid": "Tuscany2016",
     "voucherCode.enable": true
   },
   "appinfra": {
-    "appidentity.micrositeId" : "77000",
-    "appidentity.sector"  : "b2c",
-    "appidentity.appState"  : "STAGING",
-    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
+    "appidentity.micrositeId": "77000",
+    "appidentity.sector": "b2c",
+    "appidentity.appState": "STAGING",
+    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
     "restclient.cacheSizeInKB": 51200,
-    "tagging.sensitiveData": ["bundleId", "language"],
-    "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success","DOT-ReceiveMarketingOptIn"],
-    "servicediscovery.platformMicrositeId":"70000",
-    "servicediscovery.platformEnvironment":"production",
-    "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"],
-    "LANGUAGEPACK.SERVICEID":"app.languagepack",
-    "servicediscovery.propositionEnabled":true,
-    "enableAdobeLogs":true,
-    "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
-    "logging.releaseConfig":{
-      "fileName":"AppInfraLog",
-      "numberOfFiles":5,
-      "fileSizeInBytes":50000,
-      "logLevel":"All",
-      "fileLogEnabled":false,
-      "consoleLogEnabled":true,
-      "cloudLogEnabled":false,
-      "cloudBatchLimit":5,
-      "componentLevelLogEnabled":true,
+    "tagging.sensitiveData": [
+      "bundleId",
+      "language"
+    ],
+    "abtest.precache": [
+      "philipsmobileappabtest1content",
+      "philipsmobileappabtest1success",
+      "DOT-ReceiveMarketingOptIn"
+    ],
+    "servicediscovery.platformMicrositeId": "70000",
+    "servicediscovery.platformEnvironment": "production",
+    "timesync.ntp.hosts": [
+      "0.pool.ntp.org",
+      "1.pool.ntp.org",
+      "2.pool.ntp.org",
+      "3.pool.ntp.org",
+      "0.cn.pool.ntp.org"
+    ],
+    "LANGUAGEPACK.SERVICEID": "app.languagepack",
+    "servicediscovery.propositionEnabled": true,
+    "enableAdobeLogs": true,
+    "servicediscovery.countryMapping": {
+      "LU": "BE",
+      "MO": "HK"
+    },
+    "logging.releaseConfig": {
+      "fileName": "AppInfraLog",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "All",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "cloudLogEnabled": false,
+      "cloudBatchLimit": 5,
+      "componentLevelLogEnabled": true,
       "componentIds": [
-        "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
+        "usr",
+        "ail",
+        "uit",
+        "cml",
+        "iap",
+        "dcc",
+        "prg",
+        "dsc",
+        "dcc/prx",
+        "iap/prx",
+        "prg/prx"
       ]
     },
-    "logging.debugConfig":{
-      "fileName":"AppInfraLog",
-      "numberOfFiles":5,
-      "fileSizeInBytes":50000,
-      "logLevel":"All",
-      "fileLogEnabled":false,
-      "consoleLogEnabled":true,
-      "cloudLogEnabled":false,
-      "cloudBatchLimit":5,
-      "componentLevelLogEnabled":true,
+    "logging.debugConfig": {
+      "fileName": "AppInfraLog",
+      "numberOfFiles": 5,
+      "fileSizeInBytes": 50000,
+      "logLevel": "All",
+      "fileLogEnabled": false,
+      "consoleLogEnabled": true,
+      "cloudLogEnabled": false,
+      "cloudBatchLimit": 5,
+      "componentLevelLogEnabled": true,
       "componentIds": [
-        "usr" ,"ail:", "uit", "cml","iap","dcc","prg","dsc","dcc/prx","iap/prx","prg/prx"
+        "usr",
+        "ail",
+        "uit",
+        "cml",
+        "iap",
+        "dcc",
+        "prg",
+        "dsc",
+        "dcc/prx",
+        "iap/prx",
+        "prg/prx"
       ]
     }
-  },
-  "ths":{
-    "apiKey":"dc573250",
-    "gdprEnabled":false
   },
   "hsdp": {
     "appName": "OneBackend",
     "propositionName": "OneBackendProp",
     "appInfra.cloudLoggingSecretKey": "96a5cd559d9299e4632faae2320777347d0e35acd77e3c1e9edcf244a30443ad3fcefdbb62806f15bb758c5903a0d7be635e0240cc671261f14cb37cc2ef1153",
     "appInfra.cloudLoggingSharedKey": "YMV5QLdKOW9vlQ1fgG0txw8Tdglfe2ePIFwkub68eN8=",
-    "appInfra.cloudLoggingProductKey":"a074cf36-ab05-4ad7-9fb8-cb315087c727"
-  },
-  "css":{
-    "ConsentCacheTTLInMinutes" : 3
-  },
-  "dataservices": {
-    "supportedMomentTypes": ["Temperature", "SleepSession", "sleepSession", "Note"]
-  },
-  "pairingRelationshipType": {
-    "STAGING": "urn:cdp|datareceiver_stg",
-    "DEVELOPMENT": "urn:cdp|datareceiver_dev",
-    "TEST": "urn:cdp|datareceiver_dev"
+    "appInfra.cloudLoggingProductKey": "a074cf36-ab05-4ad7-9fb8-cb315087c727"
   }
 }

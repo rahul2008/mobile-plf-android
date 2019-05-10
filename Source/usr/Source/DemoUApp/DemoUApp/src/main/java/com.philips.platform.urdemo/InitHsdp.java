@@ -33,25 +33,26 @@ class InitHsdp{
         SharedPreferences.Editor editor = context.getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         switch (configuration) {
             case EVALUATION:
+            case STAGING:
             {
                 AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
 
                 Map<String, String> hsdpAppNames = new HashMap<>();
-                hsdpAppNames.put(CHINA_CODE, "Sonicare");
+                hsdpAppNames.put(CHINA_CODE, "OneBackend");
                 hsdpAppNames.put(DEFAULT, "uGrow");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
                         UR, hsdpAppNames, configError);
 
                 Map<String, String> hsdpSecrets = new HashMap<>();
-                hsdpSecrets.put(CHINA_CODE, "981b4f75-9da5-4939-96e5-3e4e18dd6cb6");
+                hsdpSecrets.put(CHINA_CODE, "a3a3d09e2c74b93a409bc242956a6101bd5ff78cfd21473faa7aa21a8ec8493b66fa905dd4916b8ba4325cb988b442f9c6054089b9b36d09bb1538f985b47b22");
                 hsdpSecrets.put(DEFAULT, "EB7D2C2358E4772070334CD868AA6A802164875D6BEE858D13226234350B156AC8C4917885B5552106DC7F9583CA52CB662110516F8AB02215D51778DE1EF1F3");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
                         UR, hsdpSecrets, configError);
 
                 Map<String, String> hsdpSharedIds = new HashMap<>();
-                hsdpSharedIds.put(CHINA_CODE, "758f5467-bb78-45d2-a58a-557c963c30c1");
+                hsdpSharedIds.put(CHINA_CODE, "6036461d-0914-4afe-9e6e-eefe27fb529a");
                 hsdpSharedIds.put(DEFAULT, "e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
 
                 anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
@@ -116,54 +117,6 @@ class InitHsdp{
                 SharedPreferences prefs = context.getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                 prefs.edit().remove("reg_hsdp_environment").apply();
                 break;
-
-
-            case STAGING:
-            {
-                AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
-
-                Map<String, String> hsdpAppNames = new HashMap<>();
-                hsdpAppNames.put(CHINA_CODE, "Sonicare");
-                hsdpAppNames.put(DEFAULT, "uGrow");
-
-                anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
-                        UR, hsdpAppNames, configError);
-
-                Map<String, String> hsdpSecrets = new HashMap<>();
-                hsdpSecrets.put(CHINA_CODE, "981b4f75-9da5-4939-96e5-3e4e18dd6cb6");
-                hsdpSecrets.put(DEFAULT, "EB7D2C2358E4772070334CD868AA6A802164875D6BEE858D13226234350B156AC8C4917885B5552106DC7F9583CA52CB662110516F8AB02215D51778DE1EF1F3");
-
-                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
-                        UR, hsdpSecrets, configError);
-
-
-
-                Map<String, String> hsdpSecrets1 =(Map<String, String>) anInterface.getPropertyForKey(HSDP_CONFIGURATION_SECRET,
-                        UR,  configError);
-
-                Map<String, String> hsdpSharedIds = new HashMap<>();
-                hsdpSharedIds.put(CHINA_CODE, "758f5467-bb78-45d2-a58a-557c963c30c1");
-                hsdpSharedIds.put(DEFAULT, "e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
-
-                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
-                        UR, hsdpSharedIds, configError);
-
-                Map<String, String> hsdpBaseUrls = new HashMap<>();
-                try {
-
-                    hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
-                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
-                        UR, hsdpBaseUrls, configError);
-
-                editor.putString("reg_hsdp_environment", configuration.getValue());
-                editor.commit();
-            }
-            break;
 
             case TESTING:
                 prefs = context.getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);

@@ -330,7 +330,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
     public void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         hideForgotPasswordSpinner();
         RLog.e(TAG, " handleSendForgotPasswordFailedWithError : Error code = " + userRegistrationFailureInfo.getErrorCode() +
-                userRegistrationFailureInfo.getErrorDescription());
+                userRegistrationFailureInfo.getLocalizedValidationErrorMessages());
 
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             if (RegistrationHelper.getInstance().isMobileFlow())
@@ -341,7 +341,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
             sendEmailOrSMSButton.setEnabled(false);
         } else {
             if (userRegistrationFailureInfo.getErrorCode() == -1) return;
-            forgotPasswordErrorMessage(userRegistrationFailureInfo.getErrorDescription());
+            forgotPasswordErrorMessage(userRegistrationFailureInfo.getLocalizedValidationErrorMessages());
             sendEmailOrSMSButton.setEnabled(false);
         }
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
@@ -411,7 +411,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements
 
     @Override
     public void forgotPasswordErrorMessage(String errorMsg) {
-        usr_forgotpassword_inputId_inputValidation.setErrorMessage(errorMsg);
+        if (null == errorMsg || errorMsg.isEmpty()) {
+            usr_forgotpassword_inputId_inputValidation.setErrorMessage(new URError(context).getLocalizedError(ErrorType.URX, RegConstants.UNKNOWN_ERROR_ID));
+        } else {
+            usr_forgotpassword_inputId_inputValidation.setErrorMessage(errorMsg);
+        }
         usr_forgotpassword_inputId_inputValidation.showError();
     }
 

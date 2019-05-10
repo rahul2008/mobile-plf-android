@@ -36,9 +36,24 @@ public class ForgotPasswordFragmentTest {
         forgotPasswordFragment= new ForgotPasswordFragment();
     }
 
-    @Test(expected = NullPointerException.class)
-    public void should_startFragment() throws Exception {
-        SupportFragmentTestUtil.startFragment(forgotPasswordFragment);
+    @Test
+    public void testForgotPasswordErrorMessageNull()  {
+
+        forgotPasswordFragment.forgotPasswordErrorMessage(null);
     }
+
+    @Test
+    public void testForgotPasswordErrorMessageEmpty()  {
+
+        forgotPasswordFragment.forgotPasswordErrorMessage("");
+    }
+
+    @Test
+    public void testForgotPasswordErrorMessage()  {
+
+        forgotPasswordFragment.forgotPasswordErrorMessage("sampletext");
+    }
+
+
 
 }
