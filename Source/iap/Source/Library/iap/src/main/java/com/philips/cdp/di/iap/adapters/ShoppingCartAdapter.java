@@ -264,16 +264,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
 
+            if(Utility.isVoucherEnable() || Utility.isDelvieryFirstTimeUser){
+                shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
+            }else{
+                shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
+            }
+
             if(Utility.isDelvieryFirstTimeUser ){
                 setDelvieryVisibility(true);
             }else {
                 setDelvieryVisibility(false);
             }
-            if(Utility.isVoucherEnable()){
-                shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
-            }else{
-                shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
-            }
+
             if(Utility.isVoucherEnable()) {
                 shoppingCartFooter.mVoucherContainer.setVisibility(View.VISIBLE);
                 shoppingCartFooter.mAppliedVoucherCode.setText(R.string.iap_promotion_gift_code);
@@ -365,7 +367,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setDelvieryVisibility(boolean visibility){
         if (visibility) {
-            shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.VISIBLE);
             shoppingCartFooter.summary_delivery_container.setVisibility(View.VISIBLE);
             shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
@@ -373,7 +374,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         else
         {
-            shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
             shoppingCartFooter.mDeliveryUPSParcelContainer.setVisibility(View.GONE);
             shoppingCartFooter.summary_delivery_container.setVisibility(View.GONE);
             shoppingCartFooter.mVatInclusiveValue.setVisibility(View.GONE);
