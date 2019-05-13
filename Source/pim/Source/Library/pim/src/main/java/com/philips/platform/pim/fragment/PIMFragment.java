@@ -49,11 +49,11 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         pimLoginProgreassBar = (ProgressBar) view.findViewById(R.id.pbPimRequest);
         // TODO: Deepthi, check if user is logged in before launching web page. (Done)
         PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
-        if(pimoidcConfigration != null && pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN){
+        if (pimoidcConfigration != null && pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
             pimLoginProgreassBar.setVisibility(View.VISIBLE);
-            pimLoginManager.oidcLogin(mContext,mBundle,this);
-        }else{
-            mLoggingInterface.log(DEBUG,TAG,"OIDC Login skipped, as user is already logged in");
+            pimLoginManager.oidcLogin(mContext, mBundle, this, this);
+        } else {
+            mLoggingInterface.log(DEBUG, TAG, "OIDC Login skipped, as user is already logged in");
         }
         return view;
     }

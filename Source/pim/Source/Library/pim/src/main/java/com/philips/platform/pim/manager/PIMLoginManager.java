@@ -1,6 +1,5 @@
 package com.philips.platform.pim.manager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.utilities.PIMConstants;
@@ -36,7 +36,7 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    public void oidcLogin(Context context, Bundle bundle, @NonNull PIMLoginListener pimLoginListener) {
+    public void oidcLogin(Context context, Bundle bundle, PIMFragment pimFragment, @NonNull PIMLoginListener pimLoginListener) {
         mPimLoginListener = pimLoginListener;
         if (context == null) {
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : context is null.");
@@ -47,7 +47,7 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
         } else {
             Intent authReqIntent = mPimAuthManager.getAuthorizationRequestIntent(context, mPimoidcConfigration.getAuthorizationServiceConfiguration(), mPimoidcConfigration.getClientId(), createAdditionalParameterForLogin(bundle));
             if (authReqIntent != null)
-                ((Activity) context).startActivityForResult(authReqIntent, 100);
+                pimFragment.startActivityForResult(authReqIntent, 100);
             else {
                 mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : authReqIntent is null.");
                 mPimLoginListener.onLoginFailed(0);

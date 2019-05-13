@@ -62,6 +62,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+            btnLoginActivity.setVisibility(View.VISIBLE);
+            btnLoginFragment.setVisibility(View.VISIBLE);
+            btnLogout.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void onClick(View v) {
