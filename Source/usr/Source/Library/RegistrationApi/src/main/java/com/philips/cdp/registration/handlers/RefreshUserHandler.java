@@ -12,9 +12,9 @@ package com.philips.cdp.registration.handlers;
 /**
  * It is a callback class to proposition for handling refresh User
  * @since 1.0.0
- *
- * TODO: Shashi, Can we pass errDesc on onRefreshLoginSessionFailedWithError
+ * @deprecated since 1903
  */
+@Deprecated
 public interface RefreshUserHandler {
 
 	/**

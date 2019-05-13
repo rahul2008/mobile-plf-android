@@ -31,7 +31,7 @@ public interface UserDataInterface extends Serializable {
      * @return hashmap of user's details
      * @since 1903
      */
-    HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws DataInterfaceException;
+    HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws UserDataInterfaceException;
 
 
     /**
@@ -76,7 +76,7 @@ public interface UserDataInterface extends Serializable {
      * To refesh the user
      *
      * @param refreshSessionListener listener for user refresh
-     * @since 2018.1.0
+     * @since 1903
      */
     void refreshSession(RefreshSessionListener refreshSessionListener);
 
@@ -85,7 +85,7 @@ public interface UserDataInterface extends Serializable {
      * log out the user
      *
      * @param logoutSessionListener listener for logout
-     * @since 2018.1.0
+     * @since 1903
      */
     void logoutSession(LogoutSessionListener logoutSessionListener);
 
@@ -93,7 +93,7 @@ public interface UserDataInterface extends Serializable {
      * Refetch the details of the user from server
      *
      * @param userDetailsListener listener for refetching the details
-     * @since 2018.1.0
+     * @since 1903
      */
     void refetchUserDetails(RefetchUserDetailsListener userDetailsListener);
 

@@ -11,7 +11,7 @@ import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.platform.pif.DataInterface.USR.DataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
@@ -77,7 +77,7 @@ public class RemoteRegisteredProductsTest extends TestCase {
     }
 
     @Test
-    public void testRegisterMethod() throws DataInterfaceException {
+    public void testRegisterMethod() throws UserDataInterfaceException {
         final ResponseListener responseListenerMock = mock(ResponseListener.class);
         final RequestManager requestManager = mock(RequestManager.class);
         final RegisteredProductsRequest registeredProductsRequest = mock(RegisteredProductsRequest.class);
@@ -114,7 +114,7 @@ public class RemoteRegisteredProductsTest extends TestCase {
     }
 
     @Test
-    public void testGetRegisteredProductsRequest() throws DataInterfaceException {
+    public void testGetRegisteredProductsRequest() throws UserDataInterfaceException {
         HashMap<String, Object> userDetailsMap = new HashMap<>();
         userDetailsMap.put(UserDetailConstants.ACCESS_TOKEN,"access_token");
         ArrayList<String> detailskey = new ArrayList<>();

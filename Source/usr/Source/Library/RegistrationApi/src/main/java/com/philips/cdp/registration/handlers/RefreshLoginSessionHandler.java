@@ -12,9 +12,9 @@ package com.philips.cdp.registration.handlers;
 /**
  * It is a callback class to proposition for handling Refresh login session
  * @since 1.0.0
- *
- * TODO: Shashi, Can we pass errDesc also onRefreshLoginSessionFailedWithError
+ * @deprecated since 1903
  */
+@Deprecated
 public interface RefreshLoginSessionHandler {
 
 	/**
@@ -31,16 +31,8 @@ public interface RefreshLoginSessionHandler {
 	void onRefreshLoginSessionFailedWithError(int error);
 
 	/**
-	 * method is invoked on refresh login session in progress
-	 * @param message  progress message on refresh login session
-	 * @since 1.0.0
-     */
-	void onRefreshLoginSessionInProgress(String message);
-
-	/**
 	 * method is invoked on user refresh Failure due to excess login at multiple devices and gets forced logged out on refresh session
-	 * @since 1902
-	 * TODO : Need to update version before merge to develop
+	 * @since 1903
 	 */
-	void onRefreshLoginSessionFailedAndLoggedout();
+	void forcedLogout();
 }

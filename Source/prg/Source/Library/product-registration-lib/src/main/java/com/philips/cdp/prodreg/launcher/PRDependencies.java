@@ -21,7 +21,6 @@ public class PRDependencies extends UappDependencies {
      * @param appInfra - to pass the instance of AppInfraInterface
      * @param userDataInterface - to pass thee instance of UserDataInterface
      * @since 1903
-     * TODO: Need to update version before merge to develop
      */
     public PRDependencies(@NonNull AppInfraInterface appInfra, @NonNull UserDataInterface userDataInterface) {
         super(appInfra);

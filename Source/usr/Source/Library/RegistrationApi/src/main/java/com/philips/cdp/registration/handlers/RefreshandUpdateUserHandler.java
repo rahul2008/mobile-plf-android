@@ -132,11 +132,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                         }
 
                         @Override
-                        public void onRefreshLoginSessionInProgress(String message) {
-                        }
-
-                        @Override
-                        public void onRefreshLoginSessionFailedAndLoggedout() {
+                        public void forcedLogout() {
                             handler.onRefreshUserFailed(ErrorCodes.HSDP_INPUT_ERROR_1151);
                         }
                     });
