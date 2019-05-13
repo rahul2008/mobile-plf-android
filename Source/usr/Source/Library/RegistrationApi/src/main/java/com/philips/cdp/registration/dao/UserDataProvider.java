@@ -68,6 +68,9 @@ public class UserDataProvider extends User implements UserDataInterface {
 
     @Override
     public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws UserDataInterfaceException {
+        if(getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN){
+            throw new UserDataInterfaceException(new Error(Error.UserDetailError.NotLoggedIn));
+        }
         RLog.d(TAG, "getUserDetails : " + detailKeys);
         if (detailKeys.isEmpty()) {
             fillUserData();

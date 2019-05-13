@@ -228,7 +228,8 @@ public class HsdpUser {
                                     + responseCode +
                                     " message : " + message);
                             ThreadUtils.postInMainThread(mContext, () ->
-                                    refreshHandler.onRefreshLoginSessionFailedAndLoggedout());
+                                    refreshHandler.onRefreshLoginSessionFailedWithError(Integer
+                                            .parseInt(responseCode)));
                         });
                     } else {
                         handler.post(() -> {

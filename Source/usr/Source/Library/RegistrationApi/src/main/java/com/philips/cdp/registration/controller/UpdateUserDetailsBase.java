@@ -126,14 +126,9 @@ public class UpdateUserDetailsBase implements
     }
 
     @Override
-    public void onRefreshLoginSessionInProgress(String message) {
-        //PerformNothing
-    }
-
-    @Override
-    public void onRefreshLoginSessionFailedAndLoggedout() {
+    public void forcedLogout() {
         if (null != mUpdateUserDetails) {
-            RLog.e(TAG, "onRefreshLoginSessionFailedAndLoggedout");
+            RLog.e(TAG, "forcedLogout");
             ThreadUtils.postInMainThread(mContext, () ->
                     mUpdateUserDetails
                             .onUpdateFailedWithError(ErrorCodes.HSDP_INPUT_ERROR_1151));

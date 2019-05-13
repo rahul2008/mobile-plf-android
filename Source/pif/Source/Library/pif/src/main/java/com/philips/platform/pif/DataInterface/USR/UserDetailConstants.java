@@ -5,14 +5,20 @@
  */
 package com.philips.platform.pif.DataInterface.USR;
 
+/**
+ * Constants to request/fetch user details
+ *
+ * TODO: Shashi, Address is reqiured or not, Discuss with Viswa
+ */
 public class UserDetailConstants {
-    public static final String GIVEN_NAME = "givenName";
-    public static final String FAMILY_NAME =  "familyName";
+    public static final String GIVEN_NAME = "given_name";
+    public static final String FAMILY_NAME =  "family_name";
     public static final String GENDER = "gender";
     public static final String EMAIL = "email";
-    public static final String MOBILE_NUMBER = "mobileNumber";
-    public static final String BIRTHDAY = "birthday";
-    public static final String RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
+    public static final String MOBILE_NUMBER = "phone_number";
+    public static final String BIRTHDAY = "birthdate";
+    public static final String RECEIVE_MARKETING_EMAIL = "consent_email_marketing.given";
     public static final String UUID = "uuid";
-    public static final String ACCESS_TOKEN = "accessToken";
+    public static final String ACCESS_TOKEN = "access_token";
 }
+UR
