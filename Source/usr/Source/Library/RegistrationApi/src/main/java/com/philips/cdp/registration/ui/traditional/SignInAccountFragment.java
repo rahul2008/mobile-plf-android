@@ -502,11 +502,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             return;
         }
 
-        if (null != userRegistrationFailureInfo.getErrorDescription()) {
-            updateErrorNotification(userRegistrationFailureInfo.getErrorDescription(), userRegistrationFailureInfo.getErrorCode());
+        if (null != userRegistrationFailureInfo.getLocalizedValidationErrorMessages()|| userRegistrationFailureInfo.getLocalizedValidationErrorMessages().isEmpty()) {
+            mEtEmailInputValidation.setErrorMessage(userRegistrationFailureInfo.getLocalizedValidationErrorMessages());
+            mEtEmailInputValidation.showError();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             uiEnableState(true);
             return;
+        } else{
+            mEtEmailInputValidation.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.URX, RegConstants.UNKNOWN_ERROR_ID));
+            mEtEmailInputValidation.showError();
+
         }
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         uiEnableState(true);
