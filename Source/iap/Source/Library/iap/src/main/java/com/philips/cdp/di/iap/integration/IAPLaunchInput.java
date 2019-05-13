@@ -16,6 +16,10 @@ public class IAPLaunchInput extends UappLaunchInput {
     private ArrayList<String> mIgnoreRetailers;
     private ArrayList<String> mFirstIgnoreRetailers = new ArrayList<>();
     private String voucherCode;
+    private IAPOrderFlowCompletion mIapOrderFlowCompletion;
+    private int maxCartCount;
+    private boolean isHybrisSupported;
+    private IAPBannerEnabler iapBannerEnabler;
     /**
      * IAPLaunchInput setIAPFlow method to set the flow of uApp with required inputs
      * @param pLandingView  pass int value from IAPFlows enums
@@ -79,9 +83,89 @@ public class IAPLaunchInput extends UappLaunchInput {
         this.iapListener = iapListener;
     }
 
-
+    /**
+     *
+     * @return voucher code
+     * @since 1805
+     */
     public String getVoucher(){
         return voucherCode;
+    }
+
+    /**
+     *
+     * @return IAPOrderFlowCompletion
+     * @since 1902
+     */
+    public IAPOrderFlowCompletion getIapOrderFlowCompletion() {
+        return mIapOrderFlowCompletion;
+    }
+
+    /**
+     *
+     * @param mIapOrderFlowCompletion
+     * @since 1902
+     */
+    public void setIapOrderFlowCompletion(IAPOrderFlowCompletion mIapOrderFlowCompletion) {
+        this.mIapOrderFlowCompletion = mIapOrderFlowCompletion;
+    }
+
+    /**
+     *
+     * @return maxCartCount
+     * @since 1902
+     */
+    public int getMaxCartCount() {
+        return maxCartCount;
+    }
+
+    /**
+     *
+     * @param maxCartCount
+     * 0 - means you can add any number of products in the cart
+     * Anything beside 0 , will restrict the app to add products more than that count .
+     * @since 1902
+     */
+    public void setMaxCartCount(int maxCartCount) {
+        this.maxCartCount = maxCartCount;
+    }
+
+    /**
+     *
+     * @return isHybrisSupported
+     * @since 1902
+     */
+    public boolean isHybrisSupported() {
+        return isHybrisSupported;
+    }
+
+    /**
+     *
+     * @param hybrisSupported
+     * false - set false , if you want to go with retailer flow only .
+     * @since 1902
+     */
+    public void setHybrisSupported(boolean hybrisSupported) {
+        isHybrisSupported = hybrisSupported;
+    }
+
+    /**
+     *
+     * @return IAPBannerEnabler
+     * @since 1902
+     */
+    public IAPBannerEnabler getIapBannerEnabler() {
+        return iapBannerEnabler;
+    }
+
+    /**
+     *
+     * @param iapBannerEnabler
+     * IAPBannerEnabler - set this by implementing getBannerView() method to show banner in iAP component .
+     * @since 1902
+     */
+    public void setIapBannerEnabler(IAPBannerEnabler iapBannerEnabler) {
+        this.iapBannerEnabler = iapBannerEnabler;
     }
 
     /**
