@@ -200,7 +200,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //Footer Layout
             shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
             ShoppingCartData data;
-            String deliveryMethod = null;
 
             if (mData.get(0) != null) {
                 data = mData.get(0);
@@ -211,7 +210,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     handleTax(data, shoppingCartFooter);
 
                     String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
-                    deliveryMethod = data.getDeliveryMode().getName();
+                    String deliveryMethod = data.getDeliveryMode().getName();
                     String deliveryModeDescription=data.getDeliveryMode().getDescription();
 
                     if ((deliveryCost.trim()).equalsIgnoreCase("$ 0.00") ) {
@@ -265,12 +264,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
 
-            if(Utility.isDelvieryFirstTimeUser ||  deliveryMethod != null){
+            if(Utility.isDelvieryFirstTimeUser ){
                 setDelvieryVisibility(true);
             }else {
                 setDelvieryVisibility(false);
             }
-            if(Utility.isVoucherEnable() ||  deliveryMethod != null){
+            if(Utility.isVoucherEnable()){
                 shoppingCartFooter.mExtraOption.setVisibility(View.VISIBLE);
             }else{
                 shoppingCartFooter.mExtraOption.setVisibility(View.GONE);
