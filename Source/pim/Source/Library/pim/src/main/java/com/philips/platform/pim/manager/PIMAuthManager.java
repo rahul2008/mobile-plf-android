@@ -36,6 +36,7 @@ class PIMAuthManager {
     }
 
     void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
+        baseUrl = "https://tst.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration discoveryEndpoint : " + discoveryEndpoint);
 
@@ -65,7 +66,7 @@ class PIMAuthManager {
 
         AuthorizationRequest authRequest = authRequestBuilder
                 .setScope(getScopes())
-                .setAdditionalParameters(parameter)
+//                .setAdditionalParameters(parameter)
                 .build();
         AuthorizationService authService = new AuthorizationService(context);
         return authService.getAuthorizationRequestIntent(authRequest);

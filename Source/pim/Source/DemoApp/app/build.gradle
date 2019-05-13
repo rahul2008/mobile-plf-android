@@ -25,11 +25,11 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        applicationId 'com.philips.platform.pim'
+        applicationId 'com.philips.apps.pimdemoapp'
         versionName version + "(" + commitHash + ")"
         versionCode 1
         manifestPlaceholders = [
-                appAuthRedirectScheme: 'com.philips.apps.9317be6b-193f-4187-9ec2-5e1802a8d8ad'
+                appAuthRedirectScheme: 'com.philips.apps.pimdemoapp://oauthredirect'
         ]
     }
 
