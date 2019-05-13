@@ -53,7 +53,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     private CartsEntity mCurrentCartData = null;
     private AddressController mAddressController;
-    private int mCartQuntity;
 
 
     public ShoppingCartPresenter() {
