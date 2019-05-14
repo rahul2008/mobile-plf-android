@@ -11,9 +11,7 @@ import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -38,7 +36,9 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.webview.WebViewStateData;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -54,11 +54,10 @@ import static com.philips.platform.baseapp.screens.Optin.MarketingOptin.AB_TEST_
  * We do not have revceived China Keys for TEST and DEV AppState.
  * China Keys are available for STAGE only.
  */
-public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, UserRegistrationUIEventListener {
+public abstract class UserRegistrationState extends BaseState implements UserDataListener, UserRegistrationUIEventListener {
 
     private static final String TAG = UserRegistrationState.class.getSimpleName();
 
-    private User userObject;
     protected FragmentLauncher fragmentLauncher;
     private Context applicationContext;
 
@@ -138,11 +137,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     }
 
-    public User getUserObject(Context context) {
-        userObject = new User(context);
-        return userObject;
-    }
-
     public UserDataInterface getUserDataInterface() {
 
         return urInterface.getUserDataInterface();
@@ -154,8 +148,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      */
     private void launchUR() {
         RALog.d(TAG, " LaunchUr called ");
-        userObject = new User(getApplicationContext());
-        userObject.registerUserRegistrationListener(this);
+        getUserDataInterface().addUserDataInterfaceListener(this);
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.enableAddtoBackStack(true);
@@ -234,23 +227,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         }
     }
 
-    @Override
-    public void onUserLogoutSuccess() {
-        RALog.d(TAG, " User Logout success  ");
-        getAppInfra().getRestClient().clearCacheResponse();
-
-    }
-
-    @Override
-    public void onUserLogoutFailure() {
-
-        RALog.d(TAG, "User logout failed");
-    }
-
-    @Override
-    public void onUserLogoutSuccessWithInvalidAccessToken() {
-    }
-
     public String getVersion() {
         return RegistrationHelper.getRegistrationApiVersion();
     }
@@ -260,8 +236,8 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     protected void setUrCompleted() {
-        if (userObject != null) {
-            getApplicationContext().getAppInfra().getCloudLogging().setHSDPUserUUID(userObject.getHsdpUUID());
+        if (getUserDataInterface() != null) {
+            getApplicationContext().getAppInfra().getCloudLogging().setHSDPUserUUID(getUserDataInterface().getHSDPUUID());
             getAppInfra().getAbTesting().tagEvent("MarketingOptinstatusSuccess", null);
         }
         SharedPreferences.Editor editor = getSharedPreferences().edit();
@@ -271,5 +247,41 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     private SharedPreferences getSharedPreferences() {
         return getFragmentActivity().getSharedPreferences(Constants.SHARED_PREF, MODE_PRIVATE);
+    }
+
+    @Override
+    public void logoutSessionSuccess() {
+        RALog.d(TAG, " User Logout success  ");
+        getAppInfra().getRestClient().clearCacheResponse();
+    }
+
+    @Override
+    public void logoutSessionFailed(Error error) {
+        RALog.d(TAG, "User logout failed");
+    }
+
+    @Override
+    public void onRefetchSuccess() {
+        //NOP
+    }
+
+    @Override
+    public void onRefetchFailure(Error error) {
+        //NOP
+    }
+
+    @Override
+    public void refreshSessionSuccess() {
+        //NOP
+    }
+
+    @Override
+    public void refreshSessionFailed(Error error) {
+        //NOP
+    }
+
+    @Override
+    public void forcedLogout() {
+        //NOP
     }
 }
