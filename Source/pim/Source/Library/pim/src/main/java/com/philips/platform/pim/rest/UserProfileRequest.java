@@ -27,7 +27,7 @@ public class UserProfileRequest implements PIMRequestInterface {
     }
 
     @Override
-    public byte[] getBody() {
+    public String getBody() {
         return null;
     }
 

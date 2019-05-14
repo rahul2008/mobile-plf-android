@@ -24,16 +24,14 @@ public class LogoutRequest implements PIMRequestInterface {
     @Override
     public Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("token", mAuthState.getAccessToken());
-        headers.put("token_type_hint", "access_token");
-        headers.put("client_id", mClientId);
-        headers.put("client_secret", mAuthState.getClientSecret());
+        headers.put("content-type", "application/x-www-form-urlencoded");
+        headers.put("cache-control", "no-cache");
         return headers;
     }
 
     @Override
-    public byte[] getBody() {
-        return null;
+    public String getBody() {
+        return "token=" + mAuthState.getAccessToken() + "&client_id=" + mClientId + "&token_type_hint=access_token";
     }
 
     @Override

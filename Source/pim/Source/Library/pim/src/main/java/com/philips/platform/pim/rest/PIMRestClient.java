@@ -8,7 +8,7 @@ public class PIMRestClient {
 
     private RestInterface restInterface;
 
-    public PIMRestClient(RestInterface restInterface){
+    public PIMRestClient(RestInterface restInterface) {
         this.restInterface = restInterface;
     }
 
@@ -19,6 +19,6 @@ public class PIMRestClient {
     }
 
     private PIMRequest makePimRequest(PIMRequestInterface pimRequestInterface, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
-        return new PIMRequest(pimRequestInterface.getMethodType(), pimRequestInterface.getUrl(), successListener, errorListener, pimRequestInterface.getHeader());
+        return new PIMRequest(pimRequestInterface.getMethodType(), pimRequestInterface.getUrl(), pimRequestInterface.getBody(), successListener, errorListener, pimRequestInterface.getHeader());
     }
 }

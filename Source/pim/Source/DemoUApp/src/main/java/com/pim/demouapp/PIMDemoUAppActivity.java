@@ -62,15 +62,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-            btnLoginActivity.setVisibility(View.VISIBLE);
-            btnLoginFragment.setVisibility(View.VISIBLE);
-            btnLogout.setVisibility(View.VISIBLE);
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+//            btnLoginActivity.setVisibility(View.VISIBLE);
+//            btnLoginFragment.setVisibility(View.VISIBLE);
+//            btnLogout.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     @Override
     public void onClick(View v) {
@@ -81,16 +81,16 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
             pimInterface.launch(activityLauncher, launchInput);
         } else if (v == btnLoginFragment) {
-            btnLoginActivity.setVisibility(View.GONE);
-            btnLoginFragment.setVisibility(View.GONE);
-            btnLogout.setVisibility(View.GONE);
+//            btnLoginActivity.setVisibility(View.GONE);
+//            btnLoginFragment.setVisibility(View.GONE);
+//            btnLogout.setVisibility(View.GONE);
             FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
             pimInterface.launch(fragmentLauncher, launchInput);
         } else if (v == btnLogout) {
             if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-                btnLoginActivity.setVisibility(View.GONE);
-                btnLoginFragment.setVisibility(View.GONE);
-                btnLogout.setVisibility(View.GONE);
+//                btnLoginActivity.setVisibility(View.GONE);
+//                btnLoginFragment.setVisibility(View.GONE);
+//                btnLogout.setVisibility(View.GONE);
                 pimInterface.getUserDataInterface().logOut(this);
             } else {
                 Toast.makeText(this, "User is not loged-in, Please login!", Toast.LENGTH_LONG).show();

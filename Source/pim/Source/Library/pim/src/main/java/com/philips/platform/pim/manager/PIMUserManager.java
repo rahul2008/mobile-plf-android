@@ -202,6 +202,7 @@ public class PIMUserManager {
             appInfraInterface.getSecureStorage().removeValueForKey(authStateKey);
             removeSubIDFromPref();
             authState = null;
+            pimoidcUserProfile = null;
         }, error -> {
             logoutListener.onLogoutFailure(0, "error message");
         });
