@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.fragment.PIMFragment;
@@ -45,7 +46,7 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : PIMOIDCConfigration is null.");
             mPimLoginListener.onLoginFailed(0);
         } else {
-            Intent authReqIntent = mPimAuthManager.getAuthorizationRequestIntent(context, mPimoidcConfigration.getAuthorizationServiceConfiguration(), mPimoidcConfigration.getClientId(), createAdditionalParameterForLogin(bundle));
+            Intent authReqIntent = mPimAuthManager.getAuthorizationRequestIntent(context, mPimoidcConfigration.getAuthorizationServiceConfiguration(),getClientId(), createAdditionalParameterForLogin(bundle));
             if (authReqIntent != null)
                 pimFragment.startActivityForResult(authReqIntent, 100);
             else {
@@ -100,6 +101,16 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
         }
         parameter.put("ui_locales", PIMSettingManager.getInstance().getLocale());
         return parameter;
+    }
+
+    // TODO: Get appinfra via settings manager or create constructor to inject what is required
+    private String getClientId() {
+        AppConfigurationInterface appConfigurationInterface = PIMSettingManager.getInstance().getAppInfraInterface().getConfigInterface();
+        Object obj = appConfigurationInterface.getPropertyForKey(PIMConstants.CLIENT_ID, PIMConstants.GROUP_PIM, new AppConfigurationInterface.AppConfigurationError());
+        if (obj != null) {
+            return (String) obj;
+        }
+        return null;
     }
 
 

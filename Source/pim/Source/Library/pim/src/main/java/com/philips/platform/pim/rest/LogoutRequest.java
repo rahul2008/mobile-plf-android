@@ -1,7 +1,6 @@
 package com.philips.platform.pim.rest;
 
 import com.android.volley.Request;
-import com.philips.platform.pim.manager.PIMSettingManager;
 
 import net.openid.appauth.AuthState;
 
@@ -10,9 +9,11 @@ import java.util.Map;
 
 public class LogoutRequest implements PIMRequestInterface {
     private AuthState mAuthState;
+    private String mClientId;
 
-    public LogoutRequest(AuthState authState) {
+    public LogoutRequest(AuthState authState, String clientId) {
         mAuthState = authState;
+        mClientId = clientId;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class LogoutRequest implements PIMRequestInterface {
         Map<String, String> headers = new HashMap<>();
         headers.put("token", mAuthState.getAccessToken());
         headers.put("token_type_hint", "access_token");
-        headers.put("client_id", PIMSettingManager.getInstance().getPimOidcConfigration().getClientId());
+        headers.put("client_id", mClientId);
         headers.put("client_secret", mAuthState.getClientSecret());
         return headers;
     }
