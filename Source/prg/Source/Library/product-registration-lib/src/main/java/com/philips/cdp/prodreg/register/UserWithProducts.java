@@ -364,12 +364,7 @@ public class UserWithProducts {
 
             @Override
             public void forcedLogout() {
-                if (requestType == PRODUCT_REGISTRATION && registeredProduct != null) {
-                    getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
-                    getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
-                } else if (requestType == FETCH_REGISTERED_PRODUCTS && registeredProductsListener != null) {
-                    registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
-                }
+                //TODO: Shashi, Check what action need to perform on forced logout.
             }
         };
     }
