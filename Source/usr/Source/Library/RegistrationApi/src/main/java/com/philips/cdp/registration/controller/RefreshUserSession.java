@@ -68,21 +68,17 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
             public void onRefreshLoginSessionFailedWithError(int error) {
                 RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionFailedWithError is called");
                 UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
-                if (error == ErrorCodes.HSDP_INPUT_ERROR_1009
-                        || error == ErrorCodes.HSDP_INPUT_ERROR_1151) {
 
-                    clearData();
-                    mRefreshLoginSessionHandler.forcedLogout();
-                    RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
-                }else {
                     ThreadUtils.postInMainThread(mContext, () ->
                             mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error));
-                }
+
             }
 
             @Override
             public void forcedLogout() {
                 RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : forcedLogout is called");
+                clearData();
+                RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
                 ThreadUtils.postInMainThread(mContext, () ->
                         mRefreshLoginSessionHandler.forcedLogout());
             }

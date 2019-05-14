@@ -109,7 +109,9 @@ public class IAPUser implements UserDataListener {
 
             @Override
             public void forcedLogout() {
-                mUserDataInterface.logoutSession(IAPUser.this);
+                IAPLog.d(TAG, "forcedLogout");
+                mStore.setNewUser(true);
+
             }
         });
         lockOAuthThread();
@@ -150,26 +152,28 @@ public class IAPUser implements UserDataListener {
 
     @Override
     public void onRefetchSuccess() {
-
+    // NOP
     }
 
     @Override
     public void onRefetchFailure(Error error) {
-
+        // NOP
     }
 
     @Override
     public void refreshSessionSuccess() {
-
+        // NOP since handled by inline listener
     }
 
     @Override
     public void refreshSessionFailed(Error error) {
-
+    // NOP since handled by inline listener
     }
 
     @Override
     public void forcedLogout() {
+        mStore.setNewUser(true);
+        mUserDataInterface.removeUserDataInterfaceListener( this);
 
     }
 }
