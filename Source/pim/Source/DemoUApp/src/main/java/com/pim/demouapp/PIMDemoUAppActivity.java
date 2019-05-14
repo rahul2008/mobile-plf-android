@@ -6,8 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.adobe.mobile.Config;
+import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.pif.DataInterface.USR.UserCustomClaims;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
@@ -22,6 +25,7 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.ArrayList;
 
@@ -31,6 +35,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     Button btnLoginActivity, btnLoginFragment, btnLogout;
+    Switch aSwitch;
     PIMInterface pimInterface;
 
     @Override
@@ -47,6 +52,16 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnLoginFragment.setOnClickListener(this);
         btnLogout = findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
+        aSwitch = findViewById(R.id.switch_cookies_consent);
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                    Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
+                else
+                    Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
+            }
+        });
         PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(PIMDemoUAppInterface.mAppInfra);
         PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
         pimInterface = new PIMInterface();

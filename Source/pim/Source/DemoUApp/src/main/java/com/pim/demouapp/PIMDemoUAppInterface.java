@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.UappInterface;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -28,7 +28,7 @@ public class PIMDemoUAppInterface implements UappInterface {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
-        if(uiLauncher instanceof FragmentLauncher){
+        if(uiLauncher instanceof ActivityLauncher){
             Intent intent=new Intent(mContext, PIMDemoUAppActivity.class);
             mContext.startActivity(intent);
         }
