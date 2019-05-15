@@ -4,6 +4,8 @@
  */
 package com.philips.cdp.di.iap.integration;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
@@ -21,10 +23,9 @@ public class IAPDependencies extends UappDependencies {
      * Create IAPDependencies instance from AppInfraInterface and UserDataInterface object
      * @param appInfra  to pass the instance of AppInfraInterface
      * @param userDataInterface to pass the instance of UserDataInterface
-     * @since 1902
-     * TODO: Need to update version before merge
+     * @since 1903
      */
-    public IAPDependencies(AppInfraInterface appInfra, UserDataInterface userDataInterface) {
+    public IAPDependencies(@NonNull AppInfraInterface appInfra,@NonNull UserDataInterface userDataInterface) {
         super(appInfra);
         CartModelContainer.getInstance().setAppInfraInstance(appInfra);
         this.userDataInterface = userDataInterface;

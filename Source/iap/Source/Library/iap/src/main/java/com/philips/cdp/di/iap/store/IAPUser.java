@@ -10,13 +10,15 @@ import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
-public class IAPUser implements LogoutListener {
+public class IAPUser implements UserDataListener {
     private final static String TAG = IAPUser.class.getSimpleName();
 
     Semaphore mSemaphore = new Semaphore(0);
@@ -31,13 +33,20 @@ public class IAPUser implements LogoutListener {
 
     public IAPUser(final Context context, final HybrisStore store, IAPDependencies iapDependencies) {
         mUserDataInterface = iapDependencies.getUserDataInterface();
-        mUserDataInterface.registerLogOutListener(this);
+        mUserDataInterface.addUserDataInterfaceListener(this);
         mStore = store;
     }
 
-
     public String getJanRainID() {
-        return mUserDataInterface.getJanrainAccessToken();
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.UUID);
+        try {
+           HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+           return userDetailsMap.get(UserDetailConstants.UUID).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String getJanRainEmail() {
@@ -50,10 +59,6 @@ public class IAPUser implements LogoutListener {
             e.printStackTrace();
         }
         return janrainEmail;
-    }
-
-    public String getDisplayName() {
-        return getGivenName();
     }
 
     public String getGivenName() {
@@ -70,10 +75,10 @@ public class IAPUser implements LogoutListener {
 
     public String getFamilyName() {
         ArrayList<String> detailsKey = new ArrayList<>();
-        detailsKey.add(UserDetailConstants.GIVEN_NAME);
+        detailsKey.add(UserDetailConstants.FAMILY_NAME);
         String familyName = null;
         try {
-            familyName = mUserDataInterface.getUserDetails(detailsKey).get(UserDetailConstants.GIVEN_NAME).toString();
+            familyName = mUserDataInterface.getUserDetails(detailsKey).get(UserDetailConstants.FAMILY_NAME).toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,9 +90,9 @@ public class IAPUser implements LogoutListener {
         mLockReleaseRequested = false;
         IAPLog.d(TAG, " requesting refresh login session for user");
 
-        mUserDataInterface.refreshLoginSession(new RefreshListener() {
+        mUserDataInterface.refreshSession(new RefreshSessionListener() {
             @Override
-            public void onRefreshSessionSuccess() {
+            public void refreshSessionSuccess() {
                 IAPLog.d(TAG, " refreshLoginSuccessful");
                 mStore.updateJanRainIDBasedUrls();
                 mTokenRefreshSuccessful = true;
@@ -96,23 +101,19 @@ public class IAPUser implements LogoutListener {
             }
 
             @Override
-            public void onRefreshSessionFailure(int error) {
+            public void refreshSessionFailed(Error error) {
                 IAPLog.d(TAG, " refreshLoginSuccessful failed with error=" + error);
                 mLockReleaseRequested = true;
                 unlockOAuthThread();
             }
 
             @Override
-            public void onRefreshSessionInProgress(String message) {
-                //NOP
-            }
+            public void forcedLogout() {
+                IAPLog.d(TAG, "forcedLogout");
+                mStore.setNewUser(true);
 
-            @Override
-            public void onForcedLogout() {
-                mUserDataInterface.logOut(IAPUser.this);
             }
         });
-
         lockOAuthThread();
     }
 
@@ -136,15 +137,43 @@ public class IAPUser implements LogoutListener {
         }
     }
 
-
     @Override
-    public void onLogoutSuccess() {
-        mUserDataInterface.unregisterLogOutListener(this);
+    public void logoutSessionSuccess() {
+        IAPLog.d(TAG, "logoutSessionSuccess");
         mStore.setNewUser(true);
+        mUserDataInterface.removeUserDataInterfaceListener( this);
     }
 
     @Override
-    public void onLogoutFailure(int errorCode, String errorMessage) {
+    public void logoutSessionFailed(Error error) {
         //NOP
+        IAPLog.d(TAG, "logoutSessionFailed");
+    }
+
+    @Override
+    public void onRefetchSuccess() {
+    // NOP
+    }
+
+    @Override
+    public void onRefetchFailure(Error error) {
+        // NOP
+    }
+
+    @Override
+    public void refreshSessionSuccess() {
+        // NOP since handled by inline listener
+    }
+
+    @Override
+    public void refreshSessionFailed(Error error) {
+    // NOP since handled by inline listener
+    }
+
+    @Override
+    public void forcedLogout() {
+        mStore.setNewUser(true);
+        mUserDataInterface.removeUserDataInterfaceListener( this);
+
     }
 }

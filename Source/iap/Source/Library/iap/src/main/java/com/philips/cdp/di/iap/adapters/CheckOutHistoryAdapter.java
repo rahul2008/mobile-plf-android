@@ -187,8 +187,6 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_ups_parcel);
                         freeDeliverySpendOn = String.format(freeDeliverySpendOn, deliveryMethod);
                         shoppingCartFooter.mDeliveryTitle.setText(freeDeliverySpendOn);
-                    } else {
-                        shoppingCartFooter.mDeliveryTitle.setText(R.string.iap_delivery_via);
                     }
 
                     shoppingCartFooter.mDeliveryDescriprion.setText(deliveryModeDescription);

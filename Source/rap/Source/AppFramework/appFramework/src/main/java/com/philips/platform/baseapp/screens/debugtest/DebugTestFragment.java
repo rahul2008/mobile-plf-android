@@ -125,7 +125,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
 
     protected void settingState(AdapterView<?> adapter, int position) {
         final String configuration = adapter.getItemAtPosition(position).toString();
-        getUserRegistration().getUserObject(context).logout(null);
+        getUserRegistration().getUserDataInterface().logoutSession(null);
         if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.DEVELOPMENT.name())) {
             setState(AppIdentityInterface.AppState.DEVELOPMENT);
         } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.TEST.name())) {

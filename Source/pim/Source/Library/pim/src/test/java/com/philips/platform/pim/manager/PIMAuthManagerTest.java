@@ -101,7 +101,6 @@ public class PIMAuthManagerTest extends TestCase {
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
         when(mockPimSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
-        when(mockPimoidcConfigration.getClientId()).thenReturn("9317be6b-193f-4187-9ec2-5e1802a8d8ad");
 
         mockStatic(AuthorizationServiceConfiguration.class);
         mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);

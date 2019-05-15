@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMLoginListener;
 
 import junit.framework.TestCase;
@@ -14,7 +17,6 @@ import junit.framework.TestCase;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationResponse;
-import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 
 import org.junit.Before;
@@ -29,6 +31,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 //TODO: Shashi, Add unit test cases.
 @PrepareForTest({Uri.class, PIMSettingManager.class, AuthorizationRequest.class, AuthorizationRequest.Builder.class, AuthorizationServiceConfiguration.class, AuthorizationResponse.class, AuthorizationException.class})
@@ -45,8 +48,6 @@ public class PIMLoginManagerTest extends TestCase {
     @Mock
     private PIMLoginListener mockPimLoginListener;
     @Mock
-    private PIMAuthManager mockPimAuthManager;
-    @Mock
     private Uri mockUri;
     @Mock
     private Intent mockIntent;
@@ -57,9 +58,14 @@ public class PIMLoginManagerTest extends TestCase {
     @Mock
     private Bundle mockBundle;
     @Mock
-    private AuthorizationService mockAuthorizationService;
+    private PIMFragment mockPimFragment;
     @Mock
-    private PIMLoginListener mockPIMLoginListener;
+    private AppInfraInterface mockAppInfraInterface;
+    @Mock
+    private AppConfigurationInterface mockAppConfigurationInterface;
+    @Mock
+    private AppConfigurationInterface.AppConfigurationError mockAppConfigurationError;
+
 
     @Before
     public void setUp() throws Exception {
@@ -70,11 +76,14 @@ public class PIMLoginManagerTest extends TestCase {
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
         pimLoginManager = new PIMLoginManager(mockPimoidcConfigration);
+        when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
+        when(mockAppInfraInterface.getConfigInterface()).thenReturn(mockAppConfigurationInterface);
+        whenNew(AppConfigurationInterface.AppConfigurationError.class).withNoArguments().thenReturn(mockAppConfigurationError);
     }
 
     @Test
     public void verifyLogOnLoginFailed_WhenContextIsNull() {
-        pimLoginManager.oidcLogin(null, null, mockPimLoginListener);
+        pimLoginManager.oidcLogin(null, null, mockPimFragment,mockPimLoginListener);
         verify(mockLoggingInterface).log(DEBUG, PIMLoginManager.class.getSimpleName(), "OIDC Login failed, Reason : context is null.");
         verify(mockPimLoginListener).onLoginFailed(0);
     }
@@ -82,28 +91,30 @@ public class PIMLoginManagerTest extends TestCase {
     @Test
     public void verifyLogOnLoginFailed_WhenPimoidcConfigrationIsNull() {
         pimLoginManager = new PIMLoginManager(null);
-        pimLoginManager.oidcLogin(mockContext, mockBundle, mockPimLoginListener);
+        pimLoginManager.oidcLogin(mockContext, mockBundle, mockPimFragment,mockPimLoginListener);
         verify(mockLoggingInterface).log(DEBUG, PIMLoginManager.class.getSimpleName(), "OIDC Login failed, Reason : PIMOIDCConfigration is null.");
         verify(mockPimLoginListener).onLoginFailed(0);
     }
 
     @Test
     public void verifyLogOnLoginFailed_WhenAuthRequestIsNull() {
-        pimLoginManager.oidcLogin(mockContext, mockBundle, mockPimLoginListener);
+        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
+        when(mockAppConfigurationInterface.getPropertyForKey("Dummy_ClientID", "PIM", mockAppConfigurationError)).thenReturn("clientId");
+        pimLoginManager.oidcLogin(mockContext, mockBundle,mockPimFragment, mockPimLoginListener);
         verify(mockLoggingInterface).log(DEBUG, PIMLoginManager.class.getSimpleName(), "OIDC Login failed, Reason : authReqIntent is null.");
         verify(mockPimLoginListener).onLoginFailed(0);
     }
 
     @Test
     public void verifyOnLoginFailed_WhenContextIsNullInExchangeAuthorizationCode() {
-        pimLoginManager.oidcLogin(mockContext, mockBundle, mockPimLoginListener);
+        pimLoginManager.oidcLogin(mockContext, mockBundle,mockPimFragment, mockPimLoginListener);
         pimLoginManager.exchangeAuthorizationCode(null, mockIntent);
         verify(mockLoggingInterface).log(DEBUG, PIMLoginManager.class.getSimpleName(), "Token request failed, Reason : context is null.");
     }
 
     @Test
     public void verifyOnLoginFailed_WhenIntentIsNullInExchangeAuthorizationCode() {
-        pimLoginManager.oidcLogin(mockContext, mockBundle, mockPimLoginListener);
+        pimLoginManager.oidcLogin(mockContext, mockBundle,mockPimFragment, mockPimLoginListener);
         pimLoginManager.exchangeAuthorizationCode(mockContext, null);
         verify(mockLoggingInterface).log(DEBUG, PIMLoginManager.class.getSimpleName(), "Token request failed, Reason : dataIntent is null.");
     }

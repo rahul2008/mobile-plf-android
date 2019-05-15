@@ -12,8 +12,9 @@ import android.widget.Toast;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserCustomClaims;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -29,7 +30,7 @@ import com.philips.platform.uid.view.widget.Switch;
 
 import java.util.ArrayList;
 
-public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, LogoutListener {
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
@@ -107,7 +108,17 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 //                btnLoginActivity.setVisibility(View.GONE);
 //                btnLoginFragment.setVisibility(View.GONE);
 //                btnLogout.setVisibility(View.GONE);
-                pimInterface.getUserDataInterface().logOut(this);
+                pimInterface.getUserDataInterface().logoutSession(new LogoutSessionListener() {
+                    @Override
+                    public void logoutSessionSuccess() {
+                        Log.d(TAG, "PIM Logout success");
+                    }
+
+                    @Override
+                    public void logoutSessionFailed(Error error) {
+                        Log.d(TAG, "PIM Logout failed due to : " + error.getErrDesc());
+                    }
+                });
             } else {
                 Toast.makeText(this, "User is not loged-in, Please login!", Toast.LENGTH_LONG).show();
             }
@@ -121,15 +132,5 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         pimCustomClaims.add(UserCustomClaims.SOCIAL_PROFILES);
         pimCustomClaims.add(UserCustomClaims.UUID);
         return pimCustomClaims;
-    }
-
-    @Override
-    public void onLogoutSuccess() {
-        Log.d(TAG, "PIM Logout success");
-    }
-
-    @Override
-    public void onLogoutFailure(int errorCode, String errorMessage) {
-        Log.d(TAG, "PIM Logout failed due to : " + errorMessage);
     }
 }

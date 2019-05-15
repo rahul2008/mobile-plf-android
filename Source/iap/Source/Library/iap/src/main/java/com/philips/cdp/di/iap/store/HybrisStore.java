@@ -141,10 +141,6 @@ public class HybrisStore extends AbstractStore {
         return mIAPUser.getJanRainEmail();
     }
 
-    public String getDisplayName() {
-        return mIAPUser.getDisplayName();
-    }
-
     public String getGivenName() {
         return mIAPUser.getGivenName();
     }

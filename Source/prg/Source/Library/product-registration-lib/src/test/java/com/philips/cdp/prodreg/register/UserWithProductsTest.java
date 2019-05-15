@@ -14,6 +14,7 @@ import com.philips.cdp.prodreg.error.ErrorHandler;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.ProdRegListener;
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
@@ -22,9 +23,13 @@ import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.BuildConfig;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +38,7 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +46,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,11 +67,14 @@ public class UserWithProductsTest {
         context = mock(Context.class);
         userWithProductsMock = mock(UserWithProducts.class);
         userDataInterface = mock(UserDataInterface.class);
-        when(userDataInterface.getJanrainUUID()).thenReturn("abcd1234");
+        //when(userDataInterface.getJanrainUUID()).thenReturn("abcd1234");
         localRegisteredProducts = mock(LocalRegisteredProducts.class);
         prodRegListener = mock(ProdRegListener.class);
         errorHandlerMock = mock(ErrorHandler.class);
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
+        LoggingInterface mockLoggingInterface = mock(LoggingInterface.class);
+        when(mockLoggingInterface.createInstanceForComponent("prg", BuildConfig.VERSION_NAME)).thenReturn(mockLoggingInterface);
+        ProdRegLogger.init(mockLoggingInterface);
         userWithProducts = new UserWithProducts(context, prodRegListener,userDataInterface) {
             @NonNull
             @Override
@@ -87,21 +97,20 @@ public class UserWithProductsTest {
 
     @Test
     public void testIsUserSignedIn() {
-        final UserDataInterface userDataInterface = mock(UserDataInterface.class);
         when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
-        UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener,userDataInterface);
-        assertFalse(userWithProducts.isUserSignedIn(context));
-        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
+        assertTrue(userWithProducts.isUserSignedIn(context));
+        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_NOT_LOGGED_IN);
         assertFalse(userWithProducts.isUserSignedIn(context));
     }
 
     @Test
-    public void testSetUUID() {
-        final UserDataInterface userDataInterface = mock(UserDataInterface.class);
-        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN.USER_LOGGED_IN);
-      //  when(userMock.getEmailOrMobileVerificationStatus()).thenReturn(true);
-        when(userDataInterface.getJanrainUUID()).thenReturn("Janrain_id");
-        UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener,userDataInterface);
+    public void testSetUUID() throws Exception {
+        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.UUID);
+        HashMap<String,Object> mockUserDetailsMap = mock(HashMap.class);
+        when(userDataInterface.getUserDetails(detailsKey)).thenReturn(mockUserDetailsMap);
+        when(mockUserDetailsMap.get(UserDetailConstants.UUID)).thenReturn("Janrain_id");
         userWithProducts.setUuid();
         assertEquals(userWithProducts.getUuid(), "Janrain_id");
     }
@@ -380,10 +389,8 @@ public class UserWithProductsTest {
             }
         };
         errorHandlerMock.handleError(userWithProductsMock, product, 403);
-        RefreshListener refreshLoginSessionHandler = mock(RefreshListener.class);
-        when(userWithProductsMock.getRefreshListener(product, context)).thenReturn(refreshLoginSessionHandler);
         userWithProducts.onAccessTokenExpire(product);
-        verify(userDataInterface).refreshLoginSession(refreshLoginSessionHandler);
+        verify(userDataInterface).refreshSession(any(RefreshSessionListener.class));
     }
 
     @Test
@@ -405,11 +412,11 @@ public class UserWithProductsTest {
             }
         };
         userWithProducts.setRequestType(UserWithProducts.PRODUCT_REGISTRATION);
-        RefreshListener refreshListener = userWithProducts.getRefreshListener(product, context);
-        refreshListener.onRefreshSessionFailure(50);
+        RefreshSessionListener refreshListener = userWithProducts.getRefreshListener(product, context);
+        refreshListener.refreshSessionFailed(new Error(50,null));
         verify(userWithProductsMock).updateLocaleCache(product, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
         verify(localRegisteredProductsMock).updateRegisteredProducts(product);
-        refreshListener.onRefreshSessionSuccess();
+        refreshListener.refreshSessionSuccess();
         verify(userWithProductsMock).retryRequests(context, product);
     }
 
@@ -472,6 +479,30 @@ public class UserWithProductsTest {
     @SuppressWarnings("deprecation")
     @Test
     public void testCachedRegisterProducts() {
+        final UserWithProducts userWithProductsMock = mock(UserWithProducts.class);
+        final UserWithProducts userWithProducts = new UserWithProducts(context, prodRegListener,userDataInterface) {
+            @Override
+            protected boolean isUserSignedIn(final Context context) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            UserWithProducts getUserProduct() {
+                return userWithProductsMock;
+            }
+
+            @Override
+            protected boolean isFailedOnInvalidInput(RegisteredProduct registeredProduct) {
+                return false;
+            }
+
+            @Override
+            public String getUuid() {
+                return "abcd1234";
+            }
+        };
+
         RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
         registeredProduct.setRegistrationState(RegistrationState.PENDING);
         registeredProduct.setUserUUid("abcd1234");
@@ -485,7 +516,7 @@ public class UserWithProductsTest {
         ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
         registeredProducts.add(registeredProduct);
         registeredProducts.add(registeredProduct1);
-        when(userWithProductsMock.isUserSignedIn(context)).thenReturn(false);
+
         userWithProducts.setCurrentRegisteredProduct(registeredProduct);
         userWithProducts.registerCachedProducts(registeredProducts);
 

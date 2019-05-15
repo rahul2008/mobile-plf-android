@@ -425,14 +425,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         createCustomProgressBar(mParentLayout,BIG);
         updateCartDetails(mShoppingCartAPI);
-        // mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
-
-        /*final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-        mSelectedDeliveryMode = deliveryModes.get(position);
-
-        if (!isProgressDialogShowing())
-            showProgressDialog(mContext, mContext.getString(R.string.iap_please_wait));
-        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());*/
     }
 
     @Override

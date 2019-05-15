@@ -162,7 +162,7 @@ public class NetworkController {
         this.mIapSettings = iapSettings;
     }
 
-    public void setmIapDependencies(IAPDependencies iapDependencies) {
+    public void setmIapDependencies(IAPDependencies iapDependencies){
         this.mIapDependencies = iapDependencies;
     }
 

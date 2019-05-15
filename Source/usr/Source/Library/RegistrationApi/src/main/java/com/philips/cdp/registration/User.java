@@ -65,10 +65,12 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
 import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPreferenceValue;
 
 /**
@@ -76,7 +78,10 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPref
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
  *
  * @since 1.0.0
+ *
+ * @deprecated since 1903
  */
+@Deprecated
 public class User {
 
     private final String TAG = "User";
@@ -792,8 +797,11 @@ public class User {
                 logoutHandler.onLogoutSuccess();
             }
         }
+        List<String> providersForCountry = RegistrationConfiguration.getInstance().getProvidersForCountry(getCountryCode());
 
-        LoginManager.getInstance().logOut();
+        if (RegistrationConfiguration.getInstance().isFacebookSDKSupport()
+                && providersForCountry != null && providersForCountry.contains(SOCIAL_PROVIDER_FACEBOOK))
+            LoginManager.getInstance().logOut();
     }
 
     /**

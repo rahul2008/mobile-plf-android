@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_CLEAR_DATA;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SD_STORE_FAILED;
 import static com.philips.platform.appinfra.tagging.AppInfraTaggingUtil.SERVICE_DISCOVERY;
 import static org.junit.Assert.assertNotNull;
@@ -130,7 +129,7 @@ public class RequestManagerTestCase {
         };
         when(sharedPreferencesMock.getString("SDPLATFORM", null)).thenThrow(new NullPointerException());
         AppInfraTaggingUtil appInfraTaggingAction = mock(AppInfraTaggingUtil.class);
-        assertNull(mRequestItemManager.getCachedData(appInfraTaggingAction));
+        assertNull(mRequestItemManager.getCachedData());
     }
 
     @Test
@@ -152,9 +151,7 @@ public class RequestManagerTestCase {
 
     @Test
     public void testclearCacheServiceDiscovery() {
-        AppInfraTaggingUtil appInfraTaggingAction = mock(AppInfraTaggingUtil.class);
-        mRequestItemManager.clearCacheServiceDiscovery(appInfraTaggingAction);
-        verify(appInfraTaggingAction).trackSuccessAction(SERVICE_DISCOVERY, SD_CLEAR_DATA);
+        mRequestItemManager.clearCacheServiceDiscovery();
     }
 
     private JSONObject makJsonObject(boolean isSuccess, int resultJsonArraySize) {

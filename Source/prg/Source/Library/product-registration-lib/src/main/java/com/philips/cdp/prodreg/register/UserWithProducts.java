@@ -33,11 +33,12 @@ import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -78,10 +79,19 @@ public class UserWithProducts {
     }
 
     protected void setUuid() {
-        if(mUserDataInterface != null)
-            this.uuid = mUserDataInterface.getJanrainUUID() != null ? mUserDataInterface.getJanrainUUID() : "";
-        else
-            ProdRegLogger.d(TAG,"setUuid failed, userDataInterface null");
+        if(mUserDataInterface != null) {
+            ArrayList<String> detailsKey = new ArrayList<>();
+            detailsKey.add(UserDetailConstants.UUID);
+            try {
+                HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+                String uuid = userDetailsMap.get(UserDetailConstants.UUID).toString();
+                this.uuid = uuid != null ? uuid : "";
+            } catch (Exception e) {
+                ProdRegLogger.d(TAG, "setUuid failed : "+e.getMessage());
+            }
+        }else {
+            ProdRegLogger.d(TAG, "setUuid failed, userDataInterface null");
+        }
     }
 
     /**
@@ -298,12 +308,18 @@ public class UserWithProducts {
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));
-        registrationRequest.setAccessToken(mUserDataInterface.getJanrainAccessToken());
+
         try {
             ArrayList<String> detailskey = new ArrayList<>();
             detailskey.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
-            boolean isRcvMrktEmail = (boolean) mUserDataInterface.getUserDetails(detailskey).get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            detailskey.add(UserDetailConstants.ACCESS_TOKEN);
+            HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailskey);
+            boolean isRcvMrktEmail = (boolean) userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            String accessToken = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
+
+            registrationRequest.setAccessToken(accessToken);
             registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
+
         } catch (Exception e) {
             ProdRegLogger.e(TAG,"Error in fetching user details.");
         }
@@ -323,21 +339,21 @@ public class UserWithProducts {
      */
     public void onAccessTokenExpire(final RegisteredProduct registeredProduct) {
         if(mUserDataInterface != null)
-            mUserDataInterface.refreshLoginSession(getRefreshListener(registeredProduct,mContext));
+            mUserDataInterface.refreshSession(getRefreshListener(registeredProduct,mContext));
         else
             ProdRegLogger.i(TAG,"onAccessTokenExpire :: mUserDataInterface null");
     }
 
 
-    protected RefreshListener getRefreshListener(final RegisteredProduct registeredProduct, final Context mContext){
-        return new RefreshListener() {
+    protected RefreshSessionListener getRefreshListener(final RegisteredProduct registeredProduct, final Context mContext){
+        return new RefreshSessionListener() {
             @Override
-            public void onRefreshSessionSuccess() {
+            public void refreshSessionSuccess() {
                 getUserProduct().retryRequests(mContext, registeredProduct);
             }
 
             @Override
-            public void onRefreshSessionFailure(int error) {
+            public void refreshSessionFailed(Error error) {
                 if (requestType == PRODUCT_REGISTRATION && registeredProduct != null) {
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
@@ -347,24 +363,8 @@ public class UserWithProducts {
             }
 
             @Override
-            public void onRefreshSessionInProgress(String message) {
-                //NOP
-            }
-
-            @Override
-            public void onForcedLogout() {
-                if(mUserDataInterface != null)
-                    mUserDataInterface.logOut(new LogoutListener() {
-                        @Override
-                        public void onLogoutSuccess() {
-                            ProdRegLogger.d(TAG,"onLogoutSuccess");
-                        }
-
-                        @Override
-                        public void onLogoutFailure(int errorCode, String errorMessage) {
-                            ProdRegLogger.d(TAG,"onLogoutFailure");
-                        }
-                    });
+            public void forcedLogout() {
+                //TODO: Shashi, Check what action need to perform on forced logout.
             }
         };
     }

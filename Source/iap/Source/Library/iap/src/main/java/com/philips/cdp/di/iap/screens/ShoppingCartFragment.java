@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.philips.cdp.di.iap.activity.IAPActivity;
 import com.philips.cdp.di.iap.adapters.ShoppingCartAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
@@ -39,6 +41,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 
@@ -51,7 +54,7 @@ import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_VOUCHER_CODE;
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
-        OnSetDeliveryModeListener,AlertListener,VoucherController.VoucherListener {
+        OnSetDeliveryModeListener, AlertListener, VoucherController.VoucherListener, IAPCartListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
@@ -159,19 +162,14 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
-            createCustomProgressBar(mParentLayout, BIG);
-            mAddressController.getRegions();
 
-
-            //Track checkout action
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
-
-            if (mAdapter!=null && mAdapter.isFreeDelivery()) {
-                //Action to track free delivery
-                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
+            if (IAPUtility.getInstance().getMaxCartCount() == IAPConstant.UN_LIMIT_CART_COUNT) {
+                getRegionAndTag();
+            } else {
+                createCustomProgressBar(mParentLayout, BIG);
+                mShoppingCartAPI.getProductCartCount(getActivity(), this);
             }
+
         }
         if (v == mContinuesBtn) {
             if (!isNetworkConnected()) return;
@@ -180,6 +178,20 @@ public class ShoppingCartFragment extends InAppBaseFragment
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
                     IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
+        }
+    }
+
+    private void getRegionAndTag() {
+        createCustomProgressBar(mParentLayout, BIG);
+        mAddressController.getRegions();
+
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
+
+        if (mAdapter != null && mAdapter.isFreeDelivery()) {
+            //Action to track free delivery
+            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
         }
     }
 
@@ -426,4 +438,22 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onDeleteAppliedVoucherResponse(Message msg) {
 
     }
+
+    @Override
+    public void onSuccess(int count) {
+        hideProgressBar();
+        if (count > IAPUtility.getInstance().getMaxCartCount()) {
+            NetworkUtility.getInstance().showErrorDialog(getActivity(),getFragmentManager(),
+                    getString(R.string.iap_ok),"Exceed Cart limit","You can not add more than "+IAPUtility.getInstance().getMaxCartCount()+ " product in your cart");
+        } else {
+            getRegionAndTag();
+        }
+
+    }
+
+    @Override
+    public void onFailure(Message msg) {
+        hideProgressBar();
+    }
+
 }
