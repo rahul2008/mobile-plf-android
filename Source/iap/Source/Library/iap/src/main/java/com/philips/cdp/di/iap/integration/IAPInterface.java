@@ -52,7 +52,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
-        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             ConnectivityManager connectivityManager
                     = (ConnectivityManager) mIAPSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
@@ -71,7 +71,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void getProductCartCount(IAPListener iapListener) {
-       if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
+       if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal())
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "productCartCount");
         else throw new RuntimeException("User is not logged in.");
     }
@@ -83,7 +83,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
-       if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+       if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "completeProductList");
         } else throw new RuntimeException("User is not logged in.");
     }
@@ -96,8 +96,10 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public boolean isCartVisible(IAPListener iapListener) {
-        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
-        } else throw new RuntimeException("User is not logged in.");
+        } else
+            throw new RuntimeException("User is not logged in.");
+
     }
 }

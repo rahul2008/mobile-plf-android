@@ -9,7 +9,6 @@ import net.openid.appauth.AuthorizationServiceConfiguration;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -39,38 +38,6 @@ public class PIMOIDCConfigrationTest extends TestCase {
         MockitoAnnotations.initMocks(this);
         when(mockAppInfraInterface.getConfigInterface()).thenReturn(mockAppConfigurationInterface);
         whenNew(AppConfigurationInterface.AppConfigurationError.class).withNoArguments().thenReturn(mockAppConfigurationError);
-    }
-
-    @Test
-    public void shouldGetClientID_Correct_ClientID_Correct_GroupName() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
-        when(mockAppConfigurationInterface.getPropertyForKey(CLIENT_ID, "PIM", mockAppConfigurationError)).thenReturn("clientId");
-        String clientID = pimoidcConfigration.getClientId();
-        assertEquals(CLIENT_ID, clientID);
-    }
-
-    @Test
-    public void shouldGetClientID_Correct_ClientID_Wrong_GroupName() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
-        when(mockAppConfigurationInterface.getPropertyForKey(CLIENT_ID, "Dummy_Group", mockAppConfigurationError)).thenReturn("clientId");
-        String clientID = pimoidcConfigration.getClientId();
-        assertNull(clientID);
-    }
-
-    @Test
-    public void shouldGetClientID_Wrong_ClientID_Correct_GroupName() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
-        when(mockAppConfigurationInterface.getPropertyForKey("Dummy_ClientID", "PIM", mockAppConfigurationError)).thenReturn("clientId");
-        String clientID = pimoidcConfigration.getClientId();
-        assertNull(clientID);
-    }
-
-    @Test
-    public void shouldGetClientID_Wromg_ClientID_Wrong_GroupName() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration, mockAppInfraInterface);
-        when(mockAppConfigurationInterface.getPropertyForKey("Dummy_ClientID", "Dummy_Group", mockAppConfigurationError)).thenReturn("clientId");
-        String clientID = pimoidcConfigration.getClientId();
-        assertNull(clientID);
     }
 
     @After

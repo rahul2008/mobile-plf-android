@@ -7,8 +7,9 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
 import com.philips.platform.pim.rest.LogoutRequest;
@@ -194,17 +195,17 @@ public class PIMUserManager {
         return null;
     }
 
-    public void logout(LogoutListener logoutListener) {
+    public void logout(LogoutSessionListener logoutSessionListener) {
         LogoutRequest logoutRequest = new LogoutRequest(authState, getClientId());
         pimRestClient.invokeRequest(logoutRequest, response -> {
-            logoutListener.onLogoutSuccess();
+            logoutSessionListener.logoutSessionSuccess();
             appInfraInterface.getSecureStorage().removeValueForKey(userInfoKey);
             appInfraInterface.getSecureStorage().removeValueForKey(authStateKey);
             removeSubIDFromPref();
             authState = null;
             pimoidcUserProfile = null;
         }, error -> {
-            logoutListener.onLogoutFailure(0, "error message");
+            logoutSessionListener.logoutSessionFailed(new Error(0,"error message"));
         });
     }
 }

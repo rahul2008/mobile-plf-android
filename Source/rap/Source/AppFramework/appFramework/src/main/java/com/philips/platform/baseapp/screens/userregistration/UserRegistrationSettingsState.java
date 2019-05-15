@@ -33,9 +33,8 @@ public class UserRegistrationSettingsState extends UserRegistrationState {
         super(AppStates.SETTINGS_REGISTRATION);
     }
 
-
     @Override
-    public void onUserLogoutSuccess() {
+    public void logoutSessionSuccess() {
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             targetFlowManager.getBackState();

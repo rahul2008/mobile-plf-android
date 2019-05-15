@@ -43,10 +43,10 @@ public class PIMConfigManager {
                     mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess");
 
                     ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
-                    PIMSettingManager.getInstance().setLocale(serviceDiscoveryService.getLocale());
                     if (serviceDiscoveryService == null) {
                         mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : serviceDiscovery response is null");
                     } else {
+                        PIMSettingManager.getInstance().setLocale(serviceDiscoveryService.getLocale());
                         String configUrls = serviceDiscoveryService.getConfigUrls();
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();

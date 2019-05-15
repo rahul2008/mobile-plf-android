@@ -51,6 +51,7 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -279,7 +280,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
 
     public void setUserNameAndLogoutText() {
         UserDataInterface userDataInterface = ((AppFrameworkApplication)getApplicationContext()).getUserRegistrationState().getUserDataInterface();
-        if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+        if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN && userDataInterface.getUserLoggedInState() != UserLoggedInState.PENDING_HSDP_LOGIN) {
             avatarName.setText(getString(R.string.RA_DLSS_avatar_default_text));
         } else {
             AppIdentityInterface.AppState appState = ((AppFrameworkApplication) getApplicationContext()).getAppState();
@@ -287,7 +288,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             detailskey.add(UserDetailConstants.GIVEN_NAME);
             try {
                 avatarName.setText(userDataInterface.getUserDetails(detailskey).get(UserDetailConstants.GIVEN_NAME).toString());
-            } catch (Exception e) {
+            } catch (UserDataInterfaceException e) {
                 RALog.e(TAG,"Error in set avatarName : "+e.getMessage());
             }
             if (!appState.name().equalsIgnoreCase(AppIdentityInterface.AppState.STAGING.name()))
@@ -580,7 +581,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         sideBar.closeDrawer(navigationView);
         switch (view.getId()) {
             case R.id.hamburger_menu_header_container:
-                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                if (((AppFrameworkApplication) getApplicationContext()).getUserRegistrationState().getUserDataInterface().getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
                     selectedIndex = Constants.HAMBURGER_MY_ACCOUNT_CLICK;
                     hamburgerMenuAdapter.setSelectedPosition(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
                     presenter.onEvent(Constants.HAMBURGER_MY_ACCOUNT_CLICK);
