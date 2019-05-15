@@ -36,6 +36,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     private TextView mConfirmationText;
     private TextView mConfirmWithEmail;
     private TextView mOrderNumber;
+    private boolean isOrderSuccess =false;
 
     //private TwoButtonDialogFragment mDialog;
 
@@ -67,6 +68,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
         boolean isPaymentSuccessful = arguments.getBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, false);
         if (isPaymentSuccessful) {
             updatePaymentSuccessUI(arguments);
+            isOrderSuccess =true;
         } else {
             updatePaymentFailureUI();
         }
@@ -129,8 +131,16 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     private void handleExit() {
         Fragment fragment = getFragmentManager().findFragmentByTag(BuyDirectFragment.TAG);
         if (fragment != null) {
+            if(shouldGiveCallBack()){
+                sendCallback(isOrderSuccess);
+                return;
+            }
             moveToVerticalAppByClearingStack();
         } else {
+            if(shouldGiveCallBack()){
+                sendCallback(isOrderSuccess);
+                return;
+            }
             moveToProductCatalog();
         }
     }

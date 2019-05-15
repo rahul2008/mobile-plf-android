@@ -11,26 +11,34 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.philips.cdp.di.iap.integration.IAPBannerEnabler;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPMockInterface;
+import com.philips.cdp.di.iap.integration.IAPOrderFlowCompletion;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.IAPUtility;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -65,7 +73,7 @@ import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationUIEventListener, LogoutListener, IAPMockInterface {
+        UserRegistrationUIEventListener, LogoutListener, IAPMockInterface,IAPOrderFlowCompletion,IAPBannerEnabler {
 
     private final String TAG = DemoAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -100,6 +108,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private long mLastClickTime =0;
     private ToggleButton toggleMock;
     private boolean enableMock = false;
+    EditText mEtMaxCartCount;
+    private ToggleButton toggleHybris;
+    private boolean isHybrisEnable = true;
+    private ToggleButton toggleBanner;
+    private boolean isBannerEnabled = false;
+    private ToggleButton toggleListener;
+    private boolean isToggleListener= true;
+    private RadioGroup rgVoucher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +169,66 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
                 initializeIAPComponant();
             }
         });
+
+        toggleBanner = findViewById(R.id.toggleBanner);
+
+        toggleBanner.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                isBannerEnabled = isChecked;
+                initializeIAPComponant();
+            }
+        });
+
+        toggleHybris = findViewById(R.id.toggleHybris);
+        toggleHybris.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isHybrisEnable = isChecked;
+                initializeIAPComponant();
+            }
+        });
+
+        rgVoucher = findViewById(R.id.rg_voucher);
+
+        rgVoucher.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+               if(checkedId == R.id.rb_null){
+                   IAPUtility.getInstance().setVoucherEnable(false);
+               }
+               if(checkedId == R.id.rb_disable){
+                   IAPUtility.getInstance().setVoucherEnable(false);
+               }
+               if(checkedId == R.id.rb_enabble){
+                   IAPUtility.getInstance().setVoucherEnable(true);
+               }
+            }
+        });
+
+
+        toggleListener = findViewById(R.id.toggleListener);
+
+        toggleListener.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isToggleListener = isChecked;
+                initializeIAPComponant();
+            }
+        });
+
+        Button btnSetMaxCount = findViewById(R.id.btn_set_max_Count);
+
+        btnSetMaxCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initializeIAPComponant();
+            }
+        });
+
+        mEtMaxCartCount = findViewById(R.id.et_max_cart_count);
 
         mRegister = findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
@@ -211,10 +287,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private void initializeIAPComponant() {
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mRegister.setText(this.getString(R.string.log_out));
+            toggleHybris.setVisibility(View.VISIBLE);
             showProgressDialog();
             initIAP();
         } else {
             mRegister.setVisibility(View.VISIBLE);
+            toggleHybris.setVisibility(View.GONE);
             Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
             dismissProgressDialog();
         }
@@ -238,7 +316,19 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             IAPLog.d(TAG,ex.getMessage());
         }
         mIapLaunchInput = new IAPLaunchInput();
+
+        mIapLaunchInput.setHybrisSupported(isHybrisEnable);
+        if(!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())){
+            mIapLaunchInput.setMaxCartCount(Integer.parseInt(mEtMaxCartCount.getText().toString().trim()));
+        }
+        mIapLaunchInput.setIapBannerEnabler(this);
         mIapLaunchInput.setIapListener(this);
+        if(isToggleListener) {
+            mIapLaunchInput.setIapOrderFlowCompletion(this);
+        }else{
+            mIapLaunchInput.setIapOrderFlowCompletion(null);
+        }
+        IAPUtility.getInstance().setHybrisSupported(isHybrisEnable);
         displayUIOnCartVisible();
     }
 
@@ -724,4 +814,28 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         return json;
     }
 
+    @Override
+    public void didPlaceOrder() {
+    Toast.makeText(this,"Order is placed ",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void didCancelOrder() {
+        Toast.makeText(this,"Order is Cancelled ",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean shouldPopToProductList() {
+        return !isToggleListener;
+    }
+
+    @Override
+    public View getBannerView() {
+        if(isBannerEnabled){
+            LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = inflater.inflate(R.layout.banner_view, null);
+            return v;
+        }
+        return null;
+    }
 }
