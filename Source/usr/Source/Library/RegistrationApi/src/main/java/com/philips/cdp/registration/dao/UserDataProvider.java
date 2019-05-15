@@ -50,7 +50,9 @@ public class UserDataProvider extends User implements UserDataInterface {
                 UserDetailConstants.EMAIL,
                 UserDetailConstants.MOBILE_NUMBER,
                 UserDetailConstants.BIRTHDAY,
-                UserDetailConstants.RECEIVE_MARKETING_EMAIL));
+                UserDetailConstants.RECEIVE_MARKETING_EMAIL,
+                UserDetailConstants.UUID,
+                UserDetailConstants.ACCESS_TOKEN));
     }
 
     private void fillUserData() {
