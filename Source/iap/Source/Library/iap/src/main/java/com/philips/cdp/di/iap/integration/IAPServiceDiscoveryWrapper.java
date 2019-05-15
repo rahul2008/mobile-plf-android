@@ -110,7 +110,9 @@ public class IAPServiceDiscoveryWrapper {
         IAPUtility.getInstance().setMaxCartCount(pUappLaunchInput.getMaxCartCount());
         IAPUtility.getInstance().setHybrisSupported(pUappLaunchInput.isHybrisSupported());
         IAPUtility.getInstance().setIapOrderFlowCompletion(pUappLaunchInput.getIapOrderFlowCompletion());
-        IAPUtility.getInstance().setBannerView(pUappLaunchInput.getIapBannerEnabler().getBannerView());
+        if(pUappLaunchInput.getIapBannerEnabler()!=null) {
+            IAPUtility.getInstance().setBannerView(pUappLaunchInput.getIapBannerEnabler().getBannerView());
+        }
         if (!mIAPSettings.isUseLocalData() && (!pIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
             pIAPHandler.initIAP(pUiLauncher, pUappLaunchInput);
         } else {
