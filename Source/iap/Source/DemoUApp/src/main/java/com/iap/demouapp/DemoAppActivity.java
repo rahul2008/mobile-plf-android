@@ -105,7 +105,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<String> ignorelistedRetailer;
     private View mLL_propositionId;
     URInterface urInterface;
-    private long mLastClickTime = 0;
+    private long mLastClickTime =0;
     private ToggleButton toggleMock;
     private boolean enableMock = false;
     EditText mEtMaxCartCount;
