@@ -66,7 +66,7 @@ class PIMAuthManager {
 
         AuthorizationRequest authRequest = authRequestBuilder
                 .setScope(getScopes())
-//                .setAdditionalParameters(parameter)
+                .setAdditionalParameters(parameter)
                 .build();
         AuthorizationService authService = new AuthorizationService(context);
         return authService.getAuthorizationRequestIntent(authRequest);

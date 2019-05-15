@@ -46,7 +46,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pim, container, false);
-        pimLoginProgreassBar = (ProgressBar) view.findViewById(R.id.pbPimRequest);
+        pimLoginProgreassBar = view.findViewById(R.id.pbPimRequest);
         // TODO: Deepthi, check if user is logged in before launching web page. (Done)
         PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
         if (pimoidcConfigration != null && pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {

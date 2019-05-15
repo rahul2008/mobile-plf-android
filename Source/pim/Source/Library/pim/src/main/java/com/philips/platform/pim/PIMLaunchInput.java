@@ -1,13 +1,11 @@
 package com.philips.platform.pim;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class PIMLaunchInput extends UappLaunchInput {
@@ -18,16 +16,14 @@ public class PIMLaunchInput extends UappLaunchInput {
 
     String getCustomClaims() {
         if (pimCustomClaims == null) return null;
-        HashMap<String, String> claimMap = new HashMap<>();
+        JsonObject object = new JsonObject();
         for (String claim : pimCustomClaims) {
-            claimMap.put(claim, "null");
+            object.add(claim, null);
         }
-        HashMap<String, HashMap<String, String>> customClaim = new HashMap<>();
-        customClaim.put(USERINFO, claimMap);
-        Gson prettyGson = new GsonBuilder().create();
-        String prettyJson = prettyGson.toJson(customClaim);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "PIM_KEY_CUSTOM_CLAIMS: HashMap string" + prettyJson);
-        return prettyJson;
+        JsonObject userInfo = new JsonObject();
+        userInfo.add(USERINFO, object);
+        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "PIM_KEY_CUSTOM_CLAIMS: HashMap string" + userInfo.toString());
+        return userInfo.toString();
     }
 
     public void setCustomClaims(ArrayList<String> pimCustomClaims) {

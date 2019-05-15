@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import com.adobe.mobile.Config;
-import com.adobe.mobile.MobilePrivacyStatus;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserCustomClaims;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
@@ -53,16 +53,17 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnLogout = findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
+        AppInfraInterface appInfraInterface = PIMDemoUAppInterface.mAppInfra;
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
-                    Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
+                    appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
                 else
-                    Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
+                    appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
             }
         });
-        PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(PIMDemoUAppInterface.mAppInfra);
+        PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(appInfraInterface);
         PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
         pimInterface = new PIMInterface();
         pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
