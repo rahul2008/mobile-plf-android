@@ -13,7 +13,7 @@ public class IAPUtility {
     private int maxCartCount;
     private IAPOrderFlowCompletion iapOrderFlowCompletion;
     private boolean isHybrisSupported = true;
-    private View bannerView;
+    private View bannerView = null;
     private boolean isVoucherEnable = false;
 
     private IAPUtility() {
