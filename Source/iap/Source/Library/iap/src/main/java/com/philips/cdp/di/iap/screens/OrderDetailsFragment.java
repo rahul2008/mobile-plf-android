@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -32,12 +33,14 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
+import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -223,22 +226,25 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             ((TextView) productInfo.findViewById(R.id.tv_quantity)).setText(String.valueOf(product.getQuantity()));
             ((TextView) productInfo.findViewById(R.id.tv_total_price)).setText(product.getFormatedPrice());
             getNetworkImage(((NetworkImageView) productInfo.findViewById(R.id.iv_product_image)), product.getImageURL());
-            productInfo.setOnClickListener(new View.OnClickListener() {
+            Button trackOrderButton = productInfo.findViewById(R.id.btn_track_order);
+
+            if(product.getTrackOrderUrl() == null){
+                trackOrderButton.setEnabled(false);
+            }else{
+                trackOrderButton.setEnabled(true);
+            }
+
+            trackOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Toast.makeText(getContext(),"Track url :"+product.getTrackOrderUrl(),Toast.LENGTH_LONG).show();
+
                     Bundle bundle = new Bundle();
-                    bundle.putString(IAPConstant.PRODUCT_TITLE, product.getProductTitle());
-                    bundle.putString(IAPConstant.PRODUCT_CTN, product.getCtnNumber());
-                    bundle.putString(IAPConstant.PRODUCT_PRICE, product.getFormatedPrice());
-                    // bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, product.getValuePrice());
-                    bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
-//                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
-//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getmStockLevel());
-                    addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
+                    bundle.putString(IAPConstant.ORDER_TRACK_URL, product.getTrackOrderUrl());
+                    addFragment(WebTrackUrl.createInstance(bundle, AnimationType.NONE), null,true);
                 }
             });
         }
-        //     mProducts.add(product);
 
         int totalQuantity = 0;
         for (ProductData data : productList) {
@@ -251,11 +257,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     private void setProductSummary(ArrayList<ProductData> productList) {
         if (!productList.isEmpty()) {
-            ProductData data = productList.get(0);
-
             populateProductNameQuantityAndPrice(productList);
-
-            // tvPriceTotal.setText(data.getFormatedPrice());
         }
     }
 
@@ -268,6 +270,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             TextView price_product = v.findViewById(R.id.tv_price_product);
             product_quantity_name.setText(productData.getQuantity() + "" + "x" + " " + productData.getProductTitle());
             price_product.setText(productData.getFormatedPrice());
+            Button trackOrder = v.findViewById(R.id.btn_track_order);
             tlProductDetailContainer.addView(v);
         }
 

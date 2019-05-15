@@ -2,11 +2,12 @@ package com.philips.cdp.di.iap.response.orders;
 
 import java.util.List;
 
-public class Entries {
+public class ConsignmentEntries {
     private int entryNumber;
 
-    private Product product;
     private int quantity;
+
+    private OrderEntry orderEntry;
 
     private Cost totalPrice;
     private List<String> trackAndTraceIDs;
@@ -17,9 +18,7 @@ public class Entries {
         return entryNumber;
     }
 
-    public Product getProduct() {
-        return product;
-    }
+
 
     public int getQuantity() {
         return quantity;
@@ -37,4 +36,11 @@ public class Entries {
         return trackAndTraceUrls;
     }
 
+    public OrderEntry getOrderEntry() {
+        return orderEntry;
+    }
+
+    public void setOrderEntry(OrderEntry orderEntry) {
+        this.orderEntry = orderEntry;
+    }
 }

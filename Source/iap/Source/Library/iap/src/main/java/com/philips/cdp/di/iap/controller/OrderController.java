@@ -13,6 +13,8 @@ import com.philips.cdp.di.iap.model.ContactCallRequest;
 import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderHistoryRequest;
 import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
+import com.philips.cdp.di.iap.response.orders.Consignment;
+import com.philips.cdp.di.iap.response.orders.ConsignmentEntries;
 import com.philips.cdp.di.iap.response.orders.Entries;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
@@ -36,8 +38,11 @@ public class OrderController implements AbstractModel.DataLoadListener {
 
     public interface OrderListener {
         void onGetOrderList(Message msg);
+
         void onGetOrderDetail(Message msg);
+
         void updateUiOnProductList();
+
         void onGetPhoneContact(Message msg);
     }
 
@@ -60,7 +65,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.GET_ORDER_DETAIL, request, request);
     }
 
-    public void getPhoneContact(String subCategory){
+    public void getPhoneContact(String subCategory) {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CATEGORY, subCategory);
 
@@ -115,7 +120,12 @@ public class OrderController implements AbstractModel.DataLoadListener {
         HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductData> products = new ArrayList<>();
         String ctn;
-        for(OrderDetail detail : orderDetail) {
+        for (OrderDetail detail : orderDetail) {
+
+            if (detail.getConsignments() != null && !detail.getConsignments().isEmpty()) {
+
+            }
+
             if (detail.getDeliveryOrderGroups() != null) {
                 List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
                 for (Entries entry : entries) {
@@ -144,7 +154,46 @@ public class OrderController implements AbstractModel.DataLoadListener {
         productItem.setOrderCode(detail.getCode());
         productItem.setSubCategory(data.getSubcategory());
         productItem.setMarketingTextHeader(data.getMarketingTextHeader());
+        ConsignmentEntries entries = getEntriesFromConsignMent(detail, entry.getProduct().getCode());
+        productItem.setTrackOrderUrl(getOrderTrackUrl(entries));
         products.add(productItem);
+    }
+
+    private ConsignmentEntries getEntriesFromConsignMent(OrderDetail detail, String ctn) {
+        if (detail.getConsignments() == null) return null;
+        for (Consignment consignment : detail.getConsignments()) {
+
+            for (ConsignmentEntries entries : consignment.getEntries()) {
+
+                String consignmentCtn = entries.getOrderEntry().getProduct().getCode();
+                if (ctn.trim().equalsIgnoreCase(consignmentCtn.trim())) {
+                    return entries;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    private String getOrderTrackUrl(ConsignmentEntries entries) {
+        if (entries == null) return null;
+        if (isArrayNullOrEmpty(entries.getTrackAndTraceIDs()) || isArrayNullOrEmpty(entries.getTrackAndTraceUrls())) {
+            return null;
+        }
+        String trackAndTraceID = entries.getTrackAndTraceIDs().get(0);
+        String trackAndTraceUrl = entries.getTrackAndTraceUrls().get(0);
+        //{300068874=http:\/\/www.fedex.com\/Tracking?action=track&cntry_code=us&tracknumber_list=300068874}
+        return getTrackUrl(trackAndTraceID, trackAndTraceUrl);
+    }
+
+    private String getTrackUrl(String trackAndTraceID, String trackAndTraceUrl) {
+        String urlWithEndCurlyBrace = trackAndTraceUrl.replace("{"+trackAndTraceID + "=", "");
+        System.out.println("Track url :" + urlWithEndCurlyBrace.replace("}",""));
+        return urlWithEndCurlyBrace.replace("}","");
+    }
+
+    private boolean isArrayNullOrEmpty(List traceIdOrTraceURL) {
+        return traceIdOrTraceURL == null || traceIdOrTraceURL.isEmpty();
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {

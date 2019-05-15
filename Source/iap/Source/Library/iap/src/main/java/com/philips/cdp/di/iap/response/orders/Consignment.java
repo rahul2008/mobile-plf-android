@@ -11,7 +11,7 @@ public class Consignment {
     private String statusDate;
 //    private String trackingID;
 
-    private List<Entries> entries;
+    private List<ConsignmentEntries> entries;
 
     public String getCode() {
         return code;
@@ -38,7 +38,7 @@ public class Consignment {
 //    }
 
 
-    public List<Entries> getEntries() {
+    public List<ConsignmentEntries> getEntries() {
         return entries;
     }
 
