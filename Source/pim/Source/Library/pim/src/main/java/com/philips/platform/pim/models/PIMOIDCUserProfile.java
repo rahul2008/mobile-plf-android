@@ -1,8 +1,8 @@
 package com.philips.platform.pim.models;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pim.manager.PIMSettingManager;
-import com.philips.platform.pim.utilities.PIMUserDetails;
 
 import net.openid.appauth.AuthState;
 
@@ -55,7 +55,7 @@ public class PIMOIDCUserProfile {
             }
 
             if(authState != null){
-                mUserProfileMap.put(PIMUserDetails.ACCESS_TOKEN,authState.getAccessToken());
+                mUserProfileMap.put(UserDetailConstants.ACCESS_TOKEN,authState.getAccessToken());
             }
         } catch (JSONException e) {
            mLoggingInterface.log(DEBUG,TAG,"parseUserProfileDataToMap : Exception in fetching User Details ");

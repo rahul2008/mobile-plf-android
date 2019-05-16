@@ -98,16 +98,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
             pimInterface.launch(activityLauncher, launchInput);
         } else if (v == btnLoginFragment) {
-//            btnLoginActivity.setVisibility(View.GONE);
-//            btnLoginFragment.setVisibility(View.GONE);
-//            btnLogout.setVisibility(View.GONE);
             FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
             pimInterface.launch(fragmentLauncher, launchInput);
         } else if (v == btnLogout) {
             if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-//                btnLoginActivity.setVisibility(View.GONE);
-//                btnLoginFragment.setVisibility(View.GONE);
-//                btnLogout.setVisibility(View.GONE);
                 pimInterface.getUserDataInterface().logoutSession(new LogoutSessionListener() {
                     @Override
                     public void logoutSessionSuccess() {
