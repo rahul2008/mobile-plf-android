@@ -195,7 +195,7 @@ public class PIMUserManager {
         return null;
     }
 
-    public void logout(LogoutSessionListener logoutSessionListener) {
+    public void logoutSession(LogoutSessionListener logoutSessionListener) {
         LogoutRequest logoutRequest = new LogoutRequest(authState, getClientId());
         pimRestClient.invokeRequest(logoutRequest, response -> {
             logoutSessionListener.logoutSessionSuccess();

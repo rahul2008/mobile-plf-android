@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
@@ -12,7 +13,6 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListen
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
-import com.philips.platform.pim.utilities.PIMUserDetails;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +29,8 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public void logoutSession(LogoutSessionListener logoutSessionListener) {
-
+        if (pimUserManager != null)
+            pimUserManager.logoutSession(logoutSessionListener);
     }
 
     @Override
@@ -75,16 +76,15 @@ public class PIMDataImplementation implements UserDataInterface {
 
     private ArrayList<String> getAllValidUserDetailsKeys() {
         ArrayList<String> keyList = new ArrayList<>();
-        keyList.add(PIMUserDetails.FIRST_NAME);
-        keyList.add(PIMUserDetails.LAST_NAME);
-        keyList.add(PIMUserDetails.GENDER);
-        keyList.add(PIMUserDetails.EMAIL);
-        keyList.add(PIMUserDetails.MOBILE_NUMBER);
-        keyList.add(PIMUserDetails.BIRTHDAY);
-        keyList.add(PIMUserDetails.ADDRESS);
-        keyList.add(PIMUserDetails.RECEIVE_MARKETING_EMAIL);
-        keyList.add(PIMUserDetails.UUID);
-        keyList.add(PIMUserDetails.ACCESS_TOKEN);
+        keyList.add(UserDetailConstants.GIVEN_NAME);
+        keyList.add(UserDetailConstants.FAMILY_NAME);
+        keyList.add(UserDetailConstants.GENDER);
+        keyList.add(UserDetailConstants.EMAIL);
+        keyList.add(UserDetailConstants.MOBILE_NUMBER);
+        keyList.add(UserDetailConstants.BIRTHDAY);
+        keyList.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+        keyList.add(UserDetailConstants.UUID);
+        keyList.add(UserDetailConstants.ACCESS_TOKEN);
         return keyList;
     }
 
