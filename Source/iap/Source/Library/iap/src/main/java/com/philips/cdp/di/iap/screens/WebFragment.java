@@ -104,7 +104,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            //super.onReceivedSslError(view,handler,error);
+            super.onReceivedSslError(view,handler,error);
             handler.proceed(); // Ignore SSL certificate errors
         }
 

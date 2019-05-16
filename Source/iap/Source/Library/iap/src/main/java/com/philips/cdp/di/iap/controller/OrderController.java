@@ -159,12 +159,10 @@ public class OrderController implements AbstractModel.DataLoadListener {
         products.add(productItem);
     }
 
-    private ConsignmentEntries getEntriesFromConsignMent(OrderDetail detail, String ctn) {
+    public ConsignmentEntries getEntriesFromConsignMent(OrderDetail detail, String ctn) {
         if (detail.getConsignments() == null) return null;
         for (Consignment consignment : detail.getConsignments()) {
-
             for (ConsignmentEntries entries : consignment.getEntries()) {
-
                 String consignmentCtn = entries.getOrderEntry().getProduct().getCode();
                 if (ctn.trim().equalsIgnoreCase(consignmentCtn.trim())) {
                     return entries;
@@ -175,25 +173,25 @@ public class OrderController implements AbstractModel.DataLoadListener {
     }
 
 
-    private String getOrderTrackUrl(ConsignmentEntries entries) {
+   public String getOrderTrackUrl(ConsignmentEntries entries) {
         if (entries == null) return null;
         if (isArrayNullOrEmpty(entries.getTrackAndTraceIDs()) || isArrayNullOrEmpty(entries.getTrackAndTraceUrls())) {
             return null;
         }
         String trackAndTraceID = entries.getTrackAndTraceIDs().get(0);
         String trackAndTraceUrl = entries.getTrackAndTraceUrls().get(0);
-        //{300068874=http:\/\/www.fedex.com\/Tracking?action=track&cntry_code=us&tracknumber_list=300068874}
         return getTrackUrl(trackAndTraceID, trackAndTraceUrl);
     }
 
     private String getTrackUrl(String trackAndTraceID, String trackAndTraceUrl) {
-        String urlWithEndCurlyBrace = trackAndTraceUrl.replace("{"+trackAndTraceID + "=", "");
-        System.out.println("Track url :" + urlWithEndCurlyBrace.replace("}",""));
-        return urlWithEndCurlyBrace.replace("}","");
+        //sample URL
+        //{300068874=http:\/\/www.fedex.com\/Tracking?action=track&cntry_code=us&tracknumber_list=300068874}
+        String urlWithEndCurlyBrace = trackAndTraceUrl.replace("{" + trackAndTraceID + "=", "");
+        return urlWithEndCurlyBrace.replace("}", "");
     }
 
     private boolean isArrayNullOrEmpty(List traceIdOrTraceURL) {
-        return traceIdOrTraceURL == null || traceIdOrTraceURL.isEmpty();
+        return traceIdOrTraceURL == null || traceIdOrTraceURL.size() == 0;
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {

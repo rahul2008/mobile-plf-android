@@ -89,6 +89,7 @@
         android:layout_marginLeft="@dimen/border16_margin_left_right"
         android:layout_marginRight="@dimen/border16_margin_left_right"
         android:layout_marginTop="@dimen/border16_margin_left_right"
+        android:layout_marginBottom="@dimen/border16_margin_left_right"
         android:text="@string/iap_track_order"
         app:uidComponentType="Primary" />
 

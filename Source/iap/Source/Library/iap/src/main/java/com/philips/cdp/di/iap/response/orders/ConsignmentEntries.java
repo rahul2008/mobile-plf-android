@@ -43,4 +43,12 @@ public class ConsignmentEntries {
     public void setOrderEntry(OrderEntry orderEntry) {
         this.orderEntry = orderEntry;
     }
+
+    public void setTrackAndTraceIDs(List<String> trackAndTraceIDs) {
+        this.trackAndTraceIDs = trackAndTraceIDs;
+    }
+
+    public void setTrackAndTraceUrls(List<String> trackAndTraceUrls) {
+        this.trackAndTraceUrls = trackAndTraceUrls;
+    }
 }

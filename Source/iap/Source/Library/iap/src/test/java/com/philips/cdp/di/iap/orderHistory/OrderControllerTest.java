@@ -13,10 +13,13 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.OrderController;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
+import com.philips.cdp.di.iap.response.orders.Consignment;
+import com.philips.cdp.di.iap.response.orders.ConsignmentEntries;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.response.orders.Cost;
 import com.philips.cdp.di.iap.response.orders.Entries;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
+import com.philips.cdp.di.iap.response.orders.OrderEntry;
 import com.philips.cdp.di.iap.response.orders.OrdersData;
 import com.philips.cdp.di.iap.response.orders.Product;
 import com.philips.cdp.di.iap.response.orders.ProductData;
@@ -45,6 +48,8 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -264,5 +269,99 @@ public class OrderControllerTest {
         Mockito.when(orderDetail.getCode()).thenReturn("65756");
         OrderController orderController = new OrderController(mContext, null);
         orderController.setProductData(new ArrayList<ProductData>(), orderDetail, entries, productData, new Data());
+    }
+
+    @Mock
+    List<Consignment> consignmentsMock;
+
+    @Mock
+    Consignment consignmentMock;
+
+    @Mock
+    List<ConsignmentEntries> entriesMock;
+
+    @Mock
+    ConsignmentEntries consignmentEntriesMock;
+
+    @Mock
+    OrderEntry orderEntryMock;
+
+    @Mock
+    Product productMock;
+
+    @Mock
+    Iterator<Consignment> itrConsignment;
+
+    @Mock
+    Iterator<ConsignmentEntries> itrConsignmentEntries;
+
+
+    @Test
+    public void shouldReturnConsignmentEntries() throws Exception {
+
+
+        Mockito.when(itrConsignment.hasNext()).thenReturn(true, false);
+        Mockito.when(itrConsignment.next()).thenReturn(consignmentMock);
+        Mockito.when(consignmentsMock.iterator()).thenReturn(itrConsignment);
+
+
+        Mockito.when(itrConsignmentEntries.hasNext()).thenReturn(true, false);
+        Mockito.when(itrConsignmentEntries.next()).thenReturn(consignmentEntriesMock);
+        Mockito.when(entriesMock.iterator()).thenReturn(itrConsignmentEntries);
+
+
+
+        OrderController   mOrderController = new OrderController(mContext, new MockOrderListener() {
+            @Override
+            public void onGetOrderDetail(final Message msg) {
+
+            }
+        });
+
+        Mockito.when(productMock.getCode()).thenReturn("DIS363/03");
+        Mockito.when(orderEntryMock.getProduct()).thenReturn(productMock);
+        Mockito.when(consignmentEntriesMock.getOrderEntry()).thenReturn(orderEntryMock);
+        Mockito.when(entriesMock.get(0)).thenReturn(consignmentEntriesMock);
+        Mockito.when(consignmentMock.getEntries()).thenReturn(entriesMock);
+
+        Mockito.when(orderDetail.getConsignments()).thenReturn(consignmentsMock);
+        assertEquals(mOrderController.getEntriesFromConsignMent(orderDetail,"DIS363/03"),consignmentEntriesMock);
+    }
+
+
+    Iterator<String> itrStringId;
+
+    @Mock
+    List<String> trackTraceIds;
+
+
+    @Mock
+    Iterator<String> itrStringUrl;
+
+    @Mock
+    List<String> trackTraceUrls;
+
+    @Test
+    public void shouldReturnOrderTrackingURL() throws Exception {
+
+        OrderController   mOrderController = new OrderController(mContext, new MockOrderListener() {
+            @Override
+            public void onGetOrderDetail(final Message msg) {
+
+            }
+        });
+
+        trackTraceIds = new ArrayList<>();
+        trackTraceUrls = new ArrayList<>();
+
+        trackTraceIds.add("300068874");
+        trackTraceUrls.add("{300068874=http:\\/\\/www.fedex.com\\/Tracking?action=track&cntry_code=us&tracknumber_list=300068874}");
+
+        ConsignmentEntries consignmentEntries = new ConsignmentEntries();
+        consignmentEntries.setTrackAndTraceIDs(trackTraceIds);
+        consignmentEntries.setTrackAndTraceUrls(trackTraceUrls);
+
+        assertEquals(mOrderController.getOrderTrackUrl(consignmentEntries),"http:\\/\\/www.fedex.com\\/Tracking?action=track&cntry_code=us&tracknumber_list=300068874");
+
     }
 }

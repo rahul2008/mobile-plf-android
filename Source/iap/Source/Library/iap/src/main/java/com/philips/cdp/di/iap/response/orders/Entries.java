@@ -9,8 +9,7 @@ public class Entries {
     private int quantity;
 
     private Cost totalPrice;
-    private List<String> trackAndTraceIDs;
-    private List<String> trackAndTraceUrls;
+
 
 
     public int getEntryNumber() {
@@ -27,14 +26,6 @@ public class Entries {
 
     public Cost getTotalPrice() {
         return totalPrice;
-    }
-
-    public List<String> getTrackAndTraceIDs() {
-        return trackAndTraceIDs;
-    }
-
-    public List<String> getTrackAndTraceUrls() {
-        return trackAndTraceUrls;
     }
 
 }

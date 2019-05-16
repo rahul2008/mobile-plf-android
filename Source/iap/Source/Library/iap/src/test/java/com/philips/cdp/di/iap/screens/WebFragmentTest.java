@@ -37,6 +37,11 @@ public class WebFragmentTest {
         webFragment = new WebFragment() {
 
             @Override
+            protected boolean isJavaScriptEnable() {
+                return false;
+            }
+
+            @Override
             protected String getWebUrl() {
                 return "http://google.com";
             }

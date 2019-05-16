@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -33,14 +32,12 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
-import com.philips.cdp.di.iap.response.payment.MakePaymentData;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -70,7 +67,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     OrderDetail mOrderDetail;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
-    // private View mPaymentDivider;
     private TextView mShippingStatus;
     private LinearLayout mProductListView;
 
@@ -228,9 +224,9 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             getNetworkImage(((NetworkImageView) productInfo.findViewById(R.id.iv_product_image)), product.getImageURL());
             Button trackOrderButton = productInfo.findViewById(R.id.btn_track_order);
 
-            if(product.getTrackOrderUrl() == null){
+            if (product.getTrackOrderUrl() == null) {
                 trackOrderButton.setEnabled(false);
-            }else{
+            } else {
                 trackOrderButton.setEnabled(true);
             }
 
@@ -239,7 +235,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putString(IAPConstant.ORDER_TRACK_URL, product.getTrackOrderUrl());
-                    addFragment(WebTrackUrl.createInstance(bundle, AnimationType.NONE), null,true);
+                    addFragment(WebTrackUrl.createInstance(bundle, AnimationType.NONE), null, true);
                 }
             });
         }
@@ -268,7 +264,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             TextView price_product = v.findViewById(R.id.tv_price_product);
             product_quantity_name.setText(productData.getQuantity() + "" + "x" + " " + productData.getProductTitle());
             price_product.setText(productData.getFormatedPrice());
-            Button trackOrder = v.findViewById(R.id.btn_track_order);
             tlProductDetailContainer.addView(v);
         }
 
@@ -279,7 +274,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         hideProgressBar();
         if (msg.obj instanceof ContactsResponse) {
             ContactsResponse contactsResponse = (ContactsResponse) msg.obj;
-            if(contactsResponse.getData()!=null) {
+            if (contactsResponse.getData() != null) {
                 mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
                 mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
                 mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
@@ -315,7 +310,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
                     bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
                     bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
-                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG,true);
+                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG, true);
                 }
             }
         }
@@ -390,7 +385,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mShippingStatus.setText(getString(R.string.iap_order_completed_text_default));
         }
     }
-
 
 
     private int getDrawableIDFromOrderState(String statusString) {
