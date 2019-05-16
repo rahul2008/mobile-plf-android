@@ -237,8 +237,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             trackOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(),"Track url :"+product.getTrackOrderUrl(),Toast.LENGTH_LONG).show();
-
                     Bundle bundle = new Bundle();
                     bundle.putString(IAPConstant.ORDER_TRACK_URL, product.getTrackOrderUrl());
                     addFragment(WebTrackUrl.createInstance(bundle, AnimationType.NONE), null,true);
