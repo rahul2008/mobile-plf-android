@@ -9,6 +9,7 @@ import com.adobe.mobile.Analytics;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMLoginListener;
@@ -38,35 +39,22 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
         mTaggingInterface = PIMSettingManager.getInstance().getTaggingInterface();
     }
 
-    public void oidcLogin(Context context, Bundle bundle, PIMFragment pimFragment, @NonNull PIMLoginListener pimLoginListener) {
+    public void oidcLogin(@NonNull Context context,@NonNull Bundle bundle,@NonNull PIMFragment pimFragment, @NonNull PIMLoginListener pimLoginListener) {
         mPimLoginListener = pimLoginListener;
-        if (context == null) {
-            mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : context is null.");
-            mPimLoginListener.onLoginFailed(0);
-        } else if (mPimoidcConfigration == null) {
+        if (mPimoidcConfigration == null) {
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : PIMOIDCConfigration is null.");
-            mPimLoginListener.onLoginFailed(0);
         } else {
             Intent authReqIntent = mPimAuthManager.getAuthorizationRequestIntent(context, mPimoidcConfigration.getAuthorizationServiceConfiguration(),getClientId(), createAdditionalParameterForLogin(bundle));
             if (authReqIntent != null)
                 pimFragment.startActivityForResult(authReqIntent, 100);
             else {
                 mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : authReqIntent is null.");
-                mPimLoginListener.onLoginFailed(0);
             }
         }
     }
 
-    public void exchangeAuthorizationCode(Context context, Intent dataIntent) {
-        if (context == null) {
-            mLoggingInterface.log(DEBUG, TAG, "Token request failed, Reason : context is null.");
-            mPimLoginListener.onLoginFailed(0);
-        } else if (dataIntent == null) {
-            mLoggingInterface.log(DEBUG, TAG, "Token request failed, Reason : dataIntent is null.");
-            mPimLoginListener.onLoginFailed(0);
-        } else {
+    public void exchangeAuthorizationCode(@NonNull Context context,@NonNull Intent dataIntent) {
             mPimAuthManager.performTokenRequest(context, dataIntent, this);
-        }
     }
 
     @Override
@@ -75,8 +63,8 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
     }
 
     @Override
-    public void onUserProfileDownloadFailed(int errorCode) {
-        mPimLoginListener.onLoginFailed(errorCode);
+    public void onUserProfileDownloadFailed(Error error) {
+        mPimLoginListener.onLoginFailed(error);
     }
 
     @Override
@@ -86,9 +74,9 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
     }
 
     @Override
-    public void onLoginFailed(int errorCode) {
+    public void onLoginFailed(Error error) {
         if (mPimLoginListener != null)
-            mPimLoginListener.onLoginFailed(errorCode);
+            mPimLoginListener.onLoginFailed(error);
     }
 
     private Map<String, String> createAdditionalParameterForLogin(Bundle bundle) {

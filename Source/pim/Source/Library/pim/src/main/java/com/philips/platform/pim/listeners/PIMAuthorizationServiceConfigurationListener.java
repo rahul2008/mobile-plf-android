@@ -1,11 +1,13 @@
 package com.philips.platform.pim.listeners;
 
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
+
 import net.openid.appauth.AuthorizationServiceConfiguration;
 
 public interface PIMAuthorizationServiceConfigurationListener {
 
+    void onAuthorizationServiceConfigurationSuccess(AuthorizationServiceConfiguration authorizationServiceConfiguration);
 
-    void onError(String errorMessage);
+    void onAuthorizationServiceConfigurationFailed(Error error);
 
-    void onSuccess(AuthorizationServiceConfiguration authorizationServiceConfiguration);
 }

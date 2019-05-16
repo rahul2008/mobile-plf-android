@@ -5,6 +5,7 @@ import android.content.Context;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
@@ -21,7 +22,6 @@ public class PIMDataImplementation implements UserDataInterface {
     private PIMUserManager pimUserManager;
     private Context mContext;
 
-    //TODO: Do we need context here?
     public PIMDataImplementation(Context context, PIMUserManager pimUserManager) {
         mContext = context;
         this.pimUserManager = pimUserManager;
@@ -46,9 +46,8 @@ public class PIMDataImplementation implements UserDataInterface {
     //TODO: Shashi, Discuss with Deepthi that what action will take id detailskey is null
     @Override
     public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws UserDataInterfaceException {
-        if (pimUserManager == null || pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN || pimUserManager.getUserProfile() == null || detailKeys == null) {
-            //log error
-            return null;
+        if(getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN){
+            throw new UserDataInterfaceException(new Error(Error.UserDetailError.NotLoggedIn));
         }
 
         PIMOIDCUserProfile pimoidcUserProfile = pimUserManager.getUserProfile();
@@ -56,20 +55,20 @@ public class PIMDataImplementation implements UserDataInterface {
         if (detailKeys.size() == 0) {
             ArrayList<String> allValidKeys = getAllValidUserDetailsKeys();
             return pimoidcUserProfile.fetchUserDetails(allValidKeys);
-        } else if (detailKeys.size() > 0) {
+        } else  {
             ArrayList<String> validDetailKey = fillOnlyReqestedValidKeyToKeyList(detailKeys);
             return pimoidcUserProfile.fetchUserDetails(validDetailKey);
         }
-
-        return null;
     }
 
-    private ArrayList<String> fillOnlyReqestedValidKeyToKeyList(ArrayList<String> detailskey) {
+    private ArrayList<String> fillOnlyReqestedValidKeyToKeyList(ArrayList<String> detailskey) throws UserDataInterfaceException {
         ArrayList<String> allValidKeys = getAllValidUserDetailsKeys();
         ArrayList<String> validDetailsKey = new ArrayList<>();
         for (String key : detailskey) {
             if (allValidKeys.contains(key))
                 validDetailsKey.add(key);
+            else
+                throw new UserDataInterfaceException(new Error(Error.UserDetailError.InvalidFields));
         }
         return validDetailsKey;
     }
@@ -119,7 +118,6 @@ public class PIMDataImplementation implements UserDataInterface {
 
     /**
      * {@code authorizeHSDP} method authorize a user is log-in in HSDP Backend
-     * TODO :Need to remove
      *
      * @param hsdpAuthenticationListener
      * @since 1804.0

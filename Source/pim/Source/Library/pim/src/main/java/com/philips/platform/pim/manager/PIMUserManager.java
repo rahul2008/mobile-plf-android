@@ -65,15 +65,10 @@ public class PIMUserManager {
             storeAuthStateToSecureStorage(response, oidcAuthState);
             userProfileRequestListener.onUserProfileDownloadSuccess();
         }, error -> {
-            userProfileRequestListener.onUserProfileDownloadFailed(0);
+            userProfileRequestListener.onUserProfileDownloadFailed(new Error(Error.UserDetailError.NetworkError));
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
         });
     }
-
-    PIMOIDCUserProfile getOIDCUserProfile() {
-        return pimoidcUserProfile;
-    }
-
 
     private void storeUserProfileToSecureStorage(String jsonUserProfileResponse) {
         String userInfoKey = getKeyForStoringUserInfo(jsonUserProfileResponse);
@@ -205,7 +200,7 @@ public class PIMUserManager {
             authState = null;
             pimoidcUserProfile = null;
         }, error -> {
-            logoutSessionListener.logoutSessionFailed(new Error(0,"error message"));
+            logoutSessionListener.logoutSessionFailed(new Error(Error.UserDetailError.NetworkError));
         });
     }
 }

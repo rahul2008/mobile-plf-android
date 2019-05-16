@@ -1,6 +1,7 @@
 package com.philips.platform.pim.manager;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 
@@ -25,14 +26,14 @@ public  class PIMOidcDiscoveryManager implements PIMAuthorizationServiceConfigur
     }
 
     @Override
-    public void onSuccess(AuthorizationServiceConfiguration authorizationServiceConfiguration) {
+    public void onAuthorizationServiceConfigurationSuccess(AuthorizationServiceConfiguration authorizationServiceConfiguration) {
         mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onLoginSuccess. authorizationServiceConfiguration : "+authorizationServiceConfiguration);
         PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(authorizationServiceConfiguration, PIMSettingManager.getInstance().getAppInfraInterface());
         PIMSettingManager.getInstance().setPimOidcConfigration(pimoidcConfigration);
     }
 
     @Override
-    public void onError(String errorMessage) {
-        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onLoginFailed :  "+errorMessage);
+    public void onAuthorizationServiceConfigurationFailed(Error error) {
+        mLoggingInterface.log(DEBUG,TAG,"fetchAuthWellKnownConfiguration : onLoginFailed :  "+error.getErrDesc());
     }
 }

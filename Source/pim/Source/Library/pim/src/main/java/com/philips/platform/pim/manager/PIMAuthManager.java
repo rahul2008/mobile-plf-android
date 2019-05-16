@@ -3,9 +3,11 @@ package com.philips.platform.pim.manager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
 import com.philips.platform.pim.listeners.PIMLoginListener;
@@ -36,7 +38,6 @@ class PIMAuthManager {
     }
 
     void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
-        baseUrl = "https://tst.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration discoveryEndpoint : " + discoveryEndpoint);
 
@@ -44,10 +45,10 @@ class PIMAuthManager {
                 (AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationException e) -> {
                     if (e != null) {
                         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : " + e.getMessage());
-                        listener.onError(e.getMessage());
+                        listener.onAuthorizationServiceConfigurationFailed(new Error(e.code,e.getMessage()));
                     } else {
                         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : " + authorizationServiceConfiguration);
-                        listener.onSuccess(authorizationServiceConfiguration);
+                        listener.onAuthorizationServiceConfigurationSuccess(authorizationServiceConfiguration);
                     }
                 };
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
@@ -72,13 +73,8 @@ class PIMAuthManager {
         return authService.getAuthorizationRequestIntent(authRequest);
     }
 
-    void performTokenRequest(Context context, Intent dataIntent, PIMLoginListener pimLoginListener) {
-        if (context == null || dataIntent == null) {
-            if (pimLoginListener != null)
-                pimLoginListener.onLoginFailed(0);
-            mLoggingInterface.log(DEBUG, TAG, "Token request failed. context :" + context + " dataIntent :" + dataIntent);
-            return;
-        }
+    void performTokenRequest(@NonNull Context context,@NonNull Intent dataIntent, @NonNull PIMLoginListener pimLoginListener) {
+
         AuthorizationResponse response = AuthorizationResponse.fromIntent(dataIntent);
         AuthorizationException exception = AuthorizationException.fromIntent(dataIntent);
 
@@ -99,7 +95,7 @@ class PIMAuthManager {
 
                 if (ex != null) {
                     mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage());
-                    pimLoginListener.onLoginFailed(ex.code);
+                    pimLoginListener.onLoginFailed(new Error(ex.code,ex.getMessage()));
                 }
             }
         });

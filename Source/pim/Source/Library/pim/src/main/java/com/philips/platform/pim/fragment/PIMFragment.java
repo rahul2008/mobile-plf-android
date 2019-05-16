@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
@@ -70,7 +71,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
     }
 
     @Override
-    public void onLoginFailed(int errorCode) {
+    public void onLoginFailed(Error error) {
         pimLoginProgreassBar.setVisibility(View.GONE);
     }
 
