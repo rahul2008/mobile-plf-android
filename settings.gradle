@@ -78,6 +78,8 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 
 include(':pimApp')
 project(':pimApp').projectDir = new File('./Source/pim/Source/DemoApp/app')
+include(':pimTestApp')
+project(':pimTestApp').projectDir = new File('./Source/pim/Source/DemoApp/appTest')
 //include ':uidApp'
 //project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':uAppFwLibApp'
