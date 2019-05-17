@@ -121,11 +121,6 @@ public class OrderController implements AbstractModel.DataLoadListener {
         ArrayList<ProductData> products = new ArrayList<>();
         String ctn;
         for (OrderDetail detail : orderDetail) {
-
-            if (detail.getConsignments() != null && !detail.getConsignments().isEmpty()) {
-
-            }
-
             if (detail.getDeliveryOrderGroups() != null) {
                 List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
                 for (Entries entry : entries) {
@@ -173,7 +168,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
     }
 
 
-   public String getOrderTrackUrl(ConsignmentEntries entries) {
+    public String getOrderTrackUrl(ConsignmentEntries entries) {
         if (entries == null) return null;
         if (isArrayNullOrEmpty(entries.getTrackAndTraceIDs()) || isArrayNullOrEmpty(entries.getTrackAndTraceUrls())) {
             return null;
