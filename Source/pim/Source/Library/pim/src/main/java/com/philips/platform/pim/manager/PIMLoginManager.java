@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.adobe.mobile.Analytics;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
@@ -44,7 +43,8 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
         if (mPimoidcConfigration == null) {
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login failed, Reason : PIMOIDCConfigration is null.");
         } else {
-            Intent authReqIntent = mPimAuthManager.getAuthorizationRequestIntent(context, mPimoidcConfigration.getAuthorizationServiceConfiguration(),getClientId(), createAdditionalParameterForLogin(bundle));
+            String clientID = new PIMOIDCConfigration().getClientId();
+            Intent authReqIntent = mPimAuthManager.getAuthorizationRequestIntent(context, mPimoidcConfigration.getAuthorizationServiceConfiguration(),clientID, createAdditionalParameterForLogin(bundle));
             if (authReqIntent != null)
                 pimFragment.startActivityForResult(authReqIntent, 100);
             else {
@@ -92,17 +92,5 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
         mLoggingInterface.log(DEBUG,TAG,"Additional parameters : "+parameter.toString());
         return parameter;
     }
-
-    // TODO: Get appinfra via settings manager or create constructor to inject what is required
-    private String getClientId() {
-        AppConfigurationInterface appConfigurationInterface = PIMSettingManager.getInstance().getAppInfraInterface().getConfigInterface();
-        Object obj = appConfigurationInterface.getPropertyForKey(PIMConstants.CLIENT_ID, PIMConstants.GROUP_PIM, new AppConfigurationInterface.AppConfigurationError());
-        if (obj != null) {
-            return (String) obj;
-        }
-        return null;
-    }
-
-
 }
 

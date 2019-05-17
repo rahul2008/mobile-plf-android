@@ -4,18 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
 import com.philips.platform.pim.rest.LogoutRequest;
 import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.UserProfileRequest;
-import com.philips.platform.pim.utilities.PIMConstants;
 
 import net.openid.appauth.AuthState;
 
@@ -180,18 +179,10 @@ public class PIMUserManager {
         return pimoidcUserProfile;
     }
 
-    // TODO: Get appinfra via settings manager or create constructor to inject what is required
-    private String getClientId() {
-        AppConfigurationInterface appConfigurationInterface = appInfraInterface.getConfigInterface();
-        Object obj = appConfigurationInterface.getPropertyForKey(PIMConstants.CLIENT_ID, PIMConstants.GROUP_PIM, new AppConfigurationInterface.AppConfigurationError());
-        if (obj != null) {
-            return (String) obj;
-        }
-        return null;
-    }
 
     public void logoutSession(LogoutSessionListener logoutSessionListener) {
-        LogoutRequest logoutRequest = new LogoutRequest(authState, getClientId());
+        String clientID = new PIMOIDCConfigration().getClientId();
+        LogoutRequest logoutRequest = new LogoutRequest(authState,clientID);
         pimRestClient.invokeRequest(logoutRequest, response -> {
             logoutSessionListener.logoutSessionSuccess();
             appInfraInterface.getSecureStorage().removeValueForKey(userInfoKey);

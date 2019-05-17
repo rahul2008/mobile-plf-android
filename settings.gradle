@@ -80,8 +80,6 @@ include(':pimApp')
 project(':pimApp').projectDir = new File('./Source/pim/Source/DemoApp/app')
 include(':pimTestApp')
 project(':pimTestApp').projectDir = new File('./Source/pim/Source/DemoApp/appTest')
-//include ':uidApp'
-//project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':uAppFwLibApp'
 //project(':uAppFwLibApp').projectDir = new File('./Source/ufw/Source/DemoApp/app')
 //demoapps NOT to be published to artifactory

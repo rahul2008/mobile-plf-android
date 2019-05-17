@@ -43,7 +43,6 @@ public class PIMDataImplementation implements UserDataInterface {
 
     }
 
-    //TODO: Shashi, Discuss with Deepthi that what action will take id detailskey is null
     @Override
     public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws UserDataInterfaceException {
         if(getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN){
