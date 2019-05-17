@@ -44,7 +44,7 @@ public abstract class WebFragment extends InAppBaseFragment {
         mUrl = getWebUrl();
         return viewGroup;
     }
-    
+
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
