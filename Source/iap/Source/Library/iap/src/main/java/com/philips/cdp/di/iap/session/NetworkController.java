@@ -6,7 +6,6 @@ package com.philips.cdp.di.iap.session;
 
 import android.content.Context;
 import android.os.Message;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.integration.IAPMockInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.networkEssential.NetworkEssentials;
@@ -22,6 +22,9 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class NetworkController {
     protected Context context;
@@ -57,16 +60,26 @@ public class NetworkController {
     public void sendHybrisRequest(final int requestCode, final AbstractModel model,
                                   final RequestListener requestListener) {
 
+
         if (mStoreListener == null && requestListener != null) {
             Message message = new Message();
             message.obj = IAPConstant.IAP_ERROR;
             requestListener.onError(message);
+            return;
         }
 
-        if(model == null || model.getUrl() == null){
+        if (model == null || model.getUrl() == null) {
+
+
             Message message = new Message();
             message.obj = IAPConstant.IAP_ERROR;
             requestListener.onError(message);
+            return;
+        } else {
+            if (isMocked()) {
+                new MockResponseSender(mIapSettings).sendMockResponse(model, requestListener, requestCode);
+                return;
+            }
         }
 
         if (mStoreListener.isNewUser()) {
@@ -97,7 +110,7 @@ public class NetworkController {
 
             @Override
             public void onResponse(final JSONObject response) {
-                
+
                 if (requestListener != null) {
                     Message msg = Message.obtain();
                     msg.what = requestCode;
@@ -148,6 +161,12 @@ public class NetworkController {
 
     public void setIapSettings(IAPSettings iapSettings) {
         this.mIapSettings = iapSettings;
+    }
+
+    boolean isMocked() {
+        IAPMockInterface iapMockInterface = mIapSettings.getIapMockInterface();
+        if(iapMockInterface == null) return false; //This means , from proposition or demo APP thr mocking is not set or implemented .
+        return iapMockInterface.isMockEnabled();
     }
 
 }

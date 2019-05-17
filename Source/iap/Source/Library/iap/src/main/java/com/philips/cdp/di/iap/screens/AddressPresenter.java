@@ -265,7 +265,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             mShippingAddressHashMap.put(ModelConstants.COUNTRY_ISOCODE, pAddressFields.getCountryIsocode());
         }
         if (pAddressFields.getPostalCode() != null) {
-            mShippingAddressHashMap.put(ModelConstants.POSTAL_CODE, pAddressFields.getPostalCode().replaceAll(" ", ""));
+            mShippingAddressHashMap.put(ModelConstants.POSTAL_CODE, pAddressFields.getPostalCode().trim());
         }
         if (pAddressFields.getTown() != null) {
             mShippingAddressHashMap.put(ModelConstants.TOWN, pAddressFields.getTown());

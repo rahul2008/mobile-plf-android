@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">הסבר את היתרונות שבבחירת המוצר הנכון כאן.</string>
     <string name="pse_Product_Register">איזה מוצר ברצונך לרשום?</string>
     <string name="pse_App_Content">כעת תכולתה של אפליקציה זו מותאמת לך אישית</string>
+    <string name="iap_product_detail_title"> פרטי המוצר</string>
 
     <string name="search"> תפריט הבית, חיפוש </string>
 

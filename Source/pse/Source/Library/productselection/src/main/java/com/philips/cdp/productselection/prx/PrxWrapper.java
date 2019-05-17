@@ -1,6 +1,7 @@
 package com.philips.cdp.productselection.prx;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.utils.Constants;
@@ -10,15 +11,19 @@ import com.philips.cdp.prxclient.PrxConstants.Catalog;
 import com.philips.cdp.prxclient.PrxConstants.Sector;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.prxclient.datamodels.summary.PRXSummaryListResponse;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
+import com.philips.cdp.prxclient.request.ProductSummaryListRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.platform.appinfra.AppInfraInterface;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -71,6 +76,7 @@ public class PrxWrapper {
                     listener.onSuccess(summaryModel);
                 } else
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
+                    listener.onFail("Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
             }
 
             @Override
@@ -106,6 +112,7 @@ public class PrxWrapper {
 
                 } else
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
+                    listener.onFail("Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
 
             }
 
@@ -122,58 +129,57 @@ public class PrxWrapper {
         if (listener == null)
             throw new IllegalStateException("PrxSummaryDataListener listener is null");
 
-        final List<SummaryModel> summaryModelList = new ArrayList<>();
-        final CountDownLatch countDownLatch = new CountDownLatch(ctnList.length);
+        final ProductSummaryListRequest summaryBuilder = new ProductSummaryListRequest(Arrays.asList(ctnList), mSectorCode, mCatalogCode, requestTag);
+        summaryBuilder.setSector(mSectorCode);
+        summaryBuilder.setCatalog(mCatalogCode);
 
-        for (int i = 0; i < ctnList.length; i++) {
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface, Constants.COMPONENT_NAME_PS);
 
-            final ProductSummaryRequest summaryBuilder = new ProductSummaryRequest(ctnList[i], requestTag);
-            summaryBuilder.setSector(mSectorCode);
-            summaryBuilder.setCatalog(mCatalogCode);
+        RequestManager requestManager = new RequestManager();
+        requestManager.init(prxDependencies);
+        requestManager.executeRequest(summaryBuilder, new ResponseListener() {
+            @Override
+            public void onResponseSuccess(ResponseData responseData) {
 
-            PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface, Constants.COMPONENT_NAME_PS);
+                getSummaryModels(responseData, listener ,ctnList);
 
-            RequestManager requestManager = new RequestManager();
-            requestManager.init(prxDependencies);
-            //PrxLogger.enablePrxLogger(true);
+            }
 
-            final String finalI = ctnList[i];
-
-            requestManager.executeRequest(summaryBuilder, new ResponseListener() {
-                @Override
-                public void onResponseSuccess(ResponseData responseData) {
-                    countDownLatch.countDown();
-                    ProductSelectionLogger.e(TAG, "Response Success for the CTN : " + finalI);
-                    SummaryModel summaryModel = (SummaryModel) responseData;
-                    if (summaryModel.isSuccess())
-                        summaryModelList.add(summaryModel);
-                    if (countDownLatch.getCount() == 0)
-                        listener.onSuccess(summaryModelList);
-                }
-
-                @Override
-                public void onResponseError(PrxError error) {
-                    ProductSelectionLogger.e(TAG, "Response Failed  for the CTN : " + finalI);
-                    if (error.getStatusCode() == 404) {
-                        if (ProductModelSelectionHelper.getInstance().getTaggingInterface() != null && mAppInfraInterface.getServiceDiscovery() != null) {
-                            ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo(Constants.ACTION_KEY_SEND_DATA, Constants.TECHNICAL_ERROR, finalI + Constants.CTN_NOT_FOUND);
-                        }
+            @Override
+            public void onResponseError(PrxError error) {
+                if (error.getStatusCode() == 404) {
+                    if (ProductModelSelectionHelper.getInstance().getTaggingInterface() != null && mAppInfraInterface.getServiceDiscovery() != null) {
+                        ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo(Constants.ACTION_KEY_SEND_DATA, Constants.TECHNICAL_ERROR, Constants.CTN_NOT_FOUND);
                     }
-                    countDownLatch.countDown();
-                    if (countDownLatch.getCount() == 0)
-                        listener.onSuccess(summaryModelList);
                 }
-            });
-        }
-        waitForCompletion(countDownLatch);
+            }
+        });
 
     }
 
-    private void waitForCompletion(CountDownLatch countDownLatch) {
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            ProductSelectionLogger.e(TAG, "Interrupted Exception while fetching product list");
+    private void getSummaryModels(ResponseData responseData, SummaryDataListener listener, String[] ctnList) {
+        PRXSummaryListResponse summaryListResponse = (PRXSummaryListResponse) responseData;
+        List<SummaryModel> summaryModels = new ArrayList<>();
+        List<String> responseCtns = new ArrayList<>();
+
+        if (summaryListResponse.isSuccess()) {
+            for (Data data : summaryListResponse.getData()) {
+                SummaryModel summaryModel = new SummaryModel();
+                summaryModel.setData(data);
+                summaryModels.add(summaryModel);
+                responseCtns.add(data.getCtn());
+            }
         }
+        //log the error if , we do not get information for all the ctns ,we asked for .
+        if(responseCtns.size() != ctnList.length) {
+            for (int i = 0; i < ctnList.length; i++) {
+                if (!responseCtns.contains(ctnList[i])) {
+                    ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + ctnList[i]);
+                }
+            }
+        }
+        listener.onSuccess(summaryModels);
+
     }
+
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,18 +87,22 @@ public class SplashFragment extends AbstractOnboardingBaseFragment implements Ba
     public void onResume() {
         RALog.d(TAG, " onResume called ");
         super.onResume();
+
+        final FragmentActivity fragmentActivity = getActivity();
+        if (fragmentActivity == null) return;
+        AppFrameworkApplication applicationContext = (AppFrameworkApplication) fragmentActivity.getApplicationContext();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Looper.prepare();
-                ((AppFrameworkApplication) getActivity().getApplicationContext()).initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
+                applicationContext.initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
                     @Override
                     public void onAppInfraInitialization() {
                         startAppTagging();
                         if (getActivity() instanceof LaunchActivity) {
                             ((LaunchActivity) getActivity()).startCollectingLifecycleData();
                         }
-                        ((AppFrameworkApplication) getActivity().getApplicationContext()).initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
+                        applicationContext.initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
                             @Override
                             public void onAppStatesInitialization() {
                                 handler.post(new Runnable() {

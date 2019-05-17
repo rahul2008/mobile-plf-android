@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">各製品のメリットを確認するには、正しい製品を選択してください。</string>
     <string name="pse_Product_Register">登録する製品は何ですか？</string>
     <string name="pse_App_Content">このアプリのコンテンツは次の製品用にカスタマイズされています：</string>
+    <string name="iap_product_detail_title"> 製品詳細</string>
 
     <string name="search"> 検索 </string>
 

@@ -201,7 +201,6 @@ FedEx(parcel postage)</string>
     <string name="iap_product">Product</string>
     <string name="iap_product_added">Product added to your shopping cart</string>
     <string name="iap_product_catalog">Products</string>
-    <string name="iap_product_detail_title">Product details</string>
     <string name="iap_product_item_quantity">Quantity:</string>
     <string name="iap_product_not_found">We did not find any products for</string>
     <string name="iap_product_remove_address">Your address will be deleted forever. Are you sure?</string>

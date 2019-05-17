@@ -92,6 +92,9 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     private Label btn_registration_with_hsdp_status_lbl;
 
+    URInterface urInterface;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Config.setDebugLogging(true);
@@ -116,7 +119,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
         btn_registration_with_hsdp_status_lbl = findViewById(R.id.btn_registration_with_hsdp_status_lbl);
-
+        urInterface = new URInterface();
         final Button mBtnHsdpRefreshAccessToken = findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(this);
@@ -195,7 +198,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 }
             }
         });
-
+        updateSkipHsdpStatus(false);
 
         mSkipHSDPSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -225,8 +228,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         });
 
         mCheckBox = findViewById(R.id.cd_hsdp);
-        if (restoredHSDPText != null) {
+        if (restoredHSDPText != null || RegistrationConfiguration.getInstance().isHsdpFlow()) {
             mCheckBox.setChecked(true);
+        } else {
+            mCheckBox.setChecked(false);
+        }
+
+        if (getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).getBoolean("reg_delay_hsdp_configuration", false)) {
+            mSkipHSDPSwitch.setChecked(true);
         }
         updateHSDPUuidSwitch(false);
 
@@ -275,7 +284,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     editor.putString("reg_environment", restoredText);
                     if (mCheckBox.isChecked()) {
                         editor.putString("reg_hsdp_environment", restoredText).apply();
+                        InitHsdp init = new InitHsdp();
+                        init.initHSDP(RegUtility.getConfiguration(restoredText),getApplicationContext(),URDemouAppInterface.appInfra);
                         mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
+                        urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
+
                     } else {
                         editor.remove("reg_hsdp_environment").commit();
                         mBtnHsdpRefreshAccessToken.setVisibility(GONE);
@@ -283,8 +296,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
                     if (mSkipHSDPSwitch.isChecked()) {
                         editor.putBoolean("reg_delay_hsdp_configuration", true).apply();
+                        InitHsdp init = new InitHsdp();
+                        init.initHSDP(RegUtility.getConfiguration(restoredText), getApplicationContext(), URDemouAppInterface.appInfra);
+                        urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
+
                     } else {
                         editor.remove("reg_delay_hsdp_configuration").apply();
+
                     }
                     updateSkipHsdpStatus(mSkipHSDPSwitch.isChecked());
                     SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
@@ -325,6 +343,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         RLog.d("updateSkipHsdpStatus", " Going to set :" + b);
         final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
         appInfraInterface.getConfigInterface().setPropertyForKey(HSDP_SKIP_HSDP_LOGIN, "UserRegistration", String.valueOf(b), configError);
+        mSkipHSDPSwitch.setChecked(b);
     }
 
 
@@ -420,7 +439,6 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         URLaunchInput urLaunchInput;
         CoppaExtension coppaExtension;
         ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-        URInterface urInterface = new URInterface();
         int i = v.getId();
         if (i == R.id.btn_registration_with_account) {
             RLog.d(TAG, "Logout");
@@ -471,20 +489,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
 
         } else if (i == R.id.btn_update_gender) {
-
-            User user1 = new User(mContext);
-            if (user1.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-                showToast("Please login before refreshing access token");
-            } else {
                 handleGender();
-            }
         } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
-            if (user.getUserLoginState() != UserLoginState.USER_LOGGED_IN) {
-                showToast("Please login before updating user");
-            } else {
                 handleDoBUpdate(user.getDateOfBirth());
-            }
         } else if (i == R.id.fetchConcent) {
             if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                 coppaExtension = new CoppaExtension(mContext);
@@ -802,7 +810,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
 //        registrationContentConfiguration.setOptInBannerText(optInBannerText);
         registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
-     //   registrationContentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
+        //   registrationContentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
         registrationContentConfiguration.enableLastName(true);
         registrationContentConfiguration.enableContinueWithouAccount(true);
         return registrationContentConfiguration;

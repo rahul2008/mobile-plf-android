@@ -9,6 +9,12 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.annotation.StyleRes;
 
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.UIDHelper;
+
 public class ThemeHelper {
     final SharedPreferences sharedPreferences;
 

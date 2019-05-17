@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">Εδώ επιλέξτε το σωστό προϊόν για να εξηγήσετε τα οφέλη.</string>
     <string name="pse_Product_Register">Τι προϊόν θέλετε να καταχωρήσετε;</string>
     <string name="pse_App_Content">Το περιεχόμενο αυτής της εφαρμογής έχει προσαρμοστεί στο προϊόν</string>
+    <string name="iap_product_detail_title"> Λεπτομέρειες προϊόντος</string>
 
     <string name="search"> Αναζήτηση </string>
 

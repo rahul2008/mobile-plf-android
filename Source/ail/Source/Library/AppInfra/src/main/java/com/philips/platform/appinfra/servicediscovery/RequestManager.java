@@ -72,7 +72,8 @@ public class RequestManager {
 
         final ServiceDiscovery result = new ServiceDiscovery(mAppInfra);
         try {
-            final JSONObject response = future.get(10, TimeUnit.SECONDS);
+            //ToDO: Changed timeout to 30 sec, need to monitor analytics after one week
+            final JSONObject response = future.get(30, TimeUnit.SECONDS);
             cacheServiceDiscovery(response, url, urlType);
             return parseResponse(response);
         } catch (InterruptedException | TimeoutException e) {
@@ -163,7 +164,7 @@ public class RequestManager {
 
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    AISDResponse getCachedData(AppInfraTaggingUtil appInfraTaggingAction) {
+    AISDResponse getCachedData() {
         AISDResponse cachedResponse = null;
         mSharedPreference = getServiceDiscoverySharedPreferences();
         if (mSharedPreference != null) {
@@ -234,12 +235,12 @@ public class RequestManager {
     }
 
 
-    void clearCacheServiceDiscovery(AppInfraTaggingUtil appInfraTaggingAction) {
+    void clearCacheServiceDiscovery() {
         mSharedPreference = getServiceDiscoverySharedPreferences();
         mPrefEditor = mSharedPreference.edit();
         mPrefEditor.clear();
         mPrefEditor.apply();
-        appInfraTaggingAction.trackSuccessAction(SERVICE_DISCOVERY, SD_CLEAR_DATA);
+        ((AppInfra)mAppInfra).getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SERVICE_DISCOVERY,  SD_CLEAR_DATA);
     }
 
     SharedPreferences getServiceDiscoverySharedPreferences() {

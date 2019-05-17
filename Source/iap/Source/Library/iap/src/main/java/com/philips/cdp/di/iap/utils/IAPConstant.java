@@ -138,5 +138,7 @@ public class IAPConstant {
     //For handling 307 - Temporary redirect
     public static final int HTTP_REDIRECT = 307;
 
+    public static final int UN_LIMIT_CART_COUNT = 0;
+
 
 }

@@ -13,8 +13,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.LocaleSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.errors.ErrorType;
 import com.philips.cdp.registration.errors.URError;
 import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
@@ -44,6 +47,8 @@ import com.philips.platform.uid.view.widget.ValidationEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -94,6 +99,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     static final String MOBILE_NUMBER_KEY = "mobileNumber";
     static final String RESPONSE_TOKEN_KEY = "token";
     static final String RE_DIRECT_URI_KEY = "redirectUri";
+    String normalText;
 
     @Override
     public void onAttach(Context context) {
@@ -106,7 +112,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
                              Bundle savedInstanceState) {
 
         final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
 
 
         RegistrationConfiguration.getInstance().getComponent().inject(this);
@@ -126,17 +132,22 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
         ButterKnife.bind(this, view);
         handleOrientation(view);
         getRegistrationFragment().startCountDownTimer();
-        setDescription();
+        normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
+
+        SpannableString description = setDescription(normalText, mobileNumber);
+        verifyPasswordDesc1.setText(description);
         handleVerificationCode();
         return view;
     }
 
-    private void setDescription() {
-        String normalText = getString(R.string.USR_DLS_VerifySMS_Description_Text);
-        SpannableString str = new SpannableString(String.format(normalText, mobileNumber));
-        str.setSpan(new StyleSpan(Typeface.BOLD), normalText.length() - 2, str.length(),
+    @VisibleForTesting
+    protected SpannableString setDescription( String normalText, String mobileNumber) {
+        String formattedStr = String.format(normalText, mobileNumber);
+        StringBuilder fStringBuilder = new StringBuilder(formattedStr);
+        SpannableString str = new SpannableString(formattedStr);
+        str.setSpan(new StyleSpan(Typeface.BOLD), fStringBuilder.indexOf(mobileNumber), fStringBuilder.indexOf(mobileNumber) + mobileNumber.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        verifyPasswordDesc1.setText(str);
+       return str;
     }
 
     private void handleVerificationCode() {
@@ -171,7 +182,7 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onEvent(UpdateMobile event) {
         if (this.isVisible()) {
             mobileNumber = event.getMobileNumber();
-            setDescription();
+            setDescription(normalText, mobileNumber);
         }
     }
 
@@ -186,7 +197,6 @@ public class MobileForgotPassVerifyCodeFragment extends RegistrationBaseFragment
     public void onDestroy() {
         super.onDestroy();
         RegistrationHelper.getInstance().unRegisterNetworkListener(getRegistrationFragment());
-        mobileVerifyCodePresenter.cleanUp();
     }
 
     @Override

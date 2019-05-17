@@ -22,7 +22,7 @@
         <item>@string/dls_balloonspeech</item>
         <item>@string/dls_conversationspeech</item>
         <item>@string/dls_revise</item>
-        <item>@string/dls_revise</item>
+        <item>@string/dls_shield</item>
     </array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->

@@ -189,7 +189,7 @@ public class UserRegistrationInitializer {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                if(source == null) return;
+                if (source == null) return;
                 RLog.d(TAG, "onSuccess : Service discovry getHomeCountry : " + s + " and SOURCE : " + source.name());
                 if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
                     RegistrationHelper.getInstance().setCountryCode(s);
@@ -236,7 +236,7 @@ public class UserRegistrationInitializer {
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.e(TAG, "getLocaleServiceDiscovery : onError: So calling getLocaleServiceDiscoveryByCountry ");
+                        RLog.e(TAG, "getLocaleServiceDiscovery : onError: So calling getLocaleServiceDiscoveryByCountry " + e.getMessage());
                         getLocaleServiceDiscoveryByCountry(context, registrationType);
                     }
                 });
@@ -255,7 +255,7 @@ public class UserRegistrationInitializer {
 
                     @Override
                     public void onError(Throwable e) {
-                        RLog.e(TAG, "getLocaleServiceDiscovery : onError: So notify JANRAIN_INIT_FAILURE");
+                        RLog.e(TAG, "getLocaleServiceDiscovery : onError: So notify JANRAIN_INIT_FAILURE " + e.getMessage());
                         ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     }
                 });

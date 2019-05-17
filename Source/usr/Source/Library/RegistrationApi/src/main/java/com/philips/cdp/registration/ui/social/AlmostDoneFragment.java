@@ -30,6 +30,7 @@ import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XRegError;
@@ -111,7 +112,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     boolean isValidEmail;
 
 
-
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
         public int isValid(boolean valid) {
@@ -151,7 +151,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         initializeUI(view);
-        RLog.i(TAG,"Screen name is"+ TAG);
+        RLog.i(TAG, "Screen name is" + TAG);
         return view;
     }
 
@@ -277,9 +277,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         emailEditText.setVisibility(View.VISIBLE);
         emailTitleLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Email_Text));
+        String baseString = mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Base_Text);
+        almostDoneDescriptionLabel.setText(String.format(baseString, mContext.getResources().getString(R.string.USR_Email_address_TitleTxt)));
         if (RegistrationHelper.getInstance().isMobileFlow()) {
-            almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Mobile_Text));
+            almostDoneDescriptionLabel.setText(String.format(baseString, mContext.getResources().getString(R.string.USR_DLS_Almost_Done_TextField_Mobile_Text)));
         }
         continueButton.setEnabled(false);
 
@@ -600,15 +601,22 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        loginIdEditText.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
-        loginIdEditText.showError();
+        if (userRegistrationFailureInfo.getErrorCode() == ErrorCodes.JANRAIN_INVALID_DATA_FOR_VALIDATION) {
+            if (RegistrationHelper.getInstance().isMobileFlow()) {
+                phoneNumberAlreadyInuseError();
+            } else {
+                emailAlreadyInuseError();
+            }
+        } else {
+            loginIdEditText.setErrorMessage(userRegistrationFailureInfo.getErrorDescription());
+            loginIdEditText.showError();
+        }
     }
 
     @Override
     public void marketingOptCheckDisable() {
         marketingOptCheck.setOnCheckedChangeListener(null);
         marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
-//        errorMessage.setError(getString(R.string.reg_NoNetworkConnection));
         showNotificationBarOnNetworkNotAvailable();
     }
 
@@ -627,7 +635,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void replaceWithHomeFragment() {
         if (getRegistrationFragment() != null) {
-            getRegistrationFragment().replaceWithHomeFragment();
+            getRegistrationFragment().replaceWithHomeFragment(getRegistrationFragment().getFragmentManager());
         }
     }
 

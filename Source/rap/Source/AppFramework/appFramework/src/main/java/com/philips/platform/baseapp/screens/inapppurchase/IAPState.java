@@ -163,7 +163,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     public void setListener() {
-        if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+        if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
             RALog.d(TAG, "Setting Listener");
             ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
             getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);

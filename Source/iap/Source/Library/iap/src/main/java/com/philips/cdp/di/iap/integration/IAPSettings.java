@@ -20,6 +20,7 @@ public class IAPSettings extends UappSettings {
     private String mProposition;
     private String mHostPort;
     private List<AddressFieldDecider> addressFieldDeciderList;
+    private IAPMockInterface iapMockInterface;
 
     /**
      * Used to create IAPSettings instance
@@ -100,5 +101,13 @@ public class IAPSettings extends UappSettings {
      */
     public void setAddressFieldDeciderList(List<AddressFieldDecider> addressFieldDeciderList) {
         this.addressFieldDeciderList = addressFieldDeciderList;
+    }
+
+    public IAPMockInterface getIapMockInterface() {
+        return iapMockInterface;
+    }
+
+    public void setIapMockInterface(IAPMockInterface iapMockInterface) {
+        this.iapMockInterface = iapMockInterface;
     }
 }

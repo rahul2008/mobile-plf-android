@@ -143,8 +143,10 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         RLog.i(TAG, "Screen name is " + TAG);
 
         registerInlineNotificationListener(this);
-        mURFaceBookUtility = new URFaceBookUtility(this);
-        mCallbackManager = mURFaceBookUtility.getCallBackManager();
+        if (RegistrationConfiguration.getInstance().isFacebookSDKSupport()) {
+            mURFaceBookUtility = new URFaceBookUtility(this);
+            mCallbackManager = mURFaceBookUtility.getCallBackManager();
+        }
         RegistrationConfiguration.getInstance().getComponent().inject(this);
         mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
         homePresenter = new HomePresenter(this, mCallbackManager);
@@ -155,6 +157,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
         homePresenter.registerWeChatApp();
         return view;
     }
+
 
     @Override
     public void onStart() {
@@ -366,30 +369,32 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     }
 
     private void callSocialProvider(String providerName) {
-        homePresenter.trackSocialProviderPage();
-        if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
-            handleBtnClickableStates(false);
-            if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
-                if (homePresenter.isWeChatAuthenticate()) {
-                    homePresenter.startWeChatAuthentication();
+
+        if (homePresenter.isNetworkAvailable()) {
+            homePresenter.trackSocialProviderPage();
+            if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+                handleBtnClickableStates(false);
+                if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_WECHAT)) {
+                    if (homePresenter.isWeChatAuthenticate()) {
+                        homePresenter.startWeChatAuthentication();
+                    } else {
+                        hideProgressDialog();
+                    }
+                    return;
+                } else if (RegistrationConfiguration.getInstance().isFacebookSDKSupport() && providerName.equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK)) {
+                    showProgressDialog();
+                    homePresenter.setProvider(providerName);
+                    startFaceBookLogin();
                 } else {
-                    hideProgressDialog();
+                    showProgressDialog();
+                    homePresenter.setProvider(providerName);
+                    homePresenter.startSocialLogin();
                 }
                 return;
-            } else if (providerName.equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK)) {
-                showProgressDialog();
-                homePresenter.setProvider(providerName);
-                startFaceBookLogin();
-            } else {
-                showProgressDialog();
-                homePresenter.setProvider(providerName);
-                homePresenter.startSocialLogin();
             }
-            return;
+            showProgressDialog();
+            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
-        showProgressDialog();
-        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-
     }
 
     @Override
@@ -492,7 +497,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     private void handleLoginFailedWithMergeFlowError(String existingProvider, String mergeToken, String conflictingIdentityProvider, String emailId) {
         hideProgressDialog();
         enableControls(true);
-        if (homePresenter.getProvider().equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK) && emailId == null) {
+        if (RegistrationConfiguration.getInstance().isFacebookSDKSupport() && homePresenter.getProvider().equalsIgnoreCase(SOCIAL_PROVIDER_FACEBOOK) && emailId == null) {
             emailId = mFacebookEmail;
         }
         if (homePresenter.isMergePossible(existingProvider)) {
@@ -659,8 +664,8 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
 
 
     private void updateCountryText(String text) {
-        mCountryDisplay.setText(String.format("%s %s", getString(R.string.USR_Country_Region) + ":", text));
-        mCountryDisplay2.setText(String.format("%s %s", getString(R.string.USR_Country_Region) + ":", text));
+        mCountryDisplay.setText(String.format("%s %s", mContext.getString(R.string.USR_Country_Region) + ":", text));
+        mCountryDisplay2.setText(String.format("%s %s", mContext.getString(R.string.USR_Country_Region) + ":", text));
 
         linkifyPrivacyPolicy(mCountryDisplay, countryClickListener);
         linkifyPrivacyPolicy(mCountryDisplay2, countryClickListener);
@@ -732,9 +737,10 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
             if (provider.equals(SOCIAL_PROVIDER_FACEBOOK)) {
                 drawableId = R.drawable.uid_social_media_facebook_icon;
                 //instead initializing facebook in oncreate , do it if we get provider name as facebook
+                if (RegistrationConfiguration.getInstance().isFacebookSDKSupport())
                 initFacebookLogIn();
             } else if (provider.equals(SOCIAL_PROVIDER_GOOGLEPLUS)) {
-                drawableId = R.drawable.uid_social_media_googleplus_icon;
+                drawableId = R.drawable.uid_social_media_google_icon;
             } else if (provider.equals(SOCIAL_PROVIDER_WECHAT)) {
                 drawableId = R.drawable.uid_social_media_wechat_icon;
             }

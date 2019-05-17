@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.AlertListener;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -171,6 +172,10 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
 //    }
 
     private void handleNavigation() {
+        if(shouldGiveCallBack()){
+            sendCallback(false);
+            return;
+        }
         showProductCatalogFragment(WebPaymentFragment.TAG);
     }
 

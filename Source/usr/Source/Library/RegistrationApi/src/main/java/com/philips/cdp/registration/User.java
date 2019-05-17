@@ -70,6 +70,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
 import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPreferenceValue;
 
 /**
@@ -338,6 +339,9 @@ public class User {
      */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
         RLog.d(TAG, "refreshLoginSession");
+        if (getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+            refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(getUserLoginState().ordinal());
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -345,7 +349,7 @@ public class User {
                     RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
                     refreshUserSession.refreshUserSession();
                 } else {
-                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.UNKNOWN_ERROR));
+                    ThreadUtils.postInMainThread(mContext, () -> refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(ErrorCodes.NO_NETWORK));
                 }
             }
         }).start();
@@ -622,10 +626,11 @@ public class User {
 
     /**
      * {@code isUserSignIn} method checks if a user is logged in
-     * @deprecated
+     *
      * @return boolean
      * @since 1.0.0
      * Its deprecated since 1804.0, request to please use getUserLoginState to get the User login state instead of isUserSignIn() api
+     * @deprecated
      */
 
     @Deprecated
@@ -710,6 +715,10 @@ public class User {
     public void updateReceiveMarketingEmail(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
+        if (getUserNotLoggedInState()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
+        }
         UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
                 UpdateReceiveMarketingEmail(
                 mContext);
@@ -728,9 +737,18 @@ public class User {
     public void updateDateOfBirth(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Date date) {
+        if (getUserNotLoggedInState()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
+        }
         UpdateDateOfBirth updateDateOfBirth = new UpdateDateOfBirth(mContext);
         RLog.d(TAG, "updateDateOfBirth called : " + date.toString());
         updateDateOfBirth.updateDateOfBirth(updateUserDetailsHandler, date);
+    }
+
+
+    private boolean getUserNotLoggedInState() {
+        return getUserLoginState().ordinal() < UserLoginState.PENDING_VERIFICATION.ordinal();
     }
 
 
@@ -744,6 +762,10 @@ public class User {
     public void updateGender(
             final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Gender gender) {
+        if (getUserNotLoggedInState()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
+        }
         UpdateGender updateGender = new UpdateGender(mContext);
         RLog.d(TAG, "updateGender called : " + gender.toString());
         updateGender.updateGender(updateUserDetailsHandler, gender);
@@ -772,9 +794,10 @@ public class User {
                 logoutHandler.onLogoutSuccess();
             }
         }
+        List<String> providersForCountry = RegistrationConfiguration.getInstance().getProvidersForCountry(getCountryCode());
 
-        String countryCode = RegistrationHelper.getInstance().getCountryCode();
-        if (RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode).contains(RegConstants.SOCIAL_PROVIDER_FACEBOOK))
+        if (RegistrationConfiguration.getInstance().isFacebookSDKSupport()
+                && providersForCountry != null && providersForCountry.contains(SOCIAL_PROVIDER_FACEBOOK))
             LoginManager.getInstance().logOut();
     }
 

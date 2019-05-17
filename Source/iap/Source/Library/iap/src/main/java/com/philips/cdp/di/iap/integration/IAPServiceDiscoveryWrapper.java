@@ -6,6 +6,7 @@ import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -57,7 +58,7 @@ public class IAPServiceDiscoveryWrapper {
                 }
                 //Condition for launching IAP screens
                 if (iapListener == null && entry == null) {
-                    if (configUrls == null || configUrls.isEmpty()) {
+                    if (configUrls == null || configUrls.isEmpty() || !IAPUtility.getInstance().isHybrisSupported()) {
                         mIAPSettings.setUseLocalData(true);
                     } else {
                         // TODO Retailer view hence making the userLocalData to true
@@ -69,7 +70,7 @@ public class IAPServiceDiscoveryWrapper {
                     launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
                 } else {
                     //Condition for returning gatCartCount API and getCompleteProductlist API
-                    if (configUrls == null) {
+                    if (configUrls == null || !IAPUtility.getInstance().isHybrisSupported()) {
                         mIAPSettings.setUseLocalData(true);
                     } else {
                         // TODO Retailer view hence making the userLocalData to true
@@ -106,6 +107,12 @@ public class IAPServiceDiscoveryWrapper {
     private void launchingIAP(IAPHandler pIAPHandler, UiLauncher pUiLauncher, IAPLaunchInput pUappLaunchInput) {
         mIAPSettings.setProposition(loadConfigParams());
         Utility.setVoucherCode(pUappLaunchInput.getVoucher());
+        IAPUtility.getInstance().setMaxCartCount(pUappLaunchInput.getMaxCartCount());
+        IAPUtility.getInstance().setHybrisSupported(pUappLaunchInput.isHybrisSupported());
+        IAPUtility.getInstance().setIapOrderFlowCompletion(pUappLaunchInput.getIapOrderFlowCompletion());
+        if(pUappLaunchInput.getIapBannerEnabler()!=null) {
+            IAPUtility.getInstance().setBannerView(pUappLaunchInput.getIapBannerEnabler().getBannerView());
+        }
         if (!mIAPSettings.isUseLocalData() && (!pIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
             pIAPHandler.initIAP(pUiLauncher, pUappLaunchInput);
         } else {
@@ -148,7 +155,7 @@ public class IAPServiceDiscoveryWrapper {
                 list.addAll(collection);
                 ServiceDiscoveryService serviceDiscoveryService = list.get(0);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
-                if (configUrls == null) {
+                if (configUrls == null || IAPUtility.getInstance().isHybrisSupported() == false) {
                     mIAPSettings.setUseLocalData(true);
                     isCartVisible = false;
                 } else {

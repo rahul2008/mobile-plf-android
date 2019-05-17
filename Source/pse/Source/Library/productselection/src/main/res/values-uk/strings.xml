@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">Щоб дізнатися переваги, виберіть тут відповідний виріб.</string>
     <string name="pse_Product_Register">Який виріб Ви бажаєте зареєструвати?</string>
     <string name="pse_App_Content">Вміст цього додатка тепер налаштовано відповідно до</string>
+    <string name="iap_product_detail_title"> Детальніше про виріб</string>
 
     <string name="search"> Пошук </string>
 

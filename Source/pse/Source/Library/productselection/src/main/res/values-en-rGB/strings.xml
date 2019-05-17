@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">To explain the benefits, please select the right product here.</string>
     <string name="pse_Product_Register">What product do you want to register?</string>
     <string name="pse_App_Content">The content of this app is now tailored to your</string>
+    <string name="iap_product_detail_title">Product details</string>
 
     <string name="search"> Search </string>
 

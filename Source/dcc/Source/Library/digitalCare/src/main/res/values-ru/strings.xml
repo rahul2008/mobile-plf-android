@@ -21,7 +21,7 @@
     <string name="loading"> Загр. </string>
     <string name="dcc_please_wait"> Подождите &amp;#8230; </string>
     <string name="get_directions"> Itinéraire </string>
-    <string name="search"> Recherche </string>
+    <string name="search"> Поиск </string>
     <string name="gps_disabled"> GPS désactivé sur votre appareil. Souhaitez-vous l\'activer ? </string>
     <string name="servicecenters_not_found"> Aucun centre disponible dans votre pays  </string>
     <string name="no_data"> Aucune donnée </string>
@@ -57,7 +57,7 @@
     <string name="rate_philips_headertext"> Загрузить отзыв </string>
     <string name="rate_philips_description"> Оставьте отзыв и помогите другим сделать правильный выбор </string>
     <string name="rate_philips_buttontext"> Войти в My Philips </string>
-    <string name="product_info"> сведения о продукте </string>
+    <string name="product_info"> Cведения о продукте </string>
     <!-- reviewandrewards   null -->
 
     <!-- Twitter Screen   null -->
@@ -139,7 +139,7 @@
 
     <string name="localtephilips_contactus">Page de contact</string>
 
-    <string name="FAQ_KEY">Ответы на часто задаваемые вопросы</string>
+    <string name="FAQ_KEY">Ответы на вопросы</string>
     <string name="QUESTION_KEY">Вопросы и ответы</string>
     <string name="NO_PRODUCT_KEY">Нет доступных продуктов</string>
     <string name="NO_SUPPORT_KEY">Поддержка недоступна</string>
@@ -154,7 +154,7 @@
     <string name="dcc_twitter">twitter</string>
     <string name="dcc_facebook">Facebook</string>
     <string name="dcc_send_us_message">Или отправить сообщение</string>
-    <string name="dcc_get_in_touch">Поговорите со специалистом</string>
+    <string name="dcc_get_in_touch">Свяжитесь со специалистом</string>
     <string name="dcc_help_and_Answer">Мы всегда готовы помочь и ответить на любые ваши вопросы.</string>
     <string name="dcc_send_email">Электронная почта</string>
     <string name="dcc_call_number">Позвонить нам</string>

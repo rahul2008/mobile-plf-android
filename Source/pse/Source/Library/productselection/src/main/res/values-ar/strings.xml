@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">لشرح المنافع، الرجاء تحديد المنتج الصحيح هنا.</string>
     <string name="pse_Product_Register">ما المنتج الذي تريد تسجيله؟</string>
     <string name="pse_App_Content">تم تخصيص محتوى هذا التطبيق الآن ليتلاءم مع</string>
+    <string name="iap_product_detail_title"> تفاصيل المنتج</string>
 
     <string name="search"> البحث </string>
 

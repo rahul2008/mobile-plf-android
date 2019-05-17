@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">За обяснение на ползите изберете правилния продукт тук.</string>
     <string name="pse_Product_Register">Какъв продукт искате да регистрирате?</string>
     <string name="pse_App_Content">Съдържанието на това приложение вече е съобразено с вашите нужди</string>
+    <string name="iap_product_detail_title"> Данни за продукта</string>
 
     <string name="search"> Търсене </string>
 

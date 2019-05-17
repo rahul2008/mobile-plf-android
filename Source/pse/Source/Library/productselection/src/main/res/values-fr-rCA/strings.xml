@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">Expliquer les avantages de la sélection du bon produit.</string>
     <string name="pse_Product_Register">Quel produit souhaitez-vous enregistrer ?</string>
     <string name="pse_App_Content">Le contenu de cette application est désormais adapté à votre</string>
+    <string name="iap_product_detail_title"> Détails du produit</string>
 
     <string name="search"> Recherche </string>
 

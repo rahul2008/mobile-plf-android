@@ -36,6 +36,7 @@
     <string name="pse_Explain_Benefits">혜택을 설명하려면 여기에서 알맞은 제품을 선택해주십시오.</string>
     <string name="pse_Product_Register">등록할 제품은 무엇입니까?</string>
     <string name="pse_App_Content">이 앱의 콘텐츠는 현재 귀하에게 맞춤 설정되어 있습니다.</string>
+    <string name="iap_product_detail_title"> 제품정보</string>
 
     <string name="search"> 검색 </string>
 
