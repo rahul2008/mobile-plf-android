@@ -39,10 +39,10 @@ public class IAPUser implements UserDataListener {
 
     public String getJanRainID() {
         ArrayList<String> detailsKey = new ArrayList<>();
-        detailsKey.add(UserDetailConstants.UUID);
+        detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
         try {
            HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
-           return userDetailsMap.get(UserDetailConstants.UUID).toString();
+           return userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
