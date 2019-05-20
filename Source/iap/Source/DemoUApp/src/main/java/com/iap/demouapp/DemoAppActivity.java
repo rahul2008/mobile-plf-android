@@ -110,7 +110,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private ToggleButton toggleBanner;
     private boolean isBannerEnabled = false;
     private ToggleButton toggleListener;
-    private boolean isToggleListener= true;
+    private boolean isToggleListener= false;
     private RadioGroup rgVoucher;
 
     @Override
@@ -814,7 +814,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public boolean shouldPopToProductList() {
-        return !isToggleListener;
+        return false;
     }
 
     @Override
