@@ -11,7 +11,9 @@ import com.philips.cdp.prodreg.prxrequest.RegisteredProductsRequest;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.User;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
 import junit.framework.TestCase;
 
@@ -19,6 +21,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -35,12 +40,14 @@ public class RemoteRegisteredProductsTest extends TestCase {
     @Mock
     RegisteredProduct registeredProduct;
     private Context context;
+    private UserDataInterface userDataInterface;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         remoteRegisteredProducts = new RemoteRegisteredProducts();
         context = mock(Context.class);
+        userDataInterface = mock(UserDataInterface.class);
     }
 
     @Test
@@ -70,7 +77,7 @@ public class RemoteRegisteredProductsTest extends TestCase {
     }
 
     @Test
-    public void testRegisterMethod() {
+    public void testRegisterMethod() throws UserDataInterfaceException {
         final ResponseListener responseListenerMock = mock(ResponseListener.class);
         final RequestManager requestManager = mock(RequestManager.class);
         final RegisteredProductsRequest registeredProductsRequest = mock(RegisteredProductsRequest.class);
@@ -89,22 +96,31 @@ public class RemoteRegisteredProductsTest extends TestCase {
 
             @NonNull
             @Override
-            protected RegisteredProductsRequest getRegisteredProductsRequest(final User user) {
+            protected RegisteredProductsRequest getRegisteredProductsRequest(UserDataInterface userDataInterface) {
                 return registeredProductsRequest;
             }
         };
-        User user = mock(User.class);
+
+        HashMap<String,Object> userdetailsMap = new HashMap<>();
+        userdetailsMap.put(UserDetailConstants.UUID,"uuid");
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.UUID);
+        when(userDataInterface.getUserDetails(detailsKey)).thenReturn(userdetailsMap);
+
         UserWithProducts userWithProducts = mock(UserWithProducts.class);
         RegisteredProductsListener registeredProductsListener = mock(RegisteredProductsListener.class);
-        remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, user, registeredProductsListener);
+        remoteRegisteredProducts.getRegisteredProducts(context, userWithProducts, userDataInterface, registeredProductsListener);
         verify(requestManager).executeRequest(registeredProductsRequest, responseListenerMock);
     }
 
     @Test
-    public void testGetRegisteredProductsRequest() {
-        User user = mock(User.class);
-        when(user.getAccessToken()).thenReturn("access_token");
-        RegisteredProductsRequest registeredProductsRequest = remoteRegisteredProducts.getRegisteredProductsRequest(user);
+    public void testGetRegisteredProductsRequest() throws UserDataInterfaceException {
+        HashMap<String, Object> userDetailsMap = new HashMap<>();
+        userDetailsMap.put(UserDetailConstants.ACCESS_TOKEN,"access_token");
+        ArrayList<String> detailskey = new ArrayList<>();
+        detailskey.add(UserDetailConstants.ACCESS_TOKEN);
+        when(userDataInterface.getUserDetails(detailskey)).thenReturn(userDetailsMap);
+        RegisteredProductsRequest registeredProductsRequest = remoteRegisteredProducts.getRegisteredProductsRequest(userDataInterface);
         assertEquals(registeredProductsRequest.getAccessToken(), "access_token");
     }
 }

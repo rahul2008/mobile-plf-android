@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,7 +125,7 @@ public class DebugTestFragment extends AbstractAppFrameworkBaseFragment implemen
 
     protected void settingState(AdapterView<?> adapter, int position) {
         final String configuration = adapter.getItemAtPosition(position).toString();
-        getUserRegistration().getUserObject(context).logout(null);
+        getUserRegistration().getUserDataInterface().logoutSession(null);
         if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.DEVELOPMENT.name())) {
             setState(AppIdentityInterface.AppState.DEVELOPMENT);
         } else if (configuration.equalsIgnoreCase(AppIdentityInterface.AppState.TEST.name())) {

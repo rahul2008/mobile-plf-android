@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.store;
 import android.content.Context;
 import android.util.Log;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.session.RequestListener;
 
@@ -96,8 +97,8 @@ public class HybrisStore extends AbstractStore {
 
     private String mApplyVoucherUrl;
 
-    public HybrisStore(Context context, IAPSettings iapSettings) {
-        mIAPUser = createUser(context);
+    public HybrisStore(Context context, IAPSettings iapSettings, IAPDependencies iapDependencies) {
+        mIAPUser = createUser(context,iapDependencies);
         mStoreConfig = getStoreConfig(context, iapSettings);
     }
 
@@ -118,15 +119,15 @@ public class HybrisStore extends AbstractStore {
         return mIsNewUser;
     }
 
-    IAPUser createUser(Context context) {
+    IAPUser createUser(Context context,IAPDependencies iapDependencies) {
         mIsNewUser = false;
-        mIAPUser = new IAPUser(context, this);
+        mIAPUser = new IAPUser(context, this,iapDependencies);
         return mIAPUser;
     }
 
     @Override
-    public void createNewUser(Context context) {
-        createUser(context);
+    public void createNewUser(Context context, IAPDependencies iapDependencies) {
+        createUser(context,iapDependencies);
         generateStoreUrls();
     }
 
@@ -138,10 +139,6 @@ public class HybrisStore extends AbstractStore {
     @Override
     public String getJanRainEmail() {
         return mIAPUser.getJanRainEmail();
-    }
-
-    public String getDisplayName() {
-        return mIAPUser.getDisplayName();
     }
 
     public String getGivenName() {

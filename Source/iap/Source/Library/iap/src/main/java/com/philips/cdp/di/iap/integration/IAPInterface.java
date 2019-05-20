@@ -7,8 +7,8 @@ import android.net.ConnectivityManager;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -22,8 +22,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class IAPInterface implements UappInterface, IAPExposedAPI {
     protected IAPHandler mIAPHandler;
     protected IAPSettings mIAPSettings;
-    private User mUser;
     private IAPServiceDiscoveryWrapper mIapServiceDiscoveryWrapper;
+    private UserDataInterface mUserDataInterface;
 
     /**
      * API to initialize IAP
@@ -33,9 +33,12 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        IAPDependencies mIAPDependencies = (IAPDependencies) uappDependencies;
+        IAPDependencies iapDependencies = (IAPDependencies) uappDependencies;
+        mUserDataInterface = iapDependencies.getUserDataInterface();
+        if(null == mUserDataInterface)
+            throw new RuntimeException("UserDataInterface is not injected in IAPDependencies.");
         mIAPSettings = (IAPSettings) uappSettings;
-        mIAPHandler = new IAPHandler(mIAPDependencies, mIAPSettings);
+        mIAPHandler = new IAPHandler(iapDependencies, mIAPSettings);
         mIAPHandler.initPreRequisite();
         mIapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
     }
@@ -49,8 +52,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
-        mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
-        if (mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             ConnectivityManager connectivityManager
                     = (ConnectivityManager) mIAPSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
@@ -69,8 +71,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void getProductCartCount(IAPListener iapListener) {
-        mUser = new User(mIAPSettings.getContext());
-        if (mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal())
+       if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal())
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "productCartCount");
         else throw new RuntimeException("User is not logged in.");
     }
@@ -82,8 +83,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
-        mUser = new User(mIAPSettings.getContext());
-        if (mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+       if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "completeProductList");
         } else throw new RuntimeException("User is not logged in.");
     }
@@ -96,9 +96,10 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public boolean isCartVisible(IAPListener iapListener) {
-        mUser = new User(mIAPSettings.getContext());
-        if (mUser.getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             return mIAPHandler != null && mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
-        } else throw new RuntimeException("User is not logged in.");
+        } else
+            throw new RuntimeException("User is not logged in.");
+
     }
 }

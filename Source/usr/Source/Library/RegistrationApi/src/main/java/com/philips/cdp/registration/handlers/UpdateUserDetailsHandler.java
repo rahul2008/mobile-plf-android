@@ -12,7 +12,10 @@ package com.philips.cdp.registration.handlers;
 /**
  * It is a callback class to proposition for updating user details
  * @since 1.0.0
+ *
+ * @deprecated since 1903
  */
+@Deprecated
 public interface UpdateUserDetailsHandler {
 
 	/**

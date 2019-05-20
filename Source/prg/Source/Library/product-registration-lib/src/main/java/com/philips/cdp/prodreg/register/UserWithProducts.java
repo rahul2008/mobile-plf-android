@@ -30,12 +30,15 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -49,20 +52,20 @@ public class UserWithProducts {
     private int requestType = -1;
     private RegisteredProductsListener registeredProductsListener;
     private Context mContext;
-    private User user;
     private LocalRegisteredProducts localRegisteredProducts;
     private ErrorHandler errorHandler;
     private String uuid = "";
     private RegisteredProduct currentRegisteredProduct;
     private ProdRegListener appListener;
     private int processCacheProductsCount;
+    private UserDataInterface mUserDataInterface;
 
-    public UserWithProducts(final Context context, final User user, final ProdRegListener appListener) {
+    public UserWithProducts(final Context context, final ProdRegListener appListener,UserDataInterface userDataInterface) {
         this.mContext = context;
-        this.user = user;
+        mUserDataInterface = userDataInterface;
         this.appListener = appListener;
         setUuid();
-        localRegisteredProducts = new LocalRegisteredProducts(this.user);
+        localRegisteredProducts = new LocalRegisteredProducts(mUserDataInterface);
         errorHandler = new ErrorHandler();
     }
 
@@ -76,7 +79,19 @@ public class UserWithProducts {
     }
 
     protected void setUuid() {
-        this.uuid = getUser().getJanrainUUID() != null ? getUser().getJanrainUUID() : "";
+        if(mUserDataInterface != null) {
+            ArrayList<String> detailsKey = new ArrayList<>();
+            detailsKey.add(UserDetailConstants.UUID);
+            try {
+                HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+                String uuid = userDetailsMap.get(UserDetailConstants.UUID).toString();
+                this.uuid = uuid != null ? uuid : "";
+            } catch (Exception e) {
+                ProdRegLogger.d(TAG, "setUuid failed : "+e.getMessage());
+            }
+        }else {
+            ProdRegLogger.d(TAG, "setUuid failed, userDataInterface null");
+        }
     }
 
     /**
@@ -151,11 +166,11 @@ public class UserWithProducts {
      * @param registeredProductsListener - callback listener to get list of products
      */
     public void getRegisteredProducts(final RegisteredProductsListener registeredProductsListener) {
-        if (getUser().getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
+        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             setRequestType(FETCH_REGISTERED_PRODUCTS);
             this.registeredProductsListener = registeredProductsListener;
             final RemoteRegisteredProducts remoteRegisteredProducts = new RemoteRegisteredProducts();
-            remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), getUser(), registeredProductsListener);
+            remoteRegisteredProducts.getRegisteredProducts(mContext, getUserProduct(), mUserDataInterface, registeredProductsListener);
         } else {
             registeredProductsListener.getRegisteredProducts(getLocalRegisteredProductsInstance().getRegisteredProducts(), -1);
         }
@@ -188,8 +203,7 @@ public class UserWithProducts {
     }
 
     protected boolean isUserSignedIn(final Context context) {
-        User mUser = getUser();
-        return (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) && (mUser.isEmailVerified() || mUser.isMobileVerified());
+        return (mUserDataInterface != null && (mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN));
     }
 
     @NonNull
@@ -294,15 +308,28 @@ public class UserWithProducts {
         registrationRequest.setPurchaseDate(registeredProduct.getPurchaseDate());
         registrationRequest.setProductSerialNumber(registeredProduct.getSerialNumber());
         registrationRequest.setShouldSendEmailAfterRegistration(String.valueOf(registeredProduct.getEmail()));
-        registrationRequest.setAccessToken(getUser().getAccessToken());
-        registrationRequest.setReceiveMarketEmail(getUser().getReceiveMarketingEmail());
-        return registrationRequest;
+
+        try {
+            ArrayList<String> detailskey = new ArrayList<>();
+            detailskey.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            detailskey.add(UserDetailConstants.ACCESS_TOKEN);
+            HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailskey);
+            boolean isRcvMrktEmail = (boolean) userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            String accessToken = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
+
+            registrationRequest.setAccessToken(accessToken);
+            registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
+
+        } catch (Exception e) {
+            ProdRegLogger.e(TAG,"Error in fetching user details.");
+        }
+       return registrationRequest;
     }
 
     @NonNull
     protected String getRegistrationChannel() {
         final String MICRO_SITE_ID = "MS";
-        return MICRO_SITE_ID + RegistrationConfiguration.getInstance().getMicrositeId();
+        return MICRO_SITE_ID + PRUiHelper.getInstance().getAppInfraInstance().getAppIdentity().getMicrositeId();
     }
 
     /**
@@ -311,20 +338,22 @@ public class UserWithProducts {
      * @param registeredProduct - List of products to be registered
      */
     public void onAccessTokenExpire(final RegisteredProduct registeredProduct) {
-        final User user = getUser();
-        user.refreshLoginSession(getUserProduct().getRefreshLoginSessionHandler(registeredProduct, mContext));
+        if(mUserDataInterface != null)
+            mUserDataInterface.refreshSession(getRefreshListener(registeredProduct,mContext));
+        else
+            ProdRegLogger.i(TAG,"onAccessTokenExpire :: mUserDataInterface null");
     }
 
-    @NonNull
-    protected RefreshLoginSessionHandler getRefreshLoginSessionHandler(final RegisteredProduct registeredProduct, final Context mContext) {
-        return new RefreshLoginSessionHandler() {
+
+    protected RefreshSessionListener getRefreshListener(final RegisteredProduct registeredProduct, final Context mContext){
+        return new RefreshSessionListener() {
             @Override
-            public void onRefreshLoginSessionSuccess() {
+            public void refreshSessionSuccess() {
                 getUserProduct().retryRequests(mContext, registeredProduct);
             }
 
             @Override
-            public void onRefreshLoginSessionFailedWithError(final int error) {
+            public void refreshSessionFailed(Error error) {
                 if (requestType == PRODUCT_REGISTRATION && registeredProduct != null) {
                     getLocalRegisteredProductsInstance().updateRegisteredProducts(registeredProduct);
                     getUserProduct().updateWithCallBack(registeredProduct, ProdRegError.ACCESS_TOKEN_INVALID, RegistrationState.FAILED);
@@ -334,8 +363,8 @@ public class UserWithProducts {
             }
 
             @Override
-            public void onRefreshLoginSessionInProgress(final String s) {
-
+            public void forcedLogout() {
+                //TODO: Shashi, Check what action need to perform on forced logout.
             }
         };
     }
@@ -419,10 +448,6 @@ public class UserWithProducts {
         return localRegisteredProducts;
     }
 
-    @NonNull
-    protected User getUser() {
-        return user;
-    }
 
     protected RegisteredProduct createDummyRegisteredProduct(final Product product) {
         if (product != null) {

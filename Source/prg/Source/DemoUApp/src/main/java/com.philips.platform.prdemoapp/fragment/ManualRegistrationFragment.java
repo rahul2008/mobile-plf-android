@@ -21,8 +21,10 @@ import android.widget.ToggleButton;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
+import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRLaunchInput;
+import com.philips.cdp.prodreg.launcher.PRSettings;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
@@ -31,8 +33,11 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prxclient.PrxConstants;
+import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.prdemoapp.PRDemoAppuAppDependencies;
+import com.philips.platform.prdemoapp.PRDemoAppuAppSettings;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.prdemoapp.activity.MainActivity;
 import com.philips.platform.prdemoapp.theme.fragments.BaseFragment;
@@ -66,6 +71,8 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     private FragmentActivity fragmentActivity;
     private LinearLayout mandatoryTextViewLayout;
     private final String userRegServiceID = "userreg.janrain.api";
+    private PRLaunchInput prLaunchInput;
+
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -266,7 +273,21 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     private void invokeProdRegFragment(Product product, final boolean isActivity, final String type) {
         ArrayList<Product> products = new ArrayList<>();
         products.add(product);
-        PRLaunchInput prLaunchInput;
+
+        PRDemoAppuAppDependencies appuAppDependencies = new PRDemoAppuAppDependencies(PRUiHelper.getInstance().getAppInfraInstance());
+        PRDemoAppuAppSettings appuAppSettings = new PRDemoAppuAppSettings(getContext());
+        URInterface urInterface = new URInterface();
+        urInterface.init(appuAppDependencies,appuAppSettings);
+
+        PRInterface prInterface = new PRInterface();
+        PRSettings prSettings = new PRSettings(getContext());
+        PRDependencies prDependencies = new PRDependencies(PRUiHelper.getInstance().getAppInfraInstance(),urInterface.getUserDataInterface());
+        try {
+            prInterface.init(prDependencies, prSettings);
+        }catch (RuntimeException ex){
+            ProdRegLogger.d(TAG,ex.getMessage());
+        }
+
         if (!isActivity) {
            FragmentLauncher fragLauncher = new FragmentLauncher(
                     fragmentActivity, R.id.mainContainer, new ActionBarListener() {
@@ -288,7 +309,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
                 prLaunchInput = new PRLaunchInput(products, false);
             }
             prLaunchInput.setProdRegUiListener(getProdRegUiListener());
-            PRInterface prInterface = new PRInterface();
+
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
 
             prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
@@ -307,8 +328,7 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
             prLaunchInput.setBackgroundImageResourceId(R.drawable.pr_config1);
             prLaunchInput.setMandatoryProductRegistration(!mandatoryConfiguration);
             prLaunchInput.setMandatoryRegisterButtonText(mandatoryEditText.getText().toString());
-
-            new PRInterface().launch(activityLauncher, prLaunchInput);
+            prInterface.launch(activityLauncher, prLaunchInput);
         }
     }
 
@@ -362,4 +382,5 @@ public class ManualRegistrationFragment extends BaseFragment implements View.OnC
     public int getPageTitle() {
         return 0;
     }
+
 }

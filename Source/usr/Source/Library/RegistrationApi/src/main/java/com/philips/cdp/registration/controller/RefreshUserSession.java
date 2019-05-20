@@ -48,8 +48,6 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
             UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(true);
             captureRecord.refreshAccessToken(new RefreshLoginSession(this), mContext);
         } else {
-            ThreadUtils.postInMainThread(mContext, () ->
-                    mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress("Refresh already scheduled"));
             RLog.d(TAG, "refreshSession : else : true isRefreshUserSessionInProgress");
         }
     }
@@ -70,21 +68,19 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
             public void onRefreshLoginSessionFailedWithError(int error) {
                 RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionFailedWithError is called");
                 UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
-                if (error == ErrorCodes.HSDP_INPUT_ERROR_1009
-                        || error == ErrorCodes.HSDP_INPUT_ERROR_1151) {
 
-                    clearData();
-                    RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
-                }
-                ThreadUtils.postInMainThread(mContext, () ->
-                        mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error));
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error));
+
             }
 
             @Override
-            public void onRefreshLoginSessionInProgress(String message) {
-                RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : onRefreshLoginSessionInProgress is called");
+            public void forcedLogout() {
+                RLog.d(TAG, "refreshHsdpAccessToken : RefreshLoginSessionHandler : forcedLogout is called");
+                clearData();
+                RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
                 ThreadUtils.postInMainThread(mContext, () ->
-                        mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message));
+                        mRefreshLoginSessionHandler.forcedLogout());
             }
         });
     }
@@ -146,9 +142,10 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     }
 
     @Override
-    public void onRefreshLoginSessionInProgress(String message) {
-        RLog.d(TAG, "onRefreshLoginSessionInProgress : is called");
-        mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message);
+    public void forcedLogout() {
+        RLog.d(TAG, "forcedLogout : is called");
+        clearData();
+        mRefreshLoginSessionHandler.forcedLogout();
     }
 
     private void clearData() {
