@@ -78,11 +78,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         Bundle bundle = getArguments();
         mDeliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
 
-       /* if (bundle.containsKey(IAPConstant.ADDRESS_LIST)) {
-            mAddresses = (List<Addresses>) bundle.getSerializable(IAPConstant.ADDRESS_LIST);
-        }
-
-        */
         mAdapter = new AddressSelectionAdapter(mAddresses,mJanRainEmail);
         mAddressListView.setAdapter(mAdapter);
         TextView tv_checkOutSteps = view.findViewById(R.id.tv_checkOutSteps);
