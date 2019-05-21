@@ -20,6 +20,8 @@ import java.util.HashMap;
  * Data interface for getting the user data
  *
  * @since 2018.1.0
+ *
+ * TODO: Add new api isOIDCToken and implementation for this in both PIM and USR
  */
 public interface UserDataInterface extends Serializable {
 
