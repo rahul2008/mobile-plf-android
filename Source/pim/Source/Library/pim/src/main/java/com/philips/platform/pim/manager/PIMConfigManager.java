@@ -26,7 +26,6 @@ public class PIMConfigManager {
         mLoggingInterface.log(DEBUG, TAG, "init called");
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(PIM_BASEURL);
-        // TODO: Deepthi This condition is equal to user not logged in case, so use getuserloggedinState API impln (Done)
         if (mPimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN)
             downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
         else {
@@ -40,28 +39,27 @@ public class PIMConfigManager {
             serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
                 @Override
                 public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                    mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess");
+                    mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success callbback recieved");
 
                     ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
                     if (serviceDiscoveryService == null) {
-                        mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : serviceDiscovery response is null");
+                        mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success  : serviceDiscovery response is null");
                     } else {
                         PIMSettingManager.getInstance().setLocale(serviceDiscoveryService.getLocale());
                         String configUrls = serviceDiscoveryService.getConfigUrls();
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
-                            mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : getConfigUrls : " + configUrls);
-                            // TODO: Addressed:Deepthi 15 Apr Populate config if already downloaded from usermanager's authstate (Done)
+                            mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : getConfigUrls : " + configUrls);
                             pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
                         } else {
-                            mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginSuccess : No service url found for Issuer service id");
+                            mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : No service url found for Issuer service id");
                         }
                     }
                 }
 
                 @Override
                 public void onError(ERRORVALUES error, String message) {
-                    mLoggingInterface.log(DEBUG, TAG, "getServicesWithCountryPreference : onLoginFailed. ERRORVALUES: " + error + " Message: " + message);
+                    mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs error. ERRORVALUES: " + error + " Message: " + message);
                 }
             }, null);
         }).start();

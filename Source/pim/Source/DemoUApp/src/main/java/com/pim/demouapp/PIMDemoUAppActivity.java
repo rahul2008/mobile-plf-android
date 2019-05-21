@@ -4,14 +4,13 @@ package com.pim.demouapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.pif.DataInterface.USR.UserCustomClaims;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
@@ -27,8 +26,6 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
-
-import java.util.ArrayList;
 
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
@@ -92,39 +89,42 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         PIMLaunchInput launchInput = new PIMLaunchInput();
-        ArrayList<String> pimCustomClaims = setCustomClaims();
-        launchInput.setCustomClaims(pimCustomClaims);
+        UserDataInterface userDataInterface = pimInterface.getUserDataInterface();
         if (v == btnLoginActivity) {
-            ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-            pimInterface.launch(activityLauncher, launchInput);
+            if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+                ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
+                pimInterface.launch(activityLauncher, launchInput);
+            } else {
+                showToast("User is already login!");
+            }
         } else if (v == btnLoginFragment) {
-            FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
-            pimInterface.launch(fragmentLauncher, launchInput);
+            if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+                FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
+                pimInterface.launch(fragmentLauncher, launchInput);
+            } else {
+                showToast("User is already login!");
+            }
         } else if (v == btnLogout) {
             if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 pimInterface.getUserDataInterface().logoutSession(new LogoutSessionListener() {
                     @Override
                     public void logoutSessionSuccess() {
-                        Log.d(TAG, "PIM Logout success");
+                        showToast("Logout Success");
+                        finish();
                     }
 
                     @Override
                     public void logoutSessionFailed(Error error) {
-                        Log.d(TAG, "PIM Logout failed due to : " + error.getErrDesc());
+                        showToast("Logout Failed");
                     }
                 });
             } else {
-                Toast.makeText(this, "User is not loged-in, Please login!", Toast.LENGTH_LONG).show();
+                showToast("User is not loged-in, Please login!");
             }
         }
     }
 
-    private ArrayList<String> setCustomClaims() {
-        ArrayList<String> pimCustomClaims = new ArrayList<>();
-        pimCustomClaims.add(UserCustomClaims.RECEIVE_MARKETING_EMAIL);
-        pimCustomClaims.add(UserCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP);
-        pimCustomClaims.add(UserCustomClaims.SOCIAL_PROFILES);
-        pimCustomClaims.add(UserCustomClaims.UUID);
-        return pimCustomClaims;
+    private void showToast(String toastMsg) {
+        Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
     }
 }

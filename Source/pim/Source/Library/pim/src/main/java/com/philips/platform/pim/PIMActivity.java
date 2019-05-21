@@ -1,20 +1,14 @@
 package com.philips.platform.pim;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMSettingManager;
-import com.philips.platform.pim.utilities.PIMConstants;
-import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -24,6 +18,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
 public class PIMActivity extends UIDActivity {
+    private static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private ImageView mBackImage;
     private final String TAG = PIMActivity.class.getSimpleName();
@@ -82,7 +77,7 @@ public class PIMActivity extends UIDActivity {
 //    }
 
     private void initTheme() {
-        int themeIndex = getIntent().getIntExtra(PIMConstants.PIM_KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        int themeIndex = getIntent().getIntExtra(PIM_KEY_ACTIVITY_THEME, DEFAULT_THEME);
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }

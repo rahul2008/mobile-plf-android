@@ -2,6 +2,7 @@ package com.philips.platform.pim.configration;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.pim.manager.PIMSettingManager;
 
 import net.openid.appauth.AuthorizationServiceConfiguration;
 
@@ -14,21 +15,19 @@ public class PIMOIDCConfigration {
     private AppInfraInterface appInfraInterface;
 
     public PIMOIDCConfigration(){
-
+        this.appInfraInterface = PIMSettingManager.getInstance().getAppInfraInterface();
     }
 
-    public PIMOIDCConfigration(AuthorizationServiceConfiguration authorizationServiceConfiguration, AppInfraInterface appInfraInterface) {
+    public PIMOIDCConfigration(AuthorizationServiceConfiguration authorizationServiceConfiguration) {
         this.authorizationServiceConfiguration = authorizationServiceConfiguration;
-        this.appInfraInterface = appInfraInterface;
+        this.appInfraInterface = PIMSettingManager.getInstance().getAppInfraInterface();
     }
 
-    //TODO: Note once saved AuthState, do we need to populate PIMOIDCConfigration class through AuthState
     public AuthorizationServiceConfiguration getAuthorizationServiceConfiguration() {
         return authorizationServiceConfiguration;
     }
 
-    // TODO: Get appinfra via settings manager or create constructor to inject what is required
-    public String getClientId() {
+   public String getClientId() {
         Object obj = getProperty(CLIENT_ID, GROUP_PIM);
         if (obj != null) {
             return (String) obj;

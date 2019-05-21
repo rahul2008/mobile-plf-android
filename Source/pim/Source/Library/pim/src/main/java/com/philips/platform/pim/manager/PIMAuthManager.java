@@ -1,5 +1,6 @@
 package com.philips.platform.pim.manager;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +10,7 @@ import android.support.annotation.Nullable;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.R;
-import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
+import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
 import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.utilities.PIMScopes;
 
@@ -37,7 +38,7 @@ class PIMAuthManager {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthorizationServiceConfigurationListener listener) {
+    void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthServiceConfigListener listener) {
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration discoveryEndpoint : " + discoveryEndpoint);
 
@@ -45,16 +46,16 @@ class PIMAuthManager {
                 (AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationException e) -> {
                     if (e != null) {
                         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : " + e.getMessage());
-                        listener.onAuthorizationServiceConfigurationFailed(new Error(e.code,e.getMessage()));
+                        listener.onAuthServiceConfigFailed(new Error(e.code,e.getMessage()));
                     } else {
                         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : " + authorizationServiceConfiguration);
-                        listener.onAuthorizationServiceConfigurationSuccess(authorizationServiceConfiguration);
+                        listener.onAuthServiceConfigSuccess(authorizationServiceConfiguration);
                     }
                 };
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
-    Intent getAuthorizationRequestIntent(Context context, AuthorizationServiceConfiguration authServiceConfiguration, String clientID, Map parameter) {
+    Intent getAuthorizationRequestIntent(Context context, AuthorizationServiceConfiguration authServiceConfiguration, String clientID, Map parameter) throws ActivityNotFoundException {
         if (context == null || authServiceConfiguration == null || clientID == null)
             return null;
 

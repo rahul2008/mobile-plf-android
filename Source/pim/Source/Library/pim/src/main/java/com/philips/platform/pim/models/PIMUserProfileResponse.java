@@ -1,11 +1,10 @@
 package com.philips.platform.pim.models;
 
 
-import com.philips.platform.pif.DataInterface.USR.UserCustomClaims;
+import com.philips.platform.pim.utilities.UserCustomClaims;
 
 import java.util.Map;
 
-// TODO: Deepthi Rename this class as PIMUserProfileResponse (Done)
 public class PIMUserProfileResponse {
     private String given_name;
     private String family_name;

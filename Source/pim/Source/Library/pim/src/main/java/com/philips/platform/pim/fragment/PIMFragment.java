@@ -32,14 +32,12 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
     private LoggingInterface mLoggingInterface;
     private String TAG = PIMFragment.class.getSimpleName();
     private ProgressBar pimLoginProgreassBar;
-    private Bundle mBundle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
-        mBundle = getArguments();
         pimLoginManager = new PIMLoginManager(pimoidcConfigration);
     }
 
@@ -47,16 +45,27 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pim, container, false);
+
         pimLoginProgreassBar = view.findViewById(R.id.pbPimRequest);
-        // TODO: Deepthi, check if user is logged in before launching web page. (Done)
         PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
-        if (pimoidcConfigration != null && pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
-            pimLoginProgreassBar.setVisibility(View.VISIBLE);
-            pimLoginManager.oidcLogin(mContext, mBundle, this, this);
-        } else {
+        if (pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login skipped, as user is already logged in");
+        else if (pimoidcConfigration == null)
+            mLoggingInterface.log(DEBUG, TAG, "Login is not initiated as OIDC configuration not found.");
+        else {
+            pimLoginProgreassBar.setVisibility(View.VISIBLE);
+            launchLoginPage();
         }
         return view;
+    }
+
+    private void launchLoginPage() {
+        try {
+            Intent authReqIntent = pimLoginManager.getAuthReqIntent(mContext, this);
+            startActivityForResult(authReqIntent, 100);
+        } catch (Exception ex) {
+            mLoggingInterface.log(DEBUG, TAG, "Launching login page failed.");
+        }
     }
 
     @Override

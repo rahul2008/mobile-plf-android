@@ -3,7 +3,8 @@ package com.philips.platform.pim.manager;
 import android.net.Uri;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.pim.listeners.PIMAuthorizationServiceConfigurationListener;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
 
 import junit.framework.TestCase;
 
@@ -40,11 +41,11 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
     @Mock
     private PIMAuthManager mockPimAuthManager;
     @Mock
-    private PIMAuthorizationServiceConfigurationListener mockServiceConfigurationListener;
+    private PIMAuthServiceConfigListener mockServiceConfigurationListener;
     @Mock
     private PIMSettingManager mockPimSettingManager;
     @Captor
-    private ArgumentCaptor<PIMAuthorizationServiceConfigurationListener> captorListener;
+    private ArgumentCaptor<PIMAuthServiceConfigListener> captorListener;
     private String baseurl = "https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
 
     @Before
@@ -71,7 +72,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         mockServiceConfigurationListener = captorListener.getValue();
         AuthorizationServiceConfiguration mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
 
-        mockServiceConfigurationListener.onSuccess(mockAuthorizationServiceConfiguration);
+        mockServiceConfigurationListener.onAuthServiceConfigSuccess(mockAuthorizationServiceConfiguration);
         verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onLoginSuccess. authorizationServiceConfiguration : "+mockAuthorizationServiceConfiguration);
     }
 
@@ -81,9 +82,9 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         verify(mockPimAuthManager).fetchAuthWellKnownConfiguration(any(String.class),captorListener.capture());
 
         mockServiceConfigurationListener = captorListener.getValue();
-        String errorMessage = "errorMessage";
-        mockServiceConfigurationListener.onError(errorMessage);
-        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onLoginFailed :  "+errorMessage);
+        Error error = new Error(Error.UserDetailError.NetworkError);
+        mockServiceConfigurationListener.onAuthServiceConfigFailed(error);
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onLoginFailed :  "+ error.getErrDesc());
     }
 
     @After

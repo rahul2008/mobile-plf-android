@@ -34,20 +34,16 @@ public class PIMUserManager {
     private PIMRestClient pimRestClient;
     private String userInfoKey;
     private String authStateKey;
-    // TODO: Deepthi Implement getuserlogged in state API.(Done)
 
     public void init(Context context, AppInfraInterface appInfraInterface) {
         //get Secure Storage user profile
         this.context = context;
         this.appInfraInterface = appInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        //TODO : Deepthi apr 15 fetch authstate from secure storage, auth state fetching is not clear. (Done)
         String subid = getSubIDFromPref();
         if (subid != null) {
-            //TODO : Deepthi auth state is not required, only fetch from SS. (Done)
             authState = getAuthStateFromSecureStorage(subid);
             String userProfileJson = getUserProfileFromSecureStorage(subid);
-            //TODO : Deepthi create profile using stored json obj and auth state to fill access token(Done)
             pimoidcUserProfile = new PIMOIDCUserProfile(userProfileJson, authState);
         }
         pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
@@ -59,6 +55,7 @@ public class PIMUserManager {
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState);
         pimRestClient.invokeRequest(userProfileRequest, response -> {
             authState = oidcAuthState; //TODO: Shashi, Do we really need this. check impact?
+            pimoidcUserProfile = new PIMOIDCUserProfile(response, authState);
             saveSubIDToPreference(response);
             storeUserProfileToSecureStorage(response);
             storeAuthStateToSecureStorage(response, oidcAuthState);
@@ -174,7 +171,6 @@ public class PIMUserManager {
             return UserLoggedInState.USER_NOT_LOGGED_IN;
     }
 
-    //TODO: Shashi, added for getting PIMOIDCUserProfile in Data Impl class.Need to Confirm with Deepthi
     public PIMOIDCUserProfile getUserProfile() {
         return pimoidcUserProfile;
     }

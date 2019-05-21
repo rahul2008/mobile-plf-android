@@ -2,7 +2,6 @@ package com.philips.platform.pim;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
@@ -12,7 +11,6 @@ import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
-import com.philips.platform.pim.utilities.PIMConstants;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -25,7 +23,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 
 
 public class PIMInterface implements UappInterface {
-
+    private static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
     private final String TAG = PIMInterface.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
 
@@ -76,9 +74,6 @@ public class PIMInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
         PIMFragment pimFragment = new PIMFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(PIMConstants.PIM_KEY_CUSTOM_CLAIMS, pimLaunchInput.getCustomClaims());
-        pimFragment.setArguments(bundle);
         addFragment(uiLauncher, pimFragment);
     }
 
@@ -92,7 +87,7 @@ public class PIMInterface implements UappInterface {
 
     private void launchAsActivity(ActivityLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         Intent intent = new Intent(uiLauncher.getActivityContext(), PIMActivity.class);
-        intent.putExtra(PIMConstants.PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
+        intent.putExtra(PIM_KEY_ACTIVITY_THEME, uiLauncher.getUiKitTheme());
         uiLauncher.getActivityContext().startActivity(intent);
     }
 

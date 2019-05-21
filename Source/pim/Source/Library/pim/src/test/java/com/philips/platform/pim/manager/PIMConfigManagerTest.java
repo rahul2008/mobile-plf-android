@@ -91,7 +91,7 @@ public class PIMConfigManagerTest extends TestCase {
         when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
         when(mockServiceDiscoveryService.getConfigUrls()).thenReturn(new String());
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onLoginSuccess : getConfigUrls : " + mockServiceDiscoveryService.getConfigUrls());
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "DownloadSDServiceURLs success : getConfigUrls : " + mockServiceDiscoveryService.getConfigUrls());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class PIMConfigManagerTest extends TestCase {
         Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
         when(mockMap.get(any())).thenReturn(null);
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onLoginSuccess : serviceDiscovery response is null");
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "DownloadSDServiceURLs success  : serviceDiscovery response is null");
     }
 
     /**
@@ -131,7 +131,7 @@ public class PIMConfigManagerTest extends TestCase {
         when(mockServiceDiscoveryService.getConfigUrls()).thenReturn(null);
 
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "getServicesWithCountryPreference : onLoginSuccess : No service url found for Issuer service id");
+        verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "DownloadSDServiceURLs success : No service url found for Issuer service id");
     }
 
     @Test

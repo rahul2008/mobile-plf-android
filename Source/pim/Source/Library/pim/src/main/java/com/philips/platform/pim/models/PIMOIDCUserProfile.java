@@ -22,7 +22,6 @@ public class PIMOIDCUserProfile {
     private HashMap<String, Object> mUserProfileMap;
     private AuthState authState;
 
-    // TODO: Deepthi, create using json obj injected.(Done)
     public PIMOIDCUserProfile(String userProfileJson, AuthState authState) {
         this.authState = authState;
         mUserProfileMap = new HashMap<>();

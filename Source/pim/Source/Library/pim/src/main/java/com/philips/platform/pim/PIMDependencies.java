@@ -1,5 +1,7 @@
 package com.philips.platform.pim;
 
+import android.support.annotation.NonNull;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
@@ -12,7 +14,7 @@ public class PIMDependencies extends UappDependencies {
      *
      * @since TODO: App version
      */
-    public PIMDependencies(AppInfraInterface appInfra) {
+    public PIMDependencies(@NonNull AppInfraInterface appInfra) {
         super(appInfra);
     }
 }

@@ -29,7 +29,6 @@ public class PIMSettingManager {
     }
 
 
-    //TODO : We should make be null once AuthorizationServiceDiscovery stored in SecureStorage
     void setPimOidcConfigration(PIMOIDCConfigration pimOidcConfigration) {
         mPimoidcConfigration = pimOidcConfigration;
     }
