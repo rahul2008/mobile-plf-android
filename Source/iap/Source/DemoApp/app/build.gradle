@@ -105,6 +105,7 @@ android {
         disable 'MissingTranslation'
         disable 'TypographyFractions', 'TypographyQuotes'
         absolutePaths false
+        lintConfig file('lint.xml')
     }
 
     packagingOptions {

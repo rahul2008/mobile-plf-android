@@ -1,34 +1,32 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.platform.urdemolibrary">
-
     <application>
-        <activity android:name="com.philips.platform.urdemo.URStandardDemoActivity" />
-        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+   	<activity android:name="com.philips.platform.urdemo.URStandardDemoActivity"/>
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"
                     android:host="com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp"
-                    android:path="/oauth2redirect"
-                    android:scheme="https" />
+                    android:path="/oauth2redirect"/>
             </intent-filter>
         </activity>
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden">
+        </activity>
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity
-            android:name="com.philips.platform.urdemo.themesettings.ThemeSettingsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.DLS.Green.VeryDark" />
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity android:name="com.philips.platform.urdemo.themesettings.ThemeSettingsActivity"
+            android:theme="@style/Theme.DLS.Green.VeryDark"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>
