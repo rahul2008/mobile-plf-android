@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.platform.urdemo">
+    package="com.philips.platform.urdemo" >
 
     <application
         android:name=".URDemoApplication"
         android:icon="@mipmap/pr_source"
         android:label="@string/app_name"
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/pr_source"
-        android:supportsRtl="true"
         android:testOnly="false"
-        android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
+        android:roundIcon="@mipmap/pr_source"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
+        android:supportsRtl="true" >
         <activity
             android:name=".URDemoActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.philips.uiddemo.LoginActivity"></activity>
-        <activity android:name="com.philips.uiddemo.TokenActivity"></activity>
-        <activity
-            android:name="com.philips.themesettings.ThemeSettingsActivity"
-            android:screenOrientation="portrait" />
+
+        <activity android:name="com.philips.themesettings.ThemeSettingsActivity"
+            android:screenOrientation="portrait"/>
+
 
 
         <activity
             android:name="com.philips.cdp.registration.wxapi.WXEntryActivity"
-            android:exported="true" />
+            android:exported="true"/>
 
         <!--
           This activity declaration is merged with the version from the library manifest.
@@ -48,17 +47,15 @@
 
           To the list of attributes on the activity element.
           -->
-        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"
                     android:host="com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp"
-                    android:path="/oauth2redirect"
-                    android:scheme="https" />
+                    android:path="/oauth2redirect"/>
             </intent-filter>
         </activity>
 
@@ -66,31 +63,30 @@
             android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden">
+        </activity>
 
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden">
+        </activity>
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
 
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>

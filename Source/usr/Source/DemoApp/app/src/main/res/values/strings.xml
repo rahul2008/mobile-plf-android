@@ -1,9 +1,4 @@
 <resources>
     <string name="app_name">Philips Registration</string>
     <string name="action_settings">Settings</string>
-
-    <string-array name="locale_arrays">
-        <item>en-US</item>
-        <item>fr-FR</item>
-    </string-array>
 </resources>
