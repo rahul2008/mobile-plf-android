@@ -78,7 +78,7 @@ public class PRXSummaryListExecutor {
             PRXSummaryListResponse prxSummaryListResponse = (PRXSummaryListResponse) model;
             CartModelContainer.getInstance().setPRXSummaryList(prxSummaryListResponse.getData());
 
-            if (!prxSummaryListResponse.getData().isEmpty()) {
+            if (prxSummaryListResponse.getData()!=null && !prxSummaryListResponse.getData().isEmpty()) {
 
                 for (Data data : prxSummaryListResponse.getData())
                     mPRXSummaryData.put(data.getCtn(), data);
