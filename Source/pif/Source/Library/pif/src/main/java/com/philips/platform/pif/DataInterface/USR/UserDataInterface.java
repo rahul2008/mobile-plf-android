@@ -5,13 +5,12 @@
  */
 package com.philips.platform.pif.DataInterface.USR;
 
-import android.content.Context;
-
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,32 +29,19 @@ public interface UserDataInterface extends Serializable {
      *
      * @param detailKeys the list of the keys for which user data is needed
      * @return hashmap of user's details
-     * @since 2018.1.0
+     * @since 1903
      */
-    HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception;
+    HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws UserDataInterfaceException;
 
-    /**
-     * Get the janrain UUID
-     *
-     * @return returns the UUID
-     * @since 2018.1.0
-     */
-    String getJanrainUUID();
-
-    /**
-     * Get the janrain access token
-     *
-     * @return returns the access token
-     * @since 2018.1.0
-     */
-    String getJanrainAccessToken();
 
     /**
      * Get the HSDP access token
      *
      * @return returns the HSDP access token
      * @since 2018.1.0
+     * @deprecated since 1903
      */
+    @Deprecated
     String getHSDPAccessToken();
 
     /**
@@ -63,19 +49,10 @@ public interface UserDataInterface extends Serializable {
      *
      * @return returns the HSDP UUID
      * @since 2018.1.0
-     */
-    String getHSDPUUID();
-
-    /**
-     * Check if the user is logged in
-     *
-     * @param context Context
-     * @return returns true if user is logged in
-     * @deprecated Deprecated since 1804.0, with getUserLoginState()
+     * @deprecated since 1903
      */
     @Deprecated
-    boolean isUserLoggedIn(Context context);
-
+    String getHSDPUUID();
 
     /**
      * {@code getUserSignInState} method checks a user is logged in state
@@ -90,39 +67,54 @@ public interface UserDataInterface extends Serializable {
      *
      * @param hsdpAuthenticationListener
      * @since 1804.0
+     * @deprecated since 1903
      */
+    @Deprecated
     void authorizeHsdp(HSDPAuthenticationListener hsdpAuthenticationListener);
 
     /**
      * To refesh the user
      *
-     * @param refreshListener listener for user refresh
-     * @since 2018.1.0
+     * @param refreshSessionListener listener for user refresh
+     * @since 1903
      */
-    void refreshLoginSession(RefreshListener refreshListener);
+    void refreshSession(RefreshSessionListener refreshSessionListener);
+
 
     /**
      * log out the user
      *
-     * @param logoutListener listener for logout
-     * @since 2018.1.0
+     * @param logoutSessionListener listener for logout
+     * @since 1903
      */
-    void logOut(LogoutListener logoutListener);
+    void logoutSession(LogoutSessionListener logoutSessionListener);
 
     /**
      * Refetch the details of the user from server
      *
      * @param userDetailsListener listener for refetching the details
-     * @since 2018.1.0
+     * @since 1903
      */
-    void refetch(UserDetailsListener userDetailsListener);
+    void refetchUserDetails(RefetchUserDetailsListener userDetailsListener);
+
 
     /**
-     * Update the marketing consent of the user
+     * Register UserDataListener for logout,refreshSession and refechUserDeatils
      *
-     * @param userDetailsListener listener for updating marketing consent
-     * @since 2018.1.0
+     * @param userDataListener listener
+     *
+     * @since 1903
      */
-    void updateMarketingOptInConsent(UserDetailsListener userDetailsListener);
+    void addUserDataInterfaceListener(UserDataListener userDataListener);
+
+    /**
+     * Remove UserDataListener
+     *
+     * @param userDataListener
+     *
+     * @since 1903
+     */
+    void removeUserDataInterfaceListener(UserDataListener userDataListener);
+
 
 }

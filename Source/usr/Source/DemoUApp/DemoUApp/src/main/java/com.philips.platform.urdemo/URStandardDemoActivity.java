@@ -38,7 +38,6 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.coppa.base.Consent;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.interfaces.CoppaConsentUpdateCallback;
-import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
@@ -691,12 +690,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                 @Override
                 public void onRefreshLoginSessionFailedWithError(int error) {
                     showToast("Failed to refresh access token");
-
                 }
 
                 @Override
-                public void onRefreshLoginSessionInProgress(String message) {
-                    showToast(message);
+                public void forcedLogout() {
+                    showToast("Forced Logout");
                 }
             });
         } else {
@@ -741,6 +739,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         showToast("onUserLogoutSuccessWithInvalidAccessToken ");
     }
 
+
     @Override
     public void onHSDPLoginSuccess() {
         RLog.d(TAG, "  : onHSDPLoginSuccess");
@@ -782,19 +781,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
         dimissDialog();
-        if (error == ErrorCodes.HSDP_INPUT_ERROR_1009
-                || error == ErrorCodes.HSDP_INPUT_ERROR_1151) {
-            showToast("Failed to refresh hsdp Invalid access token");
-            return;
-        }
         showToast("Failed to refresh hsdp access token");
     }
 
     @Override
-    public void onRefreshLoginSessionInProgress(String message) {
-        showToast(message);
+    public void forcedLogout() {
+        dimissDialog();
+        showToast("Failed to refresh hsdp access token");
     }
-
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         String valueForEmailVerification = "sample";

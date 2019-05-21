@@ -222,14 +222,14 @@ public class HsdpUser {
                 } else {
                     if (responseCode != null &&
                             responseCode
-                                    .equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151))) {
+                                    .equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151) ) || responseCode
+                            .equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1009))) {
                         handler.post(() -> {
                             RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
                                     + responseCode +
                                     " message : " + message);
                             ThreadUtils.postInMainThread(mContext, () ->
-                                    refreshHandler.onRefreshLoginSessionFailedWithError(Integer
-                                            .parseInt(responseCode)));
+                                    refreshHandler.forcedLogout());
                         });
                     } else {
                         handler.post(() -> {

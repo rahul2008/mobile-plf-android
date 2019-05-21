@@ -1,8 +1,8 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
+ * All rights are reserved. Reproduction or dissemination
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
-*/
+ */
 package com.philips.cdp.prodreg.register;
 
 import android.support.annotation.NonNull;
@@ -11,27 +11,41 @@ import com.google.gson.Gson;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class LocalRegisteredProducts {
 
+    private final String TAG = LogoutSessionListener.class.getSimpleName();
     private ProdRegCache prodRegCache;
     private String uuid;
-    private User user;
+    UserDataInterface userDataInterface;
     private Gson gson;
 
-    public LocalRegisteredProducts(User user) {
-        this.user = user;
+    public LocalRegisteredProducts(UserDataInterface userDataInterface) {
+        this.userDataInterface = userDataInterface;
         prodRegCache = new ProdRegCache();
         gson = new Gson();
-        uuid = user.getJanrainUUID() != null ? user.getJanrainUUID() : "";
+        if (userDataInterface != null) {
+            ArrayList<String> detailsKey = new ArrayList<>();
+            detailsKey.add(UserDetailConstants.UUID);
+            try {
+                HashMap<String, Object> userDetailsMap = userDataInterface.getUserDetails(detailsKey);
+                uuid = userDetailsMap.get(UserDetailConstants.UUID).toString() != null ? userDetailsMap.get(UserDetailConstants.UUID).toString() : "";
+            } catch (Exception e) {
+                ProdRegLogger.d(TAG, "Exception in fetching uuid : " + e.getMessage());
+            }
+        }
     }
 
     void store(RegisteredProduct registeredProduct) {
@@ -62,7 +76,7 @@ public class LocalRegisteredProducts {
         Gson gson = getGSon();
         String data = getProdRegCache().getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY);
         RegisteredProduct[] products = getRegisteredProducts(gson, data);
-        if (user.getUserLoginState() == UserLoginState.USER_LOGGED_IN && products != null) {
+        if (userDataInterface != null && userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN && products != null) {
             ArrayList<RegisteredProduct> registeredProducts = new ArrayList<>();
             for (RegisteredProduct registeredProduct : products) {
                 if (registeredProduct.getUserUUid().length() == 0 || registeredProduct.getUserUUid().equals(uuid)) {
@@ -121,9 +135,6 @@ public class LocalRegisteredProducts {
         return prodRegCache;
     }
 
-    protected User getUser() {
-        return user;
-    }
 
     public void removeProductFromCache(final RegisteredProduct registeredProduct) {
         Set<RegisteredProduct> registeredProducts = getUniqueRegisteredProducts();

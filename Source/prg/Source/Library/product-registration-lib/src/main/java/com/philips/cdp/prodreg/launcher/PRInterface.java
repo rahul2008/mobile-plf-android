@@ -23,9 +23,11 @@ public class PRInterface implements UappInterface {
      */
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
+        if(null == ((PRDependencies)uappDependencies).getUserDataInterface())
+            throw new RuntimeException("UserDataInterface is not injected in PRDependencies");
         PRUiHelper.getInstance().init(uappDependencies, uappSettings);
         PRUiHelper.getInstance().setAppInfraInstance(uappDependencies.getAppInfra());
-        ProdRegLogger.init();
+        ProdRegLogger.init(uappDependencies.getAppInfra().getLogging());
     }
 
     /**

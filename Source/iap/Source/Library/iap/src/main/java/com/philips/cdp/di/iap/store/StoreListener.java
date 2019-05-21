@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.session.RequestListener;
 
 /**
@@ -16,7 +17,7 @@ import com.philips.cdp.di.iap.session.RequestListener;
 public interface StoreListener {
     IAPUser getUser();
 
-    void createNewUser(Context context);
+    void createNewUser(Context context, IAPDependencies iapDependencies);
 
     void setNewUser(boolean isNewUser);
 

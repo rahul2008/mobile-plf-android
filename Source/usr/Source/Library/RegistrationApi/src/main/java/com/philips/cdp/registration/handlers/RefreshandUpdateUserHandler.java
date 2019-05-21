@@ -15,6 +15,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.LoginTraditional;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.errors.ErrorCodes;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecordV2;
@@ -131,7 +132,8 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                         }
 
                         @Override
-                        public void onRefreshLoginSessionInProgress(String message) {
+                        public void forcedLogout() {
+                            handler.onRefreshUserFailed(ErrorCodes.HSDP_INPUT_ERROR_1151);
                         }
                     });
                 }
