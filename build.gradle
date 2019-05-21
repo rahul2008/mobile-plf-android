@@ -30,9 +30,6 @@ buildscript {
         classpath builddeps.pitest
         classpath builddeps.use_latest_versions
         classpath builddeps.ben_manes_versions
-
-        classpath builddeps.kotlin
-        classpath builddeps.gradle_plugin_version
     }
 }
 

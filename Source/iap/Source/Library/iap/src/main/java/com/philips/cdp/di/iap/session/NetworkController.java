@@ -24,6 +24,9 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class NetworkController {
     protected Context context;
     protected HurlStack mIapHurlStack;

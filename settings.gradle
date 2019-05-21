@@ -39,8 +39,6 @@ include ext.strings.prguapp.projectName
 include ext.strings.pim.projectName
 include ext.strings.pimuapp.projectName
 
-
-
 //opa archive references:
 project(ext.strings.ail.projectName).projectDir = new File('./Source/ail/Source/Library/AppInfra')
 project(ext.strings.ailuapp.projectName).projectDir = new File('./Source/ail/Source/DemoUApp/')
@@ -76,10 +74,10 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 //project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
 
-include(':pimApp')
-project(':pimApp').projectDir = new File('./Source/pim/Source/DemoApp/app')
-include(':pimTestApp')
-project(':pimTestApp').projectDir = new File('./Source/pim/Source/DemoApp/appTest')
+//include(':pimApp')
+//project(':pimApp').projectDir = new File('./Source/pim/Source/DemoApp/app')
+//include(':pimTestApp')
+//project(':pimTestApp').projectDir = new File('./Source/pim/Source/DemoApp/appTest')
 //include ':uAppFwLibApp'
 //project(':uAppFwLibApp').projectDir = new File('./Source/ufw/Source/DemoApp/app')
 //demoapps NOT to be published to artifactory
