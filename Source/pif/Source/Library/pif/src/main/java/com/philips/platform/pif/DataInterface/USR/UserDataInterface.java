@@ -21,7 +21,6 @@ import java.util.HashMap;
  *
  * @since 2018.1.0
  *
- * TODO: Add new api isOIDCToken and implementation for this in both PIM and USR
  */
 public interface UserDataInterface extends Serializable {
 
@@ -83,9 +82,9 @@ public interface UserDataInterface extends Serializable {
     void refreshSession(RefreshSessionListener refreshSessionListener);
 
     /**
-     * To check whether current token is OIDC token or not
+     * To check whether current access token is OIDC token or not
      *
-     * @return true if current token is OIDC or false
+     * @return true if current access token is OIDC or false
      */
     boolean isOIDCToken();
 
