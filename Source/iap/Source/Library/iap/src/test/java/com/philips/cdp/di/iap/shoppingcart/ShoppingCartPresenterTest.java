@@ -20,28 +20,22 @@ import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
+import com.philips.cdp.di.iap.prx.MockPRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
 import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.iap.response.carts.BasePriceEntity;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
-import com.philips.cdp.di.iap.response.carts.CategoriesEntity;
-import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryCostEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
 import com.philips.cdp.di.iap.response.carts.ProductEntity;
 import com.philips.cdp.di.iap.response.carts.PromotionEntity;
 import com.philips.cdp.di.iap.response.carts.TotalPriceEntity;
-import com.philips.cdp.di.iap.response.carts.TotalPriceWithTaxEntity;
-import com.philips.cdp.di.iap.response.carts.TotalTaxEntity;
-import com.philips.cdp.di.iap.response.orders.DeliveryMode;
 import com.philips.cdp.di.iap.response.retailers.WebResults;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
-import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
@@ -75,7 +69,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     private HybrisDelegate mHybrisDelegate;
     private ShoppingCartPresenter mShoppingCartPresenter;
     AddressController mAddressController;
-    private MockPRXSummaryExecutor mMockPRXDataBuilder;
+    private MockPRXSummaryListExecutor mMockPRXDataBuilder;
     private ArrayList<String> mCTNS = new ArrayList<>();
 
     @Mock
@@ -97,7 +91,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     @Test(expected = NullPointerException.class)
     public void testNullDelegate() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mShoppingCartPresenter);
+        mMockPRXDataBuilder = new MockPRXSummaryListExecutor(mContext, mCTNS, mShoppingCartPresenter);
         mShoppingCartPresenter.setHybrisDelegate(null);
         mShoppingCartPresenter.getCurrentCartDetails();
 
@@ -110,7 +104,7 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     @Test(expected = NullPointerException.class)
     public void testGetCurrentCartDetailsSuccessResponse() throws JSONException {
         mShoppingCartPresenter = new ShoppingCartPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mShoppingCartPresenter);
+        mMockPRXDataBuilder = new MockPRXSummaryListExecutor(mContext, mCTNS, mShoppingCartPresenter);
         mShoppingCartPresenter.setHybrisDelegate(mHybrisDelegate);
         mShoppingCartPresenter.getCurrentCartDetails();
 
@@ -138,23 +132,11 @@ public class ShoppingCartPresenterTest implements ShoppingCartPresenter.Shopping
     private void makePRXData() throws JSONException {
         PrxRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
 
-        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
+        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryListExecutor
                 .class, "get_prx_success_response_HX9033_64.txt"));
         ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9033/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
-        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
-                .class, "get_prx_success_response_HX9023_64.txt"));
-        responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9023/64", (SummaryModel) responseData);
-        mMockPRXDataBuilder.sendSuccess(responseData);
-
-        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
-                .class, "get_prx_success_response_HX9003_64.txt"));
-        responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9003/64", (SummaryModel) responseData);
-        mMockPRXDataBuilder.sendSuccess(responseData);
     }
 
     @Test

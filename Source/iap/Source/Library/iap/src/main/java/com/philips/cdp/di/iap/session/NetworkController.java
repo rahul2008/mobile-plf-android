@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPMockInterface;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -34,6 +35,7 @@ public class NetworkController {
     protected OAuthListener mOAuthListener;
     protected NetworkEssentials mNetworkEssentials;
     private IAPSettings mIapSettings;
+    private IAPDependencies mIapDependencies;
 
     public NetworkController(Context context) {
         this.context = context;
@@ -43,8 +45,8 @@ public class NetworkController {
         mIapHurlStack = mNetworkEssentials.getHurlStack(context, mOAuthListener);
     }
 
-    public void initStore(Context context, IAPSettings iapSettings) {
-        mStoreListener = mNetworkEssentials.getStore(context, iapSettings);
+    public void initStore(Context context, IAPSettings iapSettings, IAPDependencies iapDependencies) {
+        mStoreListener = mNetworkEssentials.getStore(context, iapSettings,iapDependencies);
     }
 
     public void hybrisVolleyCreateConnection(Context context) {
@@ -83,7 +85,7 @@ public class NetworkController {
         }
 
         if (mStoreListener.isNewUser()) {
-            mStoreListener.createNewUser(context);
+            mStoreListener.createNewUser(context,mIapDependencies);
             mOAuthListener.resetAccessToken();
         }
 
@@ -152,7 +154,7 @@ public class NetworkController {
 
     public void setNetworkEssentials(NetworkEssentials networkEssentials) {
         this.mNetworkEssentials = networkEssentials;
-        initStore(context, mIapSettings);
+        initStore(context, mIapSettings,mIapDependencies);
         mOAuthListener = mNetworkEssentials.getOAuthHandler();
 
         initHurlStack(context);
@@ -161,6 +163,10 @@ public class NetworkController {
 
     public void setIapSettings(IAPSettings iapSettings) {
         this.mIapSettings = iapSettings;
+    }
+
+    public void setmIapDependencies(IAPDependencies iapDependencies){
+        this.mIapDependencies = iapDependencies;
     }
 
     boolean isMocked() {

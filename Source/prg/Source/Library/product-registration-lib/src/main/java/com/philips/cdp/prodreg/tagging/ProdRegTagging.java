@@ -8,7 +8,7 @@ package com.philips.cdp.prodreg.tagging;
 import android.app.Activity;
 
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.product_registration_lib.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import java.util.HashMap;
@@ -18,9 +18,8 @@ public class ProdRegTagging {
 
     private static AppTaggingInterface aiAppTaggingInterface;
 
-    public static void init() {
-        aiAppTaggingInterface = RegistrationConfiguration.getInstance().getComponent().getAppTaggingInterface();
-        aiAppTaggingInterface = aiAppTaggingInterface.createInstanceForComponent("prg", com.philips.cdp.registration.BuildConfig.VERSION_NAME);
+    public static void init(AppTaggingInterface appTaggingInterface) {
+        aiAppTaggingInterface = appTaggingInterface.createInstanceForComponent("prg", BuildConfig.VERSION_NAME);
     }
 
     public static void trackPage(String pageName) {

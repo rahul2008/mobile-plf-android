@@ -14,7 +14,6 @@ import com.philips.cdp.di.iap.integration.IAPInterface;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -23,6 +22,7 @@ import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -154,8 +154,12 @@ public abstract class IAPState extends BaseState implements IAPListener {
         applicationContext = context;
         iapInterface = new IAPInterface();
         iapSettings = new IAPSettings(applicationContext);
-        IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
-        iapInterface.init(iapDependencies, iapSettings);
+        IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra(),((AppFrameworkApplication) applicationContext).getUserRegistrationState().getUserDataInterface());
+        try {
+            iapInterface.init(iapDependencies, iapSettings);
+        }catch (RuntimeException ex){
+            RALog.d(TAG,ex.getMessage());
+        }
     }
 
     public void isCartVisible() {
@@ -163,7 +167,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     public void setListener() {
-        if (getApplicationContext().getUserRegistrationState().getUserObject(getApplicationContext()).getUserLoginState().ordinal() >= UserLoginState.PENDING_HSDP_LOGIN.ordinal()) {
+        if (getApplicationContext().getUserRegistrationState().getUserDataInterface().getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             RALog.d(TAG, "Setting Listener");
             ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
             getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);

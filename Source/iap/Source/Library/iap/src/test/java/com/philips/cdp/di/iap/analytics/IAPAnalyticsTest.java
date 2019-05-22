@@ -7,13 +7,13 @@ import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class IAPAnalyticsTest {
 
     @Before
     public void setUp() throws Exception {
-        iapDependenciesMock = new MockIAPDependencies(mock(AppInfra.class));
+        iapDependenciesMock = new MockIAPDependencies(mock(AppInfra.class),mock(UserDataInterface.class));
 
         when(iapDependenciesMock.getAppInfra().getTagging()).thenReturn(mock(AppTaggingInterface.class));
 

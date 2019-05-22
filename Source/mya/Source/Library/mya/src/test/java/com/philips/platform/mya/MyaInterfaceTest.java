@@ -22,6 +22,7 @@ import com.philips.platform.mya.mock.FragmentManagerMock;
 import com.philips.platform.mya.mock.FragmentTransactionMock;
 import com.philips.platform.mya.tabs.MyaTabFragment;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -61,7 +62,8 @@ public class MyaInterfaceTest {
         context = getInstrumentation().getContext();
         launchInput = new MyaLaunchInput(context);
         final UserDataInterface userDataInterface = mock(UserDataInterface.class);
-        when(userDataInterface.isUserLoggedIn(launchInput.getContext())).thenReturn(true);
+        when(userDataInterface.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
+        MyaHelper.getInstance().setUserDataInterface(userDataInterface);
         final AppTaggingInterface appTaggingInterface = mock(AppTaggingInterface.class);
         myaInterface = new MyaInterface() {
             @Override

@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPSettings;
 
 import org.mockito.Mockito;
@@ -31,15 +32,15 @@ public class MockStore {
         when(mUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
     }
 
-    public StoreListener getStore(IAPSettings pIAPSettings) {
-        HybrisStore hybrisStore = new HybrisStore(mContext, pIAPSettings) {
+    public StoreListener getStore(IAPSettings pIAPSettings, IAPDependencies iapDependencies) {
+        HybrisStore hybrisStore = new HybrisStore(mContext, pIAPSettings,iapDependencies) {
             @Override
             protected StoreConfiguration getStoreConfig(final Context context, final IAPSettings mIapSettings) {
                 return getStoreConfiguration(this, mIapSettings);
             }
 
             @Override
-            IAPUser createUser(final Context context) {
+            IAPUser createUser(final Context context,IAPDependencies mIapDependencies) {
                 return mUser;
             }
 
@@ -48,7 +49,7 @@ public class MockStore {
                 return "US";
             }
         };
-        hybrisStore.createNewUser(mContext);
+        hybrisStore.createNewUser(mContext,iapDependencies);
         return hybrisStore;
     }
 

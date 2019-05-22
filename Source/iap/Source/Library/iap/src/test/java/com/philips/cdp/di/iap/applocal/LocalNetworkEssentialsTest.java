@@ -6,11 +6,13 @@ package com.philips.cdp.di.iap.applocal;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.networkEssential.LocalNetworkEssentials;
 import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,7 +63,7 @@ public class LocalNetworkEssentialsTest {
 
     @Test
     public void testGetStore() throws Exception {
-        assertNotNull(mLocalNetworkEssentials.getStore(mContext, mockIAPSetting));
+        assertNotNull(mLocalNetworkEssentials.getStore(mContext, mockIAPSetting,new MockIAPDependencies(mock(AppInfra.class),mock(UserDataInterface.class))));
     }
 
     @Test

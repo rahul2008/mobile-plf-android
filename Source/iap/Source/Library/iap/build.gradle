@@ -99,10 +99,6 @@ android {
 }
 apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
 
-configurations {
-    compile.exclude module: 'support-annotations'
-}
-
 configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
@@ -118,17 +114,18 @@ dependencies {
     implementation deps.calligraphy
     implementation deps.gson
     implementation deps.libphonenumber
+    implementation deps.support.annotations
 
     // Philips components
     implementation philipsdeps.uid
     if (useprojectdependencies) {
 
-        implementation project(strings.usr.projectName)
+        implementation project(strings.pif.projectName)
         implementation project(strings.prx.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
     } else {
-        implementation philipsdeps.registrationApi
+        implementation philipsdeps.pif
         implementation philipsdeps.prx
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra

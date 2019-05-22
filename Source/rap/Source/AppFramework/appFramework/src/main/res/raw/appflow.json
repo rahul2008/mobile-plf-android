@@ -393,6 +393,15 @@
                 "nextState": "demoUserRegistration"
               }
             ]
+          },
+          {
+            "eventId": "TestPimDemoEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoPimState"
+              }
+            ]
           }
         ]
       }

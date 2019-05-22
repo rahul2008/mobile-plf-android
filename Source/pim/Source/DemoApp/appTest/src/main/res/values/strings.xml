@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">PIM Demo Test App</string>
+    <string name="redirectURL" translatable="false">com.philips.apps.referenceapp://oauthredirect</string>
+</resources>

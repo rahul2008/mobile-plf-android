@@ -9,33 +9,37 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
-import com.philips.platform.pif.DataInterface.USR.listeners.LogoutListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshListener;
-import com.philips.platform.pif.DataInterface.USR.listeners.UserDetailsListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class UserDataProvider extends User implements UserDataInterface {
     private final String TAG = "UserDataProvider";
     private static final long serialVersionUID = 1995972602210564L;
     private transient Context context;
     private HashMap<String, Object> userDataMap;
+    private final CopyOnWriteArrayList<UserDataListener> userDataListeners;
 
     public UserDataProvider(Context context) {
         super(context);
         this.context = context;
+        userDataListeners = new CopyOnWriteArrayList<>();
     }
 
     private ArrayList<String> getAllValidKeyNames() {
@@ -46,7 +50,9 @@ public class UserDataProvider extends User implements UserDataInterface {
                 UserDetailConstants.EMAIL,
                 UserDetailConstants.MOBILE_NUMBER,
                 UserDetailConstants.BIRTHDAY,
-                UserDetailConstants.RECEIVE_MARKETING_EMAIL));
+                UserDetailConstants.RECEIVE_MARKETING_EMAIL,
+                UserDetailConstants.UUID,
+                UserDetailConstants.ACCESS_TOKEN));
     }
 
     private void fillUserData() {
@@ -58,10 +64,15 @@ public class UserDataProvider extends User implements UserDataInterface {
         userDataMap.put(UserDetailConstants.MOBILE_NUMBER, getMobile());
         userDataMap.put(UserDetailConstants.BIRTHDAY, getDateOfBirth());
         userDataMap.put(UserDetailConstants.RECEIVE_MARKETING_EMAIL, getReceiveMarketingEmail());
+        userDataMap.put(UserDetailConstants.UUID,getJanrainUUID());
+        userDataMap.put(UserDetailConstants.ACCESS_TOKEN,getAccessToken());
     }
 
     @Override
-    public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws Exception {
+    public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws UserDataInterfaceException {
+        if(getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN){
+            throw new UserDataInterfaceException(new Error(Error.UserDetailError.NotLoggedIn));
+        }
         RLog.d(TAG, "getUserDetails : " + detailKeys);
         if (detailKeys.isEmpty()) {
             fillUserData();
@@ -71,7 +82,7 @@ public class UserDataProvider extends User implements UserDataInterface {
     }
 
 
-    private HashMap<String, Object> fillRequiredUserDataMap(ArrayList<String> detailKeys) throws Exception {
+    private HashMap<String, Object> fillRequiredUserDataMap(ArrayList<String> detailKeys) throws UserDataInterfaceException {
         RLog.d(TAG, "fillRequiredUserDataMap : " + detailKeys);
         fillUserData();
         HashMap<String, Object> requiredUserDataMap = new HashMap<>();
@@ -79,22 +90,10 @@ public class UserDataProvider extends User implements UserDataInterface {
             if (getAllValidKeyNames().contains(key)) {
                 requiredUserDataMap.put(key, userDataMap.get(key));
             } else {
-                throw new Exception("Invalid key : " + key);
+                throw new UserDataInterfaceException(new Error(Error.UserDetailError.InvalidFields));
             }
         }
         return requiredUserDataMap;
-    }
-
-    @Override
-    public String getJanrainAccessToken() {
-        RLog.d(TAG, "getJanrainAccessToken : " + getAccessToken());
-        return getAccessToken();
-    }
-
-    @Override
-    public String getJanrainUUID() {
-        RLog.d(TAG, "getJanrainUUID : " + getJanrainUUID());
-        return super.getJanrainUUID();
     }
 
     @Override
@@ -107,13 +106,6 @@ public class UserDataProvider extends User implements UserDataInterface {
     public String getHSDPUUID() {
         RLog.d(TAG, "getHSDPUUID : " + getHsdpUUID());
         return getHsdpUUID();
-    }
-
-    @Override
-    public boolean isUserLoggedIn(Context context) {
-        boolean isLoggedIn = getUserLoginState() == UserLoginState.USER_LOGGED_IN;
-        RLog.d(TAG, "isUserLoggedIn :  " + isLoggedIn);
-        return isLoggedIn;
     }
 
     @Override
@@ -163,105 +155,157 @@ public class UserDataProvider extends User implements UserDataInterface {
     }
 
     @Override
-    public void refreshLoginSession(RefreshListener refreshListener) {
+    public void refreshSession(RefreshSessionListener refreshSessionListener) {
         RLog.d(TAG, "refreshLoginSession");
-        refreshLoginSession(getRefreshHandler(refreshListener));
+        refreshLoginSession(getRefreshHandler(refreshSessionListener));
     }
 
     @NonNull
-    protected RefreshLoginSessionHandler getRefreshHandler(final RefreshListener refreshListener) {
+    protected RefreshLoginSessionHandler getRefreshHandler(final RefreshSessionListener refreshListener) {
         RLog.d(TAG, "getRefreshHandler");
         return new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 RLog.d(TAG, "onRefreshLoginSessionSuccess");
-                refreshListener.onRefreshSessionSuccess();
+                refreshListener.refreshSessionSuccess();
+                notifyRefreshSessionSuccess();
             }
 
             @Override
             public void onRefreshLoginSessionFailedWithError(int error) {
                 RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionFailedWithError: " + error);
-                refreshListener.onRefreshSessionFailure(error);
+                refreshListener.refreshSessionFailed(new Error(error,null));
+                notifyRefetchSessionFailure(error);
             }
 
             @Override
-            public void onRefreshLoginSessionInProgress(String message) {
-                RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionInProgress : " + message);
-                refreshListener.onRefreshSessionInProgress(message);
+            public void forcedLogout() {
+                RLog.e(TAG, "getRefreshHandler: onRefreshLoginSessionFailedAndLoggedout : ");
+                refreshListener.forcedLogout();
             }
         };
     }
 
     @Override
-    public void refetch(UserDetailsListener userDetailsListener) {
-        RLog.d(TAG, "refetch");
+    public void refetchUserDetails(RefetchUserDetailsListener userDetailsListener) {
+        RLog.d(TAG, "refetchUserDetails");
         refreshUser(getRefetchHandler(userDetailsListener));
     }
 
     @NonNull
-    protected RefreshUserHandler getRefetchHandler(final UserDetailsListener userDetailsListener) {
+    protected RefreshUserHandler getRefetchHandler(final RefetchUserDetailsListener userDetailsListener) {
         RLog.d(TAG, "getRefetchHandler");
         return new RefreshUserHandler() {
             @Override
             public void onRefreshUserSuccess() {
                 RLog.d(TAG, "onRefreshUserSuccess");
                 userDetailsListener.onRefetchSuccess();
+                notifyRefreshUserDetailsSuccess();
             }
 
             @Override
             public void onRefreshUserFailed(int error) {
                 RLog.d(TAG, "onRefreshUserFailed : " + error);
-                userDetailsListener.onRefetchFailure(error);
+                userDetailsListener.onRefetchFailure(new Error(error,null));
+                notifyRefetchUserDetailsFailure(error);
             }
         };
     }
 
     @Override
-    public void logOut(LogoutListener logoutListener) {
+    public void logoutSession(LogoutSessionListener logoutSessionListener) {
         RLog.d(TAG, "logOut");
-        logout(getLogoutHandler(logoutListener));
+        logout(getLogoutHandler(logoutSessionListener));
     }
 
     @NonNull
-    LogoutHandler getLogoutHandler(final LogoutListener logoutListener) {
+    LogoutHandler getLogoutHandler(final LogoutSessionListener logoutListener) {
         RLog.d(TAG, "getLogoutHandler");
         return new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
                 RLog.d(TAG, "onLogoutSuccess");
-                logoutListener.onLogoutSuccess();
+                logoutListener.logoutSessionSuccess();
+                notifyLogOutSuccess();
             }
 
             @Override
             public void onLogoutFailure(int responseCode, String message) {
                 RLog.d(TAG, "onLogoutFailure : responseCode = " + responseCode + " message = " + message);
-                logoutListener.onLogoutFailure(responseCode, message);
+                logoutListener.logoutSessionFailed(new Error(responseCode,message));
+                notifyLogoutFailure(responseCode,message);
             }
         };
+    }
+
+    private void notifyLogOutSuccess(){
+        synchronized (userDataListeners) {
+            for (LogoutSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.logoutSessionSuccess();
+                }
+            }
+        }
+    }
+
+    private void notifyLogoutFailure(int errorCode, String errorMessage){
+        synchronized (userDataListeners) {
+            for (LogoutSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.logoutSessionFailed(new Error(errorCode,errorMessage));
+                }
+            }
+        }
+    }
+
+    private void notifyRefreshSessionSuccess(){
+        synchronized (userDataListeners) {
+            for (RefreshSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.refreshSessionSuccess();
+                }
+            }
+        }
+    }
+
+    private void notifyRefetchSessionFailure(int errorCode){
+        synchronized (userDataListeners) {
+            for (RefreshSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.refreshSessionFailed(new Error(errorCode,null));
+                }
+            }
+        }
+    }
+
+    private void notifyRefreshUserDetailsSuccess(){
+        synchronized (userDataListeners) {
+            for (RefetchUserDetailsListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.onRefetchSuccess();
+                }
+            }
+        }
+    }
+
+    private void notifyRefetchUserDetailsFailure(int errorCode){
+        synchronized (userDataListeners) {
+            for (RefetchUserDetailsListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.onRefetchFailure(new Error(errorCode,null));
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public void addUserDataInterfaceListener(UserDataListener userDataListener) {
+        userDataListeners.add(userDataListener);
     }
 
     @Override
-    public void updateMarketingOptInConsent(UserDetailsListener userDetailsListener) {
-        RLog.d(TAG, "updateMarketingOptInConsent");
-        updateReceiveMarketingEmail(getUpdateReceiveMarketingEmailHandler(userDetailsListener), getReceiveMarketingEmail());
-
-    }
-
-    @NonNull
-    protected UpdateUserDetailsHandler getUpdateReceiveMarketingEmailHandler(final UserDetailsListener userDetailsListener) {
-        RLog.d(TAG, "getUpdateReceiveMarketingEmailHandler");
-        return new UpdateUserDetailsHandler() {
-            @Override
-            public void onUpdateSuccess() {
-                RLog.d(TAG, "getUpdateReceiveMarketingEmailHandler : onUpdateSuccess");
-                userDetailsListener.onUpdateSuccess();
-            }
-
-            @Override
-            public void onUpdateFailedWithError(int error) {
-                RLog.e(TAG, "getUpdateReceiveMarketingEmailHandler : onUpdateFailedWithError" + error);
-                userDetailsListener.onUpdateFailure(error);
-            }
-        };
+    public void removeUserDataInterfaceListener(UserDataListener userDataListener) {
+        userDataListeners.remove(userDataListener);
     }
 }

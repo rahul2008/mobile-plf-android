@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.store.IAPUser;
@@ -15,6 +16,8 @@ import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +31,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 public class ContactCallRequestTest {
@@ -42,7 +46,7 @@ public class ContactCallRequestTest {
     @Before
     public void setUp() {
         mContext = getInstrumentation().getContext();
-        mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext));
+        mStore = (new MockStore(mContext, mUser)).getStore(new MockIAPSetting(mContext),new MockIAPDependencies(mock(AppInfra.class),mock(UserDataInterface.class)));
         mStore.initStoreConfig(/*"en", "GB",*/ null);
         mModel = new ContactCallRequest(mStore, null, null);
     }

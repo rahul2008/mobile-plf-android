@@ -24,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:clickable="true"
-                android:paddingStart="@dimen/border16_margin_left_right">
+                android:paddingStart="@dimen/border16_margin_left_right"
+                android:paddingEnd="@dimen/border16_margin_left_right">
 
                 <ImageView
                     android:id="@+id/iap_iv_header_back_button"

@@ -1,7 +1,5 @@
 package com.philips.cdp.di.iap.integration;
 
-import android.util.Log;
-
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;

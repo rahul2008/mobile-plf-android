@@ -1,13 +1,11 @@
 package com.philips.platform.baseapp.screens.myaccount;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -23,7 +21,6 @@ import com.philips.platform.appframework.logout.URLogout;
 import com.philips.platform.appframework.logout.URLogoutInterface;
 import com.philips.platform.appframework.ui.dialogs.DialogView;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -199,9 +196,7 @@ public class MyAccountState extends BaseState{
                         RALog.d(TAG,"onLogoutClicked: onNetworkError completed");
                     }
                 });
-                User user = getApplicationContext().getUserRegistrationState().getUserObject(actContext);
-                RALog.d(TAG,"onLogoutClicked: User Object created");
-                urLogout.performLogout(actContext, user);
+               urLogout.performLogout(actContext);
             }
         };
     }

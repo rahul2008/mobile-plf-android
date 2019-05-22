@@ -16,14 +16,16 @@ import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.products.LocalProductCatalog;
 import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.products.ProductCatalogPresenter;
-import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
+import com.philips.cdp.di.iap.prx.MockPRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.prxclient.datamodels.summary.PRXSummaryListResponse;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
+import com.philips.cdp.prxclient.request.ProductSummaryListRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -45,7 +47,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -56,7 +57,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
     private ProductCatalogPresenter mProductCatalogPresenter;
-    private MockPRXSummaryExecutor mMockPRXDataBuilder;
+    private MockPRXSummaryListExecutor mMockPRXDataBuilder;
     private ArrayList<String> mCTNS = new ArrayList<>();
 
     @Mock
@@ -90,7 +91,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     @Test
     public void testGetProductCatalogSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
+        mMockPRXDataBuilder = new MockPRXSummaryListExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
         mProductCatalogPresenter.getProductCatalog(0, 20, null);
 
@@ -103,7 +104,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     @Test
     public void testGetProductCatalogErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
+        mMockPRXDataBuilder = new MockPRXSummaryListExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
         mProductCatalogPresenter.getProductCatalog(0, 20, null);
 
@@ -122,7 +123,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     @Test
     public void testGetProductListWithNoPaginationSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
         mProductCatalogPresenter.getCompleteProductList(this);
 
@@ -136,32 +136,23 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     }
 
     private void makePRXData() throws JSONException {
-        ProductSummaryRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
 
-        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
+        ArrayList<String> ctns = new ArrayList<>();
+        ctns.add("HD5061/01");
+        ctns.add("HD7870/10");
+
+        ProductSummaryListRequest mProductSummaryBuilder = new ProductSummaryListRequest(ctns, null,null,null);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryListExecutor
                 .class, "get_prx_success_response_HX9033_64.txt"));
         ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9033/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
-        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
-                .class, "get_prx_success_response_HX9023_64.txt"));
-        responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9023/64", (SummaryModel) responseData);
-        mMockPRXDataBuilder.sendSuccess(responseData);
-
-        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
-                .class, "get_prx_success_response_HX9003_64.txt"));
-        responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().setCountry("US");
-        CartModelContainer.getInstance().addProductSummary("HX9003/64", (SummaryModel) responseData);
-        mMockPRXDataBuilder.sendSuccess(responseData);
     }
 
     @Test
     public void testGetProductListErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
         mProductCatalogPresenter.getProductCatalog(0, 20, null);
 
@@ -177,7 +168,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     @Test
     public void testGetCompleteProductListWithPaginationErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
-        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
         mProductCatalogPresenter.getCompleteProductList(this);
 

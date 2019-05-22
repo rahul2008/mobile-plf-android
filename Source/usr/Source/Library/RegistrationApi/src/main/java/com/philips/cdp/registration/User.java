@@ -78,7 +78,10 @@ import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getPref
  * Additionally, it exposes APIs to login, logout and refresh operations for traditional and social accounts.
  *
  * @since 1.0.0
+ *
+ * @deprecated since 1903
  */
+@Deprecated
 public class User {
 
     private final String TAG = "User";
@@ -748,7 +751,7 @@ public class User {
 
 
     private boolean getUserNotLoggedInState() {
-        return getUserLoginState().ordinal() < UserLoginState.PENDING_HSDP_LOGIN.ordinal();
+        return getUserLoginState().ordinal() < UserLoginState.PENDING_VERIFICATION.ordinal();
     }
 
 

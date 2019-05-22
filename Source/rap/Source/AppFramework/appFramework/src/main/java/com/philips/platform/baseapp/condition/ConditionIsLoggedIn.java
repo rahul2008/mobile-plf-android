@@ -8,11 +8,11 @@ package com.philips.platform.baseapp.condition;
 
 import android.content.Context;
 
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.UserLoginState;
 import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 public class ConditionIsLoggedIn extends BaseCondition {
     public final String TAG = ConditionIsLoggedIn.class.getSimpleName();
@@ -29,8 +29,7 @@ public class ConditionIsLoggedIn extends BaseCondition {
     }
 
     protected boolean isUserSignIn(Context context) {
-
         RALog.d(TAG," isUserSignIn called");
-        return new User(context).getUserLoginState() == UserLoginState.USER_LOGGED_IN;
+        return ((AppFrameworkApplication)context.getApplicationContext()).getUserRegistrationState().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN;
     }
 }

@@ -14,7 +14,9 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 /**
  * It is a callback class to proposition for handling traditional login
  * @since 1.0.0
+ * @deprecated since 1903
  */
+@Deprecated
 public interface LoginHandler {
 
     /**

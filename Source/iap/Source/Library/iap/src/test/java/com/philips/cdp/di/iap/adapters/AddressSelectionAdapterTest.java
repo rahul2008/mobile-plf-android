@@ -12,12 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.philips.cdp.di.iap.integration.MockIAPDependencies;
 import com.philips.cdp.di.iap.integration.MockIAPSetting;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.store.IAPUser;
 import com.philips.cdp.di.iap.store.MockStore;
 import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +32,7 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -59,6 +63,7 @@ public class AddressSelectionAdapterTest {
     IAPUser mIAPMockedUser;
     private StoreListener mStore;
     MockIAPSetting mockIAPSetting;
+    MockIAPDependencies mockIAPDependencies;
 
 
     @Before
@@ -67,8 +72,9 @@ public class AddressSelectionAdapterTest {
         when(mIAPMockedUser.getJanRainEmail()).thenReturn(NetworkURLConstants.JANRAIN_EMAIL);
         when(mIAPMockedUser.getJanRainID()).thenReturn(NetworkURLConstants.JANRAIN_ID);
         mockIAPSetting = new MockIAPSetting(mContext);
+        mockIAPDependencies = new MockIAPDependencies(mock(AppInfra.class),mock(UserDataInterface.class));
         mockIAPSetting.setUseLocalData(false);
-        mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting);
+        mStore = new MockStore(mContext, mIAPMockedUser).getStore(mockIAPSetting,mockIAPDependencies);
         String mJanRainEmail =  mStore.getJanRainEmail();
         addressSelectionAdapter = new AddressSelectionAdapter(addressessListMock,mJanRainEmail);
     }
