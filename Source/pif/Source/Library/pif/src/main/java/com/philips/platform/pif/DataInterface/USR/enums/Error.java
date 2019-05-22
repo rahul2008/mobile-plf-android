@@ -16,7 +16,8 @@ public class Error {
 
     public enum UserDetailError {
         InvalidFields(1000, "INVALID FIELDS"),
-        NotLoggedIn(1001, "USER NOT LOGGED IN");
+        NotLoggedIn(1001, "USER NOT LOGGED IN"),
+        NetworkError(1003,"Network Error");
 
         private int errorCode;
         private String errorMsg;

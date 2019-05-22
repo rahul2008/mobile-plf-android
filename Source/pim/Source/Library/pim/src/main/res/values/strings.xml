@@ -1,0 +1,4 @@
+<resources>
+    <string name="action_bar_title_text" translatable="false">My Philips</string>
+    <string name="redirectURL" translatable="false" />
+</resources>

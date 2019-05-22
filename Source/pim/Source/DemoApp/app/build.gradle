@@ -1,0 +1,95 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.application'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+    }
+}
+
+archivesBaseName = "pimApp"
+group = 'com.philips.platform'
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        applicationId 'com.philips.apps.pimdemoapp'
+        versionName version + "(" + commitHash + ")"
+        versionCode 1
+        manifestPlaceholders = [
+                appAuthRedirectScheme: 'com.philips.apps.pimdemoapp'
+        ]
+    }
+
+    signingConfigs {
+        release
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    /*
+    This defined for signing the apk -- start
+     */
+    def Properties props = new Properties()
+    println "  projectDir:   " + project.projectDir;
+    def propFile = new File("${project.projectDir}/signing.properties")
+    if (propFile.canRead()) {
+        props.load(new FileInputStream(propFile))
+
+        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            println 'signing.properties found and fully filled in'
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'prg NOPE - signing.properties NOT found'
+            android.buildTypes.release.signingConfig = null
+        }
+    } else {
+        println 'prg signing.properties not found'
+        android.buildTypes.release.signingConfig = null
+    }
+    /*
+    This defined for signing the apk -- end
+    */
+}
+
+dependencies {
+    debugImplementation deps.leakcanary
+    releaseImplementation deps.leakcanary_no_op
+    testImplementation deps.leakcanary_no_op
+    annotationProcessor deps.butterknife_compiler
+
+    implementation project(':AppInfra')
+    implementation project(':uAppFwLib')
+    implementation philipsdeps.uid
+    implementation project(':pim')
+    implementation project(':pimUApp')
+    implementation deps.support.appcompatv7
+    implementation deps.constraintlayout
+    implementation deps.support.design
+    implementation deps.multidex
+    implementation deps.greenrobot
+    implementation deps.butterknife
+    implementation deps.adobemobilelib
+
+}
