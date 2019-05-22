@@ -20,6 +20,7 @@ import java.util.HashMap;
  * Data interface for getting the user data
  *
  * @since 2018.1.0
+ *
  */
 public interface UserDataInterface extends Serializable {
 
@@ -80,6 +81,12 @@ public interface UserDataInterface extends Serializable {
      */
     void refreshSession(RefreshSessionListener refreshSessionListener);
 
+    /**
+     * To check whether current access token is OIDC token or not
+     *
+     * @return true if the current access token is from OIDC else return false
+     */
+    boolean isOIDCToken();
 
     /**
      * log out the user

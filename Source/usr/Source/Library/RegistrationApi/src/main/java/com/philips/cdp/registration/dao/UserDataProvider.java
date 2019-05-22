@@ -160,6 +160,11 @@ public class UserDataProvider extends User implements UserDataInterface {
         refreshLoginSession(getRefreshHandler(refreshSessionListener));
     }
 
+    @Override
+    public boolean isOIDCToken() {
+        return false;
+    }
+
     @NonNull
     protected RefreshLoginSessionHandler getRefreshHandler(final RefreshSessionListener refreshListener) {
         RLog.d(TAG, "getRefreshHandler");

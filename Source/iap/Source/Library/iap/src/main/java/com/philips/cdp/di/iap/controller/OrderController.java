@@ -12,7 +12,7 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ContactCallRequest;
 import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderHistoryRequest;
-import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
+import com.philips.cdp.di.iap.prx.PRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.orders.Entries;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
 import com.philips.cdp.di.iap.response.orders.ProductData;
@@ -21,7 +21,6 @@ import com.philips.cdp.di.iap.session.RequestCode;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,13 +105,12 @@ public class OrderController implements AbstractModel.DataLoadListener {
                 }
             }
         }
-        PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnToBeRequested, listener);
+        PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnToBeRequested, listener);
         builder.preparePRXDataRequest();
     }
 
     public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {
 
-        HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
         ArrayList<ProductData> products = new ArrayList<>();
         String ctn;
         for(OrderDetail detail : orderDetail) {
@@ -122,8 +120,8 @@ public class OrderController implements AbstractModel.DataLoadListener {
                     ctn = entry.getProduct().getCode();
                     ProductData productItem = new ProductData(entry);
                     Data data;
-                    if (list.containsKey(ctn)) {
-                        data = list.get(ctn).getData();
+                    if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
+                        data = CartModelContainer.getInstance().getProductSummary(ctn);
                     } else {
                         continue;
                     }

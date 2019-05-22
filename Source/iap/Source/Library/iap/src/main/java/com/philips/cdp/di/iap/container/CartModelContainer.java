@@ -9,6 +9,7 @@ import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.response.State.RegionsList;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
+import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.appinfra.AppInfraInterface;
 
@@ -28,7 +29,7 @@ public class CartModelContainer {
     private RegionsList mRegionList;
 
     private HashMap<String, ProductCatalogData> mProductList;
-    private HashMap<String, SummaryModel> mPRXSummaryObjects;
+    private ArrayList<Data> mPRXSummaryObjects;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
     private HashMap<String, DisclaimerModel> mPRXDisclaimerObjects;
 
@@ -46,7 +47,7 @@ public class CartModelContainer {
     private String voucherCode;
 
     private CartModelContainer() {
-        mPRXSummaryObjects = new HashMap<>();
+        mPRXSummaryObjects = new ArrayList<>();
         mPRXAssetObjects = new HashMap<>();
         mPRXDisclaimerObjects = new HashMap<>();
         mProductList = new HashMap<>();
@@ -153,23 +154,33 @@ public class CartModelContainer {
 
     //PRX Summary
     public boolean isPRXSummaryPresent(String ctn) {
-        return mPRXSummaryObjects.containsKey(ctn);
+        for (Data data : mPRXSummaryObjects) {
+            if (data.getCtn().equalsIgnoreCase(ctn)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public SummaryModel getProductSummary(String ctn) {
-        return mPRXSummaryObjects.get(ctn);
-    }
-
-    public void addProductSummary(String ctn, SummaryModel model) {
-        mPRXSummaryObjects.put(ctn, model);
+    public Data getProductSummary(String ctn) {
+        for (Data data : mPRXSummaryObjects) {
+            if (data.getCtn().equalsIgnoreCase(ctn)) {
+                return data;
+            }
+        }
+        return null;
     }
 
     public void addProductDisclaimer(String ctn, DisclaimerModel model) {
         mPRXDisclaimerObjects.put(ctn, model);
     }
 
-    public HashMap<String, SummaryModel> getPRXSummaryList() {
+    public ArrayList<Data> getPRXSummaryList() {
         return mPRXSummaryObjects;
+    }
+
+    public void setPRXSummaryList(ArrayList<Data> data){
+        mPRXSummaryObjects = data;
     }
 
     //PRX Assets
@@ -234,10 +245,11 @@ public class CartModelContainer {
     }
 
 
-    public void  setVoucherCode(String voucherCode){
-        this.voucherCode=voucherCode;
+    public void setVoucherCode(String voucherCode) {
+        this.voucherCode = voucherCode;
     }
-    public String getVoucherCode(){
+
+    public String getVoucherCode() {
         return voucherCode;
     }
 

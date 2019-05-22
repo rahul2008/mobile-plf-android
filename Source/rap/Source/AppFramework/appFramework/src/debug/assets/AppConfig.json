@@ -23,6 +23,9 @@
     "ShowCountrySelection": "true",
     "SkipFacebookSDK": "true"
   },
+  "PIM": {
+    "clientId": "4f3c43f2-41b7-4e81-8be1-fdeda8cf31bd"
+  },
   "IAP": {
     "propositionid": "Tuscany2016",
     "voucherCode.enable": true
@@ -67,8 +70,8 @@
       "logLevel": "Info",
       "fileLogEnabled": false,
       "consoleLogEnabled": true,
-      "cloudLogEnabled": false,
-      "cloudBatchLimit": 5,
+      "cloudLogEnabled":false,
+      "cloudBatchLimit":5,
       "componentLevelLogEnabled": true,
       "componentIds": [
         "usr",

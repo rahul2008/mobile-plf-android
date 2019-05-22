@@ -1,0 +1,95 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.library'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/taskscc.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/zipdocs.gradle'
+
+archivesBaseName = strings.pim.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+    }
+}
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        versionCode 1
+        versionName version
+        multiDexEnabled true
+        manifestPlaceholders = [
+                appAuthRedirectScheme: ''
+        ]
+    }
+
+    buildTypes {
+        release {
+            proguardFiles 'proguard-rules-pim.pro'
+        }
+        debug {
+            debuggable true
+            testCoverageEnabled = true
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/apidocs.gradle'
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    if (useprojectdependencies) {
+
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+        implementation project(strings.pif.projectName)
+    } else {
+        implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.AppInfra
+        implementation philipsdeps.pif
+    }
+    implementation deps.adobemobilelib
+    implementation deps.constraintlayout
+    implementation deps.support.appcompatv7
+    implementation deps.support.supportv4
+    implementation deps.support.design
+    implementation deps.support.supportv4
+    implementation deps.support.annotations
+    implementation deps.volley
+    implementation deps.openid_appauth
+    testImplementation deps.junit
+    testImplementation deps.powermock_core
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_junit_rule_agent
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_classloading_xstream
+
+}

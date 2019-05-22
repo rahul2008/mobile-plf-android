@@ -291,16 +291,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
-        goToAddressSelection();
-    }
-
-    private void goToAddressSelection() {
-        hideProgressBar();
-        Bundle bundle = new Bundle();
-        if (mSelectedDeliveryMode != null)
-            bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
-            addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
-                    AddressSelectionFragment.TAG,true);
+        mAddressController.getAddresses();
     }
 
     @Override
@@ -317,9 +308,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             mData = (ArrayList<ShoppingCartData>) data;
         }
         if (getActivity() == null) return;
-
-
-
+        
         if(mData!=null && mData.get(0)!=null && mData.get(0).getDeliveryMode()!=null) {
 
             onOutOfStock(false);

@@ -1,0 +1,4 @@
+include ':app', 'appTest',':pimUApp'
+project(':pimUApp').projectDir = new File('../DemoUApp')
+include ':pim'
+project(':pim').projectDir = new File('../Library/pim')
