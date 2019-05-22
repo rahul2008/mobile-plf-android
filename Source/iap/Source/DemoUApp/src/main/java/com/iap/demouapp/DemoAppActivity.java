@@ -282,16 +282,15 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initializeIAPComponant() {
+        toggleHybris.setVisibility(View.VISIBLE);
+        showProgressDialog();
+        initIAP();
+
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mRegister.setText(this.getString(R.string.log_out));
-            toggleHybris.setVisibility(View.VISIBLE);
-            showProgressDialog();
-            initIAP();
         } else {
             mRegister.setVisibility(View.VISIBLE);
-            toggleHybris.setVisibility(View.GONE);
             Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
-            dismissProgressDialog();
         }
     }
 

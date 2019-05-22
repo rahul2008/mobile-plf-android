@@ -34,7 +34,7 @@ public class IAPHurlStack {
                             return hostname.contains(PHILIPS_HOST);
                         }
                     });*/
-                    if (mOAuthListener != null) {
+                    if (mOAuthListener != null && mOAuthListener.getAccessToken()!=null) {
                         connection.setRequestProperty("Authorization", "Bearer " + mOAuthListener.getAccessToken());
                     }
                 }
