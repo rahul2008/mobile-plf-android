@@ -84,7 +84,7 @@ public interface UserDataInterface extends Serializable {
     /**
      * To check whether current access token is OIDC token or not
      *
-     * @return true if current access token is OIDC or false
+     * @return true if the current access token is from OIDC else return false
      */
     boolean isOIDCToken();
 
