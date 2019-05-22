@@ -39,6 +39,12 @@ public class PIMDataImplementation implements UserDataInterface {
     }
 
     @Override
+    public boolean isOIDCToken() {
+        //TODO: Shashi, Implement logic with migration feature
+        return false;
+    }
+
+    @Override
     public void refetchUserDetails(RefetchUserDetailsListener userDetailsListener) {
 
     }

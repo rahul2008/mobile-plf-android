@@ -82,6 +82,12 @@ public interface UserDataInterface extends Serializable {
      */
     void refreshSession(RefreshSessionListener refreshSessionListener);
 
+    /**
+     * To check whether current token is OIDC token or not
+     *
+     * @return true if current token is OIDC or false
+     */
+    boolean isOIDCToken();
 
     /**
      * log out the user
