@@ -20,7 +20,7 @@ import com.philips.cdp.di.iap.model.CartUpdateProductQuantityRequest;
 import com.philips.cdp.di.iap.model.DeleteCartRequest;
 import com.philips.cdp.di.iap.model.GetCartsRequest;
 import com.philips.cdp.di.iap.model.GetCurrentCartRequest;
-import com.philips.cdp.di.iap.prx.PRXSummaryExecutor;
+import com.philips.cdp.di.iap.prx.PRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetUser;
@@ -40,7 +40,6 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,11 +107,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onModelDataLoadFinished(final Message msg) {
                 if (quantityStatus == 1) {
-                    //Track Add to cart action
                     IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                             IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
                 } else if (quantityStatus == 0) {
-                    //Track product delete action
                     IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                             IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
                 }
@@ -363,7 +360,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         for (EntriesEntity entry : entries) {
             ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
         }
-        PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnsToBeRequestedForPRX, this);
+        PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnsToBeRequestedForPRX, this);
         builder.preparePRXDataRequest();
 
     }
@@ -380,7 +377,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     public ArrayList<ShoppingCartData> getShoppingCartDatas(CartsEntity cartsEntity, List<EntriesEntity> entries) {
-        final HashMap<String, SummaryModel> list = CartModelContainer.getInstance().getPRXSummaryList();
+        final ArrayList<Data> list = (ArrayList<Data>) CartModelContainer.getInstance().getPRXSummaryList();
         final ArrayList<ShoppingCartData> products = new ArrayList<>();
         String ctn;
         for (EntriesEntity entry : entries) {
@@ -389,8 +386,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             final ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
             cartItem.setVatInclusive(cartsEntity.isNet());
             Data data;
-            if (list.containsKey(ctn)) {
-                data = list.get(ctn).getData();
+            if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
+                data = CartModelContainer.getInstance().getProductSummary(ctn);
             } else {
                 continue;
             }
@@ -471,7 +468,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void onSetDeliveryAddress(Message msg) {
-        //mAddressController.getDeliveryModes();
     }
 
     @Override

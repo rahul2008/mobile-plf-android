@@ -12,7 +12,7 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.OrderController;
 import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.prx.MockPRXSummaryExecutor;
+import com.philips.cdp.di.iap.prx.MockPRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
 import com.philips.cdp.di.iap.response.orders.Cost;
 import com.philips.cdp.di.iap.response.orders.Entries;
@@ -29,6 +29,7 @@ import com.philips.cdp.di.iap.store.NetworkURLConstants;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.request.ProductSummaryListRequest;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -55,7 +56,7 @@ public class OrderControllerTest {
 
     private MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
-    private MockPRXSummaryExecutor mMockPRXDataBuilder;
+    private MockPRXSummaryListExecutor mMockPRXDataBuilder;
     @Mock
     ProductData productData;
     @Mock
@@ -76,7 +77,7 @@ public class OrderControllerTest {
         productCatalogNumber.add("HX9033/64");
         productCatalogNumber.add("HX9023/64");
         productCatalogNumber.add("HX9003/64");
-        mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, productCatalogNumber, mOrderController);
+        mMockPRXDataBuilder = new MockPRXSummaryListExecutor(mContext, productCatalogNumber, mOrderController);
     }
 
     @Test
@@ -179,25 +180,19 @@ public class OrderControllerTest {
     }
 
     private void makePRXData() throws JSONException {
-        PrxRequest mProductSummaryBuilder = new ProductSummaryRequest("125", null);
 
-        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
+        ArrayList<String> ctns = new ArrayList<>();
+        ctns.add("HD5061/01");
+        ctns.add("HD7870/10");
+
+
+        PrxRequest mProductSummaryBuilder = new ProductSummaryListRequest(ctns, null,null,null);
+
+        JSONObject obj = new JSONObject(TestUtils.readFile(MockPRXSummaryListExecutor
                 .class, "get_prx_success_response_HX9033_64.txt"));
         ResponseData responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9033/64", (SummaryModel) responseData);
         mMockPRXDataBuilder.sendSuccess(responseData);
 
-        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
-                .class, "get_prx_success_response_HX9023_64.txt"));
-        responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9023/64", (SummaryModel) responseData);
-        mMockPRXDataBuilder.sendSuccess(responseData);
-
-        obj = new JSONObject(TestUtils.readFile(MockPRXSummaryExecutor
-                .class, "get_prx_success_response_HX9003_64.txt"));
-        responseData = mProductSummaryBuilder.getResponseData(obj);
-        CartModelContainer.getInstance().addProductSummary("HX9003/64", (SummaryModel) responseData);
-        mMockPRXDataBuilder.sendSuccess(responseData);
     }
 
     @Test
