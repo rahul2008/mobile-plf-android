@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -37,6 +38,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         mUserDataInterface = iapDependencies.getUserDataInterface();
         if(null == mUserDataInterface)
             throw new RuntimeException("UserDataInterface is not injected in IAPDependencies.");
+        IAPUtility.getInstance().setUserDataInterface(mUserDataInterface);
         mIAPSettings = (IAPSettings) uappSettings;
         mIAPHandler = new IAPHandler(iapDependencies, mIAPSettings);
         mIAPHandler.initPreRequisite();

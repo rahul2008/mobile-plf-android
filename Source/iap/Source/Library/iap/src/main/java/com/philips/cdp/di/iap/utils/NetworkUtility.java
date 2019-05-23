@@ -59,7 +59,7 @@ public class NetworkUtility {
         }
     }
 
-    public void showErrorDialogPayment(Context context, FragmentManager pFragmentManager,
+    private void showErrorDialogPayment(Context context, FragmentManager pFragmentManager,
                                        String pButtonText, String pErrorString, String pErrorDescription,final AlertListener alertListener) {
 
         //Track pop up
@@ -79,7 +79,7 @@ public class NetworkUtility {
                     getErrorDescriptionMessageFromErrorCode(context, error));
         }
     }
-    public void showPaymentMessage( String title,String description, FragmentManager pFragmentManager, Context context,final AlertListener alertListener) {
+    public void showDialogMessage(String title, String description, FragmentManager pFragmentManager, Context context, final AlertListener alertListener) {
         if (context == null) return;
         showErrorDialogPayment(context, pFragmentManager, context.getString(R.string.iap_ok),
                 title,

@@ -77,6 +77,7 @@ public class OAuthRequest extends AbstractModel implements OAuthListener {
     * */
     private Map getJanrainDetail(){
         Map map = new HashMap<String,String>();
+        if(store.getUser().getJanRainID()!=null)
         map.put("janrain",store.getUser().getJanRainID());
         map.put("grant_type","janrain");
         map.put("client_id","mobile_android");
