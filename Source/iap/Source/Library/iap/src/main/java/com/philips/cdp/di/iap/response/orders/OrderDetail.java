@@ -42,7 +42,6 @@ public class OrderDetail implements Parcelable{
     private String created;
     private String deliveryStatus;
     private boolean guestCustomer;
-    private String ordertrackUrl;
     private String status;
     private String statusDisplay;
 
@@ -68,7 +67,6 @@ public class OrderDetail implements Parcelable{
         created = in.readString();
         deliveryStatus = in.readString();
         guestCustomer = in.readByte() != 0;
-        ordertrackUrl = in.readString();
         status = in.readString();
         statusDisplay = in.readString();
     }
@@ -88,7 +86,6 @@ public class OrderDetail implements Parcelable{
         dest.writeString(created);
         dest.writeString(deliveryStatus);
         dest.writeByte((byte) (guestCustomer ? 1 : 0));
-        dest.writeString(ordertrackUrl);
         dest.writeString(status);
         dest.writeString(statusDisplay);
     }
@@ -208,10 +205,6 @@ public class OrderDetail implements Parcelable{
 
     public boolean isGuestCustomer() {
         return guestCustomer;
-    }
-
-    public String getOrdertrackUrl() {
-        return ordertrackUrl;
     }
 
     public String getStatus() {
