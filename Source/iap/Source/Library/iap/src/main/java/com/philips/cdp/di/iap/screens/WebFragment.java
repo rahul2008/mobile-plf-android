@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
@@ -36,9 +37,8 @@ public abstract class WebFragment extends InAppBaseFragment {
         mParentContainer = (RelativeLayout) viewGroup.findViewById(R.id.iap_web_container);
         mWebView = (WebView) viewGroup.findViewById(R.id.wv_payment);
         mWebView.setWebViewClient(new IAPWebViewClient());
-        mWebView.getSettings().setJavaScriptEnabled(false);
+        mWebView.getSettings().setJavaScriptEnabled(isJavaScriptEnable());
         mWebView.getSettings().setSaveFormData(false);
-        Utility.isDelvieryFirstTimeUser=false;
         createCustomProgressBar(mParentContainer,BIG);
 
         mUrl = getWebUrl();
@@ -63,6 +63,8 @@ public abstract class WebFragment extends InAppBaseFragment {
         super.onPause();
         mWebView.onPause();
     }
+
+    protected abstract boolean isJavaScriptEnable();
 
     protected abstract String getWebUrl();
 

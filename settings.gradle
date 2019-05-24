@@ -36,9 +36,6 @@ include ext.strings.dccuapp.projectName
 //include ext.strings.ufwuapp.projectName
 include ext.strings.prguapp.projectName
 
-include ext.strings.pim.projectName
-include ext.strings.pimuapp.projectName
-
 //opa archive references:
 project(ext.strings.ail.projectName).projectDir = new File('./Source/ail/Source/Library/AppInfra')
 project(ext.strings.ailuapp.projectName).projectDir = new File('./Source/ail/Source/DemoUApp/')
@@ -66,18 +63,12 @@ project(ext.strings.sdb.projectName).projectDir = new File('./Source/sdb/Source/
 project(ext.strings.mya.projectName).projectDir = new File('./Source/mya/Source/Library/mya')
 project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/Library/pif')
 
-project(ext.strings.pimuapp.projectName).projectDir = new File('./Source/pim/Source/DemoUApp')
-project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/Library/pim')
-
 //demoapps to be published to artifactory
 //include ':UserRegistrationApp'
 //project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
-
-//include(':pimApp')
-//project(':pimApp').projectDir = new File('./Source/pim/Source/DemoApp/app')
-//include(':pimTestApp')
-//project(':pimTestApp').projectDir = new File('./Source/pim/Source/DemoApp/appTest')
+//include ':uidApp'
+//project(':uidApp').projectDir = new File('./Source/uid/Source/CatalogApp/app')
 //include ':uAppFwLibApp'
 //project(':uAppFwLibApp').projectDir = new File('./Source/ufw/Source/DemoApp/app')
 //demoapps NOT to be published to artifactory

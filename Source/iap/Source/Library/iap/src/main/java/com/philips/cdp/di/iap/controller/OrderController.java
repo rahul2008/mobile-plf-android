@@ -12,6 +12,8 @@ import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.model.ContactCallRequest;
 import com.philips.cdp.di.iap.model.OrderDetailRequest;
 import com.philips.cdp.di.iap.model.OrderHistoryRequest;
+import com.philips.cdp.di.iap.response.orders.Consignment;
+import com.philips.cdp.di.iap.response.orders.ConsignmentEntries;
 import com.philips.cdp.di.iap.prx.PRXSummaryListExecutor;
 import com.philips.cdp.di.iap.response.orders.Entries;
 import com.philips.cdp.di.iap.response.orders.OrderDetail;
@@ -35,8 +37,11 @@ public class OrderController implements AbstractModel.DataLoadListener {
 
     public interface OrderListener {
         void onGetOrderList(Message msg);
+
         void onGetOrderDetail(Message msg);
+
         void updateUiOnProductList();
+
         void onGetPhoneContact(Message msg);
     }
 
@@ -142,7 +147,44 @@ public class OrderController implements AbstractModel.DataLoadListener {
         productItem.setOrderCode(detail.getCode());
         productItem.setSubCategory(data.getSubcategory());
         productItem.setMarketingTextHeader(data.getMarketingTextHeader());
+        ConsignmentEntries entries = getEntriesFromConsignMent(detail, entry.getProduct().getCode());
+        productItem.setTrackOrderUrl(getOrderTrackUrl(entries));
         products.add(productItem);
+    }
+
+    public ConsignmentEntries getEntriesFromConsignMent(OrderDetail detail, String ctn) {
+        if (detail.getConsignments() == null) return null;
+        for (Consignment consignment : detail.getConsignments()) {
+            for (ConsignmentEntries entries : consignment.getEntries()) {
+                String consignmentCtn = entries.getOrderEntry().getProduct().getCode();
+                if (ctn.trim().equalsIgnoreCase(consignmentCtn.trim())) {
+                    return entries;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    public String getOrderTrackUrl(ConsignmentEntries entries) {
+        if (entries == null) return null;
+        if (isArrayNullOrEmpty(entries.getTrackAndTraceIDs()) || isArrayNullOrEmpty(entries.getTrackAndTraceUrls())) {
+            return null;
+        }
+        String trackAndTraceID = entries.getTrackAndTraceIDs().get(0);
+        String trackAndTraceUrl = entries.getTrackAndTraceUrls().get(0);
+        return getTrackUrl(trackAndTraceID, trackAndTraceUrl);
+    }
+
+    private String getTrackUrl(String trackAndTraceID, String trackAndTraceUrl) {
+        //sample URL
+        //{300068874=http:\/\/www.fedex.com\/Tracking?action=track&cntry_code=us&tracknumber_list=300068874}
+        String urlWithEndCurlyBrace = trackAndTraceUrl.replace("{" + trackAndTraceID + "=", "");
+        return urlWithEndCurlyBrace.replace("}", "");
+    }
+
+    private boolean isArrayNullOrEmpty(List traceIdOrTraceURL) {
+        return traceIdOrTraceURL == null || traceIdOrTraceURL.size() == 0;
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {
