@@ -10,7 +10,6 @@ public class ProductData {
     private int mQuantity;
     private String mFormatedPrice;
     private String mSubCategory;
-    private String mTrackOrderUrl;
 
     private String mMarketingTextHeader;
 
@@ -84,13 +83,5 @@ public class ProductData {
     }
     public void setMarketingTextHeader(String marketingTextHeader) {
         this.mMarketingTextHeader = marketingTextHeader;
-    }
-
-    public String getTrackOrderUrl() {
-        return mTrackOrderUrl;
-    }
-
-    public void setTrackOrderUrl(String mTrackOrderUrl) {
-        this.mTrackOrderUrl = mTrackOrderUrl;
     }
 }

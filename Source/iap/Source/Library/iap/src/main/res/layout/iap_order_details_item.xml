@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -78,20 +77,13 @@
 
         </LinearLayout>
 
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/arrow"
+            style="@style/iap_right_arrow_product_catalog"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
-
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/btn_track_order"
-        style="@style/iapCentralesansBookFont"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/border16_margin_left_right"
-        android:layout_marginRight="@dimen/border16_margin_left_right"
-        android:layout_marginTop="@dimen/border16_margin_left_right"
-        android:layout_marginBottom="@dimen/border16_margin_left_right"
-        android:text="@string/iap_track_order"
-        app:uidComponentType="Primary" />
 
     <View
         android:id="@+id/divider"
