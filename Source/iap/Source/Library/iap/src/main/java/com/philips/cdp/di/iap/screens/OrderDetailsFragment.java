@@ -67,7 +67,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     OrderDetail mOrderDetail;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
-    // private View mPaymentDivider;
     private TextView mShippingStatus;
     private LinearLayout mProductListView;
 
@@ -223,22 +222,23 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             ((TextView) productInfo.findViewById(R.id.tv_quantity)).setText(String.valueOf(product.getQuantity()));
             ((TextView) productInfo.findViewById(R.id.tv_total_price)).setText(product.getFormatedPrice());
             getNetworkImage(((NetworkImageView) productInfo.findViewById(R.id.iv_product_image)), product.getImageURL());
-            productInfo.setOnClickListener(new View.OnClickListener() {
+            Button trackOrderButton = productInfo.findViewById(R.id.btn_track_order);
+
+            if (product.getTrackOrderUrl() == null) {
+                trackOrderButton.setEnabled(false);
+            } else {
+                trackOrderButton.setEnabled(true);
+            }
+
+            trackOrderButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putString(IAPConstant.PRODUCT_TITLE, product.getProductTitle());
-                    bundle.putString(IAPConstant.PRODUCT_CTN, product.getCtnNumber());
-                    bundle.putString(IAPConstant.PRODUCT_PRICE, product.getFormatedPrice());
-                    // bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, product.getValuePrice());
-                    bundle.putString(IAPConstant.PRODUCT_OVERVIEW, product.getMarketingTextHeader());
-//                    bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
-//                    bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getmStockLevel());
-                    addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
+                    bundle.putString(IAPConstant.ORDER_TRACK_URL, product.getTrackOrderUrl());
+                    addFragment(WebTrackUrl.createInstance(bundle, AnimationType.NONE), null, true);
                 }
             });
         }
-        //     mProducts.add(product);
 
         int totalQuantity = 0;
         for (ProductData data : productList) {
@@ -251,11 +251,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     private void setProductSummary(ArrayList<ProductData> productList) {
         if (!productList.isEmpty()) {
-            ProductData data = productList.get(0);
-
             populateProductNameQuantityAndPrice(productList);
-
-            // tvPriceTotal.setText(data.getFormatedPrice());
         }
     }
 
@@ -278,7 +274,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         hideProgressBar();
         if (msg.obj instanceof ContactsResponse) {
             ContactsResponse contactsResponse = (ContactsResponse) msg.obj;
-            if(contactsResponse.getData()!=null) {
+            if (contactsResponse.getData() != null) {
                 mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
                 mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
                 mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
@@ -314,7 +310,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
                     bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
                     bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
-                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG,true);
+                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG, true);
                 }
             }
         }
@@ -389,7 +385,6 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             mShippingStatus.setText(getString(R.string.iap_order_completed_text_default));
         }
     }
-
 
 
     private int getDrawableIDFromOrderState(String statusString) {
