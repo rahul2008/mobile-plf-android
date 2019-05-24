@@ -27,6 +27,7 @@
         android:label="@string/ref_app_label"
         android:largeHeap="true"
         android:resizeableActivity="true"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
 
