@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,5 +54,12 @@ public class WebTrackUrlTest {
         webTrackUrl = WebTrackUrl.createInstance(null, InAppBaseFragment.AnimationType.NONE);
         webTrackUrl.getWebUrl();
         SupportFragmentController.of(webTrackUrl).create().start().resume();
+    }
+
+    @Test
+    public void shouldReturnJavaScriptEnableTrue() throws Exception {
+
+        webTrackUrl = WebTrackUrl.createInstance(null, InAppBaseFragment.AnimationType.NONE);
+        Assert.assertEquals(webTrackUrl.isJavaScriptEnable(),true);
     }
 }
