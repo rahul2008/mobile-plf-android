@@ -9,7 +9,9 @@ public class Consignment {
     private Address shippingAddress;
     private String status;
     private String statusDate;
-    private List<ConsignmentEntries> entries;
+//    private String trackingID;
+
+    private List<Entries> entries;
 
     public String getCode() {
         return code;
@@ -30,7 +32,13 @@ public class Consignment {
         return statusDate;
     }
 
-    public List<ConsignmentEntries> getEntries() {
+
+//    public String getTrackingID() {
+//        return trackingID;
+//    }
+
+
+    public List<Entries> getEntries() {
         return entries;
     }
 
