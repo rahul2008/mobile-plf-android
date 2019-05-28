@@ -15,6 +15,7 @@
         android:resizeableActivity="true"
         android:theme="@style/Theme.DLS"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup, android:label, android:supportsRtl, android:resizeableActivity">
 
         <activity

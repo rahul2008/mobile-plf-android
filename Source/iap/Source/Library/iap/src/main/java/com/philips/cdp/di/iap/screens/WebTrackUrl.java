@@ -13,6 +13,11 @@ public class WebTrackUrl extends WebFragment {
     public static final String TAG = WebTrackUrl.class.getName();
 
     @Override
+    protected boolean isJavaScriptEnable() {
+        return true;
+    }
+
+    @Override
     protected String getWebUrl() {
         Bundle bundle = getArguments();
         if(getArguments() == null){
