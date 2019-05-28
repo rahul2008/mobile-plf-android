@@ -21,7 +21,7 @@
                 style="@style/viewProductDetails_ProdImage"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
-
+                android:layout_alignParentStart="true"
                 android:visibility="gone" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -32,8 +32,8 @@
                 fontPath="fonts/centralesansbold.ttf"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="left"
-                android:paddingLeft="12dp"
-                android:layout_toRightOf="@id/productimage"
+                android:paddingStart="12dp"
+                android:layout_toEndOf="@id/productimage"
                 android:layout_alignParentTop="true"
                 android:textSize="@dimen/uid_navigation_bar_text_size"/>
 
@@ -45,9 +45,9 @@
                 android:id="@+id/variant"
                 android:layout_marginTop="8dp"
                 android:layout_gravity="left"
-                android:paddingLeft="12dp"
+                android:paddingStart="12dp"
                 android:layout_below="@id/name"
-                android:layout_toRightOf="@id/productimage"
+                android:layout_toEndOf="@id/productimage"
                 android:textSize="@dimen/uid_label_text_size"
                 android:lines="1" />
 

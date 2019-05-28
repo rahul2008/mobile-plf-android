@@ -17,23 +17,32 @@
             android:paddingLeft="@dimen/view_padding"
             android:paddingRight="@dimen/view_padding">
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/detailed_screen_productname"
-                style="@style/UIDLabel"
-                fontPath="fonts/centralesansbold.ttf"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dip"
-                android:textSize="20sp" />
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/detailed_screen_productctn"
-                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dip"
-                android:textSize="12sp" />
-
+                >
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/detailed_screen_productname"
+                    style="@style/UIDLabel"
+                    fontPath="fonts/centralesansbold.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dip"
+                    android:layout_alignParentStart="true"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+            <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/detailed_screen_productctn"
+                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dip"
+                    android:layout_alignParentStart="true"
+                    android:textSize="12sp" />
+            </RelativeLayout>
             <ImageView
                 android:id="@+id/detailed_screen_placeholder"
                 android:layout_width="wrap_content"
