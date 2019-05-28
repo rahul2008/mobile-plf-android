@@ -242,7 +242,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
         int strengthMedium = 2;
         int strengthWeak= 1;
-        //int stringthMeterNone = 5;
+        int strengthMeterNone = 0;
         int strengthMeterWeak = 33;
         int strengthMeterStrong = 100;
         int strengthMeterMedium = 66;
@@ -259,7 +259,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.weak_strength_progress,R.color.weak_strength_background,
                     R.drawable.reg_password_strength_weak, R.string.USR_InValid_PwdErrorMsg, false);
         } else {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.weak_strength_progress, R.color.weak_strength_background,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterNone, false, R.color.weak_strength_progress, R.color.weak_strength_background,
                     R.drawable.reg_password_strength_weak, R.string.USR_PasswordField_ErrorMsg, false);
         }
         return 0;
