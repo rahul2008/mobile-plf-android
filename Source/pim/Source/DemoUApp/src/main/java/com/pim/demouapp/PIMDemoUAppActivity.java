@@ -95,15 +95,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
                 pimInterface.launch(activityLauncher, launchInput);
             } else {
-                showToast("User is already login!");
+                showToast("hasUser is already login!");
             }
         } else if (v == btnLoginFragment) {
-            if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+            //if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
                 FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
                 pimInterface.launch(fragmentLauncher, launchInput);
-            } else {
-                showToast("User is already login!");
-            }
+//            } else {
+//                showToast("User is already login!");
+//            }
         } else if (v == btnLogout) {
             if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 pimInterface.getUserDataInterface().logoutSession(new LogoutSessionListener() {

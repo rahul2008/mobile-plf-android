@@ -2,6 +2,7 @@ package com.philips.platform.pim.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,8 +22,11 @@ import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
 
+import java.util.Formatter;
+
 import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
+import static com.philips.platform.pim.utilities.UserCustomClaims.USER_PROFILE_URL_STG;
 
 
 public class PIMFragment extends Fragment implements PIMLoginListener {
@@ -48,9 +52,10 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
 
         pimLoginProgreassBar = view.findViewById(R.id.pbPimRequest);
         PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
-        if (pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
+        if (pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login skipped, as user is already logged in");
-        else if (pimoidcConfigration == null)
+            launchLogOutPage();
+        } else if (pimoidcConfigration == null)
             mLoggingInterface.log(DEBUG, TAG, "Login is not initiated as OIDC configuration not found.");
         else {
             pimLoginProgreassBar.setVisibility(View.VISIBLE);
@@ -65,6 +70,20 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
             startActivityForResult(authReqIntent, 100);
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching login page failed.");
+        }
+    }
+
+    private void launchLogOutPage() {
+        StringBuilder url = new StringBuilder();
+        try {
+            Formatter fmt = new Formatter(url);
+            fmt.format(USER_PROFILE_URL_STG, new PIMOIDCConfigration().getClientId(),  PIMSettingManager.getInstance().getLocale());
+            Intent authReqIntent = new Intent(Intent.ACTION_VIEW);
+            authReqIntent.setData(Uri.parse(url.toString()));
+            startActivityForResult(authReqIntent, 200);
+        } catch (Exception ex) {
+            mLoggingInterface.log(DEBUG, TAG, "Launching user profile page failed."
+                    +" url: "+url+" exception: "+ex.getMessage());
         }
     }
 
