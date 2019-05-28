@@ -70,8 +70,8 @@ project(ext.strings.pimuapp.projectName).projectDir = new File('./Source/pim/Sou
 project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/Library/pim')
 
 //demoapps to be published to artifactory
-//include ':UserRegistrationApp'
-//project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
+include ':UserRegistrationApp'
+project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
 
 
 //include(':pimApp')

@@ -77,7 +77,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:enabled="true"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/USR_DLS_AddRecovery_AddRecovery_Button_Title"
                 app:uidProgressIndicatorButtonText="@string/USR_DLS_AddRecovery_AddRecovery_Button_Title" />
