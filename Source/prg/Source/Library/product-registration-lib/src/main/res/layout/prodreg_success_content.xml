@@ -11,8 +11,8 @@
         style="@style/UIDLabel.ProductRegistrationHeaderTitleTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginTop="@dimen/pr_margintop"
         android:text="@string/PRG_RegSuccess_Lbltxt"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
@@ -27,8 +27,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin">
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin">
 
         <ImageView
             android:id="@+id/success_background_image"
@@ -44,9 +44,9 @@
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/pr_registration_margin_left"
+            android:layout_marginStart="@dimen/pr_registration_margin_left"
             android:layout_marginTop="@dimen/fab_margin"
-            android:layout_toRightOf="@id/success_background_image"
+            android:layout_toEndOf="@id/success_background_image"
             android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
             android:textSize="@dimen/pr_connect_title_textsize"/>
 
@@ -57,9 +57,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/prg_product_title"
-            android:layout_marginLeft="@dimen/pr_registration_margin_left"
+            android:layout_marginStart="@dimen/pr_registration_margin_left"
             android:layout_marginTop="@dimen/pr_a_value_sm"
-            android:layout_toRightOf="@id/success_background_image"
+            android:layout_toEndOf="@id/success_background_image"
             android:textSize="@dimen/prg_serial_number_size"/>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -67,9 +67,9 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/prg_product_description"
                         android:layout_marginBottom="@dimen/fab_margin"
-                        android:layout_marginLeft="@dimen/pr_registration_margin_left"
+                        android:layout_marginStart="@dimen/pr_registration_margin_left"
                         android:layout_marginTop="@dimen/pr_a_value_sm"
-                        android:layout_toRightOf="@id/success_background_image">
+                        android:layout_toEndOf="@id/success_background_image">
 
 
             <ImageView
@@ -83,8 +83,8 @@
                 style="@style/UIDLabel.ProductRegistrationCtnTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/team_member_icon"
-                android:paddingLeft="@dimen/pr_b_value_sm"
+                android:layout_toEndOf="@id/team_member_icon"
+                android:paddingStart="@dimen/pr_b_value_sm"
                 android:text="@string/PRG_registered"
                 android:textSize="@dimen/pr_connect_title_textsize"/>
 
@@ -104,8 +104,8 @@
         style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginTop="@dimen/fab_margin"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
         android:textSize="@dimen/pr_connect_title_textsize"/>
@@ -115,8 +115,8 @@
         style="@style/UIDLabel.ProductRegistrationSubTitleTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginTop="@dimen/fab_margin"
         android:text="@string/prod_reg_success_conf_text"
         android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
@@ -127,8 +127,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/pr_margintop"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginTop="@dimen/fab_margin"
         android:text="@string/PRG_Continue"
         android:textAllCaps="false"/>

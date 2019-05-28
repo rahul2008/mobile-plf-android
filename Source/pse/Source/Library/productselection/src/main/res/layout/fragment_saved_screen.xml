@@ -53,31 +53,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/savedScreen_screen_child_one"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
-                    android:id="@+id/savedscreen_productname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    fontPath="fonts/centralesansbook.ttf"
-                    android:layout_marginTop="16dp"
-                    android:textSize="16sp"/>
+                <RelativeLayout android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel"
+                        android:id="@+id/savedscreen_productname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        fontPath="fonts/centralesansbook.ttf"
+                        android:layout_marginTop="16dp"
+                        android:layout_alignParentStart="true"
+                        android:textSize="16sp"/>
+                </RelativeLayout>
 
-                <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-                    android:id="@+id/savedscreen_productvariant"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dip"
-                    android:layout_below="@id/savedscreen_productname"
-                    android:textSize="12sp"
-                    android:text="hhhhhi"
-                    fontPath="fonts/centralesanslight.ttf" />
-
+                <RelativeLayout android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                        android:id="@+id/savedscreen_productvariant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dip"
+                        android:layout_below="@id/savedscreen_productname"
+                        android:textSize="12sp"
+                        android:layout_alignParentStart="true"
+                        fontPath="fonts/centralesanslight.ttf" />
+                </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

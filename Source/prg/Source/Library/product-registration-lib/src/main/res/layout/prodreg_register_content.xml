@@ -14,21 +14,26 @@
         android:layout_marginTop="@dimen/pr_margintop"
         android:visibility="gone"/>
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/prg_registerScreen_ctn_label"
-        style="@style/UIDLabel.ProductRegistrationCtnTheme"
+    <RelativeLayout
+        android:id="@+id/prg_registerScreen_ctn_label_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/prg_registerScreen_productTitle_label"
-        android:visibility="gone"/>
-
+        android:layout_below="@+id/prg_registerScreen_productTitle_label">
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/prg_registerScreen_ctn_label"
+            style="@style/UIDLabel.ProductRegistrationCtnTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/prg_registerScreen_product_image_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/prg_registerScreen_ctn_label"
+        android:layout_below="@+id/prg_registerScreen_ctn_label_relativelayout"
         android:layout_marginBottom="@dimen/pr_c_value_sm"
         android:layout_marginTop="@dimen/pr_margintop">
 
