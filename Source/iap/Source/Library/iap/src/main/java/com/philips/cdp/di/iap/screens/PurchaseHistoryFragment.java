@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,10 +31,13 @@ import com.philips.cdp.di.iap.response.orders.ProductData;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.session.RequestCode;
+import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +68,13 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
         setCartIconVisibility(false);
+
+        if (mOrders.isEmpty()) {
+            updateHistoryListOnResume();
+        }else
+        {
+            hideProgressBar();
+        }
     }
 
     @Override
@@ -74,20 +85,12 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
 
         mOrderHistoryView = rootView.findViewById(R.id.order_history);
         mParentLayout = rootView.findViewById(R.id.order_history_container);
-        createCustomProgressBar(mParentLayout,BIG);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mOrderHistoryView.setLayoutManager(layoutManager);
 
         mAdapter = new OrderHistoryAdapter(mContext, mOrders, mProducts);
         mOrderHistoryView.setAdapter(mAdapter);
         mOrderHistoryView.addOnScrollListener(mRecyclerViewOnScrollListener);
-        if (mOrders.isEmpty()) {
-            updateHistoryListOnResume();
-        }else
-        {
-            hideProgressBar();
-        }
-
         return rootView;
     }
 
@@ -114,13 +117,22 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     }
 
     private void updateHistoryListOnResume() {
-        mController = new OrderController(mContext, this);
-        mController.getOrderList(mPageNo);
+        if(isUserLoggedIn()){
+            createCustomProgressBar(mParentLayout,BIG);
+            mController = new OrderController(mContext, this);
+            mController.getOrderList(mPageNo);
+        }else{
+            if(mIapListener!=null){
+                mIapListener.onFailure(IAPConstant.IAP_ERROR_USER_NOT_LOGGED_IN);
+            }
+            moveToVerticalAppByClearingStack();
+        }
     }
 
     @Override
     public void onGetOrderList(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
+            hideProgressBar();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             if (msg.what == RequestCode.GET_ORDERS) {
@@ -156,7 +168,6 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onGetOrderDetail(Message msg) {
         mOrderCount++;
         if (msg.obj instanceof IAPNetworkError) {
-            //          NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             IAPLog.d(TAG, ((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {

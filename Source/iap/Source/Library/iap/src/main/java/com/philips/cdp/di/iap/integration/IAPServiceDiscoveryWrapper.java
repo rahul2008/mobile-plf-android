@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class IAPServiceDiscoveryWrapper {
+    public static final String COMPLETE_PRODUCT_LIST = "completeProductList";
     private IAPSettings mIAPSettings;
     private ArrayList<String> listOfServiceId;
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
@@ -77,7 +78,7 @@ public class IAPServiceDiscoveryWrapper {
                         mIAPSettings.setHostPort(configUrls + "/");
                         mIAPSettings.setProposition(loadConfigParams());
                         pIAPHandler.initControllerFactory();
-                        if (entry.equalsIgnoreCase("completeProductList"))
+                        if (entry.equalsIgnoreCase(COMPLETE_PRODUCT_LIST))
 
                             try {
                                 pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);

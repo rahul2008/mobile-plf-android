@@ -335,7 +335,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        mIapInterface.getProductCartCount(this);
+       // mIapInterface.getProductCartCount(this);
     }
 
     @Override
@@ -370,25 +370,27 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);
+
+
+        mCartIcon.setVisibility(View.VISIBLE);
+        mCountText.setVisibility(View.VISIBLE);
+        mShopNow.setVisibility(View.VISIBLE);
+        mShopNow.setEnabled(true);
+        mPurchaseHistory.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setEnabled(true);
+        mShoppingCart.setVisibility(View.VISIBLE);
+
+        dismissProgressDialog();
+        mIapInterface.getProductCartCount(this);
+
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
             mCountText.setVisibility(View.VISIBLE);
-           /* try {
-                mIapInterface.getCompleteProductList(this);
-            } catch (RuntimeException e) {
-
-            }*/
-            mShopNow.setVisibility(View.VISIBLE);
-            mShopNow.setEnabled(true);
-            mPurchaseHistory.setVisibility(View.VISIBLE);
-            mPurchaseHistory.setEnabled(true);
             mShoppingCart.setVisibility(View.VISIBLE);
             mIapInterface.getProductCartCount(this);
         } else {
             mCartIcon.setVisibility(View.GONE);
             mCountText.setVisibility(View.GONE);
-            mShopNow.setVisibility(View.GONE);
-            mPurchaseHistory.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);
             dismissProgressDialog();
         }
@@ -606,6 +608,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             errorText = "Authentication failure";
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
+        }else if (IAPConstant.IAP_ERROR_USER_NOT_LOGGED_IN == errorCode) {
+            errorText = "User is not logged In";
         }
         if (errorText != null) {
             Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);

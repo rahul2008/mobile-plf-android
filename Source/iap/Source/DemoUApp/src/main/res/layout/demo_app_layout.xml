@@ -238,9 +238,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_register"
         android:layout_marginTop="2dp"
-        android:enabled="false"
         android:text="@string/order_history"
-        android:visibility="gone" />
+        />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/btn_shop_now"
@@ -248,9 +247,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_purchase_history"
         android:layout_marginTop="2dp"
-        android:enabled="false"
         android:text="@string/shop_now"
-        android:visibility="gone" />
+         />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/btn_launch_product_detail"
@@ -259,7 +257,7 @@
         android:layout_above="@id/btn_shop_now"
         android:layout_marginTop="2dp"
         android:text="@string/launch_product_detail"
-        android:visibility="gone" />
+        />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/btn_categorized_shop_now"
@@ -268,7 +266,7 @@
         android:layout_above="@id/btn_launch_product_detail"
         android:layout_marginTop="2dp"
         android:text="@string/categorized_shop_now"
-        android:visibility="gone" />
+         />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/btn_buy_direct"
@@ -278,7 +276,7 @@
         android:layout_marginTop="2dp"
         android:enabled="false"
         android:text="@string/buy_direct"
-        android:visibility="gone" />
+         />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/btn_categorized_shop_now_with_ignore_retailer"
@@ -287,7 +285,7 @@
         android:layout_above="@id/btn_categorized_shop_now"
         android:layout_marginTop="2dp"
         android:text="@string/categorized_shop_now_ignore_retailer"
-        android:visibility="gone" />
+         />
 
 
 </RelativeLayout>

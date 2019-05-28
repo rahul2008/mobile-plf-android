@@ -425,8 +425,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         } else {
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
-            setCartIconVisibility(true);
-            mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
+
+            if(isUserLoggedIn()) {
+                setCartIconVisibility(true);
+                mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
+            }else{
+                setCartIconVisibility(false);
+            }
         }
         mBuyFromRetailers.setOnClickListener(this);
         mBuyFromRetailers.setVisibility(View.VISIBLE);

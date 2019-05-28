@@ -159,6 +159,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mEmptyCatalogText.setVisibility(View.VISIBLE);
             mSearchBox.setVisibility(View.GONE);
         }
+        mBundle = getArguments();
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
             displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         }
@@ -208,8 +209,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
 
-        mBundle = getArguments();
-
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
 
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
@@ -228,8 +227,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, true);
         if (!ControllerFactory.getInstance().isPlanB()) {
-            setCartIconVisibility(true);
-            mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
+            if(isUserLoggedIn()) {
+                setCartIconVisibility(true);
+                mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
+            }else{
+                setCartIconVisibility(false);
+            }
         }
 
         mAdapter.tagProducts();
@@ -310,7 +313,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             updateProductCatalogList(dataFetched);
             mAdapter.notifyDataSetChanged();
             mAdapter.tagProducts();
-
+            hideProgressBar();
             mIapListener.onSuccess();
 
 
@@ -325,7 +328,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mTotalPages = paginationEntity.getTotalPages();
             mIsLoading = false;
 
-            hideProgressBar();
+
         } else {
             onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                     ("", mContext.getString(R.string.iap_no_product_available)));
