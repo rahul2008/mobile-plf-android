@@ -135,9 +135,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mSearchBox = rootView.findViewById(R.id.iap_search_box);
         mBannerLayout = rootView.findViewById(R.id.ll_banner_place_holder);
 
-        if(IAPUtility.getInstance().getBannerView()!=null){
-            if(IAPUtility.getInstance().getBannerView().getParent()!=null){
-                ((ViewGroup)IAPUtility.getInstance().getBannerView().getParent()).removeAllViews();
+        if (IAPUtility.getInstance().getBannerView() != null) {
+            if (IAPUtility.getInstance().getBannerView().getParent() != null) {
+                ((ViewGroup) IAPUtility.getInstance().getBannerView().getParent()).removeAllViews();
             }
             mBannerLayout.addView(IAPUtility.getInstance().getBannerView());
             mBannerLayout.setVisibility(View.VISIBLE);
@@ -160,7 +160,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mSearchBox.setVisibility(View.GONE);
         }
         mBundle = getArguments();
-        if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
+        if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null && CartModelContainer.getInstance().getProductList()!=null && CartModelContainer.getInstance().getProductList().size()!=0) {
             displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         }
         return rootView;
@@ -211,26 +211,22 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
 
-        if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-            return;
+        if (!isLocalData &&
+                CartModelContainer.getInstance().getProductList() != null
+                && CartModelContainer.getInstance().getProductList().size() != 0) {
+            onLoadFinished(getCachedProductList(), null);
         } else {
-            if (!isLocalData &&
-                    CartModelContainer.getInstance().getProductList() != null
-                    && CartModelContainer.getInstance().getProductList().size() != 0) {
-                onLoadFinished(getCachedProductList(), null);
-            } else {
-                fetchProductList();
-            }
+            fetchProductList();
         }
 
         IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
 
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, true);
         if (!ControllerFactory.getInstance().isPlanB()) {
-            if(isUserLoggedIn()) {
+            if (isUserLoggedIn()) {
                 setCartIconVisibility(true);
                 mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
-            }else{
+            } else {
                 setCartIconVisibility(false);
             }
         }
@@ -307,9 +303,28 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched,
+    public void onLoadFinished(ArrayList<ProductCatalogData> dataFetched,
                                PaginationEntity paginationEntity) {
         if (dataFetched.size() > 0) {
+
+            if (mBundle != null) {
+                ArrayList<String> stringArrayList = mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
+                if (stringArrayList != null && stringArrayList.size() != 0) {
+                    ArrayList<ProductCatalogData> productCatalogList = new ArrayList<>();
+                    CartModelContainer container = CartModelContainer.getInstance();
+                    for (String ctn : stringArrayList) {
+                        if (container.isProductCatalogDataPresent(ctn)) {
+                            productCatalogList.add(container.getProduct(ctn));
+                        }
+                    }
+                    dataFetched = productCatalogList;
+                    if(dataFetched.size()==0){
+                        onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                                ("", mContext.getString(R.string.iap_no_product_available)));
+                        return;
+                    }
+                }
+            }
             updateProductCatalogList(dataFetched);
             mAdapter.notifyDataSetChanged();
             mAdapter.tagProducts();
