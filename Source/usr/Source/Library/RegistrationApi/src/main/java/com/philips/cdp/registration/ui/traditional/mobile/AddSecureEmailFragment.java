@@ -81,8 +81,13 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
             isValidEmail = valid;
             if(valid){
                 addRecoveryEmailButton.setEnabled(true);
+                if(!rl_reg_securedata_email_field_inputValidation.isShowingError())
+                    rl_reg_securedata_email_field_inputValidation.hideError();
             }else{
                 addRecoveryEmailButton.setEnabled(false);
+                rl_reg_securedata_email_field_inputValidation.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
+                if(!rl_reg_securedata_email_field_inputValidation.isShowingError())
+                    rl_reg_securedata_email_field_inputValidation.showError();
             }
             return 0;
         }
