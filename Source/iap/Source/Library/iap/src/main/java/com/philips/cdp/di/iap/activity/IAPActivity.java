@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -304,6 +305,7 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
 
     @Override
     public void onFailure(int errorCode) {
+        Toast.makeText(this,"Error :"+errorCode ,Toast.LENGTH_LONG).show();
         dismissProgressDialog();
     }
 

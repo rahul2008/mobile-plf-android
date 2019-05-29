@@ -236,7 +236,11 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     public void setCartIconVisibility(final boolean shouldShow) {
         if (mIapListener != null) {
-            mIapListener.updateCartIconVisibility(shouldShow);
+            if(isUserLoggedIn()) {
+                mIapListener.updateCartIconVisibility(shouldShow);
+            }else{
+                mIapListener.updateCartIconVisibility(false);
+            }
         }
     }
 

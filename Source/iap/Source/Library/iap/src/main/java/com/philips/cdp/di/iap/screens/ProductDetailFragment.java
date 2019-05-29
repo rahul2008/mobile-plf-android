@@ -24,7 +24,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -53,14 +52,12 @@ import com.philips.cdp.di.iap.stock.IAPStockAvailabilityHelper;
 import com.philips.cdp.di.iap.utils.AlertListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.Disclaimer;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
-import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -425,13 +422,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         } else {
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
-
-            if(isUserLoggedIn()) {
-                setCartIconVisibility(true);
-                mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
-            }else{
-                setCartIconVisibility(false);
-            }
+            setCartIconVisibility(true);
+            if(isUserLoggedIn())
+            mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
         mBuyFromRetailers.setOnClickListener(this);
         mBuyFromRetailers.setVisibility(View.VISIBLE);
@@ -507,11 +500,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     void buyProduct(final String ctnNumber) {
-        if (!mAddToCart.isActivated()) {
-            mAddToCart.showProgressIndicator();
-        }
 
-        if(IAPUtility.getInstance().getUserDataInterface() != null && IAPUtility.getInstance().getUserDataInterface().getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
+        if(isUserLoggedIn()) {
+            if (!mAddToCart.isActivated()) {
+                mAddToCart.showProgressIndicator();
+            }
             mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener);
         }else{
             showLogInDialog();
@@ -880,10 +873,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void showLogInDialog(){
 
-        new NetworkUtility().showDialogMessage("You are not Logged In", "Please Log-In to proceed", getFragmentManager(), getContext(), new AlertListener() {
+        new NetworkUtility().showDialogMessage(getContext().getString(R.string.iap_shopping_cart_dls), "Please Register or Login to easily order your products", getFragmentManager(), getContext(), new AlertListener() {
             @Override
             public void onPositiveBtnClick() {
-                moveToVerticalAppByClearingStack();
+                new NetworkUtility().dismissErrorDialog();
             }
 
             @Override

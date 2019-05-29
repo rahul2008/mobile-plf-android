@@ -223,12 +223,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, true);
         if (!ControllerFactory.getInstance().isPlanB()) {
-            if (isUserLoggedIn()) {
-                setCartIconVisibility(true);
-                mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
-            } else {
-                setCartIconVisibility(false);
-            }
+            setCartIconVisibility(true);
+            if(isUserLoggedIn())
+            mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
 
         mAdapter.tagProducts();
