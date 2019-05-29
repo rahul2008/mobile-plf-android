@@ -24,7 +24,7 @@
         android:layout_marginLeft="@dimen/border8_margin"
         android:layout_marginRight="@dimen/border8_margin"
         android:weightSum="1"
-        android:visibility="gone">
+        >
 
         <com.philips.platform.uid.view.widget.EditText
             android:layout_weight="0.75"
@@ -45,7 +45,6 @@
         android:id="@+id/ll_voucher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_below="@id/ll_ctn"
         android:weightSum="1"
         android:layout_marginLeft="@dimen/border8_margin"

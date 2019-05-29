@@ -283,14 +283,13 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initializeIAPComponant() {
         toggleHybris.setVisibility(View.VISIBLE);
-        showProgressDialog();
         initIAP();
 
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mRegister.setText(this.getString(R.string.log_out));
         } else {
             mRegister.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -329,13 +328,23 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void displayUIOnCartVisible() {
-        mIapInterface.isCartVisible(this);
+        if(isUserLoggedIn()) {
+            showProgressDialog();
+            mIapInterface.isCartVisible(this);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-       // mIapInterface.getProductCartCount(this);
+        if(isUserLoggedIn()) {
+
+            try {
+                mIapInterface.getProductCartCount(this);
+            }catch (Exception e){
+
+            }
+        }
     }
 
     @Override
@@ -827,5 +836,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             return v;
         }
         return null;
+    }
+
+    boolean isUserLoggedIn(){
+        return  mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
     }
 }
