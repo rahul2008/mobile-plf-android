@@ -1,5 +1,5 @@
 
-package com.philips.platform.pimdemo;
+package com.philips.platform.referenceapp;
 
 import android.app.Application;
 import android.content.Context;

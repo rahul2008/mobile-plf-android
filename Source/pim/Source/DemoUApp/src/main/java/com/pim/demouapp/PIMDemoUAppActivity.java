@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -27,14 +31,18 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
-    final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    Button btnLoginActivity, btnLoginFragment, btnLogout;
-    Switch aSwitch;
-    PIMInterface pimInterface;
+    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession;
+    private Switch aSwitch;
+    private PIMInterface pimInterface;
+    private Spinner spinnerCountrySelection;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,13 +52,23 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
         Label appversion = findViewById(R.id.appversion);
         appversion.setText("Version : " + BuildConfig.VERSION_NAME);
+
         btnLoginActivity = findViewById(R.id.btn_login_activity);
         btnLoginActivity.setOnClickListener(this);
-        btnLoginFragment = findViewById(R.id.btn_login_fragment);
-        btnLoginFragment.setOnClickListener(this);
+        btnRegistration = findViewById(R.id.btn_Registration);
+        btnRegistration.setOnClickListener(this);
         btnLogout = findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
+        btnRefreshSession = findViewById(R.id.btn_Registration);
+        btnRefreshSession.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
+
+        spinnerCountrySelection = findViewById(R.id.spinner_CountrySelection);
+        List<String> countryList = new ArrayList<>();
+        countryList.add("Netherland");
+        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,countryList);
+        spinnerCountrySelection.setAdapter(arrayAdapter);
+
         AppInfraInterface appInfraInterface = PIMDemoUAppInterface.mAppInfra;
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -97,7 +115,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is already login!");
             }
-        } else if (v == btnLoginFragment) {
+        } else if (v == btnRegistration) {
             if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
                 FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
                 pimInterface.launch(fragmentLauncher, launchInput);
@@ -121,6 +139,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
+        } else if(v == btnRefreshSession){
+
         }
     }
 

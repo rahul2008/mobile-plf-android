@@ -128,6 +128,7 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
+        applicationId 'com.philips.apps.referenceapp'
         versionCode 1
         versionName version + "(" + commitHash + ")"
         vectorDrawables.useSupportLibrary = true
@@ -135,7 +136,7 @@ android {
         renderscriptSupportModeEnabled true
         multiDexEnabled true
         manifestPlaceholders = [
-                appAuthRedirectScheme: 'com.philips.apps.pimdemoapp'
+                appAuthRedirectScheme: 'com.philips.apps.referenceapp'
         ]
     }
 
