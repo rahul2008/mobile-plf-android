@@ -670,6 +670,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onSuccess() {
+        dismissProgressDialog();
     }
 
     @Override

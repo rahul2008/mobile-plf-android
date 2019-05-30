@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -129,6 +130,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification
                 (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
 
         final View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
@@ -160,9 +162,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mSearchBox.setVisibility(View.GONE);
         }
         mBundle = getArguments();
-        if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null && CartModelContainer.getInstance().getProductList()!=null && CartModelContainer.getInstance().getProductList().size()!=0) {
-            displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
-        }
         return rootView;
     }
 
@@ -224,8 +223,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, true);
         if (!ControllerFactory.getInstance().isPlanB()) {
             setCartIconVisibility(true);
-            if(isUserLoggedIn())
-            mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
+            if (isUserLoggedIn())
+                mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
 
         mAdapter.tagProducts();
@@ -235,6 +234,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL))) {
             launchProductDetailFragment();
+        } else if(event.equals(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED))){
+            mIsLoading = false;
+            hideProgressBar();
+            onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                    ("", mContext.getString(R.string.iap_no_product_available)));
         }
     }
 
@@ -264,6 +268,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification
                 (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
+        EventHelper.getInstance().unregisterEventNotification
+                (String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
     }
 
     @Override
@@ -285,8 +291,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mPresenter = ControllerFactory.getInstance().
                     getProductCatalogPresenter(mContext, this);
 
-        if (!mPresenter.getProductCatalog(mCurrentPage++, page_size, null)) {
-            mIsProductsAvailable = false;
+        if(ControllerFactory.getInstance().isPlanB() && isCategorizedFlow()){
+            mPresenter.getCategorizedProductList(getCategorizedCTNs());
+        }else{
+            if (!mPresenter.getProductCatalog(mCurrentPage++, page_size, null)) {
+                mIsProductsAvailable = false;
+            }
         }
 
     }
@@ -304,28 +314,16 @@ public class ProductCatalogFragment extends InAppBaseFragment
                                PaginationEntity paginationEntity) {
         if (dataFetched.size() > 0) {
 
-            if (mBundle != null) {
-                ArrayList<String> stringArrayList = mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
-                if (stringArrayList != null && stringArrayList.size() != 0) {
-                    ArrayList<ProductCatalogData> productCatalogList = new ArrayList<>();
-                    CartModelContainer container = CartModelContainer.getInstance();
-                    for (String ctn : stringArrayList) {
-                        if (container.isProductCatalogDataPresent(ctn)) {
-                            productCatalogList.add(container.getProduct(ctn));
-                        }
-                    }
-                    dataFetched = productCatalogList;
-                    if(dataFetched.size()==0){
-                        onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
-                                ("", mContext.getString(R.string.iap_no_product_available)));
-                        return;
-                    }
-                }
+            if (isCategorizedFlow()) {
+                dataFetched = handleCategorizedFlow();
+                hideProgressBar();
+                if (dataFetched == null) return;
             }
+
+
             updateProductCatalogList(dataFetched);
             mAdapter.notifyDataSetChanged();
             mAdapter.tagProducts();
-            hideProgressBar();
             mIapListener.onSuccess();
 
 
@@ -339,12 +337,30 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mCurrentPage = paginationEntity.getCurrentPage();
             mTotalPages = paginationEntity.getTotalPages();
             mIsLoading = false;
-
-
+            hideProgressBar();
         } else {
             onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                     ("", mContext.getString(R.string.iap_no_product_available)));
         }
+    }
+
+    @Nullable
+    private ArrayList<ProductCatalogData> handleCategorizedFlow() {
+        ArrayList<ProductCatalogData> dataFetched;
+        ArrayList<ProductCatalogData> productCatalogList = new ArrayList<>();
+        CartModelContainer container = CartModelContainer.getInstance();
+        for (String ctn : getCategorizedCTNs()) {
+            if (container.isProductCatalogDataPresent(ctn)) {
+                productCatalogList.add(container.getProduct(ctn));
+            }
+        }
+        dataFetched = productCatalogList;
+        if (dataFetched.size() == 0) {
+            onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                    ("", mContext.getString(R.string.iap_no_product_available)));
+            return null;
+        }
+        return dataFetched;
     }
 
     @Override
@@ -438,6 +454,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
     @Override
     public void onStop() {
         mSearchBox.setSearchCollapsed(true);
+        mProductCatalog.clear();
+        resetAdapter();
         super.onStop();
     }
 
@@ -446,4 +464,14 @@ public class ProductCatalogFragment extends InAppBaseFragment
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
     }
+
+    boolean isCategorizedFlow() {
+        return mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS).size() != 0;
+    }
+
+    ArrayList<String> getCategorizedCTNs() {
+        return mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
+    }
+
+
 }

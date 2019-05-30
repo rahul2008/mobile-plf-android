@@ -275,6 +275,7 @@
         android:layout_marginTop="2dp"
         android:enabled="false"
         android:text="@string/buy_direct"
+        android:visibility="gone"
          />
 
     <com.philips.platform.uid.view.widget.Button

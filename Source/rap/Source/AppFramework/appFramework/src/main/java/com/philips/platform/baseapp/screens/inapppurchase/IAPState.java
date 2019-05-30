@@ -195,6 +195,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     @Override
     public void onSuccess() {
+        ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
     }
 
     @Override
