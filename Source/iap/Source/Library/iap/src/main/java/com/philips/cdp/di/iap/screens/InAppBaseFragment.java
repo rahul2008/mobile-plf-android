@@ -340,6 +340,6 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
     protected boolean isUserLoggedIn(){
-        return  IAPUtility.getInstance().getUserDataInterface() != null && IAPUtility.getInstance().getUserDataInterface().getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal() ;
+        return  IAPUtility.getInstance().getUserDataInterface() != null && IAPUtility.getInstance().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
     }
 }
