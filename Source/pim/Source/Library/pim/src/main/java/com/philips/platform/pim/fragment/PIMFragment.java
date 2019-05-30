@@ -26,7 +26,6 @@ import java.util.Formatter;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
-import static com.philips.platform.pim.utilities.UserCustomClaims.USER_PROFILE_URL_STG;
 
 
 public class PIMFragment extends Fragment implements PIMLoginListener {
@@ -54,7 +53,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
         if (pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login skipped, as user is already logged in");
-            launchLogOutPage();
+            launchUserProfilePage();
         } else if (pimoidcConfigration == null)
             mLoggingInterface.log(DEBUG, TAG, "Login is not initiated as OIDC configuration not found.");
         else {
@@ -73,7 +72,11 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         }
     }
 
-    private void launchLogOutPage() {
+    private void launchUserProfilePage() {
+
+        //TODO : Temp:  The url will be uploaded and fetched from Service Discovery
+        final String USER_PROFILE_URL_STG = "https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/auth-ui/profile?client_id=%s&ui_locales=%s";
+
         StringBuilder url = new StringBuilder();
         try {
             Formatter fmt = new Formatter(url);
