@@ -58,6 +58,7 @@
                 android:id="@+id/rl_reg_securedata_email_field_inputValidation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_dimen_16dp"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="inline_error_message">
 
@@ -65,7 +66,6 @@
                     android:id="@+id/rl_reg_securedata_email_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_dimen_24dp"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     app:uidInputTextBorderWidth="@dimen/uid_edittext_stroke_width"
@@ -77,7 +77,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_dimen_8dp"
-                android:enabled="true"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonProgressText="@string/USR_DLS_AddRecovery_AddRecovery_Button_Title"
                 app:uidProgressIndicatorButtonText="@string/USR_DLS_AddRecovery_AddRecovery_Button_Title" />
