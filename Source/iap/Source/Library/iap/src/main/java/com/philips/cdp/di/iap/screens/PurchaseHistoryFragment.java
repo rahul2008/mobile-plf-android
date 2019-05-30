@@ -123,7 +123,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
             mController.getOrderList(mPageNo);
         }else{
             if(mIapListener!=null){
-                mIapListener.onFailure(IAPConstant.IAP_ERROR_USER_NOT_LOGGED_IN);
+                mIapListener.onFailure(IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE);
             }
             moveToVerticalAppByClearingStack();
         }

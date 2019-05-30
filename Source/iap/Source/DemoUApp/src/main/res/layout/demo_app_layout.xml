@@ -145,7 +145,7 @@
             android:enabled="true"
             android:checked="true"
             android:textOff="Hybris OFF"
-            android:textOn="Hybbris ON"
+            android:textOn="Hybris ON"
             android:textSize="15sp" />
         <ToggleButton
             android:layout_weight="1"
@@ -284,6 +284,7 @@
         android:layout_above="@id/btn_categorized_shop_now"
         android:layout_marginTop="2dp"
         android:text="@string/categorized_shop_now_ignore_retailer"
+        android:visibility="gone"
          />
 
 

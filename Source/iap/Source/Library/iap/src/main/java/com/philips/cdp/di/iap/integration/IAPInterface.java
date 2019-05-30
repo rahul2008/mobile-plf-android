@@ -76,7 +76,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()){
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "productCartCount");
        } else {
-            iapListener.onFailure(IAPConstant.IAP_ERROR_USER_NOT_LOGGED_IN);
+            iapListener.onFailure(IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE);
         }
     }
 
@@ -104,7 +104,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
              mIapServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(iapListener, mIAPHandler);
         } else {
             iapListener.onSuccess(false);
-            iapListener.onFailure(IAPConstant.IAP_ERROR_USER_NOT_LOGGED_IN);
+            iapListener.onFailure(IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE);
         }
 
     }

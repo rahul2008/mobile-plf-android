@@ -617,8 +617,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             errorText = "Authentication failure";
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
-        }else if (IAPConstant.IAP_ERROR_USER_NOT_LOGGED_IN == errorCode) {
-            errorText = "User is not logged In";
         }
         if (errorText != null) {
             Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
