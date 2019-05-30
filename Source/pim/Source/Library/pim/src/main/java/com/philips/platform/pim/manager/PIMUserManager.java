@@ -9,7 +9,9 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
 import com.philips.platform.pim.rest.LogoutRequest;
@@ -34,11 +36,14 @@ public class PIMUserManager {
     private PIMRestClient pimRestClient;
     private String userInfoKey;
     private String authStateKey;
+    private  PIMAuthManager pimAuthManager ;
+
 
     public void init(Context context, AppInfraInterface appInfraInterface) {
         //get Secure Storage user profile
         this.context = context;
         this.appInfraInterface = appInfraInterface;
+        pimAuthManager = new PIMAuthManager(context);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         String subid = getSubIDFromPref();
         if (subid != null) {
@@ -51,18 +56,20 @@ public class PIMUserManager {
     }
 
 
-    void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
+    public void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState);
         pimRestClient.invokeRequest(userProfileRequest, response -> {
-            authState = oidcAuthState; //TODO: Shashi, Do we really need this. check impact?
+            authState = oidcAuthState;
             pimoidcUserProfile = new PIMOIDCUserProfile(response, authState);
             saveSubIDToPreference(response);
             storeUserProfileToSecureStorage(response);
             storeAuthStateToSecureStorage(response, oidcAuthState);
-            userProfileRequestListener.onUserProfileDownloadSuccess();
+            if (userProfileRequestListener != null)
+                userProfileRequestListener.onUserProfileDownloadSuccess();
         }, error -> {
-            userProfileRequestListener.onUserProfileDownloadFailed(new Error(Error.UserDetailError.NetworkError));
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
+            if (userProfileRequestListener != null)
+                userProfileRequestListener.onUserProfileDownloadFailed(new Error(Error.UserDetailError.NetworkError));
         });
     }
 
@@ -175,17 +182,31 @@ public class PIMUserManager {
         return pimoidcUserProfile;
     }
 
+    public void refreshSession(RefreshSessionListener refreshSessionListener) {
+       pimAuthManager.refreshToken( authState, new PIMTokenRequestListener() {
+            @Override
+            public void onTokenRequestSuccess() {
+                refreshSessionListener.refreshSessionSuccess();
+            }
+
+            @Override
+            public void onTokenRequestFailed(Error error) {
+                refreshSessionListener.refreshSessionFailed(error);
+            }
+        });
+    }
 
     public void logoutSession(LogoutSessionListener logoutSessionListener) {
         String clientID = new PIMOIDCConfigration().getClientId();
-        LogoutRequest logoutRequest = new LogoutRequest(authState,clientID);
+        LogoutRequest logoutRequest = new LogoutRequest(authState, clientID);
         pimRestClient.invokeRequest(logoutRequest, response -> {
-            logoutSessionListener.logoutSessionSuccess();
+            pimAuthManager.dispose(context);
             appInfraInterface.getSecureStorage().removeValueForKey(userInfoKey);
             appInfraInterface.getSecureStorage().removeValueForKey(authStateKey);
             removeSubIDFromPref();
             authState = null;
             pimoidcUserProfile = null;
+            logoutSessionListener.logoutSessionSuccess();
         }, error -> {
             logoutSessionListener.logoutSessionFailed(new Error(Error.UserDetailError.NetworkError));
         });

@@ -9,6 +9,7 @@ import com.adobe.mobile.Analytics;
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.utilities.UserCustomClaims;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
@@ -22,7 +23,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 
 
 //TODO: Shashi,Handle backend issues in test case(Such as invalid client id)
-public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownloadListener {
+public class PIMLoginManager implements PIMUserProfileDownloadListener {
     private String TAG = PIMLoginManager.class.getSimpleName();
     private PIMOIDCConfigration mPimoidcConfigration;
     private PIMAuthManager mPimAuthManager;
@@ -30,22 +31,33 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
     private PIMLoginListener mPimLoginListener;
     private AppTaggingInterface mTaggingInterface;
 
-    public PIMLoginManager(PIMOIDCConfigration pimoidcConfigration) {
+    public PIMLoginManager(Context context,PIMOIDCConfigration pimoidcConfigration) {
         mPimoidcConfigration = pimoidcConfigration;
-        mPimAuthManager = new PIMAuthManager();
+        mPimAuthManager = new PIMAuthManager(context);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mTaggingInterface = PIMSettingManager.getInstance().getTaggingInterface();
     }
 
-    //TODO: Check with Deepthi for name of this method
-    public Intent getAuthReqIntent(@NonNull Context context, @NonNull PIMLoginListener pimLoginListener) throws ActivityNotFoundException {
+     public Intent getAuthReqIntent(@NonNull PIMLoginListener pimLoginListener) throws ActivityNotFoundException {
         mPimLoginListener = pimLoginListener;
         String clientID = new PIMOIDCConfigration().getClientId();
-        return mPimAuthManager.getAuthorizationRequestIntent(context, mPimoidcConfigration.getAuthorizationServiceConfiguration(), clientID, createAdditionalParameterForLogin());
+        return mPimAuthManager.getAuthorizationRequestIntent(mPimoidcConfigration.getAuthorizationServiceConfiguration(), clientID, createAdditionalParameterForLogin());
     }
 
-    public void exchangeAuthorizationCode(@NonNull Context context, @NonNull Intent dataIntent) {
-        mPimAuthManager.performTokenRequest(context, dataIntent, this);
+    public void exchangeAuthorizationCode(@NonNull Intent dataIntent) {
+        mPimAuthManager.performTokenRequest(dataIntent, new PIMTokenRequestListener() {
+            @Override
+            public void onTokenRequestSuccess() {
+                PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
+                pimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), PIMLoginManager.this);
+            }
+
+            @Override
+            public void onTokenRequestFailed(Error error) {
+                if (mPimLoginListener != null)
+                    mPimLoginListener.onLoginFailed(error);
+            }
+        });
     }
 
     @Override
@@ -56,18 +68,6 @@ public class PIMLoginManager implements PIMLoginListener, PIMUserProfileDownload
     @Override
     public void onUserProfileDownloadFailed(Error error) {
         mPimLoginListener.onLoginFailed(error);
-    }
-
-    @Override
-    public void onLoginSuccess() {
-        PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
-        pimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), this);
-    }
-
-    @Override
-    public void onLoginFailed(Error error) {
-        if (mPimLoginListener != null)
-            mPimLoginListener.onLoginFailed(error);
     }
 
     private Map<String, String> createAdditionalParameterForLogin() {

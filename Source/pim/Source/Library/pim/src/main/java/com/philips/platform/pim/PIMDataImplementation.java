@@ -14,28 +14,118 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListen
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PIMDataImplementation implements UserDataInterface {
     private PIMUserManager pimUserManager;
     private Context mContext;
+    private final CopyOnWriteArrayList<UserDataListener> userDataListeners;
 
     public PIMDataImplementation(Context context, PIMUserManager pimUserManager) {
         mContext = context;
         this.pimUserManager = pimUserManager;
+        userDataListeners = new CopyOnWriteArrayList<>();
     }
 
     @Override
     public void logoutSession(LogoutSessionListener logoutSessionListener) {
         if (pimUserManager != null)
-            pimUserManager.logoutSession(logoutSessionListener);
+            pimUserManager.logoutSession(getLogoutSessionListener(logoutSessionListener));
+    }
+
+    private LogoutSessionListener getLogoutSessionListener(LogoutSessionListener logoutSessionListener) {
+        return new LogoutSessionListener() {
+            @Override
+            public void logoutSessionSuccess() {
+                logoutSessionListener.logoutSessionSuccess();
+                notifyLogOutSuccess();
+            }
+
+            @Override
+            public void logoutSessionFailed(Error error) {
+                logoutSessionListener.logoutSessionFailed(error);
+                notifyLogoutFailure(error);
+            }
+        };
+    }
+
+    private void notifyLogOutSuccess(){
+        synchronized (userDataListeners) {
+            for (LogoutSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.logoutSessionSuccess();
+                }
+            }
+        }
+    }
+
+    private void notifyLogoutFailure(Error error){
+        synchronized (userDataListeners) {
+            for (LogoutSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.logoutSessionFailed(error);
+                }
+            }
+        }
     }
 
     @Override
     public void refreshSession(RefreshSessionListener refreshSessionListener) {
+        pimUserManager.refreshSession(getRefreshSessionListener(refreshSessionListener));
+    }
 
+    private RefreshSessionListener getRefreshSessionListener(RefreshSessionListener refreshSessionListener) {
+        return new RefreshSessionListener() {
+            @Override
+            public void refreshSessionSuccess() {
+                refreshSessionListener.refreshSessionSuccess();
+                notifyRefreshSessionSuccess();
+            }
+
+            @Override
+            public void refreshSessionFailed(Error error) {
+                refreshSessionListener.refreshSessionFailed(error);
+                notifyRefreshSessionFailure(error);
+            }
+
+            @Override
+            public void forcedLogout() {
+                refreshSessionListener.forcedLogout();
+                notifyForcedLogout();
+            }
+        };
+    }
+
+    private void notifyRefreshSessionSuccess(){
+        synchronized (userDataListeners) {
+            for (RefreshSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.refreshSessionSuccess();
+                }
+            }
+        }
+    }
+
+    private void notifyRefreshSessionFailure(Error error){
+        synchronized (userDataListeners) {
+            for (RefreshSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.refreshSessionFailed(error);
+                }
+            }
+        }
+    }
+
+    private void notifyForcedLogout(){
+        synchronized (userDataListeners) {
+            for (RefreshSessionListener eventListener : userDataListeners) {
+                if (eventListener != null) {
+                    eventListener.forcedLogout();
+                }
+            }
+        }
     }
 
     @Override
@@ -134,11 +224,11 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public void addUserDataInterfaceListener(UserDataListener listener) {
-
+        userDataListeners.add(listener);
     }
 
     @Override
     public void removeUserDataInterfaceListener(UserDataListener listener) {
-
+        userDataListeners.remove(listener);
     }
 }

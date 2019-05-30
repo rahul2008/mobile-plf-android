@@ -38,7 +38,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         super.onCreate(savedInstanceState);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
-        pimLoginManager = new PIMLoginManager(pimoidcConfigration);
+        pimLoginManager = new PIMLoginManager(mContext,pimoidcConfigration);
     }
 
     @Nullable
@@ -61,7 +61,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
 
     private void launchLoginPage() {
         try {
-            Intent authReqIntent = pimLoginManager.getAuthReqIntent(mContext, this);
+            Intent authReqIntent = pimLoginManager.getAuthReqIntent(this);
             startActivityForResult(authReqIntent, 100);
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching login page failed.");
@@ -91,7 +91,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
             pimLoginProgreassBar.setVisibility(View.GONE);
         } else {
             pimLoginProgreassBar.setVisibility(View.VISIBLE);
-            pimLoginManager.exchangeAuthorizationCode(mContext, data);
+            pimLoginManager.exchangeAuthorizationCode(data);
         }
     }
 }

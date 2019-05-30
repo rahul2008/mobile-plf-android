@@ -117,5 +117,6 @@ dependencies {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
+        implementation philipsdeps.pim
     }
 }

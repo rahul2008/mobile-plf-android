@@ -18,6 +18,7 @@ import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -59,7 +60,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnRegistration.setOnClickListener(this);
         btnLogout = findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
-        btnRefreshSession = findViewById(R.id.btn_Registration);
+        btnRefreshSession = findViewById(R.id.btn_RefreshSession);
         btnRefreshSession.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
 
@@ -123,8 +124,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is already login!");
             }
         } else if (v == btnLogout) {
-            if (pimInterface.getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
-                pimInterface.getUserDataInterface().logoutSession(new LogoutSessionListener() {
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                userDataInterface.logoutSession(new LogoutSessionListener() {
                     @Override
                     public void logoutSessionSuccess() {
                         showToast("Logout Success");
@@ -139,8 +140,27 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
-        } else if(v == btnRefreshSession){
+        } else if (v == btnRefreshSession) {
+            if(userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN){
+                userDataInterface.refreshSession(new RefreshSessionListener() {
+                    @Override
+                    public void refreshSessionSuccess() {
+                        showToast("Refresh session success");
+                    }
 
+                    @Override
+                    public void refreshSessionFailed(Error error) {
+                        showToast("Refresh session failed");
+                    }
+
+                    @Override
+                    public void forcedLogout() {
+
+                    }
+                });
+            }else {
+                showToast("User is not loged-in, Please login!");
+            }
         }
     }
 
