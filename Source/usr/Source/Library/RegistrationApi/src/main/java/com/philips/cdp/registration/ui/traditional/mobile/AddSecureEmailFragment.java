@@ -14,9 +14,11 @@ import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
+import com.philips.cdp.registration.ui.utils.LoginIdValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 import com.philips.platform.uid.view.widget.ValidationEditText;
@@ -54,6 +56,8 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @BindView(R2.id.ll_reg_root_container)
     LinearLayout regRootContainer;
 
+    private boolean isValidEmail;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         registerInlineNotificationListener(this);
@@ -67,8 +71,36 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     }
 
     private void setUpRecoveryEmail() {
+        rl_reg_securedata_email_field_inputValidation.setValidator(emailValidator);
         recoveryEmail.setInputType(InputType.TYPE_CLASS_TEXT);
     }
+
+    LoginIdValidator emailValidator = new LoginIdValidator(new ValidLoginId() {
+        @Override
+        public int isValid(boolean valid) {
+            isValidEmail = valid;
+            if(valid){
+                addRecoveryEmailButton.setEnabled(true);
+                if(!rl_reg_securedata_email_field_inputValidation.isShowingError())
+                    rl_reg_securedata_email_field_inputValidation.hideError();
+            }else{
+                addRecoveryEmailButton.setEnabled(false);
+                rl_reg_securedata_email_field_inputValidation.setErrorMessage(R.string.USR_InvalidOrMissingEmail_ErrorMsg);
+                if(!rl_reg_securedata_email_field_inputValidation.isShowingError())
+                    rl_reg_securedata_email_field_inputValidation.showError();
+            }
+            return 0;
+        }
+
+        @Override
+        public int isEmpty(boolean emptyField) {
+            if(emptyField)
+                addRecoveryEmailButton.setEnabled(false);
+            isValidEmail = false;
+            return 0;
+        }
+    });
+
 
     @Override
     protected void setViewParams(Configuration config, int width) {
@@ -124,7 +156,11 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void enableButtons() {
-        addRecoveryEmailButton.setEnabled(true);
+        if(isValidEmail) {
+            addRecoveryEmailButton.setEnabled(true);
+        }else {
+            addRecoveryEmailButton.setEnabled(false);
+        }
         maybeLaterButton.setEnabled(true);
 
     }
@@ -150,6 +186,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @Override
     public void onResume() {
         super.onResume();
+        addRecoveryEmailButton.setEnabled(false);
         addSecureEmailPresenter.registerNetworkListener();
     }
 

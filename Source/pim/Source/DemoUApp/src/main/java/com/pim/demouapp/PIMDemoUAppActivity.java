@@ -117,12 +117,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is already login!");
             }
         } else if (v == btnRegistration) {
-            if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
                 FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
                 pimInterface.launch(fragmentLauncher, launchInput);
-            } else {
-                showToast("User is already login!");
-            }
         } else if (v == btnLogout) {
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 userDataInterface.logoutSession(new LogoutSessionListener() {
