@@ -73,7 +73,7 @@ import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationUIEventListener, IAPMockInterface,IAPOrderFlowCompletion,IAPBannerEnabler {
+        UserRegistrationUIEventListener, IAPMockInterface, IAPOrderFlowCompletion, IAPBannerEnabler {
 
     private final String TAG = DemoAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -114,7 +114,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private ToggleButton toggleBanner;
     private boolean isBannerEnabled = false;
     private ToggleButton toggleListener;
-    private boolean isToggleListener= false;
+    private boolean isToggleListener = false;
     private RadioGroup rgVoucher;
 
     @Override
@@ -196,15 +196,15 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-               if(checkedId == R.id.rb_null){
-                   IAPUtility.getInstance().setVoucherEnable(false);
-               }
-               if(checkedId == R.id.rb_disable){
-                   IAPUtility.getInstance().setVoucherEnable(false);
-               }
-               if(checkedId == R.id.rb_enabble){
-                   IAPUtility.getInstance().setVoucherEnable(true);
-               }
+                if (checkedId == R.id.rb_null) {
+                    IAPUtility.getInstance().setVoucherEnable(false);
+                }
+                if (checkedId == R.id.rb_disable) {
+                    IAPUtility.getInstance().setVoucherEnable(false);
+                }
+                if (checkedId == R.id.rb_enabble) {
+                    IAPUtility.getInstance().setVoucherEnable(true);
+                }
             }
         });
 
@@ -282,16 +282,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initializeIAPComponant() {
+        toggleHybris.setVisibility(View.VISIBLE);
+        initIAP();
+
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mRegister.setText(this.getString(R.string.log_out));
-            toggleHybris.setVisibility(View.VISIBLE);
-            showProgressDialog();
-            initIAP();
         } else {
             mRegister.setVisibility(View.VISIBLE);
-            toggleHybris.setVisibility(View.GONE);
-            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
-            dismissProgressDialog();
+           // Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -315,14 +313,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIapLaunchInput = new IAPLaunchInput();
 
         mIapLaunchInput.setHybrisSupported(isHybrisEnable);
-        if(!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())){
+        if (!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())) {
             mIapLaunchInput.setMaxCartCount(Integer.parseInt(mEtMaxCartCount.getText().toString().trim()));
         }
         mIapLaunchInput.setIapBannerEnabler(this);
         mIapLaunchInput.setIapListener(this);
-        if(isToggleListener) {
+        if (isToggleListener) {
             mIapLaunchInput.setIapOrderFlowCompletion(this);
-        }else{
+        } else {
             mIapLaunchInput.setIapOrderFlowCompletion(null);
         }
         IAPUtility.getInstance().setHybrisSupported(isHybrisEnable);
@@ -330,16 +328,22 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void displayUIOnCartVisible() {
-        mIapInterface.isCartVisible(this);
+        if(isUserLoggedIn()) {
+            showProgressDialog();
+            mIapInterface.isCartVisible(this);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            mIapInterface.getProductCartCount(this);
-        } catch (Exception e) {
+        if(isUserLoggedIn()) {
 
+            try {
+                mIapInterface.getProductCartCount(this);
+            }catch (Exception e){
+
+            }
         }
     }
 
@@ -375,25 +379,27 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);
+
+
+        mCartIcon.setVisibility(View.VISIBLE);
+        mCountText.setVisibility(View.VISIBLE);
+        mShopNow.setVisibility(View.VISIBLE);
+        mShopNow.setEnabled(true);
+        mPurchaseHistory.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setEnabled(true);
+        mShoppingCart.setVisibility(View.VISIBLE);
+
+        dismissProgressDialog();
+        mIapInterface.getProductCartCount(this);
+
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
             mCountText.setVisibility(View.VISIBLE);
-           /* try {
-                mIapInterface.getCompleteProductList(this);
-            } catch (RuntimeException e) {
-
-            }*/
-            mShopNow.setVisibility(View.VISIBLE);
-            mShopNow.setEnabled(true);
-            mPurchaseHistory.setVisibility(View.VISIBLE);
-            mPurchaseHistory.setEnabled(true);
             mShoppingCart.setVisibility(View.VISIBLE);
             mIapInterface.getProductCartCount(this);
         } else {
             mCartIcon.setVisibility(View.GONE);
             mCountText.setVisibility(View.GONE);
-            mShopNow.setVisibility(View.GONE);
-            mPurchaseHistory.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);
             dismissProgressDialog();
         }
@@ -664,6 +670,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onSuccess() {
+        dismissProgressDialog();
     }
 
     @Override
@@ -807,12 +814,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void didPlaceOrder() {
-    Toast.makeText(this,"Order is placed ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Order is placed ", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void didCancelOrder() {
-        Toast.makeText(this,"Order is Cancelled ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Order is Cancelled ", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -822,11 +829,15 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public View getBannerView() {
-        if(isBannerEnabled){
-            LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (isBannerEnabled) {
+            LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.banner_view, null);
             return v;
         }
         return null;
+    }
+
+    boolean isUserLoggedIn(){
+        return  mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
     }
 }

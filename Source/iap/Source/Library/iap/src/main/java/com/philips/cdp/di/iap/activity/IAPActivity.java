@@ -13,10 +13,12 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
@@ -304,10 +306,27 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
 
     @Override
     public void onFailure(int errorCode) {
+        showToast(errorCode);
         dismissProgressDialog();
     }
 
-
+    private void showToast(int errorCode) {
+        String errorText = null;
+        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+            errorText = "No connection";
+        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+            errorText = "Connection time out";
+        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+            errorText = "Authentication failure";
+        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+            errorText = "Product out of stock";
+        }
+        if (errorText != null) {
+            Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);

@@ -167,13 +167,9 @@ public abstract class IAPState extends BaseState implements IAPListener {
     }
 
     public void setListener() {
-        if (getApplicationContext().getUserRegistrationState().getUserDataInterface().getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
             RALog.d(TAG, "Setting Listener");
             ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
             getApplicationContext().getIap().getIapInterface().getCompleteProductList(this);
-        } else {
-            RALog.d(TAG, "User not signed in");
-        }
     }
     @Override
     public void onGetCartCount(int i) {
@@ -199,6 +195,7 @@ public abstract class IAPState extends BaseState implements IAPListener {
 
     @Override
     public void onSuccess() {
+        ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
     }
 
     @Override

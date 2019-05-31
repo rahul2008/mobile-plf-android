@@ -154,6 +154,7 @@ public class CartModelContainer {
 
     //PRX Summary
     public boolean isPRXSummaryPresent(String ctn) {
+        if(mPRXSummaryObjects == null || mPRXSummaryObjects.size()==0) return false;
         for (Data data : mPRXSummaryObjects) {
             if (data.getCtn().equalsIgnoreCase(ctn)) {
                 return true;
