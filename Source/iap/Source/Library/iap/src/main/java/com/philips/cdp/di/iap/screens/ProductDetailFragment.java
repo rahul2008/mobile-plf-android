@@ -205,10 +205,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
-                        if (!mBuyFromRetailers.isActivated()) {
-                            mBuyFromRetailers.showProgressIndicator();
-
-                        }
                         controller.getProductDetail(mCTNValue);
                     } else {
                         fetchProductDetailFromPrx();
@@ -277,12 +273,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add(mCTNValue);
         if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
-            if (!mBuyFromRetailers.isActivated()) {
+           /* if (!mBuyFromRetailers.isActivated()) {
                 if (mContext == null) {
                     return;
                 }
                 mBuyFromRetailers.showProgressIndicator();
-            }
+            }*/
             final PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
         } else {
@@ -313,10 +309,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (mBundle != null && mLaunchedFromProductCatalog) {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                     handleViews();
-                    mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                    mProductStockInfo.setVisibility(View.VISIBLE);
-                    mCheckutAndCountinue.setVisibility(View.VISIBLE);
-                    mQuantityAndDelete.setVisibility(View.GONE);
                 } else {
                     mQuantityAndDelete.setVisibility(View.VISIBLE);
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
@@ -416,6 +408,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void handleViews() {
+
         if (ControllerFactory.getInstance().isPlanB()) {
             mAddToCart.setVisibility(View.GONE);
             setCartIconVisibility(false);
@@ -428,6 +421,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
         mBuyFromRetailers.setOnClickListener(this);
         mBuyFromRetailers.setVisibility(View.VISIBLE);
+
+        mProductDiscountedPrice.setVisibility(View.VISIBLE);
+        mProductStockInfo.setVisibility(View.VISIBLE);
+        mCheckutAndCountinue.setVisibility(View.VISIBLE);
+        mQuantityAndDelete.setVisibility(View.GONE);
     }
 
     private void getRetailersInformation() {
