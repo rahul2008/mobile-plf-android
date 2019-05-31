@@ -80,6 +80,7 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
             mLoggingInterface.log(DEBUG, TAG, "ADBMonbile tracking Identifier is not set.");
         }
         parameter.put("ui_locales", PIMSettingManager.getInstance().getLocale());
+        parameter.put("app_rep",new PIMOIDCConfigration().getrsID());
         mLoggingInterface.log(DEBUG, TAG, "Additional parameters : " + parameter.toString());
         return parameter;
     }

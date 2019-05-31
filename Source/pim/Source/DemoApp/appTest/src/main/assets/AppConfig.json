@@ -25,7 +25,8 @@
     ]
   },
   "PIM": {
-    "clientId": "09737ff2-23b9-4eb9-af72-c19c25413f02"
+    "clientId": "09737ff2-23b9-4eb9-af72-c19c25413f02",
+    "rsid" : "philipspimreferencedev"
   },
   "IAP": {
     "hostport": "www.occ.shop.philips.com",

@@ -10,6 +10,7 @@ public class PIMOIDCConfigration {
     private static String TAG = PIMOIDCConfigration.class.getSimpleName();
     private static final String GROUP_PIM = "PIM";
     private static final String CLIENT_ID = "clientId";
+    private static final String RS_ID = "rsid";
     private AuthorizationServiceConfiguration authorizationServiceConfiguration;
 
     private AppInfraInterface appInfraInterface;
@@ -29,6 +30,14 @@ public class PIMOIDCConfigration {
 
    public String getClientId() {
         Object obj = getProperty(CLIENT_ID, GROUP_PIM);
+        if (obj != null) {
+            return (String) obj;
+        }
+        return null;
+    }
+
+    public String getrsID(){
+        Object obj = getProperty(RS_ID, GROUP_PIM);
         if (obj != null) {
             return (String) obj;
         }

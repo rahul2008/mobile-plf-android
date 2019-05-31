@@ -113,7 +113,6 @@ class PIMAuthManager {
 
     void refreshToken(@NonNull AuthState authState, PIMTokenRequestListener tokenRequestListener) {
         mLoggingInterface.log(DEBUG,TAG,"Old Access Token : "+authState.getAccessToken()+" Refresh Token : "+authState.getRefreshToken());
-
         authState.setNeedsTokenRefresh(true);
         authState.performActionWithFreshTokens(mAuthorizationService, new AuthState.AuthStateAction() {
             @Override
@@ -150,7 +149,6 @@ class PIMAuthManager {
     }
 
     void dispose(Context context){
-        AuthorizationService authorizationService = new AuthorizationService(context);
-        authorizationService.dispose();
+        mAuthorizationService.dispose();
     }
 }

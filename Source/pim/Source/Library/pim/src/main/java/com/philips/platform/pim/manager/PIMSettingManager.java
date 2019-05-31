@@ -78,6 +78,10 @@ public class PIMSettingManager {
     }
 
     public void setLocale(String locale) {
+        if(locale.contains("_")){
+            String[] splitLocal = locale.split("_");
+            locale = splitLocal[0]+"-"+splitLocal[1];
+        }
         this.locale = locale;
     }
 }
