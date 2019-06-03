@@ -21,7 +21,9 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
-
+/**
+ * Class to perform OIDC request during login
+ */
 //TODO: Shashi,Handle backend issues in test case(Such as invalid client id)
 public class PIMLoginManager implements PIMUserProfileDownloadListener {
     private String TAG = PIMLoginManager.class.getSimpleName();
@@ -40,7 +42,7 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
 
      public Intent getAuthReqIntent(@NonNull PIMLoginListener pimLoginListener) throws ActivityNotFoundException {
         mPimLoginListener = pimLoginListener;
-        String clientID = new PIMOIDCConfigration().getClientId();
+        String clientID = mPimoidcConfigration.getClientId();
         return mPimAuthManager.getAuthorizationRequestIntent(mPimoidcConfigration.getAuthorizationServiceConfiguration(), clientID, createAdditionalParameterForLogin());
     }
 
@@ -49,7 +51,7 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
             @Override
             public void onTokenRequestSuccess() {
                 PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
-                pimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), PIMLoginManager.this);
+                pimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), PIMLoginManager.this); //Request user profile on success of token request
             }
 
             @Override
@@ -70,6 +72,10 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
         mPimLoginListener.onLoginFailed(error);
     }
 
+    /**
+     * Creates additional parameter for authorization request intent
+     * @return map containing additional parameter in key-value pair
+     */
     private Map<String, String> createAdditionalParameterForLogin() {
         Map<String, String> parameter = new HashMap<>();
         parameter.put("claims", getCustomClaims());
@@ -85,6 +91,11 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
         return parameter;
     }
 
+    /**
+     * Construct json object to store custom claims
+     *
+     * @return json string
+     */
     private String getCustomClaims() {
         JsonObject customClaimObject = new JsonObject();
         customClaimObject.add(UserCustomClaims.RECEIVE_MARKETING_EMAIL_CONSENT,null);

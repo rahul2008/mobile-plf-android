@@ -10,6 +10,9 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
+/**
+ * Class to download configuration required for PIM
+ */
 public class PIMConfigManager {
     private static final String TAG = PIMConfigManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
@@ -50,7 +53,7 @@ public class PIMConfigManager {
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
                             mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : getConfigUrls : " + configUrls);
-                            pimOidcDiscoveryManager.downloadOidcUrls(configUrls);
+                            pimOidcDiscoveryManager.downloadOidcUrls(configUrls); //Download OIDC configuration
                         } else {
                             mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : No service url found for Issuer service id");
                         }

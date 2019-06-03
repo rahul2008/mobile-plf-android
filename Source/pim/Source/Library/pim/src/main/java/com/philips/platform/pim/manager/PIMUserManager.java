@@ -26,8 +26,11 @@ import org.json.JSONObject;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
+/**
+ * Class to manage users
+ */
 public class PIMUserManager {
-    public static final String PIM_ACTIVEUUID = "com.pim.activeuuid";
+    private static final String PIM_ACTIVEUUID = "com.pim.activeuuid";
     private PIMOIDCUserProfile pimoidcUserProfile;
     private Context context;
     private AppInfraInterface appInfraInterface;
@@ -40,13 +43,13 @@ public class PIMUserManager {
 
 
     public void init(@NonNull Context context,@NonNull AppInfraInterface appInfraInterface) {
-        //get Secure Storage user profile
         this.context = context;
         this.appInfraInterface = appInfraInterface;
         pimAuthManager = new PIMAuthManager(context);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         uuid = getUUIDFromPref();
         if (isUUIDAvailable()) {
+            //On app relaunch if UUID is saved then fetch profile and auth state from secure storage
             authState = getAuthStateFromSecureStorage();
             String userProfileJson = getUserProfileFromSecureStorage();
             pimoidcUserProfile = new PIMOIDCUserProfile(userProfileJson, authState);
@@ -64,9 +67,9 @@ public class PIMUserManager {
             pimoidcUserProfile = new PIMOIDCUserProfile(response, authState);
             uuid = getUUIDFromUserProfileJson(response);
 
-            saveUUIDToPreference(uuid);
-            storeUserProfileToSecureStorage(response);
-            storeAuthStateToSecureStorage(oidcAuthState);
+            saveUUIDToPreference(uuid); //Store uuid from json reponse to shared preference
+            storeUserProfileToSecureStorage(response); //store jsonm reponse to secure storgae
+            storeAuthStateToSecureStorage(oidcAuthState); //store auth state to secure storage
 
             if (userProfileRequestListener != null)
                 userProfileRequestListener.onUserProfileDownloadSuccess();
@@ -93,7 +96,7 @@ public class PIMUserManager {
         pimAuthManager.refreshToken(authState, new PIMTokenRequestListener() {
             @Override
             public void onTokenRequestSuccess() {
-                storeAuthStateToSecureStorage(authState);
+                storeAuthStateToSecureStorage(authState);  //Update auth state to secure storage on token refresh
                 refreshSessionListener.refreshSessionSuccess();
             }
 
@@ -108,7 +111,7 @@ public class PIMUserManager {
         String clientID = new PIMOIDCConfigration().getClientId();
         LogoutRequest logoutRequest = new LogoutRequest(authState, clientID);
         pimRestClient.invokeRequest(logoutRequest, response -> {
-            pimAuthManager.dispose(context);
+            pimAuthManager.dispose();
             appInfraInterface.getSecureStorage().removeValueForKey(getAuthStateKey());
             appInfraInterface.getSecureStorage().removeValueForKey(getUserInfoKey());
             removeUUIDFromPref();
@@ -160,7 +163,7 @@ public class PIMUserManager {
             return null;
         try {
             JSONObject jsonObject = new JSONObject(userProfileJson);
-            return jsonObject.getString("sub");
+            return jsonObject.getString("sub"); //sub in response json represents UUID
         } catch (JSONException e) {
             mLoggingInterface.log(DEBUG, TAG, "exception in getUUIDFromUserProfileJson : " + e.getMessage());
         }

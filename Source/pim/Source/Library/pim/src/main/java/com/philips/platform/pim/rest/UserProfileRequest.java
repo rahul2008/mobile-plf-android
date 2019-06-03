@@ -7,6 +7,9 @@ import net.openid.appauth.AuthState;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class to create user profile request
+ */
 public class UserProfileRequest implements PIMRequestInterface {
     private AuthState mAuthState;
 

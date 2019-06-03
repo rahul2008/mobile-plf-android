@@ -6,6 +6,9 @@ import com.philips.platform.pim.manager.PIMSettingManager;
 
 import net.openid.appauth.AuthorizationServiceConfiguration;
 
+/**
+ * Responsible for providing configuration required for OIDC.
+ */
 public class PIMOIDCConfigration {
     private static String TAG = PIMOIDCConfigration.class.getSimpleName();
     private static final String GROUP_PIM = "PIM";
@@ -15,7 +18,7 @@ public class PIMOIDCConfigration {
 
     private AppInfraInterface appInfraInterface;
 
-    public PIMOIDCConfigration(){
+    public PIMOIDCConfigration() {
         this.appInfraInterface = PIMSettingManager.getInstance().getAppInfraInterface();
     }
 
@@ -28,7 +31,12 @@ public class PIMOIDCConfigration {
         return authorizationServiceConfiguration;
     }
 
-   public String getClientId() {
+    /**
+     * Fetch client id from App config
+     *
+     * @return client id
+     */
+    public String getClientId() {
         Object obj = getProperty(CLIENT_ID, GROUP_PIM);
         if (obj != null) {
             return (String) obj;
@@ -36,7 +44,12 @@ public class PIMOIDCConfigration {
         return null;
     }
 
-    public String getrsID(){
+    /**
+     * Fetch rsid from App config
+     *
+     * @return rsid
+     */
+    public String getrsID() {
         Object obj = getProperty(RS_ID, GROUP_PIM);
         if (obj != null) {
             return (String) obj;

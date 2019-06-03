@@ -18,6 +18,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Implements UserDataInterface and handle api calls from propositions.
+ * Call responsible pim manager class to perform api request and invoke
+ * callback methods on completion of request.
+ *
+ */
 public class PIMDataImplementation implements UserDataInterface {
     private PIMUserManager pimUserManager;
     private Context mContext;

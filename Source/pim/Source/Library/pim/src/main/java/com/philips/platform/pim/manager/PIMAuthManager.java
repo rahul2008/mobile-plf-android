@@ -8,12 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
-import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
-import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.utilities.PIMScopes;
 
@@ -32,6 +29,9 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
+/**
+ * Class to communicates with AppAuth of open id
+ */
 class PIMAuthManager {
     private final String TAG = PIMAuthManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
@@ -39,16 +39,29 @@ class PIMAuthManager {
     private Context mContext;
     private AuthorizationService mAuthorizationService;
 
+    /**
+     * Use this constructor whenever context is not required for OIDC's api call
+     */
     PIMAuthManager() {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
+    /**
+     * Use this constructor whenever context is required for OIDC's api call
+     * @param context
+     */
     PIMAuthManager(Context context) {
         mContext = context;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mAuthorizationService = new AuthorizationService(mContext);
     }
 
+    /**
+     * Fetch AuthorizationServiceConfiguration from OIDC discovery URI
+     *
+     * @param baseUrl OIDC discovery URI
+     * @param listener A callback to invoke upon completion
+     */
     void fetchAuthWellKnownConfiguration(String baseUrl, PIMAuthServiceConfigListener listener) {
         String discoveryEndpoint = baseUrl + "/.well-known/openid-configuration";
         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration discoveryEndpoint : " + discoveryEndpoint);
@@ -66,6 +79,15 @@ class PIMAuthManager {
         AuthorizationServiceConfiguration.fetchFromUrl(Uri.parse(discoveryEndpoint), retrieveCallback);
     }
 
+    /**
+     * Fetch an intent from OIDC for launching CLP page
+     *
+     * @param authServiceConfiguration configuration downloaded using OIDC discovery URI
+     * @param clientID to create authorizaton request
+     * @param parameter contains additional parameters
+     * @return intent
+     * @throws ActivityNotFoundException
+     */
     Intent getAuthorizationRequestIntent(AuthorizationServiceConfiguration authServiceConfiguration, String clientID, Map parameter) throws ActivityNotFoundException {
         if (mContext == null || authServiceConfiguration == null || clientID == null)
             return null;
@@ -84,6 +106,11 @@ class PIMAuthManager {
         return mAuthorizationService.getAuthorizationRequestIntent(authRequest);
     }
 
+    /**
+     * Perform token request
+     * @param dataIntent to create authorization response and exception
+     * @param pimTokenRequestListener A callback to invoke upon completion
+     */
     void performTokenRequest(@NonNull Intent dataIntent, @NonNull PIMTokenRequestListener pimTokenRequestListener) {
 
         AuthorizationResponse response = AuthorizationResponse.fromIntent(dataIntent);
@@ -111,6 +138,12 @@ class PIMAuthManager {
         });
     }
 
+    /**
+     * Perform refresh token
+     *
+     * @param authState Pass authstate to refresh its token
+     * @param tokenRequestListener A callback to invoke upon completion
+     */
     void refreshToken(@NonNull AuthState authState, PIMTokenRequestListener tokenRequestListener) {
         mLoggingInterface.log(DEBUG,TAG,"Old Access Token : "+authState.getAccessToken()+" Refresh Token : "+authState.getRefreshToken());
         authState.setNeedsTokenRefresh(true);
@@ -148,7 +181,7 @@ class PIMAuthManager {
         return mAuthState;
     }
 
-    void dispose(Context context){
+    void dispose(){
         mAuthorizationService.dispose();
     }
 }
