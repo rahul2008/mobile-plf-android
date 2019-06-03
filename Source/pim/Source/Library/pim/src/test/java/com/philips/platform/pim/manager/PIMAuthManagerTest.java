@@ -26,6 +26,7 @@ import net.openid.appauth.TokenRequest;
 import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -90,7 +91,17 @@ public class PIMAuthManagerTest extends TestCase {
     @Mock
     private PIMTokenRequestListener mockPIMTokenRequestListener;
     @Captor
-    ArgumentCaptor<PIMTokenRequestListener> captorTokenReqListner;
+    private ArgumentCaptor<PIMTokenRequestListener> captorTokenReqListner;
+    @Mock
+    private AuthorizationResponse mockAuthResponse;
+    @Mock
+    private AuthorizationException mockAuthException;
+    @Mock
+    private AuthState mockAuthState;
+    @Mock
+    AuthState.AuthStateAction mockAuthStateActionCallback;
+    @Captor
+    private ArgumentCaptor<AuthState.AuthStateAction> captorAuthStateAction;
 
 
     private String baseurl = "https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
@@ -132,7 +143,7 @@ public class PIMAuthManagerTest extends TestCase {
 
 
     @Test
-    public void shouldFetchFromUrl_Verify_OnError()  {
+    public void shouldFetchFromUrl_Verify_OnError() {
         pimAuthManager.fetchAuthWellKnownConfiguration(baseurl, mockConfigurationListener);
 
         PowerMockito.verifyStatic(AuthorizationServiceConfiguration.class);
@@ -171,13 +182,13 @@ public class PIMAuthManagerTest extends TestCase {
 
     @Test
     public void getAuthorizationRequestIntent_AuthServiceConfigurationNull() {
-        Intent intent = pimAuthManager.getAuthorizationRequestIntent( null, "", null);
+        Intent intent = pimAuthManager.getAuthorizationRequestIntent(null, "", null);
         assertNull(intent);
     }
 
     @Test
     public void getAuthorizationRequestIntent_ClientIdNull() {
-        Intent intent = pimAuthManager.getAuthorizationRequestIntent( mockAuthorizationServiceConfiguration, null, null);
+        Intent intent = pimAuthManager.getAuthorizationRequestIntent(mockAuthorizationServiceConfiguration, null, null);
         assertNull(intent);
     }
 
@@ -185,9 +196,6 @@ public class PIMAuthManagerTest extends TestCase {
     public void shouldPerformTokenRequest() throws Exception {
         mockStatic(AuthorizationResponse.class);
         mockStatic(AuthorizationException.class);
-        AuthorizationResponse mockAuthResponse = mock(AuthorizationResponse.class);
-        AuthorizationException mockAuthException = mock(AuthorizationException.class);
-        AuthState mockAuthState = mock(AuthState.class);
         when(AuthorizationResponse.fromIntent(mockIntent)).thenReturn(mockAuthResponse);
         when(AuthorizationException.fromIntent(mockIntent)).thenReturn(mockAuthException);
         whenNew(AuthState.class).withArguments(mockAuthResponse, mockAuthException).thenReturn(mockAuthState);
@@ -205,7 +213,28 @@ public class PIMAuthManagerTest extends TestCase {
         mockTokenResponseCallback.onTokenRequestCompleted(null, mockAuthException);
         verify(mockPIMTokenRequestListener).onTokenRequestFailed(any(Error.class));
     }
+//
+//    @Test
+//    public void shouldRefreshToken() throws Exception {
+//        mockStatic(AuthorizationResponse.class);
+//        mockStatic(AuthorizationException.class);
+//        when(AuthorizationResponse.fromIntent(mockIntent)).thenReturn(mockAuthResponse);
+//        when(AuthorizationException.fromIntent(mockIntent)).thenReturn(mockAuthException);
+//        whenNew(AuthState.class).withArguments(mockAuthResponse, mockAuthException).thenReturn(mockAuthState);
+//        pimAuthManager.refreshToken(mockAuthState, mockPIMTokenRequestListener);
+//
+//        verify(mockAuthState).performActionWithFreshTokens(eq(mockAuthorizationService), captorAuthStateAction.capture());
+//        mockAuthStateActionCallback = captorAuthStateAction.getValue();
+//
+//        mockAuthStateActionCallback.execute(anyString(), anyString(), mockAuthException);
+//        verify(mockPIMTokenRequestListener).onTokenRequestSuccess();
+//
+//        mockAuthStateActionCallback.execute(null, anyString(), mockAuthException);
+//        verify(mockPIMTokenRequestListener).onTokenRequestFailed(any(Error.class));
+//
+//    }
 
+    @After
     public void tearDown() throws Exception {
         pimAuthManager = null;
         mockConfigurationListener = null;

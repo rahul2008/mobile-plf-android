@@ -147,17 +147,14 @@ public class PIMAuthManager {
     void refreshToken(@NonNull AuthState authState, PIMTokenRequestListener tokenRequestListener) {
         mLoggingInterface.log(DEBUG,TAG,"Old Access Token : "+authState.getAccessToken()+" Refresh Token : "+authState.getRefreshToken());
         authState.setNeedsTokenRefresh(true);
-        authState.performActionWithFreshTokens(mAuthorizationService, new AuthState.AuthStateAction() {
-            @Override
-            public void execute(@Nullable String accessToken, @Nullable String idToken, @Nullable AuthorizationException ex) {
-                if (ex == null) {
-                    mLoggingInterface.log(DEBUG, TAG, "rereshToken success, New  accessToken : " + authState.getAccessToken() +" Refresh Token : "+authState.getRefreshToken());
-                    tokenRequestListener.onTokenRequestSuccess();
-                } else {
-                    mLoggingInterface.log(DEBUG, TAG, "rereshToken failed : " + ex.getMessage());
-                    Error error = new Error(ex.code, ex.getMessage());
-                    tokenRequestListener.onTokenRequestFailed(error);
-                }
+        authState.performActionWithFreshTokens(mAuthorizationService, (accessToken, idToken, ex) -> {
+            if (ex == null) {
+                mLoggingInterface.log(DEBUG, TAG, "rereshToken success, New  accessToken : " + authState.getAccessToken() +" Refresh Token : "+authState.getRefreshToken());
+                tokenRequestListener.onTokenRequestSuccess();
+            } else {
+                mLoggingInterface.log(DEBUG, TAG, "rereshToken failed : " + ex.getMessage());
+                Error error = new Error(ex.code, ex.getMessage());
+                tokenRequestListener.onTokenRequestFailed(error);
             }
         });
     }
