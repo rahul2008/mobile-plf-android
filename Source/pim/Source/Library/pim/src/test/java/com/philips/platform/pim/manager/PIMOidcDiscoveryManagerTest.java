@@ -46,7 +46,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
     private PIMSettingManager mockPimSettingManager;
     @Captor
     private ArgumentCaptor<PIMAuthServiceConfigListener> captorListener;
-    private String baseurl = "https://stg.api.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
+    private String baseurl = "https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login";
 
     @Before
     public void setUp() throws Exception {
@@ -73,7 +73,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         AuthorizationServiceConfiguration mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
 
         mockServiceConfigurationListener.onAuthServiceConfigSuccess(mockAuthorizationServiceConfiguration);
-        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onLoginSuccess. authorizationServiceConfiguration : "+mockAuthorizationServiceConfiguration);
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onAuthServiceConfigSuccess : "+mockAuthorizationServiceConfiguration);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         mockServiceConfigurationListener = captorListener.getValue();
         Error error = new Error(Error.UserDetailError.NetworkError);
         mockServiceConfigurationListener.onAuthServiceConfigFailed(error);
-        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onLoginFailed :  "+ error.getErrDesc());
+        verify(mockLoggingInterface).log(DEBUG,PIMOidcDiscoveryManager.class.getSimpleName(),"fetchAuthWellKnownConfiguration : onAuthServiceConfigFailed :  "+ error.getErrDesc());
     }
 
     @After

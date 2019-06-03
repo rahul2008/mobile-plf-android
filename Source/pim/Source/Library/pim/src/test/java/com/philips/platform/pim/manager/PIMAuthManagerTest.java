@@ -11,7 +11,6 @@ import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
-import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 
 import junit.framework.TestCase;
@@ -58,6 +57,7 @@ public class PIMAuthManagerTest extends TestCase {
 
     private PIMAuthManager pimAuthManager;
 
+    @Mock
     private AuthorizationServiceConfiguration mockAuthorizationServiceConfiguration;
     @Mock
     private PIMAuthServiceConfigListener mockConfigurationListener;
@@ -163,7 +163,7 @@ public class PIMAuthManagerTest extends TestCase {
         when(mockAuthReqBuilder.setScope(anyString())).thenReturn(mockAuthReqBuilder);
         when(mockAuthReqBuilder.setAdditionalParameters(anyMap())).thenReturn(mockAuthReqBuilder);
         when(mockAuthorizationService.getAuthorizationRequestIntent(mockAuthorizationRequest)).thenReturn(mockIntent);
-
+        pimAuthManager = new PIMAuthManager(mockContext);
         Intent intent = pimAuthManager.getAuthorizationRequestIntent(mockAuthorizationServiceConfiguration, "", anyMap());
         assertEquals(mockIntent, intent);
     }
@@ -192,7 +192,7 @@ public class PIMAuthManagerTest extends TestCase {
         when(AuthorizationException.fromIntent(mockIntent)).thenReturn(mockAuthException);
         whenNew(AuthState.class).withArguments(mockAuthResponse, mockAuthException).thenReturn(mockAuthState);
         when(mockAuthResponse.createTokenExchangeRequest()).thenReturn(mockTokenRequest);
-
+        pimAuthManager = new PIMAuthManager(mockContext);
         pimAuthManager.performTokenRequest(mockIntent, mockPIMTokenRequestListener);
 
         verify(mockAuthorizationService).performTokenRequest(eq(mockTokenRequest), captorTokenResponse.capture());

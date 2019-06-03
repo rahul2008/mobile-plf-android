@@ -32,7 +32,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 /**
  * Class to communicates with AppAuth of open id
  */
-class PIMAuthManager {
+public class PIMAuthManager {
     private final String TAG = PIMAuthManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
     private AuthState mAuthState;
@@ -42,7 +42,7 @@ class PIMAuthManager {
     /**
      * Use this constructor whenever context is not required for OIDC's api call
      */
-    PIMAuthManager() {
+    public PIMAuthManager() {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
@@ -50,7 +50,7 @@ class PIMAuthManager {
      * Use this constructor whenever context is required for OIDC's api call
      * @param context
      */
-    PIMAuthManager(Context context) {
+    public PIMAuthManager(Context context) {
         mContext = context;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mAuthorizationService = new AuthorizationService(mContext);

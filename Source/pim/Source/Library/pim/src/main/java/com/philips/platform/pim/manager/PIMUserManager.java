@@ -41,11 +41,13 @@ public class PIMUserManager {
     private PIMAuthManager pimAuthManager;
     private String uuid;
 
+    public PIMUserManager(PIMAuthManager pimAuthManager) {
+        this.pimAuthManager = pimAuthManager;
+    }
 
-    public void init(@NonNull Context context,@NonNull AppInfraInterface appInfraInterface) {
+    public void init(@NonNull Context context, @NonNull AppInfraInterface appInfraInterface) {
         this.context = context;
         this.appInfraInterface = appInfraInterface;
-        pimAuthManager = new PIMAuthManager(context);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         uuid = getUUIDFromPref();
         if (isUUIDAvailable()) {
