@@ -83,7 +83,7 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
         if (Analytics.getTrackingIdentifier() != null) {
             parameter.put("adobe_mc", mTaggingInterface.getTrackingIdentifier());
         } else {
-            mLoggingInterface.log(DEBUG, TAG, "ADBMonbile tracking Identifier is not set.");
+            mLoggingInterface.log(DEBUG, TAG, "ADBMobile tracking Identifier is not set.");
         }
         parameter.put("ui_locales", PIMSettingManager.getInstance().getLocale());
         parameter.put("app_rep",new PIMOIDCConfigration().getrsID());
