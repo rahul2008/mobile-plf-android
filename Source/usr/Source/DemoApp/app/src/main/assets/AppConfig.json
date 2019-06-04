@@ -31,10 +31,10 @@
     // STAGING,
     // ACCEPTANCE,
     // PRODUCTION;
-    "appidentity.serviceDiscoveryEnvironment"  : "Production",
+    "appidentity.serviceDiscoveryEnvironment"  : "staging",
     "abtest.precache": ["DOT-ReceiveMarketingOptIn"],
     "servicediscovery.platformMicrositeId":"70000",
-    "servicediscovery.platformEnvironment":"production",
+    "servicediscovery.platformEnvironment":"staging",
     "servicediscovery.countryMapping": {"LU": "BE", "MO": "HK"},
     "logging.releaseConfig":{
       "fileName":"AppInfraLog",
