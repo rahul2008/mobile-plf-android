@@ -1,4 +1,4 @@
-package com.philips.platform.pimdemo;
+package com.philips.platform.referenceapp;
 
 
 import android.content.Intent;
@@ -48,7 +48,7 @@ public class PimDemoActivity extends UIDActivity {
         countryList.add("United States");
         countryList.add("Netherlands");
         countryList.add("Belgium");
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,countryList);
+       ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,countryList);
         spinnerCountrySelection.setAdapter(arrayAdapter);
         spinnerCountrySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -63,6 +63,7 @@ public class PimDemoActivity extends UIDActivity {
 
             }
         });
+
 
         uAppInterface.init(new PIMDemoUAppDependencies(appInfraInterface), new PIMDemoUAppSettings(getApplicationContext()));
     }

@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V. 2019
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
+ */
+
 package com.philips.platform.pim;
 
 import android.content.Context;
@@ -21,7 +27,11 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
-
+/**
+ * Used to initialize and launch PIM
+ *
+ * @since TODO:Shashi need to update pim version
+ */
 public class PIMInterface implements UappInterface {
     private static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
     private final String TAG = PIMInterface.class.getSimpleName();
@@ -30,11 +40,11 @@ public class PIMInterface implements UappInterface {
     private Context context;
 
     /**
-     * API to initialize PIM. Please make sure no propositions are being used before URInterface$init.
+     * API to initialize PIM. Please make sure no propositions are being used before PIMInterface$init.
      *
      * @param uappDependencies pass instance of UappDependencies
      * @param uappSettings     pass instance of UappSettings
-     * @since TODO
+     * @since TODO: Update version
      */
     @Override
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
@@ -58,7 +68,7 @@ public class PIMInterface implements UappInterface {
      *
      * @param uiLauncher      pass ActivityLauncher or FragmentLauncher
      * @param uappLaunchInput pass instance of  URLaunchInput
-     * @since TODO
+     * @since TODO: Update version
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -94,7 +104,7 @@ public class PIMInterface implements UappInterface {
     /**
      * Get the User Data Interface
      *
-     * @since TODO
+     * @since TODO: Update PIM version
      */
     public UserDataInterface getUserDataInterface() {
         if (context == null) {

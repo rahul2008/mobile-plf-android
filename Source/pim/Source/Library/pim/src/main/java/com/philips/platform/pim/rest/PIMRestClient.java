@@ -4,6 +4,9 @@ import com.android.volley.Response;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.pim.manager.PIMSettingManager;
 
+/**
+ * A class to invoke rest api request
+ */
 public class PIMRestClient {
 
     private RestInterface restInterface;

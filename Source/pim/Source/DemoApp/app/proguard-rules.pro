@@ -5,14 +5,5 @@
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
 
--keepattributes InnerClasses,Exceptions
-#appinfra
--keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
--keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
-
-
 -ignorewarnings
 
--keep class * {
-    public private *;
-}

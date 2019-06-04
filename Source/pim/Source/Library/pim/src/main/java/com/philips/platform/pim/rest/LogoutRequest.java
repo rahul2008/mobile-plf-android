@@ -7,9 +7,13 @@ import net.openid.appauth.AuthState;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class to create logout request
+ */
 public class LogoutRequest implements PIMRequestInterface {
     private AuthState mAuthState;
     private String mClientId;
+
 
     public LogoutRequest(AuthState authState, String clientId) {
         mAuthState = authState;

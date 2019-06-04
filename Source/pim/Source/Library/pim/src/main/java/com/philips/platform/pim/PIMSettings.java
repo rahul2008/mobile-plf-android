@@ -1,9 +1,19 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V. 2019
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
+ */
+
 package com.philips.platform.pim;
 
 import android.content.Context;
 
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+/**
+ * It passes the proposition Application context to PIM component
+ * @since TODO: Shashi, Version needs to update
+ */
 public class PIMSettings extends UappSettings {
     /**
      * Constructor for Uappsettings

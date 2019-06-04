@@ -15,6 +15,9 @@ import java.util.Iterator;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
+/**
+ * Class to hold user info
+ */
 public class PIMOIDCUserProfile {
 
     private final String TAG = PIMOIDCUserProfile.class.getSimpleName();
@@ -29,6 +32,12 @@ public class PIMOIDCUserProfile {
         parseUserProfileJsonDataToMap(userProfileJson);
     }
 
+    /**
+     *
+     * Method to get user profile based on key list
+     * @param keyList list of keys
+     * @return user info based on key list
+     */
     public HashMap<String, Object> fetchUserDetails(ArrayList<String> keyList) {
         HashMap<String,Object> userDetailsMap = new HashMap<>();
         for (String key:
@@ -39,6 +48,10 @@ public class PIMOIDCUserProfile {
         return null;
     }
 
+    /**
+     * Parse json user profile response to map
+     * @param userProfleJson response received on request user profile
+     */
     private void parseUserProfileJsonDataToMap(String userProfleJson) {
         if(userProfleJson == null){
             mLoggingInterface.log(DEBUG,TAG,"User Profile is not available");

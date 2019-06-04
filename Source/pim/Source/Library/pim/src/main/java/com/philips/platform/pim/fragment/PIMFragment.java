@@ -27,7 +27,10 @@ import java.util.Formatter;
 import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
-
+/**
+ * Launch CLP page for authentication and Profile page if authenticated,
+ * Exchange authorization code.
+ */
 public class PIMFragment extends Fragment implements PIMLoginListener {
     private PIMLoginManager pimLoginManager;
     private PIMOIDCConfigration pimoidcConfigration;
@@ -41,7 +44,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         super.onCreate(savedInstanceState);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
-        pimLoginManager = new PIMLoginManager(pimoidcConfigration);
+        pimLoginManager = new PIMLoginManager(mContext,pimoidcConfigration);
     }
 
     @Nullable
@@ -63,15 +66,21 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         return view;
     }
 
+    /**
+     * Launch web page for authentication.
+     */
     private void launchLoginPage() {
         try {
-            Intent authReqIntent = pimLoginManager.getAuthReqIntent(mContext, this);
+            Intent authReqIntent = pimLoginManager.getAuthReqIntent(this);
             startActivityForResult(authReqIntent, 100);
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching login page failed.");
         }
     }
 
+    /**
+     * Launch user profile page if user is logged in.
+     */
     private void launchUserProfilePage() {
 
         //TODO : Temp:  The url will be uploaded and fetched from Service Discovery
@@ -111,9 +120,9 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         mLoggingInterface.log(DEBUG, TAG, "onActivityResult : " + requestCode);
         if (resultCode == RESULT_CANCELED) {
             pimLoginProgreassBar.setVisibility(View.GONE);
-        } else {
+        } else if(requestCode == 100) {
             pimLoginProgreassBar.setVisibility(View.VISIBLE);
-            pimLoginManager.exchangeAuthorizationCode(mContext, data);
+            pimLoginManager.exchangeAuthorizationCode(data);
         }
     }
 }

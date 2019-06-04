@@ -2,6 +2,7 @@ package com.philips.platform.pim.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -9,7 +10,9 @@ import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
 import com.philips.platform.pim.rest.LogoutRequest;
@@ -23,8 +26,11 @@ import org.json.JSONObject;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
+/**
+ * Class to manage users
+ */
 public class PIMUserManager {
-    public static final String COM_PIM_ACTIVEUUID = "com.pim.activeuuid";
+    private static final String PIM_ACTIVEUUID = "com.pim.activeuuid";
     private PIMOIDCUserProfile pimoidcUserProfile;
     private Context context;
     private AppInfraInterface appInfraInterface;
@@ -32,18 +38,22 @@ public class PIMUserManager {
     private final String TAG = PIMUserManager.class.getSimpleName();
     private AuthState authState;
     private PIMRestClient pimRestClient;
-    private String userInfoKey;
-    private String authStateKey;
+    private PIMAuthManager pimAuthManager;
+    private String uuid;
 
-    public void init(Context context, AppInfraInterface appInfraInterface) {
-        //get Secure Storage user profile
+    public PIMUserManager() {
+       pimAuthManager = new PIMAuthManager();
+    }
+
+    public void init(@NonNull Context context, @NonNull AppInfraInterface appInfraInterface) {
         this.context = context;
         this.appInfraInterface = appInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        String subid = getSubIDFromPref();
-        if (subid != null) {
-            authState = getAuthStateFromSecureStorage(subid);
-            String userProfileJson = getUserProfileFromSecureStorage(subid);
+        uuid = getUUIDFromPref();
+        if (isUUIDAvailable()) {
+            //On app relaunch if UUID is saved then fetch profile and auth state from secure storage
+            authState = getAuthStateFromSecureStorage();
+            String userProfileJson = getUserProfileFromSecureStorage();
             pimoidcUserProfile = new PIMOIDCUserProfile(userProfileJson, authState);
         }
         pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
@@ -51,118 +61,27 @@ public class PIMUserManager {
     }
 
 
-    void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
+    public void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState);
         pimRestClient.invokeRequest(userProfileRequest, response -> {
-            authState = oidcAuthState; //TODO: Shashi, Do we really need this. check impact?
+
+            authState = oidcAuthState;
             pimoidcUserProfile = new PIMOIDCUserProfile(response, authState);
-            saveSubIDToPreference(response);
-            storeUserProfileToSecureStorage(response);
-            storeAuthStateToSecureStorage(response, oidcAuthState);
-            userProfileRequestListener.onUserProfileDownloadSuccess();
+            uuid = getUUIDFromUserProfileJson(response);
+
+            saveUUIDToPreference(uuid); //Store uuid from json reponse to shared preference
+            storeUserProfileToSecureStorage(response); //store jsonm reponse to secure storgae
+            storeAuthStateToSecureStorage(oidcAuthState); //store auth state to secure storage
+
+            if (userProfileRequestListener != null)
+                userProfileRequestListener.onUserProfileDownloadSuccess();
         }, error -> {
-            userProfileRequestListener.onUserProfileDownloadFailed(new Error(Error.UserDetailError.NetworkError));
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
+            if (userProfileRequestListener != null)
+                userProfileRequestListener.onUserProfileDownloadFailed(new Error(Error.UserDetailError.NetworkError));
         });
     }
 
-    private void storeUserProfileToSecureStorage(String jsonUserProfileResponse) {
-        String userInfoKey = getKeyForStoringUserInfo(jsonUserProfileResponse);
-        if (userInfoKey != null) {
-            boolean isStored = appInfraInterface.getSecureStorage().storeValueForKey(userInfoKey, jsonUserProfileResponse, new SecureStorageInterface.SecureStorageError());
-            mLoggingInterface.log(DEBUG, TAG, "UserProfile Stored to Secure storage : " + isStored);
-        } else
-            mLoggingInterface.log(DEBUG, TAG, "Key is null");
-    }
-
-    private String getUserProfileFromSecureStorage(String subID) {
-        String userInfoKey = "UUID_" + subID + "_AuthState";
-        return appInfraInterface.getSecureStorage().fetchValueForKey(userInfoKey, new SecureStorageInterface.SecureStorageError());
-    }
-
-    private void storeAuthStateToSecureStorage(String jsonUserProfileResponse, AuthState authState) {
-        String authStateKey = getKeyForStoringAuthState(jsonUserProfileResponse);
-        if (authStateKey != null) {
-            boolean isStored = appInfraInterface.getSecureStorage().storeValueForKey(authStateKey, authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
-            mLoggingInterface.log(DEBUG, TAG, "AuthState Stored to Secure storage : " + isStored);
-        } else
-            mLoggingInterface.log(DEBUG, TAG, "authStateKey is null");
-    }
-
-    private AuthState getAuthStateFromSecureStorage(String subID) {
-        String authstatekey = "UUID_" + subID + "_AuthState";
-        String authStateString = appInfraInterface.getSecureStorage().fetchValueForKey(authstatekey, new SecureStorageInterface.SecureStorageError());
-        AuthState authState = null;
-        if (authStateString != null) {
-            try {
-                authState = AuthState.jsonDeserialize(authStateString);
-            } catch (JSONException e) {
-                mLoggingInterface.log(DEBUG, TAG, "exception in getAuthStateFromSecureStorage : " + e.getMessage());
-            }
-        }
-        return authState;
-    }
-
-    private String getKeyForStoringUserInfo(String userInfoJson) {
-        String subID = getSubjectIDFromUserProfileJson(userInfoJson);
-        if (subID == null)
-            return null;
-        else {
-            userInfoKey = "UUID_" + subID + "_UserInfo";
-            return userInfoKey;
-        }
-    }
-
-    private String getKeyForStoringAuthState(String userInfoJson) {
-        String subID = getSubjectIDFromUserProfileJson(userInfoJson);
-        if (subID == null)
-            return null;
-        else {
-            authStateKey = "UUID_" + subID + "_AuthState";
-            return authStateKey;
-        }
-    }
-
-    private String getSubjectIDFromUserProfileJson(String userProfileJson) {
-        if (userProfileJson == null)
-            return null;
-        try {
-            JSONObject jsonObject = new JSONObject(userProfileJson);
-            return jsonObject.getString("sub");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // Here Sub id means subject id which is equivalent to UUID
-    private String getSubIDFromPref() {
-        if (context == null)
-            return null;
-        SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("com.pim.activeuuid", null);
-    }
-
-    private void saveSubIDToPreference(String userInfoJson) {
-        String subID = getSubjectIDFromUserProfileJson(userInfoJson);
-        if (subID != null || context != null) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("com.pim.activeuuid", subID);
-            editor.apply();
-        } else {
-            mLoggingInterface.log(DEBUG, TAG, "SubID or context is null");
-        }
-    }
-
-    private void removeSubIDFromPref() {
-        if (context == null)
-            return;
-        SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(COM_PIM_ACTIVEUUID);
-        editor.apply();
-    }
 
     public UserLoggedInState getUserLoggedInState() {
         if (authState != null && pimoidcUserProfile != null)
@@ -175,19 +94,129 @@ public class PIMUserManager {
         return pimoidcUserProfile;
     }
 
+    public void refreshSession(RefreshSessionListener refreshSessionListener) {
+        pimAuthManager.refreshToken(authState, new PIMTokenRequestListener() {
+            @Override
+            public void onTokenRequestSuccess() {
+                storeAuthStateToSecureStorage(authState);  //Update auth state to secure storage on token refresh
+                refreshSessionListener.refreshSessionSuccess();
+            }
+
+            @Override
+            public void onTokenRequestFailed(Error error) {
+                refreshSessionListener.refreshSessionFailed(error);
+            }
+        });
+    }
 
     public void logoutSession(LogoutSessionListener logoutSessionListener) {
         String clientID = new PIMOIDCConfigration().getClientId();
-        LogoutRequest logoutRequest = new LogoutRequest(authState,clientID);
+        LogoutRequest logoutRequest = new LogoutRequest(authState, clientID);
         pimRestClient.invokeRequest(logoutRequest, response -> {
-            logoutSessionListener.logoutSessionSuccess();
-            appInfraInterface.getSecureStorage().removeValueForKey(userInfoKey);
-            appInfraInterface.getSecureStorage().removeValueForKey(authStateKey);
-            removeSubIDFromPref();
+            pimAuthManager.dispose();
+            appInfraInterface.getSecureStorage().removeValueForKey(getAuthStateKey());
+            appInfraInterface.getSecureStorage().removeValueForKey(getUserInfoKey());
+            removeUUIDFromPref();
             authState = null;
             pimoidcUserProfile = null;
+            logoutSessionListener.logoutSessionSuccess();
         }, error -> {
             logoutSessionListener.logoutSessionFailed(new Error(Error.UserDetailError.NetworkError));
         });
+    }
+
+    private void storeUserProfileToSecureStorage(String jsonUserProfileResponse) {
+        if (isUUIDAvailable()) {
+            boolean isStored = appInfraInterface.getSecureStorage().storeValueForKey(getUserInfoKey(), jsonUserProfileResponse, new SecureStorageInterface.SecureStorageError());
+            mLoggingInterface.log(DEBUG, TAG, "UserProfile Stored to Secure storage : " + isStored);
+        }
+    }
+
+    private String getUserProfileFromSecureStorage() {
+        if(isUUIDAvailable()) {
+            return appInfraInterface.getSecureStorage().fetchValueForKey(getUserInfoKey(), new SecureStorageInterface.SecureStorageError());
+        }
+        return null;
+    }
+
+    private void storeAuthStateToSecureStorage(AuthState authState) {
+        if (isUUIDAvailable()) {
+            boolean isStored = appInfraInterface.getSecureStorage().storeValueForKey(getAuthStateKey(), authState.jsonSerializeString(), new SecureStorageInterface.SecureStorageError());
+            mLoggingInterface.log(DEBUG, TAG, "AuthState Stored to Secure storage : " + isStored);
+        }
+    }
+
+    private AuthState getAuthStateFromSecureStorage() {
+        if(isUUIDAvailable()) {
+            String authStateString = appInfraInterface.getSecureStorage().fetchValueForKey(getAuthStateKey(), new SecureStorageInterface.SecureStorageError());
+            if (authStateString != null) {
+                try {
+                    return AuthState.jsonDeserialize(authStateString);
+                } catch (JSONException e) {
+                    mLoggingInterface.log(DEBUG, TAG, "exception in getAuthStateFromSecureStorage : " + e.getMessage());
+                }
+            }
+        }
+        return null;
+    }
+
+    private String getUUIDFromUserProfileJson(String userProfileJson) {
+        if (userProfileJson == null)
+            return null;
+        try {
+            JSONObject jsonObject = new JSONObject(userProfileJson);
+            return jsonObject.getString("sub"); //sub in response json represents UUID
+        } catch (JSONException e) {
+            mLoggingInterface.log(DEBUG, TAG, "exception in getUUIDFromUserProfileJson : " + e.getMessage());
+        }
+        return null;
+    }
+
+    private String getUUIDFromPref() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PIM_ACTIVEUUID, null);
+    }
+
+    private void saveUUIDToPreference(String uuid) {
+        if (uuid != null) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(PIM_ACTIVEUUID, uuid);
+            editor.apply();
+        } else {
+            mLoggingInterface.log(DEBUG, TAG, "UUID or context is null");
+        }
+    }
+
+    private void removeUUIDFromPref() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(PIM_ACTIVEUUID);
+        editor.apply();
+    }
+
+    /**
+     * @return key for storing/fetching user info into/from secure storage
+     */
+    private String getUserInfoKey() {
+        return  "UUID_" + uuid + "_UserInfo";
+    }
+
+    /**
+     * @return key for storing/fetching auth state into/from secure storage
+     */
+    private String getAuthStateKey() {
+        return  "UUID_" + uuid + "_AuthState";
+    }
+
+    /**
+     * @return false if uuid is null else true
+     */
+    private boolean isUUIDAvailable() {
+        if (uuid == null) {
+            mLoggingInterface.log(DEBUG, TAG, "UUID not found");
+            return false;
+        }
+        return true;
     }
 }

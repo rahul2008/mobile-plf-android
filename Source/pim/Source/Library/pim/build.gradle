@@ -44,7 +44,7 @@ android {
 
     buildTypes {
         release {
-            proguardFiles 'proguard-rules-pim.pro'
+            consumerProguardFiles 'proguard-rules-pim.pro'
         }
         debug {
             debuggable true
@@ -91,5 +91,4 @@ dependencies {
     testImplementation deps.powermock_junit_rule_agent
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
-
 }
