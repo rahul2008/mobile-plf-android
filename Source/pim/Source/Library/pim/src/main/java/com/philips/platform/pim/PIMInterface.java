@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.fragment.PIMFragment;
-import com.philips.platform.pim.manager.PIMAuthManager;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
@@ -52,9 +51,7 @@ public class PIMInterface implements UappInterface {
         context = uappSettings.getContext();
 
         PIMSettingManager.getInstance().init(uappDependencies);
-
-        PIMAuthManager pimAuthManager= new PIMAuthManager(context);
-        PIMUserManager pimUserManager = new PIMUserManager(pimAuthManager);
+        PIMUserManager pimUserManager = new PIMUserManager();
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
         pimUserManager.init(context, uappDependencies.getAppInfra());
         PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);

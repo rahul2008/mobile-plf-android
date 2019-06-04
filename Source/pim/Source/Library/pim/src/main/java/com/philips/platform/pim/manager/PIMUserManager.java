@@ -41,8 +41,8 @@ public class PIMUserManager {
     private PIMAuthManager pimAuthManager;
     private String uuid;
 
-    public PIMUserManager(PIMAuthManager pimAuthManager) {
-        this.pimAuthManager = pimAuthManager;
+    public PIMUserManager() {
+       pimAuthManager = new PIMAuthManager();
     }
 
     public void init(@NonNull Context context, @NonNull AppInfraInterface appInfraInterface) {
