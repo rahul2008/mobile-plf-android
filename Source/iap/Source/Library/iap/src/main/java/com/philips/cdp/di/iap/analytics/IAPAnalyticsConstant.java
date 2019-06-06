@@ -85,5 +85,7 @@ public class IAPAnalyticsConstant {
     public static final String PRODUCT_DESCRIPTION_MISSING = "ProductDescriptionMissing";
     public static final String APPLY_VOUCHER = "applyVoucher";
     public static final String PAYMENT_FAILURE = "paymentFailure";
+
+    public static final String KEY_EXIT_LINK_RETAILER = "exitlinkname";
 }
 

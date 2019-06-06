@@ -22,6 +22,8 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 
 public abstract class WebFragment extends InAppBaseFragment {
@@ -42,6 +44,7 @@ public abstract class WebFragment extends InAppBaseFragment {
         createCustomProgressBar(mParentContainer,BIG);
 
         mUrl = getWebUrl();
+        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,IAPAnalyticsConstant.KEY_EXIT_LINK_RETAILER,mUrl);
         return viewGroup;
     }
 
