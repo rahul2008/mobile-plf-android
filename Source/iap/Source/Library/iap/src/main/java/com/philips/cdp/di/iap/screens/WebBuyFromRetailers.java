@@ -29,8 +29,10 @@ import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPUtility;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import static android.provider.CalendarContract.CalendarCache.URI;
 
@@ -88,8 +90,6 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
                 String tagUrl = url ;
                 if(isPhilipsShop){
                    tagUrl = getPhilipsFormattedUrl(url);
-
-                    Log.d("pabitra" , "taggedUrl :"+tagUrl);
                 }
                 IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,IAPAnalyticsConstant.KEY_EXIT_LINK_RETAILER,tagUrl);
                 super.onPageStarted(view, url, favicon);
@@ -159,11 +159,14 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     }
 
     private boolean isParameterizedURL(String url) {
-        String parameter = "cstrackid";
-        if(url.contains("?" + parameter + "=") || url.contains("&" + parameter + "="))
-            return true;
-        else
-            return false;
+
+        try {
+            URL urlString  = new URL(url);
+            return urlString.getQuery() != null || urlString.getQuery().length()!=0;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private boolean shouldHandleError(final int errorCode) {

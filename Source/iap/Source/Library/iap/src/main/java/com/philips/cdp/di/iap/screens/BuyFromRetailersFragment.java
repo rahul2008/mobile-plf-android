@@ -92,12 +92,8 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
         bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntity.getName());
-        bundle.putBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP, isPhilipsShop(storeEntity));
+        bundle.putBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntity));
         addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null,true);
-    }
-
-    private boolean isPhilipsShop(StoreEntity storeEntity) {
-        return storeEntity.getIsPhilipsStore().equalsIgnoreCase("Y");
     }
 
     private String uuidWithSupplierLink(String buyURL) {
