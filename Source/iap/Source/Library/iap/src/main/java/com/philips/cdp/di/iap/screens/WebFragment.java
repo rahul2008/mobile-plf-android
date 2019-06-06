@@ -44,7 +44,6 @@ public abstract class WebFragment extends InAppBaseFragment {
         createCustomProgressBar(mParentContainer,BIG);
 
         mUrl = getWebUrl();
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,IAPAnalyticsConstant.KEY_EXIT_LINK_RETAILER,mUrl);
         return viewGroup;
     }
 

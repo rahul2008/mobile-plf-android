@@ -141,4 +141,5 @@ public class IAPConstant {
     public static final int UN_LIMIT_CART_COUNT = 0;
 
 
+    public static final String IAP_IS_PHILIPS_SHOP = "IAP_IS_PHILIPS_SHOP";
 }

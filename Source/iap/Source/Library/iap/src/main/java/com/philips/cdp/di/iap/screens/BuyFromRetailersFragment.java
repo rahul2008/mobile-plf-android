@@ -70,6 +70,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         mRecyclerView = rootView.findViewById(R.id.iap_retailer_list);
         if (getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO) != null)
             mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO);
+
         return rootView;
     }
 
@@ -87,22 +88,16 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     }
 
     @Override
-    public void onClickAtRetailer(String buyURL, String name) {
+    public void onClickAtRetailer(String buyURL,  StoreEntity storeEntity) {
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
-        bundle.putString(IAPConstant.IAP_STORE_NAME, name);
-
-        if(isPhilipsShop()){
-
-        }else{
-         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,IAPAnalyticsConstant.KEY_EXIT_LINK_RETAILER,uuidWithSupplierLink(buyURL));
-        }
-
+        bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntity.getName());
+        bundle.putBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP, isPhilipsShop(storeEntity));
         addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null,true);
     }
 
-    private boolean isPhilipsShop() {
-        return false;
+    private boolean isPhilipsShop(StoreEntity storeEntity) {
+        return storeEntity.getIsPhilipsStore().equalsIgnoreCase("Y");
     }
 
     private String uuidWithSupplierLink(String buyURL) {
@@ -125,6 +120,5 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         }
         return supplierLinkWithUUID + String.valueOf(UUID.randomUUID() + "&wtbSource=" + propositionId);
     }
-
 
 }

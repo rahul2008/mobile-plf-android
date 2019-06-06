@@ -29,7 +29,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private BuyFromRetailersListener mBuyFromRetailersListener;
 
     public interface BuyFromRetailersListener {
-        void onClickAtRetailer(String buyURL, String name);
+        void onClickAtRetailer(String buyURL, StoreEntity storeEntity);
     }
 
     public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager,
@@ -73,7 +73,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                             mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
                 } else {
                     tagOnSelectRetailer(storeEntity);
-                    mBuyFromRetailersListener.onClickAtRetailer(buyURL, storeEntity.getName());
+                    mBuyFromRetailersListener.onClickAtRetailer(buyURL, storeEntity);
                 }
             }
         });
@@ -129,7 +129,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 boolean isSelected = this.itemView.isSelected();
                 this.itemView.setSelected(!isSelected);
                 this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_list_item_background_selector));
-                mBuyFromRetailersListener.onClickAtRetailer(buyURL, mStoreList.get(getAdapterPosition()).getName());
+                mBuyFromRetailersListener.onClickAtRetailer(buyURL, mStoreList.get(getAdapterPosition()));
             }
         }
     }
