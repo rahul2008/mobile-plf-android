@@ -4,6 +4,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pim.utilities.PIMInitState;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class PIMConfigManager {
             downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
         else {
             mLoggingInterface.log(DEBUG, TAG, "downloadSDServiceURLs skipped as user is logged in. ");
+            PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_SUCCESS);
         }
     }
 
@@ -47,6 +49,7 @@ public class PIMConfigManager {
                     ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
                     if (serviceDiscoveryService == null) {
                         mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success  : serviceDiscovery response is null");
+                        PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_FAILED);
                     } else {
                         PIMSettingManager.getInstance().setLocale(serviceDiscoveryService.getLocale());
                         String configUrls = serviceDiscoveryService.getConfigUrls();
@@ -56,6 +59,7 @@ public class PIMConfigManager {
                             pimOidcDiscoveryManager.downloadOidcUrls(configUrls); //Download OIDC configuration
                         } else {
                             mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : No service url found for Issuer service id");
+                            PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_FAILED);
                         }
                     }
                 }
@@ -63,6 +67,7 @@ public class PIMConfigManager {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
                     mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs error. ERRORVALUES: " + error + " Message: " + message);
+                    PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_FAILED);
                 }
             }, null);
         }).start();
