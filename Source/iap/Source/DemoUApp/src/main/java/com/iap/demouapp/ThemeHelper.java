@@ -1,4 +1,4 @@
-package com.philips.platform.ccdemouapp.util;/*
+package com.iap.demouapp;/*
  * (C) Koninklijke Philips N.V., 2016.
  * All rights reserved.
  *
@@ -28,12 +28,6 @@ public class ThemeHelper {
         this.mContext = context;
     }
 
-    public NavigationColor initNavigationRange() {
-        String navigation = sharedPreferences.getString(UIDHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
-        final NavigationColor navigationColor = NavigationColor.valueOf(navigation);
-        return navigationColor;
-    }
-
     public ColorRange initColorRange() {
         String color = sharedPreferences.getString(UIDHelper.COLOR_RANGE, ColorRange.GROUP_BLUE.name());
         final ColorRange colorRange = ColorRange.valueOf(color);
@@ -46,9 +40,6 @@ public class ThemeHelper {
         return contentColor;
     }
 
-    public ThemeConfiguration getThemeConfig() {
-        return new ThemeConfiguration( mContext, this.initContentTonalRange(), this.initNavigationRange());
-    }
 
 
     @StyleRes
@@ -77,25 +68,5 @@ public class ThemeHelper {
                 s.substring(1).toLowerCase();
     }
 
-    public void changeTheme() {
-        saveThemeSettings();
-    }
 
-    private static <T extends Enum<?>> T randomEnum(Class<T> clazz){
-        int x = new Random().nextInt(clazz.getEnumConstants().length);
-        return clazz.getEnumConstants()[x];
-    }
-
-    public void saveThemeSettings() {
-        saveThemeValues(UIDHelper.COLOR_RANGE, randomEnum(ColorRange.class).name());
-        saveThemeValues(UIDHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
-        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE,ContentColor.VERY_LIGHT.name());
-    }
-
-    @SuppressLint("CommitPrefEdits")
-    private void saveThemeValues(final String key, final String name) {
-        final SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString(key, name);
-        edit.commit();
-    }
 }
