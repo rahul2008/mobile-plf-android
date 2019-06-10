@@ -6,10 +6,12 @@ package com.philips.cdp.di.iap.screens;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +27,27 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPUtility;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+import static android.provider.CalendarContract.CalendarCache.URI;
 
 public class WebBuyFromRetailers extends InAppBaseFragment {
     public static final String TAG = WebBuyFromRetailers.class.getName();
     private WebView mWebView;
     private String mUrl;
+    private boolean isPhilipsShop = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
         createCustomProgressBar(group,BIG);
         mUrl = getArguments().getString(IAPConstant.IAP_BUY_URL);
+        isPhilipsShop = getArguments().getBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP);
         initializeWebView(group);
         return group;
     }
@@ -71,6 +83,16 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
                 super.onPageFinished(view, url);
                 hideProgressBar();
 
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                String tagUrl = url ;
+                if(isPhilipsShop){
+                   tagUrl = getPhilipsFormattedUrl(url);
+                }
+                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,IAPAnalyticsConstant.KEY_EXIT_LINK_RETAILER,tagUrl);
+                super.onPageStarted(view, url, favicon);
             }
 
             @Override
@@ -121,11 +143,32 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
         });
 
         mWebView.loadUrl(mUrl);
-
-
-
-
     }
+
+    public String getPhilipsFormattedUrl(String url) {
+
+        String appName = IAPUtility.getInstance().getAppName();
+        String localeTag = IAPUtility.getInstance().getLocaleTag();
+        Uri.Builder builder = new Uri.Builder().appendQueryParameter("origin", String.format(IAPAnalyticsConstant.PHILIPS_EXIT_LINK_PARAMETER,localeTag,appName,appName));
+
+          if(isParameterizedURL(url)){
+              return  url + "&" + builder.toString().replace("?","");
+          }else{
+              return url + builder.toString();
+          }
+    }
+
+    private boolean isParameterizedURL(String url) {
+
+        try {
+            URL urlString  = new URL(url);
+            return urlString.getQuery() != null || urlString.getQuery().length()!=0;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private boolean shouldHandleError(final int errorCode) {
         return (errorCode == WebViewClient.ERROR_CONNECT
                 || errorCode == WebViewClient.ERROR_BAD_URL

@@ -338,7 +338,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         if(isUserLoggedIn()) {
-
             try {
                 mIapInterface.getProductCartCount(this);
             }catch (Exception e){
