@@ -239,7 +239,9 @@ public class MobileForgotPassVerifyResendCodeFragment extends RegistrationBaseFr
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        if(!EventBus.getDefault().isRegistered(this) ){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
