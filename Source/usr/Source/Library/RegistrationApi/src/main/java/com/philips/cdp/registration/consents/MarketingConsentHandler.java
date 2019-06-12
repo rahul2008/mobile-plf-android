@@ -89,7 +89,17 @@ public class MarketingConsentHandler implements ConsentHandlerInterface {
     public void storeConsentTypeState(String consentType, boolean status, int version, PostConsentTypeCallback callback) {
         if (appInfra.getRestClient().isInternetReachable()) {
             RLog.d(TAG, "storeConsentTypeState, So updateReceiveMarketingEmail ");
-            getUser().updateReceiveMarketingEmail(new MarketingUpdateCallback(callback), status);
+            getUser().updateReceiveMarketingEmail(new com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler() {
+                @Override
+                public void onUpdateSuccess() {
+
+                }
+
+                @Override
+                public void onUpdateFailedWithError(int error) {
+
+                }
+            }, status);
         } else {
             callback.onPostConsentFailed(NO_CONNECTION_ERROR);
         }
