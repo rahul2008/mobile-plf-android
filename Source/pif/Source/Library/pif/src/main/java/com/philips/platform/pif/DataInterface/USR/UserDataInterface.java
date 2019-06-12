@@ -10,6 +10,7 @@ import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationLi
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 
 import java.io.Serializable;
@@ -20,7 +21,6 @@ import java.util.HashMap;
  * Data interface for getting the user data
  *
  * @since 2018.1.0
- *
  */
 public interface UserDataInterface extends Serializable {
 
@@ -104,12 +104,22 @@ public interface UserDataInterface extends Serializable {
      */
     void refetchUserDetails(RefetchUserDetailsListener userDetailsListener);
 
+    /**
+     * Update the receive marketing email.
+     *
+     * @param updateUserDetailsHandler instance of UpdateUserDetailsHandler callback
+     * @param receiveMarketingEmail    does User want to receive marketing email or not.
+     *                                 Pass true if User wants to receive or else false .
+     * @since 1903
+     */
+    public void updateReceiveMarketingEmail(
+            final UpdateUserDetailsHandler updateUserDetailsHandler,
+            final boolean receiveMarketingEmail);
 
     /**
      * Register UserDataListener for logout,refreshSession and refechUserDeatils
      *
      * @param userDataListener listener
-     *
      * @since 1903
      */
     void addUserDataInterfaceListener(UserDataListener userDataListener);
@@ -118,7 +128,6 @@ public interface UserDataInterface extends Serializable {
      * Remove UserDataListener
      *
      * @param userDataListener
-     *
      * @since 1903
      */
     void removeUserDataInterfaceListener(UserDataListener userDataListener);
