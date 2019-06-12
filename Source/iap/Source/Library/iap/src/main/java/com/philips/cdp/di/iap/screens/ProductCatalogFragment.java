@@ -70,12 +70,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private final int page_size = 20;
     private int mTotalResults = 0;
-    private int mCurrentPage = 0;
+    private int mCurrentPage = -1;
     private int mRemainingProducts = 0;
     private int mTotalPages = -1;
     private Bundle mBundle;
     private boolean mIsLoading = false;
-    private boolean mIsProductsAvailable = true;
     private RelativeLayout mParentLayout;
     private AppCompatAutoCompleteTextView mSearchTextView;
     private LinearLayout mBannerLayout;
@@ -94,6 +93,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mPresenter = ControllerFactory.getInstance()
                 .getProductCatalogPresenter(mContext, this);
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
+
+        mTotalResults = IAPUtility.getInstance().getmTotalResults();
+        mCurrentPage =  IAPUtility.getInstance().getmCurrentPage();
+        mRemainingProducts = IAPUtility.getInstance().getmRemainingProducts();
+        mTotalPages = IAPUtility.getInstance().getmTotalPages();
 
     }
 
@@ -153,14 +157,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
 
+
         mShoppingCartAPI = new ShoppingCartPresenter();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
-        if (!mIsProductsAvailable) {
-            mRecyclerView.setVisibility(View.GONE);
-            mEmptyCatalogText.setVisibility(View.VISIBLE);
-            mSearchBox.setVisibility(View.GONE);
-        }
+
         mBundle = getArguments();
         return rootView;
     }
@@ -213,7 +214,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (!isLocalData &&
                 CartModelContainer.getInstance().getProductList() != null
                 && CartModelContainer.getInstance().getProductList().size() != 0) {
-            onLoadFinished(getCachedProductList(), null);
+            onLoadFinished(getCachedProductList(), IAPUtility.getInstance().getPaginationEntity());
         } else {
             fetchProductList();
         }
@@ -294,30 +295,35 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if(ControllerFactory.getInstance().isPlanB() && isCategorizedFlow()){
             mPresenter.getCategorizedProductList(getCategorizedCTNs());
         }else{
-            if (!mPresenter.getProductCatalog(mCurrentPage++, page_size, null)) {
-                mIsProductsAvailable = false;
-            }
+            mPresenter.getProductCatalog(++mCurrentPage, page_size, null);
+                IAPUtility.getInstance().setmCurrentPage(mCurrentPage);
         }
 
     }
 
     private void loadMoreItems() {
-        if (mCurrentPage == mTotalPages) {
-            hideProgressBar();
-            return;
-        } else
+        mIsLoading = true;
+        if (mCurrentPage+1 < mTotalPages) {
             fetchProductList();
+        } else{
+
+            if (mAdapter.getItemCount() == 0){
+                onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                        ("", mContext.getString(R.string.iap_no_product_available)));
+            }
+            hideProgressBar();
+        }
+
     }
 
     @Override
     public void onLoadFinished(ArrayList<ProductCatalogData> dataFetched,
                                PaginationEntity paginationEntity) {
+        IAPUtility.getInstance().setPaginationEntity(paginationEntity);
         if (dataFetched.size() > 0) {
 
             if (isCategorizedFlow()) {
                 dataFetched = handleCategorizedFlow();
-                hideProgressBar();
-                if (dataFetched == null) return;
             }
 
 
@@ -327,17 +333,29 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mIapListener.onSuccess();
 
 
-            if (paginationEntity == null)
+            if (paginationEntity == null) {
+                hideProgressBar();
                 return;
+            }
 
             if (mTotalResults == 0)
                 mRemainingProducts = paginationEntity.getTotalResults();
+            IAPUtility.getInstance().setmRemainingProducts(mRemainingProducts);
+
 
             mTotalResults = paginationEntity.getTotalResults();
+            IAPUtility.getInstance().setmTotalResults(mTotalResults);
+
             mCurrentPage = paginationEntity.getCurrentPage();
             mTotalPages = paginationEntity.getTotalPages();
+            IAPUtility.getInstance().setmTotalPages(mTotalPages);
             mIsLoading = false;
             hideProgressBar();
+
+            if(isCategorizedFlow() && shouldLoadMore()){
+                loadMoreItems();
+            }
+
         } else {
             onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                     ("", mContext.getString(R.string.iap_no_product_available)));
@@ -346,7 +364,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Nullable
     private ArrayList<ProductCatalogData> handleCategorizedFlow() {
-        ArrayList<ProductCatalogData> dataFetched;
         ArrayList<ProductCatalogData> productCatalogList = new ArrayList<>();
         CartModelContainer container = CartModelContainer.getInstance();
         for (String ctn : getCategorizedCTNs()) {
@@ -354,13 +371,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 productCatalogList.add(container.getProduct(ctn));
             }
         }
-        dataFetched = productCatalogList;
-        if (dataFetched.size() == 0) {
-            onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
-                    ("", mContext.getString(R.string.iap_no_product_available)));
-            return null;
-        }
-        return dataFetched;
+        return productCatalogList;
     }
 
     @Override
@@ -421,19 +432,25 @@ public class ProductCatalogFragment extends InAppBaseFragment
             int visibleItemCount = lay.getChildCount();
             int firstVisibleItemPosition = lay.findFirstVisibleItemPosition();
 
+            //Check if scroll down
+            if(isScrollDown(lay, visibleItemCount, firstVisibleItemPosition)){
 
-            if (!mIsLoading && (visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
-                    && firstVisibleItemPosition >= 0
-                    && mRemainingProducts > page_size) {
-                mIsLoading = true;
-                IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", " +
-                        "firstvisibleItemPistion " + firstVisibleItemPosition +
-                        "itemCount " + lay.getItemCount());
-                loadMoreItems();
+                if (shouldLoadMore()) {
+                    loadMoreItems();
+                }
+
             }
-
         }
     };
+
+    private boolean shouldLoadMore() {
+        return !mIsLoading && mRemainingProducts > page_size;
+    }
+
+    private boolean isScrollDown(LinearLayoutManager lay, int visibleItemCount, int firstVisibleItemPosition) {
+        return (visibleItemCount + firstVisibleItemPosition) >= lay.getItemCount()
+                && firstVisibleItemPosition >= 0;
+    }
 
     @Override
     public void onSearchExpanded() {
