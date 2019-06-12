@@ -360,6 +360,11 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
+
+
+        CartModelContainer.getInstance().clearProductList();
+        IAPUtility.getInstance().resetPegination();
+
         if(isUserLoggedIn()) {
             try {
                 mIapInterface.getProductCartCount(this);
@@ -480,10 +485,6 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
-
-        CartModelContainer.getInstance().clearProductList();
-        IAPUtility.getInstance().resetPegination();
-
 
         if (pIgnoreRetailerList == null)
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode);

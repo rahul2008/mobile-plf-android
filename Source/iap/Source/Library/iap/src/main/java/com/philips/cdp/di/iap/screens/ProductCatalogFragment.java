@@ -340,6 +340,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
             if (mTotalResults == 0)
                 mRemainingProducts = paginationEntity.getTotalResults();
+
             IAPUtility.getInstance().setmRemainingProducts(mRemainingProducts);
 
 
@@ -347,8 +348,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
             IAPUtility.getInstance().setmTotalResults(mTotalResults);
 
             mCurrentPage = paginationEntity.getCurrentPage();
+
+
             mTotalPages = paginationEntity.getTotalPages();
             IAPUtility.getInstance().setmTotalPages(mTotalPages);
+
             mIsLoading = false;
             hideProgressBar();
 
@@ -376,8 +380,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Override
     public void onLoadError(IAPNetworkError error) {
+
         if (error.getMessage() != null
                 && error.getMessage().equalsIgnoreCase(mContext.getResources().getString(R.string.iap_no_product_available))) {
+            if(mAdapter.getItemCount()>0)return;
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);

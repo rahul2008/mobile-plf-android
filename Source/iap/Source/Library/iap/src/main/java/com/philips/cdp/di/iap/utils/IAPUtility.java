@@ -118,6 +118,7 @@ public class IAPUtility {
     private int mTotalResults = 0;
     private int mCurrentPage = -1;
     private int mRemainingProducts = 0;
+    private int mTotalPages = -1;
 
     public int getmTotalResults() {
         return mTotalResults;
@@ -148,8 +149,9 @@ public class IAPUtility {
         mTotalResults = 0;
         mCurrentPage = -1;
         mRemainingProducts = 0;
+        mTotalPages = -1;
     }
 
-    private int mTotalPages = -1;
+
 
 }
