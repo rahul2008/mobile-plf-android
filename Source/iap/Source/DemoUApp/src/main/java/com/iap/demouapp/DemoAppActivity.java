@@ -58,6 +58,7 @@ import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
@@ -406,7 +407,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initTheme() {
-        int themeIndex = getIntent().getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+        int themeIndex = themeResourceID;
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }
@@ -462,8 +464,9 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode, pIgnoreRetailerList);
 
         try {
+            int themeResourceID = new ThemeHelper(this).getThemeResourceId();
             mIapInterface.launch(new ActivityLauncher
-                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, DEFAULT_THEME, null),
+                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, themeResourceID, null),
                     mIapLaunchInput);
 
         } catch (RuntimeException exception) {
