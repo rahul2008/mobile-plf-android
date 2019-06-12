@@ -716,7 +716,7 @@ public class User {
      * @since 1.0.0
      */
     public void updateReceiveMarketingEmail(
-            final UpdateUserDetailsHandler updateUserDetailsHandler,
+            final com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
         if (getUserNotLoggedInState()) {
             updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
