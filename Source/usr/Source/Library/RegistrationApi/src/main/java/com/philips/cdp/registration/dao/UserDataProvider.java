@@ -9,19 +9,22 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.UserLoginState;
+import com.philips.cdp.registration.controller.UpdateReceiveMarketingEmail;
 import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.listener.HSDPAuthenticationListener;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 
 import java.util.ArrayList;
@@ -195,6 +198,20 @@ public class UserDataProvider extends User implements UserDataInterface {
     public void refetchUserDetails(RefetchUserDetailsListener userDetailsListener) {
         RLog.d(TAG, "refetchUserDetails");
         refreshUser(getRefetchHandler(userDetailsListener));
+    }
+
+    @Override
+    public void updateReceiveMarketingEmail(UpdateUserDetailsHandler updateUserDetailsHandler, boolean receiveMarketingEmail) {
+        if (getUserLoginState().ordinal() < UserLoginState.PENDING_VERIFICATION.ordinal()) {
+            updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
+            return;
+        }
+        UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new
+                UpdateReceiveMarketingEmail(
+                context);
+        RLog.d(TAG, "updateReceiveMarketingEmail called : " + receiveMarketingEmail);
+        updateReceiveMarketingEmailHandler.
+                updateMarketingEmailStatus(updateUserDetailsHandler, receiveMarketingEmail);
     }
 
     @NonNull

@@ -446,6 +446,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
             bundle.putString(IAPConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
             bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
+            bundle.putBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntities.get(0)));
             addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG, true);
         } else {
 
@@ -460,6 +461,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
     }
+
+
 
     @SuppressWarnings("unchecked")
     @Override

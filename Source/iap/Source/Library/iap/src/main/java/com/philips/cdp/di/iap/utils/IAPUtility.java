@@ -17,6 +17,8 @@ public class IAPUtility {
     private View bannerView = null;
     private boolean isVoucherEnable = false;
     private UserDataInterface mUserDataInterface;
+    private String appName;
+    private String localeTag;
 
     private IAPUtility() {
     }
@@ -67,6 +69,22 @@ public class IAPUtility {
 
     public void setUserDataInterface(UserDataInterface mUserDataInterface) {
        this.mUserDataInterface =  mUserDataInterface;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public String getLocaleTag() {
+        return localeTag;
+    }
+
+    public void setLocaleTag(String localeTag) {
+        this.localeTag = localeTag;
     }
 
     private static class IAPUtilitySingleton

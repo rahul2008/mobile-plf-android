@@ -54,7 +54,7 @@ public class ThemeHelper {
     @StyleRes
     public int getThemeResourceId() {
         int colorResourceId = getColorResourceId(mContext.getResources(), initColorRange().name(), initContentTonalRange().name(), mContext.getPackageName());
-        return com.philips.platform.uid.R.style.Theme_DLS_Purple_VeryDark;
+        return colorResourceId;
     }
 
     @StyleRes

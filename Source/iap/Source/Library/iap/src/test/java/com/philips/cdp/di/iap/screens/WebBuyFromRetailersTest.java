@@ -13,7 +13,9 @@ import android.webkit.WebView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.TestUtils;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,5 +76,40 @@ public class WebBuyFromRetailersTest {
         Mockito.when(viewMock.findViewById(R.id.wv_payment)).thenReturn(webViewMock);
         webBuyFromRetailers.initializeWebView(viewMock);
 
+    }
+
+    @Test
+    public void shouldTestPhilipsShopTaggedUrlWithoutParameter() {
+
+         /* "append to links without parameters present:
+                ?origin=15_global_en_<appName>-app_<appName>-app
+
+        append to links with parameters (and a question mark) present:
+&origin=15_global_en_<appName>-app_<appName>-app"*/
+
+        IAPUtility.getInstance().setAppName("Carrier App");
+        IAPUtility.getInstance().setLocaleTag("en");
+
+        String expected  = "https://www.buy.philips.co.in?origin=15_global_en_Carrier%20App-app_Carrier%20App-app" ;
+        String actual =     webBuyFromRetailers.getPhilipsFormattedUrl("https://www.buy.philips.co.in");
+        Assert.assertEquals( expected,actual);
+    }
+
+    @Test
+    public void shouldTestPhilipsShopTaggedUrlWithParameter() {
+
+         /* "append to links without parameters present:
+                ?origin=15_global_en_<appName>-app_<appName>-app
+
+        append to links with parameters (and a question mark) present:
+&origin=15_global_en_<appName>-app_<appName>-app"*/
+
+        IAPUtility.getInstance().setAppName("Carrier App");
+        IAPUtility.getInstance().setLocaleTag("en");
+
+        String expected  = "https://www.buy.philips.co.in/dp/B00TI5ZK5I/?cstrackid=1056bbef-5e88-4cdc-b5ae-6670c18550dd&tag=wwwphilipsusa-20&origin=15_global_en_Carrier%20App-app_Carrier%20App-app" ;
+
+        String actual = webBuyFromRetailers.getPhilipsFormattedUrl("https://www.buy.philips.co.in/dp/B00TI5ZK5I/?cstrackid=1056bbef-5e88-4cdc-b5ae-6670c18550dd&tag=wwwphilipsusa-20");
+        Assert.assertEquals( expected,actual);
     }
 }

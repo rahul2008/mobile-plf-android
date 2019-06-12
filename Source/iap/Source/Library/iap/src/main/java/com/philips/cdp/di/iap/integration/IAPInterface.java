@@ -41,6 +41,8 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         if (null == mUserDataInterface)
             throw new RuntimeException("UserDataInterface is not injected in IAPDependencies.");
         IAPUtility.getInstance().setUserDataInterface(mUserDataInterface);
+        IAPUtility.getInstance().setAppName(uappDependencies.getAppInfra().getAppIdentity().getAppName());
+        IAPUtility.getInstance().setLocaleTag(uappDependencies.getAppInfra().getInternationalization().getUILocaleString());
         mIAPSettings = (IAPSettings) uappSettings;
         mIAPHandler = new IAPHandler(iapDependencies, mIAPSettings);
         mIAPHandler.initPreRequisite();
