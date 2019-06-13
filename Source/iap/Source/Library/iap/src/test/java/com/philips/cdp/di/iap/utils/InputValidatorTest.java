@@ -65,7 +65,7 @@ public class InputValidatorTest {
     @Test
     public void isValidCountry() throws Exception {
         inputValidator=new InputValidator(Validator.COUNTRY_PATTERN);
-        Assert.assertEquals(false,inputValidator.isValidCountry("India"));
+        Assert.assertEquals(true,inputValidator.isValidCountry("India"));
     }
 
     @Test
