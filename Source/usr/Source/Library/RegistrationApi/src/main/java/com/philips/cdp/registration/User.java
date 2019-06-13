@@ -716,7 +716,7 @@ public class User {
      * @since 1.0.0
      */
     public void updateReceiveMarketingEmail(
-            final com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler updateUserDetailsHandler,
+            final UpdateUserDetailsHandler updateUserDetailsHandler,
             final boolean receiveMarketingEmail) {
         if (getUserNotLoggedInState()) {
             updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
@@ -738,7 +738,7 @@ public class User {
      * @since 1.0.0
      */
     public void updateDateOfBirth(
-            final com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler updateUserDetailsHandler,
+            final UpdateUserDetailsHandler updateUserDetailsHandler,
             final Date date) {
         if (getUserNotLoggedInState()) {
             updateUserDetailsHandler.onUpdateFailedWithError(getUserLoginState().ordinal());
