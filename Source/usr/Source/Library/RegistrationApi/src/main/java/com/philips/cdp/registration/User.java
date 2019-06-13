@@ -151,7 +151,6 @@ public class User {
         }
         new Thread(() -> {
 
-
             LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
                     new LoginHandler() {
                         @Override

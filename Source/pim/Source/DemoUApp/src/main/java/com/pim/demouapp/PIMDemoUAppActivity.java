@@ -4,15 +4,24 @@ package com.pim.demouapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.cdp.registration.ui.utils.UIFlow;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
@@ -22,7 +31,6 @@ import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListene
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -41,6 +49,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession;
     private Switch aSwitch;
     private PIMInterface pimInterface;
+    private URInterface urInterface;
+    private UserDataInterface userDataInterface;
+    private boolean isUSR;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,10 +83,22 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                     appInfraInterface.getTagging().setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
             }
         });
+
         PIMDemoUAppDependencies pimDemoUAppDependencies = new PIMDemoUAppDependencies(appInfraInterface);
         PIMDemoUAppSettings pimDemoUAppSettings = new PIMDemoUAppSettings(this);
-        pimInterface = new PIMInterface();
-        pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
+        if (getIntent().getExtras() != null && getIntent().getExtras().get("SelectedLib").equals("USR")) {
+            isUSR = true;
+            Log.i(TAG, "Selected Liberary : USR");
+            urInterface = new URInterface();
+            urInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
+            userDataInterface = urInterface.getUserDataInterface();
+        } else {
+            isUSR = false;
+            Log.i(TAG, "Selected Liberary : PIM");
+            pimInterface = new PIMInterface();
+            pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
+            userDataInterface = pimInterface.getUserDataInterface();
+        }
     }
 
     private void initTheme() {
@@ -99,18 +122,19 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        PIMLaunchInput launchInput = new PIMLaunchInput();
-        UserDataInterface userDataInterface = pimInterface.getUserDataInterface();
-        if (v == btnLoginActivity) {
+
+       /* if (v == btnLoginActivity) {
             if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
                 ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
                 pimInterface.launch(activityLauncher, launchInput);
             } else {
                 showToast("User is already login!");
             }
-        } else if (v == btnRegistration) {
-            FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
-            pimInterface.launch(fragmentLauncher, launchInput);
+        } else*/ if (v == btnRegistration) {
+            if(isUSR)
+                launchUSR();
+            else
+                launchPIM();
         } else if (v == btnLogout) {
             if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
                 userDataInterface.logoutSession(new LogoutSessionListener() {
@@ -152,7 +176,45 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private void launchUSR(){
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.demoAppMenus, null);
+        URLaunchInput urLaunchInput;
+        RLog.d(TAG, " : Registration");
+        urLaunchInput = new URLaunchInput();
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
+        urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+        urInterface.launch(fragmentLauncher, urLaunchInput);
+    }
+
+    private void launchPIM(){
+        PIMLaunchInput launchInput = new PIMLaunchInput();
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
+        pimInterface.launch(fragmentLauncher, launchInput);
+    }
+
     private void showToast(String toastMsg) {
         Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
     }
+    public RegistrationContentConfiguration getRegistrationContentConfiguration() {
+        String valueForEmailVerification = "sample";
+        String optInTitleText = getResources().getString(R.string.USR_DLS_OptIn_Navigation_Bar_Title);
+        String optInQuessionaryText = getResources().getString(R.string.USR_DLS_OptIn_Header_Label);
+        String optInDetailDescription = getResources().getString(R.string.USR_DLS_Optin_Body_Line1);
+        //String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String optInTitleBarText = getResources().getString(R.string.USR_DLS_OptIn_Navigation_Bar_Title);
+        RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
+        registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
+        registrationContentConfiguration.setOptInTitleText(optInTitleText);
+        registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);
+        registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
+//        registrationContentConfiguration.setOptInBannerText(optInBannerText);
+        registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
+        //   registrationContentConfiguration.enableMarketImage(R.drawable.ref_app_home_page);
+        registrationContentConfiguration.enableLastName(true);
+        registrationContentConfiguration.enableContinueWithouAccount(true);
+        return registrationContentConfiguration;
+
+    }
+
 }

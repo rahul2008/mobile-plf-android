@@ -30,6 +30,11 @@ public class UserProfileRequest implements PIMRequestInterface {
     }
 
     @Override
+    public Map<String, String> getParams() {
+        return null;
+    }
+
+    @Override
     public String getBody() {
         return null;
     }

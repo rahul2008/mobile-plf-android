@@ -8,6 +8,8 @@ public interface PIMRequestInterface {
 
     Map<String, String> getHeader();
 
+    Map<String, String> getParams();
+
     String getBody();
 
     int getMethodType();

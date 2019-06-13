@@ -11,13 +11,16 @@ import java.util.Map;
  */
 public class PIMRequest extends StringRequest {
     private String mBody;
-    public PIMRequest(int methodType, String url,String body, Response.Listener<String> successListener, Response.ErrorListener errorListener, Map<String, String> header) {
-        super(methodType, url, successListener, errorListener, header, null, null);
+    private Map<String, String> mParams;
+    public PIMRequest(int methodType, String url,String body, Response.Listener<String> successListener, Response.ErrorListener errorListener, Map<String, String> header, Map<String, String> params) {
+        super(methodType, url, successListener, errorListener, header, params, null);
         mBody = body;
+        mParams = params;
     }
 
     @Override
     public byte[] getBody() throws AuthFailureError {
         return mBody.getBytes();
     }
+
 }

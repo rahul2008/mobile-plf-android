@@ -22,6 +22,6 @@ public class PIMRestClient {
     }
 
     private PIMRequest makePimRequest(PIMRequestInterface pimRequestInterface, Response.Listener<String> successListener, Response.ErrorListener errorListener) {
-        return new PIMRequest(pimRequestInterface.getMethodType(), pimRequestInterface.getUrl(), pimRequestInterface.getBody(), successListener, errorListener, pimRequestInterface.getHeader());
+        return new PIMRequest(pimRequestInterface.getMethodType(), pimRequestInterface.getUrl(), pimRequestInterface.getBody(), successListener, errorListener, pimRequestInterface.getHeader(),pimRequestInterface.getParams());
     }
 }
