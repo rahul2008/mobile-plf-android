@@ -361,9 +361,10 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
 
-
+        //This is added to clear pagination data from app memory . This should be taken in tech debt .
         CartModelContainer.getInstance().clearProductList();
         IAPUtility.getInstance().resetPegination();
+
 
         if(isUserLoggedIn()) {
             try {

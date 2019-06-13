@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.iapHandler.IAPExposedAPI;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPUtility;
@@ -59,6 +60,11 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
+
+        //This is added to clear pagination data from app memory . This should be taken in tech debt .
+        CartModelContainer.getInstance().clearProductList();
+        IAPUtility.getInstance().resetPegination();
+
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) mIAPSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
