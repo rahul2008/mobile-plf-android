@@ -6,10 +6,10 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.utility.AIUtility;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.chi.ConsentError;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
 import com.philips.platform.pif.chi.FetchConsentTypeStateCallback;
