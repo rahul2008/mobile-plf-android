@@ -11,6 +11,7 @@ import com.philips.platform.pif.DataInterface.USR.listeners.HSDPAuthenticationLi
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
@@ -142,6 +143,11 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public void refetchUserDetails(RefetchUserDetailsListener userDetailsListener) {
+
+    }
+
+    @Override
+    public void updateReceiveMarketingEmail(UpdateUserDetailsHandler updateUserDetailsHandler, boolean receiveMarketingEmail) {
 
     }
 

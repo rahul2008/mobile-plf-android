@@ -13,12 +13,12 @@ import android.support.annotation.NonNull;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.errors.ErrorCodes;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.ServerTime;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;

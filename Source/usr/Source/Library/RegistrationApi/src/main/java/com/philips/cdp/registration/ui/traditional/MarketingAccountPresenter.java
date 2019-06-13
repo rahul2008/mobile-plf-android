@@ -2,9 +2,9 @@ package com.philips.cdp.registration.ui.traditional;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.events.NetworkStateListener;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 
 /**
  * Created by philips on 28/07/17.
