@@ -46,6 +46,10 @@ public class CartModelContainer {
     private String mAddressIdFromDelivery;
     private String voucherCode;
 
+    public void clearProductList() {
+        if(mProductList!=null) mProductList.clear();
+    }
+
     private CartModelContainer() {
         mPRXSummaryObjects = new ArrayList<>();
         mPRXAssetObjects = new HashMap<>();

@@ -29,7 +29,6 @@ public class LuncherActivity extends Activity {
     public void launch(View v) {
         DemoApplication demoApplication = (DemoApplication) getApplicationContext();
         AppInfra appInfra = demoApplication.getAppInfra();
-        appInfra.getServiceDiscovery().setHomeCountry("US");
         iapDemoUAppInterface = new IapDemoUAppInterface();
         iapDemoUAppInterface.init(new IapDemoUAppDependencies(appInfra), new IapDemoAppSettings(this));
         iapDemoUAppInterface.launch(new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), new IapLaunchInput());

@@ -273,12 +273,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add(mCTNValue);
         if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
-           /* if (!mBuyFromRetailers.isActivated()) {
-                if (mContext == null) {
-                    return;
-                }
-                mBuyFromRetailers.showProgressIndicator();
-            }*/
+
             final PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
         } else {
@@ -332,6 +327,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
         makeAssetRequest();
+        makeDisclaimerRequest();
         setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
     }
 
