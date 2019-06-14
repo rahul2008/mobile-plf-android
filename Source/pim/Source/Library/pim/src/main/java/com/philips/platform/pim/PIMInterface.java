@@ -6,22 +6,22 @@
 
 package com.philips.platform.pim;
 
+import android.app.Activity;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
-import com.philips.platform.pim.manager.PIMMigrationManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.models.PIMInitViewModel;
@@ -63,20 +63,6 @@ public class PIMInterface implements UappInterface {
         pimInitViewModel = ViewModelProviders.of((FragmentActivity)context).get(PIMInitViewModel.class);
 
         MutableLiveData<PIMInitState> livedata = pimInitViewModel.getMuatbleInitLiveData();
-        Observer<PIMInitState> observer = new Observer<PIMInitState>() {
-            @Override
-            public void onChanged(@Nullable PIMInitState pimInitState) {
-                if(pimInitState == PIMInitState.INIT_SUCCESS){
-                    Log.i(TAG,"INIT_SUCCESS");
-                    PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context);
-                    String accessToken = pimMigrationManager.fetchOldUserData(uappDependencies.getAppInfra());
-                    pimMigrationManager.assertLegacyIDToken(accessToken);
-                }
-            }
-        };
-
-        livedata.observe((FragmentActivity)context,observer);
-
         livedata.setValue(PIMInitState.INIT_IN_PROGRESS);
 
         PIMSettingManager.getInstance().setPIMInitLiveData(livedata);

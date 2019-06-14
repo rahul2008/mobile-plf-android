@@ -1,27 +1,28 @@
 {
   "UserRegistration": {
-    "JanRainConfiguration.RegistrationClientID.Development": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
-    "JanRainConfiguration.RegistrationClientID.Testing": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
-    "JanRainConfiguration.RegistrationClientID.Evaluation": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
-    "JanRainConfiguration.RegistrationClientID.Staging": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
-    "JanRainConfiguration.RegistrationClientID.Production": "{\"CN\":\"brhyp23jh8jrutmghjtht68yv4mvqvhu\",\"default\":\"9z23k3q8bhqyfwx78aru6bz8zksga54u\"}",
+    "JanRainConfiguration.RegistrationClientID.Development": "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
+    "JanRainConfiguration.RegistrationClientID.Testing": "g52bfma28yjbd24hyjcswudwedcmqy7c",
+    "JanRainConfiguration.RegistrationClientID.Evaluation": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
+    "JanRainConfiguration.RegistrationClientID.Staging": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
+    "JanRainConfiguration.RegistrationClientID.Production": "9z23k3q8bhqyfwx78aru6bz8zksga54u",
+    "PILConfiguration.MicrositeID": "77000",
     "PILConfiguration.CampaignID": "CL20150501_PC_TB_COPPA",
-
-    "Flow.EmailVerificationRequired" : "true",
-    "Flow.TermsAndConditionsAcceptanceRequired" : "true",
-    "Flow.MinimumAgeLimit" : "{ \"NL\":12 ,\"GB\":16,\"default\": 16}",
-    "SigninProviders.default": ["facebook","googleplus"],
-    "SigninProviders.NL": ["facebook","googleplus"],
-    "SigninProviders.CN": ["wechat"],
-    "weChatAppId" : "wxbdf2ab8822f6022f",
-    "weChatAppSecret":"df749e21c43c65a042df6f3f4ebe18f1",
-    "ShowCountrySelection":"true",
-    "supportedHomeCountries":["RW","BG","CZ","DK","AT","CH","DE","GR","AU","CA","GB","HK","ID","IE",
-      "IN","MY","NZ","PH","PK","SA","SG","US","ZA","AR","CL","CO","ES","MX","PE","EE","FI","BE","FR",
-      "HR","HU","IT","JP","KR","LT","LV","NL","NO","PL","BR","PT","RO","RU","UA","SI","SK","SE","TH",
-      "TR","VN","CN","TW"],
-    "fallbackHomeCountry":"US",
-    "hsdpUUIDUpload": "false"
+    "PILConfiguration.RegistrationEnvironment": "PRODUCTION",
+    "Flow.EmailVerificationRequired": true,
+    "Flow.TermsAndConditionsAcceptanceRequired": true,
+    "Flow.MinimumAgeLimit": {
+      "NL": 12,
+      "GB": 0,
+      "default": 16
+    },
+    "SigninProviders.default": [
+      "facebook",
+      "googleplus"
+    ],
+    "SigninProviders.NL": [
+      "facebook",
+      "googleplus"
+    ]
   },
   "PIM": {
     "clientId": "94e28300-565d-4110-8919-42dc4f817393",

@@ -34,11 +34,6 @@ public class LogoutRequest implements PIMRequestInterface {
     }
 
     @Override
-    public Map<String, String> getParams() {
-        return null;
-    }
-
-    @Override
     public String getBody() {
         return "token=" + mAuthState.getAccessToken() + "&client_id=" + mClientId + "&token_type_hint=access_token";
     }

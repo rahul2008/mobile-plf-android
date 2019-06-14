@@ -1,75 +1,68 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/demoAppMenus"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center_vertical"
     android:layout_margin="4dp">
 
-    <LinearLayout
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/appversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_login_activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appversion"
+        android:visibility="gone"
+        android:text="Launch As Activity" />
 
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/appversion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp" />
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_Registration"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_login_activity"
+        android:text="Registration" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_login_activity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/appversion"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:text="Launch As Activity"
-            android:visibility="gone" />
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_Registration"
+        android:text="Logout" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_Registration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_login_activity"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:text="Registration" />
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/btn_RefreshSession"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_logout"
+        android:text="Refresh Session" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_Registration"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:text="Logout" />
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_RefreshSession"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_logout"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:text="Refresh Session" />
-
-        <com.philips.platform.uid.view.widget.Switch
-            android:id="@+id/switch_cookies_consent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:text="Cookies Consent"
-            app:switchPadding="30dp" />
+    <com.philips.platform.uid.view.widget.Switch
+        android:id="@+id/switch_cookies_consent"
+        android:layout_width="wrap_content"
+        app:switchPadding="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Cookies Consent"
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:id="@+id/pimDemoU_mainFragmentContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" />
-    </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>
