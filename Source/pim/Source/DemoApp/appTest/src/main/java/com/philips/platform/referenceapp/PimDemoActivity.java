@@ -40,7 +40,7 @@ public class PimDemoActivity extends UIDActivity {
             startActivity(intent);
         });
 
-        PimDemoApplication pimDemoApplication = (PimDemoApplication) getApplicationContext();
+        PimDemoApplication pimDemoApplication = (PimDemoApplication)getApplicationContext();
         AppInfraInterface appInfraInterface = pimDemoApplication.getAppInfra();
 
         spinnerCountrySelection = findViewById(R.id.spinner_CountrySelection);
@@ -48,7 +48,7 @@ public class PimDemoActivity extends UIDActivity {
         countryList.add("United States");
         countryList.add("Netherlands");
         countryList.add("Belgium");
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, countryList);
+       ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,countryList);
         spinnerCountrySelection.setAdapter(arrayAdapter);
         spinnerCountrySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -63,6 +63,8 @@ public class PimDemoActivity extends UIDActivity {
 
             }
         });
+
+
         uAppInterface.init(new PIMDemoUAppDependencies(appInfraInterface), new PIMDemoUAppSettings(getApplicationContext()));
     }
 
@@ -77,6 +79,7 @@ public class PimDemoActivity extends UIDActivity {
             name = locale.getDisplayCountry();
             countryMap.put(name, code);
         }
+
         return countryMap.get(countryName);
     }
 }
