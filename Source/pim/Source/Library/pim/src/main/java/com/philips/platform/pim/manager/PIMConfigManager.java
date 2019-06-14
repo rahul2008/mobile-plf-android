@@ -1,5 +1,8 @@
 package com.philips.platform.pim.manager;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -67,9 +70,19 @@ public class PIMConfigManager {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
                     mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs error. ERRORVALUES: " + error + " Message: " + message);
-                    PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_FAILED);
+                    updateInitState(false);
                 }
             }, null);
         }).start();
+    }
+
+    private void updateInitState(boolean isInitSuccess){
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_FAILED);
+            }
+        });
     }
 }
