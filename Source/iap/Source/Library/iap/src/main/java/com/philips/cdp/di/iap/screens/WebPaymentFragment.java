@@ -15,6 +15,8 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.AlertListener;
+import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -67,7 +69,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     protected String getWebUrl() {
         Bundle arguments = getArguments();
         if (arguments == null || !arguments.containsKey(ModelConstants.WEB_PAY_URL)) {
-            throw new RuntimeException("URL must be provided");
+            IAPLog.d(TAG,"URL must be provided");
         }
         StringBuilder builder = new StringBuilder();
         builder.append(arguments.getString(ModelConstants.WEB_PAY_URL));
