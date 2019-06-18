@@ -79,7 +79,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private TextView tvPriceTotal;
     private TextView tvVat;
     private TextView tvPriceVat;
-    private TableLayout tlProductDetailContainer;
+    private LinearLayout tlProductDetailContainer;
     private Button btncall;
     private TextView tvCardName;
     private TextView tvCardNo;
