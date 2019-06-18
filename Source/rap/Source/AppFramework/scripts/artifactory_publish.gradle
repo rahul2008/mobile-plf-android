@@ -16,7 +16,7 @@ artifactory {
     }
     resolve {
         repository {
-            repoKey = objcdp.getArtifactoryResolveRepoKey()
+            repoKey = "iet-mobile-android-snapshot-local"
         }
     }
     clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
