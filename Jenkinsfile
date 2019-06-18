@@ -139,7 +139,7 @@ pipeline {
                     apkname=`xargs < apkname.txt`
                     dependenciesName=${apkname/.apk/.gradledependencies.gz}
                     ./gradlew -Dorg.gradle.parallel=false reportAllProjectDependencies | gzip -9 > ./allProjects.gradledependencies.gz
-                    curl -L -u readerwriter:APBcfHoo7JSz282DWUzMVJfUsah -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
+                    curl -L -u readerwriter:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT "${dependenciesName}" -T ./allProjects.gradledependencies.gz
                 '''
 
                 //archive all .lock files from below directory
