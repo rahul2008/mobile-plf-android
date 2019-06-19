@@ -30,8 +30,7 @@ artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
     publish {
         repository {
-            //repoKey = objcdp.getArtifactoryPublishRepoKey()
-            repoKey = "iet-mobile-android-snapshot-local"
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
             username = "320049003"
             password = "#W3llc4m3"
             defaults {
@@ -46,8 +45,7 @@ artifactory {
     }
     resolve {
         repository {
-           // repoKey = objcdp.getArtifactoryResolveRepoKey()
-             repoKey = "iet-mobile-android-snapshot-local"
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
     clientConfig.timeout = 600
@@ -298,7 +296,7 @@ task('printArtifactoryApkPath') {
         }
         File apkname = new File('apkname.txt')
         apkname.append(objcdp.getArtifactoryContextUrl() +      \
-             "/" + "iet-mobile-android-snapshot-local" +      \
+             "/" + objcdp.getArtifactoryPublishRepoKey() +      \
              "/" + project.group.replace('.', '/') + "/" +      \
              archivesBaseName + "/" + version +      \
              "/" + archivesBaseName + "-" + version + ".apk")
