@@ -63,7 +63,7 @@ artifactory {
             // iet-mobile-android-snapshot-local for develop branch
             // iet-mobile-android-release-local for release branch
 
-            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
             username = "320049003"      //IET functional account user name
             password = "#W3llc4m3"      //IET functional account password
 
