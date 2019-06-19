@@ -75,8 +75,8 @@ dependencies {
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
     }
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation deps.adobemobilelib
+
     implementation deps.constraintlayout
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
@@ -85,6 +85,8 @@ dependencies {
     implementation deps.support.annotations
     implementation deps.volley
     implementation deps.openid_appauth
+    implementation deps.livedata_extensions
+
     testImplementation deps.junit
     testImplementation deps.powermock_core
     testImplementation deps.powermock_junit
