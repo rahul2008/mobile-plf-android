@@ -224,9 +224,34 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
                     mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
-                    shoppingCartFooter.mTotalDiscount.setText("- "+mData.get(i).getTotalDiscounts().toString());
+                    //shoppingCartFooter.mTotalDiscount.setText("- "+mData.get(i).getTotalDiscounts().toString());
                 }
             }
+
+
+            //Show discounts ==========
+            for(int i=0;i< mData.get(i).getAppliedOrderPromotionEntityList().size();i++){
+
+                View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
+                TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
+                TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
+
+                tvDiscountText .setText(mData.get(i).getAppliedOrderPromotionEntityList().get(i).getPromotion().getDescription());
+                tvDiscountValue.setText("- "+ mData.get(i).getAppliedOrderPromotionEntityList().get(i).getPromotion().getPromotionDiscount().getFormattedValue());
+                shoppingCartFooter.llDiscount.addView(discountInfo);
+            }
+
+            for(int i=0;i< mData.get(i).getAppliedVouchers().size();i++){
+
+                View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
+                TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
+                TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
+
+                tvDiscountText .setText(mData.get(i).getAppliedVouchers().get(i).getDescription());
+                tvDiscountValue.setText("- "+ mData.get(i).getAppliedVouchers().get(i).getAppliedValue().getFormattedValue());
+                shoppingCartFooter.llDiscount.addView(discountInfo);
+            }
+
         }
         orderSummaryUpdateListner.onGetCartUpdate();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -319,6 +344,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private class FooterShoppingCartViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout llDiscount;
         TextView mDeliveryPrice;
         TextView mVatValue;
         TextView mVatInclusiveValue;
@@ -358,7 +384,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mPriceContainer = (LinearLayout) itemView.findViewById(R.id.price_container);
             mDeliveryUPSParcelContainer = (RelativeLayout) itemView.findViewById(R.id.delivery_ups_parcel_container);
             mVoucherContainer  = (RelativeLayout) itemView.findViewById(R.id.voucher_container);
-            mTotalDiscount = itemView.findViewById(R.id.total_discount);
+           // mTotalDiscount = itemView.findViewById(R.id.total_discount);
+            llDiscount = itemView.findViewById(R.id.linear_layout_discount);
 
         }
     }
