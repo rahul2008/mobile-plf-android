@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
-import com.philips.platform.pim.R;
 import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.utilities.PIMScopes;
@@ -22,7 +20,6 @@ import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
 import net.openid.appauth.TokenRequest;
-import net.openid.appauth.TokenResponse;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -37,7 +34,6 @@ public class PIMAuthManager {
     private LoggingInterface mLoggingInterface;
     private AuthState mAuthState;
     private Context mContext;
-    private AuthorizationService mAuthorizationService;
 
     /**
      * Use this constructor whenever context is not required for OIDC's api call
@@ -46,15 +42,14 @@ public class PIMAuthManager {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    /**
+    /* *
      * Use this constructor whenever context is required for OIDC's api call
      *
      * @param context
      */
-    public PIMAuthManager(Context context) {
+    PIMAuthManager(Context context) {
         mContext = context;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        mAuthorizationService = new AuthorizationService(mContext);
     }
 
     /**
@@ -89,22 +84,23 @@ public class PIMAuthManager {
      * @return intent
      * @throws ActivityNotFoundException
      */
-    Intent getAuthorizationRequestIntent(AuthorizationServiceConfiguration authServiceConfiguration, String clientID, Map parameter) throws ActivityNotFoundException {
-        if (mContext == null || authServiceConfiguration == null || clientID == null)
-            return null;
-
+    Intent getAuthorizationRequestIntent(@NonNull AuthorizationServiceConfiguration authServiceConfiguration, @NonNull String clientID,@NonNull String redirectUrl, Map parameter) throws ActivityNotFoundException {
         AuthorizationRequest.Builder authRequestBuilder =
                 new AuthorizationRequest.Builder(
                         authServiceConfiguration,
                         clientID,
                         ResponseTypeValues.CODE,
-                        Uri.parse(mContext.getString(R.string.redirectURL)));
+                        Uri.parse(redirectUrl));
 
         AuthorizationRequest authRequest = authRequestBuilder
                 .setScope(getScopes())
                 .setAdditionalParameters(parameter)
                 .build();
-        return mAuthorizationService.getAuthorizationRequestIntent(authRequest);
+
+        AuthorizationService authorizationService = new AuthorizationService(mContext);
+        Intent authIntent = authorizationService.getAuthorizationRequestIntent(authRequest);
+        authorizationService.dispose();
+        return authIntent;
     }
 
     boolean isAuthorizationSuccess(Intent dataIntent) {
@@ -133,20 +129,19 @@ public class PIMAuthManager {
         mAuthState = new AuthState(response, exception);
 
         TokenRequest tokenRequest = response.createTokenExchangeRequest();
-        mAuthorizationService.performTokenRequest(tokenRequest, new AuthorizationService.TokenResponseCallback() {
-            @Override
-            public void onTokenRequestCompleted(@Nullable TokenResponse response, @Nullable AuthorizationException ex) {
-                if (response != null) {
-                    mAuthState.update(response, ex);
-                    mLoggingInterface.log(DEBUG, TAG, "onTokenRequestCompleted => access token : " + response.accessToken);
-                    pimTokenRequestListener.onTokenRequestSuccess();
-                }
-
-                if (ex != null) {
-                    mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage());
-                    pimTokenRequestListener.onTokenRequestFailed(new Error(ex.code, ex.getMessage()));
-                }
+        AuthorizationService authorizationService = new AuthorizationService(mContext);
+        authorizationService.performTokenRequest(tokenRequest, (response1, ex) -> {
+            if (response1 != null) {
+                mAuthState.update(response1, ex);
+                mLoggingInterface.log(DEBUG, TAG, "onTokenRequestCompleted => access token : " + response1.accessToken);
+                pimTokenRequestListener.onTokenRequestSuccess();
             }
+
+            if (ex != null) {
+                mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage());
+                pimTokenRequestListener.onTokenRequestFailed(new Error(ex.code, ex.getMessage()));
+            }
+            authorizationService.dispose();
         });
     }
 
@@ -159,7 +154,8 @@ public class PIMAuthManager {
     void refreshToken(@NonNull AuthState authState, PIMTokenRequestListener tokenRequestListener) {
         mLoggingInterface.log(DEBUG, TAG, "Old Access Token : " + authState.getAccessToken() + " Refresh Token : " + authState.getRefreshToken());
         authState.setNeedsTokenRefresh(true);
-        authState.performActionWithFreshTokens(mAuthorizationService, (accessToken, idToken, ex) -> {
+        AuthorizationService authorizationService = new AuthorizationService(mContext);
+        authState.performActionWithFreshTokens(authorizationService, (accessToken, idToken, ex) -> {
             if (ex == null) {
                 mLoggingInterface.log(DEBUG, TAG, "rereshToken success, New  accessToken : " + authState.getAccessToken() + " Refresh Token : " + authState.getRefreshToken());
                 tokenRequestListener.onTokenRequestSuccess();
@@ -168,6 +164,7 @@ public class PIMAuthManager {
                 Error error = new Error(ex.code, ex.getMessage());
                 tokenRequestListener.onTokenRequestFailed(error);
             }
+            authorizationService.dispose();
         });
     }
 
@@ -185,15 +182,7 @@ public class PIMAuthManager {
         return stringBuilder.toString();
     }
 
-
     AuthState getAuthState() {
         return mAuthState;
-    }
-
-    void dispose() {
-        if (mAuthorizationService != null) {
-            mAuthorizationService.dispose();
-            mAuthorizationService = null;
-        }
     }
 }
