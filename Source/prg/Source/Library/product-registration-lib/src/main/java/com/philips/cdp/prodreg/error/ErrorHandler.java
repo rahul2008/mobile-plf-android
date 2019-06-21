@@ -73,6 +73,8 @@ public class ErrorHandler {
             return new ProdRegErrorMap(context.getString(R.string.PRG_Network_Err_Title), context.getString(R.string.PRG_Network_ErrMsg));
         } else if (statusCode == ProdRegError.MISSING_CTN.getCode()) {
             return new ProdRegErrorMap(context.getString(R.string.PRG_Missing_Ctn_Title), context.getString(R.string.PRG_Missing_Ctn_ErrMsg));
+        } else if(statusCode == -1) {
+            return new ProdRegErrorMap(context.getString(R.string.PRG_No_Internet_Title), context.getString(R.string.PRG_No_Internet_ErrorMsg));
         } else {
             return new ProdRegErrorMap(context.getString(R.string.PRG_Unknow_ErrMsg), context.getString(R.string.PRG_Unknow_ErrMsg));
         }
