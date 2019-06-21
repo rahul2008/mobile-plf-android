@@ -19,6 +19,7 @@ import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.Addresses;
 import com.philips.cdp.di.iap.response.orders.Address;
+import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -396,6 +397,10 @@ public class Utility {
             IAPLog.e(IAPLog.LOG, "IllegalArgumentException while voucherCode enable");
         }
         return false;
+    }
+
+    public boolean isPhilipsShop(StoreEntity storeEntity) {
+        return storeEntity.getIsPhilipsStore().equalsIgnoreCase("Y");
     }
 
 }

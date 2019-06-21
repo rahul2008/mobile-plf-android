@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPBannerEnabler;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
@@ -58,6 +59,7 @@ import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
@@ -73,7 +75,7 @@ import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
 
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationUIEventListener, IAPMockInterface,IAPOrderFlowCompletion,IAPBannerEnabler {
+        UserRegistrationUIEventListener, IAPMockInterface, IAPOrderFlowCompletion, IAPBannerEnabler {
 
     private final String TAG = DemoAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -114,7 +116,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     private ToggleButton toggleBanner;
     private boolean isBannerEnabled = false;
     private ToggleButton toggleListener;
-    private boolean isToggleListener= false;
+    private boolean isToggleListener = false;
     private RadioGroup rgVoucher;
 
     @Override
@@ -196,15 +198,15 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-               if(checkedId == R.id.rb_null){
-                   IAPUtility.getInstance().setVoucherEnable(false);
-               }
-               if(checkedId == R.id.rb_disable){
-                   IAPUtility.getInstance().setVoucherEnable(false);
-               }
-               if(checkedId == R.id.rb_enabble){
-                   IAPUtility.getInstance().setVoucherEnable(true);
-               }
+                if (checkedId == R.id.rb_null) {
+                    IAPUtility.getInstance().setVoucherEnable(false);
+                }
+                if (checkedId == R.id.rb_disable) {
+                    IAPUtility.getInstance().setVoucherEnable(false);
+                }
+                if (checkedId == R.id.rb_enabble) {
+                    IAPUtility.getInstance().setVoucherEnable(true);
+                }
             }
         });
 
@@ -268,7 +270,28 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mCountText = findViewById(R.id.item_count);
 
         mCategorizedProductList = new ArrayList<>();
-        //showScreenSizeInDp();
+
+
+
+      //  ["HD9745/90","HD9630/90","HD9240/90","HD9621/90","HD9651/90","HD9650/90R1","HD9652/90","HD9910/20","HD9654/90",
+        //  "HD9216/80","HD9630/20","HD9220/20","HD9621/80","HD9750/90","HD9750/20","HD9762/90","HD9216/80R1","HD9621/70","HD9741/10"]
+
+       /* mCategorizedProductList.add("HD9745/90000");
+        mCategorizedProductList.add("HD9630/90");
+        mCategorizedProductList.add("HD9240/90");
+        mCategorizedProductList.add("HD9621/90");
+        mCategorizedProductList.add("HD9651/90");
+        mCategorizedProductList.add("HD9650/90");
+        mCategorizedProductList.add("HD9910/20");
+        mCategorizedProductList.add("HD9654/90");
+        mCategorizedProductList.add("HD9216/80");
+        mCategorizedProductList.add("HD9630/20");
+        mCategorizedProductList.add("HD9220/20");
+        mCategorizedProductList.add("HD9621/80");
+        mCategorizedProductList.add("HD9750/20");
+        mCategorizedProductList.add("HD9216/80R1");
+        mCategorizedProductList.add("HD9621/70");
+        mCategorizedProductList.add("HD9741/10");*/
 
         mUserDataInterface = urInterface.getUserDataInterface();
 
@@ -282,16 +305,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initializeIAPComponant() {
+        toggleHybris.setVisibility(View.VISIBLE);
+        initIAP();
+
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mRegister.setText(this.getString(R.string.log_out));
-            toggleHybris.setVisibility(View.VISIBLE);
-            showProgressDialog();
-            initIAP();
         } else {
             mRegister.setVisibility(View.VISIBLE);
-            toggleHybris.setVisibility(View.GONE);
-            Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
-            dismissProgressDialog();
+           // Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -315,14 +336,14 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mIapLaunchInput = new IAPLaunchInput();
 
         mIapLaunchInput.setHybrisSupported(isHybrisEnable);
-        if(!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())){
+        if (!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())) {
             mIapLaunchInput.setMaxCartCount(Integer.parseInt(mEtMaxCartCount.getText().toString().trim()));
         }
         mIapLaunchInput.setIapBannerEnabler(this);
         mIapLaunchInput.setIapListener(this);
-        if(isToggleListener) {
+        if (isToggleListener) {
             mIapLaunchInput.setIapOrderFlowCompletion(this);
-        }else{
+        } else {
             mIapLaunchInput.setIapOrderFlowCompletion(null);
         }
         IAPUtility.getInstance().setHybrisSupported(isHybrisEnable);
@@ -330,16 +351,27 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void displayUIOnCartVisible() {
-        mIapInterface.isCartVisible(this);
+        if(isUserLoggedIn()) {
+            showProgressDialog();
+            mIapInterface.isCartVisible(this);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            mIapInterface.getProductCartCount(this);
-        } catch (Exception e) {
 
+        //This is added to clear pagination data from app memory . This should be taken in tech debt .
+        CartModelContainer.getInstance().clearProductList();
+        IAPUtility.getInstance().resetPegination();
+
+
+        if(isUserLoggedIn()) {
+            try {
+                mIapInterface.getProductCartCount(this);
+            }catch (Exception e){
+
+            }
         }
     }
 
@@ -375,25 +407,27 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);
+
+
+        mCartIcon.setVisibility(View.VISIBLE);
+        mCountText.setVisibility(View.VISIBLE);
+        mShopNow.setVisibility(View.VISIBLE);
+        mShopNow.setEnabled(true);
+        mPurchaseHistory.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setEnabled(true);
+        mShoppingCart.setVisibility(View.VISIBLE);
+
+        dismissProgressDialog();
+        mIapInterface.getProductCartCount(this);
+
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
             mCountText.setVisibility(View.VISIBLE);
-           /* try {
-                mIapInterface.getCompleteProductList(this);
-            } catch (RuntimeException e) {
-
-            }*/
-            mShopNow.setVisibility(View.VISIBLE);
-            mShopNow.setEnabled(true);
-            mPurchaseHistory.setVisibility(View.VISIBLE);
-            mPurchaseHistory.setEnabled(true);
             mShoppingCart.setVisibility(View.VISIBLE);
             mIapInterface.getProductCartCount(this);
         } else {
             mCartIcon.setVisibility(View.GONE);
             mCountText.setVisibility(View.GONE);
-            mShopNow.setVisibility(View.GONE);
-            mPurchaseHistory.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);
             dismissProgressDialog();
         }
@@ -401,7 +435,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initTheme() {
-        int themeIndex = getIntent().getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+        int themeIndex = themeResourceID;
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }
@@ -451,14 +486,16 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
+
         if (pIgnoreRetailerList == null)
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode);
         else
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode, pIgnoreRetailerList);
 
         try {
+            int themeResourceID = new ThemeHelper(this).getThemeResourceId();
             mIapInterface.launch(new ActivityLauncher
-                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, DEFAULT_THEME, null),
+                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, themeResourceID, null),
                     mIapLaunchInput);
 
         } catch (RuntimeException exception) {
@@ -611,6 +648,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
             errorText = "Authentication failure";
         } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
+        } else if (IAPConstant.IAP_ERROR_INVALID_CTN == errorCode) {
+            errorText = "Invalid ctn";
         }
         if (errorText != null) {
             Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
@@ -664,6 +703,7 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onSuccess() {
+        dismissProgressDialog();
     }
 
     @Override
@@ -807,12 +847,12 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void didPlaceOrder() {
-    Toast.makeText(this,"Order is placed ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Order is placed ", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void didCancelOrder() {
-        Toast.makeText(this,"Order is Cancelled ",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Order is Cancelled ", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -822,11 +862,15 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public View getBannerView() {
-        if(isBannerEnabled){
-            LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (isBannerEnabled) {
+            LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View v = inflater.inflate(R.layout.banner_view, null);
             return v;
         }
         return null;
+    }
+
+    boolean isUserLoggedIn(){
+        return  mUserDataInterface != null && mUserDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
     }
 }

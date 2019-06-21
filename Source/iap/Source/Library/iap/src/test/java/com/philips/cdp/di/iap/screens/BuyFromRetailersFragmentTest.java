@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -39,6 +40,9 @@ public class BuyFromRetailersFragmentTest {
 
     private BuyFromRetailersFragment buyFromRetailersFragment;
 
+    @Mock
+    StoreEntity storeEntityMock;
+
     @Before
     public void setUp() {
         initMocks(this);
@@ -65,7 +69,9 @@ public class BuyFromRetailersFragmentTest {
         CartModelContainer.getInstance().setAppInfraInstance(mockAppInfraInterface);
 
         SupportFragmentTestUtil.startFragment(buyFromRetailersFragment);
-        buyFromRetailersFragment.onClickAtRetailer("fdfd", "dfd");
+
+        Mockito.when(storeEntityMock.getIsPhilipsStore()).thenReturn("Y");
+        buyFromRetailersFragment.onClickAtRetailer("fdfd", storeEntityMock);
     }
 
     @Test
@@ -76,7 +82,8 @@ public class BuyFromRetailersFragmentTest {
         CartModelContainer.getInstance().setAppInfraInstance(mockAppInfraInterface);
 
         SupportFragmentTestUtil.startFragment(buyFromRetailersFragment);
-        buyFromRetailersFragment.onClickAtRetailer("http://ICELEADS_HATCH", "dfd");
+        Mockito.when(storeEntityMock.getIsPhilipsStore()).thenReturn("Y");
+        buyFromRetailersFragment.onClickAtRetailer("http://ICELEADS_HATCH", storeEntityMock);
     }
 
     @Test
@@ -87,7 +94,8 @@ public class BuyFromRetailersFragmentTest {
         CartModelContainer.getInstance().setAppInfraInstance(mockAppInfraInterface);
 
         SupportFragmentTestUtil.startFragment(buyFromRetailersFragment);
-        buyFromRetailersFragment.onClickAtRetailer("http://CHANNEL_ADVISOR", "dfd");
+        Mockito.when(storeEntityMock.getIsPhilipsStore()).thenReturn("Y");
+        buyFromRetailersFragment.onClickAtRetailer("http://CHANNEL_ADVISOR", storeEntityMock);
     }
 
     @Test
@@ -98,6 +106,7 @@ public class BuyFromRetailersFragmentTest {
         CartModelContainer.getInstance().setAppInfraInstance(mockAppInfraInterface);
 
         SupportFragmentTestUtil.startFragment(buyFromRetailersFragment);
-        buyFromRetailersFragment.onClickAtRetailer("http://CHANNEL_SIGHT", "dfd");
+        Mockito.when(storeEntityMock.getIsPhilipsStore()).thenReturn("Y");
+        buyFromRetailersFragment.onClickAtRetailer("http://CHANNEL_SIGHT", storeEntityMock);
     }
 }

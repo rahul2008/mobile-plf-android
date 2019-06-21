@@ -205,10 +205,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
-                        if (!mBuyFromRetailers.isActivated()) {
-                            mBuyFromRetailers.showProgressIndicator();
-
-                        }
                         controller.getProductDetail(mCTNValue);
                     } else {
                         fetchProductDetailFromPrx();
@@ -262,6 +258,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 }
             }
             mImageAdapter = new ImageAdapter(mContext, mAsset);
+            //This clause is added to populate the viewpager at least once , So that default image can be loaded .
+            if(mAsset.size() == 0){
+                mAsset.add("default image");
+            }
             if (mAsset == null) {
                 trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.No_IMAGES_FOUND);
             }
@@ -277,12 +277,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add(mCTNValue);
         if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
-            if (!mBuyFromRetailers.isActivated()) {
-                if (mContext == null) {
-                    return;
-                }
-                mBuyFromRetailers.showProgressIndicator();
-            }
+
             final PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
         } else {
@@ -313,10 +308,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (mBundle != null && mLaunchedFromProductCatalog) {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                     handleViews();
-                    mProductDiscountedPrice.setVisibility(View.VISIBLE);
-                    mProductStockInfo.setVisibility(View.VISIBLE);
-                    mCheckutAndCountinue.setVisibility(View.VISIBLE);
-                    mQuantityAndDelete.setVisibility(View.GONE);
                 } else {
                     mQuantityAndDelete.setVisibility(View.VISIBLE);
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
@@ -340,6 +331,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
         makeAssetRequest();
+        makeDisclaimerRequest();
         setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
     }
 
@@ -416,6 +408,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void handleViews() {
+
         if (ControllerFactory.getInstance().isPlanB()) {
             mAddToCart.setVisibility(View.GONE);
             setCartIconVisibility(false);
@@ -423,10 +416,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
             setCartIconVisibility(true);
+            if(isUserLoggedIn())
             mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
         mBuyFromRetailers.setOnClickListener(this);
         mBuyFromRetailers.setVisibility(View.VISIBLE);
+
+        mProductDiscountedPrice.setVisibility(View.VISIBLE);
+        mProductStockInfo.setVisibility(View.VISIBLE);
+        mCheckutAndCountinue.setVisibility(View.VISIBLE);
+        mQuantityAndDelete.setVisibility(View.GONE);
     }
 
     private void getRetailersInformation() {
@@ -447,6 +446,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
             bundle.putString(IAPConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
             bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
+            bundle.putBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntities.get(0)));
             addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG, true);
         } else {
 
@@ -462,6 +462,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
+
+
     @SuppressWarnings("unchecked")
     @Override
     public void onFetchAssetSuccess(final Message msg) {
@@ -471,6 +473,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
+        if(mAsset.size() == 0){
+            mAsset.add("default image");
+        }
         mImageAdapter = new ImageAdapter(mContext, mAsset);
         mViewPager.setAdapter(mImageAdapter);
         mImageAdapter.notifyDataSetChanged();
@@ -499,10 +504,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     void buyProduct(final String ctnNumber) {
-        if (!mAddToCart.isActivated()) {
-            mAddToCart.showProgressIndicator();
+
+        if(isUserLoggedIn()) {
+            if (!mAddToCart.isActivated()) {
+                mAddToCart.showProgressIndicator();
+            }
+            mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener);
+        }else{
+            showLogInDialog();
         }
-        mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener);
     }
 
     private void tagItemAddedToCart() {
@@ -863,5 +873,20 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onFetchProductDisclaimerFailure(String error) {
 
+    }
+
+    private void showLogInDialog(){
+
+        new NetworkUtility().showDialogMessage(getContext().getString(R.string.iap_shopping_cart_dls), "Please Register or Login to easily order your products", getFragmentManager(), getContext(), new AlertListener() {
+            @Override
+            public void onPositiveBtnClick() {
+                new NetworkUtility().dismissErrorDialog();
+            }
+
+            @Override
+            public void onNegativeBtnClick() {
+                new NetworkUtility().dismissErrorDialog();
+            }
+        });
     }
 }

@@ -46,6 +46,10 @@ public class CartModelContainer {
     private String mAddressIdFromDelivery;
     private String voucherCode;
 
+    public void clearProductList() {
+        if(mProductList!=null) mProductList.clear();
+    }
+
     private CartModelContainer() {
         mPRXSummaryObjects = new ArrayList<>();
         mPRXAssetObjects = new HashMap<>();
@@ -154,6 +158,7 @@ public class CartModelContainer {
 
     //PRX Summary
     public boolean isPRXSummaryPresent(String ctn) {
+        if(mPRXSummaryObjects == null || mPRXSummaryObjects.size()==0) return false;
         for (Data data : mPRXSummaryObjects) {
             if (data.getCtn().equalsIgnoreCase(ctn)) {
                 return true;

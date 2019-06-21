@@ -151,6 +151,11 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void getNetworkImage(final ProductCatalogViewHolder productCartProductHolder,
                                  final String imageURL) {
+        if(imageURL == null ){
+            productCartProductHolder.mProductImage.setDefaultImageResId(R.drawable.no_icon);
+            return;
+        }
+
         mImageLoader.get(imageURL, ImageLoader.getImageListener(productCartProductHolder.mProductImage,
                 R.drawable.no_icon, android.R.drawable
                         .ic_dialog_alert));

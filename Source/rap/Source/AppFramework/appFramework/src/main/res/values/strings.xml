@@ -5,7 +5,7 @@
    - consent of the copyright holder. -->
 
 <resources>
-  <string name="redirectURL" translatable="false">com.philips.apps.pimdemoapp://oauthredirect</string>
+  <string name="redirectURL" translatable="false">com.philips.apps.referenceapp://oauthredirect</string>
   <string name="BA_AppFramework">AppFramework </string>
   <string name="RA_AboutScreen_Title">About</string>
   <string name="RA_About_App_Version">Version</string>

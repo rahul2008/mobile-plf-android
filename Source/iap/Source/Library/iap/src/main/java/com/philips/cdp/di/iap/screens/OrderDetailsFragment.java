@@ -79,7 +79,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private TextView tvPriceTotal;
     private TextView tvVat;
     private TextView tvPriceVat;
-    private TableLayout tlProductDetailContainer;
+    private LinearLayout tlProductDetailContainer;
     private Button btncall;
     private TextView tvCardName;
     private TextView tvCardNo;
@@ -274,7 +274,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         hideProgressBar();
         if (msg.obj instanceof ContactsResponse) {
             ContactsResponse contactsResponse = (ContactsResponse) msg.obj;
-            if (contactsResponse.getData() != null) {
+            if (contactsResponse.getData() != null && contactsResponse.getData().getPhone()!=null) {
                 mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
                 mOpeningHoursWeekdays = contactsResponse.getData().getPhone().get(0).getOpeningHoursWeekdays();
                 mOpeningHoursSaturday = contactsResponse.getData().getPhone().get(0).getOpeningHoursSaturday();
@@ -348,6 +348,9 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         if (detail.getDeliveryMode() != null && detail.getDeliveryCost() != null) {
             tvDeliveryMode.setText(String.format(getResources().getString(R.string.iap_delivery_ups_parcel), detail.getDeliveryMode().getCode().toLowerCase()));
             tvDeliveryModePrice.setText(detail.getDeliveryCost().getFormattedValue());
+        }else{
+            tvDeliveryMode.setVisibility(View.GONE);
+            tvDeliveryModePrice.setVisibility(View.GONE);
         }
 
         if (detail.getTotalTax() != null) {

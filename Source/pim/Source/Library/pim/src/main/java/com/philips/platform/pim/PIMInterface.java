@@ -1,9 +1,22 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V. 2019
+ * All rights are reserved. Reproduction or dissemination in whole or in part
+ * is prohibited without the prior written consent of the copyright holder.
+ */
+
 package com.philips.platform.pim;
 
+import android.app.Activity;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
@@ -11,6 +24,8 @@ import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
+import com.philips.platform.pim.models.PIMInitViewModel;
+import com.philips.platform.pim.utilities.PIMInitState;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -21,25 +36,36 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
-
+/**
+ * Used to initialize and launch PIM
+ *
+ * @since TODO:Shashi need to update pim version
+ */
 public class PIMInterface implements UappInterface {
     private static final String PIM_KEY_ACTIVITY_THEME = "PIM_KEY_ACTIVITY_THEME";
     private final String TAG = PIMInterface.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
 
     private Context context;
+    private PIMInitViewModel pimInitViewModel;
 
     /**
-     * API to initialize PIM. Please make sure no propositions are being used before URInterface$init.
+     * API to initialize PIM. Please make sure no propositions are being used before PIMInterface$init.
      *
      * @param uappDependencies pass instance of UappDependencies
      * @param uappSettings     pass instance of UappSettings
-     * @since TODO
+     * @since TODO: Update version
      */
     @Override
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
 
+        pimInitViewModel = ViewModelProviders.of((FragmentActivity)context).get(PIMInitViewModel.class);
+
+        MutableLiveData<PIMInitState> livedata = pimInitViewModel.getMuatbleInitLiveData();
+        livedata.setValue(PIMInitState.INIT_IN_PROGRESS);
+
+        PIMSettingManager.getInstance().setPIMInitLiveData(livedata);
         PIMSettingManager.getInstance().init(uappDependencies);
         PIMUserManager pimUserManager = new PIMUserManager();
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
@@ -49,8 +75,6 @@ public class PIMInterface implements UappInterface {
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
-
-
     }
 
     /**
@@ -58,7 +82,7 @@ public class PIMInterface implements UappInterface {
      *
      * @param uiLauncher      pass ActivityLauncher or FragmentLauncher
      * @param uappLaunchInput pass instance of  URLaunchInput
-     * @since TODO
+     * @since TODO: Update version
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
@@ -94,7 +118,7 @@ public class PIMInterface implements UappInterface {
     /**
      * Get the User Data Interface
      *
-     * @since TODO
+     * @since TODO: Update PIM version
      */
     public UserDataInterface getUserDataInterface() {
         if (context == null) {

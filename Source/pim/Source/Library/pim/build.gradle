@@ -44,7 +44,7 @@ android {
 
     buildTypes {
         release {
-            proguardFiles 'proguard-rules-pim.pro'
+            consumerProguardFiles 'proguard-rules-pim.pro'
         }
         debug {
             debuggable true
@@ -76,6 +76,7 @@ dependencies {
         implementation philipsdeps.pif
     }
     implementation deps.adobemobilelib
+
     implementation deps.constraintlayout
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
@@ -84,6 +85,8 @@ dependencies {
     implementation deps.support.annotations
     implementation deps.volley
     implementation deps.openid_appauth
+    implementation deps.livedata_extensions
+
     testImplementation deps.junit
     testImplementation deps.powermock_core
     testImplementation deps.powermock_junit
@@ -92,4 +95,5 @@ dependencies {
     testImplementation deps.powermock_api_mockito
     testImplementation deps.powermock_classloading_xstream
 
+    annotationProcessor deps.livedata_compiler
 }

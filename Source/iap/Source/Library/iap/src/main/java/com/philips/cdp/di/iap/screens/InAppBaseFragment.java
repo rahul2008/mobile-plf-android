@@ -26,9 +26,11 @@ import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
 import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.ProgressBar;
@@ -235,7 +237,11 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     public void setCartIconVisibility(final boolean shouldShow) {
         if (mIapListener != null) {
-            mIapListener.updateCartIconVisibility(shouldShow);
+            if(isUserLoggedIn()) {
+                mIapListener.updateCartIconVisibility(shouldShow);
+            }else{
+                mIapListener.updateCartIconVisibility(false);
+            }
         }
     }
 
@@ -332,5 +338,9 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         }else{
             IAPUtility.getInstance().getIapOrderFlowCompletion().didCancelOrder();
         }
+    }
+
+    protected boolean isUserLoggedIn(){
+        return  IAPUtility.getInstance().getUserDataInterface() != null && IAPUtility.getInstance().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
     }
 }

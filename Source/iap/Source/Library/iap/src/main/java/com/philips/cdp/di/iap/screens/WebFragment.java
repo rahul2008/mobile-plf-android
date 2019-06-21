@@ -16,13 +16,11 @@ import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.utils.Utility;
 
 public abstract class WebFragment extends InAppBaseFragment {
 

@@ -1,17 +1,22 @@
 package com.philips.platform.pim.manager;
 
 
+import android.arch.lifecycle.MutableLiveData;
+
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pim.BuildConfig;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.utilities.PIMInitState;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
-
+/**
+ * Singleton class to hold common object
+ */
 public class PIMSettingManager {
     private static final String COMPONENT_TAGS_ID = "pim";
     private static final PIMSettingManager instance = new PIMSettingManager();
@@ -23,6 +28,7 @@ public class PIMSettingManager {
     private RestInterface mRestInterface;
     private final String TAG = PIMSettingManager.class.getSimpleName();
     private String locale;
+    private MutableLiveData<PIMInitState> pimInitLiveData;
 
     public static PIMSettingManager getInstance() {
         return instance;
@@ -77,7 +83,20 @@ public class PIMSettingManager {
         return locale;
     }
 
+    //TODO: '_' is replaced by '-' to support backend. Need to change once backend supports standard locale.
     public void setLocale(String locale) {
+        if(locale.contains("_")){
+            String[] splitLocal = locale.split("_");
+            locale = splitLocal[0]+"-"+splitLocal[1];
+        }
         this.locale = locale;
+    }
+
+    public void setPIMInitLiveData(MutableLiveData<PIMInitState> pimInitLiveData){
+        this.pimInitLiveData = pimInitLiveData;
+    }
+
+    public MutableLiveData<PIMInitState> getPimInitLiveData() {
+        return pimInitLiveData;
     }
 }
