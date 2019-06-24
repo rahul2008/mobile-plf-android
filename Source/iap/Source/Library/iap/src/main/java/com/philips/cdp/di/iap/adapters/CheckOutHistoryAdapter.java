@@ -230,7 +230,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
             //Show discounts ==========
-            for(int i=0;i< mData.get(i).getAppliedOrderPromotionEntityList().size();i++){
+            if(mData.get(0).getAppliedOrderPromotionEntityList()!=null)
+            for(int i=0;i< mData.get(0).getAppliedOrderPromotionEntityList().size();i++){
 
                 View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
                 TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
@@ -240,8 +241,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 tvDiscountValue.setText("- "+ mData.get(i).getAppliedOrderPromotionEntityList().get(i).getPromotion().getPromotionDiscount().getFormattedValue());
                 shoppingCartFooter.llDiscount.addView(discountInfo);
             }
-
-            for(int i=0;i< mData.get(i).getAppliedVouchers().size();i++){
+            if(mData.get(0).getAppliedVouchers()!=null)
+            for(int i=0;i< mData.get(0).getAppliedVouchers().size();i++){
 
                 View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
                 TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
