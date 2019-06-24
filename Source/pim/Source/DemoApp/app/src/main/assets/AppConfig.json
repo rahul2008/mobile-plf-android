@@ -26,8 +26,8 @@
   },
   "PIM": {
     "clientId": "94e28300-565d-4110-8919-42dc4f817393",
+    "redirectURL" : "com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect",
     "rsid" : "philipspimregistrationdev"
-
   },
   "IAP": {
     "hostport": "www.occ.shop.philips.com",

@@ -43,7 +43,8 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
      public Intent getAuthReqIntent(@NonNull PIMLoginListener pimLoginListener) throws ActivityNotFoundException {
         mPimLoginListener = pimLoginListener;
         String clientID = mPimoidcConfigration.getClientId();
-        return mPimAuthManager.getAuthorizationRequestIntent(mPimoidcConfigration.getAuthorizationServiceConfiguration(), clientID, createAdditionalParameterForLogin());
+        String redirectUrl = mPimoidcConfigration.getRedirectUrl();
+        return mPimAuthManager.getAuthorizationRequestIntent(mPimoidcConfigration.getAuthorizationServiceConfiguration(), clientID, redirectUrl,createAdditionalParameterForLogin());
     }
 
     public boolean isAuthorizationSuccess(Intent intentData){
@@ -65,10 +66,6 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
                     mPimLoginListener.onLoginFailed(error);
             }
         });
-    }
-    public void disposeAuthorizationService(){
-        if(mPimAuthManager != null)
-            mPimAuthManager.dispose();
     }
 
     @Override

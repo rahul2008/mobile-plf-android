@@ -110,7 +110,6 @@ public class PIMUserManager {
         String clientID = new PIMOIDCConfigration().getClientId();
         LogoutRequest logoutRequest = new LogoutRequest(authState, clientID);
         pimRestClient.invokeRequest(logoutRequest, response -> {
-            pimAuthManager.dispose();
             appInfraInterface.getSecureStorage().removeValueForKey(getAuthStateKey());
             appInfraInterface.getSecureStorage().removeValueForKey(getUserInfoKey());
             removeUUIDFromPref();
