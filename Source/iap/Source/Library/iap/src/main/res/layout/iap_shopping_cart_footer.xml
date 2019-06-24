@@ -167,31 +167,17 @@
                 android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
         </GridLayout>
 
-        <GridLayout
-            android:id="@+id/summary_voucher_discount_container"
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/linear_layout_discount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dip"
             android:paddingLeft="@dimen/border16_margin_left_right"
             android:paddingRight="@dimen/border16_margin_left_right">
 
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/voucher_discount"
-                style="@style/iapCentralesansBookFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/iap_total_voucher_discount"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
 
-
-            <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/total_discount"
-                style="@style/iapCentralesansMediumFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
-        </GridLayout>
+        </LinearLayout>
 
         <GridLayout
             android:layout_width="match_parent"

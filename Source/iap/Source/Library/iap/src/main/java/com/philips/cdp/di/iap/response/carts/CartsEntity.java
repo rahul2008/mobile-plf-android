@@ -40,6 +40,19 @@ public class CartsEntity {
 
     private List<DeliveryOrderGroupsEntity> deliveryOrderGroups;
 
+    private List<AppliedOrderPromotionEntity> appliedOrderPromotions;
+
+    public List<AppliedVoucherEntity> getAppliedVouchers() {
+        return appliedVouchers;
+    }
+
+    public void setAppliedVouchers(List<AppliedVoucherEntity> appliedVouchers) {
+        this.appliedVouchers = appliedVouchers;
+    }
+
+    private List<AppliedVoucherEntity> appliedVouchers;
+
+
     public List<AppliedOrderPromotionEntity> getAppliedOrderPromotions() {
         return appliedOrderPromotions;
     }
@@ -47,9 +60,6 @@ public class CartsEntity {
     public void setAppliedOrderPromotions(List<AppliedOrderPromotionEntity> appliedOrderPromotions) {
         this.appliedOrderPromotions = appliedOrderPromotions;
     }
-
-    private List<AppliedOrderPromotionEntity> appliedOrderPromotions;
-
 
     private List<EntriesEntity> entries;
 

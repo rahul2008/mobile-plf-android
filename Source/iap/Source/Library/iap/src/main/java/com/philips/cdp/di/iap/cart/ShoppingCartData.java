@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.cart;
 
 import com.philips.cdp.di.iap.response.carts.AppliedOrderPromotionEntity;
+import com.philips.cdp.di.iap.response.carts.AppliedVoucherEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryAddressEntity;
 import com.philips.cdp.di.iap.response.carts.DeliveryModeEntity;
 import com.philips.cdp.di.iap.response.carts.EntriesEntity;
@@ -19,6 +20,7 @@ public class ShoppingCartData implements Serializable {
     private EntriesEntity mEntry;
     private DeliveryModeEntity mDeliveryModeEntity;
     private DeliveryAddressEntity mDeliveryAddressEntity;
+    private List<AppliedVoucherEntity> appliedVouchers;
 
 
     public List<AppliedOrderPromotionEntity> getAppliedOrderPromotionEntityList() {
@@ -250,5 +252,13 @@ public class ShoppingCartData implements Serializable {
 
     public void setTotalDiscounts(String totalDiscounts) {
         this.totalDiscounts = totalDiscounts;
+    }
+
+    public List<AppliedVoucherEntity> getAppliedVouchers() {
+        return appliedVouchers;
+    }
+
+    public void setAppliedVouchers(List<AppliedVoucherEntity> appliedVouchers) {
+        this.appliedVouchers = appliedVouchers;
     }
 }

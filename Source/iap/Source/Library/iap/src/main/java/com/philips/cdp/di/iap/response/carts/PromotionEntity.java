@@ -13,6 +13,12 @@ public class PromotionEntity {
     private boolean enabled;
     private String endDate;
 
+    public PromotionDiscount getPromotionDiscount() {
+        return promotionDiscount;
+    }
+
+    private PromotionDiscount promotionDiscount;
+
     public String getCode() {
         return code;
     }
