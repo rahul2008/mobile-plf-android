@@ -32,7 +32,7 @@
     "appidentity.appState": "STAGING",
     "appUpdate.serviceID": "appinfra.testing.version",
     "appUpdate.autoRefresh": true,
-    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appidentity.serviceDiscoveryEnvironment": "STAGING",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [
       "bundleId",

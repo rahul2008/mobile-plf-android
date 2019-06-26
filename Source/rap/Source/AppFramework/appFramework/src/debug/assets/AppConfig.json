@@ -33,7 +33,7 @@
     "appidentity.micrositeId": "77000",
     "appidentity.sector": "b2c",
     "appidentity.appState": "STAGING",
-    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appidentity.serviceDiscoveryEnvironment": "STAGING",
     "appUpdate.serviceID": "appinfra.testing.version",
     "appUpdate.autoRefresh": true,
     "restclient.cacheSizeInKB": 51200,
