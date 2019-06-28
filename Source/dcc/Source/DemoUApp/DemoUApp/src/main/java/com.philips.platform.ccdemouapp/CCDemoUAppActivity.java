@@ -2,6 +2,7 @@ package com.philips.platform.ccdemouapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -50,6 +51,8 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.philips.cdp.digitalcare.DigitalCareConfigManager.resetDigitalCareConfigManager;
+
 public class CCDemoUAppActivity extends FragmentActivity implements View.OnClickListener,
         CcListener {
 
@@ -70,6 +73,8 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private ThemeHelper themeHelper;
+
+    private String serviceDiscoveryCountry ;
 
     private AppInfraInterface appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
 
@@ -144,6 +149,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
                 @Override
                 public void onSuccess(String s, SOURCE source) {
                     tv.setText("Country from Service Discovery : " + s);
+                    serviceDiscoveryCountry=s;
                 }
 
                 @Override
@@ -235,8 +241,23 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
             appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
         }
         else {
+            if(!mcountryCode[mCountry_spinner.getSelectedItemPosition()].equalsIgnoreCase(serviceDiscoveryCountry)){
+                // remove selected product when country is changed
+                resetProductSelectionOnCountryChange();
+            }
             appInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+            serviceDiscoveryCountry=mcountryCode[mCountry_spinner.getSelectedItemPosition()];
         }
+    }
+    private static final String USER_PREFERENCE = "user_product";
+    private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+    private void resetProductSelectionOnCountryChange(){
+         SharedPreferences prefs = null;
+        prefs = getSharedPreferences( USER_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(USER_SELECTED_PRODUCT_CTN, "");
+        editor.apply();
+        resetDigitalCareConfigManager();
     }
 
     @Override

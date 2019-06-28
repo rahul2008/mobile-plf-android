@@ -630,6 +630,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         DigiCareLogger.i(TAG, "Dynamically creating the SupportScreen Buttons");
 
         final SupportHomeFragment context = this;
+        if(null==mOptionContainer){
+            mOptionContainer = getActivity().findViewById(
+                    R.id.supportMenuContainer);
+        }
         RecyclerView recyclerView = mOptionContainer;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));

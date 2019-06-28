@@ -94,6 +94,17 @@ public class DigitalCareConfigManager {
         return mDigitalCareInstance;
     }
 
+    /*
+     * Reset Singleton .
+     * This method will reset digital consumer care data
+     */
+    public static void resetDigitalCareConfigManager() {
+
+            mDigitalCareInstance = null;
+
+
+    }
+
     /**
      * Returs the Context used in the DigitalCare Component
      *
