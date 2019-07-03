@@ -1,0 +1,4 @@
+include ':app', ':iapUApp'
+project(':iapUApp').projectDir = new File('../DemoUApp')
+include ':iap'
+project(':iap').projectDir = new File('../Library/iap')

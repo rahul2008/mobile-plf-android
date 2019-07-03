@@ -1,0 +1,17 @@
+{
+  "name"               : "InApp Purchase Android",
+  "type"               : "microApp",
+  "technology"         : "Java",
+  "topic"              : "",
+  "deployment"         : "Android",
+  "deployment details" : "",
+  "med62304"           : "",
+  "medFDA"             : "",
+  "maturity"           : "production",
+  "contact"            : "Rahul", 
+  "release format"     : "maven",
+  "release url"        : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android:com/philips/cdp/iap/2.0.0",
+  "version"            : "2.0.0",
+  "source url"         : "http://tfsemea1.ta.philips.com:8080/tfs/TPC_Region24/CDP2/_git/iap-android-in-app-purchase",
+  "documentation url"  : "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-release-local-android:com/philips/cdp/iap/2.0.0",
+}
