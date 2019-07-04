@@ -132,6 +132,10 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         getNetworkImage(productHolder, imageURL);
 
+        if(Locale.getDefault().getLanguage().contentEquals("ar")) {
+            productHolder.mArrow.setRotation(180);
+        }
+
         productHolder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
