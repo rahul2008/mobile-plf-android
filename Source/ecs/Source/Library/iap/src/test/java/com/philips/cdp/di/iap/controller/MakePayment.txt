@@ -1,3 +1,0 @@
-{
-  "worldpayUrl": "https://secure-test.worldpay.com/jsp/shopper/SelectPaymentMethod.jsp?OrderKey=PHILIPSPLPUB%5E14000000698-001"
-}
