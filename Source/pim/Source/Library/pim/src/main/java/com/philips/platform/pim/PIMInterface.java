@@ -6,20 +6,21 @@
 
 package com.philips.platform.pim;
 
-import android.app.Activity;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pim.migration.PIMMigrator;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
@@ -60,9 +61,9 @@ public class PIMInterface implements UappInterface {
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
 
-        pimInitViewModel = ViewModelProviders.of((FragmentActivity)context).get(PIMInitViewModel.class);
-
+        pimInitViewModel = ViewModelProviders.of((FragmentActivity) context).get(PIMInitViewModel.class);
         MutableLiveData<PIMInitState> livedata = pimInitViewModel.getMuatbleInitLiveData();
+        livedata.observe((FragmentActivity) context, observer);
         livedata.setValue(PIMInitState.INIT_IN_PROGRESS);
 
         PIMSettingManager.getInstance().setPIMInitLiveData(livedata);
@@ -76,6 +77,21 @@ public class PIMInterface implements UappInterface {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
     }
+
+    Observer<PIMInitState> observer = new Observer<PIMInitState>() {
+        @Override
+        public void onChanged(@Nullable PIMInitState pimInitState) {
+            if (pimInitState == PIMInitState.INIT_SUCCESS) {
+                Log.i(TAG, "INIT_SUCCESS");
+                if (PIMSettingManager.getInstance().getPimUserManager().getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
+                    PIMMigrator pimMigrator = new PIMMigrator(context);
+                    pimMigrator.migrateUSRToPIM();
+                } else {
+                    mLoggingInterface.log(DEBUG, TAG, "User is already logged in");
+                }
+            }
+        }
+    };
 
     /**
      * Launches the PIM user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
