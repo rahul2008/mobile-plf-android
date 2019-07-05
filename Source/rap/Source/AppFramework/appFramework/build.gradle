@@ -230,7 +230,7 @@ dependencies {
         implementation project(strings.dccuapp.projectName)
 //        implementation project(strings.ufwuapp.projectName)
         implementation project(strings.iapuapp.projectName)
-        implementation project(strings.pesuapp.projectName)
+        implementation project(strings.ecsuapp.projectName)
 
         implementation project(strings.prguapp.projectName)
         implementation project(strings.usruapp.projectName)
