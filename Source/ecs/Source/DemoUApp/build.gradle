@@ -1,19 +1,6 @@
 apply plugin: 'com.android.library'
 
-
-apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
-apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
-
 archivesBaseName = 'ecsuapp'
-
-buildscript {
-    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
-
-    dependencies {
-        classpath builddeps.gradle
-        classpath builddeps.buildinfoextractor
-    }
-}
 
 android {
     compileSdkVersion 28
