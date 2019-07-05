@@ -1,0 +1,263 @@
+{
+  "type": "orderWsDTO",
+  "calculated": true,
+  "code": "14000107341",
+  "deliveryAddress": {
+    "country": {
+      "isocode": "US",
+      "name": "United States"
+    },
+    "firstName": "Valid",
+    "formattedAddress": "606 10th Avenue, new York , New York, Ny, 10036",
+    "id": "8809462693911",
+    "lastName": "Address",
+    "line1": "606 10th Avenue",
+    "line2": "new York ",
+    "phone1": "(212)247-2400",
+    "postalCode": "10036",
+    "region": {
+      "countryIso": "US",
+      "isocode": "US-NY",
+      "isocodeShort": "NY",
+      "name": "New York"
+    },
+    "shippingAddress": true,
+    "title": "Mr.",
+    "titleCode": "mr",
+    "town": "Ny",
+    "visibleInAddressBook": true
+  },
+  "deliveryCost": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "deliveryItemsQuantity": 1,
+  "deliveryMode": {
+    "code": "standard-net",
+    "deliveryCost": {
+      "currencyIso": "USD",
+      "formattedValue": "$0.00",
+      "priceType": "BUY",
+      "value": 0
+    },
+    "description": "3-5 business days",
+    "name": "Standard Delivery Mode"
+  },
+  "deliveryOrderGroups": [
+    {
+      "entries": [
+        {
+          "basePrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$30.00",
+            "priceType": "BUY",
+            "value": 30
+          },
+          "entryNumber": 0,
+          "product": {
+            "availableForPickup": false,
+            "categories": [
+              {
+                "code": "Tuscany_Campaign",
+                "url": "/US-Tuscany-Category/c/Tuscany_Campaign"
+              }
+            ],
+            "code": "HX8071/10",
+            "discountPrice": {
+              "currencyIso": "USD",
+              "value": 30
+            },
+            "name": "HX8071/10 TONGUE CLEANER 1 TONG BH AND S",
+            "purchasable": true,
+            "stock": {
+              "stockLevel": 1358,
+              "stockLevelStatus": "inStock"
+            },
+            "url": "/US-Tuscany-Category/HX8071-10-TONGUE-CLEANER-1-TONG-BH-AND-S/p/HX8071_10"
+          },
+          "quantity": 1,
+          "totalPrice": {
+            "currencyIso": "USD",
+            "formattedValue": "$30.00",
+            "priceType": "BUY",
+            "value": 30
+          },
+          "updateable": true
+        }
+      ],
+      "totalPriceWithTax": {
+        "currencyIso": "USD",
+        "formattedValue": "$32.66",
+        "priceType": "BUY",
+        "value": 32.66
+      }
+    }
+  ],
+  "entries": [
+    {
+      "basePrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "Tuscany_Campaign",
+            "url": "/US-Tuscany-Category/c/Tuscany_Campaign"
+          }
+        ],
+        "code": "HX8071/10",
+        "discountPrice": {
+          "currencyIso": "USD",
+          "value": 30
+        },
+        "name": "HX8071/10 TONGUE CLEANER 1 TONG BH AND S",
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 1358,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "/US-Tuscany-Category/HX8071-10-TONGUE-CLEANER-1-TONG-BH-AND-S/p/HX8071_10"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "updateable": true
+    }
+  ],
+  "guid": "06b02f3f-ccd6-4d07-ac11-76be73e2a833",
+  "net": true,
+  "orderDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "paymentInfo": {
+    "billingAddress": {
+      "country": {
+        "isocode": "US",
+        "name": "United States"
+      },
+      "firstName": "Valid",
+      "formattedAddress": "606 10th Avenue, new York , New York, Ny, 10036",
+      "id": "8809462726679",
+      "lastName": "Address",
+      "line1": "606 10th Avenue",
+      "line2": "new York ",
+      "phone1": "(212)247-2400",
+      "postalCode": "10036",
+      "region": {
+        "countryIso": "US",
+        "isocode": "US-NY",
+        "isocodeShort": "NY",
+        "name": "New York"
+      },
+      "shippingAddress": true,
+      "title": "Mr.",
+      "titleCode": "mr",
+      "town": "Ny",
+      "visibleInAddressBook": true
+    },
+    "defaultPayment": false,
+    "saved": false
+  },
+  "pickupItemsQuantity": 0,
+  "productDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "site": "US_Tuscany",
+  "store": "US_Pub",
+  "subTotal": {
+    "currencyIso": "USD",
+    "formattedValue": "$30.00",
+    "priceType": "BUY",
+    "value": 30
+  },
+  "totalDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "$0.00",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "totalItems": 1,
+  "totalPrice": {
+    "currencyIso": "USD",
+    "formattedValue": "$30.00",
+    "priceType": "BUY",
+    "value": 30
+  },
+  "totalPriceWithTax": {
+    "currencyIso": "USD",
+    "formattedValue": "$32.66",
+    "priceType": "BUY",
+    "value": 32.66
+  },
+  "totalTax": {
+    "currencyIso": "USD",
+    "formattedValue": "$2.66",
+    "priceType": "BUY",
+    "value": 2.66
+  },
+  "user": {
+    "name": "inappnewuser",
+    "uid": "inappnewuser@mailinator.com"
+  },
+  "created": "2016-06-20T07:18:05+0000",
+  "guestCustomer": false,
+  "status": "PAYMENT_PROGRESS",
+  "statusDisplay": "processing",
+  "unconsignedEntries": [
+    {
+      "basePrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "Tuscany_Campaign",
+            "url": "/US-Tuscany-Category/c/Tuscany_Campaign"
+          }
+        ],
+        "code": "HX8071/10",
+        "discountPrice": {
+          "currencyIso": "USD",
+          "value": 30
+        },
+        "name": "HX8071/10 TONGUE CLEANER 1 TONG BH AND S",
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 1358,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "/US-Tuscany-Category/HX8071-10-TONGUE-CLEANER-1-TONG-BH-AND-S/p/HX8071_10"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$30.00",
+        "priceType": "BUY",
+        "value": 30
+      },
+      "updateable": true
+    }
+  ]
+}
