@@ -248,7 +248,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
                 TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
 
-                tvDiscountText .setText(mData.get(i).getAppliedVouchers().get(i).getDescription());
+                tvDiscountText .setText(mData.get(i).getAppliedVouchers().get(i).getName());
                 tvDiscountValue.setText("- "+ mData.get(i).getAppliedVouchers().get(i).getAppliedValue().getFormattedValue());
                 shoppingCartFooter.llDiscount.addView(discountInfo);
             }
