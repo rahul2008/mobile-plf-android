@@ -110,8 +110,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
             if (null != voucherEditText.getText().toString()) {
                 createCustomProgressBar(voucherLayout, BIG);
                 mVoucherController.applyCoupon(voucherEditText.getText().toString().trim());
-
-
+                voucherEditText.getText().clear();
             }
         }
     }

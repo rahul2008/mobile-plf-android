@@ -292,7 +292,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
                         TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
 
-                        tvDiscountText.setText(mData.get(0).getAppliedVouchers().get(i).getDescription());
+                        tvDiscountText.setText(mData.get(0).getAppliedVouchers().get(i).getName());
                         tvDiscountValue.setText("- " + mData.get(0).getAppliedVouchers().get(i).getAppliedValue().getFormattedValue());
                         shoppingCartFooter.gridDiscount.addView(discountInfo);
                     }
