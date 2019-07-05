@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.philips.cdp.di.iapdemo">
+    package="com.philips.cdp.di.pesdemo">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".DemoApplication"
+        android:name="com.philips.cdp.di.pesdemo.PesDemoApplication"
         android:icon="@drawable/app_icon"
         android:allowBackup="false"
         android:label="@string/demo_app_name"
@@ -19,7 +19,7 @@
         tools:replace="android:allowBackup, android:label, android:supportsRtl, android:resizeableActivity">
 
         <activity
-            android:name=".LuncherActivity"
+            android:name="com.philips.cdp.di.pesdemo.PesLuncherActivity"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="portrait">

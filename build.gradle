@@ -153,7 +153,7 @@ subprojects {
     version = platformversion
 
     if (!it.projectDir.exists()) {
-        throw new GradleException("Project not found ${it}")
+//        throw new GradleException("Project not found ${it}")
     }
 
     ext.useprojectdependencies = true

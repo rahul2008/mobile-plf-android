@@ -87,6 +87,9 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 //project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include(':iapApp')
 //project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
+include(':pesApp')
+project(':pesApp').projectDir = new File('./Source/pes/Source/DemoApp/app')
+
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'

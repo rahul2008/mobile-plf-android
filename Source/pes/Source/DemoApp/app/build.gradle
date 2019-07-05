@@ -18,7 +18,7 @@ buildscript {
     }
 }
 
-archivesBaseName = 'iapApp'
+archivesBaseName = 'pesApp'
 
 android {
     compileSdkVersion versions.sdk
@@ -26,7 +26,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.philips.cdp.di.iapdemo"
+        applicationId "com.philips.cdp.di.pesdemo"
         multiDexEnabled true
         renderscriptTargetApi versions.renderscriptTargetApi
         renderscriptSupportModeEnabled true
@@ -87,12 +87,12 @@ android {
 
     productFlavors {
         simulator {
-            applicationId 'com.philips.cdp.di.iapdemo'
+            applicationId 'com.philips.cdp.di.pesdemo'
             versionCode 2
             versionName "0.17.8"
         }
         device {
-            applicationId 'com.philips.cdp.di.iapdemo'
+            applicationId 'com.philips.cdp.di.pesdemo'
             versionCode 2
             versionName "0.17.8"
         }
