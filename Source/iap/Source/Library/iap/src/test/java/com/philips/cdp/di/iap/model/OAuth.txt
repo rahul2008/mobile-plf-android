@@ -1,7 +1,0 @@
-{
-  "access_token": "afa814bf-ad4d-477c-9bed-a79f0e37b8dd",
-  "token_type": "bearer",
-  "refresh_token": "81eafe29-6036-4729-9118-63e6d089bdba",
-  "expires_in": 43097,
-  "scope": "basic"
-}

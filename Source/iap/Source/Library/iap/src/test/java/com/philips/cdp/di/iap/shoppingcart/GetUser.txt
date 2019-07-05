@@ -1,8 +1,0 @@
-{
-  "type": "userWsDTO",
-  "name": "happy",
-  "uid": "happyinappuser@mailinator.com",
-  "displayUid": "happyinappuser@mailinator.com",
-  "firstName": "happy",
-  "lastName": ""
-}
