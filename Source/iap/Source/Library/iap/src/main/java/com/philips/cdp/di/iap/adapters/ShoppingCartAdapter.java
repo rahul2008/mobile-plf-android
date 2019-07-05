@@ -112,9 +112,14 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final ShoppingCartData data = mData.get(position);
 
-                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), data.getStockLevel(), data
+                final ShoppingCartData data = mData.get(position);
+                int stockLevel = mData.get(position).getStockLevel();
+                if(stockLevel > 50){
+                    stockLevel = 50;
+                }
+
+                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), stockLevel, data
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
@@ -124,7 +129,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
-                countPopUp.createPopUp(v,data.getStockLevel());
+                countPopUp.createPopUp(v,stockLevel);
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
