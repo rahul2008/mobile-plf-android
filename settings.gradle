@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
@@ -89,6 +90,8 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 //project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
 include(':pesApp')
 project(':pesApp').projectDir = new File('./Source/pes/Source/DemoApp/app')
+include(':pesUApp')
+project(':pesUApp').projectDir = new File('./Source/pes/Source/DemoUApp')
 
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
