@@ -60,16 +60,23 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    implementation deps.volley
+    implementation deps.calligraphy
+    implementation deps.gson
+    implementation deps.libphonenumber
+
     testImplementation deps.junit
     implementation philipsdeps.uid
     if (useprojectdependencies) {
-        implementation project(strings.iap.projectName)
+       // implementation project(strings.iap.projectName)
+        implementation project(strings.prx.projectName)
         implementation project(strings.usr.projectName)
         implementation project(strings.ail.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
     } else {
-        implementation philipsdeps.iap
+       // implementation philipsdeps.iap
+        implementation philipsdeps.prx
         implementation philipsdeps.pif
         implementation philipsdeps.registrationApi
         implementation philipsdeps.AppInfra
