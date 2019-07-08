@@ -218,15 +218,15 @@ class USRTokenManager {
                 JSONObject tokenObject = new JSONObject(response);
                 String usrAccessToken = tokenObject.getString("access_token");
                 mLoggingInterface.log(DEBUG, TAG, "Refresh USR token success. New Access Token :" + usrAccessToken);
-                refreshUSRTokenListener.onRefreshTokenRequestSuccess(usrAccessToken);
+                refreshUSRTokenListener.onRefreshTokenSuccess(usrAccessToken);
                 //Perform Id assertion with user access token which
                 //performIDAssertion(usrAccessToken);
             } catch (JSONException e) {
                 e.printStackTrace();
-                refreshUSRTokenListener.onRefreshTokenRequestFailed(new Error(e.hashCode(), e.getMessage()));
+                refreshUSRTokenListener.onRefreshTokenFailed(new Error(e.hashCode(), e.getMessage()));
             }
         }, error -> {
-            refreshUSRTokenListener.onRefreshTokenRequestFailed(new Error(error.hashCode(), error.getLocalizedMessage()));
+            refreshUSRTokenListener.onRefreshTokenFailed(new Error(error.hashCode(), error.getLocalizedMessage()));
             mLoggingInterface.log(DEBUG, TAG, "Migration Failed!! " + "Body for refresh token request : " + error.toString());
         });
     }
@@ -240,6 +240,13 @@ class USRTokenManager {
             return sdf.format(timeInterface.getUTCTime());
         }
         return null;
+    }
+
+    public boolean isUSRUserAvailable() {
+        if (signed_in_user == null)
+            return false;
+        else
+            return true;
     }
 
 

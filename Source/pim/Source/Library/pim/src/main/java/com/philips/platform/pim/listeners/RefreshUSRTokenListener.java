@@ -3,7 +3,7 @@ package com.philips.platform.pim.listeners;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 
 public interface RefreshUSRTokenListener {
-    void onRefreshTokenRequestSuccess(String refreshToken);
+    void onRefreshTokenSuccess(String accessToken);
 
-    void onRefreshTokenRequestFailed(Error error);
+    void onRefreshTokenFailed(Error error);
 }

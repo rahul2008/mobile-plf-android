@@ -21,21 +21,25 @@ public class PIMMigrator implements RefreshUSRTokenListener {
         PIMSettingManager pimSettingManager = PIMSettingManager.getInstance();
         mLoggingInterface = pimSettingManager.getLoggingInterface();
         usrTokenManager = new USRTokenManager(pimSettingManager.getAppInfraInterface());
-        usrTokenManager.fetchRefreshedAccessToken(this);
     }
 
-    private void migrateUSRToPIM(String refreshToken) {
+
+    public void migrateUSRToPIM() {
+        if (usrTokenManager.isUSRUserAvailable()) {
+            usrTokenManager.fetchRefreshedAccessToken(this);
+        } else {
+            mLoggingInterface.log(DEBUG, TAG, "USR user is not available so assertion not required");
+        }
+    }
+
+    @Override
+    public void onRefreshTokenSuccess(String accessToken) {
         PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context);
-        pimMigrationManager.migrateUser(refreshToken);
+        pimMigrationManager.migrateUser(accessToken);
     }
 
     @Override
-    public void onRefreshTokenRequestSuccess(String refreshToken) {
-        migrateUSRToPIM(refreshToken);
-    }
-
-    @Override
-    public void onRefreshTokenRequestFailed(Error error) {
+    public void onRefreshTokenFailed(Error error) {
         mLoggingInterface.log(DEBUG, TAG, "Refresh access token failed.");
     }
 }

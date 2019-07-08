@@ -69,9 +69,6 @@ public class PIMInterface implements UappInterface {
         PIMSettingManager.getInstance().setPIMInitLiveData(livedata);
         PIMSettingManager.getInstance().init(uappDependencies);
 
-        PIMMigrator pimMigrator = new PIMMigrator(context, uappDependencies.getAppInfra());
-        pimMigrator.migrateUSRToPIM();
-
         PIMUserManager pimUserManager = new PIMUserManager();
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
         pimUserManager.init(context, uappDependencies.getAppInfra());
