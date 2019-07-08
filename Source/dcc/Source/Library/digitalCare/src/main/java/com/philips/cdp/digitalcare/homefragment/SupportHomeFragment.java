@@ -17,6 +17,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.cdp.digitalcare.DigitalCareConfigManager.resetDigitalCareConfigManager;
+
 /**
  * The main feature enable screen opens once the ConsumerCare Component is triggered.
  */
@@ -75,6 +78,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+    private static final String DCC_SAVED_COUNTRY = "mCountryPreference";
     private static final String USER_PREFERENCE = "user_product";
     private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
     private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
@@ -124,6 +128,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         super.onCreate(savedInstanceState);
         isSupportScreenLaunched = true;
         FontIconTypefaceHolder.init(getActivity().getAssets(), "fonts/iconfont.ttf");
+
     }
 
     @Override
@@ -133,14 +138,21 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         View mView = inflater.inflate(R.layout.consumercare_fragment_support, container,
                 false);
         mIsFirstScreenLaunch = true;
+
+
+        prefs = getActivity().getSharedPreferences(
+                USER_PREFERENCE, Context.MODE_PRIVATE);
+
+        initializeCountry();
+
         if(DigitalCareConfigManager.getInstance().getConsumerProductInfo() == null){
             ConsumerProductInfo mProductInfo = new ConsumerProductInfo();
             DigitalCareConfigManager.getInstance().setConsumerProductInfo(mProductInfo);
         }
-        prefs = getActivity().getSharedPreferences(
-                USER_PREFERENCE, Context.MODE_PRIVATE);
-        initializeCountry();
         updateConsumerProductInfo();
+
+
+
         if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().
                 getProductModelSelectionType().getHardCodedProductList().length < 2) {
             synchronized (this) {
@@ -160,6 +172,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 DigiCareLogger.v(TAG, "Sending PRX Request");
                 PrxWrapper mPrxWrapper = new PrxWrapper(getActivity(), this);
                 mPrxWrapper.executeRequests();
+
             }
         } else {
             createMainMenu();
@@ -569,6 +582,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(USER_SELECTED_PRODUCT_CTN, summaryData.getCtn());
+        editor.putString(DCC_SAVED_COUNTRY, ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getServiceDiscovery().getHomeCountry());
         editor.apply();
     }
 
@@ -833,6 +847,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
+                String ccSavedCountry = prefs.getString(DCC_SAVED_COUNTRY, "");
+                if(!TextUtils.isEmpty(ccSavedCountry)) {
+                    if (!(s.equalsIgnoreCase(ccSavedCountry))) {
+                        resetProductSelectionOnCountryChange();
+                    }
+                }
                 DigitalCareConfigManager.getInstance().setCountry(s);
                 DigiCareLogger.v(TAG, "Response from Service Discovery : Home Country - " + s);
             }
@@ -842,6 +862,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 DigiCareLogger.v(TAG, "Error response from Service Discovery : Home Country - " + s);
             }
         });
+    }
+
+    private void resetProductSelectionOnCountryChange(){
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(USER_SELECTED_PRODUCT_CTN, "");
+        editor.putString(DCC_SAVED_COUNTRY, "");
+        editor.apply();
+        DigitalCareConfigManager.getInstance().setConsumerProductInfo(null);
     }
 
 }
