@@ -41,6 +41,13 @@ public class PIMUserManager {
     private PIMAuthManager pimAuthManager;
     private String uuid;
 
+    private static final String PIM_LOGIN_FLOW = "LOGIN_FLOW";
+
+    public enum LOGIN_FLOW {
+        DEFAULT,
+        MIGRATION;
+    }
+
     public void init(@NonNull Context context, @NonNull AppInfraInterface appInfraInterface) {
         this.context = context;
         this.appInfraInterface = appInfraInterface;
@@ -70,8 +77,12 @@ public class PIMUserManager {
             storeUserProfileToSecureStorage(response); //store jsonm reponse to secure storgae
             storeAuthStateToSecureStorage(oidcAuthState); //store auth state to secure storage
 
-            if (userProfileRequestListener != null)
+             if (userProfileRequestListener != null) {
+                saveLoginFlowType(LOGIN_FLOW.DEFAULT);
                 userProfileRequestListener.onUserProfileDownloadSuccess();
+            }else {
+                 saveLoginFlowType(LOGIN_FLOW.MIGRATION);
+             }
         }, error -> {
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
             if (userProfileRequestListener != null)
@@ -107,7 +118,12 @@ public class PIMUserManager {
     }
 
     public void logoutSession(LogoutSessionListener logoutSessionListener) {
-        String clientID = new PIMOIDCConfigration().getClientId();
+        String clientID;
+        if (getLoginFlow() == LOGIN_FLOW.MIGRATION)
+            clientID = new PIMOIDCConfigration().getMigrationClientId();
+        else
+            clientID = new PIMOIDCConfigration().getClientId();
+
         LogoutRequest logoutRequest = new LogoutRequest(authState, clientID);
         pimRestClient.invokeRequest(logoutRequest, response -> {
             appInfraInterface.getSecureStorage().removeValueForKey(getAuthStateKey());
@@ -129,7 +145,7 @@ public class PIMUserManager {
     }
 
     private String getUserProfileFromSecureStorage() {
-        if(isUUIDAvailable()) {
+        if (isUUIDAvailable()) {
             return appInfraInterface.getSecureStorage().fetchValueForKey(getUserInfoKey(), new SecureStorageInterface.SecureStorageError());
         }
         return null;
@@ -143,7 +159,7 @@ public class PIMUserManager {
     }
 
     private AuthState getAuthStateFromSecureStorage() {
-        if(isUUIDAvailable()) {
+        if (isUUIDAvailable()) {
             String authStateString = appInfraInterface.getSecureStorage().fetchValueForKey(getAuthStateKey(), new SecureStorageInterface.SecureStorageError());
             if (authStateString != null) {
                 try {
@@ -184,6 +200,20 @@ public class PIMUserManager {
         }
     }
 
+    void saveLoginFlowType(LOGIN_FLOW login_flow) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PIM_LOGIN_FLOW, login_flow.toString());
+        editor.apply();
+
+    }
+
+    public LOGIN_FLOW getLoginFlow() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
+        String loginflowString = sharedPreferences.getString(PIM_LOGIN_FLOW, LOGIN_FLOW.DEFAULT.toString());
+        return LOGIN_FLOW.valueOf(loginflowString);
+    }
+
     private void removeUUIDFromPref() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("PIM_PREF", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -195,14 +225,14 @@ public class PIMUserManager {
      * @return key for storing/fetching user info into/from secure storage
      */
     private String getUserInfoKey() {
-        return  "UUID_" + uuid + "_UserInfo";
+        return "UUID_" + uuid + "_UserInfo";
     }
 
     /**
      * @return key for storing/fetching auth state into/from secure storage
      */
     private String getAuthStateKey() {
-        return  "UUID_" + uuid + "_AuthState";
+        return "UUID_" + uuid + "_AuthState";
     }
 
     /**

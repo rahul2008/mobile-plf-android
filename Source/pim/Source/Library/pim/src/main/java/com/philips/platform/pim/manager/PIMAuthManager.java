@@ -164,15 +164,16 @@ public class PIMAuthManager {
     }
 
     public void performTokenRequest(@NonNull AuthorizationRequest authorizationRequest, @NonNull String authResponse, @NonNull PIMTokenRequestListener pimTokenRequestListener) {
-        
-        AuthorizationException authorizationException = AuthorizationException.fromOAuthRedirect(Uri.parse(authResponse));
+
+        mLoggingInterface.log(DEBUG, TAG, "TEST");
+
         AuthorizationResponse authorizationResponse = new AuthorizationResponse.Builder(authorizationRequest).fromUri(Uri.parse(authResponse)).build();
-        if (authorizationResponse == null || authorizationException == null)
-            mAuthState = new AuthState(authorizationResponse, authorizationException);
-        else {
-            pimTokenRequestListener.onTokenRequestFailed(new Error(Error.UserDetailError.MigrationFailed));
+        if (authorizationResponse == null) {
+            AuthorizationException authorizationException = AuthorizationException.fromOAuthRedirect(Uri.parse(authResponse));
+            pimTokenRequestListener.onTokenRequestFailed(new Error(authorizationException.code, authorizationException.errorDescription));
             return;
         }
+        mAuthState = new AuthState(authorizationResponse, null);
 
         TokenRequest tokenRequest = authorizationResponse.createTokenExchangeRequest();
         AuthorizationService authorizationService = new AuthorizationService(mContext);
