@@ -98,8 +98,8 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     void bindAddNewAddress(final View newAddress) {
-
-        if(Locale.getDefault().getLanguage().contentEquals("ar")) {
+        // For arabic, Hebrew and Perssian the back arrow change from left to right
+        if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
             mIvOptions.setRotation(180);
         }
         newAddress.setOnClickListener(new View.OnClickListener() {

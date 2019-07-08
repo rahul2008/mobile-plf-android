@@ -63,7 +63,8 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             holder.mProductAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
         }
 
-        if(Locale.getDefault().getLanguage().contentEquals("ar")) {
+        // For arabic, Hebrew and Perssian the back arrow change from left to right
+        if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
             holder.mArrow.setRotation(180);
         }
 

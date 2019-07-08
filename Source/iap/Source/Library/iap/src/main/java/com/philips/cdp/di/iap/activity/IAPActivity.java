@@ -251,7 +251,8 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
         mTitleTextView.setText(getString(resourceId));
         if (visibility) {
             mBackImage.setVisibility(View.VISIBLE);
-            if(Locale.getDefault().getLanguage().contentEquals("ar")) {
+            // For arabic, Hebrew and Perssian the back arrow change from left to right
+            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
                 mBackImage.setRotation(180);
             }
         } else {
@@ -264,7 +265,8 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
         mTitleTextView.setText(resourceString);
         if (visibility) {
             mBackImage.setVisibility(View.VISIBLE);
-            if(Locale.getDefault().getLanguage().contentEquals("ar")) {
+            // For arabic, Hebrew and Perssian the back arrow change from left to right
+            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
                 mBackImage.setRotation(180);
             }
         } else {
