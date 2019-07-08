@@ -25,9 +25,14 @@
     ]
   },
   "PIM": {
-    "clientId": "94e28300-565d-4110-8919-42dc4f817393",
-    "redirectURL" : "com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect",
-    "rsid" : "philipspimregistrationdev"
+    "rsid" : "philipspimregistrationdev",
+    "PIM.default":{
+      "clientId": "94e28300-565d-4110-8919-42dc4f817393",
+      "redirectURL" : "com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect"
+    },"PIM.migration":{
+      "clientId": "7602c06b-c547-4aae-8f7c-f89e8c887a21",
+      "redirectURL" : "com.philips.apps.7602c06b-c547-4aae-8f7c-f89e8c887a21://oauthredirect"
+    }
   },
   "IAP": {
     "hostport": "www.occ.shop.philips.com",

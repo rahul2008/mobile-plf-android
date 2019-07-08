@@ -14,7 +14,10 @@ public class PIMMigrator {
     }
 
     public void migrateUSRToPIM() {
-
+        migrateUser();
     }
-
+    void migrateUser(){
+        PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context);
+        pimMigrationManager.migrateUser("h4cbzb2d24fcgyrd"); //TODO: Shashi, passing hardcoded accesstoken for further development.Late, need to fetch from JRAccessTokenRefresh.
+    }
 }

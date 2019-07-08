@@ -16,6 +16,8 @@ import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 
+import net.openid.appauth.AuthorizationRequest;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +53,6 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
         return mPimAuthManager.isAuthorizationSuccess(intentData);
     }
 
-
     public void exchangeAuthorizationCode(@NonNull Intent dataIntent) {
         mPimAuthManager.performTokenRequest(dataIntent, new PIMTokenRequestListener() {
             @Override
@@ -64,6 +65,26 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
             public void onTokenRequestFailed(Error error) {
                 if (mPimLoginListener != null)
                     mPimLoginListener.onLoginFailed(error);
+            }
+        });
+    }
+
+    public AuthorizationRequest createAuthRequestUriForMigration(Map additionalParameter){
+        return mPimAuthManager.createAuthRequestUriForMigration(additionalParameter);
+    }
+
+    public void exchangeAuthorizationCodeForMigration(AuthorizationRequest authorizationRequest,String authResponse){
+        mPimAuthManager.performTokenRequest(authorizationRequest, authResponse, new PIMTokenRequestListener() {
+            @Override
+            public void onTokenRequestSuccess() {
+                mLoggingInterface.log(DEBUG, TAG, "exchangeAuthorizationCodeForMigration success");
+                PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
+                pimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), null);
+            }
+
+            @Override
+            public void onTokenRequestFailed(Error error) {
+                mLoggingInterface.log(DEBUG, TAG, "exchangeAuthorizationCodeForMigration Failed. Error : " + error.getErrDesc());
             }
         });
     }
