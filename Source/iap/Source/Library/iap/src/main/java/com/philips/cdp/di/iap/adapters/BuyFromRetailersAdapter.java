@@ -20,6 +20,7 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetailersAdapter.RetailerViewHolder> {
     private  Context mContext;
@@ -60,6 +61,11 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         } else {
             holder.mProductAvailability.setText(mContext.getString(R.string.iap_out_of_stock));
             holder.mProductAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
+        }
+
+        // For arabic, Hebrew and Perssian the back arrow change from left to right
+        if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
+            holder.mArrow.setRotation(180);
         }
 
         final String buyURL = storeEntity.getBuyURL()+"source = mobile";

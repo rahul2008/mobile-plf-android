@@ -36,6 +36,7 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static com.philips.cdp.di.iap.R.id.delivery_via_ups;
 
@@ -149,6 +150,12 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
+
+            // For arabic, Hebrew and Perssian the back arrow change from left to right
+            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
+                shoppingCartProductHolder.mIvOptions.setRotation(180);
+            }
+
             String imageURL = cartData.getImageURL();
             shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
             shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedPrice());

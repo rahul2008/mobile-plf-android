@@ -38,6 +38,7 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_APPLY_VOUCHER;
 
@@ -179,6 +180,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
+
+            // For arabic, Hebrew and Perssian the back arrow change from left to right
+            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
+                shoppingCartProductHolder.mIvOptions.setRotation(180);
+            }
+
 
             if(mData.size()==1 || position==mData.size()-1){
                 shoppingCartProductHolder.viewBottomSpace.setVisibility(View.GONE);
