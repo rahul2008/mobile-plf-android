@@ -9,6 +9,7 @@ import com.iap.demouapp.IapDemoAppSettings;
 import com.iap.demouapp.IapDemoUAppDependencies;
 import com.iap.demouapp.IapDemoUAppInterface;
 import com.iap.demouapp.IapLaunchInput;
+import com.philips.cdp.di.pesdemo.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 

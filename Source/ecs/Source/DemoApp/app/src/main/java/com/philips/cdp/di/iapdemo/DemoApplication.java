@@ -3,6 +3,7 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.philips.cdp.di.pesdemo.R;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
