@@ -7,8 +7,8 @@ package com.ecs.demouapp.ui.store;
 import android.content.Context;
 import android.util.Log;
 
-import com.ecs.demouapp.ui.integration.IAPDependencies;
-import com.ecs.demouapp.ui.integration.IAPSettings;
+import com.ecs.demouapp.ui.integration.ECSDependencies;
+import com.ecs.demouapp.ui.integration.ECSSettings;
 import com.ecs.demouapp.ui.session.RequestListener;
 
 
@@ -59,7 +59,7 @@ public class HybrisStore extends AbstractStore {
     private boolean mIsNewUser;
 
     private StoreConfiguration mStoreConfig;
-    public IAPUser mIAPUser;
+    public ECSUser mECSUser;
 
     private String mOauthUrl;
     private String mOauthRefreshUrl;
@@ -98,16 +98,16 @@ public class HybrisStore extends AbstractStore {
 
     private String mApplyVoucherUrl;
 
-    public HybrisStore(Context context, IAPSettings iapSettings, IAPDependencies iapDependencies) {
-        mIAPUser = createUser(context,iapDependencies);
+    public HybrisStore(Context context, ECSSettings iapSettings, ECSDependencies ECSDependencies) {
+        mECSUser = createUser(context, ECSDependencies);
         mStoreConfig = getStoreConfig(context, iapSettings);
     }
 
 
     //User
     @Override
-    public IAPUser getUser() {
-        return mIAPUser;
+    public ECSUser getUser() {
+        return mECSUser;
     }
 
     @Override
@@ -120,15 +120,15 @@ public class HybrisStore extends AbstractStore {
         return mIsNewUser;
     }
 
-    IAPUser createUser(Context context, IAPDependencies iapDependencies) {
+    ECSUser createUser(Context context, ECSDependencies ECSDependencies) {
         mIsNewUser = false;
-        mIAPUser = new IAPUser(context, this,iapDependencies);
-        return mIAPUser;
+        mECSUser = new ECSUser(context, this, ECSDependencies);
+        return mECSUser;
     }
 
     @Override
-    public void createNewUser(Context context, IAPDependencies iapDependencies) {
-        createUser(context,iapDependencies);
+    public void createNewUser(Context context, ECSDependencies ECSDependencies) {
+        createUser(context, ECSDependencies);
         generateStoreUrls();
     }
 
@@ -139,15 +139,15 @@ public class HybrisStore extends AbstractStore {
 
     @Override
     public String getJanRainEmail() {
-        return mIAPUser.getJanRainEmail();
+        return mECSUser.getJanRainEmail();
     }
 
     public String getGivenName() {
-        return mIAPUser.getGivenName();
+        return mECSUser.getGivenName();
     }
 
     public String getFamilyName() {
-        return mIAPUser.getFamilyName();
+        return mECSUser.getFamilyName();
     }
 
     //Locale
@@ -165,7 +165,7 @@ public class HybrisStore extends AbstractStore {
     }
 
     //Store
-    StoreConfiguration getStoreConfig(final Context context, IAPSettings iapSettings) {
+    StoreConfiguration getStoreConfig(final Context context, ECSSettings iapSettings) {
         return new StoreConfiguration(context, this, iapSettings);
     }
 
@@ -187,7 +187,7 @@ public class HybrisStore extends AbstractStore {
     private void createOauthUrl() {
         StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
         builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH);
-        mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
+        mOauthUrl = String.format(builder.toString(), mECSUser.getJanRainID());
     }
 
     private void createOAuthRefreshUrl() {
@@ -289,7 +289,7 @@ public class HybrisStore extends AbstractStore {
 
     @Override
     public void refreshLoginSession() {
-        mIAPUser.refreshLoginSession();
+        mECSUser.refreshLoginSession();
     }
 
     //Product

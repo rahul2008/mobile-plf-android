@@ -32,7 +32,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.ecs_web_payment, container, false);
         mParentContainer = (RelativeLayout) viewGroup.findViewById(R.id.iap_web_container);
         mWebView = (WebView) viewGroup.findViewById(R.id.wv_payment);
         mWebView.setWebViewClient(new IAPWebViewClient());

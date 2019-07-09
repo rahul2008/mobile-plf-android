@@ -18,15 +18,15 @@ import android.widget.TextView;
 
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.PaymentMethodsAdapter;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.PaymentController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 
 import java.util.HashMap;
@@ -47,7 +47,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.iap_payment_method, container, false);
+        View view = inflater.inflate(R.layout.ecs_payment_method, container, false);
         mPaymentMethodsRecyclerView = view.findViewById(R.id.recycler_payment_method);
 
         tvCheckOutSteps= view.findViewById(R.id.tv_checkOutSteps);
@@ -58,8 +58,8 @@ public class PaymentSelectionFragment extends InAppBaseFragment
 
         mParentLayout = view.findViewById(R.id.payment_container);
         Bundle bundle = getArguments();
-        if (bundle.containsKey(IAPConstant.PAYMENT_METHOD_LIST)) {
-            mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(IAPConstant.PAYMENT_METHOD_LIST);
+        if (bundle.containsKey(ECSConstant.PAYMENT_METHOD_LIST)) {
+            mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(ECSConstant.PAYMENT_METHOD_LIST);
         }
 
         mPaymentMethodsAdapter = new PaymentMethodsAdapter(mContext, mPaymentMethodList);
@@ -67,8 +67,8 @@ public class PaymentSelectionFragment extends InAppBaseFragment
 
         mPaymentController = new PaymentController(mContext, this);
 
-        EventHelper.getInstance().registerEventNotification(IAPConstant.USE_PAYMENT, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_NEW_PAYMENT, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.USE_PAYMENT, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.ADD_NEW_PAYMENT, this);
         return view;
     }
 
@@ -89,7 +89,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.PAYMENT_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_payment, true);
         setCartIconVisibility(false);
     }
@@ -97,8 +97,8 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.USE_PAYMENT, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_NEW_PAYMENT, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.USE_PAYMENT, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.ADD_NEW_PAYMENT, this);
     }
 
     public static PaymentSelectionFragment createInstance(final Bundle args, final AnimationType animType) {
@@ -115,13 +115,13 @@ public class PaymentSelectionFragment extends InAppBaseFragment
 
     @Override
     public void onEventReceived(String event) {
-        if (event.equalsIgnoreCase(IAPConstant.USE_PAYMENT)) {
+        if (event.equalsIgnoreCase(ECSConstant.USE_PAYMENT)) {
             setPaymentDetail();
-        } else if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_PAYMENT)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.ADD_NEW_PAYMENT)) {
             Bundle bundle = new Bundle();
-            bundle.putBoolean(IAPConstant.FROM_PAYMENT_SELECTION, true);
-            final HashMap<String,String> value = (HashMap<String, String>)getArguments().getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
-            bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, value);
+            bundle.putBoolean(ECSConstant.FROM_PAYMENT_SELECTION, true);
+            final HashMap<String,String> value = (HashMap<String, String>)getArguments().getSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY);
+            bundle.putSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY, value);
             //Load shipping address from SetDelivery Address with check boxed
             addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
                     AddressFragment.TAG,true);
@@ -132,7 +132,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
 
     private void setPaymentDetail() {
         createCustomProgressBar(mParentLayout, BIG);
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PAYMENT_METHOD,
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.PAYMENT_METHOD,
                 selectedPaymentMethod().getCardType().getCode());
         mPaymentController.setPaymentDetails(selectedPaymentMethod().getId());
 
@@ -150,7 +150,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, selectedPaymentMethod());
+            bundle.putSerializable(ECSConstant.SELECTED_PAYMENT, selectedPaymentMethod());
             addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG,true);
         }
     }

@@ -6,7 +6,7 @@ package com.ecs.demouapp.ui.model;
 
 import com.android.volley.Request;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 
 
 import java.util.Map;
@@ -25,7 +25,7 @@ public class DeleteCartRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "DELETE");
+        ECSLog.d(ECSLog.LOG, "DELETE");
         return Request.Method.DELETE;
     }
 
@@ -36,7 +36,7 @@ public class DeleteCartRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getDeleteCartUrl());
+        ECSLog.d(ECSLog.LOG, "Request URL = " + store.getDeleteCartUrl());
         return store.getDeleteCartUrl();
     }
 }

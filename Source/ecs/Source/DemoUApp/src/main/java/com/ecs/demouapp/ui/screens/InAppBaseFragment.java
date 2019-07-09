@@ -18,17 +18,17 @@ import android.widget.RelativeLayout;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.activity.IAPActivity;
-import com.ecs.demouapp.ui.cart.IAPCartListener;
+import com.ecs.demouapp.ui.activity.ECSActivity;
+import com.ecs.demouapp.ui.cart.ECSCartListener;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.AddressController;
-import com.ecs.demouapp.ui.integration.IAPListener;
+import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPLog;
-import com.ecs.demouapp.ui.utils.IAPUtility;
+import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -40,7 +40,7 @@ import java.util.List;
 public abstract class InAppBaseFragment extends Fragment implements BackEventListener {
     private Context mContext;
     private ActionBarListener mActionbarUpdateListener;
-    protected IAPListener mIapListener;
+    protected ECSListener mIapListener;
 
     String mTitle = "";
 
@@ -50,7 +50,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
 
 
-    protected IAPCartListener mProductCountListener = new IAPCartListener() {
+    protected ECSCartListener mProductCountListener = new ECSCartListener() {
         @Override
         public void onSuccess(final int count) {
             updateCount(count);
@@ -64,7 +64,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     };
     private ProgressBar mPTHBaseFragmentProgressBar;
 
-    public void setActionBarListener(ActionBarListener actionBarListener, IAPListener iapListener) {
+    public void setActionBarListener(ActionBarListener actionBarListener, ECSListener iapListener) {
         mActionbarUpdateListener = actionBarListener;
         mIapListener = iapListener;
     }
@@ -159,7 +159,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
                 transaction.commitAllowingStateLoss();
 
-                IAPLog.d(IAPLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
+                ECSLog.d(ECSLog.LOG, "Add fragment " + newFragment.getClass().getSimpleName() + "   ("
                         + newFragmentTag + ")");
             }
 
@@ -198,7 +198,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
     public void clearFragmentStack() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity && !getActivity().isFinishing()) {
+        if (getActivity() != null && getActivity() instanceof ECSActivity && !getActivity().isFinishing()) {
             FragmentManager fragManager = getActivity().getSupportFragmentManager();
             int count = fragManager.getBackStackEntryCount();
             for (; count >= 0; count--) {
@@ -246,7 +246,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
     protected void finishActivity() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity && !getActivity().isFinishing()) {
+        if (getActivity() != null && getActivity() instanceof ECSActivity && !getActivity().isFinishing()) {
             getActivity().finish();
         }
     }
@@ -328,19 +328,19 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     }
 
     public boolean shouldGiveCallBack(){
-       return IAPUtility.getInstance().getIapOrderFlowCompletion()!=null && !IAPUtility.getInstance().getIapOrderFlowCompletion().shouldPopToProductList();
+       return ECSUtility.getInstance().getIapOrderFlowCompletion()!=null && !ECSUtility.getInstance().getIapOrderFlowCompletion().shouldPopToProductList();
     }
 
     public void sendCallback(boolean isSuccess){
         moveToVerticalAppByClearingStack();
         if(isSuccess){
-            IAPUtility.getInstance().getIapOrderFlowCompletion().didPlaceOrder();
+            ECSUtility.getInstance().getIapOrderFlowCompletion().didPlaceOrder();
         }else{
-            IAPUtility.getInstance().getIapOrderFlowCompletion().didCancelOrder();
+            ECSUtility.getInstance().getIapOrderFlowCompletion().didCancelOrder();
         }
     }
 
     protected boolean isUserLoggedIn(){
-        return  IAPUtility.getInstance().getUserDataInterface() != null && IAPUtility.getInstance().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
+        return  ECSUtility.getInstance().getUserDataInterface() != null && ECSUtility.getInstance().getUserDataInterface().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN ;
     }
 }

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.util.List;
@@ -39,11 +39,11 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         switch (viewType) {
 
             case TYPE_ITEM:
-                view = View.inflate(parent.getContext(), R.layout.iap_payment_method_item, null);
+                view = View.inflate(parent.getContext(), R.layout.ecs_payment_method_item, null);
                 return new PaymentMethodsHolder(view);
 
             case TYPE_FOOTER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_payment_method_footer, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ecs_payment_method_footer, parent, false);
                 return new PaymentMethodsFooterHolder(view);
 
             default:
@@ -81,7 +81,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         newPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.USE_PAYMENT);
+                EventHelper.getInstance().notifyEventOccurred(ECSConstant.USE_PAYMENT);
             }
         });
     }
@@ -168,7 +168,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADD_NEW_PAYMENT);
+                    EventHelper.getInstance().notifyEventOccurred(ECSConstant.ADD_NEW_PAYMENT);
                 }
             });
         }

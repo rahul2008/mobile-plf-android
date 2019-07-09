@@ -16,10 +16,10 @@ import android.widget.RelativeLayout;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.activity.IAPActivity;
+import com.ecs.demouapp.ui.activity.ECSActivity;
 import com.ecs.demouapp.ui.adapters.OrderHistoryAdapter;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.OrderController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
@@ -31,8 +31,8 @@ import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -62,7 +62,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.ORDER_HISTORY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_my_orders, false);
         setCartIconVisibility(false);
 
@@ -76,9 +76,9 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.iap_order_history_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.ecs_order_history_fragment, container, false);
 
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.PURCHASE_HISTORY_DETAIL), this);
 
         mOrderHistoryView = rootView.findViewById(R.id.order_history);
         mParentLayout = rootView.findViewById(R.id.order_history_container);
@@ -99,7 +99,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
 
     @Override
     public boolean handleBackEvent() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+        if (getActivity() != null && getActivity() instanceof ECSActivity) {
             finishActivity();
         }
 
@@ -110,7 +110,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onDestroyView() {
         super.onDestroyView();
         hideProgressBar();
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.PURCHASE_HISTORY_DETAIL), this);
     }
 
     private void updateHistoryListOnResume() {
@@ -120,7 +120,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
             mController.getOrderList(mPageNo);
         }else{
             if(mIapListener!=null){
-                mIapListener.onFailure(IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE);
+                mIapListener.onFailure(ECSConstant.IAP_ERROR_AUTHENTICATION_FAILURE);
             }
             moveToVerticalAppByClearingStack();
         }
@@ -165,7 +165,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onGetOrderDetail(Message msg) {
         mOrderCount++;
         if (msg.obj instanceof IAPNetworkError) {
-            IAPLog.d(TAG, ((IAPNetworkError) msg.obj).getMessage());
+            ECSLog.d(TAG, ((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {
@@ -202,15 +202,15 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         Orders order = mOrders.get(pos);
         Bundle bundle = new Bundle();
         if (order != null) {
-            bundle.putString(IAPConstant.PURCHASE_ID, order.getCode());
-            bundle.putString(IAPConstant.ORDER_STATUS, order.getStatusDisplay());
+            bundle.putString(ECSConstant.PURCHASE_ID, order.getCode());
+            bundle.putString(ECSConstant.ORDER_STATUS, order.getStatusDisplay());
             for (OrderDetail detail : mOrderDetails) {
                 if (detail.getCode().equals(order.getCode())) {
-                    bundle.putParcelable(IAPConstant.ORDER_DETAIL, detail);
+                    bundle.putParcelable(ECSConstant.ORDER_DETAIL, detail);
                     break;
                 }
             }
-            if (bundle.getParcelable(IAPConstant.ORDER_DETAIL) != null)
+            if (bundle.getParcelable(ECSConstant.ORDER_DETAIL) != null)
                 addFragment(OrderDetailsFragment.createInstance(bundle, AnimationType.NONE), OrderDetailsFragment.TAG,true);
         }
     }
@@ -225,7 +225,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
 
     @Override
     public void onEventReceived(String event) {
-        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PURCHASE_HISTORY_DETAIL))) {
+        if (event.equalsIgnoreCase(String.valueOf(ECSConstant.PURCHASE_HISTORY_DETAIL))) {
             startOrderDetailFragment();
         }
     }
@@ -284,7 +284,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                         && firstVisibleItemPosition >= 0
                         && mRemainingOrders > mPageSize) {
                     mIsLoading = true;
-                    IAPLog.d(TAG, "visibleItem " + visibleItemCount + ", firstvisibleItemPistion " + firstVisibleItemPosition + "itemCount " + mLayoutManager.getItemCount());
+                    ECSLog.d(TAG, "visibleItem " + visibleItemCount + ", firstvisibleItemPistion " + firstVisibleItemPosition + "itemCount " + mLayoutManager.getItemCount());
                     loadMoreItems();
                 }
             }

@@ -15,13 +15,13 @@ import android.view.ViewGroup;
 
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.BuyFromRetailersAdapter;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -65,11 +65,11 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View rootView = inflater.inflate(R.layout.iap_retailers_view, container, false);
+        View rootView = inflater.inflate(R.layout.ecs_retailers_view, container, false);
 
         mRecyclerView = rootView.findViewById(R.id.iap_retailer_list);
-        if (getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO) != null)
-            mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(IAPConstant.IAP_RETAILER_INFO);
+        if (getArguments().getSerializable(ECSConstant.IAP_RETAILER_INFO) != null)
+            mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(ECSConstant.IAP_RETAILER_INFO);
 
         return rootView;
     }
@@ -77,7 +77,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_select_retailer, true);
         setCartIconVisibility(false);
         if (mStoreEntity != null) {
@@ -90,9 +90,9 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     @Override
     public void onClickAtRetailer(String buyURL,  StoreEntity storeEntity) {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
-        bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntity.getName());
-        bundle.putBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntity));
+        bundle.putString(ECSConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
+        bundle.putString(ECSConstant.IAP_STORE_NAME, storeEntity.getName());
+        bundle.putBoolean(ECSConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntity));
         addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null,true);
     }
 
@@ -103,7 +103,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         String propositionId = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
 
         if (configError.getErrorCode() != null) {
-            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
+            ECSLog.e(ECSLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
 
         String supplierLinkWithUUID = null;

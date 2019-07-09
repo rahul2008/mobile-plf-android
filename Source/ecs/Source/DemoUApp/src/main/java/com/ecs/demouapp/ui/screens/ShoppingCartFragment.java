@@ -18,11 +18,11 @@ import android.widget.TextView;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.activity.IAPActivity;
+import com.ecs.demouapp.ui.activity.ECSActivity;
 import com.ecs.demouapp.ui.adapters.ShoppingCartAdapter;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
-import com.ecs.demouapp.ui.cart.IAPCartListener;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
+import com.ecs.demouapp.ui.cart.ECSCartListener;
 import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
 import com.ecs.demouapp.ui.cart.ShoppingCartData;
 import com.ecs.demouapp.ui.cart.ShoppingCartPresenter;
@@ -40,8 +40,8 @@ import com.ecs.demouapp.ui.response.addresses.GetShippingAddressData;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.AlertListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPUtility;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 
@@ -49,13 +49,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ecs.demouapp.ui.utils.IAPConstant.IAP_VOUCHER_CODE;
+import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_VOUCHER_CODE;
 
 
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
         ShoppingCartAdapter.OutOfStockListener, ShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>,
-        OnSetDeliveryModeListener, AlertListener, VoucherController.VoucherListener, IAPCartListener {
+        OnSetDeliveryModeListener, AlertListener, VoucherController.VoucherListener, ECSCartListener {
 
     public static final String TAG = ShoppingCartFragment.class.getName();
     private Button mCheckoutBtn;
@@ -82,17 +82,17 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_APPLY_VOUCHER), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_VOUCHER), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.BUTTON_STATE_CHANGED), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_DELETE_PRODUCT), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_UPDATE_PRODUCT_COUNT), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_EDIT_DELIVERY_MODE), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_APPLY_VOUCHER), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_DELETE_VOUCHER), this);
 
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
 
         mVoucherController = new VoucherController(getActivity(), this);
 
@@ -101,7 +101,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
 
 
-        View rootView = inflater.inflate(R.layout.iap_shopping_cart_view, container, false);
+        View rootView = inflater.inflate(R.layout.ecs_shopping_cart_view, container, false);
 
         mRecyclerView = rootView.findViewById(R.id.shopping_cart_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -123,9 +123,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart_dls, true);
         setCartIconVisibility(false);
         if (isNetworkConnected()) {
@@ -150,21 +150,21 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.BUTTON_STATE_CHANGED), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_EDIT_DELIVERY_MODE), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_DELETE_PRODUCT), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_UPDATE_PRODUCT_COUNT), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_DELETE_PRODUCT_CONFIRM), this);
     }
 
     @Override
     public void onClick(final View v) {
         if (v == mCheckoutBtn) {
 
-            if (IAPUtility.getInstance().getMaxCartCount() == IAPConstant.UN_LIMIT_CART_COUNT) {
+            if (ECSUtility.getInstance().getMaxCartCount() == ECSConstant.UN_LIMIT_CART_COUNT) {
                 getRegionAndTag();
             } else {
                 createCustomProgressBar(mParentLayout, BIG);
@@ -176,9 +176,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
             if (!isNetworkConnected()) return;
 
             //Track continue shopping action
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
-                    IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
-            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.SPECIAL_EVENTS,
+                    ECSAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
+            EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG);
         }
     }
 
@@ -186,20 +186,20 @@ public class ShoppingCartFragment extends InAppBaseFragment
         createCustomProgressBar(mParentLayout, BIG);
         mAddressController.getRegions();
 
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.CHECKOUT_BUTTON_SELECTED);
 
         if (mAdapter != null && mAdapter.isFreeDelivery()) {
             //Action to track free delivery
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.FREE_DELIVERY);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.FREE_DELIVERY);
         }
     }
 
     @Override
     public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
+        if (fragment == null && getActivity() != null && getActivity() instanceof ECSActivity) {
             finishActivity();
         }
         return false;
@@ -208,32 +208,32 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onEventReceived(final String event) {
         hideProgressBar();
-        if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
+        if (event.equalsIgnoreCase(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             getFragmentManager().popBackStack();
             addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG, true);
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
+        } else if (event.equalsIgnoreCase(String.valueOf(ECSConstant.BUTTON_STATE_CHANGED))) {
             mCheckoutBtn.setEnabled(!Boolean.valueOf(event));
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT))) {
+        } else if (event.equalsIgnoreCase(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT))) {
             startProductDetailFragment(mAdapter);
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
+        } else if (event.equalsIgnoreCase(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
             showProductCatalogFragment(ShoppingCartFragment.TAG);
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.IAP_DELETE_PRODUCT)) {
             createCustomProgressBar(mParentLayout, BIG);
             mShoppingCartAPI.deleteProduct(mData.get(mAdapter.getSelectedItemPosition()));
 
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_UPDATE_PRODUCT_COUNT)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.IAP_UPDATE_PRODUCT_COUNT)) {
             createCustomProgressBar(mParentLayout, BIG);
             mShoppingCartAPI.updateProductQuantity(mData.get(mAdapter.getSelectedItemPosition()),
                     mAdapter.getNewCount(), mAdapter.getQuantityStatusInfo());
 
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.IAP_EDIT_DELIVERY_MODE)) {
 
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
                     AddressSelectionFragment.TAG, true);
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.IAP_DELETE_PRODUCT_CONFIRM)) {
             Utility.showActionDialog(getActivity(), getString(R.string.iap_remove_product), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_item_alert_title), getString(R.string.iap_product_remove_description), getFragmentManager(), this);
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_APPLY_VOUCHER)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.IAP_APPLY_VOUCHER)) {
             VoucherFragment voucherFragment = new VoucherFragment();
             Bundle bundle = new Bundle();
             bundle.putString(IAP_VOUCHER_CODE, mData.get(0).getAppliedVoucherCode());
@@ -245,18 +245,18 @@ public class ShoppingCartFragment extends InAppBaseFragment
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
-        bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
-        bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
-        bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
-        bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        if (bundle.getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST) != null) {
-            final ArrayList<String> list = bundle.getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
-            bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, list);
+        bundle.putString(ECSConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
+        bundle.putString(ECSConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
+        bundle.putString(ECSConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
+        bundle.putString(ECSConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
+        bundle.putString(ECSConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
+        if (bundle.getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST) != null) {
+            final ArrayList<String> list = bundle.getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST);
+            bundle.putStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST, list);
         }
-        bundle.putInt(IAPConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
-        bundle.putInt(IAPConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
-        bundle.putSerializable(IAPConstant.SHOPPING_CART_CODE, shoppingCartData);
+        bundle.putInt(ECSConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
+        bundle.putInt(ECSConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
+        bundle.putSerializable(ECSConstant.SHOPPING_CART_CODE, shoppingCartData);
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
     }
 
@@ -268,7 +268,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else {
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)
-                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
+                bundle.putParcelable(ECSConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
@@ -276,7 +276,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();
-                bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
+                bundle.putSerializable(ECSConstant.ADDRESS_LIST, (Serializable) mAddresses);
                 addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
                         AddressSelectionFragment.TAG,true);
             }
@@ -403,7 +403,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onPositiveBtnClick() {
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
+        EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_DELETE_PRODUCT);
     }
 
     @Override
@@ -432,9 +432,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onSuccess(int count) {
         hideProgressBar();
-        if (count > IAPUtility.getInstance().getMaxCartCount()) {
+        if (count > ECSUtility.getInstance().getMaxCartCount()) {
             NetworkUtility.getInstance().showErrorDialog(getActivity(),getFragmentManager(),
-                    getString(R.string.iap_ok),"Exceed Cart limit","You can not add more than "+IAPUtility.getInstance().getMaxCartCount()+ " product in your cart");
+                    getString(R.string.iap_ok),"Exceed Cart limit","You can not add more than "+ ECSUtility.getInstance().getMaxCartCount()+ " product in your cart");
         } else {
             getRegionAndTag();
         }

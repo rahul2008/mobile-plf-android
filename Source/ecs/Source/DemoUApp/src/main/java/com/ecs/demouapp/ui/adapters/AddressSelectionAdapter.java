@@ -18,7 +18,7 @@ import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.response.addresses.Addresses;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.platform.uid.view.widget.RadioButton;
 
@@ -46,10 +46,10 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         View view;
         if (viewType == TYPE_ITEM) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_item, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ecs_address_selection_item, parent, false);
             return new AddressSelectionHolder(view);
         } else if (viewType == TYPE_FOOTER) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_address_selection_footer, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ecs_address_selection_footer, parent, false);
             return new AddressSelectionFooter(view);
         }
         return null;
@@ -82,14 +82,14 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             addressSelectionHolder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADDRESS_SELECTION_EVENT_DELETE);
+                    EventHelper.getInstance().notifyEventOccurred(ECSConstant.ADDRESS_SELECTION_EVENT_DELETE);
                 }
             });
 
             addressSelectionHolder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADDRESS_SELECTION_EVENT_EDIT);
+                    EventHelper.getInstance().notifyEventOccurred(ECSConstant.ADDRESS_SELECTION_EVENT_EDIT);
                 }
             });
         }
@@ -100,7 +100,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         newAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.ADD_NEW_ADDRESS);
+                EventHelper.getInstance().notifyEventOccurred(ECSConstant.ADD_NEW_ADDRESS);
             }
         });
     }
@@ -110,7 +110,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
             @Override
             public void onClick(final View v) {
                 Utility.isDelvieryFirstTimeUser=true;
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.DELIVER_TO_THIS_ADDRESS);
+                EventHelper.getInstance().notifyEventOccurred(ECSConstant.DELIVER_TO_THIS_ADDRESS);
             }
         });
     }

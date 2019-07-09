@@ -9,9 +9,9 @@ import android.os.Message;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
-import com.ecs.demouapp.ui.integration.IAPListener;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
+import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.response.products.Products;
 import com.ecs.demouapp.ui.response.products.ProductsEntity;
@@ -36,7 +36,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     }
 
     @Override
-    public boolean getProductCatalog(int currentPage, int pageSize, IAPListener listener) {
+    public boolean getProductCatalog(int currentPage, int pageSize, ECSListener listener) {
         return true;
     }
 
@@ -57,11 +57,11 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     }
 
     @Override
-    public void getCompleteProductList(IAPListener iapListener) {
+    public void getCompleteProductList(ECSListener iapListener) {
     }
 
     @Override
-    public void getCatalogCount(IAPListener listener) {
+    public void getCatalogCount(ECSListener listener) {
     }
 
     @Override
@@ -76,11 +76,11 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
         if (msg.obj instanceof IAPNetworkError)
             mProductCatalogListener.onLoadError((IAPNetworkError) msg.obj);
         else {
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + IAPAnalyticsConstant.NO_PRODUCT_FOUND);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + ECSAnalyticsConstant.NO_PRODUCT_FOUND);
 
             mProductCatalogListener.onLoadError(NetworkUtility.getInstance()
-                    .createIAPErrorMessage(IAPAnalyticsConstant.PRX, mContext.getString(R.string.iap_no_product_available)));
+                    .createIAPErrorMessage(ECSAnalyticsConstant.PRX, mContext.getString(R.string.iap_no_product_available)));
         }
     }
 }

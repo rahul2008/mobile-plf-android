@@ -43,7 +43,7 @@ public class ImageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.iap_image_pager_adapter, container, false);
+        View itemView = mLayoutInflater.inflate(R.layout.ecs_image_pager_adapter, container, false);
         NetworkImageView imageView = (NetworkImageView) itemView.findViewById(R.id.network_image);
         bindImageToViewPager(imageView, mAssetsFromPRX.get(position));
         container.addView(itemView);

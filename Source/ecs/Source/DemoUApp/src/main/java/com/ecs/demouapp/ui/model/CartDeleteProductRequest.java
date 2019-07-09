@@ -6,7 +6,7 @@ package com.ecs.demouapp.ui.model;
 
 import com.android.volley.Request;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 
 
@@ -43,7 +43,7 @@ public class CartDeleteProductRequest extends AbstractModel {
             throw new RuntimeException("Cart ID and Entry Number has to be supplied");
         }
         int entryNumber = Integer.parseInt(params.get(ModelConstants.ENTRY_CODE));
-        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getUpdateProductUrl(String.valueOf(entryNumber)));
+        ECSLog.d(ECSLog.LOG, "Request URL = " + store.getUpdateProductUrl(String.valueOf(entryNumber)));
         return store.getUpdateProductUrl(String.valueOf(entryNumber));
     }
 }

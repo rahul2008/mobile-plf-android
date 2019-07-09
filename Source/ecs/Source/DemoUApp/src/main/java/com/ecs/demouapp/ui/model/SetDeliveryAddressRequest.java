@@ -2,8 +2,8 @@ package com.ecs.demouapp.ui.model;
 
 import com.android.volley.Request;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 
 
@@ -22,12 +22,12 @@ public class SetDeliveryAddressRequest extends AbstractModel {
 
     @Override
     public Object parseResponse(final Object response) {
-        return IAPConstant.IAP_SUCCESS;
+        return ECSConstant.IAP_SUCCESS;
     }
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "PUT");
+        ECSLog.d(ECSLog.LOG, "PUT");
         return Request.Method.PUT;
     }
 
@@ -40,7 +40,7 @@ public class SetDeliveryAddressRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getSetDeliveryAddressUrl());
+        ECSLog.d(ECSLog.LOG, "Request URL = " + store.getSetDeliveryAddressUrl());
         return store.getSetDeliveryAddressUrl();
     }
 }

@@ -23,11 +23,11 @@ import android.webkit.WebViewClient;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPUtility;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,10 +40,10 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
+        ViewGroup group = (ViewGroup) inflater.inflate(R.layout.ecs_web_payment, container, false);
         createCustomProgressBar(group,BIG);
-        mUrl = getArguments().getString(IAPConstant.IAP_BUY_URL);
-        isPhilipsShop = getArguments().getBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP);
+        mUrl = getArguments().getString(ECSConstant.IAP_BUY_URL);
+        isPhilipsShop = getArguments().getBoolean(ECSConstant.IAP_IS_PHILIPS_SHOP);
         initializeWebView(group);
         return group;
     }
@@ -51,10 +51,10 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        String title = getArguments().getString(IAPConstant.IAP_STORE_NAME);
+        String title = getArguments().getString(ECSConstant.IAP_STORE_NAME);
         setTitleAndBackButtonVisibility(title, true);
         setCartIconVisibility(false);
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILER_WEB_PAGE);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.RETAILER_WEB_PAGE);
         mWebView.onResume();
     }
 
@@ -87,7 +87,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
                 if(isPhilipsShop){
                    tagUrl = getPhilipsFormattedUrl(url);
                 }
-                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,IAPAnalyticsConstant.KEY_EXIT_LINK_RETAILER,tagUrl);
+                ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.KEY_EXIT_LINK_RETAILER,tagUrl);
                 super.onPageStarted(view, url, favicon);
             }
 
@@ -143,9 +143,9 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
 
     public String getPhilipsFormattedUrl(String url) {
 
-        String appName = IAPUtility.getInstance().getAppName();
-        String localeTag = IAPUtility.getInstance().getLocaleTag();
-        Uri.Builder builder = new Uri.Builder().appendQueryParameter("origin", String.format(IAPAnalyticsConstant.PHILIPS_EXIT_LINK_PARAMETER,localeTag,appName,appName));
+        String appName = ECSUtility.getInstance().getAppName();
+        String localeTag = ECSUtility.getInstance().getLocaleTag();
+        Uri.Builder builder = new Uri.Builder().appendQueryParameter("origin", String.format(ECSAnalyticsConstant.PHILIPS_EXIT_LINK_PARAMETER,localeTag,appName,appName));
 
           if(isParameterizedURL(url)){
               return  url + "&" + builder.toString().replace("?","");

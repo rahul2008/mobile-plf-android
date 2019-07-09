@@ -14,7 +14,7 @@ import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.address.Validator;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.InputValidator;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -483,7 +483,7 @@ public class AddressBillingView
         if (isValidEntry(firstName, lastName, addressLineOne, houseNo, postalCode, phone1, town, country, email)) {
 
             setBillingAddressFields(billingAddressFields);
-            IAPLog.d(IAPLog.LOG, billingAddressFields.toString());
+            ECSLog.d(ECSLog.LOG, billingAddressFields.toString());
             if (billingAddressFields != null) {
                 addressPresenter.setBillingAddressFields(billingAddressFields);
                 addressContractor.setBillingAddressFilledStatus(true);

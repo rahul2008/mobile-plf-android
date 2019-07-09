@@ -26,13 +26,13 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.cart.ShoppingCartData;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
-import com.ecs.demouapp.ui.stock.IAPStockAvailabilityHelper;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.CountDropDown;
 import com.philips.platform.uid.view.widget.Label;
@@ -40,7 +40,7 @@ import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
 
-import static com.ecs.demouapp.ui.utils.IAPConstant.IAP_APPLY_VOUCHER;
+import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_APPLY_VOUCHER;
 
 
 public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -75,11 +75,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void setCountArrow(final Context context, final boolean isEnable) {
         if (isEnable) {
-            countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
+            countArrow = context.getDrawable(R.drawable.ecs_product_count_drop_down);
             countArrow.setColorFilter(new
                     PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
         } else {
-            countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.iap_product_disable_count_drop_down, mContext.getTheme());
+            countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.ecs_product_disable_count_drop_down, mContext.getTheme());
         }
         int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
@@ -104,7 +104,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ecs_shopping_cart_footer, parent, false);
             return new FooterShoppingCartViewHolder(v);
         } else if (viewType == TYPE_ITEM) {
-            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_shopping_cart_data, parent, false);
+            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ecs_shopping_cart_data, parent, false);
             return new ShoppingCartProductHolder(v);
         }
         return null;
@@ -123,7 +123,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         mSelectedItemPosition = position;
                         mQuantityStatus = getQuantityStatus(newCount, oldCount);
                         mNewCount = newCount;
-                        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
+                        EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
                 countPopUp.createPopUp(v,data.getStockLevel());
@@ -164,7 +164,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
         shoppingCartDataForProductDetailPage = mData.get(position);
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.PRODUCT_DETAIL_FRAGMENT);
+        EventHelper.getInstance().notifyEventOccurred(ECSConstant.PRODUCT_DETAIL_FRAGMENT);
     }
 
     @Override
@@ -195,7 +195,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(final View view) {
                     mSelectedItemPosition = holder.getAdapterPosition();
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT_CONFIRM);
+                    EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_DELETE_PRODUCT_CONFIRM);
                 }
             });
         } else {
@@ -241,7 +241,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mDeliveryUPSParcelContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
+                            EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_EDIT_DELIVERY_MODE);
                         }
                     });
 
@@ -258,7 +258,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
 
                 for (int i = 0; i < mData.size(); i++) {
-                    View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
+                    View priceInfo = View.inflate(mContext, R.layout.ecs_price_item, null);
                     TextView mProductName = priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = priceInfo.findViewById(R.id.product_price);
                     mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
@@ -343,8 +343,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void checkForOutOfStock(int stockLevel, int quantity, ShoppingCartProductHolder shoppingCartProductHolder, String stockLevelStatus) {
-        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
-        final boolean isStockAvailable = iapStockAvailabilityHelper.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
+        ECSStockAvailabilityHelper ECSStockAvailabilityHelper = new ECSStockAvailabilityHelper();
+        final boolean isStockAvailable = ECSStockAvailabilityHelper.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
 
         setStockAvailability(shoppingCartProductHolder,isStockAvailable, stockLevel);
 
@@ -508,7 +508,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .append(mData.get(i).getProductTitle()).append(";").append(String.valueOf(mData.get(i).getQuantity()))
                     .append(";").append(mData.get(i).getValuePrice());
         }
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.PRODUCTS, products.toString());
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.PRODUCTS, products.toString());
     }
 }

@@ -5,17 +5,17 @@
 package com.ecs.demouapp.ui.iapHandler;
 
 
-import com.ecs.demouapp.ui.integration.IAPInterface;
-import com.ecs.demouapp.ui.integration.IAPListener;
+import com.ecs.demouapp.ui.integration.ECSInterface;
+import com.ecs.demouapp.ui.integration.ECSListener;
 
-public class LocalHandler extends IAPInterface implements IAPExposedAPI {
+public class LocalHandler extends ECSInterface implements ECSExposedAPI {
 
     @Override
-    public void getProductCartCount(final IAPListener iapListener) {
+    public void getProductCartCount(final ECSListener iapListener) {
         iapListener.onGetCartCount(-1);
     }
 
     @Override
-    public void getCompleteProductList(IAPListener iapListener) {
+    public void getCompleteProductList(ECSListener iapListener) {
     }
 }

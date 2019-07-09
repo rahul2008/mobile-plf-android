@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.activity.IAPActivity;
+import com.ecs.demouapp.ui.activity.ECSActivity;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 
 
@@ -31,7 +31,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.iap_empty_puchase_history, container, false);
+        View rootView = inflater.inflate(R.layout.ecs_empty_puchase_history, container, false);
         mContinueShoppingBtn = rootView.findViewById(R.id.btn_continue_shopping);
         mContinueShoppingBtn.setOnClickListener(this);
         return rootView;
@@ -48,7 +48,7 @@ public class EmptyPurchaseHistoryFragment extends InAppBaseFragment
     @Override
     public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
+        if (fragment == null && getActivity() != null && getActivity() instanceof ECSActivity) {
             finishActivity();
         } else {
             getFragmentManager().popBackStack();

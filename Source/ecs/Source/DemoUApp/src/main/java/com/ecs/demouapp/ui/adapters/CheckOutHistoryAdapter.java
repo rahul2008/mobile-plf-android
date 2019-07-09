@@ -24,14 +24,14 @@ import com.android.volley.toolbox.NetworkImageView;
 
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.cart.ShoppingCartData;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
-import com.ecs.demouapp.ui.stock.IAPStockAvailabilityHelper;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
@@ -83,11 +83,11 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void setCountArrow(final Context context, final boolean isEnable) {
         if (isEnable) {
-            countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
+            countArrow = context.getDrawable(R.drawable.ecs_product_count_drop_down);
             countArrow.setColorFilter(new
                     PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
         } else {
-            countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.iap_product_disable_count_drop_down, mContext.getTheme());
+            countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.ecs_product_disable_count_drop_down, mContext.getTheme());
         }
         int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
@@ -112,7 +112,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ecs_checkout_history_footer, parent, false);
             return new FooterShoppingCartViewHolder(v);
         } else if (viewType == TYPE_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_checkout_history_data, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ecs_checkout_history_data, parent, false);
             return new ShoppingCartProductHolder(v);
         }
         return null;
@@ -138,7 +138,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
         shoppingCartDataForProductDetailPage = mData.get(position);
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER);
+        EventHelper.getInstance().notifyEventOccurred(ECSConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER);
     }
 
     @Override
@@ -219,7 +219,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
 
                 for (int i = 0; i < mData.size(); i++) {
-                    View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
+                    View priceInfo = View.inflate(mContext, R.layout.ecs_price_item, null);
                     TextView mProductName = (TextView) priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = (TextView) priceInfo.findViewById(R.id.product_price);
                     mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
@@ -282,8 +282,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void checkForOutOfStock(int stockLevel, int quantity, ShoppingCartProductHolder shoppingCartProductHolder, String stockLevelStatus) {
-        final IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
-        final boolean isStockAvailable = iapStockAvailabilityHelper.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
+        final ECSStockAvailabilityHelper ECSStockAvailabilityHelper = new ECSStockAvailabilityHelper();
+        final boolean isStockAvailable = ECSStockAvailabilityHelper.checkIfRequestedQuantityAvailable(stockLevelStatus, stockLevel, quantity);
 
         mOutOfStock.onOutOfStock(isStockAvailable);
 
@@ -402,7 +402,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     .append(mData.get(i).getProductTitle()).append(";").append(String.valueOf(mData.get(i).getQuantity()))
                     .append(";").append(mData.get(i).getValuePrice());
         }
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.PRODUCTS, products.toString());
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.PRODUCTS, products.toString());
     }
 }

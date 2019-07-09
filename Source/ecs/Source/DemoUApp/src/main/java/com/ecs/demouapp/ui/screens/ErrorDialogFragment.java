@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class ErrorDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.iap_error_dialog, container, false);
+        View v = inflater.inflate(R.layout.ecs_error_dialog, container, false);
         initializeViews(v);
         return v;
     }
@@ -47,13 +47,13 @@ public class ErrorDialogFragment extends DialogFragment {
         bundle = getArguments();
 
         TextView dialogTitle = v.findViewById(R.id.dialogTitle);
-        dialogTitle.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE));
+        dialogTitle.setText(bundle.getString(ECSConstant.SINGLE_BUTTON_DIALOG_TITLE));
 
         final TextView dialogDescription = v.findViewById(R.id.dialogDescription);
-        dialogDescription.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION));
+        dialogDescription.setText(bundle.getString(ECSConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION));
 
         Button mOkBtn = v.findViewById(R.id.btn_dialog_ok);
-        mOkBtn.setText(bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT));
+        mOkBtn.setText(bundle.getString(ECSConstant.SINGLE_BUTTON_DIALOG_TEXT));
         mOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,8 +125,8 @@ public class ErrorDialogFragment extends DialogFragment {
     }
 
     private void handleEmptyScreen() {
-        if (bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION) != null
-                && bundle.getString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION).equals(getString(R.string.iap_something_went_wrong))) {
+        if (bundle.getString(ECSConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION) != null
+                && bundle.getString(ECSConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION).equals(getString(R.string.iap_something_went_wrong))) {
             getActivity().getFragmentManager().popBackStackImmediate();
         }
         if(getVisibleFragment(getFragmentManager())!=null && getVisibleFragment(getFragmentManager()) instanceof OrderSummaryFragment || getVisibleFragment(getFragmentManager()) instanceof ShoppingCartFragment ){

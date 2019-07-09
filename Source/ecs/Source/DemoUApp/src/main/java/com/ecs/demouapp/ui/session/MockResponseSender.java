@@ -3,13 +3,13 @@ package com.ecs.demouapp.ui.session;
 import android.os.Message;
 
 import com.android.volley.VolleyError;
-import com.ecs.demouapp.ui.integration.IAPMockInterface;
-import com.ecs.demouapp.ui.integration.IAPSettings;
+import com.ecs.demouapp.ui.integration.ECSMockInterface;
+import com.ecs.demouapp.ui.integration.ECSSettings;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.model.GetProductCatalogRequest;
 import com.ecs.demouapp.ui.model.OAuthRequest;
 import com.ecs.demouapp.ui.model.SetDeliveryAddressRequest;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 
 
 import org.json.JSONObject;
@@ -22,14 +22,14 @@ import java.net.URLEncoder;
  */
 
 public class MockResponseSender {
-    private final IAPSettings mIapSettings;
+    private final ECSSettings mIapSettings;
 
-    public MockResponseSender(IAPSettings mIapSettings) {
+    public MockResponseSender(ECSSettings mIapSettings) {
         this.mIapSettings = mIapSettings;
     }
 
     void sendMockResponse(AbstractModel model, RequestListener requestListener, int requestCode){
-        IAPMockInterface iapMockInterface = mIapSettings.getIapMockInterface();
+        ECSMockInterface iapMockInterface = mIapSettings.getIapMockInterface();
         Message msg = Message.obtain();
         msg.what = requestCode;
         JSONObject mockJsonObject ;
@@ -52,7 +52,7 @@ public class MockResponseSender {
         }
 
         if(model instanceof SetDeliveryAddressRequest){
-            msg.obj = IAPConstant.IAP_SUCCESS;
+            msg.obj = ECSConstant.IAP_SUCCESS;
         }
 
         if(model instanceof OAuthRequest){

@@ -10,10 +10,10 @@ import android.os.Message;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.ecs.demouapp.ui.integration.IAPListener;
+import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.model.GetProductCatalogRequest;
 import com.ecs.demouapp.ui.response.products.PaginationEntity;
@@ -40,7 +40,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     private ProductCatalogHelper mProductCatalogHelper;
 
     protected ProductCatalogListener mProductCatalogListener;
-    IAPListener mIAPListener;
+    ECSListener mIAPListener;
 
     private final int PAGE_SIZE = 20;
     private final int CURRENT_PAGE = 0;
@@ -57,11 +57,11 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
         mProductCatalogHelper = new ProductCatalogHelper(mContext, mProductCatalogListener, this);
     }
 
-    public void getCompleteProductList(final IAPListener iapListener) {
+    public void getCompleteProductList(final ECSListener iapListener) {
         completeProductList(iapListener);
     }
 
-    public void completeProductList(IAPListener iapListener) {
+    public void completeProductList(ECSListener iapListener) {
         if (
                 CartModelContainer.getInstance().getProductList() != null
                         && CartModelContainer.getInstance().getProductList().size() != 0) {
@@ -85,7 +85,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     @Override
-    public void getCatalogCount(final IAPListener iapListener) {
+    public void getCatalogCount(final ECSListener iapListener) {
         final AbstractModel.DataLoadListener listener = this;
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CURRENT_PAGE, String.valueOf(CURRENT_PAGE));
@@ -116,7 +116,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     @Override
-    public boolean getProductCatalog(int currentPage, int pageSize, IAPListener listener) {
+    public boolean getProductCatalog(int currentPage, int pageSize, ECSListener listener) {
         this.mIAPListener = listener;
 
         HashMap<String, String> query = new HashMap<>();
@@ -172,8 +172,8 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     }
 
     private void trackNoProductFoundInPRX() {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + IAPAnalyticsConstant.NO_PRODUCT_FOUND);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + ECSAnalyticsConstant.NO_PRODUCT_FOUND);
     }
 
     public void setHybrisDelegate(HybrisDelegate delegate) {

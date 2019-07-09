@@ -10,8 +10,8 @@ import android.os.Message;
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
@@ -64,7 +64,7 @@ public class PRXAssetExecutor {
 
     public void executeRequest(final ProductAssetRequest productAssetBuilder) {
         RequestManager mRequestManager = new RequestManager();
-        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), IAPAnalyticsConstant.COMPONENT_NAME);
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), ECSAnalyticsConstant.COMPONENT_NAME);
         mRequestManager.init(prxDependencies);
         mRequestManager.executeRequest(productAssetBuilder, new ResponseListener() {
             @Override
@@ -159,8 +159,8 @@ public class PRXAssetExecutor {
 
     protected void notifyError(final PrxError prxError) {
         Message result = Message.obtain();
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + prxError.getStatusCode() + "_" + prxError.getDescription());
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + prxError.getStatusCode() + "_" + prxError.getDescription());
         if (PrxError.PrxErrorType.NO_INTERNET_CONNECTION.getId() == prxError.getStatusCode()) {
             result.obj = new IAPNetworkError(new NoConnectionError(), 0, null);
         } else if (PrxError.PrxErrorType.TIME_OUT.getId() == prxError.getStatusCode()) {

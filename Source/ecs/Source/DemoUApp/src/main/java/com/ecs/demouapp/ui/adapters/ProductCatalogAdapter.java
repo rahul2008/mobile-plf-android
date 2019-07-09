@@ -18,13 +18,13 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.products.ProductCatalogData;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
-import com.ecs.demouapp.ui.stock.IAPStockAvailabilityHelper;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         View v = LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.iap_product_catalog_item, parent, false);
+                inflate(R.layout.ecs_product_catalog_item, parent, false);
         return new ProductCatalogViewHolder(v);
     }
 
@@ -94,22 +94,22 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         String imageURL = productCatalogData.getImageURL();
         if (imageURL == null) {
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + IAPAnalyticsConstant.NO_THUMB_NAIL_IMAGE);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + ECSAnalyticsConstant.NO_THUMB_NAIL_IMAGE);
         }
         String discountedPrice = productCatalogData.getDiscountedPrice();
         String formattedPrice = productCatalogData.getFormattedPrice();
 
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
         if (imageURL == null) {
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + ECSAnalyticsConstant.PRODUCT_TITLE_MISSING);
         }
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
 
-        IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
-        final boolean stockAvailable = iapStockAvailabilityHelper.isStockAvailable(productCatalogData.getStockLevelStatus(), productCatalogData.getStockLevel());
+        ECSStockAvailabilityHelper ECSStockAvailabilityHelper = new ECSStockAvailabilityHelper();
+        final boolean stockAvailable = ECSStockAvailabilityHelper.isStockAvailable(productCatalogData.getStockLevelStatus(), productCatalogData.getStockLevel());
 
         if(stockAvailable){
             productHolder.mProductOutOfStock.setVisibility(View.GONE);
@@ -143,7 +143,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
         mSelectedProduct = mProductCatalogList.get(position);
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL);
+        EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_LAUNCH_PRODUCT_DETAIL);
     }
 
     public ProductCatalogData getTheProductDataForDisplayingInProductDetailPage() {
@@ -202,8 +202,8 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         .append(catalogData.getProductTitle()).append(";").append(";")
                         .append(productPrice);
             }
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.PRODUCTS, products.toString());
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.PRODUCTS, products.toString());
         }
     }
 

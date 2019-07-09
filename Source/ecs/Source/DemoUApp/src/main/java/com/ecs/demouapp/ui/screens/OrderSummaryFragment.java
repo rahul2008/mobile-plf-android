@@ -52,8 +52,8 @@ import com.philips.cdp.di.iap.utils.Utility;*/
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.CheckOutHistoryAdapter;
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
 import com.ecs.demouapp.ui.cart.ShoppingCartData;
 import com.ecs.demouapp.ui.cart.ShoppingCartPresenter;
@@ -74,8 +74,8 @@ import com.ecs.demouapp.ui.response.placeorder.PlaceOrder;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.AlertListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -124,13 +124,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.BUTTON_STATE_CHANGED), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_EDIT_DELIVERY_MODE), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
 
-        View rootView = inflater.inflate(R.layout.iap_order_summary_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.ecs_order_summary_fragment, container, false);
         mParentLayout = rootView.findViewById(R.id.parent_layout);
         initializeViews(rootView);
         Utility.isDelvieryFirstTimeUser=true;
@@ -143,8 +143,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
         mPaymentController = new PaymentController(mContext, this);
         bundle = getArguments();
-        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
-            mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
+        if (bundle.containsKey(ECSConstant.SELECTED_PAYMENT)) {
+            mPaymentMethod = (PaymentMethod) bundle.getSerializable(ECSConstant.SELECTED_PAYMENT);
             if (mPaymentMethod != null && mPaymentMethod.getBillingAddress() != null) {
                 final Addresses billingAddress = mPaymentMethod.getBillingAddress();
                 final AddressFields billingAddressFields = new AddressFields();
@@ -180,9 +180,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.SHOPPING_CART_VIEW);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.SHOPPING_CART_PAGE_NAME);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.SHOPPING_CART_VIEW);
         setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
         setCartIconVisibility(false);
         if (isNetworkConnected()) {
@@ -215,12 +215,12 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     private void unregisterEventNotification(){
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_EDIT_DELIVERY_MODE), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.BUTTON_STATE_CHANGED), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_EDIT_DELIVERY_MODE), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_UPDATE_PRODUCT_COUNT), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
     }
     @Override
     public void onClick(final View v) {
@@ -239,8 +239,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     private void placeOrder(String pSecurityCode) {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,
-                IAPAnalyticsConstant.DELIVERY_UPS_PARCEL);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.DELIVERY_METHOD,
+                ECSAnalyticsConstant.DELIVERY_UPS_PARCEL);
         createCustomProgressBar(mParentLayout, BIG);
         mPaymentController.placeOrder(pSecurityCode);
 
@@ -248,7 +248,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     private void showCvvDialog(FragmentManager pFragmentManager) {
         if (mPaymentMethod != null)
-            bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, mPaymentMethod);
+            bundle.putSerializable(ECSConstant.SELECTED_PAYMENT, mPaymentMethod);
         CvvCvcDialogFragment cvvCvcDialogFragment = new CvvCvcDialogFragment();
         cvvCvcDialogFragment.setTargetFragment(this, CvvCvcDialogFragment.REQUEST_CODE);
         cvvCvcDialogFragment.setArguments(bundle);
@@ -280,13 +280,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onEventReceived(final String event) {
         hideProgressBar();
-        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.BUTTON_STATE_CHANGED))) {
+        if (event.equalsIgnoreCase(String.valueOf(ECSConstant.BUTTON_STATE_CHANGED))) {
             mPayNowBtn.setEnabled(!Boolean.valueOf(event));
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER))) {
+        } else if (event.equalsIgnoreCase(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER))) {
             startProductDetailFragment();
-        } else if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
+        } else if (event.equalsIgnoreCase(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG))) {
             showProductCatalogFragment(ShoppingCartFragment.TAG);
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_EDIT_DELIVERY_MODE)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.IAP_EDIT_DELIVERY_MODE)) {
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
                     DeliveryMethodFragment.TAG,true);
         }
@@ -295,10 +295,10 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private void startProductDetailFragment() {
         ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
-        bundle.putString(IAPConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
-        bundle.putString(IAPConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
-        bundle.putString(IAPConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
+        bundle.putString(ECSConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
+        bundle.putString(ECSConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
+        bundle.putString(ECSConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
+        bundle.putString(ECSConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
     }
 
@@ -310,7 +310,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         } else {
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)
-                bundle.putParcelable(IAPConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
+                bundle.putParcelable(ECSConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
@@ -318,7 +318,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();
-                bundle.putSerializable(IAPConstant.ADDRESS_LIST, (Serializable) mAddresses);
+                bundle.putSerializable(ECSConstant.ADDRESS_LIST, (Serializable) mAddresses);
                 addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
                         AddressSelectionFragment.TAG,true);
             }
@@ -433,7 +433,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onSetDeliveryMode(Message msg) {
         Utility.isDelvieryFirstTimeUser=false;
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
             updateCartOnResume();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
@@ -460,7 +460,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onPositiveBtnClick() {
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
+        EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_DELETE_PRODUCT);
     }
 
     @Override
@@ -474,8 +474,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
         if (msg.obj instanceof MakePaymentData) {
 
             //Track new billing address added action
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
-                    IAPAnalyticsConstant.NEW_BILLING_ADDRESS_ADDED);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.SPECIAL_EVENTS,
+                    ECSAnalyticsConstant.NEW_BILLING_ADDRESS_ADDED);
 
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
             Bundle bundle = new Bundle();
@@ -519,8 +519,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CvvCvcDialogFragment.REQUEST_CODE) {
             String securityCode = data.getStringExtra(
-                    IAPConstant.CVV_KEY_BUNDLE);
-            IAPLog.d(IAPLog.LOG, "CVV =" + securityCode);
+                    ECSConstant.CVV_KEY_BUNDLE);
+            ECSLog.d(ECSLog.LOG, "CVV =" + securityCode);
             placeOrder(securityCode);
             mAddressController.getDeliveryModes();
 
@@ -538,7 +538,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {
         com.ecs.demouapp.ui.response.error.Error error = iapNetworkError.getServerError().getErrors().get(0);
         String type = error.getType();
-        if (type.equalsIgnoreCase(IAPConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
+        if (type.equalsIgnoreCase(ECSConstant.INSUFFICIENT_STOCK_LEVEL_ERROR)) {
             String subject = error.getMessage();
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_out_of_stock), subject);

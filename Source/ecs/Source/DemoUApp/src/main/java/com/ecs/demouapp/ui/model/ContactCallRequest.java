@@ -7,7 +7,7 @@ package com.ecs.demouapp.ui.model;
 import com.android.volley.Request;
 import com.ecs.demouapp.ui.response.orders.ContactsResponse;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.google.gson.Gson;
 
@@ -28,7 +28,7 @@ public class ContactCallRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "GET");
+        ECSLog.d(ECSLog.LOG, "GET");
         return Request.Method.GET;
     }
 
@@ -44,7 +44,7 @@ public class ContactCallRequest extends AbstractModel {
             throw new RuntimeException("Category must be specified");
         }
         String category = params.get(ModelConstants.CATEGORY);
-        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getPhoneContactUrl(category));
+        ECSLog.d(ECSLog.LOG, "Request URL = " + store.getPhoneContactUrl(category));
         return store.getPhoneContactUrl(category);
     }
 }

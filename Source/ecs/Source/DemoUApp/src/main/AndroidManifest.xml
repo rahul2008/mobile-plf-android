@@ -13,7 +13,7 @@
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
         <activity
-            android:name=".ui.activity.IAPActivity"
+            android:name=".ui.activity.ECSActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             />
 

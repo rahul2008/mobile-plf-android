@@ -16,8 +16,8 @@ import android.widget.ScrollView;
 
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.AppliedVoucherAdapter;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.VoucherController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
@@ -25,7 +25,7 @@ import com.ecs.demouapp.ui.response.voucher.GetAppliedValue;
 import com.ecs.demouapp.ui.response.voucher.Vouchers;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.utils.AlertListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.platform.uid.view.widget.Button;
@@ -54,10 +54,10 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_DELETE_VOUCHER, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_DELETE_VOUCHER_CONFIRM, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.IAP_DELETE_VOUCHER, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.IAP_DELETE_VOUCHER_CONFIRM, this);
 
-        View rootView = inflater.inflate(R.layout.iap_voucher_detail, container, false);
+        View rootView = inflater.inflate(R.layout.ecs_voucher_detail, container, false);
         voucherLayout = (RelativeLayout) rootView.findViewById(R.id.voucher_detail_layout);
         mApplyVoucherButton = (Button) rootView.findViewById(R.id.voucher_btn);
         voucherEditText = (EditText) rootView.findViewById(R.id.coupon_editText);
@@ -91,7 +91,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_apply_voucher, true);
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.APPLY_VOUCHER);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.APPLY_VOUCHER);
     }
 
     @Override
@@ -183,10 +183,10 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void onEventReceived(String event) {
         hideProgressBar();
-        if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_VOUCHER)) {
+        if (event.equalsIgnoreCase(ECSConstant.IAP_DELETE_VOUCHER)) {
             Utility.showActionDialog(mContext, getString(R.string.iap_delete_voucher), getString(R.string.iap_cancel)
                     , getString(R.string.iap_delete_voucher), getString(R.string.iap_delete_voucher_sure), getFragmentManager(), this);
-        }else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_VOUCHER_CONFIRM)) {
+        }else if (event.equalsIgnoreCase(ECSConstant.IAP_DELETE_VOUCHER_CONFIRM)) {
             if(mAppliedVoucherAdapter.getSelectedItemPosition()!=-1){
                createCustomProgressBar(voucherLayout, BIG);
                mVoucherController.getDeleteVoucher( getAppliedValueList.get(mAppliedVoucherAdapter.getSelectedItemPosition()).getVoucherCode());
@@ -200,7 +200,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
 
     @Override
     public void onPositiveBtnClick() {
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_VOUCHER_CONFIRM);
+        EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_DELETE_VOUCHER_CONFIRM);
     }
 
     @Override

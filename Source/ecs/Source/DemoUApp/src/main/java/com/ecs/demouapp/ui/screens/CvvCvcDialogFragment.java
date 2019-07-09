@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 
 
 public class CvvCvcDialogFragment extends DialogFragment {
@@ -35,7 +35,7 @@ public class CvvCvcDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.iap_cvc_code_dailog, container, false);
+        View view = inflater.inflate(R.layout.ecs_cvc_code_dailog, container, false);
         initializeViews(view);
         return view;
     }
@@ -43,8 +43,8 @@ public class CvvCvcDialogFragment extends DialogFragment {
     void initializeViews(View view) {
         Bundle bundle = getArguments();
         PaymentMethod mPaymentMethod = null;
-        if (bundle.containsKey(IAPConstant.SELECTED_PAYMENT)) {
-            mPaymentMethod = (PaymentMethod) bundle.getSerializable(IAPConstant.SELECTED_PAYMENT);
+        if (bundle.containsKey(ECSConstant.SELECTED_PAYMENT)) {
+            mPaymentMethod = (PaymentMethod) bundle.getSerializable(ECSConstant.SELECTED_PAYMENT);
         }
         TextView cardNumber = view.findViewById(R.id.tv_cvv_card_number);
         if (mPaymentMethod != null) {
@@ -96,7 +96,7 @@ public class CvvCvcDialogFragment extends DialogFragment {
 
     private void sendResult(int REQUEST_CODE) {
         Intent intent = new Intent();
-        intent.putExtra(IAPConstant.CVV_KEY_BUNDLE, mCvv);
+        intent.putExtra(ECSConstant.CVV_KEY_BUNDLE, mCvv);
         getTargetFragment().onActivityResult(
                 getTargetRequestCode(), REQUEST_CODE, intent);
     }

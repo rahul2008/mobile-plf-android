@@ -7,12 +7,12 @@
 package com.ecs.demouapp.ui.session;
 import com.android.volley.AuthFailureError;
 import com.android.volley.VolleyError;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 
 
 import java.net.HttpURLConnection;
 
-import static com.ecs.demouapp.ui.utils.IAPConstant.HTTP_REDIRECT;
+import static com.ecs.demouapp.ui.utils.ECSConstant.HTTP_REDIRECT;
 
 
 public class IAPUrlRedirectionHandler {
@@ -40,9 +40,9 @@ public class IAPUrlRedirectionHandler {
     private void logError(AuthFailureError authFailureError) {
         final String message = authFailureError.getMessage();
         if(message!=null) {
-            IAPLog.e(IAPLog.LOG, authFailureError.getMessage());
+            ECSLog.e(ECSLog.LOG, authFailureError.getMessage());
         }else {
-            IAPLog.e(IAPLog.LOG, "auth failure while creating new request for Url redirection");
+            ECSLog.e(ECSLog.LOG, "auth failure while creating new request for Url redirection");
         }
     }
 

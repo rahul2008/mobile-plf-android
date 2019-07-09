@@ -10,13 +10,13 @@ import android.os.Message;
 
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
-import com.ecs.demouapp.ui.integration.IAPListener;
+import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.prx.PRXSummaryListExecutor;
 import com.ecs.demouapp.ui.response.products.PaginationEntity;
 import com.ecs.demouapp.ui.response.products.Products;
 import com.ecs.demouapp.ui.response.products.ProductsEntity;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class ProductCatalogHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean processPRXResponse(final Message msg, Products productData, IAPListener listener) {
+    public boolean processPRXResponse(final Message msg, Products productData, ECSListener listener) {
         if (msg.obj instanceof HashMap) {
             HashMap<String, Data> prxModel = (HashMap<String, Data>) msg.obj;
             if (checkForEmptyCart(prxModel))
@@ -113,7 +113,7 @@ public class ProductCatalogHelper {
     }
 
     private void notifyEmptyCartFragment() {
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+        EventHelper.getInstance().notifyEventOccurred(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED);
     }
 
     private boolean checkForEmptyCart(final HashMap<String, Data> prxModel) {
@@ -124,7 +124,7 @@ public class ProductCatalogHelper {
         return false;
     }
 
-    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, IAPListener listener) {
+    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, ECSListener listener) {
         storeData(data);
         if (mProductCatalogListener != null) {
             mProductCatalogListener.onLoadFinished(data, paginationEntity);
