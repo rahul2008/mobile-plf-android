@@ -8,7 +8,7 @@
     <application android:theme="@style/Theme.DLS">
 
         <activity
-            android:name=".integration.DemoAppActivity"
+            android:name=".integration.EcsDemoAppActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
