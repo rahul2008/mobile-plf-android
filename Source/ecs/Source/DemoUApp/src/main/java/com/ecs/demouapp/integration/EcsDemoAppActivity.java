@@ -41,6 +41,8 @@ import com.ecs.demouapp.ui.integration.ECSSettings;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
+import com.philips.cdp.di.ecs.ECSServices;
+import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -124,6 +126,26 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
+
+        ECSServices ecsServices = new ECSServices();
+        ecsServices.initialize(new ECSInput() {
+            @Override
+            public String getPropositionID() {
+                return "Tuscany2016";
+            }
+
+            @Override
+            public String getLocale() {
+                return "en_US";
+            }
+
+            @Override
+            public String getBaseUrl() {
+                return "https://acc.us.pil.shop.philips.com/";
+            }
+        },null);
+
+        ecsServices.getIAPConfig();
 
         urInterface = new URInterface();
         urInterface.init(new EcsDemoUAppDependencies(new AppInfra.Builder().build(getApplicationContext())), new EcsDemoAppSettings(getApplicationContext()));
