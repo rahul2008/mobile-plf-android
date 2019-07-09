@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.webkit.CookieManager;
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.AlertListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -47,7 +47,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.WORLD_PAY_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.WORLD_PAY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_payment, true);
         Utility.isDelvieryFirstTimeUser=false;
         setCartIconVisibility(false);
@@ -69,7 +69,7 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
     protected String getWebUrl() {
         Bundle arguments = getArguments();
         if (arguments == null || !arguments.containsKey(ModelConstants.WEB_PAY_URL)) {
-            IAPLog.d(TAG,"URL must be provided");
+            ECSLog.d(TAG,"URL must be provided");
         }
         StringBuilder builder = new StringBuilder();
         builder.append(arguments.getString(ModelConstants.WEB_PAY_URL));
@@ -111,12 +111,12 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
             launchConfirmationScreen(createErrorBundle(bundle));
         } else if (url.startsWith(PAYMENT_FAILURE_CALLBACK_URL)) {
             mIsPaymentFailed = true;
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PAYMENT_FAILURE);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.PAYMENT_FAILURE);
             NetworkUtility.getInstance().showDialogMessage(mContext.getString(R.string.iap_payment_failed_title),getString(R.string.iap_payment_failed_message),getFragmentManager(), mContext,this);
         } else if (url.startsWith(PAYMENT_CANCEL_CALLBACK_URL)) {
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.CANCELLED);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.PAYMENT_STATUS, ECSAnalyticsConstant.CANCELLED);
             Bundle bundle = new Bundle();
             bundle.putBoolean(ModelConstants.PAYMENT_CANCELLED,true);
             launchConfirmationScreen(createErrorBundle(bundle));
@@ -146,8 +146,8 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
 
     @Override
     public void onPositiveBtnClick() {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.CANCEL_PAYMENT);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.CANCEL_PAYMENT);
         clearCookies();
         handleNavigation();
     }

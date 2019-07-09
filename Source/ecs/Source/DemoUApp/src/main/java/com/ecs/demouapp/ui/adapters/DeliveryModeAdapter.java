@@ -33,7 +33,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
 
     @Override
     public DeliverySelectionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(parent.getContext(), R.layout.iap_delivery_mode_spinner_item, null);
+        View view = View.inflate(parent.getContext(), R.layout.ecs_delivery_mode_spinner_item, null);
         return new DeliverySelectionHolder(view);
     }
 

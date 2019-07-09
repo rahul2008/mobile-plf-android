@@ -66,7 +66,7 @@ public class Utility {
         try {
             convertedDate = dateFormat.parse(date);
         } catch (ParseException e) {
-            IAPLog.d(Utility.TAG, e.getMessage());
+            ECSLog.d(Utility.TAG, e.getMessage());
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE MMM dd, yyyy"); // Set your date format
@@ -110,7 +110,7 @@ public class Utility {
             if (code != null) {
                 addressLine1ReplacingNullValue = code.replaceAll("null", " ");
             }
-            sb.append(addressLine1ReplacingNullValue).append(IAPConstant.NEW_LINE_ESCAPE_CHARACTER);
+            sb.append(addressLine1ReplacingNullValue).append(ECSConstant.NEW_LINE_ESCAPE_CHARACTER);
         }
     }
 
@@ -369,7 +369,7 @@ public class Utility {
     public static Drawable getImageArrow(Context mContext) {
         int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
-        Drawable imageArrow = VectorDrawableCompat.create(mContext.getResources(), R.drawable.iap_product_count_drop_down, mContext.getTheme());
+        Drawable imageArrow = VectorDrawableCompat.create(mContext.getResources(), R.drawable.ecs_product_count_drop_down, mContext.getTheme());
         imageArrow.setBounds(0, 0, width, height);
         return imageArrow;
     }
@@ -390,13 +390,13 @@ public class Utility {
                         return true;
                     }
                 } else {
-                    IAPLog.e(IAPLog.LOG,"voucherCode.enable instance should be boolean value true or false");
+                    ECSLog.e(ECSLog.LOG,"voucherCode.enable instance should be boolean value true or false");
                 }
             }else{
-                return IAPUtility.getInstance().isVoucherEnable();
+                return ECSUtility.getInstance().isVoucherEnable();
             }
         } catch (IllegalArgumentException illegalArgumentException) {
-            IAPLog.e(IAPLog.LOG, "IllegalArgumentException while voucherCode enable");
+            ECSLog.e(ECSLog.LOG, "IllegalArgumentException while voucherCode enable");
         }
         return false;
     }

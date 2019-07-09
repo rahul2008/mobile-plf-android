@@ -7,20 +7,20 @@ package com.ecs.demouapp.ui.iapHandler;
 import android.content.Context;
 import android.os.Message;
 
-import com.ecs.demouapp.ui.cart.IAPCartListener;
+import com.ecs.demouapp.ui.cart.ECSCartListener;
 import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
 import com.ecs.demouapp.ui.cart.ShoppingCartPresenter;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
-import com.ecs.demouapp.ui.integration.IAPInterface;
-import com.ecs.demouapp.ui.integration.IAPListener;
+import com.ecs.demouapp.ui.integration.ECSInterface;
+import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.products.ProductCatalogAPI;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.RequestListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 
 
-public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
+public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
     private Context mContext;
 
     public HybrisHandler(Context context) {
@@ -28,7 +28,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
     }
 
     @Override
-    public void getProductCartCount(final IAPListener iapListener) {
+    public void getProductCartCount(final ECSListener iapListener) {
         if (isStoreInitialized()) {
             getProductCount(iapListener);
         } else {
@@ -47,9 +47,9 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
         }
     }
 
-    private void getProductCount(final IAPListener iapListener) {
+    private void getProductCount(final ECSListener iapListener) {
         ShoppingCartAPI presenter = new ShoppingCartPresenter();
-        presenter.getProductCartCount(mContext, new IAPCartListener() {
+        presenter.getProductCartCount(mContext, new ECSCartListener() {
             @Override
             public void onSuccess(final int count) {
                 iapListener.onGetCartCount(count);
@@ -63,7 +63,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
     }
 
     @Override
-    public void getCompleteProductList(final IAPListener iapListener) {
+    public void getCompleteProductList(final ECSListener iapListener) {
         final ProductCatalogAPI presenter =
                 ControllerFactory.getInstance().getProductCatalogPresenter(mContext, null);
         if (isStoreInitialized()) {
@@ -88,7 +88,7 @@ public class HybrisHandler extends IAPInterface implements IAPExposedAPI {
         if (msg.obj instanceof IAPNetworkError) {
             return ((IAPNetworkError) msg.obj).getIAPErrorCode();
         }
-        return IAPConstant.IAP_ERROR_UNKNOWN;
+        return ECSConstant.IAP_ERROR_UNKNOWN;
     }
 
     public boolean isStoreInitialized() {

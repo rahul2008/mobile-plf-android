@@ -20,8 +20,8 @@ import android.widget.TextView;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.AlertListener;
@@ -44,7 +44,7 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.iap_order_confirmation,
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ecs_order_confirmation,
                 container, false);
         initViews(view);
         updatePaymentUI();
@@ -88,14 +88,14 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.PAYMENT_CONFIRMATION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_confirmation, false);
         setCartIconVisibility(false);
     }
 
     private void updatePaymentFailureUI() {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.FAILED);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.PAYMENT_STATUS, ECSAnalyticsConstant.FAILED);
 
         setPaymentTitle(getFailureTitle());
         mConfirmWithEmail.setVisibility(View.INVISIBLE);
@@ -113,10 +113,10 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
                 mOrderNumberText.setVisibility(View.VISIBLE);
                 mOrderNumber.setText(arguments.getString(ModelConstants.ORDER_NUMBER));
                 HashMap<String, String> contextData = new HashMap<>();
-                contextData.put(IAPAnalyticsConstant.PURCHASE_ID, mOrderNumber.getText().toString());
-                contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PURCHASE);
-                contextData.put(IAPAnalyticsConstant.PAYMENT_STATUS, IAPAnalyticsConstant.SUCCESS);
-                IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
+                contextData.put(ECSAnalyticsConstant.PURCHASE_ID, mOrderNumber.getText().toString());
+                contextData.put(ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.PURCHASE);
+                contextData.put(ECSAnalyticsConstant.PAYMENT_STATUS, ECSAnalyticsConstant.SUCCESS);
+                ECSAnalytics.trackMultipleActions(ECSAnalyticsConstant.SEND_DATA, contextData);
             }
             String email = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
             if (arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {

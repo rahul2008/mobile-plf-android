@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
@@ -43,7 +43,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
     @Override
     public RetailerViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        View v = View.inflate(parent.getContext(), R.layout.iap_retailer_item, null);
+        View v = View.inflate(parent.getContext(), R.layout.ecs_retailer_item, null);
         return new RetailerViewHolder(v);
     }
 
@@ -83,7 +83,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     }
 
     void tagOnSelectRetailer(StoreEntity storeEntity) {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.RETAILER_SELECTED,
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.RETAILER_SELECTED,
                 storeEntity.getName());
     }
 
@@ -124,8 +124,8 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 NetworkUtility.getInstance().showErrorDialog(mContext, mFragmentManager, mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
             } else {
                 final String buyURL = mStoreList.get(getAdapterPosition()).getBuyURL();
-                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.RETAILER_SELECTED,
+                ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                        ECSAnalyticsConstant.RETAILER_SELECTED,
                         mStoreList.get(getAdapterPosition()).getName());
                 boolean isSelected = this.itemView.isSelected();
                 this.itemView.setSelected(!isSelected);

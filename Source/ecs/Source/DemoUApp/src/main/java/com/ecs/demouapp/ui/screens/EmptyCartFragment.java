@@ -12,13 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.activity.IAPActivity;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.activity.ECSActivity;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 
 
 public class EmptyCartFragment extends InAppBaseFragment implements View.OnClickListener, EventListener {
@@ -35,8 +35,8 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.iap_empty_shopping_cart, container, false);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART), this);
+        View rootView = inflater.inflate(R.layout.ecs_empty_shopping_cart, container, false);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART), this);
         mContinueShopping = rootView.findViewById(R.id.btn_continue_shopping);
         mContinueShopping.setOnClickListener(this);
         //Fix issue in Product detail page where count still shows the old value if the order was
@@ -49,14 +49,14 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_shopping_cart, true);
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.EMPTY_SHOPPING_CART_PAGE_NAME);
         setCartIconVisibility(false);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART), this);
+        EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART), this);
     }
 
     @Override
@@ -64,10 +64,10 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
         if (!isNetworkConnected()) return;
         if (v == mContinueShopping) {
             //Track continue shopping action
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.SPECIAL_EVENTS,
-                    IAPAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.SPECIAL_EVENTS,
+                    ECSAnalyticsConstant.CONTINUE_SHOPPING_SELECTED);
             showFragment(EmptyCartFragment.TAG);
-            EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART);
+            EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART);
         }
     }
 
@@ -76,7 +76,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
     @Override
     public boolean handleBackEvent() {
         Fragment fragment = getFragmentManager().findFragmentByTag(ProductCatalogFragment.TAG);
-        if (fragment == null && getActivity() != null && getActivity() instanceof IAPActivity) {
+        if (fragment == null && getActivity() != null && getActivity() instanceof ECSActivity) {
             finishActivity();
         } else {
             getFragmentManager().popBackStack();
@@ -87,7 +87,7 @@ public class EmptyCartFragment extends InAppBaseFragment implements View.OnClick
 
     @Override
     public void onEventReceived(final String event) {
-        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {
+        if (event.equalsIgnoreCase(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART))) {
             showProductCatalogFragment(EmptyCartFragment.TAG);
         }
     }

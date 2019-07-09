@@ -34,7 +34,7 @@ public class SalutationDropDown {
         //   List<String> rowItems = createRowItems(context);
         Context popupThemedContext = UIDHelper.getPopupThemedContext(context);
         mPopUp = new UIPicker(popupThemedContext);
-        mPopUp.setAdapter(new UIPickerAdapter(popupThemedContext, R.layout.iap_uipicker_item_text, createRowItems(context)));
+        mPopUp.setAdapter(new UIPickerAdapter(popupThemedContext, R.layout.ecs_uipicker_item_text, createRowItems(context)));
         mPopUp.setAnchorView(anchor);
 //        mPopUp.setHorizontalOffset(-18);
 //        mPopUp.setWidth((int) context.getResources().getDimension(R.dimen

@@ -7,7 +7,7 @@ package com.ecs.demouapp.ui.model;
 import com.android.volley.Request;
 import com.ecs.demouapp.ui.response.carts.CreateCartData;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.google.gson.Gson;
 
 
@@ -25,7 +25,7 @@ public class CartCreateRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "POST");
+        ECSLog.d(ECSLog.LOG, "POST");
         return Request.Method.POST;
     }
 
@@ -36,7 +36,7 @@ public class CartCreateRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        IAPLog.d(IAPLog.LOG, "Request URL = "+store.getCreateCartUrl());
+        ECSLog.d(ECSLog.LOG, "Request URL = "+store.getCreateCartUrl());
         return store.getCreateCartUrl();
     }
 }

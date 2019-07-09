@@ -11,11 +11,11 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.response.error.ServerError;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.google.gson.Gson;
 
 
@@ -23,7 +23,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     private ServerError mServerError;
     private VolleyError mVolleyError;
-    private int mIAPErrorCode = IAPConstant.IAP_SUCCESS;
+    private int mIAPErrorCode = ECSConstant.IAP_SUCCESS;
     private String mCustomErrorMessage;
     private String mServerName;
 
@@ -52,15 +52,15 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
     private void initErrorCode(final VolleyError error) {
         if (error instanceof NoConnectionError) {
-            mIAPErrorCode = IAPConstant.IAP_ERROR_NO_CONNECTION;
+            mIAPErrorCode = ECSConstant.IAP_ERROR_NO_CONNECTION;
         } else if (error instanceof AuthFailureError) {
-            mIAPErrorCode = IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE;
+            mIAPErrorCode = ECSConstant.IAP_ERROR_AUTHENTICATION_FAILURE;
         } else if (error instanceof TimeoutError) {
-            mIAPErrorCode = IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT;
+            mIAPErrorCode = ECSConstant.IAP_ERROR_CONNECTION_TIME_OUT;
         } else if (error instanceof com.android.volley.ServerError) {
-            mIAPErrorCode = IAPConstant.IAP_ERROR_SERVER_ERROR;
+            mIAPErrorCode = ECSConstant.IAP_ERROR_SERVER_ERROR;
         } else {
-            mIAPErrorCode = IAPConstant.IAP_ERROR_UNKNOWN;
+            mIAPErrorCode = ECSConstant.IAP_ERROR_UNKNOWN;
         }
     }
 
@@ -75,8 +75,8 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             return mServerError.getErrors().get(0).getMessage();
         } else if (mVolleyError != null) {
             if (mVolleyError.getMessage() != null) {
-                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                        IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.SERVER + mIAPErrorCode + "_" + mVolleyError.getMessage());
+                ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                        ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.SERVER + mIAPErrorCode + "_" + mVolleyError.getMessage());
             }
             return mVolleyError.getMessage();
         }
@@ -113,13 +113,13 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
 
                 mServerError = new Gson().fromJson(errorString, ServerError.class);
                 if (getMessage() != null) {
-                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                            IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.HYBRIS + getMessage());
+                    ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                            ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.HYBRIS + getMessage());
                 }
                 checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
-            IAPLog.e(e.getMessage(), IAPNetworkError.class.getName());
+            ECSLog.e(e.getMessage(), IAPNetworkError.class.getName());
         }
     }
 
@@ -129,7 +129,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             return;
         }
         if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
-            mIAPErrorCode = IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
+            mIAPErrorCode = ECSConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
         }
     }
 

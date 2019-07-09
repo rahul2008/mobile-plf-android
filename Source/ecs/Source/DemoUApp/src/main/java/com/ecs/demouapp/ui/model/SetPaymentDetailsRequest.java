@@ -2,7 +2,7 @@ package com.ecs.demouapp.ui.model;
 
 import com.android.volley.Request;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 
 
@@ -19,7 +19,7 @@ public class SetPaymentDetailsRequest extends AbstractModel {
 
     @Override
     public Object parseResponse(Object response) {
-        return IAPConstant.IAP_SUCCESS;
+        return ECSConstant.IAP_SUCCESS;
     }
 
     @Override

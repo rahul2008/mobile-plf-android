@@ -27,14 +27,13 @@ import android.widget.TextView;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.activity.IAPActivity;
+import com.ecs.demouapp.ui.activity.ECSActivity;
 import com.ecs.demouapp.ui.adapters.ImageAdapter;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 //import com.ecs.demouapp.ui.cart.AbstractShoppingCartPresenter;
 import com.ecs.demouapp.ui.cart.AbstractShoppingCartPresenter;
-import com.ecs.demouapp.ui.cart.AbstractShoppingCartPresenter.ShoppingCartListener;
-import com.ecs.demouapp.ui.cart.IAPCartListener;
+import com.ecs.demouapp.ui.cart.ECSCartListener;
 import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
 import com.ecs.demouapp.ui.cart.ShoppingCartData;
 import com.ecs.demouapp.ui.container.CartModelContainer;
@@ -51,10 +50,10 @@ import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
-import com.ecs.demouapp.ui.stock.IAPStockAvailabilityHelper;
+import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
 import com.ecs.demouapp.ui.utils.AlertListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.CountDropDown;
@@ -71,7 +70,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ecs.demouapp.ui.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
+import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_UPDATE_PRODUCT_COUNT;
 
 //import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
 
@@ -115,7 +114,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private ProgressBar mProgresImage;
 
 
-    private IAPCartListener mBuyProductListener = new IAPCartListener() {
+    private ECSCartListener mBuyProductListener = new ECSCartListener() {
         @Override
         public void onSuccess(final int count) {
             hideProgressBar();
@@ -132,7 +131,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mAddToCart.hideProgressIndicator();
             IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
-                if (iapNetworkError.getIAPErrorCode() == IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
+                if (iapNetworkError.getIAPErrorCode() == ECSConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
                     NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                             mContext.getString(R.string.iap_ok),
                             mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
@@ -165,11 +164,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_LAUNCH_SHOPPING_CART, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.IAP_LAUNCH_SHOPPING_CART, this);
         EventHelper.getInstance().registerEventNotification(IAP_UPDATE_PRODUCT_COUNT, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.IAP_DELETE_PRODUCT, this);
-        final View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.IAP_DELETE_PRODUCT, this);
+        final View rootView = inflater.inflate(R.layout.ecs_product_details_screen, container, false);
         initializeViews(rootView);
 
         return rootView;
@@ -204,9 +203,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         mBundle = getArguments();
         if (mBundle != null) {
-            if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+            if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
-                mCTNValue = mBundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
+                mCTNValue = mBundle.getString(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
@@ -218,9 +217,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     }
                 }
             } else {
-                mCTNValue = mBundle.getString(IAPConstant.PRODUCT_CTN);
-                mLaunchedFromProductCatalog = mBundle.getBoolean(IAPConstant.IS_PRODUCT_CATALOG, false);
-                mProductTitle = mBundle.getString(IAPConstant.PRODUCT_TITLE);
+                mCTNValue = mBundle.getString(ECSConstant.PRODUCT_CTN);
+                mLaunchedFromProductCatalog = mBundle.getBoolean(ECSConstant.IS_PRODUCT_CATALOG, false);
+                mProductTitle = mBundle.getString(ECSConstant.PRODUCT_TITLE);
                 populateData(mProductSummary);
             }
 
@@ -236,15 +235,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         String productPrice = "";
         final HashMap<String, String> contextData = new HashMap<>();
         StringBuilder product = new StringBuilder();
-        if (mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE) != null) {
-            productPrice = mBundle.getString(IAPConstant.PRODUCT_VALUE_PRICE);
+        if (mBundle.getString(ECSConstant.PRODUCT_VALUE_PRICE) != null) {
+            productPrice = mBundle.getString(ECSConstant.PRODUCT_VALUE_PRICE);
         }
         product = product.append("Tuscany_Campaign").append(";")
                 .append(mProductTitle).append(";").append(";")
                 .append(productPrice);
-        contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PROD_VIEW);
-        contextData.put(IAPAnalyticsConstant.PRODUCTS, product.toString());
-        IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
+        contextData.put(ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.PROD_VIEW);
+        contextData.put(ECSAnalyticsConstant.PRODUCTS, product.toString());
+        ECSAnalytics.trackMultipleActions(ECSAnalyticsConstant.SEND_DATA, contextData);
     }
 
     private void makeAssetRequest() {
@@ -268,7 +267,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mAsset.add("default image");
             }
             if (mAsset == null) {
-                trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.No_IMAGES_FOUND);
+                trackErrorTag(ECSAnalyticsConstant.PRX + mCTNValue + "_" + ECSAnalyticsConstant.No_IMAGES_FOUND);
             }
             mViewPager.setAdapter(mImageAdapter);
             mImageAdapter.notifyDataSetChanged();
@@ -308,16 +307,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         super.onResume();
 
         if (mBundle != null) {
-            if (!mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+            if (!mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 tagProduct();
                 if (mBundle != null && mLaunchedFromProductCatalog) {
-                    IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
+                    ECSAnalytics.trackPage(ECSAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                     handleViews();
                 } else {
                     mQuantityAndDelete.setVisibility(View.VISIBLE);
-                    IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
+                    ECSAnalytics.trackPage(ECSAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(false);
-                    final int quantity = getArguments().getInt(IAPConstant.PRODUCT_QUANTITY);
+                    final int quantity = getArguments().getInt(ECSConstant.PRODUCT_QUANTITY);
                     if (quantity != 0) {
                         setCountArrow(mContext, true);
                         mCheckutAndCountinue.setVisibility(View.GONE);
@@ -325,7 +324,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         mQuantity.setCompoundDrawables(null, null, countArrow, null);
 
                         mQuantity.setText(quantity + "");
-                        final int stock = getArguments().getInt(IAPConstant.PRODUCT_STOCK);
+                        final int stock = getArguments().getInt(ECSConstant.PRODUCT_STOCK);
                         bindCountView(mQuantity, stock, quantity);
                     } else {
                         mQuantityAndDelete.setVisibility(View.GONE);
@@ -347,11 +346,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void setCountArrow(final Context context, final boolean isEnable) {
         if (isEnable) {
-            countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
+            countArrow = context.getDrawable(R.drawable.ecs_product_count_drop_down);
             countArrow.setColorFilter(new
                     PorterDuffColorFilter(mContext.getResources().getColor(R.color.uid_quiet_button_icon_selector), PorterDuff.Mode.MULTIPLY));
         } else {
-            countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.iap_product_disable_count_drop_down, mContext.getTheme());
+            countArrow = VectorDrawableCompat.create(context.getResources(), R.drawable.ecs_product_disable_count_drop_down, mContext.getTheme());
         }
         int width = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mContext.getResources().getDimension(R.dimen.iap_count_drop_down_icon_height);
@@ -398,10 +397,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.IAP_LAUNCH_SHOPPING_CART, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.IAP_LAUNCH_SHOPPING_CART, this);
         EventHelper.getInstance().unregisterEventNotification(IAP_UPDATE_PRODUCT_COUNT, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.IAP_DELETE_PRODUCT, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.IAP_DELETE_PRODUCT, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED, this);
         if (mErrorDialogFragment != null) {
             mErrorDialogFragment.onDestroyView();
         }
@@ -449,14 +448,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         Bundle bundle = new Bundle();
         final ArrayList<StoreEntity> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
         if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
-            bundle.putString(IAPConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
-            bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
-            bundle.putBoolean(IAPConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntities.get(0)));
+            bundle.putString(ECSConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
+            bundle.putString(ECSConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
+            bundle.putBoolean(ECSConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntities.get(0)));
             addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), WebBuyFromRetailers.TAG, true);
         } else {
 
-            bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST));
-            bundle.putSerializable(IAPConstant.IAP_RETAILER_INFO, removedBlacklistedRetailers);
+            bundle.putStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST, getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST));
+            bundle.putSerializable(ECSConstant.IAP_RETAILER_INFO, removedBlacklistedRetailers);
             if (removedBlacklistedRetailers.isEmpty()) {
                 onRetailerError(NetworkUtility.getInstance().
                         createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
@@ -475,7 +474,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mContext == null)
             return;
         mProgresImage.setVisibility(View.GONE);
-        IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
+        ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
         mAsset = (ArrayList<String>) msg.obj;
         CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
         if(mAsset.size() == 0){
@@ -493,7 +492,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onFetchAssetFailure(final Message msg) {
         mProgresImage.setVisibility(View.GONE);
-        IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
+        ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
         if (mBuyFromRetailers.isActivated()) {
             mBuyFromRetailers.hideProgressIndicator();
         }
@@ -522,13 +521,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void tagItemAddedToCart() {
         final HashMap<String, String> contextData = new HashMap<>();
-        contextData.put(IAPAnalyticsConstant.ORIGINAL_PRICE, mPrice.getText().toString());
+        contextData.put(ECSAnalyticsConstant.ORIGINAL_PRICE, mPrice.getText().toString());
         if (mProductDiscountedPrice.getVisibility() == View.VISIBLE) {
-            contextData.put(IAPAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
+            contextData.put(ECSAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
         }
 
-        contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
-        IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
+        contextData.put(ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.ADD_TO_CART);
+        ECSAnalytics.trackMultipleActions(ECSAnalyticsConstant.SEND_DATA, contextData);
     }
 
     @Override
@@ -559,7 +558,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mProductDisclaimer.setText(disclaimerStringBuilder.toString());
             }
         } catch (Exception e) {
-            IAPLog.v("DISCLAIMER_REQ", e.getMessage());
+            ECSLog.v("DISCLAIMER_REQ", e.getMessage());
         }
     }
 
@@ -622,16 +621,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         String discountedPrice = null;
         String stockLevelStatus = null;
         int stockLevel;
-        if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+        if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (data != null) {
                 mProductTitle = data.getProductTitle();
                 if (mProductTitle == null) {
-                    trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
+                    trackErrorTag(ECSAnalyticsConstant.PRX + mCTNValue + "_" + ECSAnalyticsConstant.PRODUCT_TITLE_MISSING);
                 }
                 mProductDescription.setText(mProductTitle);
                 mCTN.setText(mCTNValue);
                 mProductOverview.setText(data.getMarketingTextHeader());
-                trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_DESCRIPTION_MISSING);
+                trackErrorTag(ECSAnalyticsConstant.PRX + mCTNValue + "_" + ECSAnalyticsConstant.PRODUCT_DESCRIPTION_MISSING);
                 if (mProductDetail != null) {
                     actualPrice = mProductDetail.getPrice().getFormattedValue();
                     discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
@@ -644,20 +643,20 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 }
             }
         } else {
-            actualPrice = mBundle.getString(IAPConstant.PRODUCT_PRICE);
-            discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
-            stockLevelStatus = mBundle.getString(IAPConstant.STOCK_LEVEL_STATUS);
-            stockLevel = mBundle.getInt(IAPConstant.STOCK_LEVEL);
+            actualPrice = mBundle.getString(ECSConstant.PRODUCT_PRICE);
+            discountedPrice = mBundle.getString(ECSConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
+            stockLevelStatus = mBundle.getString(ECSConstant.STOCK_LEVEL_STATUS);
+            stockLevel = mBundle.getInt(ECSConstant.STOCK_LEVEL);
 
-            mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
-            mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
-            mProductOverview.setText(mBundle.getString(IAPConstant.PRODUCT_OVERVIEW));
+            mProductDescription.setText(mBundle.getString(ECSConstant.PRODUCT_TITLE));
+            mCTN.setText(mBundle.getString(ECSConstant.PRODUCT_CTN));
+            mProductOverview.setText(mBundle.getString(ECSConstant.PRODUCT_OVERVIEW));
 
-            if (mBundle.getString(IAPConstant.PRODUCT_TITLE) == null) {
-                trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
+            if (mBundle.getString(ECSConstant.PRODUCT_TITLE) == null) {
+                trackErrorTag(ECSAnalyticsConstant.PRX + mCTNValue + "_" + ECSAnalyticsConstant.PRODUCT_TITLE_MISSING);
             }
-            if (mBundle.getString(IAPConstant.PRODUCT_OVERVIEW) == null) {
-                trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_DESCRIPTION_MISSING);
+            if (mBundle.getString(ECSConstant.PRODUCT_OVERVIEW) == null) {
+                trackErrorTag(ECSAnalyticsConstant.PRX + mCTNValue + "_" + ECSAnalyticsConstant.PRODUCT_DESCRIPTION_MISSING);
             }
 
             if (mLaunchedFromProductCatalog) {
@@ -671,22 +670,22 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void setStockInfo(String stockLevelStatus, int stockLevel) {
-        final IAPStockAvailabilityHelper iapStockAvailabilityHelper = new IAPStockAvailabilityHelper();
-        if (iapStockAvailabilityHelper.isStockAvailable(stockLevelStatus, stockLevel)) {
+        final ECSStockAvailabilityHelper ECSStockAvailabilityHelper = new ECSStockAvailabilityHelper();
+        if (ECSStockAvailabilityHelper.isStockAvailable(stockLevelStatus, stockLevel)) {
             mAddToCart.setEnabled(true);
             mProductStockInfo.setVisibility(View.GONE);
         } else {
             mAddToCart.setEnabled(false);
             mProductStockInfo.setText(mContext.getString(R.string.iap_out_of_stock));
             mProductStockInfo.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.OUT_OF_STOCK, stockLevelStatus);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.OUT_OF_STOCK, stockLevelStatus);
         }
     }
 
     private void trackErrorTag(String value) {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, value);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.ERROR, value);
     }
 
     private void setPrice(String actualPrice, String discountedPrice) {
@@ -729,7 +728,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private ShoppingCartData getShoppingCartDataFromCTN(ArrayList<?> data) {
-        final String lCtn = mBundle.getString(IAPConstant.PRODUCT_CTN);
+        final String lCtn = mBundle.getString(ECSConstant.PRODUCT_CTN);
 
         for (ShoppingCartData shoppingCartData : (ArrayList<ShoppingCartData>) data) {
             if (shoppingCartData.getCtnNumber().equalsIgnoreCase(lCtn))
@@ -740,7 +739,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onLoadError(Message msg) {
-        IAPLog.d(IAPLog.LOG, "onLoadError == ProductDetailFragment ");
+        ECSLog.d(ECSLog.LOG, "onLoadError == ProductDetailFragment ");
         mBuyFromRetailers.hideProgressIndicator();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
@@ -760,20 +759,20 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onEventReceived(String event) {
-        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_SHOPPING_CART))) {
+        if (event.equalsIgnoreCase(String.valueOf(ECSConstant.IAP_LAUNCH_SHOPPING_CART))) {
             startShoppingCartFragment();
         } else if (event.equalsIgnoreCase(IAP_UPDATE_PRODUCT_COUNT)) {
             createCustomProgressBar(mParentLayout, BIG);
-            final ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
+            final ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
             mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
 
-        } else if (event.equalsIgnoreCase(IAPConstant.IAP_DELETE_PRODUCT)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.IAP_DELETE_PRODUCT)) {
             hideProgressBar();
             createCustomProgressBar(mParentLayout, BIG);
-            final ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(IAPConstant.SHOPPING_CART_CODE);
+            final ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
             mShoppingCartAPI.deleteProduct(shoppingCartData);
 
-        } else if (event.equalsIgnoreCase(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             hideProgressBar();
             addFragment(EmptyCartFragment.createInstance(new Bundle(), AnimationType.NONE), EmptyCartFragment.TAG, true);
         }
@@ -788,7 +787,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onDialogOkClick() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+        if (getActivity() != null && getActivity() instanceof ECSActivity) {
             int count = getFragmentManager().getBackStackEntryCount();
             for (int i = 0; i < count; i++) {
                 getFragmentManager().popBackStack();
@@ -803,15 +802,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         Bundle bundle = new Bundle();
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError error = (IAPNetworkError) msg.obj;
-            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE,
+            bundle.putString(ECSConstant.SINGLE_BUTTON_DIALOG_TITLE,
                     NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()));
-            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION,
+            bundle.putString(ECSConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION,
                     NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         } else {
-            bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION, (String) msg.obj);
+            bundle.putString(ECSConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION, (String) msg.obj);
         }
 
-        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT, mContext.getString(R.string.iap_ok));
+        bundle.putString(ECSConstant.SINGLE_BUTTON_DIALOG_TEXT, mContext.getString(R.string.iap_ok));
 
         if (mErrorDialogFragment == null) {
             mErrorDialogFragment = new ErrorDialogFragment();
@@ -823,14 +822,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             mErrorDialogFragment.show(getFragmentManager(), "NetworkErrorDialog");
             mErrorDialogFragment.setShowsDialog(true);
         } catch (Exception e) {
-            IAPLog.e(IAPLog.LOG, e.getMessage());
+            ECSLog.e(ECSLog.LOG, e.getMessage());
         }
     }
 
     @Override
     public boolean handleBackEvent() {
         if (mIsFromVertical) {
-            if (getActivity() != null && getActivity() instanceof IAPActivity) {
+            if (getActivity() != null && getActivity() instanceof ECSActivity) {
                 int count = getFragmentManager().getBackStackEntryCount();
                 for (int i = 0; i < count; i++) {
                     getFragmentManager().popBackStack();
@@ -844,7 +843,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private ArrayList<StoreEntity> removedBlacklistedRetailers(ArrayList<StoreEntity> pStoreEntity) {
-        final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
+        final ArrayList<String> list = getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST);
         mUpdtedStoreEntity = new ArrayList<>();
         mUpdtedStoreEntity.addAll(pStoreEntity);
         for (StoreEntity storeEntity : pStoreEntity) {
@@ -860,7 +859,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onPositiveBtnClick() {
-        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
+        EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_DELETE_PRODUCT);
     }
 
     @Override

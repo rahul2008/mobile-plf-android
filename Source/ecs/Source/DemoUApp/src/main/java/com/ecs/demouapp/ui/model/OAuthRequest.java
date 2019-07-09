@@ -9,7 +9,7 @@ import com.ecs.demouapp.ui.response.oauth.OAuthResponse;
 import com.ecs.demouapp.ui.session.OAuthListener;
 import com.ecs.demouapp.ui.session.RequestListener;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.google.gson.Gson;
 
 
@@ -31,7 +31,7 @@ public class OAuthRequest extends AbstractModel implements OAuthListener {
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "POST");
+        ECSLog.d(ECSLog.LOG, "POST");
         return Request.Method.POST;
     }
 
@@ -42,7 +42,7 @@ public class OAuthRequest extends AbstractModel implements OAuthListener {
 
     @Override
     public String getUrl() {
-        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getOauthUrl());
+        ECSLog.d(ECSLog.LOG, "Request URL = " + store.getOauthUrl());
         return store.getOauthUrl();
     }
 

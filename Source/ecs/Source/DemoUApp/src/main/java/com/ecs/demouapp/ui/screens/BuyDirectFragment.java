@@ -23,8 +23,8 @@ import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.response.payment.PaymentMethods;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         super.onAttach(context);
         mContext = context;
         Bundle bundle = getArguments();
-        mCTN = bundle.getString(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
+        mCTN = bundle.getString(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
     }
 
     @Override
@@ -170,7 +170,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             handleError(msg);
         } else {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.SELECTED_PAYMENT, mPaymentMethod);
+            bundle.putSerializable(ECSConstant.SELECTED_PAYMENT, mPaymentMethod);
             addFragment(OrderSummaryFragment.createInstance(bundle, AnimationType.NONE), OrderSummaryFragment.TAG,true);
         }
     }
@@ -212,10 +212,10 @@ public class BuyDirectFragment extends InAppBaseFragment implements
     private void showErrorDialog(Message msg) {
         IAPNetworkError error = (IAPNetworkError) msg.obj;
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TEXT, mContext.getString(R.string.iap_ok));
-        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_TITLE,
+        bundle.putString(ECSConstant.SINGLE_BUTTON_DIALOG_TEXT, mContext.getString(R.string.iap_ok));
+        bundle.putString(ECSConstant.SINGLE_BUTTON_DIALOG_TITLE,
                 NetworkUtility.getInstance().getErrorTitleMessageFromErrorCode(mContext, error.getIAPErrorCode()));
-        bundle.putString(IAPConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION,
+        bundle.putString(ECSConstant.SINGLE_BUTTON_DIALOG_DESCRIPTION,
                 NetworkUtility.getInstance().getErrorDescriptionMessageFromErrorCode(mContext, error));
         if (mErrorDialogFragment == null) {
             mErrorDialogFragment = new ErrorDialogFragment();
@@ -227,7 +227,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             mErrorDialogFragment.show(getFragmentManager(), "NetworkErrorDialog");
             mErrorDialogFragment.setShowsDialog(true);
         } catch (Exception e) {
-            IAPLog.e(IAPLog.LOG, e.getMessage());
+            ECSLog.e(ECSLog.LOG, e.getMessage());
         }
     }
 

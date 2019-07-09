@@ -6,7 +6,7 @@ package com.ecs.demouapp.ui.store;
 
 import android.content.Context;
 
-import com.ecs.demouapp.ui.integration.IAPDependencies;
+import com.ecs.demouapp.ui.integration.ECSDependencies;
 
 
 public abstract class AbstractStore implements StoreListener {
@@ -16,7 +16,7 @@ public abstract class AbstractStore implements StoreListener {
     protected String mLanguage;
 
     @Override
-    public void createNewUser(final Context context, final IAPDependencies iapDependencies) {
+    public void createNewUser(final Context context, final ECSDependencies ECSDependencies) {
     }
 
     @Override
@@ -59,7 +59,7 @@ public abstract class AbstractStore implements StoreListener {
 
 
     @Override
-    public IAPUser getUser() {
+    public ECSUser getUser() {
         return null;
     }
 

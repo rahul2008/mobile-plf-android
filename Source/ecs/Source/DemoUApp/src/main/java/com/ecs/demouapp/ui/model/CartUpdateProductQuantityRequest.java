@@ -7,7 +7,7 @@ package com.ecs.demouapp.ui.model;
 import com.android.volley.Request;
 import com.ecs.demouapp.ui.response.carts.UpdateCartData;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.google.gson.Gson;
 
@@ -27,7 +27,7 @@ public class CartUpdateProductQuantityRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "PUT");
+        ECSLog.d(ECSLog.LOG, "PUT");
         return Request.Method.PUT;
     }
 
@@ -46,7 +46,7 @@ public class CartUpdateProductQuantityRequest extends AbstractModel {
             throw new RuntimeException("product code and quantity must be supplied");
         }
         String entrycode = params.get(ModelConstants.PRODUCT_ENTRYCODE);
-        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getUpdateProductUrl(entrycode));
+        ECSLog.d(ECSLog.LOG, "Request URL = " + store.getUpdateProductUrl(entrycode));
         return store.getUpdateProductUrl(entrycode);
     }
 }

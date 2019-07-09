@@ -16,7 +16,7 @@ import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.address.Validator;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.InputValidator;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -468,7 +468,7 @@ public class AddressShippingView
         if (isValidEntry(firstName, lastName, addressLineOne, houseNo, postalCode, phone1, town, country, email)) {
 
             setAddressFields(shippingAddressFields);
-            IAPLog.d(IAPLog.LOG, shippingAddressFields.toString());
+            ECSLog.d(ECSLog.LOG, shippingAddressFields.toString());
             if (addressContractor.getCheckBoxState() && shippingAddressFields != null) {
                 addressContractor.setContinueButtonState(true);
                 addressContractor.setShippingAddressFilledStatus(true);

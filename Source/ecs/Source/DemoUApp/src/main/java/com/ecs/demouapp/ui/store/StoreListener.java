@@ -6,7 +6,7 @@ package com.ecs.demouapp.ui.store;
 
 import android.content.Context;
 
-import com.ecs.demouapp.ui.integration.IAPDependencies;
+import com.ecs.demouapp.ui.integration.ECSDependencies;
 import com.ecs.demouapp.ui.session.RequestListener;
 
 
@@ -16,9 +16,9 @@ import com.ecs.demouapp.ui.session.RequestListener;
  * it's not scalable to add all the apis in single config interface.
  */
 public interface StoreListener {
-    IAPUser getUser();
+    ECSUser getUser();
 
-    void createNewUser(Context context, IAPDependencies iapDependencies);
+    void createNewUser(Context context, ECSDependencies ECSDependencies);
 
     void setNewUser(boolean isNewUser);
 

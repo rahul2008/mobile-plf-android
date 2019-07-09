@@ -9,8 +9,8 @@ import android.content.Context;
 import android.os.Message;
 
 
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.session.NetworkConstants;
@@ -49,7 +49,7 @@ public class PRXSummaryListExecutor {
 
     protected void executeRequest(final ProductSummaryListRequest productSummaryListBuilder) {
         RequestManager mRequestManager = new RequestManager();
-        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), IAPAnalyticsConstant.COMPONENT_NAME);
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), ECSAnalyticsConstant.COMPONENT_NAME);
         mRequestManager.init(prxDependencies);
         mRequestManager.executeRequest(productSummaryListBuilder, new ResponseListener() {
             @Override
@@ -68,8 +68,8 @@ public class PRXSummaryListExecutor {
         Message result = Message.obtain();
         result.obj = prxError.getDescription();
 
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + "_" + prxError.getStatusCode() + prxError.getDescription());
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + "_" + prxError.getStatusCode() + prxError.getDescription());
         mDataLoadListener.onModelDataError(result);
     }
 

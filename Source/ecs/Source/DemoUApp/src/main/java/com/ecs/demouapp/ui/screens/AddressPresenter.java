@@ -18,8 +18,8 @@ import android.widget.EditText;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.Constants.AddressFieldJsonEnum;
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.controller.PaymentController;
@@ -35,8 +35,8 @@ import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -112,8 +112,8 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses, HybrisDelegate.getInstance(addressContractor.getActivityContext()).getStore().getJanRainEmail()));
             setDeliveryAddress(mAddresses.getId());
             //Track new address creation
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
         } else if (msg.obj instanceof IAPNetworkError) {
             addressContractor.hideProgressbar();
             addressContractor.showErrorMessage(msg);
@@ -139,7 +139,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     @Override
     public void onSetDeliveryAddress(Message msg) {
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
             DeliveryModes deliveryMode = addressContractor.getDeliveryModes();
             if (deliveryMode == null)
                 getDeliveryModes();
@@ -147,7 +147,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 mPaymentController.getPaymentDetails();
         } else {
             addressContractor.hideProgressbar();
-            IAPLog.d(IAPLog.LOG, msg.getData().toString());
+            ECSLog.d(ECSLog.LOG, msg.getData().toString());
             NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
         }
     }
@@ -160,7 +160,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
     @Override
     public void onSetDeliveryMode(Message msg) {
 
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
             if (CartModelContainer.getInstance().getBillingAddress() == null)
                 mPaymentController.getPaymentDetails();
             else
@@ -218,13 +218,13 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             //Track new address creation
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
             PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
             CartModelContainer.getInstance().setShippingAddressFields(addressContractor.getShippingAddressFields());
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
+            bundle.putSerializable(ECSConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addressContractor.hideProgressbar();
             addressContractor.addPaymentSelectionFragment(bundle);
 
@@ -303,7 +303,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             editText.setSelection(editText.getText().length());
             return isValid;
         } catch (Exception e) {
-            IAPLog.d("ShippingAddressFragment", "NumberParseException");
+            ECSLog.d("ShippingAddressFragment", "NumberParseException");
         }
         return false;
     }

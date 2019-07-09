@@ -23,10 +23,10 @@ import android.widget.TextView;
 
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.activity.IAPActivity;
+import com.ecs.demouapp.ui.activity.ECSActivity;
 import com.ecs.demouapp.ui.adapters.ProductCatalogAdapter;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
 import com.ecs.demouapp.ui.cart.ShoppingCartPresenter;
 import com.ecs.demouapp.ui.container.CartModelContainer;
@@ -39,8 +39,8 @@ import com.ecs.demouapp.ui.products.ProductCatalogPresenter;
 import com.ecs.demouapp.ui.response.products.PaginationEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPUtility;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
@@ -94,10 +94,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 .getProductCatalogPresenter(mContext, this);
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
 
-        mTotalResults = IAPUtility.getInstance().getmTotalResults();
-        mCurrentPage =  IAPUtility.getInstance().getmCurrentPage();
-        mRemainingProducts = IAPUtility.getInstance().getmRemainingProducts();
-        mTotalPages = IAPUtility.getInstance().getmTotalPages();
+        mTotalResults = ECSUtility.getInstance().getmTotalResults();
+        mCurrentPage =  ECSUtility.getInstance().getmCurrentPage();
+        mRemainingProducts = ECSUtility.getInstance().getmRemainingProducts();
+        mTotalPages = ECSUtility.getInstance().getmTotalPages();
 
     }
 
@@ -133,19 +133,19 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         EventHelper.getInstance().registerEventNotification
-                (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
-        EventHelper.getInstance().registerEventNotification(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
+                (String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
+        EventHelper.getInstance().registerEventNotification(String.valueOf(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
 
-        final View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
+        final View rootView = inflater.inflate(R.layout.ecs_product_catalog_view, container, false);
         mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
         mSearchBox = rootView.findViewById(R.id.iap_search_box);
         mBannerLayout = rootView.findViewById(R.id.ll_banner_place_holder);
 
-        if (IAPUtility.getInstance().getBannerView() != null) {
-            if (IAPUtility.getInstance().getBannerView().getParent() != null) {
-                ((ViewGroup) IAPUtility.getInstance().getBannerView().getParent()).removeAllViews();
+        if (ECSUtility.getInstance().getBannerView() != null) {
+            if (ECSUtility.getInstance().getBannerView().getParent() != null) {
+                ((ViewGroup) ECSUtility.getInstance().getBannerView().getParent()).removeAllViews();
             }
-            mBannerLayout.addView(IAPUtility.getInstance().getBannerView());
+            mBannerLayout.addView(ECSUtility.getInstance().getBannerView());
             mBannerLayout.setVisibility(View.VISIBLE);
         }
         mParentLayout = rootView.findViewById(R.id.parent_layout);
@@ -214,12 +214,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (!isLocalData &&
                 CartModelContainer.getInstance().getProductList() != null
                 && CartModelContainer.getInstance().getProductList().size() != 0) {
-            onLoadFinished(getCachedProductList(), IAPUtility.getInstance().getPaginationEntity());
+            onLoadFinished(getCachedProductList(), ECSUtility.getInstance().getPaginationEntity());
         } else {
             fetchProductList();
         }
 
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.PRODUCT_CATALOG_PAGE_NAME);
 
         setTitleAndBackButtonVisibility(R.string.iap_product_catalog, true);
         if (!ControllerFactory.getInstance().isPlanB()) {
@@ -233,9 +233,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Override
     public void onEventReceived(final String event) {
-        if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL))) {
+        if (event.equalsIgnoreCase(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_DETAIL))) {
             launchProductDetailFragment();
-        } else if(event.equals(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED))){
+        } else if(event.equals(String.valueOf(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED))){
             mIsLoading = false;
             hideProgressBar();
             onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
@@ -247,18 +247,18 @@ public class ProductCatalogFragment extends InAppBaseFragment
         ProductCatalogData productCatalogData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
         if (productCatalogData != null) {
-            bundle.putString(IAPConstant.PRODUCT_TITLE, productCatalogData.getProductTitle());
-            bundle.putString(IAPConstant.PRODUCT_CTN, productCatalogData.getCtnNumber());
-            bundle.putString(IAPConstant.PRODUCT_PRICE, productCatalogData.getFormattedPrice());
-            bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
-            bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
-            bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
-            bundle.putString(IAPConstant.STOCK_LEVEL_STATUS, productCatalogData.getStockLevelStatus());
-            bundle.putInt(IAPConstant.STOCK_LEVEL, productCatalogData.getStockLevel());
-            bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
-            if (getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST) != null) {
-                final ArrayList<String> list = getArguments().getStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST);
-                bundle.putStringArrayList(IAPConstant.IAP_IGNORE_RETAILER_LIST, list);
+            bundle.putString(ECSConstant.PRODUCT_TITLE, productCatalogData.getProductTitle());
+            bundle.putString(ECSConstant.PRODUCT_CTN, productCatalogData.getCtnNumber());
+            bundle.putString(ECSConstant.PRODUCT_PRICE, productCatalogData.getFormattedPrice());
+            bundle.putString(ECSConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
+            bundle.putString(ECSConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
+            bundle.putString(ECSConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
+            bundle.putString(ECSConstant.STOCK_LEVEL_STATUS, productCatalogData.getStockLevelStatus());
+            bundle.putInt(ECSConstant.STOCK_LEVEL, productCatalogData.getStockLevel());
+            bundle.putBoolean(ECSConstant.IS_PRODUCT_CATALOG, true);
+            if (getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST) != null) {
+                final ArrayList<String> list = getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST);
+                bundle.putStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST, list);
             }
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG, true);
         }
@@ -268,14 +268,14 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onDestroyView() {
         super.onDestroyView();
         EventHelper.getInstance().unregisterEventNotification
-                (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
+                (String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
         EventHelper.getInstance().unregisterEventNotification
-                (String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
+                (String.valueOf(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED), this);
     }
 
     @Override
     public boolean handleBackEvent() {
-        if (getActivity() != null && getActivity() instanceof IAPActivity) {
+        if (getActivity() != null && getActivity() instanceof ECSActivity) {
             int count = getFragmentManager().getBackStackEntryCount();
             for (int i = 0; i < count; i++) {
                 getFragmentManager().popBackStack();
@@ -296,7 +296,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mPresenter.getCategorizedProductList(getCategorizedCTNs());
         }else{
             mPresenter.getProductCatalog(++mCurrentPage, page_size, null);
-                IAPUtility.getInstance().setmCurrentPage(mCurrentPage);
+                ECSUtility.getInstance().setmCurrentPage(mCurrentPage);
         }
 
     }
@@ -319,7 +319,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     @Override
     public void onLoadFinished(ArrayList<ProductCatalogData> dataFetched,
                                PaginationEntity paginationEntity) {
-        IAPUtility.getInstance().setPaginationEntity(paginationEntity);
+        ECSUtility.getInstance().setPaginationEntity(paginationEntity);
         if (dataFetched.size() > 0) {
 
             if (isCategorizedFlow()) {
@@ -341,17 +341,17 @@ public class ProductCatalogFragment extends InAppBaseFragment
             if (mTotalResults == 0)
                 mRemainingProducts = paginationEntity.getTotalResults();
 
-            IAPUtility.getInstance().setmRemainingProducts(mRemainingProducts);
+            ECSUtility.getInstance().setmRemainingProducts(mRemainingProducts);
 
 
             mTotalResults = paginationEntity.getTotalResults();
-            IAPUtility.getInstance().setmTotalResults(mTotalResults);
+            ECSUtility.getInstance().setmTotalResults(mTotalResults);
 
             mCurrentPage = paginationEntity.getCurrentPage();
 
 
             mTotalPages = paginationEntity.getTotalPages();
-            IAPUtility.getInstance().setmTotalPages(mTotalPages);
+            ECSUtility.getInstance().setmTotalPages(mTotalPages);
 
             mIsLoading = false;
             hideProgressBar();
@@ -489,11 +489,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     boolean isCategorizedFlow() {
-        return mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS).size() != 0;
+        return mBundle != null && mBundle.getStringArrayList(ECSConstant.CATEGORISED_PRODUCT_CTNS) != null && mBundle.getStringArrayList(ECSConstant.CATEGORISED_PRODUCT_CTNS).size() != 0;
     }
 
     ArrayList<String> getCategorizedCTNs() {
-        return mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
+        return mBundle.getStringArrayList(ECSConstant.CATEGORISED_PRODUCT_CTNS);
     }
 
 

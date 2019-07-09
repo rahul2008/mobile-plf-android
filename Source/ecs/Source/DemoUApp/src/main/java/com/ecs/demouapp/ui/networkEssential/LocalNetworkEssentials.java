@@ -7,8 +7,8 @@ package com.ecs.demouapp.ui.networkEssential;
 import android.content.Context;
 
 import com.android.volley.toolbox.HurlStack;
-import com.ecs.demouapp.ui.integration.IAPDependencies;
-import com.ecs.demouapp.ui.integration.IAPSettings;
+import com.ecs.demouapp.ui.integration.ECSDependencies;
+import com.ecs.demouapp.ui.integration.ECSSettings;
 import com.ecs.demouapp.ui.session.OAuthListener;
 import com.ecs.demouapp.ui.store.LocalStore;
 import com.ecs.demouapp.ui.store.StoreListener;
@@ -17,7 +17,7 @@ import com.ecs.demouapp.ui.store.StoreListener;
 public class LocalNetworkEssentials implements NetworkEssentials {
 
     @Override
-    public StoreListener getStore(final Context context, final IAPSettings iapSettings, final IAPDependencies iapDependencies) {
+    public StoreListener getStore(final Context context, final ECSSettings iapSettings, final ECSDependencies ECSDependencies) {
         return new LocalStore(context);
     }
 

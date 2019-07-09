@@ -20,8 +20,8 @@ import android.widget.TextView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.AddressSelectionAdapter;
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.controller.PaymentController;
@@ -37,7 +37,7 @@ import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.AlertListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -69,7 +69,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.iap_address_selection, container, false);
+        View view = inflater.inflate(R.layout.ecs_address_selection, container, false);
 
         mAddressListView = view.findViewById(R.id.shipping_addresses);
         mAddressController = new AddressController(mContext, this);
@@ -77,7 +77,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         registerEvents();
 
         Bundle bundle = getArguments();
-        mDeliveryMode = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
+        mDeliveryMode = bundle.getParcelable(ECSConstant.SET_DELIVERY_MODE);
 
         mAdapter = new AddressSelectionAdapter(mAddresses,mJanRainEmail);
         mAddressListView.setAdapter(mAdapter);
@@ -105,7 +105,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @Override
     public void onResume() {
         super.onResume();
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.SHIPPING_ADDRESS_SELECTION_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_checkout, true);
         setCartIconVisibility(false);
 
@@ -122,10 +122,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     public void registerEvents() {
-        EventHelper.getInstance().registerEventNotification(IAPConstant.ADDRESS_SELECTION_EVENT_EDIT, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.ADDRESS_SELECTION_EVENT_DELETE, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
-        EventHelper.getInstance().registerEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.ADDRESS_SELECTION_EVENT_EDIT, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.ADDRESS_SELECTION_EVENT_DELETE, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.ADD_NEW_ADDRESS, this);
+        EventHelper.getInstance().registerEventNotification(ECSConstant.DELIVER_TO_THIS_ADDRESS, this);
     }
 
     @Override
@@ -173,7 +173,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
             mAddressController.setDefaultAddress(selectedAddress);
@@ -194,7 +194,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onSetDeliveryMode(final Message msg) {
-        if (msg.obj.equals(IAPConstant.IAP_SUCCESS)) {
+        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
             checkPaymentDetails();
         } else {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
@@ -212,8 +212,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
             Bundle bundle = new Bundle();
-            bundle.putBoolean(IAPConstant.ADD_BILLING_ADDRESS, true);
-            bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
+            bundle.putBoolean(ECSConstant.ADD_BILLING_ADDRESS, true);
+            bundle.putSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
 
             addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
                     AddressFragment.TAG,true);
@@ -226,8 +226,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
-            bundle.putSerializable(IAPConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
+            bundle.putSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
+            bundle.putSerializable(ECSConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);
             addFragment(PaymentSelectionFragment.createInstance(bundle, AnimationType.NONE), PaymentSelectionFragment.TAG,true);
         }
     }
@@ -235,25 +235,25 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     @Override
     public void onEventReceived(final String event) {
         if (!TextUtils.isEmpty(event)) {
-            if (IAPConstant.ADDRESS_SELECTION_EVENT_EDIT.equals(event)) {
+            if (ECSConstant.ADDRESS_SELECTION_EVENT_EDIT.equals(event)) {
                 int pos = mAdapter.getOptionsClickPosition();
                 Addresses address = mAddresses.get(pos);
                 HashMap<String, String> addressHashMap = updateAddress(address);
                 moveToShippingAddressFragment(addressHashMap);
-            } else if (IAPConstant.ADDRESS_SELECTION_EVENT_DELETE.equals(event) && isNetworkConnected()) {
+            } else if (ECSConstant.ADDRESS_SELECTION_EVENT_DELETE.equals(event) && isNetworkConnected()) {
                 Utility.showActionDialog(mContext, getString(R.string.iap_ok), getString(R.string.iap_cancel)
                         , getString(R.string.iap_confirm), getString(R.string.iap_product_remove_address), getFragmentManager(), this);
 
             }
         }
-        if (event.equalsIgnoreCase(IAPConstant.ADD_NEW_ADDRESS)) {
+        if (event.equalsIgnoreCase(ECSConstant.ADD_NEW_ADDRESS)) {
             Bundle args = new Bundle();
-            args.putBoolean(IAPConstant.IS_SECOND_USER, true);
+            args.putBoolean(ECSConstant.IS_SECOND_USER, true);
             if (mDeliveryMode != null)
-                args.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
+                args.putParcelable(ECSConstant.SET_DELIVERY_MODE, mDeliveryMode);
             addFragment(AddressFragment.createInstance(args, AnimationType.NONE),
                     AddressFragment.TAG,true);
-        } else if (event.equalsIgnoreCase(IAPConstant.DELIVER_TO_THIS_ADDRESS)) {
+        } else if (event.equalsIgnoreCase(ECSConstant.DELIVER_TO_THIS_ADDRESS)) {
 
             createCustomProgressBar(mLinearLayout, BIG);
             mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
@@ -311,9 +311,9 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     private void moveToShippingAddressFragment(final HashMap<String, String> payload) {
         Bundle extras = new Bundle();
-        extras.putSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
+        extras.putSerializable(ECSConstant.UPDATE_SHIPPING_ADDRESS_KEY, payload);
         if (mDeliveryMode != null)
-            extras.putParcelable(IAPConstant.SET_DELIVERY_MODE, mDeliveryMode);
+            extras.putParcelable(ECSConstant.SET_DELIVERY_MODE, mDeliveryMode);
         addFragment(AddressFragment.createInstance(extras, AnimationType.NONE),
                 AddressFragment.TAG,true);
     }
@@ -337,10 +337,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     }
 
     public void unregisterEvents() {
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADDRESS_SELECTION_EVENT_EDIT, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADDRESS_SELECTION_EVENT_DELETE, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.ADD_NEW_ADDRESS, this);
-        EventHelper.getInstance().unregisterEventNotification(IAPConstant.DELIVER_TO_THIS_ADDRESS, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.ADDRESS_SELECTION_EVENT_EDIT, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.ADDRESS_SELECTION_EVENT_DELETE, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.ADD_NEW_ADDRESS, this);
+        EventHelper.getInstance().unregisterEventNotification(ECSConstant.DELIVER_TO_THIS_ADDRESS, this);
     }
 
     @Override

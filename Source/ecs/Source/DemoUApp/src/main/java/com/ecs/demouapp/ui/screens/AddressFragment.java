@@ -24,7 +24,7 @@ import com.ecs.demouapp.ui.response.error.Error;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -68,7 +68,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.iap_address, container, false);
+        View view = inflater.inflate(R.layout.ecs_address, container, false);
         addressPresenter = new AddressPresenter(this);
         initializeViews(view, addressPresenter);
         return view;
@@ -118,20 +118,20 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
             return;
         } else {
 
-            if (bundle.containsKey(IAPConstant.FROM_PAYMENT_SELECTION) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
-                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
+            if (bundle.containsKey(ECSConstant.FROM_PAYMENT_SELECTION) && bundle.containsKey(ECSConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY);
                 //inflateShippingAndBillingView(mAddressFieldsHashmap);
                 updateBillingAddressFromPaymentSelection(bundle,mAddressFieldsHashmap);
             }
 
-            if (bundle.containsKey(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
-                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_SHIPPING_ADDRESS_KEY);
+            if (bundle.containsKey(ECSConstant.UPDATE_SHIPPING_ADDRESS_KEY)) {
+                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(ECSConstant.UPDATE_SHIPPING_ADDRESS_KEY);
                 //inflateShippingAndBillingView(mAddressFieldsHashmap);
                 updateShippingAddress(bundle,mAddressFieldsHashmap);
             }
 
-            if (bundle.containsKey(IAPConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(IAPConstant.UPDATE_BILLING_ADDRESS_KEY)) {
-                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(IAPConstant.UPDATE_BILLING_ADDRESS_KEY);
+            if (bundle.containsKey(ECSConstant.ADD_BILLING_ADDRESS) && bundle.containsKey(ECSConstant.UPDATE_BILLING_ADDRESS_KEY)) {
+                HashMap<String, String> mAddressFieldsHashmap = (HashMap<String, String>) bundle.getSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY);
                 //inflateShippingAndBillingView(mAddressFieldsHashmap);
                 addOrUpdateBillingAddress(isChecked, bundle,mAddressFieldsHashmap);
             }
@@ -249,7 +249,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
             }
         }
 
-        if (!getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
+        if (!getArguments().getBoolean(ECSConstant.FROM_PAYMENT_SELECTION)) {
             if (CartModelContainer.getInstance().getAddressId() != null && CartModelContainer.getInstance().getAddressFromDelivery() != null) {
                 if (isStateEnabled() && CartModelContainer.getInstance().getRegionIsoCode() != null) {
                     updateAddressPayload.put(ModelConstants.REGION_ISOCODE, CartModelContainer.getInstance().getRegionIsoCode());
@@ -386,7 +386,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public DeliveryModes getDeliveryModes() {
         Bundle bundle = getArguments();
-        DeliveryModes deliveryModes = bundle.getParcelable(IAPConstant.SET_DELIVERY_MODE);
+        DeliveryModes deliveryModes = bundle.getParcelable(ECSConstant.SET_DELIVERY_MODE);
         return deliveryModes;
     }
 
@@ -516,7 +516,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
-        if (getArguments().getBoolean(IAPConstant.FROM_PAYMENT_SELECTION)) {
+        if (getArguments().getBoolean(ECSConstant.FROM_PAYMENT_SELECTION)) {
             if (isChecked) {
                 getDLSBillingAddress().prePopulateShippingAddress();
                 enableView(billingView);

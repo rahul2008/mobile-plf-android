@@ -46,7 +46,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.iap_delivery_method_fragment, container, false);
+        View view = inflater.inflate(R.layout.ecs_delivery_method_fragment, container, false);
         mDeliveryRecyclerView = view.findViewById(R.id.iap_parcel_delivery_list);
         mParentContainer = view.findViewById(R.id.delivery_method_container);
         mAddressController = new AddressController(getContext(), this);

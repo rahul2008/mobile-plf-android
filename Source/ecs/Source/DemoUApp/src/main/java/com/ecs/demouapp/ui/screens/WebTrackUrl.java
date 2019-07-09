@@ -7,7 +7,7 @@ package com.ecs.demouapp.ui.screens;
 import android.os.Bundle;
 
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 
 
 public class WebTrackUrl extends WebFragment {
@@ -21,7 +21,7 @@ public class WebTrackUrl extends WebFragment {
     @Override
     protected String getWebUrl() {
         Bundle bundle = getArguments();
-        return bundle.getString(IAPConstant.ORDER_TRACK_URL);
+        return bundle.getString(ECSConstant.ORDER_TRACK_URL);
     }
 
     public static WebTrackUrl createInstance(Bundle args, AnimationType animType) {

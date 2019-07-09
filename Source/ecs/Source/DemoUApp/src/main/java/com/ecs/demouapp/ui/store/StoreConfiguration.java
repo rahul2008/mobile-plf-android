@@ -6,18 +6,18 @@ package com.ecs.demouapp.ui.store;
 
 import android.content.Context;
 
-import com.ecs.demouapp.ui.integration.IAPSettings;
+import com.ecs.demouapp.ui.integration.ECSSettings;
 import com.ecs.demouapp.ui.session.RequestListener;
 
 
 public class StoreConfiguration {
     private static final String SUFFIX_CONFIGURATION = "inAppConfig";
-    private final IAPSettings mIAPSettings;
+    private final ECSSettings mIAPSettings;
 
     private final HybrisStore mStore;
     private final StoreController mWebStoreConfig;
 
-    public StoreConfiguration(Context context, HybrisStore store, IAPSettings iapSettings) {
+    public StoreConfiguration(Context context, HybrisStore store, ECSSettings iapSettings) {
         mStore = store;
         mIAPSettings = iapSettings;
         mWebStoreConfig = getWebStoreConfig(context);

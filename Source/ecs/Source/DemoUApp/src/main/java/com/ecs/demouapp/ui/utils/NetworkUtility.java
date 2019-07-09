@@ -18,8 +18,8 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.screens.ErrorDialogFragment;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.philips.platform.uid.thememanager.UIDHelper;
@@ -53,8 +53,8 @@ public class NetworkUtility {
                                 String pButtonText, String pErrorString, String pErrorDescription) {
 
         //Track pop up
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
         if (!((Activity) context).isFinishing()) {
             showDLSDialog(UIDHelper.getPopupThemedContext(context), pButtonText, pErrorString, pErrorDescription, pFragmentManager);
         }
@@ -64,8 +64,8 @@ public class NetworkUtility {
                                        String pButtonText, String pErrorString, String pErrorDescription,final AlertListener alertListener) {
 
         //Track pop up
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
         if (!((Activity) context).isFinishing()) {
             showDLSDialogForPayment(UIDHelper.getPopupThemedContext(context), pButtonText, pErrorString, pErrorDescription, pFragmentManager,alertListener);
         }
@@ -107,7 +107,7 @@ public class NetworkUtility {
 
     public String getErrorTitleMessageFromErrorCode(final Context context, int errorCode) {
         String errorMessage;
-        if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
+        if (errorCode == ECSConstant.IAP_ERROR_NO_CONNECTION) {
             errorMessage = context.getString(R.string.iap_you_are_offline);
         } else {
             errorMessage = context.getString(R.string.iap_server_error);
@@ -117,26 +117,26 @@ public class NetworkUtility {
 
     public String getErrorDescriptionMessageFromErrorCode(final Context context,
                                                           IAPNetworkError error) {
-        if (error.getIAPErrorCode() != IAPConstant.IAP_ERROR_NO_CONNECTION
+        if (error.getIAPErrorCode() != ECSConstant.IAP_ERROR_NO_CONNECTION
                 && !TextUtils.isEmpty(error.getMessage())) {
-            IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.SERVER + error.getIAPErrorCode() + "_" + error.getMessage());
+            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.SERVER + error.getIAPErrorCode() + "_" + error.getMessage());
             return error.getMessage();
         }
 
         String errorMessage;
         int errorCode = error.getIAPErrorCode();
-        if (errorCode == IAPConstant.IAP_ERROR_NO_CONNECTION) {
+        if (errorCode == ECSConstant.IAP_ERROR_NO_CONNECTION) {
             errorMessage = context.getString(R.string.iap_no_internet);
-        } else if (errorCode == IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT) {
+        } else if (errorCode == ECSConstant.IAP_ERROR_CONNECTION_TIME_OUT) {
             errorMessage = context.getString(R.string.iap_time_out_error);
-        } else if (errorCode == IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE) {
+        } else if (errorCode == ECSConstant.IAP_ERROR_AUTHENTICATION_FAILURE) {
             errorMessage = context.getString(R.string.iap_authentication_failure);
         } else {
             errorMessage = context.getString(R.string.iap_something_went_wrong);
         }
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.SERVER + errorCode + "_" + errorMessage);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.SERVER + errorCode + "_" + errorMessage);
         return errorMessage;
     }
 

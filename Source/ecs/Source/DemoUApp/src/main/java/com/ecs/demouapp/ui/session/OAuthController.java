@@ -15,7 +15,7 @@ import com.ecs.demouapp.ui.model.RefreshOAuthRequest;
 import com.ecs.demouapp.ui.response.error.Error;
 import com.ecs.demouapp.ui.response.error.ServerError;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -154,7 +154,7 @@ public class OAuthController implements OAuthListener {
                 }
             }
         } catch (JsonSyntaxException e) {
-            IAPLog.d(TAG, "isInvalidGrantError-> JsonSyntaxException");
+            ECSLog.d(TAG, "isInvalidGrantError-> JsonSyntaxException");
         }
         return false;
     }

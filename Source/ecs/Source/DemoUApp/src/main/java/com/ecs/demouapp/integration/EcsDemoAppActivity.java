@@ -29,18 +29,18 @@ import android.widget.ToggleButton;
 import com.ecs.demouapp.R;
 
 import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.ecs.demouapp.ui.integration.IAPBannerEnabler;
-import com.ecs.demouapp.ui.integration.IAPDependencies;
-import com.ecs.demouapp.ui.integration.IAPFlowInput;
-import com.ecs.demouapp.ui.integration.IAPInterface;
-import com.ecs.demouapp.ui.integration.IAPLaunchInput;
-import com.ecs.demouapp.ui.integration.IAPListener;
-import com.ecs.demouapp.ui.integration.IAPMockInterface;
-import com.ecs.demouapp.ui.integration.IAPOrderFlowCompletion;
-import com.ecs.demouapp.ui.integration.IAPSettings;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
-import com.ecs.demouapp.ui.utils.IAPUtility;
+import com.ecs.demouapp.ui.integration.ECSBannerEnabler;
+import com.ecs.demouapp.ui.integration.ECSDependencies;
+import com.ecs.demouapp.ui.integration.ECSFlowInput;
+import com.ecs.demouapp.ui.integration.ECSInterface;
+import com.ecs.demouapp.ui.integration.ECSLaunchInput;
+import com.ecs.demouapp.ui.integration.ECSListener;
+import com.ecs.demouapp.ui.integration.ECSMockInterface;
+import com.ecs.demouapp.ui.integration.ECSOrderFlowCompletion;
+import com.ecs.demouapp.ui.integration.ECSSettings;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -75,8 +75,8 @@ import java.util.ArrayList;
 import static com.ecs.demouapp.ui.utils.Utility.hideKeypad;
 
 
-public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,
-        UserRegistrationUIEventListener, IAPMockInterface, IAPOrderFlowCompletion, IAPBannerEnabler {
+public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClickListener, ECSListener,
+        UserRegistrationUIEventListener, ECSMockInterface, ECSOrderFlowCompletion, ECSBannerEnabler {
 
     private final String TAG = EcsDemoAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -97,9 +97,9 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
     private TextView mTitleTextView;
     private TextView mCountText;
 
-    private IAPInterface mIapInterface;
-    private IAPLaunchInput mIapLaunchInput;
-    private IAPSettings mIAPSettings;
+    private ECSInterface mIapInterface;
+    private ECSLaunchInput mIapLaunchInput;
+    private ECSSettings mIAPSettings;
     private UserDataInterface mUserDataInterface;
     ImageView mCartIcon;
     Boolean isCartVisible;
@@ -129,7 +129,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         urInterface.init(new EcsDemoUAppDependencies(new AppInfra.Builder().build(getApplicationContext())), new EcsDemoAppSettings(getApplicationContext()));
 
         ignorelistedRetailer = new ArrayList<>();
-        IAPLog.enableLogging(true);
+        ECSLog.enableLogging(true);
         setContentView(R.layout.demo_app_layout);
 
         showAppVersion();
@@ -168,7 +168,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 enableMock = isChecked;
-                mIAPSettings.setIapMockInterface((IAPMockInterface) EcsDemoAppActivity.this);
+                mIAPSettings.setIapMockInterface((ECSMockInterface) EcsDemoAppActivity.this);
                 initializeIAPComponant();
             }
         });
@@ -200,13 +200,13 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.rb_null) {
-                    IAPUtility.getInstance().setVoucherEnable(false);
+                    ECSUtility.getInstance().setVoucherEnable(false);
                 }
                 if (checkedId == R.id.rb_disable) {
-                    IAPUtility.getInstance().setVoucherEnable(false);
+                    ECSUtility.getInstance().setVoucherEnable(false);
                 }
                 if (checkedId == R.id.rb_enabble) {
-                    IAPUtility.getInstance().setVoucherEnable(true);
+                    ECSUtility.getInstance().setVoucherEnable(true);
                 }
             }
         });
@@ -298,8 +298,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
 
         //Integration interface
-        mIapInterface = new IAPInterface();
-        mIAPSettings = new IAPSettings(this);
+        mIapInterface = new ECSInterface();
+        mIAPSettings = new ECSSettings(this);
         mIAPSettings.setIapMockInterface(this);
         actionBar();
         initializeIAPComponant();
@@ -327,27 +327,27 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
         urInterface.init(uappDependencies, uappSettings);
 
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this), urInterface.getUserDataInterface());
+        ECSDependencies mECSDependencies = new ECSDependencies(new AppInfra.Builder().build(this), urInterface.getUserDataInterface());
 
         try {
-            mIapInterface.init(mIapDependencies, mIAPSettings);
+            mIapInterface.init(mECSDependencies, mIAPSettings);
         } catch (RuntimeException ex) {
-            IAPLog.d(TAG, ex.getMessage());
+            ECSLog.d(TAG, ex.getMessage());
         }
-        mIapLaunchInput = new IAPLaunchInput();
+        mIapLaunchInput = new ECSLaunchInput();
 
         mIapLaunchInput.setHybrisSupported(isHybrisEnable);
         if (!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())) {
             mIapLaunchInput.setMaxCartCount(Integer.parseInt(mEtMaxCartCount.getText().toString().trim()));
         }
-        mIapLaunchInput.setIapBannerEnabler(this);
+        mIapLaunchInput.setECSBannerEnabler(this);
         mIapLaunchInput.setIapListener(this);
         if (isToggleListener) {
             mIapLaunchInput.setIapOrderFlowCompletion(this);
         } else {
             mIapLaunchInput.setIapOrderFlowCompletion(null);
         }
-        IAPUtility.getInstance().setHybrisSupported(isHybrisEnable);
+        ECSUtility.getInstance().setHybrisSupported(isHybrisEnable);
         displayUIOnCartVisible();
     }
 
@@ -364,7 +364,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
         //This is added to clear pagination data from app memory . This should be taken in tech debt .
         CartModelContainer.getInstance().clearProductList();
-        IAPUtility.getInstance().resetPegination();
+        ECSUtility.getInstance().resetPegination();
 
 
         if(isUserLoggedIn()) {
@@ -475,7 +475,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View v) {
                 if (isClickable())
-                    launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
+                    launchIAP(ECSLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
             }
         });
     }
@@ -486,7 +486,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         mTitleTextView.setText(title);
     }
 
-    private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
+    private void launchIAP(int pLandingViews, ECSFlowInput pIapFlowInput, ArrayList<String> pIgnoreRetailerList) {
 
         if (pIgnoreRetailerList == null)
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput, voucherCode);
@@ -509,38 +509,38 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         if (!isClickable()) return;
 
         if (view == mShoppingCart) {
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
+            launchIAP(ECSLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
+            launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
+            launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
 
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {
-                IAPFlowInput iapFlowInput = new IAPFlowInput(mCategorizedProductList.get(mCategorizedProductList.size() - 1).toString().toUpperCase().replaceAll("\\s+", ""));
-                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput, null);
+                ECSFlowInput iapFlowInput = new ECSFlowInput(mCategorizedProductList.get(mCategorizedProductList.size() - 1).toString().toUpperCase().replaceAll("\\s+", ""));
+                launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, iapFlowInput, null);
             } else {
                 Toast.makeText(EcsDemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mShopNowCategorized) {
             if (mCategorizedProductList.size() > 0) {
-                IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
-                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null);
+                ECSFlowInput input = new ECSFlowInput(mCategorizedProductList);
+                launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, null);
             } else {
                 Toast.makeText(EcsDemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mShopNowCategorizedWithRetailer) {
             if (mCategorizedProductList.size() > 0) {
-                IAPFlowInput input = new IAPFlowInput(mCategorizedProductList);
+                ECSFlowInput input = new ECSFlowInput(mCategorizedProductList);
                 Toast.makeText(this, "Given retailer list will ignore in" + ignorelistedRetailer.get(0) + "Retailer list Screen.", Toast.LENGTH_SHORT).show();
-                launchIAP(IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, ignorelistedRetailer);
+                launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, input, ignorelistedRetailer);
             } else {
                 Toast.makeText(EcsDemoAppActivity.this, "Please add CTN", Toast.LENGTH_SHORT).show();
             }
         } else if (view == mBuyDirect) {
-            IAPFlowInput iapFlowInput =
-                    new IAPFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
-            launchIAP(IAPLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput, null);
+            ECSFlowInput iapFlowInput =
+                    new ECSFlowInput(mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", ""));
+            launchIAP(ECSLaunchInput.IAPFlows.IAP_BUY_DIRECT_VIEW, iapFlowInput, null);
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mRegister) {
@@ -633,7 +633,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         try {
             code = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            IAPLog.e(IAPLog.LOG, e.getMessage());
+            ECSLog.e(ECSLog.LOG, e.getMessage());
         }
         TextView versionView = findViewById(R.id.appversion);
         versionView.setText(String.valueOf(code));
@@ -641,15 +641,15 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
     private void showToast(int errorCode) {
         String errorText = null;
-        if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+        if (ECSConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
             errorText = "No connection";
-        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+        } else if (ECSConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
             errorText = "Connection time out";
-        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+        } else if (ECSConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
             errorText = "Authentication failure";
-        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+        } else if (ECSConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
-        } else if (IAPConstant.IAP_ERROR_INVALID_CTN == errorCode) {
+        } else if (ECSConstant.IAP_ERROR_INVALID_CTN == errorCode) {
             errorText = "Invalid ctn";
         }
         if (errorText != null) {
@@ -675,7 +675,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         try {
             mIapInterface.getCompleteProductList(this);
         } catch (Exception e) {
-            IAPLog.e(IAPLog.LOG, e.getMessage());
+            ECSLog.e(ECSLog.LOG, e.getMessage());
         }
 
     }

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.philips.cdp.di.pesdemo.PesDemoApplication"
+        android:name="com.philips.cdp.di.pesdemo.EcsDemoApplication"
         android:icon="@drawable/app_icon"
         android:allowBackup="false"
         android:label="@string/demo_app_name"
@@ -19,7 +19,7 @@
         tools:replace="android:allowBackup, android:label, android:supportsRtl, android:resizeableActivity">
 
         <activity
-            android:name="com.philips.cdp.di.pesdemo.PesLuncherActivity"
+            android:name="com.philips.cdp.di.pesdemo.EcsLauncherActivity"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="portrait">

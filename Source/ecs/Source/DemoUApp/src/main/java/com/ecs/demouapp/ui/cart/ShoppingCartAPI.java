@@ -13,13 +13,13 @@ public interface ShoppingCartAPI {
 
     void updateProductQuantity(ShoppingCartData data, int count, int quantityStatus);
 
-    void addProductToCart(Context context, String productCTN, IAPCartListener iapHandlerListener,
+    void addProductToCart(Context context, String productCTN, ECSCartListener iapHandlerListener,
 
                           boolean isFromBuyNow);
 
-    void getProductCartCount(Context context, IAPCartListener iapHandlerListener);
+    void getProductCartCount(Context context, ECSCartListener iapHandlerListener);
 
-    void buyProduct(Context context, String ctnNumber, IAPCartListener iapHandlerListener);
+    void buyProduct(Context context, String ctnNumber, ECSCartListener iapHandlerListener);
 
     void getRetailersInformation(String ctn);
 

@@ -19,7 +19,7 @@ import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.response.voucher.GetAppliedValue;
 import com.ecs.demouapp.ui.response.voucher.Vouchers;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
@@ -68,7 +68,7 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-            View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.iap_applied_voucher_item, parent, false);
+            View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.ecs_applied_voucher_item, parent, false);
             return new AppliedVoucherViewHolder(view);
     }
 
@@ -95,7 +95,7 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 public void onClick(final View view) {
                     mSelectedItemPosition = holder.getAdapterPosition();
                     if(mSelectedItemPosition!=-1){
-                        EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_VOUCHER);
+                        EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_DELETE_VOUCHER);
                     }
                 }
             });

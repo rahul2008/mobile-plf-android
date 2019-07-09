@@ -18,7 +18,7 @@ import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.response.orders.Orders;
 import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
 
 
@@ -41,7 +41,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = View.inflate(mContext, R.layout.iap_order_history_shopping_item, null);
+        View v = View.inflate(mContext, R.layout.ecs_order_history_shopping_item, null);
         return new OrderHistoryHolder(v);
     }
 
@@ -57,7 +57,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         for (ProductData data : mProductDetails) {
             if (data.getOrderCode() != null && data.getOrderCode().equals(order.getCode())) {
                 //Inflate the Dynamic Layout Information View
-                View hiddenInfo = View.inflate(mContext, R.layout.iap_order_history_product_details, null);
+                View hiddenInfo = View.inflate(mContext, R.layout.ecs_order_history_product_details, null);
                 orderHistoryHolder.mProductDetailsLayout.addView(hiddenInfo);
                 ((TextView) hiddenInfo.findViewById(R.id.tv_productName)).setText(data.getProductTitle());
                 String quantity = String.format(mContext.getString(R.string.iap_quantity), String.valueOf(data.getQuantity()));
@@ -124,7 +124,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void onClick(View v) {
             mSelectedIndex = getAdapterPosition();
             if (v.getId() == R.id.product_detail) {
-                EventHelper.getInstance().notifyEventOccurred(IAPConstant.PURCHASE_HISTORY_DETAIL);
+                EventHelper.getInstance().notifyEventOccurred(ECSConstant.PURCHASE_HISTORY_DETAIL);
             }
         }
     }

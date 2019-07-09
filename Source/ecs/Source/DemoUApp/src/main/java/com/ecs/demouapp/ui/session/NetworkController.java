@@ -11,16 +11,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
-import com.ecs.demouapp.ui.integration.IAPDependencies;
-import com.ecs.demouapp.ui.integration.IAPMockInterface;
-import com.ecs.demouapp.ui.integration.IAPSettings;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
+import com.ecs.demouapp.ui.integration.ECSDependencies;
+import com.ecs.demouapp.ui.integration.ECSMockInterface;
+import com.ecs.demouapp.ui.integration.ECSSettings;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.networkEssential.NetworkEssentials;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 
 
 import org.json.JSONObject;
@@ -32,8 +32,8 @@ public class NetworkController {
     protected StoreListener mStoreListener;
     protected OAuthListener mOAuthListener;
     protected NetworkEssentials mNetworkEssentials;
-    private IAPSettings mIapSettings;
-    private IAPDependencies mIapDependencies;
+    private ECSSettings mIapSettings;
+    private ECSDependencies mECSDependencies;
 
     public NetworkController(Context context) {
         this.context = context;
@@ -43,8 +43,8 @@ public class NetworkController {
         mIapHurlStack = mNetworkEssentials.getHurlStack(context, mOAuthListener);
     }
 
-    public void initStore(Context context, IAPSettings iapSettings, IAPDependencies iapDependencies) {
-        mStoreListener = mNetworkEssentials.getStore(context, iapSettings,iapDependencies);
+    public void initStore(Context context, ECSSettings iapSettings, ECSDependencies ECSDependencies) {
+        mStoreListener = mNetworkEssentials.getStore(context, iapSettings, ECSDependencies);
     }
 
     public void hybrisVolleyCreateConnection(Context context) {
@@ -63,7 +63,7 @@ public class NetworkController {
 
         if (mStoreListener == null && requestListener != null) {
             Message message = new Message();
-            message.obj = IAPConstant.IAP_ERROR;
+            message.obj = ECSConstant.IAP_ERROR;
             requestListener.onError(message);
             return;
         }
@@ -72,7 +72,7 @@ public class NetworkController {
 
 
             Message message = new Message();
-            message.obj = IAPConstant.IAP_ERROR;
+            message.obj = ECSConstant.IAP_ERROR;
             requestListener.onError(message);
             return;
         } else {
@@ -83,7 +83,7 @@ public class NetworkController {
         }
 
         if (mStoreListener.isNewUser()) {
-            mStoreListener.createNewUser(context,mIapDependencies);
+            mStoreListener.createNewUser(context, mECSDependencies);
             mOAuthListener.resetAccessToken();
         }
 
@@ -92,13 +92,13 @@ public class NetworkController {
             public void onErrorResponse(final VolleyError error) {
 
                 if (model.getUrl() != null && error != null) {
-                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
+                    ECSLog.d(ECSLog.LOG, "Response from sendHybrisRequest onError =" + error
                             .getLocalizedMessage() + " requestCode=" + requestCode + "in " +
                             requestListener.getClass().getSimpleName() + " " + model.getUrl().substring(0, 20));
                 }
                 if (error != null && error.getMessage() != null) {
-                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                            IAPAnalyticsConstant.ERROR, error.getMessage());
+                    ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                            ECSAnalyticsConstant.ERROR, error.getMessage());
                 }
                 if (requestListener != null) {
                     new IAPNetworkError(error, requestCode, requestListener);
@@ -126,7 +126,7 @@ public class NetworkController {
 
                     //For testing purpose
                     if (model.getUrl() != null) {
-                        IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + requestCode + "in " +
+                        ECSLog.d(ECSLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + requestCode + "in " +
                                 requestListener.getClass().getSimpleName() + "env = " + " " + model.getUrl().substring(0, 15));
                     }
                 }
@@ -152,23 +152,23 @@ public class NetworkController {
 
     public void setNetworkEssentials(NetworkEssentials networkEssentials) {
         this.mNetworkEssentials = networkEssentials;
-        initStore(context, mIapSettings,mIapDependencies);
+        initStore(context, mIapSettings, mECSDependencies);
         mOAuthListener = mNetworkEssentials.getOAuthHandler();
 
         initHurlStack(context);
         hybrisVolleyCreateConnection(context);
     }
 
-    public void setIapSettings(IAPSettings iapSettings) {
+    public void setIapSettings(ECSSettings iapSettings) {
         this.mIapSettings = iapSettings;
     }
 
-    public void setmIapDependencies(IAPDependencies iapDependencies){
-        this.mIapDependencies = iapDependencies;
+    public void setmECSDependencies(ECSDependencies ECSDependencies){
+        this.mECSDependencies = ECSDependencies;
     }
 
     boolean isMocked() {
-        IAPMockInterface iapMockInterface = mIapSettings.getIapMockInterface();
+        ECSMockInterface iapMockInterface = mIapSettings.getIapMockInterface();
         if(iapMockInterface == null) return false; //This means , from proposition or demo APP thr mocking is not set or implemented .
         return iapMockInterface.isMockEnabled();
     }

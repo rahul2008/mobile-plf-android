@@ -11,8 +11,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.model.GetRetailersInfoRequest;
@@ -24,7 +24,7 @@ import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.VolleyWrapper;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 
@@ -117,13 +117,13 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
             public void onErrorResponse(final VolleyError error) {
 
                 if (model.getUrl() != null && error != null) {
-                    IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onError =" + error
+                    ECSLog.d(ECSLog.LOG, "Response from sendHybrisRequest onError =" + error
                             .getLocalizedMessage() + " requestCode=" + 0 + "in " +
                             model.getClass().getSimpleName() + " " + model.getUrl().substring(0, 20));
                 }
                 if (error != null && error.getMessage() != null) {
-                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                            IAPAnalyticsConstant.ERROR, error.getMessage());
+                    ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                            ECSAnalyticsConstant.ERROR, error.getMessage());
                 }
                 if (model != null) {
                     new IAPNetworkError(error, 0, model);
@@ -151,7 +151,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
 
                     //For testing purpose
                     if (model.getUrl() != null) {
-                        IAPLog.d(IAPLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + 0 + "in " +
+                        ECSLog.d(ECSLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + 0 + "in " +
                                 model.getClass().getSimpleName() + "env = " + " " + model.getUrl().substring(0, 15));
                     }
                 }
@@ -173,8 +173,8 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
 
 
     private void trackRetailer(String pCtn) {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.WTB + String.valueOf(pCtn) + "_" + IAPAnalyticsConstant.NO_RETAILER_FOUND);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.WTB + String.valueOf(pCtn) + "_" + ECSAnalyticsConstant.NO_RETAILER_FOUND);
     }
 
     private void handlePhilipsFlagShipStore() {

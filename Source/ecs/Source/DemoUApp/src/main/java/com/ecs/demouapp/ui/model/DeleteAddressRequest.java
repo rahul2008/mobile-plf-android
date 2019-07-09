@@ -6,7 +6,7 @@ package com.ecs.demouapp.ui.model;
 
 import com.android.volley.Request;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 
 
@@ -25,7 +25,7 @@ public class DeleteAddressRequest extends AbstractModel{
 
     @Override
     public int getMethod() {
-        IAPLog.d(IAPLog.LOG, "DELETE");
+        ECSLog.d(ECSLog.LOG, "DELETE");
         return Request.Method.DELETE;
     }
 
@@ -41,7 +41,7 @@ public class DeleteAddressRequest extends AbstractModel{
             throw new RuntimeException("Address Id must be specified");
         }
         String addressId = params.get(ModelConstants.ADDRESS_ID);
-        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getEditAddressUrl(addressId));
+        ECSLog.d(ECSLog.LOG, "Request URL = " + store.getEditAddressUrl(addressId));
         return store.getEditAddressUrl(addressId);
     }
 }

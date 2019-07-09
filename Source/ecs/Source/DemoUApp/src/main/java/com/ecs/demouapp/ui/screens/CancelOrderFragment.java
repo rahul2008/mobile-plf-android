@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 
 
 public class CancelOrderFragment extends InAppBaseFragment {
@@ -37,7 +37,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.iap_cancel_order, container, false);
+        View rootView = inflater.inflate(R.layout.ecs_cancel_order, container, false);
 
         Button phoneNumberText = rootView.findViewById(R.id.bt_phone_number);
         TextView cancelOrderId = rootView.findViewById(R.id.tv_cancel_order_history_title);
@@ -46,14 +46,14 @@ public class CancelOrderFragment extends InAppBaseFragment {
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-            phoneNumber = bundle.getString(IAPConstant.CUSTOMER_CARE_NUMBER);
+            phoneNumber = bundle.getString(ECSConstant.CUSTOMER_CARE_NUMBER);
             phoneNumberText.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(phoneNumber,
                     HybrisDelegate.getInstance().getStore().getCountry()));
-            String weekdaysTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
-            String saturdayTiming = bundle.getString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING);
+            String weekdaysTiming = bundle.getString(ECSConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
+            String saturdayTiming = bundle.getString(ECSConstant.CUSTOMER_CARE_SATURDAY_TIMING);
             openingTimingText.setText(weekdaysTiming + "\n" + saturdayTiming);
-            cancelOrderId.setText(String.format(mContext.getString(R.string.iap_cancel_order_number), bundle.getString(IAPConstant.IAP_ORDER_ID)));
-            refOrderText.setText(String.format(mContext.getString(R.string.iap_cancel_order_dls_for_your_ref_sg), bundle.getString(IAPConstant.IAP_ORDER_ID)));
+            cancelOrderId.setText(String.format(mContext.getString(R.string.iap_cancel_order_number), bundle.getString(ECSConstant.IAP_ORDER_ID)));
+            refOrderText.setText(String.format(mContext.getString(R.string.iap_cancel_order_dls_for_your_ref_sg), bundle.getString(ECSConstant.IAP_ORDER_ID)));
         }
         phoneNumberText.setOnClickListener(new View.OnClickListener() {
             @Override

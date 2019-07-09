@@ -25,8 +25,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.Constants.OrderStatus;
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.OrderController;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.response.orders.ContactsResponse;
@@ -37,7 +37,7 @@ import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.session.RequestCode;
-import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
@@ -91,13 +91,13 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_order_details, true);
-        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_DETAIL_PAGE_NAME);
+        ECSAnalytics.trackPage(ECSAnalyticsConstant.ORDER_DETAIL_PAGE_NAME);
         setCartIconVisibility(false);
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.iap_order_details_fragment, container, false);
+        View view = inflater.inflate(R.layout.ecs_order_details_fragment, container, false);
         mParentView = view.findViewById(R.id.scrollView);
         mTvQuantity = view.findViewById(R.id.tv_quantity);
         mTvtotalPrice = view.findViewById(R.id.tv_total_price);
@@ -139,10 +139,10 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-            if (bundle.containsKey(IAPConstant.ORDER_DETAIL)) {
-                mOrderDetail = bundle.getParcelable(IAPConstant.ORDER_DETAIL);
+            if (bundle.containsKey(ECSConstant.ORDER_DETAIL)) {
+                mOrderDetail = bundle.getParcelable(ECSConstant.ORDER_DETAIL);
                 if (mOrderDetail != null) {
-                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PURCHASE_ID,
+                    ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.PURCHASE_ID,
                             mOrderDetail.getCode());
                 }
                 updateUIwithDetails(mOrderDetail);
@@ -216,7 +216,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         }
 
         for (final ProductData product : productList) {
-            View productInfo = View.inflate(mContext, R.layout.iap_order_details_item, null);
+            View productInfo = View.inflate(mContext, R.layout.ecs_order_details_item, null);
             mProductListView.addView(productInfo);
             ((TextView) productInfo.findViewById(R.id.tv_productName)).setText(product.getProductTitle());
             ((TextView) productInfo.findViewById(R.id.tv_quantity)).setText(String.valueOf(product.getQuantity()));
@@ -234,7 +234,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putString(IAPConstant.ORDER_TRACK_URL, product.getTrackOrderUrl());
+                    bundle.putString(ECSConstant.ORDER_TRACK_URL, product.getTrackOrderUrl());
                     addFragment(WebTrackUrl.createInstance(bundle, AnimationType.NONE), null, true);
                 }
             });
@@ -259,7 +259,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         for (ProductData productData : productList) {
 
-            View v = View.inflate(mContext, R.layout.iap_order_detail_summary_product, null);
+            View v = View.inflate(mContext, R.layout.ecs_order_detail_summary_product, null);
             TextView product_quantity_name = v.findViewById(R.id.tv_product_quantity_name);
             TextView price_product = v.findViewById(R.id.tv_price_product);
             product_quantity_name.setText(productData.getQuantity() + "" + "x" + " " + productData.getProductTitle());
@@ -306,10 +306,10 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                     NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                             mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
                 } else {
-                    bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
-                    bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
-                    bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
-                    bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
+                    bundle.putString(ECSConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
+                    bundle.putString(ECSConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
+                    bundle.putString(ECSConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
+                    bundle.putString(ECSConstant.IAP_ORDER_ID, mOrderDetail.getCode());
                     addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG, true);
                 }
             }
@@ -384,7 +384,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         }
 
-        if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
+        if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(ECSConstant.ORDER_COMPLETED)) {
             mShippingStatus.setText(getString(R.string.iap_order_completed_text_default));
         }
     }

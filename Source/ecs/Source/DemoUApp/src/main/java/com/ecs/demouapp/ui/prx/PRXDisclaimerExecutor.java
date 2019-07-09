@@ -3,8 +3,8 @@ package com.ecs.demouapp.ui.prx;
 import android.content.Context;
 
 
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.PrxConstants;
@@ -49,7 +49,7 @@ public class PRXDisclaimerExecutor {
 
     protected void executeRequest(final String ctn, final ProductDisclaimerRequest productDisclaimerRequestBuilder) {
         RequestManager mRequestManager = new RequestManager();
-        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), IAPAnalyticsConstant.COMPONENT_NAME);
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), ECSAnalyticsConstant.COMPONENT_NAME);
         mRequestManager.init(prxDependencies);
         mRequestManager.executeRequest(productDisclaimerRequestBuilder, new ResponseListener() {
             @Override
@@ -72,8 +72,8 @@ public class PRXDisclaimerExecutor {
     }
 
     protected void notifyError(final String ctn, final int errorCode, final String error) {
-        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + ctn + "_" + errorCode + error);
+        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + ctn + "_" + errorCode + error);
         mProductDisclaimerListener.onFetchProductDisclaimerFailure(error);
     }
 

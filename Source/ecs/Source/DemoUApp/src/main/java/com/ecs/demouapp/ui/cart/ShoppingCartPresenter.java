@@ -8,8 +8,8 @@ import android.content.Context;
 import android.os.Message;
 
 
-import com.ecs.demouapp.ui.analytics.IAPAnalytics;
-import com.ecs.demouapp.ui.analytics.IAPAnalyticsConstant;
+import com.ecs.demouapp.ui.analytics.ECSAnalytics;
+import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
@@ -36,8 +36,8 @@ import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.session.RequestListener;
-import com.ecs.demouapp.ui.utils.IAPConstant;
-import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
@@ -84,8 +84,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                     @Override
                     public void onModelDataLoadFinished(final Message msg) {
                         //Track product delete action
-                        IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                                IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
+                        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                                ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.PRODUCT_REMOVED);
                         getCurrentCartDetails();
                     }
 
@@ -109,25 +109,25 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onModelDataLoadFinished(final Message msg) {
                 if (quantityStatus == 1) {
-                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                            IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
+                    ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                            ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.ADD_TO_CART);
                 } else if (quantityStatus == 0) {
-                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                            IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.PRODUCT_REMOVED);
+                    ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
+                            ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.PRODUCT_REMOVED);
                 }
                 getCurrentCartDetails();
             }
 
             @Override
             public void onModelDataError(final Message msg) {
-                IAPLog.d(IAPConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
+                ECSLog.d(ECSConstant.SHOPPING_CART_PRESENTER, msg.obj.toString());
                 mLoadListener.onLoadError(msg);
             }
         });
         getHybrisDelegate().sendRequest(0, model, model);
     }
 
-    public void deleteCart(final Context context, final IAPCartListener iapHandlerListener) {
+    public void deleteCart(final Context context, final ECSCartListener iapHandlerListener) {
         final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         final DeleteCartRequest model = new DeleteCartRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.DELETE_CART, model, new RequestListener() {
@@ -147,7 +147,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         });
     }
 
-    public void createCart(final Context context, final IAPCartListener iapHandlerListener,
+    public void createCart(final Context context, final ECSCartListener iapHandlerListener,
                            final String ctnNumber, final boolean isBuy) {
         final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         final CartCreateRequest model = new CartCreateRequest(delegate.getStore(), null, null);
@@ -177,7 +177,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     @Override
-    public void addProductToCart(final Context context, String productCTN, final IAPCartListener
+    public void addProductToCart(final Context context, String productCTN, final ECSCartListener
             iapHandlerListener,
                                  final boolean isFromBuyNow) {
         if (productCTN == null) return;
@@ -189,7 +189,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onSuccess(final Message msg) {
                 if (isFromBuyNow) {
-                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_SHOPPING_CART);
+                    EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_LAUNCH_SHOPPING_CART);
                     if (iapHandlerListener != null) {
                         iapHandlerListener.onSuccess(0);
                     }
@@ -208,7 +208,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     @Override
-    public void getProductCartCount(final Context context, final IAPCartListener
+    public void getProductCartCount(final Context context, final ECSCartListener
             iapCartListener) {
         final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         final GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
@@ -249,7 +249,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     @Override
-    public void buyProduct(final Context context, final String ctnNumber, final IAPCartListener
+    public void buyProduct(final Context context, final String ctnNumber, final ECSCartListener
             iapHandlerListener) {
         if (ctnNumber == null) return;
         final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
@@ -270,7 +270,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                             for (int i = 0; i < entries.size(); i++) {
                                 if (entries.get(i).getProduct().getCode().equalsIgnoreCase(ctnNumber)) {
                                     isProductAvailable = true;
-                                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_LAUNCH_SHOPPING_CART);
+                                    EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_LAUNCH_SHOPPING_CART);
                                     break;
                                 }
                             }
@@ -296,7 +296,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
 
     private void handleNoCartErrorOrNotifyError(final Message msg, final Context context,
-                                                final IAPCartListener iapHandlerListener,
+                                                final ECSCartListener iapHandlerListener,
                                                 final String ctnNumber,
                                                 final boolean isBuy) {
         if (isNoCartError(msg)) {
@@ -330,7 +330,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     @Override
     public void onModelDataError(final Message msg) {
         if (isNoCartError(msg)) {
-            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+            EventHelper.getInstance().notifyEventOccurred(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED);
         } else {
             handleModelDataError(msg);
         }
@@ -340,7 +340,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         if (msg.obj instanceof HashMap) {
             notifyListChanged();
         } else {
-            EventHelper.getInstance().notifyEventOccurred(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED);
+            EventHelper.getInstance().notifyEventOccurred(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED);
         }
     }
 
