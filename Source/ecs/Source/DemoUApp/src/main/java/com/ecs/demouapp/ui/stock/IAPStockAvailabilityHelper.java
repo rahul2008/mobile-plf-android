@@ -6,7 +6,8 @@
 
 package com.ecs.demouapp.ui.stock;
 
-import com.philips.cdp.di.iap.controller.ControllerFactory;
+
+import com.ecs.demouapp.ui.controller.ControllerFactory;
 
 public class IAPStockAvailabilityHelper {
 

@@ -7,11 +7,13 @@
 package com.ecs.demouapp.ui.session;
 import com.android.volley.AuthFailureError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.iap.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.IAPLog;
+
 
 import java.net.HttpURLConnection;
 
-import static com.philips.cdp.di.iap.utils.IAPConstant.HTTP_REDIRECT;
+import static com.ecs.demouapp.ui.utils.IAPConstant.HTTP_REDIRECT;
+
 
 public class IAPUrlRedirectionHandler {
 

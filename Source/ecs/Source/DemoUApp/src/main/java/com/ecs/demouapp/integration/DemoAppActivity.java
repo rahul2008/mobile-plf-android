@@ -27,19 +27,20 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.ecs.demouapp.R;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.integration.IAPBannerEnabler;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.IAPFlowInput;
-import com.philips.cdp.di.iap.integration.IAPInterface;
-import com.philips.cdp.di.iap.integration.IAPLaunchInput;
-import com.philips.cdp.di.iap.integration.IAPListener;
-import com.philips.cdp.di.iap.integration.IAPMockInterface;
-import com.philips.cdp.di.iap.integration.IAPOrderFlowCompletion;
-import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.IAPUtility;
+
+import com.ecs.demouapp.ui.container.CartModelContainer;
+import com.ecs.demouapp.ui.integration.IAPBannerEnabler;
+import com.ecs.demouapp.ui.integration.IAPDependencies;
+import com.ecs.demouapp.ui.integration.IAPFlowInput;
+import com.ecs.demouapp.ui.integration.IAPInterface;
+import com.ecs.demouapp.ui.integration.IAPLaunchInput;
+import com.ecs.demouapp.ui.integration.IAPListener;
+import com.ecs.demouapp.ui.integration.IAPMockInterface;
+import com.ecs.demouapp.ui.integration.IAPOrderFlowCompletion;
+import com.ecs.demouapp.ui.integration.IAPSettings;
+import com.ecs.demouapp.ui.utils.IAPConstant;
+import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.IAPUtility;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -71,7 +72,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import static com.philips.cdp.di.iap.utils.Utility.hideKeypad;
+import static com.ecs.demouapp.ui.utils.Utility.hideKeypad;
 
 
 public class DemoAppActivity extends AppCompatActivity implements View.OnClickListener, IAPListener,

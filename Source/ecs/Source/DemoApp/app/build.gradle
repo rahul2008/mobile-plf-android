@@ -131,7 +131,7 @@ dependencies {
     releaseImplementation deps.leakcanary_no_op
     testImplementation deps.leakcanary_no_op
 
-    implementation project(strings.iapuapp.projectName)
+    implementation project(strings.ecsuapp.projectName)
 
     implementation deps.constraintlayout
     implementation deps.support.design
@@ -139,9 +139,10 @@ dependencies {
     implementation deps.support.annotations
     implementation deps.support.appcompatv7
     implementation philipsdeps.uid
+   // implementation project('ecsuapp')
     if (useprojectdependencies) {
         implementation project(strings.usr.projectName)
-        implementation project(strings.iap.projectName)
+
         implementation project(strings.prx.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
@@ -153,7 +154,7 @@ dependencies {
             exclude group: 'com.android.support', module: 'support-annotations'
         }
         implementation philipsdeps.prx
-        implementation philipsdeps.iap
+
     }
 
     androidTestImplementation deps.espresso_core, {

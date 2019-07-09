@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.ecs.demouapp.R;
-import com.philips.cdp.di.iap.integration.IAPListener;
+
+import com.ecs.demouapp.ui.integration.IAPListener;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uid.thememanager.AccentRange;

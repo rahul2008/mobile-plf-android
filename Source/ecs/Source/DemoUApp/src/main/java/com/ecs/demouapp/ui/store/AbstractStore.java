@@ -6,7 +6,8 @@ package com.ecs.demouapp.ui.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.integration.IAPDependencies;
+import com.ecs.demouapp.ui.integration.IAPDependencies;
+
 
 public abstract class AbstractStore implements StoreListener {
 

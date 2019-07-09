@@ -7,11 +7,12 @@ package com.ecs.demouapp.ui.networkEssential;
 import android.content.Context;
 
 import com.android.volley.toolbox.HurlStack;
-import com.philips.cdp.di.iap.integration.IAPDependencies;
-import com.philips.cdp.di.iap.integration.IAPSettings;
-import com.philips.cdp.di.iap.session.OAuthListener;
-import com.philips.cdp.di.iap.store.LocalStore;
-import com.philips.cdp.di.iap.store.StoreListener;
+import com.ecs.demouapp.ui.integration.IAPDependencies;
+import com.ecs.demouapp.ui.integration.IAPSettings;
+import com.ecs.demouapp.ui.session.OAuthListener;
+import com.ecs.demouapp.ui.store.LocalStore;
+import com.ecs.demouapp.ui.store.StoreListener;
+
 
 public class LocalNetworkEssentials implements NetworkEssentials {
 

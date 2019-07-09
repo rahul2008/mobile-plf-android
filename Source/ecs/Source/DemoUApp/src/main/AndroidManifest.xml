@@ -5,14 +5,18 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-    <application
-        android:resizeableActivity="true"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.DLS">
+    <application android:theme="@style/Theme.DLS">
+
+        <activity
+            android:name=".integration.DemoAppActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+
         <activity
             android:name=".ui.activity.IAPActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             />
+
     </application>
 
 </manifest>

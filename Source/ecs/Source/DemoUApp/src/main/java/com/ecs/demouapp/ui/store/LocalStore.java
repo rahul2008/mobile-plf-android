@@ -6,7 +6,8 @@ package com.ecs.demouapp.ui.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.RequestListener;
+import com.ecs.demouapp.ui.session.RequestListener;
+
 
 /**
  * Handles the scenario where the CTNs are provided from the vertical app.

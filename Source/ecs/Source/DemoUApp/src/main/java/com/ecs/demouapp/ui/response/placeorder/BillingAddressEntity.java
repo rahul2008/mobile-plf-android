@@ -1,6 +1,7 @@
 package com.ecs.demouapp.ui.response.placeorder;
 
-import com.philips.cdp.di.iap.response.addresses.Country;
+
+import com.ecs.demouapp.ui.response.addresses.Country;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

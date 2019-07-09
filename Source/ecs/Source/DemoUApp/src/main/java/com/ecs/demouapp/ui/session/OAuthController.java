@@ -9,15 +9,17 @@ import android.os.Message;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
+import com.ecs.demouapp.ui.model.AbstractModel;
+import com.ecs.demouapp.ui.model.OAuthRequest;
+import com.ecs.demouapp.ui.model.RefreshOAuthRequest;
+import com.ecs.demouapp.ui.response.error.Error;
+import com.ecs.demouapp.ui.response.error.ServerError;
+import com.ecs.demouapp.ui.store.StoreListener;
+import com.ecs.demouapp.ui.utils.IAPLog;
+import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.OAuthRequest;
-import com.philips.cdp.di.iap.model.RefreshOAuthRequest;
-import com.philips.cdp.di.iap.response.error.ServerError;
-import com.philips.cdp.di.iap.store.StoreListener;
-import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.ModelConstants;
+
 
 import org.json.JSONObject;
 
@@ -144,7 +146,7 @@ public class OAuthController implements OAuthListener {
                 ServerError response = (new Gson().fromJson(new String(volleyError
                         .networkResponse.data), ServerError.class));
                 if (response.getErrors() != null) {
-                    Error error = response.getErrors().get(0);
+                     Error error = response.getErrors().get(0);
                     final String TYPE_INVALID_GRANT_ERROR = "InvalidGrantError";
                     if (TYPE_INVALID_GRANT_ERROR.equals(error.getType())) {
                         return true;
