@@ -66,7 +66,7 @@ public class RegisteredProductsRequest extends PrxRequest {
                     public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                         String url = urlMap.get(mServiceId).getConfigUrls();
                         if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
-                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
+                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_CN);
                         }
                     }
 

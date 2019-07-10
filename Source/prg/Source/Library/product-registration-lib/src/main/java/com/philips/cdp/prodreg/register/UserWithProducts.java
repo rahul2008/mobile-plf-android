@@ -41,6 +41,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_VALUE;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_VALUE;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_VALUE;
+
 /**
  * Responsible to register and fetch products
  */
@@ -319,6 +323,9 @@ public class UserWithProducts {
 
             registrationRequest.setAccessToken(accessToken);
             registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
+            registrationRequest.setApiKey(PROD_REG_APIKEY_VALUE);
+            registrationRequest.setApiVersion(PROD_REG_APIVERSION_VALUE);
+            registrationRequest.setContentType(PROD_REG_CONTENTTYYPE_VALUE);
 
         } catch (Exception e) {
             ProdRegLogger.e(TAG,"Error in fetching user details.");
@@ -432,7 +439,7 @@ public class UserWithProducts {
         setRequestType(PRODUCT_REGISTRATION);
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, registeredProduct);
         RequestManager mRequestManager = getRequestManager(mContext);
-        mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(registeredProduct));
+        mRequestManager.executeRequest2(registrationRequest, getPrxResponseListener(registeredProduct));
     }
 
     protected RegisteredProductsListener getRegisteredProductsListener() {
