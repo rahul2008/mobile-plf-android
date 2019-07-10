@@ -1,5 +1,7 @@
 package com.philips.platform.pim.configration;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -15,6 +17,7 @@ import java.util.Map;
  * Responsible for providing configuration required for OIDC.
  */
 public class PIMOIDCConfigration {
+    private static final String USR_CLIENT_ID_KEY = "JanRainConfiguration.RegistrationClientID.";
     private static String TAG = PIMOIDCConfigration.class.getSimpleName();
     private static final String GROUP_PIM = "PIM";
     private static final String CLIENT_ID = "clientId";

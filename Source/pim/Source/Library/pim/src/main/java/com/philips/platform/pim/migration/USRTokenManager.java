@@ -1,17 +1,20 @@
 package com.philips.platform.pim.migration;
 
+import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Pair;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.rest.PIMRestClient;
@@ -165,6 +168,39 @@ class USRTokenManager {
         }
     }
 
+    @Nullable
+    protected String getConfigPropertyValue(Object property) {
+        if (property == null) {
+            return null;
+        }
+        if (property instanceof String) {
+            return (String) property;
+        }
+        if (property instanceof Map) {
+            return getPropertyValueFromMap((Map) property);
+        }
+        return null;
+    }
+
+    private String getPropertyValueFromMap(Map<?, ?> property) {
+        String locale = PIMSettingManager.getInstance().getLocale();
+        String[] splitLocal = locale.split("-");
+        String propertyValue = (String) property.get(splitLocal[1]);
+        if (propertyValue == null || propertyValue.isEmpty()) {
+            propertyValue = (String) property.get("default");
+        }
+        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "propertyValue: " + propertyValue);
+        return propertyValue;
+    }
+
+    public String getClientId() {
+        Object clientIdObject = appInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", new AppConfigurationInterface.AppConfigurationError());
+        String configPropertyValue = getConfigPropertyValue(clientIdObject);
+        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "getclientId: " + configPropertyValue);
+        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "hasclientId: " + (configPropertyValue != null));
+        return configPropertyValue;
+    }
+
     private <L, R> Collection<L> map(Collection<R> collection, Function<L, R> f) {
         Collection<L> retCollection;
         try {
@@ -184,7 +220,7 @@ class USRTokenManager {
         Collection<String> paramPairs = map(bodyParams, val -> {
             // return ((String) val.first).concat("=").concat(AndroidUtils.urlEncode((String) val.second));
             try {
-                return val.first.concat(URLEncoder.encode(val.second, "UTF-8"));
+                return val.first.concat("=").concat(URLEncoder.encode(val.second, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -209,7 +245,7 @@ class USRTokenManager {
         params.add(new Pair<>("flow", "standard"));
         params.add(new Pair<>("flow_version", getFlowVersion()));
         params.add(new Pair<>("access_token", legacyToken));
-        params.add(new Pair<>("client_id", getUSRClientID()));
+        params.add(new Pair<>("client_id", getClientId()));
 
         RefreshUSRTokenRequest refreshLegacyTokenRequest = new RefreshUSRTokenRequest(refreshUrl, paramsToString(params));
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());

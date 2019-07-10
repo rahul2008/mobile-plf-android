@@ -1,8 +1,11 @@
 
 package com.pim.demouapp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
@@ -36,7 +40,6 @@ import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -45,7 +48,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 
-public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener {
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
@@ -57,7 +60,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private URInterface urInterface;
     private boolean isUSR;
     @NonNull
-    private SharedPreferences mMyPreferences;
     AppInfraInterface appInfraInterface;
 
     @Override
@@ -65,7 +67,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pim_demo_uapp);
-        mMyPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Label appversion = findViewById(R.id.appversion);
         appversion.setText("Version : " + BuildConfig.VERSION_NAME);
 
@@ -116,19 +117,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (getIntent().getExtras() != null && getIntent().getExtras().get("SelectedLib").equals("USR")) {
-            btnLogout.setVisibility(View.GONE);
-            btnRefreshSession.setVisibility(View.GONE);
-            aSwitch.setVisibility(View.GONE);
-        } else {
-            btnLogout.setVisibility(View.VISIBLE);
-            btnRefreshSession.setVisibility(View.VISIBLE);
-            aSwitch.setVisibility(View.VISIBLE);
-        }
-    }
 
 
     @Override
@@ -203,6 +191,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         URLaunchInput urLaunchInput;
         RLog.d(TAG, " : Registration");
         urLaunchInput = new URLaunchInput();
+        urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
@@ -219,9 +208,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private void initRegistration(Configuration staging) {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        if (appInfraInterface == null) {
-            appInfraInterface = new AppInfra.Builder().build(this);
-        }
 
         //initAppIdentity(staging);
 
@@ -256,4 +242,19 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    @Override
+    public void onUserRegistrationComplete(Activity activity) {
+        RLog.d(TAG, " : onUserRegistrationComplete");
+        activity.finish();
+    }
+
+    @Override
+    public void onPrivacyPolicyClick(Activity activity) {
+        RLog.d(TAG, " : onPrivacyPolicyClick");
+    }
+
+    @Override
+    public void onTermsAndConditionClick(Activity activity) {
+        RLog.d(TAG, " : onTermsAndConditionClick");
+    }
 }
