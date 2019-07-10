@@ -1,7 +1,5 @@
 package com.philips.cdp.di.ecs.integration;
 
-import java.util.Map;
-
 
 /**
  * The interface Iap services.
@@ -13,9 +11,9 @@ public interface ECSServiceProvider {
      * Hybris oath authentication, Janrain basic token is used to obtain Hybris oath token and save it within IAPSDKService and return true if success.
      *
      * @param oauthData      the oauth data (Janrain token details)
-     * @param ECSSDKCallback the iapsdk callback success block containing boolean
+     * @param ECSSCallback the iapsdk callback success block containing boolean
      *//*
-    public void  hybrisOathAuthentication(Map<String, String> oauthData, ECSSDKCallback ECSSDKCallback);
+    public void  hybrisOathAuthentication(Map<String, String> oauthData, ECSSCallback ECSSCallback);
 */
 
     /**
@@ -23,31 +21,31 @@ public interface ECSServiceProvider {
      *
      * @param propositionId  the proposition id
      * @param locale         the locale
-     * @param ECSSDKCallback the iapsdk callback success block containing IAPConfiguration object
+     * @param ECSSCallback the iapsdk callback success block containing IAPConfiguration object
      */
-    public void getIAPConfig(String propositionId, String locale, ECSSDKCallback ECSSDKCallback);
+    public void getIAPConfig(String propositionId, String locale, ECSSCallback ECSSCallback);
 
 
     /**
      * Gets product list along with product summary detail.
      *
-     * @param ECSSDKCallback the iapsdk callback success block containing Products object (a list of ProductsEntity and other fields)
+     * @param ECSSCallback the iapsdk callback success block containing Products object (a list of ProductsEntity and other fields)
      *//*
-    public void getProductList(ECSSDKCallback ECSSDKCallback);
+    public void getProductList(ECSSCallback ECSSCallback);
 
 
     *//**
      * Gets product detail containing assets and disclaimer details
      *
-     * @param ECSSDKCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
+     * @param ECSSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
      *//*
-    public void getProductDetail(ECSSDKCallback ECSSDKCallback);
+    public void getProductDetail(ECSSCallback ECSSCallback);
 
 
     *//**
      * Invalidate IAPSDKService and reset data. To use further more IAPSDKService initialize method should be called.
      *
-     * @param ECSSDKCallback the iapsdk callback success block containing boolean
+     * @param ECSSCallback the iapsdk callback success block containing boolean
      *//*
-    public void InvalidateIAPSDK(ECSSDKCallback ECSSDKCallback);*/
+    public void InvalidateIAPSDK(ECSSCallback ECSSCallback);*/
 }

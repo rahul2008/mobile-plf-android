@@ -7,7 +7,7 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 
 import com.google.gson.Gson;
-import com.philips.cdp.di.ecs.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.store.HybrisStore;
 
 import java.util.HashMap;

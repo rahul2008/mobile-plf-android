@@ -1,15 +1,15 @@
 package com.philips.cdp.di.ecs;
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.di.ecs.integration.AuthInput;
 import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSListener;
-import com.philips.cdp.di.ecs.integration.ECSSDKCallback;
+import com.philips.cdp.di.ecs.integration.ECSSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.test.FetchConfiguration;
 import com.philips.cdp.di.ecs.util.ECSUtil;
 import com.philips.platform.appinfra.AppInfra;
-
-import java.util.Map;
 
 public class ECSServices implements ECSServiceProvider {
 
@@ -26,7 +26,7 @@ public class ECSServices implements ECSServiceProvider {
      * @param ecsInput     the init params componentId, propositionId and locale
      * @param iapsdkCallback the iapsdk callback
      */
-    public static void init(ECSInput ecsInput, AppInfra appInfra, ECSSDKCallback<ECSServices, Exception> iapsdkCallback) {
+    public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSSCallback<ECSServices, Exception> iapsdkCallback) {
         ECSServices iapSdkService =null;
         if(isValidInput(ecsInput,appInfra)){  // if locale, propositionID are verified
             iapSdkService=new ECSServices(ecsInput,appInfra);
@@ -61,7 +61,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void getIAPConfig(String propositionId, String locale, ECSSDKCallback ECSSDKCallback) {
+    public void getIAPConfig(String propositionId, String locale, ECSSCallback ECSSCallback) {
 
     }
 }

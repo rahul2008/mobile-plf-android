@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.ecs.response;
+package com.philips.cdp.di.ecs.model.response;
 
 public class HybrisConfigResponse {
     private String catalogId;

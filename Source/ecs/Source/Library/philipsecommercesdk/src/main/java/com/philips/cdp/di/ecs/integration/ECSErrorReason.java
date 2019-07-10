@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.integration;
 
-public class ECSSDKErrorReason {
+public class ECSErrorReason {
     public static final String UNKNOWN_ERROR = "Something went wrong";
     public static final String INITIALIZATION_FAILURE = "IAP SDK initialization Failed";
     public static final String UNSUPPORTED_LOCALE = "Unsupported locale";

@@ -7,7 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
-import com.philips.cdp.di.ecs.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.store.HybrisStore;
 import com.philips.cdp.di.ecs.volley.IAPJsonRequest;
 import com.philips.cdp.di.ecs.volley.SynchronizedNetwork;
