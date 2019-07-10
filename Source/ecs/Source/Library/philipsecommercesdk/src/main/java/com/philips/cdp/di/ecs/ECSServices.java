@@ -12,8 +12,11 @@ import com.philips.cdp.di.ecs.test.FetchConfiguration;
 import com.philips.cdp.di.ecs.util.ECSUtil;
 import com.philips.platform.appinfra.AppInfra;
 
+import static com.philips.cdp.di.ecs.integration.ECSErrorReason.INITIALIZATION_FAILURE;
+
 public class ECSServices implements ECSServiceProvider {
 
+    private static ECSServices mECSServices;
 
     private ECSServices(ECSInput ecsInput, AppInfra appInfra) {
         ECSUtil.INSTANCE.setAppInfra(appInfra);
@@ -30,10 +33,10 @@ public class ECSServices implements ECSServiceProvider {
     public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
         ECSServices iapSdkService =null;
         if(isValidInput(ecsInput,appInfra)){  // if locale, propositionID are verified
-            iapSdkService=new ECSServices(ecsInput,appInfra);
-            iapsdkCallback.onResponse(iapSdkService);
+            mECSServices=new ECSServices(ecsInput,appInfra);
+            iapsdkCallback.onResponse(mECSServices);
         }else{
-            iapsdkCallback.onFailure(new Exception("IAPSDKService could not be Initialized"),9999);
+            iapsdkCallback.onFailure(new Exception(INITIALIZATION_FAILURE),9999);
         }
 
     }
@@ -58,5 +61,13 @@ public class ECSServices implements ECSServiceProvider {
                 new FetchConfiguration().fetchConfiguration(eCSCallback);
             }
         }).start();
+    }
+
+
+    @Override
+    public void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback) {
+        mECSServices=null;
+        eCSCallback.onResponse(true);
+
     }
 }

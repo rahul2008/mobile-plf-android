@@ -38,14 +38,9 @@ public interface ECSServiceProvider {
      * Gets product detail containing assets and disclaimer details
      *
      * @param ECSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
-     *//*
-    public void getProductDetail(ECSCallback ECSCallback);
+     */
+    //public void getProductDetail(ECSCallback ECSCallback);
 
 
-    *//**
-     * Invalidate IAPSDKService and reset data. To use further more IAPSDKService initialize method should be called.
-     *
-     * @param ECSCallback the iapsdk callback success block containing boolean
-     *//*
-    public void InvalidateIAPSDK(ECSCallback ECSCallback);*/
+    public void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback);
 }
