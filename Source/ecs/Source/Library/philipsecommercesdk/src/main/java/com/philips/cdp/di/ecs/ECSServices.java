@@ -8,7 +8,6 @@ import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSListener;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.test.FetchConfiguration;
 import com.philips.cdp.di.ecs.util.ECSUtil;
 import com.philips.platform.appinfra.AppInfra;
 
@@ -18,9 +17,12 @@ public class ECSServices implements ECSServiceProvider {
 
     private static ECSServices mECSServices;
 
+    private ECSManager mECSManager;
+
     private ECSServices(ECSInput ecsInput, AppInfra appInfra) {
         ECSUtil.INSTANCE.setAppInfra(appInfra);
         ECSUtil.INSTANCE.setEcsInput(ecsInput);
+        mECSManager = new ECSManager();
     }
 
     /**
@@ -31,6 +33,7 @@ public class ECSServices implements ECSServiceProvider {
      * @param iapsdkCallback the iapsdk callback
      */
     public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
+
         ECSServices iapSdkService =null;
         if(isValidInput(ecsInput,appInfra)){  // if locale, propositionID are verified
             mECSServices=new ECSServices(ecsInput,appInfra);
@@ -55,12 +58,8 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void getIAPConfig(ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                new FetchConfiguration().fetchConfiguration(eCSCallback);
-            }
-        }).start();
+        mECSManager.getHybrisConfigResponse(eCSCallback);
+
     }
 
 
