@@ -68,7 +68,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.digitalcare.DigitalCareConfigManager.resetDigitalCareConfigManager;
 
 /**
  * The main feature enable screen opens once the ConsumerCare Component is triggered.
