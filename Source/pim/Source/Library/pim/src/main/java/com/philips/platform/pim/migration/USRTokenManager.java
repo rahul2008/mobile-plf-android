@@ -100,7 +100,7 @@ class USRTokenManager {
                 JSONObject jsonObject = new JSONObject(signed_in_user);
                 return jsonObject.getString("accessToken");
             } catch (JSONException e) {
-                e.printStackTrace();
+                mLoggingInterface.log(DEBUG, TAG, "USR Access token failed to parse " + e.getMessage());
                 return null;
             }
         }
@@ -153,23 +153,8 @@ class USRTokenManager {
         return map.get("version");
     }
 
-    private String getUSRClientID() {
-        if (signed_in_user == null)
-            return null;
-        else {
-            try {
-                JSONObject jsonObject = new JSONObject(signed_in_user);
-                JSONArray clients = jsonObject.getJSONObject("this").getJSONArray("clients");
-                return clients.getJSONObject(0).getString("clientId");
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
-
     @Nullable
-    protected String getConfigPropertyValue(Object property) {
+    private String getConfigPropertyValue(Object property) {
         if (property == null) {
             return null;
         }
@@ -258,7 +243,6 @@ class USRTokenManager {
                 //Perform Id assertion with user access token which
                 //performIDAssertion(usrAccessToken);
             } catch (JSONException e) {
-                e.printStackTrace();
                 refreshUSRTokenListener.onRefreshTokenFailed(new Error(e.hashCode(), e.getMessage()));
             }
         }, error -> {
