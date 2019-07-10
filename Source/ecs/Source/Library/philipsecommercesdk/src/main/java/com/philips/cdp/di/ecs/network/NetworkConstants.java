@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.ecs.volley;
+package com.philips.cdp.di.ecs.network;
 
 import java.util.Locale;
 

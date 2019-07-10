@@ -1,53 +1,43 @@
 package com.philips.cdp.di.ecs.test;
 
-import android.os.Message;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HurlStack;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.store.HybrisStore;
-import com.philips.cdp.di.ecs.volley.IAPJsonRequest;
-import com.philips.cdp.di.ecs.volley.SynchronizedNetwork;
-import com.philips.cdp.di.ecs.volley.SynchronizedNetworkListener;
+import com.philips.cdp.di.ecs.util.ECSUtil;
+import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
 import org.json.JSONObject;
 
 public class FetchConfiguration {
 
 
-    public void fetchConfiguration() {
-        IAPJsonRequest request = new IAPJsonRequest(Request.Method.GET, new HybrisStore().getRawConfigUrl(), null,
-                null, null);
-        SynchronizedNetwork synchronizedNetwork = getSynchronizedNetwork();
-        synchronizedNetwork.performRequest(request, new SynchronizedNetworkListener() {
+    public void fetchConfiguration(ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, new HybrisStore().getRawConfigUrl(), null, new Response.Listener<JSONObject>() {
             @Override
-            public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
-                if(jsonObjectResponse == null || jsonObjectResponse.result == null){
-                    postError(null);
-                    return;
+            public void onResponse(JSONObject response) {
+
+                if(response!=null){
+                    HybrisConfigResponse resp = new Gson().fromJson(response.toString(),
+                            HybrisConfigResponse.class);
+                    eCSCallback.onResponse(resp);
                 }
-                HybrisConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
-                        HybrisConfigResponse.class);
+
 
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onSyncRequestError(final VolleyError volleyError) {
-                postError(volleyError);
-            }
-
-            private void postError(VolleyError volleyError) {
-                Message msg = Message.obtain();
+            public void onErrorResponse(VolleyError error) {
+                eCSCallback.onFailure(error,9000);
 
             }
-        });
-    }
+        }, null, null, null);
 
-    SynchronizedNetwork getSynchronizedNetwork() {
-        HurlStack hurlStack = new HurlStack(null);
-        return new SynchronizedNetwork(hurlStack);
+        ECSUtil.INSTANCE.getAppInfra().getRestClient().getRequestQueue().add(jsonObjectRequest);
+
     }
 }

@@ -3,10 +3,11 @@ package com.philips.cdp.di.ecs;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.AuthInput;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSListener;
-import com.philips.cdp.di.ecs.integration.ECSSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
+import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.test.FetchConfiguration;
 import com.philips.cdp.di.ecs.util.ECSUtil;
 import com.philips.platform.appinfra.AppInfra;
@@ -26,7 +27,7 @@ public class ECSServices implements ECSServiceProvider {
      * @param ecsInput     the init params componentId, propositionId and locale
      * @param iapsdkCallback the iapsdk callback
      */
-    public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSSCallback<ECSServices, Exception> iapsdkCallback) {
+    public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
         ECSServices iapSdkService =null;
         if(isValidInput(ecsInput,appInfra)){  // if locale, propositionID are verified
             iapSdkService=new ECSServices(ecsInput,appInfra);
@@ -45,23 +46,17 @@ public class ECSServices implements ECSServiceProvider {
         ECSUtil.INSTANCE.setEcsListener(ecsListener);
     }
 
-    public void getIAPConfig(){
+
+
+
+    @Override
+    public void getIAPConfig(ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                new FetchConfiguration().fetchConfiguration();
+                new FetchConfiguration().fetchConfiguration(eCSCallback);
             }
         }).start();
-
-    }
-
-    public void getProductList(){
-
-    }
-
-    @Override
-    public void getIAPConfig(String propositionId, String locale, ECSSCallback ECSSCallback) {
-
     }
 }

@@ -43,7 +43,8 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.integration.ECSInput;
-import com.philips.cdp.di.ecs.integration.ECSSCallback;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -144,11 +145,22 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             public String getBaseUrl() {
                 return "https://acc.us.pil.shop.philips.com/";
             }
-        }, null, new ECSSCallback<ECSServices, Exception>() {
+        }, new AppInfra.Builder().build(getApplicationContext()), new ECSCallback<ECSServices, Exception>() {
             @Override
             public void onResponse(ECSServices result) {
 
-                result.getIAPConfig();
+                result.getIAPConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
+                    @Override
+                    public void onResponse(HybrisConfigResponse result) {
+
+                        System.out.println(result.getSiteId());
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+
+                    }
+                });
             }
 
             @Override
@@ -156,7 +168,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
-        
+
 
         urInterface = new URInterface();
         urInterface.init(new EcsDemoUAppDependencies(new AppInfra.Builder().build(getApplicationContext())), new EcsDemoAppSettings(getApplicationContext()));

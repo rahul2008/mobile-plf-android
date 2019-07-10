@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.integration;
 /**
  * The interface Iapsdk callback.
  */
-public interface ECSSCallback<R,E> {
+public interface ECSCallback<R,E> {
     /**
      * On response.
      *
