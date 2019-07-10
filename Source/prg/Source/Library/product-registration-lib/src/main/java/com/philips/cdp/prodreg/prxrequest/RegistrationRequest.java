@@ -241,7 +241,7 @@ public class RegistrationRequest extends PrxRequest {
                         String url = urlMap.get(serviceID).getConfigUrls();
                         if (url.contains(ProdRegConstants.CHINA_DOMAIN)) {
                             headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_CN);
-                        }else{
+                        } else {
                             headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_EU);
 
                             ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
