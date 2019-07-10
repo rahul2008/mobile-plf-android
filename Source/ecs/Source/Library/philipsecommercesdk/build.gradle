@@ -1,12 +1,17 @@
 apply plugin: 'com.android.library'
 
-android {
-    compileSdkVersion 28
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
+archivesBaseName = 'philipsecommercesdk'
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 28
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName "1.0"
 

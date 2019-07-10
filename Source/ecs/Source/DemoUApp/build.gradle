@@ -15,12 +15,12 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 28
-
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 28
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
         versionCode 1
         versionName "1.0"
 
@@ -67,7 +67,8 @@ dependencies {
 
     testImplementation deps.junit
     implementation philipsdeps.uid
-    implementation project(path: ':philipsecommercesdk')
+    implementation project(strings.philipsecommercesdk.projectName)
+   // implementation project(path: ':philipsecommercesdk')
     if (useprojectdependencies) {
        // implementation project(strings.iap.projectName)
         implementation project(strings.prx.projectName)

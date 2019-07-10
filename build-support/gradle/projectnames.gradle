@@ -31,6 +31,7 @@ ext.strings = [
         ailuapp:[projectName:':AppInfraUApp', artifactName:'AppInfraUApp'],
         iapuapp:[projectName:':iapUApp', artifactName:'iapUApp'],
         ecsuapp:[projectName:':ecsUApp', artifactName:'ecsUApp'],
+        philipsecommercesdk:[projectName:':philipsecommercesdk', artifactName:'philipsecommercesdk'],
         usruapp:[projectName:':UserRegistrationUApp', artifactName:'UserRegistrationUApp'],
         dccuapp:[projectName:':digitalCareUApp', artifactName:'digitalCareUApp'],
         prguapp:[projectName:':product-registration-libUApp', artifactName:'product-registration-libUApp'],
