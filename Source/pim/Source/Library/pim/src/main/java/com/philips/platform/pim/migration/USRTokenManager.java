@@ -14,13 +14,11 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
-import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.rest.PIMRestClient;
 import com.philips.platform.pim.rest.RefreshUSRTokenRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,16 +43,19 @@ import javax.crypto.spec.SecretKeySpec;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 
 class USRTokenManager {
+    private static final String JR_CAPTURE_REFRESH_SECRET = "jr_capture_refresh_secret";
+    private static final String JR_CAPTURE_SIGNED_IN_USER = "jr_capture_signed_in_user";
+    private static final String JR_CAPTURE_FLOW = "jr_capture_flow";
     private String TAG = PIMMigrationManager.class.getSimpleName();
     private final String USR_BASEURL = "userreg.janrain.api";
-    private String signed_in_user;
+    private String signedInUser;
     private LoggingInterface mLoggingInterface;
     private AppInfraInterface appInfraInterface;
 
     public USRTokenManager(AppInfraInterface mAppInfraInterface) {
         this.appInfraInterface = mAppInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        signed_in_user = fetchDataFromSecureStorage("jr_capture_signed_in_user");
+        signedInUser = fetchDataFromSecureStorage(JR_CAPTURE_SIGNED_IN_USER);
     }
 
     void fetchRefreshedAccessToken(RefreshUSRTokenListener refreshUSRTokenListener) {
@@ -66,9 +67,9 @@ class USRTokenManager {
                     String baseurl = serviceDiscoveryService.getConfigUrls();
                     String refreshUrl = baseurl + "/oauth/refresh_access_token";
                     String locale = serviceDiscoveryService.getLocale();
-                    mLoggingInterface.log(DEBUG, TAG, " downloadUserUrlFromSD onSuccess. Refresh Url : " + baseurl + " Locale : " + locale);
+                    mLoggingInterface.log(DEBUG, TAG, "downloadUserUrlFromSD onSuccess. Refresh Url : " + baseurl + " Locale : " + locale);
                     refreshUSRAccessToken(refreshUrl, locale, refreshUSRTokenListener);
-                    mLoggingInterface.log(DEBUG, TAG, " downloadUserUrlFromSD onSuccess");
+                    mLoggingInterface.log(DEBUG, TAG, "downloadUserUrlFromSD onSuccess");
                 } else {
                     mLoggingInterface.log(DEBUG, TAG, "Migration Failed!! " + " Error in downloadUserUrlFromSD : " + "Not able to fetch config url");
                 }
@@ -93,11 +94,11 @@ class USRTokenManager {
 
 
     private String getUSRAccessToken() {
-        if (signed_in_user == null)
+        if (signedInUser == null)
             return null;
         else {
             try {
-                JSONObject jsonObject = new JSONObject(signed_in_user);
+                JSONObject jsonObject = new JSONObject(signedInUser);
                 return jsonObject.getString("accessToken");
             } catch (JSONException e) {
                 mLoggingInterface.log(DEBUG, TAG, "USR Access token failed to parse " + e.getMessage());
@@ -115,7 +116,7 @@ class USRTokenManager {
     }
 
     private String getRefreshSignature(String date, String accessToken) {
-        String refresh_secret = fetchDataFromSecureStorage("jr_capture_refresh_secret");
+        String refresh_secret = fetchDataFromSecureStorage(JR_CAPTURE_REFRESH_SECRET);
         if (refresh_secret == null)
             return null;
         String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
@@ -133,7 +134,7 @@ class USRTokenManager {
     }
 
     private String getFlowVersion() {
-        String fetchedValue = fetchDataFromSecureStorage("jr_capture_flow");
+        String fetchedValue = fetchDataFromSecureStorage(JR_CAPTURE_FLOW);
         if (fetchedValue == null)
             return null;
 
@@ -178,7 +179,7 @@ class USRTokenManager {
         return propertyValue;
     }
 
-    public String getClientId() {
+    private String getClientId() {
         Object clientIdObject = appInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", new AppConfigurationInterface.AppConfigurationError());
         String configPropertyValue = getConfigPropertyValue(clientIdObject);
         PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "getclientId: " + configPropertyValue);
@@ -214,7 +215,7 @@ class USRTokenManager {
     }
 
     private void refreshUSRAccessToken(String refreshUrl, String locale, RefreshUSRTokenListener refreshUSRTokenListener) {
-        if (signed_in_user == null) {
+        if (signedInUser == null) {
             mLoggingInterface.log(DEBUG, TAG, "Migration Failed!! " + "Signed_in_user not found");
             return;
         }
@@ -223,14 +224,7 @@ class USRTokenManager {
         String legacyToken = getUSRAccessToken();
         mLoggingInterface.log(DEBUG, TAG, "USR AccessToken : " + legacyToken);
 
-        HashSet params = new HashSet();
-        params.add(new Pair<>("locale", parseLocale(locale)));
-        params.add(new Pair<>("signature", getRefreshSignature(date, legacyToken)));
-        params.add(new Pair<>("date", date));
-        params.add(new Pair<>("flow", "standard"));
-        params.add(new Pair<>("flow_version", getFlowVersion()));
-        params.add(new Pair<>("access_token", legacyToken));
-        params.add(new Pair<>("client_id", getClientId()));
+        HashSet<Pair<String, String>> params = getParams(locale, date, legacyToken);
 
         RefreshUSRTokenRequest refreshLegacyTokenRequest = new RefreshUSRTokenRequest(refreshUrl, paramsToString(params));
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
@@ -251,6 +245,18 @@ class USRTokenManager {
         });
     }
 
+    private HashSet<Pair<String, String>> getParams(String locale, String date, String legacyToken) {
+        HashSet<Pair<String, String>> params = new HashSet<>();
+        params.add(new Pair<>("locale", parseLocale(locale)));
+        params.add(new Pair<>("signature", getRefreshSignature(date, legacyToken)));
+        params.add(new Pair<>("date", date));
+        params.add(new Pair<>("flow", "standard"));
+        params.add(new Pair<>("flow_version", getFlowVersion()));
+        params.add(new Pair<>("access_token", legacyToken));
+        params.add(new Pair<>("client_id", getClientId()));
+        return params;
+    }
+
     private String getUTCdatetimeAsString() {
         String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
         final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ROOT);
@@ -262,13 +268,15 @@ class USRTokenManager {
         return null;
     }
 
-    public boolean isUSRUserAvailable() {
-        if (signed_in_user == null)
-            return false;
-        else
-            return true;
+    boolean isUSRUserAvailable() {
+        return signedInUser != null;
     }
 
+    void deleteUSRFromSecureStorage(){
+        appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_SIGNED_IN_USER);
+        appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_FLOW);
+        appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_REFRESH_SECRET);
+    }
 
     /**
      * A first-class function stand-in
@@ -276,7 +284,7 @@ class USRTokenManager {
      * @param <L> the return type of the function
      * @param <R> the parameter type of the function
      */
-    public interface Function<L, R> {
+    interface Function<L, R> {
         /**
          * The function's implementation
          *
