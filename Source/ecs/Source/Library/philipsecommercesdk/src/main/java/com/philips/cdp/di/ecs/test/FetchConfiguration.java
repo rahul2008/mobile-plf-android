@@ -6,8 +6,8 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.store.HybrisStore;
-import com.philips.cdp.di.ecs.util.ECSUtil;
+import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 
 import org.json.JSONObject;
@@ -17,7 +17,7 @@ public class FetchConfiguration {
 
     public void fetchConfiguration(ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, new HybrisStore().getRawConfigUrl(), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, new ECSURLBuilder().getRawConfigUrl(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -37,7 +37,7 @@ public class FetchConfiguration {
             }
         }, null, null, null);
 
-        ECSUtil.INSTANCE.getAppInfra().getRestClient().getRequestQueue().add(jsonObjectRequest);
+        ECSConfig.INSTANCE.getAppInfra().getRestClient().getRequestQueue().add(jsonObjectRequest);
 
     }
 }

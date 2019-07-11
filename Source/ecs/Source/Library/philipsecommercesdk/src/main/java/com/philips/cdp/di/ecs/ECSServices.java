@@ -7,8 +7,9 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSListener;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
+import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.util.ECSUtil;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 
 import static com.philips.cdp.di.ecs.integration.ECSErrorReason.INITIALIZATION_FAILURE;
@@ -20,8 +21,8 @@ public class ECSServices implements ECSServiceProvider {
     private ECSManager mECSManager;
 
     private ECSServices(ECSInput ecsInput, AppInfra appInfra) {
-        ECSUtil.INSTANCE.setAppInfra(appInfra);
-        ECSUtil.INSTANCE.setEcsInput(ecsInput);
+        ECSConfig.INSTANCE.setAppInfra(appInfra);
+        ECSConfig.INSTANCE.setEcsInput(ecsInput);
         mECSManager = new ECSManager();
     }
 
@@ -49,24 +50,29 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     public void hybrisOathAuthentication(AuthInput authInput,ECSListener ecsListener){
-        ECSUtil.INSTANCE.setEcsListener(ecsListener);
+        ECSConfig.INSTANCE.setEcsListener(ecsListener);
     }
 
 
 
 
     @Override
-    public void getIAPConfig(ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
+    public void getIAPConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
 
-        mECSManager.getHybrisConfigResponse(eCSCallback);
+        mECSManager.getHybrisConfigResponse(ecsCallback);
 
+    }
+
+    @Override
+    public void getProductDetail(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
+        mECSManager.getProductDetail(currentPage,pageSize,eCSCallback);
     }
 
 
     @Override
-    public void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback) {
+    public void InvalidateECS(ECSCallback<Boolean,Exception> ecsCallback) {
         mECSServices=null;
-        eCSCallback.onResponse(true);
+        ecsCallback.onResponse(true);
 
     }
 }

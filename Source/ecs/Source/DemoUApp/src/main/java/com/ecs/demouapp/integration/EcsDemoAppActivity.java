@@ -44,7 +44,9 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -124,6 +126,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
     private boolean isToggleListener = false;
     private RadioGroup rgVoucher;
 
+    private ECSServices ecsServices;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
@@ -133,12 +137,12 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         ECSServices.init(new ECSInput() {
             @Override
             public String getPropositionID() {
-                return "Tuscany2016";
+                return "IAP_MOB_DKA";
             }
 
             @Override
             public String getLocale() {
-                return "en_US";
+                return "de_DE";
             }
 
             @Override
@@ -148,19 +152,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         }, new AppInfra.Builder().build(getApplicationContext()), new ECSCallback<ECSServices, Exception>() {
             @Override
             public void onResponse(ECSServices result) {
-
-                result.getIAPConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
-                    @Override
-                    public void onResponse(HybrisConfigResponse result) {
-
-                        System.out.println(result.getSiteId());
-                    }
-
-                    @Override
-                    public void onFailure(Exception error, int errorCode) {
-
-                    }
-                });
+                ecsServices = result;
             }
 
             @Override
@@ -556,9 +548,36 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         if (view == mShoppingCart) {
             launchIAP(ECSLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
-            launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
+            ecsServices.getIAPConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
+                @Override
+                public void onResponse(HybrisConfigResponse result) {
+
+                    ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
+                    ECSConfig.INSTANCE.setSiteId(result.getSiteId());
+                    System.out.println(result.getSiteId());
+                }
+
+                @Override
+                public void onFailure(Exception error, int errorCode) {
+
+                }
+            });
+            //launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
-            launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
+
+            ecsServices.getProductDetail(0, 20, new ECSCallback<Products, Exception>() {
+                @Override
+                public void onResponse(Products result) {
+
+                    System.out.println(result.getPagination().getTotalPages());
+                }
+
+                @Override
+                public void onFailure(Exception error, int errorCode) {
+
+                }
+            });
+            //launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
 
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {

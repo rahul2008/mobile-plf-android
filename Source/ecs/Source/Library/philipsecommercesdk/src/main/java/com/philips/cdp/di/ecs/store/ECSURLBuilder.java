@@ -4,13 +4,12 @@
  */
 package com.philips.cdp.di.ecs.store;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.philips.cdp.di.ecs.util.ECSUtil;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 
-public class HybrisStore extends AbstractStore {
+public class ECSURLBuilder extends AbstractStore {
 
     private static final String SUFFIX_CONFIGURATION = "inAppConfig";
 
@@ -213,6 +212,15 @@ public class HybrisStore extends AbstractStore {
     //Product
     @Override
     public String getProductCatalogUrl(int currentPage, int pageSize) {
+
+        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getEcsInput().getBaseUrl());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
+        builder.append(ECSConfig.INSTANCE.getSiteId()).append(SEPERATOR);
+        String baseURlForProductCatalog = builder.toString();
+
+        String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:"+ECSConfig.INSTANCE.getRootCategory()+"&lang=";
+        mGetProductCatalogUrl = baseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG).concat(ECSConfig.INSTANCE.getEcsInput().getLocale()).concat("&currentPage=%s&pageSize=%s");
+
         if (mGetProductCatalogUrl != null)
             return String.format(mGetProductCatalogUrl, currentPage, pageSize);
         return null;
@@ -356,10 +364,10 @@ public class HybrisStore extends AbstractStore {
     }
 
     public String getRawConfigUrl() {
-        return ECSUtil.INSTANCE.getEcsInput().getBaseUrl() + HybrisStore.WEBROOT + HybrisStore.SEPERATOR + HybrisStore.V2 + HybrisStore.SEPERATOR +
-                SUFFIX_CONFIGURATION + HybrisStore.SEPERATOR +
-                ECSUtil.INSTANCE.getEcsInput().getLocale() + HybrisStore.SEPERATOR +
-                ECSUtil.INSTANCE.getEcsInput().getPropositionID();
+        return ECSConfig.INSTANCE.getEcsInput().getBaseUrl() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR +
+                SUFFIX_CONFIGURATION + ECSURLBuilder.SEPERATOR +
+                ECSConfig.INSTANCE.getEcsInput().getLocale() + ECSURLBuilder.SEPERATOR +
+                ECSConfig.INSTANCE.getEcsInput().getPropositionID();
     }
 
 }

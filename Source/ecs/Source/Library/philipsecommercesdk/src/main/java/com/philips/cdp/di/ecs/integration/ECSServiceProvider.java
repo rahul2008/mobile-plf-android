@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs.integration;
 
 
+import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 
 /**
@@ -37,9 +38,9 @@ public interface ECSServiceProvider {
     *//**
      * Gets product detail containing assets and disclaimer details
      *
-     * @param ECSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
+     * @param eCSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
      */
-    //public void getProductDetail(ECSCallback ECSCallback);
+    public void getProductDetail(int currentPage,int pageSize,ECSCallback<Products,Exception> eCSCallback);
 
 
     public void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback);

@@ -4,13 +4,32 @@ import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSListener;
 import com.philips.platform.appinfra.AppInfra;
 
-public enum ECSUtil {
+public enum ECSConfig {
 
     INSTANCE;
 
     ECSInput ecsInput;
     AppInfra appInfra;
     ECSListener ecsListener;
+
+    public String getRootCategory() {
+        return rootCategory;
+    }
+
+    public void setRootCategory(String rootCategory) {
+        this.rootCategory = rootCategory;
+    }
+
+    public String getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(String siteId) {
+        this.siteId = siteId;
+    }
+
+    String rootCategory;
+    String siteId;
 
     public ECSInput getEcsInput() {
         return ecsInput;

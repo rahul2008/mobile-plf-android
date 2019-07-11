@@ -8,7 +8,7 @@ import com.android.volley.Request;
 
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
-import com.philips.cdp.di.ecs.store.HybrisStore;
+import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class OAuthRequest extends AbstractRequestModel  {
     @Override
     public String getUrl() {
 
-        return new HybrisStore().getOauthUrl();
+        return new ECSURLBuilder().getOauthUrl();
     }
 
     /*
