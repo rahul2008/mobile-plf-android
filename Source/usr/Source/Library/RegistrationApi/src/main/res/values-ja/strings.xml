@@ -93,7 +93,7 @@
   <string name="USR_DLS_Continue_Without_Account">アカウントなしで続行</string>
   <string name="USR_DLS_Country_Selection_Explainary_Text">お住まいの国を選択してください。お客様の所在地に合わせた保証やその他の情報をご提供します。</string>
   <string name="USR_DLS_Country_Selection_Nav_Title_Text">国または地域</string>
-  <string name="USR_DLS_Create_Account_CreateMyPhilips_btntxt">my Philips アカウントを作成</string>
+  <string name="USR_DLS_Create_Account_CreateMyPhilips_btntxt">My Philips アカウントを作成</string>
   <string name="USR_DLS_Email_Label_Text">メールでのお問い合わせ</string>
   <string name="USR_DLS_Email_Phone_Label_Text">メールまたは電話番号</string>
   <string name="USR_DLS_Email_Verify_Alert_Body_Line1">送信されたメールのリンクをクリックしてください。</string>
