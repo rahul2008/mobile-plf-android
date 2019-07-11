@@ -2,8 +2,6 @@ package com.philips.cdp.di.ecs.request;
 
 import android.os.Message;
 
-
-
 import java.util.Map;
 
 public abstract class AbstractRequestModel  {
