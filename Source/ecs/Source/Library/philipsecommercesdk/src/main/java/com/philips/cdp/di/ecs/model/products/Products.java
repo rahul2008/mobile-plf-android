@@ -7,6 +7,7 @@ package com.philips.cdp.di.ecs.model.products;
 
 import com.philips.cdp.di.ecs.model.products.CurrentQueryEntity;
 import com.philips.cdp.di.ecs.model.products.PaginationEntity;
+import com.philips.cdp.di.ecs.prx.summary.ECSProductSummary;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class Products {
     private PaginationEntity pagination;
     private List<ProductsEntity> products;
     private List<SortsEntity> sorts;
+    private ECSProductSummary ecsProductSummary;
 
     public String getType() {
         return type;
@@ -44,5 +46,13 @@ public class Products {
 
     public List<SortsEntity> getSorts() {
         return sorts;
+    }
+
+    public ECSProductSummary getEcsProductSummary() {
+        return ecsProductSummary;
+    }
+
+    public void setEcsProductSummary(ECSProductSummary ecsProductSummary) {
+        this.ecsProductSummary = ecsProductSummary;
     }
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by philips on 2/28/19.
  */
 
-public class PRXSummaryListResponse extends ResponseData {
+public class ECSProductSummary extends ResponseData {
 
     @SerializedName("success")
     @Expose
@@ -26,7 +26,7 @@ public class PRXSummaryListResponse extends ResponseData {
      * No args constructor for use in serialization
      *
      */
-    public PRXSummaryListResponse() {
+    public ECSProductSummary() {
     }
 
     /**
@@ -34,7 +34,7 @@ public class PRXSummaryListResponse extends ResponseData {
      * @param data
      * @param success
      */
-    public PRXSummaryListResponse(boolean success, ArrayList<Data> data) {
+    public ECSProductSummary(boolean success, ArrayList<Data> data) {
         this.success = success;
         this.data = data;
     }
@@ -78,7 +78,7 @@ public class PRXSummaryListResponse extends ResponseData {
     @Override
     public ResponseData parseJsonResponseData(JSONObject response) {
         if (response != null) {
-            return new Gson().fromJson(response.toString(), PRXSummaryListResponse.class);
+            return new Gson().fromJson(response.toString(), ECSProductSummary.class);
         }
         return null;
     }

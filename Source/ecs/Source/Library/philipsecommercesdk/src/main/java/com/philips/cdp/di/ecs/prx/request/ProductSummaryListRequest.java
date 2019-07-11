@@ -4,7 +4,7 @@ package com.philips.cdp.di.ecs.prx.request;
 import android.text.TextUtils;
 import com.philips.cdp.di.ecs.prx.prxclient.PrxConstants;
 import com.philips.cdp.di.ecs.prx.response.ResponseData;
-import com.philips.cdp.di.ecs.prx.summary.PRXSummaryListResponse;
+import com.philips.cdp.di.ecs.prx.summary.ECSProductSummary;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -45,7 +45,7 @@ public class ProductSummaryListRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        return new PRXSummaryListResponse().parseJsonResponseData(jsonObject);
+        return new ECSProductSummary().parseJsonResponseData(jsonObject);
     }
 
     /**

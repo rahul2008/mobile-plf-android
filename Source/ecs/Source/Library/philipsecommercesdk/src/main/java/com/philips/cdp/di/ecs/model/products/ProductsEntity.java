@@ -8,6 +8,7 @@ package com.philips.cdp.di.ecs.model.products;
 import com.philips.cdp.di.ecs.model.products.DiscountPriceEntity;
 import com.philips.cdp.di.ecs.model.products.PriceEntity;
 import com.philips.cdp.di.ecs.model.products.PriceRangeEntity;
+import com.philips.cdp.di.ecs.prx.summary.Data;
 
 public class ProductsEntity {
 
@@ -19,6 +20,7 @@ public class ProductsEntity {
     private PriceRangeEntity priceRange;
     private StockEntity stock;
     private String url;
+    private Data summary;
 
     public boolean isAvailableForPickup() {
         return availableForPickup;
@@ -54,5 +56,13 @@ public class ProductsEntity {
 
     public String getUrl() {
         return url;
+    }
+
+    public Data getSummary() {
+        return summary;
+    }
+
+    public void setSummary(Data summary) {
+        this.summary = summary;
     }
 }

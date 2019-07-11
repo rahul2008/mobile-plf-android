@@ -46,14 +46,6 @@ public class RequestManager {
             return;
         }
 
-        if (mPrxDependencies.getParentTLA() != null) {
-            mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(String.format("%s/prx", mPrxDependencies.getParentTLA()), getLibVersion());
-            mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, String.format("PRX is initialized with  %s", mPrxDependencies.getParentTLA()));
-
-        } else {
-            mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent("/prx", getLibVersion());
-            mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, "PRX is initialized ");
-        }
     }
 
     /**
@@ -65,10 +57,8 @@ public class RequestManager {
      */
     public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
         try {
-            mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, "execute prx request");
             new NetworkWrapper(mPrxDependencies).executeCustomJsonRequest(prxRequest, listener);
         } catch (Exception e) {
-            mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.ERROR, PrxConstants.PRX_REQUEST_MANAGER, "Error in execute prx request");
             listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
         }
     }

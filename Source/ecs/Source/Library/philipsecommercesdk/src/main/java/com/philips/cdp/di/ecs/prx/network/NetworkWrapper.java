@@ -53,7 +53,7 @@ public class NetworkWrapper {
      */
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         if (listener == null) {
-            mPrxLogging.log(LoggingInterface.LogLevel.ERROR, PrxConstants.PRX_NETWORK_WRAPPER ,"ResponseListener is null");
+
         } else {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
@@ -99,19 +99,9 @@ public class NetworkWrapper {
 
                         if (request != null) {
                             if (mPrxDependencies.getAppInfra().getRestClient() != null) {
-                                try {
-                                    mPrxLogging.log(LoggingInterface.LogLevel.DEBUG,PrxConstants.PRX_NETWORK_WRAPPER ," Request url - "+request.getUrl()
-                                    + " request headers - "+request.getHeaders() + " request type - "+request.getMethod());
-                                } catch (AuthFailureError authFailureError) {
-                                    authFailureError.printStackTrace();
-                                }
                                 mPrxDependencies.getAppInfra().getRestClient().getRequestQueue().add(request);
                             }
-                            else
-                            {
-                                mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"Couldn't initialise REST Client");
 
-                            }
                         }
 
                     }
@@ -166,9 +156,7 @@ public class NetworkWrapper {
                 ResponseData responseData = prxRequest.getResponseData(response);
 
                 if (responseData != null) {
-                    mPrxLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_NETWORK_WRAPPER ,"Successfully get Response");
                     if (response != null)
-                        mPrxLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_NETWORK_WRAPPER, " Prx response is - " + response.toString());
                     listener.onResponseSuccess(responseData);
                 } else {
                     listener.onResponseError(new PrxError("Null Response", 00));

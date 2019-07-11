@@ -565,7 +565,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             //launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
 
-            ecsServices.getProductDetail(0, 20, new ECSCallback<Products, Exception>() {
+            ecsServices.getProductDetail(this,0, 20, new ECSCallback<Products, Exception>() {
                 @Override
                 public void onResponse(Products result) {
 

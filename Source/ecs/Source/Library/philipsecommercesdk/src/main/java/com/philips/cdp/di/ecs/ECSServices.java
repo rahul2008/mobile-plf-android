@@ -1,5 +1,6 @@
 package com.philips.cdp.di.ecs;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.AuthInput;
@@ -64,8 +65,8 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void getProductDetail(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
-        mECSManager.getProductDetail(currentPage,pageSize,eCSCallback);
+    public void getProductDetail(Context context,int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
+        mECSManager.getProductDetail(context,currentPage,pageSize,eCSCallback);
     }
 
 
