@@ -164,9 +164,6 @@ public class PIMAuthManager {
     }
 
     public void performTokenRequest(@NonNull AuthorizationRequest authorizationRequest, @NonNull String authResponse, @NonNull PIMTokenRequestListener pimTokenRequestListener) {
-
-        mLoggingInterface.log(DEBUG, TAG, "TEST");
-
         AuthorizationResponse authorizationResponse = new AuthorizationResponse.Builder(authorizationRequest).fromUri(Uri.parse(authResponse)).build();
         if (authorizationResponse == null) {
             AuthorizationException authorizationException = AuthorizationException.fromOAuthRedirect(Uri.parse(authResponse));

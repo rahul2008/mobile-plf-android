@@ -3,11 +3,11 @@ package com.philips.platform.pim.rest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TokenAuthRequest implements PIMRequestInterface {
+public class PIMMigrationAuthRequest implements PIMRequestInterface {
 
     private String endPoint;
 
-    public TokenAuthRequest(String endPoint) {
+    public PIMMigrationAuthRequest(String endPoint) {
         this.endPoint = endPoint;
     }
 
