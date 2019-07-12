@@ -55,7 +55,6 @@ class USRTokenManager {
     public USRTokenManager(AppInfraInterface mAppInfraInterface) {
         this.appInfraInterface = mAppInfraInterface;
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        signedInUser = fetchDataFromSecureStorage(JR_CAPTURE_SIGNED_IN_USER);
     }
 
     void fetchRefreshedAccessToken(RefreshUSRTokenListener refreshUSRTokenListener) {
@@ -269,6 +268,7 @@ class USRTokenManager {
     }
 
     boolean isUSRUserAvailable() {
+        signedInUser = fetchDataFromSecureStorage(JR_CAPTURE_SIGNED_IN_USER);
         return signedInUser != null;
     }
 
