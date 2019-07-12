@@ -1,5 +1,6 @@
 package com.philips.cdp.di.ecs.network;
 
+import com.philips.cdp.di.ecs.request.APPInfraJSONRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 

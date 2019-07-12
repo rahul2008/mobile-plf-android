@@ -1,27 +1,28 @@
-package com.philips.cdp.di.ecs.network;
+package com.philips.cdp.di.ecs.request;
 
 import android.content.Context;
 import android.util.Base64;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.ProductsEntity;
+import com.philips.cdp.di.ecs.network.ModelConstants;
+import com.philips.cdp.di.ecs.network.NetworkConstants;
 import com.philips.cdp.di.ecs.prx.error.PrxError;
 import com.philips.cdp.di.ecs.prx.prxclient.PRXDependencies;
 import com.philips.cdp.di.ecs.prx.prxclient.PrxConstants;
 import com.philips.cdp.di.ecs.prx.prxclient.RequestManager;
-import com.philips.cdp.di.ecs.prx.request.ProductSummaryListRequest;
+import com.philips.cdp.di.ecs.prx.request.ProductSummaryListServiceDiscoveryRequest;
+import com.philips.cdp.di.ecs.prx.request.PrxRequest;
 import com.philips.cdp.di.ecs.prx.response.ResponseData;
 import com.philips.cdp.di.ecs.prx.response.ResponseListener;
 import com.philips.cdp.di.ecs.prx.summary.Data;
 import com.philips.cdp.di.ecs.prx.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -56,36 +57,11 @@ public class GetProductRequest extends AppInfraAbstractRequest {
     }
 
     @Override
-    public JSONObject getJSONRequest() {
-        return null;
-    }
-
-    @Override
-    public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
-        return this;
-    }
-
-    @Override
-    public Response.ErrorListener getJSONFailureResponseListener() {
-        return this;
-    }
-
-    @Override
-    public Map<String, String> getHeader() {
-        return null;
-    }
-
-    @Override
     public Map<String, String> getParams() {
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CURRENT_PAGE, String.valueOf(currentPage));
         query.put(ModelConstants.PAGE_SIZE, String.valueOf(pageSize));
         return query;
-    }
-
-    @Override
-    public TokenProviderInterface getTokenProviderInterface() {
-        return this;
     }
 
     @Override
@@ -108,14 +84,20 @@ public class GetProductRequest extends AppInfraAbstractRequest {
                 ctns.add(productsEntity.getCode());
             }
             //Call PRX here
-            ProductSummaryListRequest productSummaryListRequest = prepareProductSummaryListRequest(ctns);
-            executePRXRequest(productSummaryListRequest,resp);
-        }
-    }
+            ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
+           /* productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(new PrxRequest.OnUrlReceived() {
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
 
-    @Override
-    public Token getToken() {
-        return null;
+                }
+
+                @Override
+                public void onSuccess(String url) {
+
+                }
+            });*/
+            executePRXRequest(productSummaryListServiceDiscoveryRequest,resp);
+        }
     }
 
     private void setServerError(VolleyError error) {
@@ -129,13 +111,13 @@ public class GetProductRequest extends AppInfraAbstractRequest {
         }
     }
 
-    private ProductSummaryListRequest prepareProductSummaryListRequest(List<String> ctns) {
-        ProductSummaryListRequest productSummaryListRequest = new ProductSummaryListRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
-        productSummaryListRequest.setRequestTimeOut(NetworkConstants.DEFAULT_TIMEOUT_MS);
-        return productSummaryListRequest;
+    private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
+        ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = new ProductSummaryListServiceDiscoveryRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
+        productSummaryListServiceDiscoveryRequest.setRequestTimeOut(NetworkConstants.DEFAULT_TIMEOUT_MS);
+        return productSummaryListServiceDiscoveryRequest;
     }
 
-    protected void executePRXRequest(final ProductSummaryListRequest productSummaryListBuilder, Products resp) {
+    protected void executePRXRequest(final ProductSummaryListServiceDiscoveryRequest productSummaryListBuilder, Products resp) {
         RequestManager mRequestManager = new RequestManager();
         PRXDependencies prxDependencies = new PRXDependencies(context, ECSConfig.INSTANCE.getAppInfra(), "iap");
         mRequestManager.init(prxDependencies);

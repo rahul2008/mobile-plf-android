@@ -5,8 +5,8 @@ import android.content.Context;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.network.GetConfigurationRequest;
-import com.philips.cdp.di.ecs.network.GetProductRequest;
+import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
+import com.philips.cdp.di.ecs.request.GetProductRequest;
 
 public class ECSManager {
 

@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.network;
+package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Response;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;

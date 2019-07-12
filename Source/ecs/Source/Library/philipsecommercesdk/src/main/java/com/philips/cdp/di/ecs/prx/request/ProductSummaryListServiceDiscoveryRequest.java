@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.philips.cdp.di.ecs.prx.prxclient.PrxConstants;
 import com.philips.cdp.di.ecs.prx.response.ResponseData;
 import com.philips.cdp.di.ecs.prx.summary.ECSProductSummary;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -21,23 +22,14 @@ import java.util.Map;
 /**
  * The type Product summary request.
  */
-public class ProductSummaryListRequest extends PrxRequest {
+public class ProductSummaryListServiceDiscoveryRequest extends PrxRequest {
 
     private static final String PRXSummaryDataServiceID = "prxclient.summarylist";
     private String mRequestTag = null;
     private List<String> ctns;
 
-    /**
-     * Instantiates a new Product summary request.
-     *
-     * @param ctns       product ctns
-     * @param sector     sector
-     * @param catalog    catalog
-     * @param requestTag request tag
-     * @since 1.0.0
-     */
-    public ProductSummaryListRequest(List<String> ctns, PrxConstants.Sector sector,
-                                     PrxConstants.Catalog catalog, String requestTag) {
+    public ProductSummaryListServiceDiscoveryRequest(List<String> ctns, PrxConstants.Sector sector,
+                                                     PrxConstants.Catalog catalog, String requestTag) {
         super(ctns, PRXSummaryDataServiceID, sector, catalog);
         this.ctns = ctns;
         this.mRequestTag = requestTag;
@@ -48,13 +40,7 @@ public class ProductSummaryListRequest extends PrxRequest {
         return new ECSProductSummary().parseJsonResponseData(jsonObject);
     }
 
-    /**
-     * Returns the base prx url from service discovery.
-     * @param appInfra AppInfra instance.
-     * @param listener callback url received
-     * @since 1.0.0
-     */
-    public void getRequestUrlFromAppInfra(final AppInfraInterface appInfra, final OnUrlReceived listener) {
+    public void getRequestUrlFromAppInfra(final OnUrlReceived listener) {
         Map<String, String> replaceUrl = new HashMap<>();
         replaceUrl.put("ctns", getString(ctns));
         replaceUrl.put("sector", getSector().toString());
@@ -62,16 +48,14 @@ public class ProductSummaryListRequest extends PrxRequest {
 
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(PRXSummaryDataServiceID);
-        appInfra.getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+urlMap.get(PRXSummaryDataServiceID).getConfigUrls());
                 listener.onSuccess(urlMap.get(PRXSummaryDataServiceID).getConfigUrls());
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                appInfra.getLogging().log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
                 listener.onError(error, message);
             }
         }, replaceUrl);

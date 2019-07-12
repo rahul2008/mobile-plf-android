@@ -58,7 +58,7 @@ public class NetworkWrapper {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
             if (mPrxDependencies != null && mPrxDependencies.getAppInfra() != null) {
-                prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
+                prxRequest.getRequestUrlFromAppInfra(new PrxRequest.OnUrlReceived() {
                     @Override
                     public void onSuccess(String url) {
                         GsonCustomRequest<JSONObject> request = null;

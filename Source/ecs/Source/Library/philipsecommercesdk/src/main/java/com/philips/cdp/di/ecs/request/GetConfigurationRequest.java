@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.network;
+package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
-import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
 import org.json.JSONObject;
 
@@ -31,35 +30,8 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
         return new ECSURLBuilder().getRawConfigUrl();
     }
 
-    @Override
-    public JSONObject getJSONRequest() {
-        return null;
-    }
 
-    @Override
-    public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
-        return this;
-    }
 
-    @Override
-    public Response.ErrorListener getJSONFailureResponseListener() {
-        return this;
-    }
-
-    @Override
-    public Map<String, String> getHeader() {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> getParams() {
-        return null;
-    }
-
-    @Override
-    public TokenProviderInterface getTokenProviderInterface() {
-        return this;
-    }
 
     @Override
     public void onErrorResponse(VolleyError error) {
@@ -75,8 +47,4 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
         }
     }
 
-    @Override
-    public Token getToken() {
-        return null;
-    }
 }
