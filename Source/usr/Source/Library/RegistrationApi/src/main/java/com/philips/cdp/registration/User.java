@@ -634,13 +634,6 @@ public class User {
             return getEmail();
         }
     }
-    private void inithsdpLoginService(HSDPAuthenticationListener hsdpAuthenticationListener, HSDPLoginService HSDPLoginService) {
-        if(RegistrationHelper.getInstance().isMobileFlow() && getEmail().equals("null")){
-            HSDPLoginService.hsdpLogin(getAccessToken(), getMobile(), hsdpAuthenticationListener);
-        }  else{
-            HSDPLoginService.hsdpLogin(getAccessToken(), getEmail(), hsdpAuthenticationListener);
-        }
-    }
 
     /**
      * {@code isUserSignIn} method checks if a user is logged in
