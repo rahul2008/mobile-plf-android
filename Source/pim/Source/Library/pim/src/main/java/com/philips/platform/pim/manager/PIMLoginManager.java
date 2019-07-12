@@ -9,12 +9,13 @@ import com.adobe.mobile.Analytics;
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.pim.listeners.PIMTokenRequestListener;
-import com.philips.platform.pim.utilities.UserCustomClaims;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMLoginListener;
+import com.philips.platform.pim.listeners.PIMTokenRequestListener;
+import com.philips.platform.pim.listeners.PIMUserMigrationListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
+import com.philips.platform.pim.utilities.UserCustomClaims;
 
 import net.openid.appauth.AuthorizationRequest;
 
@@ -27,19 +28,21 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
  * Class to perform OIDC request during login
  */
 //TODO: Shashi,Handle backend issues in test case(Such as invalid client id)
-public class PIMLoginManager implements PIMUserProfileDownloadListener {
+public class PIMLoginManager {
     private String TAG = PIMLoginManager.class.getSimpleName();
     private PIMOIDCConfigration mPimoidcConfigration;
     private PIMAuthManager mPimAuthManager;
     private LoggingInterface mLoggingInterface;
     private PIMLoginListener mPimLoginListener;
     private AppTaggingInterface mTaggingInterface;
+    private PIMUserManager mPimUserManager;
 
     public PIMLoginManager(Context context,PIMOIDCConfigration pimoidcConfigration) {
         mPimoidcConfigration = pimoidcConfigration;
         mPimAuthManager = new PIMAuthManager(context);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mTaggingInterface = PIMSettingManager.getInstance().getTaggingInterface();
+        mPimUserManager = PIMSettingManager.getInstance().getPimUserManager();
     }
 
      public Intent getAuthReqIntent(@NonNull PIMLoginListener pimLoginListener) throws ActivityNotFoundException {
@@ -57,8 +60,18 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
         mPimAuthManager.performTokenRequest(dataIntent, new PIMTokenRequestListener() {
             @Override
             public void onTokenRequestSuccess() {
-                PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
-                pimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), PIMLoginManager.this); //Request user profile on success of token request
+                mPimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), new PIMUserProfileDownloadListener() {
+                    @Override
+                    public void onUserProfileDownloadSuccess() {
+                        mPimUserManager.saveLoginFlowType(PIMUserManager.LOGIN_FLOW.DEFAULT);
+                        mPimLoginListener.onLoginSuccess();
+                    }
+
+                    @Override
+                    public void onUserProfileDownloadFailed(Error error) {
+                        mPimLoginListener.onLoginFailed(error);
+                    }
+                }); //Request user profile on success of token request
             }
 
             @Override
@@ -73,13 +86,23 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
         return mPimAuthManager.createAuthRequestUriForMigration(additionalParameter);
     }
 
-    public void exchangeAuthorizationCodeForMigration(AuthorizationRequest authorizationRequest,String authResponse){
+    public void exchangeAuthorizationCodeForMigration(AuthorizationRequest authorizationRequest, String authResponse, PIMUserMigrationListener pimUserMigrationListener){
         mPimAuthManager.performTokenRequest(authorizationRequest, authResponse, new PIMTokenRequestListener() {
             @Override
             public void onTokenRequestSuccess() {
                 mLoggingInterface.log(DEBUG, TAG, "exchangeAuthorizationCodeForMigration success");
-                PIMUserManager pimUserManager = PIMSettingManager.getInstance().getPimUserManager();
-                pimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), null);
+                mPimUserManager.requestUserProfile(mPimAuthManager.getAuthState(), new PIMUserProfileDownloadListener() {
+                    @Override
+                    public void onUserProfileDownloadSuccess() {
+                        mPimUserManager.saveLoginFlowType(PIMUserManager.LOGIN_FLOW.MIGRATION);
+                        pimUserMigrationListener.onUserMigrationSuccess();
+                    }
+
+                    @Override
+                    public void onUserProfileDownloadFailed(Error error) {
+                        pimUserMigrationListener.onUserMigrationFailed();
+                    }
+                });
             }
 
             @Override
@@ -87,16 +110,6 @@ public class PIMLoginManager implements PIMUserProfileDownloadListener {
                 mLoggingInterface.log(DEBUG, TAG, "exchangeAuthorizationCodeForMigration Failed. Error : " + error.getErrDesc());
             }
         });
-    }
-
-    @Override
-    public void onUserProfileDownloadSuccess() {
-        mPimLoginListener.onLoginSuccess();
-    }
-
-    @Override
-    public void onUserProfileDownloadFailed(Error error) {
-        mPimLoginListener.onLoginFailed(error);
     }
 
     /**

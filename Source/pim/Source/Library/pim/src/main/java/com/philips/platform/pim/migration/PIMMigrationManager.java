@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pim.listeners.PIMUserMigrationListener;
 import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.rest.IDAssertionRequest;
@@ -35,6 +36,7 @@ class PIMMigrationManager {
     private Context mContext;
     private PIMLoginManager pimLoginManager;
     private AuthorizationRequest authorizationRequest;
+    private PIMUserMigrationListener pimUserMigrationListener;
 
     public PIMMigrationManager(Context context) {
         mContext = context;
@@ -42,7 +44,8 @@ class PIMMigrationManager {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    void migrateUser(String usrAccessToken) {
+    void migrateUser(String usrAccessToken, PIMUserMigrationListener pimUserMigrationListener) {
+        this.pimUserMigrationListener = pimUserMigrationListener;
         performIDAssertion(usrAccessToken);
     }
 
@@ -57,6 +60,7 @@ class PIMMigrationManager {
         authorizationRequest = pimLoginManager.createAuthRequestUriForMigration(createAdditionalParameterForMigration(id_token_hint));
         if (authorizationRequest == null) {
             mLoggingInterface.log(DEBUG, TAG, "performAuthorization failed. Cause : authorizationRequest is null.");
+            pimUserMigrationListener.onUserMigrationFailed();
             return;
         }
 
@@ -72,23 +76,28 @@ class PIMMigrationManager {
                 String id_token_hint = parseIDAssertionFromJSONResponse(response);
                 mLoggingInterface.log(DEBUG, TAG, "ID Assertion request success. ID_token_hint : " + id_token_hint);
                 performAuthorization(id_token_hint);
-            } else if (reqType instanceof PIMMigrationAuthRequest)
+            } else if (reqType instanceof PIMMigrationAuthRequest) {
                 mLoggingInterface.log(DEBUG, TAG, "Token auth request failed."); //PIMMigrationAuthRequest response comes with 302 code and volley throw 302 response code in error.So,handling in error listener
+                pimUserMigrationListener.onUserMigrationFailed();
+            }
         };
     }
 
     private Response.ErrorListener getErrorListener(PIMRequestInterface reqType) {
         return error -> {
-            if (reqType instanceof IDAssertionRequest)
+            if (reqType instanceof IDAssertionRequest) {
                 mLoggingInterface.log(DEBUG, TAG, "Failed in ID Assertion Request. Error : " + error.getMessage());
-            else if (reqType instanceof PIMMigrationAuthRequest) {
+                pimUserMigrationListener.onUserMigrationFailed();
+            }else if (reqType instanceof PIMMigrationAuthRequest) {
                 NetworkResponse networkResponse = error.networkResponse;
                 if (networkResponse != null && networkResponse.statusCode == 302) {
                     String authRsponse = networkResponse.headers.get("Location");
                     mLoggingInterface.log(DEBUG, TAG, "Authorization response success : " + authRsponse);
-                    pimLoginManager.exchangeAuthorizationCodeForMigration(authorizationRequest, authRsponse);
-                } else
+                    pimLoginManager.exchangeAuthorizationCodeForMigration(authorizationRequest, authRsponse, pimUserMigrationListener);
+                } else {
                     mLoggingInterface.log(DEBUG, TAG, "Token auth request failed.");
+                    pimUserMigrationListener.onUserMigrationFailed();
+                }
             }
         };
     }
@@ -110,6 +119,7 @@ class PIMMigrationManager {
             return id_token_hint;
         } catch (JSONException e) {
             mLoggingInterface.log(DEBUG, TAG, "parseIDAssertionFromJSONResponse failed. Error : " + e.getMessage());
+            pimUserMigrationListener.onUserMigrationFailed();
         }
         return null;
     }

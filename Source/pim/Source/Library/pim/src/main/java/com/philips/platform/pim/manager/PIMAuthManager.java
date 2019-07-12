@@ -165,12 +165,14 @@ public class PIMAuthManager {
 
     public void performTokenRequest(@NonNull AuthorizationRequest authorizationRequest, @NonNull String authResponse, @NonNull PIMTokenRequestListener pimTokenRequestListener) {
         AuthorizationResponse authorizationResponse = new AuthorizationResponse.Builder(authorizationRequest).fromUri(Uri.parse(authResponse)).build();
-        if (authorizationResponse == null) {
+        if (authorizationResponse == null || authorizationResponse.authorizationCode == null) {
             AuthorizationException authorizationException = AuthorizationException.fromOAuthRedirect(Uri.parse(authResponse));
             pimTokenRequestListener.onTokenRequestFailed(new Error(authorizationException.code, authorizationException.errorDescription));
             return;
         }
         mAuthState = new AuthState(authorizationResponse, null);
+
+
 
         TokenRequest tokenRequest = authorizationResponse.createTokenExchangeRequest();
         AuthorizationService authorizationService = new AuthorizationService(mContext);

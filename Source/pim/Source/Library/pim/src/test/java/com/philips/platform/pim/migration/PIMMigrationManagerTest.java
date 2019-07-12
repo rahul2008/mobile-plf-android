@@ -9,6 +9,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.listeners.PIMUserMigrationListener;
 import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.rest.IDAssertionRequest;
@@ -41,7 +42,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({PIMSettingManager.class, IDAssertionRequest.class, PIMMigrationManager.class,PIMLoginManager.class})
+@PrepareForTest({PIMSettingManager.class, IDAssertionRequest.class, PIMMigrationManager.class, PIMLoginManager.class})
 @RunWith(PowerMockRunner.class)
 public class PIMMigrationManagerTest extends TestCase {
 
@@ -67,6 +68,8 @@ public class PIMMigrationManagerTest extends TestCase {
     ArgumentCaptor<Response.Listener<String>> captorResponseListener;
     @Captor
     ArgumentCaptor<Response.ErrorListener> captorErrorListener;
+    @Captor
+    ArgumentCaptor<PIMUserMigrationListener> captorMigrationListener;
 
     PIMMigrationManager pimMigrationManager;
 
@@ -83,7 +86,7 @@ public class PIMMigrationManagerTest extends TestCase {
         when(mockRestInterface.getRequestQueue()).thenReturn(mockRequestQueue);
         when(mockSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
         whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
-        whenNew(PIMLoginManager.class).withArguments(mockContext,mockPimoidcConfigration).thenReturn(mockPimLoginManager);
+        whenNew(PIMLoginManager.class).withArguments(mockContext, mockPimoidcConfigration).thenReturn(mockPimLoginManager);
 
         pimMigrationManager = new PIMMigrationManager(mockContext);
     }
@@ -95,29 +98,31 @@ public class PIMMigrationManagerTest extends TestCase {
     public void testMigrateUser() throws Exception {
         String accessToken = "vsu46sctqqpjwkbn";
         whenNew(IDAssertionRequest.class).withArguments("https://stg.api.eu-west-1.philips.com/consumerIdentityService/identityAssertions/", accessToken).thenReturn(mockAssertionRequest);
-        pimMigrationManager.migrateUser(accessToken);
+        pimMigrationManager.migrateUser(accessToken,captorMigrationListener.capture());
         verify(mockPimRestClient).invokeRequest(eq(mockAssertionRequest), captorResponseListener.capture(), captorErrorListener.capture());
     }
 
     @Test
-    public void testPerformAuthorization() throws Exception{
+    public void testPerformAuthorization() throws Exception {
         String id_token_hint = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NmM2ODQ4OC0zZTRjLTRiYjctODc5YS05YTgwNGY0OTRjNWUiLCJpc3MiOiJodHRwczovL3BoaWxpcHMuZXZhbC5qYW5yYWluY2FwdHVyZS5jb20iLCJpYXQiOjE1NjI2NjcyNTksImp0aSI6IjdkOGJhZjdmLTM0YmUtNGYxOS04YWRiLTU3ZDQ0ZjhjYWUyOCIsImV4cCI6MTU2MjY2NzU1OTAwMCwiYXVkIjpbImI5MDZmMDljLTIyYTctNDQ5Yy1hZGNiLTNmMjJhYTFiZDcxYiJdfQ.Y8MlINSfznEL-JUwgwTPtNNPZfWFkUirNyLOvt7N0_BGviNlcn_EFatfFwkfqCujPkzWUpqoxGvUTsbv4-Hqtg";
         AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
         when(mockPimLoginManager.createAuthRequestUriForMigration(any())).thenReturn(mockAuthorizationRequest);
         when(mockAuthorizationRequest.toUri()).thenReturn(mock(Uri.class));
-        whenNew(PIMMigrationAuthRequest.class).withArguments(anyString()).thenReturn(mock(PIMMigrationAuthRequest.class));
+        PIMMigrationAuthRequest mockMigrationAuthRequest = mock(PIMMigrationAuthRequest.class);
+        whenNew(PIMMigrationAuthRequest.class).withArguments(anyString()).thenReturn(mockMigrationAuthRequest);
         pimMigrationManager.performAuthorization(id_token_hint);
+        verify(mockPimRestClient).invokeRequest(eq(mockMigrationAuthRequest), captorResponseListener.capture(), captorErrorListener.capture());
     }
 
     @Test
-    public void testCreateAdditionalParameterForMigration() throws Exception{
+    public void testCreateAdditionalParameterForMigration() throws Exception {
         String id_token_hint = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5NmM2ODQ4OC0zZTRjLTRiYjctODc5YS05YTgwNGY0OTRjNWUiLCJpc3MiOiJodHRwczovL3BoaWxpcHMuZXZhbC5qYW5yYWluY2FwdHVyZS5jb20iLCJpYXQiOjE1NjI2NjcyNTksImp0aSI6IjdkOGJhZjdmLTM0YmUtNGYxOS04YWRiLTU3ZDQ0ZjhjYWUyOCIsImV4cCI6MTU2MjY2NzU1OTAwMCwiYXVkIjpbImI5MDZmMDljLTIyYTctNDQ5Yy1hZGNiLTNmMjJhYTFiZDcxYiJdfQ.Y8MlINSfznEL-JUwgwTPtNNPZfWFkUirNyLOvt7N0_BGviNlcn_EFatfFwkfqCujPkzWUpqoxGvUTsbv4-Hqtg";
         String customClaim = getCustomClaims();
         when(mockSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
         when(mockPimoidcConfigration.getCustomClaims()).thenReturn(customClaim);
         Map<String, String> additionalParameterForMigration = pimMigrationManager.createAdditionalParameterForMigration(id_token_hint);
-        assertEquals(id_token_hint,additionalParameterForMigration.get("id_token_hint"));
-        assertEquals(customClaim,additionalParameterForMigration.get("claims"));
+        assertEquals(id_token_hint, additionalParameterForMigration.get("id_token_hint"));
+        assertEquals(customClaim, additionalParameterForMigration.get("claims"));
     }
 
     @Test

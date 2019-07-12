@@ -78,11 +78,8 @@ public class PIMUserManager {
             storeAuthStateToSecureStorage(oidcAuthState); //store auth state to secure storage
 
              if (userProfileRequestListener != null) {
-                saveLoginFlowType(LOGIN_FLOW.DEFAULT);
                 userProfileRequestListener.onUserProfileDownloadSuccess();
-            }else {
-                 saveLoginFlowType(LOGIN_FLOW.MIGRATION);
-             }
+            }
         }, error -> {
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
             if (userProfileRequestListener != null)
