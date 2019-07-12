@@ -28,7 +28,7 @@ public class ECSManager {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                new GetProductRequest(currentPage, pageSize, ecsCallback, context).executeRequest();
+                new GetProductRequest(currentPage, pageSize, ecsCallback).executeRequest();
             }
         }).start();
     }
