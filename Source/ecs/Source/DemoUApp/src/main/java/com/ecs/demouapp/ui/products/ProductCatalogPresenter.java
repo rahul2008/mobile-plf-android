@@ -22,8 +22,10 @@ import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.RequestListener;
 import com.ecs.demouapp.ui.store.StoreListener;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,6 +116,12 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
             }
         });
     }
+
+    @Override
+    public void getECSProductCatalog(int currentPage, int pageSize, ECSCallback<com.philips.cdp.di.ecs.model.products.Products, Exception> ecsCallback) {
+        ECSUtility.getInstance().getEcsServices().getProductDetail(currentPage,pageSize,ecsCallback);
+    }
+
 
     @Override
     public boolean getProductCatalog(int currentPage, int pageSize, ECSListener listener) {

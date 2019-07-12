@@ -330,6 +330,7 @@
     <string name="iap_voucher_apply_label">Enter your promotion or gift code </string>
     <string name="iap_accepted_code">Accepted codes</string>
     <string name="iap_total_discount">Total Discount</string>
+    <string name="privacy_policy" >  <u> Privacy policy</u> </string>
 
 
     <!--end od IAP strings-->

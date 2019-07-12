@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
@@ -20,9 +21,11 @@ import java.util.Map;
 public class OAuthRequest extends AppInfraAbstractRequest  {
 
     private final ECSCallback<OAuthResponse,Exception> ecsCallback;
+    private final  OAuthInput oAuthInput;
 
-    public OAuthRequest(ECSCallback<OAuthResponse, Exception> ecsCallback) {
-        this.ecsCallback = ecsCallback;
+    public OAuthRequest(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
+        this.ecsCallback = ecsListener;
+        this.oAuthInput = oAuthInput;
     }
 
     /*
@@ -32,11 +35,11 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
     * */
     private Map getJanrainDetail(){
         Map map = new HashMap<String,String>();
-       /* if(store.getUser().getJanRainID()!=null)
-        map.put("janrain",store.getUser().getJanRainID());
-        map.put("grant_type","janrain");
-        map.put("client_id","mobile_android");
-        map.put("client_secret","secret");*/
+        if(oAuthInput.getJanRainID()!=null)
+        map.put("janrain",oAuthInput.getJanRainID());
+        map.put("grant_type",oAuthInput.getGrantType());
+        map.put("client_id",oAuthInput.getClientID());
+        map.put("client_secret",oAuthInput.getClientSecret());
         return  map;
     }
 

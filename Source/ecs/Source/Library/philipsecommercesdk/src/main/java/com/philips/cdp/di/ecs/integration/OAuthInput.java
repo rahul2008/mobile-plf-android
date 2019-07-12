@@ -2,7 +2,7 @@ package com.philips.cdp.di.ecs.integration;
 
 import com.philips.cdp.di.ecs.util.ECSConstant;
 
-public abstract class AuthInput {
+public abstract class OAuthInput {
 
      public abstract String getJanRainID();
 

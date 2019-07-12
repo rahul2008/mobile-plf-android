@@ -42,7 +42,7 @@ public interface ECSServiceProvider {
      *
      * @param eCSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
      */
-    public void getProductDetail(Context context,int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
+    public void getProductDetail(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
 
 
     public void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback);

@@ -3,7 +3,6 @@ package com.philips.cdp.di.ecs.request;
 import android.util.Log;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -12,8 +11,6 @@ import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
-
-import java.util.Map;
 
 public class GetConfigurationRequest extends AppInfraAbstractRequest {
 
@@ -32,9 +29,6 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
     public String getURL() {
         return new ECSURLBuilder().getRawConfigUrl();
     }
-
-
-
 
     @Override
     public void onErrorResponse(VolleyError error) {
