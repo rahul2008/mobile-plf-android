@@ -29,14 +29,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GetProductJSONRequest implements APPInfraJSONRequest {
+public class GetProductRequest extends AppInfraAbstractRequest {
 
     private final int currentPage;
     private int pageSize = 20;
     private final ECSCallback<Products,Exception> ecsCallback;
     private final Context context;
 
-    public GetProductJSONRequest(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback, Context context) {
+    public GetProductRequest(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback, Context context) {
         this.currentPage = currentPage;
         this.ecsCallback = ecsCallback;
         this.context = context;
@@ -116,10 +116,6 @@ public class GetProductJSONRequest implements APPInfraJSONRequest {
     @Override
     public Token getToken() {
         return null;
-    }
-
-    public void executeRequest(){
-        new NetworkController(this).executeRequest();
     }
 
     private void setServerError(VolleyError error) {
