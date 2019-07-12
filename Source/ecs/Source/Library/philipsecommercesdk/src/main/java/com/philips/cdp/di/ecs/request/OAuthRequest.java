@@ -6,37 +6,23 @@ package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Request;
 
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class OAuthRequest extends AbstractRequestModel  {
-    OAuthResponse mOAuthResponse;
+public class OAuthRequest extends AppInfraAbstractRequest  {
 
+    private final ECSCallback<OAuthResponse,Exception> ecsCallback;
 
-    @Override
-    public Object parseResponse(final Object response) {
-        mOAuthResponse = new Gson().fromJson(response.toString(), OAuthResponse.class);
-        return mOAuthResponse;
-    }
-
-    @Override
-    public int getMethod() {
-        return Request.Method.POST;
-    }
-
-    @Override
-    public Map<String, String> requestBody() {
-        return getJanrainDetail();
-    }
-
-    @Override
-    public String getUrl() {
-
-        return new ECSURLBuilder().getOauthUrl();
+    public OAuthRequest(ECSCallback<OAuthResponse, Exception> ecsCallback) {
+        this.ecsCallback = ecsCallback;
     }
 
     /*
@@ -52,5 +38,34 @@ public class OAuthRequest extends AbstractRequestModel  {
         map.put("client_id","mobile_android");
         map.put("client_secret","secret");*/
         return  map;
+    }
+
+    @Override
+    public Map<String, String> getParams() {
+        return getJanrainDetail();
+    }
+
+    @Override
+    public int getMethod() {
+        return Request.Method.GET;
+    }
+
+    @Override
+    public String getURL() {
+        return new ECSURLBuilder().getOauthUrl();
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        ecsCallback.onFailure(error,9000);
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        if (response != null) {
+            OAuthResponse oAuthResponse = new Gson().fromJson(response.toString(),
+                    OAuthResponse.class);
+            ecsCallback.onResponse(oAuthResponse);
+        }
     }
 }

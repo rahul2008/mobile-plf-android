@@ -1,14 +1,8 @@
 package com.philips.cdp.di.ecs.prx.request;
 
-import com.philips.cdp.di.ecs.prx.prxclient.PrxConstants;
-import com.philips.cdp.di.ecs.prx.response.ResponseData;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,32 +13,30 @@ import java.util.Map;
  * This is the URL Builder base class to build all the PRX relevant URLs.
  * @since 1.0.0
  */
-public abstract class PrxRequest {
+public abstract class PrxRequestServiceDiscoveryRequest {
 
     private PrxConstants.Sector mSector;
     private PrxConstants.Catalog mCatalog;
-    private int maxRetries = 0;
-    private int requestTimeOut = 15000;
     private String mCtn;
     private final String mServiceId;
 
     private List<String> mCtns;
 
 
-    public PrxRequest(String ctn, String serviceId) {
+    public PrxRequestServiceDiscoveryRequest(String ctn, String serviceId) {
         this.mCtn = ctn;
         this.mServiceId = serviceId;
     }
 
 
-    public PrxRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
+    public PrxRequestServiceDiscoveryRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         this.mCtn = ctn;
         this.mServiceId = serviceID;
         this.mSector = sector;
         this.mCatalog = catalog;
     }
 
-    public PrxRequest(List<String> ctns, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
+    public PrxRequestServiceDiscoveryRequest(List<String> ctns, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         this.mCtns = ctns;
         this.mServiceId = serviceID;
         this.mSector = sector;
@@ -75,10 +67,6 @@ public abstract class PrxRequest {
     }
 
 
-    public abstract ResponseData getResponseData(JSONObject jsonObject);
-
-
-
     public void getRequestUrlFromAppInfra(final OnUrlReceived listener) {
         Map<String, String> replaceUrl = new HashMap<>();
         replaceUrl.put("ctn", mCtn);
@@ -106,34 +94,4 @@ public abstract class PrxRequest {
         void onSuccess(String url);
     }
 
-    public int getRequestType() {
-        return RequestType.GET.getValue();
-    }
-
-    public Map<String, String> getHeaders() {
-        return null;
-    }
-
-    public Map<String, String> getParams() {
-        return null;
-    }
-
-
-    public int getMaxRetries() {
-        return maxRetries;
-    }
-
-
-    public void setMaxRetries(final int maxRetries) {
-        this.maxRetries = maxRetries;
-    }
-
-
-    public int getRequestTimeOut() {
-        return requestTimeOut;
-    }
-
-    public void setRequestTimeOut(final int requestTimeOut) {
-        this.requestTimeOut = requestTimeOut;
-    }
 }

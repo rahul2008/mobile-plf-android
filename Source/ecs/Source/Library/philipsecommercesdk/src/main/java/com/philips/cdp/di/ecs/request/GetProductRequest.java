@@ -1,7 +1,5 @@
 package com.philips.cdp.di.ecs.request;
 
-import android.content.Context;
-import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -11,10 +9,9 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.ProductsEntity;
 import com.philips.cdp.di.ecs.network.ModelConstants;
-import com.philips.cdp.di.ecs.network.NetworkConstants;
-import com.philips.cdp.di.ecs.prx.prxclient.PrxConstants;
-import com.philips.cdp.di.ecs.prx.request.ProductSummaryListServiceDiscoveryRequest;
-import com.philips.cdp.di.ecs.prx.request.PrxRequest;
+import com.philips.cdp.di.ecs.prx.request.ProductSummaryListServiceDiscoveryRequestServiceDiscoveryRequest;
+import com.philips.cdp.di.ecs.prx.request.PrxConstants;
+import com.philips.cdp.di.ecs.prx.request.PrxRequestServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
 import org.json.JSONObject;
@@ -24,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GetProductRequest extends AppInfraAbstractRequest implements PrxRequest.OnUrlReceived{
+public class GetProductRequest extends AppInfraAbstractRequest implements PrxRequestServiceDiscoveryRequest.OnUrlReceived{
 
     private final int currentPage;
     private int pageSize = 20;
@@ -76,14 +73,13 @@ public class GetProductRequest extends AppInfraAbstractRequest implements PrxReq
                 ctns.add(productsEntity.getCode());
             }
             //Call PRX here
-            ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
+            ProductSummaryListServiceDiscoveryRequestServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
             productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(this);
         }
     }
 
-    private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
-        ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = new ProductSummaryListServiceDiscoveryRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
-        productSummaryListServiceDiscoveryRequest.setRequestTimeOut(NetworkConstants.DEFAULT_TIMEOUT_MS);
+    private ProductSummaryListServiceDiscoveryRequestServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
+        ProductSummaryListServiceDiscoveryRequestServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = new ProductSummaryListServiceDiscoveryRequestServiceDiscoveryRequest(ctns, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER, null);
         return productSummaryListServiceDiscoveryRequest;
     }
 
