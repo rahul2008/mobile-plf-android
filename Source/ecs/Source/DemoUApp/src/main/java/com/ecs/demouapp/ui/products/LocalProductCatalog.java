@@ -17,6 +17,7 @@ import com.ecs.demouapp.ui.response.products.Products;
 import com.ecs.demouapp.ui.response.products.ProductsEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,12 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     @Override
     public void getCatalogCount(ECSListener listener) {
     }
+
+    @Override
+    public void getECSProductCatalog(int currentPage, int pageSize, ECSCallback<com.philips.cdp.di.ecs.model.products.Products, Exception> ecsCallback) {
+
+    }
+
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {

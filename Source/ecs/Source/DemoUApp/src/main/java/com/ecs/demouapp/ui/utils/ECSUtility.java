@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.ecs.demouapp.ui.integration.ECSOrderFlowCompletion;
 import com.ecs.demouapp.ui.response.products.PaginationEntity;
+import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 /**
@@ -104,6 +105,16 @@ public class ECSUtility {
 
     public void setPaginationEntity(PaginationEntity paginationEntity) {
         this.paginationEntity = paginationEntity;
+    }
+
+    public ECSServices getEcsServices() {
+        return ecsServices;
+    }
+
+    ECSServices ecsServices;
+
+    public void setEcsService(ECSServices ecsServices) {
+        this.ecsServices = ecsServices;
     }
 
     private static class IAPUtilitySingleton

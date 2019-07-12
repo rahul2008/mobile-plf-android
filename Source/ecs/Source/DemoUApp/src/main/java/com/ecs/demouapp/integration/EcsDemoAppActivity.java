@@ -149,10 +149,12 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             public String getBaseUrl() {
                 return "https://acc.us.pil.shop.philips.com/";
             }
-        }, new AppInfra.Builder().build(getApplicationContext()), new ECSCallback<ECSServices, Exception>() {
+         }, new AppInfra.Builder().build(getApplicationContext()), new ECSCallback<ECSServices, Exception>() {
             @Override
             public void onResponse(ECSServices result) {
                 ecsServices = result;
+
+                ECSUtility.getInstance().setEcsService(ecsServices);
             }
 
             @Override
@@ -548,24 +550,24 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         if (view == mShoppingCart) {
             launchIAP(ECSLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
-            ecsServices.getIAPConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
-                @Override
-                public void onResponse(HybrisConfigResponse result) {
-
-                    ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
-                    ECSConfig.INSTANCE.setSiteId(result.getSiteId());
-                    System.out.println(result.getSiteId());
-                }
-
-                @Override
-                public void onFailure(Exception error, int errorCode) {
-
-                }
-            });
-            //launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
+//            ecsServices.getIAPConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
+//                @Override
+//                public void onResponse(HybrisConfigResponse result) {
+//
+//                    ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
+//                    ECSConfig.INSTANCE.setSiteId(result.getSiteId());
+//                    System.out.println(result.getSiteId());
+//                }
+//
+//                @Override
+//                public void onFailure(Exception error, int errorCode) {
+//
+//                }
+//            });
+            launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
 
-            ecsServices.getProductDetail(this,0, 20, new ECSCallback<Products, Exception>() {
+           /* ecsServices.getProductDetail(0, 20, new ECSCallback<Products, Exception>() {
                 @Override
                 public void onResponse(Products result) {
 
@@ -576,8 +578,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 public void onFailure(Exception error, int errorCode) {
 
                 }
-            });
-            //launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
+            });*/
+            launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
 
             if (null != mCategorizedProductList && mCategorizedProductList.size() > 0) {

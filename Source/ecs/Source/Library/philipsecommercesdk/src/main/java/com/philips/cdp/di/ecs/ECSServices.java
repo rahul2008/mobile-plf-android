@@ -3,13 +3,13 @@ package com.philips.cdp.di.ecs;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.di.ecs.integration.AuthInput;
+import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSInput;
-import com.philips.cdp.di.ecs.integration.ECSListener;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 
@@ -50,8 +50,9 @@ public class ECSServices implements ECSServiceProvider {
         return ecsInput.getLocale()!=null && appInfra!=null;
     }
 
-    public void hybrisOathAuthentication(AuthInput authInput,ECSListener ecsListener){
-        ECSConfig.INSTANCE.setEcsListener(ecsListener);
+
+    public void hybrisOathAuthentication(OAuthInput OAuthInput, ECSCallback<OAuthResponse,Exception> ecsListener){
+        mECSManager.getOAuth(OAuthInput,ecsListener);
     }
 
 
@@ -65,8 +66,8 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void getProductDetail(Context context,int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
-        mECSManager.getProductDetail(context,currentPage,pageSize,eCSCallback);
+    public void getProductDetail(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
+        mECSManager.getProductDetail(currentPage,pageSize,eCSCallback);
     }
 
 

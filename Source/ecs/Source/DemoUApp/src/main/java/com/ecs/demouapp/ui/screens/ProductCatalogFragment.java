@@ -140,6 +140,14 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
         mSearchBox = rootView.findViewById(R.id.iap_search_box);
         mBannerLayout = rootView.findViewById(R.id.ll_banner_place_holder);
+        TextView mPrivacyPolicy = rootView.findViewById(R.id.iap_privacy);
+
+        mPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFragment(WebPrivacy.createInstance(new Bundle(), AnimationType.NONE), null, true);
+            }
+        });
 
         if (ECSUtility.getInstance().getBannerView() != null) {
             if (ECSUtility.getInstance().getBannerView().getParent() != null) {

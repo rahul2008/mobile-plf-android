@@ -1,7 +1,6 @@
 package com.philips.cdp.di.ecs.util;
 
 import com.philips.cdp.di.ecs.integration.ECSInput;
-import com.philips.cdp.di.ecs.integration.ECSListener;
 import com.philips.platform.appinfra.AppInfra;
 
 public enum ECSConfig {
@@ -10,7 +9,6 @@ public enum ECSConfig {
 
     ECSInput ecsInput;
     AppInfra appInfra;
-    ECSListener ecsListener;
 
     public String getRootCategory() {
         return rootCategory;
@@ -47,11 +45,4 @@ public enum ECSConfig {
         this.appInfra = appInfra;
     }
 
-    public ECSListener getEcsListener() {
-        return ecsListener;
-    }
-
-    public void setEcsListener(ECSListener ecsListener) {
-        this.ecsListener = ecsListener;
-    }
 }
