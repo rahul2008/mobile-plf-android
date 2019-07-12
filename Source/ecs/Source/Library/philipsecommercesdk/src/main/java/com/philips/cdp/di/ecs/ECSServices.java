@@ -13,7 +13,8 @@ import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 
-import static com.philips.cdp.di.ecs.integration.ECSErrorReason.INITIALIZATION_FAILURE;
+
+import static com.philips.cdp.di.ecs.util.ECSErrorReason.INITIALIZATION_FAILURE;
 
 public class ECSServices implements ECSServiceProvider {
 
