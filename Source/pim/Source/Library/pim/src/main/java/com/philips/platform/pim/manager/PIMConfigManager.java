@@ -7,6 +7,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.utilities.PIMInitState;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class PIMConfigManager {
             downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
         else {
             mLoggingInterface.log(DEBUG, TAG, "downloadSDServiceURLs skipped as user is logged in. ");
+            PIMSettingManager.getInstance().setPimOidcConfigration(new PIMOIDCConfigration());
             PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_SUCCESS);
         }
     }

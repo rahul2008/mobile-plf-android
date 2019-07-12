@@ -25,7 +25,6 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
         usrTokenManager = new USRTokenManager(pimSettingManager.getAppInfraInterface());
     }
 
-
     public void migrateUSRToPIM() {
         if (usrTokenManager.isUSRUserAvailable()) {
             usrTokenManager.fetchRefreshedAccessToken(this);
