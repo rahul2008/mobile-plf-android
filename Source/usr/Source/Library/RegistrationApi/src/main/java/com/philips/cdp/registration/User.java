@@ -617,17 +617,23 @@ public class User {
 
         if (RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable()) {
             RLog.d(TAG, "authorizeHSDP:hsdpLogin: HSDP Flow = ");
-            HSDPLoginService HSDPLoginService = new HSDPLoginService(mContext);
+            HSDPLoginService hsdpLoginService = new HSDPLoginService(mContext);
             if (hsdpAuthenticationListener != null) {
                 RLog.d(TAG, "authorizeHSDP: with mTraditionalLoginHandler ");
-                inithsdpLoginService(hsdpAuthenticationListener, HSDPLoginService);
-
+                hsdpLoginService.hsdpLogin(getAccessToken(), getUserId(), hsdpAuthenticationListener);
             } else {
                 throw new RuntimeException("Please provide HSDPAuthentiationListner");
             }
         }
     }
 
+    private String getUserId() {
+        if (RegistrationHelper.getInstance().isMobileFlow() && getEmail().equals("null")) {
+            return getMobile();
+        } else {
+            return getEmail();
+        }
+    }
     private void inithsdpLoginService(HSDPAuthenticationListener hsdpAuthenticationListener, HSDPLoginService HSDPLoginService) {
         if(RegistrationHelper.getInstance().isMobileFlow() && getEmail().equals("null")){
             HSDPLoginService.hsdpLogin(getAccessToken(), getMobile(), hsdpAuthenticationListener);
