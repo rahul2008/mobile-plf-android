@@ -28,7 +28,7 @@ public interface ECSServiceProvider {
      *
      * @param eCSCallback the iapsdk callback success block containing IAPConfiguration object
      */
-    public void getIAPConfig(ECSCallback<HybrisConfigResponse, Exception> eCSCallback);
+    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> eCSCallback);
 
 
     /**
@@ -44,7 +44,7 @@ public interface ECSServiceProvider {
      *
      * @param eCSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
      */
-    void getProductDetail(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
+    void getProductList(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
 
 
     void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback);

@@ -59,14 +59,14 @@ public class ECSServices implements ECSServiceProvider {
 
 
     @Override
-    public void getIAPConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
 
         mECSManager.getHybrisConfigResponse(ecsCallback);
 
     }
 
     @Override
-    public void getProductDetail(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
+    public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
         mECSManager.getProductDetail(currentPage,pageSize,eCSCallback);
     }
 
