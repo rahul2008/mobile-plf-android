@@ -3,6 +3,8 @@ package com.philips.cdp.di.ecs.integration;
 
 import android.content.Context;
 
+import com.philips.cdp.di.ecs.model.asset.Assets;
+import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 
@@ -42,8 +44,12 @@ public interface ECSServiceProvider {
      *
      * @param eCSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
      */
-    public void getProductDetail(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
+    void getProductDetail(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
 
 
-    public void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback);
+    void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback);
+
+    void getProductAsset(String ctn ,ECSCallback<Assets,Exception> ecsCallback);
+
+    void getProductDisclaimer(String ctn ,ECSCallback<Disclaimers,Exception> ecsCallback);
 }

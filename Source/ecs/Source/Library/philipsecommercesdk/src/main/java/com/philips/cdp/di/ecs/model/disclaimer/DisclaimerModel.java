@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.prx.summary;
+package com.philips.cdp.di.ecs.model.disclaimer;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -7,78 +7,63 @@ import com.philips.cdp.di.ecs.prx.response.ResponseData;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-/**
- * Created by philips on 2/28/19.
- */
-
-public class ECSProductSummary extends ResponseData {
+public class DisclaimerModel extends ResponseData {
 
     @SerializedName("success")
     @Expose
     private boolean success;
     @SerializedName("data")
     @Expose
-    private ArrayList<Data> data;
+    private Data data;
+
 
     /**
      * No args constructor for use in serialization
-     *
      */
-    public ECSProductSummary() {
+    public DisclaimerModel() {
     }
 
     /**
-     *
      * @param data
      * @param success
      */
-    public ECSProductSummary(boolean success, ArrayList<Data> data) {
+    public DisclaimerModel(boolean success, Data data) {
         this.success = success;
         this.data = data;
     }
 
     /**
-     *
-     * @return
-     * The success
+     * @return The success
      */
     public boolean isSuccess() {
         return success;
     }
 
     /**
-     *
-     * @param success
-     * The success
+     * @param success The success
      */
     public void setSuccess(boolean success) {
         this.success = success;
     }
 
     /**
-     *
-     * @return
-     * The data
+     * @return The data
      */
-    public ArrayList<Data> getData() {
+    public Data getData() {
         return data;
     }
 
     /**
-     *
-     * @param data
-     * The data
+     * @param data The data
      */
-    public void setData(ArrayList<Data> data) {
+    public void setData(Data data) {
         this.data = data;
     }
 
     @Override
     public ResponseData parseJsonResponseData(JSONObject response) {
         if (response != null) {
-            return new Gson().fromJson(response.toString(), ECSProductSummary.class);
+            return new Gson().fromJson(response.toString(), DisclaimerModel.class);
         }
         return null;
     }

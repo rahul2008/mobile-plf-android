@@ -7,6 +7,8 @@ import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
+import com.philips.cdp.di.ecs.model.asset.Assets;
+import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
@@ -57,8 +59,6 @@ public class ECSServices implements ECSServiceProvider {
     }
 
 
-
-
     @Override
     public void getIAPConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
 
@@ -77,5 +77,15 @@ public class ECSServices implements ECSServiceProvider {
         mECSServices=null;
         ecsCallback.onResponse(true);
 
+    }
+
+    @Override
+    public void getProductAsset(String ctn, ECSCallback<Assets, Exception> ecsCallback) {
+        mECSManager.getProductAsset(ctn,ecsCallback);
+    }
+
+    @Override
+    public void getProductDisclaimer(String ctn, ECSCallback<Disclaimers, Exception> ecsCallback) {
+        mECSManager.getProductDisclaimer(ctn,ecsCallback);
     }
 }

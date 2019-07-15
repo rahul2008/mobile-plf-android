@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.prx.request;
+package com.philips.cdp.di.ecs.prx.serviceDiscovery;
 
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -13,34 +13,22 @@ import java.util.Map;
  * This is the URL Builder base class to build all the PRX relevant URLs.
  * @since 1.0.0
  */
-public abstract class PrxRequestServiceDiscoveryRequest {
+public abstract class ServiceDiscoveryRequest {
 
-    private PrxConstants.Sector mSector;
-    private PrxConstants.Catalog mCatalog;
     private String mCtn;
     private final String mServiceId;
 
     private List<String> mCtns;
 
 
-    public PrxRequestServiceDiscoveryRequest(String ctn, String serviceId) {
-        this.mCtn = ctn;
-        this.mServiceId = serviceId;
-    }
-
-
-    public PrxRequestServiceDiscoveryRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
+    public ServiceDiscoveryRequest(String ctn, String serviceID) {
         this.mCtn = ctn;
         this.mServiceId = serviceID;
-        this.mSector = sector;
-        this.mCatalog = catalog;
     }
 
-    public PrxRequestServiceDiscoveryRequest(List<String> ctns, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
-        this.mCtns = ctns;
+    public ServiceDiscoveryRequest(List<String> mCtns, String serviceID) {
+        this.mCtns = mCtns;
         this.mServiceId = serviceID;
-        this.mSector = sector;
-        this.mCatalog = catalog;
     }
 
 
@@ -50,20 +38,11 @@ public abstract class PrxRequestServiceDiscoveryRequest {
 
 
     public PrxConstants.Sector getSector() {
-        return mSector;
+        return PrxConstants.Sector.B2C;
     }
-
-    public void setSector(final PrxConstants.Sector mSector) {
-        this.mSector = mSector;
-    }
-
 
     public PrxConstants.Catalog getCatalog() {
-        return mCatalog;
-    }
-
-    public void setCatalog(PrxConstants.Catalog catalog) {
-        this.mCatalog = catalog;
+        return PrxConstants.Catalog.CONSUMER;
     }
 
 
@@ -72,7 +51,6 @@ public abstract class PrxRequestServiceDiscoveryRequest {
         replaceUrl.put("ctn", mCtn);
         replaceUrl.put("sector", getSector().toString());
         replaceUrl.put("catalog", getCatalog().toString());
-        // replaceUrl.put("locale", locale);
 
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(mServiceId);

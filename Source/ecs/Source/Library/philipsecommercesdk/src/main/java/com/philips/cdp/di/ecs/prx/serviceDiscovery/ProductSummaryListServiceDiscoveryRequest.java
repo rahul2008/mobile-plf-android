@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.prx.request;
+package com.philips.cdp.di.ecs.prx.serviceDiscovery;
 
 
 import android.text.TextUtils;
@@ -16,17 +16,14 @@ import java.util.Map;
 /**
  * The type Product summary request.
  */
-public class ProductSummaryListServiceDiscoveryRequestServiceDiscoveryRequest extends PrxRequestServiceDiscoveryRequest {
+public class ProductSummaryListServiceDiscoveryRequest extends ServiceDiscoveryRequest {
 
     private static final String PRXSummaryDataServiceID = "prxclient.summarylist";
-    private String mRequestTag = null;
     private List<String> ctns;
 
-    public ProductSummaryListServiceDiscoveryRequestServiceDiscoveryRequest(List<String> ctns, PrxConstants.Sector sector,
-                                                                            PrxConstants.Catalog catalog, String requestTag) {
-        super(ctns, PRXSummaryDataServiceID, sector, catalog);
+    public ProductSummaryListServiceDiscoveryRequest(List<String> ctns) {
+        super(ctns, PRXSummaryDataServiceID);
         this.ctns = ctns;
-        this.mRequestTag = requestTag;
     }
 
     public void getRequestUrlFromAppInfra(final OnUrlReceived listener) {
