@@ -13,14 +13,9 @@ public enum ECSConfig {
     HybrisConfigResponse config;
 
     public boolean isAppConfigured() {
-        return isAppConfigured;
+        return rootCategory!=null && siteId!=null;
     }
 
-    public void setAppConfigured(boolean appConfigured) {
-        isAppConfigured = appConfigured;
-    }
-
-    boolean isAppConfigured;
 
     public String getRootCategory() {
         return rootCategory;
