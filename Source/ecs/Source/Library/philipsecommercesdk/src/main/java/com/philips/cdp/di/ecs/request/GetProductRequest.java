@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.cdp.di.ecs.util.ECSErrorReason.UNKNOWN_ERROR;
+
 public class GetProductRequest extends AppInfraAbstractRequest implements PrxRequestServiceDiscoveryRequest.OnUrlReceived{
 
     private final int currentPage;
@@ -57,7 +59,7 @@ public class GetProductRequest extends AppInfraAbstractRequest implements PrxReq
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,9000);
+        ecsCallback.onFailure(new Exception(UNKNOWN_ERROR),4999);
     }
 
     @Override
