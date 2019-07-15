@@ -9,6 +9,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMUserMigrationListener;
 import com.philips.platform.pim.manager.PIMLoginManager;
@@ -128,7 +129,7 @@ public class PIMMigrationManagerTest extends TestCase {
         when(mockPimLoginManager.createAuthRequestUriForMigration(any())).thenReturn(null);
         pimMigrationManager.performAuthorization(ID_TOKEN_HINT);
         verify(mockLoggingInterface).log(DEBUG, TAG, "performAuthorization failed. Cause : authorizationRequest is null.");
-        verify(mockMigrationListener).onUserMigrationFailed();
+        verify(mockMigrationListener).onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
     }
 
 
@@ -157,7 +158,7 @@ public class PIMMigrationManagerTest extends TestCase {
     public void testParseIDAssertionForJson_Exception() throws Exception {
         JSONObject jsonResponse = new JSONObject();
         pimMigrationManager.parseIDAssertionFromJSONResponse(jsonResponse.toString());
-        verify(mockMigrationListener).onUserMigrationFailed();
+        verify(mockMigrationListener).onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
     }
 
     @Test
