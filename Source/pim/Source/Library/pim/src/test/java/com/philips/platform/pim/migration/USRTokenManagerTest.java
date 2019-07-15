@@ -138,20 +138,20 @@ public class USRTokenManagerTest extends TestCase {
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
         verify(mockLoggingInterface).log(DEBUG, PIMMigrationManager.class.getSimpleName(), "Migration Failed!! " + " Error in downloadUserUrlFromSD : " + "Not able to fetch config url");
     }
-
-    @Test
-    public void test_GetServicesWithCountryPreference_OnSuccess_When_UserIsSignedIn() throws Exception {
-        Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
-        when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
-        when(mockServiceDiscoveryService.getConfigUrls()).thenReturn("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
-        when(mockServiceDiscoveryService.getLocale()).thenReturn("en_US");
-        Whitebox.setInternalState(usrTokenManager, "signedInUser", signedUserData());
-        when(mockAppInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockAppConfigurationError)).thenReturn(usrClientIds());
-        usrTokenManager.fetchRefreshedAccessToken(mockRefreshUSRTokenListener);
-        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
-        mockOnGetServiceUrlMapListener = captor.getValue();
-        mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-    }
+//
+//    @Test
+//    public void test_GetServicesWithCountryPreference_OnSuccess_When_UserIsSignedIn() throws Exception {
+//        Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
+//        when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
+//        when(mockServiceDiscoveryService.getConfigUrls()).thenReturn("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
+//        when(mockServiceDiscoveryService.getLocale()).thenReturn("en_US");
+//        Whitebox.setInternalState(usrTokenManager, "signedInUser", signedUserData());
+//        when(mockAppInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockAppConfigurationError)).thenReturn(usrClientIds());
+//        usrTokenManager.fetchRefreshedAccessToken(mockRefreshUSRTokenListener);
+//        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+//        mockOnGetServiceUrlMapListener = captor.getValue();
+//        mockOnGetServiceUrlMapListener.onSuccess(mockMap);
+//    }
 
 
     private String signedUserData() {
