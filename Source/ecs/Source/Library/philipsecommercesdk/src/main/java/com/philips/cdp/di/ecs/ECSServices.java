@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -67,7 +68,7 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
-        mECSManager.getProductDetail(currentPage,pageSize,eCSCallback);
+        mECSManager.getProductList(currentPage,pageSize,eCSCallback);
     }
 
 
@@ -80,11 +81,14 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void getProductAsset(String ctn, ECSCallback<Assets, Exception> ecsCallback) {
-        mECSManager.getProductAsset(ctn,ecsCallback);
     }
 
     @Override
     public void getProductDisclaimer(String ctn, ECSCallback<Disclaimers, Exception> ecsCallback) {
-        mECSManager.getProductDisclaimer(ctn,ecsCallback);
+    }
+
+    @Override
+    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+        mECSManager.getProductDetail(product,ecsCallback);
     }
 }

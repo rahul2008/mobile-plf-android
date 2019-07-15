@@ -14,7 +14,7 @@ public class Products {
     private CurrentQueryEntity currentQuery;
     private String freeTextSearch;
     private PaginationEntity pagination;
-    private List<ProductsEntity> products;
+    private List<Product> products;
     private List<SortsEntity> sorts;
     private ECSProductSummary ecsProductSummary;
 
@@ -34,11 +34,11 @@ public class Products {
         return pagination;
     }
 
-    public List<ProductsEntity> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductsEntity> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 

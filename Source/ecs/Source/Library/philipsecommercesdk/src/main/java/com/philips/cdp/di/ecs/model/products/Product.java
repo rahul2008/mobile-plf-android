@@ -5,12 +5,11 @@
 
 package com.philips.cdp.di.ecs.model.products;
 
-import com.philips.cdp.di.ecs.model.products.DiscountPriceEntity;
-import com.philips.cdp.di.ecs.model.products.PriceEntity;
-import com.philips.cdp.di.ecs.model.products.PriceRangeEntity;
+import com.philips.cdp.di.ecs.model.asset.Assets;
+import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.summary.Data;
 
-public class ProductsEntity {
+public class Product {
 
     private boolean availableForPickup;
     private String code;
@@ -21,6 +20,25 @@ public class ProductsEntity {
     private StockEntity stock;
     private String url;
     private Data summary;
+
+    public Assets getAssets() {
+        return assets;
+    }
+
+    public void setAssets(Assets assets) {
+        this.assets = assets;
+    }
+
+    public com.philips.cdp.di.ecs.model.disclaimer.Disclaimers getDisclaimers() {
+        return Disclaimers;
+    }
+
+    public void setDisclaimers(com.philips.cdp.di.ecs.model.disclaimer.Disclaimers disclaimers) {
+        Disclaimers = disclaimers;
+    }
+
+    private Assets assets;
+    private Disclaimers Disclaimers;
 
     public boolean isAvailableForPickup() {
         return availableForPickup;

@@ -7,7 +7,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Products;
-import com.philips.cdp.di.ecs.model.products.ProductsEntity;
+import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.network.ModelConstants;
@@ -70,11 +70,11 @@ public class GetProductRequest extends AppInfraAbstractRequest implements OnUrlR
             mProducts = new Gson().fromJson(response.toString(),
                     Products.class);
 
-            List<ProductsEntity> productsEntities = mProducts.getProducts();
+            List<Product> productsEntities = mProducts.getProducts();
             ArrayList<String> ctns = new ArrayList<>();
 
-            for (ProductsEntity productsEntity : productsEntities) {
-                ctns.add(productsEntity.getCode());
+            for (Product product : productsEntities) {
+                ctns.add(product.getCode());
             }
             //Call PRX here
             ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
@@ -101,9 +101,9 @@ public class GetProductRequest extends AppInfraAbstractRequest implements OnUrlR
                     }
                 }
 
-                for (ProductsEntity productsEntity : mProducts.getProducts()) {
-                    Data productSummaryData = summaryCtnMap.get(productsEntity.getCode());
-                    productsEntity.setSummary(productSummaryData);
+                for (Product product : mProducts.getProducts()) {
+                    Data productSummaryData = summaryCtnMap.get(product.getCode());
+                    product.setSummary(productSummaryData);
                 }
 
                 ecsCallback.onResponse(mProducts);
