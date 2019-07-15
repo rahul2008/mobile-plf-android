@@ -13,6 +13,7 @@ import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.network.ModelConstants;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
 
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest.OnUrlReceived;
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.UNKNOWN_ERROR;
+
 
 public class GetProductRequest extends AppInfraAbstractRequest implements OnUrlReceived {
 
@@ -60,7 +61,7 @@ public class GetProductRequest extends AppInfraAbstractRequest implements OnUrlR
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(new Exception(UNKNOWN_ERROR), 4999);
+        ecsCallback.onFailure(ECSErrors.getNetworkErrorMessage(error), 4999);
     }
 
     @Override
