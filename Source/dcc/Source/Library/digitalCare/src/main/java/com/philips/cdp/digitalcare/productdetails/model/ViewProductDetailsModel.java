@@ -58,12 +58,12 @@ public class ViewProductDetailsModel {
         this.mManualLink = manualLink;
     }
 
-    public String getmDfuLink() {
+    public String getDfuLink() {
         return mDfuLink;
     }
 
-    public void setmDfuLink(String mDfuLink) {
-        this.mDfuLink = mDfuLink;
+    public void setDfuLink(String DfuLink) {
+        this.mDfuLink = DfuLink;
     }
 
     public String getProductInfoLink() {

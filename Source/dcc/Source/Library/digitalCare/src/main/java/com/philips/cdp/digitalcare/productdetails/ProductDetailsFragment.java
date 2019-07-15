@@ -331,7 +331,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     continue;
                 }else if(titles.getText(i).equals(getResources().getString(R.string.dcc_productInformationOnWebsite)) && mViewProductDetailsModel.getProductInfoLink() == null){
                     continue;
-                } else if(titles.getText(i).equals(getResources().getString(R.string.dcc_productDownloadDfu)) && mViewProductDetailsModel.getmDfuLink() == null){
+                } else if(titles.getText(i).equals(getResources().getString(R.string.dcc_productDownloadDfu)) && mViewProductDetailsModel.getDfuLink() == null){
                     continue;
                 }
                 menus.add(new MenuItem(R.drawable.consumercare_list_right_arrow, titles.getResourceId(i, 0)));
@@ -433,7 +433,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
             }  else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                     R.string.dcc_productDownloadDfu))) {
-                String mFilePath = mViewProductDetailsModel.getmDfuLink();
+                String mFilePath = mViewProductDetailsModel.getDfuLink();
 
                 if ((mFilePath != null) && (!mFilePath.equals(""))) {
 
@@ -538,7 +538,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public void onUpdateAssetData() {
         ViewProductDetailsModel viewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         mManualPdf = viewProductDetailsModel.getManualLink();
-        mDfuPdf = viewProductDetailsModel.getmDfuLink();
+        mDfuPdf = viewProductDetailsModel.getDfuLink();
         ArrayList<Integer> disabledButtons = new ArrayList<>();
         if (mManualPdf != null) {
             viewProductDetailsModel.setManualLink(mManualPdf);
@@ -546,7 +546,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             disabledButtons.add(R.string.dcc_productDownloadManual);
         }
         if (mDfuPdf != null) {
-            viewProductDetailsModel.setmDfuLink(mDfuPdf);
+            viewProductDetailsModel.setDfuLink(mDfuPdf);
         } else {
             disabledButtons.add(R.string.dcc_productDownloadDfu);
         }

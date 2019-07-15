@@ -377,7 +377,7 @@ public class PrxWrapper {
                             }
 
                             if(dfuManual != null) {
-                              viewProductDetailsData.setmDfuLink(dfuManual);
+                              viewProductDetailsData.setDfuLink(dfuManual);
                             }
                             if (qsgManual != null) {
                                 viewProductDetailsData.setManualLink(qsgManual);
