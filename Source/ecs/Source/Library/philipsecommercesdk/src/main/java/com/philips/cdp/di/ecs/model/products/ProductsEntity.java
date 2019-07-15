@@ -8,7 +8,7 @@ package com.philips.cdp.di.ecs.model.products;
 import com.philips.cdp.di.ecs.model.products.DiscountPriceEntity;
 import com.philips.cdp.di.ecs.model.products.PriceEntity;
 import com.philips.cdp.di.ecs.model.products.PriceRangeEntity;
-import com.philips.cdp.di.ecs.prx.summary.Data;
+import com.philips.cdp.di.ecs.model.summary.Data;
 
 public class ProductsEntity {
 

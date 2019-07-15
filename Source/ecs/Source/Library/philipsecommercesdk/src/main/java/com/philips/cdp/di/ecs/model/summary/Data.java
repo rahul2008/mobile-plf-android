@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.prx.summary;
+package com.philips.cdp.di.ecs.model.summary;
 
 /**
  * Description :

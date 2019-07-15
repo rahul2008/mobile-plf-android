@@ -43,8 +43,10 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
 
         if(response!=null){
             if(response.has("catalogId") && response.has("rootCategory") && response.has("siteId")){
+
                 HybrisConfigResponse resp = new Gson().fromJson(response.toString(),
                         HybrisConfigResponse.class);
+
                 eCSCallback.onResponse(resp);
             }else if(response.has("errors") ) {
                 JSONArray errors = response.optJSONArray("errors");

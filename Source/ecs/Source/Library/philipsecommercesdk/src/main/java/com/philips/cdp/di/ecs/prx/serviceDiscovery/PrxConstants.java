@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.prx.request;
+package com.philips.cdp.di.ecs.prx.serviceDiscovery;
 
 
 
