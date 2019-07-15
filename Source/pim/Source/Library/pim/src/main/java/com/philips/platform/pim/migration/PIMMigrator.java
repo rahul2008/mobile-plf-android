@@ -1,7 +1,6 @@
 package com.philips.platform.pim.migration;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
@@ -42,22 +41,16 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
     @Override
     public void onRefreshTokenFailed(Error error) {
         mLoggingInterface.log(DEBUG, TAG, "Refresh access token failed.");
-        showToastMessage("User migration failed!");
     }
 
     @Override
     public void onUserMigrationSuccess() {
+        mLoggingInterface.log(DEBUG, TAG, "onUserMigrationSuccess");
         usrTokenManager.deleteUSRFromSecureStorage();
-        showToastMessage("User is migrated PIM Successfully");
     }
 
     @Override
-    public void onUserMigrationFailed() {
-        showToastMessage("User migration failed!");
-    }
-
-    //TODO: Shashi, Need to remove later, added toast message for tester verfifcation
-    private void showToastMessage(String toastMsg){
-        Toast.makeText(context,toastMsg,Toast.LENGTH_LONG).show();
+    public void onUserMigrationFailed(Error error) {
+        mLoggingInterface.log(DEBUG, TAG, "onUserMigrationFailed");
     }
 }
