@@ -39,7 +39,6 @@ public class ECSServices implements ECSServiceProvider {
      */
     public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
 
-        ECSServices iapSdkService =null;
         if(isValidInput(ecsInput,appInfra)){  // if locale, propositionID are verified
             mECSServices=new ECSServices(ecsInput,appInfra);
             iapsdkCallback.onResponse(mECSServices);
@@ -59,9 +58,8 @@ public class ECSServices implements ECSServiceProvider {
     }
 
 
-    @Override
-    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
 
+    private void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
         mECSManager.getHybrisConfigResponse(ecsCallback);
 
     }
@@ -73,22 +71,14 @@ public class ECSServices implements ECSServiceProvider {
 
 
     @Override
+    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+        mECSManager.getProductDetail(product,ecsCallback);
+    }
+
+    @Override
     public void InvalidateECS(ECSCallback<Boolean,Exception> ecsCallback) {
         mECSServices=null;
         ecsCallback.onResponse(true);
 
-    }
-
-    @Override
-    public void getProductAsset(String ctn, ECSCallback<Assets, Exception> ecsCallback) {
-    }
-
-    @Override
-    public void getProductDisclaimer(String ctn, ECSCallback<Disclaimers, Exception> ecsCallback) {
-    }
-
-    @Override
-    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
-        mECSManager.getProductDetail(product,ecsCallback);
     }
 }

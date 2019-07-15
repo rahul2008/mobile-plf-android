@@ -16,10 +16,9 @@ import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
 import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
 import com.philips.cdp.di.ecs.request.GetProductRequest;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 public class ECSManager {
-
-
 
     void getHybrisConfigResponse(ECSCallback<HybrisConfigResponse, Exception> eCSCallback){  new Thread(new Runnable() {
         @Override
@@ -35,6 +34,7 @@ public class ECSManager {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 new GetProductRequest(currentPage, pageSize, ecsCallback).executeRequest();
             }
         }).start();
