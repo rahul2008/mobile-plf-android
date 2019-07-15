@@ -9,8 +9,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
-import com.philips.platform.pim.manager.PIMAuthManager;
-import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 
 import junit.framework.TestCase;
@@ -23,7 +21,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -33,7 +30,6 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -132,7 +128,9 @@ public class USRTokenManagerTest extends TestCase {
         when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
         when(mockServiceDiscoveryService.getConfigUrls()).thenReturn("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
         when(mockServiceDiscoveryService.getLocale()).thenReturn("en_US");
-        usrTokenManager.isUSRUserAvailable();
+        //doReturn(signedUserData()).when(usrTokenManager,"fetchDataFromSecureStorage","jr_capture_signed_in_user");
+        //usrTokenManager.isUSRUserAvailable();
+        Whitebox.setInternalState(usrTokenManager,"signedInUser",signedUserData());
         usrTokenManager.fetchRefreshedAccessToken(mockRefreshUSRTokenListener);
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();

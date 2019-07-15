@@ -30,14 +30,13 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
             usrTokenManager.fetchRefreshedAccessToken(this);
         } else {
             mLoggingInterface.log(DEBUG, TAG, "USR user is not available so assertion not required");
-            showToastMessage("User migration failed!");
         }
     }
 
     @Override
     public void onRefreshTokenSuccess(String accessToken) {
-        PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context);
-        pimMigrationManager.migrateUser(accessToken,this);
+        PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context,this);
+        pimMigrationManager.migrateUser(accessToken);
     }
 
     @Override

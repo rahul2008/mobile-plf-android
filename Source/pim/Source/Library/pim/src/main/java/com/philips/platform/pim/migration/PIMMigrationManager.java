@@ -30,7 +30,6 @@ class PIMMigrationManager {
 
     //TODO: Shashi, This is temporary, Need to fetch from OIDC configuration later.
     private String ID_ASSERTION_ENDPOINT = "https://stg.api.eu-west-1.philips.com/consumerIdentityService/identityAssertions/";
-
     private final String TAG = PIMMigrationManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
     private Context mContext;
@@ -38,14 +37,14 @@ class PIMMigrationManager {
     private AuthorizationRequest authorizationRequest;
     private PIMUserMigrationListener pimUserMigrationListener;
 
-    public PIMMigrationManager(Context context) {
+    public PIMMigrationManager(Context context, PIMUserMigrationListener pimUserMigrationListener) {
         mContext = context;
+        this.pimUserMigrationListener = pimUserMigrationListener;
         pimLoginManager = new PIMLoginManager(mContext, PIMSettingManager.getInstance().getPimOidcConfigration());
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    void migrateUser(String usrAccessToken, PIMUserMigrationListener pimUserMigrationListener) {
-        this.pimUserMigrationListener = pimUserMigrationListener;
+    void migrateUser(String usrAccessToken) {
         performIDAssertion(usrAccessToken);
     }
 
@@ -70,8 +69,14 @@ class PIMMigrationManager {
         pimRestClient.invokeRequest(pimMigrationAuthRequest, getSuccessListener(pimMigrationAuthRequest), getErrorListener(pimMigrationAuthRequest));
     }
 
-    private Response.Listener getSuccessListener(PIMRequestInterface reqType) {
+    @VisibleForTesting
+    Response.Listener getSuccessListener(PIMRequestInterface reqType) {
         return (Response.Listener<String>) response -> {
+            if (response == null) {
+                pimUserMigrationListener.onUserMigrationFailed();
+                return;
+            }
+
             if (reqType instanceof IDAssertionRequest) {
                 String id_token_hint = parseIDAssertionFromJSONResponse(response);
                 mLoggingInterface.log(DEBUG, TAG, "ID Assertion request success. ID_token_hint : " + id_token_hint);
@@ -83,12 +88,17 @@ class PIMMigrationManager {
         };
     }
 
-    private Response.ErrorListener getErrorListener(PIMRequestInterface reqType) {
+    @VisibleForTesting
+    Response.ErrorListener getErrorListener(PIMRequestInterface reqType) {
         return error -> {
+            if (error == null) {
+                return;
+            }
+
             if (reqType instanceof IDAssertionRequest) {
                 mLoggingInterface.log(DEBUG, TAG, "Failed in ID Assertion Request. Error : " + error.getMessage());
                 pimUserMigrationListener.onUserMigrationFailed();
-            }else if (reqType instanceof PIMMigrationAuthRequest) {
+            } else if (reqType instanceof PIMMigrationAuthRequest) {
                 NetworkResponse networkResponse = error.networkResponse;
                 if (networkResponse != null && networkResponse.statusCode == 302) {
                     String authRsponse = networkResponse.headers.get("Location");
