@@ -8,6 +8,7 @@ import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.ProductsEntity;
 import com.philips.cdp.di.ecs.prx.summary.Data;
 import com.philips.cdp.di.ecs.prx.summary.ECSProductSummary;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
 
@@ -38,7 +39,7 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,9000);
+        ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),4999);
     }
 
     @Override
@@ -61,7 +62,13 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest {
                 productsEntity.setSummary(productSummaryData);
             }
 
-            ecsCallback.onResponse(products);
+            if(products.getProducts().size()>0) {
+                ecsCallback.onResponse(products);
+            }else{
+                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND),4001);
+            }
+        } else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND),4001);
         }
     }
 

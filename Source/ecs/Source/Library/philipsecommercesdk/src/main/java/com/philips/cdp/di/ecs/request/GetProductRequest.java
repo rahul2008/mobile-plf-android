@@ -13,6 +13,7 @@ import com.philips.cdp.di.ecs.prx.request.ProductSummaryListServiceDiscoveryRequ
 import com.philips.cdp.di.ecs.prx.request.PrxConstants;
 import com.philips.cdp.di.ecs.prx.request.PrxRequestServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
 
@@ -21,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.UNKNOWN_ERROR;
+import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 
 public class GetProductRequest extends AppInfraAbstractRequest implements PrxRequestServiceDiscoveryRequest.OnUrlReceived{
 
@@ -59,7 +60,7 @@ public class GetProductRequest extends AppInfraAbstractRequest implements PrxReq
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(new Exception(UNKNOWN_ERROR),4999);
+        ecsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR),4999);
     }
 
     @Override
@@ -77,6 +78,8 @@ public class GetProductRequest extends AppInfraAbstractRequest implements PrxReq
             //Call PRX here
             ProductSummaryListServiceDiscoveryRequestServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
             productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(this);
+        }else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND),4001);
         }
     }
 

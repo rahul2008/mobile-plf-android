@@ -1,6 +1,5 @@
 package com.philips.cdp.di.ecs;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.OAuthInput;
@@ -14,7 +13,7 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 
 
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.INITIALIZATION_FAILURE;
+import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_INITIALIZATION_FAILURE;
 
 public class ECSServices implements ECSServiceProvider {
 
@@ -42,7 +41,7 @@ public class ECSServices implements ECSServiceProvider {
             mECSServices=new ECSServices(ecsInput,appInfra);
             iapsdkCallback.onResponse(mECSServices);
         }else{
-            iapsdkCallback.onFailure(new Exception(INITIALIZATION_FAILURE),9999);
+            iapsdkCallback.onFailure(new Exception(ECS_INITIALIZATION_FAILURE),9999);
         }
 
     }

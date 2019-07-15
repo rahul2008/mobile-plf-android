@@ -1,16 +1,17 @@
 package com.philips.cdp.di.ecs.request;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import static com.philips.cdp.di.ecs.util.ECSErrors.getNetworkErrorMessage;
 
 public class GetConfigurationRequest extends AppInfraAbstractRequest {
 
@@ -27,12 +28,14 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
 
     @Override
     public String getURL() {
-        return new ECSURLBuilder().getRawConfigUrl();
+        //return new ECSURLBuilder().getRawConfigUrl();
+        return "https://acc.us.pil.shop.philips.com/pilcommercewebservices/v2/inAppConfig/en_US/IAP_MOB_PHC?lang=en_UT";
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        eCSCallback.onFailure(new Exception(ECSErrorReason.UNKNOWN_ERROR),3999);
+
+      eCSCallback.onFailure(getNetworkErrorMessage(error),3999);
     }
 
     @Override
@@ -43,13 +46,14 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
                 HybrisConfigResponse resp = new Gson().fromJson(response.toString(),
                         HybrisConfigResponse.class);
                 eCSCallback.onResponse(resp);
-            }else if(response.has("errors")) {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.UNSUPPORTED_LOCALE),3001);
+            }else if(response.has("errors") ) {
+                JSONArray errors = response.optJSONArray("errors");
+                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNSUPPORTED_LOCALE),3001);
             }else if(response.has("net")) {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.UNKNOWN_ERROR),3999);
+                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),3999);
             }
         }else{
-            eCSCallback.onFailure(new Exception(ECSErrorReason.UNKNOWN_ERROR),3999);
+            eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),3999);
         }
     }
 
