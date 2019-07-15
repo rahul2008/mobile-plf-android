@@ -5,9 +5,8 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
-import com.philips.cdp.di.ecs.util.ECSErrors;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,8 +27,7 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
 
     @Override
     public String getURL() {
-        //return new ECSURLBuilder().getRawConfigUrl();
-        return "https://acc.us.pil.shop.philips.com/pilcommercewebservices/v2/inAppConfig/en_US/IAP_MOB_PHC?lang=en_UT";
+        return new ECSURLBuilder().getRawConfigUrl();
     }
 
     @Override
