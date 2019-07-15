@@ -100,7 +100,7 @@ public class PIMLoginManager {
 
                     @Override
                     public void onUserProfileDownloadFailed(Error error) {
-                        pimUserMigrationListener.onUserMigrationFailed();
+                        pimUserMigrationListener.onUserMigrationFailed(error);
                     }
                 });
             }

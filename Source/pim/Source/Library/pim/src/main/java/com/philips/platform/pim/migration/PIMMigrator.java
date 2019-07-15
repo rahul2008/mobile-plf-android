@@ -35,29 +35,24 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
 
     @Override
     public void onRefreshTokenSuccess(String accessToken) {
-        PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context,this);
+        PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context, this);
         pimMigrationManager.migrateUser(accessToken);
     }
 
     @Override
     public void onRefreshTokenFailed(Error error) {
         mLoggingInterface.log(DEBUG, TAG, "Refresh access token failed.");
-        showToastMessage("User migration failed!");
     }
 
     @Override
     public void onUserMigrationSuccess() {
         usrTokenManager.deleteUSRFromSecureStorage();
-        showToastMessage("User is migrated PIM Successfully");
+        mLoggingInterface.log(DEBUG, TAG, "User is migrated PIM Successfully");
     }
 
     @Override
-    public void onUserMigrationFailed() {
-        showToastMessage("User migration failed!");
+    public void onUserMigrationFailed(Error error) {
+        mLoggingInterface.log(DEBUG, TAG, "User migration failed! " + error.getErrDesc());
     }
 
-    //TODO: Shashi, Need to remove later, added toast message for tester verfifcation
-    private void showToastMessage(String toastMsg){
-        Toast.makeText(context,toastMsg,Toast.LENGTH_LONG).show();
-    }
 }
