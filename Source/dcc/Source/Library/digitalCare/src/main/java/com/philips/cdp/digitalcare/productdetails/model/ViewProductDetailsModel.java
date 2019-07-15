@@ -21,6 +21,7 @@ public class ViewProductDetailsModel {
     private String mCtnName = null;
     private String mProductImage = null;
     private String mManualLink = null;
+    private String mDfuLink = null;
     private String mProductInfoLink = null;
     private List<String> mVideoLinks = null;
     private String mDomain = null;
@@ -55,6 +56,14 @@ public class ViewProductDetailsModel {
 
     public void setManualLink(String manualLink) {
         this.mManualLink = manualLink;
+    }
+
+    public String getmDfuLink() {
+        return mDfuLink;
+    }
+
+    public void setmDfuLink(String mDfuLink) {
+        this.mDfuLink = mDfuLink;
     }
 
     public String getProductInfoLink() {

@@ -78,6 +78,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private ImageView mProductImage = null;
     private HorizontalScrollView mVideoScrollView = null;
     private String mManualPdf = null;
+    private String mDfuPdf = null;
     private String mProductPage = null;
     private String mDomain = null;
     private ViewProductDetailsModel mViewProductDetailsModel = null;
@@ -330,6 +331,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                     continue;
                 }else if(titles.getText(i).equals(getResources().getString(R.string.dcc_productInformationOnWebsite)) && mViewProductDetailsModel.getProductInfoLink() == null){
                     continue;
+                } else if(titles.getText(i).equals(getResources().getString(R.string.dcc_productDownloadDfu)) && mViewProductDetailsModel.getmDfuLink() == null){
+                    continue;
                 }
                 menus.add(new MenuItem(R.drawable.consumercare_list_right_arrow, titles.getResourceId(i, 0)));
             }
@@ -409,6 +412,28 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                     R.string.dcc_productDownloadManual))) {
                 String mFilePath = mViewProductDetailsModel.getManualLink();
+
+                if ((mFilePath != null) && (!mFilePath.equals(""))) {
+
+                    String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/") + 1);
+
+                    int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
+                            WRITE_EXTERNAL_STORAGE);
+                    if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.
+                                        WRITE_EXTERNAL_STORAGE},
+                                123);
+                    } else {
+                        callDownloadPDFMethod(mFilePath, pdfName);
+                    }
+
+                } else {
+                    showAlert(getResources().getString(R.string.no_data));
+                }
+
+            }  else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
+                    R.string.dcc_productDownloadDfu))) {
+                String mFilePath = mViewProductDetailsModel.getmDfuLink();
 
                 if ((mFilePath != null) && (!mFilePath.equals(""))) {
 
@@ -513,11 +538,17 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     public void onUpdateAssetData() {
         ViewProductDetailsModel viewProductDetailsModel = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
         mManualPdf = viewProductDetailsModel.getManualLink();
+        mDfuPdf = viewProductDetailsModel.getmDfuLink();
         ArrayList<Integer> disabledButtons = new ArrayList<>();
         if (mManualPdf != null) {
             viewProductDetailsModel.setManualLink(mManualPdf);
         } else {
             disabledButtons.add(R.string.dcc_productDownloadManual);
+        }
+        if (mDfuPdf != null) {
+            viewProductDetailsModel.setmDfuLink(mDfuPdf);
+        } else {
+            disabledButtons.add(R.string.dcc_productDownloadDfu);
         }
         updateMenus(disabledButtons);
         mProductPage = viewProductDetailsModel.getProductInfoLink();
