@@ -50,7 +50,7 @@ public class ECSManager {
         }).start();
     }
 
-    private void getProductAsset(Product product,ECSCallback<Product, Exception> ecsCallback) {
+    private void getProductAssetAndDisclaimer(Product product,ECSCallback<Product, Exception> ecsCallback) {
 
         new Thread(new Runnable() {
             @Override
@@ -123,7 +123,6 @@ public class ECSManager {
     }
 
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
-        getProductAsset(product,ecsCallback);
-
+        getProductAssetAndDisclaimer(product,ecsCallback);
     }
 }
