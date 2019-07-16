@@ -264,6 +264,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putString(ECSConstant.STOCK_LEVEL_STATUS, productCatalogData.getStockLevelStatus());
             bundle.putInt(ECSConstant.STOCK_LEVEL, productCatalogData.getStockLevel());
             bundle.putBoolean(ECSConstant.IS_PRODUCT_CATALOG, true);
+            bundle.putSerializable("ProductCatalogData",productCatalogData);
             if (getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST) != null) {
                 final ArrayList<String> list = getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST);
                 bundle.putStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST, list);

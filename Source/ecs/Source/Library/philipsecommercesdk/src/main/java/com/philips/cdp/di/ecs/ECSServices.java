@@ -58,11 +58,11 @@ public class ECSServices implements ECSServiceProvider {
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(ECSConstant.SERVICE_ID);
 
-        new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
 
-                ecsCallback.onFailure(new Exception(errorvalues.name()),9000);
+                ecsCallback.onFailure(new Exception(errorvalues.name()), 9000);
             }
 
             @Override
@@ -78,11 +78,13 @@ public class ECSServices implements ECSServiceProvider {
                 ECSConfig.INSTANCE.setLocale(locale);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
 
-                if(configUrls !=null){
+                if (configUrls != null) {
                     mECSManager.getHybrisConfigResponse(ecsCallback);
                 }
             }
         };
+
+        ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
     private static boolean isValidInput(AppInfra appInfra) {

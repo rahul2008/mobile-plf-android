@@ -4,7 +4,11 @@
  */
 package com.ecs.demouapp.ui.products;
 
-public class ProductCatalogData {
+import com.philips.cdp.di.ecs.model.products.Product;
+
+import java.io.Serializable;
+
+public class ProductCatalogData implements Serializable {
     private int mTotalItems;
     private String mStockLevelStatus;
 
@@ -18,6 +22,16 @@ public class ProductCatalogData {
     private String mPriceValue;
     private String mMarketingTextHeader;
     private int mStockLevel;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    private Product product;
 
     public int getStockLevel() {
         return mStockLevel;

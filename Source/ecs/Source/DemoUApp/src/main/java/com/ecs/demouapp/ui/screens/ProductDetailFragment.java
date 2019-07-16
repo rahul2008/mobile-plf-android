@@ -42,9 +42,7 @@ import com.ecs.demouapp.ui.controller.ProductDetailController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.prx.PRXAssetExecutor;
-import com.ecs.demouapp.ui.prx.PRXDisclaimerExecutor;
-import com.ecs.demouapp.ui.prx.PRXSummaryListExecutor;
+import com.ecs.demouapp.ui.products.ProductCatalogData;
 import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
@@ -53,13 +51,17 @@ import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
 import com.ecs.demouapp.ui.utils.AlertListener;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.CountDropDown;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.asset.Asset;
+import com.philips.cdp.di.ecs.model.asset.Assets;
+import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
+import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
-import com.philips.cdp.prxclient.datamodels.Disclaimer.Disclaimer;
-import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
-import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -69,15 +71,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_UPDATE_PRODUCT_COUNT;
 
 //import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
 
 public class ProductDetailFragment extends InAppBaseFragment implements
-        PRXAssetExecutor.AssetListener, View.OnClickListener, EventListener,
+        View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
-        ProductDetailController.ProductSearchListener, AbstractShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AlertListener, PRXDisclaimerExecutor.ProductDisclaimerListener {
+        ProductDetailController.ProductSearchListener, AbstractShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AlertListener{
+
+
+
+    private static final int RTP = 1;
+    private static final int APP = 2;
+    private static final int DPP = 3;
+    private static final int MI1 = 4;
+    private static final int PID = 5;
 
 
     public static final String TAG = ProductDetailFragment.class.getName();
@@ -142,7 +153,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
         }
     };
-
+    private Product product;
 
 
     public static ProductDetailFragment createInstance(Bundle args, AnimationType animType) {
@@ -203,6 +214,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         mBundle = getArguments();
         if (mBundle != null) {
+
+            ProductCatalogData productCatalogData = (ProductCatalogData) mBundle.getSerializable("ProductCatalogData");
+            assert productCatalogData != null;
+            product = productCatalogData.getProduct();
+
+            System.out.println("get product data"+ product.getCode());
+
             if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
@@ -220,7 +238,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mCTNValue = mBundle.getString(ECSConstant.PRODUCT_CTN);
                 mLaunchedFromProductCatalog = mBundle.getBoolean(ECSConstant.IS_PRODUCT_CATALOG, false);
                 mProductTitle = mBundle.getString(ECSConstant.PRODUCT_TITLE);
-                populateData(mProductSummary);
+                populateData(product.getSummary());
             }
 
         }
@@ -246,60 +264,82 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ECSAnalytics.trackMultipleActions(ECSAnalyticsConstant.SEND_DATA, contextData);
     }
 
-    private void makeAssetRequest() {
-        if (!CartModelContainer.getInstance().isPRXAssetPresent(mCTNValue)) {
-            mProgresImage.setVisibility(View.VISIBLE);
-            final PRXAssetExecutor builder = new PRXAssetExecutor(mContext, mCTNValue, this);
-            builder.build();
-        } else {
-            final HashMap<String, ArrayList<String>> prxAssetObjects =
-                    CartModelContainer.getInstance().getPRXAssetList();
-            for (Map.Entry<String, ArrayList<String>> entry : prxAssetObjects.entrySet()) {
-                if (entry != null && entry.getKey().equalsIgnoreCase(mCTNValue)) {
-                    mAsset = entry.getValue();
-                    break;
+    private void makeSummaryRequest() {
 
+        populateData(product.getSummary());
+        makeAssetsAndDisclaimerRequest();
+    }
+
+    private void makeAssetsAndDisclaimerRequest() {
+        ECSUtility.getInstance().getEcsServices().getProductDetail(product, new ECSCallback<Product, Exception>() {
+            @Override
+            public void onResponse(Product result) {
+
+                showDisclaimer(result.getDisclaimers().getDisclaimer());
+
+                processAssets(result.getAssets());
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+                mProgresImage.setVisibility(View.GONE);
+                ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
+                if (mBuyFromRetailers.isActivated()) {
+                    mBuyFromRetailers.hideProgressIndicator();
+                }
+                if (!isNetworkConnected()) {
+                    return;
+                }
+                Message msg = new Message();
+                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+
+                if (msg.obj instanceof IAPNetworkError) {
+                    final IAPNetworkError obj = (IAPNetworkError) msg.obj;
+                    mIapListener.onFailure(obj.getIAPErrorCode());
                 }
             }
-            mImageAdapter = new ImageAdapter(mContext, mAsset);
-            //This clause is added to populate the viewpager at least once , So that default image can be loaded .
-            if(mAsset.size() == 0){
-                mAsset.add("default image");
-            }
-            if (mAsset == null) {
-                trackErrorTag(ECSAnalyticsConstant.PRX + mCTNValue + "_" + ECSAnalyticsConstant.No_IMAGES_FOUND);
-            }
-            mViewPager.setAdapter(mImageAdapter);
-            mImageAdapter.notifyDataSetChanged();
-            if (mBuyFromRetailers.isActivated()) {
-                mBuyFromRetailers.hideProgressIndicator();
-            }
-        }
+        });
     }
 
-    private void makeSummaryRequest() {
-        ArrayList<String> ctnList = new ArrayList<>();
-        ctnList.add(mCTNValue);
-        if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
+    private void processAssets(Assets assets) {
 
-            final PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnList, this);
-            builder.preparePRXDataRequest();
-        } else {
-            final ArrayList<Data> prxAssetObjects = CartModelContainer.getInstance().getPRXSummaryList();
-
-            for (Data data : prxAssetObjects) {
-                populateData(data);
-            }
-
+        if (mContext == null)
+            return;
+        mProgresImage.setVisibility(View.GONE);
+        ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
+        mAsset = fetchImageUrlsFromPRXAssets(assets.getAsset());
+        CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
+        if(mAsset.size() == 0){
+            mAsset.add("default image");
         }
-        makeDisclaimerRequest();
+        mImageAdapter = new ImageAdapter(mContext, mAsset);
+        mViewPager.setAdapter(mImageAdapter);
+        mImageAdapter.notifyDataSetChanged();
+        if (mIapListener != null)
+            mIapListener.onSuccess();
+        if (mBuyFromRetailers.isActivated())
+            mBuyFromRetailers.hideProgressIndicator();
     }
 
-    private void makeDisclaimerRequest() {
-        final ArrayList<String> ctnList = new ArrayList<>();
-        ctnList.add(mCTNValue);
-        final PRXDisclaimerExecutor builder = new PRXDisclaimerExecutor(mContext, ctnList, this);
-        builder.preparePRXDataRequest();
+    private ArrayList<String> fetchImageUrlsFromPRXAssets(List<Asset> assets) {
+        ArrayList<String> mAssetsFromPRX = new ArrayList<>();
+        TreeMap<Integer, String> sortedAssetsFromPRX = new TreeMap<>();
+        GetHeightAndWidth getHeightAndWidth = new GetHeightAndWidth().invoke();
+        int width = getHeightAndWidth.getWidth();
+        int height = getHeightAndWidth.getHeight();
+
+        for (Asset asset : assets) {
+            int assetType = getAssetType(asset);
+            if (assetType != -1) {
+                String imagepath = asset.getAsset() + "?wid=" + width +
+                        "&hei=" + height + "&$pnglarge$" + "&fit=fit,1";
+                sortedAssetsFromPRX.put(assetType, imagepath);
+            }
+            mAssetsFromPRX = new ArrayList<>(sortedAssetsFromPRX.values());
+        }
+
+        return mAssetsFromPRX;
     }
 
     @Override
@@ -334,8 +374,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 handleViews();
             }
         }
-        makeAssetRequest();
-        makeDisclaimerRequest();
+
+        makeAssetsAndDisclaimerRequest();
         setTitleAndBackButtonVisibility(R.string.iap_product_detail_title, true);
     }
 
@@ -468,45 +508,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
 
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void onFetchAssetSuccess(final Message msg) {
-        if (mContext == null)
-            return;
-        mProgresImage.setVisibility(View.GONE);
-        ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Success");
-        mAsset = (ArrayList<String>) msg.obj;
-        CartModelContainer.getInstance().addProductAsset(mCTNValue, mAsset);
-        if(mAsset.size() == 0){
-            mAsset.add("default image");
-        }
-        mImageAdapter = new ImageAdapter(mContext, mAsset);
-        mViewPager.setAdapter(mImageAdapter);
-        mImageAdapter.notifyDataSetChanged();
-        if (mIapListener != null)
-            mIapListener.onSuccess();
-        if (mBuyFromRetailers.isActivated())
-            mBuyFromRetailers.hideProgressIndicator();
-    }
-
-    @Override
-    public void onFetchAssetFailure(final Message msg) {
-        mProgresImage.setVisibility(View.GONE);
-        ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
-        if (mBuyFromRetailers.isActivated()) {
-            mBuyFromRetailers.hideProgressIndicator();
-        }
-        if (!isNetworkConnected()) {
-            return;
-        }
-        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-
-        if (msg.obj instanceof IAPNetworkError) {
-            final IAPNetworkError obj = (IAPNetworkError) msg.obj;
-            mIapListener.onFailure(obj.getIAPErrorCode());
-        }
-    }
-
     void buyProduct(final String ctnNumber) {
 
         if(isUserLoggedIn()) {
@@ -546,9 +547,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
-    private void showDisclaimer(DisclaimerModel disclaimerModel) {
+    private void showDisclaimer(List<Disclaimer> disclaimerList) {
         try {
-            final List<Disclaimer> disclaimerList = disclaimerModel.getData().getDisclaimers().getDisclaimer();
             mProductDisclaimer.setVisibility(View.VISIBLE);
             if (null != disclaimerList && disclaimerList.size() > 0) {
                 final StringBuilder disclaimerStringBuilder = new StringBuilder();
@@ -867,18 +867,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     }
 
-    @Override
-    public void onFetchProductDisclaimerSuccess(DisclaimerModel disclaimerModel) {
-        if (null != disclaimerModel) {
-            showDisclaimer(disclaimerModel);
-        }
-    }
-
-    @Override
-    public void onFetchProductDisclaimerFailure(String error) {
-
-    }
-
     private void showLogInDialog(){
 
         new NetworkUtility().showDialogMessage(getContext().getString(R.string.iap_shopping_cart_dls), "Please Register or Login to easily order your products", getFragmentManager(), getContext(), new AlertListener() {
@@ -892,5 +880,44 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 new NetworkUtility().dismissErrorDialog();
             }
         });
+    }
+
+    private class GetHeightAndWidth {
+        private int width;
+        private int height;
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        GetHeightAndWidth invoke() {
+            width = 0;
+            height = 0;
+            width = mContext.getResources().getDisplayMetrics().widthPixels;
+            height = (int) mContext.getResources().getDimension(R.dimen.iap_product_detail_image_height);
+
+            return this;
+        }
+    }
+
+    private int getAssetType(Asset asset) {
+        switch (asset.getType()) {
+            case "RTP":
+                return RTP;
+            case "APP":
+                return APP;
+            case "DPP":
+                return DPP;
+            case "MI1":
+                return MI1;
+            case "PID":
+                return PID;
+            default:
+                return -1;
+        }
     }
 }

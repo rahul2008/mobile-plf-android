@@ -68,7 +68,7 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     @Override
     public void onModelDataLoadFinished(final Message msg) {
         if (msg.obj instanceof HashMap) {
-            mProductCatalogHelper.processPRXResponse(msg, mProductCatalog, null);
+           // mProductCatalogHelper.processPRXResponse(msg, mProductCatalog, null);
         }
     }
 

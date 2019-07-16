@@ -124,7 +124,10 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
                     trackNoProductFoundInPRX();
                     mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                             ("", mContext.getString(R.string.iap_no_product_available)));
+                    return;
                 }
+
+                mProductCatalogHelper.processPRXResponse(mProducts,listener);
             }
 
             @Override
@@ -162,7 +165,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
                 mProductCatalogHelper.sendPRXRequest(mProducts);
             }
         } else if (msg.obj instanceof HashMap) {
-            mProductCatalogHelper.processPRXResponse(msg, mProducts, mIAPListener);
+           // mProductCatalogHelper.processPRXResponse(msg, mProducts, mIAPListener);
         }
     }
 

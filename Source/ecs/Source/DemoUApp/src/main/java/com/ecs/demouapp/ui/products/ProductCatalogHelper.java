@@ -17,7 +17,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.philips.cdp.di.ecs.model.products.PaginationEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
-import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.di.ecs.model.summary.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,26 +54,19 @@ public class ProductCatalogHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean processPRXResponse(final Message msg, Products productData, ECSListener listener) {
-        if (msg.obj instanceof HashMap) {
-            HashMap<String, Data> prxModel = (HashMap<String, Data>) msg.obj;
-            if (checkForEmptyCart(prxModel))
-                return true;
+    public boolean processPRXResponse(Products productData, ECSListener listener) {
 
-            ArrayList<ProductCatalogData> products = mergeHybrisAndPRX(productData, prxModel);
+
+            ArrayList<ProductCatalogData> products = mergeHybrisAndPRX(productData);
             PaginationEntity pagination = null;
             if (productData != null && products.size() != 0)
                 pagination = productData.getPagination();
             refreshList(products, pagination, listener);
 
-        } else {
-            notifyEmptyCartFragment();
-        }
         return false;
     }
 
-    private ArrayList<ProductCatalogData> mergeHybrisAndPRX(Products productData,
-                                                            HashMap<String, Data> prxModel) {
+    private ArrayList<ProductCatalogData> mergeHybrisAndPRX(Products productData) {
         List<Product> entries = productData.getProducts();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
@@ -81,18 +74,17 @@ public class ProductCatalogHelper {
             for (Product entry : entries) {
                 ctn = entry.getCode();
                 ProductCatalogData productItem = new ProductCatalogData();
-                Data data;
-                if (prxModel.containsKey(ctn)) {
-                    data = prxModel.get(ctn);
-                } else if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
-                    data = CartModelContainer.getInstance().getProductSummary(ctn);
-                } else {
-                    continue;
+
+                productItem.setProduct(entry);
+
+                Data data = entry.getSummary();
+
+                if(data!=null) {
+                    productItem.setImageUrl(data.getImageURL());
+                    productItem.setProductTitle(data.getProductTitle());
+                    productItem.setCtnNumber(ctn);
+                    productItem.setMarketingTextHeader(data.getMarketingTextHeader());
                 }
-                productItem.setImageUrl(data.getImageURL());
-                productItem.setProductTitle(data.getProductTitle());
-                productItem.setCtnNumber(ctn);
-                productItem.setMarketingTextHeader(data.getMarketingTextHeader());
                 fillEntryBaseData(entry, productItem);
                 products.add(productItem);
             }

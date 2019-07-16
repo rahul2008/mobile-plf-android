@@ -173,6 +173,17 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             public void onResponse(ECSServices result) {
                 ecsServices = result;
                 ECSUtility.getInstance().setEcsService(ecsServices);
+                ecsServices.configureECS(new ECSCallback<Boolean, Exception>() {
+                    @Override
+                    public void onResponse(Boolean result) {
+                        System.out.println("Successfully configured");
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        System.out.println("Failed configured");
+                    }
+                });
             }
 
             @Override
