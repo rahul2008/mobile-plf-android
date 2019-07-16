@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs.util;
 
 import com.philips.cdp.di.ecs.integration.ECSInput;
+import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.platform.appinfra.AppInfra;
 
 public enum ECSConfig {
@@ -9,6 +10,12 @@ public enum ECSConfig {
 
     ECSInput ecsInput;
     AppInfra appInfra;
+    HybrisConfigResponse config;
+
+    public boolean isAppConfigured() {
+        return rootCategory!=null && siteId!=null;
+    }
+
 
     public String getRootCategory() {
         return rootCategory;
@@ -45,4 +52,8 @@ public enum ECSConfig {
         this.appInfra = appInfra;
     }
 
+
+    public  boolean isHybrisFlow(){
+        return ecsInput.getBaseUrl()!=null;
+    }
 }

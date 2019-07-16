@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -38,7 +39,6 @@ public class ECSServices implements ECSServiceProvider {
      */
     public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
 
-        ECSServices iapSdkService =null;
         if(isValidInput(ecsInput,appInfra)){  // if locale, propositionID are verified
             mECSServices=new ECSServices(ecsInput,appInfra);
             iapsdkCallback.onResponse(mECSServices);
@@ -58,33 +58,27 @@ public class ECSServices implements ECSServiceProvider {
     }
 
 
-    @Override
-    public void getIAPConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
 
+    private void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
         mECSManager.getHybrisConfigResponse(ecsCallback);
 
     }
 
     @Override
-    public void getProductDetail(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
-        mECSManager.getProductDetail(currentPage,pageSize,eCSCallback);
+    public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
+        mECSManager.getProductList(currentPage,pageSize,eCSCallback);
     }
 
+
+    @Override
+    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+        mECSManager.getProductDetail(product,ecsCallback);
+    }
 
     @Override
     public void InvalidateECS(ECSCallback<Boolean,Exception> ecsCallback) {
         mECSServices=null;
         ecsCallback.onResponse(true);
 
-    }
-
-    @Override
-    public void getProductAsset(String ctn, ECSCallback<Assets, Exception> ecsCallback) {
-        mECSManager.getProductAsset(ctn,ecsCallback);
-    }
-
-    @Override
-    public void getProductDisclaimer(String ctn, ECSCallback<Disclaimers, Exception> ecsCallback) {
-        mECSManager.getProductDisclaimer(ctn,ecsCallback);
     }
 }

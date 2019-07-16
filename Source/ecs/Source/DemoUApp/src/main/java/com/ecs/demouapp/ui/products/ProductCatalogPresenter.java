@@ -119,7 +119,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     @Override
     public void getECSProductCatalog(int currentPage, int pageSize, ECSCallback<com.philips.cdp.di.ecs.model.products.Products, Exception> ecsCallback) {
-        ECSUtility.getInstance().getEcsServices().getProductDetail(currentPage,pageSize,ecsCallback);
+        ECSUtility.getInstance().getEcsServices().getProductList(currentPage,pageSize,ecsCallback);
     }
 
 

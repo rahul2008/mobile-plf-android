@@ -5,6 +5,7 @@ import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
@@ -15,10 +16,9 @@ import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
 import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
 import com.philips.cdp.di.ecs.request.GetProductRequest;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 public class ECSManager {
-
-
 
     void getHybrisConfigResponse(ECSCallback<HybrisConfigResponse, Exception> eCSCallback){  new Thread(new Runnable() {
         @Override
@@ -29,11 +29,12 @@ public class ECSManager {
     }
 
 
-    public void getProductDetail(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 new GetProductRequest(currentPage, pageSize, ecsCallback).executeRequest();
             }
         }).start();
@@ -49,17 +50,29 @@ public class ECSManager {
         }).start();
     }
 
-    public void getProductAsset(String ctn, ECSCallback<Assets, Exception> ecsCallback) {
+    private void getProductAssetAndDisclaimer(Product product,ECSCallback<Product, Exception> ecsCallback) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                new AssetServiceDiscoveryRequest(ctn).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
+                new AssetServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
                     @Override
                     public void onSuccess(String url) {
 
-                        new GetProductAssetRequest(url,ecsCallback);
+                        new GetProductAssetRequest(url, new ECSCallback<Assets, Exception>() {
+                            @Override
+                            public void onResponse(Assets result) {
+                                product.setAssets(result);
+
+                                getProductDisclaimer(product,ecsCallback);
+                            }
+
+                            @Override
+                            public void onFailure(Exception error, int errorCode) {
+
+                            }
+                        });
 
                     }
 
@@ -73,13 +86,13 @@ public class ECSManager {
         }).start();
     }
 
-    public void getProductDisclaimer(String ctn, ECSCallback<Disclaimers, Exception> ecsCallback) {
+    private void getProductDisclaimer(Product product, ECSCallback<Product, Exception> ecsCallback) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                new DisclaimerServiceDiscoveryRequest(ctn).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
+                new DisclaimerServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
 
@@ -88,11 +101,28 @@ public class ECSManager {
                     @Override
                     public void onSuccess(String url) {
 
-                        new GetProductDisclaimerRequest(url,ecsCallback).executeRequest();
+                        new GetProductDisclaimerRequest(url, new ECSCallback<Disclaimers, Exception>() {
+                            @Override
+                            public void onResponse(Disclaimers result) {
+
+                                product.setDisclaimers(result);
+                                ecsCallback.onResponse(product);
+
+                            }
+
+                            @Override
+                            public void onFailure(Exception error, int errorCode) {
+
+                            }
+                        }).executeRequest();
                     }
                 });
 
             }
         }).start();
+    }
+
+    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+        getProductAssetAndDisclaimer(product,ecsCallback);
     }
 }
