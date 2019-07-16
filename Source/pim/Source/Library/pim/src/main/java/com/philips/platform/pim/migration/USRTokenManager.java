@@ -85,10 +85,6 @@ class USRTokenManager {
         return appInfraInterface.getSecureStorage().fetchValueForKey(jrCaptureSignedInUserKey, new SecureStorageInterface.SecureStorageError());
     }
 
-    private Object getClientIdFromConfig() {
-        return appInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", new AppConfigurationInterface.AppConfigurationError());
-    }
-
     private void downloadUserUrlFromSD(ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener) {
         ArrayList<String> serviceIdList = new ArrayList<>();
         serviceIdList.add(USR_BASEURL);
@@ -183,7 +179,7 @@ class USRTokenManager {
     }
 
     private String getClientId() {
-        Object clientIdObject = getClientIdFromConfig();
+        Object clientIdObject = appInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", new AppConfigurationInterface.AppConfigurationError());
         String configPropertyValue = getConfigPropertyValue(clientIdObject);
         PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "getclientId: " + configPropertyValue);
         PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "hasclientId: " + (configPropertyValue != null));
@@ -229,10 +225,6 @@ class USRTokenManager {
 
         HashSet<Pair<String, String>> params = getParams(locale, date, legacyToken);
 
-        makeRefreshUSRTokenRequest(refreshUrl, refreshUSRTokenListener, params);
-    }
-
-    private void makeRefreshUSRTokenRequest(String refreshUrl, RefreshUSRTokenListener refreshUSRTokenListener, HashSet<Pair<String, String>> params) {
         RefreshUSRTokenRequest refreshLegacyTokenRequest = new RefreshUSRTokenRequest(refreshUrl, paramsToString(params));
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         pimRestClient.invokeRequest(refreshLegacyTokenRequest, response -> {
@@ -280,7 +272,7 @@ class USRTokenManager {
         return signedInUser != null;
     }
 
-    void deleteUSRFromSecureStorage() {
+    void deleteUSRFromSecureStorage(){
         appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_SIGNED_IN_USER);
         appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_FLOW);
         appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_REFRESH_SECRET);

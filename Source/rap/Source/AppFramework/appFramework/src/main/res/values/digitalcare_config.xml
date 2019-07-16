@@ -30,7 +30,6 @@
         <item>@string/FAQ_KEY</item>
         <item>@string/dcc_productDownloadManual</item>
         <item>@string/dcc_productInformationOnWebsite</item>
-        <item>@string/dcc_productDownloadDfu</item>
     </string-array>
 
     <!-- List of social service providers localised resource keys, please follow naming conventions -->

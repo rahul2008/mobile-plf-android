@@ -34,7 +34,6 @@ import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by arbin on 24/04/2017.
@@ -239,8 +238,6 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                     List<Item> questionsList = faq.getItem();
                     for (Item item : questionsList) {
                         String langCode = item.getLang();
-                        // since faq not added for arabic locale , don't add items for arabic locale
-                        if(!(Locale.getDefault().getLanguage().contentEquals("ar")))
                         if (null!= langCode && (langCode.equalsIgnoreCase("AEN") || langCode.equalsIgnoreCase("ENG")))
                             engFaqItems.add(item);
                         else

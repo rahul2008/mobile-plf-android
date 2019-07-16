@@ -132,12 +132,6 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         getNetworkImage(productHolder, imageURL);
 
-        // For arabic, Hebrew and Perssian the back arrow change from left to right
-        if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
-            productHolder.mArrow.setRotation(180);
-        }
-
-
         productHolder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {

@@ -60,9 +60,9 @@ public class PIMOIDCConfigrationTest extends TestCase {
     @Test
     public void shouldNotNullClientId() {
         PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration();
-        when(mockAppConfigurationInterface.getPropertyForKey(CLIENT_ID, "PIM", mockAppConfigurationError)).thenReturn("94e28300-565d-4110-8919-42dc4f817393");
+        when(mockAppConfigurationInterface.getPropertyForKey(CLIENT_ID, "PIM", mockAppConfigurationError)).thenReturn("clientId");
         String clientID = pimoidcConfigration.getClientId();
-//        assertEquals("94e28300-565d-4110-8919-42dc4f817393", clientID);
+        assertEquals(CLIENT_ID, clientID);
 
     }
 

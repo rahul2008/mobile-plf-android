@@ -45,7 +45,6 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -251,10 +250,6 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
         mTitleTextView.setText(getString(resourceId));
         if (visibility) {
             mBackImage.setVisibility(View.VISIBLE);
-            // For arabic, Hebrew and Perssian the back arrow change from left to right
-            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
-                mBackImage.setRotation(180);
-            }
         } else {
             mBackImage.setVisibility(View.GONE);
         }
@@ -265,10 +260,6 @@ public class IAPActivity extends UIDActivity implements ActionBarListener, IAPLi
         mTitleTextView.setText(resourceString);
         if (visibility) {
             mBackImage.setVisibility(View.VISIBLE);
-            // For arabic, Hebrew and Perssian the back arrow change from left to right
-            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
-                mBackImage.setRotation(180);
-            }
         } else {
             mBackImage.setVisibility(View.GONE);
         }

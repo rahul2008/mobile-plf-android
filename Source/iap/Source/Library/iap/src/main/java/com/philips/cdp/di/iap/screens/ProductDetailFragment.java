@@ -320,10 +320,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         mQuantity.setCompoundDrawables(null, null, countArrow, null);
 
                         mQuantity.setText(quantity + "");
-                        int stock = getArguments().getInt(IAPConstant.PRODUCT_STOCK);
-                        if(stock > 50){
-                            stock = 50;
-                        }
+                        final int stock = getArguments().getInt(IAPConstant.PRODUCT_STOCK);
                         bindCountView(mQuantity, stock, quantity);
                     } else {
                         mQuantityAndDelete.setVisibility(View.GONE);
@@ -368,7 +365,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         EventHelper.getInstance().notifyEventOccurred(IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
-
                 countPopUp.createPopUp(v, stockLevel);
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();

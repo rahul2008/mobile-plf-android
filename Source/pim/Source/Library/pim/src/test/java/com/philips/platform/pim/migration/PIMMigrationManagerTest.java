@@ -77,8 +77,6 @@ public class PIMMigrationManagerTest extends TestCase {
     private LoggingInterface mockLoggingInterface;
     @Mock
     private PIMUserMigrationListener mockMigrationListener;
-    @Mock
-    private Error mockError;
 
     private PIMMigrationManager pimMigrationManager;
     private final String TAG = PIMMigrationManager.class.getSimpleName();
@@ -184,7 +182,7 @@ public class PIMMigrationManagerTest extends TestCase {
         Response.Listener<String> response = pimMigrationManager.getSuccessListener(mockPIMigrationAuthRequest);
         assertNotNull(response);
         response.onResponse("");
-        verify(mockLoggingInterface).log(DEBUG,TAG,"Token auth request failed.");
+        verify(mockLoggingInterface).log(DEBUG, TAG, "Token auth request failed.");
     }
 
     @Test

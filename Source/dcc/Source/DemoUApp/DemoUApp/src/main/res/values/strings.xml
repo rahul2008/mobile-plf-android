@@ -163,23 +163,6 @@
         <item>Malaysia (MY)</item>
         <item>Brazil (BR)</item>
         <item>Malaysia (MY)</item>
-        <item>Korea (KO)</item>
-        <item>Taiwan (TW)</item>
-        <item>Japan (JP)</item>
-        <item>Australia (AU)</item>
-        <item>New Zealand (NZ)</item>
-        <item>Ireland (IE)</item>
-        <item>UAE (AE)</item>
-        <item>Bahrain (BH)</item>
-        <item>Egypt (EG)</item>
-        <item>Kuwait (KW)</item>
-        <item>Lebanon (LB)</item>
-        <item>Oman (OM)</item>
-        <item>Qatar (QA)</item>
-        <item>Saudi Arabia (SA)</item>
-
-
-
     </string-array>
 
 
@@ -242,20 +225,6 @@
         <item>MY</item>
         <item>BR</item>
         <item>MY</item>
-        <item>KO</item>
-        <item>TW</item>
-        <item>JP</item>
-        <item>AU</item>
-        <item>NZ</item>
-        <item>IE</item>
-        <item>AE</item>
-        <item>BH</item>
-        <item>EG</item>
-        <item>KW</item>
-        <item>LB</item>
-        <item>OM</item>
-        <item>QA</item>
-        <item>SA</item>
     </string-array>
 
 

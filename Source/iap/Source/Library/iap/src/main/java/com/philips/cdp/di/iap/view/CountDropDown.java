@@ -57,7 +57,6 @@ public class CountDropDown implements AdapterView.OnItemClickListener {
     }
 
     public void dismiss() {
-        if(mPopUp!=null)
         mPopUp.dismiss();
     }
 

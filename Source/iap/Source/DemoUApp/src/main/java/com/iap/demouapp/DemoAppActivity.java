@@ -402,8 +402,8 @@ public class DemoAppActivity extends AppCompatActivity implements View.OnClickLi
         mAddCTNLl.setVisibility(View.VISIBLE);
         mLL_voucher.setVisibility(View.VISIBLE);
         mLL_propositionId.setVisibility(View.VISIBLE);
-        //mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
-        //mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
+        mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
+        mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);

@@ -22,7 +22,6 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.util.List;
-import java.util.Locale;
 
 public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Addresses> mAddresses;
@@ -31,7 +30,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
     private Context mContext;
-    private TextView mIvOptions;
     private String mJanRainEmail;
 
     public AddressSelectionAdapter(final List<Addresses> addresses,String mJanRainEmail) {
@@ -98,10 +96,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     void bindAddNewAddress(final View newAddress) {
-        // For arabic, Hebrew and Perssian the back arrow change from left to right
-        if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
-            mIvOptions.setRotation(180);
-        }
         newAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -212,7 +206,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public AddressSelectionFooter(View view) {
             super(view);
-            mIvOptions = itemView.findViewById(R.id.right_arrow);
             bindAddNewAddress(view);
         }
     }
