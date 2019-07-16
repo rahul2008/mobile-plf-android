@@ -8,7 +8,7 @@ public abstract class AbstractStore implements StoreListener {
 
 
     @Override
-    public String getOauthUrl() {
+    public String getOauthUrl(String janRainID) {
         return null;
     }
 

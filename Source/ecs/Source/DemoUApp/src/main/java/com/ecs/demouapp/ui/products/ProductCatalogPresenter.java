@@ -8,7 +8,6 @@ package com.ecs.demouapp.ui.products;
 import android.content.Context;
 import android.os.Message;
 
-
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
@@ -16,8 +15,6 @@ import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.model.GetProductCatalogRequest;
-import com.ecs.demouapp.ui.response.products.PaginationEntity;
-import com.ecs.demouapp.ui.response.products.Products;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.RequestListener;
@@ -26,6 +23,8 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.products.PaginationEntity;
+import com.philips.cdp.di.ecs.model.products.Products;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,38 +87,26 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     @Override
     public void getCatalogCount(final ECSListener iapListener) {
-        final AbstractModel.DataLoadListener listener = this;
-        HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.CURRENT_PAGE, String.valueOf(CURRENT_PAGE));
-        query.put(ModelConstants.PAGE_SIZE, String.valueOf(PAGE_SIZE));
 
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
 
-        GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), query, listener);
-        delegate.sendRequest(0, model, new RequestListener() {
-
+        ECSUtility.getInstance().getEcsServices().getProductList(CURRENT_PAGE, PAGE_SIZE, new ECSCallback<Products, Exception>() {
             @Override
-            public void onSuccess(final Message msg) {
-                Products products = (Products) msg.obj;
+            public void onResponse(Products products) {
+
                 int totalProduct = products.getPagination().getTotalResults();
                 if (totalProduct == 0) {
                     iapListener.onSuccess();
                     iapListener.onGetCompleteProductList(null);
                 } else
                     getProductCatalog(CURRENT_PAGE, totalProduct, iapListener);
-
             }
 
             @Override
-            public void onError(final Message msg) {
+            public void onFailure(Exception error, int errorCode) {
                 iapListener.onFailure(0);
             }
         });
-    }
 
-    @Override
-    public void getECSProductCatalog(int currentPage, int pageSize, ECSCallback<com.philips.cdp.di.ecs.model.products.Products, Exception> ecsCallback) {
-        ECSUtility.getInstance().getEcsServices().getProductList(currentPage,pageSize,ecsCallback);
     }
 
 
@@ -127,12 +114,24 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
     public boolean getProductCatalog(int currentPage, int pageSize, ECSListener listener) {
         this.mIAPListener = listener;
 
-        HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.CURRENT_PAGE, String.valueOf(currentPage));
-        query.put(ModelConstants.PAGE_SIZE, String.valueOf(pageSize));
+        ECSUtility.getInstance().getEcsServices().getProductList(currentPage, pageSize, new ECSCallback<com.philips.cdp.di.ecs.model.products.Products, Exception>() {
+            @Override
+            public void onResponse(com.philips.cdp.di.ecs.model.products.Products result) {
 
-        GetProductCatalogRequest model = new GetProductCatalogRequest(getStore(), query, this);
-        getHybrisDelegate().sendRequest(0, model, model);
+                mProducts = result;
+
+                if (mProducts.getPagination().getTotalResults() < 1) {
+                    trackNoProductFoundInPRX();
+                    mProductCatalogListener.onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                            ("", mContext.getString(R.string.iap_no_product_available)));
+                }
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        });
         return true;
     }
 

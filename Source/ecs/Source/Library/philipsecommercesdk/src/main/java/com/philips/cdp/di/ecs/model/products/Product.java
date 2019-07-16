@@ -48,10 +48,6 @@ public class Product {
         return code;
     }
 
-    public void setCode(String ctn){
-        code = ctn;
-    }
-
     public DiscountPriceEntity getDiscountPrice() {
         return discountPrice;
     }
@@ -82,5 +78,9 @@ public class Product {
 
     public void setSummary(Data summary) {
         this.summary = summary;
+    }
+
+    public void setCode(String productCode) {
+        this.code = productCode;
     }
 }

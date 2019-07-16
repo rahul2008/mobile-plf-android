@@ -200,7 +200,10 @@ public class ECSURLBuilder extends AbstractStore {
 
     //OAuth
     @Override
-    public String getOauthUrl() {
+    public String getOauthUrl(String janRainID) {
+        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
+        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH);
+        mOauthUrl = String.format(builder.toString(), janRainID);
         return mOauthUrl;
     }
 
@@ -213,13 +216,13 @@ public class ECSURLBuilder extends AbstractStore {
     @Override
     public String getProductCatalogUrl(int currentPage, int pageSize) {
 
-        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getEcsInput().getBaseUrl());
+        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(ECSConfig.INSTANCE.getSiteId()).append(SEPERATOR);
         String baseURlForProductCatalog = builder.toString();
 
         String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:"+ECSConfig.INSTANCE.getRootCategory()+"&lang=";
-        mGetProductCatalogUrl = baseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG).concat(ECSConfig.INSTANCE.getEcsInput().getLocale()).concat("&currentPage=%s&pageSize=%s");
+        mGetProductCatalogUrl = baseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG).concat(ECSConfig.INSTANCE.getLocale()).concat("&currentPage=%s&pageSize=%s");
 
         if (mGetProductCatalogUrl != null)
             return String.format(mGetProductCatalogUrl, currentPage, pageSize);
@@ -364,9 +367,9 @@ public class ECSURLBuilder extends AbstractStore {
     }
 
     public String getRawConfigUrl() {
-        return ECSConfig.INSTANCE.getEcsInput().getBaseUrl() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR +
+        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR +
                 SUFFIX_CONFIGURATION + ECSURLBuilder.SEPERATOR +
-                ECSConfig.INSTANCE.getEcsInput().getLocale() + ECSURLBuilder.SEPERATOR +
+                ECSConfig.INSTANCE.getLocale() + ECSURLBuilder.SEPERATOR +
                 ECSConfig.INSTANCE.getEcsInput().getPropositionID();
     }
 
