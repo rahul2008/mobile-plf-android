@@ -30,6 +30,7 @@ android {
         versionCode 1
         manifestPlaceholders = [
                 appAuthRedirectScheme: 'com.philips.apps.94e28300-565d-4110-8919-42dc4f817393'
+
         ]
     }
 
@@ -78,7 +79,7 @@ dependencies {
     releaseImplementation deps.leakcanary_no_op
     testImplementation deps.leakcanary_no_op
     annotationProcessor deps.butterknife_compiler
-
+    implementation project(strings.usr.projectName)
     implementation project(':AppInfra')
     implementation project(':uAppFwLib')
     implementation philipsdeps.uid
