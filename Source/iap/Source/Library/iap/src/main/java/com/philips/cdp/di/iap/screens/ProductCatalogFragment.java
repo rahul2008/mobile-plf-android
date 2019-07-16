@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -157,12 +158,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
 
-
         mShoppingCartAPI = new ShoppingCartPresenter();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
 
         mBundle = getArguments();
+
         return rootView;
     }
 

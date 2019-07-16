@@ -38,6 +38,7 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_APPLY_VOUCHER;
 
@@ -112,9 +113,14 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final ShoppingCartData data = mData.get(position);
 
-                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), data.getStockLevel(), data
+                final ShoppingCartData data = mData.get(position);
+                int stockLevel = mData.get(position).getStockLevel();
+                if(stockLevel > 50){
+                    stockLevel = 50;
+                }
+
+                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), stockLevel, data
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
@@ -124,7 +130,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
-                countPopUp.createPopUp(v,data.getStockLevel());
+                countPopUp.createPopUp(v,stockLevel);
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
@@ -174,6 +180,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
+
+            // For arabic, Hebrew and Perssian the back arrow change from left to right
+            if((Locale.getDefault().getLanguage().contentEquals("ar")) || (Locale.getDefault().getLanguage().contentEquals("fa")) || (Locale.getDefault().getLanguage().contentEquals("he"))) {
+                shoppingCartProductHolder.mIvOptions.setRotation(180);
+            }
+
 
             if(mData.size()==1 || position==mData.size()-1){
                 shoppingCartProductHolder.viewBottomSpace.setVisibility(View.GONE);
@@ -287,7 +299,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
                         TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
 
-                        tvDiscountText.setText(mData.get(0).getAppliedVouchers().get(i).getDescription());
+                        tvDiscountText.setText(mData.get(0).getAppliedVouchers().get(i).getName());
                         tvDiscountValue.setText("- " + mData.get(0).getAppliedVouchers().get(i).getAppliedValue().getFormattedValue());
                         shoppingCartFooter.gridDiscount.addView(discountInfo);
                     }

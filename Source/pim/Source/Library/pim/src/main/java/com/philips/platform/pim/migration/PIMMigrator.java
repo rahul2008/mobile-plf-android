@@ -34,7 +34,7 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
 
     @Override
     public void onRefreshTokenSuccess(String accessToken) {
-        PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context,this);
+        PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context, this);
         pimMigrationManager.migrateUser(accessToken);
     }
 
@@ -45,12 +45,13 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
 
     @Override
     public void onUserMigrationSuccess() {
-        mLoggingInterface.log(DEBUG, TAG, "onUserMigrationSuccess");
         usrTokenManager.deleteUSRFromSecureStorage();
+        mLoggingInterface.log(DEBUG, TAG, "User is migrated PIM Successfully");
     }
 
     @Override
     public void onUserMigrationFailed(Error error) {
-        mLoggingInterface.log(DEBUG, TAG, "onUserMigrationFailed");
+        mLoggingInterface.log(DEBUG, TAG, "User migration failed! " + error.getErrDesc());
     }
+
 }

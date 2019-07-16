@@ -77,6 +77,8 @@ public class PIMMigrationManagerTest extends TestCase {
     private LoggingInterface mockLoggingInterface;
     @Mock
     private PIMUserMigrationListener mockMigrationListener;
+    @Mock
+    private Error mockError;
 
     private PIMMigrationManager pimMigrationManager;
     private final String TAG = PIMMigrationManager.class.getSimpleName();
