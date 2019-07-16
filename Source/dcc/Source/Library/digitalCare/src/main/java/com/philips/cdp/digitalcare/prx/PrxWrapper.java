@@ -53,6 +53,7 @@ public class PrxWrapper {
 
     private static final String PRX_ASSETS_USERMANUAL_PDF = "User manual";
     private static final String PRX_ASSETS_USERMANUAL_QSG_PDF = "qsg";
+    private static final String PRX_ASSETS_USERMANUAL_DFU_PDF = "dfu";
     private static final String PRX_ASSETS_VIDEO_URL = "mp4";
     private static final String TAG = PrxWrapper.class.getSimpleName();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
@@ -348,7 +349,7 @@ public class PrxWrapper {
                 if (responseData != null) {
                     mAssetModel = (AssetModel) responseData;
                     com.philips.cdp.prxclient.datamodels.assets.Data data = mAssetModel.getData();
-                    String qsgManual = null, usermanual = null;
+                    String qsgManual = null, usermanual = null, dfuManual = null;
                     if (data != null) {
                         final Assets assets = data.getAssets();
                         if (assets != null) {
@@ -362,6 +363,9 @@ public class PrxWrapper {
 
                                 if(assetResource == null) return;
 
+                                if (isEquals(assetType, PRX_ASSETS_USERMANUAL_DFU_PDF))
+                                    dfuManual = assetResource;
+
                                 if (isEquals(assetType, PRX_ASSETS_USERMANUAL_QSG_PDF))
                                         qsgManual = assetResource;
 
@@ -370,6 +374,10 @@ public class PrxWrapper {
                                 if (isEquals(assetExtension, PRX_ASSETS_VIDEO_URL))
                                         mVideoList.add(assetResource);
 
+                            }
+
+                            if(dfuManual != null) {
+                              viewProductDetailsData.setDfuLink(dfuManual);
                             }
                             if (qsgManual != null) {
                                 viewProductDetailsData.setManualLink(qsgManual);

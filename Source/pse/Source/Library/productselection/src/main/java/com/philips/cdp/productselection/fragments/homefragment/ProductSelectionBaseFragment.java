@@ -45,6 +45,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         NetworkStateListener {
 
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+    private static final String DCC_SAVED_COUNTRY = "mCountryPreference";
     private static final String USER_PREFERENCE = "user_product";
     protected static SummaryModel mUserSelectedProduct = null;
     private static String TAG = ProductSelectionBaseFragment.class.getSimpleName();
@@ -93,7 +94,9 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             prefs = getActivity().getSharedPreferences(
                     USER_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
+            String psSelectedCountry = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getServiceDiscovery().getHomeCountry();
             editor.putString(USER_SELECTED_PRODUCT_CTN, ctn);
+            editor.putString(DCC_SAVED_COUNTRY, psSelectedCountry);
             editor.apply();
             return true;
         } else
