@@ -13,7 +13,7 @@ import com.philips.cdp.di.ecs.model.products.Products;
 import java.util.ArrayList;
 
 public interface ProductCatalogAPI {
-    boolean getProductCatalog(int currentPage, int pageSize, ECSListener listener);
+    void getProductCatalog(int currentPage, int pageSize, ECSCallback<Products,Exception> ecsCallback);
 
     void getCategorizedProductList(ArrayList<String> productList);
 

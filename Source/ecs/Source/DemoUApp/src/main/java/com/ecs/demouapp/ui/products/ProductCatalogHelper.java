@@ -12,7 +12,6 @@ import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.prx.PRXSummaryListExecutor;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.philips.cdp.di.ecs.model.products.PaginationEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -24,46 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ProductCatalogHelper {
-    private Context mContext;
-    private ProductCatalogPresenter.ProductCatalogListener mProductCatalogListener;
-    private AbstractModel.DataLoadListener mGetProductCatalogListener;
 
-    public ProductCatalogHelper(Context context, ProductCatalogPresenter.ProductCatalogListener productCatalogListener,
+    public ProductCatalogHelper(Context context,
                                 AbstractModel.DataLoadListener productListener) {
-        mContext = context;
-        mProductCatalogListener = productCatalogListener;
-        mGetProductCatalogListener = productListener;
-    }
 
-    public void sendPRXRequest(Products productData) {
-        ArrayList<String> productsToBeShown = new ArrayList<>();
-        String ctn;
-
-        if (productData != null) {
-            final List<Product> productsEntities = productData.getProducts();
-            if (productsEntities != null)
-                for (Product entry : productsEntities) {
-                    ctn = entry.getCode();
-                    productsToBeShown.add(ctn);
-                }
-        }
-        PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, productsToBeShown,
-                mGetProductCatalogListener);
-
-        builder.preparePRXDataRequest();
-    }
-
-    @SuppressWarnings("unchecked")
-    public boolean processPRXResponse(Products productData, ECSListener listener) {
-
-
-            ArrayList<ProductCatalogData> products = mergeHybrisAndPRX(productData);
-            PaginationEntity pagination = null;
-            if (productData != null && products.size() != 0)
-                pagination = productData.getPagination();
-            refreshList(products, pagination, listener);
-
-        return false;
     }
 
     private ArrayList<ProductCatalogData> mergeHybrisAndPRX(Products productData) {
@@ -91,7 +54,7 @@ public class ProductCatalogHelper {
         return products;
     }
 
-    private void fillEntryBaseData(final Product entry, final ProductCatalogData productItem) {
+    protected void fillEntryBaseData(final Product entry, final ProductCatalogData productItem) {
         if (entry.getPrice() == null || entry.getDiscountPrice() == null)
             return;
         productItem.setFormattedPrice(entry.getPrice().getFormattedValue());
@@ -116,15 +79,7 @@ public class ProductCatalogHelper {
         return false;
     }
 
-    public void refreshList(ArrayList<ProductCatalogData> data, PaginationEntity paginationEntity, ECSListener listener) {
-        storeData(data);
-        if (mProductCatalogListener != null) {
-            mProductCatalogListener.onLoadFinished(data, paginationEntity);
-        }
-        if (listener != null) {
-            listener.onGetCompleteProductList(getProductCTNs(data));
-        }
-    }
+
 
     protected ArrayList<String> getProductCTNs(final ArrayList<ProductCatalogData> data) {
         ArrayList<String> productCodes = new ArrayList<>();

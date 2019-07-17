@@ -340,7 +340,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
             ArrayList<OrderDetail> detailList = new ArrayList<>();
             detailList.add(detail);
-            mController.requestPrxData(detailList, this);
+
+            //call prx here
         }
         if (detail.getTotalPriceWithTax() != null) {
             tvPriceTotal.setText(detail.getTotalPriceWithTax().getFormattedValue());

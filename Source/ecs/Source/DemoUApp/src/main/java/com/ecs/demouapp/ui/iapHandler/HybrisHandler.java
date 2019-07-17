@@ -65,7 +65,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
     @Override
     public void getCompleteProductList(final ECSListener iapListener) {
         final ProductCatalogAPI presenter =
-                ControllerFactory.getInstance().getProductCatalogPresenter(mContext, null);
+                ControllerFactory.getInstance().getProductCatalogPresenter();
         if (isStoreInitialized()) {
             presenter.getCompleteProductList(iapListener);
         } else {

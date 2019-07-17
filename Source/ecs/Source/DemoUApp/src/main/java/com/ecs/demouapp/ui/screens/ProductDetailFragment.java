@@ -25,13 +25,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.activity.ECSActivity;
 import com.ecs.demouapp.ui.adapters.ImageAdapter;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
-//import com.ecs.demouapp.ui.cart.AbstractShoppingCartPresenter;
 import com.ecs.demouapp.ui.cart.AbstractShoppingCartPresenter;
 import com.ecs.demouapp.ui.cart.ECSCartListener;
 import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
@@ -42,7 +40,6 @@ import com.ecs.demouapp.ui.controller.ProductDetailController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.products.ProductCatalogData;
 import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
@@ -62,6 +59,7 @@ import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
 import com.philips.cdp.di.ecs.model.summary.Data;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -70,10 +68,11 @@ import com.philips.platform.uid.view.widget.UIPicker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_UPDATE_PRODUCT_COUNT;
+
+//import com.ecs.demouapp.ui.cart.AbstractShoppingCartPresenter;
 
 //import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
 
@@ -215,9 +214,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mBundle = getArguments();
         if (mBundle != null) {
 
-            ProductCatalogData productCatalogData = (ProductCatalogData) mBundle.getSerializable("ProductCatalogData");
-            assert productCatalogData != null;
-            product = productCatalogData.getProduct();
+            Product productCatalogData = (Product) mBundle.getSerializable("ProductCatalogData");
+            product = productCatalogData;
 
             System.out.println("get product data"+ product.getCode());
 
@@ -256,7 +254,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mBundle.getString(ECSConstant.PRODUCT_VALUE_PRICE) != null) {
             productPrice = mBundle.getString(ECSConstant.PRODUCT_VALUE_PRICE);
         }
-        product = product.append("Tuscany_Campaign").append(";")
+        product = product.append(ECSConfig.INSTANCE.getRootCategory()).append(";")
                 .append(mProductTitle).append(";").append(";")
                 .append(productPrice);
         contextData.put(ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.PROD_VIEW);
@@ -271,6 +269,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void makeAssetsAndDisclaimerRequest() {
+        createCustomProgressBar(mParentLayout, BIG);
         ECSUtility.getInstance().getEcsServices().getProductDetail(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product result) {
@@ -278,11 +277,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 showDisclaimer(result.getDisclaimers().getDisclaimer());
 
                 processAssets(result.getAssets());
+
+                hideProgressBar();
             }
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-
+                hideProgressBar();
                 mProgresImage.setVisibility(View.GONE);
                 ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
                 if (mBuyFromRetailers.isActivated()) {

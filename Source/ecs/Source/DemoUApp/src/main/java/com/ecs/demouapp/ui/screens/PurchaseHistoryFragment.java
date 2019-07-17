@@ -233,7 +233,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     private void updateProductDetails(List<OrderDetail> orderDetails) {
         if (mController == null)
             mController = new OrderController(mContext, this);
-        mController.requestPrxData(orderDetails, this);
+        //call PRX summary here
     }
 
     //TODO

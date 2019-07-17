@@ -4,40 +4,21 @@
  */
 package com.ecs.demouapp.ui.products;
 
-import android.content.Context;
-import android.os.Message;
-
-
-import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.ECSAnalytics;
-import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.integration.ECSListener;
-import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.session.IAPNetworkError;
-import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.DataLoadListener {
-    private Context mContext;
-    private ProductCatalogHelper mProductCatalogHelper;
-    private ProductCatalogPresenter.ProductCatalogListener mProductCatalogListener;
+public class LocalProductCatalog implements ProductCatalogAPI {
+
     private Products mProductCatalog;
 
-    public LocalProductCatalog(final Context context, final ProductCatalogPresenter.ProductCatalogListener productCatalogListener) {
-        mContext = context;
-        mProductCatalogListener = productCatalogListener;
-
-        mProductCatalogHelper = new ProductCatalogHelper(context, productCatalogListener, this);
-    }
-
     @Override
-    public boolean getProductCatalog(int currentPage, int pageSize, ECSListener listener) {
-        return true;
+    public void getProductCatalog(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+
     }
 
     @Override
@@ -53,7 +34,6 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
             }
         }
         mProductCatalog.setProducts(productsEntityList);
-        mProductCatalogHelper.sendPRXRequest(mProductCatalog);
     }
 
     @Override
@@ -64,24 +44,4 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     public void getCatalogCount(ECSListener listener) {
     }
 
-
-    @Override
-    public void onModelDataLoadFinished(final Message msg) {
-        if (msg.obj instanceof HashMap) {
-           // mProductCatalogHelper.processPRXResponse(msg, mProductCatalog, null);
-        }
-    }
-
-    @Override
-    public void onModelDataError(final Message msg) {
-        if (msg.obj instanceof IAPNetworkError)
-            mProductCatalogListener.onLoadError((IAPNetworkError) msg.obj);
-        else {
-            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
-                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + ECSAnalyticsConstant.NO_PRODUCT_FOUND);
-
-            mProductCatalogListener.onLoadError(NetworkUtility.getInstance()
-                    .createIAPErrorMessage(ECSAnalyticsConstant.PRX, mContext.getString(R.string.iap_no_product_available)));
-        }
-    }
 }

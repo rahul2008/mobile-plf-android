@@ -21,7 +21,6 @@ import com.ecs.demouapp.ui.model.CartUpdateProductQuantityRequest;
 import com.ecs.demouapp.ui.model.DeleteCartRequest;
 import com.ecs.demouapp.ui.model.GetCartsRequest;
 import com.ecs.demouapp.ui.model.GetCurrentCartRequest;
-import com.ecs.demouapp.ui.prx.PRXSummaryListExecutor;
 import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetUser;
@@ -323,8 +322,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
-        if (processResponseFromHybrisForGetCart(msg)) return;
-        processResponseFromPRX(msg);
+
     }
 
     @Override
@@ -342,29 +340,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         } else {
             EventHelper.getInstance().notifyEventOccurred(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED);
         }
-    }
-
-    private boolean processResponseFromHybrisForGetCart(final Message msg) {
-        if (msg.obj instanceof CartsEntity) {
-            mCurrentCartData = (CartsEntity) msg.obj;
-            if (null != mCurrentCartData.getEntries()) {
-                makePrxCall(mCurrentCartData);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void makePrxCall(final CartsEntity mCurrentCart) {
-        final ArrayList<String> ctnsToBeRequestedForPRX = new ArrayList<>();
-        final List<EntriesEntity> entries = mCurrentCart.getEntries();
-
-        for (EntriesEntity entry : entries) {
-            ctnsToBeRequestedForPRX.add(entry.getProduct().getCode());
-        }
-        PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnsToBeRequestedForPRX, this);
-        builder.preparePRXDataRequest();
-
     }
 
     private void notifyListChanged() {

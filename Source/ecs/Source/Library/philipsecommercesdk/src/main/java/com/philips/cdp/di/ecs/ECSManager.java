@@ -193,7 +193,7 @@ public class ECSManager {
                             public void onFailure(Exception error, int errorCode) {
 
                             }
-                        });
+                        }).executeRequest();
 
                     }
 
@@ -202,6 +202,7 @@ public class ECSManager {
 
                     }
                 });
+
 
             }
         }).start();

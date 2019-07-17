@@ -41,14 +41,13 @@ public class ControllerFactory {
         return api;
     }
 
-    public ProductCatalogAPI getProductCatalogPresenter(Context context,
-                                                        ProductCatalogPresenter.ProductCatalogListener listener) {
+    public ProductCatalogAPI getProductCatalogPresenter() {
         ProductCatalogAPI api;
-        if (mIsPlanB)
-            api = new LocalProductCatalog(context, listener);
-        else {
-            api = new ProductCatalogPresenter(context, listener);
-        }
+//        if (mIsPlanB)
+//            api = new LocalProductCatalog(context, listener);
+//        else {
+            api = new ProductCatalogPresenter();
+        //}
         return api;
     }
 }
