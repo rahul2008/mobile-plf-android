@@ -20,33 +20,20 @@ import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_INITIALIZATION_FAIL
 
 public class ECSServices implements ECSServiceProvider {
 
-    private static ECSServices mECSServices;
+   // private static ECSServices mECSServices;
 
     private ECSManager mECSManager;
 
-    private ECSServices(ECSInput ecsInput, AppInfra appInfra) {
+    public ECSServices(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
         ECSConfig.INSTANCE.setAppInfra(appInfra);
         ECSConfig.INSTANCE.setEcsInput(ecsInput);
-        mECSManager = new ECSManager();
+        mECSManager = getECSManager();
     }
 
-    /**
-     * Initialize IAPSDKService. Once initialized IAPSDKService object is created and returned in iapsdkCallback.
-     * All IAP service methods can be called only by this IAPSDKService object.
-     *
-     * @param ecsInput     the init params componentId, propositionId and locale
-     * @param iapsdkCallback the iapsdk callback
-     */
-    public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
-
-        if(isValidInput(ecsInput,appInfra)){  // if locale, propositionID are verified
-            mECSServices=new ECSServices(ecsInput,appInfra);
-            iapsdkCallback.onResponse(mECSServices);
-        }else{
-            iapsdkCallback.onFailure(new Exception(ECS_INITIALIZATION_FAILURE),9999);
-        }
-
+       ECSManager getECSManager(){
+        return new ECSManager();
     }
+
 
     private static boolean isValidInput(ECSInput ecsInput, AppInfra appInfra) {
         return ecsInput.getLocale()!=null && appInfra!=null;
@@ -59,13 +46,14 @@ public class ECSServices implements ECSServiceProvider {
 
 
 
-    private void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
         mECSManager.getHybrisConfigResponse(ecsCallback);
 
     }
 
     @Override
     public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
+
         mECSManager.getProductList(currentPage,pageSize,eCSCallback);
     }
 
@@ -77,7 +65,7 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void InvalidateECS(ECSCallback<Boolean,Exception> ecsCallback) {
-        mECSServices=null;
+       // mECSServices=null;
         ecsCallback.onResponse(true);
 
     }

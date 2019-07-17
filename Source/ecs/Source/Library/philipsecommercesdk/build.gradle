@@ -46,8 +46,18 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation philipsdeps.AppInfra
 
+
+
+    // Tests
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_classloading_xstream
     testImplementation deps.robolectric
     testImplementation deps.robolectric_junit
     testImplementation deps.robolectric_shadows
     testImplementation deps.robolectric_utils
+
 }

@@ -76,9 +76,10 @@ public class GetProductRequest extends AppInfraAbstractRequest implements OnUrlR
             for (Product product : productsEntities) {
                 ctns.add(product.getCode());
             }
+            ecsCallback.onResponse(mProducts);
             //Call PRX here
-            ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
-            productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(this);
+          //  ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
+          //  productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(this);
         }
     }
 
