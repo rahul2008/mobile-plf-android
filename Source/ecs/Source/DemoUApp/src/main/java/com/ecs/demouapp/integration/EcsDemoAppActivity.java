@@ -42,11 +42,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
-import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Products;
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -161,12 +157,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "IAP", configError);
         mEtPropositionId.setText(propertyForKey);
 
-        ECSServices ecsServices = new ECSServices(new ECSInput() {
-            @Override
-            public String getPropositionID() {
-                return propertyForKey;
-            }
-        }, new AppInfra.Builder().build(getApplicationContext()));
+        ECSServices ecsServices = new ECSServices(propertyForKey, new AppInfra.Builder().build(getApplicationContext()));
 
         ECSUtility.getInstance().setEcsService(ecsServices);
 

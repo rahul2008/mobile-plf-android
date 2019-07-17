@@ -370,7 +370,7 @@ public class ECSURLBuilder extends AbstractStore {
         return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR +
                 SUFFIX_CONFIGURATION + ECSURLBuilder.SEPERATOR +
                 ECSConfig.INSTANCE.getLocale() + ECSURLBuilder.SEPERATOR +
-                ECSConfig.INSTANCE.getEcsInput().getPropositionID();
+                ECSConfig.INSTANCE.getPropositionID();
     }
 
 }

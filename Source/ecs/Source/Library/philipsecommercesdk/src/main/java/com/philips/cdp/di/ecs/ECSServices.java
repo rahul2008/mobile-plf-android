@@ -4,13 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.ECSInput;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
-import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSConstant;
 import com.philips.platform.appinfra.AppInfra;
@@ -22,17 +20,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_INITIALIZATION_FAILURE;
-
 public class ECSServices implements ECSServiceProvider {
 
    // private static ECSServices mECSServices;
 
     private ECSManager mECSManager;
 
-    public ECSServices(ECSInput ecsInput, @NonNull AppInfra appInfra) {
+    public ECSServices(String propositionID, @NonNull AppInfra appInfra) {
         ECSConfig.INSTANCE.setAppInfra(appInfra);
-        ECSConfig.INSTANCE.setEcsInput(ecsInput);
+        ECSConfig.INSTANCE.setPropositionID(propositionID);
         mECSManager = getECSManager();
     }
 
