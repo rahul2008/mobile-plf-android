@@ -1,6 +1,5 @@
 package com.philips.cdp.di.ecs;
 
-import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
@@ -171,7 +170,7 @@ public class ECSManager {
         }).start();
     }
 
-    private void getProductAssetAndDisclaimer(Product product, ECSCallback<Product, Exception> ecsCallback) {
+    private void getProductAsset(Product product, ECSCallback<Product, Exception> ecsCallback) {
 
         new Thread(new Runnable() {
             @Override
@@ -245,7 +244,7 @@ public class ECSManager {
     }
 
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
-        getProductAssetAndDisclaimer(product, ecsCallback);
+        getProductAsset(product, ecsCallback);
     }
 
     private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
