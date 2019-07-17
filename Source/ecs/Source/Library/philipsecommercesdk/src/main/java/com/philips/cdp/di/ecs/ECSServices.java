@@ -30,41 +30,18 @@ public class ECSServices implements ECSServiceProvider {
 
     private ECSManager mECSManager;
 
-    public ECSServices(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
+    public ECSServices(ECSInput ecsInput, @NonNull AppInfra appInfra) {
         ECSConfig.INSTANCE.setAppInfra(appInfra);
         ECSConfig.INSTANCE.setEcsInput(ecsInput);
         mECSManager = getECSManager();
     }
 
-<<<<<<< HEAD
        ECSManager getECSManager(){
         return new ECSManager();
     }
 
 
-    private static boolean isValidInput(ECSInput ecsInput, AppInfra appInfra) {
-        return ecsInput.getLocale()!=null && appInfra!=null;
-    }
-=======
-    /**
-     * Initialize IAPSDKService. Once initialized IAPSDKService object is created and returned in iapsdkCallback.
-     * All IAP service methods can be called only by this IAPSDKService object.
-     *  @param ecsInput     the init params componentId, propositionId and locale
-     * @param iapsdkCallback the iapsdk callback
-     */
-    public static void init(ECSInput ecsInput, @NonNull AppInfra appInfra, ECSCallback<ECSServices, Exception> iapsdkCallback) {
-
-        if(isValidInput(appInfra)){  // if locale, propositionID are verified
-            mECSServices=new ECSServices(ecsInput,appInfra);
-            iapsdkCallback.onResponse(mECSServices);
-        }else{
-            iapsdkCallback.onFailure(new Exception(ECS_INITIALIZATION_FAILURE),9999);
-        }
-
-    }
-
     public void configureECS(ECSCallback<Boolean,Exception> ecsCallback){
->>>>>>> a70bf6e11eb5dc9be23ff91e74c5937fc2c986e2
 
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(ECSConstant.SERVICE_ID);
@@ -88,25 +65,13 @@ public class ECSServices implements ECSServiceProvider {
                 String locale = serviceDiscoveryService.getLocale();
                 ECSConfig.INSTANCE.setLocale(locale);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
-
-<<<<<<< HEAD
-    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
-        mECSManager.getHybrisConfigResponse(ecsCallback);
-=======
-                if (configUrls != null) {
-                    mECSManager.getHybrisConfigResponse(ecsCallback);
-                }
+                ECSConfig.INSTANCE.setBaseURL(configUrls);
             }
-        };
->>>>>>> a70bf6e11eb5dc9be23ff91e74c5937fc2c986e2
+
+    };
 
         ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
-
-    private static boolean isValidInput(AppInfra appInfra) {
-        return appInfra!=null;
-    }
-
 
     public void hybrisOathAuthentication(OAuthInput OAuthInput, ECSCallback<OAuthResponse,Exception> ecsListener){
         mECSManager.getOAuth(OAuthInput,ecsListener);
@@ -118,24 +83,15 @@ public class ECSServices implements ECSServiceProvider {
         mECSManager.getProductList(currentPage,pageSize,eCSCallback);
     }
 
+    @Override
+    public void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback) {
+
+    }
+
 
     @Override
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
         mECSManager.getProductDetail(product,ecsCallback);
     }
 
-    @Override
-<<<<<<< HEAD
-    public void InvalidateECS(ECSCallback<Boolean,Exception> ecsCallback) {
-       // mECSServices=null;
-        ecsCallback.onResponse(true);
-=======
-    public void InvalidateECS(ECSCallback<Boolean, Exception> ecsCallback) {
-        mECSServices=null;
-    }
->>>>>>> a70bf6e11eb5dc9be23ff91e74c5937fc2c986e2
-
-    public void  getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback){
-        new GetConfigurationRequest(ecsCallback).executeRequest();
-    }
 }

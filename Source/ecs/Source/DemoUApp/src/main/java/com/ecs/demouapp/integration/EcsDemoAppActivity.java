@@ -161,34 +161,24 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "IAP", configError);
         mEtPropositionId.setText(propertyForKey);
 
-
-        ECSServices.init(new ECSInput() {
+        ECSServices ecsServices = new ECSServices(new ECSInput() {
             @Override
             public String getPropositionID() {
                 return propertyForKey;
             }
+        }, new AppInfra.Builder().build(getApplicationContext()));
 
-        }, new AppInfra.Builder().build(getApplicationContext()), new ECSCallback<ECSServices, Exception>() {
+        ECSUtility.getInstance().setEcsService(ecsServices);
+
+        ecsServices.configureECS(new ECSCallback<Boolean, Exception>() {
             @Override
-            public void onResponse(ECSServices result) {
-                ecsServices = result;
-                ECSUtility.getInstance().setEcsService(ecsServices);
-                ecsServices.configureECS(new ECSCallback<Boolean, Exception>() {
-                    @Override
-                    public void onResponse(Boolean result) {
-                        System.out.println("Successfully configured");
-                    }
-
-                    @Override
-                    public void onFailure(Exception error, int errorCode) {
-                        System.out.println("Failed configured");
-                    }
-                });
+            public void onResponse(Boolean result) {
+                System.out.println("Configured ECS Success");
             }
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-
+                System.out.println("Configured ECS failed");
             }
         });
 

@@ -66,7 +66,6 @@ public class ECSManager {
                          prepareProductSummaryURL(result,finalEcsCallback);
                     }
 
-<<<<<<< HEAD
                     @Override
                     public void onFailure(Exception error, int errorCode) {
                         finalEcsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR),999);
@@ -74,10 +73,7 @@ public class ECSManager {
                     }
                 });
                 getProductRequest.executeRequest();
-=======
-                new GetProductRequest(currentPage, pageSize, ecsCallback).executeRequest();
 
->>>>>>> a70bf6e11eb5dc9be23ff91e74c5937fc2c986e2
             }
         }).start();
     }
@@ -227,11 +223,9 @@ public class ECSManager {
         getProductAssetAndDisclaimer(product, ecsCallback);
     }
 
-<<<<<<< HEAD
     private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
         ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = new ProductSummaryListServiceDiscoveryRequest(ctns);
         return productSummaryListServiceDiscoveryRequest;
     }
-=======
->>>>>>> a70bf6e11eb5dc9be23ff91e74c5937fc2c986e2
+
 }
