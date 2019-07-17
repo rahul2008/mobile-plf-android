@@ -66,11 +66,20 @@ public class ECSServices implements ECSServiceProvider {
                 ECSConfig.INSTANCE.setLocale(locale);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
                 ECSConfig.INSTANCE.setBaseURL(configUrls);
+
+                if(configUrls!=null){
+                    mECSManager.getHybrisConfig(ecsCallback);
+                }
             }
 
     };
 
         ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
+    }
+
+    @Override
+    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+        mECSManager.getHybrisConfigResponse(ecsCallback);
     }
 
     public void hybrisOathAuthentication(OAuthInput OAuthInput, ECSCallback<OAuthResponse,Exception> ecsListener){

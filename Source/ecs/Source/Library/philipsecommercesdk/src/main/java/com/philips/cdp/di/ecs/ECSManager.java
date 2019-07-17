@@ -31,7 +31,7 @@ import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 
 public class ECSManager {
 
-    void getHybrisConfigResponse(ECSCallback<Boolean, Exception> ecsCallback) {
+    void getHybrisConfig(ECSCallback<Boolean, Exception> ecsCallback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -53,6 +53,30 @@ public class ECSManager {
             }
         }).start();
     }
+
+    void getHybrisConfigResponse(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new GetConfigurationRequest(new ECSCallback<HybrisConfigResponse, Exception>() {
+                    @Override
+                    public void onResponse(HybrisConfigResponse result) {
+
+                        ECSConfig.INSTANCE.setSiteId(result.getSiteId());
+                        ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
+
+                        ecsCallback.onResponse(result);
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        ecsCallback.onFailure(error, errorCode);
+                    }
+                }).executeRequest();
+            }
+        }).start();
+    }
+
 
 
     public void getProductList(int currentPage, int pageSize, final ECSCallback<Products, Exception> finalEcsCallback) {
