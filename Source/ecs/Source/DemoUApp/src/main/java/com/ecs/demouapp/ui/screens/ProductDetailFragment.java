@@ -275,9 +275,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             @Override
             public void onResponse(Product result) {
 
-                showDisclaimer(result.getDisclaimers().getDisclaimer());
+                if(null!=result.getDisclaimers() && null!=result.getDisclaimers().getDisclaimer()) {
+                    showDisclaimer(result.getDisclaimers().getDisclaimer());
+                }
 
-                processAssets(result.getAssets());
+                if(null!=result.getAssets()) {
+                    processAssets(result.getAssets());
+                }
             }
 
             @Override

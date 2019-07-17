@@ -8,7 +8,7 @@ public class ECSErrorReason {
     public static final String ECS_INVALID_TOKEN = "Invalid token";
     public static final String ECS_INVALID_HYBRIS_TOKEN = "Invalid hybris token";
     public static final String ECS_NO_PRODUCT_FOUND = "No product found";
-    public static final String ECS_NO_PRODUCT_DETAIL_FOUND = "Product detail disclaimer and asset not Found";
+     public static final String ECS_NO_PRODUCT_DETAIL_FOUND = "Product detail disclaimer and asset not Found";
 
     public static final String ECS_CANNOT_CONNECT_INTERNET ="Cannot connect to Internet...Please check your connection!";
     public static final String ECS_SERVER_NOT_FOUND ="The server could not be found. Please try again after some time!!";

@@ -14,6 +14,8 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
+import com.philips.cdp.di.ecs.request.AssetThread;
+import com.philips.cdp.di.ecs.request.DisclaimerThread;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
 import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
@@ -26,6 +28,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
+import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_FOUND;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 
 public class ECSManager {
@@ -77,7 +81,6 @@ public class ECSManager {
     }
 
 
-
     public void getProductList(int currentPage, int pageSize, final ECSCallback<Products, Exception> finalEcsCallback) {
 
         new Thread(new Runnable() {
@@ -86,12 +89,12 @@ public class ECSManager {
                 GetProductRequest getProductRequest = new GetProductRequest(currentPage, pageSize, new ECSCallback<Products, Exception>() {
                     @Override
                     public void onResponse(Products result) {
-                         prepareProductSummaryURL(result,finalEcsCallback);
+                        prepareProductSummaryURL(result, finalEcsCallback);
                     }
 
                     @Override
                     public void onFailure(Exception error, int errorCode) {
-                        finalEcsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR),999);
+                        finalEcsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR), 999);
 
                     }
                 });
@@ -101,42 +104,42 @@ public class ECSManager {
         }).start();
     }
 
-     void prepareProductSummaryURL(Products result, final ECSCallback<Products, Exception> ecsCallback) {
-            List<Product> productsEntities = result.getProducts();
-            ArrayList<String> ctns = new ArrayList<>();
+    void prepareProductSummaryURL(Products result, final ECSCallback<Products, Exception> ecsCallback) {
+        List<Product> productsEntities = result.getProducts();
+        ArrayList<String> ctns = new ArrayList<>();
 
-            for (Product product : productsEntities) {
-                ctns.add(product.getCode());
+        for (Product product : productsEntities) {
+            ctns.add(product.getCode());
+        }
+        //Call PRX here
+        ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
+        productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
+            @Override
+            public void onSuccess(String url) {
+                getProductSummary(url, new ECSCallback<ECSProductSummary, Exception>() {
+                    @Override
+                    public void onResponse(ECSProductSummary ecsProductSummary) {
+                        updateProductsWithSummary(result, ecsProductSummary);
+                        ecsCallback.onResponse(result);
+
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        ecsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR), 999);
+                    }
+                });
+
             }
-            //Call PRX here
-            ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
-            productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
-                @Override
-                public void onSuccess(String url) {
-                    getProductSummary(url, new ECSCallback<ECSProductSummary, Exception>() {
-                        @Override
-                        public void onResponse(ECSProductSummary ecsProductSummary) {
-                            updateProductsWithSummary(result,ecsProductSummary);
-                            ecsCallback.onResponse(result);
 
-                        }
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
 
-                        @Override
-                        public void onFailure(Exception error, int errorCode) {
-                            ecsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR),999);
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onError(ERRORVALUES errorvalues, String s) {
-
-                }
-            });
+            }
+        });
     }
 
-    void updateProductsWithSummary(Products products,ECSProductSummary ecsProductSummary ){
+    void updateProductsWithSummary(Products products, ECSProductSummary ecsProductSummary) {
         HashMap<String, Data> summaryCtnMap = new HashMap<>();
 
         if (ecsProductSummary.isSuccess()) {
@@ -151,12 +154,13 @@ public class ECSManager {
         }
     }
 
-    void getProductSummary(String url, ECSCallback<ECSProductSummary, Exception> eCSCallback){  new Thread(new Runnable() {
-        @Override
-        public void run() {
-            new GetProductSummaryListRequest(url,eCSCallback).executeRequest();
-        }
-    }).start();
+    void getProductSummary(String url, ECSCallback<ECSProductSummary, Exception> eCSCallback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new GetProductSummaryListRequest(url, eCSCallback).executeRequest();
+            }
+        }).start();
     }
 
 
@@ -170,7 +174,7 @@ public class ECSManager {
         }).start();
     }
 
-    private void getProductAsset(Product product, ECSCallback<Product, Exception> ecsCallback) {
+  /*  private void getProductAsset(Product product, ECSCallback<Product, Exception> ecsCallback) {
 
         new Thread(new Runnable() {
             @Override
@@ -240,10 +244,92 @@ public class ECSManager {
 
             }
         }).start();
+    }*/
+
+    void getProductAsset(String url, ECSCallback<Assets, Exception> eCSCallback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new GetProductAssetRequest(url, eCSCallback).executeRequest();
+            }
+        }).start();
     }
 
+    void getProductDisclaimer(String url, ECSCallback<Disclaimers, Exception> eCSCallback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new GetProductDisclaimerRequest(url, eCSCallback).executeRequest();
+            }
+        }).start();
+    }
+
+
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
-        getProductAsset(product, ecsCallback);
+
+
+
+        new AssetServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
+            @Override
+            public void onSuccess(String url) {
+                getProductAsset(url, new ECSCallback<Assets, Exception>() {
+                    @Override
+                    public void onResponse(Assets result) {
+                            if(null!=result){
+                               product.setAssets(result);
+                               getDisclaimer(product,ecsCallback);
+
+                            }else{
+                                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),5002);
+                            }
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),5002);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),5002);
+            }
+        });
+
+
+
+    }
+
+    private void getDisclaimer(Product product,ECSCallback<Product, Exception> ecsCallback){
+        new DisclaimerServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
+            @Override
+            public void onSuccess(String url) {
+
+                getProductDisclaimer(url, new ECSCallback<Disclaimers, Exception>() {
+                    @Override
+                    public void onResponse(Disclaimers result) {
+                        if(null!=result){
+                            product.setDisclaimers(result);
+                        }
+                        ecsCallback.onResponse(product);
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        ecsCallback.onResponse(product);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                ecsCallback.onResponse(product);
+            }
+
+
+        });
     }
 
     private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
