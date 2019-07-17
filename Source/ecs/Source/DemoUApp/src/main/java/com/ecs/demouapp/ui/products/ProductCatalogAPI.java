@@ -20,6 +20,4 @@ public interface ProductCatalogAPI {
     void getCompleteProductList(ECSListener iapListener);
 
     void getCatalogCount(ECSListener listener);
-
-    void getECSProductCatalog(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback);
 }

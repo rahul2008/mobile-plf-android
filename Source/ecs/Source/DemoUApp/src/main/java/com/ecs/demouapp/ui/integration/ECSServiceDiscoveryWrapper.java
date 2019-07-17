@@ -7,6 +7,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -52,9 +53,11 @@ public class ECSServiceDiscoveryWrapper {
 
                 pIAPHandler.initIAPRequisite();
                 String locale = serviceDiscoveryService.getLocale();
+
                 String configUrls = serviceDiscoveryService.getConfigUrls();
                 if (locale != null) {
                     setLangAndCountry(locale);
+                    ECSConfig.INSTANCE.setLocale(locale);
                 }
                 //Condition for launching IAP screens
                 if (iapListener == null && entry == null) {
@@ -65,6 +68,7 @@ public class ECSServiceDiscoveryWrapper {
                         mIAPSettings.setUseLocalData(false);
                         //    String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
                         mIAPSettings.setHostPort(configUrls + "/");
+                        ECSConfig.INSTANCE.setBaseURL(configUrls + "/");
                     }
                     pIAPHandler.initControllerFactory();
                     launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
@@ -77,6 +81,8 @@ public class ECSServiceDiscoveryWrapper {
                         mIAPSettings.setUseLocalData(false);
                         //String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
                         mIAPSettings.setHostPort(configUrls + "/");
+                        ECSConfig.INSTANCE.setBaseURL(configUrls + "/");
+
                         mIAPSettings.setProposition(loadConfigParams());
                         pIAPHandler.initControllerFactory();
                         if (entry.equalsIgnoreCase(COMPLETE_PRODUCT_LIST))

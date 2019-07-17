@@ -134,34 +134,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
 
 
-        ECSServices.init(new ECSInput() {
-            @Override
-            public String getPropositionID() {
-                return "IAP_MOB_DKA";
-            }
 
-            @Override
-            public String getLocale() {
-                return "de_DE";
-            }
-
-            @Override
-            public String getBaseUrl() {
-                return "https://acc.us.pil.shop.philips.com/";
-            }
-         }, new AppInfra.Builder().build(getApplicationContext()), new ECSCallback<ECSServices, Exception>() {
-            @Override
-            public void onResponse(ECSServices result) {
-                ecsServices = result;
-
-                ECSUtility.getInstance().setEcsService(ecsServices);
-            }
-
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-
-            }
-        });
 
 
         urInterface = new URInterface();
@@ -187,6 +160,37 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "IAP", configError);
         mEtPropositionId.setText(propertyForKey);
+
+
+        ECSServices.init(new ECSInput() {
+            @Override
+            public String getPropositionID() {
+                return propertyForKey;
+            }
+
+        }, new AppInfra.Builder().build(getApplicationContext()), new ECSCallback<ECSServices, Exception>() {
+            @Override
+            public void onResponse(ECSServices result) {
+                ecsServices = result;
+                ECSUtility.getInstance().setEcsService(ecsServices);
+                ecsServices.configureECS(new ECSCallback<Boolean, Exception>() {
+                    @Override
+                    public void onResponse(Boolean result) {
+                        System.out.println("Successfully configured");
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        System.out.println("Failed configured");
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        });
 
         mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
             @Override

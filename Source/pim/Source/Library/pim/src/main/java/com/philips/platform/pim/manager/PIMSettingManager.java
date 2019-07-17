@@ -75,7 +75,7 @@ public class PIMSettingManager {
         this.pimUserManager = pimUserManager;
     }
 
-    RestInterface getRestClient() {
+    public RestInterface getRestClient() {
         return mRestInterface;
     }
 

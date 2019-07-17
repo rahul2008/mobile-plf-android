@@ -20,7 +20,9 @@ import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.RequestListener;
 import com.ecs.demouapp.ui.session.SynchronizedNetwork;
 import com.ecs.demouapp.ui.session.SynchronizedNetworkListener;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 
 
 import org.json.JSONObject;
@@ -66,43 +68,30 @@ public class StoreController {
     }
 
     void fetchConfiguration() {
-        IAPJsonRequest request = new IAPJsonRequest(Request.Method.GET, mStoreConfig.getRawConfigUrl(), null,
-                null, null);
-        SynchronizedNetwork synchronizedNetwork = getSynchronizedNetwork();
-        synchronizedNetwork.performRequest(request, new SynchronizedNetworkListener() {
+
+        ECSUtility.getInstance().getEcsServices().getECSConfig(new ECSCallback<com.philips.cdp.di.ecs.model.response.HybrisConfigResponse, Exception>() {
             @Override
-            public void onSyncRequestSuccess(final Response<JSONObject> jsonObjectResponse) {
-                if(jsonObjectResponse == null || jsonObjectResponse.result == null){
-                    postError(null);
-                    return;
-                }
-                HybrisConfigResponse resp = new Gson().fromJson(jsonObjectResponse.result.toString(),
-                        HybrisConfigResponse.class);
-                mSiteID = resp.getSiteId();
-                mCampaignID = resp.getRootCategory();
+            public void onResponse(com.philips.cdp.di.ecs.model.response.HybrisConfigResponse result) {
+
+                mSiteID = result.getSiteId();
+                mCampaignID = result.getRootCategory();
                 mStoreConfig.generateStoreUrls();
                 notifyConfigListener(true, null);
             }
 
             @Override
-            public void onSyncRequestError(final VolleyError volleyError) {
-                postError(volleyError);
-            }
+            public void onFailure(Exception error, int errorCode) {
 
-            private void postError(VolleyError volleyError) {
                 Message msg = Message.obtain();
                 mSiteID = null;
-                msg.obj = new IAPNetworkError(volleyError, hashCode(), null);
+                msg.obj = new IAPNetworkError(new VolleyError(error),hashCode(),null);
                 notifyConfigListener(false, msg);
             }
         });
+
     }
 
-    //For testing purpose
-    SynchronizedNetwork getSynchronizedNetwork() {
-        IAPHurlStack hurlStack = new IAPHurlStack(null);
-        return new SynchronizedNetwork(hurlStack.getHurlStack());
-    }
+
 
     private void notifyConfigListener(final boolean success, final Message msg) {
         Handler handler = new Handler(Looper.getMainLooper());

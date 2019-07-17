@@ -4,10 +4,5 @@ import android.support.annotation.NonNull;
 
 public interface ECSInput {
 
-
     String getPropositionID();
-    @NonNull
-    String getLocale();
-
-    String getBaseUrl();
 }

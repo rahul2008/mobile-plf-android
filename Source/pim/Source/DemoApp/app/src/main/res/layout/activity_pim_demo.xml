@@ -10,28 +10,37 @@
         android:id="@+id/pim_txtview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PIM Demo App"
-        android:layout_marginLeft="5dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="10dp" />
+        android:text="PIM Demo App" />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/selectLibrary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pim_txtview"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp" />
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/spinner_CountrySelection"
         android:layout_width="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
-        android:layout_below="@id/pim_txtview"/>
+        android:layout_below="@id/selectLibrary"
+        android:layout_centerInParent="true"
+
+        android:layout_margin="5dp" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/launch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_below="@id/spinner_CountrySelection"
         android:layout_centerInParent="true"
+        android:layout_margin="5dp"
         android:onClick="launch"
-        android:text="Launch PIM MicroApp"
-        android:layout_below="@id/spinner_CountrySelection"/>
+        android:text="Launch PIM MicroApp" />
 
 </RelativeLayout>

@@ -55,7 +55,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
 
     @Override
     public String getURL() {
-        return new ECSURLBuilder().getOauthUrl();
+        return new ECSURLBuilder().getOauthUrl(oAuthInput.getJanRainID());
     }
 
     @Override

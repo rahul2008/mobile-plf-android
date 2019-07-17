@@ -36,12 +36,12 @@ import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.products.ProductCatalogAPI;
 import com.ecs.demouapp.ui.products.ProductCatalogData;
 import com.ecs.demouapp.ui.products.ProductCatalogPresenter;
-import com.ecs.demouapp.ui.response.products.PaginationEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.model.products.PaginationEntity;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -264,6 +264,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putString(ECSConstant.STOCK_LEVEL_STATUS, productCatalogData.getStockLevelStatus());
             bundle.putInt(ECSConstant.STOCK_LEVEL, productCatalogData.getStockLevel());
             bundle.putBoolean(ECSConstant.IS_PRODUCT_CATALOG, true);
+            bundle.putSerializable("ProductCatalogData",productCatalogData);
             if (getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST) != null) {
                 final ArrayList<String> list = getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST);
                 bundle.putStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST, list);

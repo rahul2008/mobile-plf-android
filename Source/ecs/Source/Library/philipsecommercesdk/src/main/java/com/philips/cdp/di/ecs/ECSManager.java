@@ -5,8 +5,8 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
-import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.Data;
@@ -31,12 +31,27 @@ import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 
 public class ECSManager {
 
-    void getHybrisConfigResponse(ECSCallback<HybrisConfigResponse, Exception> eCSCallback){  new Thread(new Runnable() {
-        @Override
-        public void run() {
-            new GetConfigurationRequest(eCSCallback).executeRequest();
-        }
-    }).start();
+    void getHybrisConfigResponse(ECSCallback<Boolean, Exception> ecsCallback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new GetConfigurationRequest(new ECSCallback<HybrisConfigResponse, Exception>() {
+                    @Override
+                    public void onResponse(HybrisConfigResponse result) {
+
+                        ECSConfig.INSTANCE.setSiteId(result.getSiteId());
+                        ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
+
+                        ecsCallback.onResponse(true);
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        ecsCallback.onFailure(error, errorCode);
+                    }
+                }).executeRequest();
+            }
+        }).start();
     }
 
 
@@ -51,6 +66,7 @@ public class ECSManager {
                          prepareProductSummaryURL(result,finalEcsCallback);
                     }
 
+<<<<<<< HEAD
                     @Override
                     public void onFailure(Exception error, int errorCode) {
                         finalEcsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR),999);
@@ -58,6 +74,10 @@ public class ECSManager {
                     }
                 });
                 getProductRequest.executeRequest();
+=======
+                new GetProductRequest(currentPage, pageSize, ecsCallback).executeRequest();
+
+>>>>>>> a70bf6e11eb5dc9be23ff91e74c5937fc2c986e2
             }
         }).start();
     }
@@ -126,12 +146,12 @@ public class ECSManager {
             @Override
             public void run() {
 
-               new OAuthRequest(oAuthInput, ecsCallback);
+                new OAuthRequest(oAuthInput, ecsCallback);
             }
         }).start();
     }
 
-    private void getProductAssetAndDisclaimer(Product product,ECSCallback<Product, Exception> ecsCallback) {
+    private void getProductAssetAndDisclaimer(Product product, ECSCallback<Product, Exception> ecsCallback) {
 
         new Thread(new Runnable() {
             @Override
@@ -146,7 +166,7 @@ public class ECSManager {
                             public void onResponse(Assets result) {
                                 product.setAssets(result);
 
-                                getProductDisclaimer(product,ecsCallback);
+                                getProductDisclaimer(product, ecsCallback);
                             }
 
                             @Override
@@ -204,11 +224,14 @@ public class ECSManager {
     }
 
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
-        getProductAssetAndDisclaimer(product,ecsCallback);
+        getProductAssetAndDisclaimer(product, ecsCallback);
     }
 
+<<<<<<< HEAD
     private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
         ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = new ProductSummaryListServiceDiscoveryRequest(ctns);
         return productSummaryListServiceDiscoveryRequest;
     }
+=======
+>>>>>>> a70bf6e11eb5dc9be23ff91e74c5937fc2c986e2
 }

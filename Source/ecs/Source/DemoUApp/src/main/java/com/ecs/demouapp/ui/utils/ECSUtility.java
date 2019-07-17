@@ -4,8 +4,8 @@ import android.view.View;
 
 
 import com.ecs.demouapp.ui.integration.ECSOrderFlowCompletion;
-import com.ecs.demouapp.ui.response.products.PaginationEntity;
 import com.philips.cdp.di.ecs.ECSServices;
+import com.philips.cdp.di.ecs.model.products.PaginationEntity;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 /**

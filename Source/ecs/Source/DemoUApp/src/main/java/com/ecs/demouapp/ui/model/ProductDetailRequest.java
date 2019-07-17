@@ -1,10 +1,10 @@
 package com.ecs.demouapp.ui.model;
 
 import com.android.volley.Request;
-import com.ecs.demouapp.ui.response.products.ProductDetailEntity;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
 
 
 import java.util.Map;

@@ -12,6 +12,26 @@ public enum ECSConfig {
     AppInfra appInfra;
     HybrisConfigResponse config;
 
+    public String getBaseURL() {
+        return baseURL;
+    }
+
+    public void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
+    String baseURL;
+
+    public String getLocale() {
+        return locale;
+    }
+
+    String locale;
+
     public boolean isAppConfigured() {
         return rootCategory!=null && siteId!=null;
     }
@@ -54,6 +74,6 @@ public enum ECSConfig {
 
 
     public  boolean isHybrisFlow(){
-        return ecsInput.getBaseUrl()!=null;
+        return this.baseURL!=null;
     }
 }

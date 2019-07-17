@@ -13,11 +13,10 @@ import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.response.products.Products;
-import com.ecs.demouapp.ui.response.products.ProductsEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
-import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.Products;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,11 +43,11 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     @Override
     public void getCategorizedProductList(final ArrayList<String> productList) {
         mProductCatalog = new Products();
-        List<ProductsEntity> productsEntityList = new ArrayList<>();
+        List<Product> productsEntityList = new ArrayList<>();
 
         if (productList != null) {
             for (String productCode : productList) {
-                ProductsEntity productsEntity = new ProductsEntity();
+                Product productsEntity = new Product();
                 productsEntity.setCode(productCode);
                 productsEntityList.add(productsEntity);
             }
@@ -65,16 +64,11 @@ public class LocalProductCatalog implements ProductCatalogAPI, AbstractModel.Dat
     public void getCatalogCount(ECSListener listener) {
     }
 
-    @Override
-    public void getECSProductCatalog(int currentPage, int pageSize, ECSCallback<com.philips.cdp.di.ecs.model.products.Products, Exception> ecsCallback) {
-
-    }
-
 
     @Override
     public void onModelDataLoadFinished(final Message msg) {
         if (msg.obj instanceof HashMap) {
-            mProductCatalogHelper.processPRXResponse(msg, mProductCatalog, null);
+           // mProductCatalogHelper.processPRXResponse(msg, mProductCatalog, null);
         }
     }
 

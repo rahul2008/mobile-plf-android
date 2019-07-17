@@ -12,7 +12,7 @@ package com.philips.cdp.di.ecs.store;
 public interface StoreListener {
 
     //OAuth
-    String getOauthUrl();
+    String getOauthUrl(String janRainID);
 
     String getOauthRefreshUrl();
 

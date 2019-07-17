@@ -193,6 +193,7 @@
     <string name="dcc_write_review">Write a review</string> <!--done-->
     <string name="dcc_rate_this_app">Rate this app</string> <!--done-->
     <string name="dcc_productDownloadManual">Download manual</string> <!--done-->
+    <string name="dcc_productDownloadDfu">DFU</string> <!--done-->
     <string name="dcc_productInformationOnWebsite">Visit product website</string> <!--done-->
     <string name="dcc_show_all">Show all</string> <!--done-->
     <string name="dcc_show_less">Show less</string> <!--done-->

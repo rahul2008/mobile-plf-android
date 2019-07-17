@@ -13,11 +13,11 @@ import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.prx.PRXSummaryListExecutor;
-import com.ecs.demouapp.ui.response.products.PaginationEntity;
-import com.ecs.demouapp.ui.response.products.Products;
-import com.ecs.demouapp.ui.response.products.ProductsEntity;
 import com.ecs.demouapp.ui.utils.ECSConstant;
-import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.di.ecs.model.products.PaginationEntity;
+import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.summary.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,9 +40,9 @@ public class ProductCatalogHelper {
         String ctn;
 
         if (productData != null) {
-            final List<ProductsEntity> productsEntities = productData.getProducts();
+            final List<Product> productsEntities = productData.getProducts();
             if (productsEntities != null)
-                for (ProductsEntity entry : productsEntities) {
+                for (Product entry : productsEntities) {
                     ctn = entry.getCode();
                     productsToBeShown.add(ctn);
                 }
@@ -54,52 +54,44 @@ public class ProductCatalogHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean processPRXResponse(final Message msg, Products productData, ECSListener listener) {
-        if (msg.obj instanceof HashMap) {
-            HashMap<String, Data> prxModel = (HashMap<String, Data>) msg.obj;
-            if (checkForEmptyCart(prxModel))
-                return true;
+    public boolean processPRXResponse(Products productData, ECSListener listener) {
 
-            ArrayList<ProductCatalogData> products = mergeHybrisAndPRX(productData, prxModel);
+
+            ArrayList<ProductCatalogData> products = mergeHybrisAndPRX(productData);
             PaginationEntity pagination = null;
             if (productData != null && products.size() != 0)
                 pagination = productData.getPagination();
             refreshList(products, pagination, listener);
 
-        } else {
-            notifyEmptyCartFragment();
-        }
         return false;
     }
 
-    private ArrayList<ProductCatalogData> mergeHybrisAndPRX(Products productData,
-                                                            HashMap<String, Data> prxModel) {
-        List<ProductsEntity> entries = productData.getProducts();
+    private ArrayList<ProductCatalogData> mergeHybrisAndPRX(Products productData) {
+        List<Product> entries = productData.getProducts();
         ArrayList<ProductCatalogData> products = new ArrayList<>();
         String ctn;
         if (entries != null)
-            for (ProductsEntity entry : entries) {
+            for (Product entry : entries) {
                 ctn = entry.getCode();
                 ProductCatalogData productItem = new ProductCatalogData();
-                Data data;
-                if (prxModel.containsKey(ctn)) {
-                    data = prxModel.get(ctn);
-                } else if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
-                    data = CartModelContainer.getInstance().getProductSummary(ctn);
-                } else {
-                    continue;
+
+                productItem.setProduct(entry);
+
+                Data data = entry.getSummary();
+
+                if(data!=null) {
+                    productItem.setImageUrl(data.getImageURL());
+                    productItem.setProductTitle(data.getProductTitle());
+                    productItem.setCtnNumber(ctn);
+                    productItem.setMarketingTextHeader(data.getMarketingTextHeader());
                 }
-                productItem.setImageUrl(data.getImageURL());
-                productItem.setProductTitle(data.getProductTitle());
-                productItem.setCtnNumber(ctn);
-                productItem.setMarketingTextHeader(data.getMarketingTextHeader());
                 fillEntryBaseData(entry, productItem);
                 products.add(productItem);
             }
         return products;
     }
 
-    private void fillEntryBaseData(final ProductsEntity entry, final ProductCatalogData productItem) {
+    private void fillEntryBaseData(final Product entry, final ProductCatalogData productItem) {
         if (entry.getPrice() == null || entry.getDiscountPrice() == null)
             return;
         productItem.setFormattedPrice(entry.getPrice().getFormattedValue());

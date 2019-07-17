@@ -1,11 +1,8 @@
 package com.philips.cdp.di.ecs.integration;
 
 
-import com.philips.cdp.di.ecs.model.asset.Assets;
-import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 
 /**
  * The interface Iap services.
@@ -46,8 +43,10 @@ public interface ECSServiceProvider {
     void getProductList(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
 
 
-    void InvalidateECS(ECSCallback<Boolean,Exception> eCSCallback);
+    void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback);
 
 
     void getProductDetail(Product product, ECSCallback<Product,Exception> ecsCallback);
+
+    void configureECS(ECSCallback<Boolean,Exception> ecsCallback);
 }
