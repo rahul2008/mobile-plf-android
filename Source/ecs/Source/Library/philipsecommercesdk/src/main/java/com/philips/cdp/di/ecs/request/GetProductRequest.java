@@ -25,7 +25,7 @@ import java.util.Map;
 import static com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest.OnUrlReceived;
 
 
-public class GetProductRequest extends AppInfraAbstractRequest implements OnUrlReceived {
+public class GetProductRequest extends AppInfraAbstractRequest {
 
     private final int currentPage;
     private int pageSize = 20;
@@ -77,52 +77,6 @@ public class GetProductRequest extends AppInfraAbstractRequest implements OnUrlR
                 ctns.add(product.getCode());
             }
             ecsCallback.onResponse(mProducts);
-            //Call PRX here
-          //  ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
-          //  productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(this);
         }
     }
-
-    private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
-        ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = new ProductSummaryListServiceDiscoveryRequest(ctns);
-        return productSummaryListServiceDiscoveryRequest;
-    }
-
-    @Override
-    public void onSuccess(String url) {
-        new GetProductSummaryListRequest(url, new ECSCallback<ECSProductSummary, Exception>() {
-            @Override
-            public void onResponse(ECSProductSummary ecsProductSummary) {
-
-                HashMap<String, Data> summaryCtnMap = new HashMap<>();
-
-                if (ecsProductSummary.isSuccess()) {
-                    for (Data data : ecsProductSummary.getData()) {
-                        summaryCtnMap.put(data.getCtn(), data);
-                    }
-                }
-
-                for (Product product : mProducts.getProducts()) {
-                    Data productSummaryData = summaryCtnMap.get(product.getCode());
-                    product.setSummary(productSummaryData);
-                }
-
-                ecsCallback.onResponse(mProducts);
-
-            }
-
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-
-                ecsCallback.onFailure(error, 9000);
-            }
-        }).executeRequest();
-    }
-
-    @Override
-    public void onError(ERRORVALUES errorvalues, String s) {
-
-        Log.d(getClass().getSimpleName(), "Service Discovery Error");
-    }
-
 }
