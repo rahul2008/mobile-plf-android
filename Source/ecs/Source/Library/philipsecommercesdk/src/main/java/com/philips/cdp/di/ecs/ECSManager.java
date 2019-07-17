@@ -14,8 +14,6 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
-import com.philips.cdp.di.ecs.request.AssetThread;
-import com.philips.cdp.di.ecs.request.DisclaimerThread;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
 import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
