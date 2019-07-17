@@ -6,28 +6,11 @@ package com.ecs.demouapp.ui.controller;
 
 import android.content.Context;
 import android.os.Message;
-
-/*import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.ContactCallRequest;
-import com.philips.cdp.di.iap.model.OrderDetailRequest;
-import com.philips.cdp.di.iap.model.OrderHistoryRequest;
-import com.philips.cdp.di.iap.prx.PRXSummaryListExecutor;
-import com.philips.cdp.di.iap.response.orders.Consignment;
-import com.philips.cdp.di.iap.response.orders.ConsignmentEntries;
-import com.philips.cdp.di.iap.response.orders.Entries;
-import com.philips.cdp.di.iap.response.orders.OrderDetail;
-import com.philips.cdp.di.iap.response.orders.ProductData;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.RequestCode;
-import com.philips.cdp.di.iap.store.StoreListener;
-import com.philips.cdp.di.iap.utils.ModelConstants;*/
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.model.ContactCallRequest;
 import com.ecs.demouapp.ui.model.OrderDetailRequest;
 import com.ecs.demouapp.ui.model.OrderHistoryRequest;
-import com.ecs.demouapp.ui.prx.PRXSummaryListExecutor;
 import com.ecs.demouapp.ui.response.orders.Consignment;
 import com.ecs.demouapp.ui.response.orders.ConsignmentEntries;
 import com.ecs.demouapp.ui.response.orders.Entries;
@@ -113,20 +96,6 @@ public class OrderController implements AbstractModel.DataLoadListener {
                 mOrderListener.onGetPhoneContact(msg);
                 break;
         }
-    }
-
-    public void requestPrxData(final List<OrderDetail> details, AbstractModel.DataLoadListener listener) {
-        ArrayList<String> ctnToBeRequested = new ArrayList<>();
-        for (OrderDetail detail : details) {
-            if (detail.getDeliveryOrderGroups() != null) {
-                List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
-                for (Entries entry : entries) {
-                    ctnToBeRequested.add(entry.getProduct().getCode());
-                }
-            }
-        }
-        PRXSummaryListExecutor builder = new PRXSummaryListExecutor(mContext, ctnToBeRequested, listener);
-        builder.preparePRXDataRequest();
     }
 
     public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {

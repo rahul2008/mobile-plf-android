@@ -21,10 +21,10 @@ import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
-import com.ecs.demouapp.ui.products.ProductCatalogData;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
 import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.philips.cdp.di.ecs.model.products.Product;
 
 
 import java.util.ArrayList;
@@ -37,9 +37,9 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final ImageLoader mImageLoader;
     private Context mContext;
 
-    private List<ProductCatalogData> mProductCatalogList;
-    private List<ProductCatalogData> mProductCatalogListToFilter;
-    private ProductCatalogData mSelectedProduct;
+    private List<Product> mProductCatalogList;
+    private List<Product> mProductCatalogListToFilter;
+    private Product mSelectedProduct;
     private String mCharacterText = "";
 
     private boolean isSearchFocused() {
@@ -52,10 +52,10 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private boolean isSearchFocused = false;
 
-    public ProductCatalogAdapter(Context pContext, List<ProductCatalogData> mProductCatalogList) {
+    public ProductCatalogAdapter(Context pContext, List<Product> products) {
         mContext = pContext;
-        this.mProductCatalogList = mProductCatalogList;
-        mProductCatalogListToFilter = mProductCatalogList;
+        this.mProductCatalogList = products;
+        mProductCatalogListToFilter = products;
         mImageLoader = NetworkImageLoader.getInstance(mContext).getImageLoader();
     }
 
@@ -89,27 +89,27 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         }
 
-        ProductCatalogData productCatalogData = mProductCatalogList.get(holder.getAdapterPosition());
+        Product productCatalogData = mProductCatalogList.get(holder.getAdapterPosition());
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
 
-        String imageURL = productCatalogData.getImageURL();
+        String imageURL = productCatalogData.getSummary().getImageURL();
         if (imageURL == null) {
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
-                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + ECSAnalyticsConstant.NO_THUMB_NAIL_IMAGE);
+                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + productCatalogData.getCode() + "_" + ECSAnalyticsConstant.NO_THUMB_NAIL_IMAGE);
         }
-        String discountedPrice = productCatalogData.getDiscountedPrice();
-        String formattedPrice = productCatalogData.getFormattedPrice();
+        String discountedPrice = productCatalogData.getDiscountPrice().getFormattedValue();
+        String formattedPrice = productCatalogData.getPrice().getFormattedValue();
 
-        productHolder.mProductName.setText(productCatalogData.getProductTitle());
+        productHolder.mProductName.setText(productCatalogData.getSummary().getProductTitle());
         if (imageURL == null) {
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
-                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + ECSAnalyticsConstant.PRODUCT_TITLE_MISSING);
+                    ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + productCatalogData.getCode() + "_" + ECSAnalyticsConstant.PRODUCT_TITLE_MISSING);
         }
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
 
         ECSStockAvailabilityHelper ECSStockAvailabilityHelper = new ECSStockAvailabilityHelper();
-        final boolean stockAvailable = ECSStockAvailabilityHelper.isStockAvailable(productCatalogData.getStockLevelStatus(), productCatalogData.getStockLevel());
+        final boolean stockAvailable = ECSStockAvailabilityHelper.isStockAvailable(productCatalogData.getStock().getStockLevelStatus(), productCatalogData.getStock().getStockLevel());
 
         if(stockAvailable){
             productHolder.mProductOutOfStock.setVisibility(View.GONE);
@@ -146,7 +146,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_LAUNCH_PRODUCT_DETAIL);
     }
 
-    public ProductCatalogData getTheProductDataForDisplayingInProductDetailPage() {
+    public Product getTheProductDataForDisplayingInProductDetailPage() {
         return mSelectedProduct;
     }
 
@@ -190,16 +190,16 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (mProductCatalogList.size() != 0) {
             StringBuilder products = new StringBuilder();
             for (int i = 0; i < mProductCatalogList.size(); i++) {
-                ProductCatalogData catalogData = mProductCatalogList.get(i);
+                Product catalogData = mProductCatalogList.get(i);
                 if (i > 0) {
                     products = products.append(",");
                 }
 
-                if (catalogData.getPriceValue() != null)
-                    productPrice = catalogData.getPriceValue();
+                if (catalogData.getPrice().getFormattedValue() != null)
+                    productPrice = catalogData.getPrice().getFormattedValue();
 
                 products = products.append("Tuscany_Campaign").append(";")
-                        .append(catalogData.getProductTitle()).append(";").append(";")
+                        .append(catalogData.getName()).append(";").append(";")
                         .append(productPrice);
             }
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
@@ -207,7 +207,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public void setData(List<ProductCatalogData> mProductCatalogList) {
+    public void setData(List<Product> mProductCatalogList) {
         this.mProductCatalogList = mProductCatalogList;
     }
 
@@ -216,12 +216,12 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         setSearchFocused(true);
         mCharacterText = charText;
         charText = charText.toLowerCase(Locale.getDefault());
-        ArrayList<ProductCatalogData> lFilteredProductList = new ArrayList<>();
+        ArrayList<Product> lFilteredProductList = new ArrayList<>();
         if (charText.length() == 0) {
             // Show no product found view
         } else {
-            for (ProductCatalogData wp : mProductCatalogListToFilter) {
-                if (wp.getProductTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+            for (Product wp : mProductCatalogListToFilter) {
+                if (wp.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
                     lFilteredProductList.add(wp);
                 }
             }

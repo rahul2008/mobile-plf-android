@@ -9,7 +9,9 @@ import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.summary.Data;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
 
     private boolean availableForPickup;
     private String code;

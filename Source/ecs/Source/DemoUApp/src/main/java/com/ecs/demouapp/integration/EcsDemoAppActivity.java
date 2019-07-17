@@ -544,35 +544,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         if (view == mShoppingCart) {
             launchIAP(ECSLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
-//            ecsServices.getECSConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
-//                @Override
-//                public void onResponse(HybrisConfigResponse result) {
-//
-//                    ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
-//                    ECSConfig.INSTANCE.setSiteId(result.getSiteId());
-//                    System.out.println(result.getSiteId());
-//                }
-//
-//                @Override
-//                public void onFailure(Exception error, int errorCode) {
-//
-//                }
-//            });
             launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
-
-           /* ecsServices.getProductList(0, 20, new ECSCallback<Products, Exception>() {
-                @Override
-                public void onResponse(Products result) {
-
-                    System.out.println(result.getPagination().getTotalPages());
-                }
-
-                @Override
-                public void onFailure(Exception error, int errorCode) {
-
-                }
-            });*/
             launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
 
