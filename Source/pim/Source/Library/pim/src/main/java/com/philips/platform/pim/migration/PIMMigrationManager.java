@@ -1,7 +1,6 @@
 package com.philips.platform.pim.migration;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -55,8 +54,7 @@ class PIMMigrationManager {
         pimRestClient.invokeRequest(idAssertionRequest, getSuccessListener(idAssertionRequest), getErrorListener(idAssertionRequest));
     }
 
-    @VisibleForTesting
-    void performAuthorization(String id_token_hint) {
+    private void performAuthorization(String id_token_hint) {
         authorizationRequest = pimLoginManager.createAuthRequestUriForMigration(createAdditionalParameterForMigration(id_token_hint));
         if (authorizationRequest == null) {
             mLoggingInterface.log(DEBUG, TAG, "performAuthorization failed. Cause : authorizationRequest is null.");
@@ -70,10 +68,10 @@ class PIMMigrationManager {
         pimRestClient.invokeRequest(pimMigrationAuthRequest, getSuccessListener(pimMigrationAuthRequest), getErrorListener(pimMigrationAuthRequest));
     }
 
-    @VisibleForTesting
-    Response.Listener getSuccessListener(PIMRequestInterface reqType) {
+    private Response.Listener getSuccessListener(PIMRequestInterface reqType) {
         return (Response.Listener<String>) response -> {
             if (response == null) {
+                mLoggingInterface.log(DEBUG,TAG,"Response for " + reqType +"is null.");
                 pimUserMigrationListener.onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
                 return;
             }
@@ -82,17 +80,14 @@ class PIMMigrationManager {
                 String id_token_hint = parseIDAssertionFromJSONResponse(response);
                 mLoggingInterface.log(DEBUG, TAG, "ID Assertion request success. ID_token_hint : " + id_token_hint);
                 performAuthorization(id_token_hint);
-            } else if (reqType instanceof PIMMigrationAuthRequest) {
-                mLoggingInterface.log(DEBUG, TAG, "Token auth request failed."); //PIMMigrationAuthRequest response comes with 302 code and volley throw 302 response code in error.So,handling in error listener
-                pimUserMigrationListener.onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
             }
         };
     }
 
-    @VisibleForTesting
-    Response.ErrorListener getErrorListener(PIMRequestInterface reqType) {
+    private Response.ErrorListener getErrorListener(PIMRequestInterface reqType) {
         return error -> {
             if (error == null) {
+                mLoggingInterface.log(DEBUG,TAG,"Error response for" + reqType +"is null.");
                 return;
             }
 
@@ -113,16 +108,15 @@ class PIMMigrationManager {
         };
     }
 
-    @VisibleForTesting
-    Map<String, String> createAdditionalParameterForMigration(String id_token_hint) {
+    private Map<String, String> createAdditionalParameterForMigration(String id_token_hint) {
         Map<String, String> parameter = new HashMap<>();
         parameter.put("id_token_hint", id_token_hint);
         parameter.put("claims", PIMSettingManager.getInstance().getPimOidcConfigration().getCustomClaims());
         return parameter;
     }
 
-    @VisibleForTesting
-    String parseIDAssertionFromJSONResponse(String jsonResponse) {
+
+    private String parseIDAssertionFromJSONResponse(String jsonResponse) {
         try {
             JSONObject jsonObject = new JSONObject(jsonResponse);
             JSONObject dataObject = jsonObject.getJSONObject("data");

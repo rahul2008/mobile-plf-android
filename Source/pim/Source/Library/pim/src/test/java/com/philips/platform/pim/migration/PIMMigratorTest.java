@@ -23,41 +23,28 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({PIMSettingManager.class,PIMMigrator.class})
+@PrepareForTest({PIMSettingManager.class, PIMMigrator.class})
 @RunWith(PowerMockRunner.class)
 public class PIMMigratorTest extends TestCase {
 
     @Mock
     private Context mockContext;
     @Mock
-    private PIMSettingManager mockPimSettingManager;
-    @Mock
     private LoggingInterface mockLoggingInterface;
     @Mock
-    private AppInfraInterface mockAppInfraInterface;
-    @Mock
     private USRTokenManager mockUsrTokenManager;
-    @Mock
-    private PIMMigrationManager mockPIMigrationManager;
-    @Mock
-    private SecureStorage mockSecureStorageInterface;
-    @Mock
-    private SecureStorageInterface.SecureStorageError mockSecureStorageError;
-    @Mock
-    private RefreshUSRTokenListener mockRefreshUSRTokenListener;
     @Captor
     private ArgumentCaptor<RefreshUSRTokenListener> captor;
 
     private final String TAG = PIMMigrator.class.getSimpleName();
     private PIMMigrator pimMigrator;
+    private PIMUserMigrationListener pimMigrationListener;
     private static final String JR_CAPTURE_SIGNED_IN_USER = "jr_capture_signed_in_user";
 
 
@@ -66,6 +53,11 @@ public class PIMMigratorTest extends TestCase {
         MockitoAnnotations.initMocks(this);
 
         mockStatic(PIMSettingManager.class);
+        PIMSettingManager mockPimSettingManager = mock(PIMSettingManager.class);
+        AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
+        SecureStorage mockSecureStorageInterface = mock(SecureStorage.class);
+        SecureStorageInterface.SecureStorageError mockSecureStorageError = mock(SecureStorageInterface.SecureStorageError.class);
+
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
         when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
@@ -76,6 +68,7 @@ public class PIMMigratorTest extends TestCase {
         when(mockAppInfraInterface.getSecureStorage().fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER, mockSecureStorageError)).thenReturn(signedUserData());
 
         pimMigrator = new PIMMigrator(mockContext);
+        pimMigrationListener = pimMigrator;
     }
 
     @Test
@@ -94,32 +87,38 @@ public class PIMMigratorTest extends TestCase {
 
     @Test
     public void testOnRefreshTokenSuccess() throws Exception {
-        whenNew(PIMMigrationManager.class).withArguments(eq(mockContext),any(PIMUserMigrationListener.class)).thenReturn(mockPIMigrationManager);
-        /*when(mockUsrTokenManager.isUSRUserAvailable()).thenReturn(true);
+        PIMMigrationManager mockPIMigrationManager = mock(PIMMigrationManager.class);
+        whenNew(PIMMigrationManager.class).withArguments(mockContext, pimMigrationListener).thenReturn(mockPIMigrationManager);
+        when(mockUsrTokenManager.isUSRUserAvailable()).thenReturn(true);
         pimMigrator.migrateUSRToPIM();
-        verify(mockUsrTokenManager).fetchRefreshedAccessToken(captor.capture());*/
-        mockUsrTokenManager.fetchRefreshedAccessToken(captor.capture());
+        verify(mockUsrTokenManager).fetchRefreshedAccessToken(captor.capture());
         RefreshUSRTokenListener pimTokenRequestListener = captor.getValue();
         pimTokenRequestListener.onRefreshTokenSuccess("vsu46sctqqpjwkbn");
         verify(mockPIMigrationManager).migrateUser("vsu46sctqqpjwkbn");
     }
 
     @Test
-    public void testOnRefreshTokenFailed(){
-        pimMigrator.onRefreshTokenFailed(mock(Error.class));
-        verify(mockLoggingInterface).log(DEBUG,TAG,"Refresh access token failed.");
+    public void testOnRefreshTokenFailed() {
+        when(mockUsrTokenManager.isUSRUserAvailable()).thenReturn(true);
+        pimMigrator.migrateUSRToPIM();
+        verify(mockUsrTokenManager).fetchRefreshedAccessToken(captor.capture());
+        RefreshUSRTokenListener pimTokenRequestListener = captor.getValue();
+        Error error = new Error(Error.UserDetailError.MigrationFailed);
+        pimTokenRequestListener.onRefreshTokenFailed(error);
+        verify(mockLoggingInterface).log(DEBUG, TAG, "Refresh access token failed. Error : " + error.getErrCode());
     }
 
     @Test
-    public void testOnMigrationSuccess(){
-        pimMigrator.onUserMigrationSuccess();
-        verify(mockLoggingInterface).log(DEBUG,TAG,"onUserMigrationSuccess");
+    public void testOnMigrationSuccess() {
+        pimMigrationListener.onUserMigrationSuccess();
+        verify(mockLoggingInterface).log(DEBUG, TAG, "onUserMigrationSuccess");
     }
 
     @Test
-    public void testOnMigrationFailed(){
-        pimMigrator.onUserMigrationFailed(any(Error.class));
-        verify(mockLoggingInterface).log(DEBUG,TAG,"onUserMigrationFailed");
+    public void testOnMigrationFailed() {
+        Error error = new Error(Error.UserDetailError.MigrationFailed);
+        pimMigrationListener.onUserMigrationFailed(error);
+        verify(mockLoggingInterface).log(DEBUG, TAG, "onUserMigrationFailed. Error : " + error.getErrCode());
     }
 
 

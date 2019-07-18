@@ -26,7 +26,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 public class PIMOIDCConfigrationTest extends TestCase {
 
     @Mock
-    private AuthorizationServiceConfiguration mockAuthorizationServiceConfiguration;
+    private AuthorizationServiceConfiguration mockAuthServiceConfiguration;
     @Mock
     private AppInfraInterface mockAppInfraInterface;
     @Mock
@@ -38,6 +38,8 @@ public class PIMOIDCConfigrationTest extends TestCase {
     @Mock
     private PIMSettingManager mockPimSettingManager;
 
+    private PIMOIDCConfigration pimoidcConfigration;
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -47,12 +49,21 @@ public class PIMOIDCConfigrationTest extends TestCase {
         when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
         when(mockAppInfraInterface.getConfigInterface()).thenReturn(mockAppConfigurationInterface);
         whenNew(AppConfigurationInterface.AppConfigurationError.class).withNoArguments().thenReturn(mockAppConfigurationError);
+
+        pimoidcConfigration = new PIMOIDCConfigration(mockAuthServiceConfiguration);
+    }
+
+    @Test
+    public void testGetAuthorizationServiceConfiguration(){
+        AuthorizationServiceConfiguration authServiceConfiguration =  pimoidcConfigration.getAuthorizationServiceConfiguration();
+        assertSame(mockAuthServiceConfiguration,authServiceConfiguration);
+        assertEquals(mockAuthServiceConfiguration,authServiceConfiguration);
     }
 
 
     @Test
     public void shouldNotNull_AuthorizationServiceConfiguration() {
-        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthorizationServiceConfiguration);
+        PIMOIDCConfigration pimoidcConfigration = new PIMOIDCConfigration(mockAuthServiceConfiguration);
         AuthorizationServiceConfiguration authorizationServiceConfiguration = pimoidcConfigration.getAuthorizationServiceConfiguration();
         assertNotNull(authorizationServiceConfiguration);
     }
@@ -127,7 +138,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @After
     public void tearDown() throws Exception {
-        mockAuthorizationServiceConfiguration = null;
+        mockAuthServiceConfiguration = null;
         mockAppInfraInterface = null;
         mockAppConfigurationInterface = null;
     }

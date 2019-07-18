@@ -1,10 +1,9 @@
 package com.philips.platform.pim.migration;
 
 import android.support.annotation.Nullable;
-import android.text.Html;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Pair;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -85,6 +84,10 @@ class USRTokenManager {
         return appInfraInterface.getSecureStorage().fetchValueForKey(jrCaptureSignedInUserKey, new SecureStorageInterface.SecureStorageError());
     }
 
+    private Object getClientIdFromConfig() {
+        return appInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", new AppConfigurationInterface.AppConfigurationError());
+    }
+
     private void downloadUserUrlFromSD(ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener) {
         ArrayList<String> serviceIdList = new ArrayList<>();
         serviceIdList.add(USR_BASEURL);
@@ -137,10 +140,10 @@ class USRTokenManager {
         if (fetchedValue == null)
             return null;
 
-        String formattedString = Html.fromHtml(fetchedValue).toString().replaceAll("\n", "").trim();
+        //String formattedString = Html.fromHtml(fetchedValue).toString().replaceAll("\n", "").trim();
         Map<String, String> map = new HashMap<String, String>();
 
-        String[] nameValuePairs = formattedString.split(",");
+        String[] nameValuePairs = fetchedValue.split(",");
         for (String nameValuePair : nameValuePairs) {
             String[] nameValue = nameValuePair.split("=");
             try {
@@ -179,7 +182,7 @@ class USRTokenManager {
     }
 
     private String getClientId() {
-        Object clientIdObject = appInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", new AppConfigurationInterface.AppConfigurationError());
+        Object clientIdObject = getClientIdFromConfig();
         String configPropertyValue = getConfigPropertyValue(clientIdObject);
         PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "getclientId: " + configPropertyValue);
         PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "hasclientId: " + (configPropertyValue != null));
@@ -203,7 +206,6 @@ class USRTokenManager {
 
     private String paramsToString(Set<Pair<String, String>> bodyParams) {
         Collection<String> paramPairs = map(bodyParams, val -> {
-            // return ((String) val.first).concat("=").concat(AndroidUtils.urlEncode((String) val.second));
             try {
                 return val.first.concat("=").concat(URLEncoder.encode(val.second, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
@@ -225,6 +227,10 @@ class USRTokenManager {
 
         HashSet<Pair<String, String>> params = getParams(locale, date, legacyToken);
 
+        makeRefreshUSRTokenRequest(refreshUrl, refreshUSRTokenListener, params);
+    }
+
+    private void makeRefreshUSRTokenRequest(String refreshUrl, RefreshUSRTokenListener refreshUSRTokenListener, HashSet<Pair<String, String>> params) {
         RefreshUSRTokenRequest refreshLegacyTokenRequest = new RefreshUSRTokenRequest(refreshUrl, paramsToString(params));
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         pimRestClient.invokeRequest(refreshLegacyTokenRequest, response -> {
@@ -272,7 +278,7 @@ class USRTokenManager {
         return signedInUser != null;
     }
 
-    void deleteUSRFromSecureStorage(){
+    void deleteUSRFromSecureStorage() {
         appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_SIGNED_IN_USER);
         appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_FLOW);
         appInfraInterface.getSecureStorage().removeValueForKey(JR_CAPTURE_REFRESH_SECRET);
