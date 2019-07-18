@@ -7,11 +7,14 @@ package com.philips.cdp.di.iap.screens;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +46,9 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -54,13 +60,15 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductCatalogFragment extends InAppBaseFragment
-        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
+        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener, View.OnClickListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
     private Context mContext;
 
     private TextView mEmptyCatalogText;
+
+    private TextView mPrivacy;
 
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
@@ -79,6 +87,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private RelativeLayout mParentLayout;
     private AppCompatAutoCompleteTextView mSearchTextView;
     private LinearLayout mBannerLayout;
+    public static final String IAP_PRIVACY_SERVICEID = "app.termsandconditions";
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
@@ -96,7 +105,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
 
         mTotalResults = IAPUtility.getInstance().getmTotalResults();
-        mCurrentPage =  IAPUtility.getInstance().getmCurrentPage();
+        mCurrentPage = IAPUtility.getInstance().getmCurrentPage();
         mRemainingProducts = IAPUtility.getInstance().getmRemainingProducts();
         mTotalPages = IAPUtility.getInstance().getmTotalPages();
 
@@ -141,6 +150,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
         mSearchBox = rootView.findViewById(R.id.iap_search_box);
         mBannerLayout = rootView.findViewById(R.id.ll_banner_place_holder);
+        mPrivacy = rootView.findViewById(R.id.iap_privacy);
+        mPrivacy.setOnClickListener(this);
 
         if (IAPUtility.getInstance().getBannerView() != null) {
             if (IAPUtility.getInstance().getBannerView().getParent() != null) {
@@ -236,7 +247,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL))) {
             launchProductDetailFragment();
-        } else if(event.equals(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED))){
+        } else if (event.equals(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED))) {
             mIsLoading = false;
             hideProgressBar();
             onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
@@ -293,22 +304,22 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mPresenter = ControllerFactory.getInstance().
                     getProductCatalogPresenter(mContext, this);
 
-        if(ControllerFactory.getInstance().isPlanB() && isCategorizedFlow()){
+        if (ControllerFactory.getInstance().isPlanB() && isCategorizedFlow()) {
             mPresenter.getCategorizedProductList(getCategorizedCTNs());
-        }else{
+        } else {
             mPresenter.getProductCatalog(++mCurrentPage, page_size, null);
-                IAPUtility.getInstance().setmCurrentPage(mCurrentPage);
+            IAPUtility.getInstance().setmCurrentPage(mCurrentPage);
         }
 
     }
 
     private void loadMoreItems() {
         mIsLoading = true;
-        if (mCurrentPage+1 < mTotalPages) {
+        if (mCurrentPage + 1 < mTotalPages) {
             fetchProductList();
-        } else{
+        } else {
 
-            if (mAdapter.getItemCount() == 0){
+            if (mAdapter.getItemCount() == 0) {
                 onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                         ("", mContext.getString(R.string.iap_no_product_available)));
             }
@@ -357,7 +368,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mIsLoading = false;
             hideProgressBar();
 
-            if(isCategorizedFlow() && shouldLoadMore()){
+            if (isCategorizedFlow() && shouldLoadMore()) {
                 loadMoreItems();
             }
 
@@ -384,7 +395,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         if (error.getMessage() != null
                 && error.getMessage().equalsIgnoreCase(mContext.getResources().getString(R.string.iap_no_product_available))) {
-            if(mAdapter.getItemCount()>0)return;
+            if (mAdapter.getItemCount() > 0) return;
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);
@@ -440,7 +451,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             int firstVisibleItemPosition = lay.findFirstVisibleItemPosition();
 
             //Check if scroll down
-            if(isScrollDown(lay, visibleItemCount, firstVisibleItemPosition)){
+            if (isScrollDown(lay, visibleItemCount, firstVisibleItemPosition)) {
 
                 if (shouldLoadMore()) {
                     loadMoreItems();
@@ -498,4 +509,25 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
 
+    @Override
+    public void onClick(View view) {
+        Bundle bundle = new Bundle();
+        ArrayList<String> serviceIDlist = new ArrayList<String>();
+        serviceIDlist.add(IAP_PRIVACY_SERVICEID);
+        CartModelContainer.getInstance().getAppInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(serviceIDlist, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                String url  = urlMap.get(IAP_PRIVACY_SERVICEID).getConfigUrls();
+                Log.d("url", url);
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+
+            }
+        });
+        bundle.putString(IAPConstant.IAP_PRIVACY_URL, "https://www.usa.philips.com/a-w/mobile-privacy-notice/cdp2-reference-app.html");
+        addFragment(PrivacyFragment.createInstance(bundle, AnimationType.NONE), PrivacyFragment.TAG, true);
+    }
 }
