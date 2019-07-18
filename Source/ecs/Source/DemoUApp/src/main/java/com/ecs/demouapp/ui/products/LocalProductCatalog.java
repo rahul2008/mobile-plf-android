@@ -5,6 +5,7 @@
 package com.ecs.demouapp.ui.products;
 
 import com.ecs.demouapp.ui.integration.ECSListener;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -22,18 +23,23 @@ public class LocalProductCatalog implements ProductCatalogAPI {
     }
 
     @Override
-    public void getCategorizedProductList(final ArrayList<String> productList) {
-        mProductCatalog = new Products();
-        List<Product> productsEntityList = new ArrayList<>();
+    public void getCategorizedProductList(final ArrayList<String> productList , ECSCallback<Products, Exception> ecsCallback) {
 
-        if (productList != null) {
-            for (String productCode : productList) {
-                Product productsEntity = new Product();
-                productsEntity.setCode(productCode);
-                productsEntityList.add(productsEntity);
+
+        ECSUtility.getInstance().getEcsServices().getProductSummary(productList, new ECSCallback<List<Product>, Exception>() {
+            @Override
+            public void onResponse(List<Product> result) {
+
+                Products products = new Products();
+                products.setProducts(result);
+                ecsCallback.onResponse(products);
             }
-        }
-        mProductCatalog.setProducts(productsEntityList);
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error,errorCode);
+            }
+        });
     }
 
     @Override
