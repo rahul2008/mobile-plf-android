@@ -5,6 +5,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(ECSErrors.getNetworkErrorMessage(error), 9000);
+        ecsCallback.onFailure(ECSErrors.getNetworkErrorMessage(error), 4999);
     }
 
     @Override
@@ -41,7 +42,11 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest {
         if (response != null) {
             ECSProductSummary ecsProductSummary = new Gson().fromJson(response.toString(),
                     ECSProductSummary.class);
-            ecsCallback.onResponse(ecsProductSummary);
+            if(null!=ecsProductSummary.getData()) {
+                ecsCallback.onResponse(ecsProductSummary);
+            }else{
+                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), 4999);
+            }
         }
     }
 

@@ -25,19 +25,14 @@ public class ECSServicesTest {
     private Context mContext;
 
 
-
-
     MockECSServices mockECSServices;
-
 
 
     private AppInfra appInfra;
 
 
-
     @Mock
     RestInterface mockRestInterface;
-
 
 
     @Before
@@ -52,8 +47,7 @@ public class ECSServicesTest {
         mockECSServices = new MockECSServices("", appInfra);
 
 
-
-         }
+    }
 
     @Test
     public void init() {
@@ -69,10 +63,12 @@ public class ECSServicesTest {
 
     @Test
     public void getProductListSuccess() {
+        mockECSServices.setJsonFileName("GetProductList.json");
         mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
                 assertNotNull(result);
+                assert (result.getProducts().size() > 0); // at least 1 product should come
                 assertNotNull(result.getProducts().get(0).getSummary());
                 assertNotNull(result.getProducts().get(1).getSummary());
             }
@@ -86,29 +82,55 @@ public class ECSServicesTest {
 
     }
 
+    /*
+     * In this test case Get Product list API (Hybris) is failed
+     * */
     @Test
-    public void getProductListHybrisFailure(){
+    public void getProductListHybrisFailure() {
+        mockECSServices.setJsonFileName("GetProductListHybrisFailure.json");
         mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
-                assertNotNull(result);
-                assertNotNull(result.getProducts().get(0).getSummary());
-                assertNotNull(result.getProducts().get(1).getSummary());
+                assertTrue(true);
+
             }
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertFalse(true);
+                assertEquals(4999, errorCode); // error code for Product List
+
+            }
+        });
+    }
+
+    /*
+     * In this test case Get Product list API (Hybris) is failed
+     * */
+    @Test
+    public void getProductListSummaryFailure() {
+        mockECSServices.setJsonFileName("GetProductList.json");
+        mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
+            @Override
+            public void onResponse(Products result) {
+                assertTrue(true);
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertEquals(4999, errorCode); // error code for Product List
 
             }
         });
     }
 
 
-    // This will fetch Product Asset and Disclaimer
+    // This will fetch Product detail:  Asset and Disclaimer
     @Test
     public void getProductDetailSuccess() {
-        Product product= new Product();
+        Product product = new Product();
+        product.setCode("HX2345/01");
+        mockECSServices.setJsonFileName("PRXProductAssets.json");
         mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
@@ -124,6 +146,24 @@ public class ECSServicesTest {
         });
     }
 
+
+    @Test
+    public void getProductDetailAssetFailure() {
+        Product product = new Product();
+        product.setCode("HX2345/01");
+        mockECSServices.setJsonFileName("PRXProductAssetsFailure.json");
+        mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
+            @Override
+            public void onResponse(Product product) {
+                assertTrue(true);
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertEquals(5999, errorCode); // error code for Product List
+            }
+        });
+    }
 
 
     @Test

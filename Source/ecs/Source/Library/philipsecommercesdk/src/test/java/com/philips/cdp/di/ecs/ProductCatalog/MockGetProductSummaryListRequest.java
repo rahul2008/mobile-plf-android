@@ -13,14 +13,19 @@ import java.io.InputStream;
 
 public class MockGetProductSummaryListRequest extends GetProductSummaryListRequest {
 
-    public MockGetProductSummaryListRequest(String prxSummaryListURL, ECSCallback<ECSProductSummary, Exception> ecsCallback) {
+
+
+    String jsonFileName;
+
+    public MockGetProductSummaryListRequest(String jsonFile, String prxSummaryListURL, ECSCallback<ECSProductSummary, Exception> ecsCallback) {
         super(prxSummaryListURL, ecsCallback);
+        this.jsonFileName=jsonFile;
     }
 
     @Override
     public void executeRequest() {
         JSONObject result=null;
-        InputStream in = getClass().getClassLoader().getResourceAsStream("PRXSummaryResponse.json");
+        InputStream in = getClass().getClassLoader().getResourceAsStream(jsonFileName);//"PRXSummaryResponse.json"
         String jsonString= TestUtil.loadJSONFromFile(in);
         try {
             result = new JSONObject(jsonString);
@@ -31,4 +36,7 @@ public class MockGetProductSummaryListRequest extends GetProductSummaryListReque
         }
         onResponse(result);
     }
+
+
+
 }

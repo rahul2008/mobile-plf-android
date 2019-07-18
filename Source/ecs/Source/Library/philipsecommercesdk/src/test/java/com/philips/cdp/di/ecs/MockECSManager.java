@@ -1,27 +1,32 @@
 package com.philips.cdp.di.ecs;
 
-import com.google.gson.Gson;
-import com.philips.cdp.di.ecs.ECSManager;
-import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductRequest;
+import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductAssetRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductDisclaimerRequest;
-import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
-import com.philips.cdp.di.ecs.request.GetProductRequest;
-import com.philips.cdp.di.ecs.request.GetProductSummaryListRequest;
-
-import java.io.InputStream;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 
 public class MockECSManager extends ECSManager {
+
+
+
+    String jsonFileNameMockECSManager;
+
+    public String getJsonFileNameMockECSManager() {
+        return jsonFileNameMockECSManager;
+    }
+
+    public void setJsonFileNameMockECSManager(String jsonFileNameMockECSManager) {
+        this.jsonFileNameMockECSManager = jsonFileNameMockECSManager;
+    }
 
     @Override
     public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
@@ -29,11 +34,12 @@ public class MockECSManager extends ECSManager {
        // new MockGetProductRequest(currentPage, pageSize, ecsCallback).executeRequest();
 
 
-                MockGetProductRequest getMockGetProductRequest = new MockGetProductRequest(currentPage, pageSize, new ECSCallback<Products, Exception>() {
+                MockGetProductListRequest getMockGetProductRequest = new MockGetProductListRequest(getJsonFileNameMockECSManager(),currentPage, pageSize, new ECSCallback<Products, Exception>() {
                     @Override
                     public void onResponse(Products result) {
                         //prepareProductSummaryURL(result,ecsCallback);
-                        new MockGetProductSummaryListRequest("", new ECSCallback<ECSProductSummary, Exception>() {
+                        setJsonFileNameMockECSManager("PRXSummaryResponse.json");
+                        new MockGetProductSummaryListRequest(getJsonFileNameMockECSManager(),"", new ECSCallback<ECSProductSummary, Exception>() {
                             @Override
                             public void onResponse(ECSProductSummary eCSProductSummary) {
 
@@ -45,32 +51,34 @@ public class MockECSManager extends ECSManager {
                             public void onFailure(Exception error, int errorCode) {
 
                             }
-                        }).executeRequest();
+                       }).executeRequest();
                     }
 
                     @Override
                     public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR),999);
+                        ecsCallback.onFailure(error,errorCode);
 
                     }
                 });
                 getMockGetProductRequest.executeRequest();
+
             }
 
 
     @Override
     void getProductSummary(String url, ECSCallback<ECSProductSummary, Exception> eCSCallback) {
-        new MockGetProductSummaryListRequest(url,eCSCallback).executeRequest();
+        new MockGetProductSummaryListRequest(getJsonFileNameMockECSManager(),url,eCSCallback).executeRequest();
     }
 
     @Override
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
        // super.getProductDetail(product, ecsCallback);
-        new MockGetProductAssetRequest("mockURL", new ECSCallback<Assets, Exception>() {
+        new MockGetProductAssetRequest(getJsonFileNameMockECSManager(),"mockURL", new ECSCallback<Assets, Exception>() {
             @Override
             public void onResponse(Assets result) {
                 product.setAssets(result);
-                new MockGetProductDisclaimerRequest("mockURL", new ECSCallback<Disclaimers, Exception>() {
+                setJsonFileNameMockECSManager("PRXDisclaimers.json");
+                new MockGetProductDisclaimerRequest(getJsonFileNameMockECSManager(),"mockURL", new ECSCallback<Disclaimers, Exception>() {
                     @Override
                     public void onResponse(Disclaimers result) {
                         product.setDisclaimers(result);

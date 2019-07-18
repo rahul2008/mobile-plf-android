@@ -13,6 +13,7 @@ import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.network.ModelConstants;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
@@ -73,10 +74,15 @@ public class GetProductRequest extends AppInfraAbstractRequest {
             List<Product> productsEntities = mProducts.getProducts();
             ArrayList<String> ctns = new ArrayList<>();
 
-            for (Product product : productsEntities) {
-                ctns.add(product.getCode());
+            if(null!=productsEntities && !productsEntities.isEmpty()) {
+                for (Product product : productsEntities) {
+                    ctns.add(product.getCode());
+                }
+                ecsCallback.onResponse(mProducts);
+            }else{
+                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), 4999);
             }
-            ecsCallback.onResponse(mProducts);
+
         }
     }
 }
