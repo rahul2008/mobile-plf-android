@@ -172,78 +172,7 @@ public class ECSManager {
         }).start();
     }
 
-  /*  private void getProductAsset(Product product, ECSCallback<Product, Exception> ecsCallback) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                new AssetServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
-                    @Override
-                    public void onSuccess(String url) {
-
-                        new GetProductAssetRequest(url, new ECSCallback<Assets, Exception>() {
-                            @Override
-                            public void onResponse(Assets result) {
-                                product.setAssets(result);
-
-                                getProductDisclaimer(product, ecsCallback);
-                            }
-
-                            @Override
-                            public void onFailure(Exception error, int errorCode) {
-
-                            }
-                        }).executeRequest();
-
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-
-                    }
-                });
-
-
-            }
-        }).start();
-    }
-
-    private void getProductDisclaimer(Product product, ECSCallback<Product, Exception> ecsCallback) {
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                new DisclaimerServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(String url) {
-
-                        new GetProductDisclaimerRequest(url, new ECSCallback<Disclaimers, Exception>() {
-                            @Override
-                            public void onResponse(Disclaimers result) {
-
-                                product.setDisclaimers(result);
-                                ecsCallback.onResponse(product);
-
-                            }
-
-                            @Override
-                            public void onFailure(Exception error, int errorCode) {
-
-                            }
-                        }).executeRequest();
-                    }
-                });
-
-            }
-        }).start();
-    }*/
 
     void getProductAsset(String url, ECSCallback<Assets, Exception> eCSCallback) {
         new Thread(new Runnable() {
@@ -316,6 +245,7 @@ public class ECSManager {
 
                     @Override
                     public void onFailure(Exception error, int errorCode) {
+                        // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
                         ecsCallback.onResponse(product);
                     }
                 });
@@ -324,6 +254,7 @@ public class ECSManager {
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
+                // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
                 ecsCallback.onResponse(product);
             }
 

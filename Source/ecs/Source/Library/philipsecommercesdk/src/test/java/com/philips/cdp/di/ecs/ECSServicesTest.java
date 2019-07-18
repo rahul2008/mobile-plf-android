@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -67,7 +68,7 @@ public class ECSServicesTest {
     }
 
     @Test
-    public void getProductDetailSuccess() {
+    public void getProductListSuccess() {
         mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
@@ -83,28 +84,47 @@ public class ECSServicesTest {
             }
         });
 
-    }
-
-    @Test void getProductDetailHybrisFailure(){
-        mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
-            @Override
-            public void onResponse(Products result) {
-                assertNotNull(result);
-                assertNotNull(result.getProducts().get(0).getSummary());
-                assertNotNull(result.getProducts().get(1).getSummary());
-            }
-
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertFalse(true);
-
-            }
-        });
     }
 
     @Test
-    public void invalidateECS() {
+    public void getProductListHybrisFailure(){
+        mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
+            @Override
+            public void onResponse(Products result) {
+                assertNotNull(result);
+                assertNotNull(result.getProducts().get(0).getSummary());
+                assertNotNull(result.getProducts().get(1).getSummary());
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertFalse(true);
+
+            }
+        });
     }
+
+
+    // This will fetch Product Asset and Disclaimer
+    @Test
+    public void getProductDetailSuccess() {
+        Product product= new Product();
+        mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
+            @Override
+            public void onResponse(Product product) {
+                assertNotNull(product);
+                assertNotNull(product.getAssets());
+                assertNotNull(product.getDisclaimers());
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertFalse(true);
+            }
+        });
+    }
+
+
 
     @Test
     public void getProductAsset() {
