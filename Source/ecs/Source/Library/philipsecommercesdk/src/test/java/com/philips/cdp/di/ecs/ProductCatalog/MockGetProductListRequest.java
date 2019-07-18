@@ -1,18 +1,17 @@
 package com.philips.cdp.di.ecs.ProductCatalog;
 
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Products;
-import com.philips.cdp.di.ecs.request.GetProductRequest;
+import com.philips.cdp.di.ecs.request.GetProductListRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
 
-public class MockGetProductListRequest extends GetProductRequest {
+public class MockGetProductListRequest extends GetProductListRequest {
 
 String jsonFile;
 

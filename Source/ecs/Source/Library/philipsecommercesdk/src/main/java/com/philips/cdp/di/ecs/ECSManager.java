@@ -17,7 +17,7 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
 import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
-import com.philips.cdp.di.ecs.request.GetProductRequest;
+import com.philips.cdp.di.ecs.request.GetProductListRequest;
 import com.philips.cdp.di.ecs.request.GetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_FOUND;
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 
 public class ECSManager {
 
@@ -84,7 +82,7 @@ public class ECSManager {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                GetProductRequest getProductRequest = new GetProductRequest(currentPage, pageSize, new ECSCallback<Products, Exception>() {
+                GetProductListRequest getProductListRequest = new GetProductListRequest(currentPage, pageSize, new ECSCallback<Products, Exception>() {
                     @Override
                     public void onResponse(Products result) {
                         prepareProductSummaryURL(result, finalEcsCallback);
@@ -96,7 +94,7 @@ public class ECSManager {
 
                     }
                 });
-                getProductRequest.executeRequest();
+                getProductListRequest.executeRequest();
 
             }
         }).start();
@@ -237,9 +235,9 @@ public class ECSManager {
                 getProductDisclaimer(url, new ECSCallback<Disclaimers, Exception>() {
                     @Override
                     public void onResponse(Disclaimers result) {
-                        if(null!=result){
-                            product.setDisclaimers(result);
-                        }
+                        // here result can come as null if Disclaimer not present for given product
+                        // but still Product Detail will be success as asset is already fetched
+                        product.setDisclaimers(result);
                         ecsCallback.onResponse(product);
                     }
 

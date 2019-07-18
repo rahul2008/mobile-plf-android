@@ -42,16 +42,16 @@ public class GetProductDisclaimerRequest extends AppInfraAbstractRequest {
 
     @Override
     public void onResponse(JSONObject response) {
+        Disclaimers disclaimers=null;
         if(response!=null){
             DisclaimerModel resp = new Gson().fromJson(response.toString(),
                     DisclaimerModel.class);
             if(null!=resp.getData() && null!=resp.getData().getDisclaimers()) {
-                Disclaimers disclaimers = resp.getData().getDisclaimers();
-                ecsCallback.onResponse(disclaimers);
-            }else {
-                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), 5999);
+                disclaimers = resp.getData().getDisclaimers();
+
             }
         }
+        ecsCallback.onResponse(disclaimers);
 
     }
 }

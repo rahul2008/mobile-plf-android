@@ -47,7 +47,7 @@ public class GetProductAssetRequest extends AppInfraAbstractRequest {
                Assets assets = resp.getData().getAssets();
                ecsCallback.onResponse(assets);
            }else {
-               ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), 5999);
+               ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND), 5999);
            }
         }
 

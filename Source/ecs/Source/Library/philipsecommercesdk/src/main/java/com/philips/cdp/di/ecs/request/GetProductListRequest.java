@@ -26,7 +26,7 @@ import java.util.Map;
 import static com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest.OnUrlReceived;
 
 
-public class GetProductRequest extends AppInfraAbstractRequest {
+public class GetProductListRequest extends AppInfraAbstractRequest {
 
     private final int currentPage;
     private int pageSize = 20;
@@ -34,7 +34,7 @@ public class GetProductRequest extends AppInfraAbstractRequest {
     private Products mProducts;
 
 
-    public GetProductRequest(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public GetProductListRequest(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
         this.currentPage = currentPage;
         this.ecsCallback = ecsCallback;
         if (pageSize != 0) {
