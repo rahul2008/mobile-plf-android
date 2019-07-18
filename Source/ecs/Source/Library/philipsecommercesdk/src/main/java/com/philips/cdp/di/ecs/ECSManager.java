@@ -92,7 +92,7 @@ public class ECSManager {
 
                     @Override
                     public void onFailure(Exception error, int errorCode) {
-                        finalEcsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR), 999);
+                        finalEcsCallback.onFailure(error, errorCode);
 
                     }
                 });
@@ -124,7 +124,7 @@ public class ECSManager {
 
                     @Override
                     public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(new Exception(ECS_UNKNOWN_ERROR), 999);
+                        ecsCallback.onFailure(error, errorCode);
                     }
                 });
 
@@ -214,7 +214,7 @@ public class ECSManager {
 
                     @Override
                     public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),5002);
+                        ecsCallback.onFailure(error,errorCode);
                     }
                 });
             }

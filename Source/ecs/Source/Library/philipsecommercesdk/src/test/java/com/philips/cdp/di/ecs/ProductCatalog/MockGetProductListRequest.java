@@ -12,11 +12,13 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 
-public class MockGetProductRequest extends GetProductRequest {
+public class MockGetProductListRequest extends GetProductRequest {
 
+String jsonFile;
 
-    public MockGetProductRequest(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public MockGetProductListRequest(String jsonFile, int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
         super(currentPage, pageSize, ecsCallback);
+        this.jsonFile=jsonFile;
 
     }
 
@@ -24,7 +26,7 @@ public class MockGetProductRequest extends GetProductRequest {
     public void executeRequest() {
 
         JSONObject result = null;
-        InputStream in = getClass().getClassLoader().getResourceAsStream("GetProductList.json");
+        InputStream in = getClass().getClassLoader().getResourceAsStream(jsonFile);
         String jsonString = TestUtil.loadJSONFromFile(in);
         try {
             result = new JSONObject(jsonString);
