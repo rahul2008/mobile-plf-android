@@ -5,6 +5,8 @@ import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 
+import java.util.List;
+
 /**
  * The interface Iap services.
  */
@@ -52,4 +54,6 @@ public interface ECSServiceProvider {
     void configureECS(ECSCallback<Boolean,Exception> ecsCallback);
 
     void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback);
+
+    void getProductSummary(List<String> ctns, ECSCallback<List<Product>,Exception> ecsCallback);
 }

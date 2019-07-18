@@ -36,7 +36,6 @@ import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.products.ProductCatalogAPI;
 import com.ecs.demouapp.ui.products.ProductCatalogData;
-import com.ecs.demouapp.ui.products.ProductCatalogPresenter;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
@@ -292,7 +291,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                     getProductCatalogPresenter();
 
         if (ControllerFactory.getInstance().isPlanB() && isCategorizedFlow()) {
-            mPresenter.getCategorizedProductList(getCategorizedCTNs());
+            mPresenter.getCategorizedProductList(getCategorizedCTNs(),this);
         } else {
             mPresenter.getProductCatalog(++mCurrentPage, page_size, this);
             ECSUtility.getInstance().setmCurrentPage(mCurrentPage);

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public interface ProductCatalogAPI {
     void getProductCatalog(int currentPage, int pageSize, ECSCallback<Products,Exception> ecsCallback);
 
-    void getCategorizedProductList(ArrayList<String> productList);
+    void getCategorizedProductList(ArrayList<String> productList,ECSCallback<Products, Exception> ecsCallback);
 
     void getCompleteProductList(ECSListener iapListener);
 

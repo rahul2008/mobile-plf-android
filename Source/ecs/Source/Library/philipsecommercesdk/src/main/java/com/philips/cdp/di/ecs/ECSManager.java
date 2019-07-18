@@ -109,6 +109,10 @@ public class ECSManager {
         for (Product product : productsEntities) {
             ctns.add(product.getCode());
         }
+        getProductSummary(result, ecsCallback, ctns);
+    }
+
+    private void getProductSummary(Products result, ECSCallback<Products, Exception> ecsCallback, ArrayList<String> ctns) {
         //Call PRX here
         ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
         productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
@@ -195,8 +199,6 @@ public class ECSManager {
 
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
 
-
-
         new AssetServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
             @Override
             public void onSuccess(String url) {
@@ -267,4 +269,29 @@ public class ECSManager {
         return productSummaryListServiceDiscoveryRequest;
     }
 
+    public void getSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
+
+        Products products = new Products();
+
+        ArrayList<Product>  productArrayList= new ArrayList<>();
+
+        for(String ctn : ctns){
+            Product product = new Product();
+            product.setCode(ctn);
+            productArrayList.add(product);
+        }
+        products.setProducts(productArrayList);
+
+        prepareProductSummaryURL(products, new ECSCallback<Products, Exception>() {
+            @Override
+            public void onResponse(Products result) {
+                ecsCallback.onResponse(result.getProducts());
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+               ecsCallback.onFailure(error,errorCode);
+            }
+        });
+    }
 }

@@ -18,6 +18,7 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class ECSServices implements ECSServiceProvider {
@@ -76,6 +77,11 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
         mECSManager.getHybrisConfigResponse(ecsCallback);
+    }
+
+    @Override
+    public void getProductSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
+        mECSManager.getSummary(ctns,ecsCallback);
     }
 
     public void hybrisOathAuthentication(OAuthInput OAuthInput, ECSCallback<OAuthResponse,Exception> ecsListener){
