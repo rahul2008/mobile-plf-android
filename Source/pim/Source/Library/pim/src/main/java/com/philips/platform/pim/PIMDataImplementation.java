@@ -13,8 +13,12 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsLi
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
+import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
+import com.philips.platform.pim.migration.PIMMigrator;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -23,12 +27,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Implements UserDataInterface and handle api calls from propositions.
  * Call responsible pim manager class to perform api request and invoke
  * callback methods on completion of request.
- *
  */
 public class PIMDataImplementation implements UserDataInterface {
     private PIMUserManager pimUserManager;
     private Context mContext;
     private final CopyOnWriteArrayList<UserDataListener> userDataListeners;
+    private final String TAG = PIMDataImplementation.class.getSimpleName();
 
     public PIMDataImplementation(Context context, PIMUserManager pimUserManager) {
         mContext = context;
@@ -58,7 +62,7 @@ public class PIMDataImplementation implements UserDataInterface {
         };
     }
 
-    private void notifyLogOutSuccess(){
+    private void notifyLogOutSuccess() {
         synchronized (userDataListeners) {
             for (LogoutSessionListener eventListener : userDataListeners) {
                 if (eventListener != null) {
@@ -68,7 +72,7 @@ public class PIMDataImplementation implements UserDataInterface {
         }
     }
 
-    private void notifyLogoutFailure(Error error){
+    private void notifyLogoutFailure(Error error) {
         synchronized (userDataListeners) {
             for (LogoutSessionListener eventListener : userDataListeners) {
                 if (eventListener != null) {
@@ -105,7 +109,7 @@ public class PIMDataImplementation implements UserDataInterface {
         };
     }
 
-    private void notifyRefreshSessionSuccess(){
+    private void notifyRefreshSessionSuccess() {
         synchronized (userDataListeners) {
             for (RefreshSessionListener eventListener : userDataListeners) {
                 if (eventListener != null) {
@@ -115,7 +119,7 @@ public class PIMDataImplementation implements UserDataInterface {
         }
     }
 
-    private void notifyRefreshSessionFailure(Error error){
+    private void notifyRefreshSessionFailure(Error error) {
         synchronized (userDataListeners) {
             for (RefreshSessionListener eventListener : userDataListeners) {
                 if (eventListener != null) {
@@ -125,7 +129,7 @@ public class PIMDataImplementation implements UserDataInterface {
         }
     }
 
-    private void notifyForcedLogout(){
+    private void notifyForcedLogout() {
         synchronized (userDataListeners) {
             for (RefreshSessionListener eventListener : userDataListeners) {
                 if (eventListener != null) {
@@ -142,6 +146,17 @@ public class PIMDataImplementation implements UserDataInterface {
     }
 
     @Override
+    public void migrateUserToPIM(UserMigrationListener userMigrationListener) {
+        if (PIMSettingManager.getInstance().getPimUserManager().getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
+            PIMMigrator pimMigrator = new PIMMigrator(mContext);
+            pimMigrator.migrateUSRToPIM(userMigrationListener);
+        } else {
+            //mLoggingInterface.log(DEBUG, TAG, "User is already logged in");
+            //throw error
+        }
+    }
+
+    @Override
     public void refetchUserDetails(RefetchUserDetailsListener userDetailsListener) {
 
     }
@@ -153,7 +168,7 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public HashMap<String, Object> getUserDetails(ArrayList<String> detailKeys) throws UserDataInterfaceException {
-        if(getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN){
+        if (getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
             throw new UserDataInterfaceException(new Error(Error.UserDetailError.NotLoggedIn));
         }
 
@@ -162,7 +177,7 @@ public class PIMDataImplementation implements UserDataInterface {
         if (detailKeys.size() == 0) {
             ArrayList<String> allValidKeys = getAllValidUserDetailsKeys();
             return pimoidcUserProfile.fetchUserDetails(allValidKeys);
-        } else  {
+        } else {
             ArrayList<String> validDetailKey = fillOnlyReqestedValidKeyToKeyList(detailKeys);
             return pimoidcUserProfile.fetchUserDetails(validDetailKey);
         }
