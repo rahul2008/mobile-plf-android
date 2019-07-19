@@ -97,8 +97,14 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
                     ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.PRX + productCatalogData.getCode() + "_" + ECSAnalyticsConstant.NO_THUMB_NAIL_IMAGE);
         }
-        String discountedPrice = productCatalogData.getDiscountPrice().getFormattedValue();
-        String formattedPrice = productCatalogData.getPrice().getFormattedValue();
+        String discountedPrice = "";
+        if(productCatalogData.getDiscountPrice()!=null) {
+            discountedPrice = productCatalogData.getDiscountPrice().getFormattedValue();
+        }
+
+        String formattedPrice = "";
+        if(productCatalogData.getPrice()!=null)
+        formattedPrice = productCatalogData.getPrice().getFormattedValue();
 
         productHolder.mProductName.setText(productCatalogData.getSummary().getProductTitle());
         if (imageURL == null) {
@@ -108,9 +114,11 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
 
-        ECSStockAvailabilityHelper ECSStockAvailabilityHelper = new ECSStockAvailabilityHelper();
-        final boolean stockAvailable = ECSStockAvailabilityHelper.isStockAvailable(productCatalogData.getStock().getStockLevelStatus(), productCatalogData.getStock().getStockLevel());
-
+        boolean stockAvailable =true;
+        if(productCatalogData.getStock()!=null) {
+            ECSStockAvailabilityHelper ECSStockAvailabilityHelper = new ECSStockAvailabilityHelper();
+             stockAvailable = ECSStockAvailabilityHelper.isStockAvailable(productCatalogData.getStock().getStockLevelStatus(), productCatalogData.getStock().getStockLevel());
+        }
         if(stockAvailable){
             productHolder.mProductOutOfStock.setVisibility(View.GONE);
         }else {
@@ -195,7 +203,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     products = products.append(",");
                 }
 
-                if (catalogData.getPrice().getFormattedValue() != null)
+                if (catalogData.getPrice() !=null && catalogData.getPrice().getFormattedValue() != null)
                     productPrice = catalogData.getPrice().getFormattedValue();
 
                 products = products.append("Tuscany_Campaign").append(";")

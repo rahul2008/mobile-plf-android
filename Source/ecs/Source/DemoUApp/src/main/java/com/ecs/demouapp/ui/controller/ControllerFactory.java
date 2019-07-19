@@ -43,11 +43,11 @@ public class ControllerFactory {
 
     public ProductCatalogAPI getProductCatalogPresenter() {
         ProductCatalogAPI api;
-//        if (mIsPlanB)
-//            api = new LocalProductCatalog(context, listener);
-//        else {
+        if (mIsPlanB)
+            api = new LocalProductCatalog();
+        else {
             api = new ProductCatalogPresenter();
-        //}
+        }
         return api;
     }
 }

@@ -89,15 +89,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI {
 
     @Override
     public void getCategorizedProductList(ArrayList<String> ctnList,ECSCallback<Products,Exception> ecsCallback) {
-        if (CartModelContainer.getInstance().getProductList() != null) {
-            ArrayList<ProductCatalogData> productCatalogList = new ArrayList<>();
-            CartModelContainer container = CartModelContainer.getInstance();
-            for (String ctn : ctnList) {
-                if (container.isProductCatalogDataPresent(ctn)) {
-                    productCatalogList.add(container.getProduct(ctn));
-                }
-            }
-        }
+
     }
 
 

@@ -246,12 +246,20 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (productCatalogData != null) {
             bundle.putString(ECSConstant.PRODUCT_TITLE, productCatalogData.getName());
             bundle.putString(ECSConstant.PRODUCT_CTN, productCatalogData.getCode());
+            if(productCatalogData.getPrice()!=null)
             bundle.putString(ECSConstant.PRODUCT_PRICE, productCatalogData.getPrice().getFormattedValue());
+
+            if(productCatalogData.getPrice()!=null)
             bundle.putString(ECSConstant.PRODUCT_VALUE_PRICE, String.valueOf(productCatalogData.getPrice().getValue()));
+
             bundle.putString(ECSConstant.PRODUCT_OVERVIEW, productCatalogData.getSummary().getMarketingTextHeader());
+
+            if(productCatalogData.getDiscountPrice()!=null)
             bundle.putString(ECSConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountPrice().getFormattedValue());
-            bundle.putString(ECSConstant.STOCK_LEVEL_STATUS, productCatalogData.getStock().getStockLevelStatus());
-            bundle.putInt(ECSConstant.STOCK_LEVEL, productCatalogData.getStock().getStockLevel());
+            if(productCatalogData.getStock()!=null) {
+                bundle.putString(ECSConstant.STOCK_LEVEL_STATUS, productCatalogData.getStock().getStockLevelStatus());
+                bundle.putInt(ECSConstant.STOCK_LEVEL, productCatalogData.getStock().getStockLevel());
+            }
             bundle.putBoolean(ECSConstant.IS_PRODUCT_CATALOG, true);
             bundle.putSerializable("ProductCatalogData", productCatalogData);
             if (getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST) != null) {

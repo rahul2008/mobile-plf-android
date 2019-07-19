@@ -15,7 +15,6 @@ import java.util.List;
 
 public class LocalProductCatalog implements ProductCatalogAPI {
 
-    private Products mProductCatalog;
 
     @Override
     public void getProductCatalog(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {

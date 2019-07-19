@@ -142,6 +142,8 @@ public class ECSManager {
     void updateProductsWithSummary(Products products, ECSProductSummary ecsProductSummary) {
         HashMap<String, Data> summaryCtnMap = new HashMap<>();
 
+        ArrayList<Product> productArrayList = new ArrayList<>(); // set back products for which summaries are available
+
         if (ecsProductSummary.isSuccess()) {
             for (Data data : ecsProductSummary.getData()) {
                 summaryCtnMap.put(data.getCtn(), data);
@@ -150,8 +152,14 @@ public class ECSManager {
 
         for (Product product : products.getProducts()) {
             Data productSummaryData = summaryCtnMap.get(product.getCode());
-            product.setSummary(productSummaryData);
+
+            if(productSummaryData!=null) {
+                product.setSummary(productSummaryData);
+                productArrayList.add(product);
+            }
         }
+
+        products.setProducts(productArrayList);
     }
 
     void getProductSummary(String url, ECSCallback<ECSProductSummary, Exception> eCSCallback) {
