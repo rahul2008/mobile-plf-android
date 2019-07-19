@@ -2,12 +2,7 @@
 package com.pim.demouapp;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +21,6 @@ import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.registration.ui.utils.URSettings;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -35,6 +29,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
 import com.philips.platform.uappframework.UappInterface;
@@ -53,7 +48,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession;
+    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession,btnMigrator;
     private Switch aSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
@@ -80,6 +75,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnLogout.setOnClickListener(this);
         btnRefreshSession = findViewById(R.id.btn_RefreshSession);
         btnRefreshSession.setOnClickListener(this);
+        btnMigrator = findViewById(R.id.btn_MigrateUser);
+        btnMigrator.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -177,6 +174,18 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
+        } else if(v == btnMigrator){
+            userDataInterface.migrateUserToPIM(new UserMigrationListener() {
+                @Override
+                public void userMigrationSuccess() {
+                    showToast("User migrated succesfully");
+                }
+
+                @Override
+                public void userMigrationFailed(Error error) {
+                    showToast("user migration failed");
+                }
+            });
         }
     }
 

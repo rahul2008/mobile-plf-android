@@ -25,12 +25,10 @@ public class PimDemoApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);
         mAppInfraInterface = new AppInfra.Builder().build(this);
-
     }
 
 
     public AppInfraInterface getAppInfra() {
         return mAppInfraInterface;
     }
-
 }
