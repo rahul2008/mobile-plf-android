@@ -1,14 +1,17 @@
 package com.philips.cdp.di.ecs;
 
+import com.philips.cdp.di.ecs.Oath.MockOAuthRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductAssetRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductDisclaimerRequest;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
@@ -29,9 +32,14 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public void getOAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsCallback) {
 
-       // new MockGetProductRequest(currentPage, pageSize, ecsCallback).executeRequest();
+        MockOAuthRequest mockOAuthRequest = new MockOAuthRequest(getJsonFileNameMockECSManager(),oAuthInput,ecsCallback);
+        mockOAuthRequest.executeRequest();
+    }
+
+    @Override
+    public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
 
 
                 MockGetProductListRequest getMockGetProductRequest = new MockGetProductListRequest(getJsonFileNameMockECSManager(),currentPage, pageSize, new ECSCallback<Products, Exception>() {
@@ -72,7 +80,6 @@ public class MockECSManager extends ECSManager {
 
     @Override
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
-       // super.getProductDetail(product, ecsCallback);
         new MockGetProductAssetRequest(getJsonFileNameMockECSManager(),"mockURL", new ECSCallback<Assets, Exception>() {
             @Override
             public void onResponse(Assets result) {
@@ -97,7 +104,7 @@ public class MockECSManager extends ECSManager {
             @Override
             public void onFailure(Exception error, int errorCode) {
                 // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
-                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),5002);
+                ecsCallback.onFailure(error,errorCode);
             }
         }).executeRequest();
     }

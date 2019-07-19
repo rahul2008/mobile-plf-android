@@ -177,7 +177,7 @@ public class ECSManager {
             @Override
             public void run() {
 
-                new OAuthRequest(oAuthInput, ecsCallback);
+                new OAuthRequest(oAuthInput, ecsCallback).executeRequest();
             }
         }).start();
     }

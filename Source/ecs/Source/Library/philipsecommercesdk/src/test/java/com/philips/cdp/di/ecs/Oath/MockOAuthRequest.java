@@ -1,24 +1,23 @@
-package com.philips.cdp.di.ecs.ProductCatalog;
+package com.philips.cdp.di.ecs.Oath;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Products;
-import com.philips.cdp.di.ecs.request.GetProductListRequest;
+import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.request.OAuthRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
 
-public class MockGetProductListRequest extends GetProductListRequest {
+public class MockOAuthRequest extends OAuthRequest {
+    String jsonFile;
 
-String jsonFile;
-
-    public MockGetProductListRequest(String jsonFile, int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
-        super(currentPage, pageSize, ecsCallback);
+    public MockOAuthRequest(String jsonFile, OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
+        super(oAuthInput, ecsListener);
         this.jsonFile=jsonFile;
-
     }
 
     @Override
