@@ -26,8 +26,9 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * A class which performs HTTP get, maintains request queue, handles caching etc.
- It is responsible for interacting with any third party libraries that is used for performing network operations.
- @since 1.0.0
+ * It is responsible for interacting with any third party libraries that is used for performing network operations.
+ *
+ * @since 1.0.0
  */
 public class NetworkWrapper {
 
@@ -36,6 +37,7 @@ public class NetworkWrapper {
 
     /**
      * NetworkWrapper constructor.
+     *
      * @param prxDependencies PRX dependencies
      * @since 1.0.0
      */
@@ -45,90 +47,23 @@ public class NetworkWrapper {
     }
 
 
-
-
-
     /**
-     *  Execute custom JSON request.
+     * Execute custom JSON request.
+     *
      * @param prxRequest PRX Request
-     * @param listener Response listener
+     * @param listener   Response listener
      * @since 1.0.0
      */
-    public void executeCustomJsonRequest2(final PrxRequest prxRequest, final ResponseListener listener) {
+    public void executeCustomJsonRequestRegistration(final PrxRequest prxRequest, final ResponseListener listener) {
 
 
         if (listener == null) {
-            mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"ResponseListener is null");
+            mPrxLogging.log(LoggingInterface.LogLevel.ERROR, PrxConstants.PRX_NETWORK_WRAPPER, "ResponseListener is null");
         } else {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
             if (mPrxDependencies != null && mPrxDependencies.getAppInfra() != null) {
-                prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
-                    @Override
-                    public void onSuccess(String url) {
-                        GsonCustomRequest<JSONObject> request = null;
-                        try {
-
-                            request = new GsonCustomRequest<JSONObject>(prxRequest.getRequestType(),
-                                    "https://stg.api.eu-west-1.philips.com/productRegistrations", null, responseListener, errorListener,
-                                    prxRequest.getHeaders(), prxRequest.getParams(), null, prxRequest.getBody()) {
-
-                                @Override
-                                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                                    try {
-                                        String jsonString = new String(response.data,
-                                                HttpHeaderParser.parseCharset(response.headers));
-
-                                        JSONObject result = null;
-
-                                        if (jsonString.length() > 0)
-                                            result = new JSONObject(jsonString);
-
-                                        return Response.success(result,
-                                                HttpHeaderParser.parseCacheHeaders(response));
-                                    } catch (UnsupportedEncodingException e) {
-                                        return Response.error(new ParseError(e));
-                                    } catch (JSONException je) {
-                                        return Response.error(new ParseError(je));
-                                    }
-                                }
-                            };
-
-
-
-                            request.setRetryPolicy(new DefaultRetryPolicy(
-                                    prxRequest.getRequestTimeOut(),
-                                    prxRequest.getMaxRetries(),
-                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                            request.setShouldCache(true);
-                        } catch (Exception e) {
-                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
-                        }
-
-                        if (request != null) {
-                            if (mPrxDependencies.getAppInfra().getRestClient() != null) {
-                                try {
-                                    mPrxLogging.log(LoggingInterface.LogLevel.DEBUG,PrxConstants.PRX_NETWORK_WRAPPER ," Request url - "+request.getUrl()
-                                            + " request headers - "+request.getHeaders() + " request type - "+request.getBody());
-                                } catch (AuthFailureError authFailureError) {
-                                    authFailureError.printStackTrace();
-                                }
-                                mPrxDependencies.getAppInfra().getRestClient().getRequestQueue().add(request);
-                            }
-                            else
-                            {
-                                mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"Couldn't initialise REST Client");
-
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
-                    }
-                });
+                excuteRequest("https://stg.api.eu-west-1.philips.com/productRegistrations?ajnasfnasif", prxRequest, responseListener, errorListener, listener);
             } else {
                 listener.onResponseError(new PrxError(PrxError.PrxErrorType.INJECT_APPINFRA.getDescription(), PrxError.PrxErrorType.INJECT_APPINFRA.getId()));
             }
@@ -136,101 +71,40 @@ public class NetworkWrapper {
     }
 
     /**
-     *  Execute custom JSON request.
+     * Execute custom JSON request.
+     *
      * @param prxRequest PRX Request
-     * @param listener Response listener
+     * @param listener   Response listener
      * @since 1.0.0
      */
-    public void executeCustomJsonRequest3(final PrxRequest prxRequest, final ResponseListener listener) {
+    public void executeCustomJsonRequestGetRegistered(final PrxRequest prxRequest, final ResponseListener listener) {
 
 
         if (listener == null) {
-            mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"ResponseListener is null");
+            mPrxLogging.log(LoggingInterface.LogLevel.ERROR, PrxConstants.PRX_NETWORK_WRAPPER, "ResponseListener is null");
         } else {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
             if (mPrxDependencies != null && mPrxDependencies.getAppInfra() != null) {
-                prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
-                    @Override
-                    public void onSuccess(String url) {
-                        GsonCustomRequest<JSONObject> request = null;
-                        try {
-                            request = new GsonCustomRequest<JSONObject>(prxRequest.getRequestType(),
-                                    "https://stg.api.eu-west-1.philips.com/productRegistrations?nocache", null, responseListener, errorListener,
-                                    prxRequest.getHeaders(), null, null, null) {
-
-                                @Override
-                                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                                    try {
-                                        String jsonString = new String(response.data,
-                                                HttpHeaderParser.parseCharset(response.headers));
-
-                                        JSONObject result = null;
-
-                                        if (jsonString.length() > 0)
-                                            result = new JSONObject(jsonString);
-
-                                        return Response.success(result,
-                                                HttpHeaderParser.parseCacheHeaders(response));
-                                    } catch (UnsupportedEncodingException e) {
-                                        return Response.error(new ParseError(e));
-                                    } catch (JSONException je) {
-                                        return Response.error(new ParseError(je));
-                                    }
-                                }
-                            };
-
-
-
-                            request.setRetryPolicy(new DefaultRetryPolicy(
-                                    prxRequest.getRequestTimeOut(),
-                                    prxRequest.getMaxRetries(),
-                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                            request.setShouldCache(true);
-                        } catch (Exception e) {
-                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
-                        }
-
-                        if (request != null) {
-                            if (mPrxDependencies.getAppInfra().getRestClient() != null) {
-                                try {
-                                    mPrxLogging.log(LoggingInterface.LogLevel.DEBUG,PrxConstants.PRX_NETWORK_WRAPPER ," Request url - "+request.getUrl()
-                                            + " request headers - "+request.getHeaders() + " request type - "+request.getMethod());
-                                } catch (AuthFailureError authFailureError) {
-                                    authFailureError.printStackTrace();
-                                }
-                                mPrxDependencies.getAppInfra().getRestClient().getRequestQueue().add(request);
-                            }
-                            else
-                            {
-                                mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"Couldn't initialise REST Client");
-
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
-                    }
-                });
+                excuteRequest("https://stg.api.eu-west-1.philips.com/productRegistrations?nocache", prxRequest, responseListener, errorListener, listener);
             } else {
                 listener.onResponseError(new PrxError(PrxError.PrxErrorType.INJECT_APPINFRA.getDescription(), PrxError.PrxErrorType.INJECT_APPINFRA.getId()));
             }
         }
     }
+
     /**
-     *  Execute custom JSON request.
+     * Execute custom JSON request.
+     *
      * @param prxRequest PRX Request
-     * @param listener Response listener
+     * @param listener   Response listener
      * @since 1.0.0
      */
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
 
 
         if (listener == null) {
-            mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"ResponseListener is null");
+            mPrxLogging.log(LoggingInterface.LogLevel.ERROR, PrxConstants.PRX_NETWORK_WRAPPER, "ResponseListener is null");
         } else {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
@@ -238,60 +112,7 @@ public class NetworkWrapper {
                 prxRequest.getRequestUrlFromAppInfra(mPrxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
                     @Override
                     public void onSuccess(String url) {
-                        GsonCustomRequest<JSONObject> request = null;
-                        try {
-                            request = new GsonCustomRequest<JSONObject>(prxRequest.getRequestType(),
-                                    url, null, responseListener, errorListener,
-                                    prxRequest.getHeaders(), prxRequest.getParams(), null, prxRequest.getBody()) {
-
-                                @Override
-                                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                                    try {
-                                        String jsonString = new String(response.data,
-                                                HttpHeaderParser.parseCharset(response.headers));
-
-                                        JSONObject result = null;
-
-                                        if (jsonString.length() > 0)
-                                            result = new JSONObject(jsonString);
-
-                                        return Response.success(result,
-                                                HttpHeaderParser.parseCacheHeaders(response));
-                                    } catch (UnsupportedEncodingException e) {
-                                        return Response.error(new ParseError(e));
-                                    } catch (JSONException je) {
-                                        return Response.error(new ParseError(je));
-                                    }
-                                }
-                            };
-
-
-
-                            request.setRetryPolicy(new DefaultRetryPolicy(
-                                    prxRequest.getRequestTimeOut(),
-                                    prxRequest.getMaxRetries(),
-                                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                            request.setShouldCache(true);
-                        } catch (Exception e) {
-                            listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
-                        }
-
-                        if (request != null) {
-                            if (mPrxDependencies.getAppInfra().getRestClient() != null) {
-                                try {
-                                    mPrxLogging.log(LoggingInterface.LogLevel.DEBUG,PrxConstants.PRX_NETWORK_WRAPPER ," Request url - "+request.getUrl()
-                                    + " request headers - "+request.getHeaders() + " request type - "+request.getMethod());
-                                } catch (AuthFailureError authFailureError) {
-                                    authFailureError.printStackTrace();
-                                }
-                                mPrxDependencies.getAppInfra().getRestClient().getRequestQueue().add(request);
-                            }
-                            else
-                            {
-                                mPrxLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_NETWORK_WRAPPER ,"Couldn't initialise REST Client");
-
-                            }
-                        }
+                        excuteRequest(url, prxRequest, responseListener, errorListener, listener);
 
                     }
 
@@ -302,6 +123,60 @@ public class NetworkWrapper {
                 });
             } else {
                 listener.onResponseError(new PrxError(PrxError.PrxErrorType.INJECT_APPINFRA.getDescription(), PrxError.PrxErrorType.INJECT_APPINFRA.getId()));
+            }
+        }
+    }
+
+    private void excuteRequest(String url, PrxRequest prxRequest, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener, ResponseListener listener) {
+        GsonCustomRequest<JSONObject> request = null;
+        try {
+            request = new GsonCustomRequest<JSONObject>(prxRequest.getRequestType(),
+                    url, null, responseListener, errorListener,
+                    prxRequest.getHeaders(), prxRequest.getParams(), null, prxRequest.getBody()) {
+
+                @Override
+                protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                    try {
+                        String jsonString = new String(response.data,
+                                HttpHeaderParser.parseCharset(response.headers));
+
+                        JSONObject result = null;
+
+                        if (jsonString.length() > 0)
+                            result = new JSONObject(jsonString);
+
+                        return Response.success(result,
+                                HttpHeaderParser.parseCacheHeaders(response));
+                    } catch (UnsupportedEncodingException e) {
+                        return Response.error(new ParseError(e));
+                    } catch (JSONException je) {
+                        return Response.error(new ParseError(je));
+                    }
+                }
+            };
+
+
+            request.setRetryPolicy(new DefaultRetryPolicy(
+                    prxRequest.getRequestTimeOut(),
+                    prxRequest.getMaxRetries(),
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            request.setShouldCache(true);
+        } catch (Exception e) {
+            listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
+        }
+
+        if (request != null) {
+            if (mPrxDependencies.getAppInfra().getRestClient() != null) {
+                try {
+                    mPrxLogging.log(LoggingInterface.LogLevel.DEBUG, PrxConstants.PRX_NETWORK_WRAPPER, " Request url - " + request.getUrl()
+                            + " request headers - " + request.getHeaders() + " request type - " + request.getMethod());
+                } catch (AuthFailureError authFailureError) {
+                    authFailureError.printStackTrace();
+                }
+                mPrxDependencies.getAppInfra().getRestClient().getRequestQueue().add(request);
+            } else {
+                mPrxLogging.log(LoggingInterface.LogLevel.ERROR, PrxConstants.PRX_NETWORK_WRAPPER, "Couldn't initialise REST Client");
+
             }
         }
     }
@@ -345,7 +220,7 @@ public class NetworkWrapper {
                 ResponseData responseData = prxRequest.getResponseData(response);
 
                 if (responseData != null) {
-                    mPrxLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_NETWORK_WRAPPER ,"Successfully get Response");
+                    mPrxLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_NETWORK_WRAPPER, "Successfully get Response");
                     if (response != null)
                         mPrxLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_NETWORK_WRAPPER, " Prx response is - " + response.toString());
                     listener.onResponseSuccess(responseData);
