@@ -27,6 +27,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -50,6 +51,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @PrepareForTest({Uri.class, PIMSettingManager.class, USRTokenManager.class, Html.class})
+@PowerMockIgnore({"javax.crypto.*" })
 @RunWith(PowerMockRunner.class)
 public class USRTokenManagerTest extends TestCase {
     private static final String JR_CAPTURE_REFRESH_SECRET = "jr_capture_refresh_secret";
@@ -86,6 +88,8 @@ public class USRTokenManagerTest extends TestCase {
     private TimeInterface mockTimeInterface;
 
     private USRTokenManager spyUsrTokenManager;
+    private String accessToken = "vsu46sctqqpjwkbn";
+    private String TAG = PIMMigrationManager.class.getSimpleName();
 
     @Before
     public void setUp() throws Exception {
@@ -98,12 +102,14 @@ public class USRTokenManagerTest extends TestCase {
         when(mockAppInfraInterface.getServiceDiscovery()).thenReturn(mockServiceDiscoveryInterface);
         when(mockAppInfraInterface.getConfigInterface()).thenReturn(mockAppConfigurationInterface);
         whenNew(SecureStorageInterface.SecureStorageError.class).withNoArguments().thenReturn(mockSecureStorageError);
-        when(mockAppInfraInterface.getSecureStorage().fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER, mockSecureStorageError)).thenReturn(signedUserData());
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER, mockSecureStorageError)).thenReturn(signedUserData());
         when(mockAppInfraInterface.getTime()).thenReturn(mockTimeInterface);
         when(mockTimeInterface.getUTCTime()).thenReturn(new Date());
 
         usrTokenManager = new USRTokenManager(mockAppInfraInterface);
         spyUsrTokenManager = spy(usrTokenManager);
+
+        //Whitebox.invokeMethod(spyUsrTokenManager,"getFlowVersion")
 
 
     }
@@ -164,7 +170,51 @@ public class USRTokenManagerTest extends TestCase {
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
     }*/
 
-   //Updated test cases
+    //Updated test cases
+
+    @Test
+    public void testGetParams(){
+
+    }
+
+    @Test
+    public void testGetRefreshSignature() throws Exception {
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager,"getUTCdatetimeAsString");
+        String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime,accessToken);
+        assertNotNull(refsignature);
+    }
+
+    @Test
+    public void testGetRefreshSignatureRefreshSecretNull() throws Exception {
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager,"getUTCdatetimeAsString");
+        String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime,accessToken);
+        verify(mockLoggingInterface).log(DEBUG,TAG,"refresh secret is null");
+    }
+
+    @Test
+    public void testParseLocale() throws Exception {
+        String locale = Whitebox.invokeMethod(spyUsrTokenManager, "parseLocale", "en_US");
+        assertEquals("en-US",locale);
+    }
+
+    @Test
+    public void testGetUTCdatetimeAsString() throws Exception {
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager,"getUTCdatetimeAsString");
+        assertNotNull(datetime);
+    }
+
+    @Test
+    public void testGetUTCdatetimeAsStringReturnsNull() throws Exception {
+        when(mockAppInfraInterface.getTime()).thenReturn(null);
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager,"getUTCdatetimeAsString");
+        assertNull(datetime);
+    }
+
+    @Test
+    public void testGetFlowVersion(){
+
+    }
 
     @Test
     public void testFetchDataFromSecureStorage() throws Exception {
@@ -176,8 +226,16 @@ public class USRTokenManagerTest extends TestCase {
 
     @Test
     public void testIsUSRUSerAvailable() throws Exception {
-        Whitebox.invokeMethod(spyUsrTokenManager,"isUSRUserAvailable");
-        verifyPrivate(spyUsrTokenManager).invoke("fetchDataFromSecureStorage",JR_CAPTURE_SIGNED_IN_USER);
+        Whitebox.invokeMethod(spyUsrTokenManager, "isUSRUserAvailable");
+        verifyPrivate(spyUsrTokenManager).invoke("fetchDataFromSecureStorage", JR_CAPTURE_SIGNED_IN_USER);
+    }
+
+    @Test
+    public void testDeleteUSRFromSecureStorage() {
+        usrTokenManager.deleteUSRFromSecureStorage();
+        verify(mockSecureStorageInterface).removeValueForKey(JR_CAPTURE_SIGNED_IN_USER);
+        verify(mockSecureStorageInterface).removeValueForKey(JR_CAPTURE_FLOW);
+        verify(mockSecureStorageInterface).removeValueForKey(JR_CAPTURE_REFRESH_SECRET);
     }
 
 

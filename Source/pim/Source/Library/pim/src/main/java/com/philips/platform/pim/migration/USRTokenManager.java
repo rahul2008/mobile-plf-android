@@ -1,9 +1,9 @@
 package com.philips.platform.pim.migration;
 
+import android.annotation.TargetApi;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
-import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -107,32 +107,6 @@ class USRTokenManager {
                 return null;
             }
         }
-    }
-
-    private String parseLocale(String locale) {
-        if (locale.contains("_")) {
-            String[] splitLocal = locale.split("_");
-            locale = splitLocal[0] + "-" + splitLocal[1];
-        }
-        return locale;
-    }
-
-    private String getRefreshSignature(String date, String accessToken) {
-        String refresh_secret = fetchDataFromSecureStorage(JR_CAPTURE_REFRESH_SECRET);
-        if (refresh_secret == null)
-            return null;
-        String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
-        byte[] hash;
-        try {
-            Mac mac = Mac.getInstance("HmacSHA1");
-            byte[] refreshSecret = refresh_secret.getBytes(StandardCharsets.UTF_8);
-            SecretKeySpec secret = new SecretKeySpec(refreshSecret, mac.getAlgorithm());
-            mac.init(secret);
-            hash = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
-        } catch (InvalidKeyException | NoSuchAlgorithmException var7) {
-            throw new RuntimeException("Unexpected", var7);
-        }
-        return Base64.encodeToString(hash, 2);
     }
 
     private String getFlowVersion() {
@@ -262,6 +236,14 @@ class USRTokenManager {
         return params;
     }
 
+    private String parseLocale(String locale) {
+        if (locale.contains("_")) {
+            String[] splitLocal = locale.split("_");
+            locale = splitLocal[0] + "-" + splitLocal[1];
+        }
+        return locale;
+    }
+
     private String getUTCdatetimeAsString() {
         String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
         final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ROOT);
@@ -271,6 +253,28 @@ class USRTokenManager {
             return sdf.format(timeInterface.getUTCTime());
         }
         return null;
+    }
+
+    @TargetApi(26)
+    private String getRefreshSignature(String date, String accessToken) {
+        String refresh_secret = fetchDataFromSecureStorage(JR_CAPTURE_REFRESH_SECRET);
+        if (refresh_secret == null) {
+            mLoggingInterface.log(DEBUG,TAG,"refresh secret is null");
+            return null;
+        }
+        String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
+        byte[] hash;
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            byte[] refreshSecret = refresh_secret.getBytes(StandardCharsets.UTF_8);
+            SecretKeySpec secret = new SecretKeySpec(refreshSecret, mac.getAlgorithm());
+            mac.init(secret);
+            hash = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
+        } catch (InvalidKeyException | NoSuchAlgorithmException var7) {
+            throw new RuntimeException("Unexpected", var7);
+        }
+        //return Base64.encodeToString(hash, 2);
+        return java.util.Base64.getEncoder().encodeToString(hash);
     }
 
     boolean isUSRUserAvailable() {
