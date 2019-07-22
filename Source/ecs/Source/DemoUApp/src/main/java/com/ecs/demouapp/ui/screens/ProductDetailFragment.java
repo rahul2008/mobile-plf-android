@@ -79,7 +79,7 @@ import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_UPDATE_PRODUCT_COUNT;
 public class ProductDetailFragment extends InAppBaseFragment implements
         View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
-        ProductDetailController.ProductSearchListener, AbstractShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AlertListener{
+         AbstractShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AlertListener{
 
 
 
@@ -217,15 +217,35 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             Product productCatalogData = (Product) mBundle.getSerializable("ProductCatalogData");
             product = productCatalogData;
 
-            System.out.println("get product data"+ product.getCode());
+          //  System.out.println("get product data"+ product.getCode());
 
             if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
+                if(product == null){
+                    product = new Product();
+                }
+                product.setCode(mCTNValue);
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
-                        ProductDetailController controller = new ProductDetailController(mContext, this);
-                        controller.getProductDetail(mCTNValue);
+
+                        ECSUtility.getInstance().getEcsServices().getProductFor(mCTNValue, new ECSCallback<Product, Exception>() {
+                            @Override
+                            public void onResponse(Product result) {
+                                product = result;
+                                hideProgressBar();
+                                fetchProductDetailFromPrx();
+                                mDetailLayout.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onFailure(Exception error, int errorCode) {
+                                hideProgressBar();
+                                mDetailLayout.setVisibility(View.GONE);
+                                showErrorDialog(new Message());
+                            }
+                        });
+
                     } else {
                         fetchProductDetailFromPrx();
                         if (mIapListener != null)
@@ -274,10 +294,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             @Override
             public void onResponse(Product result) {
 
-                showDisclaimer(result.getDisclaimers().getDisclaimer());
-
-                processAssets(result.getAssets());
-
+                if(result.getDisclaimers()!=null || !result.getDisclaimers().getDisclaimer().isEmpty()) {
+                    showDisclaimer(result.getDisclaimers().getDisclaimer());
+                }
+                if(result.getAssets()!=null) {
+                    processAssets(result.getAssets());
+                }
                 hideProgressBar();
             }
 
@@ -596,24 +618,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError obj = (IAPNetworkError) msg.obj;
             mIapListener.onFailure(obj.getIAPErrorCode());
-        }
-    }
-
-    @Override
-    public void onGetProductDetail(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            hideProgressBar();
-            mDetailLayout.setVisibility(View.GONE);
-            showErrorDialog(msg);
-        } else {
-            if (msg.what == RequestCode.SEARCH_PRODUCT) {
-                if (msg.obj instanceof ProductDetailEntity) {
-                    mProductDetail = (ProductDetailEntity) msg.obj;
-                    mCTNValue = mProductDetail.getCode();
-                    fetchProductDetailFromPrx();
-                    mDetailLayout.setVisibility(View.VISIBLE);
-                }
-            }
         }
     }
 

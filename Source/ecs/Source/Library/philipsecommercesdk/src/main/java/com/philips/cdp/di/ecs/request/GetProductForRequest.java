@@ -2,10 +2,13 @@ package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.cdp.di.ecs.util.ECSErrors;
@@ -51,14 +54,36 @@ public class GetProductForRequest extends AppInfraAbstractRequest {
     @Override
     public void onResponse(JSONObject response) {
         Product product = null;
-        if (response != null) {
-            product = new Gson().fromJson(response.toString(),
-                    Product.class);
+        try {
+            if (response != null) {
+                product = getJson().fromJson(response.toString(),
+                        Product.class);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         if (null != product && null!=product.getCode()) {
             ecsCallback.onResponse(product);
         } else {
             ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
         }
+    }
+
+    public Gson getJson(){
+
+        Gson gson = new GsonBuilder()
+                .setExclusionStrategies(new ExclusionStrategy() {
+                    @Override
+                    public boolean shouldSkipField(FieldAttributes f) {
+                        return f.getName().equalsIgnoreCase("summary");
+                    }
+
+                    @Override
+                    public boolean shouldSkipClass(Class<?> clazz) {
+                        return clazz == Data.class;
+                    }
+                })
+                .create();
+        return gson;
     }
 }

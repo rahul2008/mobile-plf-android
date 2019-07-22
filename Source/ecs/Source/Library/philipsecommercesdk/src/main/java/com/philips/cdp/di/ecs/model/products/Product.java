@@ -5,6 +5,7 @@
 
 package com.philips.cdp.di.ecs.model.products;
 
+import com.google.gson.annotations.Expose;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.summary.Data;
@@ -21,6 +22,7 @@ public class Product implements Serializable {
     private PriceRangeEntity priceRange;
     private StockEntity stock;
     private String url;
+
     private Data summary;
 
     public Assets getAssets() {
