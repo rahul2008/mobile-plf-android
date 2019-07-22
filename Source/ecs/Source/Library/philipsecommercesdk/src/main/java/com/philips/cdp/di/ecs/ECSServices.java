@@ -90,7 +90,6 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
-
         mECSManager.getProductList(currentPage,pageSize,eCSCallback);
     }
 

@@ -106,20 +106,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     }
 
-
-    private ArrayList<ProductCatalogData> getCachedProductList() {
-        ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
-        HashMap<String, ProductCatalogData> productCatalogDataSaved =
-                CartModelContainer.getInstance().getProductList();
-
-        for (Map.Entry<String, ProductCatalogData> entry : productCatalogDataSaved.entrySet()) {
-            if (entry != null) {
-                mProductList.add(entry.getValue());
-            }
-        }
-        return mProductList;
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

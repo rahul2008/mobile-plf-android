@@ -217,13 +217,35 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             Product productCatalogData = (Product) mBundle.getSerializable("ProductCatalogData");
             product = productCatalogData;
 
-            System.out.println("get product data"+ product.getCode());
+          //  System.out.println("get product data"+ product.getCode());
 
             if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
+                if(product == null){
+                    product = new Product();
+                }
+                product.setCode(mCTNValue);
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
+
+                        ECSUtility.getInstance().getEcsServices().getProductFor(mCTNValue, new ECSCallback<Product, Exception>() {
+                            @Override
+                            public void onResponse(Product result) {
+
+                                            //mProductDetail = (ProductDetailEntity) msg.obj;
+                                           // mCTNValue = mProductDetail.getCode();
+                                            fetchProductDetailFromPrx();
+                                            mDetailLayout.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onFailure(Exception error, int errorCode) {
+                                hideProgressBar();
+                                mDetailLayout.setVisibility(View.GONE);
+                                showErrorDialog(new Message());
+                            }
+                        });
                         ProductDetailController controller = new ProductDetailController(mContext, this);
                         controller.getProductDetail(mCTNValue);
                     } else {

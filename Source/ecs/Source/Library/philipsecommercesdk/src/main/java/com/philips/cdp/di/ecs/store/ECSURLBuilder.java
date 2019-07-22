@@ -18,7 +18,7 @@ public class ECSURLBuilder extends AbstractStore {
     public static final String SEPERATOR = "/";
     private static final String USER = "users";
     private static final String FIELDS_FULL_LANG = "?fields=FULL&lang=";
-    private static final String LANG = "?lang=";
+    private static final String SUFFIX_LANG_QUESTION = "?lang=";
 
     //Region API
     private static final String METAINFO = "metainfo";
@@ -234,10 +234,11 @@ public class ECSURLBuilder extends AbstractStore {
     // this is one of theIAP  entry point where directly product detail is launched
     @Override
     public String getProduct(String ctnNumber) {
+        String formattedCtnNumber = ctnNumber.replace('/', '_');
         StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
         builder.append(ECSConfig.INSTANCE.getSiteId()).append(SEPERATOR).append(SUFFIX_PRODUCTS)
-                .append(SEPERATOR).append(ctnNumber).append(SUFFIX_LANGUAGE).append(ECSConfig.INSTANCE.getLocale());
+                .append(SEPERATOR).append(formattedCtnNumber).append(SUFFIX_LANG_QUESTION).append(ECSConfig.INSTANCE.getLocale());
 
         return builder.toString();
     }
