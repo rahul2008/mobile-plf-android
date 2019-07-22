@@ -288,6 +288,21 @@ public class ECSServicesTest {
         });
     }
 
+    @Test
+    public void getProductForCTNsuccess(){
+        mockECSServices.setJsonFileName("GetProductForCTN.json");
+        mockECSServices.getProductFor("MS5030/01", new ECSCallback<Product, Exception>() {
+            @Override
+            public void onResponse(Product product) {
+                assertNotNull(product);
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertFalse(true);
+            }
+        });
+    }
 
     @Test
     public void getProductAsset() {

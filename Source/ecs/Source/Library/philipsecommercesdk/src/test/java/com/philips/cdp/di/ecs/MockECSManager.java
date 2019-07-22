@@ -5,6 +5,7 @@ import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductAssetRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductDisclaimerRequest;
+import com.philips.cdp.di.ecs.ProductForCTN.MockGetProductForRequest;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
@@ -107,5 +108,10 @@ public class MockECSManager extends ECSManager {
                 ecsCallback.onFailure(error,errorCode);
             }
         }).executeRequest();
+    }
+
+    @Override
+    public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
+        new MockGetProductForRequest(getJsonFileNameMockECSManager(),ctn,eCSCallback).executeRequest();
     }
 }
