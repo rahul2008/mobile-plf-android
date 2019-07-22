@@ -22,6 +22,7 @@ import com.philips.cdp.di.ecs.request.GetProductForRequest;
 import com.philips.cdp.di.ecs.request.GetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,13 +103,49 @@ public class ECSManager {
     }
 
     public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                new GetProductForRequest(ctn,eCSCallback).executeRequest();
-            }
-        }).start();
 
+       if( null!=ECSConfig.INSTANCE.getSiteId()) { // hybris flow
+           new Thread(new Runnable() {
+               @Override
+               public void run() {
+                   new GetProductForRequest(ctn, new ECSCallback<Product, Exception>() {
+                       @Override
+                       public void onResponse(Product result) {
+                           getSummaryForCTN(ctn,result,eCSCallback );
+                       }
+
+                       @Override
+                       public void onFailure(Exception error, int errorCode) {
+                           eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND),28999);
+                       }
+                   }).executeRequest();
+               }
+           }).start();
+       }else{ // Retailer flow
+           getSummaryForCTN(ctn,null,eCSCallback );
+       }
+
+    }
+
+    private void getSummaryForCTN(String ctn,Product product , ECSCallback<Product, Exception> eCSCallback){
+        Products products = new Products();
+        ArrayList<String> ctns = new ArrayList<>();
+        if(null==product){
+            product = new Product();
+        }
+        products.getProducts().add(product);
+        ctns.add(ctn);
+        getProductSummary(products, new ECSCallback<Products, Exception>() {
+            @Override
+            public void onResponse(Products result) {
+                eCSCallback.onResponse(result.getProducts().get(0)); // one and only product
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND),28999);
+            }
+        }, ctns);
     }
 
     void prepareProductSummaryURL(Products result, final ECSCallback<Products, Exception> ecsCallback) {
