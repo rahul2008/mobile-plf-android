@@ -79,7 +79,7 @@ import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_UPDATE_PRODUCT_COUNT;
 public class ProductDetailFragment extends InAppBaseFragment implements
         View.OnClickListener, EventListener,
         AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
-        ProductDetailController.ProductSearchListener, AbstractShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AlertListener{
+         AbstractShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AlertListener{
 
 
 
@@ -232,11 +232,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                         ECSUtility.getInstance().getEcsServices().getProductFor(mCTNValue, new ECSCallback<Product, Exception>() {
                             @Override
                             public void onResponse(Product result) {
-
-                                            //mProductDetail = (ProductDetailEntity) msg.obj;
-                                           // mCTNValue = mProductDetail.getCode();
-                                            fetchProductDetailFromPrx();
-                                            mDetailLayout.setVisibility(View.VISIBLE);
+                                product = result;
+                                hideProgressBar();
+                                fetchProductDetailFromPrx();
+                                mDetailLayout.setVisibility(View.VISIBLE);
                             }
 
                             @Override
@@ -246,8 +245,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                                 showErrorDialog(new Message());
                             }
                         });
-                        ProductDetailController controller = new ProductDetailController(mContext, this);
-                        controller.getProductDetail(mCTNValue);
+
                     } else {
                         fetchProductDetailFromPrx();
                         if (mIapListener != null)
@@ -296,10 +294,12 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             @Override
             public void onResponse(Product result) {
 
-                showDisclaimer(result.getDisclaimers().getDisclaimer());
-
-                processAssets(result.getAssets());
-
+                if(result.getDisclaimers()!=null || !result.getDisclaimers().getDisclaimer().isEmpty()) {
+                    showDisclaimer(result.getDisclaimers().getDisclaimer());
+                }
+                if(result.getAssets()!=null) {
+                    processAssets(result.getAssets());
+                }
                 hideProgressBar();
             }
 
@@ -618,24 +618,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError obj = (IAPNetworkError) msg.obj;
             mIapListener.onFailure(obj.getIAPErrorCode());
-        }
-    }
-
-    @Override
-    public void onGetProductDetail(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            hideProgressBar();
-            mDetailLayout.setVisibility(View.GONE);
-            showErrorDialog(msg);
-        } else {
-            if (msg.what == RequestCode.SEARCH_PRODUCT) {
-                if (msg.obj instanceof ProductDetailEntity) {
-                    mProductDetail = (ProductDetailEntity) msg.obj;
-                    mCTNValue = mProductDetail.getCode();
-                    fetchProductDetailFromPrx();
-                    mDetailLayout.setVisibility(View.VISIBLE);
-                }
-            }
         }
     }
 
