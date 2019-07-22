@@ -34,6 +34,11 @@ public abstract class AbstractStore implements StoreListener {
     }
 
     @Override
+    public String getProduct(String ctnNumber) {
+        return null;
+    }
+
+    @Override
     public String getCreateCartUrl() {
         return null;
     }

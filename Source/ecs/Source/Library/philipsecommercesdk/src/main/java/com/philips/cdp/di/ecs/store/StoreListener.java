@@ -21,6 +21,8 @@ public interface StoreListener {
     //Product
     String getProductCatalogUrl(int currentPage, int pageSize);
 
+    String getProduct(String ctnNumber);
+
     String getSearchProductUrl(String ctnNumber);
 
     String getUpdateProductUrl(String productID);

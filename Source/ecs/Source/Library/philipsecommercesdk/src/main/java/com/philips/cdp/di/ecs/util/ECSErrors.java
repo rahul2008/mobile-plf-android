@@ -1,5 +1,8 @@
 package com.philips.cdp.di.ecs.util;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -35,5 +38,14 @@ public class ECSErrors {
         }
         exception = new Exception(message);
         return  exception;
+    }
+
+    public static void showECSToast(Context context, String message){
+        try {
+            Toast.makeText(context, message,
+                    Toast.LENGTH_LONG).show();
+        }catch(Exception e){
+
+        }
     }
 }

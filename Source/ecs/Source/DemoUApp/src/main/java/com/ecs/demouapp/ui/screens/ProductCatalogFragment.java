@@ -45,6 +45,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.PaginationEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -476,6 +477,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Override
     public void onFailure(Exception error, int errorCode) {
-        onLoadError(new IAPNetworkError(new VolleyError(error.getMessage()), errorCode, null));
+        ECSErrors.showECSToast(getActivity(),error.getMessage());
+        //onLoadError(new IAPNetworkError(new VolleyError(error.getMessage()), errorCode, null));
     }
 }

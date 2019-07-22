@@ -95,6 +95,12 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
+    public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
+        mECSManager.getProductFor(ctn,eCSCallback);
+
+    }
+
+    @Override
     public void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback) {
 
     }
@@ -104,5 +110,6 @@ public class ECSServices implements ECSServiceProvider {
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
         mECSManager.getProductDetail(product,ecsCallback);
     }
+
 
 }

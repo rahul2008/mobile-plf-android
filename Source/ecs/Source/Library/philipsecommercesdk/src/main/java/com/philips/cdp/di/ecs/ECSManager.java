@@ -18,6 +18,7 @@ import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
 import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
 import com.philips.cdp.di.ecs.request.GetProductListRequest;
+import com.philips.cdp.di.ecs.request.GetProductForRequest;
 import com.philips.cdp.di.ecs.request.GetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -98,6 +99,16 @@ public class ECSManager {
 
             }
         }).start();
+    }
+
+    public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new GetProductForRequest(ctn,eCSCallback).executeRequest();
+            }
+        }).start();
+
     }
 
     void prepareProductSummaryURL(Products result, final ECSCallback<Products, Exception> ecsCallback) {

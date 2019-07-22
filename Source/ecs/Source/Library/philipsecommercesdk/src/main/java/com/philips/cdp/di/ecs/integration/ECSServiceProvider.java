@@ -45,6 +45,8 @@ public interface ECSServiceProvider {
      */
     void getProductList(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
 
+    void getProductFor(String ctn,ECSCallback<Product,Exception> eCSCallback );
+
 
     void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback);
 

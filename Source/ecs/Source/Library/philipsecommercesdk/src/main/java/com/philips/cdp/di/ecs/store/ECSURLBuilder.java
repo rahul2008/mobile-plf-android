@@ -54,6 +54,7 @@ public class ECSURLBuilder extends AbstractStore {
     private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
     private static final String SUFFIX_VOUCHERS = "/vouchers";
+    private static final String SUFFIX_LANGUAGE = "&lang=";
 
     private boolean mIsNewUser;
 
@@ -227,6 +228,18 @@ public class ECSURLBuilder extends AbstractStore {
         if (mGetProductCatalogUrl != null)
             return String.format(mGetProductCatalogUrl, currentPage, pageSize);
         return null;
+    }
+
+
+    // this is one of theIAP  entry point where directly product detail is launched
+    @Override
+    public String getProduct(String ctnNumber) {
+        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
+        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
+        builder.append(ECSConfig.INSTANCE.getSiteId()).append(SEPERATOR).append(SUFFIX_PRODUCTS)
+                .append(SEPERATOR).append(ctnNumber).append(SUFFIX_LANGUAGE).append(ECSConfig.INSTANCE.getLocale());
+
+        return builder.toString();
     }
 
     @Override
