@@ -133,6 +133,8 @@ public class ECSManager {
         if(null==product){
             product = new Product();
         }
+       List<Product> productList = new ArrayList<Product>();
+        products.setProducts(productList);
         products.getProducts().add(product);
         ctns.add(ctn);
         getProductSummary(products, new ECSCallback<Products, Exception>() {
