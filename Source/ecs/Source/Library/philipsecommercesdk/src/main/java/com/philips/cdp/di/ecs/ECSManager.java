@@ -116,7 +116,7 @@ public class ECSManager {
 
                        @Override
                        public void onFailure(Exception error, int errorCode) {
-                           eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND),28999);
+                           eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND),5999);
                        }
                    }).executeRequest();
                }

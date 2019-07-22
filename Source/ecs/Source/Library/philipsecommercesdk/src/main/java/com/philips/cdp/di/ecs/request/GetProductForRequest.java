@@ -40,7 +40,7 @@ public class GetProductForRequest extends AppInfraAbstractRequest {
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(ECSErrors.getNetworkErrorMessage(error), 27999);
+        ecsCallback.onFailure(ECSErrors.getNetworkErrorMessage(error), 5999);
     }
 
     /**
@@ -55,10 +55,10 @@ public class GetProductForRequest extends AppInfraAbstractRequest {
             product = new Gson().fromJson(response.toString(),
                     Product.class);
         }
-        if (null != product) {
+        if (null != product && null!=product.getCode()) {
             ecsCallback.onResponse(product);
         } else {
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 27999);
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
         }
     }
 }
