@@ -1,7 +1,6 @@
 package com.philips.cdp.di.ecs;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
@@ -272,7 +271,7 @@ public class ECSServicesTest {
     public void getProductDetailAssetFailure() {
         Product product = new Product();
         product.setCode("HX2345/01");
-        mockECSServices.setJsonFileName("PRXProductAssetsFailure.json");
+        mockECSServices.setJsonFileName("Empty.json");
         mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
@@ -289,17 +288,38 @@ public class ECSServicesTest {
     }
 
     @Test
-    public void getProductForCTNsuccess(){
+    public void getProductForCTNHybrissuccess(){
         mockECSServices.setJsonFileName("GetProductForCTN.json");
         mockECSServices.getProductFor("MS5030/01", new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
                 assertNotNull(product);
+                assertNotNull(product.getSummary());
+                // test case passed
             }
 
             @Override
             public void onFailure(Exception error, int errorCode) {
                 assertFalse(true);
+                // test case passed
+            }
+        });
+    }
+
+    @Test
+    public void getProductForCTNHybrisFailure(){
+        mockECSServices.setJsonFileName("Empty.json");
+        mockECSServices.getProductFor("MS5030/01", new ECSCallback<Product, Exception>() {
+            @Override
+            public void onResponse(Product product) {
+                assertTrue(true);
+                // test case failed
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertEquals(5999, errorCode); // error code for Product List
+                // test case passed
             }
         });
     }
