@@ -132,6 +132,7 @@ public class ECSManager {
         ArrayList<String> ctns = new ArrayList<>();
         if(null==product){
             product = new Product();
+            product.setCode(ctn);
         }
        List<Product> productList = new ArrayList<Product>();
         products.setProducts(productList);
