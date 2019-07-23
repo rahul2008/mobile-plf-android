@@ -31,6 +31,13 @@ public class GetECSShoppingCartsRequest extends AppInfraAbstractRequest {
     }
 
     @Override
+    public Map<String, String> getHeader() {
+        HashMap<String,String> authMap = new HashMap<>();
+        authMap.put("Authorization","Bearer " + ECSConfig.INSTANCE.getAccessToken());
+        return authMap;
+    }
+
+    @Override
     public String getURL() {
         Log.d("Cart Url",new ECSURLBuilder().getCartsUrl());
         return new ECSURLBuilder().getCartsUrl();
@@ -65,6 +72,6 @@ public class GetECSShoppingCartsRequest extends AppInfraAbstractRequest {
 
     @Override
     public TokenProviderInterface getTokenProviderInterface() {
-        return this;
+        return this::getToken;
     }
 }
