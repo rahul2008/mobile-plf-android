@@ -20,6 +20,7 @@ public class EcsDemoUAppInterface implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         this.mContext=uappSettings.getContext();
+
     }
 
     @Override

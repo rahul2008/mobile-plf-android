@@ -16,6 +16,7 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
+import com.philips.cdp.di.ecs.request.CreateShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
@@ -105,39 +106,39 @@ public class ECSManager {
         }).start();
     }
 
-    public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback){
+    public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
 
-       if( null!=ECSConfig.INSTANCE.getSiteId()) { // hybris flow
-           new Thread(new Runnable() {
-               @Override
-               public void run() {
-                   new GetProductForRequest(ctn, new ECSCallback<Product, Exception>() {
-                       @Override
-                       public void onResponse(Product result) {
-                           getSummaryForCTN(ctn,result,eCSCallback );
-                       }
+        if (null != ECSConfig.INSTANCE.getSiteId()) { // hybris flow
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    new GetProductForRequest(ctn, new ECSCallback<Product, Exception>() {
+                        @Override
+                        public void onResponse(Product result) {
+                            getSummaryForCTN(ctn, result, eCSCallback);
+                        }
 
-                       @Override
-                       public void onFailure(Exception error, int errorCode) {
-                           eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND),5999);
-                       }
-                   }).executeRequest();
-               }
-           }).start();
-       }else{ // Retailer flow
-           getSummaryForCTN(ctn,null,eCSCallback );
-       }
+                        @Override
+                        public void onFailure(Exception error, int errorCode) {
+                            eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
+                        }
+                    }).executeRequest();
+                }
+            }).start();
+        } else { // Retailer flow
+            getSummaryForCTN(ctn, null, eCSCallback);
+        }
 
     }
 
-    private void getSummaryForCTN(String ctn,Product product , ECSCallback<Product, Exception> eCSCallback){
+    private void getSummaryForCTN(String ctn, Product product, ECSCallback<Product, Exception> eCSCallback) {
         Products products = new Products();
         ArrayList<String> ctns = new ArrayList<>();
-        if(null==product){
+        if (null == product) {
             product = new Product();
             product.setCode(ctn);
         }
-       List<Product> productList = new ArrayList<Product>();
+        List<Product> productList = new ArrayList<Product>();
         products.setProducts(productList);
         products.getProducts().add(product);
         ctns.add(ctn);
@@ -149,7 +150,7 @@ public class ECSManager {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND),28999);
+                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 28999);
             }
         }, ctns);
     }
@@ -206,7 +207,7 @@ public class ECSManager {
         for (Product product : products.getProducts()) {
             Data productSummaryData = summaryCtnMap.get(product.getCode());
 
-            if(productSummaryData!=null) {
+            if (productSummaryData != null) {
                 product.setSummary(productSummaryData);
                 productArrayList.add(product);
             }
@@ -236,7 +237,6 @@ public class ECSManager {
     }
 
 
-
     void getProductAsset(String url, ECSCallback<Assets, Exception> eCSCallback) {
         new Thread(new Runnable() {
             @Override
@@ -264,33 +264,32 @@ public class ECSManager {
                 getProductAsset(url, new ECSCallback<Assets, Exception>() {
                     @Override
                     public void onResponse(Assets result) {
-                            if(null!=result){
-                               product.setAssets(result);
-                               getDisclaimer(product,ecsCallback);
+                        if (null != result) {
+                            product.setAssets(result);
+                            getDisclaimer(product, ecsCallback);
 
-                            }else{
-                                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),5002);
-                            }
+                        } else {
+                            ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND), 5002);
+                        }
                     }
 
                     @Override
                     public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(error,errorCode);
+                        ecsCallback.onFailure(error, errorCode);
                     }
                 });
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),5002);
+                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND), 5002);
             }
         });
 
 
-
     }
 
-    private void getDisclaimer(Product product,ECSCallback<Product, Exception> ecsCallback){
+    private void getDisclaimer(Product product, ECSCallback<Product, Exception> ecsCallback) {
         new DisclaimerServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
             @Override
             public void onSuccess(String url) {
@@ -332,9 +331,9 @@ public class ECSManager {
 
         Products products = new Products();
 
-        ArrayList<Product>  productArrayList= new ArrayList<>();
+        ArrayList<Product> productArrayList = new ArrayList<>();
 
-        for(String ctn : ctns){
+        for (String ctn : ctns) {
             Product product = new Product();
             product.setCode(ctn);
             productArrayList.add(product);
@@ -349,7 +348,7 @@ public class ECSManager {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-               ecsCallback.onFailure(error,errorCode);
+                ecsCallback.onFailure(error, errorCode);
             }
         });
     }
@@ -357,51 +356,78 @@ public class ECSManager {
 
     //=======================================================================Shopping Cart =============
 
-    void getECSShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback){
+    void getECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-        new GetECSShoppingCartsRequest(new ECSCallback<ECSShoppingCart, Exception>() {
-            @Override
-            public void onResponse(ECSShoppingCart ecsShoppingCart) {
-
-                //Preparing products to get summary Data
-                List<Product> productList = new ArrayList<>();
-
-                for(EntriesEntity entriesEntity:ecsShoppingCart.getEntries()){
-                    productList.add(entriesEntity.getProduct());
-                }
-
-                Products products = new Products();
-                products.setProducts(productList);
-
-                //get Summary Data Here
-
-                ECSCallback<Products, Exception> ecsCallbackProduct = new ECSCallback<Products, Exception>() {
+                new GetECSShoppingCartsRequest(new ECSCallback<ECSShoppingCart, Exception>() {
                     @Override
-                    public void onResponse(Products result) {
+                    public void onResponse(ECSShoppingCart ecsShoppingCart) {
+
+                        if (null == ecsShoppingCart.getEntries()) {
+                            // if no product is added to cart
+                            ecsCallback.onResponse(ecsShoppingCart);
+                        } else {
+
+
+                            //Preparing products to get summary Data
+                            List<Product> productList = new ArrayList<>();
+
+                            for (EntriesEntity entriesEntity : ecsShoppingCart.getEntries()) {
+                                productList.add(entriesEntity.getProduct());
+                            }
+
+                            Products products = new Products();
+                            products.setProducts(productList);
+
+                            //get Summary Data Here
+
+                            ECSCallback<Products, Exception> ecsCallbackProduct = new ECSCallback<Products, Exception>() {
+                                @Override
+                                public void onResponse(Products result) {
+                                    ecsCallback.onResponse(ecsShoppingCart);
+                                }
+
+                                @Override
+                                public void onFailure(Exception error, int errorCode) {
+                                    ecsCallback.onFailure(error, errorCode);
+                                }
+                            };
+
+                            prepareProductSummaryURL(products, ecsCallbackProduct);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        ecsCallback.onFailure(error, errorCode);
+                    }
+                }).executeRequest();
+
+
+            }
+        }).start();
+
+    }
+
+    void createECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new CreateShoppingCartRequest(new ECSCallback<ECSShoppingCart, Exception>() {
+                    @Override
+                    public void onResponse(ECSShoppingCart ecsShoppingCart) {
                         ecsCallback.onResponse(ecsShoppingCart);
                     }
 
                     @Override
                     public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(error,errorCode);
+                        ecsCallback.onFailure(error, errorCode);
                     }
-                };
-
-                prepareProductSummaryURL(products,ecsCallbackProduct);
-
-            }
-
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error,errorCode);
-            }
-        }).executeRequest();
-
-
+                }).executeRequest();
             }
         }).start();
 

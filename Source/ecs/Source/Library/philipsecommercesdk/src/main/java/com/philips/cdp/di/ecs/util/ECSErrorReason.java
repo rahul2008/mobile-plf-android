@@ -13,6 +13,7 @@ public class ECSErrorReason {
     public static final String ECS_GIVEN_PRODUCT_NOT_FOUND = "Given product not found";
      public static final String ECS_NO_PRODUCT_DETAIL_FOUND = "Product detail disclaimer and asset not Found";
     public static final String ECS_CART_CANNOT_BE_CREATED = "Cart cannot be created";
+    public static final String ECS_GET_CART_FAILED = "Get cart failed";
 
     public static final String ECS_CANNOT_CONNECT_INTERNET ="Cannot connect to Internet...Please check your connection!";
     public static final String ECS_SERVER_NOT_FOUND ="The server could not be found. Please try again after some time!!";

@@ -92,7 +92,7 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void createShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-
+        mECSManager.createECSShoppingCart(ecsCallback);
     }
 
     public void hybrisOathAuthentication(OAuthInput OAuthInput, ECSCallback<OAuthResponse,Exception> ecsListener){

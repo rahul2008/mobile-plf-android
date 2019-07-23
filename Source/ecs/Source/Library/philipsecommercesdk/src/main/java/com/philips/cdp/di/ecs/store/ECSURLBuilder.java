@@ -282,7 +282,12 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getCreateCartUrl() {
-        return mCreateCartUrl;
+        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
+                +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
+                +USER+ECSURLBuilder.SEPERATOR
+                +SUFFIX_CURRENT+ECSURLBuilder.SEPERATOR
+                +SUFFIX_CARTS+SUFFIX_LANG_QUESTION
+                +ECSConfig.INSTANCE.getLocale();
     }
 
     @Override

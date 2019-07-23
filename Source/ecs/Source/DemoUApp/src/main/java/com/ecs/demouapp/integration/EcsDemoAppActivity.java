@@ -43,6 +43,7 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -538,7 +539,14 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         } else if (view == mShopNow) {
 
 
-             ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+            OAuthInput oAuthInput = new OAuthInput() {
+                @Override
+                public String getJanRainID() {
+                    return null;
+                }
+            };
+
+             ECSUtility.getInstance().getEcsServices().createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
                  @Override
                  public void onResponse(ECSShoppingCart result) {
 
