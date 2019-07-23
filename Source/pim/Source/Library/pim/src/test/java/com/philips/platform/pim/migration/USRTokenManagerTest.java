@@ -217,6 +217,20 @@ public class USRTokenManagerTest extends TestCase {
     }
 
     @Test
+    public void testGetClientID(){
+
+    }
+
+    @Test
+    public void testGetClientIDFromConfig() throws Exception {
+        whenNew(AppConfigurationInterface.AppConfigurationError.class).withNoArguments().thenReturn(mockAppConfigurationError);
+        AppConfigurationInterface.AppConfigurationError mockConfigurationError = mock(AppConfigurationInterface.AppConfigurationError.class);
+        when(mockAppConfigurationInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockConfigurationError)).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        String clientID = Whitebox.invokeMethod(spyUsrTokenManager,"getClientIdFromConfig");
+        assertEquals("f2stykcygm7enbwfw2u9fbg6h6syb8yd",clientID);
+    }
+
+    @Test
     public void testFetchDataFromSecureStorage() throws Exception {
         USRTokenManager spyUsrTokenManager = PowerMockito.spy(usrTokenManager);
         String signedInUser = Whitebox.invokeMethod(spyUsrTokenManager, "fetchDataFromSecureStorage", JR_CAPTURE_SIGNED_IN_USER);
