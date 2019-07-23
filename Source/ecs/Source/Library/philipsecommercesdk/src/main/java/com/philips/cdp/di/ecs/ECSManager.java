@@ -3,6 +3,8 @@ package com.philips.cdp.di.ecs;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -15,6 +17,7 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryReq
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
+import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
 import com.philips.cdp.di.ecs.request.GetProductDisclaimerRequest;
 import com.philips.cdp.di.ecs.request.GetProductListRequest;
@@ -172,7 +175,6 @@ public class ECSManager {
                     public void onResponse(ECSProductSummary ecsProductSummary) {
                         updateProductsWithSummary(result, ecsProductSummary);
                         ecsCallback.onResponse(result);
-
                     }
 
                     @Override
@@ -351,4 +353,59 @@ public class ECSManager {
             }
         });
     }
+
+
+    //=======================================================================Shopping Cart =============
+
+    void getECSShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+        new GetECSShoppingCartsRequest(new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart ecsShoppingCart) {
+
+                //Preparing products to get summary Data
+                List<Product> productList = new ArrayList<>();
+
+                for(EntriesEntity entriesEntity:ecsShoppingCart.getEntries()){
+                    productList.add(entriesEntity.getProduct());
+                }
+
+                Products products = new Products();
+                products.setProducts(productList);
+
+                //get Summary Data Here
+
+                ECSCallback<Products, Exception> ecsCallbackProduct = new ECSCallback<Products, Exception>() {
+                    @Override
+                    public void onResponse(Products result) {
+                        ecsCallback.onResponse(ecsShoppingCart);
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+                        ecsCallback.onFailure(error,errorCode);
+                    }
+                };
+
+                prepareProductSummaryURL(products,ecsCallbackProduct);
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error,errorCode);
+            }
+        }).executeRequest();
+
+
+            }
+        }).start();
+
+    }
+
+
 }

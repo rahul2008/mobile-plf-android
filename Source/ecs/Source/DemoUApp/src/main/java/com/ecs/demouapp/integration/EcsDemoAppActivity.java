@@ -43,6 +43,7 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -535,7 +536,21 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         if (view == mShoppingCart) {
             launchIAP(ECSLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
-            launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
+
+
+             ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+                 @Override
+                 public void onResponse(ECSShoppingCart result) {
+
+                     System.out.println("Print data"+result.getCode());
+                 }
+
+                 @Override
+                 public void onFailure(Exception error, int errorCode) {
+                     System.out.println("Print failyre"+error.getMessage());
+                 }
+             });
+            //launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
             launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {

@@ -12,6 +12,12 @@ public enum ECSConfig {
     AppInfra appInfra;
     HybrisConfigResponse config;
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    String accessToken;
+
     public String getBaseURL() {
         return baseURL;
     }
@@ -77,5 +83,9 @@ public enum ECSConfig {
 
     public void setPropositionID(String propositionID) {
         this.propositionID = propositionID;
+    }
+
+    public void setAuthToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

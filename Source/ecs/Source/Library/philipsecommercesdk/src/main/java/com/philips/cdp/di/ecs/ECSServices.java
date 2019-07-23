@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
@@ -82,6 +83,16 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void getProductSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
         mECSManager.getSummary(ctns,ecsCallback);
+    }
+
+    @Override
+    public void getShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        mECSManager.getECSShoppingCart(ecsCallback);
+    }
+
+    @Override
+    public void createShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+
     }
 
     public void hybrisOathAuthentication(OAuthInput OAuthInput, ECSCallback<OAuthResponse,Exception> ecsListener){
