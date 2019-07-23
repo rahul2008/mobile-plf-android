@@ -217,8 +217,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             Product productCatalogData = (Product) mBundle.getSerializable("ProductCatalogData");
             product = productCatalogData;
 
-          //  System.out.println("get product data"+ product.getCode());
-
             if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
