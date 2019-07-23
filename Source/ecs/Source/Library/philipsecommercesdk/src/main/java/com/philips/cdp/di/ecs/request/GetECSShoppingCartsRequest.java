@@ -37,13 +37,6 @@ public class GetECSShoppingCartsRequest extends AppInfraAbstractRequest {
     }
 
     @Override
-    public Map<String, String> getHeader() {
-        Map<String,String> authMap = new HashMap<>();
-        authMap.put("Authorization","Bearer " + ECSConfig.INSTANCE.getAccessToken());
-        return authMap;
-    }
-
-    @Override
     public void onErrorResponse(VolleyError error) {
         ecsCallback.onFailure(error,9000);
     }
@@ -54,13 +47,24 @@ public class GetECSShoppingCartsRequest extends AppInfraAbstractRequest {
         ecsCallback.onResponse(ecsShoppingCart);
     }
 
+
     @Override
     public Token getToken() {
-        return super.getToken();
+        return new Token() {
+            @Override
+            public TokenType getTokenType() {
+                return TokenType.OAUTH2;
+            }
+
+            @Override
+            public String getTokenValue() {
+                return ECSConfig.INSTANCE.getAccessToken();
+            }
+        };
     }
 
     @Override
     public TokenProviderInterface getTokenProviderInterface() {
-        return super.getTokenProviderInterface();
+        return this;
     }
 }

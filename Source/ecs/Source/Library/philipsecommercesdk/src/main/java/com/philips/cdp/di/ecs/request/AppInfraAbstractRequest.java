@@ -25,11 +25,6 @@ public abstract class AppInfraAbstractRequest implements APPInfraJSONRequest {
     }
 
     @Override
-    public TokenProviderInterface getTokenProviderInterface() {
-        return this;
-    }
-
-    @Override
     public JSONObject getJSONRequest() {
         return null;
     }
@@ -46,6 +41,11 @@ public abstract class AppInfraAbstractRequest implements APPInfraJSONRequest {
 
     @Override
     public Token getToken() {
+        return null;
+    }
+
+    @Override
+    public TokenProviderInterface getTokenProviderInterface() {
         return null;
     }
 }
