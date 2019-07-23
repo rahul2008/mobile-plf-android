@@ -63,4 +63,6 @@ public interface ECSServiceProvider {
     void getShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
 
     void createShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
+
+    void addProductToShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
 }

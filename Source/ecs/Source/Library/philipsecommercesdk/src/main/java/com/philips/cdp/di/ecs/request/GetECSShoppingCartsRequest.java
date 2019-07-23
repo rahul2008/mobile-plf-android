@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetECSShoppingCartsRequest extends AppInfraAbstractRequest {
+public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest {
 
     private final ECSCallback<ECSShoppingCart, Exception> ecsCallback;
 
@@ -54,24 +54,4 @@ public class GetECSShoppingCartsRequest extends AppInfraAbstractRequest {
         ecsCallback.onResponse(ecsShoppingCart);
     }
 
-
-    @Override
-    public Token getToken() {
-        return new Token() {
-            @Override
-            public TokenType getTokenType() {
-                return TokenType.OAUTH2;
-            }
-
-            @Override
-            public String getTokenValue() {
-                return ECSConfig.INSTANCE.getAccessToken();
-            }
-        };
-    }
-
-    @Override
-    public TokenProviderInterface getTokenProviderInterface() {
-        return this::getToken;
-    }
 }
