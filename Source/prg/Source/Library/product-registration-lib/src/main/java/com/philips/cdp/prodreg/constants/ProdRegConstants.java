@@ -64,5 +64,7 @@ public class ProdRegConstants {
     public static final String PROD_REG_APIVERSION_VALUE="1";
     public static final String PROD_REG_AUTHORIZATION_VALUE="bearer ";
     public static final String PROD_REG_CONTENTTYYPE_VALUE ="application/json";
+    public static final String PROD_REG_ACCEPT_KEY="Accept";
+
 
 }

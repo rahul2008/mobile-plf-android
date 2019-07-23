@@ -145,11 +145,10 @@ public class NetworkWrapper {
                         if (jsonString.length() > 0)
                             result = new JSONObject(jsonString);
 
-                        return Response.success(result,
+                        Response response1 = Response.success(result,
                                 HttpHeaderParser.parseCacheHeaders(response));
-                    } catch (UnsupportedEncodingException e) {
-                        return Response.error(new ParseError(e));
-                    } catch (JSONException je) {
+                        return response1;
+                    } catch (Exception je) {
                         return Response.error(new ParseError(je));
                     }
                 }

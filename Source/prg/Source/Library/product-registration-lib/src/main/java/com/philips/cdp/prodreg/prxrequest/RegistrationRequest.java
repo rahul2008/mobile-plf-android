@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_ACCEPT_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_KEY;
@@ -231,6 +232,7 @@ public class RegistrationRequest extends PrxRequest {
         headers.put(PROD_REG_APIVERSION_KEY, getApiVersion());
         headers.put(PROD_REG_AUTHORIZATION_KEY, PROD_REG_AUTHORIZATION_VALUE + getAccessToken());
         headers.put(PROD_REG_CONTENTTYYPE_KEY, getContentType());
+        headers.put(PROD_REG_ACCEPT_KEY,getContentType());
 
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(serviceID);

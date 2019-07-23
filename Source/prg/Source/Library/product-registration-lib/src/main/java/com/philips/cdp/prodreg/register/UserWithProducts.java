@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
+import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseNewData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prxclient.PRXDependencies;
@@ -430,9 +431,9 @@ public class UserWithProducts {
     }
 
     protected void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {
-        final RegistrationResponseData data = registrationResponse.getData();
-        registeredProduct.setEndWarrantyDate(data.getWarrantyEndDate());
-        registeredProduct.setContractNumber(data.getContractNumber());
+        final RegistrationResponseNewData data = registrationResponse.getData();
+        registeredProduct.setEndWarrantyDate(data.getData().getAttributes().getExtendedWarrantyMonths()+"");
+        registeredProduct.setContractNumber(data.getData().getAttributes().getSerialNumber());
     }
 
     protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct) {
