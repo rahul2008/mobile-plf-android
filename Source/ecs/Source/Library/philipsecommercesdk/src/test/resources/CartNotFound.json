@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "message": "Cart not found.",
+      "reason": "notFound",
+      "subject": "72d95e7e-9727-4cdc-b5aa-92a3f95c6d69",
+      "subjectType": "cart",
+      "type": "CartError"
+    }
+  ]
+}
