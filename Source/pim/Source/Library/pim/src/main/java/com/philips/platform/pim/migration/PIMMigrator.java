@@ -39,14 +39,14 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
         }
     }
 
-    public void migrateUSRToPIM(UserMigrationListener userMigrationListener) {
+   /* public void migrateUSRToPIM() {
         if (usrTokenManager.isUSRUserAvailable()) {
             usrTokenManager.fetchRefreshedAccessToken(this);
         } else {
             mLoggingInterface.log(DEBUG, TAG, "USR user is not available so assertion not required");
             //throw error
         }
-    }
+    }*/
 
     @Override
     public void onRefreshTokenSuccess(String accessToken) {
@@ -57,6 +57,8 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
     @Override
     public void onRefreshTokenFailed(Error error) {
         mLoggingInterface.log(DEBUG, TAG, "Refresh access token failed.");
+        if (userMigrationListener != null)
+            userMigrationListener.userMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
     }
 
     @Override

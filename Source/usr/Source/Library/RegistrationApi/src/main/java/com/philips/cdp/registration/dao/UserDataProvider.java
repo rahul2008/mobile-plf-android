@@ -165,11 +165,6 @@ public class UserDataProvider extends User implements UserDataInterface {
     }
 
     @Override
-    public boolean isOIDCToken() {
-        return false;
-    }
-
-    @Override
     public void migrateUserToPIM(UserMigrationListener userMigrationListener) {
 
     }

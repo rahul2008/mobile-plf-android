@@ -1,6 +1,10 @@
 package com.philips.platform.pim;
 
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
@@ -14,10 +18,12 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListen
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
+import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.migration.PIMMigrator;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
+import com.philips.platform.pim.utilities.PIMInitState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +37,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class PIMDataImplementation implements UserDataInterface {
     private PIMUserManager pimUserManager;
     private Context mContext;
+    private boolean isInitRequiredAgain;
     private final CopyOnWriteArrayList<UserDataListener> userDataListeners;
     private final String TAG = PIMDataImplementation.class.getSimpleName();
 
@@ -140,20 +147,31 @@ public class PIMDataImplementation implements UserDataInterface {
     }
 
     @Override
-    public boolean isOIDCToken() {
-        //TODO: Shashi, Implement logic with migration feature
-        return false;
-    }
-
-    @Override
     public void migrateUserToPIM(UserMigrationListener userMigrationListener) {
-        if (PIMSettingManager.getInstance().getPimUserManager().getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
-            PIMMigrator pimMigrator = new PIMMigrator(mContext);
-            pimMigrator.migrateUSRToPIM(userMigrationListener);
-        } else {
-            //mLoggingInterface.log(DEBUG, TAG, "User is already logged in");
-            //throw error
+        if(pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN){
+            return;
         }
+        isInitRequiredAgain = true;
+        MutableLiveData<PIMInitState> pimInitLiveData = PIMSettingManager.getInstance().getPimInitLiveData();
+        new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
+        pimInitLiveData.observe((FragmentActivity) mContext, new Observer<PIMInitState>() {
+            @Override
+            public void onChanged(@Nullable PIMInitState pimInitState) {
+                if (pimInitState == PIMInitState.INIT_SUCCESS) {
+                    pimInitLiveData.removeObservers((FragmentActivity) mContext);
+                    PIMMigrator pimMigrator = new PIMMigrator(mContext, userMigrationListener);
+                    pimMigrator.migrateUSRToPIM();
+                } else if (pimInitState == PIMInitState.INIT_FAILED) {
+                    if (isInitRequiredAgain) {
+                        new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
+                        isInitRequiredAgain = false;
+                    } else {
+                        pimInitLiveData.removeObservers((FragmentActivity) mContext);
+                        userMigrationListener.userMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
+                    }
+                }
+            }
+        });
     }
 
     @Override
