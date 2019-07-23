@@ -87,6 +87,7 @@ dependencies {
     implementation deps.openid_appauth
     implementation deps.livedata_extensions
 
+    testImplementation deps.json
     testImplementation deps.junit
     testImplementation deps.powermock_core
     testImplementation deps.powermock_junit
