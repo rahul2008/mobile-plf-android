@@ -1,11 +1,13 @@
 package com.philips.cdp.di.ecs.model.cart;
 
+import com.philips.cdp.di.ecs.model.products.Product;
+
 /**
  * Created by 310228564 on 2/9/2016.
  */
 public class Entry {
     private int entryNumber;
-    private ProductEntity product;
+    private Product product;
     private int quantity;
     private Price totalPrice;
 
@@ -13,7 +15,7 @@ public class Entry {
         return entryNumber;
     }
 
-    public ProductEntity getProduct() {
+    public Product getProduct() {
         return product;
     }
 

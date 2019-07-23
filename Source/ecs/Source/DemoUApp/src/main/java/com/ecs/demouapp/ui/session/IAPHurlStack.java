@@ -5,6 +5,7 @@
 package com.ecs.demouapp.ui.session;
 
 import com.android.volley.toolbox.HurlStack;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -29,6 +30,8 @@ public class IAPHurlStack {
                 if (connection instanceof HttpsURLConnection) {
                     if (mOAuthListener != null && mOAuthListener.getAccessToken()!=null) {
                         connection.setRequestProperty("Authorization", "Bearer " + mOAuthListener.getAccessToken());
+
+                        ECSConfig.INSTANCE.setAuthToken( mOAuthListener.getAccessToken());
                     }
                 }
                 return connection;

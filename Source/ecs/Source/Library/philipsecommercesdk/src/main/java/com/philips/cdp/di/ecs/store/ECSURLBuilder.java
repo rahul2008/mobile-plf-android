@@ -31,8 +31,8 @@ public class ECSURLBuilder extends AbstractStore {
     private static final String SUFFIX_REFRESH_OAUTH = "oauth/token";
 
     //Requests
-    private static final String SUFFIX_CARTS = "/carts";
-    private static final String SUFFIX_CURRENT = "/current";
+    private static final String SUFFIX_CARTS = "carts";
+    private static final String SUFFIX_CURRENT = "current";
     private static final String SUFFIX_ENTRIES = "/entries";
 
     /*ToDO : using lang=en instead of locale as backend not support*/
@@ -265,7 +265,14 @@ public class ECSURLBuilder extends AbstractStore {
     //Carts
     @Override
     public String getCartsUrl() {
-        return mGetCurrentCartUrl;
+        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
+                +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
+                +USER+ECSURLBuilder.SEPERATOR
+                +SUFFIX_CURRENT+ECSURLBuilder.SEPERATOR
+                +SUFFIX_CARTS+ECSURLBuilder.SEPERATOR
+                +SUFFIX_CURRENT+SUFFIX_LANG_QUESTION
+                +ECSConfig.INSTANCE.getLocale();
+
     }
 
     @Override

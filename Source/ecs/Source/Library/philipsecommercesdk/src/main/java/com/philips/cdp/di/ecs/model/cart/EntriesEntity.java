@@ -1,5 +1,7 @@
 package com.philips.cdp.di.ecs.model.cart;
 
+import com.philips.cdp.di.ecs.model.products.Product;
+
 import java.io.Serializable;
 
 /**
@@ -13,7 +15,7 @@ public class EntriesEntity implements Serializable{
     private BasePriceEntity basePrice;
     private int entryNumber;
 
-    private ProductEntity product;
+    private Product product;
     private int quantity;
 
     private TotalPriceEntity totalPrice;
@@ -27,7 +29,7 @@ public class EntriesEntity implements Serializable{
         return entryNumber;
     }
 
-    public ProductEntity getProduct() {
+    public Product getProduct() {
         return product;
     }
 
@@ -43,7 +45,7 @@ public class EntriesEntity implements Serializable{
         return updateable;
     }
 
-    public void setProduct(ProductEntity product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 }
