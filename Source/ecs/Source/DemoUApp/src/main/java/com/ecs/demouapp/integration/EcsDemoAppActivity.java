@@ -590,7 +590,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                      System.out.println("Print failyre"+error.getMessage());
                  }
              });
-            launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
+           // launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
             launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {
