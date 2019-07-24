@@ -45,6 +45,8 @@ import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -174,6 +176,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 System.out.println("Configured ECS failed");
             }
         });
+
 
         mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -329,6 +332,35 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         mIAPSettings.setIapMockInterface(this);
         actionBar();
         initializeIAPComponant();
+
+        initAouth();
+    }
+
+    private void initAouth() {
+
+        if(isUserLoggedIn()) {
+
+
+            OAuthInput oAuthInput = new OAuthInput() {
+                @Override
+                public String getJanRainID() {
+                    return null;
+                }
+            };
+
+            ECSUtility.getInstance().getEcsServices().hybrisOathAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+                @Override
+                public void onResponse(OAuthResponse result) {
+                    ECSConfig.INSTANCE.setAuthToken(result.getAccessToken());
+                }
+
+                @Override
+                public void onFailure(Exception error, int errorCode) {
+
+                }
+            });
+        }
+
     }
 
     private void initializeIAPComponant() {
@@ -558,7 +590,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                      System.out.println("Print failyre"+error.getMessage());
                  }
              });
-            //launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
+            launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
             launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {

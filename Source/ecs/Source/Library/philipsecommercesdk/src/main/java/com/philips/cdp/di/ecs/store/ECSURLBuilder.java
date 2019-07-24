@@ -33,7 +33,7 @@ public class ECSURLBuilder extends AbstractStore {
     //Requests
     private static final String SUFFIX_CARTS = "carts";
     private static final String SUFFIX_CURRENT = "current";
-    private static final String SUFFIX_ENTRIES = "/entries";
+    private static final String SUFFIX_ENTRIES = "entries";
 
     /*ToDO : using lang=en instead of locale as backend not support*/
     private String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign&lang=";
@@ -297,7 +297,14 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getAddToCartUrl() {
-        return mAddToCartUrl;
+        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
+                +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
+                +USER+ECSURLBuilder.SEPERATOR
+                +SUFFIX_CURRENT+ECSURLBuilder.SEPERATOR
+                +SUFFIX_CARTS+ECSURLBuilder.SEPERATOR
+                +SUFFIX_CURRENT+ECSURLBuilder.SEPERATOR
+                +SUFFIX_ENTRIES+FIELDS_FULL_LANG
+                +ECSConfig.INSTANCE.getLocale();
     }
 
     //Address

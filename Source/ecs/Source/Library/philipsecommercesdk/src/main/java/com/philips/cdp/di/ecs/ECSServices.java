@@ -121,5 +121,10 @@ public class ECSServices implements ECSServiceProvider {
         mECSManager.getProductDetail(product,ecsCallback);
     }
 
+    @Override
+    public void addProductToShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+
+        mECSManager.addProductToShoppingCart(ecsCallback);
+    }
 
 }
