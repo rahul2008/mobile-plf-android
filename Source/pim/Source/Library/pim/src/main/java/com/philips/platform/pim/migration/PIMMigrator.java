@@ -39,15 +39,6 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
         }
     }
 
-   /* public void migrateUSRToPIM() {
-        if (usrTokenManager.isUSRUserAvailable()) {
-            usrTokenManager.fetchRefreshedAccessToken(this);
-        } else {
-            mLoggingInterface.log(DEBUG, TAG, "USR user is not available so assertion not required");
-            //throw error
-        }
-    }*/
-
     @Override
     public void onRefreshTokenSuccess(String accessToken) {
         PIMMigrationManager pimMigrationManager = new PIMMigrationManager(context, this);
@@ -58,7 +49,7 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
     public void onRefreshTokenFailed(Error error) {
         mLoggingInterface.log(DEBUG, TAG, "Refresh access token failed.");
         if (userMigrationListener != null)
-            userMigrationListener.userMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
+            userMigrationListener.onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
     }
 
     @Override
@@ -66,13 +57,13 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
         usrTokenManager.deleteUSRFromSecureStorage();
         mLoggingInterface.log(DEBUG, TAG, "User is migrated PIM Successfully");
         if (userMigrationListener != null)
-            userMigrationListener.userMigrationSuccess();
+            userMigrationListener.onUserMigrationSuccess();
     }
 
     @Override
     public void onUserMigrationFailed(Error error) {
         mLoggingInterface.log(DEBUG, TAG, "User migration failed! " + error.getErrDesc());
         if (userMigrationListener != null)
-            userMigrationListener.userMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
+            userMigrationListener.onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
     }
 }

@@ -177,12 +177,12 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         } else if(v == btnMigrator){
             userDataInterface.migrateUserToPIM(new UserMigrationListener() {
                 @Override
-                public void userMigrationSuccess() {
+                public void onUserMigrationSuccess() {
                     showToast("User migrated succesfully");
                 }
 
                 @Override
-                public void userMigrationFailed(Error error) {
+                public void onUserMigrationFailed(Error error) {
                     showToast("user migration failed");
                 }
             });

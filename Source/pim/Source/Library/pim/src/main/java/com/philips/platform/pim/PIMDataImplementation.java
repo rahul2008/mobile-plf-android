@@ -39,7 +39,6 @@ public class PIMDataImplementation implements UserDataInterface {
     private Context mContext;
     private boolean isInitRequiredAgain;
     private final CopyOnWriteArrayList<UserDataListener> userDataListeners;
-    private final String TAG = PIMDataImplementation.class.getSimpleName();
 
     public PIMDataImplementation(Context context, PIMUserManager pimUserManager) {
         mContext = context;
@@ -167,7 +166,7 @@ public class PIMDataImplementation implements UserDataInterface {
                         isInitRequiredAgain = false;
                     } else {
                         pimInitLiveData.removeObservers((FragmentActivity) mContext);
-                        userMigrationListener.userMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
+                        userMigrationListener.onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
                     }
                 }
             }
