@@ -5,7 +5,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
@@ -13,6 +13,9 @@ import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.philips.cdp.di.ecs.util.ECSErrors.getNetworkErrorMessage;
 
@@ -29,6 +32,13 @@ public class CreateShoppingCartRequest extends AppInfraAbstractRequest {
     @Override
     public int getMethod() {
         return Request.Method.POST;
+    }
+
+    @Override
+    public Map<String, String> getHeader() {
+        HashMap<String, String> authMap = new HashMap<>();
+        authMap.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
+        return authMap;
     }
 
     @Override
@@ -55,8 +65,7 @@ public class CreateShoppingCartRequest extends AppInfraAbstractRequest {
     @Override
     public void onResponse(JSONObject response) {
         if(response!=null){
-            JSONArray carts = response.optJSONArray("carts");
-            ECSShoppingCart resp = new Gson().fromJson(carts.opt(0).toString(),
+            ECSShoppingCart resp = new Gson().fromJson(response.toString(),
                     ECSShoppingCart.class);
             if(null!=resp) {
                 eCSCallback.onResponse(resp);
