@@ -16,6 +16,7 @@ public class ECSErrorReason {
     public static final String ECS_GET_CART_FAILED = "Get cart failed";
 
     public static final String ECS_CANNOT_CONNECT_INTERNET ="Cannot connect to Internet...Please check your connection!";
+    public static final String ECS_AUTH_FAILURE_ERROR ="Volley AuthFailureError";
     public static final String ECS_SERVER_NOT_FOUND ="The server could not be found. Please try again after some time!!";
     public static final String ECS_PARSE_ERROR ="Parsing error! Please try again after some time!!";
     public static final String ECS_CONNECTION_TIMEOUT ="Connection TimeOut! Please check your internet connection.";

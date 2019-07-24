@@ -13,7 +13,13 @@ import java.util.Map;
 public abstract class AppInfraAbstractRequest implements APPInfraJSONRequest {
 
     public void executeRequest(){
-        new NetworkController(this).executeRequest();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new NetworkController(AppInfraAbstractRequest.this).executeRequest();
+            }
+        }).start();
+
     }
 
     @Override

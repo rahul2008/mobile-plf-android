@@ -12,6 +12,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
 
+import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_AUTH_FAILURE_ERROR;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_CANNOT_CONNECT_INTERNET;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_CONNECTION_TIMEOUT;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_PARSE_ERROR;
@@ -25,8 +26,10 @@ public class ECSErrors {
     public static Exception getNetworkErrorMessage(VolleyError volleyError) {
         Exception exception = null;
         String message = null;
-        if (volleyError instanceof NetworkError || volleyError instanceof AuthFailureError || volleyError instanceof NoConnectionError ) {
+        if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError ) {
             message = ECS_CANNOT_CONNECT_INTERNET;
+        }  else if (volleyError instanceof AuthFailureError) {
+            message = ECS_AUTH_FAILURE_ERROR;
         } else if (volleyError instanceof ServerError) {
             message = ECS_SERVER_NOT_FOUND;
         }  else if (volleyError instanceof ParseError) {
