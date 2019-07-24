@@ -13,6 +13,7 @@ import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -87,7 +88,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private RelativeLayout mParentLayout;
     private AppCompatAutoCompleteTextView mSearchTextView;
     private LinearLayout mBannerLayout;
-    public static final String IAP_PRIVACY_SERVICEID = "app.termsandconditions";
+    private String url;
+    private Boolean privacyUrl = false;
+    public static final String IAP_PRIVACY_SERVICEID = "iap.privacyPolicy";
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
@@ -175,6 +178,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         mBundle = getArguments();
 
+        checkPrivacyUrl();
+
         return rootView;
     }
 
@@ -238,6 +243,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
             setCartIconVisibility(true);
             if (isUserLoggedIn())
                 mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
+        }
+
+        if(!(ControllerFactory.getInstance().isPlanB()) && (privacyUrl)) {
+            mPrivacy.setVisibility(View.VISIBLE);
+        } else {
+            mPrivacy.setVisibility(View.GONE);
         }
 
         mAdapter.tagProducts();
@@ -508,26 +519,35 @@ public class ProductCatalogFragment extends InAppBaseFragment
         return mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
     }
 
+    public void checkPrivacyUrl() {
+        ArrayList<String> listOfServiceId = new ArrayList<>();
+        listOfServiceId.add(IAP_PRIVACY_SERVICEID);
+
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                Log.i("onError", s);
+
+            }
+
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                url  = map.get(IAP_PRIVACY_SERVICEID).getConfigUrls();
+                if(!TextUtils.isEmpty(url)) {
+                    privacyUrl = true;
+                }
+            }
+
+        };
+
+        CartModelContainer.getInstance().getAppInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
+    }
+
 
     @Override
     public void onClick(View view) {
         Bundle bundle = new Bundle();
-        ArrayList<String> serviceIDlist = new ArrayList<String>();
-        serviceIDlist.add(IAP_PRIVACY_SERVICEID);
-        CartModelContainer.getInstance().getAppInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(serviceIDlist, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
-                String url  = urlMap.get(IAP_PRIVACY_SERVICEID).getConfigUrls();
-                Log.d("url", url);
-
-            }
-
-            @Override
-            public void onError(ERRORVALUES error, String message) {
-
-            }
-        });
-        bundle.putString(IAPConstant.IAP_PRIVACY_URL, "https://www.usa.philips.com/a-w/mobile-privacy-notice/cdp2-reference-app.html");
-        addFragment(PrivacyFragment.createInstance(bundle, AnimationType.NONE), PrivacyFragment.TAG, true);
+        bundle.putString(IAPConstant.IAP_PRIVACY_URL, url);
+        addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
     }
 }

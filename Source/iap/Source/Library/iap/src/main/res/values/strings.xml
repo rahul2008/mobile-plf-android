@@ -126,7 +126,12 @@
   <string name="iap_no_internet">Your internet connection does not seem to be working. Please check and try again</string>
   <string name="iap_no_items">No items here yet…</string>
   <string name="iap_no_product_available">No product found in your Store.</string>
-  <string name="iap_notice_of_privacy"><u>Notice of Privacy</u></string>
+  <string name="iap_notice_of_privacy">Read our <u><b>Privacy Notice</b></u> for more info</string>
+  <string name="iap_terms_conditions">Terms and Conditions</string>
+  <string name="iap_privacy">Privacy Notice</string>
+  <string name="iap_read_privacy">I have read the</string>
+  <string name="iap_agree_privacy">and by placing the order, I accept and agree to be bound by Philips’</string>
+  <string name="iap_terms_privacy">I have read the <u>Privacy Notice</u>, and by placing the order, I accept and agree to be bound by Philips’ <u>Terms and Conditions</u></string>
   <string name="iap_no_result">0 results found for</string>
   <string name="iap_no_retailer_message">There are no online retailers currently available for this product.</string>
   <string name="iap_not_now">Not now</string>

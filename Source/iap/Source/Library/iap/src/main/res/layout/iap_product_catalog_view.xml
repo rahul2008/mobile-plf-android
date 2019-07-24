@@ -56,17 +56,26 @@
         android:textSize="@dimen/iap_product_ctn_12"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/iap_privacy"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/iap_product_original_price"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        style="@style/iapCentralesansBoldFont"
-        android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-        android:text="@string/iap_notice_of_privacy"
-        android:linksClickable="true"
-        android:autoLink="all"
-        android:padding="15dp" />
+        android:orientation="horizontal"
+        android:background="@color/uidColorWhite"
+        android:padding="15dp"
+        android:layout_alignParentBottom="true">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/iap_privacy"
+            style="@style/iapCentralesansMediumFont"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:linksClickable="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/iap_notice_of_privacy"
+            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:textSize="@dimen/iap_product_original_price" />
+
+    </RelativeLayout>
 </RelativeLayout>

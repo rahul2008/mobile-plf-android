@@ -6,18 +6,28 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.CheckOutHistoryAdapter;
@@ -48,10 +58,13 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class OrderSummaryFragment extends InAppBaseFragment
         implements View.OnClickListener, PaymentController.MakePaymentListener, EventListener, AddressController.AddressListener,
@@ -63,6 +76,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private RelativeLayout mParentLayout;
     private Button mPayNowBtn;
     private Button mCancelBtn;
+    private TextView mTermsPrivacy;
 
     public CheckOutHistoryAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -74,7 +88,12 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private TextView mNumberOfProducts;
     private PaymentMethod mPaymentMethod;
     Bundle bundle;
+    private String url;
     protected PaymentController mPaymentController;
+    public static final String IAP_PRIVACY_SERVICEID = "iap.privacyPolicy";
+    public static final String IAP_TERMS_SERVICEID = "iap.termOfUse";
+    private Boolean termsPrivacyUrl = false;
+    private String privacyUrl,termsUrl;
 
     public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {
         OrderSummaryFragment fragment = new OrderSummaryFragment();
@@ -103,7 +122,36 @@ public class OrderSummaryFragment extends InAppBaseFragment
         mParentLayout = rootView.findViewById(R.id.parent_layout);
         initializeViews(rootView);
         Utility.isDelvieryFirstTimeUser=true;
+
+        checkUrlExists();
+
         return rootView;
+    }
+
+    private void checkUrlExists() {
+        ArrayList<String> listOfServiceId = new ArrayList<>();
+        listOfServiceId.add(IAP_PRIVACY_SERVICEID);
+        listOfServiceId.add(IAP_TERMS_SERVICEID);
+
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                Log.i("onError", s);
+
+            }
+
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                privacyUrl = map.get(IAP_PRIVACY_SERVICEID).getConfigUrls();
+                termsUrl = map.get(IAP_TERMS_SERVICEID).getConfigUrls();
+                if(!(TextUtils.isEmpty(privacyUrl)) && !(TextUtils.isEmpty(termsUrl))) {
+                    termsPrivacyUrl = true;
+                }
+            }
+
+        };
+
+        CartModelContainer.getInstance().getAppInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
     void initializeViews(View rootView) {
@@ -137,13 +185,53 @@ public class OrderSummaryFragment extends InAppBaseFragment
         mPayNowBtn = rootView.findViewById(R.id.pay_now_btn);
         mPayNowBtn.setOnClickListener(this);
         mCancelBtn = rootView.findViewById(R.id.cancel_btn);
+        mTermsPrivacy = rootView.findViewById(R.id.iap_terms_privacy);
         mCancelBtn.setOnClickListener(this);
+        customTextView(mTermsPrivacy);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         //    mAddressController.setDeliveryMode(CartModelContainer.getInstance().getDeliveryModes().get(0).getCode());
        // mAddressController.getDeliveryModes();
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
+    }
+
+    private void customTextView(TextView view) {
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                mContext.getString(R.string.iap_read_privacy));
+        spanTxt.append(" ");
+        spanTxt.append(mContext.getString(R.string.iap_privacy));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                showPrivacyFragment();
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setUnderlineText(true);
+                ds.setColor(getResources().getColor(R.color.uid_level_black));
+                ds.setFakeBoldText(true);
+            }
+        }, spanTxt.length() - mContext.getString(R.string.iap_privacy).length(), spanTxt.length(), 0);
+        spanTxt.append(", ");
+        spanTxt.append(mContext.getString(R.string.iap_agree_privacy));
+        mTermsPrivacy.setHighlightColor(Color.TRANSPARENT);
+        spanTxt.append(" ");
+        spanTxt.append(mContext.getString(R.string.iap_terms_conditions));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                showTermsFragment();
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setUnderlineText(true);
+                ds.setColor(getResources().getColor(R.color.uid_level_black));
+                ds.setFakeBoldText(true);
+            }
+        }, spanTxt.length() - mContext.getString(R.string.iap_terms_conditions).length(), spanTxt.length(), 0);
+        view.setMovementMethod(LinkMovementMethod.getInstance());
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE);
     }
 
     @Override
@@ -156,6 +244,11 @@ public class OrderSummaryFragment extends InAppBaseFragment
         setCartIconVisibility(false);
         if (isNetworkConnected()) {
             updateCartOnResume();
+        }
+        if(!(ControllerFactory.getInstance().isPlanB()) && (termsPrivacyUrl)) {
+            mTermsPrivacy.setVisibility(View.VISIBLE);
+        } else {
+            mTermsPrivacy.setVisibility(View.GONE);
         }
     }
 
@@ -191,6 +284,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.IAP_UPDATE_PRODUCT_COUNT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(IAPConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
     }
+
     @Override
     public void onClick(final View v) {
 
@@ -206,6 +300,21 @@ public class OrderSummaryFragment extends InAppBaseFragment
             doOnCancelOrder();
         }
     }
+
+    private void showPrivacyFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.IAP_PRIVACY_URL, privacyUrl);
+        addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
+    }
+
+    private void showTermsFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.IAP_TERMS_URL, termsUrl);
+        bundle.putString(IAPConstant.IAP_TERMS,IAPConstant.IAP_TERMS);
+        addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
+    }
+
+
 
     private void placeOrder(String pSecurityCode) {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.DELIVERY_METHOD,

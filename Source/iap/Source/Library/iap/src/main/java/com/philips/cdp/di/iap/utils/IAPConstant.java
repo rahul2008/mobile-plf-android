@@ -64,6 +64,8 @@ public class IAPConstant {
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR = "IAP_LAUNCH_PRODUCT_CATALOG_ON_ERROR";
     public static final String IAP_BUY_URL = "IAP_BUY_URL";
     public static final String IAP_PRIVACY_URL = "IAP_PRIVACY_URL";
+    public static final String IAP_TERMS_URL = "IAP_TERMS_URL";
+    public static final String IAP_TERMS = "IAP_TERMS";
     public static final String IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART = "IAP_LAUNCH_PRODUCT_CATALOG_FROM_EMPTY_CART";
     public static final String SWITCH_TO_NO_NETWORK_CONNECTION = "SWITCH_TO_NO_NETWORK_CONNECTION";
     public static final String SET_DELIVERY_MODE = "DELIVERY_MODE";
