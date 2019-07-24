@@ -14,6 +14,7 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,8 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
@@ -77,6 +80,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.ecs.demouapp.ui.utils.Utility.hideKeypad;
 
@@ -161,21 +165,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "IAP", configError);
         mEtPropositionId.setText(propertyForKey);
 
-        ECSServices ecsServices = new ECSServices(propertyForKey, new AppInfra.Builder().build(getApplicationContext()));
-
-        ECSUtility.getInstance().setEcsService(ecsServices);
-
-        ecsServices.configureECS(new ECSCallback<Boolean, Exception>() {
-            @Override
-            public void onResponse(Boolean result) {
-                System.out.println("Configured ECS Success");
-            }
-
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-                System.out.println("Configured ECS failed");
-            }
-        });
 
 
         mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
@@ -333,7 +322,19 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         actionBar();
         initializeIAPComponant();
 
-        initAouth();
+
+    }
+
+    public String getMyJanRainID() {
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
+        try {
+            HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+            return userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void initAouth() {
@@ -344,7 +345,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             OAuthInput oAuthInput = new OAuthInput() {
                 @Override
                 public String getJanRainID() {
-                    return null;
+                    return getMyJanRainID();
                 }
             };
 
@@ -352,11 +353,18 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onResponse(OAuthResponse result) {
                     ECSConfig.INSTANCE.setAuthToken(result.getAccessToken());
+                    Log.d("ECS",result.getAccessToken());
+
+                    try {
+                        mIapInterface.getProductCartCount(EcsDemoAppActivity.this);
+                    }catch (Exception e){
+
+                    }
                 }
 
                 @Override
                 public void onFailure(Exception error, int errorCode) {
-
+                    Log.d("ECS","Auth failed");
                 }
             });
         }
@@ -373,6 +381,32 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             mRegister.setVisibility(View.VISIBLE);
            // Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
         }
+
+        ECSServices ecsServices = new ECSServices(mEtPropositionId.getText().toString().trim(), new AppInfra.Builder().build(getApplicationContext()));
+
+        ECSUtility.getInstance().setEcsService(ecsServices);
+
+        ecsServices.configureECS(new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                System.out.println("Configured ECS Success");
+
+                if (com.philips.cdp.di.ecs.util.ECSConfig.INSTANCE.getBaseURL() == null || ECSUtility.getInstance().isHybrisSupported() == false) {
+                    isCartVisible = false;
+                } else {
+                    isCartVisible = true;
+                }
+                onSuccess(isCartVisible);
+
+                initAouth();
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                System.out.println("Configured ECS failed");
+            }
+        });
+
     }
 
     private void initIAP() {
@@ -406,15 +440,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             mIapLaunchInput.setIapOrderFlowCompletion(null);
         }
         ECSUtility.getInstance().setHybrisSupported(isHybrisEnable);
-        displayUIOnCartVisible();
     }
 
-    private void displayUIOnCartVisible() {
-        if(isUserLoggedIn()) {
-            showProgressDialog();
-            mIapInterface.isCartVisible(this);
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -424,14 +451,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         CartModelContainer.getInstance().clearProductList();
         ECSUtility.getInstance().resetPegination();
 
-
-        if(isUserLoggedIn()) {
-            try {
-                mIapInterface.getProductCartCount(this);
-            }catch (Exception e){
-
-            }
-        }
     }
 
     @Override
@@ -477,13 +496,11 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         mShoppingCart.setVisibility(View.VISIBLE);
 
         dismissProgressDialog();
-        mIapInterface.getProductCartCount(this);
 
         if (b) {
             mCartIcon.setVisibility(View.VISIBLE);
             mCountText.setVisibility(View.VISIBLE);
             mShoppingCart.setVisibility(View.VISIBLE);
-            mIapInterface.getProductCartCount(this);
         } else {
             mCartIcon.setVisibility(View.GONE);
             mCountText.setVisibility(View.GONE);
@@ -570,27 +587,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             launchIAP(ECSLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
         } else if (view == mShopNow) {
 
-
-            OAuthInput oAuthInput = new OAuthInput() {
-                @Override
-                public String getJanRainID() {
-                    return null;
-                }
-            };
-
-             ECSUtility.getInstance().getEcsServices().createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
-                 @Override
-                 public void onResponse(ECSShoppingCart result) {
-
-                     System.out.println("Print data"+result.getCode());
-                 }
-
-                 @Override
-                 public void onFailure(Exception error, int errorCode) {
-                     System.out.println("Print failyre"+error.getMessage());
-                 }
-             });
-           // launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
+            launchIAP(ECSLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
             launchIAP(ECSLaunchInput.IAPFlows.IAP_PURCHASE_HISTORY_VIEW, null, null);
         } else if (view == mLaunchProductDetail) {

@@ -9,9 +9,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSConstant;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
-import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
 import org.json.JSONObject;
 

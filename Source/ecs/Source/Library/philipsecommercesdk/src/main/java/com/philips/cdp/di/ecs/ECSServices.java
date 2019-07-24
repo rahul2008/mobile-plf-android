@@ -63,10 +63,12 @@ public class ECSServices implements ECSServiceProvider {
                 String locale = serviceDiscoveryService.getLocale();
                 ECSConfig.INSTANCE.setLocale(locale);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
-                ECSConfig.INSTANCE.setBaseURL(configUrls);
+                ECSConfig.INSTANCE.setBaseURL(configUrls+"/");
 
                 if(configUrls!=null){
                     mECSManager.getHybrisConfig(ecsCallback);
+                }else {
+                    ecsCallback.onResponse(true);
                 }
             }
 
@@ -122,9 +124,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void addProductToShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-
-        Product product =null;
+    public void addProductToShoppingCart(Product product ,ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         mECSManager.addProductToShoppingCart(product,ecsCallback);
     }
 

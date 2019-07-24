@@ -43,6 +43,7 @@ public class LocalProductCatalog implements ProductCatalogAPI {
 
     @Override
     public void getCompleteProductList(ECSListener iapListener) {
+
     }
 
     @Override

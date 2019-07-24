@@ -26,7 +26,7 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 public class ECSInterface implements UappInterface, ECSExposedAPI {
     protected ECSHandler mIAPHandler;
     protected ECSSettings mIAPSettings;
-    private ECSServiceDiscoveryWrapper mIapServiceDiscoveryWrapper;
+    private ECSConfigure mIapServiceDiscoveryWrapper;
     private UserDataInterface mUserDataInterface;
 
     /**
@@ -46,9 +46,8 @@ public class ECSInterface implements UappInterface, ECSExposedAPI {
         ECSUtility.getInstance().setAppName(uappDependencies.getAppInfra().getAppIdentity().getAppName());
         ECSUtility.getInstance().setLocaleTag(uappDependencies.getAppInfra().getInternationalization().getUILocaleString());
         mIAPSettings = (ECSSettings) uappSettings;
-        mIAPHandler = new ECSHandler(ECSDependencies, mIAPSettings);
-        mIAPHandler.initPreRequisite();
-        mIapServiceDiscoveryWrapper = new ECSServiceDiscoveryWrapper(mIAPSettings);
+        mIAPHandler = new ECSHandler(mIAPSettings);
+        mIapServiceDiscoveryWrapper = new ECSConfigure(mIAPSettings);
     }
 
     /**
@@ -72,7 +71,7 @@ public class ECSInterface implements UappInterface, ECSExposedAPI {
             ((ECSLaunchInput) uappLaunchInput).getIapListener().onFailure(ECSConstant.IAP_ERROR_NO_CONNECTION);
             throw new RuntimeException(mIAPSettings.getContext().getString(R.string.iap_no_internet));// Confirm the behaviour on error Callback
         }
-        mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(uiLauncher, mIAPHandler, (ECSLaunchInput) uappLaunchInput, null, null);
+        mIapServiceDiscoveryWrapper.configureECS(uiLauncher, mIAPHandler, (ECSLaunchInput) uappLaunchInput, null, null);
     }
 
     /**
@@ -84,7 +83,7 @@ public class ECSInterface implements UappInterface, ECSExposedAPI {
     @Override
     public void getProductCartCount(ECSListener iapListener) {
         if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()){
-            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "productCartCount");
+            mIapServiceDiscoveryWrapper.configureECS(null, mIAPHandler, null, iapListener, "productCartCount");
        } else {
             iapListener.onFailure(ECSConstant.IAP_ERROR_AUTHENTICATION_FAILURE);
         }
@@ -98,7 +97,7 @@ public class ECSInterface implements UappInterface, ECSExposedAPI {
      */
     @Override
     public void getCompleteProductList(ECSListener iapListener) {
-        mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mIAPHandler, null, iapListener, "completeProductList");
+        mIapServiceDiscoveryWrapper.configureECS(null, mIAPHandler, null, iapListener, "completeProductList");
     }
 
     /**
