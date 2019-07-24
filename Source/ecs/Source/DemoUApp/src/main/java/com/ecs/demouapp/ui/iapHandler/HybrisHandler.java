@@ -4,60 +4,35 @@
  */
 package com.ecs.demouapp.ui.iapHandler;
 
-import android.content.Context;
-import android.os.Message;
-
-import com.ecs.demouapp.ui.cart.ECSCartListener;
-import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
-import com.ecs.demouapp.ui.cart.ShoppingCartPresenter;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.integration.ECSInterface;
 import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.products.ProductCatalogAPI;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
-import com.ecs.demouapp.ui.session.IAPNetworkError;
-import com.ecs.demouapp.ui.session.RequestListener;
-import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSUtility;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 
 
 public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
-    private Context mContext;
-
-    public HybrisHandler(Context context) {
-        mContext = context;
-    }
 
     @Override
     public void getProductCartCount(final ECSListener iapListener) {
-        if (isStoreInitialized()) {
-            getProductCount(iapListener);
-        } else {
-            HybrisDelegate.getInstance(mContext).getStore().
-                    initStoreConfig(new RequestListener() {
-                        @Override
-                        public void onSuccess(final Message msg) {
-                            getProductCount(iapListener);
-                        }
 
-                        @Override
-                        public void onError(final Message msg) {
-                            iapListener.onFailure(getIAPErrorCode(msg));
-                        }
-                    });
-        }
-    }
-
-    private void getProductCount(final ECSListener iapListener) {
-        ShoppingCartAPI presenter = new ShoppingCartPresenter();
-        presenter.getProductCartCount(mContext, new ECSCartListener() {
+        ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
-            public void onSuccess(final int count) {
-                iapListener.onGetCartCount(count);
+            public void onResponse(ECSShoppingCart result) {
+
+                if(result.getEntries()!=null) {
+                    iapListener.onGetCartCount(result.getEntries().size());
+                }else {
+                    iapListener.onGetCartCount(0);
+                }
+
             }
 
             @Override
-            public void onFailure(final Message msg) {
-                iapListener.onFailure(getIAPErrorCode(msg));
+            public void onFailure(Exception error, int errorCode) {
+                iapListener.onFailure(errorCode);
             }
         });
     }
@@ -66,32 +41,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
     public void getCompleteProductList(final ECSListener iapListener) {
         final ProductCatalogAPI presenter =
                 ControllerFactory.getInstance().getProductCatalogPresenter();
-        if (isStoreInitialized()) {
             presenter.getCompleteProductList(iapListener);
-        } else {
-            HybrisDelegate.getInstance(mContext).getStore().
-                    initStoreConfig(/*mLanguage, mCountry,*/ new RequestListener() {
-                        @Override
-                        public void onSuccess(final Message msg) {
-                            presenter.getCompleteProductList(iapListener);
-                        }
-
-                        @Override
-                        public void onError(final Message msg) {
-                            iapListener.onFailure(getIAPErrorCode(msg));
-                        }
-                    });
-        }
     }
 
-    public int getIAPErrorCode(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            return ((IAPNetworkError) msg.obj).getIAPErrorCode();
-        }
-        return ECSConstant.IAP_ERROR_UNKNOWN;
-    }
-
-    public boolean isStoreInitialized() {
-        return HybrisDelegate.getInstance(mContext).getStore().isStoreInitialized();
-    }
 }

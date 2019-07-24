@@ -37,45 +37,16 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import java.util.ArrayList;
 
 class ECSHandler {
-    private ECSDependencies mECSDependencies;
     private ECSSettings mIAPSetting;
 
-    ECSHandler(ECSDependencies pECSDependencies, ECSSettings pIapSettings) {
-        mECSDependencies = pECSDependencies;
+    ECSHandler(ECSSettings pIapSettings) {
         mIAPSetting = pIapSettings;
     }
 
-    void initPreRequisite() {
-        ECSAnalytics.initIAPAnalytics(mECSDependencies);
-    }
-
-    void initIAPRequisite() {
-        initHybrisDelegate();
-    }
-
-    void initControllerFactory() {
-        ControllerFactory.getInstance().init(mIAPSetting.isUseLocalData());
-    }
-
-    void initHybrisDelegate() {
-        NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
-        HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting, mECSDependencies);
-    }
 
     void initIAP(final UiLauncher uiLauncher, final ECSLaunchInput pLaunchInput) {
         final ECSListener iapListener = pLaunchInput.getIapListener();
-        HybrisDelegate delegate = HybrisDelegate.getInstance(mIAPSetting.getContext());
-        delegate.getStore().initStoreConfig(new RequestListener() {
-            @Override
-            public void onSuccess(final Message msg) {
-                onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
-            }
-
-            @Override
-            public void onError(final Message msg) {
-                onFailureOfInitialization(msg, iapListener);
-            }
-        });
+        onSuccessOfInitialization(uiLauncher, pLaunchInput, iapListener);
     }
 
     protected void onSuccessOfInitialization(UiLauncher uiLauncher, ECSLaunchInput pLaunchInput, ECSListener iapListener) {
@@ -90,11 +61,6 @@ class ECSHandler {
         }
     }
 
-    protected void onFailureOfInitialization(Message msg, ECSListener iapListener) {
-        if (iapListener != null) {
-            iapListener.onFailure(getIAPErrorCode(msg));
-        }
-    }
 
     void launchIAP(UiLauncher uiLauncher, ECSLaunchInput pLaunchInput) {
         if(!verifyInput(pLaunchInput, pLaunchInput.mIAPFlowInput))return;
@@ -217,19 +183,8 @@ class ECSHandler {
         if (mIAPSetting.isUseLocalData()) {
             api = new LocalHandler();
         } else {
-            api = new HybrisHandler(mIAPSetting.getContext());
+            api = new HybrisHandler();
         }
         return api;
-    }
-
-    protected boolean isStoreInitialized(Context pContext) {
-        return HybrisDelegate.getInstance(pContext).getStore().isStoreInitialized();
-    }
-
-    protected int getIAPErrorCode(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
-            return ((IAPNetworkError) msg.obj).getIAPErrorCode();
-        }
-        return ECSConstant.IAP_ERROR_UNKNOWN;
     }
 }

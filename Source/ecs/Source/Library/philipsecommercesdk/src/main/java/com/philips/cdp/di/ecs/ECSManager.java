@@ -16,11 +16,8 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
-<<<<<<< HEAD
 import com.philips.cdp.di.ecs.request.CreateShoppingCartRequest;
-=======
 import com.philips.cdp.di.ecs.request.AddProductToCartRequest;
->>>>>>> 1eb4f0f5b2694d9cab9af2dc878211c3c11be502
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
@@ -450,7 +447,6 @@ public class ECSManager {
 
                         if(result){
                             //Fetch getCart
-
                             getECSShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
                                 @Override
                                 public void onResponse(ECSShoppingCart result) {
@@ -465,6 +461,7 @@ public class ECSManager {
 
                         }else{
                             //send error from here
+                            //ecsCallback.onFailure();
                         }
 
                     }
