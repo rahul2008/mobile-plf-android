@@ -80,6 +80,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.ecs.demouapp.ui.utils.Utility.hideKeypad;
 
@@ -164,30 +165,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         String propertyForKey = (String) configInterface.getPropertyForKey("propositionid", "IAP", configError);
         mEtPropositionId.setText(propertyForKey);
 
-        ECSServices ecsServices = new ECSServices(propertyForKey, new AppInfra.Builder().build(getApplicationContext()));
-
-        ECSUtility.getInstance().setEcsService(ecsServices);
-
-        ecsServices.configureECS(new ECSCallback<Boolean, Exception>() {
-            @Override
-            public void onResponse(Boolean result) {
-                System.out.println("Configured ECS Success");
-
-                if (com.philips.cdp.di.ecs.util.ECSConfig.INSTANCE.getBaseURL() == null || ECSUtility.getInstance().isHybrisSupported() == false) {
-                    isCartVisible = false;
-                } else {
-                    isCartVisible = true;
-                }
-                onSuccess(isCartVisible);
-
-                initAouth();
-            }
-
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-                System.out.println("Configured ECS failed");
-            }
-        });
 
 
         mBtnSetPropositionId.setOnClickListener(new View.OnClickListener() {
@@ -348,6 +325,18 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    public String getMyJanRainID() {
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
+        try {
+            HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+            return userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private void initAouth() {
 
         if(isUserLoggedIn()) {
@@ -356,16 +345,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             OAuthInput oAuthInput = new OAuthInput() {
                 @Override
                 public String getJanRainID() {
-                    ArrayList<String> tokens = new ArrayList<>();
-                    tokens.add(UserDetailConstants.ACCESS_TOKEN);
-                    try {
-                       String accessToken = (String) mUserDataInterface.getUserDetails(tokens).get(UserDetailConstants.ACCESS_TOKEN);
-                       return accessToken;
-                    } catch (UserDataInterfaceException e) {
-                        e.printStackTrace();
-                    }
-
-                    return null;
+                    return getMyJanRainID();
                 }
             };
 
@@ -401,6 +381,32 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             mRegister.setVisibility(View.VISIBLE);
            // Toast.makeText(this, "User is not logged in", Toast.LENGTH_SHORT).show();
         }
+
+        ECSServices ecsServices = new ECSServices(mEtPropositionId.getText().toString().trim(), new AppInfra.Builder().build(getApplicationContext()));
+
+        ECSUtility.getInstance().setEcsService(ecsServices);
+
+        ecsServices.configureECS(new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                System.out.println("Configured ECS Success");
+
+                if (com.philips.cdp.di.ecs.util.ECSConfig.INSTANCE.getBaseURL() == null || ECSUtility.getInstance().isHybrisSupported() == false) {
+                    isCartVisible = false;
+                } else {
+                    isCartVisible = true;
+                }
+                onSuccess(isCartVisible);
+
+                initAouth();
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                System.out.println("Configured ECS failed");
+            }
+        });
+
     }
 
     private void initIAP() {

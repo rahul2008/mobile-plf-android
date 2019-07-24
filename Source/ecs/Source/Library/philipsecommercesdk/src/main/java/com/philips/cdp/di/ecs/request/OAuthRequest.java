@@ -23,10 +23,12 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
 
     private final ECSCallback<OAuthResponse,Exception> ecsCallback;
     private final  OAuthInput oAuthInput;
+    String janrainID ;
 
     public OAuthRequest(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
         this.ecsCallback = ecsListener;
         this.oAuthInput = oAuthInput;
+        janrainID = oAuthInput.getJanRainID();
     }
 
     /*
@@ -36,8 +38,8 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
     * */
     private Map getJanrainDetail(){
         Map map = new HashMap<String,String>();
-        if(oAuthInput.getJanRainID()!=null)
-        map.put("janrain",oAuthInput.getJanRainID());
+        if(janrainID!=null)
+        map.put("janrain",janrainID);
         map.put("grant_type",oAuthInput.getGrantType());
         map.put("client_id",oAuthInput.getClientID());
         map.put("client_secret",oAuthInput.getClientSecret());
@@ -50,8 +52,18 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
     }
 
     @Override
+    public Map<String, String> getHeader() {
+        return getJanrainDetail();
+    }
+
+    @Override
+    public JSONObject getJSONRequest() {
+        return new JSONObject(getJanrainDetail());
+    }
+
+    @Override
     public int getMethod() {
-        return Request.Method.GET;
+        return Request.Method.POST;
     }
 
     @Override
