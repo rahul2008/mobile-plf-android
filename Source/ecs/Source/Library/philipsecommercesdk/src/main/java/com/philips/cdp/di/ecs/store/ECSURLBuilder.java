@@ -40,7 +40,7 @@ public class ECSURLBuilder extends AbstractStore {
 
     private static final String SUFFIX_PRODUCTS = "products";
     private static final String SUFFIX_CURRENT_PAGE = "&currentPage=%s";
-    private static final String SUFFIX_STRING_PARAM = "/%s";
+    private static final String SUFFIX_STRING_PARAM = "%s";
 
     private static final String SUFFIX_ADDRESSES = "/addresses";
     private static final String SUFFIX_DELIVERY_ADDRESS = "/delivery";
@@ -245,10 +245,14 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getUpdateProductUrl(String productID) {
-        if (mUpdateProductUrl != null && productID != null)
-            return String.format(mUpdateProductUrl, productID);
-        else
-            return null;
+
+        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
+                +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
+                +USER+SEPERATOR
+                +SUFFIX_CURRENT+SEPERATOR
+                +SUFFIX_ENTRIES+SEPERATOR
+                +productID+FIELDS_FULL_LANG
+                +ECSConfig.INSTANCE.getLocale();
     }
 
     @Override
