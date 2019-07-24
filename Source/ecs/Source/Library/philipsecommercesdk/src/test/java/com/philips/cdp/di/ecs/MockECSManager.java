@@ -1,5 +1,7 @@
 package com.philips.cdp.di.ecs;
 
+import com.philips.cdp.di.ecs.Cart.MockCreateECSShoppingCartRequest;
+import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.Oath.MockOAuthRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
@@ -9,6 +11,7 @@ import com.philips.cdp.di.ecs.ProductForCTN.MockGetProductForRequest;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -113,5 +116,20 @@ public class MockECSManager extends ECSManager {
     @Override
     public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
         new MockGetProductForRequest(getJsonFileNameMockECSManager(),ctn,eCSCallback).executeRequest();
+    }
+
+    @Override
+    void createECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        new MockCreateECSShoppingCartRequest(getJsonFileNameMockECSManager(),ecsCallback ).executeRequest();
+    }
+
+    @Override
+    void getECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        new MockGetECSShoppingCartsRequest(getJsonFileNameMockECSManager(),ecsCallback ).executeRequest();
+    }
+
+    @Override
+    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        super.addProductToShoppingCart(product, ecsCallback);
     }
 }

@@ -16,7 +16,7 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
-import com.philips.cdp.di.ecs.request.CreateShoppingCartRequest;
+import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.AddProductToCartRequest;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
@@ -365,7 +365,7 @@ public class ECSManager {
     }
 
     void createECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        new CreateShoppingCartRequest(new ECSCallback<ECSShoppingCart, Exception>() {
+        new CreateECSShoppingCartRequest(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart ecsShoppingCart) {
                 ecsCallback.onResponse(ecsShoppingCart);

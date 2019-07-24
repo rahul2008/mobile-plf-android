@@ -2,26 +2,25 @@ package com.philips.cdp.di.ecs.Cart;
 
 import android.content.Context;
 
-import com.android.volley.VolleyError;
-import com.google.gson.Gson;
+
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
-import com.philips.cdp.di.ecs.TestUtil;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
-import java.io.InputStream;
+
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
@@ -56,23 +55,78 @@ public class CartTest {
 
     @Test
     public void createCartSuccess(){
+        mockECSServices.setJsonFileName("CreateCart.json");
+        mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+                assertNotNull(result);
+                assertNotNull(result.getGuid());
+                // test case passed
+            }
 
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assert true;
+                // test case failed
+            }
+        });
+    }
 
-        JSONObject result = null;
-        InputStream in = getClass().getClassLoader().getResourceAsStream("CreateCart.json");
-        String jsonString = TestUtil.loadJSONFromFile(in);
-        try {
-            result = new JSONObject(jsonString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            VolleyError volleyError = new VolleyError(e.getMessage());
+    @Test
+    public void createCartFailure(){
+        mockECSServices.setJsonFileName("Empty.json");
+        mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+                assertNotNull(result);
+                assertNotNull(result.getGuid());
+                // test case passed
+            }
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertEquals(7999,errorCode);
 
-        }
+                // test case failed
+            }
+        });
+    }
 
-        ECSShoppingCart resp = new Gson().fromJson(jsonString.toString(),
-                ECSShoppingCart.class);
-        assertNotNull(resp);
+    @Test
+    public void getCartSuccess(){
+        mockECSServices.setJsonFileName("GetCart.json");
+        mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+                assertNotNull(result);
+                assertNotNull(result.getGuid());
+                // test case passed
+            }
 
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertEquals(7999,errorCode);
+                // test case failed
+            }
+        });
+    }
+
+    @Test
+    public void getCartFailure(){
+        mockECSServices.setJsonFileName("Empty.json");
+        mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+                assertNotNull(result);
+                assertNotNull(result.getGuid());
+                // test case passed
+            }
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                assertEquals(7999,errorCode);
+
+                // test case failed
+            }
+        });
     }
 
 

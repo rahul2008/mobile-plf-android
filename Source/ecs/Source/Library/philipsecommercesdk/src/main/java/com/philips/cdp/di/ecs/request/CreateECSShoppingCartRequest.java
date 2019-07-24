@@ -18,11 +18,11 @@ import java.util.Map;
 
 import static com.philips.cdp.di.ecs.util.ECSErrors.getNetworkErrorMessage;
 
-public class CreateShoppingCartRequest extends OAuthAppInfraAbstractRequest {
+public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest {
     private final ECSCallback<ECSShoppingCart, Exception> eCSCallback;
 
 
-    public CreateShoppingCartRequest(ECSCallback<ECSShoppingCart, Exception> eCSCallback) {
+    public CreateECSShoppingCartRequest(ECSCallback<ECSShoppingCart, Exception> eCSCallback) {
         this.eCSCallback = eCSCallback;
     }
 
@@ -66,7 +66,7 @@ public class CreateShoppingCartRequest extends OAuthAppInfraAbstractRequest {
         if(response!=null){
             ECSShoppingCart resp = new Gson().fromJson(response.toString(),
                     ECSShoppingCart.class);
-            if(null!=resp) {
+            if(null!=resp && null!=resp.getGuid()) {
                 eCSCallback.onResponse(resp);
             }else {
                 eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_CART_CANNOT_BE_CREATED), 7999);

@@ -58,7 +58,7 @@ public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest {
         if (response != null) {
             ECSShoppingCart resp = new Gson().fromJson(response.toString(),
                     ECSShoppingCart.class);
-            if (null != resp) {
+            if (null != resp && null!=resp.getGuid()) {
                 ecsCallback.onResponse(resp);
             } else {
                 ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GET_CART_FAILED), 8999);
