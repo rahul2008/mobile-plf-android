@@ -571,7 +571,14 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         } else if (view == mShopNow) {
 
 
-             ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+            OAuthInput oAuthInput = new OAuthInput() {
+                @Override
+                public String getJanRainID() {
+                    return null;
+                }
+            };
+
+             ECSUtility.getInstance().getEcsServices().createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
                  @Override
                  public void onResponse(ECSShoppingCart result) {
 

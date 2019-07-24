@@ -12,6 +12,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 import org.json.JSONObject;
 
@@ -68,6 +69,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
         if (response != null) {
             OAuthResponse oAuthResponse = new Gson().fromJson(response.toString(),
                     OAuthResponse.class);
+            ECSConfig.INSTANCE.setAuthToken( oAuthResponse.getAccessToken());
             ecsCallback.onResponse(oAuthResponse);
         }
     }
