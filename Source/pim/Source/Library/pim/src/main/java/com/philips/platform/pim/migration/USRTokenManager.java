@@ -1,7 +1,6 @@
 package com.philips.platform.pim.migration;
 
 import android.annotation.TargetApi;
-import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 
@@ -13,6 +12,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.rest.PIMRestClient;
@@ -29,7 +29,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
@@ -94,7 +93,6 @@ class USRTokenManager {
         appInfraInterface.getServiceDiscovery().getServicesWithCountryPreference(serviceIdList, serviceUrlMapListener, null);
     }
 
-
     private String getUSRAccessToken() {
         if (signedInUser == null)
             return null;
@@ -109,59 +107,6 @@ class USRTokenManager {
         }
     }
 
-    private String getFlowVersion() {
-        String fetchedValue = fetchDataFromSecureStorage(JR_CAPTURE_FLOW);
-        if (fetchedValue == null)
-            return null;
-
-        //String formattedString = Html.fromHtml(fetchedValue).toString().replaceAll("\n", "").trim();
-        Map<String, String> map = new HashMap<String, String>();
-
-        String[] nameValuePairs = fetchedValue.split(",");
-        for (String nameValuePair : nameValuePairs) {
-            String[] nameValue = nameValuePair.split("=");
-            try {
-                map.put(nameValue[0].trim(), nameValue.length > 1 ?
-                        nameValue[1].trim() : "");
-            } catch (Exception e) {
-                throw new RuntimeException("This method requires UTF-8 encoding support", e);
-            }
-        }
-        return map.get("version");
-    }
-
-    @Nullable
-    private String getConfigPropertyValue(Object property) {
-        if (property == null) {
-            return null;
-        }
-        if (property instanceof String) {
-            return (String) property;
-        }
-        if (property instanceof Map) {
-            return getPropertyValueFromMap((Map) property);
-        }
-        return null;
-    }
-
-    private String getPropertyValueFromMap(Map<?, ?> property) {
-        String locale = PIMSettingManager.getInstance().getLocale();
-        String[] splitLocal = locale.split("-");
-        String propertyValue = (String) property.get(splitLocal[1]);
-        if (propertyValue == null || propertyValue.isEmpty()) {
-            propertyValue = (String) property.get("default");
-        }
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "propertyValue: " + propertyValue);
-        return propertyValue;
-    }
-
-    private String getClientId() {
-        Object clientIdObject = getClientIdFromConfig();
-        String configPropertyValue = getConfigPropertyValue(clientIdObject);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "getclientId: " + configPropertyValue);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "hasclientId: " + (configPropertyValue != null));
-        return configPropertyValue;
-    }
 
     private <L, R> Collection<L> map(Collection<R> collection, Function<L, R> f) {
         Collection<L> retCollection;
@@ -230,9 +175,9 @@ class USRTokenManager {
         params.add(new Pair<>("signature", getRefreshSignature(date, legacyToken)));
         params.add(new Pair<>("date", date));
         params.add(new Pair<>("flow", "standard"));
-        params.add(new Pair<>("flow_version", getFlowVersion()));
+        params.add(new Pair<>("flow_version", "HEAD"));
         params.add(new Pair<>("access_token", legacyToken));
-        params.add(new Pair<>("client_id", getClientId()));
+        params.add(new Pair<>("client_id", new PIMOIDCConfigration().getURClientId()));
         return params;
     }
 

@@ -1,6 +1,7 @@
 package com.philips.platform.pim.migration;
 
 import android.net.Uri;
+import android.support.v4.util.Pair;
 import android.text.Html;
 
 import com.google.gson.JsonObject;
@@ -8,11 +9,14 @@ import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
 
@@ -37,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
@@ -51,7 +56,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @PrepareForTest({Uri.class, PIMSettingManager.class, USRTokenManager.class, Html.class})
-@PowerMockIgnore({"javax.crypto.*" })
+@PowerMockIgnore({"javax.crypto.*"})
 @RunWith(PowerMockRunner.class)
 public class USRTokenManagerTest extends TestCase {
     private static final String JR_CAPTURE_REFRESH_SECRET = "jr_capture_refresh_secret";
@@ -96,8 +101,13 @@ public class USRTokenManagerTest extends TestCase {
         super.setUp();
         MockitoAnnotations.initMocks(this);
         mockStatic(PIMSettingManager.class);
+        RestInterface mockRestInterface = mock(RestInterface.class);
+        RequestQueue mockRequestQueue = mock(RequestQueue.class);
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
+        when(mockAppInfraInterface.getRestClient()).thenReturn(mockRestInterface);
+        when(mockRestInterface.getRequestQueue()).thenReturn(mockRequestQueue);
         when(mockAppInfraInterface.getSecureStorage()).thenReturn(mockSecureStorageInterface);
         when(mockAppInfraInterface.getServiceDiscovery()).thenReturn(mockServiceDiscoveryInterface);
         when(mockAppInfraInterface.getConfigInterface()).thenReturn(mockAppConfigurationInterface);
@@ -105,6 +115,11 @@ public class USRTokenManagerTest extends TestCase {
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER, mockSecureStorageError)).thenReturn(signedUserData());
         when(mockAppInfraInterface.getTime()).thenReturn(mockTimeInterface);
         when(mockTimeInterface.getUTCTime()).thenReturn(new Date());
+
+        PIMOIDCConfigration mockPimoidcConfigration = mock(PIMOIDCConfigration.class);
+        whenNew(PIMOIDCConfigration.class).withNoArguments().thenReturn(mockPimoidcConfigration);
+        when(mockPimoidcConfigration.getURClientId()).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+
 
         usrTokenManager = new USRTokenManager(mockAppInfraInterface);
         spyUsrTokenManager = spy(usrTokenManager);
@@ -152,7 +167,7 @@ public class USRTokenManagerTest extends TestCase {
         verify(mockLoggingInterface).log(DEBUG, PIMMigrationManager.class.getSimpleName(), "Migration Failed!! " + " Error in downloadUserUrlFromSD : " + "Not able to fetch config url");
     }
 
-   /* @Test
+    @Test
     public void test_GetServicesWithCountryPreference_OnSuccess_When_UserIsSignedIn() throws Exception {
         Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
         AppConfigurationInterface.AppConfigurationError mockConfigurationError = mock(AppConfigurationInterface.AppConfigurationError.class);
@@ -161,73 +176,87 @@ public class USRTokenManagerTest extends TestCase {
         when(mockServiceDiscoveryService.getConfigUrls()).thenReturn("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
         when(mockServiceDiscoveryService.getLocale()).thenReturn("en_US");
         Whitebox.setInternalState(usrTokenManager, "signedInUser", signedUserData());
-        //when(mockAppInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockAppConfigurationError)).thenReturn(usrClientIds());
         when(mockAppConfigurationInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockConfigurationError)).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
         usrTokenManager.fetchRefreshedAccessToken(mockRefreshUSRTokenListener);
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-    }*/
-
-    //Updated test cases
+    }
 
     @Test
-    public void testGetParams(){
+    public void testRefreshUSRTokenRequest(){
 
+    }
+
+
+    @Test
+    public void testGetParams() throws Exception {
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        HashSet<Pair<String, String>> params = Whitebox.invokeMethod(usrTokenManager, "getParams", "en-US", datetime, accessToken);
+        assertNotNull(params);
     }
 
     @Test
     public void testGetRefreshSignature() throws Exception {
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
-        String datetime = Whitebox.invokeMethod(spyUsrTokenManager,"getUTCdatetimeAsString");
-        String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime,accessToken);
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime, accessToken);
         assertNotNull(refsignature);
     }
 
     @Test
     public void testGetRefreshSignatureRefreshSecretNull() throws Exception {
-        String datetime = Whitebox.invokeMethod(spyUsrTokenManager,"getUTCdatetimeAsString");
-        String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime,accessToken);
-        verify(mockLoggingInterface).log(DEBUG,TAG,"refresh secret is null");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime, accessToken);
+        verify(mockLoggingInterface).log(DEBUG, TAG, "refresh secret is null");
     }
 
     @Test
     public void testParseLocale() throws Exception {
         String locale = Whitebox.invokeMethod(spyUsrTokenManager, "parseLocale", "en_US");
-        assertEquals("en-US",locale);
+        assertEquals("en-US", locale);
     }
 
     @Test
     public void testGetUTCdatetimeAsString() throws Exception {
-        String datetime = Whitebox.invokeMethod(spyUsrTokenManager,"getUTCdatetimeAsString");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
         assertNotNull(datetime);
     }
 
     @Test
     public void testGetUTCdatetimeAsStringReturnsNull() throws Exception {
         when(mockAppInfraInterface.getTime()).thenReturn(null);
-        String datetime = Whitebox.invokeMethod(spyUsrTokenManager,"getUTCdatetimeAsString");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
         assertNull(datetime);
-    }
-
-    @Test
-    public void testGetFlowVersion(){
-
-    }
-
-    @Test
-    public void testGetClientID(){
-
     }
 
     @Test
     public void testGetClientIDFromConfig() throws Exception {
         whenNew(AppConfigurationInterface.AppConfigurationError.class).withNoArguments().thenReturn(mockAppConfigurationError);
-        AppConfigurationInterface.AppConfigurationError mockConfigurationError = mock(AppConfigurationInterface.AppConfigurationError.class);
-        when(mockAppConfigurationInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockConfigurationError)).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        String clientID = Whitebox.invokeMethod(spyUsrTokenManager,"getClientIdFromConfig");
-        assertEquals("f2stykcygm7enbwfw2u9fbg6h6syb8yd",clientID);
+        when(mockAppConfigurationInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockAppConfigurationError)).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        String clientID = Whitebox.invokeMethod(spyUsrTokenManager, "getClientIdFromConfig");
+        assertEquals("f2stykcygm7enbwfw2u9fbg6h6syb8yd", clientID);
+    }
+
+    @Test
+    public void testGetUSRAccessTokenSignedUserNull() throws Exception {
+        String usrAccessToken = Whitebox.invokeMethod(usrTokenManager, "getUSRAccessToken");
+        assertNull(usrAccessToken);
+    }
+
+    @Test
+    public void testGetUSRAccessTokenSignedUser() throws Exception {
+        Whitebox.setInternalState(usrTokenManager, "signedInUser", signedUserData());
+        String usrAccessToken = Whitebox.invokeMethod(usrTokenManager, "getUSRAccessToken");
+        assertNotNull(usrAccessToken);
+    }
+
+    @Test
+    public void testGetUSRAccessTokenSignedUserWithError() throws Exception {
+        Whitebox.setInternalState(usrTokenManager, "signedInUser", new JsonObject().toString());
+        String usrAccessToken = Whitebox.invokeMethod(usrTokenManager, "getUSRAccessToken");
+        assertNull(usrAccessToken);
     }
 
     @Test
@@ -251,7 +280,6 @@ public class USRTokenManagerTest extends TestCase {
         verify(mockSecureStorageInterface).removeValueForKey(JR_CAPTURE_FLOW);
         verify(mockSecureStorageInterface).removeValueForKey(JR_CAPTURE_REFRESH_SECRET);
     }
-
 
     private String signedUserData() {
         String path = "src/test/rs/usr_signedin_user.json";

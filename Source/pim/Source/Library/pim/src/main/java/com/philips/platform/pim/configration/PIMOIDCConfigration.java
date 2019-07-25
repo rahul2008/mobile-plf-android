@@ -1,7 +1,5 @@
 package com.philips.platform.pim.configration;
 
-import android.support.annotation.Nullable;
-
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -57,6 +55,15 @@ public class PIMOIDCConfigration {
         Map<String, String> migrationConfig = getMigrationConfiguraton();
         if (migrationConfig != null)
             return migrationConfig.get(CLIENT_ID);
+        return null;
+    }
+
+    public String getURClientId(){
+        Object obj = getProperty("JanRainConfiguration.RegistrationClientID", GROUP_PIM);
+        if(obj != null && obj instanceof Map){
+            Map<String,String> map = (Map) obj;
+            return map.get("default");
+        }
         return null;
     }
 
