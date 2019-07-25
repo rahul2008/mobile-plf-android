@@ -35,8 +35,8 @@ public class LocalProductCatalog implements ProductCatalogAPI {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error,errorCode);
+            public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
             }
         });
     }

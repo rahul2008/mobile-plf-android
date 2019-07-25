@@ -1,9 +1,9 @@
 {
   "type": "cartWsDTO",
-  "calculated": true,
-  "code": "24012613484",
+  "calculated": false,
+  "code": "24012613424",
   "deliveryItemsQuantity": 0,
-  "guid": "5bce3cea-b61b-4610-84c0-1baf2c7e7023",
+  "guid": "",
   "net": false,
   "orderDiscounts": {
     "currencyIso": "EUR",

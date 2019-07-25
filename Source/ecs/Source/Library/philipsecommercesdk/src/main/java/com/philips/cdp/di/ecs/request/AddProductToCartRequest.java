@@ -11,6 +11,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+
 public class AddProductToCartRequest extends OAuthAppInfraAbstractRequest {
 
     private final ECSCallback<Boolean,Exception> ecsCallback;
@@ -34,7 +37,7 @@ public class AddProductToCartRequest extends OAuthAppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,9000);
+        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),9999);
     }
 
     @Override

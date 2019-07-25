@@ -17,5 +17,5 @@ public interface ECSCallback<R,E> {
      * @param error     the error object
      * @param errorCode the error code
      */
-    public void onFailure(E error, int errorCode);
+    public void onFailure(E error, String detailErrorMessage, int errorCode);
 }
