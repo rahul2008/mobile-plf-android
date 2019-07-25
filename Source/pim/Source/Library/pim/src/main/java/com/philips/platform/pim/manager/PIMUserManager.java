@@ -12,6 +12,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
@@ -77,13 +78,13 @@ public class PIMUserManager {
             storeUserProfileToSecureStorage(response); //store jsonm reponse to secure storgae
             storeAuthStateToSecureStorage(oidcAuthState); //store auth state to secure storage
 
-             if (userProfileRequestListener != null) {
+            if (userProfileRequestListener != null) {
                 userProfileRequestListener.onUserProfileDownloadSuccess();
             }
         }, error -> {
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
             if (userProfileRequestListener != null)
-                userProfileRequestListener.onUserProfileDownloadFailed(new Error(Error.UserDetailError.NetworkError));
+                userProfileRequestListener.onUserProfileDownloadFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.NETWORK_ERROR.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
         });
     }
 
@@ -130,9 +131,11 @@ public class PIMUserManager {
             pimoidcUserProfile = null;
             logoutSessionListener.logoutSessionSuccess();
         }, error -> {
-            logoutSessionListener.logoutSessionFailed(new Error(Error.UserDetailError.NetworkError));
+            mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
+            logoutSessionListener.logoutSessionFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.NETWORK_ERROR.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
         });
     }
+
 
     private void storeUserProfileToSecureStorage(String jsonUserProfileResponse) {
         if (isUUIDAvailable()) {

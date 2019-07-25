@@ -18,6 +18,7 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListen
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
+import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
@@ -166,7 +167,7 @@ public class PIMDataImplementation implements UserDataInterface {
                         isInitRequiredAgain = false;
                     } else {
                         pimInitLiveData.removeObservers((FragmentActivity) mContext);
-                        userMigrationListener.onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
+                        userMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext,PIMErrorEnums.MIGRATION_FAILED.errorCode)));
                     }
                 }
             }

@@ -16,9 +16,11 @@ public class Error {
 
     public enum UserDetailError {
         InvalidFields(1000, "INVALID FIELDS"),
-        NotLoggedIn(1001, "USER NOT LOGGED IN"),
-        NetworkError(1003,"Network Error"),
-        MigrationFailed(1004,"Migration Failed");
+        NotLoggedIn(1001, "USER NOT LOGGED IN");
+
+        //,NetworkError(1003,"Network Error");
+        //MigrationFailed(1004,"Migration Failed");
+
 
         private int errorCode;
         private String errorMsg;

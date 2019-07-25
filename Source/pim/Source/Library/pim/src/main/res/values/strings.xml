@@ -1,4 +1,8 @@
 <resources>
     <string name="action_bar_title_text" translatable="false">My Philips</string>
     <string name="redirectURL" translatable="false" />
+    <string name="PIM_Error_PIM_No_Network">Cannot connect to server. Please try again later.\nStill having difficulty? Contact Customer Care stating error code [%d]</string>
+    <string name="PIM_Error_PIM_Token_Refresh">Cannot connect to server. Please try again later.\nStill having difficulty? Contact Customer Care stating error code [%d]</string>
+    <string name="PIM_Error_PIM_Migration_Failed">Cannot connect to server. Please try again later.\nStill having difficulty? Contact Customer Care stating error code [%d]</string>
+    <string name="PIM_Error_Msg" >Cannot connect to server. Please try again later.\nStill having difficulty? Contact Customer Care stating error code [%d]</string>
 </resources>

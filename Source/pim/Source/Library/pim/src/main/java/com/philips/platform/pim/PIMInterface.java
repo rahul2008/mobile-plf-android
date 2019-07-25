@@ -117,6 +117,7 @@ public class PIMInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
         PIMFragment pimFragment = new PIMFragment();
+        pimFragment.setActionbarListener(uiLauncher.getActionbarListener(),pimLaunchInput.getUserLoginListener());
         addFragment(uiLauncher, pimFragment);
     }
 
