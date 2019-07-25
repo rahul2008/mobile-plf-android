@@ -48,6 +48,7 @@ public class AppInfraHurlStack extends HurlStack {
     @Override
     protected HttpURLConnection createConnection(URL url) throws IOException {
         HttpURLConnection connection = super.createConnection(url);
+        connection.setInstanceFollowRedirects(true);
         try {
             if (connection != null && "https".equals(url.getProtocol())) {
                 ((HttpsURLConnection) connection).setSSLSocketFactory(new TLSSocketFactory());

@@ -4,8 +4,10 @@
  */
 package com.philips.cdp.di.ecs.request;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -16,6 +18,7 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +27,11 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
     private final ECSCallback<OAuthResponse,Exception> ecsCallback;
     private final  OAuthInput oAuthInput;
     String janrainID ;
+
+    String mRetryUrl = null;
+
+    //For handling 307 - Temporary redirect
+    public static final int HTTP_REDIRECT = 307;
 
     public OAuthRequest(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
         this.ecsCallback = ecsListener;
@@ -68,12 +76,12 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
 
     @Override
     public String getURL() {
-        return new ECSURLBuilder().getOauthUrl(oAuthInput.getJanRainID());
+        return  mRetryUrl!=null? mRetryUrl :new ECSURLBuilder().getOauthUrl(oAuthInput.getJanRainID());
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,9000);
+        retryForUrlRedirection(error);
     }
 
     @Override
@@ -84,5 +92,36 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
             ECSConfig.INSTANCE.setAuthToken( oAuthResponse.getAccessToken());
             ecsCallback.onResponse(oAuthResponse);
         }
+    }
+
+    private void retryForUrlRedirection(VolleyError error) {
+        // Handle 30x
+        if (isRedirectionRequired(error)) {
+            mRetryUrl = getLocation(error);
+            executeRequest();
+        } else {
+            ecsCallback.onFailure(error,9000);
+        }
+    }
+
+
+
+    public boolean isRedirectionRequired(VolleyError volleyError) {
+        int status = -1;
+
+        if(volleyError!=null && volleyError.networkResponse!=null) {
+            status = volleyError.networkResponse.statusCode;
+        }
+        return status == HTTP_REDIRECT || HttpURLConnection.HTTP_MOVED_PERM == status ||
+                status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_SEE_OTHER &&
+                getLocation(volleyError) != null && !getURL().equalsIgnoreCase(getLocation(volleyError));
+    }
+
+    protected String getLocation(VolleyError volleyError) {
+        String location = null;
+        if(volleyError!=null && volleyError.networkResponse!=null && volleyError.networkResponse.headers!=null) {
+            location = volleyError.networkResponse.headers.get("Location");
+        }
+        return location;
     }
 }
