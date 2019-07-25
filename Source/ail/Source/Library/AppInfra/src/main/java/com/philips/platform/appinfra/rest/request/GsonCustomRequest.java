@@ -34,6 +34,7 @@ public class GsonCustomRequest<T> extends Request<T> {
     private Map<String, String> mHeader;
     private TokenProviderInterface mProvider;
     private Map<String, String> mParams;
+    private String mBody;
 
 
     /**
@@ -47,7 +48,7 @@ public class GsonCustomRequest<T> extends Request<T> {
     public GsonCustomRequest(int method, String url, Class<T> clazz,
                              Response.Listener<T> listener, Response.ErrorListener errorListener,
                              Map<String, String> header, Map<String, String> params,
-                             TokenProviderInterface tokenProviderInterface) {
+                             TokenProviderInterface tokenProviderInterface,String body) {
         super(method, url, errorListener);
         this.clazz = clazz;
         this.mProvider = tokenProviderInterface;
@@ -55,6 +56,7 @@ public class GsonCustomRequest<T> extends Request<T> {
         this.mParams = params;
         this.listener = listener;
         VolleyLog.DEBUG = false;
+        mBody = body;
 //        Log.v(AppInfraLogEventID.AI_REST, "Gson Custom Request");
     }
 
@@ -89,6 +91,14 @@ public class GsonCustomRequest<T> extends Request<T> {
             return mParams;
         }
         return super.getParams();
+    }
+
+    @Override
+    public byte[] getBody() throws AuthFailureError {
+        if(mBody != null){
+            return mBody.getBytes();
+        }
+        return super.getBody();
     }
 
     @Override

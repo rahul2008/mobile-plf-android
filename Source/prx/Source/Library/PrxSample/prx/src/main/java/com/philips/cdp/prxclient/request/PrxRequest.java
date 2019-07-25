@@ -197,6 +197,11 @@ public abstract class PrxRequest {
         return null;
     }
 
+    public  String getBody(){
+        return  null;
+    }
+
+
     /**
      * Get Max num of retries.
      *
