@@ -11,6 +11,7 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
+import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseNewData;
 import com.philips.cdp.prodreg.model_request.Attributes;
 import com.philips.cdp.prodreg.model_request.Data;
 import com.philips.cdp.prodreg.model_request.Meta;
@@ -203,7 +204,7 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        return new RegistrationResponse().parseJsonResponseData(jsonObject);
+        return new RegistrationResponseNewData().parseJsonResponseData(jsonObject);
     }
 
     public String getShouldSendEmailAfterRegistration() {

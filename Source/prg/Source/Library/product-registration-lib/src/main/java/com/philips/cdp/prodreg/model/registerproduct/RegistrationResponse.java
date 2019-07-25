@@ -11,15 +11,15 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import org.json.JSONObject;
 
 public class RegistrationResponse extends ResponseData {
-    private RegistrationResponseNewData data;
+    private RegistrationResponseData data;
 
     private String success;
 
-    public RegistrationResponseNewData getData() {
+    public RegistrationResponseData getData() {
         return data;
     }
 
-    public void setData(RegistrationResponseNewData data) {
+    public void setData(RegistrationResponseData data) {
         this.data = data;
     }
 

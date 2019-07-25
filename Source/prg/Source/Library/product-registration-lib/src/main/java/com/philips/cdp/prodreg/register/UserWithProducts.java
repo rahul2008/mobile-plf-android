@@ -396,7 +396,7 @@ public class UserWithProducts {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
-                RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
+                RegistrationResponseNewData registrationResponse = (RegistrationResponseNewData) responseData;
                 getUserProduct().mapRegistrationResponse(registrationResponse, registeredProduct);
                 registeredProduct.setProdRegError(null);
                 sendSuccessFullCallBack(registeredProduct);
@@ -430,8 +430,8 @@ public class UserWithProducts {
             appListener.onProdRegSuccess(registeredProduct, getUserProduct());
     }
 
-    protected void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {
-        final RegistrationResponseNewData data = registrationResponse.getData();
+    protected void mapRegistrationResponse(final RegistrationResponseNewData registrationResponse, final RegisteredProduct registeredProduct) {
+        final RegistrationResponseNewData data = registrationResponse;
         registeredProduct.setEndWarrantyDate(data.getData().getAttributes().getExtendedWarrantyMonths()+"");
         registeredProduct.setContractNumber(data.getData().getAttributes().getSerialNumber());
     }
