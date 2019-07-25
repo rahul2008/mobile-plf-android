@@ -55,6 +55,7 @@ import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
@@ -89,12 +90,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private TextView mNumberOfProducts;
     private PaymentMethod mPaymentMethod;
     Bundle bundle;
-    private String url;
     protected PaymentController mPaymentController;
-    public static final String IAP_PRIVACY_SERVICEID = "iap.privacyPolicy";
-    public static final String IAP_TERMS_SERVICEID = "iap.termOfUse";
-    private Boolean termsPrivacyUrl = false;
-    private String privacyUrl,termsUrl;
 
     public static OrderSummaryFragment createInstance(Bundle args, AnimationType animType) {
         OrderSummaryFragment fragment = new OrderSummaryFragment();
@@ -124,36 +120,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
         initializeViews(rootView);
         Utility.isDelvieryFirstTimeUser=true;
 
-        checkUrlExists();
-
         return rootView;
     }
 
-    private void checkUrlExists() {
-        ArrayList<String> listOfServiceId = new ArrayList<>();
-        listOfServiceId.add(IAP_PRIVACY_SERVICEID);
-        listOfServiceId.add(IAP_TERMS_SERVICEID);
-
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                Log.i("onError", s);
-
-            }
-
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-                privacyUrl = map.get(IAP_PRIVACY_SERVICEID).getConfigUrls();
-                termsUrl = map.get(IAP_TERMS_SERVICEID).getConfigUrls();
-                if(!(TextUtils.isEmpty(privacyUrl)) && !(TextUtils.isEmpty(termsUrl))) {
-                    termsPrivacyUrl = true;
-                }
-            }
-
-        };
-
-        CartModelContainer.getInstance().getAppInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
-    }
 
     void initializeViews(View rootView) {
         TextView tv_checkOutSteps = rootView.findViewById(R.id.tv_checkOutSteps);
@@ -210,6 +179,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             @Override
             public void updateDrawState(TextPaint ds) {
                 ds.setUnderlineText(true);
+                ds.setColor(R.attr.uidHyperlinkDefaultPressedTextColor);
             }
         }, spanTxt.length() - mContext.getString(R.string.iap_privacy).length(), spanTxt.length(), 0);
         spanTxt.append(", ");
@@ -225,6 +195,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             @Override
             public void updateDrawState(TextPaint ds) {
                 ds.setUnderlineText(true);
+                ds.setColor(R.attr.uidHyperlinkDefaultPressedTextColor);
             }
         }, spanTxt.length() - mContext.getString(R.string.iap_terms_conditions).length(), spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
@@ -242,7 +213,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartOnResume();
         }
-        if(!(ControllerFactory.getInstance().isPlanB()) && (termsPrivacyUrl)) {
+        if(!(ControllerFactory.getInstance().isPlanB()) && ((IAPUtility.getInstance().getPrivacyUrl() != null) && IAPUtility.getInstance().getTermsUrl() != null)) {
             mTermsPrivacy.setVisibility(View.VISIBLE);
         } else {
             mTermsPrivacy.setVisibility(View.GONE);
@@ -300,17 +271,16 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     private void showPrivacyFragment() {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.IAP_PRIVACY_URL, privacyUrl);
+        bundle.putString(IAPConstant.IAP_PRIVACY_URL, IAPUtility.getInstance().getPrivacyUrl());
         addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
     }
 
     private void showTermsFragment() {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.IAP_TERMS_URL, termsUrl);
+        bundle.putString(IAPConstant.IAP_TERMS_URL, IAPUtility.getInstance().getTermsUrl());
         bundle.putString(IAPConstant.IAP_TERMS,IAPConstant.IAP_TERMS);
         addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
     }
-
 
 
     private void placeOrder(String pSecurityCode) {

@@ -100,9 +100,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private RelativeLayout mParentLayout;
     private AppCompatAutoCompleteTextView mSearchTextView;
     private LinearLayout mBannerLayout;
-    private String url;
-    private Boolean privacyUrl = false;
-    public static final String IAP_PRIVACY_SERVICEID = "iap.privacyPolicy";
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
@@ -192,8 +189,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         mBundle = getArguments();
 
-        checkPrivacyUrl();
-
         return rootView;
     }
 
@@ -211,6 +206,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             @Override
             public void updateDrawState(TextPaint ds) {
                 ds.setUnderlineText(true);
+                ds.setColor(R.attr.uidHyperlinkDefaultPressedTextColor);
             }
         }, spanTxt.length() - mContext.getString(R.string.iap_privacy).length(), spanTxt.length(), 0);
         spanTxt.append(" ");
@@ -222,7 +218,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private void showPrivacyFragment() {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.IAP_PRIVACY_URL, url);
+        bundle.putString(IAPConstant.IAP_PRIVACY_URL, IAPUtility.getInstance().getPrivacyUrl());
         addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
     }
 
@@ -288,7 +284,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
 
-        if(!(ControllerFactory.getInstance().isPlanB()) && (privacyUrl)) {
+        if(!(ControllerFactory.getInstance().isPlanB()) && (IAPUtility.getInstance().getPrivacyUrl() != null)) {
             mPrivacyLayout.setVisibility(View.VISIBLE);
             mView.setVisibility(View.VISIBLE);
         } else {
@@ -562,30 +558,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     ArrayList<String> getCategorizedCTNs() {
         return mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
-    }
-
-    public void checkPrivacyUrl() {
-        ArrayList<String> listOfServiceId = new ArrayList<>();
-        listOfServiceId.add(IAP_PRIVACY_SERVICEID);
-
-        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                Log.i("onError", s);
-
-            }
-
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-                url  = map.get(IAP_PRIVACY_SERVICEID).getConfigUrls();
-                if(!TextUtils.isEmpty(url)) {
-                    privacyUrl = true;
-                }
-            }
-
-        };
-
-        CartModelContainer.getInstance().getAppInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
 }

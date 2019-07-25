@@ -1,5 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
+import android.text.TextUtils;
+
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -29,6 +31,9 @@ public class IAPServiceDiscoveryWrapper {
         mIAPSettings = pIAPSettings;
         listOfServiceId = new ArrayList<>();
         listOfServiceId.add("iap.baseurl");
+        listOfServiceId.add("iap.privacyPolicy");
+        listOfServiceId.add("iap.termOfUse");
+
         AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
         serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
@@ -44,14 +49,28 @@ public class IAPServiceDiscoveryWrapper {
                 Collection<ServiceDiscoveryService> collection = map.values();
 
 
-
                 List<ServiceDiscoveryService> list = new ArrayList<>();
                 list.addAll(collection);
-                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
+
+                ServiceDiscoveryService discoveryService = list.get(0);
+                String privacyUrl = discoveryService.getConfigUrls();
+                if(privacyUrl != null) {
+                    IAPUtility.getInstance().setPrivacyUrl(privacyUrl);
+                }
+
+                ServiceDiscoveryService service = list.get(1);
+                String termsUrl = service.getConfigUrls();
+                if(termsUrl != null) {
+                    IAPUtility.getInstance().setTermsUrl(termsUrl);
+                }
+
+                ServiceDiscoveryService serviceDiscoveryService = list.get(2);
 
                 pIAPHandler.initIAPRequisite();
                 String locale = serviceDiscoveryService.getLocale();
                 String configUrls = serviceDiscoveryService.getConfigUrls();
+
+
                 if (locale != null) {
                     setLangAndCountry(locale);
                 }
