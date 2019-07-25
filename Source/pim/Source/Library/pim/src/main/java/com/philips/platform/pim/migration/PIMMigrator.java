@@ -49,7 +49,6 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
     public void onRefreshTokenFailed(Error error) {
         mLoggingInterface.log(DEBUG, TAG, "Refresh access token failed.");
         if (userMigrationListener != null) {
-            // new Error(UserDataInterfaceError.TokenRefreshError.errorCode,UserDataInterfaceError.TokenRefreshError.getLocalisedErrorDesc(mContext,ex.code));
             userMigrationListener.onUserMigrationFailed(error);
         }
     }

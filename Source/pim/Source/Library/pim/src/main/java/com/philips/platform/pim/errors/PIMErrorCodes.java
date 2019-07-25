@@ -2,12 +2,6 @@ package com.philips.platform.pim.errors;
 
 public class PIMErrorCodes {
 
-//    public static final int NETWORK_ERROR = 7003;
-//    public static final int TOKEN_REFRESH_ERROR = 7006;
-//    //Migration Error
-//    public static final int MIGRATION_NOT_APPLICABLE = 7304;
-//    public static final int MIGRATION_FAILED = 7304;
-
     //General Errors
     public static final int INVALID_DISCOVERY_DOCUMENT = 7000;
     public static final int USER_CANCELED_AUTH_FLOW = 7001;
