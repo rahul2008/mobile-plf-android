@@ -44,6 +44,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -430,9 +431,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onSuccess(int count) {
+    public void onSuccess(ECSShoppingCart ecsShoppingCart) {
         hideProgressBar();
-        if (count > ECSUtility.getInstance().getMaxCartCount()) {
+        if (ECSUtility.getInstance().getQuantity(ecsShoppingCart) > ECSUtility.getInstance().getMaxCartCount()) {
             NetworkUtility.getInstance().showErrorDialog(getActivity(),getFragmentManager(),
                     getString(R.string.iap_ok),"Exceed Cart limit","You can not add more than "+ ECSUtility.getInstance().getMaxCartCount()+ " product in your cart");
         } else {

@@ -63,7 +63,6 @@ public class ECSInterface implements UappInterface, ECSExposedAPI {
 
         //This is added to clear pagination data from app memory . This should be taken in tech debt .
         CartModelContainer.getInstance().clearProductList();
-        ECSUtility.getInstance().resetPegination();
 
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) mIAPSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);

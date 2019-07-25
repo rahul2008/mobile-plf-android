@@ -19,29 +19,29 @@ import com.ecs.demouapp.ui.model.CartCreateRequest;
 import com.ecs.demouapp.ui.model.CartDeleteProductRequest;
 import com.ecs.demouapp.ui.model.CartUpdateProductQuantityRequest;
 import com.ecs.demouapp.ui.model.DeleteCartRequest;
-import com.ecs.demouapp.ui.model.GetCartsRequest;
 import com.ecs.demouapp.ui.model.GetCurrentCartRequest;
 import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetUser;
 import com.ecs.demouapp.ui.response.carts.AppliedOrderPromotionEntity;
 import com.ecs.demouapp.ui.response.carts.CartsEntity;
-import com.ecs.demouapp.ui.response.carts.EntriesEntity;
 import com.ecs.demouapp.ui.response.carts.PromotionEntity;
 import com.ecs.demouapp.ui.response.error.Error;
 import com.ecs.demouapp.ui.response.error.ServerError;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
-import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.session.RequestListener;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.prxclient.datamodels.summary.Data;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.products.Product;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,6 @@ import java.util.Map;
 public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         implements AbstractModel.DataLoadListener, AddressController.AddressListener {
 
-    private CartsEntity mCurrentCartData = null;
     private AddressController mAddressController;
 
 
@@ -63,9 +62,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         mAddressController = new AddressController(context, ShoppingCartPresenter.this);
     }
 
-    public void setHybrisDelegate(HybrisDelegate delegate) {
-        mHybrisDelegate = delegate;
-    }
 
     @Override
     public void getCurrentCartDetails() {
@@ -161,7 +157,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                     addProductToCart(context, ctnNumber, iapHandlerListener, true);
                 } else {
                     if (iapHandlerListener != null) {
-                        iapHandlerListener.onSuccess(0);
+                        //iapHandlerListener.onSuccess(0);
                     }
                 }
             }
@@ -190,10 +186,10 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                 if (isFromBuyNow) {
                     EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_LAUNCH_SHOPPING_CART);
                     if (iapHandlerListener != null) {
-                        iapHandlerListener.onSuccess(0);
+                       // iapHandlerListener.onSuccess(0);
                     }
                 } else if (iapHandlerListener != null) {
-                    iapHandlerListener.onSuccess(0);
+                    //iapHandlerListener.onSuccess(0);
                 }
             }
 
@@ -209,48 +205,52 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     @Override
     public void getProductCartCount(final Context context, final ECSCartListener
             iapCartListener) {
-        final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
-        final GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
-        delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
-                    @Override
-                    public void onSuccess(final Message msg) {
-                        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-                            createCart(context, iapCartListener, null, false);
-                        } else {
-                            CartsEntity carts = (CartsEntity) msg.obj;
-                            if (carts != null) {
-                                int totalItems = carts.getTotalItems();
-                                int quantity = 0;
-                                if (carts.getEntries() != null) {
-                                    List<EntriesEntity> entries = carts.getEntries();
-                                    if (totalItems != 0 && null != entries) {
-                                        for (int i = 0; i < entries.size(); i++) {
-                                            quantity = quantity + entries.get(i).getQuantity();
-                                        }
-                                    }
-                                }
-                                iapCartListener.onSuccess(quantity);
-                            } else {
-                                Message message = new Message();
-                                message.obj = "Error Fetching Cart";
-                                iapCartListener.onFailure(message);
-                            }
-                        }
-                    }
 
-                    @Override
-                    public void onError(final Message msg) {
-                        handleNoCartErrorOrNotifyError(msg, context, iapCartListener, null, false);
-                    }
+
+        ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart carts) {
+
+                 // You can check if cart is not there and call createCart here
+                if (carts != null) {
+                    iapCartListener.onSuccess(carts);
+                } else {
+                    Message message = new Message();
+                    message.obj = "Error Fetching Cart";
+                    iapCartListener.onFailure(message);
                 }
 
-        );
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+                Message message = new Message();
+                message.obj = "Error Fetching Cart";
+                iapCartListener.onFailure(message);
+            }
+        });
+
     }
 
     @Override
-    public void buyProduct(final Context context, final String ctnNumber, final ECSCartListener
+    public void addProductToCart(Product product, final ECSCartListener
             iapHandlerListener) {
-        if (ctnNumber == null) return;
+
+        ECSUtility.getInstance().getEcsServices().addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+                iapHandlerListener.onSuccess(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        });
+
+
+  /*      if (ctnNumber == null) return;
         final HybrisDelegate delegate = HybrisDelegate.getInstance(context);
         final GetCartsRequest model = new GetCartsRequest(delegate.getStore(), null, null);
         delegate.sendRequest(RequestCode.GET_CART, model, new RequestListener() {
@@ -290,7 +290,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             public void onError(final Message msg) {
                 handleNoCartErrorOrNotifyError(msg, context, iapHandlerListener, ctnNumber, true);
             }
-        });
+        });*/
     }
 
 
@@ -332,66 +332,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         } else {
             handleModelDataError(msg);
         }
-    }
-
-    private void processResponseFromPRX(final Message msg) {
-        if (msg.obj instanceof HashMap) {
-            notifyListChanged();
-        } else {
-            EventHelper.getInstance().notifyEventOccurred(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED);
-        }
-    }
-
-    private void notifyListChanged() {
-        final ArrayList<ShoppingCartData> products = mergeResponsesFromHybrisAndPRX();
-        refreshList(products);
-    }
-
-    private ArrayList<ShoppingCartData> mergeResponsesFromHybrisAndPRX() {
-        final CartsEntity cartsEntity = mCurrentCartData;
-        final List<EntriesEntity> entries = cartsEntity.getEntries();
-        return getShoppingCartDatas(cartsEntity, entries);
-    }
-
-    public ArrayList<ShoppingCartData> getShoppingCartDatas(CartsEntity cartsEntity, List<EntriesEntity> entries) {
-        final ArrayList<Data> list = (ArrayList<Data>) CartModelContainer.getInstance().getPRXSummaryList();
-        final ArrayList<ShoppingCartData> products = new ArrayList<>();
-        String ctn;
-        for (EntriesEntity entry : entries) {
-            ctn = entry.getProduct().getCode();
-            applyPromotion(cartsEntity);
-            final ShoppingCartData cartItem = new ShoppingCartData(entry, cartsEntity.getDeliveryMode());
-            cartItem.setVatInclusive(cartsEntity.isNet());
-            Data data;
-            if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
-                data = CartModelContainer.getInstance().getProductSummary(ctn);
-            } else {
-                continue;
-            }
-            if (entry.getProduct().getDiscountPrice() != null)
-                cartItem.setDiscountPrice(entry.getProduct().getDiscountPrice().getValue());
-            cartItem.setImageUrl(data.getImageURL());
-            cartItem.setProductTitle(data.getProductTitle());
-            cartItem.setCtnNumber(ctn);
-            cartItem.setQuantity(entry.getQuantity());
-            cartItem.setFormattedPrice(entry.getBasePrice().getFormattedValue());
-            cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
-            cartItem.setFormattedTotalPriceWithTax(cartsEntity.getTotalPriceWithTax().getFormattedValue());
-            cartItem.setFormattedTotalPrice(entry.getTotalPrice().getFormattedValue());
-            cartItem.setTotalItems(cartsEntity.getTotalItems());
-            cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
-            cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());
-            cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
-            cartItem.setVatActualValue(String.valueOf(((int) cartsEntity.getTotalTax().getValue())));
-            cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
-            cartItem.setTotalDiscounts(cartsEntity.getTotalDiscounts().getFormattedValue());
-            cartItem.setAppliedOrderPromotionEntityList(cartsEntity.getAppliedOrderPromotions());
-            cartItem.setAppliedVouchers(cartsEntity.getAppliedVouchers());
-            //required for Tagging
-            cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
-            products.add(cartItem);
-        }
-        return products;
     }
 
     public void applyPromotion(CartsEntity cartsEntity) {

@@ -6,6 +6,8 @@ package com.ecs.demouapp.ui.cart;
 
 import android.content.Context;
 
+import com.philips.cdp.di.ecs.model.products.Product;
+
 public interface ShoppingCartAPI {
     void getCurrentCartDetails();
 
@@ -19,7 +21,7 @@ public interface ShoppingCartAPI {
 
     void getProductCartCount(Context context, ECSCartListener iapHandlerListener);
 
-    void buyProduct(Context context, String ctnNumber, ECSCartListener iapHandlerListener);
+    void addProductToCart(Product product, ECSCartListener iapHandlerListener);
 
     void getRetailersInformation(String ctn);
 

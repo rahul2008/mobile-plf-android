@@ -30,6 +30,7 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -52,8 +53,8 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     protected ECSCartListener mProductCountListener = new ECSCartListener() {
         @Override
-        public void onSuccess(final int count) {
-            updateCount(count);
+        public void onSuccess(ECSShoppingCart ecsShoppingCart) {
+            updateCount(ECSUtility.getInstance().getQuantity(ecsShoppingCart));
             hideProgressBar();
         }
 

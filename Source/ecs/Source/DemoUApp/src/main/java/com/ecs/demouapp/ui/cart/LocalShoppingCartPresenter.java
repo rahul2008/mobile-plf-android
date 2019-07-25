@@ -6,6 +6,8 @@ package com.ecs.demouapp.ui.cart;
 
 import android.content.Context;
 
+import com.philips.cdp.di.ecs.model.products.Product;
+
 /**
  * For local store, we just need retailers url and details.
  * Retailer request doesn't depend on store and implemented in abstract class
@@ -43,7 +45,7 @@ public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
     }
 
     @Override
-    public void buyProduct(Context context, String ctnNumber, ECSCartListener iapHandlerListener) {
+    public void addProductToCart(Product product, ECSCartListener iapHandlerListener) {
     //Do nothing
     }
 

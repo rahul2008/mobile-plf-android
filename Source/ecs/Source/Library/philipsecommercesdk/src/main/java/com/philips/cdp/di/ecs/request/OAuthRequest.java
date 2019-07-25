@@ -55,11 +55,6 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
     }
 
     @Override
-    public Map<String, String> getParams() {
-        return getJanrainDetail();
-    }
-
-    @Override
     public Map<String, String> getHeader() {
         return getJanrainDetail();
     }

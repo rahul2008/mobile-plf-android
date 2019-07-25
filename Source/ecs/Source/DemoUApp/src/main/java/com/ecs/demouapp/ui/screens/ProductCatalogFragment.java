@@ -6,7 +6,6 @@ package com.ecs.demouapp.ui.screens;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-
-import com.android.volley.VolleyError;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.activity.ECSActivity;
 import com.ecs.demouapp.ui.adapters.ProductCatalogAdapter;
@@ -30,12 +26,10 @@ import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
 import com.ecs.demouapp.ui.cart.ShoppingCartPresenter;
-import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.products.ProductCatalogAPI;
-import com.ecs.demouapp.ui.products.ProductCatalogData;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
@@ -98,12 +92,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mPresenter = ControllerFactory.getInstance()
                 .getProductCatalogPresenter();
         mAdapter = new ProductCatalogAdapter(mContext, mProduct);
-
-        mTotalResults = ECSUtility.getInstance().getmTotalResults();
-        mCurrentPage = ECSUtility.getInstance().getmCurrentPage();
-        mRemainingProducts = ECSUtility.getInstance().getmRemainingProducts();
-        mTotalPages = ECSUtility.getInstance().getmTotalPages();
-
     }
 
     @Override
@@ -289,7 +277,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mPresenter.getCategorizedProductList(getCategorizedCTNs(),this);
         } else {
             mPresenter.getProductCatalog(++mCurrentPage, page_size, this);
-            ECSUtility.getInstance().setmCurrentPage(mCurrentPage);
         }
 
     }
@@ -416,12 +403,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onResponse(Products result) {
 
         PaginationEntity paginationEntity = result.getPagination();
-        products = result;
-
-
         ECSUtility.getInstance().setPaginationEntity(paginationEntity);
         if (result.getProducts().size() > 0) {
-            mAdapter = new ProductCatalogAdapter(getActivity(),result.getProducts());
+            mProduct.addAll(result.getProducts());
+            mAdapter = new ProductCatalogAdapter(getActivity(),mProduct);
             mRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
             mAdapter.tagProducts();
@@ -436,17 +421,14 @@ public class ProductCatalogFragment extends InAppBaseFragment
             if (mTotalResults == 0)
                 mRemainingProducts = paginationEntity.getTotalResults();
 
-            ECSUtility.getInstance().setmRemainingProducts(mRemainingProducts);
 
 
             mTotalResults = paginationEntity.getTotalResults();
-            ECSUtility.getInstance().setmTotalResults(mTotalResults);
 
             mCurrentPage = paginationEntity.getCurrentPage();
 
 
             mTotalPages = paginationEntity.getTotalPages();
-            ECSUtility.getInstance().setmTotalPages(mTotalPages);
 
             mIsLoading = false;
             hideProgressBar();

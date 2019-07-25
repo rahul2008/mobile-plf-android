@@ -10,6 +10,7 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 
 import java.util.Map;
@@ -28,7 +29,7 @@ public class GetRetailersInfoRequest extends AbstractModel {
         StringBuilder builder = new StringBuilder("https://");
         builder.append(PREFIX_RETAILERS).append("/");
         builder.append(NetworkConstants.PRX_SECTOR_CODE).append("/");
-        builder.append(store.getLocale()).append("/");
+        builder.append(ECSConfig.INSTANCE.getLocale()).append("/");
         builder.append(RETAILERS_ALTER);
         return builder.toString();
     }

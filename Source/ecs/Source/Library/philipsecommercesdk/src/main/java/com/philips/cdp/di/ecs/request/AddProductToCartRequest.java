@@ -5,6 +5,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 import org.json.JSONObject;
 
@@ -36,6 +37,14 @@ public class AddProductToCartRequest extends OAuthAppInfraAbstractRequest {
     public void onErrorResponse(VolleyError error) {
         ecsCallback.onFailure(error,9000);
     }
+
+    @Override
+    public Map<String, String> getHeader() {
+        HashMap<String, String> authMap = new HashMap<>();
+        authMap.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
+        return authMap;
+    }
+
 
     @Override
     public JSONObject getJSONRequest() {

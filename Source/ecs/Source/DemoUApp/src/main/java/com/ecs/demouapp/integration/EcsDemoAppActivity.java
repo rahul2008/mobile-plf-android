@@ -45,7 +45,6 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -58,7 +57,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
-import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
@@ -325,6 +323,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+
+
     public String getMyJanRainID() {
         ArrayList<String> detailsKey = new ArrayList<>();
         detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
@@ -358,13 +358,14 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                     try {
                         mIapInterface.getProductCartCount(EcsDemoAppActivity.this);
                     }catch (Exception e){
-
+                    ECSConfig.INSTANCE.setAuthToken(null);
                     }
                 }
 
                 @Override
                 public void onFailure(Exception error, int errorCode) {
                     Log.d("ECS","Auth failed");
+                    ECSConfig.INSTANCE.setAuthToken(null);
                 }
             });
         }
@@ -449,7 +450,10 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
         //This is added to clear pagination data from app memory . This should be taken in tech debt .
         CartModelContainer.getInstance().clearProductList();
-        ECSUtility.getInstance().resetPegination();
+
+        if(ECSConfig.INSTANCE.getAccessToken()!=null){
+            mIapInterface.getProductCartCount(EcsDemoAppActivity.this);
+        }
 
     }
 
@@ -459,21 +463,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         mShoppingCart.setOnClickListener(this);
     }
 
-    private void onResumeRetailer() {
-        mAddCTNLl.setVisibility(View.VISIBLE);
-        mLL_voucher.setVisibility(View.VISIBLE);
-        mLL_propositionId.setVisibility(View.VISIBLE);
-        mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
-        mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
-        mShopNowCategorized.setVisibility(View.VISIBLE);
-        mLaunchProductDetail.setVisibility(View.VISIBLE);
-        mLaunchProductDetail.setEnabled(true);
-        mCartIcon.setVisibility(View.GONE);
-        mCountText.setVisibility(View.GONE);
-        mShopNow.setVisibility(View.GONE);
-        mPurchaseHistory.setVisibility(View.GONE);
-        mShoppingCart.setVisibility(View.GONE);
-    }
 
     private void displayFlowViews(boolean b) {
 
@@ -677,32 +666,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    private void displayViews() {
-        mAddCTNLl.setVisibility(View.VISIBLE);
-        mLL_voucher.setVisibility(View.VISIBLE);
-        mLL_propositionId.setVisibility(View.VISIBLE);
-        mShopNowCategorized.setVisibility(View.VISIBLE);
-        mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
-        mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
-        mShopNow.setVisibility(View.VISIBLE);
-        mShopNow.setEnabled(true);
-        mLaunchProductDetail.setVisibility(View.VISIBLE);
-        mLaunchProductDetail.setEnabled(true);
-    }
-
-    private void hideViews() {
-        mCountText.setVisibility(View.GONE);
-        mShoppingCart.setVisibility(View.GONE);
-        mAddCTNLl.setVisibility(View.GONE);
-        mLL_voucher.setVisibility(View.GONE);
-        // mLL_propositionId.setVisibility(View.GONE);
-        mShopNow.setVisibility(View.GONE);
-        mBuyDirect.setVisibility(View.GONE);
-        mLaunchProductDetail.setVisibility(View.GONE);
-        mPurchaseHistory.setVisibility(View.GONE);
-        mShopNowCategorized.setVisibility(View.GONE);
-        mShopNowCategorizedWithRetailer.setVisibility(View.GONE);
-    }
 
     private void showAppVersion() {
         String code = null;
@@ -757,8 +720,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void onUpdateCartCount() {
-        mIapInterface.getProductCartCount(this);
+    public void onUpdateCartCount(int cartCount) {
+        onGetCartCount(cartCount);
     }
 
     @Override

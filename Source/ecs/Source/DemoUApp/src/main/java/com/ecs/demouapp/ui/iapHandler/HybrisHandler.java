@@ -4,6 +4,8 @@
  */
 package com.ecs.demouapp.ui.iapHandler;
 
+import android.os.Message;
+
 import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.integration.ECSInterface;
 import com.ecs.demouapp.ui.integration.ECSListener;
@@ -11,6 +13,9 @@ import com.ecs.demouapp.ui.products.ProductCatalogAPI;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+
+import java.util.List;
 
 
 public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
@@ -20,14 +25,14 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
 
         ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
-            public void onResponse(ECSShoppingCart result) {
+            public void onResponse(ECSShoppingCart carts) {
 
-                if(result.getEntries()!=null) {
-                    iapListener.onGetCartCount(result.getEntries().size());
-                }else {
-                    iapListener.onGetCartCount(0);
+                if (carts != null) {
+                    int quantity = ECSUtility.getInstance().getQuantity(carts);
+                    iapListener.onGetCartCount(quantity);
+                } else {
+                    iapListener.onFailure(9000);
                 }
-
             }
 
             @Override

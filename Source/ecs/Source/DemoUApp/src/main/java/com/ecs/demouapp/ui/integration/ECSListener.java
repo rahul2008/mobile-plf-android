@@ -23,8 +23,9 @@ public interface ECSListener {
     /**
      * Notifies when product count in cart is updated
      * @since 1.0.0
+     * @param cartCount
      */
-    void onUpdateCartCount();
+    void onUpdateCartCount(int cartCount);
 
     /**
      * Notifies true for cart icon visibility or false for hide

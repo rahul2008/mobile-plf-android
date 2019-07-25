@@ -5,8 +5,12 @@ import android.view.View;
 
 import com.ecs.demouapp.ui.integration.ECSOrderFlowCompletion;
 import com.philips.cdp.di.ecs.ECSServices;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.PaginationEntity;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+
+import java.util.List;
 
 /**
  * Created by philips on 5/2/19.
@@ -91,13 +95,6 @@ public class ECSUtility {
         this.localeTag = localeTag;
     }
 
-    public int getmTotalPages() {
-        return mTotalPages;
-    }
-
-    public void setmTotalPages(int mTotalPages) {
-        this.mTotalPages = mTotalPages;
-    }
 
     public PaginationEntity getPaginationEntity() {
         return paginationEntity;
@@ -127,43 +124,18 @@ public class ECSUtility {
         return IAPUtilitySingleton.INSTANCE;
     }
 
-    private int mTotalResults = 0;
-    private int mCurrentPage = -1;
-    private int mRemainingProducts = 0;
-    private int mTotalPages = -1;
-
-    public int getmTotalResults() {
-        return mTotalResults;
+    public int getQuantity(ECSShoppingCart carts) {
+        int totalItems = carts.getTotalItems();
+        int quantity = 0;
+        if (carts.getEntries() != null) {
+            List<EntriesEntity> entries = carts.getEntries();
+            if (totalItems != 0 && null != entries) {
+                for (int i = 0; i < entries.size(); i++) {
+                    quantity = quantity + entries.get(i).getQuantity();
+                }
+            }
+        }
+        return quantity;
     }
-
-    public void setmTotalResults(int mTotalResults) {
-        this.mTotalResults = mTotalResults;
-    }
-
-    public int getmCurrentPage() {
-        return mCurrentPage;
-    }
-
-    public void setmCurrentPage(int mCurrentPage) {
-        this.mCurrentPage = mCurrentPage;
-    }
-
-    public int getmRemainingProducts() {
-        return mRemainingProducts;
-    }
-
-    public void setmRemainingProducts(int mRemainingProducts) {
-        this.mRemainingProducts = mRemainingProducts;
-    }
-
-    public void resetPegination(){
-
-        mTotalResults = 0;
-        mCurrentPage = -1;
-        mRemainingProducts = 0;
-        mTotalPages = -1;
-    }
-
-
 
 }

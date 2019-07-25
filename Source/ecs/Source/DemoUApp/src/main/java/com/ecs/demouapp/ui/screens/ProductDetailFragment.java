@@ -36,14 +36,12 @@ import com.ecs.demouapp.ui.cart.ShoppingCartAPI;
 import com.ecs.demouapp.ui.cart.ShoppingCartData;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
-import com.ecs.demouapp.ui.controller.ProductDetailController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
 import com.ecs.demouapp.ui.utils.AlertListener;
 import com.ecs.demouapp.ui.utils.ECSConstant;
@@ -55,6 +53,7 @@ import com.ecs.demouapp.ui.view.CountDropDown;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.asset.Asset;
 import com.philips.cdp.di.ecs.model.asset.Assets;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
@@ -77,8 +76,7 @@ import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_UPDATE_PRODUCT_COUNT;
 //import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
 
 public class ProductDetailFragment extends InAppBaseFragment implements
-        View.OnClickListener, EventListener,
-        AbstractModel.DataLoadListener, ErrorDialogFragment.ErrorDialogListener,
+        View.OnClickListener, EventListener, ErrorDialogFragment.ErrorDialogListener,
          AbstractShoppingCartPresenter.ShoppingCartListener<ShoppingCartData>, AlertListener{
 
 
@@ -126,12 +124,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private ECSCartListener mBuyProductListener = new ECSCartListener() {
         @Override
-        public void onSuccess(final int count) {
+        public void onSuccess(ECSShoppingCart ecsShoppingCart) {
             hideProgressBar();
             mAddToCart.hideProgressIndicator();
-            tagItemAddedToCart();
             if (mIapListener != null) {
-                mIapListener.onUpdateCartCount();
+                mIapListener.onUpdateCartCount(ECSUtility.getInstance().getQuantity(ecsShoppingCart));
             }
         }
 
@@ -529,36 +526,24 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
 
 
-    void buyProduct(final String ctnNumber) {
+    void buyProduct() {
 
         if(isUserLoggedIn()) {
             if (!mAddToCart.isActivated()) {
                 mAddToCart.showProgressIndicator();
             }
-            mShoppingCartAPI.buyProduct(mContext, ctnNumber, mBuyProductListener);
+            mShoppingCartAPI.addProductToCart(product, mBuyProductListener);
         }else{
             showLogInDialog();
         }
     }
-
-    private void tagItemAddedToCart() {
-        final HashMap<String, String> contextData = new HashMap<>();
-        contextData.put(ECSAnalyticsConstant.ORIGINAL_PRICE, mPrice.getText().toString());
-        if (mProductDiscountedPrice.getVisibility() == View.VISIBLE) {
-            contextData.put(ECSAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
-        }
-
-        contextData.put(ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.ADD_TO_CART);
-        ECSAnalytics.trackMultipleActions(ECSAnalyticsConstant.SEND_DATA, contextData);
-    }
-
     @Override
     public void onClick(View v) {
         if (!isNetworkConnected()) {
             return;
         }
         if (v == mAddToCart) {
-            buyProduct(mCTNValue);
+            buyProduct();
         }
         if (v == mBuyFromRetailers) {
             getRetailersInformation();
@@ -588,36 +573,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 , null, getString(R.string.iap_product_remove_description), getFragmentManager(), this);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-        final HashMap<String, Data> msgObj = (HashMap<String, Data>) msg.obj;
-        mProductSummary = msgObj.get(mCTNValue);
-        populateData(mProductSummary);
-        if (mBuyFromRetailers.isActivated()) {
-            mBuyFromRetailers.hideProgressIndicator();
-        }
-        mDetailLayout.setVisibility(View.VISIBLE);
-        if (mIapListener != null) {
-            mIapListener.onSuccess();
-        }
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-        mDetailLayout.setVisibility(View.GONE);
-        mBuyFromRetailers.setVisibility(View.GONE);
-        showErrorDialog(msg);
-
-        if (mBuyFromRetailers.isActivated()) {
-            mBuyFromRetailers.hideProgressIndicator();
-        }
-
-        if (msg.obj instanceof IAPNetworkError) {
-            IAPNetworkError obj = (IAPNetworkError) msg.obj;
-            mIapListener.onFailure(obj.getIAPErrorCode());
-        }
-    }
 
     private void populateData(Data data) {
         String actualPrice = null;

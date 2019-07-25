@@ -11,7 +11,7 @@
         android:name="com.philips.cdp.di.pesdemo.EcsDemoApplication"
         android:icon="@drawable/app_icon"
         android:allowBackup="false"
-        android:label="@string/demo_app_name"
+        android:label="ECS SDK"
         android:resizeableActivity="true"
         android:theme="@style/Theme.DLS"
         android:supportsRtl="true"
