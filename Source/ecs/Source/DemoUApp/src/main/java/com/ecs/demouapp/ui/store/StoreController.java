@@ -80,7 +80,7 @@ public class StoreController {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error,String detailErrorMessage , int errorCode) {
 
                 Message msg = Message.obtain();
                 mSiteID = null;

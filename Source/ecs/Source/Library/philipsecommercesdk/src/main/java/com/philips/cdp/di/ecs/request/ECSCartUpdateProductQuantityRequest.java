@@ -12,6 +12,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+
 public class ECSCartUpdateProductQuantityRequest extends OAuthAppInfraAbstractRequest {
 
     private final Product product;
@@ -36,7 +39,7 @@ public class ECSCartUpdateProductQuantityRequest extends OAuthAppInfraAbstractRe
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),10999);
     }
 
     @Override

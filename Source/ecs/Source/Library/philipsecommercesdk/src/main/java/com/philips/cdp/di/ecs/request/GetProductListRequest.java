@@ -1,17 +1,12 @@
 package com.philips.cdp.di.ecs.request;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.summary.Data;
-import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.network.ModelConstants;
-import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.cdp.di.ecs.util.ECSErrors;
@@ -23,7 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest.OnUrlReceived;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 
 public class GetProductListRequest extends AppInfraAbstractRequest {
@@ -62,7 +58,8 @@ public class GetProductListRequest extends AppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(ECSErrors.getNetworkErrorMessage(error), 4999);
+        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),4999);
+
     }
 
     @Override
@@ -80,9 +77,11 @@ public class GetProductListRequest extends AppInfraAbstractRequest {
                 }
                 ecsCallback.onResponse(mProducts);
             }else{
-                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), 4999);
+                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), response.toString(),4999);
             }
 
+        }else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), null,4999);
         }
     }
 }

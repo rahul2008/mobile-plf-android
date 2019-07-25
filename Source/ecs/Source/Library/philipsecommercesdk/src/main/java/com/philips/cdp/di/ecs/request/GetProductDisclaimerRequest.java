@@ -4,15 +4,13 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.asset.AssetModel;
-import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.disclaimer.DisclaimerModel;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
-import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.util.ECSErrors.getNetworkErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 public class GetProductDisclaimerRequest extends AppInfraAbstractRequest {
 
@@ -37,7 +35,7 @@ public class GetProductDisclaimerRequest extends AppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getNetworkErrorMessage(error),5999);
+        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),5999);
     }
 
     @Override

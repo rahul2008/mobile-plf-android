@@ -10,7 +10,8 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.util.ECSErrors.getNetworkErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 public class GetConfigurationRequest extends AppInfraAbstractRequest {
 
@@ -32,8 +33,7 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
-      eCSCallback.onFailure(getNetworkErrorMessage(error),3999);
+        eCSCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),3999);
     }
 
     @Override
@@ -48,12 +48,12 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
                 eCSCallback.onResponse(resp);
             }else if(response.has("errors") ) {
                 JSONArray errors = response.optJSONArray("errors");
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNSUPPORTED_LOCALE),3001);
+                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNSUPPORTED_LOCALE),response.toString(),3001);
             }else if(response.has("net")) {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),3999);
+                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),response.toString(),3999);
             }
         }else{
-            eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),3999);
+            eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),null,3999);
         }
     }
 

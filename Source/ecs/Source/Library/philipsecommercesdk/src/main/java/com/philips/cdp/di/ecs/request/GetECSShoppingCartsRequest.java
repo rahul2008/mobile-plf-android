@@ -16,6 +16,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+
 public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest {
 
     private final ECSCallback<ECSShoppingCart, Exception> ecsCallback;
@@ -48,7 +51,7 @@ public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error, 9000);
+        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),8999);
     }
 
     @Override
@@ -56,12 +59,16 @@ public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest {
         if (response != null) {
             ECSShoppingCart resp = new Gson().fromJson(response.toString(),
                     ECSShoppingCart.class);
-            if (null != resp && null!=resp.getGuid()) {
+            if (null != resp && null!=resp.getGuid() && !resp.getGuid().isEmpty()) {
                 ecsCallback.onResponse(resp);
             } else {
-                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GET_CART_FAILED), 8999);
+                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GET_CART_FAILED), response.toString(),8999);
             }
+        }else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GET_CART_FAILED), null,8999);
         }
     }
+
+
 
 }

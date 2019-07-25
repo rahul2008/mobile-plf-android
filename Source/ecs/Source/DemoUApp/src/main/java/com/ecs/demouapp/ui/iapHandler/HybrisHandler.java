@@ -36,7 +36,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
                 iapListener.onFailure(errorCode);
             }
         });

@@ -59,7 +59,7 @@ public class ECSConfigure {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
 
                 iapListener.onFailure(ECSConstant.IAP_ERROR_SERVER_ERROR);
                 ECSLog.i(ECSLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + error.getMessage());
@@ -102,7 +102,7 @@ public class ECSConfigure {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
 
                 ECSLog.i(ECSLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + error.getMessage());
                 listener.onFailure(ECSConstant.IAP_ERROR_SERVER_ERROR);

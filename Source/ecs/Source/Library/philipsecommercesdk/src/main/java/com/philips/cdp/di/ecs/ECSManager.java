@@ -50,8 +50,8 @@ public class ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage, errorCode);
             }
         }).executeRequest();
 
@@ -68,8 +68,8 @@ public class ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error,String detailErrorMessage , int errorCode) {
+                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
             }
         }).executeRequest();
 
@@ -90,8 +90,8 @@ public class ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                finalEcsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
+                finalEcsCallback.onFailure(error,detailErrorMessage, errorCode);
 
             }
         });
@@ -109,8 +109,8 @@ public class ECSManager {
                 }
 
                 @Override
-                public void onFailure(Exception error, int errorCode) {
-                    eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
+                public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
+                    eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND),detailErrorMessage, 5999);
                 }
             }).executeRequest();
 
@@ -134,20 +134,20 @@ public class ECSManager {
                             getDisclaimer(product, ecsCallback);
 
                         } else {
-                            ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND), 5002);
+                            ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),null,5002);
                         }
                     }
 
                     @Override
-                    public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(error, errorCode);
+                    public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
+                        ecsCallback.onFailure(error, detailErrorMessage,errorCode);
                     }
                 });
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND), 5002);
+                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),s, 5002);
             }
         });
     }
@@ -174,8 +174,8 @@ public class ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 28999);
+            public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
+                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), detailErrorMessage,28999);
             }
         }, ctns);
     }
@@ -204,8 +204,8 @@ public class ECSManager {
                     }
 
                     @Override
-                    public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(error, errorCode);
+                    public void onFailure(Exception error,String detailErrorMessage,  int errorCode) {
+                        ecsCallback.onFailure(error,detailErrorMessage, errorCode);
                     }
                 });
 
@@ -265,7 +265,7 @@ public class ECSManager {
                     }
 
                     @Override
-                    public void onFailure(Exception error, int errorCode) {
+                    public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
                         // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
                         ecsCallback.onResponse(product);
                     }
@@ -304,8 +304,8 @@ public class ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error,String detailErrorMessage,  int errorCode) {
+                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
             }
         });
     }
@@ -346,8 +346,8 @@ public class ECSManager {
                         }
 
                         @Override
-                        public void onFailure(Exception error, int errorCode) {
-                            ecsCallback.onFailure(error, errorCode);
+                        public void onFailure(Exception error,String detailErrorMessage,  int errorCode) {
+                            ecsCallback.onFailure(error,detailErrorMessage, errorCode);
                         }
                     };
 
@@ -357,8 +357,8 @@ public class ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error,String detailErrorMessage,  int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage, errorCode);
             }
         }).executeRequest();
 
@@ -372,8 +372,8 @@ public class ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error,String detailErrorMessage,  int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage, errorCode);
             }
         }).executeRequest();
 
@@ -396,8 +396,8 @@ public class ECSManager {
                         }
 
                         @Override
-                        public void onFailure(Exception error, int errorCode) {
-                            ecsCallback.onFailure(error, errorCode);
+                        public void onFailure(Exception error,String detailErrorMessage,  int errorCode) {
+                            ecsCallback.onFailure(error,detailErrorMessage, errorCode);
                         }
                     });
 
@@ -408,8 +408,8 @@ public class ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
             }
         }).executeRequest();
 

@@ -363,8 +363,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 @Override
-                public void onFailure(Exception error, int errorCode) {
-                    Log.d("ECS","Auth failed");
+                public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                    Log.d("ECS","Auth failed: " +detailErrorMessage);
                     ECSConfig.INSTANCE.setAuthToken(null);
                 }
             });
@@ -403,7 +403,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
                 System.out.println("Configured ECS failed");
             }
         });

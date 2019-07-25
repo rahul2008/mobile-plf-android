@@ -10,6 +10,9 @@ import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
 
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+
 
 public class GetProductSummaryListRequest extends AppInfraAbstractRequest {
 
@@ -33,7 +36,7 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(ECSErrors.getNetworkErrorMessage(error), 4999);
+        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),4999);
     }
 
     @Override
@@ -45,8 +48,10 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest {
             if(null!=ecsProductSummary.getData()) {
                 ecsCallback.onResponse(ecsProductSummary);
             }else{
-                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), 4999);
+                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), response.toString(),4999);
             }
+        }else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), null,4999);
         }
     }
 

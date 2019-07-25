@@ -10,7 +10,8 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.util.ECSErrors.getNetworkErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 public class GetProductAssetRequest extends AppInfraAbstractRequest {
 
@@ -35,7 +36,7 @@ public class GetProductAssetRequest extends AppInfraAbstractRequest {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getNetworkErrorMessage(error),5999);
+        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),5999);
     }
 
     @Override
@@ -47,8 +48,10 @@ public class GetProductAssetRequest extends AppInfraAbstractRequest {
                Assets assets = resp.getData().getAssets();
                ecsCallback.onResponse(assets);
            }else {
-               ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND), 5999);
+               ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND),response.toString(), 5999);
            }
+        }else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND),null, 5999);
         }
 
     }
