@@ -113,9 +113,7 @@ public class NetworkWrapper {
                     @Override
                     public void onSuccess(String url) {
                         excuteRequest(url, prxRequest, responseListener, errorListener, listener);
-
                     }
-
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
                         listener.onResponseError(new PrxError(PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getDescription(), PrxError.PrxErrorType.UNKNOWN_EXCEPTION.getId()));
