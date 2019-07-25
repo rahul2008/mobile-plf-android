@@ -20,6 +20,8 @@ public class IAPUtility {
     private UserDataInterface mUserDataInterface;
     private String appName;
     private String localeTag;
+    private String termsUrl;
+    private String privacyUrl;
     private PaginationEntity paginationEntity;
 
     private IAPUtility() {
@@ -87,6 +89,22 @@ public class IAPUtility {
 
     public void setLocaleTag(String localeTag) {
         this.localeTag = localeTag;
+    }
+
+    public String getTermsUrl() {
+        return termsUrl;
+    }
+
+    public void setTermsUrl(String termsUrl) {
+        this.termsUrl = termsUrl;
+    }
+
+    public String getPrivacyUrl() {
+        return privacyUrl;
+    }
+
+    public void setPrivacyUrl(String privacyUrl) {
+        this.privacyUrl = privacyUrl;
     }
 
     public int getmTotalPages() {
