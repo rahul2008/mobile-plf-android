@@ -64,7 +64,7 @@ public class PIMInterface implements UappInterface {
         pimInitViewModel = ViewModelProviders.of((FragmentActivity) context).get(PIMInitViewModel.class);
         MutableLiveData<PIMInitState> livedata = pimInitViewModel.getMuatbleInitLiveData();
         livedata.observe((FragmentActivity) context, observer);
-        livedata.setValue(PIMInitState.INIT_IN_PROGRESS);
+        livedata.postValue(PIMInitState.INIT_IN_PROGRESS);
 
         PIMSettingManager.getInstance().setPIMInitLiveData(livedata);
         PIMSettingManager.getInstance().init(uappDependencies);
@@ -83,13 +83,15 @@ public class PIMInterface implements UappInterface {
         @Override
         public void onChanged(@Nullable PIMInitState pimInitState) {
             if (pimInitState == PIMInitState.INIT_SUCCESS) {
-                Log.i(TAG, "INIT_SUCCESS");
                 if (PIMSettingManager.getInstance().getPimUserManager().getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN) {
                     PIMMigrator pimMigrator = new PIMMigrator(context);
                     pimMigrator.migrateUSRToPIM();
                 } else {
                     mLoggingInterface.log(DEBUG, TAG, "User is already logged in");
                 }
+                PIMSettingManager.getInstance().getPimInitLiveData().removeObserver(observer);
+            }else if(pimInitState == PIMInitState.INIT_FAILED){
+                PIMSettingManager.getInstance().getPimInitLiveData().removeObserver(observer);
             }
         }
     };
