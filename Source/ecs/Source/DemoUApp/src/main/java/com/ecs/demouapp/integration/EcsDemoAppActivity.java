@@ -353,7 +353,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onResponse(OAuthResponse result) {
                     ECSConfig.INSTANCE.setAuthToken(result.getAccessToken());
-                    Log.d("ECS",result.getAccessToken());
+                    Log.d("ECS succ",result.getAccessToken());
 
                     try {
                         mIapInterface.getProductCartCount(EcsDemoAppActivity.this);

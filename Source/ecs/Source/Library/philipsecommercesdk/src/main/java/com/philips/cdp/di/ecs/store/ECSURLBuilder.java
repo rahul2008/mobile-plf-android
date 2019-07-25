@@ -203,9 +203,10 @@ public class ECSURLBuilder extends AbstractStore {
     @Override
     public String getOauthUrl(String janRainID) {
         StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
-        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH);
-        mOauthUrl = String.format(builder.toString(), janRainID);
-        return mOauthUrl;
+        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH)
+        .append("?janrain=").append(janRainID)
+        .append("&grant_type=janrain&client_id=mobile_android&client_secret=secret");
+        return  builder.toString();
     }
 
     @Override
