@@ -71,7 +71,7 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ProductCatalogFragment extends InAppBaseFragment
-        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener, View.OnClickListener {
+        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -79,7 +79,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private TextView mEmptyCatalogText;
 
-    private Label mPrivacy, mPrivacy1;
+    private Label mPrivacy;
     private LinearLayout mPrivacyLayout;
     private View mView;
 
@@ -588,11 +588,4 @@ public class ProductCatalogFragment extends InAppBaseFragment
         CartModelContainer.getInstance().getAppInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
-
-    @Override
-    public void onClick(View view) {
-        Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.IAP_PRIVACY_URL, url);
-        addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
-    }
 }
