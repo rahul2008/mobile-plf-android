@@ -25,6 +25,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_VALUE;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_KEY;
+
 public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;
@@ -57,7 +63,13 @@ public class RegisteredProductsRequest extends PrxRequest {
     @Override
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
-        headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
+       // headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
+
+        headers.put(PROD_REG_APIKEY_KEY,"9a8FEaKygJ6js2fo5TI6P8W1Q06zwZ3x1ow3H1rn");
+        headers.put(PROD_REG_APIVERSION_KEY, "1");
+        headers.put(PROD_REG_AUTHORIZATION_KEY, PROD_REG_AUTHORIZATION_VALUE + getAccessToken());
+
+
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(mServiceId);
         PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
@@ -66,7 +78,11 @@ public class RegisteredProductsRequest extends PrxRequest {
                     public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                         String url = urlMap.get(mServiceId).getConfigUrls();
                         if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
-                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
+                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_CN);
+                        } else {
+                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_EU);
+
+                            ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
                         }
                     }
 

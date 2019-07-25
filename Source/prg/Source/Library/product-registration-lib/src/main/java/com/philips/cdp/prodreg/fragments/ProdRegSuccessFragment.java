@@ -24,7 +24,9 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ProdRegSuccessFragment extends ProdRegBaseFragment {
@@ -99,17 +101,26 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
                 ProdRegTagging.trackAction(AnalyticsConstants.SEND_DATA, AnalyticsConstants.PRODUCT_MODEL_KEY, registeredProduct.getCtn());
 
                 ProdRegUtil prodRegUtil = new ProdRegUtil();
-                String warntyPeriod = prodRegUtil.getDisplayDate(arguments.getString(ProdRegConstants.PROD_REG_WARRANTY));
-                if (warntyPeriod.isEmpty()) {
+                String warantyPeriod = prodRegUtil.getDisplayDate(arguments.getString(ProdRegConstants.PROD_REG_WARRANTY));
+                if (warantyPeriod.isEmpty()||warantyPeriod.equals("0")) {
                     prg_success_thanks_textView.setVisibility(View.GONE);
                 } else {
-                    String defaultString = "  " + warntyPeriod;
+                    String defaultString = "  " + getWarantyPeriod(warantyPeriod);
                     prg_success_thanks_textView.setText(prodRegUtil.generateSpannableText
                             (getString(R.string.PRG_Extended_Warranty_Lbltxt), defaultString));
                     prg_success_thanks_textView.setVisibility(View.VISIBLE);
                 }
             }
         }
+    }
+
+    //Get warranty end date: (From no  of months to date)
+    private String getWarantyPeriod(String warantyPeriod) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, Integer.valueOf(warantyPeriod));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.format(calendar.getTime());
+        return dateFormat.format(calendar.getTime());
     }
 
     @Override
