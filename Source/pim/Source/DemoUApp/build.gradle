@@ -41,6 +41,9 @@ android {
         versionCode 1
         versionName version
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi versions.renderscriptTargetApi
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
@@ -115,10 +118,12 @@ dependencies {
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
         implementation project(strings.pif.projectName)
+        implementation project(strings.usr.projectName)
     } else {
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
         implementation philipsdeps.pif
         implementation philipsdeps.pim
+        implementation philipsdeps.registrationApi
     }
 }

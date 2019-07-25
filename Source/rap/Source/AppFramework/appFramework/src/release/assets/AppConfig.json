@@ -23,8 +23,7 @@
     "ShowCountrySelection": "true"
   },
   "IAP": {
-    "propositionid": "Tuscany2016",
-    "voucherCode.enable": true
+    "propositionid": "Tuscany2016"
   },
   "appinfra": {
     "appidentity.micrositeId": "77000",
@@ -32,7 +31,7 @@
     "appidentity.appState": "STAGING",
     "appUpdate.serviceID": "appinfra.testing.version",
     "appUpdate.autoRefresh": true,
-    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appidentity.serviceDiscoveryEnvironment": "STAGING",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": [
       "bundleId",
@@ -44,7 +43,7 @@
       "DOT-ReceiveMarketingOptIn"
     ],
     "servicediscovery.platformMicrositeId": "70000",
-    "servicediscovery.platformEnvironment": "production",
+    "servicediscovery.platformEnvironment": "staging",
     "timesync.ntp.hosts": [
       "0.pool.ntp.org",
       "1.pool.ntp.org",
