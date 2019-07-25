@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -13,8 +14,15 @@ import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -50,6 +58,8 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.uid.text.utils.UIDClickableSpan;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -69,7 +79,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     private TextView mEmptyCatalogText;
 
-    private TextView mPrivacy;
+    private Label mPrivacy, mPrivacy1;
+    private LinearLayout mPrivacyLayout;
+    private View mView;
 
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
@@ -153,8 +165,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
         mSearchBox = rootView.findViewById(R.id.iap_search_box);
         mBannerLayout = rootView.findViewById(R.id.ll_banner_place_holder);
+        mView = rootView.findViewById(R.id.iap_productDetailsScreen_separator);
+        mPrivacyLayout = rootView.findViewById(R.id.iap_privacyLayout);
         mPrivacy = rootView.findViewById(R.id.iap_privacy);
-        mPrivacy.setOnClickListener(this);
+        privacyTextView(mPrivacy);
 
         if (IAPUtility.getInstance().getBannerView() != null) {
             if (IAPUtility.getInstance().getBannerView().getParent() != null) {
@@ -181,6 +195,35 @@ public class ProductCatalogFragment extends InAppBaseFragment
         checkPrivacyUrl();
 
         return rootView;
+    }
+
+
+    private void privacyTextView(TextView view) {
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                (mContext.getString(R.string.iap_read)));
+        spanTxt.append(" ");
+        spanTxt.append(mContext.getString(R.string.iap_privacy));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                showPrivacyFragment();
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setUnderlineText(true);
+            }
+        }, spanTxt.length() - mContext.getString(R.string.iap_privacy).length(), spanTxt.length(), 0);
+        spanTxt.append(" ");
+        spanTxt.append(mContext.getString(R.string.iap_more_info));
+        mPrivacy.setHighlightColor(Color.TRANSPARENT);
+        view.setMovementMethod(LinkMovementMethod.getInstance());
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE);
+    }
+
+    private void showPrivacyFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.IAP_PRIVACY_URL, url);
+        addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
     }
 
     private void setUpSearch() {
@@ -246,9 +289,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
 
         if(!(ControllerFactory.getInstance().isPlanB()) && (privacyUrl)) {
-            mPrivacy.setVisibility(View.VISIBLE);
+            mPrivacyLayout.setVisibility(View.VISIBLE);
+            mView.setVisibility(View.VISIBLE);
         } else {
-            mPrivacy.setVisibility(View.GONE);
+            mPrivacyLayout.setVisibility(View.GONE);
+            mView.setVisibility(View.GONE);
         }
 
         mAdapter.tagProducts();

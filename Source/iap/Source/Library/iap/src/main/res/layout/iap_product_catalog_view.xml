@@ -44,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:paddingBottom="30dp"
         android:layout_below="@id/iap_ll_search_box" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -56,26 +57,88 @@
         android:textSize="@dimen/iap_product_ctn_12"
         android:visibility="gone" />
 
-    <RelativeLayout
+    <View
+        android:id="@+id/iap_productDetailsScreen_separator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/iap_privacyLayout"
+        android:visibility="gone"
+        android:background="@drawable/uid_shadow_level_two" />
+
+    <LinearLayout
+        android:id="@+id/iap_privacyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/uidColorWhite"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:padding="15dp"
+        android:gravity="end"
+        android:layout_alignParentBottom="true">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/iap_privacy"
+        style="@style/iapCentralesansMediumFont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="all"
+        android:linksClickable="true"
+        android:visibility="visible"
+        android:text="@string/iap_read"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:textSize="@dimen/iap_product_original_price" />
+
+    </LinearLayout>
+
+
+    <!--<LinearLayout
+        android:id="@+id/iap_privacyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
+        android:padding="15dp"
+        android:gravity="right"
         android:layout_alignParentBottom="true">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/iap_privacy"
             style="@style/iapCentralesansMediumFont"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="all"
             android:linksClickable="true"
-            android:layout_alignParentEnd="true"
-            android:text="@string/iap_notice_of_privacy"
-            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+            android:visibility="visible"
+            android:text="@string/iap_read"
+            android:layout_marginEnd="3dp"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:textSize="@dimen/iap_product_original_price" />
 
-    </RelativeLayout>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/iap_privacy1"
+            style="@style/iapCentralesansMediumFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:layout_toEndOf="@id/iap_privacy"
+            android:linksClickable="true"
+            android:visibility="visible"
+            android:text="@string/iap_privacy"
+            android:layout_marginEnd="3dp"
+            android:textColor="?attr/uidHyperlinkDefaultPressedTextColor"
+            android:textSize="@dimen/iap_product_original_price" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/iap_privacy2"
+            style="@style/iapCentralesansMediumFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:layout_toEndOf="@id/iap_privacy1"
+            android:linksClickable="true"
+            android:visibility="visible"
+            android:text="@string/iap_more_info"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
+            android:textSize="@dimen/iap_product_original_price" />
+
+    </LinearLayout>-->
 </RelativeLayout>

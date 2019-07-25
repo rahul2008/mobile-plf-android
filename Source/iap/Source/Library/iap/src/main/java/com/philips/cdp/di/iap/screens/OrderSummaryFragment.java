@@ -60,6 +60,7 @@ import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private RelativeLayout mParentLayout;
     private Button mPayNowBtn;
     private Button mCancelBtn;
-    private TextView mTermsPrivacy;
+    private Label mTermsPrivacy;
 
     public CheckOutHistoryAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -187,7 +188,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         mCancelBtn = rootView.findViewById(R.id.cancel_btn);
         mTermsPrivacy = rootView.findViewById(R.id.iap_terms_privacy);
         mCancelBtn.setOnClickListener(this);
-        customTextView(mTermsPrivacy);
+        termsPrivacyTextView(mTermsPrivacy);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
@@ -196,7 +197,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
     }
 
-    private void customTextView(TextView view) {
+    private void termsPrivacyTextView(TextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(
                 mContext.getString(R.string.iap_read_privacy));
         spanTxt.append(" ");
@@ -209,8 +210,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
             @Override
             public void updateDrawState(TextPaint ds) {
                 ds.setUnderlineText(true);
-                ds.setColor(getResources().getColor(R.color.uid_level_black));
-                ds.setFakeBoldText(true);
             }
         }, spanTxt.length() - mContext.getString(R.string.iap_privacy).length(), spanTxt.length(), 0);
         spanTxt.append(", ");
@@ -226,8 +225,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
             @Override
             public void updateDrawState(TextPaint ds) {
                 ds.setUnderlineText(true);
-                ds.setColor(getResources().getColor(R.color.uid_level_black));
-                ds.setFakeBoldText(true);
             }
         }, spanTxt.length() - mContext.getString(R.string.iap_terms_conditions).length(), spanTxt.length(), 0);
         view.setMovementMethod(LinkMovementMethod.getInstance());
