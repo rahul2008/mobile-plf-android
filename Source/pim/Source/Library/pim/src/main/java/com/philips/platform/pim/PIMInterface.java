@@ -73,7 +73,7 @@ public class PIMInterface implements UappInterface {
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
         pimUserManager.init(context, uappDependencies.getAppInfra());
         PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);
-        pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
+        pimConfigManager.init(uappSettings.getContext(),uappDependencies.getAppInfra().getServiceDiscovery());
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");

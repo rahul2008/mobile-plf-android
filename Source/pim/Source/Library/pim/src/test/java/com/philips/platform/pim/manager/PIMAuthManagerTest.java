@@ -24,7 +24,6 @@ import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 import net.openid.appauth.TokenRequest;
-import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
 import org.junit.After;
@@ -37,9 +36,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
 
 import java.io.Serializable;
 
@@ -56,7 +53,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @PrepareForTest({Uri.class, AuthorizationServiceConfiguration.class, PIMSettingManager.class, PIMAuthManager.class, AuthorizationResponse.class, AuthorizationRequest.Builder.class,
-        AuthorizationRequest.class, AuthorizationException.class,PIMErrorEnums.class})
+        AuthorizationRequest.class, AuthorizationException.class, PIMErrorEnums.class})
 @RunWith(PowerMockRunner.class)
 public class PIMAuthManagerTest extends TestCase {
 
@@ -128,7 +125,7 @@ public class PIMAuthManagerTest extends TestCase {
 
         whenNew(AuthorizationService.class).withArguments(mockContext).thenReturn(mockAuthorizationService);
 
-        pimAuthManager = new PIMAuthManager();
+        pimAuthManager = new PIMAuthManager(mockContext);
     }
 
     @Test
@@ -179,7 +176,7 @@ public class PIMAuthManagerTest extends TestCase {
         when(mockAuthReqBuilder.setAdditionalParameters(anyMap())).thenReturn(mockAuthReqBuilder);
         when(mockAuthorizationService.getAuthorizationRequestIntent(mockAuthorizationRequest)).thenReturn(mockIntent);
         pimAuthManager = new PIMAuthManager(mockContext);
-        Intent intent = pimAuthManager.getAuthorizationRequestIntent(mockAuthorizationServiceConfiguration, "","", anyMap());
+        Intent intent = pimAuthManager.getAuthorizationRequestIntent(mockAuthorizationServiceConfiguration, "", "", anyMap());
         assertEquals(mockIntent, intent);
     }
 //    @Test

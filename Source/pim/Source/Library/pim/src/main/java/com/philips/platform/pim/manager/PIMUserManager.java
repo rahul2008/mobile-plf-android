@@ -46,7 +46,7 @@ public class PIMUserManager {
 
     public enum LOGIN_FLOW {
         DEFAULT,
-        MIGRATION;
+        MIGRATION
     }
 
     public void init(@NonNull Context context, @NonNull AppInfraInterface appInfraInterface) {
@@ -84,7 +84,7 @@ public class PIMUserManager {
         }, error -> {
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
             if (userProfileRequestListener != null)
-                userProfileRequestListener.onUserProfileDownloadFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.NETWORK_ERROR.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
+                userProfileRequestListener.onUserProfileDownloadFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
         });
     }
 
@@ -132,7 +132,7 @@ public class PIMUserManager {
             logoutSessionListener.logoutSessionSuccess();
         }, error -> {
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
-            logoutSessionListener.logoutSessionFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.NETWORK_ERROR.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
+            logoutSessionListener.logoutSessionFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
         });
     }
 

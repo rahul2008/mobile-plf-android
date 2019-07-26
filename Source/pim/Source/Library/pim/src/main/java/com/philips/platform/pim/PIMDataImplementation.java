@@ -148,12 +148,12 @@ public class PIMDataImplementation implements UserDataInterface {
 
     @Override
     public void migrateUserToPIM(UserMigrationListener userMigrationListener) {
-        if(pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN){
+        if (pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             return;
         }
         isInitRequiredAgain = true;
         MutableLiveData<PIMInitState> pimInitLiveData = PIMSettingManager.getInstance().getPimInitLiveData();
-        new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
+        new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(mContext, PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
         pimInitLiveData.observe((FragmentActivity) mContext, new Observer<PIMInitState>() {
             @Override
             public void onChanged(@Nullable PIMInitState pimInitState) {
@@ -163,11 +163,11 @@ public class PIMDataImplementation implements UserDataInterface {
                     pimMigrator.migrateUSRToPIM();
                 } else if (pimInitState == PIMInitState.INIT_FAILED) {
                     if (isInitRequiredAgain) {
-                        new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
+                        new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(mContext, PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
                         isInitRequiredAgain = false;
                     } else {
                         pimInitLiveData.removeObservers((FragmentActivity) mContext);
-                        userMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext,PIMErrorEnums.MIGRATION_FAILED.errorCode)));
+                        userMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
                     }
                 }
             }

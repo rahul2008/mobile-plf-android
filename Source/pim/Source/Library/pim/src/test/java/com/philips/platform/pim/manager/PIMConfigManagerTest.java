@@ -1,6 +1,7 @@
 package com.philips.platform.pim.manager;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
 import android.net.Uri;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -62,7 +63,8 @@ public class PIMConfigManagerTest extends TestCase {
     private PIMUserManager mockPimUserManager;
     @Mock
     private MutableLiveData<PIMInitState> mockPimInitViewModel;
-
+    @Mock
+    private Context mockContext;
 
     @Before
     public void setup() throws Exception {
@@ -88,7 +90,7 @@ public class PIMConfigManagerTest extends TestCase {
      */
     @Test
     public void verifyGetServicesWithCountryPreference_OnSuccess() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -102,14 +104,14 @@ public class PIMConfigManagerTest extends TestCase {
     @Test
     public void verifyLog_IfUserIsLoggedIn() {
         when(mockPimUserManager.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         verify(mockLoggingInterface).log(DEBUG, PIMConfigManager.class.getSimpleName(), "downloadSDServiceURLs skipped as user is logged in. ");
     }
 
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnSuccess_ServiceDiscoveryServiceIsNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -126,7 +128,7 @@ public class PIMConfigManagerTest extends TestCase {
      */
     @Test
     public void verifyGetServicesWithCountryPreference_OnSuccess_ConfigURLIsNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -141,7 +143,7 @@ public class PIMConfigManagerTest extends TestCase {
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnError_NoNetwork_NotNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -154,7 +156,7 @@ public class PIMConfigManagerTest extends TestCase {
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnError_SecurityError_NotNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -167,7 +169,7 @@ public class PIMConfigManagerTest extends TestCase {
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnError_ServerError_NotNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -180,7 +182,7 @@ public class PIMConfigManagerTest extends TestCase {
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnError_CONNECTIONTIMEOUT_NotNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -193,7 +195,7 @@ public class PIMConfigManagerTest extends TestCase {
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnError_INVALIDRESPONSE_NotNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -206,7 +208,7 @@ public class PIMConfigManagerTest extends TestCase {
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnError_UNKNOWNERROR_NotNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
@@ -219,7 +221,7 @@ public class PIMConfigManagerTest extends TestCase {
 
     @Test
     public void verifyGetServicesWithCountryPreference_OnError_NoServiceLocalEreror_NotNull() {
-        pimConfigManager.init(mockServiceDiscoveryInterface);
+        pimConfigManager.init(mockContext, mockServiceDiscoveryInterface);
         runnables.getValue().run();
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();

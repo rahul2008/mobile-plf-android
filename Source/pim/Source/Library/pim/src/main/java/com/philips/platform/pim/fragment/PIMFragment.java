@@ -78,7 +78,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
             if (pimInitState == PIMInitState.INIT_FAILED) {
                 if (isInitRequiredAgain) {
                     enablProgressBar();
-                    new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
+                    new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(mContext, PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
                     isInitRequiredAgain = false;
                 } else {
                     disableProgressBar();

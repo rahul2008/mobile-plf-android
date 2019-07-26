@@ -7,9 +7,7 @@ import android.net.Uri;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.errors.PIMErrorCodes;
-import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
-import com.philips.platform.pim.models.PIMInitViewModel;
 import com.philips.platform.pim.utilities.PIMInitState;
 
 import junit.framework.TestCase;
@@ -42,7 +40,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class PIMOidcDiscoveryManagerTest extends TestCase {
 
     private PIMOidcDiscoveryManager pimOidcDiscoveryManager;
-
+    @Mock
+    private Context mockContext;
     @Mock
     private LoggingInterface mockLoggingInterface;
     @Mock
@@ -77,7 +76,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
 
     @Test
     public void downloadOidUrlTest_onSuccess() {
-        pimOidcDiscoveryManager.downloadOidcUrls(baseurl);
+        pimOidcDiscoveryManager.downloadOidcUrls(mockContext, baseurl);
         verify(mockPimAuthManager).fetchAuthWellKnownConfiguration(any(String.class), captorListener.capture());
         mockServiceConfigurationListener = captorListener.getValue();
         AuthorizationServiceConfiguration mockAuthorizationServiceConfiguration = mock(AuthorizationServiceConfiguration.class);
@@ -88,11 +87,11 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
 
     @Test
     public void downloadOidUrlTest_onError() {
-        pimOidcDiscoveryManager.downloadOidcUrls(baseurl);
+        pimOidcDiscoveryManager.downloadOidcUrls(mockContext, baseurl);
         verify(mockPimAuthManager).fetchAuthWellKnownConfiguration(any(String.class), captorListener.capture());
 
         mockServiceConfigurationListener = captorListener.getValue();
-        Error error = new Error(PIMErrorCodes.NETWORK_ERROR,"Network Error");
+        Error error = new Error(PIMErrorCodes.NETWORK_ERROR, "Network Error");
         mockServiceConfigurationListener.onAuthServiceConfigFailed(error);
         verify(mockLoggingInterface).log(DEBUG, PIMOidcDiscoveryManager.class.getSimpleName(), "fetchAuthWellKnownConfiguration : onAuthServiceConfigFailed :  " + error.getErrDesc());
     }

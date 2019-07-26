@@ -144,7 +144,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void logoutSessionFailed(Error error) {
-                        showToast("Logout Failed");
+                        showToast("Logout Failed due to " + error.getErrCode() + " and error message :" + error.getErrDesc());
                     }
                 });
             } else {
@@ -160,7 +160,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void refreshSessionFailed(Error error) {
-                        showToast("Refresh session failed");
+                        showToast("Refresh session failed due to :" + error.getErrCode() + " and error message :" + error.getErrDesc());
                     }
 
                     @Override
@@ -180,7 +180,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void onUserMigrationFailed(Error error) {
-                    showToast("user migration failed error code = " + error.getErrCode());
+                    showToast("user migration failed error code = " + error.getErrCode() + " error message : " + error.getErrDesc());
                 }
             });
         } else if (v == btnGetUserDetail) {
@@ -199,6 +199,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User Details  are :" + userDetails.toString());
             } catch (UserDataInterfaceException e) {
                 e.printStackTrace();
+                showToast("Error code:" + e.getError().getErrCode() + " Error message :" + e.getError().getErrDesc());
             }
 
         }
