@@ -407,7 +407,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 System.out.println("Configured ECS failed");
             }
         });
-
     }
 
     private void initIAP() {
