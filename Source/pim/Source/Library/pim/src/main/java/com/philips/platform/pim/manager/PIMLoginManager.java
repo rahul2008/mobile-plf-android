@@ -108,6 +108,7 @@ public class PIMLoginManager {
             @Override
             public void onTokenRequestFailed(Error error) {
                 mLoggingInterface.log(DEBUG, TAG, "exchangeAuthorizationCodeForMigration Failed. Error : " + error.getErrDesc());
+                pimUserMigrationListener.onUserMigrationFailed(error);
             }
         });
     }

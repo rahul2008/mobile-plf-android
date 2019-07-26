@@ -42,6 +42,21 @@
         </LinearLayout>
     </ScrollView>
 
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/iap_terms_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/iap_product_original_price"
+        style="@style/iapCentralesansMediumFont"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:layout_above="@+id/pay_now_btn"
+        android:text="@string/iap_terms_privacy"
+        android:linksClickable="true"
+        android:layout_marginTop="5dp"
+        android:lineSpacingExtra="7dp"
+        android:padding="@dimen/iap_shopping_cart_btn_margin"
+        android:autoLink="all" />
+
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/cancel_btn"
         style="@style/iapCentralesansBookFont"
@@ -65,7 +80,7 @@
         android:layout_marginBottom="@dimen/iap_shopping_cart_price_margin_bottom"
         android:layout_marginLeft="@dimen/iap_shopping_cart_btn_margin"
         android:layout_marginRight="@dimen/iap_shopping_cart_btn_margin"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/iap_margin_10dp"
         android:enabled="true"
         android:text="@string/iap_pay_now"
         app:uidComponentType="Primary" />
@@ -74,6 +89,6 @@
         android:id="@+id/iap_productDetailsScreen_separator"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_above="@+id/pay_now_btn"
+        android:layout_above="@+id/iap_terms_privacy"
         android:background="@drawable/uid_shadow_level_two" />
 </RelativeLayout>
