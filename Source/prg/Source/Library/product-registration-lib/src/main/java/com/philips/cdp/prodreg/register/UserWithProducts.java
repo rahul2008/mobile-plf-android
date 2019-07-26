@@ -319,9 +319,11 @@ public class UserWithProducts {
             detailskey.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
             detailskey.add(UserDetailConstants.ACCESS_TOKEN);
             HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailskey);
-            boolean isRcvMrktEmail = (boolean) userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            boolean isRcvMrktEmail = false;
+            if(userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL)!=null){
+                 isRcvMrktEmail = (boolean) userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            }
             String accessToken = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
-
             registrationRequest.setAccessToken(accessToken);
             registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
             registrationRequest.setApiKey(PROD_REG_APIKEY_VALUE);

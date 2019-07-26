@@ -25,11 +25,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_ACCEPT_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_VALUE;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_VALUE;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_VALUE;
 
 public class RegisteredProductsRequest extends PrxRequest {
 
@@ -65,9 +68,10 @@ public class RegisteredProductsRequest extends PrxRequest {
         final Map<String, String> headers = new HashMap<>();
        // headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
 
-        headers.put(PROD_REG_APIKEY_KEY,"9a8FEaKygJ6js2fo5TI6P8W1Q06zwZ3x1ow3H1rn");
+        headers.put(PROD_REG_APIKEY_KEY,PROD_REG_APIKEY_VALUE);
         headers.put(PROD_REG_APIVERSION_KEY, "1");
         headers.put(PROD_REG_AUTHORIZATION_KEY, PROD_REG_AUTHORIZATION_VALUE + getAccessToken());
+
 
 
         ArrayList<String> serviceIDList = new ArrayList<>();

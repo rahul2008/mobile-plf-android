@@ -66,7 +66,7 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
     }
 
     private void registerProduct(final boolean isActivity, final String type) {
-        Product product = new Product("S5420/06", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
+        Product product = new Product("SP9820/87", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         product.setSerialNumber("");
         product.setPurchaseDate("");
         product.setFriendlyName("");

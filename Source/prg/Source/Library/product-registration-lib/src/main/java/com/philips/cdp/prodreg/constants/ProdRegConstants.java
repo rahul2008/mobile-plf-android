@@ -46,8 +46,8 @@ public class ProdRegConstants {
     public static final String ACCESS_TOKEN_KEY = "x-accessToken";
     public static final String CHINA_DOMAIN = "philips.com.cn";
     public static final String CHINA_PROVIDER_KEY = "Authorization-Provider";
-    public static final String CHINA_PROVIDER_VAL_EU = "JANRAIN-EU";
-    public static final String CHINA_PROVIDER_VAL_CN = "JANRAIN-CN";
+    public static final String CHINA_PROVIDER_VAL_EU = "OIDC-EU";
+    public static final String CHINA_PROVIDER_VAL_CN = "OIDC-CN";
     public static final String PRG_SUFFIX= "prg";
     public static final String PROD_REG_CTN="ctn_number";
     public static final String PROD_REG_TITLE="prod_title";
