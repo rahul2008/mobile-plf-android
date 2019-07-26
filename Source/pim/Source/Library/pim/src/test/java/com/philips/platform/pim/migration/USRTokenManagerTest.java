@@ -5,6 +5,7 @@ import android.support.v4.util.Pair;
 import android.text.Html;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -17,6 +18,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
@@ -46,6 +48,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
+
+import javax.crypto.spec.SecretKeySpec;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
@@ -115,7 +119,7 @@ public class USRTokenManagerTest extends TestCase {
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
         when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
-        when(mockAppInfraInterface.getRestClient()).thenReturn(mockRestInterface);
+        when(mockPimSettingManager.getRestClient()).thenReturn(mockRestInterface);
         when(mockRestInterface.getRequestQueue()).thenReturn(mockRequestQueue);
         when(mockAppInfraInterface.getSecureStorage()).thenReturn(mockSecureStorageInterface);
         when(mockAppInfraInterface.getServiceDiscovery()).thenReturn(mockServiceDiscoveryInterface);
@@ -196,15 +200,36 @@ public class USRTokenManagerTest extends TestCase {
     @Test
     public void testRefreshUSRTokenRequest() throws Exception {
         String refreshUrl = "https://philips.eval.janraincapture.com" + "/oauth/refresh_access_token";
-        when(spyUsrTokenManager,"paramsToString",any()).thenReturn(anyString());
-        Whitebox.invokeMethod(usrTokenManager,"makeRefreshUSRTokenRequest",refreshUrl,mockRefreshUSRTokenListener,any());
+        Whitebox.setInternalState(usrTokenManager, "signedInUser", signedUserData());
         RefreshUSRTokenRequest mockUsrTokenRequest = mock(RefreshUSRTokenRequest.class);
-        whenNew(RefreshUSRTokenRequest.class).withArguments(anyString(), anyString()).thenReturn(mockUsrTokenRequest);
+        //whenNew(RefreshUSRTokenRequest.class).withArguments(eq(refreshUrl), anyString()).thenReturn(mockUsrTokenRequest);
+        whenNew(RefreshUSRTokenRequest.class).withAnyArguments().thenReturn(mockUsrTokenRequest);
         PIMRestClient mockPimRestClient = mock(PIMRestClient.class);
+        PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
-        verify(mockPimRestClient).invokeRequest(eq(mockUsrTokenRequest),captorResponseListener.capture(),captorErrorListener.capture());
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        Whitebox.invokeMethod(usrTokenManager, "refreshUSRAccessToken", refreshUrl, "en-US", mockRefreshUSRTokenListener);
+        verify(mockPimRestClient).invokeRequest(eq(mockUsrTokenRequest), captorResponseListener.capture(), captorErrorListener.capture());
+
         Response.Listener<String> responseListener = captorResponseListener.getValue();
-        responseListener.onResponse(null);
+        responseListener.onResponse(getRefreshTokenResponse());
+        verify(mockRefreshUSRTokenListener).onRefreshTokenSuccess(anyString());
+
+        Response.ErrorListener errorListener = captorErrorListener.getValue();
+        VolleyError volleyError = new VolleyError();
+        errorListener.onErrorResponse(volleyError);
+        verify(mockRefreshUSRTokenListener).onRefreshTokenFailed(any(Error.class));
+
+        responseListener.onResponse(new JsonObject().toString());
+        //verify(mockRefreshUSRTokenListener).onRefreshTokenFailed(any(Error.class));
+    }
+
+    @Test
+    public void testParamToStringThrowException() throws Exception {
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        HashSet<Pair<String, String>> params = Whitebox.invokeMethod(usrTokenManager, "getParams", "en-US", datetime, accessToken);
+        Whitebox.invokeMethod(usrTokenManager,"paramsToString",params,"UTF");
     }
 
     @Test
@@ -228,6 +253,15 @@ public class USRTokenManagerTest extends TestCase {
         String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime, accessToken);
         verify(mockLoggingInterface).log(DEBUG, TAG, "refresh secret is null");
     }
+
+    @Test
+    public void testGetRefreshSignatureThrowInvalidKeyException() throws Exception {
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        whenNew(SecretKeySpec.class).withAnyArguments().thenReturn(null);
+        Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime, accessToken);
+    }
+
 
     @Test
     public void testParseLocale() throws Exception {
@@ -311,11 +345,17 @@ public class USRTokenManagerTest extends TestCase {
         }
     }
 
-    private Object usrClientIds() {
-        return "\"JanRainConfiguration.RegistrationClientID\": {\n" +
-                "      \"CN\": \"4rdpm7afu7bny6xnacw32etmt7htfraa\",\n" +
-                "      \"default\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"\n" +
-                "    }";
+    private String getRefreshTokenResponse() {
+        String path = "src/test/rs/usr_refreshtoken_response.json";
+        File file = new File(path);
+        try {
+            JsonParser jsonParser = new JsonParser();
+            Object obj = jsonParser.parse(new FileReader(file));
+            JsonObject jsonObject = (JsonObject) obj;
+            return jsonObject.toString();
+        } catch (FileNotFoundException e) {
+            return null;
+        }
     }
 
     @After

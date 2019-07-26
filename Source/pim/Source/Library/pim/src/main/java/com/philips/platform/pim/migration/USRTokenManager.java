@@ -1,6 +1,7 @@
 package com.philips.platform.pim.migration;
 
 import android.annotation.TargetApi;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 
@@ -107,8 +108,8 @@ class USRTokenManager {
         }
     }
 
-
-    private <L, R> Collection<L> map(Collection<R> collection, Function<L, R> f) {
+    @VisibleForTesting
+    <L, R> Collection<L> map(Collection<R> collection, Function<L, R> f) {
         Collection<L> retCollection;
         try {
             retCollection = collection.getClass().newInstance();
@@ -123,12 +124,13 @@ class USRTokenManager {
         return retCollection;
     }
 
-    private String paramsToString(Set<Pair<String, String>> bodyParams) {
+    private String paramsToString(Set<Pair<String, String>> bodyParams, String encoder) {
         Collection<String> paramPairs = map(bodyParams, val -> {
             try {
-                return val.first.concat("=").concat(URLEncoder.encode(val.second, "UTF-8"));
+                return val.first.concat("=").concat(URLEncoder.encode(val.second, encoder));
             } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e.getMessage());
+                mLoggingInterface.log(DEBUG, TAG, "paramsToString failed with error : " + e.getMessage());
+                return null;
             }
         });
         return TextUtils.join("&", paramPairs);
@@ -150,7 +152,7 @@ class USRTokenManager {
     }
 
     private void makeRefreshUSRTokenRequest(String refreshUrl, RefreshUSRTokenListener refreshUSRTokenListener, HashSet<Pair<String, String>> params) {
-        RefreshUSRTokenRequest refreshLegacyTokenRequest = new RefreshUSRTokenRequest(refreshUrl, paramsToString(params));
+        RefreshUSRTokenRequest refreshLegacyTokenRequest = new RefreshUSRTokenRequest(refreshUrl, paramsToString(params, "UTF-8"));
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         pimRestClient.invokeRequest(refreshLegacyTokenRequest, response -> {
             try {
@@ -158,8 +160,6 @@ class USRTokenManager {
                 String usrAccessToken = tokenObject.getString("access_token");
                 mLoggingInterface.log(DEBUG, TAG, "Refresh USR token success. New Access Token :" + usrAccessToken);
                 refreshUSRTokenListener.onRefreshTokenSuccess(usrAccessToken);
-                //Perform Id assertion with user access token which
-                //performIDAssertion(usrAccessToken);
             } catch (JSONException e) {
                 refreshUSRTokenListener.onRefreshTokenFailed(new Error(e.hashCode(), e.getMessage()));
             }
@@ -204,7 +204,7 @@ class USRTokenManager {
     private String getRefreshSignature(String date, String accessToken) {
         String refresh_secret = fetchDataFromSecureStorage(JR_CAPTURE_REFRESH_SECRET);
         if (refresh_secret == null) {
-            mLoggingInterface.log(DEBUG,TAG,"refresh secret is null");
+            mLoggingInterface.log(DEBUG, TAG, "refresh secret is null");
             return null;
         }
         String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
@@ -216,7 +216,8 @@ class USRTokenManager {
             mac.init(secret);
             hash = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
         } catch (InvalidKeyException | NoSuchAlgorithmException var7) {
-            throw new RuntimeException("Unexpected", var7);
+            mLoggingInterface.log(DEBUG, TAG, "getRefreshSignature failed");
+            return null;
         }
         //return Base64.encodeToString(hash, 2);
         return java.util.Base64.getEncoder().encodeToString(hash);
