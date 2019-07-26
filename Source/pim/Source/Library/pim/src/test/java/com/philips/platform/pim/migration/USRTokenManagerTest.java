@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.v4.util.Pair;
 import android.text.Html;
 
+import com.android.volley.Response;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -19,6 +20,8 @@ import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
+import com.philips.platform.pim.rest.PIMRestClient;
+import com.philips.platform.pim.rest.RefreshUSRTokenRequest;
 
 import junit.framework.TestCase;
 
@@ -46,6 +49,7 @@ import java.util.Map;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -91,6 +95,12 @@ public class USRTokenManagerTest extends TestCase {
     private AppConfigurationInterface mockAppConfigurationInterface;
     @Mock
     private TimeInterface mockTimeInterface;
+    @Mock
+    RestInterface mockRestInterface;
+    @Captor
+    private ArgumentCaptor<Response.Listener<String>> captorResponseListener;
+    @Captor
+    private ArgumentCaptor<Response.ErrorListener> captorErrorListener;
 
     private USRTokenManager spyUsrTokenManager;
     private String accessToken = "vsu46sctqqpjwkbn";
@@ -101,7 +111,6 @@ public class USRTokenManagerTest extends TestCase {
         super.setUp();
         MockitoAnnotations.initMocks(this);
         mockStatic(PIMSettingManager.class);
-        RestInterface mockRestInterface = mock(RestInterface.class);
         RequestQueue mockRequestQueue = mock(RequestQueue.class);
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
@@ -185,10 +194,18 @@ public class USRTokenManagerTest extends TestCase {
     }
 
     @Test
-    public void testRefreshUSRTokenRequest(){
-
+    public void testRefreshUSRTokenRequest() throws Exception {
+        String refreshUrl = "https://philips.eval.janraincapture.com" + "/oauth/refresh_access_token";
+        when(spyUsrTokenManager,"paramsToString",any()).thenReturn(anyString());
+        Whitebox.invokeMethod(usrTokenManager,"makeRefreshUSRTokenRequest",refreshUrl,mockRefreshUSRTokenListener,any());
+        RefreshUSRTokenRequest mockUsrTokenRequest = mock(RefreshUSRTokenRequest.class);
+        whenNew(RefreshUSRTokenRequest.class).withArguments(anyString(), anyString()).thenReturn(mockUsrTokenRequest);
+        PIMRestClient mockPimRestClient = mock(PIMRestClient.class);
+        whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
+        verify(mockPimRestClient).invokeRequest(eq(mockUsrTokenRequest),captorResponseListener.capture(),captorErrorListener.capture());
+        Response.Listener<String> responseListener = captorResponseListener.getValue();
+        responseListener.onResponse(null);
     }
-
 
     @Test
     public void testGetParams() throws Exception {
