@@ -1,5 +1,6 @@
 package com.philips.cdp.di.ecs;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.OAuthInput;
@@ -124,8 +125,8 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void addProductToShoppingCart(Product product ,ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        mECSManager.addProductToShoppingCart(product,ecsCallback);
+    public void addProductToShoppingCart(Context context,Product product , ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        mECSManager.addProductToShoppingCart(context,product,ecsCallback);
     }
 
 }

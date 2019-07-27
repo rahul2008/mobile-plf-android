@@ -237,7 +237,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void addProductToCart(Product product, final ECSCartListener
             iapHandlerListener) {
 
-        ECSUtility.getInstance().getEcsServices().addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
+        ECSUtility.getInstance().getEcsServices().addProductToShoppingCart(mContext,product, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 iapHandlerListener.onSuccess(result);

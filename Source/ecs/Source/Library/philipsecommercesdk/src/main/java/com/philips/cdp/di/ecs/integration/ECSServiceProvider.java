@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.integration;
 
 
+import android.content.Context;
+
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -64,5 +66,5 @@ public interface ECSServiceProvider {
 
     void createShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
 
-    void addProductToShoppingCart(Product product ,ECSCallback<ECSShoppingCart, Exception> ecsCallback);
+    void addProductToShoppingCart(Context context ,Product product , ECSCallback<ECSShoppingCart, Exception> ecsCallback);
 }

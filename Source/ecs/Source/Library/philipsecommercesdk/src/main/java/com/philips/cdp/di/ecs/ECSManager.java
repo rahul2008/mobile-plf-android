@@ -1,5 +1,7 @@
 package com.philips.cdp.di.ecs;
 
+import android.content.Context;
+
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
@@ -380,7 +382,7 @@ public class ECSManager {
     }
 
     // AddProduct to Cart
-    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void addProductToShoppingCart(Context context,Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
 
         new AddProductToCartRequest(product.getCode(), new ECSCallback<Boolean, Exception>() {
             @Override
@@ -411,7 +413,7 @@ public class ECSManager {
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
                 ecsCallback.onFailure(error, detailErrorMessage, errorCode);
             }
-        }).executeRequest();
+        }, context).executeRequest();
 
     }
 

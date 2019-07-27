@@ -1,5 +1,7 @@
 package com.philips.cdp.di.ecs;
 
+import android.content.Context;
+
 import com.philips.cdp.di.ecs.Cart.MockCreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.Oath.MockOAuthRequest;
@@ -60,15 +62,15 @@ public class MockECSManager extends ECSManager {
                             }
 
                             @Override
-                            public void onFailure(Exception error, int errorCode) {
+                            public void onFailure(Exception error,String errorMessage, int errorCode) {
 
                             }
                        }).executeRequest();
                     }
 
                     @Override
-                    public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(error,errorCode);
+                    public void onFailure(Exception error,String errorMessage, int errorCode) {
+                        ecsCallback.onFailure(error,errorMessage,errorCode);
 
                     }
                 });
@@ -97,7 +99,7 @@ public class MockECSManager extends ECSManager {
                     }
 
                     @Override
-                    public void onFailure(Exception error, int errorCode) {
+                    public void onFailure(Exception error,String errorMessage, int errorCode) {
                         // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
                         ecsCallback.onResponse(product);
                     }
@@ -106,9 +108,9 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error,String errorMessage, int errorCode) {
                 // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
-                ecsCallback.onFailure(error,errorCode);
+                ecsCallback.onFailure(error,errorMessage,errorCode);
             }
         }).executeRequest();
     }
@@ -129,7 +131,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        super.addProductToShoppingCart(product, ecsCallback);
+    public void addProductToShoppingCart(Context context,Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        super.addProductToShoppingCart(context,product, ecsCallback);
     }
 }
