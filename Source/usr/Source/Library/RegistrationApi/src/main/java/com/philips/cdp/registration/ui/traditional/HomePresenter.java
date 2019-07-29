@@ -4,6 +4,8 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -49,6 +51,7 @@ import io.reactivex.schedulers.Schedulers;
 import static com.philips.cdp.registration.app.tagging.AppTagging.trackPage;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_FACEBOOK;
 import static com.philips.cdp.registration.ui.utils.RegConstants.SOCIAL_PROVIDER_WECHAT;
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.AIL_HOME_COUNTRY;
 
 public class HomePresenter implements NetworkStateListener, SocialLoginProviderHandler, EventListener {
 
@@ -68,7 +71,7 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
     @Inject
     User user;
-
+    CountryUpdateReceiver countryUpdateReceiver;
 
     private HomeContract homeContract;
 
@@ -329,14 +332,31 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
 
     void onSelectCountry(String countryName, String code) {
         setFlowDeligate(HomePresenter.FLOWDELIGATE.DEFAULT);
+        countryUpdateReceiver = new CountryUpdateReceiver(countryName);
+        serviceDiscoveryInterface.registerOnHomeCountrySet(countryUpdateReceiver);
         if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(code);
-            RegistrationHelper.getInstance().setCountryCode(code);
-            homeContract.countryChangeStarted();
-            getLocaleServiceDiscovery(countryName);
         }
     }
 
+    public class CountryUpdateReceiver extends BroadcastReceiver {
+        private String countryName;
+
+        public CountryUpdateReceiver(String countryName) {
+            this.countryName = countryName;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(ServiceDiscoveryInterface.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION)) {
+                String countryCode = (String) intent.getExtras().get(AIL_HOME_COUNTRY);
+                Log.v(getClass() + "", "Home country changed to " + countryCode);
+                RegistrationHelper.getInstance().setCountryCode(countryCode);
+                homeContract.countryChangeStarted();
+                getLocaleServiceDiscovery(countryName);
+            }
+        }
+    }
 
     void registerFaceBookCallBack() {
         homeContract.getURFaceBookUtility().registerFaceBookCallBack();

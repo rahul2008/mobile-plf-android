@@ -1,5 +1,7 @@
 package com.philips.cdp.di.iap.integration;
 
+import android.text.TextUtils;
+
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -24,11 +26,17 @@ public class IAPServiceDiscoveryWrapper {
     ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
     private ServiceDiscoveryInterface serviceDiscoveryInterface;
     private boolean isCartVisible;
+    private static final String IAP_PRIVACY_URL = "iap.privacyPolicy";
+    private static final String IAP_TERMS_URL = "iap.termOfUse";
+    private static final String IAP_BASE_URL = "iap.baseurl";
 
     IAPServiceDiscoveryWrapper(IAPSettings pIAPSettings) {
         mIAPSettings = pIAPSettings;
         listOfServiceId = new ArrayList<>();
-        listOfServiceId.add("iap.baseurl");
+        listOfServiceId.add(IAP_BASE_URL);
+        listOfServiceId.add(IAP_PRIVACY_URL);
+        listOfServiceId.add(IAP_TERMS_URL);
+
         AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
         serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
@@ -44,14 +52,28 @@ public class IAPServiceDiscoveryWrapper {
                 Collection<ServiceDiscoveryService> collection = map.values();
 
 
-
                 List<ServiceDiscoveryService> list = new ArrayList<>();
                 list.addAll(collection);
-                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
+
+                ServiceDiscoveryService discoveryService = map.get(IAP_PRIVACY_URL);
+                String privacyUrl = discoveryService.getConfigUrls();
+                if(privacyUrl != null) {
+                    IAPUtility.getInstance().setPrivacyUrl(privacyUrl);
+                }
+
+                ServiceDiscoveryService service = map.get(IAP_TERMS_URL);
+                String termsUrl = service.getConfigUrls();
+                if(termsUrl != null) {
+                    IAPUtility.getInstance().setTermsUrl(termsUrl);
+                }
+
+                ServiceDiscoveryService serviceDiscoveryService = map.get(IAP_BASE_URL);
 
                 pIAPHandler.initIAPRequisite();
                 String locale = serviceDiscoveryService.getLocale();
                 String configUrls = serviceDiscoveryService.getConfigUrls();
+
+
                 if (locale != null) {
                     setLangAndCountry(locale);
                 }
