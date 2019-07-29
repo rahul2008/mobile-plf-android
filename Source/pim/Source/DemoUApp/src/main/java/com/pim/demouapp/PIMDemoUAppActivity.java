@@ -48,7 +48,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession,btnMigrator;
+    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator;
     private Switch aSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
@@ -75,6 +75,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnLogout.setOnClickListener(this);
         btnRefreshSession = findViewById(R.id.btn_RefreshSession);
         btnRefreshSession.setOnClickListener(this);
+        btnISOIDCToken = findViewById(R.id.btn_IsOIDCToken);
+        btnISOIDCToken.setOnClickListener(this);
         btnMigrator = findViewById(R.id.btn_MigrateUser);
         btnMigrator.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
@@ -113,7 +115,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         getTheme().applyStyle(themeIndex, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
     }
-
 
 
     @Override
@@ -174,7 +175,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
-        } else if(v == btnMigrator){
+        } else if (v == btnMigrator) {
             userDataInterface.migrateUserToPIM(new UserMigrationListener() {
                 @Override
                 public void onUserMigrationSuccess() {
@@ -186,6 +187,13 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                     showToast("user migration failed");
                 }
             });
+        } else if (v == btnISOIDCToken) {
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                boolean oidcToken = userDataInterface.isOIDCToken();
+                showToast("isOIDCToken : " + oidcToken);
+            } else {
+                showToast("User is not loged-in, Please login!");
+            }
         }
     }
 

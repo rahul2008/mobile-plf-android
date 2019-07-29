@@ -93,6 +93,13 @@ public class PIMDataImplementation implements UserDataInterface {
         pimUserManager.refreshSession(getRefreshSessionListener(refreshSessionListener));
     }
 
+    @Override
+    public boolean isOIDCToken() {
+        if(pimUserManager.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN)
+            return true;
+        return false;
+    }
+
     private RefreshSessionListener getRefreshSessionListener(RefreshSessionListener refreshSessionListener) {
         return new RefreshSessionListener() {
             @Override

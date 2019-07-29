@@ -57,10 +57,19 @@
             android:text="Refresh Session" />
 
         <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/btn_MigrateUser"
+            android:id="@+id/btn_IsOIDCToken"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_logout"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp"
+            android:text="Check OIDC Token" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_MigrateUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_IsOIDCToken"
             android:layout_centerInParent="true"
             android:layout_margin="5dp"
             android:text="Migrate user to PIM" />
