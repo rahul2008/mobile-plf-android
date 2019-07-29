@@ -16,7 +16,7 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
-import com.philips.cdp.di.ecs.request.ECSUpdateCartQuantityRequest;
+import com.philips.cdp.di.ecs.request.UpdateCartQuantityRequest;
 import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.AddProductToCartRequest;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
@@ -399,7 +399,7 @@ public class ECSManager {
 
     public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
 
-        new ECSUpdateCartQuantityRequest(new ECSCallback<Boolean, Exception>() {
+        new UpdateCartQuantityRequest(new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
 

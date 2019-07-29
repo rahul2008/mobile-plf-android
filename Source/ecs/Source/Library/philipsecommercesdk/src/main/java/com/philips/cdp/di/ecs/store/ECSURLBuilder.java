@@ -387,11 +387,17 @@ public class ECSURLBuilder extends AbstractStore {
         return String.format(mGetPhoneContactUrl, category);
     }
 
-    //carts/current/vouchers?lang=en_US
     @Override
     public String getApplyVoucherUrl() {
-        Log.v("voucher: ",mApplyVoucherUrl);
-        return mApplyVoucherUrl;
+        //POST /pilcommercewebservices/v2/DE_Pub/users/current/carts/current/vouchers?lang=de_DE
+       return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+               ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+               USER+SEPERATOR+
+               SUFFIX_CURRENT+SEPERATOR+
+               SUFFIX_CARTS+SEPERATOR+
+               SUFFIX_CURRENT+SEPERATOR+
+               SUFFIX_VOUCHERS+SUFFIX_LANG_QUESTION+
+               ECSConfig.INSTANCE.getLocale();
     }
 
     @Override

@@ -238,8 +238,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_APPLY_VOUCHER)) {
             VoucherFragment voucherFragment = new VoucherFragment();
             Bundle bundle = new Bundle();
-            //TODO
-           // bundle.putString(IAP_VOUCHER_CODE, mData.get(0).getAppliedVoucherCode());
+
+            bundle.putString(IAP_VOUCHER_CODE,ecsShoppingCart.getAppliedVouchers().get(0).getVoucherCode());
+            //TODo :- Need to send applied coucher code lists
             voucherFragment.setArguments(bundle);
             addFragment(voucherFragment, VoucherFragment.TAG, true);
         }
@@ -337,6 +338,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onLoadFinished(ArrayList<?> data) {
 
+        mVoucherController.applyCoupon(voucherCode);
+
        /* if (data!=null && data instanceof ArrayList) {
             hideProgressBar();
             mData = (ArrayList<ShoppingCartData>) data;
@@ -365,7 +368,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             mAddressController.getDeliveryModes();
         }
         if(voucherCode!=null) {
-            mVoucherController.applyCoupon(voucherCode);
+
             Utility.setVoucherCode(null);
             voucherCode=null;
         }

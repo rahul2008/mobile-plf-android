@@ -39,9 +39,6 @@ public class GetApplyVoucherRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
-        //https://acc.us.pil.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/kiipphilips@gmail.com/carts/current/vouchers?lang=en_US
-
-        //https://acc.us.pil.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/iapstg112@mailinator.com/carts/current/vouchers?lang=en_US
         return store.getApplyVoucherUrl();
     }
 }

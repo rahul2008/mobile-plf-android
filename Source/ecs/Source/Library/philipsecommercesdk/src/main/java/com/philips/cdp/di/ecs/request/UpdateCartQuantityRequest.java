@@ -12,13 +12,13 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ECSUpdateCartQuantityRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
+public class UpdateCartQuantityRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
     private final ECSCallback<Boolean, Exception> ecsCallback;
     private final EntriesEntity entriesEntity;
     private final int quantity;
 
-    public ECSUpdateCartQuantityRequest(ECSCallback<Boolean, Exception> ecsCallback, EntriesEntity entriesEntity, int quantity) {
+    public UpdateCartQuantityRequest(ECSCallback<Boolean, Exception> ecsCallback, EntriesEntity entriesEntity, int quantity) {
         this.ecsCallback = ecsCallback;
         this.entriesEntity = entriesEntity;
         this.quantity = quantity;
