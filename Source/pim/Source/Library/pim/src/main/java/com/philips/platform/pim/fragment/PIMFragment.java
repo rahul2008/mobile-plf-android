@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.PIMLoginListener;
@@ -25,6 +26,7 @@ import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.utilities.PIMInitState;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.Formatter;
 
@@ -44,6 +46,9 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
     private ProgressBar pimLoginProgreassBar;
     private boolean isInitRequiredAgain = true;
     private MutableLiveData<PIMInitState> liveData;
+    private ActionBarListener mActionbarUpdateListener;
+    private UserLoginListener mUserLoginListener;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +66,11 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         return view;
     }
 
+    public void setActionbarListener(ActionBarListener actionbarListener, UserLoginListener userLoginListener) {
+        mActionbarUpdateListener = actionbarListener;
+        mUserLoginListener = userLoginListener;
+    }
+
     final Observer<PIMInitState> initStateObserver = new Observer<PIMInitState>() {
         @Override
         public void onChanged(@Nullable PIMInitState pimInitState) {
@@ -68,7 +78,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
             if (pimInitState == PIMInitState.INIT_FAILED) {
                 if (isInitRequiredAgain) {
                     enablProgressBar();
-                    new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
+                    new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(mContext, PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
                     isInitRequiredAgain = false;
                 } else {
                     disableProgressBar();
@@ -142,11 +152,13 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
     @Override
     public void onLoginSuccess() {
         disableProgressBar();
+        mUserLoginListener.onLoginSuccess();
     }
 
     @Override
     public void onLoginFailed(Error error) {
         disableProgressBar();
+        mUserLoginListener.onLoginFailed(error);
     }
 
     @Override

@@ -73,7 +73,7 @@ public class PIMInterface implements UappInterface {
         PIMSettingManager.getInstance().setPimUserManager(pimUserManager);
         pimUserManager.init(context, uappDependencies.getAppInfra());
         PIMConfigManager pimConfigManager = new PIMConfigManager(pimUserManager);
-        pimConfigManager.init(uappDependencies.getAppInfra().getServiceDiscovery());
+        pimConfigManager.init(uappSettings.getContext(),uappDependencies.getAppInfra().getServiceDiscovery());
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
@@ -117,6 +117,7 @@ public class PIMInterface implements UappInterface {
 
     private void launchAsFragment(FragmentLauncher uiLauncher, PIMLaunchInput pimLaunchInput) {
         PIMFragment pimFragment = new PIMFragment();
+        pimFragment.setActionbarListener(uiLauncher.getActionbarListener(),pimLaunchInput.getUserLoginListener());
         addFragment(uiLauncher, pimFragment);
     }
 
