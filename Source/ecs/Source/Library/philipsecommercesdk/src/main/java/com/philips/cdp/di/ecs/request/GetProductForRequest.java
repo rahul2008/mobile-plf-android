@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -18,7 +19,7 @@ import org.json.JSONObject;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
-public class GetProductForRequest extends AppInfraAbstractRequest {
+public class GetProductForRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
     private String ctn;
     private final ECSCallback<Product, Exception> ecsCallback;
@@ -86,5 +87,10 @@ public class GetProductForRequest extends AppInfraAbstractRequest {
                 })
                 .create();
         return gson;
+    }
+
+    @Override
+    public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
+        return this;
     }
 }

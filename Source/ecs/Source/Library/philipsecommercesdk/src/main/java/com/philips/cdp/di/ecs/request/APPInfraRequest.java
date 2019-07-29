@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public interface APPInfraJSONRequest extends Response.Listener<JSONObject>,Response.ErrorListener,TokenProviderInterface{
+public interface APPInfraRequest extends Response.ErrorListener,TokenProviderInterface{
 
     int getMethod();
 
@@ -16,6 +16,7 @@ public interface APPInfraJSONRequest extends Response.Listener<JSONObject>,Respo
     JSONObject getJSONRequest();
 
     com.android.volley.Response.Listener<JSONObject> getJSONSuccessResponseListener();
+    com.android.volley.Response.Listener<String> getStringSuccessResponseListener();
 
     Response.ErrorListener getJSONFailureResponseListener();
 
@@ -24,7 +25,4 @@ public interface APPInfraJSONRequest extends Response.Listener<JSONObject>,Respo
     Map<String, String> getParams();
 
     com.philips.platform.appinfra.rest.TokenProviderInterface getTokenProviderInterface();
-
-
-
 }

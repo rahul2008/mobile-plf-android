@@ -27,6 +27,7 @@ import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 
 
 import org.json.JSONObject;
@@ -50,6 +51,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         void onLoadFinished(ArrayList<? extends Object> data);
         void onLoadError(Message msg);
         void onRetailerError(IAPNetworkError errorMsg);
+        void onLoadFinished(ECSShoppingCart data);
     }
 
     public AbstractShoppingCartPresenter() {

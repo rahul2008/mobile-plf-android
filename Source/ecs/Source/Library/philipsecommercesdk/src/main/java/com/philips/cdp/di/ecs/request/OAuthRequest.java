@@ -25,7 +25,7 @@ import java.util.Map;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
-public class OAuthRequest extends AppInfraAbstractRequest  {
+public class OAuthRequest extends AppInfraAbstractRequest  implements Response.Listener<JSONObject>{
 
     private final ECSCallback<OAuthResponse,Exception> ecsCallback;
     private final  OAuthInput oAuthInput;
@@ -121,5 +121,10 @@ public class OAuthRequest extends AppInfraAbstractRequest  {
             location = volleyError.networkResponse.headers.get("Location");
         }
         return location;
+    }
+
+    @Override
+    public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
+        return this;
     }
 }

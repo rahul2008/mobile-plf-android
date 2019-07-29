@@ -1,7 +1,5 @@
 package com.philips.cdp.di.ecs;
 
-import android.content.Context;
-
 import com.philips.cdp.di.ecs.Cart.MockCreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.Oath.MockOAuthRequest;
@@ -19,9 +17,6 @@ import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
-
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 
 public class MockECSManager extends ECSManager {
 
@@ -131,7 +126,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void addProductToShoppingCart(Context context,Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        super.addProductToShoppingCart(context,product, ecsCallback);
+    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        super.addProductToShoppingCart(product, ecsCallback);
     }
 }

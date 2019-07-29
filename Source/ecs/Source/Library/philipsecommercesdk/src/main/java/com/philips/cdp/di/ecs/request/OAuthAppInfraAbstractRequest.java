@@ -1,5 +1,6 @@
 package com.philips.cdp.di.ecs.request;
 
+import com.android.volley.Response;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
@@ -22,6 +23,6 @@ public abstract class OAuthAppInfraAbstractRequest extends AppInfraAbstractReque
 
     @Override
     public TokenProviderInterface getTokenProviderInterface() {
-        return this::getToken;
+        return this;
     }
 }

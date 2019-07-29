@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -22,7 +23,7 @@ import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 
-public class GetProductListRequest extends AppInfraAbstractRequest {
+public class GetProductListRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
     private final int currentPage;
     private int pageSize = 20;
@@ -83,5 +84,10 @@ public class GetProductListRequest extends AppInfraAbstractRequest {
         }else{
             ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), null,4999);
         }
+    }
+
+    @Override
+    public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
+        return this;
     }
 }

@@ -246,10 +246,11 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getUpdateProductUrl(String productID) {
-
         return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
                 +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
                 +USER+SEPERATOR
+                +SUFFIX_CURRENT+SEPERATOR
+                +SUFFIX_CARTS+SEPERATOR
                 +SUFFIX_CURRENT+SEPERATOR
                 +SUFFIX_ENTRIES+SEPERATOR
                 +productID+FIELDS_FULL_LANG

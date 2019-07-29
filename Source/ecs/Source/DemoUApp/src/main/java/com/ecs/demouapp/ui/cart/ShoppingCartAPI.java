@@ -6,12 +6,16 @@ package com.ecs.demouapp.ui.cart;
 
 import android.content.Context;
 
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
 
 public interface ShoppingCartAPI {
     void getCurrentCartDetails();
 
     void deleteProduct(ShoppingCartData summary);
+
+    void deleteProduct(EntriesEntity entriesEntity);
+    void updateProductQuantity(EntriesEntity entriesEntity, int count);
 
     void updateProductQuantity(ShoppingCartData data, int count, int quantityStatus);
 

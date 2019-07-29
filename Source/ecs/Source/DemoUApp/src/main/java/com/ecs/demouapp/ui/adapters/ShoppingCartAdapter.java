@@ -35,10 +35,13 @@ import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.CountDropDown;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_APPLY_VOUCHER;
 
@@ -49,10 +52,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int TYPE_FOOTER = 2;
     private final Context mContext;
     private final Resources mResources;
-    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
+    private ECSShoppingCart mData ;
     private final OutOfStockListener mOutOfStock;
     private UIPicker mPopupWindow;
-    private ShoppingCartData shoppingCartDataForProductDetailPage;
+    private EntriesEntity shoppingCartDataForProductDetailPage;
 
     private Drawable countArrow;
     private boolean mIsFreeDelivery;
@@ -61,15 +64,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int mNewCount;
     private FooterShoppingCartViewHolder shoppingCartFooter;
 
+    private List<EntriesEntity> entries ;
+
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
     }
 
-    public ShoppingCartAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData,
+    public ShoppingCartAdapter(Context context, ECSShoppingCart mData,
                                OutOfStockListener isOutOfStock) {
         mContext = context;
         mResources = context.getResources();
-        mData = shoppingCartData;
+        this.mData = mData;
+        this.entries = mData.getEntries();
         mOutOfStock = isOutOfStock;
     }
 
@@ -95,7 +101,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private boolean isPositionFooter(final int position) {
-        return position == mData.size();
+        return position == entries.size();
     }
 
     @Override
@@ -114,9 +120,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final ShoppingCartData data = mData.get(position);
+                final EntriesEntity data = entries.get(position);
 
-                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), data.getStockLevel(), data
+                CountDropDown countPopUp = new CountDropDown(v,v.getContext(), data.getProduct().getStock().getStockLevel(), data
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
@@ -126,7 +132,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_UPDATE_PRODUCT_COUNT);
                     }
                 });
-                countPopUp.createPopUp(v,data.getStockLevel());
+                countPopUp.createPopUp(v,data.getProduct().getStock().getStockLevel());
                 mPopupWindow = countPopUp.getPopUpWindow();
                 countPopUp.show();
             }
@@ -163,30 +169,30 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
-        shoppingCartDataForProductDetailPage = mData.get(position);
+        shoppingCartDataForProductDetailPage = entries.get(position);
         EventHelper.getInstance().notifyEventOccurred(ECSConstant.PRODUCT_DETAIL_FRAGMENT);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (mData.size() == 0)
+        if (entries.size() == 0)
             return;
 
         if (holder instanceof ShoppingCartProductHolder) {
 
-            final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
+            final EntriesEntity cartData = entries.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
 
-            if(mData.size()==1 || position==mData.size()-1){
+            if(entries.size()==1 || position==entries.size()-1){
                 shoppingCartProductHolder.viewBottomSpace.setVisibility(View.GONE);
             }
 
-            String imageURL = cartData.getImageURL();
-            shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
+            String imageURL = cartData.getProduct().getSummary().getImageURL();
+            shoppingCartProductHolder.mTvPrice.setText(cartData.getProduct().getSummary().getProductTitle());
             shoppingCartProductHolder.mTvQuantity.setText(Integer.toString(cartData.getQuantity()));
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedPrice());
+            shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getBasePrice().getFormattedValue());
 
-            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder, cartData.getStockLevelStatus());
+            checkForOutOfStock(cartData.getProduct().getStock().getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder, cartData.getProduct().getStock().getStockLevelStatus());
             getNetworkImage(shoppingCartProductHolder, imageURL);
             shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
             bindCountView(shoppingCartProductHolder.mQuantityLayout, holder.getAdapterPosition());
@@ -201,19 +207,19 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             //Footer Layout
             shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
-            ShoppingCartData data;
+            EntriesEntity data;
 
-            if (mData.get(0) != null) {
-                data = mData.get(0);
+            if (entries.get(0) != null) {
+                data = entries.get(0);
 
-                shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
-                shoppingCartFooter.mVatValue.setText(data.getVatValue());
-                if (null != data.getDeliveryMode()) {
+                shoppingCartFooter.mTotalCost.setText(data.getProduct().getPrice().getFormattedValue());
+                shoppingCartFooter.mVatValue.setText(data.getProduct().getPrice().getValue()+"");
+                if (null != mData.getDeliveryMode()) {
                     handleTax(data, shoppingCartFooter);
 
-                    String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
-                    String deliveryMethod = data.getDeliveryMode().getName();
-                    String deliveryModeDescription=data.getDeliveryMode().getDescription();
+                    String deliveryCost = mData.getDeliveryMode().getDeliveryCost().getFormattedValue();
+                    String deliveryMethod = mData.getDeliveryMode().getName();
+                    String deliveryModeDescription=mData.getDeliveryMode().getDescription();
 
                     if ((deliveryCost.trim()).equalsIgnoreCase("$ 0.00") ) {
                         mIsFreeDelivery = true;
@@ -257,40 +263,40 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 });
 
-                for (int i = 0; i < mData.size(); i++) {
+                for (int i = 0; i < entries.size(); i++) {
                     View priceInfo = View.inflate(mContext, R.layout.ecs_price_item, null);
                     TextView mProductName = priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = priceInfo.findViewById(R.id.product_price);
-                    mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
-                    mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
+                    mProductName.setText(Integer.toString(entries.get(i).getQuantity()) + "x " + entries.get(i).getProduct().getSummary().getProductTitle().toString());
+                    mProductPrice.setText(entries.get(i).getTotalPrice().getFormattedValue().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                     //shoppingCartFooter.total_discount.setText("- "+mData.get(i).getTotalDiscounts());
                 }
 
 
                 //Show discounts ==========
-                if(mData.get(0).getAppliedOrderPromotionEntityList()!=null) {
-                    for (int i = 0; i < mData.get(0).getAppliedOrderPromotionEntityList().size(); i++) {
+                if(mData.getAppliedOrderPromotions()!=null) {
+                    for (int i = 0; i < mData.getAppliedOrderPromotions().size(); i++) {
 
                         View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
                         TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
                         TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
 
-                        tvDiscountText.setText(mData.get(0).getAppliedOrderPromotionEntityList().get(i).getPromotion().getDescription());
-                        tvDiscountValue.setText("- " + mData.get(0).getAppliedOrderPromotionEntityList().get(i).getPromotion().getPromotionDiscount().getFormattedValue());
+                        tvDiscountText.setText(mData.getAppliedOrderPromotions().get(i).getPromotion().getDescription());
+                        tvDiscountValue.setText("- " + mData.getAppliedOrderPromotions().get(i).getPromotion().getPromotionDiscount().getFormattedValue());
                         shoppingCartFooter.gridDiscount.addView(discountInfo);
                     }
                 }
 
-                if(mData.get(0).getAppliedVouchers()!=null) {
-                    for (int i = 0; i < mData.get(0).getAppliedVouchers().size(); i++) {
+                if(mData.getAppliedVouchers()!=null) {
+                    for (int i = 0; i < mData.getAppliedVouchers().size(); i++) {
 
                         View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
                         TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
                         TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
 
-                        tvDiscountText.setText(mData.get(0).getAppliedVouchers().get(i).getDescription());
-                        tvDiscountValue.setText("- " + mData.get(0).getAppliedVouchers().get(i).getAppliedValue().getFormattedValue());
+                        tvDiscountText.setText(mData.getAppliedVouchers().get(i).getDescription());
+                        tvDiscountValue.setText("- " + mData.getAppliedVouchers().get(i).getAppliedValue().getFormattedValue());
                         shoppingCartFooter.gridDiscount.addView(discountInfo);
                     }
                 }
@@ -326,18 +332,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    private void handleTax(ShoppingCartData data, FooterShoppingCartViewHolder shoppingCartFooter) {
-        if (!data.isVatInclusive()) {
+    private void handleTax(EntriesEntity data, FooterShoppingCartViewHolder shoppingCartFooter) {
+        if (!mData.isNet()) {
             shoppingCartFooter.mVatValue.setVisibility(View.GONE);
-            if (data.getVatValue() != null) {
+            if (mData.getTotalTax() != null) {
                 shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
                 shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
-                shoppingCartFooter.mDeliveryUpsVal.setText(data.getVatValue());
+                shoppingCartFooter.mDeliveryUpsVal.setText(mData.getTotalTax().getFormattedValue());
             }
         } else {
-            if (data.getVatValue() != null) {
+            if (mData.getTotalTax() != null) {
                 shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-                shoppingCartFooter.mVatValue.setText(data.getVatValue());
+                shoppingCartFooter.mVatValue.setText(mData.getTotalTax().getFormattedValue());
             }
         }
     }
@@ -385,12 +391,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage() {
-        return shoppingCartDataForProductDetailPage;
+       //TODO
+        return null;
     }
 
 
     public void setTheProductDataForDisplayingInProductDetailPage(ShoppingCartData shoppingCartData) {
-        shoppingCartDataForProductDetailPage=shoppingCartData;
+
+       //TODO
+       // shoppingCartDataForProductDetailPage=shoppingCartData;
     }
 
     public boolean isFreeDelivery() {
@@ -415,10 +424,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        if (mData.size() == 0) {
+        if (entries.size() == 0) {
             return 0;
         } else {
-            return mData.size() + 1;
+            return entries.size() + 1;
         }
     }
 
@@ -498,17 +507,4 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public void tagProducts() {
-        StringBuilder products = new StringBuilder();
-        for (int i = 0; i < mData.size(); i++) {
-            if (i > 0) {
-                products = products.append(",");
-            }
-            products = products.append(mData.get(i).getCategory()).append(";")
-                    .append(mData.get(i).getProductTitle()).append(";").append(String.valueOf(mData.get(i).getQuantity()))
-                    .append(";").append(mData.get(i).getValuePrice());
-        }
-        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
-                ECSAnalyticsConstant.PRODUCTS, products.toString());
-    }
 }

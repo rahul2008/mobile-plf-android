@@ -130,6 +130,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             if (mIapListener != null) {
                 mIapListener.onUpdateCartCount(ECSUtility.getInstance().getQuantity(ecsShoppingCart));
             }
+
+            startShoppingCartFragment();
         }
 
         @Override
@@ -713,6 +715,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         NetworkUtility.getInstance().showErrorDialog(mContext,
                 getFragmentManager(), mContext.getString(R.string.iap_ok),
                 mContext.getString(R.string.iap_retailer_title_for_no_retailers), errorMsg.getMessage());
+    }
+
+    @Override
+    public void onLoadFinished(ECSShoppingCart data) {
+
     }
 
     @Override

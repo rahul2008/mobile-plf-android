@@ -19,7 +19,6 @@ import com.ecs.demouapp.ui.model.CartCreateRequest;
 import com.ecs.demouapp.ui.model.CartDeleteProductRequest;
 import com.ecs.demouapp.ui.model.CartUpdateProductQuantityRequest;
 import com.ecs.demouapp.ui.model.DeleteCartRequest;
-import com.ecs.demouapp.ui.model.GetCurrentCartRequest;
 import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetUser;
@@ -65,8 +64,20 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void getCurrentCartDetails() {
-        final GetCurrentCartRequest model = new GetCurrentCartRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(0, model, model);
+
+        ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+                mLoadListener.onLoadFinished(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                Message message = new Message();
+                message.obj = "Could not fetch data";
+                mLoadListener.onLoadError(message);
+            }
+        });
     }
 
     @Override
@@ -90,6 +101,38 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
                     }
                 });
         getHybrisDelegate().sendRequest(0, model, model);
+    }
+
+    @Override
+    public void deleteProduct(EntriesEntity entriesEntity) {
+        ECSUtility.getInstance().getEcsServices().updateQuantity(0, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+                getCurrentCartDetails();
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                getCurrentCartDetails();
+            }
+        });
+
+    }
+
+    @Override
+    public void updateProductQuantity(EntriesEntity entriesEntity, int count) {
+
+        ECSUtility.getInstance().getEcsServices().updateQuantity(count, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+                getCurrentCartDetails();
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                getCurrentCartDetails();
+            }
+        });
     }
 
     @Override
@@ -237,7 +280,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void addProductToCart(Product product, final ECSCartListener
             iapHandlerListener) {
 
-        ECSUtility.getInstance().getEcsServices().addProductToShoppingCart(mContext,product, new ECSCallback<ECSShoppingCart, Exception>() {
+        ECSUtility.getInstance().getEcsServices().addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 iapHandlerListener.onSuccess(result);
@@ -245,7 +288,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
             @Override
             public void onFailure(Exception error,String errorMessage, int errorCode) {
-
+                Message message = new Message();
+                message.obj = "Error in fetching data";
+                iapHandlerListener.onFailure(message);
             }
         });
 

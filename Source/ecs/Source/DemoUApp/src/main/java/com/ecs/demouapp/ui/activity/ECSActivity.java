@@ -278,7 +278,7 @@ public class ECSActivity extends UIDActivity implements ActionBarListener, ECSLi
 
     @Override
     public void onUpdateCartCount(int cartCount) {
-        //Todo Nothing
+        onGetCartCount(cartCount);
     }
 
     @Override

@@ -1,16 +1,14 @@
 package com.philips.cdp.di.ecs.request;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.philips.cdp.di.ecs.network.NetworkController;
-import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
 import org.json.JSONObject;
 
 import java.util.Map;
 
-public abstract class AppInfraAbstractRequest implements APPInfraJSONRequest {
+public abstract class AppInfraAbstractRequest implements APPInfraRequest {
 
     public void executeRequest(){
         new Thread(new Runnable() {
@@ -24,12 +22,17 @@ public abstract class AppInfraAbstractRequest implements APPInfraJSONRequest {
 
     @Override
     public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
-        return this;
+        return null;
     }
 
     @Override
     public Response.ErrorListener getJSONFailureResponseListener() {
         return this;
+    }
+
+    @Override
+    public Response.Listener<String> getStringSuccessResponseListener() {
+        return null;
     }
 
     @Override

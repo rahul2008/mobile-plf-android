@@ -79,6 +79,7 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -449,6 +450,11 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
         hideProgressBar();
+    }
+
+    @Override
+    public void onLoadFinished(ECSShoppingCart data) {
+
     }
 
     @Override

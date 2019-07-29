@@ -66,7 +66,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private RecyclerView mRecyclerView;
     private AddressController mAddressController;
     private ShoppingCartAPI mShoppingCartAPI;
-    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
+    private ECSShoppingCart ecsShoppingCart ;
     private List<Addresses> mAddresses = new ArrayList<>();
     private DeliveryModes mSelectedDeliveryMode;
     private TextView mNumberOfProducts;
@@ -220,12 +220,13 @@ public class ShoppingCartFragment extends InAppBaseFragment
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_DELETE_PRODUCT)) {
             createCustomProgressBar(mParentLayout, BIG);
-            mShoppingCartAPI.deleteProduct(mData.get(mAdapter.getSelectedItemPosition()));
+            mShoppingCartAPI.deleteProduct(ecsShoppingCart.getEntries().get(mAdapter.getSelectedItemPosition()));
 
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_UPDATE_PRODUCT_COUNT)) {
             createCustomProgressBar(mParentLayout, BIG);
-            mShoppingCartAPI.updateProductQuantity(mData.get(mAdapter.getSelectedItemPosition()),
-                    mAdapter.getNewCount(), mAdapter.getQuantityStatusInfo());
+
+            mShoppingCartAPI.updateProductQuantity(ecsShoppingCart.getEntries().get(mAdapter.getSelectedItemPosition()),
+                    mAdapter.getNewCount());
 
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_EDIT_DELIVERY_MODE)) {
 
@@ -237,7 +238,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_APPLY_VOUCHER)) {
             VoucherFragment voucherFragment = new VoucherFragment();
             Bundle bundle = new Bundle();
-            bundle.putString(IAP_VOUCHER_CODE, mData.get(0).getAppliedVoucherCode());
+            //TODO
+           // bundle.putString(IAP_VOUCHER_CODE, mData.get(0).getAppliedVoucherCode());
             voucherFragment.setArguments(bundle);
             addFragment(voucherFragment, VoucherFragment.TAG, true);
         }
@@ -303,9 +305,39 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     @Override
+    public void onLoadFinished(ECSShoppingCart data) {
+
+        ecsShoppingCart = data;
+        if( data!=null && data.getEntries()!=null && data.getEntries().get(0)!=null && data.getDeliveryMode()!=null) {
+
+            onOutOfStock(false);
+            mAdapter = new ShoppingCartAdapter(getActivity(), data, this);
+            mAdapter.setCountArrow(getActivity(), true);
+
+            if (data.getDeliveryItemsQuantity() > 0) {
+                updateCount(data.getDeliveryItemsQuantity());
+            }
+            mRecyclerView.setAdapter(mAdapter);
+
+            String numberOfProducts = getActivity().getResources().getString(R.string.iap_number_of_products);
+            if (data.getEntries().size() == 1) {
+                numberOfProducts = getActivity().getResources().getString(R.string.iap_number_of_product);
+            }
+            numberOfProducts = String.format(numberOfProducts, data.getEntries().size());
+            mNumberOfProducts.setText(numberOfProducts);
+            mNumberOfProducts.setVisibility(View.VISIBLE);
+        }else{
+
+            //getDelivery Mode here
+        }
+        hideProgressBar();
+    }
+
+
+    @Override
     public void onLoadFinished(ArrayList<?> data) {
 
-        if (data!=null && data instanceof ArrayList) {
+       /* if (data!=null && data instanceof ArrayList) {
             hideProgressBar();
             mData = (ArrayList<ShoppingCartData>) data;
         }
@@ -337,7 +369,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             Utility.setVoucherCode(null);
             voucherCode=null;
         }
-        hideProgressBar();
+        hideProgressBar();*/
     }
 
     @Override
@@ -392,6 +424,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onRetailerError(IAPNetworkError errorMsg) {
         hideProgressBar();
     }
+
+
 
     @Override
     public void onItemClick(int position) {

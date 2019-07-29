@@ -1,12 +1,12 @@
 package com.philips.cdp.di.ecs;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
@@ -125,8 +125,13 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void addProductToShoppingCart(Context context,Product product , ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        mECSManager.addProductToShoppingCart(context,product,ecsCallback);
+    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        mECSManager.addProductToShoppingCart(product,ecsCallback);
+    }
+
+    @Override
+    public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        mECSManager.updateQuantity(quantity, entriesEntity,ecsCallback);
     }
 
 }

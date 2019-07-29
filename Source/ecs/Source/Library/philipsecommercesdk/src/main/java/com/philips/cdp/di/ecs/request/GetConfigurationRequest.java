@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -13,7 +14,7 @@ import org.json.JSONObject;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
-public class GetConfigurationRequest extends AppInfraAbstractRequest {
+public class GetConfigurationRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
     private final ECSCallback<HybrisConfigResponse, Exception> eCSCallback;
 
@@ -57,4 +58,8 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest {
         }
     }
 
+    @Override
+    public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
+        return this;
+    }
 }

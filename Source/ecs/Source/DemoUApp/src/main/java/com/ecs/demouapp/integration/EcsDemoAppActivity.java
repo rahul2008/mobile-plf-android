@@ -710,12 +710,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             mShoppingCart.setVisibility(View.GONE);
         }
 
-        try {
-            mIapInterface.getCompleteProductList(this);
-        } catch (Exception e) {
-            ECSLog.e(ECSLog.LOG, e.getMessage());
-        }
-
     }
 
     @Override

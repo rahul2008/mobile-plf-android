@@ -6,6 +6,7 @@ package com.ecs.demouapp.ui.cart;
 
 import android.content.Context;
 
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
 
 /**
@@ -27,6 +28,16 @@ public class LocalShoppingCartPresenter extends AbstractShoppingCartPresenter{
     @Override
     public void deleteProduct(final ShoppingCartData summary) {
     //Do nothing
+    }
+
+    @Override
+    public void deleteProduct(EntriesEntity entriesEntity) {
+
+    }
+
+    @Override
+    public void updateProductQuantity(EntriesEntity entriesEntity, int count) {
+
     }
 
     @Override
