@@ -58,10 +58,10 @@ public class PIMOIDCConfigration {
         return null;
     }
 
-    public String getURClientId(){
+    public String getURClientId() {
         Object obj = getProperty("JanRainConfiguration.RegistrationClientID", GROUP_PIM);
-        if(obj != null && obj instanceof Map){
-            Map<String,String> map = (Map) obj;
+        if (obj != null && obj instanceof Map) {
+            Map<String, String> map = (Map) obj;
             return map.get("default");
         }
         return null;
@@ -111,7 +111,6 @@ public class PIMOIDCConfigration {
     }
 
     private Object getProperty(String key, String group) {
-        //TODO: Deepthi  ( Low ) check impact of cloud config
         AppConfigurationInterface appConfigurationInterface = appInfraInterface.getConfigInterface();
         Object obj = appConfigurationInterface.getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
         return obj;

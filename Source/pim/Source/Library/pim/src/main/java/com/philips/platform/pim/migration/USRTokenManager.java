@@ -1,9 +1,9 @@
 package com.philips.platform.pim.migration;
 
-import android.annotation.TargetApi;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
+import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -200,7 +200,6 @@ class USRTokenManager {
         return null;
     }
 
-    @TargetApi(26)
     private String getRefreshSignature(String date, String accessToken) {
         String refresh_secret = fetchDataFromSecureStorage(JR_CAPTURE_REFRESH_SECRET);
         if (refresh_secret == null) {
@@ -219,8 +218,8 @@ class USRTokenManager {
             mLoggingInterface.log(DEBUG, TAG, "getRefreshSignature failed");
             return null;
         }
-        //return Base64.encodeToString(hash, 2);
-        return java.util.Base64.getEncoder().encodeToString(hash);
+        return Base64.encodeToString(hash, 2);
+        //return java.util.Base64.getEncoder().encodeToString(hash);
     }
 
     boolean isUSRUserAvailable() {
