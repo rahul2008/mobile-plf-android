@@ -17,8 +17,11 @@ import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
+import com.philips.cdp.prodreg.model.registerproduct.Attributes;
+import com.philips.cdp.prodreg.model.registerproduct.Data;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
+import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseNewData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
@@ -365,13 +368,17 @@ public class UserWithProductsTest {
 
     @Test
     public void testMapRegistrationResponse() {
-        RegistrationResponse responseData = mock(RegistrationResponse.class);
-        final RegistrationResponseData data = mock(RegistrationResponseData.class);
-        when(responseData.getData()).thenReturn(data);
-        when(data.getWarrantyEndDate()).thenReturn("2016-03-22");
+       // RegistrationResponse responseData = mock(RegistrationResponse.class);
+        final RegistrationResponseNewData data = mock(RegistrationResponseNewData.class);
+        Data data1 = mock(Data.class);
+        Attributes attributes = mock(Attributes.class);
+       // when(responseData.getData()).thenReturn(data.getData());
+        when (data.getData()).thenReturn(data1);
+        when(data.getData().getAttributes()).thenReturn(attributes);
+        when(data.getData().getAttributes().getExtendedWarrantyMonths()).thenReturn(36);
         final RegisteredProduct registeredProduct = new RegisteredProduct("ctn", null, null);
-        userWithProducts.mapRegistrationResponse(responseData, registeredProduct);
-        assertEquals(registeredProduct.getEndWarrantyDate(), data.getWarrantyEndDate());
+        userWithProducts.mapRegistrationResponse(data, registeredProduct);
+        assertEquals(data.getData().getAttributes().getExtendedWarrantyMonths(), data.getData().getAttributes().getExtendedWarrantyMonths());
     }
 
     @Test
