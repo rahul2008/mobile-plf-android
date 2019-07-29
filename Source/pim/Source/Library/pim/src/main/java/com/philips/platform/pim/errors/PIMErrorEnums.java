@@ -11,7 +11,7 @@ public enum PIMErrorEnums {
     INVALID_DISCOVERY_DOCUMENT(PIMErrorCodes.INVALID_DISCOVERY_DOCUMENT, AuthorizationException.GeneralErrors.INVALID_DISCOVERY_DOCUMENT.code, R.string.PIM_Error_Msg),
     USER_CANCELED_AUTH_FLOW(PIMErrorCodes.USER_CANCELED_AUTH_FLOW, AuthorizationException.GeneralErrors.USER_CANCELED_AUTH_FLOW.code, R.string.PIM_Error_Msg),
     PROGRAM_CANCELED_AUTH_FLOW(PIMErrorCodes.PROGRAM_CANCELED_AUTH_FLOW, AuthorizationException.GeneralErrors.PROGRAM_CANCELED_AUTH_FLOW.code, R.string.PIM_Error_Msg),
-    NETWORK_ERROR(PIMErrorCodes.NETWORK_ERROR, AuthorizationException.GeneralErrors.NETWORK_ERROR.code, R.string.PIM_Error_Msg),
+    NETWORK_ERROR(PIMErrorCodes.NETWORK_ERROR, AuthorizationException.GeneralErrors.NETWORK_ERROR.code, R.string.PIM_Internet_Error_Msg),
     SERVER_ERROR(PIMErrorCodes.SERVER_ERROR, AuthorizationException.GeneralErrors.SERVER_ERROR.code, R.string.PIM_Error_Msg),
     JSON_DESERIALIZATION_ERROR(PIMErrorCodes.JSON_DESERIALIZATION_ERROR, AuthorizationException.GeneralErrors.JSON_DESERIALIZATION_ERROR.code, R.string.PIM_Error_Msg),
     TOKEN_RESPONSE_CONSTRUCTION_ERROR(PIMErrorCodes.TOKEN_RESPONSE_CONSTRUCTION_ERROR, AuthorizationException.GeneralErrors.TOKEN_RESPONSE_CONSTRUCTION_ERROR.code, R.string.PIM_Error_Msg),
