@@ -255,6 +255,7 @@ public class RegistrationRequest extends PrxRequest {
     }
 
     private void getAuthoraisationProvider(String url, Map<String, String> headers) {
+        ProdRegLogger.i("Product Registration Request"," isOidcToken "+ isOidcToken);
 
         if(isOidcToken){
             if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
