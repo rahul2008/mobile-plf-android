@@ -1,7 +1,9 @@
 package com.philips.cdp.di.ecs;
 
+import com.philips.cdp.di.ecs.Cart.MockAddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockCreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
+import com.philips.cdp.di.ecs.Cart.MockUpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.Oath.MockOAuthRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
@@ -12,11 +14,14 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
+import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 public class MockECSManager extends ECSManager {
 
@@ -113,6 +118,25 @@ public class MockECSManager extends ECSManager {
     @Override
     public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
         new MockGetProductForRequest(getJsonFileNameMockECSManager(),ctn,eCSCallback).executeRequest();
+
+     /*   if (null != ECSConfig.INSTANCE.getSiteId()) { // hybris flow
+
+            new MockGetProductForRequest("",ctn, new ECSCallback<Product, Exception>() {
+                @Override
+                public void onResponse(Product result) {
+                    getSummaryForCTN(ctn, result, eCSCallback);
+                }
+
+
+                @Override
+                public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
+                    eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND),detailErrorMessage, 5999);
+                }
+            }).executeRequest();
+
+        } else { // Retailer flow
+            getSummaryForCTN(ctn, null, eCSCallback);
+        }*/
     }
 
     @Override
@@ -127,6 +151,35 @@ public class MockECSManager extends ECSManager {
 
     @Override
     public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        super.addProductToShoppingCart(product, ecsCallback);
+        new MockAddProductToECSShoppingCartRequest(getJsonFileNameMockECSManager(),product.getCode(), new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                setJsonFileNameMockECSManager("ShoppingCartSuccess.json");
+                getECSShoppingCart(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                //getECSShoppingCart(ecsCallback);
+                ecsCallback.onFailure(error, detailErrorMessage,errorCode);
+
+            }
+        }).executeRequest();
+    }
+
+    @Override
+    public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        new MockUpdateECSShoppingCartQuantityRequest(getJsonFileNameMockECSManager(), new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                setJsonFileNameMockECSManager("UpdateShoppingCart_GetShoppingCartSuccess.json");
+                getECSShoppingCart(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                getECSShoppingCart(ecsCallback);
+            }
+        }, entriesEntity, quantity).executeRequest();
     }
 }

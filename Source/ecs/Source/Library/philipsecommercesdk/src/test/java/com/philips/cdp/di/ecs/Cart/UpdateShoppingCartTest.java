@@ -1,10 +1,12 @@
-package com.philips.cdp.di.ecs.ProductForCTN;
+package com.philips.cdp.di.ecs.Cart;
 
 import android.content.Context;
 
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -17,13 +19,11 @@ import org.robolectric.RobolectricTestRunner;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-public class ProductForCTNTest {
-
+public class UpdateShoppingCartTest {
     private Context mContext;
 
 
@@ -36,7 +36,6 @@ public class ProductForCTNTest {
 
     @Mock
     RestInterface mockRestInterface;
-
 
     @Before
     public void setUp() throws Exception {
@@ -53,39 +52,49 @@ public class ProductForCTNTest {
     }
 
     @Test
-    public void getProductForCTNHybrissuccess(){
-        mockECSServices.setJsonFileName("GetProductForCTN.json");
-        mockECSServices.getProductFor("MS5030/01", new ECSCallback<Product, Exception>() {
+    public void updateShoppingCartSuccess() {
+        final int quantity= 2;
+        mockECSServices.setJsonFileName("UpdateShoppingCartSuccess.json");
+
+        EntriesEntity entriesEntity = new EntriesEntity();
+        mockECSServices.updateQuantity(quantity, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
-            public void onResponse(Product product) {
-                assertNotNull(product);
-                assertNotNull(product.getSummary());
+            public void onResponse(ECSShoppingCart result) {
+                assertNotNull(result);
+                assertNotNull(result.getGuid());
+                assertEquals(quantity,result.getEntries().get(0).getQuantity());
                 // test case passed
             }
 
             @Override
-            public void onFailure(Exception error, String detailMessage, int errorCode) {
-                assertFalse(true);
-                // test case passed
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertTrue(true);
+                // test case failed
             }
         });
+
     }
 
     @Test
-    public void getProductForCTNHybrisFailure(){
-        mockECSServices.setJsonFileName("EmptyJson.json");
-        mockECSServices.getProductFor("MS5030/01", new ECSCallback<Product, Exception>() {
+    public void updateShoppingCartFailure() {
+        final int quantity= 2;
+        mockECSServices.setJsonFileName("EmptyString.json");
+
+        EntriesEntity entriesEntity = new EntriesEntity();
+        mockECSServices.updateQuantity(quantity, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
-            public void onResponse(Product product) {
+            public void onResponse(ECSShoppingCart result) {
                 assertTrue(true);
                 // test case failed
             }
 
             @Override
-            public void onFailure(Exception error, String detailMessage, int errorCode) {
-                assertEquals(5999, errorCode); // error code for Product List
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertEquals(10999,errorCode);
                 // test case passed
+
             }
         });
+
     }
 }

@@ -2,14 +2,13 @@ package com.philips.cdp.di.ecs.Cart;
 
 import android.content.Context;
 
-
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
-
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,15 +16,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
-
-
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
-public class CreateCartTest {
-
+public class AddShoppingCartTest {
     private Context mContext;
 
 
@@ -54,62 +50,46 @@ public class CreateCartTest {
     }
 
     @Test
-    public void createCartSuccess(){
-        mockECSServices.setJsonFileName("ShoppingCartSuccess.json");
-        mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+    public void addShoppingCartSuccess(){
+        mockECSServices.setJsonFileName("AddShoppingCartSuccess.json");
+        Product product = new Product();
+        mockECSServices.addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 assertNotNull(result);
                 assertNotNull(result.getGuid());
-                // test case passed
+
+            // test case passed
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assert true;
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertEquals(9999,errorCode);
                 // test case failed
             }
         });
+
     }
 
     @Test
-    public void createCartFailure(){
-        mockECSServices.setJsonFileName("ShoppingCartWithoutGuid.json");
-        mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+    public void addShoppingCartFailure(){
+        mockECSServices.setJsonFileName("EmptyString.json");
+        Product product = new Product();
+        mockECSServices.addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 assertNotNull(result);
                 assertNotNull(result.getGuid());
+            // test case failed
+            }
 
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertEquals(9999,errorCode);
                 // test case passed
             }
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(7999,errorCode);
-
-                // test case failed
-            }
         });
-    }
 
-
-    @Test
-    public void getCartEmptyResponse(){
-        mockECSServices.setJsonFileName("Empty.json");
-        mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
-            @Override
-            public void onResponse(ECSShoppingCart result) {
-                assertNotNull(result);
-                assertNotNull(result.getGuid());
-                // test case passed
-            }
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(7999,errorCode);
-
-                // test case failed
-            }
-        });
     }
 
 }

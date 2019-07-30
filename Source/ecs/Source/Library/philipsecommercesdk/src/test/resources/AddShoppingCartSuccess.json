@@ -1,0 +1,54 @@
+{
+  "entry" : {
+    "basePrice" : {
+      "currencyIso" : "EUR",
+      "formattedValue" : "79,99 â¬",
+      "priceType" : "BUY",
+      "value" : 79.99
+    },
+    "entryNumber" : 1,
+    "product" : {
+      "availableForPickup" : false,
+      "categories" : [ {
+        "code" : "JUICE_EXTRACTORS_SU2",
+        "url" : "/haushaltsgeraete/kuechengeraete/c/JUICE_EXTRACTORS_SU2"
+      } ],
+      "code" : "HR1832/00",
+      "configurable" : false,
+      "deliveryTime" : "1-2 business days",
+      "isTaxExemptionApplicable" : false,
+      "name" : "HR1832/00",
+      "price" : {
+        "currencyIso" : "EUR",
+        "formattedValue" : "84,99 â¬",
+        "priceType" : "BUY",
+        "value" : 84.99
+      },
+      "productType" : "Key",
+      "purchasable" : true,
+      "stock" : {
+        "stockLevel" : 183,
+        "stockLevelStatus" : "inStock"
+      },
+      "url" : "/haushaltsgeraete/kuechengeraete/viva-collection-entsafter/p/HR1832_00"
+    },
+    "quantity" : 3,
+    "totalPrice" : {
+      "currencyIso" : "EUR",
+      "formattedValue" : "239,97 â¬",
+      "priceType" : "BUY",
+      "value" : 239.97
+    },
+    "updateable" : true,
+    "vertexTaxAmount" : {
+      "currencyIso" : "EUR",
+      "formattedValue" : "25,55 â¬",
+      "priceType" : "BUY",
+      "value" : 25.55
+    },
+    "vertexTaxPercent" : 19.0
+  },
+  "quantity" : 1,
+  "quantityAdded" : 1,
+  "statusCode" : "success"
+}

@@ -8,17 +8,18 @@ import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.network.ModelConstants;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateCartQuantityRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
+public class UpdateECSShoppingCartQuantityRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
     private final ECSCallback<Boolean, Exception> ecsCallback;
     private final EntriesEntity entriesEntity;
     private final int quantity;
 
-    public UpdateCartQuantityRequest(ECSCallback<Boolean, Exception> ecsCallback, EntriesEntity entriesEntity, int quantity) {
+    public UpdateECSShoppingCartQuantityRequest(ECSCallback<Boolean, Exception> ecsCallback, EntriesEntity entriesEntity, int quantity) {
         this.ecsCallback = ecsCallback;
         this.entriesEntity = entriesEntity;
         this.quantity = quantity;
@@ -58,7 +59,7 @@ public class UpdateCartQuantityRequest extends OAuthAppInfraAbstractRequest impl
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error, "Error in deleting product", 9000);
+        ecsCallback.onFailure(ECSErrors.getErrorMessage(error), ECSErrors.getDetailErrorMessage(error), 10999);
     }
 
     @Override

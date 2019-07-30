@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
-public class GetCartTest {
+public class GetShoppingCartTest {
     private Context mContext;
 
 
@@ -60,7 +60,7 @@ public class GetCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, String detailMessage, int errorCode) {
                 assertEquals(7999,errorCode);
                 // test case failed
             }
@@ -78,8 +78,8 @@ public class GetCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(7999,errorCode);
+            public void onFailure(Exception error, String detailMessage,  int errorCode) {
+                assertEquals(8999,errorCode);
 
                 // test case failed
             }
@@ -97,8 +97,8 @@ public class GetCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(7999,errorCode);
+            public void onFailure(Exception error, String detailMessage, int errorCode) {
+                assertEquals(8999,errorCode);
 
                 // test case failed
             }
@@ -107,7 +107,7 @@ public class GetCartTest {
 
     @Test
     public void getCartEmptyResponse(){
-        mockECSServices.setJsonFileName("Empty.json");
+        mockECSServices.setJsonFileName("EmptyJson.json");
         mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
@@ -116,8 +116,8 @@ public class GetCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(7999,errorCode);
+            public void onFailure(Exception error, String detailMessage, int errorCode) {
+                assertEquals(8999,errorCode);
 
                 // test case failed
             }

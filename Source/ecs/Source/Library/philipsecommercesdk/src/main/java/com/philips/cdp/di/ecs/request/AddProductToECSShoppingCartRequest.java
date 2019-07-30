@@ -15,14 +15,14 @@ import java.util.Map;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
 import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
-public class AddProductToCartRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
+public class AddProductToECSShoppingCartRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
     private final ECSCallback<Boolean,Exception> ecsCallback;
 
     private final String ctn;
 
 
-    public AddProductToCartRequest(String ctn, ECSCallback<Boolean, Exception> ecsCallback) {
+    public AddProductToECSShoppingCartRequest(String ctn, ECSCallback<Boolean, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
         this.ctn = ctn;
     }
