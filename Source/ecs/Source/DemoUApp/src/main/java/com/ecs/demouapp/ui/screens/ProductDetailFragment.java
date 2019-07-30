@@ -139,7 +139,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         public void onFailure(final Message msg) {
             hideProgressBar();
             mAddToCart.hideProgressIndicator();
-            ECSErrors.showECSToast(getActivity(),msg.toString());
+            ECSErrors.showECSToast(getActivity(),msg.obj.toString());
            /* IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == ECSConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
