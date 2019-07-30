@@ -3,46 +3,48 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.network.ModelConstants;
+import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ApplyVoucherRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
+public class GetVouchersRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
-    private final String voucherCode;
-    private final ECSCallback<Boolean, Exception> ecsCallback;
+    private final ECSCallback<GetAppliedValue,Exception> ecsCallback;
 
-    public ApplyVoucherRequest(String voucherCode, ECSCallback<Boolean, Exception> ecsCallback) {
-        this.voucherCode = voucherCode;
+    public GetVouchersRequest(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
     }
 
     @Override
-    public void onResponse(String response) {
-        ecsCallback.onResponse(true);
+    public void onResponse(JSONObject response) {
+        GetAppliedValue getAppliedValue =  new Gson().fromJson(response.toString(), GetAppliedValue.class);
+        ecsCallback.onResponse(getAppliedValue);
     }
 
     @Override
     public int getMethod() {
-        return Request.Method.POST;
+        return Request.Method.GET;
     }
 
     @Override
     public String getURL() {
-        return new ECSURLBuilder().getApplyVoucherUrl();
+        return new ECSURLBuilder().getAppliedVoucherUrl();
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error, "Error Applying voucher", 9000);
+        ecsCallback.onFailure(error,"error fetching Voucher",9000);
     }
 
     @Override
-    public Response.Listener<String> getStringSuccessResponseListener() {
+    public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
         return this;
     }
 
@@ -52,12 +54,5 @@ public class ApplyVoucherRequest extends OAuthAppInfraAbstractRequest implements
         header.put("Content-Type", "application/x-www-form-urlencoded");
         header.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
         return header;
-    }
-
-    @Override
-    public Map<String, String> getParams() {
-        Map<String, String> params = new HashMap<>();
-        params.put(ModelConstants.VOUCHER_ID, voucherCode);
-        return params;
     }
 }

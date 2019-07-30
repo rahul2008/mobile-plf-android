@@ -11,6 +11,7 @@ import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSConstant;
 import com.philips.platform.appinfra.AppInfra;
@@ -132,6 +133,21 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         mECSManager.updateQuantity(quantity, entriesEntity,ecsCallback);
+    }
+
+    @Override
+    public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        mECSManager.setVoucher(voucherCode,ecsCallback);
+    }
+
+    @Override
+    public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        mECSManager.getVoucher(ecsCallback);
+    }
+
+    @Override
+    public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        mECSManager.removeVoucher(voucherCode,ecsCallback);
     }
 
 }

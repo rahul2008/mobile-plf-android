@@ -1,7 +1,7 @@
 package com.ecs.demouapp.ui.response.carts;
 
 
-import com.ecs.demouapp.ui.response.voucher.AppliedValue;
+import com.philips.cdp.di.ecs.model.voucher.AppliedValue;
 
 public class AppliedVoucherEntity {
 

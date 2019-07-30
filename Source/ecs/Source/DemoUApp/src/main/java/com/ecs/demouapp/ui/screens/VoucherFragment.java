@@ -21,13 +21,13 @@ import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.VoucherController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.response.voucher.GetAppliedValue;
-import com.ecs.demouapp.ui.response.voucher.Vouchers;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.utils.AlertListener;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
+import com.philips.cdp.di.ecs.model.voucher.Vouchers;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
@@ -76,8 +76,6 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
         totalCost=(Label) rootView.findViewById(R.id.total_cost_val);
         mVoucherController.getAppliedVoucherCode();
 
-
-
         return rootView;
     }
 
@@ -110,9 +108,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
 
             if (null != voucherEditText.getText().toString()) {
                 createCustomProgressBar(voucherLayout, BIG);
-                mVoucherController.applyCoupon(voucherEditText.getText().toString().trim());
-
-
+                mVoucherController.applyCoupon(voucherEditText.getText().toString());
             }
         }
     }
@@ -120,13 +116,9 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void onApplyVoucherResponse(Message msg) {
         hideProgressBar();
-        if(null==msg.obj) {
-            /*Toast.makeText(getActivity(), "Vouchers Applied Successfully",
-                    Toast.LENGTH_SHORT).show();*/
-            // mVoucherFragment.getActivity().getSupportFragmentManager().popBackStackImmediate();
-            NetworkUtility.getInstance().showVoucherSuccessMessage(msg, getFragmentManager(),mContext);
-            mVoucherController.getAppliedVoucherCode();
-        }
+
+            onGetAppliedVoucherResponse(msg);
+
         if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showVoucherErrorMessage(msg, getFragmentManager(),mContext);
         }
@@ -176,7 +168,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
             mAppliedVoucherAdapter.notifyItemRemoved(mAppliedVoucherAdapter.getSelectedItemPosition());
             mAppliedVoucherAdapter.notifyItemChanged(mAppliedVoucherAdapter.getSelectedItemPosition());
         }
-        mVoucherController.getAppliedVoucherCode();
+        onGetAppliedVoucherResponse(msg);
 
     }
 

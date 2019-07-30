@@ -53,7 +53,7 @@ public class ECSURLBuilder extends AbstractStore {
     private static final String SUFFIX_PAY = "/pay";
     private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
-    private static final String SUFFIX_VOUCHERS = "/vouchers";
+    private static final String SUFFIX_VOUCHERS = "vouchers";
     private static final String SUFFIX_LANGUAGE = "&lang=";
 
     private boolean mIsNewUser;
@@ -389,7 +389,6 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getApplyVoucherUrl() {
-        //POST /pilcommercewebservices/v2/DE_Pub/users/current/carts/current/vouchers?lang=de_DE
        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
                USER+SEPERATOR+
@@ -402,13 +401,28 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getDeleteVoucherUrl(String voucherId) {
-       // String deleteVoucherUrl= mBaseURl.concat(SUFFIX_CARTS).concat(SUFFIX_CURRENT).concat(SUFFIX_VOUCHERS).concat(SEPERATOR).concat(voucherId).concat(LANG)+ mStoreConfig.getLocale();
-        return null;
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_CARTS+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_VOUCHERS+SEPERATOR+
+                voucherId+
+                SUFFIX_LANG_QUESTION+ ECSConfig.INSTANCE.getLocale();
+
     }
 
     @Override
     public String getAppliedVoucherUrl() {
-        return mApplyVoucherUrl;
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_CARTS+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_VOUCHERS+
+                SUFFIX_LANG_QUESTION+ ECSConfig.INSTANCE.getLocale();
     }
 
     public String getRawConfigUrl() {

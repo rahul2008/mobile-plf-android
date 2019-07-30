@@ -6,6 +6,7 @@ import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 
 import java.util.List;
 
@@ -68,4 +69,12 @@ public interface ECSServiceProvider {
     void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback);
 
     void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) ;
+
+    //voucher
+    void setVoucher(String voucherCode, ECSCallback<GetAppliedValue,Exception> ecsCallback);
+
+    void getVoucher(ECSCallback<GetAppliedValue,Exception> ecsCallback);
+
+    void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue,Exception> ecsCallback);
+
 }
