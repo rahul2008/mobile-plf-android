@@ -59,6 +59,7 @@ import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -138,7 +139,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         public void onFailure(final Message msg) {
             hideProgressBar();
             mAddToCart.hideProgressIndicator();
-            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+            ECSErrors.showECSToast(getActivity(),msg.obj.toString());
+           /* IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 if (iapNetworkError.getIAPErrorCode() == ECSConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
                     NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
@@ -148,7 +150,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 }
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            }
+            }*/
         }
     };
     private Product product;

@@ -290,6 +290,10 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             public void onFailure(Exception error,String errorMessage, int errorCode) {
                 Message message = new Message();
                 message.obj = "Error in fetching data";
+                if(null!=errorMessage){
+                    message.obj = error.getMessage();
+                }
+
                 iapHandlerListener.onFailure(message);
             }
         });
