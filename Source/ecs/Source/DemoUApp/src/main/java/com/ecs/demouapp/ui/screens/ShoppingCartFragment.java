@@ -50,8 +50,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_VOUCHER_CODE;
-
 
 public class ShoppingCartFragment extends InAppBaseFragment
         implements View.OnClickListener, EventListener, AddressController.AddressListener,
@@ -306,7 +304,15 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onLoadFinished(ECSShoppingCart data) {
 
         ecsShoppingCart = data;
-        if( data!=null && data.getEntries()!=null && data.getEntries().get(0)!=null ) {
+        if(voucherCode!=null) {
+            mVoucherController.applyCoupon(voucherCode);
+        }
+
+        if( data!=null && data.getEntries()!=null && data.getEntries().size()!=0 ) {
+
+            if(ecsShoppingCart!=null && ecsShoppingCart.getDeliveryMode()==null){
+                // mAddressController.getDeliveryModes();
+            }
 
             onOutOfStock(false);
             mAdapter = new ShoppingCartAdapter(getActivity(), data, this);
@@ -325,9 +331,16 @@ public class ShoppingCartFragment extends InAppBaseFragment
             mNumberOfProducts.setText(numberOfProducts);
             mNumberOfProducts.setVisibility(View.VISIBLE);
         }else{
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onEventReceived(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED);
+                }
+            });
 
-            //getDelivery Mode here
         }
+
+
         hideProgressBar();
     }
 

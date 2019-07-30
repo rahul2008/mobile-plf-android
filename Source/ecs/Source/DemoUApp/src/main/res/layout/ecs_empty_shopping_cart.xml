@@ -38,7 +38,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="@dimen/iap_product_ctn_12"
-                android:background="@drawable/ecs_info_image"
+                android:src="@drawable/uid_circular_button_large_background"
                 android:scaleType="fitXY" />
 
             <com.philips.platform.uid.view.widget.Label

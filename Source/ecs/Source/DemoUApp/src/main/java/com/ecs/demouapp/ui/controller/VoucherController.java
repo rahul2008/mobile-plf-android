@@ -38,11 +38,6 @@ public class VoucherController implements AbstractModel.DataLoadListener {
     }
 
     public void applyCoupon(String voucherId) {
-       /* final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        HashMap<String, String> query = new HashMap<>();
-        query.put(ModelConstants.VOUCHER_ID, voucherId);
-        GetApplyVoucherRequest request = new GetApplyVoucherRequest(delegate.getStore(), query, this);
-        delegate.sendRequest(APPLY_VOUCHER, request, request);*/
 
         ECSUtility.getInstance().getEcsServices().setVoucher(voucherId, new ECSCallback<GetAppliedValue, Exception>() {
             @Override
@@ -66,10 +61,6 @@ public class VoucherController implements AbstractModel.DataLoadListener {
 
     public void getAppliedVoucherCode() {
 
-       /* final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-        GetAppliedVoucherRequest request = new GetAppliedVoucherRequest(delegate.getStore(), null,this);
-        delegate.sendRequest(GET_APPLIED_VOUCHER, request, request);*/
-
         ECSUtility.getInstance().getEcsServices().getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
             @Override
             public void onResponse(GetAppliedValue result) {
@@ -92,10 +83,6 @@ public class VoucherController implements AbstractModel.DataLoadListener {
     }
 
     public void getDeleteVoucher(String voucherCode){
-       /* final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
-
-        DeleteVoucherRequest deleteVoucherRequest = new DeleteVoucherRequest(delegate.getStore(), null, this, voucherCode);
-        delegate.sendRequest(DELETE_VOUCHER, deleteVoucherRequest, deleteVoucherRequest);*/
 
         ECSUtility.getInstance().getEcsServices().removeVoucher(voucherCode, new ECSCallback<GetAppliedValue, Exception>() {
             @Override
