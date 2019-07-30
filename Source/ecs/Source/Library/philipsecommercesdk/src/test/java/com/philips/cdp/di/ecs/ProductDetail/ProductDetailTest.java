@@ -69,7 +69,7 @@ public class ProductDetailTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, String detailMessage, int errorCode) {
                 assertFalse(true);
                 // test case failed
             }
@@ -81,7 +81,7 @@ public class ProductDetailTest {
     public void getProductDetailAssetFailure() {
         Product product = new Product();
         product.setCode("HX2345/01");
-        mockECSServices.setJsonFileName("Empty.json");
+        mockECSServices.setJsonFileName("EmptyJson.json");
         mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
@@ -90,7 +90,7 @@ public class ProductDetailTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, String detailMessage, int errorCode) {
                 assertEquals(5999, errorCode); // error code for Product List
                 // test case passed
             }

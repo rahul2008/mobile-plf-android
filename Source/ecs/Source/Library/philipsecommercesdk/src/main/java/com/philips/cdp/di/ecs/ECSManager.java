@@ -20,9 +20,9 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetVoucherRequest;
-import com.philips.cdp.di.ecs.request.UpdateCartQuantityRequest;
+import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
-import com.philips.cdp.di.ecs.request.AddProductToCartRequest;
+import com.philips.cdp.di.ecs.request.AddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.request.GetProductAssetRequest;
@@ -161,7 +161,7 @@ public class ECSManager {
 
     //============================================== Start of PRX (Summary, Asset & Disclaimer) ================================================
 
-    private void getSummaryForCTN(String ctn, Product product, ECSCallback<Product, Exception> eCSCallback) {
+     void getSummaryForCTN(String ctn, Product product, ECSCallback<Product, Exception> eCSCallback) {
         Products products = new Products();
         ArrayList<String> ctns = new ArrayList<>();
         if (null == product) {
@@ -387,7 +387,7 @@ public class ECSManager {
     // AddProduct to Cart
     public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
 
-        new AddProductToCartRequest(product.getCode(), new ECSCallback<Boolean, Exception>() {
+        new AddProductToECSShoppingCartRequest(product.getCode(), new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 getECSShoppingCart(ecsCallback);
@@ -405,7 +405,7 @@ public class ECSManager {
 
     public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
 
-        new UpdateCartQuantityRequest(new ECSCallback<Boolean, Exception>() {
+        new UpdateECSShoppingCartQuantityRequest(new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
 
@@ -414,7 +414,7 @@ public class ECSManager {
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                getECSShoppingCart(ecsCallback);
+                ecsCallback.onFailure(error, detailErrorMessage,errorCode);
             }
         }, entriesEntity, quantity).executeRequest();
 
