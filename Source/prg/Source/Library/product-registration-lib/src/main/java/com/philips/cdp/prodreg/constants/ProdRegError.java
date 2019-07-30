@@ -17,6 +17,7 @@ public enum ProdRegError {
     PRODUCT_ALREADY_REGISTERED(6, "Product already registered"),
     FETCH_REGISTERED_PRODUCTS_FAILED(7, "Failed to fetch registered products"),
     NO_INTERNET_AVAILABLE(9, "No internet connection available"),
+    INTERNAL_SERVER_ERROR2(400, "Internal server error"),
     INTERNAL_SERVER_ERROR(500, "Internal server error"),
     TIME_OUT(504, "Time out error"),
     NETWORK_ERROR(511, "Network error when performing a request"),

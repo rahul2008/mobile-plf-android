@@ -10,13 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
-import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseNewData;
 import com.philips.cdp.prodreg.model_request.Attributes;
 import com.philips.cdp.prodreg.model_request.Data;
 import com.philips.cdp.prodreg.model_request.Meta;
 import com.philips.cdp.prodreg.model_request.RegistrationRequestBody;
-import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -62,6 +60,7 @@ public class RegistrationRequest extends PrxRequest {
     private String apiVersion;
     private String contentType;
     private String authorizationProvider;
+    private boolean isOidcToken;
 
 
     public String getApiKey() {
@@ -96,10 +95,11 @@ public class RegistrationRequest extends PrxRequest {
         this.authorizationProvider = authorizationProvider;
     }
 
-    public RegistrationRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
+    public RegistrationRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog, boolean oidcToken) {
         super(ctn, serviceID, sector, catalog);
         this.ctn = ctn;
         this.serviceID = serviceID;
+        isOidcToken = oidcToken;
     }
 
     public void setAccessToken(String accessToken) {
@@ -242,13 +242,8 @@ public class RegistrationRequest extends PrxRequest {
                     @Override
                     public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                         String url = urlMap.get(serviceID).getConfigUrls();
-                        if (url.contains(ProdRegConstants.CHINA_DOMAIN)) {
-                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_CN);
-                        } else {
-                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_EU);
+                        getAuthoraisationProvider(url, headers);
 
-                            ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
-                        }
                     }
 
                     @Override
@@ -257,6 +252,26 @@ public class RegistrationRequest extends PrxRequest {
                     }
                 },null);
         return headers;
+    }
+
+    private void getAuthoraisationProvider(String url, Map<String, String> headers) {
+
+        if(isOidcToken){
+            if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.OIDC_AUTHORIZATION_PROVIDER_VAL_CN);
+            } else {
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.OIDC_AUTHORIZATION_PROVIDER_VAL_EU);
+                ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+            }
+        }else{
+            if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.JANRAIN_AUTHORIZATION_PROVIDER_VAL_CN);
+            } else {
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.JANRAIN_AUTHORIZATION_PROVIDER_VAL_EU);
+                ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+            }
+        }
+
     }
 
 //    @Override

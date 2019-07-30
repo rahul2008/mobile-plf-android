@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail;
+
+    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail,btn_RegistrationPR;
     private Switch aSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
@@ -89,6 +91,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnMigrator = findViewById(R.id.btn_MigrateUser);
         btnMigrator.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
+        btn_RegistrationPR = findViewById(R.id.btn_RegistrationPR);
+        btn_RegistrationPR.setOnClickListener(this);
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -174,6 +178,11 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
+        } else  if(v == btn_RegistrationPR){
+            Fragment fragment = new PRGFragment(pimInterface);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+
         } else if (v == btnMigrator) {
             userDataInterface.migrateUserToPIM(new UserMigrationListener() {
                 @Override
@@ -213,6 +222,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
                 showToast("User is not loged-in, Please login!");
             }
         }
+
     }
 
     private void launchPIM() {

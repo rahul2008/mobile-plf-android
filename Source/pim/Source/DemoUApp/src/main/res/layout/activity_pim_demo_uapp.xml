@@ -1,10 +1,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/demoAppMenus"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/demoAppMenus"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:layout_margin="4dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,6 +39,7 @@
             android:layout_margin="5dp"
             android:text="Registration" />
 
+
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
@@ -55,6 +57,16 @@
             android:layout_centerInParent="true"
             android:layout_margin="5dp"
             android:text="Refresh Session" />
+        
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/btn_RegistrationPR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_RefreshSession"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp"
+            android:text="Product Registration" />
+
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/btn_IsOIDCToken"
@@ -97,6 +109,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" />
+        >>>>>>> develop
     </LinearLayout>
 
 </FrameLayout>
