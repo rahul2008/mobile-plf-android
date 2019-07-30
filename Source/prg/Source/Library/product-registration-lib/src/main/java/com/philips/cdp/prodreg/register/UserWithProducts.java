@@ -306,7 +306,7 @@ public class UserWithProducts {
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), ProdRegConstants.REGISTRATIONREQUEST_SERVICE_ID, registeredProduct.getSector(),
-                registeredProduct.getCatalog());
+                registeredProduct.getCatalog(), mUserDataInterface.isOIDCToken());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         registrationRequest.setRegistrationChannel(getUserProduct().getRegistrationChannel());
@@ -475,4 +475,5 @@ public class UserWithProducts {
     protected void setCurrentRegisteredProduct(final RegisteredProduct currentRegisteredProduct) {
         this.currentRegisteredProduct = currentRegisteredProduct;
     }
+
 }

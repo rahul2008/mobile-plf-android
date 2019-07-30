@@ -45,7 +45,7 @@ public class PIMOIDCUserProfile {
             if(mUserProfileMap.containsKey(key))
                 userDetailsMap.put(key,mUserProfileMap.get(key));
         }
-        return null;
+        return userDetailsMap;
     }
 
     /**

@@ -19,8 +19,6 @@ import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.Attributes;
 import com.philips.cdp.prodreg.model.registerproduct.Data;
-import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
-import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseNewData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prxclient.PrxConstants;
@@ -433,7 +431,7 @@ public class UserWithProductsTest {
 
     @Test
     public void testRegistrationRequest() {
-        final RegistrationRequest registrationRequest = new RegistrationRequest(mCTN, mSerialNumber, sector, catalog);
+        final RegistrationRequest registrationRequest = new RegistrationRequest(mCTN, mSerialNumber, sector, catalog, true);
         final RegisteredProduct productMock = mock(RegisteredProduct.class);
         final RequestManager requestManagerMock = mock(RequestManager.class);
         final ResponseListener responseListenerMock = mock(ResponseListener.class);

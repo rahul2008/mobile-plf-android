@@ -1,5 +1,7 @@
 package com.philips.platform.pim.manager;
 
+import android.content.Context;
+
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
@@ -20,9 +22,9 @@ public  class PIMOidcDiscoveryManager implements PIMAuthServiceConfigListener {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    void downloadOidcUrls(String baseUrl) {
+    void downloadOidcUrls(Context context, String baseUrl) {
         mLoggingInterface.log(DEBUG,TAG,"downloadOidcUrls called with baseUrl : "+baseUrl);
-        PIMAuthManager pimAuthManager = new PIMAuthManager();
+        PIMAuthManager pimAuthManager = new PIMAuthManager(context);
         pimAuthManager.fetchAuthWellKnownConfiguration("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login", this); //TODO: Shashi, remove issuer once its uploaded to service discovery
     }
 

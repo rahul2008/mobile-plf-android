@@ -1,5 +1,7 @@
 package com.philips.platform.pim.manager;
 
+import android.content.Context;
+
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -27,12 +29,12 @@ public class PIMConfigManager {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    public void init(Context context, ServiceDiscoveryInterface serviceDiscoveryInterface) {
         mLoggingInterface.log(DEBUG, TAG, "init called");
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(PIM_BASEURL);
         if (mPimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN)
-            downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
+            downloadSDServiceURLs(context, serviceDiscoveryInterface, listOfServiceId);
         else {
             mLoggingInterface.log(DEBUG, TAG, "downloadSDServiceURLs skipped as user is logged in. ");
             PIMSettingManager.getInstance().setPimOidcConfigration(new PIMOIDCConfigration());
@@ -40,7 +42,7 @@ public class PIMConfigManager {
         }
     }
 
-    private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface, ArrayList<String> listOfServiceId) {
+    private void downloadSDServiceURLs(Context context, ServiceDiscoveryInterface serviceDiscoveryInterface, ArrayList<String> listOfServiceId) {
         mLoggingInterface.log(DEBUG, TAG, "downloadSDServiceURLs called");
         new Thread(() -> {
             serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -58,7 +60,7 @@ public class PIMConfigManager {
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
                             mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : getConfigUrls : " + configUrls);
-                            pimOidcDiscoveryManager.downloadOidcUrls(configUrls); //Download OIDC configuration
+                            pimOidcDiscoveryManager.downloadOidcUrls(context, configUrls); //Download OIDC configuration
                         } else {
                             mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : No service url found for Issuer service id");
                             PIMSettingManager.getInstance().getPimInitLiveData().postValue(PIMInitState.INIT_FAILED);

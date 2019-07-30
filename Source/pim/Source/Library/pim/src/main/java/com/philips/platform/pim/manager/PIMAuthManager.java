@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.utilities.PIMScopes;
@@ -39,9 +40,9 @@ public class PIMAuthManager {
     /**
      * Use this constructor whenever context is not required for OIDC's api call
      */
-    public PIMAuthManager() {
-        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-    }
+//    public PIMAuthManager() {
+//        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
+//    }
 
     /* *
      * Use this constructor whenever context is required for OIDC's api call
@@ -64,10 +65,10 @@ public class PIMAuthManager {
         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration discoveryEndpoint : " + discoveryEndpoint);
 
         final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
-                (AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationException e) -> {
-                    if (e != null) {
-                        mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : " + e.getMessage());
-                        listener.onAuthServiceConfigFailed(new Error(e.code, e.getMessage()));
+                (AuthorizationServiceConfiguration authorizationServiceConfiguration, AuthorizationException ex) -> {
+                    if (ex != null) {
+                        mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration : Failed to retrieve configuration for : " + ex.getMessage() + " error code :" + ex.code);
+                        listener.onAuthServiceConfigFailed(new Error(PIMErrorEnums.getErrorCode(ex.code), PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.getErrorCode(ex.code))));
                     } else {
                         mLoggingInterface.log(DEBUG, TAG, "fetchAuthWellKnownConfiguration : Configuration retrieved for  proceeding : " + authorizationServiceConfiguration);
                         listener.onAuthServiceConfigSuccess(authorizationServiceConfiguration);
@@ -127,7 +128,7 @@ public class PIMAuthManager {
         if (response != null) {
             return true;
         } else if (exception != null) {
-            mLoggingInterface.log(DEBUG, TAG, "Authorization failed with error : " + exception.errorDescription);
+            mLoggingInterface.log(DEBUG, TAG, "Authorization failed with error : " + exception.errorDescription + " with code :" + exception.code);
             return false;
         } else
             return false;
@@ -156,8 +157,9 @@ public class PIMAuthManager {
             }
 
             if (ex != null) {
-                mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage());
-                pimTokenRequestListener.onTokenRequestFailed(new Error(ex.code, ex.getMessage()));
+                mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage() + "with code : " + ex.code);
+                Error error = new Error(PIMErrorEnums.getErrorCode(ex.code), PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.getErrorCode(ex.code)));
+                pimTokenRequestListener.onTokenRequestFailed(error);
             }
             authorizationService.dispose();
         });
@@ -167,11 +169,12 @@ public class PIMAuthManager {
         AuthorizationResponse authorizationResponse = new AuthorizationResponse.Builder(authorizationRequest).fromUri(Uri.parse(authResponse)).build();
         if (authorizationResponse == null || authorizationResponse.authorizationCode == null) {
             AuthorizationException authorizationException = AuthorizationException.fromOAuthRedirect(Uri.parse(authResponse));
-            pimTokenRequestListener.onTokenRequestFailed(new Error(authorizationException.code, authorizationException.errorDescription));
+            mLoggingInterface.log(DEBUG, TAG, "PerformTokenRequest Token Request failed with error : " + authorizationException.getMessage() + "with code : " + authorizationException.code);
+            Error error = new Error(PIMErrorEnums.getErrorCode(authorizationException.code), PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.getErrorCode(authorizationException.code)));
+            pimTokenRequestListener.onTokenRequestFailed(error);
             return;
         }
         mAuthState = new AuthState(authorizationResponse, null);
-
 
 
         TokenRequest tokenRequest = authorizationResponse.createTokenExchangeRequest();
@@ -184,8 +187,9 @@ public class PIMAuthManager {
             }
 
             if (ex != null) {
-                mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage());
-                pimTokenRequestListener.onTokenRequestFailed(new Error(ex.code, ex.getMessage()));
+                mLoggingInterface.log(DEBUG, TAG, "Token Request failed with error : " + ex.getMessage() + "with code : " + ex.code);
+                Error error = new Error(PIMErrorEnums.getErrorCode(ex.code), PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.getErrorCode(ex.code)));
+                pimTokenRequestListener.onTokenRequestFailed(error);
             }
             authorizationService.dispose();
         });
@@ -206,8 +210,10 @@ public class PIMAuthManager {
                 mLoggingInterface.log(DEBUG, TAG, "rereshToken success, New  accessToken : " + authState.getAccessToken() + " Refresh Token : " + authState.getRefreshToken());
                 tokenRequestListener.onTokenRequestSuccess();
             } else {
-                mLoggingInterface.log(DEBUG, TAG, "rereshToken failed : " + ex.getMessage());
-                Error error = new Error(ex.code, ex.getMessage());
+                mLoggingInterface.log(DEBUG, TAG, "rereshToken failed : " + ex.getMessage() + "with code : " + ex.code);
+//                Error error = new Error(ex.code, ex.getMessage());
+                //Error error = new Error(UserDataInterfaceError.TokenRefreshError.errorCode, UserDataInterfaceError.TokenRefreshError.getLocalisedErrorDesc(mContext, ex.code));
+                Error error = new Error(PIMErrorEnums.getErrorCode(ex.code), PIMErrorEnums.getLocalisedErrorDesc(mContext, PIMErrorEnums.getErrorCode(ex.code)));
                 tokenRequestListener.onTokenRequestFailed(error);
             }
             authorizationService.dispose();

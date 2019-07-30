@@ -19,29 +19,26 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_ACCEPT_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_VALUE;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_KEY;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_VALUE;
-import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_KEY;
-import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_VALUE;
 
 public class RegisteredProductsRequest extends PrxRequest {
 
     private String accessToken;
     private String mServiceId;
+    private boolean isOidcToken;
 
-    public RegisteredProductsRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
+    public RegisteredProductsRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog, boolean oidcToken) {
         super(ctn, serviceID, sector, catalog);
         mServiceId = serviceID;
+        isOidcToken = oidcToken;
     }
 
     public String getAccessToken() {
@@ -81,13 +78,7 @@ public class RegisteredProductsRequest extends PrxRequest {
                     @Override
                     public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                         String url = urlMap.get(mServiceId).getConfigUrls();
-                        if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
-                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_CN);
-                        } else {
-                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL_EU);
-
-                            ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
-                        }
+                        getAuthoraisationProvider(url, headers);
                     }
 
                     @Override
@@ -97,6 +88,27 @@ public class RegisteredProductsRequest extends PrxRequest {
                 },null);
         return headers;
     }
+
+    private void getAuthoraisationProvider(String url, Map<String, String> headers) {
+
+        if(isOidcToken){
+            if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.OIDC_AUTHORIZATION_PROVIDER_VAL_CN);
+            } else {
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.OIDC_AUTHORIZATION_PROVIDER_VAL_EU);
+                ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+            }
+        }else{
+            if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.JANRAIN_AUTHORIZATION_PROVIDER_VAL_CN);
+            } else {
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.JANRAIN_AUTHORIZATION_PROVIDER_VAL_EU);
+                ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+            }
+        }
+
+    }
+
 
     @Override
     public Map<String, String> getParams() {
