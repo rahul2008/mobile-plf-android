@@ -238,9 +238,6 @@ public class ShoppingCartFragment extends InAppBaseFragment
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_APPLY_VOUCHER)) {
             VoucherFragment voucherFragment = new VoucherFragment();
             Bundle bundle = new Bundle();
-
-            bundle.putString(IAP_VOUCHER_CODE,ecsShoppingCart.getAppliedVouchers().get(0).getVoucherCode());
-            //TODo :- Need to send applied coucher code lists
             voucherFragment.setArguments(bundle);
             addFragment(voucherFragment, VoucherFragment.TAG, true);
         }
@@ -459,6 +456,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onGetAppliedVoucherResponse(Message msg) {
+
 
     }
 

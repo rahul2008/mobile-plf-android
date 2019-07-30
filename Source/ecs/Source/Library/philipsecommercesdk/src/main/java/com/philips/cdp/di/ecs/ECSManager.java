@@ -12,10 +12,14 @@ import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
+import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
+import com.philips.cdp.di.ecs.request.GetVouchersRequest;
+import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
+import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.request.UpdateCartQuantityRequest;
 import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.AddProductToCartRequest;
@@ -412,6 +416,39 @@ public class ECSManager {
             }
         }, entriesEntity, quantity).executeRequest();
 
+    }
+
+    public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        new SetVoucherRequest(voucherCode, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                getVoucher(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        }).executeRequest();
+    }
+
+    public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        new GetVouchersRequest(ecsCallback).executeRequest();
+    }
+
+    public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+
+        new RemoveVoucherRequest(voucherCode, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                getVoucher(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        }).executeRequest();
     }
 
     //===================================================== End of Shopping Cart ======================================================
