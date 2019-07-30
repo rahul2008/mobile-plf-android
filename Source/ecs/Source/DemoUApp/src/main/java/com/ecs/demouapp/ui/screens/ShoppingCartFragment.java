@@ -309,7 +309,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onLoadFinished(ECSShoppingCart data) {
 
         ecsShoppingCart = data;
-        if( data!=null && data.getEntries()!=null && data.getEntries().get(0)!=null && data.getDeliveryMode()!=null) {
+        if( data!=null && data.getEntries()!=null && data.getEntries().get(0)!=null ) {
 
             onOutOfStock(false);
             mAdapter = new ShoppingCartAdapter(getActivity(), data, this);

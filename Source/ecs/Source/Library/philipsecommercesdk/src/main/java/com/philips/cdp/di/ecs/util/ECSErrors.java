@@ -29,49 +29,56 @@ import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 public class ECSErrors {
 
 
-
     public static Exception getErrorMessage(VolleyError volleyError) {
-        Exception exception = null;
-        String message = null;
-            if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError ) {
-            message = ECS_CANNOT_CONNECT_INTERNET;
-        }  else if (volleyError instanceof AuthFailureError) {
-            message = ECS_AUTH_FAILURE_ERROR;
+        String errorType = ECS_UNKNOWN_ERROR;
+        if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError) {
+            errorType = ECS_CANNOT_CONNECT_INTERNET;
+        } else if (volleyError instanceof AuthFailureError) {
+            errorType=ECS_AUTH_FAILURE_ERROR;
+            try {
+                JSONObject jsonError = new JSONObject(getDetailErrorMessage(volleyError));
+                String type = jsonError.getString("type");
+                if (null != type && !type.isEmpty()) {
+                    errorType = type;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } else if (volleyError instanceof ServerError) {
-            message = ECS_SERVER_NOT_FOUND;
-        }  else if (volleyError instanceof ParseError) {
-            message = ECS_PARSE_ERROR;
-        }else if (volleyError instanceof TimeoutError) {
-            message = ECS_CONNECTION_TIMEOUT;
-        } else{
-            message = ECS_UNKNOWN_ERROR;
+            errorType = ECS_SERVER_NOT_FOUND;
+        } else if (volleyError instanceof ParseError) {
+            errorType = ECS_PARSE_ERROR;
+        } else if (volleyError instanceof TimeoutError) {
+            errorType = ECS_CONNECTION_TIMEOUT;
         }
-        exception = new Exception(message);
-        return  exception;
+        Exception exception = new Exception(errorType);
+        return exception;
     }
 
-    public static String getDetailErrorMessage(VolleyError volleyError){
-        String message =null;
+    public static String getDetailErrorMessage(VolleyError volleyError) {
+        String message = null;
         try {
             String responseBody = new String(volleyError.networkResponse.data, "utf-8");
             JSONObject data = new JSONObject(responseBody);
             JSONArray errors = data.getJSONArray("errors");
             JSONObject jsonMessage = errors.getJSONObject(0);
-            message  = jsonMessage.getString("message");
+
+            message = jsonMessage.toString();
+            //jsonMessage.getString("message");
 
         } catch (JSONException e) {
         } catch (UnsupportedEncodingException errorr) {
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
-    return message;
+        return message;
     }
 
-    public static void showECSToast(Context context, String message){
+    public static void showECSToast(Context context, String message) {
         try {
             Toast.makeText(context, message,
                     Toast.LENGTH_LONG).show();
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
