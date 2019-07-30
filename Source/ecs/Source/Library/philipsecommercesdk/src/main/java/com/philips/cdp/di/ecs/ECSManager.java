@@ -395,8 +395,8 @@ public class ECSManager {
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                //getECSShoppingCart(ecsCallback);
-                ecsCallback.onFailure(error, detailErrorMessage,errorCode);
+                getECSShoppingCart(ecsCallback);
+                //ecsCallback.onFailure(error, detailErrorMessage,errorCode);
 
             }
         }).executeRequest();

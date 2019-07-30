@@ -108,12 +108,14 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         ECSUtility.getInstance().getEcsServices().updateQuantity(0, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
-                getCurrentCartDetails();
+                mLoadListener.onLoadFinished(result);
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                getCurrentCartDetails();
+                Message message = new Message();
+                message.obj = "Could not fetch data";
+                mLoadListener.onLoadError(message);
             }
         });
 
@@ -125,12 +127,14 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         ECSUtility.getInstance().getEcsServices().updateQuantity(count, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
-                getCurrentCartDetails();
+                mLoadListener.onLoadFinished(result);
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                getCurrentCartDetails();
+                Message message = new Message();
+                message.obj = "Could not fetch data";
+                mLoadListener.onLoadError(message);
             }
         });
     }

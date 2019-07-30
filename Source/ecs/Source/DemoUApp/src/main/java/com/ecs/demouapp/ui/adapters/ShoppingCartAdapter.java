@@ -390,9 +390,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage() {
-       //TODO
-        return null;
+    public EntriesEntity getTheProductDataForDisplayingInProductDetailPage() {
+        return shoppingCartDataForProductDetailPage;
     }
 
 

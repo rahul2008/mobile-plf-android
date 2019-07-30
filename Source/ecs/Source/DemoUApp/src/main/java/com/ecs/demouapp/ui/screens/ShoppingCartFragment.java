@@ -45,6 +45,7 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -242,20 +243,20 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
-        ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
+        EntriesEntity theProductDataForDisplayingInProductDetailPage = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
-        bundle.putString(ECSConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
-        bundle.putString(ECSConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
-        bundle.putString(ECSConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
-        bundle.putString(ECSConstant.PRODUCT_VALUE_PRICE, shoppingCartData.getValuePrice());
-        bundle.putString(ECSConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
+        bundle.putString(ECSConstant.PRODUCT_TITLE, theProductDataForDisplayingInProductDetailPage.getProduct().getName());
+        bundle.putString(ECSConstant.PRODUCT_CTN, theProductDataForDisplayingInProductDetailPage.getProduct().getCode());
+        bundle.putString(ECSConstant.PRODUCT_PRICE, theProductDataForDisplayingInProductDetailPage.getBasePrice().getFormattedValue());
+        bundle.putString(ECSConstant.PRODUCT_VALUE_PRICE, String.valueOf(theProductDataForDisplayingInProductDetailPage.getBasePrice().getValue()));
+        bundle.putString(ECSConstant.PRODUCT_OVERVIEW, theProductDataForDisplayingInProductDetailPage.getProduct().getSummary().getMarketingTextHeader());
         if (bundle.getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST) != null) {
             final ArrayList<String> list = bundle.getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST);
             bundle.putStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST, list);
         }
-        bundle.putInt(ECSConstant.PRODUCT_QUANTITY, shoppingCartData.getQuantity());
-        bundle.putInt(ECSConstant.PRODUCT_STOCK, shoppingCartData.getStockLevel());
-        bundle.putSerializable(ECSConstant.SHOPPING_CART_CODE, shoppingCartData);
+        bundle.putInt(ECSConstant.PRODUCT_QUANTITY, theProductDataForDisplayingInProductDetailPage.getQuantity());
+        bundle.putInt(ECSConstant.PRODUCT_STOCK, theProductDataForDisplayingInProductDetailPage.getProduct().getStock().getStockLevel());
+        bundle.putSerializable(ECSConstant.SHOPPING_CART_CODE, theProductDataForDisplayingInProductDetailPage);
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
     }
 

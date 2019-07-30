@@ -112,34 +112,6 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         hideProgressBar();
     }
 
-   /* public void showProgressDialog(Context context, String message) {
-        mProgressDialog = new ProgressDialog(UIDHelper.getPopupThemedContext(context));
-        mProgressDialog.getWindow().setGravity(Gravity.CENTER);
-        mProgressDialog.setCancelable(false);
-        //mProgressDialog.setMessage(message + "...");
-
-        if ((!mProgressDialog.isShowing()) && !((Activity) context).isFinishing()) {
-            mProgressDialog.show();
-            mProgressDialog.setContentView(R.layout.progressbar_dls);
-        }
-    }
-
-
-
-    public void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }*/
-
- /*   public boolean isProgressDialogShowing() {
-        return mProgressDialog != null && mProgressDialog.isShowing();
-    }*/
-
-  /*  public void changeProgressMessage(String message) {
-        mProgressDialog.setMessage(message);
-    }*/
-
     public void addFragment(InAppBaseFragment newFragment,
                             String newFragmentTag,boolean isReplaceWithBackStack) {
         if (mActionbarUpdateListener == null || mIapListener == null)
@@ -155,7 +127,6 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
                     transaction.addToBackStack(newFragmentTag);
                 }else {
                     transaction.replace(getId(), newFragment, simpleName);
-                    //transaction.addToBackStack(null);
                 }
 
                 transaction.commitAllowingStateLoss();

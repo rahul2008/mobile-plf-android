@@ -38,7 +38,6 @@ import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
@@ -54,6 +53,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.asset.Asset;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
@@ -140,17 +140,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             hideProgressBar();
             mAddToCart.hideProgressIndicator();
             ECSErrors.showECSToast(getActivity(),msg.obj.toString());
-           /* IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
-            if (null != iapNetworkError.getServerError()) {
-                if (iapNetworkError.getIAPErrorCode() == ECSConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR) {
-                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                            mContext.getString(R.string.iap_ok),
-                            mContext.getString(R.string.iap_out_of_stock), iapNetworkError.getMessage());
-
-                }
-            } else {
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            }*/
         }
     };
     private Product product;
@@ -218,6 +207,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             Product productCatalogData = (Product) mBundle.getSerializable("ProductCatalogData");
             product = productCatalogData;
 
+            if(mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE)!=null){
+              EntriesEntity entriesEntity = (EntriesEntity) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
+                product = entriesEntity.getProduct();
+            }
+
             if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
@@ -255,6 +249,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mCTNValue = mBundle.getString(ECSConstant.PRODUCT_CTN);
                 mLaunchedFromProductCatalog = mBundle.getBoolean(ECSConstant.IS_PRODUCT_CATALOG, false);
                 mProductTitle = mBundle.getString(ECSConstant.PRODUCT_TITLE);
+                if(product!=null)
                 populateData(product.getSummary());
             }
 
@@ -722,6 +717,32 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     @Override
     public void onLoadFinished(ECSShoppingCart data) {
 
+        product = getProductFromCTN(data);
+
+        if(product ==null){
+            onEventReceived(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED);
+            return;
+        }
+
+        populateData(product.getSummary());
+
+        hideProgressBar();
+
+    }
+
+    private Product getProductFromCTN(ECSShoppingCart data) {
+
+        if(data.getEntries()!=null && data.getEntries().size() ==0) {
+
+            for (EntriesEntity entriesEntity : data.getEntries()) {
+
+                if (mCTNValue.equalsIgnoreCase(entriesEntity.getProduct().getCode())) {
+                    mQuantity.setText(entriesEntity.getQuantity() + "");
+                    return entriesEntity.getProduct();
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -730,14 +751,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             startShoppingCartFragment();
         } else if (event.equalsIgnoreCase(IAP_UPDATE_PRODUCT_COUNT)) {
             createCustomProgressBar(mParentLayout, BIG);
-            final ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
-            mShoppingCartAPI.updateProductQuantity(shoppingCartData, getNewCount(), getQuantityStatusInfo());
+            final EntriesEntity entriesEntity = (EntriesEntity) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
+            mShoppingCartAPI.updateProductQuantity(entriesEntity, getNewCount());
 
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_DELETE_PRODUCT)) {
             hideProgressBar();
             createCustomProgressBar(mParentLayout, BIG);
-            final ShoppingCartData shoppingCartData = (ShoppingCartData) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
-            mShoppingCartAPI.deleteProduct(shoppingCartData);
+            final EntriesEntity entriesEntity = (EntriesEntity) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
+            mShoppingCartAPI.deleteProduct(entriesEntity);
 
         } else if (event.equalsIgnoreCase(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED)) {
             hideProgressBar();
