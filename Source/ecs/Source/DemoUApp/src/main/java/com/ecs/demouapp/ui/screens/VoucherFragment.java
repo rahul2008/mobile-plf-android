@@ -136,18 +136,19 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
 
 
 
-          if(getAppliedValueList.size()>0){
+          if(null!=getAppliedValueList && getAppliedValueList.size()>0){
               acceptedCodeLabel.setVisibility(View.VISIBLE);
               headerParent.setVisibility(View.VISIBLE);
+              for(int i=0; i<getAppliedValueList.size();i++){
+                  count=count+Double.parseDouble(getAppliedValueList.get(i).getAppliedValue().getValue());
+
+              }
           }
           else {
               acceptedCodeLabel.setVisibility(View.GONE);
               headerParent.setVisibility(View.GONE);
           }
-          for(int i=0; i<getAppliedValueList.size();i++){
-              count=count+Double.parseDouble(getAppliedValueList.get(i).getAppliedValue().getValue());
 
-          }
 
             String sValue = (String) String.format("%.2f", count);
             Double totalValue = Double.parseDouble(sValue);
