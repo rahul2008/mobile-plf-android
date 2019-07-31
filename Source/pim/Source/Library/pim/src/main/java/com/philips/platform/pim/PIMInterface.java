@@ -49,8 +49,6 @@ public class PIMInterface implements UappInterface {
     private Context context;
     private PIMInitViewModel pimInitViewModel;
 
-    private FragmentActivity fragmentActivity;
-
     /**
      * API to initialize PIM. Please make sure no propositions are being used before PIMInterface$init.
      *
@@ -62,7 +60,7 @@ public class PIMInterface implements UappInterface {
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
 
-        pimInitViewModel = ViewModelProviders.of(fragmentActivity).get(PIMInitViewModel.class);
+        pimInitViewModel = ViewModelProviders.of((FragmentActivity) context).get(PIMInitViewModel.class);
         MutableLiveData<PIMInitState> livedata = pimInitViewModel.getMuatbleInitLiveData();
         livedata.observe((FragmentActivity) context, observer);
         livedata.postValue(PIMInitState.INIT_IN_PROGRESS);
@@ -78,10 +76,6 @@ public class PIMInterface implements UappInterface {
 
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
-    }
-
-    public void setFragmentActivity(FragmentActivity fragmentActivity) {
-        this.fragmentActivity = fragmentActivity;
     }
 
     Observer<PIMInitState> observer = new Observer<PIMInitState>() {

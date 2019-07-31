@@ -3,7 +3,6 @@ package com.philips.platform.pim.integration;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -29,7 +28,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
@@ -100,13 +98,13 @@ public class PIMInterfaceTest extends TestCase {
         pimInterface.init(mockUappDependencies, mockUappSettings);
     }*/
 
-    @Test
+    /*@Test
     public void testGetUserDataInterface() {
         FragmentActivity fragmentActivity = mock(FragmentActivity.class);
         pimInterface.setFragmentActivity(fragmentActivity);
         pimInterface.init(mockUappDependencies, mockUappSettings);
         pimInterface.getUserDataInterface();
-    }
+    }*/
 
     @Override
     public void tearDown() throws Exception {
