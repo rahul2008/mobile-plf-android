@@ -105,7 +105,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
 
-        String supplierLinkWithUUID = buyURL + "&wtbSource=mobile_" + propositionId + "&" + param + "=";
+        String supplierLinkWithUUID = buyURL.concat("&wtbSource=mobile_").concat(propositionId).concat("&").concat(param).concat("=");
 
         return supplierLinkWithUUID + String.valueOf(UUID.randomUUID());
     }
