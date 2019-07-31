@@ -36,9 +36,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     private Context mContext;
     private RecyclerView mRecyclerView;
     private ArrayList<StoreEntity> mStoreEntity;
-    private static final String ICELEADS_HATCH = "iceleads";
-    private static final String CHANNEL_ADVISOR = "wheretobuy";
-    private static final String CHANNEL_SIGHT = "channelsight";
+    private String param;
 
     public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         BuyFromRetailersFragment fragment = new BuyFromRetailersFragment();
@@ -89,6 +87,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
     @Override
     public void onClickAtRetailer(String buyURL,  StoreEntity storeEntity) {
+        param = storeEntity.getXactparam();
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
         bundle.putString(IAPConstant.IAP_STORE_NAME, storeEntity.getName());
@@ -106,15 +105,9 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
             IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
         }
 
-        String supplierLinkWithUUID = null;
-        if (buyURL.contains(ICELEADS_HATCH)) {
-            supplierLinkWithUUID = buyURL + "&CID=";
-        } else if (buyURL.contains(CHANNEL_ADVISOR)) {
-            supplierLinkWithUUID = buyURL + "&guid=";
-        } else if (buyURL.contains(CHANNEL_SIGHT)) {
-            supplierLinkWithUUID = buyURL + "&subTag=";
-        }
-        return supplierLinkWithUUID + String.valueOf(UUID.randomUUID() + "&wtbSource=" + propositionId);
+        String supplierLinkWithUUID = buyURL + "&wtbSource=mobile_" + propositionId + "&" + param + "=";
+
+        return supplierLinkWithUUID + String.valueOf(UUID.randomUUID());
     }
 
 }
