@@ -1,7 +1,9 @@
 package com.philips.platform.pim.integration;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -27,11 +29,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({PIMSettingManager.class, AuthorizationService.class, BrowserSelector.class})
+@PrepareForTest({PIMSettingManager.class, AuthorizationService.class, BrowserSelector.class, PIMInterface.class, ViewModelProviders.class})
 @RunWith(PowerMockRunner.class)
 public class PIMInterfaceTest extends TestCase {
 
@@ -56,6 +59,11 @@ public class PIMInterfaceTest extends TestCase {
     @Mock
     private AuthorizationService mockAuthorizationService;
 
+    @Mock
+    private LoggingInterface loggingInterface;
+
+    private PIMInterface pimInterface;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -70,16 +78,34 @@ public class PIMInterfaceTest extends TestCase {
         when(mockUappSettings.getContext()).thenReturn(mockContext);
         when(mockContext.getSharedPreferences(anyString(), anyInt())).thenReturn(mockSharedPreferences);
         whenNew(AuthorizationService.class).withArguments(mockContext).thenReturn(mockAuthorizationService);
+
+        pimInterface = new PIMInterface();
     }
 
     @Test
     public void testInit_NotNull() {
         PIMInterface pimInterface = new PIMInterface();
-       // pimInterface.init(mockUappDependencies, mockUappSettings);
+        // pimInterface.init(mockUappDependencies, mockUappSettings);
 
         assertNotNull(mockContext);
         assertNotNull(mockUappDependencies);
         assertNotNull(mockUappSettings);
+    }
+
+   /* @Test
+    public void testInit() throws Exception {
+        mockStatic(ViewModelProviders.class);
+        PIMInterface pimInterface = new PIMInterface();
+
+        pimInterface.init(mockUappDependencies, mockUappSettings);
+    }*/
+
+    @Test
+    public void testGetUserDataInterface() {
+        FragmentActivity fragmentActivity = mock(FragmentActivity.class);
+        pimInterface.setFragmentActivity(fragmentActivity);
+        pimInterface.init(mockUappDependencies, mockUappSettings);
+        pimInterface.getUserDataInterface();
     }
 
     @Override

@@ -32,8 +32,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @RunWith(PowerMockRunner.class)
 public class PIMOIDCConfigrationTest extends TestCase {
 
-    @Mock
-    private AppInfraInterface mockAppInfraInterface;
+
     @Mock
     private AppConfigurationInterface mockAppConfigurationInterface;
     @Mock
@@ -41,14 +40,15 @@ public class PIMOIDCConfigrationTest extends TestCase {
     @Mock
     private PIMSettingManager mockPimSettingManager;
 
-    private static String TAG = PIMOIDCConfigration.class.getSimpleName();
     private PIMOIDCConfigration pimoidcConfigration;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
+
         mockStatic(PIMSettingManager.class);
+        AppInfraInterface mockAppInfraInterface = mock(AppInfraInterface.class);
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
         when(mockAppInfraInterface.getConfigInterface()).thenReturn(mockAppConfigurationInterface);
@@ -155,7 +155,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
         String jsonString = pimoidcConfigration.getCustomClaims();
         assertNotNull(jsonString);
-        verify(mockLoggingInterface).log(DEBUG, TAG, "PIM_KEY_CUSTOM_CLAIMS: " + jsonString);
+        verify(mockLoggingInterface).log(DEBUG, "PIMOIDCConfigration", "PIM_KEY_CUSTOM_CLAIMS: " + jsonString);
     }
 
     private Map getDefaultConfigurationResponse() {
@@ -181,7 +181,6 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @After
     public void tearDown() throws Exception {
-        mockAppInfraInterface = null;
         mockAppConfigurationInterface = null;
     }
 }

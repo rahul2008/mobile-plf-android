@@ -30,7 +30,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
  * Class to manage users
  */
 public class PIMUserManager {
-    private static final String PIM_ACTIVEUUID = "com.pim.activeuuid";
+    private final String PIM_ACTIVEUUID = "com.pim.activeuuid";
     private PIMOIDCUserProfile pimoidcUserProfile;
     private Context context;
     private AppInfraInterface appInfraInterface;
@@ -64,7 +64,6 @@ public class PIMUserManager {
         mLoggingInterface.log(DEBUG, TAG, "User  manager initialized");
     }
 
-
     public void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState);
         pimRestClient.invokeRequest(userProfileRequest, response -> {
@@ -77,7 +76,7 @@ public class PIMUserManager {
             storeUserProfileToSecureStorage(response); //store jsonm reponse to secure storgae
             storeAuthStateToSecureStorage(oidcAuthState); //store auth state to secure storage
 
-             if (userProfileRequestListener != null) {
+            if (userProfileRequestListener != null) {
                 userProfileRequestListener.onUserProfileDownloadSuccess();
             }
         }, error -> {
@@ -202,7 +201,6 @@ public class PIMUserManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PIM_LOGIN_FLOW, login_flow.toString());
         editor.apply();
-
     }
 
     public LOGIN_FLOW getLoginFlow() {

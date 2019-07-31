@@ -15,16 +15,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
-import com.philips.platform.pim.migration.PIMMigrator;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
+import com.philips.platform.pim.migration.PIMMigrator;
 import com.philips.platform.pim.models.PIMInitViewModel;
 import com.philips.platform.pim.utilities.PIMInitState;
 import com.philips.platform.uappframework.UappInterface;
@@ -50,6 +49,8 @@ public class PIMInterface implements UappInterface {
     private Context context;
     private PIMInitViewModel pimInitViewModel;
 
+    private FragmentActivity fragmentActivity;
+
     /**
      * API to initialize PIM. Please make sure no propositions are being used before PIMInterface$init.
      *
@@ -61,7 +62,7 @@ public class PIMInterface implements UappInterface {
     public void init(@NonNull UappDependencies uappDependencies, @NonNull UappSettings uappSettings) {
         context = uappSettings.getContext();
 
-        pimInitViewModel = ViewModelProviders.of((FragmentActivity) context).get(PIMInitViewModel.class);
+        pimInitViewModel = ViewModelProviders.of(fragmentActivity).get(PIMInitViewModel.class);
         MutableLiveData<PIMInitState> livedata = pimInitViewModel.getMuatbleInitLiveData();
         livedata.observe((FragmentActivity) context, observer);
         livedata.postValue(PIMInitState.INIT_IN_PROGRESS);
@@ -79,6 +80,10 @@ public class PIMInterface implements UappInterface {
         mLoggingInterface.log(DEBUG, TAG, "PIMInterface init called.");
     }
 
+    public void setFragmentActivity(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
+    }
+
     Observer<PIMInitState> observer = new Observer<PIMInitState>() {
         @Override
         public void onChanged(@Nullable PIMInitState pimInitState) {
@@ -90,7 +95,7 @@ public class PIMInterface implements UappInterface {
                     mLoggingInterface.log(DEBUG, TAG, "User is already logged in");
                 }
                 PIMSettingManager.getInstance().getPimInitLiveData().removeObserver(observer);
-            }else if(pimInitState == PIMInitState.INIT_FAILED){
+            } else if (pimInitState == PIMInitState.INIT_FAILED) {
                 PIMSettingManager.getInstance().getPimInitLiveData().removeObserver(observer);
             }
         }

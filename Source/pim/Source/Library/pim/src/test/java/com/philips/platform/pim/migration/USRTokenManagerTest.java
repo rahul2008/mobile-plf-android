@@ -138,8 +138,6 @@ public class USRTokenManagerTest extends TestCase {
         spyUsrTokenManager = spy(usrTokenManager);
 
         //Whitebox.invokeMethod(spyUsrTokenManager,"getFlowVersion")
-
-
     }
 
     @Test
@@ -156,7 +154,6 @@ public class USRTokenManagerTest extends TestCase {
         verify(mockLoggingInterface).log(DEBUG, PIMMigrationManager.class.getSimpleName(), "downloadUserUrlFromSD onSuccess");
         verify(mockLoggingInterface).log(DEBUG, PIMMigrationManager.class.getSimpleName(), "Migration Failed!! " + "Signed_in_user not found");
     }
-
 
     @Test
     public void test_GetServicesWithCountryPreference_OnError() {
@@ -229,7 +226,7 @@ public class USRTokenManagerTest extends TestCase {
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
         String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
         HashSet<Pair<String, String>> params = Whitebox.invokeMethod(usrTokenManager, "getParams", "en-US", datetime, accessToken);
-        Whitebox.invokeMethod(usrTokenManager,"paramsToString",params,"UTF");
+        Whitebox.invokeMethod(usrTokenManager, "paramsToString", params, "UTF");
     }
 
     @Test

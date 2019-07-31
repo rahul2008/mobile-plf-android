@@ -99,8 +99,8 @@ public class PIMMigrationManagerTest extends TestCase {
 
         when(PIMSettingManager.getInstance()).thenReturn(mockSettingManager);
         when(mockSettingManager.getAppInfraInterface()).thenReturn(mock(AppInfraInterface.class));
-        when(mockSettingManager.getRestClient()).thenReturn(mockRestInterface);
         when(mockSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        when(mockSettingManager.getRestClient()).thenReturn(mockRestInterface);
         when(mockRestInterface.getRequestQueue()).thenReturn(mock(RequestQueue.class));
         when(mockSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
         whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
