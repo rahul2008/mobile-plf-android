@@ -1,0 +1,19 @@
+{
+   "vouchers": [
+      {
+         "appliedValue": {
+            "currencyIso": "EUR",
+            "formattedValue": "15,00 €",
+            "priceType": "BUY",
+            "value": 15.00
+         },
+         "code": "nutriu-yyyy-rah-010",
+         "freeShipping": false,
+         "name": "10 $ discount",
+         "value": 10.0,
+         "valueFormatted": "10.0%",
+         "valueString": "10.0%",
+         "voucherCode": "nutri-yyyy-rah-010"
+      }
+   ]
+}
