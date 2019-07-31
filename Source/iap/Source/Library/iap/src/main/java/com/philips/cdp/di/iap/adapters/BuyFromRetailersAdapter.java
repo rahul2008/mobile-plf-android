@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.platform.appinfra.logging.LoggingUtils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -68,7 +70,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             holder.mArrow.setRotation(180);
         }
 
-        final String buyURL = storeEntity.getBuyURL()+"source = mobile";
+        final String buyURL = storeEntity.getBuyURL();
         holder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
