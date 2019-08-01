@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
+import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
@@ -170,6 +171,11 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         mECSManager.getListSavedAddress(ecsCallback);
+    }
+
+    @Override
+    public void createNewAddress(Addresses ecsAddress, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        mECSManager.createNewAddress(ecsAddress, ecsCallback);
     }
 
     private void setLangAndCountry(String locale) {
