@@ -92,4 +92,6 @@ public interface ECSServiceProvider {
     void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback);
 
     void setDeliveryAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
+
+    void updateAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 }

@@ -30,6 +30,7 @@ import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.SetVoucherRequest;
+import com.philips.cdp.di.ecs.request.UpdateAddressRequest;
 import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.AddProductToECSShoppingCartRequest;
@@ -519,6 +520,10 @@ public class ECSManager {
         }).executeRequest();
 
 
+    }
+
+    public void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+        new UpdateAddressRequest(address,ecsCallback).executeRequest();
     }
     //===================================================== End of Address ====================================================
 }
