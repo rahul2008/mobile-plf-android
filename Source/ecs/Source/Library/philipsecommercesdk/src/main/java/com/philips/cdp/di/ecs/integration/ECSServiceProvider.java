@@ -89,5 +89,7 @@ public interface ECSServiceProvider {
 
     void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback);
 
+    void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback);
+
     void setDeliveryAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 }

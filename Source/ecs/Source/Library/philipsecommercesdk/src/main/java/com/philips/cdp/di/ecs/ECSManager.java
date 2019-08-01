@@ -21,6 +21,7 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
+import com.philips.cdp.di.ecs.request.CreateAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
@@ -48,6 +49,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 public class ECSManager {
 
@@ -486,6 +489,12 @@ public class ECSManager {
         new GetRegionsRequest(ecsCallback).executeRequest();
     }
 
+
+    //===================================================== End of Delivery Mode ====================================================
+
+
+
+    //===================================================== Start of Address ====================================================
     public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         new GetAddressRequest(ecsCallback).executeRequest();
     }
@@ -494,4 +503,22 @@ public class ECSManager {
         new SetDeliveryAddressRequest(address.getId() ,ecsCallback).executeRequest();
     }
     //===================================================== End of Delivery Mode ====================================================
+
+    public void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback){
+        new CreateAddressRequest(address, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                // Address is created and now Address list needs to be called
+                getListSavedAddress(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,12999);
+            }
+        }).executeRequest();
+
+
+    }
+    //===================================================== End of Address ====================================================
 }

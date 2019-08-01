@@ -174,6 +174,11 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
+    public void createNewAddress(Addresses ecsAddress, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        mECSManager.createNewAddress(ecsAddress, ecsCallback);
+    }
+
+    @Override
     public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
         mECSManager.setDeliveryAddress(address,ecsCallback);
     }
