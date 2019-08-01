@@ -42,6 +42,7 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,13 +85,11 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         addressContractor.setBillingAddressFields(addressFields);
     }
 
-    public void getRegions(String countryISO){
-        mAddressController.getRegions(countryISO);
-    }
-
     @Override
     public void onGetRegions(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
+        if(msg.obj instanceof Exception){
+            CartModelContainer.getInstance().setRegionList(null);
+        }else if (msg.obj instanceof IAPNetworkError) {
             CartModelContainer.getInstance().setRegionList(null);
         } else if (msg.obj instanceof RegionsList) {
             CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
@@ -126,12 +125,14 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         if (msg.what == RequestCode.UPDATE_ADDRESS) {
             if (msg.obj instanceof IAPNetworkError) {
                 addressContractor.showErrorMessage(msg);
-            } else {
+            }else if(msg.obj instanceof Exception){
+                addressContractor.showErrorMessage(msg);
+            }else {
                 if (addressContractor.getContinueButtonText().equalsIgnoreCase(addressContractor.getActivityContext().getString(R.string.iap_save))) {
                     addressContractor.hideProgressbar();
                     addressContractor.getFragmentActivity().getSupportFragmentManager().popBackStackImmediate();
                 } else {
-                   setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
+                    setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
                 }
             }
         }
@@ -192,6 +193,10 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             addressContractor.hideProgressbar();
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
+            addressContractor.hideProgressbar();
+        } else if ((msg.obj instanceof Exception)) {
+            Exception exception = (Exception)msg.obj;
+            ECSErrors.showECSToast(addressContractor.getFragmentActivity(),exception.getMessage());
             addressContractor.hideProgressbar();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
@@ -332,11 +337,10 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             JSONArray jsonArray = addressEnablerJsonObject.getJSONArray(country);
 
 
-            for(int i = 0; i < jsonArray.length(); i++)
-            {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 final String excludedField = jsonArray.getString(i);
                 AddressFieldJsonEnum addressFieldJsonEnum = AddressFieldJsonEnum.getAddressFieldJsonEnumFromField(excludedField);
-                setAddressFieldEnabler(addressFieldEnabler,addressFieldJsonEnum);
+                setAddressFieldEnabler(addressFieldEnabler, addressFieldJsonEnum);
             }
 
         } catch (JSONException e) {
@@ -358,9 +362,9 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         return new String(formArray);
     }
 
-    private void setAddressFieldEnabler(AddressFieldEnabler addressFieldEnabler, AddressFieldJsonEnum field){
+    private void setAddressFieldEnabler(AddressFieldEnabler addressFieldEnabler, AddressFieldJsonEnum field) {
 
-        switch (field){
+        switch (field) {
 
             case ADDRESS_ONE:
                 addressFieldEnabler.setAddress1Enabled(false);
@@ -403,11 +407,11 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         }
     }
 
-    public SalutationEnum getEnglishSalutation(String salutation){
+    public SalutationEnum getEnglishSalutation(String salutation) {
 
-        if(salutation.equalsIgnoreCase((addressContractor.getActivityContext().getString(R.string.iap_mr)))){
+        if (salutation.equalsIgnoreCase((addressContractor.getActivityContext().getString(R.string.iap_mr)))) {
             return SalutationEnum.MR;
-        }else{
+        } else {
             return SalutationEnum.MS;
         }
     }

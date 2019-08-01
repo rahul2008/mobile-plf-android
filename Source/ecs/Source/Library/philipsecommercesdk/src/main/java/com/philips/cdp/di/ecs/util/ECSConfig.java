@@ -11,6 +11,7 @@ public enum ECSConfig {
     String  propositionID;
     AppInfra appInfra;
     HybrisConfigResponse config;
+    private String country;
 
     public String getAccessToken() {
         return accessToken;
@@ -87,5 +88,13 @@ public enum ECSConfig {
 
     public void setAuthToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

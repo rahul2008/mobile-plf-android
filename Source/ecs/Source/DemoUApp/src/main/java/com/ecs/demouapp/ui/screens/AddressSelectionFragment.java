@@ -41,6 +41,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -144,11 +145,14 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             return;
         }
 
-       hideProgressBar();
+        hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             moveToShoppingCart();
-        } else {
+        } else if (msg.obj instanceof Exception){
+            ECSErrors.showECSToast(mContext,"error feetching address");
+            moveToShoppingCart();
+    }else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
                 if (mAdapter.getOptionsClickPosition() != -1)
                     mAddresses.remove(mAdapter.getOptionsClickPosition());

@@ -2,12 +2,15 @@ package com.philips.cdp.di.ecs;
 
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.Data;
@@ -17,8 +20,12 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
+import com.philips.cdp.di.ecs.request.GetAddressRequest;
+import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.GetRegionsRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
+import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
@@ -330,8 +337,6 @@ public class ECSManager {
                     // if no product is added to cart
                     ecsCallback.onResponse(ecsShoppingCart);
                 } else {
-
-
                     //Preparing products to get summary Data
                     List<Product> productList = new ArrayList<>();
 
@@ -408,7 +413,6 @@ public class ECSManager {
         new UpdateECSShoppingCartQuantityRequest(new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
-
                 getECSShoppingCart(ecsCallback);
             }
 
@@ -453,5 +457,35 @@ public class ECSManager {
         }).executeRequest();
     }
 
+
+
     //===================================================== End of Shopping Cart ======================================================
+
+    //===================================================== start of Delivery Mode ====================================================
+    public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+        new GetDeliveryModesRequest(ecsCallback).executeRequest();
+    }
+
+    public void setDeliveryMode(String deliveryModeID, ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+        new SetDeliveryModesRequest(deliveryModeID, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                getDeliveryModes(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+            }
+        }).executeRequest();
+    }
+
+    public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
+        new GetRegionsRequest(ecsCallback).executeRequest();
+    }
+
+    public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        new GetAddressRequest(ecsCallback).executeRequest();
+    }
+    //===================================================== End of Delivery Mode ====================================================
 }

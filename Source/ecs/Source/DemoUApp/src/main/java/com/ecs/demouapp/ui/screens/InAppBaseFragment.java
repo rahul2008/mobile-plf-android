@@ -31,6 +31,7 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -234,12 +235,15 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         } else if ((msg.obj instanceof IAPNetworkError)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             hideProgressBar();
-        } else if ((msg.obj instanceof GetDeliveryModes)) {
+        }  else if ((msg.obj instanceof Exception)) {
+            Exception exception = (Exception) msg.obj;
+            ECSErrors.showECSToast(mContext,exception.getMessage());
+            hideProgressBar();
+        }else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             if (deliveryModeList.size() > 0) {
                 CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-               // addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
             }
         }
     }

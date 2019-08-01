@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
@@ -25,8 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ECSServices implements ECSServiceProvider {
-
-   // private static ECSServices mECSServices;
 
     private ECSManager mECSManager;
 
@@ -64,6 +65,7 @@ public class ECSServices implements ECSServiceProvider {
 
                 String locale = serviceDiscoveryService.getLocale();
                 ECSConfig.INSTANCE.setLocale(locale);
+                setLangAndCountry(locale);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
                 ECSConfig.INSTANCE.setBaseURL(configUrls+"/");
 
@@ -150,4 +152,29 @@ public class ECSServices implements ECSServiceProvider {
         mECSManager.removeVoucher(voucherCode,ecsCallback);
     }
 
+    @Override
+    public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+        mECSManager.getDeliveryModes(ecsCallback);
+    }
+
+    @Override
+    public void setDeliveryMode(String deliveryModeID, ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+        mECSManager.setDeliveryMode(deliveryModeID,ecsCallback);
+    }
+
+    @Override
+    public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
+        mECSManager.getRegions(ecsCallback);
+    }
+
+    @Override
+    public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        mECSManager.getListSavedAddress(ecsCallback);
+    }
+
+    private void setLangAndCountry(String locale) {
+        String[] localeArray;
+        localeArray = locale.split("_");
+        ECSConfig.INSTANCE.setCountry(localeArray[1]);
+    }
 }

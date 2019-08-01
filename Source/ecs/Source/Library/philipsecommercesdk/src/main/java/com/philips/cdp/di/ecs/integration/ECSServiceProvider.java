@@ -1,10 +1,13 @@
 package com.philips.cdp.di.ecs.integration;
 
 
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 
@@ -77,4 +80,11 @@ public interface ECSServiceProvider {
 
     void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue,Exception> ecsCallback);
 
+    void getDeliveryModes(ECSCallback<GetDeliveryModes,Exception> ecsCallback);
+
+    void setDeliveryMode(String deliveryModeID,ECSCallback<GetDeliveryModes,Exception> ecsCallback);
+
+    void getRegions(ECSCallback<RegionsList, Exception> ecsCallback);
+
+    void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback);
 }

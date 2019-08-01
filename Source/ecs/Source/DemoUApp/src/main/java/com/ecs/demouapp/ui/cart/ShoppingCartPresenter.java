@@ -40,6 +40,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.HashMap;
 import java.util.List;
@@ -253,7 +254,6 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void getProductCartCount(final Context context, final ECSCartListener
             iapCartListener) {
 
-
         ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart carts) {
@@ -446,7 +446,10 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void onGetDeliveryModes(Message msg) {
         if ((msg.obj instanceof IAPNetworkError)) {
             return;
-        } else if ((msg.obj instanceof GetDeliveryModes)) {
+        }else if(msg.obj instanceof Exception){
+            Exception exception = (Exception) msg.obj;
+            ECSErrors.showECSToast(mContext,exception.getMessage());
+        } if ((msg.obj instanceof GetDeliveryModes)) {
             final GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             final List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);

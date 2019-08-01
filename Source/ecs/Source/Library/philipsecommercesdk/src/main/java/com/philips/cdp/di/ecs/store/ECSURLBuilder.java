@@ -42,11 +42,11 @@ public class ECSURLBuilder extends AbstractStore {
     private static final String SUFFIX_CURRENT_PAGE = "&currentPage=%s";
     private static final String SUFFIX_STRING_PARAM = "%s";
 
-    private static final String SUFFIX_ADDRESSES = "/addresses";
+    private static final String SUFFIX_ADDRESSES = "addresses";
     private static final String SUFFIX_DELIVERY_ADDRESS = "/delivery";
 
     private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
-    private static final String SUFFIX_DELIVERY_MODES = "/deliverymodes";
+    private static final String SUFFIX_DELIVERY_MODES = "deliverymodes";
 
     private static final String SUFFIX_PAYMENT_DETAILS = "/paymentdetails";
     private static final String SUFFIX_ORDERS = "/orders";
@@ -316,7 +316,10 @@ public class ECSURLBuilder extends AbstractStore {
     //Address
     @Override
     public String getRegionsUrl() {
-        return mRegionsUrl;
+       return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                 METAINFO+SEPERATOR+
+                 REGIONS+SEPERATOR+
+                 ECSConfig.INSTANCE.getCountry()+FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
     }
 
     @Override
@@ -326,7 +329,15 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getAddressesUrl() {
-        return mAddressDetailsUrl;
+
+        ///pilcommercewebservices/v2/DE_Pub/users/current/addresses?fields=FULL&amp; lang=de_DE
+        //https://acc.us.pil.shop.philips.com/pilcommercewebservices/v2/DE_Pub/users/current/addresses?fields=FULL&lang=de_DE
+
+       return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
+                USER+SEPERATOR +
+                SUFFIX_CURRENT+SEPERATOR +
+                SUFFIX_ADDRESSES+ FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
     }
 
     @Override
@@ -342,12 +353,29 @@ public class ECSURLBuilder extends AbstractStore {
     //Delivery mode
     @Override
     public String getDeliveryModesUrl() {
-        return mGetDeliveryModesUrl;
+        //baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODES).concat(LANG) + mStoreConfig.getLocale();
+        // /pilcommercewebservices/v2/DE_Pub/users/current/carts/current/deliverymodes
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_CARTS+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_DELIVERY_MODES;
     }
 
     @Override
     public String getSetDeliveryModeUrl() {
-        return mDeliveryModeUrl;
+
+        // baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODE).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
+        ///pilcommercewebservices/v2/DE_Pub/users/current/carts/current/deliverymode
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_CARTS+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_DELIVERY_MODES;
     }
 
     //Payment

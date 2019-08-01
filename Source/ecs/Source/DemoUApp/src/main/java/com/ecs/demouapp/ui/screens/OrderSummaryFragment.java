@@ -80,6 +80,7 @@ import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -134,7 +135,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         View rootView = inflater.inflate(R.layout.ecs_order_summary_fragment, container, false);
         mParentLayout = rootView.findViewById(R.id.parent_layout);
         initializeViews(rootView);
-        Utility.isDelvieryFirstTimeUser=true;
+        Utility.isDelvieryFirstTimeUser = true;
         return rootView;
     }
 
@@ -156,7 +157,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 billingAddressFields.setLine1(billingAddress.getLine1());
                 billingAddressFields.setPostalCode(billingAddress.getPostalCode());
                 billingAddressFields.setTown(billingAddress.getTown());
-                if(billingAddress.getRegion()!=null) {
+                if (billingAddress.getRegion() != null) {
                     billingAddressFields.setRegionName(billingAddress.getRegion().getIsocodeShort());
                 }
                 CartModelContainer.getInstance().setBillingAddress(billingAddressFields);
@@ -174,7 +175,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
         //    mAddressController.setDeliveryMode(CartModelContainer.getInstance().getDeliveryModes().get(0).getCode());
-       // mAddressController.getDeliveryModes();
+        // mAddressController.getDeliveryModes();
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
     }
 
@@ -192,7 +193,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     private void updateCartOnResume() {
-        createCustomProgressBar(mParentLayout,BIG);
+        createCustomProgressBar(mParentLayout, BIG);
         updateCartDetails(mShoppingCartAPI);
     }
 
@@ -215,7 +216,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         unregisterEventNotification();
     }
 
-    private void unregisterEventNotification(){
+    private void unregisterEventNotification() {
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.BUTTON_STATE_CHANGED), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_LAUNCH_PRODUCT_CATALOG), this);
@@ -223,6 +224,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.IAP_UPDATE_PRODUCT_COUNT), this);
         EventHelper.getInstance().unregisterEventNotification(String.valueOf(ECSConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER), this);
     }
+
     @Override
     public void onClick(final View v) {
 
@@ -289,7 +291,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             showProductCatalogFragment(ShoppingCartFragment.TAG);
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_EDIT_DELIVERY_MODE)) {
             addFragment(DeliveryMethodFragment.createInstance(new Bundle(), AnimationType.NONE),
-                    DeliveryMethodFragment.TAG,true);
+                    DeliveryMethodFragment.TAG, true);
         }
     }
 
@@ -300,7 +302,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         bundle.putString(ECSConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
         bundle.putString(ECSConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
         bundle.putString(ECSConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
-        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG,true);
+        addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG, true);
     }
 
     @Override
@@ -308,6 +310,10 @@ public class OrderSummaryFragment extends InAppBaseFragment
         hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+        } else if (msg.obj instanceof Exception) {
+
+            Exception exception = (Exception) msg.obj;
+            ECSErrors.showECSToast(mContext, exception.getMessage());
         } else {
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)
@@ -315,13 +321,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
-                        AddressFragment.TAG,true);
+                        AddressFragment.TAG, true);
             } else if (msg.obj instanceof GetShippingAddressData) {
                 GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
                 mAddresses = shippingAddresses.getAddresses();
                 bundle.putSerializable(ECSConstant.ADDRESS_LIST, (Serializable) mAddresses);
                 addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
-                        AddressSelectionFragment.TAG,true);
+                        AddressSelectionFragment.TAG, true);
             }
         }
     }
@@ -329,6 +335,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onGetRegions(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
+            CartModelContainer.getInstance().setRegionList(null);
+        } else if (msg.obj instanceof Exception) {
             CartModelContainer.getInstance().setRegionList(null);
         } else if (msg.obj instanceof RegionsList) {
             CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
@@ -422,6 +430,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
         hideProgressBar();
         if ((msg.obj instanceof IAPNetworkError)) {
             updateCartDetails(mShoppingCartAPI);
+        } else if ((msg.obj instanceof Exception)) {
+            Exception exception = (Exception) msg.obj;
+            ECSErrors.showECSToast(mContext, exception.getMessage());
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
@@ -433,7 +444,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onSetDeliveryMode(Message msg) {
-        Utility.isDelvieryFirstTimeUser=false;
+        Utility.isDelvieryFirstTimeUser = false;
         if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
             updateCartOnResume();
         } else {
@@ -460,7 +471,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onItemClick(int position) {
         final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-        createCustomProgressBar(mParentLayout,BIG);
+        createCustomProgressBar(mParentLayout, BIG);
         updateCartDetails(mShoppingCartAPI);
     }
 
@@ -486,7 +497,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEB_PAY_URL, mMakePaymentData.getWorldpayUrl());
-            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null,true);
+            addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null, true);
         } else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
@@ -538,7 +549,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         Bundle bundle = new Bundle();
         bundle.putString(ModelConstants.ORDER_NUMBER, details.getCode());
         bundle.putBoolean(ModelConstants.PAYMENT_SUCCESS_STATUS, Boolean.TRUE);
-        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null,true);
+        addFragment(PaymentConfirmationFragment.createInstance(bundle, AnimationType.NONE), null, true);
     }
 
     private void checkForOutOfStock(final IAPNetworkError iapNetworkError, Message msg) {

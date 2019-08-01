@@ -39,7 +39,12 @@ import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -73,18 +78,22 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
     public void getRegions() {
-        GetRegionsRequest model = new GetRegionsRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
-    }
 
-    public void getRegions(String countryISO) {
-        String country = getStore().getCountry();
-        getStore().setLangAndCountry(getStore().getLocale(),countryISO);
-        GetRegionsRequest model = new GetRegionsRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_REGIONS, model, model);
+        ECSUtility.getInstance().getEcsServices().getRegions(new ECSCallback<RegionsList, Exception>() {
+            @Override
+            public void onResponse(RegionsList result) {
+                Message message = new Message();
+                message.obj = result;
+                mAddressListener.onGetRegions(message);
+            }
 
-        // Todo : Its a hack ,need to be fixed
-        getStore().setLangAndCountry(getStore().getLocale(),country);
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                Message message = new Message();
+                message.obj = error;
+                mAddressListener.onGetRegions(message);
+            }
+        });
     }
 
     public void getUser() {
@@ -99,8 +108,32 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
     public void getAddresses() {
-        GetAddressRequest model = new GetAddressRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
+
+        ECSUtility.getInstance().getEcsServices().getListSavedAddress(new ECSCallback<GetShippingAddressData, Exception>() {
+            @Override
+            public void onResponse(GetShippingAddressData result) {
+
+
+                Message message = new Message();
+                if(result==null){
+                    message.obj ="";
+                }else{
+                    message.obj = result;
+                }
+                mAddressListener.onGetAddress(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+                Message message = new Message();
+                message.obj = error;
+                mAddressListener.onGetAddress(message);
+            }
+        });
+
+        //GetAddressRequest model = new GetAddressRequest(getStore(), null, this);
+        //getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
     }
 
     public void deleteAddress(String addressId) {
@@ -126,16 +159,49 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
     public void getDeliveryModes() {
-        GetDeliveryModesRequest model = new GetDeliveryModesRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_DELIVERY_MODE, model, model);
+
+        ECSUtility.getInstance().getEcsServices().getDeliveryModes(new ECSCallback<GetDeliveryModes, Exception>() {
+            @Override
+            public void onResponse(GetDeliveryModes result) {
+                Message message = new Message();
+                message.obj = result;
+                mAddressListener.onGetDeliveryModes(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                Message message = new Message();
+                message.obj = error;
+                mAddressListener.onGetDeliveryModes(message);
+            }
+        });
+        /*GetDeliveryModesRequest model = new GetDeliveryModesRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_DELIVERY_MODE, model, model);*/
     }
 
     public void setDeliveryMode(String deliveryMode) {
-        HashMap<String, String> params = new HashMap<>();
+
+        ECSUtility.getInstance().getEcsServices().setDeliveryMode(deliveryMode, new ECSCallback<GetDeliveryModes, Exception>() {
+            @Override
+            public void onResponse(GetDeliveryModes result) {
+                Message message = new Message();
+                message.obj = result;
+                mAddressListener.onGetDeliveryModes(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                Message message = new Message();
+                message.obj = error;
+                mAddressListener.onGetDeliveryModes(message);
+            }
+        });
+
+       /* HashMap<String, String> params = new HashMap<>();
         params.put(ModelConstants.DELIVERY_MODE_ID, deliveryMode);
 
         SetDeliveryAddressModeRequest model = new SetDeliveryAddressModeRequest(getStore(), params, this);
-        getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_MODE, model, model);
+        getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_MODE, model, model);*/
     }
 
     @Override

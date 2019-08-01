@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetVouchersRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
+public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
     private final ECSCallback<GetAppliedValue,Exception> ecsCallback;
 

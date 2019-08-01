@@ -46,6 +46,7 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -265,7 +266,10 @@ public class ShoppingCartFragment extends InAppBaseFragment
         hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getActivity());
-        } else {
+        } else  if (msg.obj instanceof Exception) {
+            Exception exception = (Exception) msg.obj;
+            ECSErrors.showECSToast(getActivity(),exception.getMessage());
+        } else{
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)
                 bundle.putParcelable(ECSConstant.SET_DELIVERY_MODE, mSelectedDeliveryMode);
@@ -285,13 +289,17 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onGetRegions(Message msg) {
+        hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
+            CartModelContainer.getInstance().setRegionList(null);
+        }else if (msg.obj instanceof Exception) {
             CartModelContainer.getInstance().setRegionList(null);
         } else if (msg.obj instanceof RegionsList) {
             CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
+
         mAddressController.getAddresses();
     }
 
@@ -414,7 +422,10 @@ public class ShoppingCartFragment extends InAppBaseFragment
         hideProgressBar();
         if ((msg.obj instanceof IAPNetworkError)) {
             updateCartDetails(mShoppingCartAPI);
-        } else if ((msg.obj instanceof GetDeliveryModes)) {
+        }
+        if ((msg.obj instanceof Exception)) {
+            updateCartDetails(mShoppingCartAPI);
+        }else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());

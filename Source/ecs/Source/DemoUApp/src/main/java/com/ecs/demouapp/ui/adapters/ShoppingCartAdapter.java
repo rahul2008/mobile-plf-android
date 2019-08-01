@@ -212,8 +212,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (entries.get(0) != null) {
                 data = entries.get(0);
 
-                shoppingCartFooter.mTotalCost.setText(data.getProduct().getPrice().getFormattedValue());
-                shoppingCartFooter.mVatValue.setText(data.getProduct().getPrice().getValue()+"");
+                shoppingCartFooter.mTotalCost.setText(mData.getTotalPriceWithTax().getFormattedValue());
+                shoppingCartFooter.mVatValue.setText(mData.getTotalTax().getFormattedValue()+"");
                 if (null != mData.getDeliveryMode()) {
                     handleTax(data, shoppingCartFooter);
 

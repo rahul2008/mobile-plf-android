@@ -18,6 +18,7 @@ import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.List;
 
@@ -71,14 +72,6 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
         mDeliveryModeAdapter.notifyDataSetChanged();
     }
 
-//    private View.OnClickListener mConfirmBtnClick = new View.OnClickListener() {
-//
-//        @Override
-//        public void onClick(View view) {
-//            //do nothing
-//        }
-//    };
-
     @Override
     public void onItemClick(int position) {
         createCustomProgressBar(mParentContainer, BIG);
@@ -114,8 +107,9 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
 
     @Override
     public void onGetDeliveryModes(Message msg) {
-        if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        if ((msg.obj instanceof Exception)) {
+            Exception exception =(Exception) msg.obj;
+            ECSErrors.showECSToast(getActivity(),exception.getMessage());
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             List<DeliveryModes> deliveryModeList;
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
@@ -130,8 +124,9 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     @Override
     public void onSetDeliveryMode(Message msg) {
         hideProgressBar();
-        if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getContext());
+        if ((msg.obj instanceof Exception)) {
+            Exception exception =(Exception) msg.obj;
+            ECSErrors.showECSToast(getActivity(),exception.getMessage());
         }else {
             getFragmentManager().popBackStack();
         }
