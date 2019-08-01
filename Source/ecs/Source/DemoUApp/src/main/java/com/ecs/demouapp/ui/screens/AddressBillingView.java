@@ -15,14 +15,20 @@ import com.ecs.demouapp.ui.address.Validator;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.InputValidator;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.SalutationDropDown;
 import com.ecs.demouapp.ui.view.StateDropDown;
+import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.ValidationEditText;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /* Copyright (c) Koninklijke Philips N.V., 2017
@@ -56,7 +62,20 @@ public class AddressBillingView
     private AddressContractor addressContractor;
     private TextView tvState, tvHouseNo, tvFirstName, tvLastName, tvSalutation, tvAddressLineOne, tvTown, tvPostalCode, tvCountry, tvEmail, tvPhone;
 
+    HashMap<String, Object> userDetails;
     public AddressBillingView(AddressPresenter addressPresenter) {
+        ArrayList<String> userDataMap = new ArrayList<>();
+
+        userDataMap.add(UserDetailConstants.GIVEN_NAME);
+        userDataMap.add(UserDetailConstants.FAMILY_NAME);
+        userDataMap.add(UserDetailConstants.EMAIL);
+        try{
+             userDetails =   ECSUtility.getInstance().getUserDataInterface().getUserDetails(userDataMap);
+        } catch (UserDataInterfaceException e) {
+            e.printStackTrace();
+        }
+
+
         this.addressPresenter = addressPresenter;
         addressContractor = addressPresenter.getAddressContractor();
         this.mContext = this.addressPresenter.getAddressContractor().getActivityContext();
@@ -92,6 +111,9 @@ public class AddressBillingView
 
 
     private void initializeViews(View rootView) {
+
+
+
         billingAddressFields = new AddressFields();
         mValidator = new Validator();
 
@@ -145,7 +167,10 @@ public class AddressBillingView
             setViewVisible(mLlFirstNameBilling, tvFirstName ,mEtFirstNameBilling);
             inputValidatorFirstNameBilling = new InputValidator(Validator.NAME_PATTERN);
             mLlFirstNameBilling.setValidator(inputValidatorFirstNameBilling);
-            mEtFirstNameBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
+
+
+            String firstname=  (String) userDetails.get(UserDetailConstants.GIVEN_NAME);
+            mEtFirstNameBilling.setText(firstname);
             mEtFirstNameBilling.addTextChangedListener(new IAPTextWatcher(mEtFirstNameBilling));
         }else{
             setViewInVisible(mLlFirstNameBilling, tvFirstName ,mEtFirstNameBilling);
@@ -156,7 +181,8 @@ public class AddressBillingView
             setViewVisible(mLlLastNameBilling, tvLastName,mEtLastNameBilling);
             inputValidatorLastNameBilling = new InputValidator(Validator.NAME_PATTERN);
             mLlLastNameBilling.setValidator(inputValidatorLastNameBilling);
-            String familyName = HybrisDelegate.getInstance(mContext).getStore().getFamilyName();
+            String familyName=  (String) userDetails.get(UserDetailConstants.FAMILY_NAME);
+
             if (!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
                 mEtLastNameBilling.setText(familyName);
             } else {
@@ -228,7 +254,10 @@ public class AddressBillingView
             setViewVisible(mLlEmailBilling, tvEmail, mEtEmailBilling);
             inputValidatorEmailBilling = new InputValidator(Validator.EMAIL_PATTERN);
             mLlEmailBilling.setValidator(inputValidatorEmailBilling);
-            mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+
+            String email=  (String) userDetails.get(UserDetailConstants.EMAIL);
+            mEtEmailBilling.setText(email);
+
             mEtEmailBilling.setEnabled(false);
             mEtEmailBilling.addTextChangedListener(new IAPTextWatcher(mEtEmailBilling));
         }else{
@@ -250,7 +279,7 @@ public class AddressBillingView
             inputValidatorCountryBilling = new InputValidator(Validator.COUNTRY_PATTERN);
             mLlCountryBilling.setValidator(inputValidatorCountryBilling);
             mEtCountryBilling.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-            mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+            mEtCountryBilling.setText(ECSConfig.INSTANCE.getCountry());
             mEtCountryBilling.setEnabled(false);
         }else{
             setViewInVisible(mLlCountryBilling, tvCountry, mEtCountryBilling);
@@ -414,7 +443,7 @@ public class AddressBillingView
             }
         }
         if (editText.getId() == R.id.et_billing_phone1 && !hasFocus && addressContractor.isPhoneNumberEnabled()) {
-            result = addressPresenter.validatePhoneNumber(mEtPhone1Billing, HybrisDelegate.getInstance().getStore().getCountry()
+            result = addressPresenter.validatePhoneNumber(mEtPhone1Billing, ECSConfig.INSTANCE.getCountry()
                     , mEtPhone1Billing.getText().toString());
             if (!result) {
                 mLlPhone1Billing.setErrorMessage(R.string.iap_phone_error);
@@ -648,8 +677,9 @@ public class AddressBillingView
             mEtHouseNoBilling.setText(billingAddressFields.getHouseNumber());
             mEtTownBilling.setText(billingAddressFields.getTown());
             mEtPostalCodeBilling.setText(billingAddressFields.getPostalCode());
-            mEtCountryBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
-            mEtEmailBilling.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+            mEtCountryBilling.setText(ECSConfig.INSTANCE.getCountry());
+            String email=  (String) userDetails.get(UserDetailConstants.EMAIL);
+            mEtEmailBilling.setText(email);
 
             if (addressContractor.isStateEnabled() && billingAddressFields.getRegionName() != null) {
                 mEtStateBilling.setVisibility(View.VISIBLE);
