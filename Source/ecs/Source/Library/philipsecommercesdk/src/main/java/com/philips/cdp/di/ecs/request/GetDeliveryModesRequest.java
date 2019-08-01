@@ -7,8 +7,12 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject> {
 
@@ -23,6 +27,13 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
         GetDeliveryModes getDeliveryModes = new Gson().fromJson(response.toString(),
                 GetDeliveryModes.class);
         ecsCallback.onResponse(getDeliveryModes);
+    }
+
+    @Override
+    public Map<String, String> getHeader() {
+        HashMap<String, String> authMap = new HashMap<>();
+        authMap.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
+        return authMap;
     }
 
     @Override

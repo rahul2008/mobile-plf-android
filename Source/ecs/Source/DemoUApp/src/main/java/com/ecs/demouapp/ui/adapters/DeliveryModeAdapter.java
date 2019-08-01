@@ -13,9 +13,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.response.addresses.DeliveryCost;
-import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
 import com.ecs.demouapp.ui.screens.OnSetDeliveryModeListener;
+import com.philips.cdp.di.ecs.model.address.DeliveryCost;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 
 import java.util.List;
 

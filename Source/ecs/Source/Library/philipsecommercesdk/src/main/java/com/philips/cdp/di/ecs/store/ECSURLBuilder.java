@@ -43,9 +43,9 @@ public class ECSURLBuilder extends AbstractStore {
     private static final String SUFFIX_STRING_PARAM = "%s";
 
     private static final String SUFFIX_ADDRESSES = "addresses";
-    private static final String SUFFIX_DELIVERY_ADDRESS = "/delivery";
+    private static final String SUFFIX_DELIVERY_ADDRESS = "delivery";
 
-    private static final String SUFFIX_DELIVERY_MODE = "/deliverymode";
+    private static final String SUFFIX_DELIVERY_MODE = "deliverymode";
     private static final String SUFFIX_DELIVERY_MODES = "deliverymodes";
 
     private static final String SUFFIX_PAYMENT_DETAILS = "/paymentdetails";
@@ -348,13 +348,24 @@ public class ECSURLBuilder extends AbstractStore {
                 USER+SEPERATOR +
                 SUFFIX_CURRENT+SEPERATOR +
                 SUFFIX_ADDRESSES+SEPERATOR+
-                addressID+SEPERATOR+
+                addressID+
                 FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
     }
 
     @Override
     public String getSetDeliveryAddressUrl() {
-        return mDeliveryAddressUrl;
+
+        ///pilcommercewebservices/v2/DE_Pub/users/current/carts/current/addresses/delivery
+
+      return   ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
+                USER+SEPERATOR +
+                SUFFIX_CURRENT+SEPERATOR +
+                SUFFIX_CARTS+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR +
+                SUFFIX_ADDRESSES+SEPERATOR+
+                SUFFIX_DELIVERY_ADDRESS+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
     }
 
     //Delivery mode
@@ -368,21 +379,24 @@ public class ECSURLBuilder extends AbstractStore {
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_CARTS+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
-                SUFFIX_DELIVERY_MODES;
+                SUFFIX_DELIVERY_MODES+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
     }
 
     @Override
     public String getSetDeliveryModeUrl() {
 
-        // baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODE).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
         ///pilcommercewebservices/v2/DE_Pub/users/current/carts/current/deliverymode
+        ///pilcommercewebservices/v2/DE_Pub/users/current/carts/current/deliverymodes?fields=FULL&lang=de_DE
+
         return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
                 ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_CARTS+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
-                SUFFIX_DELIVERY_MODES;
+                SUFFIX_DELIVERY_MODE+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
     }
 
     //Payment

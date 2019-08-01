@@ -472,16 +472,17 @@ public class ECSManager {
         new GetDeliveryModesRequest(ecsCallback).executeRequest();
     }
 
-    public void setDeliveryMode(String deliveryModeID, ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+    public void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
         new SetDeliveryModesRequest(deliveryModeID, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
-                getDeliveryModes(ecsCallback);
+
+                ecsCallback.onResponse(result);
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-
+                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
             }
         }).executeRequest();
     }

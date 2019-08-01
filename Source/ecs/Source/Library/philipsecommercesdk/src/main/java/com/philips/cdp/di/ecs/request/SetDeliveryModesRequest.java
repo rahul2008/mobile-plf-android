@@ -3,9 +3,11 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +40,8 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,"Error setting delivery mode",9000);
+
+        ecsCallback.onFailure( ECSErrors.getErrorMessage(error),ECSErrors.getDetailErrorMessage(error),9000);
     }
 
     @Override

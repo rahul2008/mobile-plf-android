@@ -131,7 +131,12 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 addressContractor.showErrorMessage(msg);
             }else if(msg.obj instanceof Exception){
                 addressContractor.showErrorMessage(msg);
-            }else {
+            }else if(msg.obj instanceof Boolean){
+                if((Boolean) msg.obj){
+                    //set Default address true
+                }
+
+            } else{
                 if (addressContractor.getContinueButtonText().equalsIgnoreCase(addressContractor.getActivityContext().getString(R.string.iap_save))) {
                     addressContractor.hideProgressbar();
                     addressContractor.getFragmentActivity().getSupportFragmentManager().popBackStackImmediate();
@@ -177,8 +182,8 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         }
     }
 
-    public void updateAddress(HashMap<String, String> updateAddressPayload) {
-        mAddressController.updateAddress(updateAddressPayload);
+    public void updateAddress(Addresses addresses) {
+        mAddressController.updateAddress(addresses);
     }
 
     public void createAddress(AddressFields shippingAddressFields) {

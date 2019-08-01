@@ -83,7 +83,7 @@ public interface ECSServiceProvider {
 
     void getDeliveryModes(ECSCallback<GetDeliveryModes,Exception> ecsCallback);
 
-    void setDeliveryMode(String deliveryModeID,ECSCallback<GetDeliveryModes,Exception> ecsCallback);
+    void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback);
 
     void getRegions(ECSCallback<RegionsList, Exception> ecsCallback);
 
