@@ -1,5 +1,7 @@
 package com.ecs.demouapp.ui.response.addresses;
 
+import com.philips.cdp.di.ecs.model.address.Addresses;
+
 public class GetUser {
     private Addresses defaultAddress;
 

@@ -17,14 +17,19 @@ import com.ecs.demouapp.ui.address.Validator;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.InputValidator;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.SalutationDropDown;
 import com.ecs.demouapp.ui.view.StateDropDown;
+import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.ValidationEditText;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /* Copyright (c) Koninklijke Philips N.V., 2017
@@ -79,9 +84,20 @@ public class AddressShippingView
     private String mRegionIsoCode;
 
     AddressContractor addressContractor;
+    HashMap<String, Object> userDetails;
 
 
     public AddressShippingView(AddressPresenter addressPresenter) {
+        ArrayList<String> userDataMap = new ArrayList<>();
+
+        userDataMap.add(UserDetailConstants.GIVEN_NAME);
+        userDataMap.add(UserDetailConstants.FAMILY_NAME);
+        userDataMap.add(UserDetailConstants.EMAIL);
+        try{
+           userDetails =   ECSUtility.getInstance().getUserDataInterface().getUserDetails(userDataMap);
+        } catch (UserDataInterfaceException e) {
+            e.printStackTrace();
+        }
         this.addressPresenter = addressPresenter;
         addressContractor = addressPresenter.getAddressContractor();
         this.mContext = addressContractor.getActivityContext();
@@ -151,7 +167,11 @@ public class AddressShippingView
         if(addressContractor.isFirstNameEnabled()) {
             setViewVisible(mLlFirstName,tvFirstName,mEtFirstName);
             inputValidatorFirstName = new InputValidator(Validator.NAME_PATTERN);
-            mEtFirstName.setText(HybrisDelegate.getInstance(mContext).getStore().getGivenName());
+            String firstname=  (String) userDetails.get(UserDetailConstants.GIVEN_NAME);
+            mEtFirstName.setText(firstname);
+            ArrayList<String> firstNmae = new ArrayList<>();
+            firstNmae.add(UserDetailConstants.GIVEN_NAME);
+
             mLlFirstName.setValidator(inputValidatorFirstName);
             mEtFirstName.addTextChangedListener(new IAPTextWatcher(mEtFirstName));
         }else{
@@ -162,7 +182,7 @@ public class AddressShippingView
             setViewVisible(mLlLastName,tvLastName,mEtLastName);
             inputValidatorLastName = new InputValidator(Validator.NAME_PATTERN);
             mLlLastName.setValidator(inputValidatorLastName);
-            String familyName = HybrisDelegate.getInstance(mContext).getStore().getFamilyName();
+            String familyName=  (String) userDetails.get(UserDetailConstants.FAMILY_NAME);
             if (!TextUtils.isEmpty(familyName) && !familyName.equalsIgnoreCase("null")) {
                 mEtLastName.setText(familyName);
             } else {
@@ -231,7 +251,7 @@ public class AddressShippingView
             setViewVisible(mLlCountry,tvCountry,mEtCountry);
             inputValidatorCountry = new InputValidator(Validator.COUNTRY_PATTERN);
             mLlCountry.setValidator(inputValidatorCountry);
-            mEtCountry.setText(HybrisDelegate.getInstance(mContext).getStore().getCountry());
+            mEtCountry.setText(ECSConfig.INSTANCE.getCountry());
             mEtCountry.setEnabled(false);
             mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         }else{
@@ -242,7 +262,8 @@ public class AddressShippingView
             setViewVisible(mLlEmail,tvEmail,mEtEmail);
             inputValidatorEmail = new InputValidator(Validator.EMAIL_PATTERN);
             mLlEmail.setValidator(inputValidatorEmail);
-            mEtEmail.setText(HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail());
+            String email=  (String) userDetails.get(UserDetailConstants.EMAIL);
+            mEtEmail.setText(email);
             mEtEmail.setEnabled(false);
             mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
         }else{
@@ -396,7 +417,7 @@ public class AddressShippingView
             }
         }
         if (editText.getId() == R.id.et_phone1 && !hasFocus && mEtPhone1.getText() != null && addressContractor.isPhoneNumberEnabled()) {
-            result = addressPresenter.validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
+            result = addressPresenter.validatePhoneNumber(mEtPhone1, ECSConfig.INSTANCE.getCountry()
                     , mEtPhone1.getText().toString());
             if (!result) {
                 mLlPhone1.setErrorMessage(R.string.iap_phone_error);

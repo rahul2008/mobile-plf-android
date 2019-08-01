@@ -85,8 +85,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             HashMap<String, Object> userDetails = ECSUtility.getInstance().getUserDataInterface().getUserDetails(emails);
             mJanRainEmail =(String) userDetails.get(UserDetailConstants.EMAIL);
         } catch (UserDataInterfaceException e) {
-            e.printStackTrace();
-        }
+        e.printStackTrace();
+    }
         registerEvents();
 
         Bundle bundle = getArguments();
