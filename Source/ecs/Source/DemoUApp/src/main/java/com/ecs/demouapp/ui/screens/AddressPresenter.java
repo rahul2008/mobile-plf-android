@@ -34,6 +34,7 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -42,6 +43,9 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONArray;
@@ -109,7 +113,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses, HybrisDelegate.getInstance(addressContractor.getActivityContext()).getStore().getJanRainEmail()));
-            setDeliveryAddress(mAddresses.getId());
+            setDeliveryAddress(mAddresses);
             //Track new address creation
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
                     ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
@@ -132,7 +136,8 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                     addressContractor.hideProgressbar();
                     addressContractor.getFragmentActivity().getSupportFragmentManager().popBackStackImmediate();
                 } else {
-                    setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
+                    //TODO
+                    //setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
                 }
             }
         }
@@ -178,10 +183,41 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     public void createAddress(AddressFields shippingAddressFields) {
         mAddressController.createAddress(shippingAddressFields);
+
+        Addresses addressRequest = new Addresses();
+        addressRequest.setFirstName(addressRequest.getFirstName());
+        addressRequest.setLastName(addressRequest.getLastName());
+        addressRequest.setTitleCode(addressRequest.getTitle());
+        addressRequest.setCountry(addressRequest.getCountry()); // iso
+        addressRequest.setLine1(addressRequest.getLine1());
+        addressRequest.setLine2(addressRequest.getLine2());
+        addressRequest.setPostalCode(addressRequest.getPostalCode());
+        addressRequest.setTown(addressRequest.getTown());
+        addressRequest.setPhone1(addressRequest.getPhone1());
+        addressRequest.setPhone2(addressRequest.getPhone2());
+        addressRequest.setRegion(addressRequest.getRegion()); // set Region eg State for US and Canada
+        addressRequest.setHouseNumber(addressRequest.getHouseNumber());
+
+        ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
+            @Override
+            public void onResponse(GetShippingAddressData result) {
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+            }
+        });
+
+
+
+       // ecsAddressRequest
+
     }
 
-    public void setDeliveryAddress(String id) {
-        mAddressController.setDeliveryAddress(id);
+    public void setDeliveryAddress(Addresses address) {
+        mAddressController.setDeliveryAddress(address);
     }
 
     public void getDeliveryModes() {
