@@ -24,8 +24,15 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
 
     @Override
     public void onResponse(JSONObject response) {
-        GetAppliedValue getAppliedValue =  new Gson().fromJson(response.toString(), GetAppliedValue.class);
-        ecsCallback.onResponse(getAppliedValue);
+        GetAppliedValue getAppliedValue =null;
+        if(null!=response){
+            getAppliedValue = new Gson().fromJson(response.toString(), GetAppliedValue.class);
+        }
+        if(null!=getAppliedValue ) {
+            ecsCallback.onResponse(getAppliedValue);
+        }else{
+            ecsCallback.onFailure(new Exception("error fetching Voucher"),"error fetching Voucher",19999);
+        }
     }
 
     @Override
@@ -40,7 +47,7 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,"error fetching Voucher",9000);
+        ecsCallback.onFailure(error,"error fetching Voucher",19999);
     }
 
     @Override

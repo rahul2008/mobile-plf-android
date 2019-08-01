@@ -10,6 +10,9 @@ import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductAssetRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductDisclaimerRequest;
 import com.philips.cdp.di.ecs.ProductForCTN.MockGetProductForRequest;
+import com.philips.cdp.di.ecs.Voucher.MockGetVouchersRequest;
+import com.philips.cdp.di.ecs.Voucher.MockRemoveVoucherRequest;
+import com.philips.cdp.di.ecs.Voucher.MockSetVoucherRequest;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.asset.Assets;
@@ -20,6 +23,9 @@ import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
+import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
+import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
+import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
@@ -182,4 +188,42 @@ public class MockECSManager extends ECSManager {
             }
         }, entriesEntity, quantity).executeRequest();
     }
+
+    @Override
+    public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        new MockGetVouchersRequest(getJsonFileNameMockECSManager(), ecsCallback).executeRequest();
+    }
+
+    @Override
+    public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        new MockSetVoucherRequest(getJsonFileNameMockECSManager(),voucherCode, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                setJsonFileNameMockECSManager("GetVoucherSuccess.json");
+                getVoucher(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        }).executeRequest();
+    }
+
+    @Override
+    public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        new MockRemoveVoucherRequest(getJsonFileNameMockECSManager(),voucherCode, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                setJsonFileNameMockECSManager("EmptyJson.json");
+                getVoucher(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        }).executeRequest();
+    }
+
 }

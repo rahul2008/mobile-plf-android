@@ -578,7 +578,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         String discountedPrice = null;
         String stockLevelStatus = null;
         int stockLevel;
-        if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
+       // if (mBundle.containsKey(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (data != null) {
                 mProductTitle = data.getProductTitle();
                 if (mProductTitle == null) {
@@ -599,7 +599,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     mProductStockInfo.setVisibility(View.GONE);
                 }
             }
-        } else {
+       // }
+        else {
             actualPrice = mBundle.getString(ECSConstant.PRODUCT_PRICE);
             discountedPrice = mBundle.getString(ECSConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
             stockLevelStatus = mBundle.getString(ECSConstant.STOCK_LEVEL_STATUS);
@@ -732,7 +733,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private Product getProductFromCTN(ECSShoppingCart data) {
 
-        if(data.getEntries()!=null && data.getEntries().size() ==0) {
+        if(data.getEntries()!=null && data.getEntries().size() >0) {
 
             for (EntriesEntity entriesEntity : data.getEntries()) {
 

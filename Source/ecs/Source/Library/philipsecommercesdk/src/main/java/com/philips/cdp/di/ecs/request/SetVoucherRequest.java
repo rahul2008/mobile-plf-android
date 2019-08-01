@@ -25,7 +25,12 @@ public class SetVoucherRequest extends OAuthAppInfraAbstractRequest implements R
 
     @Override
     public void onResponse(String response) {
-        ecsCallback.onResponse(true);
+        if(response.isEmpty()) {
+            // Empty response indicate success
+            ecsCallback.onResponse(true);
+        }else{
+            ecsCallback.onFailure(new Exception(response),response,20999);
+        }
     }
 
     @Override
