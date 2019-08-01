@@ -3,9 +3,10 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.network.ModelConstants;
+
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 

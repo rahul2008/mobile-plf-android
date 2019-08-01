@@ -422,7 +422,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         } else if (msg.obj instanceof GetUser) {
             final GetUser user = (GetUser) msg.obj;
             if (user.getDefaultAddress() != null) {
-                mAddressController.setDeliveryAddress(user.getDefaultAddress().getId());
+                mAddressController.setDeliveryAddress(user.getDefaultAddress());
             } else {
                 return;
             }
