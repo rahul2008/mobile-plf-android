@@ -26,9 +26,10 @@ import com.ecs.demouapp.ui.controller.PaymentController;
 import com.ecs.demouapp.ui.model.AddressFieldEnabler;
 import com.ecs.demouapp.ui.model.SalutationEnum;
 import com.ecs.demouapp.ui.response.State.RegionsList;
-import com.ecs.demouapp.ui.response.addresses.Addresses;
+//import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
+
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.response.payment.PaymentMethods;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
@@ -37,11 +38,15 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONArray;
@@ -178,6 +183,37 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     public void createAddress(AddressFields shippingAddressFields) {
         mAddressController.createAddress(shippingAddressFields);
+
+        Addresses addressRequest = new Addresses();
+        addressRequest.setFirstName(addressRequest.getFirstName());
+        addressRequest.setLastName(addressRequest.getLastName());
+        addressRequest.setTitleCode(addressRequest.getTitle());
+        addressRequest.setCountry(addressRequest.getCountry()); // iso
+        addressRequest.setLine1(addressRequest.getLine1());
+        addressRequest.setLine2(addressRequest.getLine2());
+        addressRequest.setPostalCode(addressRequest.getPostalCode());
+        addressRequest.setTown(addressRequest.getTown());
+        addressRequest.setPhone1(addressRequest.getPhone1());
+        addressRequest.setPhone2(addressRequest.getPhone2());
+        addressRequest.setRegion(addressRequest.getRegion()); // set Region eg State for US and Canada
+        addressRequest.setHouseNumber(addressRequest.getHouseNumber());
+
+        ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
+            @Override
+            public void onResponse(GetShippingAddressData result) {
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+            }
+        });
+
+
+
+       // ecsAddressRequest
+
     }
 
     public void setDeliveryAddress(String id) {

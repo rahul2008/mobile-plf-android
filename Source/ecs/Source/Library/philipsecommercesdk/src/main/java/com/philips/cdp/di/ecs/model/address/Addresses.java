@@ -130,4 +130,66 @@ public class Addresses implements Serializable{
     public String getHouseNumber() {
         return houseNumber;
     }
+
+    //Setters
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setLine1(String line1) {
+        this.line1 = line1;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public void setLine2(String line2) {
+        this.line2 = line2;
+    }
+
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setFormattedAddress(String formattedAddress) {
+        this.formattedAddress = formattedAddress;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setShippingAddress(boolean shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public void setVisibleInAddressBook(boolean visibleInAddressBook) {
+        this.visibleInAddressBook = visibleInAddressBook;
+    }
 }
