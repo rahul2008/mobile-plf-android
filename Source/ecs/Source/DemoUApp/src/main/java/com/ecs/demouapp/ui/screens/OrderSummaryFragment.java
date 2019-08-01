@@ -339,7 +339,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
         } else if (msg.obj instanceof Exception) {
             CartModelContainer.getInstance().setRegionList(null);
         } else if (msg.obj instanceof RegionsList) {
-            CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+            //TODO
+            //CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }

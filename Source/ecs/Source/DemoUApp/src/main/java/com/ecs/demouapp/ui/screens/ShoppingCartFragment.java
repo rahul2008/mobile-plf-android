@@ -32,11 +32,6 @@ import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.controller.VoucherController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.response.State.RegionsList;
-import com.ecs.demouapp.ui.response.addresses.Addresses;
-import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
-import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
-import com.ecs.demouapp.ui.response.addresses.GetShippingAddressData;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.AlertListener;
@@ -44,8 +39,13 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.io.Serializable;
@@ -295,7 +295,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }else if (msg.obj instanceof Exception) {
             CartModelContainer.getInstance().setRegionList(null);
         } else if (msg.obj instanceof RegionsList) {
-            CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+            //TODO
+           // CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
@@ -429,7 +430,8 @@ public class ShoppingCartFragment extends InAppBaseFragment
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
-            CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
+            //TODO
+            //CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             handleDeliveryMode(msg,mAddressController);
         }
     }
@@ -454,11 +456,12 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
     @Override
     public void onItemClick(int position) {
-        final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-        mSelectedDeliveryMode = deliveryModes.get(position);
+        //TODO
+        //final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+       /* mSelectedDeliveryMode = deliveryModes.get(position);
 
         createCustomProgressBar(mParentLayout,BIG);
-        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());*/
     }
 
     @Override

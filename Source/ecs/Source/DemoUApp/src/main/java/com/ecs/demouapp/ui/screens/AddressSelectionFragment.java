@@ -27,9 +27,6 @@ import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.controller.PaymentController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.response.addresses.Addresses;
-import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
-import com.ecs.demouapp.ui.response.addresses.GetShippingAddressData;
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.response.payment.PaymentMethods;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
@@ -38,10 +35,16 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.AlertListener;
 import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.util.ECSErrors;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -74,7 +77,16 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
         mAddressListView = view.findViewById(R.id.shipping_addresses);
         mAddressController = new AddressController(mContext, this);
-        mJanRainEmail = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
+
+        ArrayList<String> emails = new ArrayList<>();
+        emails.add(UserDetailConstants.EMAIL);
+
+        try {
+            HashMap<String, Object> userDetails = ECSUtility.getInstance().getUserDataInterface().getUserDetails(emails);
+            mJanRainEmail =(String) userDetails.get(UserDetailConstants.EMAIL);
+        } catch (UserDataInterfaceException e) {
+            e.printStackTrace();
+        }
         registerEvents();
 
         Bundle bundle = getArguments();
@@ -152,7 +164,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         } else if (msg.obj instanceof Exception){
             ECSErrors.showECSToast(mContext,"error feetching address");
             moveToShoppingCart();
-    }else {
+         }else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
                 if (mAdapter.getOptionsClickPosition() != -1)
                     mAddresses.remove(mAdapter.getOptionsClickPosition());
@@ -177,7 +189,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
-        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
+        if ((Boolean) msg.obj) {
             Addresses selectedAddress = retrieveSelectedAddress();
             mIsAddressUpdateAfterDelivery = true;
             mAddressController.setDefaultAddress(selectedAddress);
@@ -260,7 +272,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         } else if (event.equalsIgnoreCase(ECSConstant.DELIVER_TO_THIS_ADDRESS)) {
 
             createCustomProgressBar(mLinearLayout, BIG);
-            mAddressController.setDeliveryAddress(retrieveSelectedAddress().getId());
+            mAddressController.setDeliveryAddress(retrieveSelectedAddress());
             CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
             CartModelContainer.getInstance().setAddressIdFromDelivery(retrieveSelectedAddress().getId());
 

@@ -17,9 +17,9 @@ import android.widget.TextView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
-import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.util.List;

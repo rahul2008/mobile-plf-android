@@ -342,7 +342,14 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getEditAddressUrl(String addressID) {
-        return String.format(mEditAddressUrl, addressID);
+
+       return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
+                USER+SEPERATOR +
+                SUFFIX_CURRENT+SEPERATOR +
+                SUFFIX_ADDRESSES+SEPERATOR+
+                addressID+SEPERATOR+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
     }
 
     @Override

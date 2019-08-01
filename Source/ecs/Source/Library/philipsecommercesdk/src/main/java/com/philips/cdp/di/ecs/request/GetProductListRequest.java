@@ -7,10 +7,8 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.network.ModelConstants;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
-import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
 

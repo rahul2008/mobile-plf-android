@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs.integration;
 
 
+import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
@@ -87,4 +88,6 @@ public interface ECSServiceProvider {
     void getRegions(ECSCallback<RegionsList, Exception> ecsCallback);
 
     void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback);
+
+    void setDeliveryAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 }

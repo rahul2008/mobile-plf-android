@@ -8,8 +8,6 @@ package com.philips.cdp.di.ecs.model.address;
 
 
 
-import com.philips.cdp.di.ecs.network.NetworkConstants;
-
 import java.io.Serializable;
 
 public class Addresses implements Serializable{

@@ -2,6 +2,7 @@ package com.philips.cdp.di.ecs;
 
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
@@ -25,6 +26,7 @@ import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
+import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
@@ -486,6 +488,10 @@ public class ECSManager {
 
     public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         new GetAddressRequest(ecsCallback).executeRequest();
+    }
+
+    public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+        new SetDeliveryAddressRequest(address.getId() ,ecsCallback).executeRequest();
     }
     //===================================================== End of Delivery Mode ====================================================
 }

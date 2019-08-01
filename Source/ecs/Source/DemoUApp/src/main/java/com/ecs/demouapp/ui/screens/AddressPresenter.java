@@ -25,10 +25,7 @@ import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.controller.PaymentController;
 import com.ecs.demouapp.ui.model.AddressFieldEnabler;
 import com.ecs.demouapp.ui.model.SalutationEnum;
-import com.ecs.demouapp.ui.response.State.RegionsList;
-import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
-import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.response.payment.PaymentMethods;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
@@ -42,6 +39,9 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONArray;
@@ -199,12 +199,12 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             ECSErrors.showECSToast(addressContractor.getFragmentActivity(),exception.getMessage());
             addressContractor.hideProgressbar();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            /*GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             if (deliveryModeList.size() > 0) {
                 CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
                 addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
-            }
+            }*/
         }
     }
 

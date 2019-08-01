@@ -10,20 +10,21 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest implements Response.Listener<String>  {
 
 
-    private final String deliveryModeID;
+    public static final String ADDRESS_ID = "addressId";
+
     private final ECSCallback<Boolean,Exception> ecsCallback;
+    private final String addressID;
 
-    public SetDeliveryModesRequest(String deliveryModeID,ECSCallback<Boolean, Exception> ecsCallback) {
+    public SetDeliveryAddressRequest(String addressID, ECSCallback<Boolean, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
-        this.deliveryModeID = deliveryModeID;
-    }
-
-    @Override
-    public void onResponse(String response) {
-        ecsCallback.onResponse(true);
+        this.addressID = addressID;
     }
 
     @Override
@@ -33,23 +34,13 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public String getURL() {
-        return new ECSURLBuilder().getSetDeliveryModeUrl();
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,"Error setting delivery mode",9000);
-    }
-
-    @Override
-    public Response.Listener<String> getStringSuccessResponseListener() {
-        return this;
+        return new ECSURLBuilder().getSetDeliveryAddressUrl();
     }
 
     @Override
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
-        params.put(ModelConstants.DELIVERY_MODE_ID, deliveryModeID);
+        params.put(ADDRESS_ID, addressID);
         return params;
     }
 
@@ -59,5 +50,20 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
         header.put("Content-Type", "application/x-www-form-urlencoded");
         header.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
         return header;
+    }
+
+    @Override
+    public void onResponse(String response) {
+        ecsCallback.onResponse(true);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public Response.Listener<String> getStringSuccessResponseListener() {
+        return this;
     }
 }
