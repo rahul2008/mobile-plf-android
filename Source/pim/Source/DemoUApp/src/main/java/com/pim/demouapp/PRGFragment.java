@@ -1,5 +1,6 @@
 package com.pim.demouapp;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.philips.cdp.prodreg.constants.ProdRegError;
@@ -38,11 +40,13 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
     private PRLaunchInput prLaunchInput;
     private PRInterface prInterface;
     private PIMInterface pimInterface;
+    private EditText ctnEditText;
 
     public PRGFragment() {
 
     }
 
+    @SuppressLint("ValidFragment")
     public PRGFragment(PIMInterface pimInterface) {
         this.pimInterface = pimInterface;
     }
@@ -53,6 +57,7 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.prg_launch, container, false);
         fragment_btn_2 = (Button) view.findViewById(R.id.fragment_button_2);
         fragment_btn_2.setOnClickListener(this);
+        ctnEditText = (EditText)view.findViewById(R.id.reg_edit_ctn);
         return view;
     }
 
@@ -66,7 +71,7 @@ public class PRGFragment extends Fragment implements View.OnClickListener {
     }
 
     private void registerProduct(final boolean isActivity, final String type) {
-        Product product = new Product("SP9820/87", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
+        Product product = new Product(ctnEditText.getText().toString(), PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         product.setSerialNumber("");
         product.setPurchaseDate("");
         product.setFriendlyName("");
