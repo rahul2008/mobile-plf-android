@@ -35,13 +35,13 @@ import com.ecs.demouapp.ui.model.GetUserRequest;
 import com.ecs.demouapp.ui.model.SetDeliveryAddressModeRequest;
 import com.ecs.demouapp.ui.model.SetDeliveryAddressRequest;
 import com.ecs.demouapp.ui.model.UpdateAddressRequest;
-import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
@@ -149,13 +149,28 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.UPDATE_ADDRESS, model, model);
     }
 
-    public void setDeliveryAddress(String pAddressId) {
+    public void setDeliveryAddress(Addresses address) {
+       /* address.getId()
         if (null != pAddressId) {
             HashMap<String, String> params = new HashMap<>();
             params.put(ModelConstants.ADDRESS_ID, pAddressId);
             SetDeliveryAddressRequest model = new SetDeliveryAddressRequest(getStore(), params, this);
             getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_ADDRESS, model, model);
-        }
+        }*/
+
+        ECSUtility.getInstance().getEcsServices().setDeliveryAddress(address, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                Message message = new Message() ;
+                message.obj = result;
+                mAddressListener.onSetDeliveryAddress(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+            }
+        });
     }
 
     public void getDeliveryModes() {
@@ -236,7 +251,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
                 mAddressListener.onGetAddress(msg);
                 break;
             case RequestCode.SET_DELIVERY_ADDRESS:
-                mAddressListener.onSetDeliveryAddress(msg);
+
                 break;
             case RequestCode.SET_DELIVERY_MODE:
                 mAddressListener.onSetDeliveryMode(msg);

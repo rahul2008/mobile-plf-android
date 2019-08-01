@@ -5,7 +5,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
-import com.philips.cdp.di.ecs.network.ModelConstants;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrors;

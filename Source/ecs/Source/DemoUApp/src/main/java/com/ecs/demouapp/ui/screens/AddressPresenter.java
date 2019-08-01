@@ -25,11 +25,7 @@ import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.controller.PaymentController;
 import com.ecs.demouapp.ui.model.AddressFieldEnabler;
 import com.ecs.demouapp.ui.model.SalutationEnum;
-import com.ecs.demouapp.ui.response.State.RegionsList;
-//import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
-import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
-
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.response.payment.PaymentMethods;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
@@ -44,6 +40,9 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
@@ -114,7 +113,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses, HybrisDelegate.getInstance(addressContractor.getActivityContext()).getStore().getJanRainEmail()));
-            setDeliveryAddress(mAddresses.getId());
+            setDeliveryAddress(mAddresses);
             //Track new address creation
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
                     ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
@@ -137,7 +136,8 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                     addressContractor.hideProgressbar();
                     addressContractor.getFragmentActivity().getSupportFragmentManager().popBackStackImmediate();
                 } else {
-                    setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
+                    //TODO
+                    //setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
                 }
             }
         }
@@ -216,8 +216,8 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     }
 
-    public void setDeliveryAddress(String id) {
-        mAddressController.setDeliveryAddress(id);
+    public void setDeliveryAddress(Addresses address) {
+        mAddressController.setDeliveryAddress(address);
     }
 
     public void getDeliveryModes() {
@@ -235,12 +235,12 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             ECSErrors.showECSToast(addressContractor.getFragmentActivity(),exception.getMessage());
             addressContractor.hideProgressbar();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            /*GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             if (deliveryModeList.size() > 0) {
                 CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
                 addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
-            }
+            }*/
         }
     }
 

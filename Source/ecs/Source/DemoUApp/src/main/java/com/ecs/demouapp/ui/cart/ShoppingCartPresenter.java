@@ -6,6 +6,7 @@ package com.ecs.demouapp.ui.cart;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
@@ -436,6 +437,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     @Override
     public void onGetAddress(Message msg) {
         //NOP
+        Log.d("pabitra", "I am heere");
     }
 
     @Override

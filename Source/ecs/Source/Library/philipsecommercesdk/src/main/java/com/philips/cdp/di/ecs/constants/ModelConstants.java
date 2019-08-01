@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.network;
+package com.philips.cdp.di.ecs.constants;
 
 public class ModelConstants {
     public final static String PRODUCT_CODE = "code";

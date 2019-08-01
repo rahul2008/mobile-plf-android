@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-package com.philips.cdp.di.ecs.network;
+package com.philips.cdp.di.ecs.constants;
 
 
 public class NetworkConstants {

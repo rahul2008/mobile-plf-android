@@ -37,7 +37,8 @@ public class StateDropDown {
         mAnchor=anchor;
         Context popupThemedContext = UIDHelper.getPopupThemedContext(context);
         mPopUp = new UIPicker(popupThemedContext);
-        mRegionList = CartModelContainer.getInstance().getRegionList();
+        //TODO
+       // mRegionList = CartModelContainer.getInstance().getRegionList();
 
         ArrayAdapter adapter = new UIPickerAdapter(popupThemedContext, R.layout.ecs_uipicker_item_text, createRowItems(mRegionList));
         mPopUp.setAdapter(adapter);

@@ -89,7 +89,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         if (msg.obj instanceof IAPNetworkError) {
             handleError(msg);
         } else if (msg.obj instanceof RegionsList) {
-            CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+            //TODO
+           // CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
             mBuyDirectController.getUser();
         } else if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             mBuyDirectController.getUser();
