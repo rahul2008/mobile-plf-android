@@ -50,6 +50,8 @@ public class Addresses implements Serializable{
     private boolean shippingAddress;
     private boolean visibleInAddressBook;
 
+    private boolean isDefaultAddress = false;
+
     public String getTitle() {
         return title;
     }
@@ -191,5 +193,13 @@ public class Addresses implements Serializable{
 
     public void setVisibleInAddressBook(boolean visibleInAddressBook) {
         this.visibleInAddressBook = visibleInAddressBook;
+    }
+
+    public boolean isDefaultAddress() {
+        return isDefaultAddress;
+    }
+
+    public void setDefaultAddress(boolean defaultAddress) {
+        isDefaultAddress = defaultAddress;
     }
 }
