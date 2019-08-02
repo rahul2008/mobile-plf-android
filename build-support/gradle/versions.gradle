@@ -106,7 +106,7 @@ ext.repos.hsdprelease = ext.repos.base+"/HSDP-pkgs-android-release"
  * third-party library dependencies with versions
  */
 ext.deps = [
-        adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.17.2',
+        adobemobilelib                : 'com.adobe.mobile:adobeMobileLibrary:4.17.8',
         jump                          : 'com.janrain.android:jump-android:7.1.1',   //Consuming from the forked version of jump in azure repo.
         butterknife                   : 'com.jakewharton:butterknife:8.8.1',
         calligraphy                   : 'uk.co.chrisjenx:calligraphy:2.3.0',

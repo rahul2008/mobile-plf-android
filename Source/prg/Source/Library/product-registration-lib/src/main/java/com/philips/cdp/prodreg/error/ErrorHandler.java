@@ -31,7 +31,7 @@ public class ErrorHandler {
         } else if (statusCode == ProdRegError.NO_INTERNET_AVAILABLE.getCode()) {
             userProduct.updateLocaleCache(registeredProduct, ProdRegError.NO_INTERNET_AVAILABLE, RegistrationState.FAILED);
             userProduct.sendErrorCallBack(registeredProduct);
-        } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()) {
+        } else if (statusCode == ProdRegError.INTERNAL_SERVER_ERROR.getCode()|| statusCode == ProdRegError.INTERNAL_SERVER_ERROR2.getCode()) {
             userProduct.updateLocaleCache(registeredProduct, ProdRegError.INTERNAL_SERVER_ERROR, RegistrationState.FAILED);
             userProduct.sendErrorCallBack(registeredProduct);
         } else if (statusCode == ProdRegError.TIME_OUT.getCode()) {

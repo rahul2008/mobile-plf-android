@@ -26,6 +26,7 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefetchUserDetailsLi
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -166,6 +167,11 @@ public class UserDataProvider extends User implements UserDataInterface {
     @Override
     public boolean isOIDCToken() {
         return false;
+    }
+
+    @Override
+    public void migrateUserToPIM(UserMigrationListener userMigrationListener) {
+
     }
 
     @NonNull

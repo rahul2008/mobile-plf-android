@@ -1,7 +1,6 @@
 package com.philips.platform.pim.manager;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.content.Context;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -30,20 +29,20 @@ public class PIMConfigManager {
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
-    public void init(ServiceDiscoveryInterface serviceDiscoveryInterface) {
+    public void init(Context context, ServiceDiscoveryInterface serviceDiscoveryInterface) {
         mLoggingInterface.log(DEBUG, TAG, "init called");
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(PIM_BASEURL);
         if (mPimUserManager.getUserLoggedInState() == UserLoggedInState.USER_NOT_LOGGED_IN)
-            downloadSDServiceURLs(serviceDiscoveryInterface, listOfServiceId);
+            downloadSDServiceURLs(context, serviceDiscoveryInterface, listOfServiceId);
         else {
             mLoggingInterface.log(DEBUG, TAG, "downloadSDServiceURLs skipped as user is logged in. ");
             PIMSettingManager.getInstance().setPimOidcConfigration(new PIMOIDCConfigration());
-            PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_SUCCESS);
+            PIMSettingManager.getInstance().getPimInitLiveData().postValue(PIMInitState.INIT_SUCCESS);
         }
     }
 
-    private void downloadSDServiceURLs(ServiceDiscoveryInterface serviceDiscoveryInterface, ArrayList<String> listOfServiceId) {
+    private void downloadSDServiceURLs(Context context, ServiceDiscoveryInterface serviceDiscoveryInterface, ArrayList<String> listOfServiceId) {
         mLoggingInterface.log(DEBUG, TAG, "downloadSDServiceURLs called");
         new Thread(() -> {
             serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -54,17 +53,17 @@ public class PIMConfigManager {
                     ServiceDiscoveryService serviceDiscoveryService = urlMap.get(PIM_BASEURL);
                     if (serviceDiscoveryService == null) {
                         mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success  : serviceDiscovery response is null");
-                        PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_FAILED);
+                        PIMSettingManager.getInstance().getPimInitLiveData().postValue(PIMInitState.INIT_FAILED);
                     } else {
                         PIMSettingManager.getInstance().setLocale(serviceDiscoveryService.getLocale());
                         String configUrls = serviceDiscoveryService.getConfigUrls();
                         if (configUrls != null) {
                             PIMOidcDiscoveryManager pimOidcDiscoveryManager = new PIMOidcDiscoveryManager();
                             mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : getConfigUrls : " + configUrls);
-                            pimOidcDiscoveryManager.downloadOidcUrls(configUrls); //Download OIDC configuration
+                            pimOidcDiscoveryManager.downloadOidcUrls(context, configUrls); //Download OIDC configuration
                         } else {
                             mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs success : No service url found for Issuer service id");
-                            PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_FAILED);
+                            PIMSettingManager.getInstance().getPimInitLiveData().postValue(PIMInitState.INIT_FAILED);
                         }
                     }
                 }
@@ -72,19 +71,9 @@ public class PIMConfigManager {
                 @Override
                 public void onError(ERRORVALUES error, String message) {
                     mLoggingInterface.log(DEBUG, TAG, "DownloadSDServiceURLs error. ERRORVALUES: " + error + " Message: " + message);
-                    updateInitState(false);
+                    PIMSettingManager.getInstance().getPimInitLiveData().postValue(PIMInitState.INIT_FAILED);
                 }
             }, null);
         }).start();
-    }
-
-    private void updateInitState(boolean isInitSuccess){
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                PIMSettingManager.getInstance().getPimInitLiveData().setValue(PIMInitState.INIT_FAILED);
-            }
-        });
     }
 }

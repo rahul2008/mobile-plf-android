@@ -68,13 +68,13 @@ public class RemoteRegisteredProducts {
     public void getRegisteredProducts(final Context mContext, final UserWithProducts userWithProducts, UserDataInterface userDataInterface, final RegisteredProductsListener registeredProductsListener) {
         RegisteredProductsRequest registeredProductsRequest = getRegisteredProductsRequest(userDataInterface);
         final RequestManager mRequestManager = getRequestManager(mContext);
-        mRequestManager.executeRequest(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(userWithProducts, new LocalRegisteredProducts(userDataInterface), registeredProductsListener));
+        mRequestManager.executeRequest3(registeredProductsRequest, getPrxResponseListenerForRegisteredProducts(userWithProducts, new LocalRegisteredProducts(userDataInterface), registeredProductsListener));
     }
 
     @NonNull
     protected RegisteredProductsRequest getRegisteredProductsRequest(UserDataInterface userDataInterface) {
 
-        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest(null, ProdRegConstants.REGISTEREDPRODUCTSREQUEST_SERVICE_ID, null, null);
+        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest(null, ProdRegConstants.REGISTEREDPRODUCTSREQUEST_SERVICE_ID, null, null ,userDataInterface.isOIDCToken());
         try {
             ArrayList<String> detailskey = new ArrayList<>();
             detailskey.add(UserDetailConstants.ACCESS_TOKEN);

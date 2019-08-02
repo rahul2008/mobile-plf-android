@@ -2,14 +2,10 @@
 package com.pim.demouapp;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,17 +22,21 @@ import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.registration.ui.utils.URSettings;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
+import com.philips.platform.pim.listeners.PIMLoginListener;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -48,12 +48,16 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 
-public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnClickListener, UserRegistrationUIEventListener, UserLoginListener {
     private String TAG = PIMDemoUAppActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession;
+
+    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession, btnISOIDCToken, btnMigrator, btnGetUserDetail,btn_RegistrationPR;
     private Switch aSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
@@ -76,11 +80,19 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         btnLoginActivity.setOnClickListener(this);
         btnRegistration = findViewById(R.id.btn_Registration);
         btnRegistration.setOnClickListener(this);
+        btnGetUserDetail = findViewById(R.id.btn_GetUserDetail);
+        btnGetUserDetail.setOnClickListener(this);
         btnLogout = findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
         btnRefreshSession = findViewById(R.id.btn_RefreshSession);
         btnRefreshSession.setOnClickListener(this);
+        btnISOIDCToken = findViewById(R.id.btn_IsOIDCToken);
+        btnISOIDCToken.setOnClickListener(this);
+        btnMigrator = findViewById(R.id.btn_MigrateUser);
+        btnMigrator.setOnClickListener(this);
         aSwitch = findViewById(R.id.switch_cookies_consent);
+        btn_RegistrationPR = findViewById(R.id.btn_RegistrationPR);
+        btn_RegistrationPR.setOnClickListener(this);
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -106,6 +118,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
             userDataInterface = pimInterface.getUserDataInterface();
         }
+
     }
 
     private void initTheme() {
@@ -121,19 +134,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-//        PIMLaunchInput launchInput = new PIMLaunchInput();
-//        UserDataInterface userDataInterface = pimInterface.getUserDataInterface();
-//        if (v == btnLoginActivity) {
-//            if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
-//                ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-//                pimInterface.launch(activityLauncher, launchInput);
-//            } else {
-//                showToast("User is already login!");
-//            }
-//        } else
         if (v == btnRegistration) {
-//            FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
-//            pimInterface.launch(fragmentLauncher, launchInput);
             if (isUSR) {
                 launchUSR();
             } else {
@@ -150,7 +151,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void logoutSessionFailed(Error error) {
-                        showToast("Logout Failed");
+                        showToast("Logout Failed due to " + error.getErrCode() + " and error message :" + error.getErrDesc());
                     }
                 });
             } else {
@@ -166,7 +167,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void refreshSessionFailed(Error error) {
-                        showToast("Refresh session failed");
+                        showToast("Refresh session failed due to :" + error.getErrCode() + " and error message :" + error.getErrDesc());
                     }
 
                     @Override
@@ -177,12 +178,57 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
+        } else  if(v == btn_RegistrationPR){
+            Fragment fragment = new PRGFragment(pimInterface);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
+
+        } else if (v == btnMigrator) {
+            userDataInterface.migrateUserToPIM(new UserMigrationListener() {
+                @Override
+                public void onUserMigrationSuccess() {
+                    showToast("User migrated succesfully");
+                }
+
+                @Override
+                public void onUserMigrationFailed(Error error) {
+                    showToast("user migration failed error code = " + error.getErrCode() + " error message : " + error.getErrDesc());
+                }
+            });
+        } else if (v == btnGetUserDetail) {
+            try {
+                ArrayList<String> detailKeys = new ArrayList<>();
+                detailKeys.add(UserDetailConstants.FAMILY_NAME);
+                detailKeys.add(UserDetailConstants.GIVEN_NAME);
+                detailKeys.add(UserDetailConstants.ACCESS_TOKEN);
+                detailKeys.add(UserDetailConstants.BIRTHDAY);
+                detailKeys.add(UserDetailConstants.EMAIL);
+                detailKeys.add(UserDetailConstants.GENDER);
+                detailKeys.add(UserDetailConstants.MOBILE_NUMBER);
+                detailKeys.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+                detailKeys.add(UserDetailConstants.UUID);
+                HashMap<String, Object> userDetails = userDataInterface.getUserDetails(detailKeys);
+                showToast("User Details  are :" + userDetails.toString());
+            } catch (UserDataInterfaceException e) {
+                e.printStackTrace();
+                showToast("Error code:" + e.getError().getErrCode() + " Error message :" + e.getError().getErrDesc());
+            }
+
+        }else if (v == btnISOIDCToken) {
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                boolean oidcToken = userDataInterface.isOIDCToken();
+                showToast("isOIDCToken : " + oidcToken);
+            } else {
+                showToast("User is not loged-in, Please login!");
+            }
         }
+
     }
 
     private void launchPIM() {
         PIMLaunchInput launchInput = new PIMLaunchInput();
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
+        launchInput.setUserLoginListener(this);
         pimInterface.launch(fragmentLauncher, launchInput);
     }
 
@@ -196,24 +242,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         urInterface.launch(fragmentLauncher, urLaunchInput);
-//        initRegistration(Configuration.STAGING);
-//        PRDemoAppuAppInterface uAppInterface = new PRDemoAppuAppInterface();
-//        uAppInterface.init(new PRDemoAppuAppDependencies(PIMDemoUAppInterface.mAppInfra), new PRDemoAppuAppSettings(this.getApplicationContext()));// pass App-infra instance instead of null
-//        uAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-//                getDLSThemeConfiguration(this.getApplicationContext()), 0, null), null);// pass launch input if required
-
-
-    }
-
-    private void initRegistration(Configuration staging) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-        //initAppIdentity(staging);
-
-        UappInterface standardRegistrationInterface = new URInterface();
-        standardRegistrationInterface.init(new URDependancies(appInfraInterface), new URSettings(this));
-
     }
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
@@ -256,5 +284,15 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(TAG, " : onTermsAndConditionClick");
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        showToast("PIM Login Success");
+    }
+
+    @Override
+    public void onLoginFailed(Error error) {
+        showToast("PIM Login Failed :" + error.getErrCode() + " and reason is" + error.getErrDesc());
     }
 }
