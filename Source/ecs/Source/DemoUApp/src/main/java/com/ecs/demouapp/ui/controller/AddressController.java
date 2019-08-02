@@ -205,7 +205,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
 
                 Message message = new Message();
-                message.obj = false;
+                message.obj = error;
                 mAddressListener.onGetAddress(message);
             }
         });

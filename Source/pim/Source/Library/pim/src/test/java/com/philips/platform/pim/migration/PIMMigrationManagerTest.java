@@ -11,6 +11,7 @@ import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.listeners.PIMUserMigrationListener;
 import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
@@ -30,6 +31,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -45,7 +47,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({PIMSettingManager.class, IDAssertionRequest.class, PIMMigrationManager.class, PIMLoginManager.class})
+@PrepareForTest({PIMSettingManager.class, IDAssertionRequest.class, PIMMigrationManager.class, PIMLoginManager.class, PIMErrorEnums.class})
 @RunWith(PowerMockRunner.class)
 public class PIMMigrationManagerTest extends TestCase {
 
@@ -89,7 +91,7 @@ public class PIMMigrationManagerTest extends TestCase {
         super.setUp();
 
         MockitoAnnotations.initMocks(this);
-
+        mockStatic(PIMErrorEnums.class);
         mockStatic(PIMSettingManager.class);
         when(PIMSettingManager.getInstance()).thenReturn(mockSettingManager);
         when(mockSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
@@ -128,6 +130,8 @@ public class PIMMigrationManagerTest extends TestCase {
 
     @Test
     public void testPerformAuthorization_AuthorizationRequest_Null() throws Exception {
+
+
         when(mockPimLoginManager.createAuthRequestUriForMigration(any())).thenReturn(null);
         pimMigrationManager.performAuthorization(ID_TOKEN_HINT);
         verify(mockLoggingInterface).log(DEBUG, TAG, "performAuthorization failed. Cause : authorizationRequest is null.");

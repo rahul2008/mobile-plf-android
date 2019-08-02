@@ -7,6 +7,7 @@
 package com.philips.platform.pim;
 
 
+import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 /**
@@ -16,4 +17,13 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
  */
 public class PIMLaunchInput extends UappLaunchInput {
 
+    private UserLoginListener userLoginListener;
+    
+    public UserLoginListener getUserLoginListener() {
+        return userLoginListener;
+    }
+
+    public void setUserLoginListener(UserLoginListener userLoginListener) {
+        this.userLoginListener = userLoginListener;
+    }
 }

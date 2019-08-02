@@ -5,10 +5,16 @@
  */
 package com.philips.cdp.prodreg.prxrequest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
-import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
+import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseNewData;
+import com.philips.cdp.prodreg.model_request.Attributes;
+import com.philips.cdp.prodreg.model_request.Data;
+import com.philips.cdp.prodreg.model_request.Meta;
+import com.philips.cdp.prodreg.model_request.RegistrationRequestBody;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -18,11 +24,16 @@ import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryServ
 
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_ACCEPT_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_KEY;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_AUTHORIZATION_VALUE;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_KEY;
 
 public class RegistrationRequest extends PrxRequest {
 
@@ -45,11 +56,50 @@ public class RegistrationRequest extends PrxRequest {
     private static int MAX_REQUEST_TIME_OUT = 30000;
     private boolean receiveMarketingEmail;
     private String shouldSendEmailAfterRegistration = "true";
+    private String apiKey  ;
+    private String apiVersion;
+    private String contentType;
+    private String authorizationProvider;
+    private boolean isOidcToken;
 
-    public RegistrationRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public String getApiVersion() {
+        return apiVersion;
+    }
+
+    public void setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getAuthorizationProvider() {
+        return authorizationProvider;
+    }
+
+    public void setAuthorizationProvider(String authorizationProvider) {
+        this.authorizationProvider = authorizationProvider;
+    }
+
+    public RegistrationRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog, boolean oidcToken) {
         super(ctn, serviceID, sector, catalog);
         this.ctn = ctn;
         this.serviceID = serviceID;
+        isOidcToken = oidcToken;
     }
 
     public void setAccessToken(String accessToken) {
@@ -154,7 +204,7 @@ public class RegistrationRequest extends PrxRequest {
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
-        return new RegistrationResponse().parseJsonResponseData(jsonObject);
+        return new RegistrationResponseNewData().parseJsonResponseData(jsonObject);
     }
 
     public String getShouldSendEmailAfterRegistration() {
@@ -178,7 +228,13 @@ public class RegistrationRequest extends PrxRequest {
     @Override
     public Map<String, String> getHeaders() {
         final Map<String, String> headers = new HashMap<>();
-        headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
+       // headers.put(ProdRegConstants.ACCESS_TOKEN_KEY, getAccessToken());
+        headers.put(PROD_REG_APIKEY_KEY, getApiKey());
+        headers.put(PROD_REG_APIVERSION_KEY, getApiVersion());
+        headers.put(PROD_REG_AUTHORIZATION_KEY, PROD_REG_AUTHORIZATION_VALUE + getAccessToken());
+        headers.put(PROD_REG_CONTENTTYYPE_KEY, getContentType());
+        headers.put(PROD_REG_ACCEPT_KEY,getContentType());
+
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(serviceID);
         PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
@@ -186,11 +242,8 @@ public class RegistrationRequest extends PrxRequest {
                     @Override
                     public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                         String url = urlMap.get(serviceID).getConfigUrls();
-                        if (url.contains(ProdRegConstants.CHINA_DOMAIN)) {
-                            headers.put(ProdRegConstants.CHINA_PROVIDER_KEY, ProdRegConstants.CHINA_PROVIDER_VAL);
-                        }else{
-                            ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
-                        }
+                        getAuthoraisationProvider(url, headers);
+
                     }
 
                     @Override
@@ -201,18 +254,80 @@ public class RegistrationRequest extends PrxRequest {
         return headers;
     }
 
+    private void getAuthoraisationProvider(String url, Map<String, String> headers) {
+        ProdRegLogger.i("Product Registration Request"," isOidcToken "+ isOidcToken);
+
+        if(isOidcToken){
+            if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.OIDC_AUTHORIZATION_PROVIDER_VAL_CN);
+            } else {
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.OIDC_AUTHORIZATION_PROVIDER_VAL_EU);
+                ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+            }
+        }else{
+            if (url.contains(ProdRegConstants.CHINA_DOMAIN)){
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.JANRAIN_AUTHORIZATION_PROVIDER_VAL_CN);
+            } else {
+                headers.put(ProdRegConstants.AUTHORIZATION_PROVIDER_KEY, ProdRegConstants.JANRAIN_AUTHORIZATION_PROVIDER_VAL_EU);
+                ProdRegLogger.i("Product Registration Request",url+ " does not contain china domain.");
+            }
+        }
+
+    }
+
+//    @Override
+//    public Map<String, String> getParams() {
+//        String REGISTRATION_CHANNEL = "registrationChannel";
+//        String SEND_EMAIL = "sendEmail";
+//        String MARKETING_EMAIL = "receiveMarketingEmail";
+//        Map<String, String> params = new HashMap<>();
+//        validatePurchaseDate(params, getPurchaseDate());
+//        validateSerialNumber(params);
+//        params.put(REGISTRATION_CHANNEL, getRegistrationChannel());
+//        params.put(SEND_EMAIL, getShouldSendEmailAfterRegistration());
+//        params.put(MARKETING_EMAIL, isReceiveMarketingEmail());
+//        return params;
+//    }
+
     @Override
-    public Map<String, String> getParams() {
-        String REGISTRATION_CHANNEL = "registrationChannel";
-        String SEND_EMAIL = "sendEmail";
-        String MARKETING_EMAIL = "receiveMarketingEmail";
-        Map<String, String> params = new HashMap<>();
-        validatePurchaseDate(params, getPurchaseDate());
-        validateSerialNumber(params);
-        params.put(REGISTRATION_CHANNEL, getRegistrationChannel());
-        params.put(SEND_EMAIL, getShouldSendEmailAfterRegistration());
-        params.put(MARKETING_EMAIL, isReceiveMarketingEmail());
-        return params;
+    public String getBody() {
+
+        return getBodyItems();
+    }
+
+    private String getBodyItems() {
+
+
+        RegistrationRequestBody registrationRequestBody = new RegistrationRequestBody();
+        boolean boo = Boolean.parseBoolean(getShouldSendEmailAfterRegistration());
+        Meta meta = new Meta();
+        meta.setSendEmail(boo);
+
+        Data data = new Data();
+        data.setType("productRegistration");
+        registrationRequestBody.setData(data);
+        Attributes attributes = new Attributes();
+        attributes.setProductId(ctn);
+        attributes.setCatalog(getCatalog().toString());
+        attributes.setSector(getSector().toString());
+        attributes.setSerialNumber(getSerialNumber());
+        attributes.setPurchased(purchaseDate(getPurchaseDate()));
+        attributes.setMicrositeId(Integer.parseInt(PRUiHelper.getInstance().getAppInfraInstance().getAppIdentity().getMicrositeId()));
+        attributes.setLocale(PRUiHelper.getInstance().getLocale());
+        data.setAttributes(attributes);
+
+        registrationRequestBody.setData(data);
+        registrationRequestBody.setMeta(meta);
+
+        String mapp= "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapp = mapper.writeValueAsString(registrationRequestBody);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return mapp;
     }
 
     public String isReceiveMarketingEmail() {
@@ -230,10 +345,27 @@ public class RegistrationRequest extends PrxRequest {
             params.put(PRODUCT_SERIAL_NUMBER, productSerialNumber);
     }
 
+
+
     private void validatePurchaseDate(final Map<String, String> params, final String purchaseDate) {
         String PURCHASE_DATE = "purchaseDate";
         if (purchaseDate != null && purchaseDate.length() > 0)
             params.put(PURCHASE_DATE, purchaseDate);
+    }
+
+    private String getSerialNumber() {
+        String PRODUCT_SERIAL_NUMBER = "";
+        final String productSerialNumber = getProductSerialNumber();
+        if (productSerialNumber != null && productSerialNumber.length() > 0)
+            return productSerialNumber;
+        return PRODUCT_SERIAL_NUMBER;
+    }
+
+    private String purchaseDate(final String purchaseDate) {
+        String PURCHASE_DATE = "";
+        if (purchaseDate != null && purchaseDate.length() > 0)
+            return purchaseDate;
+        return PURCHASE_DATE;
     }
 
 }

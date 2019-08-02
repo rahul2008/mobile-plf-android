@@ -111,6 +111,8 @@ dependencies {
     implementation deps.support.design
     implementation deps.greenrobot
     implementation philipsdeps.uid
+    implementation project(path: ':product-registration-lib')
+    implementation project(path: ':prx')
     if (useprojectdependencies) {
         implementation project(strings.pim.projectName)
         implementation project(strings.ufw.projectName)

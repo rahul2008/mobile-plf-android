@@ -5,13 +5,25 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +55,11 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.IAPUtility;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.uid.text.utils.UIDClickableSpan;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -61,6 +78,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private Context mContext;
 
     private TextView mEmptyCatalogText;
+
+    private Label mPrivacy;
+    private LinearLayout mPrivacyLayout;
+    private View mView;
 
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
@@ -96,7 +117,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
 
         mTotalResults = IAPUtility.getInstance().getmTotalResults();
-        mCurrentPage =  IAPUtility.getInstance().getmCurrentPage();
+        mCurrentPage = IAPUtility.getInstance().getmCurrentPage();
         mRemainingProducts = IAPUtility.getInstance().getmRemainingProducts();
         mTotalPages = IAPUtility.getInstance().getmTotalPages();
 
@@ -141,6 +162,10 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mRecyclerView = rootView.findViewById(R.id.product_catalog_recycler_view);
         mSearchBox = rootView.findViewById(R.id.iap_search_box);
         mBannerLayout = rootView.findViewById(R.id.ll_banner_place_holder);
+        mView = rootView.findViewById(R.id.iap_productDetailsScreen_separator);
+        mPrivacyLayout = rootView.findViewById(R.id.iap_privacyLayout);
+        mPrivacy = rootView.findViewById(R.id.iap_privacy);
+        privacyTextView(mPrivacy);
 
         if (IAPUtility.getInstance().getBannerView() != null) {
             if (IAPUtility.getInstance().getBannerView().getParent() != null) {
@@ -165,6 +190,36 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mBundle = getArguments();
 
         return rootView;
+    }
+
+
+    private void privacyTextView(TextView view) {
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                (mContext.getString(R.string.iap_read)));
+        spanTxt.append(" ");
+        spanTxt.append(mContext.getString(R.string.iap_privacy));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                showPrivacyFragment();
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setUnderlineText(true);
+                ds.setColor(R.attr.uidHyperlinkDefaultPressedTextColor);
+            }
+        }, spanTxt.length() - mContext.getString(R.string.iap_privacy).length(), spanTxt.length(), 0);
+        spanTxt.append(" ");
+        spanTxt.append(mContext.getString(R.string.iap_more_info));
+        mPrivacy.setHighlightColor(Color.TRANSPARENT);
+        view.setMovementMethod(LinkMovementMethod.getInstance());
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE);
+    }
+
+    private void showPrivacyFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.IAP_PRIVACY_URL, IAPUtility.getInstance().getPrivacyUrl());
+        addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
     }
 
     private void setUpSearch() {
@@ -229,6 +284,14 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
         }
 
+        if(!(ControllerFactory.getInstance().isPlanB()) && (IAPUtility.getInstance().getPrivacyUrl() != null)) {
+            mPrivacyLayout.setVisibility(View.VISIBLE);
+            mView.setVisibility(View.VISIBLE);
+        } else {
+            mPrivacyLayout.setVisibility(View.GONE);
+            mView.setVisibility(View.GONE);
+        }
+
         mAdapter.tagProducts();
     }
 
@@ -236,7 +299,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     public void onEventReceived(final String event) {
         if (event.equalsIgnoreCase(String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL))) {
             launchProductDetailFragment();
-        } else if(event.equals(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED))){
+        } else if (event.equals(String.valueOf(IAPConstant.EMPTY_CART_FRAGMENT_REPLACED))) {
             mIsLoading = false;
             hideProgressBar();
             onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
@@ -293,22 +356,22 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mPresenter = ControllerFactory.getInstance().
                     getProductCatalogPresenter(mContext, this);
 
-        if(ControllerFactory.getInstance().isPlanB() && isCategorizedFlow()){
+        if (ControllerFactory.getInstance().isPlanB() && isCategorizedFlow()) {
             mPresenter.getCategorizedProductList(getCategorizedCTNs());
-        }else{
+        } else {
             mPresenter.getProductCatalog(++mCurrentPage, page_size, null);
-                IAPUtility.getInstance().setmCurrentPage(mCurrentPage);
+            IAPUtility.getInstance().setmCurrentPage(mCurrentPage);
         }
 
     }
 
     private void loadMoreItems() {
         mIsLoading = true;
-        if (mCurrentPage+1 < mTotalPages) {
+        if (mCurrentPage + 1 < mTotalPages) {
             fetchProductList();
-        } else{
+        } else {
 
-            if (mAdapter.getItemCount() == 0){
+            if (mAdapter.getItemCount() == 0) {
                 onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
                         ("", mContext.getString(R.string.iap_no_product_available)));
             }
@@ -357,7 +420,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mIsLoading = false;
             hideProgressBar();
 
-            if(isCategorizedFlow() && shouldLoadMore()){
+            if (isCategorizedFlow() && shouldLoadMore()) {
                 loadMoreItems();
             }
 
@@ -384,7 +447,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         if (error.getMessage() != null
                 && error.getMessage().equalsIgnoreCase(mContext.getResources().getString(R.string.iap_no_product_available))) {
-            if(mAdapter.getItemCount()>0)return;
+            if (mAdapter.getItemCount() > 0) return;
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);
@@ -440,7 +503,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             int firstVisibleItemPosition = lay.findFirstVisibleItemPosition();
 
             //Check if scroll down
-            if(isScrollDown(lay, visibleItemCount, firstVisibleItemPosition)){
+            if (isScrollDown(lay, visibleItemCount, firstVisibleItemPosition)) {
 
                 if (shouldLoadMore()) {
                     loadMoreItems();
@@ -496,6 +559,5 @@ public class ProductCatalogFragment extends InAppBaseFragment
     ArrayList<String> getCategorizedCTNs() {
         return mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS);
     }
-
 
 }

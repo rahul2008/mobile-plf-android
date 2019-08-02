@@ -194,6 +194,12 @@ public class ECSServices implements ECSServiceProvider {
         mECSManager.updateAddress(address,ecsCallback);
     }
 
+    @Override
+    public void setDefaultAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+        address.setDefaultAddress(true);
+        mECSManager.updateAddress(address,ecsCallback);
+    }
+
     private void setLangAndCountry(String locale) {
         String[] localeArray;
         localeArray = locale.split("_");

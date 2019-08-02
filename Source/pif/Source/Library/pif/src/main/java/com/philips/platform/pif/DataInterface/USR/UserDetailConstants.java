@@ -20,4 +20,5 @@ public class UserDetailConstants {
     public static final String RECEIVE_MARKETING_EMAIL = "consent_email_marketing.given";
     public static final String UUID = "uuid";
     public static final String ACCESS_TOKEN = "access_token";
+
 }

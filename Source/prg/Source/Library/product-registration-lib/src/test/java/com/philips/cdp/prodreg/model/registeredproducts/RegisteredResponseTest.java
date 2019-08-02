@@ -33,7 +33,7 @@ public class RegisteredResponseTest extends TestCase {
         registeredResponse = new RegisteredResponse();
         sector = PrxConstants.Sector.B2C;
         catalog = PrxConstants.Catalog.CONSUMER;
-        mRegistrationRequest = new RegistrationRequest(mCTN, mSerialNumber,sector,catalog );
+        mRegistrationRequest = new RegistrationRequest(mCTN, mSerialNumber,sector,catalog, true);
     }
 
     public void testSetResults() throws Exception {

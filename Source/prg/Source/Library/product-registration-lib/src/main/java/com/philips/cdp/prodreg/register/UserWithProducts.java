@@ -23,6 +23,7 @@ import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
+import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseNewData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.prxclient.PRXDependencies;
@@ -40,6 +41,10 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListen
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_VALUE;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_VALUE;
+import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_VALUE;
 
 /**
  * Responsible to register and fetch products
@@ -301,7 +306,7 @@ public class UserWithProducts {
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), ProdRegConstants.REGISTRATIONREQUEST_SERVICE_ID, registeredProduct.getSector(),
-                registeredProduct.getCatalog());
+                registeredProduct.getCatalog(), mUserDataInterface.isOIDCToken());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         registrationRequest.setRegistrationChannel(getUserProduct().getRegistrationChannel());
@@ -314,11 +319,16 @@ public class UserWithProducts {
             detailskey.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
             detailskey.add(UserDetailConstants.ACCESS_TOKEN);
             HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailskey);
-            boolean isRcvMrktEmail = (boolean) userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            boolean isRcvMrktEmail = false;
+            if(userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL)!=null){
+                 isRcvMrktEmail = (boolean) userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            }
             String accessToken = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
-
             registrationRequest.setAccessToken(accessToken);
             registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
+            registrationRequest.setApiKey(PROD_REG_APIKEY_VALUE);
+            registrationRequest.setApiVersion(PROD_REG_APIVERSION_VALUE);
+            registrationRequest.setContentType(PROD_REG_CONTENTTYYPE_VALUE);
 
         } catch (Exception e) {
             ProdRegLogger.e(TAG,"Error in fetching user details.");
@@ -388,7 +398,7 @@ public class UserWithProducts {
             @Override
             public void onResponseSuccess(final ResponseData responseData) {
                 registeredProduct.setRegistrationState(RegistrationState.REGISTERED);
-                RegistrationResponse registrationResponse = (RegistrationResponse) responseData;
+                RegistrationResponseNewData registrationResponse = (RegistrationResponseNewData) responseData;
                 getUserProduct().mapRegistrationResponse(registrationResponse, registeredProduct);
                 registeredProduct.setProdRegError(null);
                 sendSuccessFullCallBack(registeredProduct);
@@ -422,17 +432,17 @@ public class UserWithProducts {
             appListener.onProdRegSuccess(registeredProduct, getUserProduct());
     }
 
-    protected void mapRegistrationResponse(final RegistrationResponse registrationResponse, final RegisteredProduct registeredProduct) {
-        final RegistrationResponseData data = registrationResponse.getData();
-        registeredProduct.setEndWarrantyDate(data.getWarrantyEndDate());
-        registeredProduct.setContractNumber(data.getContractNumber());
+    protected void mapRegistrationResponse(final RegistrationResponseNewData registrationResponse, final RegisteredProduct registeredProduct) {
+        final RegistrationResponseNewData data = registrationResponse;
+        registeredProduct.setEndWarrantyDate(data.getData().getAttributes().getExtendedWarrantyMonths()+"");
+        registeredProduct.setContractNumber(data.getData().getAttributes().getSerialNumber());
     }
 
     protected void makeRegistrationRequest(final Context mContext, final RegisteredProduct registeredProduct) {
         setRequestType(PRODUCT_REGISTRATION);
         RegistrationRequest registrationRequest = getRegistrationRequest(mContext, registeredProduct);
         RequestManager mRequestManager = getRequestManager(mContext);
-        mRequestManager.executeRequest(registrationRequest, getPrxResponseListener(registeredProduct));
+        mRequestManager.executeRequest2(registrationRequest, getPrxResponseListener(registeredProduct));
     }
 
     protected RegisteredProductsListener getRegisteredProductsListener() {
@@ -465,4 +475,5 @@ public class UserWithProducts {
     protected void setCurrentRegisteredProduct(final RegisteredProduct currentRegisteredProduct) {
         this.currentRegisteredProduct = currentRegisteredProduct;
     }
+
 }

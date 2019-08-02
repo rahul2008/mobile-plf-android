@@ -17,6 +17,7 @@ public class StoreEntity implements Serializable{
     private int logoWidth;
     private String buyURL;
     private String logoURL;
+    private String xactparam;
 
     public String getName() {
         return name;
@@ -48,5 +49,9 @@ public class StoreEntity implements Serializable{
 
     public String getLogoURL() {
         return logoURL;
+    }
+
+    public String getXactparam() {
+        return xactparam;
     }
 }

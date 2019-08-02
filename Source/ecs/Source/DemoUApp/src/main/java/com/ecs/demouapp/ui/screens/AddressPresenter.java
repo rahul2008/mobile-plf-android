@@ -51,6 +51,8 @@ import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrors;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +61,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -116,7 +119,20 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         if (msg.obj instanceof GetShippingAddressData) {
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
-            CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses, HybrisDelegate.getInstance(addressContractor.getActivityContext()).getStore().getJanRainEmail()));
+            ArrayList<String> userDataMap = new ArrayList<>();
+
+          /*  userDataMap.add(UserDetailConstants.GIVEN_NAME);
+            userDataMap.add(UserDetailConstants.FAMILY_NAME);*/
+            userDataMap.add(UserDetailConstants.EMAIL);
+            HashMap<String, Object> userDetails = null;
+            try{
+                userDetails =   ECSUtility.getInstance().getUserDataInterface().getUserDetails(userDataMap);
+            } catch (UserDataInterfaceException e) {
+                e.printStackTrace();
+            }
+           // HashMap<String, Object> userDetails=null;
+            String email=  (String) userDetails.get(UserDetailConstants.EMAIL);
+            CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses,email));
             setDeliveryAddress(mAddresses);
             //Track new address creation
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,

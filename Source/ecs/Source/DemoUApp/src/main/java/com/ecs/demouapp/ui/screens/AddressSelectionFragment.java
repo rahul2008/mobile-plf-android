@@ -152,13 +152,22 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onGetAddress(Message msg) {
+        hideProgressBar();
         if (mIsAddressUpdateAfterDelivery) {
             mIsAddressUpdateAfterDelivery = false;
             return;
         }
 
-        hideProgressBar();
-        if (msg.obj instanceof IAPNetworkError) {
+        if(msg.obj instanceof Boolean){
+
+            if((Boolean) msg.obj){
+
+                ECSErrors.showECSToast(mContext,"error setting  Default Address");
+            }else{
+
+            }
+
+        }else if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             moveToShoppingCart();
         } else if (msg.obj instanceof Exception){
