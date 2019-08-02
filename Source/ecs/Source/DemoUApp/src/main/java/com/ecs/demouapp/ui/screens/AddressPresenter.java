@@ -113,7 +113,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     @Override
     public void onCreateAddress(Message msg) {
-        if (msg.obj instanceof Addresses) {
+        if (msg.obj instanceof GetShippingAddressData) {
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             CartModelContainer.getInstance().setShippingAddressFields(Utility.prepareAddressFields(mAddresses, HybrisDelegate.getInstance(addressContractor.getActivityContext()).getStore().getJanRainEmail()));
@@ -191,44 +191,9 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
     }
 
     public void createAddress(AddressFields shippingAddressFields) {
-      //  mAddressController.createAddress(shippingAddressFields);
+       mAddressController.createAddress(shippingAddressFields);
 
-        Addresses addressRequest = new Addresses();
-        addressRequest.setFirstName(shippingAddressFields.getFirstName());
-        addressRequest.setLastName(shippingAddressFields.getLastName());
-        addressRequest.setTitleCode(shippingAddressFields.getTitleCode());
-        Country country= new Country();
-        country.setIsocode(ECSConfig.INSTANCE.getCountry());
-        //country.se
-        addressRequest.setCountry(country); // iso
-        addressRequest.setLine1(shippingAddressFields.getLine1());
-     //   addressRequest.setLine2(shippingAddressFields.getLine2());
-        addressRequest.setPostalCode(shippingAddressFields.getPostalCode());
-        addressRequest.setTown(shippingAddressFields.getTown());
-        addressRequest.setPhone1(shippingAddressFields.getPhone1());
-        addressRequest.setPhone2(shippingAddressFields.getPhone2());
-        Region region = new Region();
-        region.setIsocodeShort(shippingAddressFields.getRegionIsoCode());
-        addressRequest.setRegion(region); // set Region eg State for US and Canada
-        addressRequest.setHouseNumber(shippingAddressFields.getHouseNumber());
 
-        ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
-            @Override
-            public void onResponse(GetShippingAddressData result) {
-                addressContractor.hideProgressbar();
-                if(null!=result){
-                Log.v("ECS ADDRESS",""+result.getAddresses());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                addressContractor.hideProgressbar();
-
-                Log.v("ECS ADDRESS",""+detailErrorMessage);
-            }
-        });
 
 
 

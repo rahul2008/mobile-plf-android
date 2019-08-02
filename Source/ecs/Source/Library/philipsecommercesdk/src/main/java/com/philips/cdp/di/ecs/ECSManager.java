@@ -506,10 +506,28 @@ public class ECSManager {
     }
     //===================================================== End of Delivery Mode ====================================================
 
-    public void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback){
-        new CreateAddressRequest(address, new ECSCallback<Boolean, Exception>() {
+    public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback,boolean singleAddress){
+        new CreateAddressRequest(address, new ECSCallback<Addresses, Exception>() {
             @Override
-            public void onResponse(Boolean result) {
+            public void onResponse(Addresses result) {
+                // Address is created and now Address list needs to be called
+                ecsCallback.onResponse(result);
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,12999);
+            }
+        }).executeRequest();
+
+
+    }
+
+    public void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback){
+        new CreateAddressRequest(address, new ECSCallback<Addresses, Exception>() {
+            @Override
+            public void onResponse(Addresses result) {
                 // Address is created and now Address list needs to be called
                 getListSavedAddress(ecsCallback);
             }

@@ -3,6 +3,7 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
@@ -23,9 +24,9 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
 
 
     Addresses ecsAddressRequest;
-    private  ECSCallback<Boolean,Exception> ecsCallback;
+    private  ECSCallback<Addresses,Exception> ecsCallback;
 
-    public CreateAddressRequest(Addresses ecsAddressRequest, ECSCallback<Boolean, Exception> ecsCallback) {
+    public CreateAddressRequest(Addresses ecsAddressRequest, ECSCallback<Addresses, Exception> ecsCallback) {
         this.ecsAddressRequest = ecsAddressRequest;
         this.ecsCallback = ecsCallback;
     }
@@ -38,7 +39,8 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
     @Override
     public void onResponse(String response) {
         // created address response is not checked
-        ecsCallback.onResponse(true);
+        Addresses addresses = new Gson().fromJson(response, Addresses.class);
+        ecsCallback.onResponse(addresses);
     }
 
     @Override
@@ -67,6 +69,9 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
         params.put(ModelConstants.TITLE_CODE, ecsAddressRequest.getTitleCode().toLowerCase(Locale.getDefault()));
         params.put(ModelConstants.COUNTRY_ISOCODE, ecsAddressRequest.getCountry().getIsocode());
         params.put(ModelConstants.LINE_1, ecsAddressRequest.getLine1());
+        if(null!=ecsAddressRequest.getLine2()){
+            params.put(ModelConstants.LINE_2, ecsAddressRequest.getLine2());
+        }
         if(null!=ecsAddressRequest.getHouseNumber()) {
             params.put(ModelConstants.HOUSE_NO, ecsAddressRequest.getHouseNumber());
         }
