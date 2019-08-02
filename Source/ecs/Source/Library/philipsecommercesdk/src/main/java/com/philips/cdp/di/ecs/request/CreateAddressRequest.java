@@ -87,4 +87,8 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
         ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),12999);
 
     }
+
+    public Response.Listener<String> getStringSuccessResponseListener(){
+        return this;
+    }
 }

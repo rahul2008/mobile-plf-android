@@ -12,6 +12,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 
 
@@ -41,11 +42,13 @@ import com.ecs.demouapp.ui.utils.Utility;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONArray;
@@ -182,31 +185,40 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
     }
 
     public void createAddress(AddressFields shippingAddressFields) {
-        mAddressController.createAddress(shippingAddressFields);
+    //    mAddressController.createAddress(shippingAddressFields);
 
         Addresses addressRequest = new Addresses();
-        addressRequest.setFirstName(addressRequest.getFirstName());
-        addressRequest.setLastName(addressRequest.getLastName());
-        addressRequest.setTitleCode(addressRequest.getTitle());
-        addressRequest.setCountry(addressRequest.getCountry()); // iso
-        addressRequest.setLine1(addressRequest.getLine1());
-        addressRequest.setLine2(addressRequest.getLine2());
-        addressRequest.setPostalCode(addressRequest.getPostalCode());
-        addressRequest.setTown(addressRequest.getTown());
-        addressRequest.setPhone1(addressRequest.getPhone1());
-        addressRequest.setPhone2(addressRequest.getPhone2());
-        addressRequest.setRegion(addressRequest.getRegion()); // set Region eg State for US and Canada
-        addressRequest.setHouseNumber(addressRequest.getHouseNumber());
+        addressRequest.setFirstName(shippingAddressFields.getFirstName());
+        addressRequest.setLastName(shippingAddressFields.getLastName());
+        addressRequest.setTitleCode(shippingAddressFields.getTitleCode());
+        Country country= new Country();
+        country.setIsocode(ECSConfig.INSTANCE.getCountry());
+        //country.se
+        addressRequest.setCountry(country); // iso
+        addressRequest.setLine1(shippingAddressFields.getLine1());
+     //   addressRequest.setLine2(shippingAddressFields.getLine2());
+        addressRequest.setPostalCode(shippingAddressFields.getPostalCode());
+        addressRequest.setTown(shippingAddressFields.getTown());
+        addressRequest.setPhone1(shippingAddressFields.getPhone1());
+        addressRequest.setPhone2(shippingAddressFields.getPhone2());
+        //addressRequest.setRegion(shippingAddressFields.getRegion()); // set Region eg State for US and Canada
+        addressRequest.setHouseNumber(shippingAddressFields.getHouseNumber());
 
         ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
             @Override
             public void onResponse(GetShippingAddressData result) {
+                addressContractor.hideProgressbar();
+                if(null!=result){
+                Log.v("ECS ADDRESS",""+result.getAddresses());
+                }
 
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                addressContractor.hideProgressbar();
 
+                Log.v("ECS ADDRESS",""+detailErrorMessage);
             }
         });
 
