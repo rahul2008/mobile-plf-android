@@ -22,6 +22,7 @@ import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryReq
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.request.CreateAddressRequest;
+import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
@@ -525,6 +526,20 @@ public class ECSManager {
 
     public void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
         new UpdateAddressRequest(address,ecsCallback).executeRequest();
+    }
+
+    public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        new DeleteAddressRequest(address, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                getListSavedAddress(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        }).executeRequest();
     }
     //===================================================== End of Address ====================================================
 }

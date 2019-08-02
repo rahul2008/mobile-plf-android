@@ -96,4 +96,6 @@ public interface ECSServiceProvider {
     void updateAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 
     void setDefaultAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
+
+    void deleteAddress(Addresses address,ECSCallback<GetShippingAddressData, Exception> ecsCallback);
 }

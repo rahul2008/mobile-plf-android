@@ -1,0 +1,63 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
+package com.philips.cdp.di.ecs.request;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrors;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class DeleteAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
+
+    private final Addresses addresses;
+
+    private final ECSCallback<Boolean, Exception> ecsCallback;
+
+
+    public DeleteAddressRequest(Addresses addresses, ECSCallback<Boolean, Exception> ecsCallback) {
+        this.addresses = addresses;
+        this.ecsCallback = ecsCallback;
+    }
+
+    @Override
+    public int getMethod() {
+        return Request.Method.DELETE;
+    }
+
+    @Override
+    public Map<String, String> getHeader() {
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("Content-Type", "application/x-www-form-urlencoded");
+        header.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
+        return header;
+    }
+
+    @Override
+    public String getURL() {
+        return new ECSURLBuilder().getEditAddressUrl(addresses.getId());
+    }
+
+    @Override
+    public void onResponse(String response) {
+        ecsCallback.onResponse(true);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        ecsCallback.onFailure(ECSErrors.getErrorMessage(error), ECSErrors.getDetailErrorMessage(error), 9000);
+    }
+
+    @Override
+    public Response.Listener<String> getStringSuccessResponseListener() {
+        return this;
+    }
+}

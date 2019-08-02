@@ -297,7 +297,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private void deleteShippingAddress() {
         createCustomProgressBar(mLinearLayout, BIG);
         int pos = mAdapter.getOptionsClickPosition();
-        mAddressController.deleteAddress(mAddresses.get(pos).getId());
+        mAddressController.deleteAddress(mAddresses.get(pos));
     }
 
     private HashMap<String, String> updateAddress(Addresses address) {

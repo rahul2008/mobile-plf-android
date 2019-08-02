@@ -136,12 +136,31 @@ public class AddressController implements AbstractModel.DataLoadListener {
         //getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
     }
 
-    public void deleteAddress(String addressId) {
-        HashMap<String, String> query = new HashMap<>();
+    public void deleteAddress(Addresses address) {
+
+        ECSUtility.getInstance().getEcsServices().deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
+            @Override
+            public void onResponse(GetShippingAddressData result) {
+
+                Message message = new Message();
+                message.obj = result;
+                mAddressListener.onGetAddress(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+                Message message = new Message();
+                message.obj= error;
+                mAddressListener.onGetAddress(message);
+
+            }
+        });
+        /*HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ADDRESS_ID, addressId);
 
         DeleteAddressRequest model = new DeleteAddressRequest(getStore(), query, this);
-        getHybrisDelegate().sendRequest(RequestCode.DELETE_ADDRESS, model, model);
+        getHybrisDelegate().sendRequest(RequestCode.DELETE_ADDRESS, model, model);*/
     }
 
     public void updateAddress(Addresses addresses) {
