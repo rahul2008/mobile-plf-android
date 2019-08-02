@@ -13,11 +13,9 @@ import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.DeliveryModeAdapter;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.AddressController;
-import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
-import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
-import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.List;

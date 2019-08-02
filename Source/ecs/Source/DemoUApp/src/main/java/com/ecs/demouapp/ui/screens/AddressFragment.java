@@ -263,7 +263,8 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
                     mBtnContinue.setEnabled(true);
                 } else {
                     updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
-                    addressPresenter.updateAddress(updateAddressPayload);
+                    //TODO
+                    //addressPresenter.updateAddress(updateAdadddressPayload);
                     mBtnContinue.setEnabled(false);
                 }
                 CartModelContainer.getInstance().setAddressIdFromDelivery(null);
@@ -283,7 +284,8 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     private void saveShippingAddressToBackend() {
         createCustomProgressBar(mParentContainer, BIG);
         HashMap<String, String> addressHashMap = addressPresenter.addressPayload(shippingAddressFields);
-        addressPresenter.updateAddress(addressHashMap);
+       //TODO
+        //addressPresenter.updateAddress(shippingAddressFields);
     }
 
 

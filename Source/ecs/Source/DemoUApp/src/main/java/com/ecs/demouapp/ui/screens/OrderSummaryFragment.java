@@ -65,8 +65,6 @@ import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.response.State.RegionsList;
 import com.ecs.demouapp.ui.response.addresses.Addresses;
-import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
-import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetShippingAddressData;
 import com.ecs.demouapp.ui.response.payment.MakePaymentData;
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
@@ -79,6 +77,8 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 

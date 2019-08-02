@@ -159,7 +159,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void setDeliveryMode(String deliveryModeID, ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+    public void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
         mECSManager.setDeliveryMode(deliveryModeID,ecsCallback);
     }
 

@@ -144,9 +144,25 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.DELETE_ADDRESS, model, model);
     }
 
-    public void updateAddress(HashMap<String, String> query) {
-        UpdateAddressRequest model = new UpdateAddressRequest(getStore(), query, this);
-        getHybrisDelegate().sendRequest(RequestCode.UPDATE_ADDRESS, model, model);
+    public void updateAddress(Addresses addresses) {
+
+        ECSUtility.getInstance().getEcsServices().updateAddress(addresses, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+
+                Message message = new Message();
+                message.obj = result;
+                mAddressListener.onGetAddress(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+                Message message = new Message();
+                message.obj = false;
+                mAddressListener.onGetAddress(message);
+            }
+        });
     }
 
     public void setDeliveryAddress(Addresses address) {
@@ -168,7 +184,9 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-
+                Message message = new Message() ;
+                message.obj = false;
+                mAddressListener.onSetDeliveryAddress(message);
             }
         });
     }
@@ -196,19 +214,19 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
     public void setDeliveryMode(String deliveryMode) {
 
-        ECSUtility.getInstance().getEcsServices().setDeliveryMode(deliveryMode, new ECSCallback<GetDeliveryModes, Exception>() {
+        ECSUtility.getInstance().getEcsServices().setDeliveryMode(deliveryMode, new ECSCallback<Boolean, Exception>() {
             @Override
-            public void onResponse(GetDeliveryModes result) {
+            public void onResponse(Boolean result) {
                 Message message = new Message();
                 message.obj = result;
-                mAddressListener.onGetDeliveryModes(message);
+                mAddressListener.onSetDeliveryMode(message);
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
                 Message message = new Message();
                 message.obj = error;
-                mAddressListener.onGetDeliveryModes(message);
+                mAddressListener.onSetDeliveryMode(message);
             }
         });
 
@@ -282,7 +300,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
     public void setDefaultAddress(Addresses address) {
-        updateAddress(getAddressesMap(address, Boolean.TRUE));
+        updateAddress(address);
     }
 
     public HashMap<String, String> getAddressesMap(Addresses addr, Boolean isDefaultAddress) {

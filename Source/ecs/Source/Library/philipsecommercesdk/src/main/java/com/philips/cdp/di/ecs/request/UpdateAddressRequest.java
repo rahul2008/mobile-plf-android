@@ -7,6 +7,7 @@ import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,9 @@ public class UpdateAddressRequest extends OAuthAppInfraAbstractRequest implement
         addressHashMap.put(ModelConstants.TOWN, addresses.getTown());
         addressHashMap.put(ModelConstants.PHONE_1,addresses.getPhone1());
         addressHashMap.put(ModelConstants.PHONE_2, addresses.getPhone2());
-        addressHashMap.put(ModelConstants.REGION_ISOCODE, addresses.getRegion().getIsocode());
+        if(addresses.getRegion()!=null) {
+            addressHashMap.put(ModelConstants.REGION_ISOCODE, addresses.getRegion().getIsocode());
+        }
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
         addressHashMap.put(ModelConstants.ADDRESS_ID, addresses.getId());
         return addressHashMap;
@@ -60,12 +63,12 @@ public class UpdateAddressRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public void onResponse(String response) {
-
+        ecsCallback.onResponse(true);
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        ecsCallback.onFailure(ECSErrors.getErrorMessage(error),ECSErrors.getDetailErrorMessage(error),9000);
     }
 
     @Override
