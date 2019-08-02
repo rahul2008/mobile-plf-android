@@ -329,10 +329,6 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getAddressesUrl() {
-
-        ///pilcommercewebservices/v2/DE_Pub/users/current/addresses?fields=FULL&amp; lang=de_DE
-        //https://acc.us.pil.shop.philips.com/pilcommercewebservices/v2/DE_Pub/users/current/addresses?fields=FULL&lang=de_DE
-
        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
                 ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
                 USER+SEPERATOR +
@@ -355,8 +351,6 @@ public class ECSURLBuilder extends AbstractStore {
     @Override
     public String getSetDeliveryAddressUrl() {
 
-        ///pilcommercewebservices/v2/DE_Pub/users/current/carts/current/addresses/delivery
-
       return   ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
                 ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
                 USER+SEPERATOR +
@@ -371,8 +365,6 @@ public class ECSURLBuilder extends AbstractStore {
     //Delivery mode
     @Override
     public String getDeliveryModesUrl() {
-        //baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODES).concat(LANG) + mStoreConfig.getLocale();
-        // /pilcommercewebservices/v2/DE_Pub/users/current/carts/current/deliverymodes
         return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
                 ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
@@ -385,9 +377,6 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getSetDeliveryModeUrl() {
-
-        ///pilcommercewebservices/v2/DE_Pub/users/current/carts/current/deliverymode
-        ///pilcommercewebservices/v2/DE_Pub/users/current/carts/current/deliverymodes?fields=FULL&lang=de_DE
 
         return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
                 ECSConfig.INSTANCE.getSiteId()+SEPERATOR+

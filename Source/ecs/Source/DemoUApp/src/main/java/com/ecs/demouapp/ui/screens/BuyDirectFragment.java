@@ -14,10 +14,7 @@ import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.BuyDirectController;
-import com.ecs.demouapp.ui.response.State.RegionsList;
 
-import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
-import com.ecs.demouapp.ui.response.addresses.GetDeliveryModes;
 import com.ecs.demouapp.ui.response.addresses.GetUser;
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.response.payment.PaymentMethods;
@@ -27,11 +24,10 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.model.address.Addresses;
+
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
-import com.philips.cdp.di.ecs.model.address.GetUser;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.address.Addresses;
 
 import java.util.ArrayList;
 import java.util.Locale;
