@@ -49,8 +49,8 @@ public class PIMAuthManager {
      * @param context
      */
     PIMAuthManager(Context context) {
+        this();
         mContext = context;
-        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
     }
 
     /**
@@ -171,8 +171,6 @@ public class PIMAuthManager {
             return;
         }
         mAuthState = new AuthState(authorizationResponse, null);
-
-
 
         TokenRequest tokenRequest = authorizationResponse.createTokenExchangeRequest();
         AuthorizationService authorizationService = new AuthorizationService(mContext);

@@ -30,29 +30,28 @@ public class PIMSettingManager {
     private String locale;
     private MutableLiveData<PIMInitState> pimInitLiveData;
 
+    private PIMSettingManager() {
+    }
+
     public static PIMSettingManager getInstance() {
         return instance;
     }
-
 
     void setPimOidcConfigration(PIMOIDCConfigration pimOidcConfigration) {
         mPimoidcConfigration = pimOidcConfigration;
     }
 
-
     public PIMOIDCConfigration getPimOidcConfigration() {
         return mPimoidcConfigration;
     }
-
 
     public void init(UappDependencies pimDependencies) {
         mAppInfraInterface = pimDependencies.getAppInfra();
         mLoggingInterface = mAppInfraInterface.getLogging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
         mTaggingInterface = mAppInfraInterface.getTagging().createInstanceForComponent(COMPONENT_TAGS_ID, BuildConfig.VERSION_NAME);
         mRestInterface = mAppInfraInterface.getRestClient();
-        mLoggingInterface.log(DEBUG,TAG,"PIMSettingManager : dependecies initialized");
+        mLoggingInterface.log(DEBUG, TAG, "PIMSettingManager : dependecies initialized");
     }
-
 
     public AppInfraInterface getAppInfraInterface() {
         return mAppInfraInterface;
@@ -65,7 +64,6 @@ public class PIMSettingManager {
     public AppTaggingInterface getTaggingInterface() {
         return mTaggingInterface;
     }
-
 
     public PIMUserManager getPimUserManager() {
         return pimUserManager;
@@ -85,14 +83,14 @@ public class PIMSettingManager {
 
     //TODO: '_' is replaced by '-' to support backend. Need to change once backend supports standard locale.
     public void setLocale(String locale) {
-        if(locale.contains("_")){
+        if (locale.contains("_")) {
             String[] splitLocal = locale.split("_");
-            locale = splitLocal[0]+"-"+splitLocal[1];
+            locale = splitLocal[0] + "-" + splitLocal[1];
         }
         this.locale = locale;
     }
 
-    public void setPIMInitLiveData(MutableLiveData<PIMInitState> pimInitLiveData){
+    public void setPIMInitLiveData(MutableLiveData<PIMInitState> pimInitLiveData) {
         this.pimInitLiveData = pimInitLiveData;
     }
 
