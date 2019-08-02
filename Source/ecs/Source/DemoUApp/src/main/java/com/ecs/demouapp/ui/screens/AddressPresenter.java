@@ -44,6 +44,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.Region;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
@@ -190,7 +191,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
     }
 
     public void createAddress(AddressFields shippingAddressFields) {
-    //    mAddressController.createAddress(shippingAddressFields);
+      //  mAddressController.createAddress(shippingAddressFields);
 
         Addresses addressRequest = new Addresses();
         addressRequest.setFirstName(shippingAddressFields.getFirstName());
@@ -206,7 +207,9 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         addressRequest.setTown(shippingAddressFields.getTown());
         addressRequest.setPhone1(shippingAddressFields.getPhone1());
         addressRequest.setPhone2(shippingAddressFields.getPhone2());
-        //addressRequest.setRegion(shippingAddressFields.getRegion()); // set Region eg State for US and Canada
+        Region region = new Region();
+        region.setIsocodeShort(shippingAddressFields.getRegionIsoCode());
+        addressRequest.setRegion(region); // set Region eg State for US and Canada
         addressRequest.setHouseNumber(shippingAddressFields.getHouseNumber());
 
         ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {

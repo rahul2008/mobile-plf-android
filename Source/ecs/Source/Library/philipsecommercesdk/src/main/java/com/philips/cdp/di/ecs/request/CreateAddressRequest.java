@@ -67,12 +67,17 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
         params.put(ModelConstants.TITLE_CODE, ecsAddressRequest.getTitleCode().toLowerCase(Locale.getDefault()));
         params.put(ModelConstants.COUNTRY_ISOCODE, ecsAddressRequest.getCountry().getIsocode());
         params.put(ModelConstants.LINE_1, ecsAddressRequest.getLine1());
-        params.put(ModelConstants.HOUSE_NO, ecsAddressRequest.getHouseNumber());
+        if(null!=ecsAddressRequest.getHouseNumber()) {
+            params.put(ModelConstants.HOUSE_NO, ecsAddressRequest.getHouseNumber());
+        }
         params.put(ModelConstants.POSTAL_CODE, ecsAddressRequest.getPostalCode());
         params.put(ModelConstants.TOWN, ecsAddressRequest.getTown());
         params.put(ModelConstants.PHONE_1, ecsAddressRequest.getPhone1());
         params.put(ModelConstants.PHONE_2, ecsAddressRequest.getPhone1());
-       // params.put(ModelConstants.REGION_ISOCODE, ecsAddressRequest.getRegionIsoCode());
+        if(null!=ecsAddressRequest.getRegion().getIsocodeShort()) {
+            params.put(ModelConstants.REGION_ISOCODE, ecsAddressRequest.getRegion().getIsocodeShort());
+        }
+
         return params;
     }
 

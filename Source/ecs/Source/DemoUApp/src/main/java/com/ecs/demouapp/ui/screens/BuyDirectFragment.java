@@ -27,11 +27,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
-import com.philips.cdp.di.ecs.model.address.GetUser;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -137,7 +133,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         } else {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             ArrayList<DeliveryModes> deliveryModesList = (ArrayList<DeliveryModes>) deliveryModes.getDeliveryModes();
-            CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
+           // CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
             mBuyDirectController.setDeliveryMode(deliveryModesList.get(0).getCode());
         }
     }

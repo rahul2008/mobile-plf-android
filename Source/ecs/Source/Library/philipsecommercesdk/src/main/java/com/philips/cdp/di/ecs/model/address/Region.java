@@ -7,6 +7,9 @@ public class Region implements Serializable{
 
     private String countryIso;
     private String isocode;
+
+
+
     private String isocodeShort;
     private String name;
 
@@ -20,6 +23,9 @@ public class Region implements Serializable{
 
     public String getIsocodeShort() {
         return isocodeShort;
+    }
+    public void setIsocodeShort(String isocodeShort) {
+        this.isocodeShort = isocodeShort;
     }
 
     public String getName() {
