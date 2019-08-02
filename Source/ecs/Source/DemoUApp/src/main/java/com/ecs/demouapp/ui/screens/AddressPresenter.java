@@ -116,7 +116,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     @Override
     public void onCreateAddress(Message msg) {
-        if (msg.obj instanceof GetShippingAddressData) {
+        if (msg.obj instanceof Addresses) {
             Addresses mAddresses = (Addresses) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             ArrayList<String> userDataMap = new ArrayList<>();
@@ -170,16 +170,19 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     @Override
     public void onSetDeliveryAddress(Message msg) {
-        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
+        addressContractor.hideProgressbar();
+        if (msg.obj instanceof Boolean ) { // success
             DeliveryModes deliveryMode = addressContractor.getDeliveryModes();
             if (deliveryMode == null)
                 getDeliveryModes();
             else
                 mPaymentController.getPaymentDetails();
         } else {
-            addressContractor.hideProgressbar();
+            // failure
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
-            NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
+            ECSErrors.showECSToast(getAddressContractor().getActivityContext(),msg.getData().toString());
+           // NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
+
         }
     }
 
