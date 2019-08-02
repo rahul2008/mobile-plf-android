@@ -58,13 +58,17 @@ public class ECSErrors {
     public static String getDetailErrorMessage(VolleyError volleyError) {
         String message = null;
         try {
-            String responseBody = new String(volleyError.networkResponse.data, "utf-8");
-            JSONObject data = new JSONObject(responseBody);
-            JSONArray errors = data.getJSONArray("errors");
-            JSONObject jsonMessage = errors.getJSONObject(0);
+            if(null!=volleyError.networkResponse && null!=volleyError.networkResponse.data) {
+                String responseBody = new String(volleyError.networkResponse.data, "utf-8");
+                JSONObject data = new JSONObject(responseBody);
+                JSONArray errors = data.getJSONArray("errors");
+                JSONObject jsonMessage = errors.getJSONObject(0);
 
-            message = jsonMessage.toString();
-            //jsonMessage.getString("message");
+                message = jsonMessage.toString();
+                //jsonMessage.getString("message");
+            }else if (null!=volleyError.getMessage() ){
+                message=volleyError.getMessage();
+            }
 
         } catch (JSONException e) {
         } catch (UnsupportedEncodingException errorr) {

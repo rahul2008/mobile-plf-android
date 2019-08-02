@@ -6,6 +6,7 @@ package com.ecs.demouapp.ui.controller;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 /*import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.model.AbstractModel;
@@ -42,9 +43,12 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
+import com.philips.cdp.di.ecs.model.address.Region;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -102,9 +106,51 @@ public class AddressController implements AbstractModel.DataLoadListener {
     }
 
     public void createAddress(AddressFields addressFields) {
-        HashMap<String, String> params = getAddressHashMap(addressFields);
+      /*  HashMap<String, String> params = getAddressHashMap(addressFields);
         CreateAddressRequest model = new CreateAddressRequest(getStore(), params, this);
-        getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);
+        getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);*/
+
+        Addresses addressRequest = new Addresses();
+        addressRequest.setFirstName(addressFields.getFirstName());
+        addressRequest.setLastName(addressFields.getLastName());
+        addressRequest.setTitleCode(addressFields.getTitleCode());
+        Country country= new Country();
+        country.setIsocode(ECSConfig.INSTANCE.getCountry());
+        //country.se
+        addressRequest.setCountry(country); // iso
+        addressRequest.setLine1(addressFields.getLine1());
+        //   addressRequest.setLine2(shippingAddressFields.getLine2());
+        addressRequest.setPostalCode(addressFields.getPostalCode());
+        addressRequest.setTown(addressFields.getTown());
+        addressRequest.setPhone1(addressFields.getPhone1());
+        addressRequest.setPhone2(addressFields.getPhone2());
+        Region region = new Region();
+        region.setIsocodeShort(addressFields.getRegionIsoCode());
+        addressRequest.setRegion(region); // set Region eg State for US and Canada
+        addressRequest.setHouseNumber(addressFields.getHouseNumber());
+
+        ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<Addresses, Exception>() {
+            @Override
+            public void onResponse(Addresses result) {
+                //addressContractor.hideProgressbar();
+                if(null!=result){
+                    Log.v("ECS ADDRESS",""+result.toString());
+
+                    Message message = new Message();
+                    message.obj=result;
+                    mAddressListener.onCreateAddress(message);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                //addressContractor.hideProgressbar();
+
+                Log.v("ECS ADDRESS",""+detailErrorMessage);
+            }
+        },true);
+
     }
 
     public void getAddresses() {
@@ -204,7 +250,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
                 Message message = new Message() ;
-                message.obj = false;
+                message.obj = error;
                 mAddressListener.onSetDeliveryAddress(message);
             }
         });
