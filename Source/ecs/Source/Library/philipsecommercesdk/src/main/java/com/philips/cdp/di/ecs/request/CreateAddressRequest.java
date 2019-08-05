@@ -3,6 +3,7 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -10,6 +11,8 @@ import com.philips.cdp.di.ecs.model.address.Addresses;
 
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
 
@@ -38,9 +41,16 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onResponse(String response) {
-        // created address response is not checked
-        Addresses addresses = new Gson().fromJson(response, Addresses.class);
-        ecsCallback.onResponse(addresses);
+        Addresses addresses=null;
+                // created address response is not checked
+        try {
+            addresses = new Gson().fromJson(response, Addresses.class);
+        }catch(Exception e){
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), e.getMessage(),12999);
+        }
+        if(null!=addresses) {
+            ecsCallback.onResponse(addresses);
+        }
     }
 
     @Override
