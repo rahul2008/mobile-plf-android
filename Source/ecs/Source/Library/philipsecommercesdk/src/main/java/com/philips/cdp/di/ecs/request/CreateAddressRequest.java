@@ -77,27 +77,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public Map<String, String> getParams() {
-        Map<String, String> params = new HashMap<>();
-        params.put(ModelConstants.FIRST_NAME, ecsAddressRequest.getFirstName());
-        params.put(ModelConstants.LAST_NAME, ecsAddressRequest.getLastName());
-        params.put(ModelConstants.TITLE_CODE, ecsAddressRequest.getTitleCode().toLowerCase(Locale.getDefault()));
-        params.put(ModelConstants.COUNTRY_ISOCODE, ecsAddressRequest.getCountry().getIsocode());
-        params.put(ModelConstants.LINE_1, ecsAddressRequest.getLine1());
-        if(null!=ecsAddressRequest.getLine2()){
-            params.put(ModelConstants.LINE_2, ecsAddressRequest.getLine2());
-        }
-        if(null!=ecsAddressRequest.getHouseNumber()) {
-            params.put(ModelConstants.HOUSE_NO, ecsAddressRequest.getHouseNumber());
-        }
-        params.put(ModelConstants.POSTAL_CODE, ecsAddressRequest.getPostalCode());
-        params.put(ModelConstants.TOWN, ecsAddressRequest.getTown());
-        params.put(ModelConstants.PHONE_1, ecsAddressRequest.getPhone1());
-        params.put(ModelConstants.PHONE_2, ecsAddressRequest.getPhone1());
-        if(null!=ecsAddressRequest.getRegion().getIsocodeShort()) {
-            params.put(ModelConstants.REGION_ISOCODE, ecsAddressRequest.getRegion().getIsocodeShort());
-        }
-
-        return params;
+        return ECSRequestUtility.getAddressParams(ecsAddressRequest);
     }
 
     /**
