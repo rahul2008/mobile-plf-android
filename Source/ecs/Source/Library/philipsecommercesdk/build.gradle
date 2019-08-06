@@ -33,6 +33,7 @@ android {
             resources.srcDirs += ['src/androidTest/resources']
         }
     }
+    testOptions.unitTests.includeAndroidResources = true
 }
 
 
