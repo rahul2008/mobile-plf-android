@@ -17,6 +17,8 @@ import com.philips.cdp.di.ecs.ProductForCTN.MockGetProductForRequest;
 import com.philips.cdp.di.ecs.Voucher.MockGetVouchersRequest;
 import com.philips.cdp.di.ecs.Voucher.MockRemoveVoucherRequest;
 import com.philips.cdp.di.ecs.Voucher.MockSetVoucherRequest;
+import com.philips.cdp.di.ecs.deliveryMode.MockDeliveryModesRequest;
+import com.philips.cdp.di.ecs.deliveryMode.MockSetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.address.Addresses;
@@ -31,6 +33,7 @@ import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
+import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -301,5 +304,15 @@ public class MockECSManager extends ECSManager {
                 ecsCallback.onFailure(error,detailErrorMessage,errorCode);
             }
         }).executeRequest();
+    }
+
+    @Override
+    public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+        new MockDeliveryModesRequest(ecsCallback,getJsonFileNameMockECSManager());
+    }
+
+    @Override
+    public void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
+        new MockSetDeliveryModesRequest(deliveryModeID,ecsCallback,getJsonFileNameMockECSManager()).executeRequest();
     }
 }

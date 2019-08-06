@@ -1,0 +1,18 @@
+{
+  "deliveryModes": [
+    {
+      "code": "UPS_COLLECTION_POINT",
+      "description": "2-4 Werktage",
+      "name": "UPS Access Point"
+    },
+    {
+      "code": "UPS_EXPRESS",
+      "name": "UPS Express"
+    },
+    {
+      "code": "UPS_PARCEL",
+      "description": "2-3 ",
+      "name": "UPS Standard"
+    }
+  ]
+}
