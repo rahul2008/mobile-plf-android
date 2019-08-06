@@ -32,6 +32,7 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
     public void onResponse(JSONObject response) {
         GetShippingAddressData getDeliveryModes = new Gson().fromJson(response.toString(),
                 GetShippingAddressData.class);
+        // TODO to check response json when there is no address added
         ecsCallback.onResponse(getDeliveryModes);
     }
 

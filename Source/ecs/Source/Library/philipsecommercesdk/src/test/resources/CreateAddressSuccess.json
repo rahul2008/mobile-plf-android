@@ -1,0 +1,18 @@
+{
+  "billingAddress": false,
+  "country": {
+    "isocode": "US"
+  },
+  "defaultAddress": false,
+  "firstName": "New",
+  "id": "9333882290199",
+  "lastName": "User",
+  "line1": "750 Castries Street",
+  "phone1": "9073487890",
+  "phone2": "9073487890",
+  "postalCode": "94044",
+  "shippingAddress": true,
+  "titleCode": "ms.",
+  "town": "Mountain View",
+  "visibleInAddressBook": true
+}

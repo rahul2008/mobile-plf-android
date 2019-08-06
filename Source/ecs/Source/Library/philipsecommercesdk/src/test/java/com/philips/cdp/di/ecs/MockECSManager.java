@@ -1,5 +1,7 @@
 package com.philips.cdp.di.ecs;
 
+import com.philips.cdp.di.ecs.Address.MockCreateAddressRequest;
+import com.philips.cdp.di.ecs.Address.MockGetAddressRequest;
 import com.philips.cdp.di.ecs.Cart.MockAddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockCreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
@@ -15,6 +17,8 @@ import com.philips.cdp.di.ecs.Voucher.MockRemoveVoucherRequest;
 import com.philips.cdp.di.ecs.Voucher.MockSetVoucherRequest;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
@@ -226,4 +230,42 @@ public class MockECSManager extends ECSManager {
         }).executeRequest();
     }
 
+    @Override
+    public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
+        new MockCreateAddressRequest(getJsonFileNameMockECSManager(), address,ecsCallback).executeRequest();
+    }
+
+    @Override
+    public void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        new MockCreateAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<Addresses, Exception>() {
+            @Override
+            public void onResponse(Addresses result) {
+                setJsonFileNameMockECSManager("ShippingAddressListSuccess.json");
+                getListSavedAddress(ecsCallback);
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        }).executeRequest();
+
+    }
+
+
+    @Override
+    public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        new MockGetAddressRequest(getJsonFileNameMockECSManager(), new ECSCallback<GetShippingAddressData, Exception>() {
+            @Override
+            public void onResponse(GetShippingAddressData result) {
+                ecsCallback.onResponse(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        }).executeRequest();
+    }
 }

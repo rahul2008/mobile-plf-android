@@ -42,14 +42,18 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
     @Override
     public void onResponse(String response) {
         Addresses addresses=null;
+        Exception exception = new Exception();
                 // created address response is not checked
         try {
             addresses = new Gson().fromJson(response, Addresses.class);
         }catch(Exception e){
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), e.getMessage(),12999);
+            exception = e;
+
         }
         if(null!=addresses) {
             ecsCallback.onResponse(addresses);
+        }else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), exception.getMessage(),12999);
         }
     }
 
