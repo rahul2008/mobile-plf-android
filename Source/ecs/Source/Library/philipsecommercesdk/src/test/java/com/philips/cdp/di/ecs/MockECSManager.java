@@ -308,7 +308,7 @@ public class MockECSManager extends ECSManager {
 
     @Override
     public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
-        new MockDeliveryModesRequest(ecsCallback,getJsonFileNameMockECSManager());
+        new MockDeliveryModesRequest(ecsCallback,getJsonFileNameMockECSManager()).executeRequest();
     }
 
     @Override

@@ -54,12 +54,31 @@ public class GetDeliveryModesRequestTest {
                 assertNotNull(result);
                 assertNotNull(result.getDeliveryModes());
                 assertNotEquals(0,result.getDeliveryModes().size());
+                //  test case passed
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertTrue(false);
+                //  test case failed
+            }
+        });
+    }
+
+    @Test
+    public void getDeliveryModesFailureEmpty() {
+        mockECSServices.setJsonFileName("EmptyJson.json");
+        mockECSServices.getDeliveryModes(new ECSCallback<GetDeliveryModes, Exception>() {
+            @Override
+            public void onResponse(GetDeliveryModes result) {
+                assertTrue(false);
+                //  test case failed
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
                 assertTrue(true);
-                //  test case failed
+                //  test case passed
             }
         });
     }
