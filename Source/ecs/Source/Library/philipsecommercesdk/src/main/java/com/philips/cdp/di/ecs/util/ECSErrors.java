@@ -31,7 +31,7 @@ public class ECSErrors {
 
 
     public static Exception getErrorMessage(VolleyError volleyError) {
-        String errorType = ECS_UNKNOWN_ERROR;
+        String errorType = null;
         if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError) {
             errorType = ECS_CANNOT_CONNECT_INTERNET;
         } else if (volleyError instanceof AuthFailureError) {
@@ -52,7 +52,12 @@ public class ECSErrors {
         } else if (volleyError instanceof TimeoutError) {
             errorType = ECS_CONNECTION_TIMEOUT;
         }
-        Exception exception = new Exception(errorType);
+        Exception exception =null;
+        if(null!=errorType) {
+            exception = new Exception(errorType);
+        }else{
+            exception = volleyError;
+        }
         return exception;
     }
 
