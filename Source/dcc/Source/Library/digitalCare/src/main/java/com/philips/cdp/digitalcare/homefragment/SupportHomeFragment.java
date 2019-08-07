@@ -152,30 +152,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
 
 
-        if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().
-                getProductModelSelectionType().getHardCodedProductList().length < 2) {
-            synchronized (this) {
-                if (DigitalCareConfigManager.getInstance().
-                        getProductModelSelectionType().getHardCodedProductList().length == 1) {
-                    ProductModelSelectionType modelSelectionType =
-                            DigitalCareConfigManager.getInstance().
-                                    getProductModelSelectionType();
-                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
-                            setCtn(modelSelectionType.getHardCodedProductList()[0]);
-                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
-                            setSector(modelSelectionType.getSector().toString());
-                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
-                            setCatalog(modelSelectionType.getCatalog().toString());
-                }
 
-                DigiCareLogger.v(TAG, "Sending PRX Request");
-                PrxWrapper mPrxWrapper = new PrxWrapper(getActivity(), this);
-                mPrxWrapper.executeRequests();
-
-            }
-        } else {
-            createMainMenu();
-        }
         return mView;
     }
 
@@ -222,6 +199,32 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
+
+        //Moving the code here , to as onActivity created is needed for recycler view
+        if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().
+                getProductModelSelectionType().getHardCodedProductList().length < 2) {
+            synchronized (this) {
+                if (DigitalCareConfigManager.getInstance().
+                        getProductModelSelectionType().getHardCodedProductList().length == 1) {
+                    ProductModelSelectionType modelSelectionType =
+                            DigitalCareConfigManager.getInstance().
+                                    getProductModelSelectionType();
+                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
+                            setCtn(modelSelectionType.getHardCodedProductList()[0]);
+                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
+                            setSector(modelSelectionType.getSector().toString());
+                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
+                            setCatalog(modelSelectionType.getCatalog().toString());
+                }
+
+                DigiCareLogger.v(TAG, "Sending PRX Request");
+                PrxWrapper mPrxWrapper = new PrxWrapper(getActivity(), this);
+                mPrxWrapper.executeRequests();
+
+            }
+        } else {
+            createMainMenu();
+        }
 
         if (!(mIsFirstScreenLaunch)) {
             createMainMenu();
@@ -644,6 +647,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         final SupportHomeFragment context = this;
         RecyclerView recyclerView = mOptionContainer;
+        if(context == null || recyclerView == null) return; //to prevent
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
         mAdapter = new CommonRecyclerViewAdapter<MenuItem>(getMenuItems(), R.layout.consumercare_icon_button) {
