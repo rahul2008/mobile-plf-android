@@ -14,7 +14,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 
 public class WebPrivacy extends WebFragment {
     public static final String TAG = WebPrivacy.class.getName();
-    private String mUrl, termsUrl;
+    private String mUrl, termsUrl, faqUrl;
 
     @Override
     protected boolean isJavaScriptEnable() {
@@ -24,8 +24,11 @@ public class WebPrivacy extends WebFragment {
     @Override
     protected String getWebUrl() {
         termsUrl = getArguments().getString(IAPConstant.IAP_TERMS);
+        faqUrl = getArguments().getString(IAPConstant.IAP_FAQ);
         if(!TextUtils.isEmpty(termsUrl)){
             mUrl = getArguments().getString(IAPConstant.IAP_TERMS_URL);
+        } else if(!TextUtils.isEmpty(faqUrl)){
+            mUrl = getArguments().getString(IAPConstant.IAP_FAQ_URL);
         } else {
             mUrl = getArguments().getString(IAPConstant.IAP_PRIVACY_URL);
         }
@@ -44,6 +47,8 @@ public class WebPrivacy extends WebFragment {
         super.onResume();
         if(!TextUtils.isEmpty(termsUrl)){
             setTitleAndBackButtonVisibility(R.string.iap_terms_conditions,true);
+        } else if(!TextUtils.isEmpty(faqUrl)){
+            setTitleAndBackButtonVisibility(R.string.iap_faq,true);
         } else {
             setTitleAndBackButtonVisibility(R.string.iap_privacy,true);
         }
