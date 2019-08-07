@@ -1,5 +1,6 @@
 package com.philips.cdp.di.ecs.util;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -86,4 +87,14 @@ public class ECSErrors {
 
         }
     }
+
+   public static void showECSAlertDialog(Context context, String title, String message ){
+       new AlertDialog.Builder(context)
+               .setTitle(title)
+               .setMessage(message)
+               .setPositiveButton(android.R.string.ok, null)
+               //.setNegativeButton(android.R.string.no, null)
+               .setIcon(android.R.drawable.ic_dialog_alert)
+               .show();
+   }
 }
