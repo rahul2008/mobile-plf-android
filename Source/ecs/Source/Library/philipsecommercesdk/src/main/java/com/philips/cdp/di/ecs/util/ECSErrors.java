@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.ServerError;
@@ -84,6 +83,27 @@ public class ECSErrors {
                     Toast.LENGTH_LONG).show();
         } catch (Exception e) {
 
+        }
+    }
+
+    public enum DeliveryModeError{
+        InvalidHybrisToken("InvalidHybrisToken",17001),
+        NoDeliveryModesFound("InvalidHybrisToken",17002);
+
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+
+        public int getErrorCode() {
+            return errorCode;
+        }
+
+        private final String errorMessage;
+        private final int errorCode;
+
+        DeliveryModeError(String errorMessage, int errorCode) {
+            this.errorMessage = errorMessage;
+            this.errorCode = errorCode;
         }
     }
 }

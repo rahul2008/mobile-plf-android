@@ -8,6 +8,9 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConstant;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
 
@@ -24,9 +27,30 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onResponse(JSONObject response) {
-        GetDeliveryModes getDeliveryModes = new Gson().fromJson(response.toString(),
-                GetDeliveryModes.class);
-        ecsCallback.onResponse(getDeliveryModes);
+        Exception exception=null;
+        GetDeliveryModes getDeliveryModes=null;
+        try {
+            getDeliveryModes  = new Gson().fromJson(response.toString(),
+                    GetDeliveryModes.class);
+
+        }catch (Exception e){
+            exception=e;
+
+        }
+        if(null == exception  && getDeliveryModes.getDeliveryModes()!=null){//todo
+            ecsCallback.onResponse(getDeliveryModes);
+        }else {
+            String errorMessage="";
+            if(null!=exception){
+                errorMessage=exception.getMessage();
+            }else{
+                errorMessage = ECSErrors.DeliveryModeError.NoDeliveryModesFound.getErrorMessage();
+            }
+            String detailMessage = null!=response ? response.toString():"";
+            ecsCallback.onFailure(new Exception(errorMessage),detailMessage,ECSErrors.DeliveryModeError.NoDeliveryModesFound.getErrorCode());
+        }
+
+
     }
 
     @Override

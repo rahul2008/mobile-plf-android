@@ -46,8 +46,8 @@ public class SetDeliveryModesRequestTest {
 
     @Test
     public void setDeliveryModeSuccess() {
-        mockECSServices.setJsonFileName("setDeliveryModes.json");
 
+        mockECSServices.setJsonFileName("setDeliveryModes.json");
         mockECSServices.setDeliveryMode("UPS_PARCEL", new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
