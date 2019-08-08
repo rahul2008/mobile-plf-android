@@ -57,7 +57,7 @@ class PIMMigrationManager {
                 ServiceDiscoveryService serviceDiscoveryService = urlMap.get(MIGRATION_BASE_URL);
                 String idAssertionUrl = serviceDiscoveryService.getConfigUrls();
                 String locale = serviceDiscoveryService.getLocale();
-                mLoggingInterface.log(DEBUG, TAG, "downloadUserUrlFromSD onSuccess. Url : " + idAssertionUrl + " Locale : " + locale);
+                mLoggingInterface.log(DEBUG, TAG, "downloadIDAssertionUrlFromSD onSuccess. Url : " + idAssertionUrl + " Locale : " + locale);
                 performIDAssertion(idAssertionUrl, usrAccessToken);
             }
 
