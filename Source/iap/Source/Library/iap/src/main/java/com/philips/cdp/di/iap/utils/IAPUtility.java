@@ -22,6 +22,7 @@ public class IAPUtility {
     private String localeTag;
     private String termsUrl;
     private String privacyUrl;
+    private String faqUrl;
     private PaginationEntity paginationEntity;
 
     private IAPUtility() {
@@ -105,6 +106,14 @@ public class IAPUtility {
 
     public void setPrivacyUrl(String privacyUrl) {
         this.privacyUrl = privacyUrl;
+    }
+
+    public String getFaqUrl() {
+        return faqUrl;
+    }
+
+    public void setFaqUrl(String faqUrl) {
+        this.faqUrl = faqUrl;
     }
 
     public int getmTotalPages() {

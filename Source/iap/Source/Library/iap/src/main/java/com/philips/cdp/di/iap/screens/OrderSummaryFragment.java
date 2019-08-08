@@ -78,7 +78,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private RelativeLayout mParentLayout;
     private Button mPayNowBtn;
     private Button mCancelBtn;
-    private Label mTermsPrivacy;
+    private Label mPrivacy, mFaq, mTerms;
 
     public CheckOutHistoryAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -155,9 +155,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
         mPayNowBtn = rootView.findViewById(R.id.pay_now_btn);
         mPayNowBtn.setOnClickListener(this);
         mCancelBtn = rootView.findViewById(R.id.cancel_btn);
-        mTermsPrivacy = rootView.findViewById(R.id.iap_terms_privacy);
+        mPrivacy = rootView.findViewById(R.id.iap_privacy);
+        mFaq = rootView.findViewById(R.id.iap_faq);
+        mTerms = rootView.findViewById(R.id.iap_terms);
         mCancelBtn.setOnClickListener(this);
-        termsPrivacyTextView(mTermsPrivacy);
+        privacyTextView(mPrivacy);
+        faqTextView(mFaq);
+        termsTextView(mTerms);
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
@@ -166,7 +170,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
     }
 
-    private void termsPrivacyTextView(TextView view) {
+    private void privacyTextView(TextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(
                 mContext.getString(R.string.iap_read_privacy));
         spanTxt.append(" ");
@@ -182,9 +186,37 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 ds.setColor(R.attr.uidHyperlinkDefaultPressedTextColor);
             }
         }, spanTxt.length() - mContext.getString(R.string.iap_privacy).length(), spanTxt.length(), 0);
-        spanTxt.append(", ");
-        spanTxt.append(mContext.getString(R.string.iap_agree_privacy));
-        mTermsPrivacy.setHighlightColor(Color.TRANSPARENT);
+        spanTxt.append(".");
+        view.setMovementMethod(LinkMovementMethod.getInstance());
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE);
+    }
+
+    private void faqTextView(TextView view) {
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                mContext.getString(R.string.iap_questions));
+        spanTxt.append(" ");
+        spanTxt.append(mContext.getString(R.string.iap_faq));
+        spanTxt.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                showFaqFragment();
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setUnderlineText(true);
+                ds.setColor(R.attr.uidHyperlinkDefaultPressedTextColor);
+            }
+        }, spanTxt.length() - mContext.getString(R.string.iap_faq).length(), spanTxt.length(), 0);
+        spanTxt.append(" ");
+        spanTxt.append(mContext.getString(R.string.iap_page));
+        spanTxt.append(".");
+        view.setMovementMethod(LinkMovementMethod.getInstance());
+        view.setText(spanTxt, TextView.BufferType.SPANNABLE);
+    }
+
+    private void termsTextView(TextView view) {
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                mContext.getString(R.string.iap_accept_terms));
         spanTxt.append(" ");
         spanTxt.append(mContext.getString(R.string.iap_terms_conditions));
         spanTxt.setSpan(new ClickableSpan() {
@@ -198,6 +230,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 ds.setColor(R.attr.uidHyperlinkDefaultPressedTextColor);
             }
         }, spanTxt.length() - mContext.getString(R.string.iap_terms_conditions).length(), spanTxt.length(), 0);
+        spanTxt.append(".");
         view.setMovementMethod(LinkMovementMethod.getInstance());
         view.setText(spanTxt, TextView.BufferType.SPANNABLE);
     }
@@ -213,10 +246,14 @@ public class OrderSummaryFragment extends InAppBaseFragment
         if (isNetworkConnected()) {
             updateCartOnResume();
         }
-        if(!(ControllerFactory.getInstance().isPlanB()) && ((IAPUtility.getInstance().getPrivacyUrl() != null) && IAPUtility.getInstance().getTermsUrl() != null)) {
-            mTermsPrivacy.setVisibility(View.VISIBLE);
+        if(!(ControllerFactory.getInstance().isPlanB()) && ((IAPUtility.getInstance().getPrivacyUrl() != null) && (IAPUtility.getInstance().getTermsUrl() != null) && (IAPUtility.getInstance().getFaqUrl() != null))) {
+            mPrivacy.setVisibility(View.VISIBLE);
+            mTerms.setVisibility(View.VISIBLE);
+            mFaq.setVisibility(View.VISIBLE);
         } else {
-            mTermsPrivacy.setVisibility(View.GONE);
+            mPrivacy.setVisibility(View.GONE);
+            mTerms.setVisibility(View.GONE);
+            mFaq.setVisibility(View.GONE);
         }
     }
 
@@ -279,6 +316,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
         Bundle bundle = new Bundle();
         bundle.putString(IAPConstant.IAP_TERMS_URL, IAPUtility.getInstance().getTermsUrl());
         bundle.putString(IAPConstant.IAP_TERMS,IAPConstant.IAP_TERMS);
+        addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
+    }
+
+    private void showFaqFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString(IAPConstant.IAP_FAQ_URL, IAPUtility.getInstance().getFaqUrl());
+        bundle.putString(IAPConstant.IAP_FAQ,IAPConstant.IAP_FAQ);
         addFragment(WebPrivacy.createInstance(bundle, AnimationType.NONE), null, true);
     }
 
