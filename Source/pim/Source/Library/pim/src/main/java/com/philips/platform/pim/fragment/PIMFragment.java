@@ -147,8 +147,6 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
      * Launch user profile page if user is logged in.
      */
     private void launchUserProfilePage(String userProfileUrl) {
-        //TODO : Temp:  The url will be uploaded and fetched from Service Discovery
-        //final String USER_PROFILE_URL_STG = "https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/auth-ui/profile?client_id=%s&ui_locales=%s";
         String clientId;
         if (PIMSettingManager.getInstance().getPimUserManager().getLoginFlow() == PIMUserManager.LOGIN_FLOW.MIGRATION) {
             clientId = new PIMOIDCConfigration().getMigrationClientId();
