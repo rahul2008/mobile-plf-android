@@ -55,7 +55,7 @@ public class PIMMigrator implements RefreshUSRTokenListener, PIMUserMigrationLis
     @Override
     public void onUserMigrationSuccess() {
         usrTokenManager.deleteUSRFromSecureStorage();
-        mLoggingInterface.log(DEBUG, TAG, "User is migrated PIM Successfully");
+        mLoggingInterface.log(DEBUG, TAG, "User is migrated to PIM Successfully");
         if (userMigrationListener != null)
             userMigrationListener.onUserMigrationSuccess();
     }

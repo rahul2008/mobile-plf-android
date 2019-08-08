@@ -11,18 +11,14 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
-import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
@@ -32,7 +28,7 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListen
 import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
-import com.philips.platform.uappframework.UappInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -48,7 +44,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     //Theme
     public static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private Button btnLoginActivity, btnRegistration, btnLogout, btnRefreshSession,btnMigrator;
+    private Button btnLaunchAsActivity, btnLaunchAsFragment, btnLogout, btnRefreshSession, btnMigrator;
     private Switch aSwitch;
     private UserDataInterface userDataInterface;
     private PIMInterface pimInterface;
@@ -67,10 +63,10 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
         appInfraInterface = PIMDemoUAppInterface.mAppInfra;
 
-        btnLoginActivity = findViewById(R.id.btn_login_activity);
-        btnLoginActivity.setOnClickListener(this);
-        btnRegistration = findViewById(R.id.btn_Registration);
-        btnRegistration.setOnClickListener(this);
+        btnLaunchAsActivity = findViewById(R.id.btn_login_activity);
+        btnLaunchAsActivity.setOnClickListener(this);
+        btnLaunchAsFragment = findViewById(R.id.btn_login_fragment);
+        btnLaunchAsFragment.setOnClickListener(this);
         btnLogout = findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
         btnRefreshSession = findViewById(R.id.btn_RefreshSession);
@@ -115,22 +111,18 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-
     @Override
     public void onClick(View v) {
-//        PIMLaunchInput launchInput = new PIMLaunchInput();
-//        UserDataInterface userDataInterface = pimInterface.getUserDataInterface();
-//        if (v == btnLoginActivity) {
-//            if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
-//                ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-//                pimInterface.launch(activityLauncher, launchInput);
-//            } else {
-//                showToast("User is already login!");
-//            }
-//        } else
-        if (v == btnRegistration) {
-//            FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
-//            pimInterface.launch(fragmentLauncher, launchInput);
+        UserDataInterface userDataInterface = pimInterface.getUserDataInterface();
+        if (v == btnLaunchAsActivity) {
+            if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
+                PIMLaunchInput launchInput = new PIMLaunchInput();
+                ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
+                pimInterface.launch(activityLauncher, launchInput);
+            } else {
+                showToast("User is already login!");
+            }
+        } else if (v == btnLaunchAsFragment) {
             if (isUSR) {
                 launchUSR();
             } else {
@@ -174,7 +166,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             } else {
                 showToast("User is not loged-in, Please login!");
             }
-        } else if(v == btnMigrator){
+        } else if (v == btnMigrator) {
             userDataInterface.migrateUserToPIM(new UserMigrationListener() {
                 @Override
                 public void onUserMigrationSuccess() {
@@ -205,24 +197,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         urInterface.launch(fragmentLauncher, urLaunchInput);
-//        initRegistration(Configuration.STAGING);
-//        PRDemoAppuAppInterface uAppInterface = new PRDemoAppuAppInterface();
-//        uAppInterface.init(new PRDemoAppuAppDependencies(PIMDemoUAppInterface.mAppInfra), new PRDemoAppuAppSettings(this.getApplicationContext()));// pass App-infra instance instead of null
-//        uAppInterface.launch(new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-//                getDLSThemeConfiguration(this.getApplicationContext()), 0, null), null);// pass launch input if required
-
-
-    }
-
-    private void initRegistration(Configuration staging) {
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-        //initAppIdentity(staging);
-
-        UappInterface standardRegistrationInterface = new URInterface();
-        standardRegistrationInterface.init(new URDependancies(appInfraInterface), new URSettings(this));
-
     }
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {

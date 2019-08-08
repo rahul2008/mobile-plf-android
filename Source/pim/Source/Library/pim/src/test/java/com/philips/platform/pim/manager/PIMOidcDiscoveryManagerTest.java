@@ -6,7 +6,6 @@ import android.net.Uri;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
-import com.philips.platform.pim.models.PIMInitViewModel;
 import com.philips.platform.pim.utilities.PIMInitState;
 
 import junit.framework.TestCase;

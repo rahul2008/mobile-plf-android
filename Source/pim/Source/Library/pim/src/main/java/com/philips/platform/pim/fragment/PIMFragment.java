@@ -35,7 +35,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
  * Launch CLP page for authentication and Profile page if authenticated,
  * Exchange authorization code.
  */
-public class PIMFragment extends Fragment implements PIMLoginListener {
+public class PIMFragment extends Fragment implements PIMLoginListener, Observer<PIMInitState> {
     private PIMLoginManager pimLoginManager;
     private PIMOIDCConfigration pimoidcConfigration;
     private Context mContext;
@@ -50,7 +50,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         super.onCreate(savedInstanceState);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
         liveData = PIMSettingManager.getInstance().getPimInitLiveData();
-        liveData.observe(this, initStateObserver);
+        liveData.observe(this, this::onChanged);
     }
 
     @Nullable
@@ -61,35 +61,30 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         return view;
     }
 
-    final Observer<PIMInitState> initStateObserver = new Observer<PIMInitState>() {
-        @Override
-        public void onChanged(@Nullable PIMInitState pimInitState) {
-            mLoggingInterface.log(DEBUG, TAG, "Init State : " + pimInitState.ordinal() + " isInitRequiredAgain : " + isInitRequiredAgain);
-            if (pimInitState == PIMInitState.INIT_FAILED) {
-                if (isInitRequiredAgain) {
-                    enablProgressBar();
-                    new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
-                    isInitRequiredAgain = false;
-                } else {
-                    disableProgressBar();
-                }
-            } else if (pimInitState == PIMInitState.INIT_SUCCESS) {
-                pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
-                pimLoginManager = new PIMLoginManager(mContext, pimoidcConfigration);
-                isInitRequiredAgain = false;
+    @Override
+    public void onChanged(@Nullable PIMInitState pimInitState) {
+        mLoggingInterface.log(DEBUG, TAG, "Init State : " + pimInitState.ordinal() + " isInitRequiredAgain : " + isInitRequiredAgain);
+        if (pimInitState == PIMInitState.INIT_FAILED) {
+            if (isInitRequiredAgain) {
                 enablProgressBar();
-                launch();
+                new PIMConfigManager(PIMSettingManager.getInstance().getPimUserManager()).init(PIMSettingManager.getInstance().getAppInfraInterface().getServiceDiscovery());
+                isInitRequiredAgain = false;
+            } else {
+                disableProgressBar();
             }
+        } else if (pimInitState == PIMInitState.INIT_SUCCESS) {
+            pimoidcConfigration = PIMSettingManager.getInstance().getPimOidcConfigration();
+            pimLoginManager = new PIMLoginManager(mContext, pimoidcConfigration);
+            isInitRequiredAgain = false;
+            enablProgressBar();
+            launch();
         }
-    };
+    }
 
     private void launch() {
         if (PIMSettingManager.getInstance().getPimUserManager().getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
             mLoggingInterface.log(DEBUG, TAG, "OIDC Login skipped, as user is already logged in");
             launchUserProfilePage();
-        } else if (pimoidcConfigration == null) {
-            mLoggingInterface.log(DEBUG, TAG, "Login is not initiated as OIDC configuration not found.");
-            disableProgressBar();
         } else {
             pimLoginProgreassBar.setVisibility(View.VISIBLE);
             launchLoginPage();
@@ -116,9 +111,9 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         final String USER_PROFILE_URL_STG = "https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/auth-ui/profile?client_id=%s&ui_locales=%s";
         String clientId;
         if (PIMSettingManager.getInstance().getPimUserManager().getLoginFlow() == PIMUserManager.LOGIN_FLOW.MIGRATION) {
-            clientId = new PIMOIDCConfigration().getMigrationClientId();
+            clientId = pimoidcConfigration.getMigrationClientId();
         } else
-            clientId = new PIMOIDCConfigration().getClientId();
+            clientId = pimoidcConfigration.getClientId();
         StringBuilder url = new StringBuilder();
         try {
             Formatter fmt = new Formatter(url);
@@ -176,6 +171,6 @@ public class PIMFragment extends Fragment implements PIMLoginListener {
         super.onDestroy();
         mLoggingInterface.log(DEBUG, TAG, "onDestroy Called");
         if (liveData != null)
-            liveData.removeObserver(initStateObserver);
+            liveData.removeObserver(this::onChanged);
     }
 }

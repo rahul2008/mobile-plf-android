@@ -15,6 +15,4 @@ public class PIMInitViewModel extends ViewModel {
         }
         return pimInitState;
     }
-
-
 }

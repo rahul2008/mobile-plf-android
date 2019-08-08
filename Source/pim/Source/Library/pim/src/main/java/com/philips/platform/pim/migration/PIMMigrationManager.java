@@ -71,7 +71,7 @@ class PIMMigrationManager {
     private Response.Listener getSuccessListener(PIMRequestInterface reqType) {
         return (Response.Listener<String>) response -> {
             if (response == null) {
-                mLoggingInterface.log(DEBUG,TAG,"Response for " + reqType +"is null.");
+                mLoggingInterface.log(DEBUG, TAG, "Response for " + reqType + "is null.");
                 pimUserMigrationListener.onUserMigrationFailed(new Error(Error.UserDetailError.MigrationFailed));
                 return;
             }
@@ -87,7 +87,7 @@ class PIMMigrationManager {
     private Response.ErrorListener getErrorListener(PIMRequestInterface reqType) {
         return error -> {
             if (error == null) {
-                mLoggingInterface.log(DEBUG,TAG,"Error response for" + reqType +"is null.");
+                mLoggingInterface.log(DEBUG, TAG, "Error response for" + reqType + "is null.");
                 return;
             }
 
