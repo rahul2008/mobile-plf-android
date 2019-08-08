@@ -47,15 +47,37 @@ public class SetDeliveryModesRequestTest {
     @Test
     public void setDeliveryModeSuccess() {
 
-        mockECSServices.setJsonFileName("setDeliveryModes.json");
+        mockECSServices.setJsonFileName("EmptyString.json");
         mockECSServices.setDeliveryMode("UPS_PARCEL", new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
-                assertEquals(true,result);
+                assertTrue(result);
+                //test case passed
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertTrue(false);
+                //test case failed
+            }
+        });
+    }
+
+    @Test
+    public void setDeliveryModeFailure() {
+
+        mockECSServices.setJsonFileName("SetDeliveryModeFailure.json");
+        mockECSServices.setDeliveryMode("UPS_PARCEL", new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                assertTrue(false);
+                //test case failed
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertTrue(true);
+                //test case passed
 
             }
         });
