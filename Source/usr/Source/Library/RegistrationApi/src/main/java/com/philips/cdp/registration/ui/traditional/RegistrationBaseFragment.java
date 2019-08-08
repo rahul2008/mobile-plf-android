@@ -208,6 +208,12 @@ public abstract class RegistrationBaseFragment extends Fragment implements URNot
         AppTagging.trackMultipleActions(state, map);
     }
 
+    protected void trackMultipleActionsLogin(String providerName) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
+        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
+    }
+
     protected void handleOrientationOnView(final View view) {
         if (null == view) {
             return;
