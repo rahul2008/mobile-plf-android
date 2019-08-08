@@ -44,10 +44,10 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
             if(null!=exception){
                 errorMessage=exception.getMessage();
             }else{
-                errorMessage = ECSErrors.DeliveryModeError.NoDeliveryModesFound.getErrorMessage();
+               // errorMessage = ECSErrors.DeliveryModeError.NoDeliveryModesFound.getErrorMessage();
             }
             String detailMessage = null!=response ? response.toString():"";
-            ecsCallback.onFailure(new Exception(errorMessage),detailMessage,ECSErrors.DeliveryModeError.NoDeliveryModesFound.getErrorCode());
+           // ecsCallback.onFailure(new Exception(errorMessage),detailMessage,ECSErrors.DeliveryModeError.NoDeliveryModesFound.getErrorCode());
         }
 
 

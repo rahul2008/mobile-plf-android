@@ -50,7 +50,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
             exception = e;
 
         }
-        if(null!= exception && null!=addresses) {
+        if(null!= exception && null!=addresses && null!=addresses.getId() ) {
             ecsCallback.onResponse(addresses);
         }else{
             ecsCallback.onFailure(exception, ""+response,12999);

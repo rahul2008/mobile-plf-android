@@ -53,7 +53,7 @@ public class UpdateAddressTest {
 
 
     @Test
-    public void UpdateAddressTestSuccess() {
+    public void UpdateAddressSuccess() {
         mockECSServices.setJsonFileName("EmptyString.json");
         Addresses address = new Addresses();
         mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
@@ -66,6 +66,26 @@ public class UpdateAddressTest {
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
                 assertTrue(false);
+                // test case failed
+            }
+        });
+
+    }
+
+    @Test
+    public void UpdateAddressFailure() {
+        mockECSServices.setJsonFileName("UpdateAddressFailureInvalidAddress.json");
+        Addresses address = new Addresses();
+        mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                assertTrue(result);
+                // test case passed
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertTrue(true);
                 // test case failed
             }
         });

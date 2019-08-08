@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "message": "Geben Sie Ihre Postleitzahl ein.",
+      "reason": "invalid",
+      "subject": "postalCode",
+      "subjectType": "parameter",
+      "type": "ValidationError"
+    }
+  ]
+}
