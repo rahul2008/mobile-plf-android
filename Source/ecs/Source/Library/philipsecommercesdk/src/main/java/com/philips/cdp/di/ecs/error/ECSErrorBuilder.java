@@ -11,31 +11,54 @@ import org.json.JSONObject;
 public class ECSErrorBuilder {
 
 
-    public Pair<GetDeliveryModes,ECSError>  getDeliveryModesECSErrorPair(JSONObject response){
+    public Pair<GetDeliveryModes, ECSError> getDeliveryModesECSErrorPair(JSONObject response) {
 
-        GetDeliveryModes getDeliveryModes=null;
-        String detailError="";
-        ECSError ecsError =null;
+        GetDeliveryModes getDeliveryModes = null;
+        String detailError = "";
+        ECSError ecsError = null;
 
         try {
-            if(null!=response && null!=response.toString()){
-                detailError=response.toString();
+            if (null != response && null != response.toString()) {
+                detailError = response.toString();
             }
-            getDeliveryModes  = new Gson().fromJson(response.toString(),
+            getDeliveryModes = new Gson().fromJson(response.toString(),
                     GetDeliveryModes.class);
 
-            if(getDeliveryModes==null || getDeliveryModes.getDeliveryModes() == null || getDeliveryModes.getDeliveryModes().size() == 0){
+            if (getDeliveryModes == null || getDeliveryModes.getDeliveryModes() == null || getDeliveryModes.getDeliveryModes().size() == 0) {
 
                 getDeliveryModes = null;
-                Exception e = new Exception(ECSErrors.DeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage());
-                ecsError = new ECSError(e,ECSErrors.DeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage(),ECSErrors.DeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorCode());
+                Exception e = new Exception(ECSErrors.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage());
+                ecsError = new ECSError(e, ECSErrors.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage(), ECSErrors.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorCode());
             }
 
-        }catch (Exception e){
-            ecsError = new ECSError(e, detailError,ECSErrors.DeliveryModeError.UNKNOWN_ERROR.getErrorCode());
-        }finally {
-            return new Pair<>(getDeliveryModes,ecsError);
+        } catch (Exception e) {
+            ecsError = new ECSError(e, detailError, ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
+        } finally {
+            return new Pair<>(getDeliveryModes, ecsError);
         }
 
+    }
+
+    public Pair<Boolean, ECSError> getEmptyResponseErrorPair(String response) {
+
+        boolean isValidResponse = false;
+        String detailError = ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorMessage(); //TODO ,Message and error code for diffrent calls .
+        ECSError ecsError = null;
+        Exception e;
+
+        if (response != null) {
+
+            if (response.trim().isEmpty()) {
+                isValidResponse = true;
+            } else {
+                detailError = response;
+                e = new Exception(detailError);
+                ecsError = new ECSError(e, detailError, ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
+            }
+        } else {
+            e = new Exception(detailError);
+            ecsError = new ECSError(e, detailError, ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
+        }
+        return new Pair<>(isValidResponse, ecsError);
     }
 }

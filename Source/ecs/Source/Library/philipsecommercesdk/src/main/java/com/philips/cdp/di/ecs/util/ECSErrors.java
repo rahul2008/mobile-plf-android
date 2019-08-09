@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.ServerError;
@@ -25,7 +24,6 @@ import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_CANNOT_CONNECT_INTE
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_CONNECTION_TIMEOUT;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_PARSE_ERROR;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_SERVER_NOT_FOUND;
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_UNKNOWN_ERROR;
 
 public class ECSErrors {
 
@@ -93,7 +91,8 @@ public class ECSErrors {
         }
     }
 
-    public enum DeliveryModeError{
+    //Get Delivery Mode Errors
+    public enum GetDeliveryModeError {
         INVALID_HYBRIS_TOKEN("InvalidHybrisToken",17001),
         NO_DELIVERY_MODES_FOUND("InvalidHybrisToken",17002),
         UNKNOWN_ERROR("UnknownError",17999);
@@ -109,11 +108,35 @@ public class ECSErrors {
         private final String errorMessage;
         private final int errorCode;
 
-        DeliveryModeError(String errorMessage, int errorCode) {
+        GetDeliveryModeError(String errorMessage, int errorCode) {
             this.errorMessage = errorMessage;
             this.errorCode = errorCode;
         }
     }
+
+    //Set Delivery Mode Errors
+    public enum SetDeliveryModeError {
+        INVALID_HYBRIS_TOKEN("InvalidHybrisToken",18001),
+        DELIVERY_MODES_NOT_MATCHED("DeliveryModesNotMatched",18002),
+        UNKNOWN_ERROR("UnknownError",18999);
+
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+
+        public int getErrorCode() {
+            return errorCode;
+        }
+
+        private final String errorMessage;
+        private final int errorCode;
+
+        SetDeliveryModeError(String errorMessage, int errorCode) {
+            this.errorMessage = errorMessage;
+            this.errorCode = errorCode;
+        }
+    }
+
    public static void showECSAlertDialog(Context context, String title, String message ){
        new AlertDialog.Builder(context)
                .setTitle(title)
