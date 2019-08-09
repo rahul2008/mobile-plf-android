@@ -25,6 +25,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.settings.RegistrationSettings;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
@@ -34,6 +35,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -93,7 +95,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        RLog.i(TAG,"Screen name is"+ TAG);
+        RLog.i(TAG, "Screen name is" + TAG);
         View view = inflater.inflate(R.layout.reg_fragment_social_merge_account, container, false);
         registerInlineNotificationListener(this);
         ButterKnife.bind(this, view);
@@ -149,7 +151,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     @OnClick(R2.id.usr_mergeScreen_merge_button)
     public void mergeButtonClick() {
-        RLog.i(TAG,TAG + ".mergeButton click");
+        RLog.i(TAG, TAG + ".mergeButton click");
         if (mEtPassword.hasFocus()) {
             mEtPassword.clearFocus();
         }
@@ -230,8 +232,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
 
     private void completeRegistration() {
         String emailorMobile = mergeAccountPresenter.getLoginWithDetails();
-        if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
-                (!RegPreferenceUtility.getPreferenceValue(getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !mergeAccountPresenter.getReceiveMarketingEmail())) {
+        if (emailorMobile != null
+                && (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()
+                && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal())
+                && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()
+                && (!RegPreferenceUtility.getPreferenceValue(getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile)
+                || !mergeAccountPresenter.getReceiveMarketingEmail())) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }

@@ -265,4 +265,12 @@
     <string name="menu_uipicker">Menu UI picker</string>
     <string name="add_location">Add Location</string>
 
+    <string name="personalConsentAcceptanceText">Integer bibendum erat nunc, vitae consequat odio fringilla ut.
+        In pharetra sem quis sodales efficitur. Nam rhoncus mauris sed purus ullamcorper aliquet.
+        Volutpat consequat odio fringilla visit the  <a href="http://www.philips.com">Philips website</a> sed placerat dapibus, venenatis eu ligula. Quisque id malesuda lectus. Ut ac commodo diam.
+        Ut euismod ligula ut pharetra tempor <a href="mailto:someone@example.com">drop an email</a>.
+        Cras vel dapibus libero</string>
+    <string name="personalConsentAcceptanceText_Error">Please accept the Personal Consent</string>
+    <string name="personalConsentText">Personal Consent</string>
+
 </resources>

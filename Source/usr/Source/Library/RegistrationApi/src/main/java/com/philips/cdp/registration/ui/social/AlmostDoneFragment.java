@@ -44,9 +44,11 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
@@ -70,8 +72,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @BindView(R2.id.usr_almostDoneScreen_termsAndConditions_checkBox)
     CheckBox acceptTermsCheck;
 
+    @BindView(R2.id.usr_almostDoneScreen_personalconsent_checkBox)
+    CheckBox acceptPersonalConsentCheck;
+
     @BindView(R2.id.usr_almostDoneScreen_acceptTerms_error)
     XRegError acceptTermserrorMessage;
+
+    @BindView(R2.id.usr_almostDoneScreen_personalconsent_error)
+    XRegError acceptPersonalConsenterrorMessage;
 
     @BindView(R2.id.usr_almostDoneScreen_marketingMails_checkBox)
     CheckBox marketingOptCheck;
@@ -111,6 +119,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     boolean isValidEmail;
 
+    private ConsentStates personalConsentStatus;
+
 
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
@@ -147,6 +157,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mBundle = getArguments();
         if (null != mBundle) {
             trackAbtesting();
+            personalConsentStatus = (ConsentStates) mBundle.get(RegConstants.PERSONAL_CONSENT);
         }
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
@@ -230,6 +241,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             }
         });
 
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal() ) {
+            acceptPersonalConsentCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    {
+                        TextView tv = (TextView) buttonView;
+                        acceptPersonalConsenterrorMessage.hideError();
+                        if (!isChecked) {
+                            acceptPersonalConsenterrorMessage.setError(mContext.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
+                        }
+                        if (!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)) {
+                            acceptPersonalConsentCheck.setChecked(!isChecked);
+                            getRegistrationFragment().addPersonalConsentFragment();
+                        }
+                    }
+                }
+            });
+        } else {
+            acceptPersonalConsentCheck.setVisibility(View.GONE);
+            acceptPersonalConsenterrorMessage.setVisibility(View.GONE);
+        }
 
         marketingOptCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -261,6 +293,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private void updateReceiveMarketingViewStyle() {
         RLog.d(TAG, "updateReceiveMarketingViewStyle : is  called");
         RegUtility.linkifyPhilipsNews(marketingOptCheck, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
+        RegUtility.linkifyPersonalConsent(acceptPersonalConsentCheck, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
     }
 
     @Override
@@ -302,6 +335,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         }
     };
 
+    private ClickableSpan mPersonalConsentClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            RLog.d(TAG, "PhilipsNewsClick : onClick : Philips ANNOUNCEMENT text is clicked");
+            trackPage(AppTaggingPages.PERSONAL_CONSENT);
+        }
+    };
+
     @Override
     public void handleUiAcceptTerms() {
         RLog.d(TAG, "handleUiAcceptTerms : is called");
@@ -331,6 +372,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         if (emailEditText.getVisibility() != View.VISIBLE) {
             almostDoneDescriptionLabel.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void showPersonalConsentOptCheck() {
+        acceptPersonalConsentCheck.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
+//        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.USR_DLS_Almost_Done_Marketing_OptIn_Text));
+    }
+
+    @Override
+    public void hidePersonalConsentOptCheck() {
+        acceptPersonalConsentCheck.setVisibility(View.GONE);
     }
 
     private void hideAcceptTermsAndConditionContainer() {
@@ -448,8 +501,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
+    public boolean isAcceptPersonalConsentChecked() {
+        return acceptPersonalConsentCheck.isChecked();
+    }
+
+    @Override
     public void showTermsAndConditionError() {
         acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.USR_TermsAndConditionsAcceptanceText_Error));
+    }
+
+    @Override
+    public void showPersonalConsentError() {
+        acceptPersonalConsenterrorMessage.setError(mContext.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
     }
 
     @Override
@@ -461,6 +524,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
+    public void handleAcceptPersonalConsentTrue() {
+        trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
+    }
+
+    @Override
     public void storePreference(String emailOrMobileNumber) {
         RegPreferenceUtility.storePreference(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailOrMobileNumber);
     }
@@ -468,6 +536,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private void trackMultipleActions() {
         trackABTestingUIFlow();
         trackTermsAndConditionAccepted();
+        trackPersonalConsentAccepted();
     }
 
     private void trackTermsAndConditionAccepted() {
@@ -476,6 +545,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             } else {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
+            }
+        }
+    }
+
+    private void trackPersonalConsentAccepted() {
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
+            if (acceptTermsCheck.isChecked()) {
+                trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_PERSONAL_CONSENT_OPTION_IN);
+            } else {
+                trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_PERSONAL_CONSENT_OPTION_OUT);
             }
         }
     }
@@ -574,7 +653,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     public void clearUserData() {
-        if (null != acceptTermsCheck && !acceptTermsCheck.isChecked() &&
+        if (null != acceptTermsCheck && !acceptTermsCheck.isChecked() && RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() &&
                 RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             almostDonePresenter.handleClearUserData();
         }

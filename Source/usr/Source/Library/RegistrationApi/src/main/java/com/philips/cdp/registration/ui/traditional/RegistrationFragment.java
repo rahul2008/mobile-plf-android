@@ -45,6 +45,7 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -66,7 +67,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
     private RegistrationLaunchMode mRegistrationLaunchMode;
 
-    RegistrationContentConfiguration registrationContentConfiguration;
+    private RegistrationContentConfiguration registrationContentConfiguration;
 
     public MyCountDownTimer myCountDownTimer;
 
@@ -90,6 +91,9 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         if (bundle != null) {
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
             registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
+            ConsentStates personalConsentStatus = (ConsentStates) bundle.get(RegConstants.PERSONAL_CONSENT);
+
+            RegistrationConfiguration.getInstance().setPersonalConsent(personalConsentStatus);
         }
         myCountDownTimer = new MyCountDownTimer(60 * 1000, 1000);
     }
@@ -248,7 +252,7 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
 
             boolean hsdpSkipLoginConfigurationAvailable = RegistrationConfiguration.getInstance().isHSDPSkipLoginConfigurationAvailable();
             User mUser = new User(getParentActivity().getApplicationContext());
-            handleUseRLoginStateFragments(hsdpSkipLoginConfigurationAvailable, mFragmentManager,mUser);
+            handleUseRLoginStateFragments(hsdpSkipLoginConfigurationAvailable, mFragmentManager, mUser);
         } catch (IllegalStateException e) {
             RLog.e(TAG, "loadFirstFragment :FragmentTransaction " +
                     "Exception occured in loadFirstFragment  :" + e.getMessage());
@@ -337,6 +341,16 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
         hideKeyBoard();
     }
 
+    public void addFragment(Fragment fragment, Bundle bundle) {
+        fragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+        fragmentTransaction.addToBackStack(fragment.getTag());
+        fragmentTransaction.commitAllowingStateLoss();
+        currentFragment = fragment;
+        hideKeyBoard();
+    }
+
     private Fragment replaceMarketingAccountFragment(FragmentManager pFragmentManager) {
         MarketingAccountFragment marketingAccountFragment = new MarketingAccountFragment();
         FragmentTransaction fragmentTransaction = pFragmentManager.beginTransaction();
@@ -372,7 +386,19 @@ public class RegistrationFragment extends Fragment implements NetworkStateListen
     public void addPhilipsNewsFragment() {
         RLog.d(TAG, "addPhilipsNewsFragment : is called");
         PhilipsNewsFragment philipsNewsFragment = new PhilipsNewsFragment();
-        addFragment(philipsNewsFragment);
+        Bundle bundle = new Bundle();
+        bundle.putString(RegConstants.PHILIPS_NEWS_TITLE, getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt));
+        bundle.putString(RegConstants.PHILIPS_NEWS_DISCRETION, getString(R.string.USR_DLS_PhilipsNews_Description_Text));
+        addFragment(philipsNewsFragment, bundle);
+    }
+
+    public void addPersonalConsentFragment() {
+        RLog.d(TAG, "addPersonalConsentFragment : is called");
+        PhilipsNewsFragment philipsNewsFragment = new PhilipsNewsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(RegConstants.PHILIPS_NEWS_TITLE, getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt));
+        bundle.putString(RegConstants.PHILIPS_NEWS_DISCRETION, getString(getContentConfiguration().getPersonalConsentDefinition().getHelpText()));
+        addFragment(philipsNewsFragment, bundle);
     }
 
     public void addMergeAccountFragment(String registrationToken, String provider, String emailId) {
