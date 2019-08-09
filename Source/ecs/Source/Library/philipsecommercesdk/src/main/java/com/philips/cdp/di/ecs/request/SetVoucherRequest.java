@@ -29,7 +29,7 @@ public class SetVoucherRequest extends OAuthAppInfraAbstractRequest implements R
             // Empty response indicate success
             ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(new Exception(response),response,20999);
+            ecsCallback.onFailure(new Exception(response),""+response,20999);
         }
     }
 
