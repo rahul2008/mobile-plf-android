@@ -13,6 +13,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
@@ -49,6 +50,8 @@ import org.powermock.reflect.Whitebox;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
@@ -313,6 +316,16 @@ public class PIMUserManagerTest extends TestCase {
         Mockito.when(mockSharedPreferences.getString("LOGIN_FLOW", PIMUserManager.LOGIN_FLOW.DEFAULT.toString())).thenReturn(PIMUserManager.LOGIN_FLOW.DEFAULT.toString());
         PIMUserManager.LOGIN_FLOW loginFlow = pimUserManager.getLoginFlow();
         assertSame(PIMUserManager.LOGIN_FLOW.DEFAULT, loginFlow);
+    }
+
+    @Test
+    public void testFetchUserDetails(){
+        ArrayList<String> keyList = new ArrayList<>();
+        keyList.add(UserDetailConstants.GIVEN_NAME);
+        PIMOIDCUserProfile pimoidcUserProfile = new PIMOIDCUserProfile(readUserProfileResponseJson(), mockAuthState);
+        HashMap<String, Object> stringObjectHashMap = pimoidcUserProfile.fetchUserDetails(keyList);
+        String s = stringObjectHashMap.get(UserDetailConstants.GIVEN_NAME).toString();
+        assertNotNull(s);
     }
 
     private String readUserProfileResponseJson() {

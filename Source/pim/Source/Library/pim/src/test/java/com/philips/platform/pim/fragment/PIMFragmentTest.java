@@ -93,12 +93,24 @@ public class PIMFragmentTest extends TestCase {
     }
 
     @Test
+    public void testLoginSuccess() {
+        pimFragment.onLoginSuccess();
+    }
+
+    @Test
+    public void testLoginFailed() {
+        Error error = mock(Error.class);
+        pimFragment.onLoginFailed(error);
+    }
+
+    @Test
     public void testInitSuccessUserLoggedIn() throws Exception {
         when(mockUserManager.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
 
         verify(mockMutableLiveData).observe(eq(pimFragment), argumentCaptor.capture());
         Observer<PIMInitState> value = argumentCaptor.getValue();
         value.onChanged(PIMInitState.INIT_SUCCESS);
+        //verifyPrivate(pimFragment).invoke("launchUserProfilePage");
     }
 
     @Test
@@ -108,28 +120,17 @@ public class PIMFragmentTest extends TestCase {
         verify(mockMutableLiveData).observe(eq(pimFragment), argumentCaptor.capture());
         Observer<PIMInitState> value = argumentCaptor.getValue();
         value.onChanged(PIMInitState.INIT_SUCCESS);
+        //verifyPrivate(pimFragment).invoke("launchLoginPage");
     }
 
     @Test
     public void testInitFailed() throws Exception {
-        //when(mockUserManager.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
-
         verify(mockMutableLiveData).observe(eq(pimFragment), argumentCaptor.capture());
         Observer<PIMInitState> value = argumentCaptor.getValue();
         value.onChanged(PIMInitState.INIT_FAILED);
 
         value.onChanged(PIMInitState.INIT_FAILED);
-    }
-
-    @Test
-    public void testLoginSuccess() {
-        pimFragment.onLoginSuccess();
-    }
-
-    @Test
-    public void testLoginFailed() {
-        Error error = mock(Error.class);
-        pimFragment.onLoginFailed(error);
+        //verifyPrivate(pimFragment).invoke("enablProgressBar");
     }
 
    /* @Test
@@ -157,10 +158,9 @@ public class PIMFragmentTest extends TestCase {
     }
 
     @Test
-    public void onDestroy(){
+    public void onDestroy() {
         pimFragment.onDestroy();
     }
-
 
     @After
     public void tearDown() throws Exception {

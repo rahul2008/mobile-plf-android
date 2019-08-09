@@ -62,6 +62,10 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 public class PIMMigrationManagerTest extends TestCase {
 
     @Mock
+    RestInterface mockRestInterface;
+    @Mock
+    PIMMigrationAuthRequest mockMigrationAuthRequest;
+    @Mock
     private PIMSettingManager mockSettingManager;
     @Mock
     private IDAssertionRequest mockAssertionRequest;
@@ -82,6 +86,7 @@ public class PIMMigrationManagerTest extends TestCase {
     @Mock
     private PIMUserMigrationListener mockMigrationListener;
 
+    private PIMRestClient pimRestClient;
     private PIMMigrationManager spyMigrationManager;
     private final String TAG = PIMMigrationManager.class.getSimpleName();
     private String accessToken = "vsu46sctqqpjwkbn";
@@ -95,7 +100,8 @@ public class PIMMigrationManagerTest extends TestCase {
 
         mockStatic(PIMSettingManager.class);
         Context mockContext = mock(Context.class);
-        RestInterface mockRestInterface = mock(RestInterface.class);
+
+        pimRestClient = new PIMRestClient(mockRestInterface);
 
         when(PIMSettingManager.getInstance()).thenReturn(mockSettingManager);
         when(mockSettingManager.getAppInfraInterface()).thenReturn(mock(AppInfraInterface.class));
@@ -105,6 +111,8 @@ public class PIMMigrationManagerTest extends TestCase {
         when(mockSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
         whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
         whenNew(PIMLoginManager.class).withArguments(mockContext, mockPimoidcConfigration).thenReturn(mockPimLoginManager);
+        whenNew(PIMMigrationAuthRequest.class).withArguments(anyString()).thenReturn(mockMigrationAuthRequest);
+
 
         PIMMigrationManager pimMigrationManager = new PIMMigrationManager(mockContext, mockMigrationListener);
         spyMigrationManager = spy(pimMigrationManager);
@@ -177,8 +185,6 @@ public class PIMMigrationManagerTest extends TestCase {
         AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
         when(mockPimLoginManager.createAuthRequestUriForMigration(any())).thenReturn(mockAuthorizationRequest);
         when(mockAuthorizationRequest.toUri()).thenReturn(mock(Uri.class));
-        PIMMigrationAuthRequest mockMigrationAuthRequest = mock(PIMMigrationAuthRequest.class);
-        whenNew(PIMMigrationAuthRequest.class).withArguments(anyString()).thenReturn(mockMigrationAuthRequest);
         Whitebox.invokeMethod(spyMigrationManager, "performAuthorization", getID_TOKEN_HINT());
         verify(mockPimRestClient).invokeRequest(eq(mockMigrationAuthRequest), captorResponseListener.capture(), captorErrorListener.capture());
         Response.Listener<String> response = captorResponseListener.getValue();
@@ -192,8 +198,6 @@ public class PIMMigrationManagerTest extends TestCase {
         AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
         when(mockPimLoginManager.createAuthRequestUriForMigration(any())).thenReturn(mockAuthorizationRequest);
         when(mockAuthorizationRequest.toUri()).thenReturn(mock(Uri.class));
-        PIMMigrationAuthRequest mockMigrationAuthRequest = mock(PIMMigrationAuthRequest.class);
-        whenNew(PIMMigrationAuthRequest.class).withArguments(anyString()).thenReturn(mockMigrationAuthRequest);
         Whitebox.invokeMethod(spyMigrationManager, "performAuthorization", getID_TOKEN_HINT());
         verify(mockPimRestClient).invokeRequest(eq(mockMigrationAuthRequest), captorResponseListener.capture(), captorErrorListener.capture());
         Response.ErrorListener errorListener = captorErrorListener.getValue();
@@ -212,8 +216,6 @@ public class PIMMigrationManagerTest extends TestCase {
         AuthorizationRequest mockAuthorizationRequest = mock(AuthorizationRequest.class);
         when(mockPimLoginManager.createAuthRequestUriForMigration(any())).thenReturn(mockAuthorizationRequest);
         when(mockAuthorizationRequest.toUri()).thenReturn(mock(Uri.class));
-        PIMMigrationAuthRequest mockMigrationAuthRequest = mock(PIMMigrationAuthRequest.class);
-        whenNew(PIMMigrationAuthRequest.class).withArguments(anyString()).thenReturn(mockMigrationAuthRequest);
         Whitebox.invokeMethod(spyMigrationManager, "performAuthorization", getID_TOKEN_HINT());
         verify(mockPimRestClient).invokeRequest(eq(mockMigrationAuthRequest), captorResponseListener.capture(), captorErrorListener.capture());
         Response.ErrorListener errorListener = captorErrorListener.getValue();
@@ -246,6 +248,13 @@ public class PIMMigrationManagerTest extends TestCase {
         JSONObject jsonResponse = new JSONObject();
         Whitebox.invokeMethod(spyMigrationManager, "parseIDAssertionFromJSONResponse", jsonResponse.toString());
         verify(mockMigrationListener).onUserMigrationFailed(any(Error.class));
+    }
+
+    @Test
+    public void testRestClient() {
+        Response.Listener<String> responseListener = mock(Response.Listener.class);
+        Response.ErrorListener mockErrorListener = mock(Response.ErrorListener.class);
+        pimRestClient.invokeRequest(mockMigrationAuthRequest, responseListener, mockErrorListener);
     }
 
     private String readIDAssertionResponseJson() {
