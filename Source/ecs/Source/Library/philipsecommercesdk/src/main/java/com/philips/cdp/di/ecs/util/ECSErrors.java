@@ -93,6 +93,27 @@ public class ECSErrors {
         }
     }
 
+    public enum DeliveryModeError{
+        INVALID_HYBRIS_TOKEN("InvalidHybrisToken",17001),
+        NO_DELIVERY_MODES_FOUND("InvalidHybrisToken",17002),
+        UNKNOWN_ERROR("UnknownError",17999);
+
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+
+        public int getErrorCode() {
+            return errorCode;
+        }
+
+        private final String errorMessage;
+        private final int errorCode;
+
+        DeliveryModeError(String errorMessage, int errorCode) {
+            this.errorMessage = errorMessage;
+            this.errorCode = errorCode;
+        }
+    }
    public static void showECSAlertDialog(Context context, String title, String message ){
        new AlertDialog.Builder(context)
                .setTitle(title)
