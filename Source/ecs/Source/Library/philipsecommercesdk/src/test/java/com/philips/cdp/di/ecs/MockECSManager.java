@@ -8,17 +8,19 @@ import com.philips.cdp.di.ecs.Cart.MockAddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockCreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.Cart.MockUpdateECSShoppingCartQuantityRequest;
+import com.philips.cdp.di.ecs.Config.MockGetConfigurationRequest;
 import com.philips.cdp.di.ecs.Oath.MockOAuthRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductAssetRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductDisclaimerRequest;
 import com.philips.cdp.di.ecs.ProductForCTN.MockGetProductForRequest;
+import com.philips.cdp.di.ecs.Region.MockGetRegionsRequest;
 import com.philips.cdp.di.ecs.Voucher.MockGetVouchersRequest;
 import com.philips.cdp.di.ecs.Voucher.MockRemoveVoucherRequest;
 import com.philips.cdp.di.ecs.Voucher.MockSetVoucherRequest;
-import com.philips.cdp.di.ecs.deliveryMode.MockDeliveryModesRequest;
-import com.philips.cdp.di.ecs.deliveryMode.MockSetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.DeliveryMode.MockDeliveryModesRequest;
+import com.philips.cdp.di.ecs.DeliveryMode.MockSetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.address.Addresses;
@@ -30,14 +32,12 @@ import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
+import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
-import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
-import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
-import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 public class MockECSManager extends ECSManager {
 
@@ -51,6 +51,40 @@ public class MockECSManager extends ECSManager {
 
     public void setJsonFileNameMockECSManager(String jsonFileNameMockECSManager) {
         this.jsonFileNameMockECSManager = jsonFileNameMockECSManager;
+    }
+
+
+
+    @Override
+    void getHybrisConfigResponse(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+        new MockGetConfigurationRequest(getJsonFileNameMockECSManager(), new ECSCallback<HybrisConfigResponse, Exception>() {
+            @Override
+            public void onResponse(HybrisConfigResponse result) {
+                ECSConfig.INSTANCE.setSiteId(result.getSiteId());
+                ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
+                ecsCallback.onResponse(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
+            }
+        }).executeRequest();
+    }
+
+    @Override
+    public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
+        new MockGetRegionsRequest(getJsonFileNameMockECSManager(), new ECSCallback<RegionsList, Exception>() {
+            @Override
+            public void onResponse(RegionsList result) {
+                ecsCallback.onResponse(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        }).executeRequest();
     }
 
     @Override
