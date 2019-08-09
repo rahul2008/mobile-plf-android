@@ -290,7 +290,6 @@
   <string name="iap_your_order_number">Your order number is</string>
   <string name="iap_zero_results_found">0 results found for %s</string>
   <string name="iap_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
-
   <string name="iap_voucher_code">Voucher Code:</string>
   <string name="iap_house_no_error">Wrong house number</string>
   <string name="iap_product">Product</string>
@@ -300,12 +299,13 @@
   <string name="iap_order_number_msg">Order number: %s</string>
   <string name="iap_product_remove_address">Your address will be deleted forever. Are you sure?</string>
   <string name="iap_total_discount">Total Discount</string>
+  <string name="iap_shipping_cost">Delivery cost</string>
+
   <!--Translation to be done for below strings-->
   <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
   <string name="iap_cvvpopup_3digit_info">The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_no_of_products">%s product(s)</string>
   <string name="iap_your_order_number_is">Your order number is:</string>
-  <string name="iap_shipping_cost">Delivery cost</string>
 
   <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
