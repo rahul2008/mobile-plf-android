@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.deliveryMode;
+package com.philips.cdp.di.ecs.DeliveryMode;
 
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;

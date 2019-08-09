@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
 
@@ -42,8 +43,22 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
 
     @Override
     public void onResponse(JSONObject response) {
-        RegionsList regionsList = new Gson().fromJson(response.toString(), RegionsList.class);
-        ecsCallback.onResponse(regionsList);
+        Exception exception = new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
+        RegionsList regionsList=null;
+        String ErrorMessage="";
+        try {
+            if(null!=response && null!=response.toString() ){
+                ErrorMessage=response.toString();
+            }
+            regionsList = new Gson().fromJson(response.toString(), RegionsList.class);
+        }catch(Exception e){
+            exception=e;
+        }
+        if(null!=regionsList && null!=regionsList.getRegions() && regionsList.getRegions().size()>0) {
+            ecsCallback.onResponse(regionsList);
+        }else{
+            ecsCallback.onFailure(exception,ErrorMessage,9000);
+        }
     }
 
     @Override
