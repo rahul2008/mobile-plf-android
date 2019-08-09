@@ -1,9 +1,13 @@
 package com.philips.cdp.di.ecs.request;
 
+import android.util.Pair;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorBuilder;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
@@ -17,7 +21,7 @@ import java.util.Map;
 
 public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject> {
 
-    private final ECSCallback<GetDeliveryModes,Exception> ecsCallback;
+    private final ECSCallback<GetDeliveryModes, Exception> ecsCallback;
 
     public GetDeliveryModesRequest(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
@@ -25,29 +29,12 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onResponse(JSONObject response) {
-        Exception exception=null;
-        GetDeliveryModes getDeliveryModes=null;
-        try {
-            getDeliveryModes  = new Gson().fromJson(response.toString(),
-                    GetDeliveryModes.class);
-
-        }catch (Exception e){
-            exception=e;
-
+        Pair<GetDeliveryModes, ECSError> deliveryModesECSErrorPair = new ECSErrorBuilder().getDeliveryModesECSErrorPair(response);
+        if (deliveryModesECSErrorPair.first != null) {
+            ecsCallback.onResponse(deliveryModesECSErrorPair.first);
+        } else {
+            ecsCallback.onFailure(deliveryModesECSErrorPair.second.getException(), deliveryModesECSErrorPair.second.getErrorMessage(), deliveryModesECSErrorPair.second.getErrorcode());
         }
-        if(null == exception && isValidDeliveryModee(getDeliveryModes)){//todo
-            ecsCallback.onResponse(getDeliveryModes);
-        }else {
-            String errorMessage="";
-            if(null!= exception){
-                errorMessage= exception.getMessage();
-            }else{
-                errorMessage = ECSErrors.DeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage();
-            }
-            String detailMessage = null!=response ? response.toString():"";
-            ecsCallback.onFailure(new Exception(errorMessage),detailMessage,ECSErrors.DeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorCode());
-        }
-
 
     }
 
@@ -75,7 +62,7 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
     @Override
     public void onErrorResponse(VolleyError error) {
         String errorMessage = ECSErrors.getDetailErrorMessage(error);
-        ecsCallback.onFailure(error,errorMessage,9000);
+        ecsCallback.onFailure(error, errorMessage, 9000);
     }
 
     @Override
