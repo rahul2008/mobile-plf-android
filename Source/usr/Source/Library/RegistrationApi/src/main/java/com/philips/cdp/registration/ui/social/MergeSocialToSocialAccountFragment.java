@@ -37,6 +37,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URFaceBookUtility;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -245,8 +246,12 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private void completeRegistration() {
         String emailorMobile = mergeSocialToSocialAccountPresenter.getLoginWithDetails();
-        if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
-                !RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !mergeSocialToSocialAccountPresenter.getReceiveMarketingEmail()) {
+        if (emailorMobile != null
+                && (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()
+                && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal() )
+                && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()
+                && !RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile)
+                || !mergeSocialToSocialAccountPresenter.getReceiveMarketingEmail()) {
             launchAlmostDoneForTermsAcceptanceFragment();
             return;
         }

@@ -15,6 +15,7 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +43,7 @@ public class RegistrationConfiguration {
     private RegistrationFunction prioritisedFunction = RegistrationFunction.Registration;
 
     UserRegistrationUIEventListener userRegistrationUIEventListener;
+    private ConsentStates personalConsent;
 
     public RegistrationComponent getComponent() {
         return component;
@@ -207,6 +209,21 @@ public class RegistrationConfiguration {
     }
 
     /**
+     * Status of terms and condition accepatance
+     *
+     * @return boolean
+     */
+    public boolean isPersonalConsentAcceptanceRequired() {
+        Object obj = appConfiguration.getPersonalConsentAcceptanceRequired();
+        if (obj != null) {
+            RLog.d(TAG, "isPersonalConsentAcceptanceRequired : " + Boolean.parseBoolean((String) obj));
+            return Boolean.parseBoolean((String) obj);
+        }
+        RLog.d(TAG, "isPersonalConsentAcceptanceRequired : false");
+        return false;
+    }
+
+    /**
      * Status of HSDP UUID uploading
      *
      * @return boolean
@@ -313,5 +330,13 @@ public class RegistrationConfiguration {
     private boolean isHsdpInfoAvailable() {
         return hsdpConfiguration.getHsdpSecretId() != null
                 && hsdpConfiguration.getHsdpSharedId() != null;
+    }
+
+    public void setPersonalConsent(ConsentStates personalConsent) {
+        this.personalConsent = personalConsent;
+    }
+
+    public ConsentStates getPersonalConsent() {
+        return personalConsent;
     }
 }

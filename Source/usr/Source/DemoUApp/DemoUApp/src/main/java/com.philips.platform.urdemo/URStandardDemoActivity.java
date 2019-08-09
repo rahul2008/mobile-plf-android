@@ -56,12 +56,15 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHandler;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
 import com.philips.platform.urdemolibrary.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -72,10 +75,12 @@ import static android.view.View.VISIBLE;
 public class URStandardDemoActivity extends UIDActivity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler, HSDPAuthenticationListener {
 
+    private static final String USR_PERSONAL_CONSENT = "USR_PERSONAL_CONSENT";
     private String TAG = "URStandardDemoActivity";
 
     private final String HSDP_UUID_SHOULD_UPLOAD = "hsdpUUIDUpload";
     private final String HSDP_SKIP_HSDP_LOGIN = "skipHSDPLogin";
+    private final String PERSONAL_CONSENT = "personalConsentRequired";
     private Context mContext;
     private ProgressDialog mProgressDialog;
     private String restoredText;
@@ -87,12 +92,11 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
     private User mUser;
     private Button mBtnRegistrationWithAccountSettings;
     private CoppaExtension coppaExtension;
-    private Switch mSkipHSDPSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus;
+    private Switch mSkipHSDPSwitch, hsdpUuidUpload, consentConfirmationStatus, updateCoppaConsentStatus,mEnablePersonalConsentSwitch;
 
     private Label btn_registration_with_hsdp_status_lbl;
 
     URInterface urInterface;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,12 +150,14 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         LlcoppaItems = findViewById(R.id.CoppaItems);
         mRadioGroup = findViewById(R.id.myRadioGroup);
         mSkipHSDPSwitch = findViewById(R.id.skip_hsdp_switch);
+        mEnablePersonalConsentSwitch = findViewById(R.id.enable_personal_consent_switch);
         hsdpUuidUpload = findViewById(R.id.switch_hsdp_uuid_upload);
         consentConfirmationStatus = findViewById(R.id.updateCoppaConsentConfirmationStatus);
         updateCoppaConsentStatus = findViewById(R.id.updateCoppaConsentStatus);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
         mSkipHSDPSwitch.setChecked(prefs.getBoolean("reg_delay_hsdp_configuration", false));
+        mEnablePersonalConsentSwitch.setChecked(prefs.getBoolean("reg_personal_consent_configuration", false));
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
         if (restoredText != null) {
 
@@ -206,6 +212,12 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
         });
 
+        mEnablePersonalConsentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                enablePersonalConsentSwitch(isChecked);
+            }
+        });
         Button fethContent = findViewById(R.id.fetchConcent);
         fethContent.setOnClickListener(this);
 
@@ -237,7 +249,9 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             mSkipHSDPSwitch.setChecked(true);
         }
         updateHSDPUuidSwitch(false);
-
+        if (getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).getBoolean("reg_personal_consent_configuration", false)) {
+            mEnablePersonalConsentSwitch.setChecked(true);
+        }
         hsdpUuidUpload.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -284,7 +298,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
                     if (mCheckBox.isChecked()) {
                         editor.putString("reg_hsdp_environment", restoredText).apply();
                         InitHsdp init = new InitHsdp();
-                        init.initHSDP(RegUtility.getConfiguration(restoredText),getApplicationContext(),URDemouAppInterface.appInfra);
+                        init.initHSDP(RegUtility.getConfiguration(restoredText), getApplicationContext(), URDemouAppInterface.appInfra);
                         mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
                         urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
 
@@ -295,6 +309,17 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
                     if (mSkipHSDPSwitch.isChecked()) {
                         editor.putBoolean("reg_delay_hsdp_configuration", true).apply();
+                        InitHsdp init = new InitHsdp();
+                        init.initHSDP(RegUtility.getConfiguration(restoredText), getApplicationContext(), URDemouAppInterface.appInfra);
+                        urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
+
+                    } else {
+                        editor.remove("reg_delay_hsdp_configuration").apply();
+
+                    }
+
+                    if (mEnablePersonalConsentSwitch.isChecked()) {
+                        editor.putBoolean("reg_personal_consent_configuration", true).apply();
                         InitHsdp init = new InitHsdp();
                         init.initHSDP(RegUtility.getConfiguration(restoredText), getApplicationContext(), URDemouAppInterface.appInfra);
                         urInterface.init(new URDemouAppDependencies(URDemouAppInterface.appInfra), new URDemouAppSettings(getApplicationContext()));
@@ -325,6 +350,13 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         } else {
             mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
+    }
+
+    private void enablePersonalConsentSwitch(boolean isChecked) {
+        RLog.d("enablePersonalConsentSwitch", " Going to set :" + isChecked);
+        final AppInfraInterface appInfraInterface = URDemouAppInterface.appInfra;
+        appInfraInterface.getConfigInterface().setPropertyForKey(PERSONAL_CONSENT, "UserRegistration", String.valueOf(isChecked), configError);
+        mEnablePersonalConsentSwitch.setChecked(isChecked);
     }
 
     private void updateAuthoriseHSDP() {
@@ -488,10 +520,10 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
             }
 
         } else if (i == R.id.btn_update_gender) {
-                handleGender();
+            handleGender();
         } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
-                handleDoBUpdate(user.getDateOfBirth());
+            handleDoBUpdate(user.getDateOfBirth());
         } else if (i == R.id.fetchConcent) {
             if (mUser.getUserLoginState() == UserLoginState.USER_LOGGED_IN) {
                 coppaExtension = new CoppaExtension(mContext);
@@ -555,7 +587,17 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.USER_DETAILS);
-        urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+        urLaunchInput.setUserPersonalConsentStatus(ConsentStates.inactive);
+
+        RegistrationContentConfiguration registrationContentConfiguration = getRegistrationContentConfiguration();
+        registrationContentConfiguration.setPersonalConsentContentErrorResId(R.string.personalConsentAcceptanceText_Error);
+        final ArrayList<String> types = new ArrayList<>();
+        types.add(USR_PERSONAL_CONSENT);
+        ConsentDefinition consentDefination = new ConsentDefinition(R.string.personalConsentText, R.string.personalConsentAcceptanceText,
+                types, 1);
+
+        registrationContentConfiguration.setPersonalConsentDefinition(consentDefination);
+        urLaunchInput.setRegistrationContentConfiguration(registrationContentConfiguration);
         urInterface.launch(activityLauncher, urLaunchInput);
     }
 
@@ -797,6 +839,7 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         String optInDetailDescription = getResources().getString(R.string.USR_DLS_Optin_Body_Line1);
         //String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
         String optInTitleBarText = getResources().getString(R.string.USR_DLS_OptIn_Navigation_Bar_Title);
+
         RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
         registrationContentConfiguration.setOptInTitleText(optInTitleText);
