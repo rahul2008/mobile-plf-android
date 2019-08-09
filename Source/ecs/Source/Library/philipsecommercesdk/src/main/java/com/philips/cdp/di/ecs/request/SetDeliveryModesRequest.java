@@ -7,6 +7,7 @@ import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.HashMap;
@@ -25,7 +26,11 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onResponse(String response) {
-        ecsCallback.onResponse(true);
+        if("".equals(response)) {
+            ecsCallback.onResponse(true);
+        }else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),""+response,9000);
+        }
     }
 
     @Override

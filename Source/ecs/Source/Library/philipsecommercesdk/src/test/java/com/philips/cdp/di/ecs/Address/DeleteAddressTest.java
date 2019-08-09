@@ -72,6 +72,24 @@ public class DeleteAddressTest {
     }
 
 
+    @Test
+    public void addAddressSingleFailureInvalidBaseSite() {
+        mockECSServices.setJsonFileName("DeleteAddressFailureInvalidBaseSite.json");
+        Addresses address = new Addresses();
+        mockECSServices.deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
+            @Override
+            public void onResponse(GetShippingAddressData addressList) {
+                assertTrue(false);
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertTrue(true);
+            }
+        });
+
+    }
 
 
 }

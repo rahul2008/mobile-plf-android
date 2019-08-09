@@ -42,7 +42,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
     @Override
     public void onResponse(String response) {
         Addresses addresses=null;
-        Exception exception = new Exception();
+        Exception exception = new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
                 // created address response is not checked
         try {
             addresses = new Gson().fromJson(response, Addresses.class);
@@ -50,10 +50,10 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
             exception = e;
 
         }
-        if(null!=addresses) {
+        if(null!= exception && null!=addresses && null!=addresses.getId() ) {
             ecsCallback.onResponse(addresses);
         }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), exception.getMessage(),12999);
+            ecsCallback.onFailure(exception, ""+response,12999);
         }
     }
 

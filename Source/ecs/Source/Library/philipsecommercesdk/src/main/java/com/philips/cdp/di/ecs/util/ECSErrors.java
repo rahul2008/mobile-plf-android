@@ -1,10 +1,12 @@
 package com.philips.cdp.di.ecs.util;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.ServerError;
@@ -29,7 +31,7 @@ public class ECSErrors {
 
 
     public static Exception getErrorMessage(VolleyError volleyError) {
-        String errorType = ECS_UNKNOWN_ERROR;
+        String errorType = null;
         if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError) {
             errorType = ECS_CANNOT_CONNECT_INTERNET;
         } else if (volleyError instanceof AuthFailureError) {
@@ -50,7 +52,12 @@ public class ECSErrors {
         } else if (volleyError instanceof TimeoutError) {
             errorType = ECS_CONNECTION_TIMEOUT;
         }
-        Exception exception = new Exception(errorType);
+        Exception exception =null;
+        if(null!=errorType) {
+            exception = new Exception(errorType);
+        }else{
+            exception = volleyError;
+        }
         return exception;
     }
 
@@ -107,4 +114,13 @@ public class ECSErrors {
             this.errorCode = errorCode;
         }
     }
+   public static void showECSAlertDialog(Context context, String title, String message ){
+       new AlertDialog.Builder(context)
+               .setTitle(title)
+               .setMessage(message)
+               .setPositiveButton(android.R.string.ok, null)
+               //.setNegativeButton(android.R.string.no, null)
+               .setIcon(android.R.drawable.ic_dialog_alert)
+               .show();
+   }
 }

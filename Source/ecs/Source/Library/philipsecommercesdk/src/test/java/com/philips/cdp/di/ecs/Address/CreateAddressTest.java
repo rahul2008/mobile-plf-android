@@ -75,6 +75,25 @@ public class CreateAddressTest {
     }
 
     @Test
+    public void addAddressSingleFailureInvalidZipCode() {
+        mockECSServices.setJsonFileName("CreateAddressFailureInvalidZipCode.json");
+        Addresses address = new Addresses();
+        mockECSServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
+            @Override
+            public void onResponse(Addresses address) {
+                assertTrue(false);
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                assertTrue(true);
+            }
+        },true);
+
+    }
+
+    @Test
     public void addAddressSingleFailure() {
         mockECSServices.setJsonFileName("EmptyString.json");
         Addresses address = new Addresses();
@@ -92,6 +111,8 @@ public class CreateAddressTest {
         },true);
 
     }
+
+
 
     //////////////////////////////End of single created  Address fetch ////////////////
 

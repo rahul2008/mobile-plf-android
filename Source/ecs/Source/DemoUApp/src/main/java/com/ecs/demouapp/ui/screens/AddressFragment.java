@@ -284,8 +284,8 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     private void saveShippingAddressToBackend() {
         createCustomProgressBar(mParentContainer, BIG);
         HashMap<String, String> addressHashMap = addressPresenter.addressPayload(shippingAddressFields);
-       //TODO
-        //addressPresenter.updateAddress(shippingAddressFields);
+        final String addressID = (String)addressHashMap.get(ModelConstants.ADDRESS_ID);
+        addressPresenter.updateAddress(shippingAddressFields,addressID);
     }
 
 

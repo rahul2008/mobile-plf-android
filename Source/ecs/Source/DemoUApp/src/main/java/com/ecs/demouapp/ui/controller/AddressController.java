@@ -49,6 +49,7 @@ import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.address.Region;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -105,10 +106,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.GET_USER, model, model);
     }
 
-    public void createAddress(AddressFields addressFields) {
-      /*  HashMap<String, String> params = getAddressHashMap(addressFields);
-        CreateAddressRequest model = new CreateAddressRequest(getStore(), params, this);
-        getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);*/
+    private  Addresses getAddressesObject(AddressFields addressFields){
 
         Addresses addressRequest = new Addresses();
         addressRequest.setFirstName(addressFields.getFirstName());
@@ -128,6 +126,15 @@ public class AddressController implements AbstractModel.DataLoadListener {
         region.setIsocodeShort(addressFields.getRegionIsoCode());
         addressRequest.setRegion(region); // set Region eg State for US and Canada
         addressRequest.setHouseNumber(addressFields.getHouseNumber());
+        return addressRequest;
+    }
+
+    public void createAddress(AddressFields addressFields) {
+      /*  HashMap<String, String> params = getAddressHashMap(addressFields);
+        CreateAddressRequest model = new CreateAddressRequest(getStore(), params, this);
+        getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);*/
+        Addresses addressRequest=getAddressesObject(addressFields);
+
 
         ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<Addresses, Exception>() {
             @Override
@@ -209,28 +216,38 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.DELETE_ADDRESS, model, model);*/
     }
 
-    public void updateAddress(Addresses addresses) {
+    public void updateAddress(AddressFields addressFields, String addressID) {
+        Addresses addresses=getAddressesObject(addressFields);
+        addresses.setId(addressID);
+        updateAddress(addresses);
 
+    }
+
+    public void updateAddress(Addresses addresses){
         ECSUtility.getInstance().getEcsServices().updateAddress(addresses, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
 
                 Message message = new Message();
-                message.obj = result;
+                message.obj = "";
+                message.what = RequestCode.UPDATE_ADDRESS;
                 mAddressListener.onGetAddress(message);
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
 
-                Message message = new Message();
+                ECSErrors.showECSAlertDialog(mContext,"Error",detailErrorMessage);
+               /* Message message = new Message();
                 message.obj = error;
-                mAddressListener.onGetAddress(message);
+                mAddressListener.onGetAddress(message);*/
             }
         });
+
     }
 
-    public void setDeliveryAddress(Addresses address) {
+    public void setDeliveryAddress(Addresses addresses) {
+        addresses.setDefaultAddress(true);
        /* address.getId()
         if (null != pAddressId) {
             HashMap<String, String> params = new HashMap<>();
@@ -239,7 +256,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
             getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_ADDRESS, model, model);
         }*/
 
-        ECSUtility.getInstance().getEcsServices().setDeliveryAddress(address, new ECSCallback<Boolean, Exception>() {
+        ECSUtility.getInstance().getEcsServices().setDeliveryAddress(addresses, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 Message message = new Message() ;

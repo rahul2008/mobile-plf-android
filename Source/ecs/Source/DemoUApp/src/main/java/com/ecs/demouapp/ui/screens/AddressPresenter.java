@@ -205,8 +205,8 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         }
     }
 
-    public void updateAddress(Addresses addresses) {
-        mAddressController.updateAddress(addresses);
+    public void updateAddress(AddressFields addressFields, String addressID) {
+        mAddressController.updateAddress(addressFields, addressID);
     }
 
     public void createAddress(AddressFields shippingAddressFields) {
