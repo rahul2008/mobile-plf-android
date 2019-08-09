@@ -62,7 +62,7 @@ public class ProdRegConstants {
     public static final String PROD_REG_AUTHORIZATION_KEY="Authorization";
     public static final String PROD_REG_CONTENTTYYPE_KEY ="Content-Type";
 
-    public static final String PROD_REG_APIKEY_VALUE = "9a8FEaKygJ6js2fo5TI6P8W1Q06zwZ3x1ow3H1rn";
+   // public static final String PROD_REG_APIKEY_VALUE = "9a8FEaKygJ6js2fo5TI6P8W1Q06zwZ3x1ow3H1rn";
     public static final String PROD_REG_APIVERSION_VALUE="1";
     public static final String PROD_REG_AUTHORIZATION_VALUE="bearer ";
     public static final String PROD_REG_CONTENTTYYPE_VALUE ="application/json";
