@@ -14,9 +14,13 @@ public class ECSErrorBuilder {
     public Pair<GetDeliveryModes,ECSError>  getDeliveryModesECSErrorPair(JSONObject response){
 
         GetDeliveryModes getDeliveryModes=null;
+        String detailError="";
         ECSError ecsError =null;
 
         try {
+            if(null!=response && null!=response.toString()){
+                detailError=response.toString();
+            }
             getDeliveryModes  = new Gson().fromJson(response.toString(),
                     GetDeliveryModes.class);
 
@@ -28,7 +32,7 @@ public class ECSErrorBuilder {
             }
 
         }catch (Exception e){
-            ecsError = new ECSError(e, ECSErrors.DeliveryModeError.UNKNOWN_ERROR.getErrorMessage(),ECSErrors.DeliveryModeError.UNKNOWN_ERROR.getErrorCode());
+            ecsError = new ECSError(e, detailError,ECSErrors.DeliveryModeError.UNKNOWN_ERROR.getErrorCode());
         }finally {
             return new Pair<>(getDeliveryModes,ecsError);
         }
