@@ -87,8 +87,9 @@ public class ECSErrors {
     }
 
     public enum DeliveryModeError{
-        InvalidHybrisToken("InvalidHybrisToken",17001),
-        NoDeliveryModesFound("InvalidHybrisToken",17002);
+        INVALID_HYBRIS_TOKEN("InvalidHybrisToken",17001),
+        NO_DELIVERY_MODES_FOUND("InvalidHybrisToken",17002),
+        UNKNOWN_ERROR("UnknownError",17999);
 
         public String getErrorMessage() {
             return errorMessage;

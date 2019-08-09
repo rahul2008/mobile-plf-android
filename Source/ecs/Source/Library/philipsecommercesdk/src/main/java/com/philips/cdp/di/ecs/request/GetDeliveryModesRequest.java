@@ -8,8 +8,6 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSConstant;
-import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
@@ -37,20 +35,24 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
             exception=e;
 
         }
-        if(null == exception  && getDeliveryModes.getDeliveryModes()!=null){//todo
+        if(null == exception && isValidDeliveryModee(getDeliveryModes)){//todo
             ecsCallback.onResponse(getDeliveryModes);
         }else {
             String errorMessage="";
-            if(null!=exception){
-                errorMessage=exception.getMessage();
+            if(null!= exception){
+                errorMessage= exception.getMessage();
             }else{
-                errorMessage = ECSErrors.DeliveryModeError.NoDeliveryModesFound.getErrorMessage();
+                errorMessage = ECSErrors.DeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage();
             }
             String detailMessage = null!=response ? response.toString():"";
-            ecsCallback.onFailure(new Exception(errorMessage),detailMessage,ECSErrors.DeliveryModeError.NoDeliveryModesFound.getErrorCode());
+            ecsCallback.onFailure(new Exception(errorMessage),detailMessage,ECSErrors.DeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorCode());
         }
 
 
+    }
+
+    private boolean isValidDeliveryModee(GetDeliveryModes getDeliveryModes) {
+        return getDeliveryModes != null && getDeliveryModes.getDeliveryModes() != null && getDeliveryModes.getDeliveryModes().size() != 0;
     }
 
     @Override
@@ -72,7 +74,8 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,"Error fetching DeliveryMode",9000);
+        String errorMessage = ECSErrors.getDetailErrorMessage(error);
+        ecsCallback.onFailure(error,errorMessage,9000);
     }
 
     @Override
