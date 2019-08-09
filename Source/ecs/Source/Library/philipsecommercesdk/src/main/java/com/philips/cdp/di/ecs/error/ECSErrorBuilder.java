@@ -44,7 +44,7 @@ public class ECSErrorBuilder {
         boolean isValidResponse = false;
         String detailError = ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorMessage(); //TODO ,Message and error code for diffrent calls .
         ECSError ecsError = null;
-        Exception e;
+        Exception e = null;
 
         if (response != null) {
 
@@ -53,12 +53,12 @@ public class ECSErrorBuilder {
             } else {
                 detailError = response;
                 e = new Exception(detailError);
-                ecsError = new ECSError(e, detailError, ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
             }
         } else {
             e = new Exception(detailError);
-            ecsError = new ECSError(e, detailError, ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
         }
+        if(e!=null) ecsError = new ECSError(e, detailError, ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
+
         return new Pair<>(isValidResponse, ecsError);
     }
 }
