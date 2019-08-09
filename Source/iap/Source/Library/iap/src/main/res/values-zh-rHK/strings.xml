@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">付款取消</string>
   <string name="iap_Payment_failure">付款失敗</string>
+  <string name="iap_accepted_codes">已接受代碼</string>
+  <string name="iap_access_token_notfound">找不到存取權杖</string>
   <string name="iap_add_new_address">新增地址</string>
   <string name="iap_add_new_payment_method">新增付款方式</string>
   <string name="iap_add_payment_method">新增付款方式</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">輸入地址行 1</string>
   <string name="iap_address_line_two">地址行 2</string>
   <string name="iap_address_line_two_hint">（選填）</string>
+  <string name="iap_agree_privacy">下訂即表示我接受並同意 Philips</string>
   <string name="iap_app_name">應用程式內購買</string>
   <string name="iap_apply">應用</string>
+  <string name="iap_apply_gift">套用禮品代碼</string>
   <string name="iap_authentication_failure">驗證失敗</string>
   <string name="iap_billing_address">帳單地址</string>
   <string name="iap_billing_address_is_same">與送貨地址相同</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">結帳</string>
   <string name="iap_checkout_payment_method">選擇付款方式</string>
   <string name="iap_checkout_steps">第 %s 步（共 3 步）：地址</string>
+  <string name="iap_checkout_steps_overview">第 %s 步（共 3 步）：概覽</string>
   <string name="iap_checkoutsummary_steps_overview">第 3 步（共 3 步）：概覽</string>
   <string name="iap_claim_voucher">領取優惠碼</string>
   <string name="iap_confirm">確認</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">請輸入以下付款卡的 CVV/CVC： </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">此為您信用卡或扣帳卡背面的 3 位數代碼；美國運通卡則為卡面上的 4 位數號碼。</string>
+  <string name="iap_daily_selling_product">Daily 系列迷你攪拌器</string>
   <string name="iap_delete">刪除</string>
   <string name="iap_delete_address">刪除送貨地址</string>
   <string name="iap_delete_item_alert_message">[zh-HK]Are you sure you want to delete the item?</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">您的購物車目前並無內容</string>
   <string name="iap_empty_purchase_history">如果您已使用此應用程式訂購貨品，請到郵箱查閱確認電郵。</string>
   <string name="iap_empty_purchase_history_dls">如您透過此應用程式訂購，請檢查是否已收到訂單確認電郵。</string>
+  <string name="iap_enter_gift_code">輸入您的推廣或禮品代碼</string>
   <string name="iap_enter_promo_code">輸入推廣或禮品編碼</string>
   <string name="iap_enter_promotional_voucher">請輸入您的推廣優惠碼</string>
   <string name="iap_expert_reviews">專家評論</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">名稱</string>
   <string name="iap_first_name_error">請輸入有效的名字</string>
   <string name="iap_first_name_hint">輸入您的名字</string>
+  <string name="iap_free_Delivery">此訂單免運費</string>
   <string name="iap_go_to_checkout">前往結帳</string>
   <string name="iap_handed_to_courier">已送交速遞公司處理</string>
   <string name="iap_help_other_by_reviewing">撰寫評論並協助別人作出適當的決定！</string>
   <string name="iap_houseNumber_error">請輸入門牌號碼</string>
+  <string name="iap_house_no_error">門牌號碼錯誤</string>
   <string name="iap_house_number">門牌號碼</string>
   <string name="iap_house_number_hint">輸入門牌號碼</string>
   <string name="iap_in_stock">有存貨</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">輸入您的姓氏</string>
   <string name="iap_less_review">顯示更少</string>
   <string name="iap_mastercard">萬事達卡</string>
+  <string name="iap_more_info">了解更多資訊</string>
   <string name="iap_more_review">顯示更多</string>
   <string name="iap_mr">先生</string>
   <string name="iap_mrs">女士</string>
   <string name="iap_my_orders">我的訂單</string>
+  <string name="iap_no_checkout">Philips 結賬功能不適用於此國家/地區。</string>
   <string name="iap_no_do_not_delete">不，我不想刪除</string>
   <string name="iap_no_internet">您的網絡連線似乎未能正常運作，請檢查並再試一次</string>
   <string name="iap_no_items">這裡暫時沒有項目...</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">未付運</string>
   <string name="iap_nothing_in_cart">購物車中沒有商品</string>
   <string name="iap_number_of_product">%s 產品</string>
+  <string name="iap_number_of_products">%s 件產品</string>
   <string name="iap_ok">確定</string>
   <string name="iap_one_click_buy">一按再次訂購</string>
   <string name="iap_opening_hours">電話服務中心服務時間：\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">訂單記錄</string>
   <string name="iap_order_not_received_items">未收到訂單</string>
   <string name="iap_order_number">訂單編號: </string>
+  <string name="iap_order_number_msg">訂單編號：%s</string>
   <string name="iap_order_pending">您的訂單正等待處理</string>
   <string name="iap_order_picked">FedEx 已經在此日期收取您的貨件：</string>
   <string name="iap_order_processing">處理中</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">郵政編碼</string>
   <string name="iap_postal_code_error">請輸入有效的郵政編碼</string>
   <string name="iap_postal_code_hint">輸入您的郵政編碼</string>
+  <string name="iap_privacy">私隱聲明</string>
   <string name="iap_proceed">已處理</string>
+  <string name="iap_product">產品</string>
   <string name="iap_product_added">已將產品加入至購物車</string>
   <string name="iap_product_catalog">產品</string>
   <string name="iap_product_detail_title"> 產品詳細資料</string>
   <string name="iap_product_not_found">我們未能找到任何產品符合：</string>
+  <string name="iap_product_remove_address">您的地址將被永久刪除。您確定要刪除嗎？</string>
   <string name="iap_product_remove_description">您的產品將從購物車中移除，確定要繼續操作嗎？</string>
   <string name="iap_products_unavailable">沒有可以使用的產品</string>
+  <string name="iap_promotional_gift">推廣或禮品代碼</string>
   <string name="iap_quantity">數量：%s</string>
   <string name="iap_rate_it">喜歡我們的產品嗎？我們誠邀您作出評價！</string>
+  <string name="iap_read">查閱</string>
   <string name="iap_read_full_review">閱讀評論全文</string>
+  <string name="iap_read_privacy">我已細閱</string>
   <string name="iap_recommend_this_product">位客戶會推薦此產品</string>
   <string name="iap_redeem_voucher">兌換優惠碼</string>
   <string name="iap_remove">移除</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">已付運</string>
   <string name="iap_shipped_to">已運送至：</string>
   <string name="iap_shipping_address">送貨地址</string>
+  <string name="iap_shipping_cost">運輸費用</string>
   <string name="iap_shipping_to">正運送至</string>
   <string name="iap_shopping_cart">購物車</string>
   <string name="iap_shopping_cart_dls">購物車</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">省份/州</string>
   <string name="iap_stock_left">[zh-HK]left in stock</string>
   <string name="iap_success">成功</string>
+  <string name="iap_terms_conditions">條款與條件</string>
   <string name="iap_thank_for_order">多謝訂購</string>
   <string name="iap_time_out">逾時</string>
   <string name="iap_time_out_error">已達網絡時限！</string>
   <string name="iap_title">標題</string>
   <string name="iap_total">總數</string>
+  <string name="iap_total_discount">總折扣</string>
   <string name="iap_total_val">總共（0 個項目）</string>
   <string name="iap_town">城鎮/城市</string>
   <string name="iap_town_error">請輸入有效的城鎮</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">增值稅</string>
   <string name="iap_view_invoice">查閱發票</string>
   <string name="iap_voucher">優惠碼</string>
+  <string name="iap_voucher_applied_success">成功套用優惠券</string>
+  <string name="iap_voucher_applied_unsuccess">不成功</string>
+  <string name="iap_voucher_code">優惠券代碼：</string>
   <string name="iap_warranty">我們為所有產品提供最少一年保用服務。我們的客戶服務團隊樂意為您提供協助。</string>
   <string name="iap_write_review">撰寫評論</string>
   <string name="iap_yes_delete">是，我要刪除</string>

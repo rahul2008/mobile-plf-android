@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Betaling geannuleerd</string>
   <string name="iap_Payment_failure">Betaling mislukt</string>
+  <string name="iap_accepted_codes">Geaccepteerde codes</string>
+  <string name="iap_access_token_notfound">Toegangstoken niet gevonden</string>
   <string name="iap_add_new_address">Voeg een nieuw adres toe</string>
   <string name="iap_add_new_payment_method">Nieuwe betalingsmethode toevoegen</string>
   <string name="iap_add_payment_method">Een nieuwe betalingsmethode toevoegen</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Voer adresregel 1 in</string>
   <string name="iap_address_line_two">Adresregel 2</string>
   <string name="iap_address_line_two_hint">(optioneel)</string>
+  <string name="iap_agree_privacy">van Philips gelezen en door de bestelling te plaatsen, ga ik akkoord met de</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Toepassen</string>
+  <string name="iap_apply_gift">Cadeaucode toepassen</string>
   <string name="iap_authentication_failure">Verificatie mislukt</string>
   <string name="iap_billing_address">Factuuradres</string>
   <string name="iap_billing_address_is_same">Hetzelfde als leveringsadres</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Afrekenen</string>
   <string name="iap_checkout_payment_method">Betaalwijze selecteren</string>
   <string name="iap_checkout_steps">Stap %s van 3: adres</string>
+  <string name="iap_checkout_steps_overview">Stap %s van 3: overzicht</string>
   <string name="iap_checkoutsummary_steps_overview">Stap 3 van 3: overzicht</string>
   <string name="iap_claim_voucher">Voucher verzilveren</string>
   <string name="iap_confirm">Bevestigen</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">CVV/CVC invoeren voor </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Dit is de 3-cijferige code op de achterkant van uw creditcard of pinpas. Als u een American Express-kaart hebt, staat het 4-cijferige nummer op de voorkant van de kaart.</string>
+  <string name="iap_daily_selling_product">Miniblender uit de Daily-collectie</string>
   <string name="iap_delete">Verwijderen</string>
   <string name="iap_delete_address">Verzendadres verwijderen</string>
   <string name="iap_delete_item_alert_message">Weet u zeker dat u dit item wilt verwijderen?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">GRATIS levering als u $ 100 of meer besteedt</string>
   <string name="iap_delivery_method">Levermethode</string>
   <string name="iap_delivery_via">Levering via FedEx</string>
-  <string name="iap_discount">korting</string>
+  <string name="iap_discount">Korting</string>
   <string name="iap_download_invoice">Download uw factuur</string>
   <string name="iap_edit">Bewerken</string>
   <string name="iap_email">E-mail</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Uw winkelwagen is momenteel leeg</string>
   <string name="iap_empty_purchase_history">Controleer of u de bevestigingsmail hebt ontvangen als u een bestelling hebt geplaatst met deze app.</string>
   <string name="iap_empty_purchase_history_dls">Als u uw bestelling hebt geplaatst via deze app, controleer dan of u een bevestigingsmail hebt ontvangen.</string>
+  <string name="iap_enter_gift_code">Voer uw promotie- of cadeaucode in</string>
   <string name="iap_enter_promo_code">Voer promotie- of cadeaucode in</string>
   <string name="iap_enter_promotional_voucher">Voer uw promotievouchercode in</string>
   <string name="iap_expert_reviews">Beoordelingen van experts</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Voornaam</string>
   <string name="iap_first_name_error">Voer een geldige voornaam in</string>
   <string name="iap_first_name_hint">Voornaam invoeren</string>
+  <string name="iap_free_Delivery">Deze bestelling wordt gratis bezorgd</string>
   <string name="iap_go_to_checkout">Ga naar de kassa</string>
   <string name="iap_handed_to_courier">Overgedragen aan de koerier</string>
   <string name="iap_help_other_by_reviewing">Schrijf een beoordeling en help anderen de juiste keuze te maken!</string>
   <string name="iap_houseNumber_error">Voer uw huisnummer in</string>
+  <string name="iap_house_no_error">Verkeerd huisnummer</string>
   <string name="iap_house_number">Huisnummer</string>
   <string name="iap_house_number_hint">Voer uw huisnummer in</string>
   <string name="iap_in_stock">op voorraad</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Achternaam invoeren</string>
   <string name="iap_less_review">minder weergeven</string>
   <string name="iap_mastercard">Master Card</string>
+  <string name="iap_more_info">voor meer info</string>
   <string name="iap_more_review">meer weergeven</string>
   <string name="iap_mr">Dhr.</string>
   <string name="iap_mrs">Mw.</string>
   <string name="iap_my_orders">Mijn bestellingen</string>
+  <string name="iap_no_checkout">Philips-betaalfunctionaliteit niet beschikbaar voor dit land.</string>
   <string name="iap_no_do_not_delete">Nee, niet verwijderen</string>
   <string name="iap_no_internet">Uw internetverbinding lijkt niet te werken. Controleer deze en probeer het opnieuw</string>
   <string name="iap_no_items">Er zijn nog geen items gearriveerd...</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Nog niet verzonden</string>
   <string name="iap_nothing_in_cart">Niets in uw winkelwagen</string>
   <string name="iap_number_of_product">%s product</string>
+  <string name="iap_number_of_products">%s producten</string>
   <string name="iap_ok">[nl]OK</string>
   <string name="iap_one_click_buy">Opnieuw kopen met 1 klik</string>
   <string name="iap_opening_hours">Openingstijden callcenter:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Bestelgeschiedenis</string>
   <string name="iap_order_not_received_items">Bestelling niet ontvangen</string>
   <string name="iap_order_number">Bestelnummer: </string>
+  <string name="iap_order_number_msg">Bestelnummer: %s</string>
   <string name="iap_order_pending">Uw bestelling is in behandeling</string>
   <string name="iap_order_picked">Uw bestelling werd opgehaald door FedEx op</string>
   <string name="iap_order_processing">Bezig met verwerken</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Postcode</string>
   <string name="iap_postal_code_error">Voer een geldige postcode in</string>
   <string name="iap_postal_code_hint">Voer uw postcode in</string>
+  <string name="iap_privacy">Privacyverklaring</string>
   <string name="iap_proceed">Doorgaan</string>
+  <string name="iap_product">Product</string>
   <string name="iap_product_added">Product toegevoegd aan uw winkelwagen</string>
   <string name="iap_product_catalog">Producten</string>
   <string name="iap_product_detail_title">Productgegevens</string>
   <string name="iap_product_not_found">Er zijn geen producten voor</string>
+  <string name="iap_product_remove_address">Uw adres wordt voor altijd verwijderd. Weet u het zeker?</string>
   <string name="iap_product_remove_description">Uw product wordt verwijderd uit uw winkelwagen. Weet u het zeker?</string>
   <string name="iap_products_unavailable">Geen producten beschikbaar</string>
+  <string name="iap_promotional_gift">Promotie- of cadeaucode</string>
   <string name="iap_quantity">Aantal: %s</string>
   <string name="iap_rate_it">Tevreden of niet, we horen graag uw mening!</string>
+  <string name="iap_read">Lees onze</string>
   <string name="iap_read_full_review">Volledige beoordeling lezen</string>
+  <string name="iap_read_privacy">Ik heb de</string>
   <string name="iap_recommend_this_product">klanten raden dit product aan</string>
   <string name="iap_redeem_voucher">Voucher inwisselen</string>
   <string name="iap_remove">Verwijderen</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Verzonden</string>
   <string name="iap_shipped_to">Verzonden naar:</string>
   <string name="iap_shipping_address">Verzendadres</string>
+  <string name="iap_shipping_cost">Verzendkosten</string>
   <string name="iap_shipping_to">Verzenden naar</string>
   <string name="iap_shopping_cart">Winkelwagen</string>
   <string name="iap_shopping_cart_dls">Winkelwagen</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Provincie</string>
   <string name="iap_stock_left">op voorraad</string>
   <string name="iap_success">Voltooid</string>
+  <string name="iap_terms_conditions">Algemene voorwaarden</string>
   <string name="iap_thank_for_order">Hartelijk dank voor je bestelling</string>
   <string name="iap_time_out">Time-out</string>
   <string name="iap_time_out_error">Netwerk time-out!</string>
   <string name="iap_title">Titel</string>
   <string name="iap_total">Totaal</string>
+  <string name="iap_total_discount">Totale korting</string>
   <string name="iap_total_val">Totaal (0 items)</string>
   <string name="iap_town">Plaats</string>
   <string name="iap_town_error">Voer een geldige stad in</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">Btw</string>
   <string name="iap_view_invoice">Factuur weergeven</string>
   <string name="iap_voucher">Voucher</string>
+  <string name="iap_voucher_applied_success">Voucher toegepast</string>
+  <string name="iap_voucher_applied_unsuccess">Mislukt</string>
+  <string name="iap_voucher_code">Actiecode:</string>
   <string name="iap_warranty">Op al onze producten is minimaal één jaar garantie van toepassing. Onze klantenservice is u graag van dienst.</string>
   <string name="iap_write_review">Een beoordeling schrijven</string>
   <string name="iap_yes_delete">Ja, verwijderen</string>

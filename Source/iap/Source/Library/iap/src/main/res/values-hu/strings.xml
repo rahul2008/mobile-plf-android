@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">A fizetés megszakítva</string>
   <string name="iap_Payment_failure">A fizetés sikertelen</string>
+  <string name="iap_accepted_codes">Elfogadott kódok</string>
+  <string name="iap_access_token_notfound">Nem található a hozzáférési kulcs</string>
   <string name="iap_add_new_address">Új cím hozzáadása</string>
   <string name="iap_add_new_payment_method">Új fizetési mód hozzáadása</string>
   <string name="iap_add_payment_method">Új fizetési mód hozzáadása</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Töltse ki az 1. címsort</string>
   <string name="iap_address_line_two">2. címsor</string>
   <string name="iap_address_line_two_hint">(opcionális)</string>
+  <string name="iap_agree_privacy">, és a rendelés leadásával elfogadom és beleegyezem a következőbe: Philips</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Alkalmaz</string>
+  <string name="iap_apply_gift">Ajándékkód alkalmazása</string>
   <string name="iap_authentication_failure">Hitelesítés sikertelen</string>
   <string name="iap_billing_address">Számlázási cím</string>
   <string name="iap_billing_address_is_same">Megegyezik a szállítási címmel</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Kijelentkezés</string>
   <string name="iap_checkout_payment_method">Fizetési mód kiválasztása</string>
   <string name="iap_checkout_steps">3/%s. lépés: cím</string>
+  <string name="iap_checkout_steps_overview">%s/3. lépés: áttekintés</string>
   <string name="iap_checkoutsummary_steps_overview">3/3. lépés: áttekintés</string>
   <string name="iap_claim_voucher">Kupon igénylése</string>
   <string name="iap_confirm">Megerősítés</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Kérjük adja meg a CVV/CVC-kódot a következőhöz: </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Ez a bankkártyája vagy hitelkártyája hátoldalán található háromjegyű szám. Ha American Express kártyája van, akkor ez a kártya elején található négyjegyű szám.</string>
+  <string name="iap_daily_selling_product">Daily Collection mini turmixgép</string>
   <string name="iap_delete">Törlés</string>
   <string name="iap_delete_address">Szállítási cím törlése</string>
   <string name="iap_delete_item_alert_message">Biztosan törölni szeretné ezt az elemet?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">100 dollár felett a házhozszállítás INGYENES</string>
   <string name="iap_delivery_method">Szállítási mód</string>
   <string name="iap_delivery_via">Házhozszállítás FedEx-szel</string>
-  <string name="iap_discount">árengedmény</string>
+  <string name="iap_discount">Árengedmény</string>
   <string name="iap_download_invoice">Számla letöltése</string>
   <string name="iap_edit">Szerkesztés</string>
   <string name="iap_email">[hu]Email</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Bevásárlókosara jelenleg üres</string>
   <string name="iap_empty_purchase_history">Amennyiben ezzel az alkalmazással adott le megrendelést, nézze meg e-mailjei között a visszaigazoló e-mailt.</string>
   <string name="iap_empty_purchase_history_dls">Amennyiben ezzel az alkalmazással adott le megrendelést, kérjük, ellenőrizze, hogy kapott-e visszaigazoló e-mailt a megrendelésről.</string>
+  <string name="iap_enter_gift_code">Promóciós vagy ajándékkód megadása</string>
   <string name="iap_enter_promo_code">Adja meg promóciós- vagy ajándékkódját</string>
   <string name="iap_enter_promotional_voucher">Adja meg promóciós kuponját</string>
   <string name="iap_expert_reviews">Szakértői értékelések</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Keresztnév</string>
   <string name="iap_first_name_error">Érvényes keresztnevet adjon meg</string>
   <string name="iap_first_name_hint">Adja meg a keresztnevét</string>
+  <string name="iap_free_Delivery">A megrendelés kézbesítése ingyenes</string>
   <string name="iap_go_to_checkout">Továbblépés a fizetéshez</string>
   <string name="iap_handed_to_courier">Átadva a futárnak</string>
   <string name="iap_help_other_by_reviewing">Írjon véleményt, és segítsen ezzel másoknak a megfelelő döntés meghozatalában!</string>
   <string name="iap_houseNumber_error">Kérjük, adja meg a házszámot</string>
+  <string name="iap_house_no_error">Helytelen házszám</string>
   <string name="iap_house_number">Házszám</string>
   <string name="iap_house_number_hint">Adja meg a házszámot</string>
   <string name="iap_in_stock">raktáron</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Adja meg vezetéknevét</string>
   <string name="iap_less_review">mutasson kevesebbet</string>
   <string name="iap_mastercard">Master card</string>
+  <string name="iap_more_info">a további tudnivalókért</string>
   <string name="iap_more_review">mutasson többet</string>
   <string name="iap_mr">Úr</string>
   <string name="iap_mrs">Hölgy</string>
   <string name="iap_my_orders">Rendeléseim</string>
+  <string name="iap_no_checkout">A Philips fizetési funkciói nem érhetők el ebben az országban.</string>
   <string name="iap_no_do_not_delete">Nem, ne törölje</string>
   <string name="iap_no_internet">Úgy tűnik, nem működik az internetkapcsolata. Ellenőrizze, majd próbálkozzon újra</string>
   <string name="iap_no_items">Még nincs itt egy elem sem…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Még nincs kiszállítás alatt</string>
   <string name="iap_nothing_in_cart">Nincs semmi a kosarában</string>
   <string name="iap_number_of_product">%s termék</string>
+  <string name="iap_number_of_products">%s termék</string>
   <string name="iap_ok">[hu]OK</string>
   <string name="iap_one_click_buy">Ismételt megvásárlás egyetlen kattintással</string>
   <string name="iap_opening_hours">Az ügyfélszolgálat elérhetőségi ideje:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Rendelési előzmények</string>
   <string name="iap_order_not_received_items">A megrendelés nem érkezett meg</string>
   <string name="iap_order_number">Megrendelés száma: </string>
+  <string name="iap_order_number_msg">Megrendelés száma: %s</string>
   <string name="iap_order_pending">Megrendelése várakozik</string>
   <string name="iap_order_picked">Megrendelését a FedEx ekkor vette fel:</string>
   <string name="iap_order_processing">Feldolgozás</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Irányítószám</string>
   <string name="iap_postal_code_error">Érvényes irányítószámot adjon meg</string>
   <string name="iap_postal_code_hint">Adja meg az irányítószámot</string>
+  <string name="iap_privacy">Adatvédelmi nyilatkozat</string>
   <string name="iap_proceed">Folytatás</string>
+  <string name="iap_product">Termék</string>
   <string name="iap_product_added">A termék hozzáadva a bevásárlókosárhoz</string>
   <string name="iap_product_catalog">Termékek</string>
   <string name="iap_product_detail_title"> Termékadatok</string>
   <string name="iap_product_not_found">Nem találtunk terméket a következőre:</string>
+  <string name="iap_product_remove_address">A cím véglegesen törlődik. Biztosan törli?</string>
   <string name="iap_product_remove_description">A termék eltávolításra kerül a kosárból. Biztosan eltávolítja?</string>
   <string name="iap_products_unavailable">Nincsenek elérhető termékek</string>
+  <string name="iap_promotional_gift">Promóciós vagy ajándékkód</string>
   <string name="iap_quantity">Mennyiség: %s</string>
   <string name="iap_rate_it">Szereti, nem szereti, mi arra kérjük, értékelje!</string>
+  <string name="iap_read">Olvassa el a következőt:</string>
   <string name="iap_read_full_review">a teljes értékelés megtekintése</string>
+  <string name="iap_read_privacy">Elolvastam a következőt:</string>
   <string name="iap_recommend_this_product">a vásárlók ezt a terméket ajánlanák</string>
   <string name="iap_redeem_voucher">Kupon beváltása</string>
   <string name="iap_remove">Eltávolítás</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Kiszállítás alatt</string>
   <string name="iap_shipped_to">Kiszállítva a következőnek:</string>
   <string name="iap_shipping_address">Szállítási cím</string>
+  <string name="iap_shipping_cost">Szállítási költség</string>
   <string name="iap_shipping_to">Kiszállítás ide:</string>
   <string name="iap_shopping_cart">Bevásárlókosár</string>
   <string name="iap_shopping_cart_dls">Bevásárlókosár</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Állam/Ország</string>
   <string name="iap_stock_left">maradt raktáron</string>
   <string name="iap_success">Sikeres</string>
+  <string name="iap_terms_conditions">Felhasználási feltételek</string>
   <string name="iap_thank_for_order">Köszönjük megrendelését</string>
   <string name="iap_time_out">Időtúllépés</string>
   <string name="iap_time_out_error">Hálózati időtúllépés!</string>
   <string name="iap_title">Fejléc</string>
   <string name="iap_total">Teljes</string>
+  <string name="iap_total_discount">Teljes árengedmény</string>
   <string name="iap_total_val">Összesen (0 elem)</string>
   <string name="iap_town">Helység/Város</string>
   <string name="iap_town_error">Érvényes várost adjon meg</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">ÁFA</string>
   <string name="iap_view_invoice">Számla megtekintése</string>
   <string name="iap_voucher">Kupon</string>
+  <string name="iap_voucher_applied_success">Az utalvány sikeresen alkalmazva</string>
+  <string name="iap_voucher_applied_unsuccess">Sikertelen</string>
+  <string name="iap_voucher_code">Utalványkód:</string>
   <string name="iap_warranty">Minden termékünkre legalább egy év garanciát vállalunk. Az ügyfélszolgálati csapatunk örömmel áll rendelkezésére.</string>
   <string name="iap_write_review">Vélemény írása</string>
   <string name="iap_yes_delete">Igen, törlés</string>

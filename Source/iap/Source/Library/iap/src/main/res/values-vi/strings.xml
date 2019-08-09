@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Hủy thanh toán</string>
   <string name="iap_Payment_failure">Không thanh toán được</string>
+  <string name="iap_accepted_codes">Mã được chấp nhận</string>
+  <string name="iap_access_token_notfound">Không tìm thấy Mã xác thực</string>
   <string name="iap_add_new_address">Thêm địa chỉ mới</string>
   <string name="iap_add_new_payment_method">Thêm phương thức thanh toán mới</string>
   <string name="iap_add_payment_method">Thêm phương thức thanh toán mới</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Nhập địa chỉ 1</string>
   <string name="iap_address_line_two">Địa chỉ 2</string>
   <string name="iap_address_line_two_hint">(tùy chọn)</string>
+  <string name="iap_agree_privacy">và thông qua việc đặt đơn hàng, tôi chấp nhận và đồng ý bị ràng buộc bởi các</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Áp dụng</string>
+  <string name="iap_apply_gift">Áp dụng mã quà tặng</string>
   <string name="iap_authentication_failure">Xác thực không thành công</string>
   <string name="iap_billing_address">Địa chỉ ghi hóa đơn</string>
   <string name="iap_billing_address_is_same">Giống với địa chỉ gửi hàng</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Thanh toán</string>
   <string name="iap_checkout_payment_method">Chọn phương thức thanh toán</string>
   <string name="iap_checkout_steps">Bước %s / 3: Địa chỉ</string>
+  <string name="iap_checkout_steps_overview">Bước %s / 3: Mô tả chung</string>
   <string name="iap_checkoutsummary_steps_overview">Bước 3 / 3: Mô tả chung</string>
   <string name="iap_claim_voucher">Lấy phiếu quà tặng</string>
   <string name="iap_confirm">Xác nhận</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Vui lòng nhập mã CVV/CVC cho </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Đây là mã gồm 3 chữ số được in ở mặt sau của thẻ tín dụng hoặc thẻ ghi nợ của bạn. Ngoài ra, nếu bạn dùng thẻ American Express thì mã này là số gồm 4 chữ số nằm ở mặt trước của thẻ.</string>
+  <string name="iap_daily_selling_product">Máy xay mini Daily Collection</string>
   <string name="iap_delete">Xóa</string>
   <string name="iap_delete_address">Xóa địa chỉ gửi hàng</string>
   <string name="iap_delete_item_alert_message">Bạn có chắc chắn muốn xóa món hàng không?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Giao hàng MIỄN PHÍ cho kiện hàng từ $100 trở lên</string>
   <string name="iap_delivery_method">Phương thức giao hàng</string>
   <string name="iap_delivery_via">Giao hàng qua FedEx</string>
-  <string name="iap_discount">chiết khấu</string>
+  <string name="iap_discount">Giảm giá</string>
   <string name="iap_download_invoice">Tải xuống hóa đơn của bạn</string>
   <string name="iap_edit">Sửa</string>
   <string name="iap_email">Email</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Giỏ hàng của bạn hiện đang trống</string>
   <string name="iap_empty_purchase_history">Nếu bạn đã đặt hàng bằng ứng dụng này, vui lòng kiểm tra email xác nhận trong hộp thư của bạn.</string>
   <string name="iap_empty_purchase_history_dls">Nếu bạn đã đặt đơn hàng bằng ứng dụng này, vui lòng kiểm tra để đảm bảo bạn đã nhận được email xác nhận đơn hàng.</string>
+  <string name="iap_enter_gift_code">Nhập mã khuyến mãi hoặc mã quà tặng của bạn</string>
   <string name="iap_enter_promo_code">Nhập mã khuyến mãi hoặc mã quà tặng</string>
   <string name="iap_enter_promotional_voucher">Vui lòng nhập phiếu quà tặng khuyến mãi của bạn</string>
   <string name="iap_expert_reviews">Đánh giá của chuyên gia</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Tên</string>
   <string name="iap_first_name_error">Vui lòng nhập tên hợp lệ</string>
   <string name="iap_first_name_hint">Nhập tên</string>
+  <string name="iap_free_Delivery">Miễn phí giao hàng cho đơn hàng này</string>
   <string name="iap_go_to_checkout">Đến bước thanh toán</string>
   <string name="iap_handed_to_courier">Đã bàn giao cho hãng vận tải</string>
   <string name="iap_help_other_by_reviewing">Hãy ghi đánh giá và giúp người khác lựa chọn đúng!</string>
   <string name="iap_houseNumber_error">Vui lòng nhập số nhà</string>
+  <string name="iap_house_no_error">Sai số nhà</string>
   <string name="iap_house_number">Số nhà</string>
   <string name="iap_house_number_hint">Nhập số nhà</string>
   <string name="iap_in_stock">còn hàng</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Nhập họ</string>
   <string name="iap_less_review">hiện ít</string>
   <string name="iap_mastercard">MasterCard</string>
+  <string name="iap_more_info">của chúng tôi để biết thêm thông tin</string>
   <string name="iap_more_review">hiện thêm</string>
   <string name="iap_mr">Ông</string>
   <string name="iap_mrs">Cô</string>
   <string name="iap_my_orders">Đơn hàng của tôi</string>
+  <string name="iap_no_checkout">Tính năng thanh toán của Philips không được áp dụng cho quốc gia này.</string>
   <string name="iap_no_do_not_delete">Không, đừng xóa</string>
   <string name="iap_no_internet">Kết nối internet của bạn có vẻ như không hiệu quả. Vui lòng kiểm tra và thử lại</string>
   <string name="iap_no_items">Không có món hàng nào ở đây…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Chưa vận chuyển</string>
   <string name="iap_nothing_in_cart">Không có gì trong giỏ hàng của bạn</string>
   <string name="iap_number_of_product">Sản phẩm %s</string>
+  <string name="iap_number_of_products">%s sản phẩm</string>
   <string name="iap_ok">[vi]OK</string>
   <string name="iap_one_click_buy">Mua lại bằng 1 lần bấm chuột</string>
   <string name="iap_opening_hours">Giờ mở cửa của tổng đài:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Lịch sử đơn hàng</string>
   <string name="iap_order_not_received_items">Không nhận được đơn hàng</string>
   <string name="iap_order_number">Mã số đơn hàng: </string>
+  <string name="iap_order_number_msg">Mã số đơn hàng: %s</string>
   <string name="iap_order_pending">Đơn hàng của bạn đang chờ xử lý</string>
   <string name="iap_order_picked">Đơn hàng của bạn đã được FedEx nhận vào</string>
   <string name="iap_order_processing">Đang xử lý</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Mã bưu tín</string>
   <string name="iap_postal_code_error">Vui lòng nhập mã zip hợp lệ</string>
   <string name="iap_postal_code_hint">Nhập mã ZIP/mã bưu tín</string>
+  <string name="iap_privacy">Thông báo về quyền riêng tư</string>
   <string name="iap_proceed">Tiếp tục</string>
+  <string name="iap_product">Sản phẩm</string>
   <string name="iap_product_added">Đã thêm sản phẩm vào giỏ hàng của bạn</string>
   <string name="iap_product_catalog">Sản phẩm</string>
   <string name="iap_product_detail_title"> Chi tiết sản phẩm</string>
   <string name="iap_product_not_found">Chúng tôi không tìm thấy bất kỳ sản phẩm nào cho</string>
+  <string name="iap_product_remove_address">Địa chỉ của bạn sẽ bị xóa vĩnh viễn. Bạn có chắc không?</string>
   <string name="iap_product_remove_description">Sản phẩm của bạn sẽ bị xóa khỏi giỏ hàng. Bạn có chắc không?</string>
   <string name="iap_products_unavailable">Không có sẵn sản phẩm</string>
+  <string name="iap_promotional_gift">Mã khuyến mãi hoặc mã quà tặng</string>
   <string name="iap_quantity">Số lượng: %s</string>
   <string name="iap_rate_it">Thích hoặc không thích, hãy xếp hạng!</string>
+  <string name="iap_read">Đọc</string>
   <string name="iap_read_full_review">Đọc toàn bộ đánh giá</string>
+  <string name="iap_read_privacy">Tôi đã đọc</string>
   <string name="iap_recommend_this_product">khách hàng sẽ đề cử sản phẩm này</string>
   <string name="iap_redeem_voucher">Đổi phiếu quà tặng</string>
   <string name="iap_remove">Xóa</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Đã vận chuyển</string>
   <string name="iap_shipped_to">Đã chuyển đến:</string>
   <string name="iap_shipping_address">Địa chỉ gửi hàng</string>
+  <string name="iap_shipping_cost">Phí vận chuyển</string>
   <string name="iap_shipping_to">Chuyển đến</string>
   <string name="iap_shopping_cart">Giỏ hàng</string>
   <string name="iap_shopping_cart_dls">Giỏ hàng</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Tỉnh</string>
   <string name="iap_stock_left">còn trong kho</string>
   <string name="iap_success">Thành công</string>
+  <string name="iap_terms_conditions">Điều khoản và điều kiện của Philips</string>
   <string name="iap_thank_for_order">Cảm ơn bạn đã đặt hàng</string>
   <string name="iap_time_out">Hết thời gian chờ</string>
   <string name="iap_time_out_error">Đã hết thời gian chờ mạng!</string>
   <string name="iap_title">Tiêu đề</string>
   <string name="iap_total">Tổng cộng</string>
+  <string name="iap_total_discount">Tổng giảm giá</string>
   <string name="iap_total_val">Tổng (0 món hàng)</string>
   <string name="iap_town">Thị xã/Thành phố</string>
   <string name="iap_town_error">Vui lòng nhập thị xã hợp lệ</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">Thuế GTGT</string>
   <string name="iap_view_invoice">Xem hóa đơn</string>
   <string name="iap_voucher">Phiếu quà tặng</string>
+  <string name="iap_voucher_applied_success">Đã áp dụng voucher thành công</string>
+  <string name="iap_voucher_applied_unsuccess">Không thành công</string>
+  <string name="iap_voucher_code">Mã voucher:</string>
   <string name="iap_warranty">Chúng tôi cung cấp bảo hành tối thiểu một năm cho tất cả các sản phẩm. Bộ phận Chăm sóc khách hàng của chúng tôi sẵn lòng giúp đỡ bạn.</string>
   <string name="iap_write_review">Viết đánh giá</string>
   <string name="iap_yes_delete">Có, xóa</string>

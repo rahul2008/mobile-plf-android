@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Paiement annulé</string>
   <string name="iap_Payment_failure">Défaut de paiement</string>
+  <string name="iap_accepted_codes">Codes acceptés</string>
+  <string name="iap_access_token_notfound">Jeton d\'accès introuvable</string>
   <string name="iap_add_new_address">Ajouter une nouvelle adresse</string>
   <string name="iap_add_new_payment_method">Ajouter un nouveau mode de paiement</string>
   <string name="iap_add_payment_method">Ajouter une nouvelle méthode de paiement</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Saisir l\'adresse 1</string>
   <string name="iap_address_line_two">Adresse 2</string>
   <string name="iap_address_line_two_hint">(facultatif)</string>
+  <string name="iap_agree_privacy">et en passant la commande, j\'accepte d\'être lié par les</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Appliquer</string>
+  <string name="iap_apply_gift">Appliquer le code cadeau</string>
   <string name="iap_authentication_failure">Échec de l\'authentification</string>
   <string name="iap_billing_address">Adresse de facturation</string>
   <string name="iap_billing_address_is_same">Identique à l\'adresse de livraison</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Passez la commande</string>
   <string name="iap_checkout_payment_method">Sélectionner le mode de paiement</string>
   <string name="iap_checkout_steps">Étape %s sur 3 : adresse</string>
+  <string name="iap_checkout_steps_overview">Étape %s sur 3 : présentation</string>
   <string name="iap_checkoutsummary_steps_overview">Étape 3 sur 3 : présentation</string>
   <string name="iap_claim_voucher">Demander votre coupon</string>
   <string name="iap_confirm">Confirmer</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Veuillez saisir le numéro CVV/CVC </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Il s\'agit du code à 3 chiffres qui se trouve au dos de votre carte de crédit ou de débit. Si vous disposez d\'une carte American Express, il s\'agit du numéro à 4 chiffres qui se trouve au recto de la carte.</string>
+  <string name="iap_daily_selling_product">Mini-blender Daily</string>
   <string name="iap_delete">Supprimer</string>
   <string name="iap_delete_address">Suppression de l\'adresse de livraison</string>
   <string name="iap_delete_item_alert_message">Êtes-vous sûr de vouloir supprimer cet article ?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Livraison GRATUITE à partir de 100 $ d\'achat</string>
   <string name="iap_delivery_method">Mode de livraison</string>
   <string name="iap_delivery_via">Livraison via FedEx</string>
-  <string name="iap_discount">réduction</string>
+  <string name="iap_discount">Remise</string>
   <string name="iap_download_invoice">Télécharger votre facture</string>
   <string name="iap_edit">Modifier</string>
   <string name="iap_email">[fr]Email</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Votre panier ne contient actuellement aucun article</string>
   <string name="iap_empty_purchase_history">Si vous avez passé commande avec cette application, vérifiez si vous avez reçu l\'e-mail de confirmation.</string>
   <string name="iap_empty_purchase_history_dls">Si vous avez passé votre commande via cette application, vérifiez que vous avez bien reçu un e-mail de confirmation de commande.</string>
+  <string name="iap_enter_gift_code">Saisissez votre code promotionnel ou code cadeau</string>
   <string name="iap_enter_promo_code">Saisir un code promotionnel ou code cadeau</string>
   <string name="iap_enter_promotional_voucher">Saisir le code de votre coupon promotionnel</string>
   <string name="iap_expert_reviews">Avis d\'experts</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Prénom</string>
   <string name="iap_first_name_error">Saisir un prénom valide</string>
   <string name="iap_first_name_hint">Merci de saisir votre prénom</string>
+  <string name="iap_free_Delivery">La livraison est gratuite pour cette commande</string>
   <string name="iap_go_to_checkout">Procéder au paiement</string>
   <string name="iap_handed_to_courier">Remise au coursier</string>
   <string name="iap_help_other_by_reviewing">Rédigez un avis et aidez les autres à faire le bon choix !</string>
   <string name="iap_houseNumber_error">Veuillez indiquer votre numéro de domicile</string>
+  <string name="iap_house_no_error">Numéro de domicile incorrect</string>
   <string name="iap_house_number">Numéro du domicile</string>
   <string name="iap_house_number_hint">Indiquez le numéro du domicile</string>
   <string name="iap_in_stock">En stock</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Saisir votre nom</string>
   <string name="iap_less_review">réduire</string>
   <string name="iap_mastercard">Master Card</string>
+  <string name="iap_more_info">pour en savoir plus</string>
   <string name="iap_more_review">développer</string>
   <string name="iap_mr">M.</string>
   <string name="iap_mrs">Mme, Mlle</string>
   <string name="iap_my_orders">Mes commandes</string>
+  <string name="iap_no_checkout">Fonctionnalité de règlement de commande Philips non disponible dans ce pays.</string>
   <string name="iap_no_do_not_delete">Non, ne pas supprimer</string>
   <string name="iap_no_internet">Votre connexion Internet semble ne pas fonctionner. Vérifiez et réessayez.</string>
   <string name="iap_no_items">Aucun article pour le moment...</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Pas encore expédiée</string>
   <string name="iap_nothing_in_cart">Votre panier est vide</string>
   <string name="iap_number_of_product">%s produit(s)</string>
+  <string name="iap_number_of_products">%s produits</string>
   <string name="iap_ok">[fr]OK</string>
   <string name="iap_one_click_buy">Acheter à nouveau en 1 clic</string>
   <string name="iap_opening_hours">Heures d\'ouverture du centre d\'appel :\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Historique de commande</string>
   <string name="iap_order_not_received_items">Commande non reçue</string>
   <string name="iap_order_number">Numéro de commande: </string>
+  <string name="iap_order_number_msg">Numéro de commande : %s</string>
   <string name="iap_order_pending">Votre commande est en attente</string>
   <string name="iap_order_picked">Votre commande a été récupérée par FedEx le</string>
   <string name="iap_order_processing">Traitement en cours</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Code postal</string>
   <string name="iap_postal_code_error">Saisir un code postal valide</string>
   <string name="iap_postal_code_hint">Saisir votre code postal</string>
+  <string name="iap_privacy">Déclaration de confidentialité</string>
   <string name="iap_proceed">Poursuivre</string>
+  <string name="iap_product">Produit</string>
   <string name="iap_product_added">Produit ajouté à votre panier</string>
   <string name="iap_product_catalog">Produits</string>
   <string name="iap_product_detail_title">Détails du produit</string>
   <string name="iap_product_not_found">Aucun produit trouvé pour</string>
+  <string name="iap_product_remove_address">Votre adresse sera définitivement supprimée. Êtes-vous sûr de vouloir continuer ?</string>
   <string name="iap_product_remove_description">Souhaitez-vous vraiment supprimer ce produit de votre panier ?</string>
   <string name="iap_products_unavailable">Aucun produit disponible</string>
+  <string name="iap_promotional_gift">Code promotionnel ou code cadeau</string>
   <string name="iap_quantity">Quantité : %s</string>
   <string name="iap_rate_it">Que vous adoriez ou détestiez un produit, votre avis nous intéresse !</string>
+  <string name="iap_read">Lisez notre</string>
   <string name="iap_read_full_review">Lire l\'avis complet</string>
+  <string name="iap_read_privacy">J\'ai lu les</string>
   <string name="iap_recommend_this_product">des clients recommandent ce produit</string>
   <string name="iap_redeem_voucher">Échanger votre coupon</string>
   <string name="iap_remove">Supprimer</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Expédiée</string>
   <string name="iap_shipped_to">Expédiée à :</string>
   <string name="iap_shipping_address">Adresse de livraison</string>
+  <string name="iap_shipping_cost">Frais de livraison</string>
   <string name="iap_shipping_to">Livraison à</string>
   <string name="iap_shopping_cart">Panier</string>
   <string name="iap_shopping_cart_dls">Panier</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Département</string>
   <string name="iap_stock_left">encore en stock</string>
   <string name="iap_success">Réussi(e)</string>
+  <string name="iap_terms_conditions">Conditions générales de Philips</string>
   <string name="iap_thank_for_order">Merci pour votre commande</string>
   <string name="iap_time_out">Expiration</string>
   <string name="iap_time_out_error">Délai expiration réseau !</string>
   <string name="iap_title">Titre</string>
   <string name="iap_total">[fr]Total</string>
+  <string name="iap_total_discount">Total remise</string>
   <string name="iap_total_val">Total (0 article)</string>
   <string name="iap_town">Ville</string>
   <string name="iap_town_error">Saisir une ville valide</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">TVA</string>
   <string name="iap_view_invoice">Afficher la facture</string>
   <string name="iap_voucher">Bon d\'achat</string>
+  <string name="iap_voucher_applied_success">Bon de réduction appliqué avec succès</string>
+  <string name="iap_voucher_applied_unsuccess">Échec</string>
+  <string name="iap_voucher_code">Code promotionnel :</string>
   <string name="iap_warranty">Tous nos produits sont accompagnés d\'une garantie d\'au moins un an. Notre Service Consommateurs est à votre disposition pour vous aider.</string>
   <string name="iap_write_review">Rédiger un avis</string>
   <string name="iap_yes_delete">Oui, supprimer</string>

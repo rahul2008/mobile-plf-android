@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">|お支払いはキャンセルされました|</string>
   <string name="iap_Payment_failure">|Zahlung fehlgeschlagen|</string>
+  <string name="iap_accepted_codes">|コードが承諾されました|</string>
+  <string name="iap_access_token_notfound">|لم يتم العثور على الرمز المميّز للوصول|</string>
   <string name="iap_add_new_address">|Jaunas adreses pievienošana|</string>
   <string name="iap_add_new_payment_method">|Ajouter une nouvelle méthode de paiement|</string>
   <string name="iap_add_payment_method">|Ajouter une nouvelle méthode de paiement|</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">|Εισαγάγετε τη γραμμή διεύθυνσης 1|</string>
   <string name="iap_address_line_two">|Γραμμή διεύθυνσης 2|</string>
   <string name="iap_address_line_two_hint">|(дополнительно)|</string>
+  <string name="iap_agree_privacy">|und durch Aufgeben der Bestellung akzeptiere ich und erkläre ich mich einverstanden mit Philips\'|</string>
   <string name="iap_app_name">|App-interne Käufe|</string>
   <string name="iap_apply">|Застосувати|</string>
+  <string name="iap_apply_gift">|Застосувати подарунковий код|</string>
   <string name="iap_authentication_failure">|Provjera autentičnosti nije uspjela|</string>
   <string name="iap_billing_address">|Адреса для надсилання рахунку|</string>
   <string name="iap_billing_address_is_same">|La même que votre adresse d’expédition|</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">|Оформлення замовлення|</string>
   <string name="iap_checkout_payment_method">|Sélectionner une méthode de paiement|</string>
   <string name="iap_checkout_steps">|Passaggio %s di 3: indirizzo|</string>
+  <string name="iap_checkout_steps_overview">|Pasul %s din 3: prezentare generală|</string>
   <string name="iap_checkoutsummary_steps_overview">|Pasul 3 din 3: prezentare generală|</string>
   <string name="iap_claim_voucher">|Comprobante de reclamación|</string>
   <string name="iap_confirm">|Підтвердити|</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">|Kérjük adja meg a CVV/CVC-kódot a következőhöz: |</string>
   <string name="iap_cvv_cvc">|Kód CVV/CVC|</string>
   <string name="iap_cvvpopup_info">|Este es el código de tres dígitos que se encuentra en la parte posterior de su tarjeta de crédito o débito. De manera alternativa, si tiene American Express, corresponde al número de cuatro dígitos en la parte delantera de la tarjeta.|</string>
+  <string name="iap_daily_selling_product">|Kasdienės kolekcijos mažasis maišytuvas|</string>
   <string name="iap_delete">|Tietojen poistaminen|</string>
   <string name="iap_delete_address">|Γίνεται διαγραφή της διεύθυνσης αποστολής|</string>
   <string name="iap_delete_item_alert_message">|Наистина ли искате да изтриете този артикул?|</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">|A entrega é gratuita para compras de valor igual ou superior a 100 USD|</string>
   <string name="iap_delivery_method">|Phương thức giao hàng|</string>
   <string name="iap_delivery_via">|Dodání prostřednictvím přepravce FedEx|</string>
-  <string name="iap_discount">|árengedmény|</string>
+  <string name="iap_discount">|Árengedmény|</string>
   <string name="iap_download_invoice">|Завантажити свій рахунок|</string>
   <string name="iap_edit">|Επεξεργασία|</string>
   <string name="iap_email">|Электронная почта|</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">|В момента вашата количка за пазаруване е празна|</string>
   <string name="iap_empty_purchase_history">|Αν υποβάλατε μια παραγγελία χρησιμοποιώντας αυτήν την εφαρμογή, ελέγξτε την αλληλογραφία σας για να δείτε αν έχετε λάβει το email επιβεβαίωσης.|</string>
   <string name="iap_empty_purchase_history_dls">|Якщо Ви розмістили своє замовлення за допомогою цього додатка, перевірте, чи Ви отримали електронного листа для підтвердження замовлення.|</string>
+  <string name="iap_enter_gift_code">|Въведете вашия промоционален код или код за подарък|</string>
   <string name="iap_enter_promo_code">|Εισαγάγετε τον κωδικό προσφοράς ή τον κωδικό δώρου|</string>
   <string name="iap_enter_promotional_voucher">|Vui lòng nhập phiếu quà tặng khuyến mãi của bạn|</string>
   <string name="iap_expert_reviews">|Opiniones de los especialistas|</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">|Собствено име|</string>
   <string name="iap_first_name_error">|Geben Sie einen gültigen Vornamen ein.|</string>
   <string name="iap_first_name_hint">|Merci de saisir votre prénom|</string>
+  <string name="iap_free_Delivery">|W przypadku tego zamówienia dostawa jest bezpłatna|</string>
   <string name="iap_go_to_checkout">|Перейти до оформлення замовлення|</string>
   <string name="iap_handed_to_courier">|Έγινε παράδοση στην εταιρεία ταχυμεταφοράς|</string>
   <string name="iap_help_other_by_reviewing">|Bir değerlendirme yazarak başkalarının da kendileri için doğru seçimi yapmalarına yardımcı olun!|</string>
   <string name="iap_houseNumber_error">|Veuillez indiquer votre numéro de domicile|</string>
+  <string name="iap_house_no_error">|Неправильний номер будинку|</string>
   <string name="iap_house_number">|Talon/asunnon numero|</string>
   <string name="iap_house_number_hint">|Indiquez le numéro du domicile|</string>
   <string name="iap_in_stock">|متوفر في المخزن|</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">|Εισαγάγετε το επώνυμό σας|</string>
   <string name="iap_less_review">|mutasson kevesebbet|</string>
   <string name="iap_mastercard">|マスターカード|</string>
+  <string name="iap_more_info">|для получения дополнительной информации|</string>
   <string name="iap_more_review">|εμφάνιση περισσότερων|</string>
   <string name="iap_mr">|[ko]Mr|</string>
   <string name="iap_mrs">|Dl / D-na / Dra|</string>
   <string name="iap_my_orders">|As minhas encomendas|</string>
+  <string name="iap_no_checkout">|Funcţionalitatea Philips de finalizare a comenzii nu este disponibilă pentru această ţară.|</string>
   <string name="iap_no_do_not_delete">|Όχι, να μην γίνει διαγραφή|</string>
   <string name="iap_no_internet">|Sie sind möglicherweise nicht mit dem Internet verbunden. Überprüfen Sie Ihre Verbindung, und versuchen Sie es erneut.|</string>
   <string name="iap_no_items">|Derzeit sind noch keine Artikel vorhanden ...|</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">|Δεν έχει γίνει ακόμα αποστολή|</string>
   <string name="iap_nothing_in_cart">|Няма нищо в количката за пазаруване|</string>
   <string name="iap_number_of_product">|ผลิตภัณฑ์หมายเลข %s|</string>
+  <string name="iap_number_of_products">|Liczba produktów: %s|</string>
   <string name="iap_ok">|[es-MX]OK|</string>
   <string name="iap_one_click_buy">|Ismételt megvásárlás egyetlen kattintással|</string>
   <string name="iap_opening_hours">|Horário de funcionamento do centro de atendimento:\n|</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">|Хронология на поръчките|</string>
   <string name="iap_order_not_received_items">|A megrendelés nem érkezett meg|</string>
   <string name="iap_order_number">|Número da encomenda: |</string>
+  <string name="iap_order_number_msg">|Número da encomenda: %s|</string>
   <string name="iap_order_pending">|L\'ordine è in attesa di approvazione|</string>
   <string name="iap_order_picked">|Twoje zamówienie zostało odebrane przez FedEx dnia|</string>
   <string name="iap_order_processing">|Bezig met verwerken|</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">|Почтовый индекс|</string>
   <string name="iap_postal_code_error">|Правильно укажите почтовый индекс|</string>
   <string name="iap_postal_code_hint">|Εισαγάγετε τον ταχυδρομικό κώδικα|</string>
+  <string name="iap_privacy">|Erklæring om beskyttelse af personlige oplysninger|</string>
   <string name="iap_proceed">|Продължаване|</string>
+  <string name="iap_product">|Sản phẩm|</string>
   <string name="iap_product_added">|Продуктът е добавен към количката за пазаруване|</string>
   <string name="iap_product_catalog">|Izstrādājumi|</string>
   <string name="iap_product_detail_title">| Informācija par produktu|</string>
   <string name="iap_product_not_found">|Chúng tôi không tìm thấy bất kỳ sản phẩm nào cho|</string>
+  <string name="iap_product_remove_address">|Votre adresse sera définitivement supprimée. Êtes-vous sûr de vouloir continuer ?|</string>
   <string name="iap_product_remove_description">|O seu produto será removido do carrinho de compras. Tem a certeza de que o pretende fazer?|</string>
   <string name="iap_products_unavailable">|Δεν υπάρχουν διαθέσιμα προϊόντα|</string>
+  <string name="iap_promotional_gift">|Промоционален код или код за подарък|</string>
   <string name="iap_quantity">|Количество: %s|</string>
   <string name="iap_rate_it">|Chcemy poznać Twoją opinię bez względu na to, czy go uwielbiasz, czy nienawidzisz!|</string>
+  <string name="iap_read">|Ознакомьтесь с нашим|</string>
   <string name="iap_read_full_review">|Değerlendirmenin tam metnini okuyun|</string>
+  <string name="iap_read_privacy">|Zapoznałem(-am) się z dokumentem|</string>
   <string name="iap_recommend_this_product">|— столько покупателей рекомендуют этот продукт|</string>
   <string name="iap_redeem_voucher">|Coupon de remboursement|</string>
   <string name="iap_remove">|Премахване|</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">|Έχει γίνει αποστολή|</string>
   <string name="iap_shipped_to">|Kiszállítva a következőnek:|</string>
   <string name="iap_shipping_address">|Indirizzo di spedizione|</string>
+  <string name="iap_shipping_cost">|Стоимость доставки|</string>
   <string name="iap_shipping_to">|Toimitetaan osoitteeseen|</string>
   <string name="iap_shopping_cart">|Количка за пазаруване|</string>
   <string name="iap_shopping_cart_dls">|Количка за пазаруване|</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">|Estado o provincia|</string>
   <string name="iap_stock_left">|залишилося в наявності|</string>
   <string name="iap_success">|Operazione riuscita|</string>
+  <string name="iap_terms_conditions">|Условиями и положениями Philips|</string>
   <string name="iap_thank_for_order">|Σας ευχαριστούμε για την παραγγελία σας|</string>
   <string name="iap_time_out">|Закінчення часу очікування|</string>
   <string name="iap_time_out_error">|Se ha superado el tiempo máximo de espera de la red.|</string>
   <string name="iap_title">|Pavadinimas|</string>
   <string name="iap_total">|[es-MX]Total|</string>
+  <string name="iap_total_discount">|Teljes árengedmény|</string>
   <string name="iap_total_val">|จำนวนทั้งหมด (0 รายการ)|</string>
   <string name="iap_town">|Населений пункт/місто|</string>
   <string name="iap_town_error">|Lūdzu, ievadiet derīgu pilsētas nosaukumu|</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">|ضريبة القيمة المضافة (VAT)|</string>
   <string name="iap_view_invoice">|Преглед на фактурата|</string>
   <string name="iap_voucher">|Bon d’échange|</string>
+  <string name="iap_voucher_applied_success">|Bon de réduction appliqué avec succès|</string>
+  <string name="iap_voucher_applied_unsuccess">|Không thành công|</string>
+  <string name="iap_voucher_code">|Code de bon d\'achat :|</string>
   <string name="iap_warranty">|Para todos los productos, proporcionamos una garantía de al menos un año de duración. Nuestro equipo de atención al cliente está encantado de poder ayudarte.|</string>
   <string name="iap_write_review">|Eine Bewertung verfassen|</string>
   <string name="iap_yes_delete">|Ναι, να γίνει διαγραφή|</string>
