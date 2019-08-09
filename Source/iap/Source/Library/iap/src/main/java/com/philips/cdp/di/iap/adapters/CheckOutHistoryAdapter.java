@@ -184,7 +184,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     }
                     if(Utility.isPromotionRunning())
                     {
-                        shoppingCartFooter.mDeliveryModeFree.setText(R.string.iap_delivery_promotion);
+                        shoppingCartFooter.mDeliveryModeFree.setText(R.string.iap_free_Delivery);
                     }
 
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);

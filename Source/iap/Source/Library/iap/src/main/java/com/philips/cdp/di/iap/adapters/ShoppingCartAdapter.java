@@ -231,7 +231,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     if(Utility.isPromotionRunning())
                     {
-                        shoppingCartFooter.mDeliveryModeFree.setText(R.string.iap_delivery_promotion);
+                        shoppingCartFooter.mDeliveryModeFree.setText(R.string.iap_free_Delivery);
                     }
 
                     shoppingCartFooter.mDeliveryPrice.setText(deliveryCost);
@@ -320,7 +320,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             if(Utility.isVoucherEnable()) {
                 shoppingCartFooter.mVoucherContainer.setVisibility(View.VISIBLE);
-                shoppingCartFooter.mAppliedVoucherCode.setText(R.string.iap_promotion_gift_code);
+                shoppingCartFooter.mAppliedVoucherCode.setText(R.string.iap_promotional_gift);
 
                 } else {
                 shoppingCartFooter.mVoucherContainer.setVisibility(View.GONE);

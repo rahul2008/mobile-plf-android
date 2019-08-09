@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 style="@style/iapCentralesansBookFont"
                 android:layout_marginEnd="@dimen/iap_shopping_cart_image_right"
-                android:text="@string/iap_product_item_quantity"
+                android:text="@string/iap_quantity"
                 android:textColor="@color/uid_quiet_button_icon_selector"
                 android:textSize="@dimen/iap_text_size_16sp"/>
 
