@@ -233,7 +233,7 @@
                 style="@style/AddressItemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/house_no"
+                android:text="@string/iap_house_number"
                 android:visibility="gone"/>
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -249,7 +249,7 @@
                     android:id="@+id/et_billing_house_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/iap_house_no_hint"
+                    android:hint="@string/iap_house_number_hint"
                     android:maxLines="1"
                     android:inputType="textCapWords"
                     android:maxLength="35"
@@ -359,14 +359,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
-                app:uidTextBoxValidationErrorText="@string/iap_state_hint">
+                app:uidTextBoxValidationErrorText="@string/iap_state">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
                     android:visibility="gone"
                     android:id="@+id/et_billing_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/iap_state_hint"
+                    android:hint="@string/iap_state"
                     android:inputType="text"
                     android:maxLines="1"
                     app:uidInputTextWithClearButton="true" />

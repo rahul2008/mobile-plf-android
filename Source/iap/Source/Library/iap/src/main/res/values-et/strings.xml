@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Makse tühistamine</string>
   <string name="iap_Payment_failure">Viga maksmisel</string>
+  <string name="iap_accepted_codes">Tunnustatud koodid</string>
+  <string name="iap_access_token_notfound">Juurdepääsuluba ei leitud</string>
   <string name="iap_add_new_address">Lisage uus aadress</string>
   <string name="iap_add_new_payment_method">Lisa uus makseviis</string>
   <string name="iap_add_payment_method">Lisa uus makseviis</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Sisestage aadressi rida 1</string>
   <string name="iap_address_line_two">Aadressi rida 2</string>
   <string name="iap_address_line_two_hint">(valikuline)</string>
+  <string name="iap_agree_privacy">ja selle tellimuse esitamisega nõustun ma Philipsi</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Rakenda</string>
+  <string name="iap_apply_gift">Rakenda kingikoodi</string>
   <string name="iap_authentication_failure">Autentimine nurjus</string>
   <string name="iap_billing_address">Arve esitamise aadress</string>
   <string name="iap_billing_address_is_same">Sama, mis kohaletoimetamise aadress</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Kassa</string>
   <string name="iap_checkout_payment_method">Valige makseviis</string>
   <string name="iap_checkout_steps">Samm %s / 3: aadress</string>
+  <string name="iap_checkout_steps_overview">Samm %s/3: ülevaade</string>
   <string name="iap_checkoutsummary_steps_overview">Samm 3/3: ülevaade</string>
   <string name="iap_claim_voucher">Hangi kupong</string>
   <string name="iap_confirm">Kinnita</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Sisestage CVV/CVC </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Tegemist on teie krediit- või deebetkaardi tagaküljel oleva kolmekohalise koodiga. Kui kasutate American Expressi kaarti, on selleks neljakohaline number kaardi esiküljel.</string>
+  <string name="iap_daily_selling_product">Daily kollektsiooni mini-kannmikser</string>
   <string name="iap_delete">Kustuta</string>
   <string name="iap_delete_address">Kohaletoimetamise aadressi kustutamine</string>
   <string name="iap_delete_item_alert_message">Kas olete kindel, et soovite toote kustutada?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Tarnimine on TASUTA, kui ostu väärtus on vähemalt 100 $</string>
   <string name="iap_delivery_method">Tarneviis</string>
   <string name="iap_delivery_via">Tarne ettevõtet FedEx kasutades</string>
-  <string name="iap_discount">allahindlus</string>
+  <string name="iap_discount">Allahindlus</string>
   <string name="iap_download_invoice">Laadi arve alla</string>
   <string name="iap_edit">Redigeeri</string>
   <string name="iap_email">E-post</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Teie ostukorv on hetkel tühi</string>
   <string name="iap_empty_purchase_history">Kui esitasite tellimuse seda rakendust kasutades, vaadake, kas teie postkasti on tulnud kinnitav e-kiri.</string>
   <string name="iap_empty_purchase_history_dls">Kui esitasite tellimuse selle äpi kaudu, kontrollige, kas teile saadeti tellimust kinnitav e-kiri.</string>
+  <string name="iap_enter_gift_code">Sisestage kampaania- või kingikood</string>
   <string name="iap_enter_promo_code">Sisestage kampaania või kinkekaardi kood</string>
   <string name="iap_enter_promotional_voucher">Sisestage kampaaniakood</string>
   <string name="iap_expert_reviews">Ekspertide arvustused</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Eesnimi</string>
   <string name="iap_first_name_error">Sisestage õige eesnimi</string>
   <string name="iap_first_name_hint">Sisestage eesnimi</string>
+  <string name="iap_free_Delivery">Selle tellimusega on transport tasuta</string>
   <string name="iap_go_to_checkout">Mine kassasse</string>
   <string name="iap_handed_to_courier">Antud üle kullerile</string>
   <string name="iap_help_other_by_reviewing">Kirjutage arvustus ja aidake teistel õiget valikut teha!</string>
   <string name="iap_houseNumber_error">Palun sisestage maja number</string>
+  <string name="iap_house_no_error">Vale maja number</string>
   <string name="iap_house_number">Maja number</string>
   <string name="iap_house_number_hint">Sisestage maja number</string>
   <string name="iap_in_stock">laos</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Sisestage perekonnanimi</string>
   <string name="iap_less_review">näita vähem</string>
   <string name="iap_mastercard">MasterCard</string>
+  <string name="iap_more_info">.</string>
   <string name="iap_more_review">näita rohkem</string>
   <string name="iap_mr">Hr</string>
   <string name="iap_mrs">Prl</string>
   <string name="iap_my_orders">Minu arved</string>
+  <string name="iap_no_checkout">Philipsi kassasse siirdumise funktsioon ei ole selles riigis toetatud.</string>
   <string name="iap_no_do_not_delete">Ei, ära kustuta</string>
   <string name="iap_no_internet">Tundub, et viga on teie internetiühenduses. Kontrollige ja proovige uuesti</string>
   <string name="iap_no_items">Siin ei ole veel ühtegi toodet …</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Ei ole veel teele pandud</string>
   <string name="iap_nothing_in_cart">Ostukorv on tühi</string>
   <string name="iap_number_of_product">%s toode</string>
+  <string name="iap_number_of_products">%s toode(t)</string>
   <string name="iap_ok">[et]OK</string>
   <string name="iap_one_click_buy">Osta uuesti ühe klikiga</string>
   <string name="iap_opening_hours">Kõnekeskuse lahtiolekuajad:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Tellimuse ajalugu</string>
   <string name="iap_order_not_received_items">Tellimust ei võetud vastu</string>
   <string name="iap_order_number">Tellimuse number: </string>
+  <string name="iap_order_number_msg">Tellimuse number: %s</string>
   <string name="iap_order_pending">Teie tellimus on ootel</string>
   <string name="iap_order_picked">FedEx võttis teie tellimuse peale kuupäeval</string>
   <string name="iap_order_processing">Töötlus</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Postiindeks</string>
   <string name="iap_postal_code_error">Sisestage õige sihtnumber</string>
   <string name="iap_postal_code_hint">Sisestage postiindeks/sihtnumber</string>
+  <string name="iap_privacy">privaatsusavaldust</string>
   <string name="iap_proceed">Edasi</string>
+  <string name="iap_product">Toode</string>
   <string name="iap_product_added">Toode lisatud teie ostukorvi</string>
   <string name="iap_product_catalog">Tooted</string>
   <string name="iap_product_detail_title"> Toote üksikasjad</string>
   <string name="iap_product_not_found">Me ei leidnud ühtegi toodet otsingule</string>
+  <string name="iap_product_remove_address">Teie aadress kustutakse igaveseks. Kas olete kindel?</string>
   <string name="iap_product_remove_description">Toode eemaldatakse ostukorvist. Kas olete kindel?</string>
   <string name="iap_products_unavailable">Tooted puuduvad</string>
+  <string name="iap_promotional_gift">Kampaania- või kingikood</string>
   <string name="iap_quantity">Kogus: %s</string>
   <string name="iap_rate_it">Andke oma hinnang, kas positiivne või negatiivne!</string>
+  <string name="iap_read">Lugege</string>
   <string name="iap_read_full_review">Lugege täielikku ülevaadet</string>
+  <string name="iap_read_privacy">Olen lugenud</string>
   <string name="iap_recommend_this_product">kliendid soovitaksid seda toodet</string>
   <string name="iap_redeem_voucher">Lunasta kupong</string>
   <string name="iap_remove">Eemalda</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Teele pandud</string>
   <string name="iap_shipped_to">Saadetud aadressile:</string>
   <string name="iap_shipping_address">Tarneaadress</string>
+  <string name="iap_shipping_cost">Transpordikulu</string>
   <string name="iap_shipping_to">Saada aadressile</string>
   <string name="iap_shopping_cart">Ostukorv</string>
   <string name="iap_shopping_cart_dls">Ostukorv</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Osariik</string>
   <string name="iap_stock_left">laos alles</string>
   <string name="iap_success">Õnnestus</string>
+  <string name="iap_terms_conditions">kasutustingimustega</string>
   <string name="iap_thank_for_order">Täname teid tellimuse eest!</string>
   <string name="iap_time_out">Aegumine</string>
   <string name="iap_time_out_error">Võrgu aegumine!</string>
   <string name="iap_title">Päis</string>
   <string name="iap_total">Kokku</string>
+  <string name="iap_total_discount">Allahindlus kokku</string>
   <string name="iap_total_val">Kokku (0 toodet)</string>
   <string name="iap_town">Asula/linn:</string>
   <string name="iap_town_error">Sisestage õige linna nimetus</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">KM</string>
   <string name="iap_view_invoice">Vaata arvet</string>
   <string name="iap_voucher">Kupong</string>
+  <string name="iap_voucher_applied_success">Kupongi rakendamine õnnestus</string>
+  <string name="iap_voucher_applied_unsuccess">Ei õnnestunud</string>
+  <string name="iap_voucher_code">Kupongi kood:</string>
   <string name="iap_warranty">Kõikidele toodetele kehtib vähemalt üheaastane garantii. Meie klienditeenindajad aitavad teid meeleldi.</string>
   <string name="iap_write_review">Kirjuta arvustus</string>
   <string name="iap_yes_delete">Jah, kustuta</string>

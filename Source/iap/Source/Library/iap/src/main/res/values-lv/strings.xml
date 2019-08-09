@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Maksājuma atcelšana</string>
   <string name="iap_Payment_failure">Maksājuma kļūda</string>
+  <string name="iap_accepted_codes">Pieņemtie kodi</string>
+  <string name="iap_access_token_notfound">Piekļuves pilnvara nav atrasta</string>
   <string name="iap_add_new_address">Jaunas adreses pievienošana</string>
   <string name="iap_add_new_payment_method">Pievienot jaunu maksājuma metodi</string>
   <string name="iap_add_payment_method">Jaunas maksājuma metodes pievienošana</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Ievadiet adreses 1. rindu</string>
   <string name="iap_address_line_two">Adreses 2. rinda</string>
   <string name="iap_address_line_two_hint">(neobligāti)</string>
+  <string name="iap_agree_privacy">un, veicot pasūtījumu, piekrītu un apņemos ievērot Philips</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Lietot</string>
+  <string name="iap_apply_gift">Izmantot dāvanu kodu</string>
   <string name="iap_authentication_failure">Autentificēšanās neizdevās</string>
   <string name="iap_billing_address">Rēķina adrese</string>
   <string name="iap_billing_address_is_same">Vienāda ar piegādes adresi</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Norēķini</string>
   <string name="iap_checkout_payment_method">Atlasiet maksāšanas metodi</string>
   <string name="iap_checkout_steps">Solis %s no 3: adrese</string>
+  <string name="iap_checkout_steps_overview">Solis %s no 3: pārskats</string>
   <string name="iap_checkoutsummary_steps_overview">Solis 3 no 3: pārskats</string>
   <string name="iap_claim_voucher">Pieteikt kuponu</string>
   <string name="iap_confirm">Apstiprināt</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Lūdzu, ievadiet CVV/CVC kodu </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Tas ir trīsciparu kods jūsu kredītkartes vai debetkartes aizmugurē. Ja jums ir American Express karte, tas ir četrciparu numurs kartes priekšpusē.</string>
+  <string name="iap_daily_selling_product">Ikdienas kolekcija, miniblenderis</string>
   <string name="iap_delete">Dzēst</string>
   <string name="iap_delete_address">Piegādes adreses dzēšana</string>
   <string name="iap_delete_item_alert_message">Vai tiešām vēlaties dzēst šo vienumu?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Iepērkoties par $100 vai vairāk, piegāde ir BEZ MAKSAS</string>
   <string name="iap_delivery_method">Piegādes veids</string>
   <string name="iap_delivery_via">Piegāde ar FedEx</string>
-  <string name="iap_discount">atlaide</string>
+  <string name="iap_discount">Atlaide</string>
   <string name="iap_download_invoice">Lejupielādēt rēķinu</string>
   <string name="iap_edit">Rediģēt</string>
   <string name="iap_email">E-pasts</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Jūsu iepirkumu grozs šobrīd ir tukšs</string>
   <string name="iap_empty_purchase_history">Ja veicāt pasūtījumu, izmantojot šo aplikāciju, lūdzu, pārbaudiet, vai e-pastā ir saņemts apstiprinājuma e-pasta ziņojums.</string>
   <string name="iap_empty_purchase_history_dls">Ja veicāt pasūtījumu, izmantojot šo lietotni, lūdzu, pārbaudiet, vai esat saņēmis e-pasta ziņu ar pasūtījuma apstiprinājumu.</string>
+  <string name="iap_enter_gift_code">Ievadiet reklāmas vai dāvanu kodu</string>
   <string name="iap_enter_promo_code">Ievadiet akcijas vai dāvanu kartes kodu</string>
   <string name="iap_enter_promotional_voucher">Lūdzu, ievadiet savu akcijas kuponu</string>
   <string name="iap_expert_reviews">Ekspertu atsauksmes</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Vārds</string>
   <string name="iap_first_name_error">Lūdzu, ievadiet derīgu vārdu</string>
   <string name="iap_first_name_hint">Ievadiet vārdu</string>
+  <string name="iap_free_Delivery">Šim pasūtījumam ir bezmaksas piegāde</string>
   <string name="iap_go_to_checkout">Doties uz sadaļu Norēķini</string>
   <string name="iap_handed_to_courier">Nodots pārvadātājam</string>
   <string name="iap_help_other_by_reviewing">Uzrakstiet apskatu un palīdziet citiem izdarīt pareizu izvēli!</string>
   <string name="iap_houseNumber_error">Lūdzu, ievadiet mājas numuru</string>
+  <string name="iap_house_no_error">Nepareizs mājas numurs</string>
   <string name="iap_house_number">Mājas numurs</string>
   <string name="iap_house_number_hint">Ievadiet mājas numuru</string>
   <string name="iap_in_stock">ir noliktavā</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Ievadiet uzvārdu</string>
   <string name="iap_less_review">rādīt mazāk</string>
   <string name="iap_mastercard">Master card</string>
+  <string name="iap_more_info">lai iegūtu plašāku informāciju</string>
   <string name="iap_more_review">rādīt vairāk</string>
   <string name="iap_mr">Kgs</string>
   <string name="iap_mrs">Jkdze</string>
   <string name="iap_my_orders">Mani pasūtījumi</string>
+  <string name="iap_no_checkout">Philips izrakstīšanās funkcionalitāte šajā valstī nav pieejama.</string>
   <string name="iap_no_do_not_delete">Nē, nedzēst</string>
   <string name="iap_no_internet">Iespējams, nedarbojas jūsu interneta savienojums. Lūdzu, pārbaudiet un mēģiniet vēlreiz.</string>
   <string name="iap_no_items">Vēl nav neviena vienuma…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Vēl nav nosūtīts</string>
   <string name="iap_nothing_in_cart">Jūsu grozā nekā nav</string>
   <string name="iap_number_of_product">%s produkts(-i)</string>
+  <string name="iap_number_of_products">%s Produkti</string>
   <string name="iap_ok">Labi</string>
   <string name="iap_one_click_buy">Iegādājieties vēlreiz ar 1 klikšķi</string>
   <string name="iap_opening_hours">Zvanu centra darba laiks:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Pasūtījumu vēsture</string>
   <string name="iap_order_not_received_items">Pasūtījums nav saņemts</string>
   <string name="iap_order_number">Pasūtījuma numurs: </string>
+  <string name="iap_order_number_msg">Pasūtījuma numurs: %s</string>
   <string name="iap_order_pending">Jūsu pasūtījums tiek apstrādāts</string>
   <string name="iap_order_picked">FedEx saņēma jūsu pasūtījumu</string>
   <string name="iap_order_processing">Apstrāde</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Pasta indekss</string>
   <string name="iap_postal_code_error">Lūdzu, ievadiet derīgu pasta indeksu</string>
   <string name="iap_postal_code_hint">Ievadiet pasta indeksu</string>
+  <string name="iap_privacy">Paziņojums par konfidencialitāti</string>
   <string name="iap_proceed">Turpināt</string>
+  <string name="iap_product">Produkts</string>
   <string name="iap_product_added">Izstrādājums ir pievienots jūsu iepirkumu grozam</string>
   <string name="iap_product_catalog">Izstrādājumi</string>
   <string name="iap_product_detail_title"> Informācija par produktu</string>
   <string name="iap_product_not_found">Nav atrasts neviens izstrādājums</string>
+  <string name="iap_product_remove_address">Jūsu adrese tiks izdzēsta pavisam. Vai esat pārliecināts?</string>
   <string name="iap_product_remove_description">Produkts tiks dzēst no jūsu iepirkumu groza. Vai esat pārliecināts?</string>
   <string name="iap_products_unavailable">Nav pieejams neviens produkts</string>
+  <string name="iap_promotional_gift">Reklāmas vai dāvanu kods</string>
   <string name="iap_quantity">Daudzums: %s</string>
   <string name="iap_rate_it">Labu vai sliktu, gaidām jūsu vērtējumu!</string>
+  <string name="iap_read">Izlasiet mūsu</string>
   <string name="iap_read_full_review">Lasīt pilnu pārskatu</string>
+  <string name="iap_read_privacy">Esmu izlasījis</string>
   <string name="iap_recommend_this_product">klienti ieteiktu šo izstrādājumu</string>
   <string name="iap_redeem_voucher">Izmantot kuponu</string>
   <string name="iap_remove">Noņemt</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Piegādāts</string>
   <string name="iap_shipped_to">Nogādāts uz:</string>
   <string name="iap_shipping_address">Nosūtīšanas adrese</string>
+  <string name="iap_shipping_cost">Piegādes izmaksas</string>
   <string name="iap_shipping_to">Nogādāt uz</string>
   <string name="iap_shopping_cart">Iepirkumu grozs</string>
   <string name="iap_shopping_cart_dls">Iepirkumu grozs</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Novads</string>
   <string name="iap_stock_left">vēl ir noliktavā</string>
   <string name="iap_success">Veiksmīgi</string>
+  <string name="iap_terms_conditions">Noteikumi un nosacījumi</string>
   <string name="iap_thank_for_order">Paldies par pasūtījumu!</string>
   <string name="iap_time_out">Taimauts</string>
   <string name="iap_time_out_error">Sasniegts tīkla taimauts!</string>
   <string name="iap_title">Virsraksts</string>
   <string name="iap_total">Kopā</string>
+  <string name="iap_total_discount">Kopējā atlaide</string>
   <string name="iap_total_val">Kopā (0 vienumi)</string>
   <string name="iap_town">Pilsēta:</string>
   <string name="iap_town_error">Lūdzu, ievadiet derīgu pilsētas nosaukumu</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">PVN</string>
   <string name="iap_view_invoice">Apskatīt rēķinu</string>
   <string name="iap_voucher">Kupons</string>
+  <string name="iap_voucher_applied_success">Kupons ir veiksmīgi ievadīts</string>
+  <string name="iap_voucher_applied_unsuccess">Neveiksmīgi</string>
+  <string name="iap_voucher_code">Kupona kods:</string>
   <string name="iap_warranty">Visiem izstrādājumiem ir vismaz viena gada garantija. Mūsu klientu serviss labprāt jums palīdzēs.</string>
   <string name="iap_write_review">Rakstīt atsauksmi</string>
   <string name="iap_yes_delete">Jā, dzēst</string>

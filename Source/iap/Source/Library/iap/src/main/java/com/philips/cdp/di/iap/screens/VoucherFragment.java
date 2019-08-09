@@ -89,7 +89,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_apply_voucher, true);
+        setTitleAndBackButtonVisibility(R.string.iap_apply_gift, true);
         IAPAnalytics.trackPage(IAPAnalyticsConstant.APPLY_VOUCHER);
     }
 
