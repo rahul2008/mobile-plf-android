@@ -1,9 +1,13 @@
 package com.philips.cdp.di.ecs.request;
 
+import android.util.Pair;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorBuilder;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -26,10 +30,11 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onResponse(String response) {
-        if(response.isEmpty()) {
+        Pair<Boolean, ECSError> emptyResponseErrorPair = new ECSErrorBuilder().getEmptyResponseErrorPair(response);
+        if(emptyResponseErrorPair.first) {
             ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),""+response,9000);
+            ecsCallback.onFailure(emptyResponseErrorPair.second.getException(), emptyResponseErrorPair.second.getErrorMessage(), emptyResponseErrorPair.second.getErrorcode());
         }
     }
 

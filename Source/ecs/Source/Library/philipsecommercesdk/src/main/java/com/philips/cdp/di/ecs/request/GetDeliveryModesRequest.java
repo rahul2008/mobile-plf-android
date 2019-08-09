@@ -38,10 +38,6 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     }
 
-    private boolean isValidDeliveryModee(GetDeliveryModes getDeliveryModes) {
-        return getDeliveryModes != null && getDeliveryModes.getDeliveryModes() != null && getDeliveryModes.getDeliveryModes().size() != 0;
-    }
-
     @Override
     public Map<String, String> getHeader() {
         HashMap<String, String> authMap = new HashMap<>();
