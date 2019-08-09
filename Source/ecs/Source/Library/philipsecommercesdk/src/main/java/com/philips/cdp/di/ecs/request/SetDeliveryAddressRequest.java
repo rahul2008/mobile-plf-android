@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.util.HashMap;
@@ -55,7 +56,11 @@ public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest imp
 
     @Override
     public void onResponse(String response) {
+        if(response.isEmpty()) {
         ecsCallback.onResponse(true);
+        }else{
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),""+response,9000);
+        }
     }
 
     @Override

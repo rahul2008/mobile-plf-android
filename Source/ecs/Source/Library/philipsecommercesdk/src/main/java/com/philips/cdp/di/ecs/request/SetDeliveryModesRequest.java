@@ -26,7 +26,7 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onResponse(String response) {
-        if("".equals(response)) {
+        if(response.isEmpty()) {
             ecsCallback.onResponse(true);
         }else{
             ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),""+response,9000);
