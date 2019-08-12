@@ -24,7 +24,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_24dp"
-                android:text="@string/USR_Receive_Philips_News_Meaning_lbltxt"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:textSize="@dimen/reg_text_size_20" />
 
@@ -33,7 +32,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_16dp"
-                android:text="@string/USR_DLS_PhilipsNews_Description_Text"
                 android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 reglib:fontPath="fonts/centralesansbook.ttf" />
 

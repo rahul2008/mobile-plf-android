@@ -24,6 +24,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -96,7 +97,9 @@ public class URInterface implements UappInterface {
             RegistrationContentConfiguration registrationContentConfiguration = ((URLaunchInput) uappLaunchInput).
                     getRegistrationContentConfiguration();
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);
-
+            ConsentStates personalConsentStatus = ((URLaunchInput) uappLaunchInput).
+                    getUserPersonalConsentStatus();
+            bundle.putSerializable(RegConstants.PERSONAL_CONSENT, personalConsentStatus);
 
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             registrationFragment.setArguments(bundle);
@@ -169,7 +172,9 @@ public class URInterface implements UappInterface {
             Bundle bundle = new Bundle();
 
             RegistrationLaunchMode registrationLaunchMode = ((URLaunchInput) uappLaunchInput).getEndPointScreen();
-
+            ConsentStates personalConsentStatus = ((URLaunchInput) uappLaunchInput).
+                    getUserPersonalConsentStatus();
+            bundle.putSerializable(RegConstants.PERSONAL_CONSENT, personalConsentStatus);
             bundle.putSerializable(RegConstants.REGISTRATION_UI_FLOW, uiFlow);
             bundle.putSerializable(RegConstants.REGISTRATION_LAUNCH_MODE, registrationLaunchMode);
             bundle.putSerializable(RegConstants.REGISTRATION_CONTENT_CONFIG, registrationContentConfiguration);

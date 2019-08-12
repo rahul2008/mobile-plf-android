@@ -35,6 +35,8 @@ public class AppTaggingPages {
 
 	public static final String PHILIPS_ANNOUNCEMENT = "registration:philipsannouncement";
 
+	public static final String PERSONAL_CONSENT = "registration:personalconsent";
+
 	public static final String FACEBOOK = "registration:facebook";
 
 	public static final String GOOGLE_PLUS = "registration:googleplus";

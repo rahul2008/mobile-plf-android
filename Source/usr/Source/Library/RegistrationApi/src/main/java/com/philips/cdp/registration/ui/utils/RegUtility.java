@@ -32,9 +32,11 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.utility.AIUtility;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -118,6 +120,24 @@ public class RegUtility {
         receivePhilipsNewsView.setText(receivePhilipsNews);
         String link = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
+    }
+
+    /**
+     * @param receivePersonalConsent
+     * @param activity
+     * @param receivePersonalConsentClickListener
+     * @param contentConfiguration
+     * @since 1904
+     */
+    public static void linkifyPersonalConsent(TextView receivePersonalConsent,
+                                              final Activity activity, ClickableSpan
+                                                      receivePersonalConsentClickListener, RegistrationContentConfiguration contentConfiguration) {
+        String receivePhilipsNews = activity.getString(contentConfiguration.getPersonalConsentDefinition().getText());
+        String doesThisMeanStr = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
+        receivePersonalConsent.setText(receivePhilipsNews);
+        String link = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
+        setupLinkify(receivePersonalConsent, activity, receivePersonalConsentClickListener, receivePhilipsNews, link);
     }
 
     /**

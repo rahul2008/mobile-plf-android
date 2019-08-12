@@ -30,6 +30,10 @@ public class AppTagingConstants {
 
     public static final String ACCEPT_TERMS_OPTION_OUT = "termsAndConditionsOptOut";
 
+    public static final String ACCEPT_PERSONAL_CONSENT_OPTION_IN = "personalConsentOptIn";
+
+    public static final String ACCEPT_PERSONAL_CONSENT_OPTION_OUT = "personalConsentOptOut";
+
     public static final String REMARKETING_OPTION_OUT = "remarketingOptOut";
 
     public static final String SUCCESS_LOGIN = "successLogin";
