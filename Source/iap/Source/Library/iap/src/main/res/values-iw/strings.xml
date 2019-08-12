@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">ביטול תשלום</string>
   <string name="iap_Payment_failure">תקלה בתשלום</string>
+  <string name="iap_accepted_codes">קודים מקובלים</string>
+  <string name="iap_access_token_notfound">אסימון הגישה לא נמצא</string>
   <string name="iap_add_new_address">הוסף כתובת חדשה</string>
   <string name="iap_add_new_payment_method">הוסף אמצעי תשלום חדש</string>
   <string name="iap_add_payment_method">הוסף אמצעי תשלום חדש</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">הזן שורת כתובת 1</string>
   <string name="iap_address_line_two">שורת כתובת 2</string>
   <string name="iap_address_line_two_hint">(אופציונלי)</string>
+  <string name="iap_agree_privacy">בביצוע ההזמנה אני מקבל ומסכים לחיוב מצד פיליפס</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">החל</string>
+  <string name="iap_apply_gift">אשר קוד שובר שי</string>
   <string name="iap_authentication_failure">האימות נכשל</string>
   <string name="iap_billing_address">כתובת לחיוב</string>
   <string name="iap_billing_address_is_same">זהה לכתובת למשלוח</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">מעבר לקופה</string>
   <string name="iap_checkout_payment_method">בחר בשיטת התשלום</string>
   <string name="iap_checkout_steps">שלב %s מתוך 3: כתובת</string>
+  <string name="iap_checkout_steps_overview">שלב %s מתוך 3: סקירה כללית</string>
   <string name="iap_checkoutsummary_steps_overview">שלב 3 מתוך 3: סקירה כללית</string>
   <string name="iap_claim_voucher">ממש שובר</string>
   <string name="iap_confirm">אישור</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">הזן CVV/CVC עבור </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">זהו קוד בן 3 ספרות שמופיע בגב כרטיס האשראי או החיוב שלך. לחלופין, אם יש לך כרטיס \'אמריקן אקספרס\', זהו הקוד בן 4 הספרות שמוצג בצד הקדמי של הכרטיס.</string>
+  <string name="iap_daily_selling_product">Daily Collection Miniblender</string>
   <string name="iap_delete">מחק</string>
   <string name="iap_delete_address">מוחק כתובת למשלוח</string>
   <string name="iap_delete_item_alert_message">האם אתה בטוח שברצונך למחוק פריט זה?</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">עגלת הקניות שלך ריקה כרגע</string>
   <string name="iap_empty_purchase_history">אם ביצעת הזמנה באמצעות האפליקציה, בדוק בתיבת הדואר אם הגיע דוא\"ל אישור.</string>
   <string name="iap_empty_purchase_history_dls">אם ביצעת את ההזמנה דרך יישום אחר, ודא שקיבלת אישור הזמנה בדוא״ל.</string>
+  <string name="iap_enter_gift_code">הזן קוד מבצע או שובר שי</string>
   <string name="iap_enter_promo_code">הזן קוד מבצע או שובר שי</string>
   <string name="iap_enter_promotional_voucher">הזן את שובר המבצע</string>
   <string name="iap_expert_reviews">חוות דעת של מומחים</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">שם פרטי</string>
   <string name="iap_first_name_error">הזן שם פרטי תקף</string>
   <string name="iap_first_name_hint">הזן שם פרטי</string>
+  <string name="iap_free_Delivery">בהזמנה זו המשלוח ללא תשלום</string>
   <string name="iap_go_to_checkout">מעבר לקופה</string>
   <string name="iap_handed_to_courier">נמסר למוביל</string>
   <string name="iap_help_other_by_reviewing">כתוב חוות דעת וסייע לאחרים לקבל החלטה נכונה עבורם!</string>
   <string name="iap_houseNumber_error">נא להזין את מספר הבית</string>
+  <string name="iap_house_no_error">‏מספר בית שגוי</string>
   <string name="iap_house_number">מספר הבית</string>
   <string name="iap_house_number_hint">‏הזן מספר בית</string>
   <string name="iap_in_stock">במלאי</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">הזן שם משפחה</string>
   <string name="iap_less_review">הצג פחות</string>
   <string name="iap_mastercard">מאסטרקארד</string>
+  <string name="iap_more_info">מידע נוסף</string>
   <string name="iap_more_review">הצג יותר</string>
   <string name="iap_mr">מר</string>
   <string name="iap_mrs">גב\'</string>
   <string name="iap_my_orders">ההזמנות שלי</string>
+  <string name="iap_no_checkout">פונקציית מעבר לקופה של פיליפס אינה זמינה במדינה זו.</string>
   <string name="iap_no_do_not_delete">לא, אל תמחק</string>
   <string name="iap_no_internet">נראה שחיבור האינטרנט שלך אינו פועל. בדוק ונסה שוב</string>
   <string name="iap_no_items">אין כאן עדיין פריטים...</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">לא נשלחה עדיין</string>
   <string name="iap_nothing_in_cart">העגלה שלך ריקה</string>
   <string name="iap_number_of_product">%s מוצר(ים)</string>
+  <string name="iap_number_of_products">%s מוצרים</string>
   <string name="iap_ok">אישור</string>
   <string name="iap_one_click_buy">קנה שוב בלחיצה אחת</string>
   <string name="iap_opening_hours">שעות הפעילות של מוקד שירות לקוחות:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">היסטוריית הזמנות</string>
   <string name="iap_order_not_received_items">ההזמנה לא נקלטה</string>
   <string name="iap_order_number">מספר הזמנה : </string>
+  <string name="iap_order_number_msg">מספר הזמנה: %s</string>
   <string name="iap_order_pending">ההזמנה שלך בהמתנה</string>
   <string name="iap_order_picked">FedEx אסף את ההזמנה שלך בתאריך</string>
   <string name="iap_order_processing">מעבד</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">מיקוד</string>
   <string name="iap_postal_code_error">הזן מיקוד תקף</string>
   <string name="iap_postal_code_hint">הזן מיקוד</string>
+  <string name="iap_privacy">הודעת הפרטיות</string>
   <string name="iap_proceed">המשך</string>
+  <string name="iap_product">מוצר</string>
   <string name="iap_product_added">המוצר נוסף לעגלת הקניות שלך</string>
   <string name="iap_product_catalog">מוצרים</string>
   <string name="iap_product_detail_title"> פרטי המוצר</string>
   <string name="iap_product_not_found">לא מצאנו מוצרים עבור</string>
+  <string name="iap_product_remove_address">כתובתך תימחק לצמיתות. האם אתה בטוח?</string>
   <string name="iap_product_remove_description">המוצר יוסר מעגלת הקניות. האם אתה בטוח?</string>
   <string name="iap_products_unavailable">אין מוצרים זמינים</string>
+  <string name="iap_promotional_gift">קוד מבצע או שובר שי</string>
   <string name="iap_quantity">כמות: %s</string>
   <string name="iap_rate_it">נשמח לקבל מכם חוות דעת, בין אם חיובית או שלילית!</string>
+  <string name="iap_read">קרא את</string>
   <string name="iap_read_full_review">קרא סקירה מלאה</string>
+  <string name="iap_read_privacy">קראתי</string>
   <string name="iap_recommend_this_product">לקוחות היו ממליצים על מוצר זה</string>
   <string name="iap_redeem_voucher">פדה שובר</string>
   <string name="iap_remove">מחק</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">שוגרה</string>
   <string name="iap_shipped_to">נשלח אל:</string>
   <string name="iap_shipping_address">כתובת למשלוח</string>
+  <string name="iap_shipping_cost">עלויות שילוח</string>
   <string name="iap_shipping_to">נשלח אל</string>
   <string name="iap_shopping_cart">עגלת קניות</string>
   <string name="iap_shopping_cart_dls">עגלת קניות</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">מדינה</string>
   <string name="iap_stock_left">נשאר במלאי</string>
   <string name="iap_success">הצלחה</string>
+  <string name="iap_terms_conditions">תנאים והתניות</string>
   <string name="iap_thank_for_order">אנו מודים לך על הזמנתך</string>
   <string name="iap_time_out">זמן קצוב</string>
   <string name="iap_time_out_error">המערכת הגיעה לזמן קצוב של הרשת!</string>
   <string name="iap_title">כותרת</string>
   <string name="iap_total">סה\"כ</string>
+  <string name="iap_total_discount">סה\"כ הנחה</string>
   <string name="iap_total_val">סה\"כ (0 פריטים)</string>
   <string name="iap_town">עיר / יישוב</string>
   <string name="iap_town_error">הזן עיר תקפה</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">מע\"מ</string>
   <string name="iap_view_invoice">הצג חשבונית</string>
   <string name="iap_voucher">שובר</string>
+  <string name="iap_voucher_applied_success">השובר אושר בהצלחה</string>
+  <string name="iap_voucher_applied_unsuccess">שלא בהצלחה</string>
+  <string name="iap_voucher_code">קוד שובר:</string>
   <string name="iap_warranty">אנו מ ספקים לכל המוצרים אחריות של שנה אחת לפחות. צוות שירות הלקוחות שלנו ישמח לעזור לך.</string>
   <string name="iap_write_review">כתוב ביקורת</string>
   <string name="iap_yes_delete">כן, מחק</string>

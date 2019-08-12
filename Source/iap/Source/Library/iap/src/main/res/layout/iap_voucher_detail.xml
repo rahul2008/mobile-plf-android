@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/iap_shopping_cart_btn_margin"
         android:paddingLeft="@dimen/border16_margin_left_right"
         android:paddingRight="@dimen/border16_margin_left_right"
-        android:text="@string/iap_voucher_apply_label"
+        android:text="@string/iap_enter_gift_code"
         />
     <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/coupon_editText"
@@ -54,7 +54,7 @@
         android:paddingRight="@dimen/border16_margin_left_right"
         android:layout_marginTop="@dimen/border16_margin_left_right"
         android:visibility="gone"
-        android:text="@string/iap_accepted_code" />
+        android:text="@string/iap_accepted_codes" />
 
     <ScrollView
         android:id="@+id/sv_header_parent"

@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Отмена платежа</string>
   <string name="iap_Payment_failure">Ошибка платежа</string>
+  <string name="iap_accepted_codes">Примененные коды</string>
+  <string name="iap_access_token_notfound">Маркер доступа не найден</string>
   <string name="iap_add_new_address">Добавить новый адрес</string>
   <string name="iap_add_new_payment_method">Добавить новый способ оплаты</string>
   <string name="iap_add_payment_method">Добавить новый способ оплаты</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Заполните адресную строку 1</string>
   <string name="iap_address_line_two">Адресная строка 2</string>
   <string name="iap_address_line_two_hint">(дополнительно)</string>
+  <string name="iap_agree_privacy">и размещением заказа подтверждаю свое согласие с</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Применить</string>
+  <string name="iap_apply_gift">Применить подарочный код</string>
   <string name="iap_authentication_failure">Ошибка аутентификации</string>
   <string name="iap_billing_address">Адрес выставления счета</string>
   <string name="iap_billing_address_is_same">Тот же адрес, что и для доставки</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Оформление заказа</string>
   <string name="iap_checkout_payment_method">Выберите способ оплаты</string>
   <string name="iap_checkout_steps">Шаг %s из 3. Адрес</string>
+  <string name="iap_checkout_steps_overview">Шаг %s из 3. Проверка данных</string>
   <string name="iap_checkoutsummary_steps_overview">Шаг 3 из 3. Проверка данных</string>
   <string name="iap_claim_voucher">Получить ваучер</string>
   <string name="iap_confirm">Подтверд.</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Введите код CVV/CVC карты </string>
   <string name="iap_cvv_cvc">Код CVV/CVC</string>
   <string name="iap_cvvpopup_info">Это 3-значный код на задней стороне вашей кредитной или дебетовой карты. Если вы являетесь клиентом American Express, это 4-значный номер на лицевой стороне карты.</string>
+  <string name="iap_daily_selling_product">Мини-блендер коллекции Daily</string>
   <string name="iap_delete">Удалить</string>
   <string name="iap_delete_address">Удаление адреса доставки</string>
   <string name="iap_delete_item_alert_message">Вы уверены, что хотите удалить элемент?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">БЕСПЛАТНАЯ доставка при покупке от 100 долларов</string>
   <string name="iap_delivery_method">Способ доставки</string>
   <string name="iap_delivery_via">Доставка курьерской службой FedEx</string>
-  <string name="iap_discount">скидка</string>
+  <string name="iap_discount">Скидка</string>
   <string name="iap_download_invoice">Загрузить счет</string>
   <string name="iap_edit">Изменить</string>
   <string name="iap_email">Электронная почта</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Ваша корзина пуста</string>
   <string name="iap_empty_purchase_history">Если вы разместили заказ, используя это приложение, письмо с подтверждением было отправлено на ваш адрес электронной почты.</string>
   <string name="iap_empty_purchase_history_dls">Если вы оформили заказ в этом приложении, убедитесь, что вы получили электронное письмо с подтверждением заказа.</string>
+  <string name="iap_enter_gift_code">Введите промокод или подарочный код</string>
   <string name="iap_enter_promo_code">Введите промокод или подарочный код</string>
   <string name="iap_enter_promotional_voucher">Укажите рекламный ваучер</string>
   <string name="iap_expert_reviews">Отзывы экспертов</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Имя</string>
   <string name="iap_first_name_error">Правильно укажите имя</string>
   <string name="iap_first_name_hint">Введите имя</string>
+  <string name="iap_free_Delivery">Для этого заказа доставка бесплатна</string>
   <string name="iap_go_to_checkout">Перейти к оформлению заказа</string>
   <string name="iap_handed_to_courier">Передан в курьерскую службу</string>
   <string name="iap_help_other_by_reviewing">Оставьте отзыв и помогите другим пользователям сделать правильный выбор!</string>
   <string name="iap_houseNumber_error">Укажите номер дома</string>
+  <string name="iap_house_no_error">Неверный номер дома</string>
   <string name="iap_house_number">Номер дома</string>
   <string name="iap_house_number_hint">Введите номер дома</string>
   <string name="iap_in_stock">в наличии</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Введите фамилию</string>
   <string name="iap_less_review">показать меньше</string>
   <string name="iap_mastercard">Mastercard</string>
+  <string name="iap_more_info">для получения дополнительной информации</string>
   <string name="iap_more_review">показать больше</string>
   <string name="iap_mr">Г-н</string>
   <string name="iap_mrs">Г-жа</string>
   <string name="iap_my_orders">Мои заказы</string>
+  <string name="iap_no_checkout">Функция оплаты Philips недоступна в этой стране.</string>
   <string name="iap_no_do_not_delete">Нет, не удалять</string>
   <string name="iap_no_internet">Похоже, у вас нет подключения к Интернету. Проверьте подключение и повторите попытку.</string>
   <string name="iap_no_items">Элементы пока отсутствуют…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Заказ еще не отправлен</string>
   <string name="iap_nothing_in_cart">В корзине нет продуктов</string>
   <string name="iap_number_of_product">Продуктов: %s</string>
+  <string name="iap_number_of_products">Продуктов: %s</string>
   <string name="iap_ok">[ru]OK</string>
   <string name="iap_one_click_buy">Повторная покупка в одно нажатие</string>
   <string name="iap_opening_hours">Время работы центра поддержки:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">История заказов</string>
   <string name="iap_order_not_received_items">Заказ не получен</string>
   <string name="iap_order_number">Номер заказа: </string>
+  <string name="iap_order_number_msg">Номер заказа: %s</string>
   <string name="iap_order_pending">Заказ находится в обработке</string>
   <string name="iap_order_picked">Ваш заказ был передан в FedEx</string>
   <string name="iap_order_processing">Обработка</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Почтовый индекс</string>
   <string name="iap_postal_code_error">Правильно укажите почтовый индекс</string>
   <string name="iap_postal_code_hint">Введите почтовый индекс</string>
+  <string name="iap_privacy">Уведомлением о конфиденциальности</string>
   <string name="iap_proceed">Продолжить</string>
+  <string name="iap_product">Продукт</string>
   <string name="iap_product_added">Продукт был добавлен в корзину</string>
   <string name="iap_product_catalog">Изделия</string>
   <string name="iap_product_detail_title"> Сведения о приборе</string>
   <string name="iap_product_not_found">Не удалось найти результаты по запросу</string>
+  <string name="iap_product_remove_address">Ваш адрес будет безвозвратно удален. Продолжить?</string>
   <string name="iap_product_remove_description">Этот продукт будет удален из корзины. Продолжить?</string>
   <string name="iap_products_unavailable">Нет доступных продуктов</string>
+  <string name="iap_promotional_gift">Промокод или подарочный код</string>
   <string name="iap_quantity">Количество: %s</string>
   <string name="iap_rate_it">Любое Ваше мнение очень важно для нас!</string>
+  <string name="iap_read">Ознакомьтесь с нашим</string>
   <string name="iap_read_full_review">Прочитать обзор целиком</string>
+  <string name="iap_read_privacy">Я ознакомился (-ась) с</string>
   <string name="iap_recommend_this_product">— столько покупателей рекомендуют этот продукт</string>
   <string name="iap_redeem_voucher">Использовать ваучер</string>
   <string name="iap_remove">Удалить</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Заказ отправлен</string>
   <string name="iap_shipped_to">Адрес доставки:</string>
   <string name="iap_shipping_address">Адрес доставки</string>
+  <string name="iap_shipping_cost">Стоимость доставки</string>
   <string name="iap_shipping_to">Адрес доставки:</string>
   <string name="iap_shopping_cart">Корзина</string>
   <string name="iap_shopping_cart_dls">Корзина</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Штат</string>
   <string name="iap_stock_left">в наличии</string>
   <string name="iap_success">Успешно</string>
+  <string name="iap_terms_conditions">Условиями и положениями Philips</string>
   <string name="iap_thank_for_order">Спасибо за заказ</string>
   <string name="iap_time_out">Время ожидания истекло</string>
   <string name="iap_time_out_error">Время ожидания ответа сети истекло!</string>
   <string name="iap_title">Заголовок</string>
   <string name="iap_total">Итого</string>
+  <string name="iap_total_discount">Общая скидка</string>
   <string name="iap_total_val">Итого (0 элементов)</string>
   <string name="iap_town">Город</string>
   <string name="iap_town_error">Правильно укажите город</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">НДС</string>
   <string name="iap_view_invoice">Просмотр счета</string>
   <string name="iap_voucher">Ваучер</string>
+  <string name="iap_voucher_applied_success">Код был успешно применен</string>
+  <string name="iap_voucher_applied_unsuccess">Не выполнено</string>
+  <string name="iap_voucher_code">Скидочный код:</string>
   <string name="iap_warranty">На все продукты действует гарантия сроком не менее одного года. Команда центра поддержки всегда рада вам помочь.</string>
   <string name="iap_write_review">Написать отзыв</string>
   <string name="iap_yes_delete">Да, удалить</string>

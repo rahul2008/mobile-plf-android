@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Platba zrušena</string>
   <string name="iap_Payment_failure">Selhání platby</string>
+  <string name="iap_accepted_codes">Přijaté kódy</string>
+  <string name="iap_access_token_notfound">Přístupový token nenalezen</string>
   <string name="iap_add_new_address">Přidat novou adresu</string>
   <string name="iap_add_new_payment_method">Přidat nový způsob platby</string>
   <string name="iap_add_payment_method">Přidat nový způsob platby</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Zadejte řádek adresy 1</string>
   <string name="iap_address_line_two">Řádek adresy 2</string>
   <string name="iap_address_line_two_hint">(volitelné)</string>
+  <string name="iap_agree_privacy">a zadáním objednávky přijímám podmínky společnosti Philips a souhlasím, že dodržím tyto</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Použít</string>
+  <string name="iap_apply_gift">Použít dárkový kód</string>
   <string name="iap_authentication_failure">Ověření se nezdařilo</string>
   <string name="iap_billing_address">Fakturační adresa</string>
   <string name="iap_billing_address_is_same">Stejná jako dodací adresa</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Pokladna</string>
   <string name="iap_checkout_payment_method">Vybrat způsob platby</string>
   <string name="iap_checkout_steps">Krok %s ze 3: Adresa</string>
+  <string name="iap_checkout_steps_overview">Kroky %s ze 3: Přehled</string>
   <string name="iap_checkoutsummary_steps_overview">Krok 3 z 3: Přehled</string>
   <string name="iap_claim_voucher">Vyžádat poukaz</string>
   <string name="iap_confirm">Potvrdit</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Zadejte CVV/CVC pro </string>
   <string name="iap_cvv_cvc">Kód CVV/CVC</string>
   <string name="iap_cvvpopup_info">Jedná se o třímístný kód na zadní straně vaší kreditní nebo debetní karty. Případně, pokud vlastníte kartu American Express, čtyřmístný kód na přední straně karty.</string>
+  <string name="iap_daily_selling_product">Minimixér Daily Collection</string>
   <string name="iap_delete">Odstranění</string>
   <string name="iap_delete_address">Odstranění dodací adresy</string>
   <string name="iap_delete_item_alert_message">Opravdu chcete tuto položku odstranit?</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Nákupní vozík je aktuálně prázdný</string>
   <string name="iap_empty_purchase_history">Pokud jste zadali objednávku pomocí této aplikace, zkontrolujte, zda je v došlé poště e-mail s potvrzením.</string>
   <string name="iap_empty_purchase_history_dls">Pokud jste objednávku vytvořili pomocí této aplikace, zkontrolujte, že jste obdrželi e-mail s potvrzením objednávky.</string>
+  <string name="iap_enter_gift_code">Zadejte reklamní nebo dárkový kód</string>
   <string name="iap_enter_promo_code">Zadejte kód propagační akce nebo dárkového kupónu</string>
   <string name="iap_enter_promotional_voucher">Zadejte poukaz z propagační akce</string>
   <string name="iap_expert_reviews">Recenze od expertů</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Křestní jméno</string>
   <string name="iap_first_name_error">Zadejte platné křestní jméno</string>
   <string name="iap_first_name_hint">Zadejte jméno</string>
+  <string name="iap_free_Delivery">Pro tuto objednávku je dodání zdarma</string>
   <string name="iap_go_to_checkout">Přejít k pokladně</string>
   <string name="iap_handed_to_courier">Předáno přepravci</string>
   <string name="iap_help_other_by_reviewing">Napište recenzi a pomozte ostatním s rozhodováním.</string>
   <string name="iap_houseNumber_error">Zadejte číslo domu</string>
+  <string name="iap_house_no_error">Nesprávné číslo domu</string>
   <string name="iap_house_number">Číslo domu</string>
   <string name="iap_house_number_hint">Zadat číslo domu</string>
   <string name="iap_in_stock">na skladě</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Zadejte příjmení</string>
   <string name="iap_less_review">zobrazit méně</string>
   <string name="iap_mastercard">MasterCard</string>
+  <string name="iap_more_info">– bližší info</string>
   <string name="iap_more_review">zobrazit více</string>
   <string name="iap_mr">Pan</string>
   <string name="iap_mrs">Paní</string>
   <string name="iap_my_orders">Objednávky</string>
+  <string name="iap_no_checkout">Funkce pokladny Philips není pro tuto zemi dostupná.</string>
   <string name="iap_no_do_not_delete">Ne, neodstraňovat</string>
   <string name="iap_no_internet">Připojení k internetu zřejmě nefunguje. Zkontrolujte a zopakujte akci</string>
   <string name="iap_no_items">Zatím zde nejsou žádné položky…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Zatím neodesláno</string>
   <string name="iap_nothing_in_cart">Váš košík je prázdný</string>
   <string name="iap_number_of_product">Výrobek %s</string>
+  <string name="iap_number_of_products">%s výrobky/výrobků</string>
   <string name="iap_ok">[cs]OK</string>
   <string name="iap_one_click_buy">Znovu koupit jedním kliknutím</string>
   <string name="iap_opening_hours">Provozní doba telefonického centra:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Historie objednávky</string>
   <string name="iap_order_not_received_items">Objednávka nebyla přijata</string>
   <string name="iap_order_number">Číslo objednávky: </string>
+  <string name="iap_order_number_msg">Číslo objednávky: %s</string>
   <string name="iap_order_pending">Objednávka čeká na vyřízení</string>
   <string name="iap_order_picked">Objednávka byla vyzvednuta přepravcem FedEx v</string>
   <string name="iap_order_processing">Zpracování</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">PSČ</string>
   <string name="iap_postal_code_error">Zadejte platné PSČ</string>
   <string name="iap_postal_code_hint">Zadejte PSČ</string>
+  <string name="iap_privacy">Oznámení o ochraně osobních údajů</string>
   <string name="iap_proceed">Pokračovat</string>
+  <string name="iap_product">Výrobek</string>
   <string name="iap_product_added">Výrobek byl přidán do nákupního vozíku</string>
   <string name="iap_product_catalog">Výrobky</string>
   <string name="iap_product_detail_title"> Podrobnosti o výrobku</string>
   <string name="iap_product_not_found">Nenalezli jsme žádné výrobky pro</string>
+  <string name="iap_product_remove_address">Vaše adresa bude trvale odstraněna. Jste si jisti?</string>
   <string name="iap_product_remove_description">Výrobek bude odstraněn z nákupního košíku. Jste si jistí?</string>
   <string name="iap_products_unavailable">Výrobky nejsou k dispozici</string>
+  <string name="iap_promotional_gift">Propagační nebo dárkový kód</string>
   <string name="iap_quantity">Množství: %s</string>
   <string name="iap_rate_it">Spokojeni nebo nespokojeni, dejte nám vědět!</string>
+  <string name="iap_read">Čtěte naše</string>
   <string name="iap_read_full_review">Přečíst celou recenzi</string>
+  <string name="iap_read_privacy">Přečetl/a jsem si</string>
   <string name="iap_recommend_this_product">zákazníků by doporučilo tento výrobek</string>
   <string name="iap_redeem_voucher">Uplatnit poukaz</string>
   <string name="iap_remove">Odstranit</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Odesláno</string>
   <string name="iap_shipped_to">Odesláno do:</string>
   <string name="iap_shipping_address">Dodací adresa</string>
+  <string name="iap_shipping_cost">Náklady na dopravu</string>
   <string name="iap_shipping_to">Odesílání do</string>
   <string name="iap_shopping_cart">Nákupní košík</string>
   <string name="iap_shopping_cart_dls">Nákupní košík</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Stát</string>
   <string name="iap_stock_left">zůstává skladem</string>
   <string name="iap_success">Úspěch</string>
+  <string name="iap_terms_conditions">Podmínky</string>
   <string name="iap_thank_for_order">Děkujeme za objednávku</string>
   <string name="iap_time_out">Časový limit</string>
   <string name="iap_time_out_error">Vypršelo připojení k síti!</string>
   <string name="iap_title">Název</string>
   <string name="iap_total">Celkem</string>
+  <string name="iap_total_discount">Celková sleva</string>
   <string name="iap_total_val">Celkem (0 položek)</string>
   <string name="iap_town">Město</string>
   <string name="iap_town_error">Zadejte platné město</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">DPH</string>
   <string name="iap_view_invoice">Zobrazit fakturu</string>
   <string name="iap_voucher">Poukaz</string>
+  <string name="iap_voucher_applied_success">Poukaz úspěšně uplatněn</string>
+  <string name="iap_voucher_applied_unsuccess">Neúspěšné</string>
+  <string name="iap_voucher_code">Kód poukazu:</string>
   <string name="iap_warranty">Naše společnost na všechny svoje výrobky poskytuje záruku v délce nejméně jednoho roku. Tým péče o zákazníky naší společnosti vám rád pomůže.</string>
   <string name="iap_write_review">Napsat recenzi</string>
   <string name="iap_yes_delete">Ano, odstranit</string>
