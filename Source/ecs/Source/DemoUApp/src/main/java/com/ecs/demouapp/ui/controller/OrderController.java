@@ -19,7 +19,10 @@ import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 
 import java.util.ArrayList;
@@ -49,10 +52,27 @@ public class OrderController implements AbstractModel.DataLoadListener {
     }
 
     public void getOrderList(int pageNo) {
-        HashMap<String, String> query = new HashMap<>();
+
+        ECSUtility.getInstance().getEcsServices().getOrderHistory(pageNo, new ECSCallback<OrdersData, Exception>() {
+            @Override
+            public void onResponse(OrdersData result) {
+                Message message = new Message();
+                message.obj = result;
+                mOrderListener.onGetOrderList(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+                Message message = new Message();
+                message.obj = error;
+                mOrderListener.onGetOrderList(message);
+            }
+        });
+       /* HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CURRENT_PAGE, String.valueOf(pageNo));
         OrderHistoryRequest model = new OrderHistoryRequest(getStore(), query, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_ORDERS, model, model);
+        getHybrisDelegate().sendRequest(RequestCode.GET_ORDERS, model, model);*/
     }
 
     public void getOrderDetails(String orderNumber) {
