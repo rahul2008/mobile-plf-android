@@ -179,6 +179,14 @@ public class RegistrationConfiguration {
     }
 
 
+    public String getPRAPIKey(){
+        String prApiKey = appConfiguration.getPRApiKey();
+        if(null  == prApiKey){
+            RLog.e(TAG, "getPRAPIKey:Product registration api key is null");
+        }
+        return prApiKey;
+    }
+
     /**
      * Status of email verification required
      *

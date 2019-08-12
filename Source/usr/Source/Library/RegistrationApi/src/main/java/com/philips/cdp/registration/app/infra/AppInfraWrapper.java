@@ -12,6 +12,8 @@ public class AppInfraWrapper {
 
     private static final String GROUP_APP_INFRA = "appinfra";
     private static final String GROUP_USER_REGISTRATION = "UserRegistration";
+    private static final String GROUP_PR_REGISTRATION = "ProductRegistration";
+
 
     private final AppInfraInterface appInfra;
     private final AppConfigurationError error;
@@ -31,6 +33,11 @@ public class AppInfraWrapper {
 
     public Object getURProperty(String key) {
         return getProperty(key, GROUP_USER_REGISTRATION);
+    }
+
+
+    public Object getPRProperty(String key) {
+        return getProperty(key, GROUP_PR_REGISTRATION);
     }
 
     private Object getProperty(String key, String group) {
