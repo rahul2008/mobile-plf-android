@@ -433,7 +433,7 @@ public class UserWithProducts {
 
     protected void mapRegistrationResponse(final RegistrationResponseNewData registrationResponse, final RegisteredProduct registeredProduct) {
         final RegistrationResponseNewData data = registrationResponse;
-        registeredProduct.setEndWarrantyDate(data.getData().getAttributes().getExtendedWarrantyMonths()+"");
+        registeredProduct.setEndWarrantyDate(data.getData().getAttributes().getExtendedWarrantyExpires()+"");
         registeredProduct.setContractNumber(data.getData().getAttributes().getSerialNumber());
     }
 
