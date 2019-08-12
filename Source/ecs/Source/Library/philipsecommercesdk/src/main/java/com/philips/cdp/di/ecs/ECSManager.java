@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
@@ -26,6 +27,7 @@ import com.philips.cdp.di.ecs.request.CreateAddressRequest;
 import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.GetPaymentDetailRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
 import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
@@ -566,4 +568,13 @@ public class ECSManager {
         new GetRetailersInfoRequest(ecsCallback,productID).executeRequest();
     }
     //===================================================== End of Address ====================================================
+    //===================================================== Start of Payment ====================================================
+    public void GetPaymentDetailRequest(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+        new GetPaymentDetailRequest(ecsCallback).executeRequest();
+    }
+
+
+
 }
+
+
