@@ -3,6 +3,7 @@ package com.philips.cdp.di.ecs;
 import com.philips.cdp.di.ecs.Address.MockCreateAddressRequest;
 import com.philips.cdp.di.ecs.Address.MockDeleteAddressRequest;
 import com.philips.cdp.di.ecs.Address.MockGetAddressRequest;
+import com.philips.cdp.di.ecs.Address.MockSetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.Address.MockUpdateAddressRequest;
 import com.philips.cdp.di.ecs.Cart.MockAddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.Cart.MockCreateECSShoppingCartRequest;
@@ -338,6 +339,21 @@ public class MockECSManager extends ECSManager {
                 ecsCallback.onFailure(error,detailErrorMessage,errorCode);
             }
         }).executeRequest();
+    }
+
+    @Override
+    public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+       new MockSetDeliveryAddressRequest(getJsonFileNameMockECSManager(), address.getId(), new ECSCallback<Boolean, Exception>() {
+           @Override
+           public void onResponse(Boolean result) {
+               ecsCallback.onResponse(result);
+           }
+
+           @Override
+           public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+               ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+           }
+       }).executeRequest();
     }
 
     @Override
