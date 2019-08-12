@@ -369,7 +369,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     }
 
     private void callSocialProvider(String providerName) {
-
+        trackMultipleActionsLogin(providerName);
         if (homePresenter.isNetworkAvailable()) {
             homePresenter.trackSocialProviderPage();
             if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
@@ -626,6 +626,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
     void myPhilipsButtonClick() {
         RLog.i(TAG, TAG + ".myPhilipsButton Clicked ");
         if (mRegError.isShown()) hideNotificationBarView();// mRegError.hideError();
+        trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
         launchSignInFragment();
     }
 
@@ -639,6 +640,7 @@ public class HomeFragment extends RegistrationBaseFragment implements NetworkSta
                     onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
             trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                     AppTagingConstants.SKIP_REGISTRATION);
+            trackMultipleActionsLogin(AppTagingConstants.SKIP_REGISTRATION);
         } else {
             RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
         }
