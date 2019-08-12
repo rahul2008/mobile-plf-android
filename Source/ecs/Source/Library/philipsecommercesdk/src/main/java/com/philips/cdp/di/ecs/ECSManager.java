@@ -9,11 +9,13 @@ import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
@@ -25,11 +27,14 @@ import com.philips.cdp.di.ecs.request.CreateAddressRequest;
 import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.GetPaymentsRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
+import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.SetPaymentMethodRequest;
 import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.request.UpdateAddressRequest;
 import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
@@ -560,7 +565,31 @@ public class ECSManager {
             }
         }).executeRequest();
     }
+
+    public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+        new GetRetailersInfoRequest(ecsCallback,productID).executeRequest();
+    }
     //===================================================== End of Address ====================================================
+    //===================================================== Start of Payment ====================================================
+
+    public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+        new GetPaymentsRequest(ecsCallback).executeRequest();
+    }
+
+    public void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback) {
+        new SetPaymentMethodRequest(paymentDetailsId, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+
+                ecsCallback.onResponse(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
+            }
+        }).executeRequest();
+    }
 
 
 
@@ -569,3 +598,5 @@ public class ECSManager {
     }
 
 }
+
+

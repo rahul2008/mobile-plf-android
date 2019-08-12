@@ -18,11 +18,11 @@ import com.ecs.demouapp.ui.adapters.BuyFromRetailersAdapter;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 

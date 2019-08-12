@@ -10,11 +10,13 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSConstant;
@@ -207,6 +209,26 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
+    public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+        mECSManager.getPayments(ecsCallback);
+    }
+
+    @Override
+    public void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback) {
+        mECSManager.setPaymentMethod(paymentDetailsId,ecsCallback);
+    }
+
+    @Override
+    public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+       mECSManager.getRetailers(productID,ecsCallback);
+    }
+
+    @Override
+    public void getRetailers(Product product, ECSCallback<WebResults, Exception> ecsCallback) {
+        mECSManager.getRetailers(product.getCode(),ecsCallback);
+    }
+
+    @Override
     public void preparePayment(String cartId, ECSCallback<URL, Exception> ecsCallback) {
         mECSManager.preparePayment(cartId,ecsCallback);
     }
@@ -216,9 +238,5 @@ public class ECSServices implements ECSServiceProvider {
         localeArray = locale.split("_");
         ECSConfig.INSTANCE.setCountry(localeArray[1]);
     }
-
-
-
-
 
 }
