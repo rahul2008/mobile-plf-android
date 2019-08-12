@@ -10,6 +10,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
@@ -203,6 +204,11 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         mECSManager.deleteAddress(address,ecsCallback);
+    }
+
+    @Override
+    public void GetPaymentDetailRequest(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+
     }
 
     private void setLangAndCountry(String locale) {

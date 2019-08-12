@@ -6,6 +6,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
@@ -100,4 +101,6 @@ public interface ECSServiceProvider {
     void setDefaultAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 
     void deleteAddress(Addresses address,ECSCallback<GetShippingAddressData, Exception> ecsCallback);
+
+    void GetPaymentDetailRequest(ECSCallback<PaymentMethods,Exception> ecsCallback);
 }
