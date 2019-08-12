@@ -31,6 +31,7 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
@@ -41,8 +42,6 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListen
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_VALUE;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_VALUE;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_VALUE;
 
@@ -326,7 +325,7 @@ public class UserWithProducts {
             String accessToken = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
             registrationRequest.setAccessToken(accessToken);
             registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
-            registrationRequest.setApiKey(PROD_REG_APIKEY_VALUE);
+            registrationRequest.setApiKey(RegistrationConfiguration.getInstance().getPRAPIKey());
             registrationRequest.setApiVersion(PROD_REG_APIVERSION_VALUE);
             registrationRequest.setContentType(PROD_REG_CONTENTTYYPE_VALUE);
 
