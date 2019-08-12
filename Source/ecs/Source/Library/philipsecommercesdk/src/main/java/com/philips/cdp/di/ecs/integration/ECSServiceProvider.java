@@ -12,6 +12,7 @@ import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -100,4 +101,6 @@ public interface ECSServiceProvider {
     void setDefaultAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 
     void deleteAddress(Addresses address,ECSCallback<GetShippingAddressData, Exception> ecsCallback);
+
+    void preparePayment(String CartId, ECSCallback<URL, Exception> ecsCallback);
 }

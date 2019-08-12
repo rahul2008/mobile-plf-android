@@ -46,6 +46,7 @@ import com.philips.cdp.di.ecs.request.OAuthRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -560,4 +561,11 @@ public class ECSManager {
         }).executeRequest();
     }
     //===================================================== End of Address ====================================================
+
+
+
+    public void  preparePayment(String cartId, ECSCallback<URL, Exception> ecsCallback){
+
+    }
+
 }

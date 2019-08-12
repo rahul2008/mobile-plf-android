@@ -23,6 +23,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -203,6 +204,11 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         mECSManager.deleteAddress(address,ecsCallback);
+    }
+
+    @Override
+    public void preparePayment(String cartId, ECSCallback<URL, Exception> ecsCallback) {
+        mECSManager.preparePayment(cartId,ecsCallback);
     }
 
     private void setLangAndCountry(String locale) {

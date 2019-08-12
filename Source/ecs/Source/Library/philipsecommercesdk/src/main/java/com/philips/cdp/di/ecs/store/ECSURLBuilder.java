@@ -400,8 +400,14 @@ public class ECSURLBuilder extends AbstractStore {
     }
 
     @Override
-    public String getMakePaymentUrl(String id) {
-        return String.format(mMakePaymentUrl, id);
+    public String getMakePaymentUrl(String orderId) {
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+
+                SUFFIX_ORDERS+
+                SEPERATOR+orderId+
+                SUFFIX_PAY;
     }
 
     @Override
