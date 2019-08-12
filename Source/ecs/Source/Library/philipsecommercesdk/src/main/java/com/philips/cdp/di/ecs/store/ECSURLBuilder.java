@@ -391,12 +391,25 @@ public class ECSURLBuilder extends AbstractStore {
     //Payment
     @Override
     public String getPaymentDetailsUrl() {
-        return mGetPaymentDetailsUrl;
+
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+
+                SUFFIX_PAYMENT_DETAILS+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
     }
 
     @Override
     public String getSetPaymentDetailsUrl() {
-        return mSetPaymentDetailsUrl;
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_CARTS+SEPERATOR+
+                SUFFIX_CURRENT+
+                SUFFIX_PAYMENT_DETAILS+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
     }
 
     @Override

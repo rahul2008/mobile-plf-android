@@ -102,5 +102,7 @@ public interface ECSServiceProvider {
 
     void deleteAddress(Addresses address,ECSCallback<GetShippingAddressData, Exception> ecsCallback);
 
-    void GetPaymentDetailRequest(ECSCallback<PaymentMethods,Exception> ecsCallback);
+    void getPayments(ECSCallback<PaymentMethods,Exception> ecsCallback);
+
+    void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback);
 }

@@ -26,12 +26,13 @@ import com.philips.cdp.di.ecs.request.CreateAddressRequest;
 import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
-import com.philips.cdp.di.ecs.request.GetPaymentDetailRequest;
+import com.philips.cdp.di.ecs.request.GetPaymentsRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.SetPaymentMethodRequest;
 import com.philips.cdp.di.ecs.request.SetVoucherRequest;
 import com.philips.cdp.di.ecs.request.UpdateAddressRequest;
 import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
@@ -563,12 +564,25 @@ public class ECSManager {
     }
     //===================================================== End of Address ====================================================
     //===================================================== Start of Payment ====================================================
-    public void GetPaymentDetailRequest(ECSCallback<PaymentMethods, Exception> ecsCallback) {
-        new GetPaymentDetailRequest(ecsCallback).executeRequest();
+
+    public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+        new GetPaymentsRequest(ecsCallback).executeRequest();
     }
 
+    public void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback) {
+        new SetPaymentMethodRequest(paymentDetailsId, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
 
+                ecsCallback.onResponse(result);
+            }
 
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
+            }
+        }).executeRequest();
+    }
 }
 
 
