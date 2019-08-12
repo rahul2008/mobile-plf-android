@@ -19,8 +19,8 @@ import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.response.orders.Address;
-import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -402,7 +402,7 @@ public class Utility {
     }
 
     public boolean isPhilipsShop(StoreEntity storeEntity) {
-        return storeEntity.getIsPhilipsStore().equalsIgnoreCase("Y");
+        return storeEntity.isPhilipsStore().equalsIgnoreCase("Y");
     }
 
 }

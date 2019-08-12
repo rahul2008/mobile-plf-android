@@ -7,35 +7,28 @@ package com.ecs.demouapp.ui.cart;
 import android.content.Context;
 import android.os.Message;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.model.GetRetailersInfoRequest;
-import com.ecs.demouapp.ui.response.retailers.StoreEntity;
-import com.ecs.demouapp.ui.response.retailers.WebResults;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPJsonRequest;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
-import com.ecs.demouapp.ui.session.NetworkConstants;
-import com.ecs.demouapp.ui.session.VolleyWrapper;
 import com.ecs.demouapp.ui.store.StoreListener;
-import com.ecs.demouapp.ui.utils.ECSLog;
-import com.ecs.demouapp.ui.utils.ModelConstants;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
+import com.philips.cdp.di.ecs.model.retailers.WebResults;
 
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 @SuppressWarnings("rawtypes")
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
@@ -70,102 +63,43 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
 
     @Override
     public void getRetailersInformation(final String ctn) {
-        Map<String, String> query = new HashMap<>();
-        query.put(ModelConstants.PRODUCT_CODE, String.valueOf(ctn));
 
-        GetRetailersInfoRequest model = new GetRetailersInfoRequest(getStore(), query,
-                new AbstractModel.DataLoadListener() {
-                    @Override
-                    public void onModelDataLoadFinished(Message msg) {
-                        WebResults webResults = null;
-
-                        if (msg.obj instanceof WebResults) {
-                            webResults = (WebResults) msg.obj;
-                        }
-
-                        if (webResults == null) {
-                            trackRetailer(ctn);
-                            mLoadListener.onRetailerError(NetworkUtility.getInstance().
-                                    createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
-                            return;
-                        }
-
-                        if (webResults.getWrbresults().getOnlineStoresForProduct() == null ||
-                                webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null ||
-                                webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
-                            if (mLoadListener != null) {
-                                trackRetailer(ctn);
-                                mLoadListener.onRetailerError(NetworkUtility.getInstance().
-                                        createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
-                            }
-                            return;
-                        }
-
-                        mStoreList = (ArrayList<StoreEntity>) webResults.getWrbresults().
-                                getOnlineStoresForProduct().getStores().getStore();
-                        handlePhilipsFlagShipStore();
-                        refreshList(mStoreList);
-                    }
-
-                    @Override
-                    public void onModelDataError(final Message msg) {
-                        handleModelDataError(msg);
-                    }
-                });
-
-
-        Response.ErrorListener error = new Response.ErrorListener() {
+        ECSUtility.getInstance().getEcsServices().getRetailers(ctn, new ECSCallback<WebResults, Exception>() {
             @Override
-            public void onErrorResponse(final VolleyError error) {
+            public void onResponse(WebResults webResults) {
 
-                if (model.getUrl() != null && error != null) {
-                    ECSLog.d(ECSLog.LOG, "Response from sendHybrisRequest onError =" + error
-                            .getLocalizedMessage() + " requestCode=" + 0 + "in " +
-                            model.getClass().getSimpleName() + " " + model.getUrl().substring(0, 20));
+                if (webResults == null) {
+                    trackRetailer(ctn);
+                    mLoadListener.onRetailerError(NetworkUtility.getInstance().
+                            createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
+                    return;
                 }
-                if (error != null && error.getMessage() != null) {
-                    ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
-                            ECSAnalyticsConstant.ERROR, error.getMessage());
+
+                if (webResults.getWrbresults().getOnlineStoresForProduct() == null ||
+                        webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null ||
+                        webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
+                    if (mLoadListener != null) {
+                        trackRetailer(ctn);
+                        mLoadListener.onRetailerError(NetworkUtility.getInstance().
+                                createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
+                    }
+                    return;
                 }
-                if (model != null) {
-                    new IAPNetworkError(error, 0, model);
-                }
+
+                mStoreList = (ArrayList<StoreEntity>) webResults.getWrbresults().
+                        getOnlineStoresForProduct().getStores().getStore();
+                handlePhilipsFlagShipStore();
+                refreshList(mStoreList);
             }
-        };
-
-        Response.Listener<JSONObject> response = new Response.Listener<JSONObject>() {
 
             @Override
-            public void onResponse(final JSONObject response) {
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
 
-                if (model != null) {
-                    Message msg = Message.obtain();
-                    msg.what = 0;
-
-                    if (response != null && response.length() == 0) {
-                        msg.obj = NetworkConstants.EMPTY_RESPONSE;
-                    } else {
-                        msg.obj = model.parseResponse(response);
-                    }
-
-                    model.onSuccess(msg);
-
-
-                    //For testing purpose
-                    if (model.getUrl() != null) {
-                        ECSLog.d(ECSLog.LOG, "Response from sendHybrisRequest onFetchOfProductList =" + msg + " requestCode=" + 0 + "in " +
-                                model.getClass().getSimpleName() + "env = " + " " + model.getUrl().substring(0, 15));
-                    }
-                }
+                Message message = new Message();
+                message.obj = error;
+                handleModelDataError(message);
             }
-        };
-
-        IAPJsonRequest iapJsonRequest = getIapJsonRequest(model, error, response);
-
-        RequestQueue requestQueue = VolleyWrapper.newRequestQueue(mContext, null);
-        requestQueue.add(iapJsonRequest);
-
-        //getHybrisDelegate().sendRequest(0, model, model);
+        });
     }
 
     IAPJsonRequest getIapJsonRequest(final AbstractModel model, final Response.ErrorListener error, final Response.Listener<JSONObject> response) {
@@ -183,7 +117,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         Iterator<StoreEntity> iterator = mStoreList.iterator();
         while (iterator.hasNext()) {
             StoreEntity entity = iterator.next();
-            if (PHILIPS_STORE.equalsIgnoreCase(entity.getIsPhilipsStore())
+            if (PHILIPS_STORE.equalsIgnoreCase(entity.isPhilipsStore())
                     && !ControllerFactory.getInstance().isPlanB()) {
                 iterator.remove();
             }

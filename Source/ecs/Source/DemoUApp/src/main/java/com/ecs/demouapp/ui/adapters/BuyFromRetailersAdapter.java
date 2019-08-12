@@ -15,9 +15,9 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
-import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 
 
 import java.util.ArrayList;
