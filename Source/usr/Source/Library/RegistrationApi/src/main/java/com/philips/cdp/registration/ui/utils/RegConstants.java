@@ -121,4 +121,10 @@ public class RegConstants {
     public static final String NOTIFICATION = "NOTIFICATION";
 
     public static final String REGISTRATION_API_PREFERENCE = "REGAPI_PREFERENCE";
+
+    public static final String PHILIPS_NEWS_TITLE = "PHILIPS_NEWS_TITLE";
+
+    public static final String PHILIPS_NEWS_DISCRETION = "PHILIPS_NEWS_DISCRETION";
+
+    public static final String PERSONAL_CONSENT = "PERSONAL_CONSENT";
 }

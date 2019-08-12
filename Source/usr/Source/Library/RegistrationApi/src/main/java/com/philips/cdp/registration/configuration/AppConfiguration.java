@@ -22,6 +22,7 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_SKIP_LOGIN;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_UUID_UPLOAD_IN_ANALYTICS;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.IS_FACEBOOK_SDK_SUPPORTED;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.PERSONAL_CONSENT_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SHOW_COUNTRY_SELECTION;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SIGNIN_PROVIDERS;
@@ -159,6 +160,10 @@ public class AppConfiguration extends BaseConfiguration {
         return appInfraWrapper.getURProperty(HSDP_UUID_UPLOAD_IN_ANALYTICS);
     }
 
+    public Object getPersonalConsentAcceptanceRequired() {
+        RLog.d(TAG, "getPersonalConsentAcceptanceRequired  ");
+        return appInfraWrapper.getURProperty(PERSONAL_CONSENT_REQUIRED);
+    }
 
     public Object getDelayedHsdpLoginStatus() {
         return appInfraWrapper.getURProperty(HSDP_SKIP_LOGIN);

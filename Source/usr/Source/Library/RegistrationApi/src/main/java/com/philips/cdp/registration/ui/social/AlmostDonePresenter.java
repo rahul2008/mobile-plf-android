@@ -105,7 +105,7 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     }
 
     private boolean setMarketingOptinVisible() {
-        return (RegUtility.getUiFlow() != UIFlow.FLOW_B)? true : mUser.isTermsAndConditionAccepted();
+        return (RegUtility.getUiFlow() != UIFlow.FLOW_B) ? true : mUser.isTermsAndConditionAccepted();
     }
 
     public void updateTermsAndReceiveMarketingOpt(boolean optinState) {
@@ -345,11 +345,16 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     }
 
     public void handleTraditionalTermsAndCondition() {
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
             if (almostDoneContract.isAcceptTermsChecked()) {
                 almostDoneContract.handleAcceptTermsTrue();
             } else {
                 almostDoneContract.showTermsAndConditionError();
+            }
+            if (almostDoneContract.isAcceptPersonalConsentChecked()) {
+                almostDoneContract.handleAcceptPersonalConsentTrue();
+            } else {
+                almostDoneContract.showPersonalConsentError();
             }
         } else {
             almostDoneContract.completeRegistration();
@@ -357,11 +362,16 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
     }
 
     public void handleSocialTermsAndCondition() {
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && almostDoneContract.isAcceptTermsContainerVisible()) {
-            if (almostDoneContract.isAcceptTermsChecked()) {
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && almostDoneContract.isAcceptTermsContainerVisible()) {
+            if (almostDoneContract.isAcceptTermsChecked() && almostDoneContract.isAcceptPersonalConsentChecked()) {
                 register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
             } else {
                 almostDoneContract.showTermsAndConditionError();
+            }
+            if (almostDoneContract.isAcceptPersonalConsentChecked()) {
+                almostDoneContract.handleAcceptPersonalConsentTrue();
+            } else {
+                almostDoneContract.showPersonalConsentError();
             }
         } else {
             register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
