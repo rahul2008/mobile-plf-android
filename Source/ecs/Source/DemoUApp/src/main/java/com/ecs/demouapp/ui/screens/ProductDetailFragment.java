@@ -38,7 +38,6 @@ import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.response.retailers.StoreEntity;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
@@ -57,6 +56,7 @@ import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
+import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrors;
@@ -504,7 +504,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             return;
         Bundle bundle = new Bundle();
         final ArrayList<StoreEntity> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
-        if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
+        if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).isPhilipsStore().equalsIgnoreCase("Y"))) {
             bundle.putString(ECSConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
             bundle.putString(ECSConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
             bundle.putBoolean(ECSConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntities.get(0)));

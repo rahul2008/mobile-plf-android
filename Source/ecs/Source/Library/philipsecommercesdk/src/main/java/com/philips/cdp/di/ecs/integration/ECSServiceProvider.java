@@ -10,6 +10,7 @@ import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 
 import java.util.List;
@@ -100,4 +101,8 @@ public interface ECSServiceProvider {
     void setDefaultAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 
     void deleteAddress(Addresses address,ECSCallback<GetShippingAddressData, Exception> ecsCallback);
+
+    void getRetailers(String productID, ECSCallback<WebResults,Exception> ecsCallback);
+
+    void getRetailers(Product product, ECSCallback<WebResults,Exception> ecsCallback);
 }

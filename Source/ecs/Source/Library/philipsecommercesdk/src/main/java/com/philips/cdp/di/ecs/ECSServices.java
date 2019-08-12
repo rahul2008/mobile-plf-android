@@ -15,6 +15,7 @@ import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSConstant;
@@ -180,8 +181,7 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
-        mECSManager.createNewAddress(address, ecsCallback,true
-        );
+        mECSManager.createNewAddress(address, ecsCallback,true);
     }
 
     @Override
@@ -203,6 +203,16 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         mECSManager.deleteAddress(address,ecsCallback);
+    }
+
+    @Override
+    public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+       mECSManager.getRetailers(productID,ecsCallback);
+    }
+
+    @Override
+    public void getRetailers(Product product, ECSCallback<WebResults, Exception> ecsCallback) {
+        mECSManager.getRetailers(product.getCode(),ecsCallback);
     }
 
     private void setLangAndCountry(String locale) {

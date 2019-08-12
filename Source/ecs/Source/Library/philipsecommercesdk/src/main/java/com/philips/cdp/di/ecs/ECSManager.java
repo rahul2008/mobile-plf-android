@@ -14,6 +14,7 @@ import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
@@ -26,6 +27,7 @@ import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
+import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
@@ -558,6 +560,10 @@ public class ECSManager {
                 ecsCallback.onFailure(error,detailErrorMessage,errorCode);
             }
         }).executeRequest();
+    }
+
+    public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+        new GetRetailersInfoRequest(ecsCallback,productID).executeRequest();
     }
     //===================================================== End of Address ====================================================
 }
