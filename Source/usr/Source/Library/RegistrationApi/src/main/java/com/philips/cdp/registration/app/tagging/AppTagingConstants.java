@@ -143,4 +143,6 @@ public class AppTagingConstants {
     public static String KEY_SKIP_SECURE_DATA = "skipSecureData";
 
     public static String FIREBASE_SUCCESSFUL_REGISTRATION_DONE = "successful_registration_done";
+
+    public static final String LOGIN_CHANNEL = "loginChannel";
 }
