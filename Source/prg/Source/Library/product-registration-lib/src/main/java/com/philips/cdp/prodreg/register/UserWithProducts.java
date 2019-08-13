@@ -31,6 +31,7 @@ import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
@@ -41,8 +42,6 @@ import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListen
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIKEY_VALUE;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_APIVERSION_VALUE;
 import static com.philips.cdp.prodreg.constants.ProdRegConstants.PROD_REG_CONTENTTYYPE_VALUE;
 
@@ -306,7 +305,7 @@ public class UserWithProducts {
     @NonNull
     protected RegistrationRequest getRegistrationRequest(final Context context, final RegisteredProduct registeredProduct) {
         RegistrationRequest registrationRequest = new RegistrationRequest(registeredProduct.getCtn(), ProdRegConstants.REGISTRATIONREQUEST_SERVICE_ID, registeredProduct.getSector(),
-                registeredProduct.getCatalog());
+                registeredProduct.getCatalog(), mUserDataInterface.isOIDCToken());
         registrationRequest.setSector(registeredProduct.getSector());
         registrationRequest.setCatalog(registeredProduct.getCatalog());
         registrationRequest.setRegistrationChannel(getUserProduct().getRegistrationChannel());
@@ -319,12 +318,14 @@ public class UserWithProducts {
             detailskey.add(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
             detailskey.add(UserDetailConstants.ACCESS_TOKEN);
             HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailskey);
-            boolean isRcvMrktEmail = (boolean) userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            boolean isRcvMrktEmail = false;
+            if(userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL)!=null){
+                 isRcvMrktEmail = (boolean) userDetailsMap.get(UserDetailConstants.RECEIVE_MARKETING_EMAIL);
+            }
             String accessToken = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
-
             registrationRequest.setAccessToken(accessToken);
             registrationRequest.setReceiveMarketEmail(isRcvMrktEmail);
-            registrationRequest.setApiKey(PROD_REG_APIKEY_VALUE);
+            registrationRequest.setApiKey(RegistrationConfiguration.getInstance().getPRAPIKey());
             registrationRequest.setApiVersion(PROD_REG_APIVERSION_VALUE);
             registrationRequest.setContentType(PROD_REG_CONTENTTYYPE_VALUE);
 
@@ -432,7 +433,7 @@ public class UserWithProducts {
 
     protected void mapRegistrationResponse(final RegistrationResponseNewData registrationResponse, final RegisteredProduct registeredProduct) {
         final RegistrationResponseNewData data = registrationResponse;
-        registeredProduct.setEndWarrantyDate(data.getData().getAttributes().getExtendedWarrantyMonths()+"");
+        registeredProduct.setEndWarrantyDate(data.getData().getAttributes().getExtendedWarrantyExpires()+"");
         registeredProduct.setContractNumber(data.getData().getAttributes().getSerialNumber());
     }
 
@@ -473,4 +474,5 @@ public class UserWithProducts {
     protected void setCurrentRegisteredProduct(final RegisteredProduct currentRegisteredProduct) {
         this.currentRegisteredProduct = currentRegisteredProduct;
     }
+
 }

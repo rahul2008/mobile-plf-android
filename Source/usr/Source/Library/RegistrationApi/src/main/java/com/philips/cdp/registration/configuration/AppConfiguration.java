@@ -35,6 +35,7 @@ public class AppConfiguration extends BaseConfiguration {
     private static final String WE_CHAT_APP_ID_KEY = "weChatAppId";
     private static final String WE_CHAT_APP_SECRET_KEY = "weChatAppSecret";
     private static final String CLIENT_ID_KEY = "JanRainConfiguration.RegistrationClientID.";
+    private static final String PR_API_KEY ="ApiKey";
 
     public String getWeChatAppId() {
         Object weChatAppIdObject = appInfraWrapper.getURProperty(WE_CHAT_APP_ID_KEY);
@@ -72,6 +73,10 @@ public class AppConfiguration extends BaseConfiguration {
         }
         RLog.d(TAG, "getServiceDiscoveryCountryMapping : ");
         return hashMap;
+    }
+    public String getPRApiKey(){
+        RLog.d(TAG, "getPRApiKey : " + appInfraWrapper.getPRProperty(PR_API_KEY));
+        return  appInfraWrapper.getPRProperty(PR_API_KEY).toString();
     }
 
     public String getRegistrationEnvironment() {

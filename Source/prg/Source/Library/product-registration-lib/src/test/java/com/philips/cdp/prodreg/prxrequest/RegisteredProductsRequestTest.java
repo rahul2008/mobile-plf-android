@@ -22,7 +22,7 @@ public class RegisteredProductsRequestTest extends TestCase {
         super.setUp();
         sector = PrxConstants.Sector.B2C;
         catalog = PrxConstants.Catalog.CONSUMER;
-        registeredProductsRequest = new RegisteredProductsRequest(mCtn, mSerialNumber,sector,catalog);
+        registeredProductsRequest = new RegisteredProductsRequest(mCtn, mSerialNumber,sector,catalog, true);
     }
 
 //    @Test

@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Plaćanje poništeno</string>
   <string name="iap_Payment_failure">Plaćanje nije uspjelo</string>
+  <string name="iap_accepted_codes">Prihvaćeni kodovi</string>
+  <string name="iap_access_token_notfound">Pristupni token nije pronađen</string>
   <string name="iap_add_new_address">Dodaj novu adresu</string>
   <string name="iap_add_new_payment_method">Dodaj novi način plaćanja</string>
   <string name="iap_add_payment_method">Dodaj novi način plaćanja</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Unesite adresu 1</string>
   <string name="iap_address_line_two">Adresa 2</string>
   <string name="iap_address_line_two_hint">(opcionalno)</string>
+  <string name="iap_agree_privacy">te slanjem narudžbe prihvaćam obveze prema tvrtki Philips i slažem se s njima</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Primijeni</string>
+  <string name="iap_apply_gift">Primijeni darovni kôd</string>
   <string name="iap_authentication_failure">Provjera autentičnosti nije uspjela</string>
   <string name="iap_billing_address">Adresa za plaćanje</string>
   <string name="iap_billing_address_is_same">Jednaka adresi za isporuku</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Plaćanje</string>
   <string name="iap_checkout_payment_method">Odabir načina plaćanja</string>
   <string name="iap_checkout_steps">Korak %s od 3: adresa</string>
+  <string name="iap_checkout_steps_overview">Korak %s od 3: pregled</string>
   <string name="iap_checkoutsummary_steps_overview">Korak 3 od 3: pregled</string>
   <string name="iap_claim_voucher">Zatraži vaučer</string>
   <string name="iap_confirm">Potvrdi</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Unesite CVV/CVC za </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">To je 3-znamenkasta šifra na poleđini kreditne ili debitne kartice. Umjesto toga, ako imate American Express, to je 4-znamenkasti broj na prednjoj strani kartice.</string>
+  <string name="iap_daily_selling_product">Daily Collection Mini blender</string>
   <string name="iap_delete">Izbriši</string>
   <string name="iap_delete_address">Brisanje adrese za isporuku</string>
   <string name="iap_delete_item_alert_message">Jeste li sigurni da želite izbrisati stavku?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Dostava je BESPLATNA kada potrošite 100 USD ili više</string>
   <string name="iap_delivery_method">Način dostave</string>
   <string name="iap_delivery_via">Dostava FedEx-om</string>
-  <string name="iap_discount">popust</string>
+  <string name="iap_discount">Popust</string>
   <string name="iap_download_invoice">Preuzmite račun</string>
   <string name="iap_edit">Uredi</string>
   <string name="iap_email">E-pošta</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Vaša košarica trenutno je prazna</string>
   <string name="iap_empty_purchase_history">Ako ste naručili putem ove aplikacije, provjerite je li vam stigla poruka e-pošte s potvrdom u ulazni spremnik.</string>
   <string name="iap_empty_purchase_history_dls">Ako ste narudžbu predali s pomoću ove aplikacije, provjerite jeste li dobili poruku e-pošte s potvrdom narudžbe.</string>
+  <string name="iap_enter_gift_code">Unesite promocijski ili darovni kôd</string>
   <string name="iap_enter_promo_code">Unesite promocijski ili darovni kôd</string>
   <string name="iap_enter_promotional_voucher">Unesite promotivni vaučer</string>
   <string name="iap_expert_reviews">Stručne recenzije</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Ime</string>
   <string name="iap_first_name_error">Unesite valjano ime</string>
   <string name="iap_first_name_hint">Unesite ime</string>
+  <string name="iap_free_Delivery">Dostava je besplatna za ovu narudžbu</string>
   <string name="iap_go_to_checkout">Idi na plaćanje</string>
   <string name="iap_handed_to_courier">Predano dostavljačkoj službi</string>
   <string name="iap_help_other_by_reviewing">Napišite recenziju i pomozite drugim ljudima da donesu odgovarajuću odluku!</string>
   <string name="iap_houseNumber_error">Unesite kućni broj</string>
+  <string name="iap_house_no_error">Pogrešan kućni broj</string>
   <string name="iap_house_number">Kućni broj</string>
   <string name="iap_house_number_hint">Unesite kućni broj</string>
   <string name="iap_in_stock">na zalihama</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Unesite prezime</string>
   <string name="iap_less_review">prikaži manje</string>
   <string name="iap_mastercard">Master card</string>
+  <string name="iap_more_info">za više informacija</string>
   <string name="iap_more_review">prikaži više</string>
   <string name="iap_mr">G.</string>
   <string name="iap_mrs">Gđica</string>
   <string name="iap_my_orders">Narudžbe</string>
+  <string name="iap_no_checkout">Philips funkcija plaćanja nije dostupna za ovu državu.</string>
   <string name="iap_no_do_not_delete">Ne, nemoj izbrisati</string>
   <string name="iap_no_internet">Čini se da vaša internetska veza ne radi. Provjerite i pokušajte ponovo</string>
   <string name="iap_no_items">Još nema stavaka…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Još nije otpremljeno</string>
   <string name="iap_nothing_in_cart">Košarica je prazna</string>
   <string name="iap_number_of_product">Proizvod %s</string>
+  <string name="iap_number_of_products">Proizvoda: %s</string>
   <string name="iap_ok">[hr]OK</string>
   <string name="iap_one_click_buy">Kupite ponovo 1 pritiskom</string>
   <string name="iap_opening_hours">Radno vrijeme pozivnog centra:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Prethodne narudžbe</string>
   <string name="iap_order_not_received_items">Narudžba nije primljena</string>
   <string name="iap_order_number">Broj narudžbe: </string>
+  <string name="iap_order_number_msg">Broj narudžbe: %s</string>
   <string name="iap_order_pending">Narudžba je na čekanju</string>
   <string name="iap_order_picked">FedEx je preuzeo vašu narudžbu</string>
   <string name="iap_order_processing">Obrada</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Poštanski broj</string>
   <string name="iap_postal_code_error">Unesite valjani poštanski broj</string>
   <string name="iap_postal_code_hint">Unesite poštanski broj</string>
+  <string name="iap_privacy">Obavijest o privatnosti</string>
   <string name="iap_proceed">Nastavak</string>
+  <string name="iap_product">Proizvod</string>
   <string name="iap_product_added">Proizvod je dodan u košaricu</string>
   <string name="iap_product_catalog">Proizvodi</string>
   <string name="iap_product_detail_title"> Detalji o proizvodu</string>
   <string name="iap_product_not_found">Nismo našli nijedan proizvod za</string>
+  <string name="iap_product_remove_address">Vaša će se adresa trajno izbrisati. Jeste li sigurni?</string>
   <string name="iap_product_remove_description">Proizvod će se ukloniti iz košarice. Jeste li sigurni?</string>
   <string name="iap_products_unavailable">Nema dostupnih proizvoda</string>
+  <string name="iap_promotional_gift">Promocijski ili darovni kôd</string>
   <string name="iap_quantity">Količina: %s</string>
   <string name="iap_rate_it">Sviđao vam se ili ne, bilo bi nam drago da ga ocijenite!</string>
+  <string name="iap_read">Pročitajte</string>
   <string name="iap_read_full_review">Pročitajte cijelu recenziju</string>
+  <string name="iap_read_privacy">Pročitao/la sam</string>
   <string name="iap_recommend_this_product">korisnici preporučuju ovaj proizvod</string>
   <string name="iap_redeem_voucher">Iskoristi vaučer</string>
   <string name="iap_remove">Uklanjanje</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Otpremljeno</string>
   <string name="iap_shipped_to">Otpremljeno na:</string>
   <string name="iap_shipping_address">Adresa za isporuku</string>
+  <string name="iap_shipping_cost">Troškovi isporuke</string>
   <string name="iap_shipping_to">Isporučuje se na</string>
   <string name="iap_shopping_cart">Košarica</string>
   <string name="iap_shopping_cart_dls">Košarica</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Država</string>
   <string name="iap_stock_left">preostalo na zalihama</string>
   <string name="iap_success">Uspješno</string>
+  <string name="iap_terms_conditions">Odredbe i uvjeti</string>
   <string name="iap_thank_for_order">Hvala vam na narudžbi</string>
   <string name="iap_time_out">Vremensko ograničenje</string>
   <string name="iap_time_out_error">Dosegnuto je vremensko ograničenje mreže.</string>
   <string name="iap_title">Naslov</string>
   <string name="iap_total">Ukupno</string>
+  <string name="iap_total_discount">Ukupni popust</string>
   <string name="iap_total_val">Ukupno (0 stavaka)</string>
   <string name="iap_town">Mjesto/grad</string>
   <string name="iap_town_error">Unesite valjano mjesto</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">PDV</string>
   <string name="iap_view_invoice">Prikaz računa</string>
   <string name="iap_voucher">Vaučer</string>
+  <string name="iap_voucher_applied_success">Vaučer je uspješno primijenjen</string>
+  <string name="iap_voucher_applied_unsuccess">Nije uspjelo</string>
+  <string name="iap_voucher_code">Kôd vaučera:</string>
   <string name="iap_warranty">Za sve proizvode dajemo barem jednu godinu jamstva. Naš tim korisničke podrške rado će vam pomoći.</string>
   <string name="iap_write_review">Napišite recenziju</string>
   <string name="iap_yes_delete">Da, izbriši</string>

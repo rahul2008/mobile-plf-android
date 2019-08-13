@@ -12,6 +12,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
@@ -45,7 +46,7 @@ public class PIMUserManager {
 
     public enum LOGIN_FLOW {
         DEFAULT,
-        MIGRATION;
+        MIGRATION
     }
 
     public void init(@NonNull Context context, @NonNull AppInfraInterface appInfraInterface) {
@@ -80,7 +81,7 @@ public class PIMUserManager {
         }, error -> {
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
             if (userProfileRequestListener != null)
-                userProfileRequestListener.onUserProfileDownloadFailed(new Error(Error.UserDetailError.NetworkError));
+                userProfileRequestListener.onUserProfileDownloadFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
         });
     }
 
@@ -127,9 +128,11 @@ public class PIMUserManager {
             pimoidcUserProfile = null;
             logoutSessionListener.logoutSessionSuccess();
         }, error -> {
-            logoutSessionListener.logoutSessionFailed(new Error(Error.UserDetailError.NetworkError));
+            mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
+            logoutSessionListener.logoutSessionFailed(new Error(PIMErrorEnums.NETWORK_ERROR.errorCode, PIMErrorEnums.getLocalisedErrorDesc(context, PIMErrorEnums.NETWORK_ERROR.errorCode)));
         });
     }
+
 
     private void storeUserProfileToSecureStorage(String jsonUserProfileResponse) {
         if (isUUIDAvailable()) {

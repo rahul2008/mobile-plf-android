@@ -19,6 +19,7 @@ import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
 import com.philips.platform.pim.listeners.PIMUserProfileDownloadListener;
 import com.philips.platform.pim.models.PIMOIDCUserProfile;
@@ -64,7 +65,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({PIMSettingManager.class, PIMOIDCConfigration.class, PIMUserManager.class, PIMAuthManager.class})
+@PrepareForTest({PIMSettingManager.class, PIMOIDCConfigration.class, PIMUserManager.class, PIMAuthManager.class, PIMErrorEnums.class})
 @RunWith(PowerMockRunner.class)
 public class PIMUserManagerTest extends TestCase {
 
@@ -101,6 +102,7 @@ public class PIMUserManagerTest extends TestCase {
         super.setUp();
         MockitoAnnotations.initMocks(this);
 
+        mockStatic(PIMErrorEnums.class);
         mockStatic(PIMSettingManager.class);
         RestInterface mockRestInterface = mock(RestInterface.class);
         PIMSettingManager mockPimSettingManager = mock(PIMSettingManager.class);
@@ -223,7 +225,8 @@ public class PIMUserManagerTest extends TestCase {
         verify(mockLogoutListener).logoutSessionSuccess();
 
         Response.ErrorListener errorListener = errorArgumentCaptor.getValue();
-        errorListener.onErrorResponse(any(VolleyError.class));
+        VolleyError volleyError = new VolleyError();
+        errorListener.onErrorResponse(volleyError);
         verify(mockLogoutListener).logoutSessionFailed(any(Error.class));
     }
 
@@ -266,7 +269,7 @@ public class PIMUserManagerTest extends TestCase {
         verify(mockLogoutListener).logoutSessionSuccess();
 
         Response.ErrorListener errorListener = errorArgumentCaptor.getValue();
-        errorListener.onErrorResponse(any(VolleyError.class));
+        errorListener.onErrorResponse(new VolleyError());
         verify(mockLogoutListener).logoutSessionFailed(any(Error.class));
     }
 
@@ -319,7 +322,7 @@ public class PIMUserManagerTest extends TestCase {
     }
 
     @Test
-    public void testFetchUserDetails(){
+    public void testFetchUserDetails() {
         ArrayList<String> keyList = new ArrayList<>();
         keyList.add(UserDetailConstants.GIVEN_NAME);
         PIMOIDCUserProfile pimoidcUserProfile = new PIMOIDCUserProfile(readUserProfileResponseJson(), mockAuthState);

@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Ακύρωση πληρωμής</string>
   <string name="iap_Payment_failure">Αποτυχία πληρωμής</string>
+  <string name="iap_accepted_codes">Αποδεκτοί κωδικοί</string>
+  <string name="iap_access_token_notfound">Δεν βρέθηκε διακριτικό πρόσβασης</string>
   <string name="iap_add_new_address">Προσθήκη νέας διεύθυνσης</string>
   <string name="iap_add_new_payment_method">Προσθήκη νέας μεθόδου πληρωμής</string>
   <string name="iap_add_payment_method">Προσθήκη νέου τρόπου πληρωμής</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Εισαγάγετε τη γραμμή διεύθυνσης 1</string>
   <string name="iap_address_line_two">Γραμμή διεύθυνσης 2</string>
   <string name="iap_address_line_two_hint">(προαιρετικά)</string>
+  <string name="iap_agree_privacy">και με την υποβολή της παραγγελίας, αποδέχομαι και συμφωνώ με τους</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Εφαρμογή</string>
+  <string name="iap_apply_gift">Εφαρμογή κωδικού δώρου</string>
   <string name="iap_authentication_failure">Ο έλεγχος ταυτότητας απέτυχε</string>
   <string name="iap_billing_address">Διεύθυνση χρέωσης</string>
   <string name="iap_billing_address_is_same">Ίδια με τη διεύθυνση αποστολής</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Ολοκλήρωση αγοράς</string>
   <string name="iap_checkout_payment_method">Επιλέξτε μέθοδο πληρωμής</string>
   <string name="iap_checkout_steps">Βήμα %s από 3: Διεύθυνση</string>
+  <string name="iap_checkout_steps_overview">Βήματα %s από 3: Επισκόπηση</string>
   <string name="iap_checkoutsummary_steps_overview">Βήμα 3 από 3: Επισκόπηση</string>
   <string name="iap_claim_voucher">Διεκδίκηση κουπονιού</string>
   <string name="iap_confirm">Επιβεβαίωση</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Εισαγάγετε CVV/CVC για </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Πρόκειται για τον 3ψήφιο αριθμό στο πίσω μέρος της πιστωτικής ή της χρεωστικής σας κάρτας. Εναλλακτικά, αν έχετε American Express, πρόκειται για τον 4ψήφιο αριθμό στο μπροστινό μέρος της κάρτας.</string>
+  <string name="iap_daily_selling_product">Μίνι μπλέντερ Daily Collection</string>
   <string name="iap_delete">Διαγραφή</string>
   <string name="iap_delete_address">Γίνεται διαγραφή της διεύθυνσης αποστολής</string>
   <string name="iap_delete_item_alert_message">Είστε βέβαιοι ότι θέλετε να διαγράψετε το είδος;</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Η παράδοση είναι ΔΩΡΕΑΝ για αγορές από 100 $ και άνω</string>
   <string name="iap_delivery_method">Τρόπος παράδοσης</string>
   <string name="iap_delivery_via">Παράδοση μέσω FedEx</string>
-  <string name="iap_discount">έκπτωση</string>
+  <string name="iap_discount">Έκπτωση</string>
   <string name="iap_download_invoice">Λήψη τιμολογίου</string>
   <string name="iap_edit">Επεξεργασία</string>
   <string name="iap_email">[el]Email</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Το καλάθι αγορών είναι άδειο</string>
   <string name="iap_empty_purchase_history">Αν υποβάλατε μια παραγγελία χρησιμοποιώντας αυτήν την εφαρμογή, ελέγξτε την αλληλογραφία σας για να δείτε αν έχετε λάβει το email επιβεβαίωσης.</string>
   <string name="iap_empty_purchase_history_dls">Αν υποβάλατε την παραγγελία σας από αυτήν την εφαρμογή, βεβαιωθείτε ότι έχετε λάβει ένα email επιβεβαίωσης παραγγελίας.</string>
+  <string name="iap_enter_gift_code">Εισάγετε τον κωδικό προώθησης ή δώρου</string>
   <string name="iap_enter_promo_code">Εισαγάγετε τον κωδικό προσφοράς ή τον κωδικό δώρου</string>
   <string name="iap_enter_promotional_voucher">Εισαγάγετε το προωθητικό κουπόνι σας</string>
   <string name="iap_expert_reviews">Κριτικές ειδικών</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Όνομα</string>
   <string name="iap_first_name_error">Εισαγάγετε έγκυρο όνομα</string>
   <string name="iap_first_name_hint">Γράψτε το μικρό σας όνομα</string>
+  <string name="iap_free_Delivery">Η παράδοση είναι δωρεάν για αυτήν την παραγγελία</string>
   <string name="iap_go_to_checkout">Μετάβαση στην Ολοκλήρωση αγοράς</string>
   <string name="iap_handed_to_courier">Έγινε παράδοση στην εταιρεία ταχυμεταφοράς</string>
   <string name="iap_help_other_by_reviewing">Γράψτε μια κριτική και βοηθήστε άλλα άτομα να κάνουν τη σωστή επιλογή!</string>
   <string name="iap_houseNumber_error">Εισαγάγετε τον αριθμό του σπιτιού</string>
+  <string name="iap_house_no_error">Λάθος αριθμός σπιτιού</string>
   <string name="iap_house_number">Αριθμός σπιτιού</string>
   <string name="iap_house_number_hint">Εισαγάγετε αριθμό σπιτιού</string>
   <string name="iap_in_stock">σε απόθεμα</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Εισαγάγετε το επώνυμό σας</string>
   <string name="iap_less_review">εμφάνιση λιγότερων</string>
   <string name="iap_mastercard">MasterCard</string>
+  <string name="iap_more_info">για περισσότερες πληροφορίες</string>
   <string name="iap_more_review">εμφάνιση περισσότερων</string>
   <string name="iap_mr">Κος</string>
   <string name="iap_mrs">Κα</string>
   <string name="iap_my_orders">Οι παραγγελίες μου</string>
+  <string name="iap_no_checkout">Η λειτουργία εξόδου Philips δεν είναι διαθέσιμη για αυτήν τη χώρα.</string>
   <string name="iap_no_do_not_delete">Όχι, να μην γίνει διαγραφή</string>
   <string name="iap_no_internet">Η σύνδεσή σας στο Internet πιθανόν να μην λειτουργεί. Ελέγξτε τη και δοκιμάστε ξανά</string>
   <string name="iap_no_items">Δεν υπάρχουν ακόμα είδη…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Δεν έχει γίνει ακόμα αποστολή</string>
   <string name="iap_nothing_in_cart">Δεν υπάρχει τίποτα στο καλάθι σας</string>
   <string name="iap_number_of_product">%s προϊόντα</string>
+  <string name="iap_number_of_products">%s προϊόντα</string>
   <string name="iap_ok">[el]OK</string>
   <string name="iap_one_click_buy">Επανάληψη αγοράς με 1 κλικ</string>
   <string name="iap_opening_hours">Ώρες λειτουργίας του τηλεφωνικού κέντρου:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Ιστορικό παραγγελίας</string>
   <string name="iap_order_not_received_items">Η παραγγελία δεν ελήφθη</string>
   <string name="iap_order_number">Αριθμός παραγγελίας: </string>
+  <string name="iap_order_number_msg">Αριθμός παραγγελίας: %s</string>
   <string name="iap_order_pending">Η παραγγελία σας εκκρεμεί</string>
   <string name="iap_order_picked">Η FedEx παρέλαβε την παραγγελία σας στις</string>
   <string name="iap_order_processing">Επεξεργασία</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Ταχ. κώδικας</string>
   <string name="iap_postal_code_error">Εισαγάγετε έγκυρο ταχυδρομικό κώδικα</string>
   <string name="iap_postal_code_hint">Εισαγάγετε τον ταχυδρομικό κώδικα</string>
+  <string name="iap_privacy">Δήλωση ιδιωτικού απορρήτου</string>
   <string name="iap_proceed">Συνέχιση</string>
+  <string name="iap_product">Προϊόν</string>
   <string name="iap_product_added">Το προϊόν προστέθηκε στο καλάθι αγορών</string>
   <string name="iap_product_catalog">Προϊόντα</string>
   <string name="iap_product_detail_title"> Λεπτομέρειες προϊόντος</string>
   <string name="iap_product_not_found">Δεν βρέθηκαν προϊόντα για</string>
+  <string name="iap_product_remove_address">Η διεύθυνσή σας θα διαγραφεί οριστικά. Είστε σίγουροι;</string>
   <string name="iap_product_remove_description">Το προϊόν θα αφαιρεθεί από το καλάθι αγορών σας. Είστε βέβαιοι;</string>
   <string name="iap_products_unavailable">Δεν υπάρχουν διαθέσιμα προϊόντα</string>
+  <string name="iap_promotional_gift">Κωδικός προώθησης ή δώρου</string>
   <string name="iap_quantity">Ποσότητα: %s</string>
   <string name="iap_rate_it">Καλά ή κακά σχόλια, τα θέλουμε όλα!</string>
+  <string name="iap_read">Διαβάστε τη</string>
   <string name="iap_read_full_review">Διαβάστε ολόκληρη την κριτική</string>
+  <string name="iap_read_privacy">Έχω διαβάσει τη</string>
   <string name="iap_recommend_this_product">πελάτες θα συνιστούσαν αυτό το προϊόν</string>
   <string name="iap_redeem_voucher">Εξαργύρωση κουπονιού</string>
   <string name="iap_remove">Αφαίρεση</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Έχει γίνει αποστολή</string>
   <string name="iap_shipped_to">Έγινε αποστολή σε:</string>
   <string name="iap_shipping_address">Διεύθυνση αποστολής</string>
+  <string name="iap_shipping_cost">Κόστος αποστολής</string>
   <string name="iap_shipping_to">Αποστολή σε</string>
   <string name="iap_shopping_cart">Καλάθι αγορών</string>
   <string name="iap_shopping_cart_dls">Καλάθι αγορών</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Πόλη</string>
   <string name="iap_stock_left">ακόμα σε απόθεμα</string>
   <string name="iap_success">Επιτυχής</string>
+  <string name="iap_terms_conditions">Όρους και προϋποθέσεις της Philips</string>
   <string name="iap_thank_for_order">Σας ευχαριστούμε για την παραγγελία σας</string>
   <string name="iap_time_out">Λήξη χρονικού ορίου</string>
   <string name="iap_time_out_error">Το χρονικό όριο του δικτύου εξαντλήθηκε!</string>
   <string name="iap_title">Τίτλος</string>
   <string name="iap_total">Σύνολο</string>
+  <string name="iap_total_discount">Συνολική έκπτωση</string>
   <string name="iap_total_val">Σύνολο (0 είδη)</string>
   <string name="iap_town">Πόλη</string>
   <string name="iap_town_error">Εισαγάγετε έγκυρη πόλη</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">ΦΠΑ</string>
   <string name="iap_view_invoice">Προβολή τιμολογίου</string>
   <string name="iap_voucher">Κουπόνι</string>
+  <string name="iap_voucher_applied_success">Το κουπόνι εφαρμόστηκε επιτυχώς</string>
+  <string name="iap_voucher_applied_unsuccess">Απέτυχε</string>
+  <string name="iap_voucher_code">Κωδικός κουπονιού:</string>
   <string name="iap_warranty">Για όλα τα προϊόντα παρέχουμε εγγύηση τουλάχιστον ενός έτους. Η ομάδα εξυπηρέτησης καταναλωτών θα χαρεί να σας βοηθήσει.</string>
   <string name="iap_write_review">Γράψτε μια κριτική</string>
   <string name="iap_yes_delete">Ναι, να γίνει διαγραφή</string>

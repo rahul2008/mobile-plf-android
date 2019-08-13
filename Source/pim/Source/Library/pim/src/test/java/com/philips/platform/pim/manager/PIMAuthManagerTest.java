@@ -8,6 +8,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pim.R;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.errors.PIMErrorEnums;
 import com.philips.platform.pim.fragment.PIMFragment;
 import com.philips.platform.pim.listeners.PIMAuthServiceConfigListener;
 import com.philips.platform.pim.listeners.PIMTokenRequestListener;
@@ -53,7 +54,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @PrepareForTest({Uri.class, AuthorizationServiceConfiguration.class, PIMSettingManager.class, PIMAuthManager.class, AuthorizationResponse.class, AuthorizationRequest.Builder.class,
-        AuthorizationRequest.class, AuthorizationException.class})
+        AuthorizationRequest.class, AuthorizationException.class, PIMErrorEnums.class})
 @RunWith(PowerMockRunner.class)
 public class PIMAuthManagerTest extends TestCase {
 
@@ -99,7 +100,7 @@ public class PIMAuthManagerTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
-
+        mockStatic(PIMErrorEnums.class);
         mockStatic(PIMSettingManager.class);
         mockStatic(AuthorizationResponse.class);
         mockStatic(AuthorizationException.class);
@@ -136,14 +137,14 @@ public class PIMAuthManagerTest extends TestCase {
 
 
     @Test
-    public void shouldFetchFromUrl_Verify_OnError() {
+    public void shouldFetchFromUrl_Verify_OnError() throws Exception {
         pimAuthManager.fetchAuthWellKnownConfiguration(baseurl, mockConfigurationListener);
 
         PowerMockito.verifyStatic(AuthorizationServiceConfiguration.class);
         AuthorizationServiceConfiguration.fetchFromUrl(ArgumentMatchers.any(Uri.class), captorRetrieveConfigCallback.capture());
 
         mockConfigurationCallback = captorRetrieveConfigCallback.getValue();
-        AuthorizationException ex = new AuthorizationException(0, 0, null, null, null, null);
+        AuthorizationException ex = new AuthorizationException(0, 2100, null, null, null, null);
         mockConfigurationCallback.onFetchConfigurationCompleted(mockAuthorizationServiceConfiguration, ex);
         verify(mockConfigurationListener).onAuthServiceConfigFailed(any(Error.class));
     }

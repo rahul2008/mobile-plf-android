@@ -99,7 +99,7 @@ public class PIMMigratorTest extends TestCase {
         verify(mockUsrTokenManager).fetchRefreshedAccessToken(captor.capture());
         RefreshUSRTokenListener refreshUSRTokenListener = captor.getValue();
         refreshUSRTokenListener.onRefreshTokenSuccess(accessToken);
-        Error error = new Error(Error.UserDetailError.MigrationFailed);
+        Error error = mock(Error.class);
         refreshUSRTokenListener.onRefreshTokenFailed(error);
     }
 
@@ -111,7 +111,7 @@ public class PIMMigratorTest extends TestCase {
 
     @Test
     public void testUserMigrationFailed() {
-        Error error = new Error(Error.UserDetailError.MigrationFailed);
+        Error error = mock(Error.class);
         pimMigrator.onUserMigrationFailed(error);
         verify(mockUserMigrationListener).onUserMigrationFailed(any(Error.class));
     }

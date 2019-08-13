@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">ยกเลิกการชำระเงิน</string>
   <string name="iap_Payment_failure">ชำระเงินไม่สำเร็จ</string>
+  <string name="iap_accepted_codes">รับรหัส</string>
+  <string name="iap_access_token_notfound">ไม่พบโทเค็นการเข้าถึง</string>
   <string name="iap_add_new_address">เพิ่มที่อยู่ใหม่</string>
   <string name="iap_add_new_payment_method">เพิ่มวิธีการชำระเงินใหม่</string>
   <string name="iap_add_payment_method">เพิ่มวิธีการชำระเงินใหม่</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">ป้อนที่อยู่บรรทัดที่ 1</string>
   <string name="iap_address_line_two">ที่อยู่บรรทัดที่ 2</string>
   <string name="iap_address_line_two_hint">(เลือกได้)</string>
+  <string name="iap_agree_privacy">และโดยการวางคำสั่งซื้อ ฉันยอมรับและตกลงที่จะผูกมัดกับ Philips</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">ใช้</string>
+  <string name="iap_apply_gift">ใช้รหัสของขวัญ</string>
   <string name="iap_authentication_failure">การตรวจสอบล้มเหลว</string>
   <string name="iap_billing_address">ที่อยู่สำหรับจัดส่งใบเสร็จสินค้า</string>
   <string name="iap_billing_address_is_same">เช่นเดียวกับที่อยู่จัดส่งสินค้า</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">ชำระสินค้า</string>
   <string name="iap_checkout_payment_method">โปรดเลือกวิธีการชำระเงิน</string>
   <string name="iap_checkout_steps">ขั้นตอนที่ %s จาก 3: ที่อยู่</string>
+  <string name="iap_checkout_steps_overview">ขั้นตอนที่ %s จาก 3: ภาพรวม</string>
   <string name="iap_checkoutsummary_steps_overview">ขั้นตอนที่ 3 จาก 3: ภาพรวม</string>
   <string name="iap_claim_voucher">รับบัตรกำนัล</string>
   <string name="iap_confirm">ยืนยัน</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">กรุณาป้อนรหัส CVV/CVC สำหรับ </string>
   <string name="iap_cvv_cvc">รหัส CVV/CVC</string>
   <string name="iap_cvvpopup_info">ส่วนนี้คือตัวเลข 3 หลักที่อยู่ด้านหลังของบัตรเครดิตหรือบัตรเดบิตของคุณ หรือตัวเลข 4 หลักที่อยู่ด้านหน้า หากคุณใช้บัตร American Express</string>
+  <string name="iap_daily_selling_product">เครื่องปั่นขนาดเล็กคอลเลคชัน Daily</string>
   <string name="iap_delete">ลบ</string>
   <string name="iap_delete_address">ลบที่อยู่จัดส่งสินค้า</string>
   <string name="iap_delete_item_alert_message">คุณแน่ใจหรือไม่ว่าต้องการลบรายการ</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">ตะกร้าสินค้าของคุณว่างเปล่า</string>
   <string name="iap_empty_purchase_history">หากคุณสั่งซื้อสินค้าผ่านแอปนี้, โปรดตรวจสอบกล่องอีเมล์ของคุณสำหรับอีเมล์ยืนยัน</string>
   <string name="iap_empty_purchase_history_dls">หากคุณสั่งซื้อด้วยแอปพลิเคชันนี้ กรุณาตรวจสอบว่าคุณได้รับอีเมล์ยืนยันการสั่งซื้อ</string>
+  <string name="iap_enter_gift_code">ป้อนรหัสโปรโมชันหรือของขวัญ</string>
   <string name="iap_enter_promo_code">ใส่รหัสโปรโมชั่นหรือรหัสของขวัญ</string>
   <string name="iap_enter_promotional_voucher">โปรดป้อนรหัสโปรโมชันบัตรกำนัลของคุณ</string>
   <string name="iap_expert_reviews">ผู้เชี่ยวชาญวิจารณ์</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">ชื่อ</string>
   <string name="iap_first_name_error">โปรดป้อนชื่อที่ถูกต้อง</string>
   <string name="iap_first_name_hint">ป้อนชื่อ</string>
+  <string name="iap_free_Delivery">จัดส่งฟรีสำหรับการสั่งซื้อนี้</string>
   <string name="iap_go_to_checkout">ไปยังหน้าชำระเงิน</string>
   <string name="iap_handed_to_courier">ส่งให้ผู้จัดส่งแล้ว</string>
   <string name="iap_help_other_by_reviewing">เขียนคำวิจารณ์และช่วยให้ผู้อื่นตัดสินใจเลือกได้อย่างเหมาะสม!</string>
   <string name="iap_houseNumber_error">โปรดป้อนบ้านเลขที่</string>
+  <string name="iap_house_no_error">บ้านเลขที่ผิด</string>
   <string name="iap_house_number">บ้านเลขที่</string>
   <string name="iap_house_number_hint">ป้อนบ้านเลขที่</string>
   <string name="iap_in_stock">มีสินค้า</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">ป้อนนามสกุล</string>
   <string name="iap_less_review">แสดงน้อยลง</string>
   <string name="iap_mastercard">Master card</string>
+  <string name="iap_more_info">สำหรับข้อมูลเพิ่มเติม</string>
   <string name="iap_more_review">แสดงเพิ่มเติม</string>
   <string name="iap_mr">นาย</string>
   <string name="iap_mrs">คุณ</string>
   <string name="iap_my_orders">คำสั่งซื้อ</string>
+  <string name="iap_no_checkout">ฟังก์ชั่นการชำระสินค้า Philips ไม่มีในประเทศนี้</string>
   <string name="iap_no_do_not_delete">ไม่ อย่าลบ</string>
   <string name="iap_no_internet">ดูเหมือนว่าการเชื่อมต่ออินเตอร์เน็ตของคุณไม่ทำงาน โปรดตรวจสอบและลองอีกครั้ง</string>
   <string name="iap_no_items">ยังไม่มีสินค้า...</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">ยังไม่ได้จัดส่ง</string>
   <string name="iap_nothing_in_cart">ไม่มีผลิตภัณฑ์ในตะกร้าสินค้าของคุณ</string>
   <string name="iap_number_of_product">ผลิตภัณฑ์หมายเลข %s</string>
+  <string name="iap_number_of_products">%s ผลิตภัณฑ์</string>
   <string name="iap_ok">ตกลง</string>
   <string name="iap_one_click_buy">ซื้ออีกครั้งด้วยเพียงคลิกเดียว</string>
   <string name="iap_opening_hours">เวลาทำการของศูนย์บริการลูกค้าทางโทรศัพท์\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">ประวัติการสั่งซื้อ</string>
   <string name="iap_order_not_received_items">ยังไม่ได้รับรายการสั่งซื้อ</string>
   <string name="iap_order_number">เลขที่สั่งซื้อ: </string>
+  <string name="iap_order_number_msg">เลขที่สั่งซื้อ: %s</string>
   <string name="iap_order_pending">กำลังดำเนินการการสั่งซื้อของคุณ</string>
   <string name="iap_order_picked">สินค้าของคุณได้ถูกรับโดย FedEx แล้วตอน</string>
   <string name="iap_order_processing">กำลังประมวลผล</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">รหัสไปรษณีย์</string>
   <string name="iap_postal_code_error">โปรดป้อนรหัสไปรษณีย์ที่ถูกต้อง</string>
   <string name="iap_postal_code_hint">ป้อนรหัสไปรษณีย์</string>
+  <string name="iap_privacy">ประกาศเกี่ยวกับการคุ้มครองข้อมูลส่วนบุคคล</string>
   <string name="iap_proceed">ดำเนินการ</string>
+  <string name="iap_product">ผลิตภัณฑ์</string>
   <string name="iap_product_added">เพิ่มสินค้าไปยังตะกร้าสินค้าของคุณแล้ว</string>
   <string name="iap_product_catalog">ผลิตภัณฑ์</string>
   <string name="iap_product_detail_title"> รายละเอียดผลิตภัณฑ์</string>
   <string name="iap_product_not_found">เราไม่พบสินค้าใดๆ สำหรับ</string>
+  <string name="iap_product_remove_address">ที่อยู่ของคุณจะถูกลบออกไปตลอดกาล คุณแน่ใจหรือไม่</string>
   <string name="iap_product_remove_description">ผลิตภัณฑ์ชิ้นนี้จะถูกลบออกจากตะกร้าสินค้าของคุณ แน่ใจใช่หรือไม่</string>
   <string name="iap_products_unavailable">ไม่มีผลิตภัณฑ์จำหน่าย</string>
+  <string name="iap_promotional_gift">รหัสโปรโมชันหรือของขวัญ</string>
   <string name="iap_quantity">จำนวน: %s</string>
   <string name="iap_rate_it">ไม่ว่าชอบหรือไม่ชอบ เราขอให้คุณช่วยจัดอันดับ!</string>
+  <string name="iap_read">อ่าน</string>
   <string name="iap_read_full_review">อ่านความเห็นแบบเต็ม</string>
+  <string name="iap_read_privacy">ฉันได้อ่าน</string>
   <string name="iap_recommend_this_product">ลูกค้ามักจะแนะนำสินค้านี้</string>
   <string name="iap_redeem_voucher">ใช้บัตรกำนัล</string>
   <string name="iap_remove">ลบ</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">จัดส่งแล้ว</string>
   <string name="iap_shipped_to">ส่งไปยัง:</string>
   <string name="iap_shipping_address">ที่อยู่สำหรับจัดส่งสินค้า</string>
+  <string name="iap_shipping_cost">ค่าจัดส่ง</string>
   <string name="iap_shipping_to">ส่งไปยัง</string>
   <string name="iap_shopping_cart">ตะกร้าสินค้า</string>
   <string name="iap_shopping_cart_dls">ตะกร้าสินค้า</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">รัฐ</string>
   <string name="iap_stock_left">สินค้าคงเหลือในสต็อค</string>
   <string name="iap_success">สำเร็จ</string>
+  <string name="iap_terms_conditions">ข้อกำหนดและเงื่อนไข</string>
   <string name="iap_thank_for_order">ขอบคุณสำหรับการสั่งซื้อของคุณ</string>
   <string name="iap_time_out">หมดเวลา</string>
   <string name="iap_time_out_error">เครือข่ายหมดเวลา!</string>
   <string name="iap_title">เรื่อง</string>
   <string name="iap_total">ทั้งหมด</string>
+  <string name="iap_total_discount">ยอดส่วนลดทั้งหมด</string>
   <string name="iap_total_val">จำนวนทั้งหมด (0 รายการ)</string>
   <string name="iap_town">เมือง</string>
   <string name="iap_town_error">โปรดป้อนเมืองที่ถูกต้อง</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">ภาษีมูลค่าเพิ่ม</string>
   <string name="iap_view_invoice">เรียกดูใบกำกับสินค้า</string>
   <string name="iap_voucher">บัตรกำนัล</string>
+  <string name="iap_voucher_applied_success">นำบัตรกำนัลมาใช้สำเร็จ</string>
+  <string name="iap_voucher_applied_unsuccess">ไม่สำเร็จ</string>
+  <string name="iap_voucher_code">รหัสบัตรกำนัล:</string>
   <string name="iap_warranty">เราให้การรับประกันขั้นต่ำ 1 ปีกับสินค้าทุกชิ้น ทีมบริการดูแลลูกค้ายินดีที่จะช่วยเหลือคุณ</string>
   <string name="iap_write_review">เขียนคำวิจารณ์</string>
   <string name="iap_yes_delete">ใช่ ลบ</string>

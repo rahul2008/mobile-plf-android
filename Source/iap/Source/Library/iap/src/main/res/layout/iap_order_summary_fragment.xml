@@ -43,18 +43,44 @@
     </ScrollView>
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/iap_terms_privacy"
-        android:layout_width="wrap_content"
+        android:id="@+id/iap_privacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/iap_product_original_price"
+        style="@style/iapCentralesansMediumFont"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:layout_above="@+id/iap_faq"
+        android:linksClickable="true"
+        android:layout_marginTop="5dp"
+        android:paddingTop="10dp"
+        android:paddingStart="@dimen/iap_shopping_cart_btn_margin"
+        android:autoLink="all" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/iap_faq"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/iap_product_original_price"
+        style="@style/iapCentralesansMediumFont"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:layout_above="@+id/iap_terms"
+        android:linksClickable="true"
+        android:layout_marginTop="@dimen/iap_order_one_spacing"
+        android:paddingStart="@dimen/iap_shopping_cart_btn_margin"
+        android:autoLink="all" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/iap_terms"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/iap_product_original_price"
         style="@style/iapCentralesansMediumFont"
         android:textColor="?attr/uidLabelRegularNormalTextColor"
         android:layout_above="@+id/pay_now_btn"
-        android:text="@string/iap_terms_privacy"
         android:linksClickable="true"
-        android:layout_marginTop="5dp"
-        android:lineSpacingExtra="7dp"
-        android:padding="@dimen/iap_shopping_cart_btn_margin"
+        android:layout_marginBottom="@dimen/iap_order_one_spacing"
+        android:layout_marginTop="@dimen/iap_order_one_spacing"
+        android:paddingStart="@dimen/iap_shopping_cart_btn_margin"
         android:autoLink="all" />
 
     <com.philips.platform.uid.view.widget.Button
@@ -89,6 +115,6 @@
         android:id="@+id/iap_productDetailsScreen_separator"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_above="@+id/iap_terms_privacy"
+        android:layout_above="@+id/iap_privacy"
         android:background="@drawable/uid_shadow_level_two" />
 </RelativeLayout>

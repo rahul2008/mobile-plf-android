@@ -26,7 +26,7 @@ public class RegistrationRequestTest extends TestCase {
 
         sector = PrxConstants.Sector.B2C;
         catalog = PrxConstants.Catalog.CONSUMER;
-        registrationRequest = new RegistrationRequest(mCtn, mSerialNumber,sector,catalog);
+        registrationRequest = new RegistrationRequest(mCtn, mSerialNumber,sector,catalog,true);
     }
 
     public void testGetServerInfo() throws Exception {

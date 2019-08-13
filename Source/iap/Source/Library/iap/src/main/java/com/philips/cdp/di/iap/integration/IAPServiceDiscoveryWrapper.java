@@ -27,6 +27,7 @@ public class IAPServiceDiscoveryWrapper {
     private ServiceDiscoveryInterface serviceDiscoveryInterface;
     private boolean isCartVisible;
     private static final String IAP_PRIVACY_URL = "iap.privacyPolicy";
+    private static final String IAP_FAQ_URL = "iap.faq";
     private static final String IAP_TERMS_URL = "iap.termOfUse";
     private static final String IAP_BASE_URL = "iap.baseurl";
 
@@ -35,6 +36,7 @@ public class IAPServiceDiscoveryWrapper {
         listOfServiceId = new ArrayList<>();
         listOfServiceId.add(IAP_BASE_URL);
         listOfServiceId.add(IAP_PRIVACY_URL);
+        listOfServiceId.add(IAP_FAQ_URL);
         listOfServiceId.add(IAP_TERMS_URL);
 
         AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
@@ -56,16 +58,26 @@ public class IAPServiceDiscoveryWrapper {
                 list.addAll(collection);
 
                 ServiceDiscoveryService discoveryService = map.get(IAP_PRIVACY_URL);
+                assert discoveryService != null;
                 String privacyUrl = discoveryService.getConfigUrls();
                 if(privacyUrl != null) {
                     IAPUtility.getInstance().setPrivacyUrl(privacyUrl);
                 }
 
+                ServiceDiscoveryService services = map.get(IAP_FAQ_URL);
+                assert services != null;
+                String faqUrl = services.getConfigUrls();
+                if(faqUrl != null) {
+                    IAPUtility.getInstance().setFaqUrl(faqUrl);
+                }
+
                 ServiceDiscoveryService service = map.get(IAP_TERMS_URL);
+                assert service != null;
                 String termsUrl = service.getConfigUrls();
                 if(termsUrl != null) {
                     IAPUtility.getInstance().setTermsUrl(termsUrl);
                 }
+
 
                 ServiceDiscoveryService serviceDiscoveryService = map.get(IAP_BASE_URL);
 

@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Maksu peruutettu</string>
   <string name="iap_Payment_failure">Maksuvirhe</string>
+  <string name="iap_accepted_codes">Hyväksytyt koodit</string>
+  <string name="iap_access_token_notfound">Käyttöoikeustunnusta ei löytynyt</string>
   <string name="iap_add_new_address">Lisää uusi osoite</string>
   <string name="iap_add_new_payment_method">Lisää uusi maksutapa</string>
   <string name="iap_add_payment_method">Lisää uusi maksutapa</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Kirjoita osoiterivi 1</string>
   <string name="iap_address_line_two">Osoiterivi 2</string>
   <string name="iap_address_line_two_hint">(valinnainen)</string>
+  <string name="iap_agree_privacy">ja tekemällä tilauksen hyväksyn ja sitoudun Philipsiin</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Käytä</string>
+  <string name="iap_apply_gift">Lisää lahjakoodi</string>
   <string name="iap_authentication_failure">Todennus epäonnistui</string>
   <string name="iap_billing_address">Laskutusosoite</string>
   <string name="iap_billing_address_is_same">Sama kuin toimitusosoite</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Kassa</string>
   <string name="iap_checkout_payment_method">Valitse maksutapa</string>
   <string name="iap_checkout_steps">Vaihe %s/3: Osoite</string>
+  <string name="iap_checkout_steps_overview">Vaihe %s/3: yhteenveto</string>
   <string name="iap_checkoutsummary_steps_overview">Vaihe 3/3: Yhteenveto</string>
   <string name="iap_claim_voucher">Pyydä etuseteli</string>
   <string name="iap_confirm">Vahvista</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Kirjoita CVV/CVC-numero luottokortista </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Tämä on luottokortin kääntöpuolella oleva 3-numeroinen koodi. Jos sinulla on American Express -kortti, käytä kortin etupuolella olevaa 4-numeroista koodia.</string>
+  <string name="iap_daily_selling_product">Daily Collection -minisekoitin</string>
   <string name="iap_delete">Tietojen poistaminen</string>
   <string name="iap_delete_address">Poistetaan toimitusosoite</string>
   <string name="iap_delete_item_alert_message">Haluatko varmasti poistaa tuotteen?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Toimitus on MAKSUTON vähintään 100 $:n ostoksen yhteydessä</string>
   <string name="iap_delivery_method">Toimitustapa</string>
   <string name="iap_delivery_via">Toimittaja: FedEx</string>
-  <string name="iap_discount">alennus</string>
+  <string name="iap_discount">Alennus</string>
   <string name="iap_download_invoice">Lataa lasku</string>
   <string name="iap_edit">Muokkaa</string>
   <string name="iap_email">Sähköposti</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Ostoskorisi on tällä hetkellä tyhjä</string>
   <string name="iap_empty_purchase_history">Jos teit tilauksen tämän sovelluksen kautta, tarkista, onko sähköpostiisi tullut vahvistusviestiä.</string>
   <string name="iap_empty_purchase_history_dls">Jos teit tilauksen tässä sovelluksessa, tarkista onko sähköpostiisi tullut vahvistusviestiä.</string>
+  <string name="iap_enter_gift_code">Syötä kampanja- tai lahjakoodi</string>
   <string name="iap_enter_promo_code">Anna kampanja- tai lahjakoodi</string>
   <string name="iap_enter_promotional_voucher">Anna kampanjaetuseteli</string>
   <string name="iap_expert_reviews">Asiantuntija-arviot</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Etunimi</string>
   <string name="iap_first_name_error">Kirjoita kelvollinen etunimi</string>
   <string name="iap_first_name_hint">Kirjoita etunimi</string>
+  <string name="iap_free_Delivery">Tämän tilauksen toimitus on maksuton</string>
   <string name="iap_go_to_checkout">Siirry kassalle</string>
   <string name="iap_handed_to_courier">Luovutettu kuljetuspalvelulle</string>
   <string name="iap_help_other_by_reviewing">Kirjoita arvostelu ja auta muita käyttäjiä löytämään sopiva tuote!</string>
   <string name="iap_houseNumber_error">Anna talon/asunnon numero</string>
+  <string name="iap_house_no_error">Virheellinen asunnon numero</string>
   <string name="iap_house_number">Talon/asunnon numero</string>
   <string name="iap_house_number_hint">Anna talon/asunnon numero</string>
   <string name="iap_in_stock">varastossa</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Kirjoita sukunimi</string>
   <string name="iap_less_review">näytä vähemmän</string>
   <string name="iap_mastercard">MasterCard</string>
+  <string name="iap_more_info">saadaksesi lisätietoja</string>
   <string name="iap_more_review">näytä enemmän</string>
   <string name="iap_mr">Hra</string>
   <string name="iap_mrs">Nti</string>
   <string name="iap_my_orders">Omat tilaukset</string>
+  <string name="iap_no_checkout">Philipsin maksutoiminto ei ole käytettävissä tässä maassa.</string>
   <string name="iap_no_do_not_delete">Ei, älä poista</string>
   <string name="iap_no_internet">Internetyhteydessäsi vaikuttaa olevan vikaa. Tarkista yhteys ja yritä uudelleen.</string>
   <string name="iap_no_items">Ei vielä tuotteita…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Ei vielä toimitettu</string>
   <string name="iap_nothing_in_cart">Ostoskorisi on tyhjä</string>
   <string name="iap_number_of_product">Tuote %s</string>
+  <string name="iap_number_of_products">%s tuotetta</string>
   <string name="iap_ok">[fi]OK</string>
   <string name="iap_one_click_buy">Tee uusi ostos yhdellä napsautuksella</string>
   <string name="iap_opening_hours">Puhelinpalvelun aukioloajat:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Tilaushistoria</string>
   <string name="iap_order_not_received_items">Tilausta ei ole vastaanotettu</string>
   <string name="iap_order_number">Tilausnumero: </string>
+  <string name="iap_order_number_msg">Tilausnumero: %s</string>
   <string name="iap_order_pending">Tilauksesi odottaa</string>
   <string name="iap_order_picked">FedEx nouti tilauksesi</string>
   <string name="iap_order_processing">Käsittely</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Postinumero</string>
   <string name="iap_postal_code_error">Kirjoita kelvollinen postinumero</string>
   <string name="iap_postal_code_hint">Kirjoita postinumero</string>
+  <string name="iap_privacy">tietosuojalausunto</string>
   <string name="iap_proceed">Jatka</string>
+  <string name="iap_product">Tuote</string>
   <string name="iap_product_added">Tuote lisätty ostoskoriisi</string>
   <string name="iap_product_catalog">Tuotteet</string>
   <string name="iap_product_detail_title"> Tuotteen tiedot</string>
   <string name="iap_product_not_found">Yhtään tuotetta ei löytynyt hakuehdolla</string>
+  <string name="iap_product_remove_address">Osoitteesi poistetaan pysyvästi. Oletko varma?</string>
   <string name="iap_product_remove_description">Tuote poistetaan ostoskorista. Haluatko jatkaa?</string>
   <string name="iap_products_unavailable">Ei tuotteita saatavilla</string>
+  <string name="iap_promotional_gift">Kampanja- tai lahjakoodi</string>
   <string name="iap_quantity">Määrä: %s</string>
   <string name="iap_rate_it">Anna risuja tai ruusuja</string>
+  <string name="iap_read">Lue</string>
   <string name="iap_read_full_review">Lue koko arvostelu</string>
+  <string name="iap_read_privacy">Olen lukenut</string>
   <string name="iap_recommend_this_product">asiakasta suosittelisi tätä tuotetta</string>
   <string name="iap_redeem_voucher">Lunasta etuseteli</string>
   <string name="iap_remove">Poista</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Toimitettu</string>
   <string name="iap_shipped_to">Toimitettu osoitteeseen:</string>
   <string name="iap_shipping_address">Toimitusosoite</string>
+  <string name="iap_shipping_cost">Toimituskulut</string>
   <string name="iap_shipping_to">Toimitetaan osoitteeseen</string>
   <string name="iap_shopping_cart">Ostoskori</string>
   <string name="iap_shopping_cart_dls">Ostoskori</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Valtio</string>
   <string name="iap_stock_left">jäljellä varastossa</string>
   <string name="iap_success">Onnistui</string>
+  <string name="iap_terms_conditions">käyttöehtoihin</string>
   <string name="iap_thank_for_order">Kiitos tilauksestasi</string>
   <string name="iap_time_out">Aikakatkaisu</string>
   <string name="iap_time_out_error">Verkkoyhteys aikakatkaistiin!</string>
   <string name="iap_title">Nimike</string>
   <string name="iap_total">Yhteensä</string>
+  <string name="iap_total_discount">Alennus yhteensä</string>
   <string name="iap_total_val">Yhteensä (0 tuotetta)</string>
   <string name="iap_town">Postitoimipaikka</string>
   <string name="iap_town_error">Kirjoita kelvollinen paikkakunta</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">ALV</string>
   <string name="iap_view_invoice">Näytä lasku</string>
   <string name="iap_voucher">Etuseteli</string>
+  <string name="iap_voucher_applied_success">Lahjakortin lisääminen onnistui</string>
+  <string name="iap_voucher_applied_unsuccess">Epäonnistui</string>
+  <string name="iap_voucher_code">Lahjakortin koodi:</string>
   <string name="iap_warranty">Myönnämme kaikille tuotteille vähintään yhden vuoden takuun. Asiakaspalvelutiimimme auttaa sinua mielellään.</string>
   <string name="iap_write_review">Kirjoita arvostelu</string>
   <string name="iap_yes_delete">Kyllä, poista</string>

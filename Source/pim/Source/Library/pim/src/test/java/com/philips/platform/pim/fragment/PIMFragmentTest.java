@@ -4,17 +4,21 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 
+import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
+import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pim.PIMActivity;
 import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.manager.PIMLoginManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.manager.PIMUserManager;
 import com.philips.platform.pim.utilities.PIMInitState;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import junit.framework.TestCase;
 
@@ -34,6 +38,11 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -63,9 +72,13 @@ public class PIMFragmentTest extends TestCase {
     @Mock
     private LoggingInterface mockLoggingInterface;
     @Mock
+    private ServiceDiscoveryInterface mockServiceDiscoveryInterface;
+    @Mock
     private MutableLiveData<PIMInitState> mockMutableLiveData;
     @Captor
     private ArgumentCaptor<Observer<PIMInitState>> argumentCaptor;
+    @Captor
+    private ArgumentCaptor<ServiceDiscoveryInterface.OnGetServiceUrlMapListener> mapListenerArgumentCaptor;
 
 
     @Before
@@ -81,7 +94,7 @@ public class PIMFragmentTest extends TestCase {
         when(mockPimSettingManager.getPimUserManager()).thenReturn(mockUserManager);
         when(mockPimSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
         when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
-        when(mockAppInfraInterface.getServiceDiscovery()).thenReturn(mock(ServiceDiscoveryInterface.class));
+        when(mockAppInfraInterface.getServiceDiscovery()).thenReturn(mockServiceDiscoveryInterface);
 
         pimActivity = Robolectric.buildActivity(TestActivity.class)
                 .create()
@@ -94,23 +107,39 @@ public class PIMFragmentTest extends TestCase {
 
     @Test
     public void testLoginSuccess() {
+        ActionBarListener actionBarListener = mock(ActionBarListener.class);
+        UserLoginListener mockUserLoginListener = mock(UserLoginListener.class);
+        pimFragment.setActionbarListener(actionBarListener, mockUserLoginListener);
         pimFragment.onLoginSuccess();
+        verify(mockUserLoginListener).onLoginSuccess();
     }
 
     @Test
     public void testLoginFailed() {
+        ActionBarListener actionBarListener = mock(ActionBarListener.class);
+        UserLoginListener mockUserLoginListener = mock(UserLoginListener.class);
+        pimFragment.setActionbarListener(actionBarListener, mockUserLoginListener);
         Error error = mock(Error.class);
         pimFragment.onLoginFailed(error);
+        verify(mockUserLoginListener).onLoginFailed(error);
     }
 
     @Test
     public void testInitSuccessUserLoggedIn() throws Exception {
         when(mockUserManager.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
 
+        Map<String, ServiceDiscoveryService> serviceIdList = new HashMap<>();
+        serviceIdList.put("userreg.janrainoidc.userprofile", new ServiceDiscoveryService());
+
         verify(mockMutableLiveData).observe(eq(pimFragment), argumentCaptor.capture());
         Observer<PIMInitState> value = argumentCaptor.getValue();
         value.onChanged(PIMInitState.INIT_SUCCESS);
-        //verifyPrivate(pimFragment).invoke("launchUserProfilePage");
+
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(any(ArrayList.class), mapListenerArgumentCaptor.capture(), eq(null));
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener listener = mapListenerArgumentCaptor.getValue();
+        listener.onSuccess(serviceIdList);
+
+        listener.onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.CONNECTION_TIMEOUT, "ServiceDiscoveryError");
     }
 
     @Test
@@ -133,8 +162,8 @@ public class PIMFragmentTest extends TestCase {
         //verifyPrivate(pimFragment).invoke("enablProgressBar");
     }
 
-   /* @Test
-    public void testOnActivityForResult() {
+    @Test
+    public void testOnActivityForResultResultCanceled() {
         verify(mockMutableLiveData).observe(eq(pimFragment), argumentCaptor.capture());
         Observer<PIMInitState> value = argumentCaptor.getValue();
         value.onChanged(PIMInitState.INIT_SUCCESS);
@@ -144,8 +173,8 @@ public class PIMFragmentTest extends TestCase {
         JsonObject keyRequestObject = new JsonObject();
         jsonObject.add("request", keyRequestObject);
         intent.putExtra("net.openid.appauth.AuthorizationResponse", jsonObject.toString());
-        pimFragment.onActivityResult(100, -1, intent);
-    }*/
+        pimFragment.onActivityResult(100, 0, intent);
+    }
 
     @Test
     public void testOnActivityForResult() {

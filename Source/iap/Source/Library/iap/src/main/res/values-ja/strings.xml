@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">お支払いはキャンセルされました</string>
   <string name="iap_Payment_failure">お支払いに失敗しました</string>
+  <string name="iap_accepted_codes">コードが承諾されました</string>
+  <string name="iap_access_token_notfound">アクセストークンが見つかりません</string>
   <string name="iap_add_new_address">新しい住所を追加</string>
   <string name="iap_add_new_payment_method">新しいお支払い方法を追加</string>
   <string name="iap_add_payment_method">新しい支払方法を追加する</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">住所 1 を入力</string>
   <string name="iap_address_line_two">住所 2</string>
   <string name="iap_address_line_two_hint">（オプション）</string>
+  <string name="iap_agree_privacy">を読み、注文することにより、フィリップスの次の規約に従うことを受け入れ、同意します：</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">適用</string>
+  <string name="iap_apply_gift">ギフトコードを適用</string>
   <string name="iap_authentication_failure">認証に失敗しました</string>
   <string name="iap_billing_address">請求先住所</string>
   <string name="iap_billing_address_is_same">配送先住所と同じ</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">精算</string>
   <string name="iap_checkout_payment_method">お支払い方法を選択</string>
   <string name="iap_checkout_steps">手順 %s／3：住所</string>
+  <string name="iap_checkout_steps_overview">手順 %s / 3：概要</string>
   <string name="iap_checkoutsummary_steps_overview">手順 3／3：概要</string>
   <string name="iap_claim_voucher">バウチャーを請求</string>
   <string name="iap_confirm">確認</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">次のカードの CVV/CVC を入力してください： </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">これは、クレジットカードまたはデビットカードの裏面に記載されている 3 桁のコードです。アメリカン・エクスプレスのカードをお持ちの場合は、カードの前面に記載されている 4 桁のコードです。</string>
+  <string name="iap_daily_selling_product">Daily コレクション ミニブレンダー</string>
   <string name="iap_delete">削除</string>
   <string name="iap_delete_address">配送先住所を削除中</string>
   <string name="iap_delete_item_alert_message">アイテムを削除しますか？</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">ショッピングカートは現在空です</string>
   <string name="iap_empty_purchase_history">このアプリを使用して注文した場合は、確認メールをチェックしてください。</string>
   <string name="iap_empty_purchase_history_dls">このアプリを使用して注文された場合は、ご注文の確認メールを受信しているかどうかご確認ください。</string>
+  <string name="iap_enter_gift_code">プロモーション／ギフトコードを入力</string>
   <string name="iap_enter_promo_code">プロモーション／ギフトコードを入力</string>
   <string name="iap_enter_promotional_voucher">プロモーションバウチャーを入力してください</string>
   <string name="iap_expert_reviews">専門家によるレビュー</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">名前（名）</string>
   <string name="iap_first_name_error">有効な名前（名）を入力してください</string>
   <string name="iap_first_name_hint">名前（名）を入力</string>
+  <string name="iap_free_Delivery">今回の注文は送料無料です</string>
   <string name="iap_go_to_checkout">精算に進む</string>
   <string name="iap_handed_to_courier">配送業者に引き渡し済み</string>
   <string name="iap_help_other_by_reviewing">レビューをお寄せください。他のお客様が製品を選ぶときの参考になります。</string>
   <string name="iap_houseNumber_error">家屋番号を入力してください</string>
+  <string name="iap_house_no_error">不正な住居番号</string>
   <string name="iap_house_number">家屋番号</string>
   <string name="iap_house_number_hint">電話番号を入力</string>
   <string name="iap_in_stock">在庫あり</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">名前を入力</string>
   <string name="iap_less_review">詳細を隠す</string>
   <string name="iap_mastercard">マスターカード</string>
+  <string name="iap_more_info">をお読みください</string>
   <string name="iap_more_review">詳細を表示</string>
   <string name="iap_mr">[ja]Mr</string>
   <string name="iap_mrs">[ja]Ms</string>
   <string name="iap_my_orders">マイオーダー</string>
+  <string name="iap_no_checkout">フィリップスチェックアウト機能は、こちらの国ではご利用いただけません。</string>
   <string name="iap_no_do_not_delete">いいえ、削除しません</string>
   <string name="iap_no_internet">インターネットに接続されていないようです。確認してから再試行してください。</string>
   <string name="iap_no_items">アイテムがありません...</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">未配送</string>
   <string name="iap_nothing_in_cart">カートは空です</string>
   <string name="iap_number_of_product">%s 製品</string>
+  <string name="iap_number_of_products">%s 個の製品</string>
   <string name="iap_ok">[ja]OK</string>
   <string name="iap_one_click_buy">1 クリックで再購入</string>
   <string name="iap_opening_hours">お客様サポート対応時間：\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">注文履歴</string>
   <string name="iap_order_not_received_items">未達のご注文</string>
   <string name="iap_order_number">注文番号: </string>
+  <string name="iap_order_number_msg">注文番号：%s</string>
   <string name="iap_order_pending">注文は保留中です</string>
   <string name="iap_order_picked">注文は FedEx に引き渡されました：</string>
   <string name="iap_order_processing">処理中</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">郵便番号</string>
   <string name="iap_postal_code_error">有効な郵便番号を入力してください</string>
   <string name="iap_postal_code_hint">郵便番号を入力</string>
+  <string name="iap_privacy">プライバシーに関する通知</string>
   <string name="iap_proceed">続行</string>
+  <string name="iap_product">製品</string>
   <string name="iap_product_added">ショッピングカートに追加した製品</string>
   <string name="iap_product_catalog">製品</string>
   <string name="iap_product_detail_title"> 製品詳細</string>
   <string name="iap_product_not_found">次の製品が見つかりませんでした：</string>
+  <string name="iap_product_remove_address">住所は完全に削除されます。よろしいですか？</string>
   <string name="iap_product_remove_description">お客様の製品はショッピングカートから削除されます。よろしいですか？</string>
   <string name="iap_products_unavailable">利用可能な製品なし</string>
+  <string name="iap_promotional_gift">プロモーション／ギフトコード</string>
   <string name="iap_quantity">数量：%s</string>
   <string name="iap_rate_it">製品に関するご意見をお聞かせください</string>
+  <string name="iap_read">詳しくは、当社の</string>
   <string name="iap_read_full_review">レビュー全文を読む</string>
+  <string name="iap_read_privacy">私は</string>
   <string name="iap_recommend_this_product">人のユーザーがこの製品を勧めています</string>
   <string name="iap_redeem_voucher">バウチャーを引き換え</string>
   <string name="iap_remove">削除</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">配送済み</string>
   <string name="iap_shipped_to">配送先：</string>
   <string name="iap_shipping_address">配送先住所</string>
+  <string name="iap_shipping_cost">送料</string>
   <string name="iap_shipping_to">配送先</string>
   <string name="iap_shopping_cart">ショッピングカート</string>
   <string name="iap_shopping_cart_dls">ショッピングカート</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">状況</string>
   <string name="iap_stock_left">在庫あり</string>
   <string name="iap_success">成功</string>
+  <string name="iap_terms_conditions">利用規約</string>
   <string name="iap_thank_for_order">ご注文ありがとうございます</string>
   <string name="iap_time_out">タイムアウト</string>
   <string name="iap_time_out_error">ネットワークがタイムアウトしました</string>
   <string name="iap_title">タイトル</string>
   <string name="iap_total">合計</string>
+  <string name="iap_total_discount">合計割引額</string>
   <string name="iap_total_val">合計（0 アイテム）</string>
   <string name="iap_town">市区町村</string>
   <string name="iap_town_error">有効な市区町村を入力してください</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">VAT</string>
   <string name="iap_view_invoice">送り状を表示</string>
   <string name="iap_voucher">バウチャー</string>
+  <string name="iap_voucher_applied_success">バウチャーが適用されました</string>
+  <string name="iap_voucher_applied_unsuccess">失敗</string>
+  <string name="iap_voucher_code">バウチャーコード：</string>
   <string name="iap_warranty">全製品に 1 年以上の保証が付いています。お客様サポートチームがいつでもお手伝いいたします。</string>
   <string name="iap_write_review">レビューを送信する</string>
   <string name="iap_yes_delete">はい、削除します</string>

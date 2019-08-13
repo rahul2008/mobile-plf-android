@@ -30,6 +30,17 @@ public class Attributes implements Serializable {
 	@SerializedName("micrositeId")
 	private String micrositeId;
 
+	public String getExtendedWarrantyExpires() {
+		return extendedWarrantyExpires;
+	}
+
+	public void setExtendedWarrantyExpires(String extendedWarrantyExpires) {
+		this.extendedWarrantyExpires = extendedWarrantyExpires;
+	}
+
+	@SerializedName("extendedWarrantyExpires")
+	private String extendedWarrantyExpires;
+
 	public void setPromotions(Promotions promotions){
 		this.promotions = promotions;
 	}
@@ -102,8 +113,9 @@ public class Attributes implements Serializable {
 			",serialNumber = '" + serialNumber + '\'' + 
 			",purchased = '" + purchased + '\'' + 
 			",productId = '" + productId + '\'' + 
-			",created = '" + created + '\'' + 
-			",extendedWarrantyMonths = '" + extendedWarrantyMonths + '\'' + 
+			",created = '" + created + '\'' +
+			",extendedWarrantyExpires = '" + extendedWarrantyExpires + '\'' +
+			",extendedWarrantyMonths = '" + extendedWarrantyMonths + '\'' +
 			",lastModified = '" + lastModified + '\'' + 
 			",micrositeId = '" + micrositeId + '\'' + 
 			"}";

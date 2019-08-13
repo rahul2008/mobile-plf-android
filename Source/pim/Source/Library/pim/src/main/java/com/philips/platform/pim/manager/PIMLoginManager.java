@@ -62,7 +62,7 @@ public class PIMLoginManager {
                     @Override
                     public void onUserProfileDownloadSuccess() {
                         mPimUserManager.saveLoginFlowType(PIMUserManager.LOGIN_FLOW.DEFAULT);
-                        mPimLoginListener.onLoginSuccess();
+                           mPimLoginListener.onLoginSuccess();
                     }
 
                     @Override

@@ -74,7 +74,7 @@ public class RemoteRegisteredProducts {
     @NonNull
     protected RegisteredProductsRequest getRegisteredProductsRequest(UserDataInterface userDataInterface) {
 
-        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest(null, ProdRegConstants.REGISTEREDPRODUCTSREQUEST_SERVICE_ID, null, null);
+        RegisteredProductsRequest registeredProductsRequest = new RegisteredProductsRequest(null, ProdRegConstants.REGISTEREDPRODUCTSREQUEST_SERVICE_ID, null, null ,userDataInterface.isOIDCToken());
         try {
             ArrayList<String> detailskey = new ArrayList<>();
             detailskey.add(UserDetailConstants.ACCESS_TOKEN);

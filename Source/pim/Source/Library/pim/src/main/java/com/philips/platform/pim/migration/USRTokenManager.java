@@ -1,6 +1,5 @@
 package com.philips.platform.pim.migration;
 
-import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -108,8 +107,7 @@ class USRTokenManager {
         }
     }
 
-    @VisibleForTesting
-    <L, R> Collection<L> map(Collection<R> collection, Function<L, R> f) {
+    private <L, R> Collection<L> map(Collection<R> collection, Function<L, R> f) {
         Collection<L> retCollection;
         try {
             retCollection = collection.getClass().newInstance();
@@ -219,7 +217,6 @@ class USRTokenManager {
             return null;
         }
         return Base64.encodeToString(hash, 2);
-        //return java.util.Base64.getEncoder().encodeToString(hash);
     }
 
     boolean isUSRUserAvailable() {

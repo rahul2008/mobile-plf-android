@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Отменено плащане</string>
   <string name="iap_Payment_failure">Неуспешно плащане</string>
+  <string name="iap_accepted_codes">Приети кодове</string>
+  <string name="iap_access_token_notfound">Маркерът за достъп не е открит</string>
   <string name="iap_add_new_address">Добавяне на нов адрес</string>
   <string name="iap_add_new_payment_method">Добавяне на нов метод на плащане</string>
   <string name="iap_add_payment_method">Добавяне на нов начин на плащане</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Въведете ред 1 на адрес</string>
   <string name="iap_address_line_two">Адрес – ред 2</string>
   <string name="iap_address_line_two_hint">(по избор)</string>
+  <string name="iap_agree_privacy">и като направя поръчката, приемам и се съгласявам да бъда обвързан с Philips</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Приложи</string>
+  <string name="iap_apply_gift">Приложете код за подарък</string>
   <string name="iap_authentication_failure">Неуспешно удостоверяване</string>
   <string name="iap_billing_address">Адрес на фактура</string>
   <string name="iap_billing_address_is_same">Същия като адреса за доставка</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Финализиране</string>
   <string name="iap_checkout_payment_method">Изберете метод на плащане</string>
   <string name="iap_checkout_steps">Стъпка %s от 3: Адрес</string>
+  <string name="iap_checkout_steps_overview">Стъпка %s от 3: Общ преглед</string>
   <string name="iap_checkoutsummary_steps_overview">Стъпка 3 от 3: Общ преглед</string>
   <string name="iap_claim_voucher">Получаване на ваучер</string>
   <string name="iap_confirm">Потвърди</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Моля, въведете CVV/CVC за </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Това е 3-цифровият код на гърба на вашата кредитна или дебитна карта. В друг случай, ако имате American Express, това е 4-цифреният номер отпред на картата.</string>
+  <string name="iap_daily_selling_product">Daily Collection Мини пасатор</string>
   <string name="iap_delete">Изтрий</string>
   <string name="iap_delete_address">Изтриване на адреса за доставка</string>
   <string name="iap_delete_item_alert_message">Наистина ли искате да изтриете този артикул?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Доставката е безплатна, когато похарчите 100 $ или повече</string>
   <string name="iap_delivery_method">Начин на доставка</string>
   <string name="iap_delivery_via">Доставка по FedEx</string>
-  <string name="iap_discount">отстъпка</string>
+  <string name="iap_discount">Отстъпка</string>
   <string name="iap_download_invoice">Изтеглете вашата фактура</string>
   <string name="iap_edit">Редакт</string>
   <string name="iap_email">Е-поща</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">В момента вашата количка за пазаруване е празна</string>
   <string name="iap_empty_purchase_history">Ако сте направили поръчка с това приложение, проверете вашия имейл за потвърждението.</string>
   <string name="iap_empty_purchase_history_dls">Ако сте направили поръчката чрез това приложение, моля, проверете дали сте получили имейл за потвърждение.</string>
+  <string name="iap_enter_gift_code">Въведете вашия промоционален код или код за подарък</string>
   <string name="iap_enter_promo_code">Въведете промо код или код за подарък</string>
   <string name="iap_enter_promotional_voucher">Въведете вашия ваучер за промоция</string>
   <string name="iap_expert_reviews">Отзиви на експерти</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Собствено име</string>
   <string name="iap_first_name_error">Въведете валидно собствено име</string>
   <string name="iap_first_name_hint">Въведете собствено име</string>
+  <string name="iap_free_Delivery">Доставката е безплатна за тази поръчка</string>
   <string name="iap_go_to_checkout">Към финализиране</string>
   <string name="iap_handed_to_courier">Предадено на доставчик</string>
   <string name="iap_help_other_by_reviewing">Напишете рецензия и помогнете на други да направят подходящия избор за себе си!</string>
   <string name="iap_houseNumber_error">Моля, въведете номера на сградата</string>
+  <string name="iap_house_no_error">Грешен номер на сграда</string>
   <string name="iap_house_number">Номер на сграда</string>
   <string name="iap_house_number_hint">Въведете номера на сградата</string>
   <string name="iap_in_stock">в наличност</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Въведете фамилията си</string>
   <string name="iap_less_review">покажи по-малко</string>
   <string name="iap_mastercard">Master card</string>
+  <string name="iap_more_info">за повече информация</string>
   <string name="iap_more_review">покажи повече</string>
   <string name="iap_mr">Г-н</string>
   <string name="iap_mrs">Г-жа</string>
   <string name="iap_my_orders">Мои поръчки</string>
+  <string name="iap_no_checkout">Функцията за финализиране на Philips не е налична за тази държава.</string>
   <string name="iap_no_do_not_delete">Не, не изтривай</string>
   <string name="iap_no_internet">Изглежда, че вашата интернет връзка не работи. Проверете и опитайте отново.</string>
   <string name="iap_no_items">Засега няма артикули тук…</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Все още не е изпратено</string>
   <string name="iap_nothing_in_cart">Няма нищо в количката за пазаруване</string>
   <string name="iap_number_of_product">%s продукт</string>
+  <string name="iap_number_of_products">%s продукта</string>
   <string name="iap_ok">[bg]OK</string>
   <string name="iap_one_click_buy">Купуване отново с 1 щракване</string>
   <string name="iap_opening_hours">Работно време на центъра за повиквания:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Хронология на поръчките</string>
   <string name="iap_order_not_received_items">Поръчката не е получена</string>
   <string name="iap_order_number">Номер на поръчка: </string>
+  <string name="iap_order_number_msg">Номер на поръчка: %s</string>
   <string name="iap_order_pending">Вашата поръчка е в изчакване</string>
   <string name="iap_order_picked">Вашата поръчка е взета от FedEx на</string>
   <string name="iap_order_processing">Обработка</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Пощенски код</string>
   <string name="iap_postal_code_error">Въведете валиден пощенски код</string>
   <string name="iap_postal_code_hint">Въведете пощенски код</string>
+  <string name="iap_privacy">Бележка за поверителност</string>
   <string name="iap_proceed">Продължаване</string>
+  <string name="iap_product">Изделие</string>
   <string name="iap_product_added">Продуктът е добавен към количката за пазаруване</string>
   <string name="iap_product_catalog">Продукти</string>
   <string name="iap_product_detail_title"> Данни за продукта</string>
   <string name="iap_product_not_found">Не сме намерили продукти за</string>
+  <string name="iap_product_remove_address">Адресът ви ще бъде изтрит завинаги. Сигурни ли сте?</string>
   <string name="iap_product_remove_description">Продуктът ви ще бъде премахнат от количката за пазаруване. Сигурни ли сте?</string>
   <string name="iap_products_unavailable">Няма налични продукти</string>
+  <string name="iap_promotional_gift">Промоционален код или код за подарък</string>
   <string name="iap_quantity">Количество: %s</string>
   <string name="iap_rate_it">Независимо дали го харесвате – ние желаем да го оцените!</string>
+  <string name="iap_read">Прочете нашата</string>
   <string name="iap_read_full_review">Прочетете целия отзив</string>
+  <string name="iap_read_privacy">Прочетох</string>
   <string name="iap_recommend_this_product">клиентите биха препоръчали този продукт</string>
   <string name="iap_redeem_voucher">Използване на ваучер</string>
   <string name="iap_remove">Премахване</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Изпратено</string>
   <string name="iap_shipped_to">Изпратено до:</string>
   <string name="iap_shipping_address">Адрес за доставка</string>
+  <string name="iap_shipping_cost">Цена за доставка</string>
   <string name="iap_shipping_to">Изпращане до</string>
   <string name="iap_shopping_cart">Количка за пазаруване</string>
   <string name="iap_shopping_cart_dls">Количка за пазаруване</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Област</string>
   <string name="iap_stock_left">има налични</string>
   <string name="iap_success">Успех</string>
+  <string name="iap_terms_conditions">Общи условия</string>
   <string name="iap_thank_for_order">Благодарим ви за вашата поръчка</string>
   <string name="iap_time_out">Време на изчакване</string>
   <string name="iap_time_out_error">Достигнато е времето за изчакване на сървъра!</string>
   <string name="iap_title">Заглавие</string>
   <string name="iap_total">Общо</string>
+  <string name="iap_total_discount">Обща отстъпка</string>
   <string name="iap_total_val">Общо (0 предмети)</string>
   <string name="iap_town">Град/село</string>
   <string name="iap_town_error">Въведете валиден град</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">ДДС</string>
   <string name="iap_view_invoice">Преглед на фактурата</string>
   <string name="iap_voucher">Ваучер</string>
+  <string name="iap_voucher_applied_success">Ваучерът е приложен успешно</string>
+  <string name="iap_voucher_applied_unsuccess">Неуспешно</string>
+  <string name="iap_voucher_code">Код на ваучер:</string>
   <string name="iap_warranty">Ние предоставяме поне една година гаранция за всички продукти. Нашият екип за поддръжка на клиенти ще се радва да ви помогне.</string>
   <string name="iap_write_review">Напишете рецензия</string>
   <string name="iap_yes_delete">Да, изтрий</string>
