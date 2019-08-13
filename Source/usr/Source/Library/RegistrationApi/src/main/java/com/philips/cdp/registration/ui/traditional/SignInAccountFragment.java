@@ -69,6 +69,7 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -178,6 +179,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+
 
         ButterKnife.bind(this, view);
         mBtnSignInAccount.setEnabled(false);
@@ -502,13 +504,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             return;
         }
 
-        if (null != userRegistrationFailureInfo.getLocalizedValidationErrorMessages()|| userRegistrationFailureInfo.getLocalizedValidationErrorMessages().isEmpty()) {
+        if (null != userRegistrationFailureInfo.getLocalizedValidationErrorMessages() || userRegistrationFailureInfo.getLocalizedValidationErrorMessages().isEmpty()) {
             mEtEmailInputValidation.setErrorMessage(userRegistrationFailureInfo.getLocalizedValidationErrorMessages());
             mEtEmailInputValidation.showError();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             uiEnableState(true);
             return;
-        } else{
+        } else {
             mEtEmailInputValidation.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.URX, RegConstants.UNKNOWN_ERROR_ID));
             mEtEmailInputValidation.showError();
 
@@ -634,6 +636,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
         boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
         RLog.d(TAG, "handleLoginSuccess: family name" + mUser.getFamilyName());
+        ConsentStates personalConsentStatus = RegistrationConfiguration.getInstance().getPersonalConsent();
 
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
@@ -644,22 +647,33 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
         if ((mUser.isEmailVerified() || mUser.isMobileVerified()) || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            if (RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile) && mUser.getReceiveMarketingEmail()) {
+            if (RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile) && mUser.getReceiveMarketingEmail() &&
+                    (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || personalConsentStatus.ordinal() != ConsentStates.inactive.ordinal())) {
                 RLog.d(TAG, "handleLoginSuccess : TERMS_N_CONDITIONS_ACCEPTED :getReceiveMarketingEmail : completeRegistration");
                 completeRegistration();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                         AppTagingConstants.SUCCESS_LOGIN);
                 ABTestClientInterface abTestClientInterface = RegistrationConfiguration.getInstance().getComponent().getAbTestClientInterface();
-                abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null);
+                abTestClientInterface.tagEvent(FIREBASE_SUCCESSFUL_REGISTRATION_DONE, null); //No Almost Done Screen
+            } else if (RegPreferenceUtility.getPreferenceValue(mContext, RegConstants.TERMS_N_CONDITIONS_ACCEPTED, mEmailOrMobile) && mUser.getReceiveMarketingEmail() &&
+                    (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && personalConsentStatus.ordinal() == ConsentStates.inactive.ordinal())) {
+                clearInputFields();
+                getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
+                trackPage(AppTaggingPages.ALMOST_DONE); //AlmostDOne Screen with PC
+            } else if ((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) &&
+                    (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && personalConsentStatus.ordinal() == ConsentStates.inactive.ordinal())) {
+                clearInputFields();
+                getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
+                trackPage(AppTaggingPages.ALMOST_DONE); ////AlmostDOne Screen with PC and RM
+            } else if ((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) &&
+                    (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || personalConsentStatus.ordinal() != ConsentStates.inactive.ordinal())) {
+                clearInputFields();
+                getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance(); //AlmostDOne Screen with RM
+                trackPage(AppTaggingPages.ALMOST_DONE);
             } else {
-                if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() || !mUser.getReceiveMarketingEmail()) {
-                    clearInputFields();
-                    launchAlmostDoneScreenForTermsAcceptance();
-                } else {
-                    trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                            AppTagingConstants.SUCCESS_LOGIN);
-                    completeRegistration();
-                }
+                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                        AppTagingConstants.SUCCESS_LOGIN);
+                completeRegistration();
             }
         } else {
             if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
@@ -696,9 +710,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void launchAlmostDoneScreenForTermsAcceptance() {
-        clearInputFields();
-        getRegistrationFragment().addAlmostDoneFragmentforTermsAcceptance();
-        trackPage(AppTaggingPages.ALMOST_DONE);
+
     }
 
     private void handleResend() {
@@ -763,9 +775,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 String url = urlMap.get(smsServiceID).getConfigUrls();
-                if(null == url){
+                if (null == url) {
                     RLog.e(TAG, " onError serviceDiscovery : userreg.urx.verificationsmscode : " + "fetched url is null");
-                 }else {
+                } else {
                     RLog.d(TAG, " onSuccess  : userreg.urx.verificationsmscode:" + url);
                     String uriSubString = getBaseString(url);
                     verificationSmsCodeURL = uriSubString + USER_REQUEST_PW_RESET_SMS_CODE;
@@ -781,7 +793,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 verificationSmsCodeURL = null;
                 mEtEmailInputValidation.setErrorMessage(new URError(mContext).getLocalizedError(ErrorType.NETWOK, ErrorCodes.NETWORK_ERROR));
             }
-        },null);
+        }, null);
     }
 
     private void uiEnableState(boolean state) {

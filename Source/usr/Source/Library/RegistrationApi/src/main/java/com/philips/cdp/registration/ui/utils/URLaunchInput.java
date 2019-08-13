@@ -3,6 +3,7 @@ package com.philips.cdp.registration.ui.utils;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 /**
@@ -46,6 +47,15 @@ public class URLaunchInput extends UappLaunchInput {
 
     private UserRegistrationUIEventListener userRegistrationListener;
 
+    public ConsentStates getUserPersonalConsentStatus() {
+        return userPersonalConsentStatus;
+    }
+
+    public void setUserPersonalConsentStatus(ConsentStates userPersonalConsentStatus) {
+        this.userPersonalConsentStatus = userPersonalConsentStatus;
+    }
+
+    private ConsentStates userPersonalConsentStatus;
     /**
      * Get Registration function.
      * @return RegistrationFunction  instance of RegistrationFunction
