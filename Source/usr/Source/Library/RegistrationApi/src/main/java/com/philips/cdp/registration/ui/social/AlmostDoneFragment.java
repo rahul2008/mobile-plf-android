@@ -119,6 +119,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     boolean isValidEmail;
 
+
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
         public int isValid(boolean valid) {
@@ -661,8 +662,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     public void clearUserData() {
-        if (null != acceptTermsCheck && !acceptTermsCheck.isChecked() && RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() &&
-                RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+        if (null != acceptTermsCheck && !acceptTermsCheck.isChecked() && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+            almostDonePresenter.handleClearUserData();
+        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && !acceptPersonalConsentCheck.isChecked()) {
             almostDonePresenter.handleClearUserData();
         }
     }
