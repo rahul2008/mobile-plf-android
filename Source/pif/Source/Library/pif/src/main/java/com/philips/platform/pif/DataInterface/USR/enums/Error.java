@@ -26,12 +26,13 @@ public class Error {
         }
     }
 
+
     public Error(int errCode, String errDesc) {
         this.errCode = errCode;
         this.errDesc = errDesc;
     }
 
-    public Error(UserDetailError userDetailError) {
+    public Error(UserDetailError userDetailError){
         errCode = userDetailError.errorCode;
         errDesc = userDetailError.errorMsg;
     }
