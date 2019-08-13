@@ -43,7 +43,7 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
         }catch(Exception e){
             exception=e;
         }
-        if(null!=exception && null!=orderDetail){
+        if(null==exception && null!=orderDetail){
             exceptionECSCallback.onResponse(orderDetail);
         }else{
             exception = (null!=exception)? exception : new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);

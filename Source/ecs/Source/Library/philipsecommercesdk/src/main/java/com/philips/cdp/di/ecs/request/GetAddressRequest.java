@@ -31,19 +31,20 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
 
     @Override
     public void onResponse(JSONObject response) {
-        GetShippingAddressData getDeliveryModes=null;
+        GetShippingAddressData getShippingAddressData=null;
         Exception exception = null;
         try {
 
-            getDeliveryModes = new Gson().fromJson(response.toString(),
+            getShippingAddressData = new Gson().fromJson(response.toString(),
                     GetShippingAddressData.class);
         }catch(Exception e){
             exception=e;
         }
         // TODO to check response json when there is no address added
-        if(null!=exception && null!=getDeliveryModes){
-            ecsCallback.onResponse(getDeliveryModes);
+        if(null==exception && null!=getShippingAddressData){
+            ecsCallback.onResponse(getShippingAddressData);
         }else{
+            exception = (null!=exception)? exception : new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
             ecsCallback.onFailure(exception,""+response,9000);
         }
 

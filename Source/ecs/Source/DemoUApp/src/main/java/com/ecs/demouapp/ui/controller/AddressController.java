@@ -168,7 +168,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
 
 
                 Message message = new Message();
-                if(result==null){
+                if(result==null || result.getAddresses() ==null || result.getAddresses().size() ==0){
                     message.obj ="";
                 }else{
                     message.obj = result;
