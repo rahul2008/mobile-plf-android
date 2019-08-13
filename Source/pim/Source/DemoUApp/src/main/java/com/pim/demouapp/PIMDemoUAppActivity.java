@@ -130,13 +130,9 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         UserDataInterface userDataInterface = pimInterface.getUserDataInterface();
         if (v == btnLaunchAsActivity) {
-            if (userDataInterface.getUserLoggedInState() != UserLoggedInState.USER_LOGGED_IN) {
-                PIMLaunchInput launchInput = new PIMLaunchInput();
-                ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
-                pimInterface.launch(activityLauncher, launchInput);
-            } else {
-                showToast("User is already login!");
-            }
+            PIMLaunchInput launchInput = new PIMLaunchInput();
+            ActivityLauncher activityLauncher = new ActivityLauncher(this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_SENSOR, null, 0, null);
+            pimInterface.launch(activityLauncher, launchInput);
         } else if (v == btnLaunchAsFragment) {
             if (isUSR) {
                 launchUSR();
