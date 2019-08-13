@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
+import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -27,6 +28,7 @@ import com.philips.cdp.di.ecs.request.CreateAddressRequest;
 import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.GetOrderHistoryRequest;
 import com.philips.cdp.di.ecs.request.GetPaymentsRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
 import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest;
@@ -589,6 +591,10 @@ public class ECSManager {
                 ecsCallback.onFailure(error, detailErrorMessage, errorCode);
             }
         }).executeRequest();
+    }
+
+    public void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
+        new GetOrderHistoryRequest(pageNumber,ecsCallback).executeRequest();
     }
 
 

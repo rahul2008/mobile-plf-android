@@ -128,11 +128,10 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
 
     @Override
     public void onGetOrderList(Message msg) {
-        if (msg.obj instanceof IAPNetworkError) {
+        if (msg.obj instanceof Exception) {
             hideProgressBar();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
-            if (msg.what == RequestCode.GET_ORDERS) {
                 if (msg.obj instanceof OrdersData) {
                     OrdersData orderData = (OrdersData) msg.obj;
                     if (orderData.getOrders() == null || orderData.getOrders().size() == 0) {
@@ -157,7 +156,6 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                         }
                     }
                 }
-            }
         }
     }
 
