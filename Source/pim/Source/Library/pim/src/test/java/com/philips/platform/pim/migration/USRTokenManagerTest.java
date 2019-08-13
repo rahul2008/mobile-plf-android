@@ -56,6 +56,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.spy;
@@ -182,16 +183,17 @@ public class USRTokenManagerTest extends TestCase {
         Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
         AppConfigurationInterface.AppConfigurationError mockConfigurationError = mock(AppConfigurationInterface.AppConfigurationError.class);
         whenNew(AppConfigurationInterface.AppConfigurationError.class).withNoArguments().thenReturn(mockConfigurationError);
+        doReturn("signature").when(spyUsrTokenManager, "getRefreshSignature", anyString(), anyString());
         when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
         when(mockServiceDiscoveryService.getConfigUrls()).thenReturn("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
         when(mockServiceDiscoveryService.getLocale()).thenReturn("en_US");
-        Whitebox.setInternalState(usrTokenManager, "signedInUser", signedUserData());
+        Whitebox.setInternalState(spyUsrTokenManager, "signedInUser", signedUserData());
         when(mockAppConfigurationInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockConfigurationError)).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
-        usrTokenManager.fetchRefreshedAccessToken(mockRefreshUSRTokenListener);
+        spyUsrTokenManager.fetchRefreshedAccessToken(mockRefreshUSRTokenListener);
         verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
         mockOnGetServiceUrlMapListener = captor.getValue();
-        //mockOnGetServiceUrlMapListener.onSuccess(mockMap); //ToDo:Shashi, Need to handle Base64.encodeToString for unit test cases
+        mockOnGetServiceUrlMapListener.onSuccess(mockMap);
     }
 
     @Test
@@ -199,12 +201,11 @@ public class USRTokenManagerTest extends TestCase {
         String refreshUrl = "https://philips.eval.janraincapture.com" + "/oauth/refresh_access_token";
         Whitebox.setInternalState(spyUsrTokenManager, "signedInUser", signedUserData());
         RefreshUSRTokenRequest mockUsrTokenRequest = mock(RefreshUSRTokenRequest.class);
-        //whenNew(RefreshUSRTokenRequest.class).withArguments(eq(refreshUrl), anyString()).thenReturn(mockUsrTokenRequest);
         whenNew(RefreshUSRTokenRequest.class).withAnyArguments().thenReturn(mockUsrTokenRequest);
         PIMRestClient mockPimRestClient = mock(PIMRestClient.class);
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
-        PowerMockito.doReturn("signature").when(spyUsrTokenManager,"getRefreshSignature",anyString(),anyString());
+        doReturn("signature").when(spyUsrTokenManager, "getRefreshSignature", anyString(), anyString());
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
         Whitebox.invokeMethod(spyUsrTokenManager, "refreshUSRAccessToken", refreshUrl, "en-US", mockRefreshUSRTokenListener);
         verify(mockPimRestClient).invokeRequest(eq(mockUsrTokenRequest), captorResponseListener.capture(), captorErrorListener.capture());
@@ -217,9 +218,7 @@ public class USRTokenManagerTest extends TestCase {
         VolleyError volleyError = new VolleyError();
         errorListener.onErrorResponse(volleyError);
         verify(mockRefreshUSRTokenListener).onRefreshTokenFailed(any(Error.class));
-
         responseListener.onResponse(new JsonObject().toString());
-        //verify(mockRefreshUSRTokenListener).onRefreshTokenFailed(any(Error.class));
     }
 
 
@@ -227,7 +226,7 @@ public class USRTokenManagerTest extends TestCase {
     public void testParamToStringThrowException() throws Exception {
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
         String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
-        PowerMockito.doReturn("signature").when(spyUsrTokenManager,"getRefreshSignature",anyString(),anyString());
+        doReturn("signature").when(spyUsrTokenManager, "getRefreshSignature", anyString(), anyString());
         HashSet<Pair<String, String>> params = Whitebox.invokeMethod(spyUsrTokenManager, "getParams", "en-US", datetime, accessToken);
         Whitebox.invokeMethod(spyUsrTokenManager, "paramsToString", params, "UTF");
     }
@@ -244,7 +243,7 @@ public class USRTokenManagerTest extends TestCase {
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
         String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
         String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime, accessToken);
-        //assertNotNull(refsignature); //TODO:Shashi, Need to handle Base64.encodeToString for unit test cases
+        assertNull(refsignature);
     }
 
     @Test

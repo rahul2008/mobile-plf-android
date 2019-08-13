@@ -250,8 +250,7 @@ public class PIMAuthManagerTest extends TestCase {
         whenNew(AuthorizationResponse.Builder.class).withArguments(mockAuthorizationRequest).thenReturn(mockBuilder);
         when(mockBuilder.fromUri(mockUri)).thenReturn(mockBuilder);
         when(mockBuilder.build()).thenReturn(mockAuthResponse);
-        Whitebox.setInternalState(mockAuthResponse, "authorizationCode", "ddd"); //TODO:Shashi, Update authCode later
-
+        Whitebox.setInternalState(mockAuthResponse, "authorizationCode", "Jzp0FNeInMgznx-X");
         AuthorizationException authorizationException = null;
         whenNew(AuthState.class).withArguments(mockAuthResponse, authorizationException).thenReturn(mockAuthState);
         when(mockAuthResponse.createTokenExchangeRequest()).thenReturn(mockTokenRequest);

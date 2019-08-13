@@ -15,7 +15,7 @@ public class PIMMigrationAuthRequestTest extends TestCase {
 
     private PIMMigrationAuthRequest pimMigrationAuthRequest;
 
-    private final String idMigrationAuthReq = "url"; //TODO: Shashi, Update with Correct url
+    private final String idMigrationAuthReq = "https://stg.api.eu-west-1.philips.com/consumerIdentityService/identityAssertions/";
 
     @Before
     public void setUp() throws Exception {
@@ -44,9 +44,9 @@ public class PIMMigrationAuthRequestTest extends TestCase {
     }
 
     @Test
-    public void getGetMethodType(){
+    public void getGetMethodType() {
         int methodType = pimMigrationAuthRequest.getMethodType();
-        assertEquals(methodType,PIMRequest.Method.GET);
+        assertEquals(methodType, PIMRequest.Method.GET);
     }
 
     @After

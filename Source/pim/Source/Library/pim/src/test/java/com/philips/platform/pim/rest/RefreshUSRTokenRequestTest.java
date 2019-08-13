@@ -15,7 +15,7 @@ public class RefreshUSRTokenRequestTest extends TestCase {
 
     private RefreshUSRTokenRequest refreshUSRTokenRequest;
 
-    private final String refreshTokenUrl = "refreshUrl"; //TODO:Shashi, Update url later;
+    private final String refreshTokenUrl = "refreshUrl";
     private String body = "body";
 
     @Before

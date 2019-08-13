@@ -49,7 +49,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-//TODO: Shashi, Add unit test cases.
 @PrepareForTest({Uri.class, Analytics.class, PIMSettingManager.class, AuthorizationRequest.class, AuthorizationRequest.Builder.class, AuthorizationServiceConfiguration.class, AuthorizationResponse.class,
         AuthorizationException.class, PIMAuthManager.class, PIMLoginManager.class})
 @RunWith(PowerMockRunner.class)

@@ -214,7 +214,7 @@ public class PIMUserManagerTest extends TestCase {
         Whitebox.setInternalState(mockAuthorizationResponse, "request", mockAuthorizationRequest);
         Whitebox.setInternalState(mockAuthorizationRequest, "configuration", mockAuthorizationServiceConfiguration);
         Whitebox.setInternalState(mockAuthorizationServiceConfiguration, "discoveryDoc", mockAuthorizationServiceDiscovery);
-        Mockito.when(mockAuthorizationServiceDiscovery.getIssuer()).thenReturn("IssuerUrl"); //TODO:Shashi, need to update url later
+        Mockito.when(mockAuthorizationServiceDiscovery.getIssuer()).thenReturn("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
 
         whenNew(LogoutRequest.class).withArguments(mockAuthState, "94e28300-565d-4110-8919-42dc4f817393").thenReturn(mockLogoutRequest);
         pimUserManager.logoutSession(mockLogoutListener);
