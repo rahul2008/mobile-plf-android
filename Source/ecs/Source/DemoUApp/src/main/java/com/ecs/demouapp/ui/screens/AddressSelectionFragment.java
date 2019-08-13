@@ -242,7 +242,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
             addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
                     AddressFragment.TAG,true);
-        } else if ((msg.obj instanceof IAPNetworkError)) {
+        } else if ((msg.obj instanceof Exception)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = Utility.prepareAddressFields(retrieveSelectedAddress(), mJanRainEmail);

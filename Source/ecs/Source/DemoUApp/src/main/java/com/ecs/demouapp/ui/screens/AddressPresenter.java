@@ -259,7 +259,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             addressContractor.enableView(addressContractor.getBillingAddressView());
             addressContractor.disableView(addressContractor.getShippingAddressView());
 
-        } else if ((msg.obj instanceof IAPNetworkError)) {
+        } else if ((msg.obj instanceof Exception)) {
             NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
         } else if ((msg.obj instanceof PaymentMethods)) {
             //Track new address creation

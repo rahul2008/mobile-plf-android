@@ -247,8 +247,7 @@ public class ECSManager {
     }
 
     void updateProductsWithSummary(Products products, ECSProductSummary ecsProductSummary) {
-        HashMap<String, Data> summaryCtnMap = new HashMap<>();
-        ArrayList<Product> productArrayList = new ArrayList<>(); // set back products for which summaries are available
+        HashMap<String, Data> summaryCtnMap = new HashMap<>();ArrayList<Product> productArrayList = new ArrayList<>(); // set back products for which summaries are available
         if (ecsProductSummary.isSuccess()) {
             for (Data data : ecsProductSummary.getData()) {
                 summaryCtnMap.put(data.getCtn(), data);

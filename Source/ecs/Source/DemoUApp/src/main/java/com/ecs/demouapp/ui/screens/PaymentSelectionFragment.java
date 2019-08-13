@@ -146,7 +146,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     @Override
     public void onSetPaymentDetails(Message msg) {
         hideProgressBar();
-        if (msg.obj instanceof IAPNetworkError) {
+        if (msg.obj instanceof Exception) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             Bundle bundle = new Bundle();

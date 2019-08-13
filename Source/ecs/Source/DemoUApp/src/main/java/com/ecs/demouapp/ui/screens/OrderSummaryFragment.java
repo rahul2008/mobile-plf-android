@@ -466,7 +466,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onLoadFinished(ECSShoppingCart data) {
-
+      hideProgressBar();
     }
 
     @Override

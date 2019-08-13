@@ -63,4 +63,8 @@ public class GetPaymentsRequest extends OAuthAppInfraAbstractRequest implements 
         ecsCallback.onFailure(error, "Error fetching Payment", 9000);
     }
 
+    @Override
+    public Response.Listener<JSONObject> getJSONSuccessResponseListener() {
+        return this;
+    }
 }
