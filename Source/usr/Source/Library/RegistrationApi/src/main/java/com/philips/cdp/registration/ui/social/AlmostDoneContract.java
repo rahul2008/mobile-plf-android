@@ -91,4 +91,9 @@ public interface AlmostDoneContract {
     void showTryAgainError();
 
     void showAnyOtherErrors(String errorDescription);
+
+    void hideTermsAndConditionError();
+
+    void hideAcceptPersonalConsentChecked();
+
 }

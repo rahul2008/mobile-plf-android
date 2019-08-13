@@ -353,14 +353,17 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
             }
 
         } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            if (almostDoneContract.isAcceptTermsChecked()) {
+            if (almostDoneContract.isAcceptTermsChecked() && almostDoneContract.isAcceptPersonalConsentChecked()) {
                 almostDoneContract.handleAcceptTermsTrue();
+                almostDoneContract.handleAcceptPersonalConsentTrue();
+            } else if (almostDoneContract.isAcceptTermsChecked() && !almostDoneContract.isAcceptPersonalConsentChecked()) {
+                almostDoneContract.hideTermsAndConditionError();
+                almostDoneContract.showPersonalConsentError();
+            } else if (almostDoneContract.isAcceptPersonalConsentChecked() && !almostDoneContract.isAcceptTermsChecked()) {
+                almostDoneContract.showTermsAndConditionError();
+                almostDoneContract.hideAcceptPersonalConsentChecked();
             } else {
                 almostDoneContract.showTermsAndConditionError();
-            }
-            if (almostDoneContract.isAcceptPersonalConsentChecked()) {
-                almostDoneContract.handleAcceptPersonalConsentTrue();
-            } else {
                 almostDoneContract.showPersonalConsentError();
             }
 
