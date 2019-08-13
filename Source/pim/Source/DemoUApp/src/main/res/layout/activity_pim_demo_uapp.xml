@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/appversion"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:text="Launch As Activity"/>
 
         <com.philips.platform.uid.view.widget.Button
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_login_activity"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:text="Launch As Fragment" />
 
         <com.philips.platform.uid.view.widget.Button
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_Registration"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:text="Logout" />
 
         <com.philips.platform.uid.view.widget.Button
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_logout"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
+            android:layout_margin="2dp"
             android:text="Refresh Session" />
 
         <com.philips.platform.uid.view.widget.Button

@@ -31,7 +31,7 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
  * Class to manage users
  */
 public class PIMUserManager {
-    private final String PIM_ACTIVEUUID = "com.pim.activeuuid";
+    private static final String PIM_ACTIVEUUID = "com.pim.activeuuid";
     private PIMOIDCUserProfile pimoidcUserProfile;
     private Context context;
     private AppInfraInterface appInfraInterface;
