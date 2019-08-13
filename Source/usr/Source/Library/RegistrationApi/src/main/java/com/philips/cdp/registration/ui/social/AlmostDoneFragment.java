@@ -492,6 +492,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
+    public void hideTermsAndConditionError() {
+        acceptTermserrorMessage.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideAcceptPersonalConsentChecked() {
+        acceptPersonalConsenterrorMessage.setVisibility(View.GONE);
+    }
+
+    @Override
     public boolean isAcceptTermsContainerVisible() {
         return acceptTermsCheck.getVisibility() == View.VISIBLE;
     }
