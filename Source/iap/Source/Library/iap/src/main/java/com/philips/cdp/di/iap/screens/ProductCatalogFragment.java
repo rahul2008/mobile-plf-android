@@ -25,6 +25,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -182,12 +183,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addOnScrollListener(mRecyclerViewOnScrollListener);
 
-
         mShoppingCartAPI = new ShoppingCartPresenter();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
 
         mBundle = getArguments();
+
         return rootView;
     }
 
