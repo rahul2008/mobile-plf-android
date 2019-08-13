@@ -10,6 +10,7 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -33,11 +34,13 @@ import com.philips.cdp.di.ecs.request.GetPaymentsRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
 import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
+import com.philips.cdp.di.ecs.request.MakePaymentRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.SetPaymentMethodRequest;
 import com.philips.cdp.di.ecs.request.SetVoucherRequest;
+import com.philips.cdp.di.ecs.request.SubmitOrderRequest;
 import com.philips.cdp.di.ecs.request.UpdateAddressRequest;
 import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
@@ -59,8 +62,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
-import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
-import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 public class ECSManager {
 
@@ -599,9 +600,20 @@ public class ECSManager {
 
 
 
-    public void  preparePayment(String cartId, ECSCallback<URL, Exception> ecsCallback){
+    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback){
+        new SubmitOrderRequest(cvv,ecsCallback).executeRequest();
+
 
     }
+
+
+    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<URL, Exception> ecsCallback){
+        new MakePaymentRequest(orderDetail,billingAddress,ecsCallback).executeRequest();
+    }
+
+
+
+
 
 }
 

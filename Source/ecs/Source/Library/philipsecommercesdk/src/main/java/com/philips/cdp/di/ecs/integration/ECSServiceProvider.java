@@ -7,6 +7,7 @@ import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -115,5 +116,7 @@ public interface ECSServiceProvider {
 
     void getOrderHistory(int pageNumber, ECSCallback<OrdersData,Exception> ecsCallback);
 
-    void preparePayment(String CartId, ECSCallback<URL, Exception> ecsCallback);
+    void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback);
+
+    void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<URL, Exception> ecsCallback);
 }

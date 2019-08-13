@@ -11,6 +11,7 @@ import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -235,11 +236,16 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void preparePayment(String cartId, ECSCallback<URL, Exception> ecsCallback) {
-        mECSManager.preparePayment(cartId,ecsCallback);
+    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+        mECSManager.submitOrder(cvv,ecsCallback);
     }
 
-    private void setLangAndCountry(String locale) {
+    @Override
+    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<URL, Exception> ecsCallback) {
+        mECSManager.makePayment(orderDetail,billingAddress,ecsCallback);
+    }
+
+        private void setLangAndCountry(String locale) {
         String[] localeArray;
         localeArray = locale.split("_");
         ECSConfig.INSTANCE.setCountry(localeArray[1]);

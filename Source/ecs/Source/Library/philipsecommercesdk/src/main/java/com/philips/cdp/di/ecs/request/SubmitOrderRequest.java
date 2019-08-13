@@ -3,22 +3,29 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+
 public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String>  {
 
-    String cartID;
-    ECSCallback<OrderDetail,Exception> exceptionECSCallback;
 
-    public SubmitOrderRequest(String cartID, ECSCallback<OrderDetail, Exception> exceptionECSCallback) {
-        this.cartID = cartID;
+    ECSCallback<OrderDetail,Exception> exceptionECSCallback;
+    String cvv;
+
+    public SubmitOrderRequest(String cvv,ECSCallback<OrderDetail, Exception> exceptionECSCallback) {
+        this.cvv=cvv; // todo   reproduce returning user with saved payment method
         this.exceptionECSCallback = exceptionECSCallback;
     }
 
@@ -29,7 +36,19 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onResponse(String response) {
-
+        Exception exception = null;
+        OrderDetail orderDetail=null;
+        try {
+             orderDetail = new Gson().fromJson(response, OrderDetail.class);
+        }catch(Exception e){
+            exception=e;
+        }
+        if(null!=exception && null!=orderDetail){
+            exceptionECSCallback.onResponse(orderDetail);
+        }else{
+            exception = (null!=exception)? exception : new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
+            exceptionECSCallback.onFailure(exception,""+response, 999);
+        }
     }
 
     @Override
@@ -53,7 +72,7 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
     @Override
     public Map<String, String> getParams() {
         HashMap<String, String> cartId = new HashMap<>();
-        cartId.put(ModelConstants.CART_ID,cartID);
+        cartId.put(ModelConstants.CART_ID,"current");
         return  cartId;
     }
 
@@ -65,7 +84,7 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-
+        exceptionECSCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),4999);
     }
 
 
