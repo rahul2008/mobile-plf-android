@@ -229,7 +229,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
             public void onResponse(Boolean result) {
 
                 Message message = new Message();
-                message.obj = "";
+                message.obj =result;
                 message.what = RequestCode.UPDATE_ADDRESS;
                 mAddressListener.onGetAddress(message);
             }
@@ -238,9 +238,9 @@ public class AddressController implements AbstractModel.DataLoadListener {
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
 
                 ECSErrors.showECSAlertDialog(mContext,"Error",detailErrorMessage);
-               /* Message message = new Message();
+                Message message = new Message();
                 message.obj = error;
-                mAddressListener.onGetAddress(message);*/
+                mAddressListener.onGetAddress(message);
             }
         });
 

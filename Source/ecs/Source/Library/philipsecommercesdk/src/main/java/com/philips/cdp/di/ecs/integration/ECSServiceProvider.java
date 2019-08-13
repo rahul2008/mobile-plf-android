@@ -102,7 +102,7 @@ public interface ECSServiceProvider {
     void setDefaultAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 
     void deleteAddress(Addresses address,ECSCallback<GetShippingAddressData, Exception> ecsCallback);
-    
+
     void getRetailers(String productID, ECSCallback<WebResults,Exception> ecsCallback);
 
     void getRetailers(Product product, ECSCallback<WebResults,Exception> ecsCallback);

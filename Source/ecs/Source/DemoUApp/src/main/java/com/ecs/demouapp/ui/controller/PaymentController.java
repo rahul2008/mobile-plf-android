@@ -16,7 +16,10 @@ import com.ecs.demouapp.ui.model.SetPaymentDetailsRequest;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 
 import java.util.HashMap;
 
@@ -51,16 +54,55 @@ public class PaymentController implements AbstractModel.DataLoadListener {
     }
 
     public void getPaymentDetails() {
-        GetPaymentDetailRequest model = new GetPaymentDetailRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_PAYMENT_DETAILS, model, model);
+
+        ECSUtility.getInstance().getEcsServices().getPayments(new ECSCallback<PaymentMethods, Exception>() {
+            @Override
+            public void onResponse(PaymentMethods result) {
+
+
+                Message message = new Message();
+                if( result.getPayments()==null || result.getPayments().isEmpty()){
+                    message.obj = "";
+                }else{
+                    message.obj = result;
+                }
+                mPaymentListener.onGetPaymentDetails(message);
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                Message message = new Message();
+                message.obj = error;
+                mPaymentListener.onGetPaymentDetails(message);
+            }
+        });
+
+        /*GetPaymentDetailRequest model = new GetPaymentDetailRequest(getStore(), null, this);
+        getHybrisDelegate().sendRequest(RequestCode.GET_PAYMENT_DETAILS, model, model);*/
     }
 
     public void setPaymentDetails(String paymentId) {
-        HashMap<String, String> params = new HashMap<>();
-        params.put(ModelConstants.PAYMENT_DETAILS_ID, paymentId);
+        /*HashMap<String, String> params = new HashMap<>();
+        params.put(ModelConstants.PAYMENT_DETAILS_ID, paymentId);*/
 
-        SetPaymentDetailsRequest model = new SetPaymentDetailsRequest(getStore(), params, this);
-        getHybrisDelegate().sendRequest(RequestCode.SET_PAYMENT_DETAILS, model, model);
+        ECSUtility.getInstance().getEcsServices().setPaymentMethod(paymentId, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                Message message = new Message();
+                message.obj = result;
+                mPaymentListener.onSetPaymentDetails(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                Message message = new Message();
+                message.obj = error;
+                mPaymentListener.onSetPaymentDetails(message);
+            }
+        });
+        /*SetPaymentDetailsRequest model = new SetPaymentDetailsRequest(getStore(), params, this);
+        getHybrisDelegate().sendRequest(RequestCode.SET_PAYMENT_DETAILS, model, model);*/
     }
 
     public void placeOrder(String pSecurityCode) {
