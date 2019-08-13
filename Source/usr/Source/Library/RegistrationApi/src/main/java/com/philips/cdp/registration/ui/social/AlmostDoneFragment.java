@@ -241,7 +241,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             }
         });
 
-        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal() ) {
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal()) {
             acceptPersonalConsentCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -293,7 +293,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private void updateReceiveMarketingViewStyle() {
         RLog.d(TAG, "updateReceiveMarketingViewStyle : is  called");
         RegUtility.linkifyPhilipsNews(marketingOptCheck, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        RegUtility.linkifyPersonalConsent(acceptPersonalConsentCheck, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())
+            RegUtility.linkifyPersonalConsent(acceptPersonalConsentCheck, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
     }
 
     @Override
@@ -525,7 +526,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleAcceptPersonalConsentTrue() {
-        trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
+        completeRegistration();
+        trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_PERSONAL_CONSENT_OPTION_IN);
     }
 
     @Override
