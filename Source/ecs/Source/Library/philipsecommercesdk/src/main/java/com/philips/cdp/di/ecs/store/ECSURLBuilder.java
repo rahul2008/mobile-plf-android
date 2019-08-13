@@ -426,8 +426,12 @@ public class ECSURLBuilder extends AbstractStore {
     @Override
     public String getPlaceOrderUrl() {
 
-        
-        return mPlaceOrderUrl;
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_ORDERS;
+
     }
 
     //Orders

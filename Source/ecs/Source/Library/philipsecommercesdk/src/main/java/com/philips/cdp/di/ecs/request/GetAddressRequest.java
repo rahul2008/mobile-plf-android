@@ -32,7 +32,7 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
     @Override
     public void onResponse(JSONObject response) {
         GetShippingAddressData getDeliveryModes=null;
-        Exception exception = new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
+        Exception exception = null;
         try {
 
             getDeliveryModes = new Gson().fromJson(response.toString(),

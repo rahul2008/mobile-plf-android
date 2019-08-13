@@ -119,4 +119,7 @@ public interface ECSServiceProvider {
     void preparePayment(String CartId, ECSCallback<URL, Exception> ecsCallback);
 
     void getOrderDetail(String orderId, ECSCallback<OrderDetail,Exception> ecsCallback);
+    void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback);
+
+    void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<URL, Exception> ecsCallback);
 }

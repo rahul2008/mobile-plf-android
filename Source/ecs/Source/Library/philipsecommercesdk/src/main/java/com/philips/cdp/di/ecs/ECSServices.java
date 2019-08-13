@@ -226,6 +226,11 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
+    public void preparePayment(String CartId, ECSCallback<URL, Exception> ecsCallback) {
+        mECSManager.pa
+    }
+
+    @Override
     public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
        mECSManager.getRetailers(productID,ecsCallback);
     }
@@ -236,8 +241,13 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void preparePayment(String cartId, ECSCallback<URL, Exception> ecsCallback) {
-        mECSManager.preparePayment(cartId,ecsCallback);
+    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+        mECSManager.submitOrder(cvv,ecsCallback);
+    }
+
+    @Override
+    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<URL, Exception> ecsCallback) {
+        mECSManager.makePayment(orderDetail,billingAddress,ecsCallback);
     }
 
     @Override
