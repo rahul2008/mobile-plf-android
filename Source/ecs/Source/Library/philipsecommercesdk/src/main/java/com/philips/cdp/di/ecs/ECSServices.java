@@ -10,6 +10,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -25,6 +26,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -182,7 +184,8 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
-        mECSManager.createNewAddress(address, ecsCallback,true);
+        mECSManager.createNewAddress(address, ecsCallback,true
+        );
     }
 
     @Override
@@ -217,6 +220,11 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
+    public void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
+        mECSManager.getOrderHistory(pageNumber,ecsCallback);
+    }
+
+    @Override
     public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
        mECSManager.getRetailers(productID,ecsCallback);
     }
@@ -224,6 +232,11 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void getRetailers(Product product, ECSCallback<WebResults, Exception> ecsCallback) {
         mECSManager.getRetailers(product.getCode(),ecsCallback);
+    }
+
+    @Override
+    public void preparePayment(String cartId, ECSCallback<URL, Exception> ecsCallback) {
+        mECSManager.preparePayment(cartId,ecsCallback);
     }
 
     private void setLangAndCountry(String locale) {

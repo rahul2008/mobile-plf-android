@@ -6,6 +6,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -14,6 +15,7 @@ import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -110,4 +112,8 @@ public interface ECSServiceProvider {
     void getPayments(ECSCallback<PaymentMethods,Exception> ecsCallback);
 
     void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback);
+
+    void getOrderHistory(int pageNumber, ECSCallback<OrdersData,Exception> ecsCallback);
+
+    void preparePayment(String CartId, ECSCallback<URL, Exception> ecsCallback);
 }

@@ -39,7 +39,7 @@ public class ECSURLBuilder extends AbstractStore {
     private String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:Tuscany_Campaign&lang=";
 
     private static final String SUFFIX_PRODUCTS = "products";
-    private static final String SUFFIX_CURRENT_PAGE = "&currentPage=%s";
+    private static final String SUFFIX_CURRENT_PAGE = "&currentPage=";
     private static final String SUFFIX_STRING_PARAM = "%s";
 
     private static final String SUFFIX_ADDRESSES = "addresses";
@@ -49,7 +49,7 @@ public class ECSURLBuilder extends AbstractStore {
     private static final String SUFFIX_DELIVERY_MODES = "deliverymodes";
 
     private static final String SUFFIX_PAYMENT_DETAILS = "/paymentdetails";
-    private static final String SUFFIX_ORDERS = "/orders";
+    private static final String SUFFIX_ORDERS = "orders";
     private static final String SUFFIX_PAY = "/pay";
     private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
@@ -413,19 +413,35 @@ public class ECSURLBuilder extends AbstractStore {
     }
 
     @Override
-    public String getMakePaymentUrl(String id) {
-        return String.format(mMakePaymentUrl, id);
+    public String getMakePaymentUrl(String orderId) {
+        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+
+                SUFFIX_ORDERS+
+                SEPERATOR+orderId+
+                SUFFIX_PAY;
     }
 
     @Override
     public String getPlaceOrderUrl() {
+
+        
         return mPlaceOrderUrl;
     }
 
     //Orders
     @Override
     public String getOrderHistoryUrl(String pageNumber) {
-        return String.format(mOrderHistoryUrl, pageNumber);
+
+        ///pilcommercewebservices/v2/US_Pub/users/current/orders
+      return   ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_ORDERS+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale()+ SUFFIX_CURRENT_PAGE+pageNumber;
+
     }
 
     @Override

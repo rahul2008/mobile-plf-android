@@ -1,0 +1,260 @@
+{
+  "type": "orderWsDTO",
+  "calculated": true,
+  "code": "24013388325",
+  "deliveryCost": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0.00
+  },
+  "deliveryItemsQuantity": 1,
+  "deliveryMode": {
+    "code": "UPS_EXPRESS",
+    "deliveryCost": {
+      "currencyIso": "EUR",
+      "formattedValue": "0,00 €",
+      "priceType": "BUY",
+      "value": 0.00
+    },
+    "description": "1-2 business days",
+    "name": "UPS Express"
+  },
+  "deliveryOrderGroups": [
+    {
+      "entries": [
+        {
+          "basePrice": {
+            "currencyIso": "EUR",
+            "formattedValue": "149,99 €",
+            "priceType": "BUY",
+            "value": 149.99
+          },
+          "entryNumber": 0,
+          "product": {
+            "availableForPickup": false,
+            "categories": [
+              {
+                "code": "JUICE_EXTRACTORS_SU2",
+                "url": "/haushaltsgeraete/kuechengeraete/c/JUICE_EXTRACTORS_SU2"
+              },
+              {
+                "code": "DE_Besser_leben_Campaign",
+                "url": "//c/DE_Besser_leben_Campaign"
+              }
+            ],
+            "code": "HR1916/70",
+            "configurable": false,
+            "deliveryTime": "1-2 business days",
+            "isTaxExemptionApplicable": false,
+            "name": "HR1916/70",
+            "price": {
+              "currencyIso": "EUR",
+              "formattedValue": "179,99 €",
+              "priceType": "BUY",
+              "value": 179.99
+            },
+            "productType": "Key",
+            "purchasable": true,
+            "stock": {
+              "stockLevel": 492,
+              "stockLevelStatus": "inStock"
+            },
+            "url": "/haushaltsgeraete/kuechengeraete/avance-collection-entsafter/p/HR1916_70"
+          },
+          "quantity": 1,
+          "totalPrice": {
+            "currencyIso": "EUR",
+            "formattedValue": "149,99 €",
+            "priceType": "BUY",
+            "value": 149.99
+          },
+          "updateable": true,
+          "vertexTaxAmount": {
+            "currencyIso": "EUR",
+            "formattedValue": "23,95 €",
+            "priceType": "BUY",
+            "value": 23.95
+          },
+          "vertexTaxPercent": 19.0
+        }
+      ],
+      "totalPriceWithTax": {
+        "currencyIso": "EUR",
+        "formattedValue": "173,94 €",
+        "priceType": "BUY",
+        "value": 173.94
+      }
+    }
+  ],
+  "entries": [
+    {
+      "basePrice": {
+        "currencyIso": "EUR",
+        "formattedValue": "149,99 €",
+        "priceType": "BUY",
+        "value": 149.99
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "JUICE_EXTRACTORS_SU2",
+            "url": "/haushaltsgeraete/kuechengeraete/c/JUICE_EXTRACTORS_SU2"
+          },
+          {
+            "code": "DE_Besser_leben_Campaign",
+            "url": "//c/DE_Besser_leben_Campaign"
+          }
+        ],
+        "code": "HR1916/70",
+        "configurable": false,
+        "deliveryTime": "1-2 business days",
+        "isTaxExemptionApplicable": false,
+        "name": "HR1916/70",
+        "price": {
+          "currencyIso": "EUR",
+          "formattedValue": "179,99 €",
+          "priceType": "BUY",
+          "value": 179.99
+        },
+        "productType": "Key",
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 492,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "/haushaltsgeraete/kuechengeraete/avance-collection-entsafter/p/HR1916_70"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "EUR",
+        "formattedValue": "149,99 €",
+        "priceType": "BUY",
+        "value": 149.99
+      },
+      "updateable": true,
+      "vertexTaxAmount": {
+        "currencyIso": "EUR",
+        "formattedValue": "23,95 €",
+        "priceType": "BUY",
+        "value": 23.95
+      },
+      "vertexTaxPercent": 19.0
+    }
+  ],
+  "guid": "9547a62a-45e0-4904-8c55-6a136115fc11",
+  "net": false,
+  "orderDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0.00
+  },
+  "pickupItemsQuantity": 0,
+  "productDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0.00
+  },
+  "site": "DE_Pub",
+  "store": "DE_Pub",
+  "subTotal": {
+    "currencyIso": "EUR",
+    "formattedValue": "149,99 €",
+    "priceType": "BUY",
+    "value": 149.99
+  },
+  "totalDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0.00
+  },
+  "totalItems": 1,
+  "totalPrice": {
+    "currencyIso": "EUR",
+    "formattedValue": "149,99 €",
+    "priceType": "BUY",
+    "value": 149.99
+  },
+  "totalPriceWithTax": {
+    "currencyIso": "EUR",
+    "formattedValue": "149,99 €",
+    "priceType": "BUY",
+    "value": 149.99
+  },
+  "totalTax": {
+    "currencyIso": "EUR",
+    "formattedValue": "23,95 €",
+    "priceType": "BUY",
+    "value": 23.95
+  },
+  "user": {
+    "janrainUUID": "b6d80728-7f82-4bd0-9414-880b1bd831fd",
+    "name": "Iappostman",
+    "uid": "iappostman@mailinator.com"
+  },
+  "created": "2019-08-12T12:13:55+0000",
+  "guestCustomer": false,
+  "statusDisplay": "processing",
+  "unconsignedEntries": [
+    {
+      "basePrice": {
+        "currencyIso": "EUR",
+        "formattedValue": "149,99 €",
+        "priceType": "BUY",
+        "value": 149.99
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "JUICE_EXTRACTORS_SU2",
+            "url": "/haushaltsgeraete/kuechengeraete/c/JUICE_EXTRACTORS_SU2"
+          },
+          {
+            "code": "DE_Besser_leben_Campaign",
+            "url": "//c/DE_Besser_leben_Campaign"
+          }
+        ],
+        "code": "HR1916/70",
+        "configurable": false,
+        "deliveryTime": "1-2 business days",
+        "isTaxExemptionApplicable": false,
+        "name": "HR1916/70",
+        "price": {
+          "currencyIso": "EUR",
+          "formattedValue": "179,99 €",
+          "priceType": "BUY",
+          "value": 179.99
+        },
+        "productType": "Key",
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 492,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "/haushaltsgeraete/kuechengeraete/avance-collection-entsafter/p/HR1916_70"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "EUR",
+        "formattedValue": "149,99 €",
+        "priceType": "BUY",
+        "value": 149.99
+      },
+      "updateable": true,
+      "vertexTaxAmount": {
+        "currencyIso": "EUR",
+        "formattedValue": "23,95 €",
+        "priceType": "BUY",
+        "value": 23.95
+      },
+      "vertexTaxPercent": 19.0
+    }
+  ]
+}

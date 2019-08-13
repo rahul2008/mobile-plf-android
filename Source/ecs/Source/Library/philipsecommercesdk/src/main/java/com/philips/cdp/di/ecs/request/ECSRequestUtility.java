@@ -12,6 +12,10 @@ public class ECSRequestUtility {
     public static HashMap<String, String>  getAddressParams(Addresses addresses){
         HashMap<String, String> addressHashMap = new HashMap<>();
 
+
+        if(addresses.getId()!=null)
+            addressHashMap.put(ModelConstants.ADDRESS_ID, addresses.getId()); // required in case of preparePayment
+
         if(addresses.getFirstName()!=null)
             addressHashMap.put(ModelConstants.FIRST_NAME, addresses.getFirstName());
 

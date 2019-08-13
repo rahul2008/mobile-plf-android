@@ -69,7 +69,7 @@ public class SetDeliveryAddressRequestTest {
 
             }
         });
-        ECSRequestUtility
+
     }
 
     @Test
