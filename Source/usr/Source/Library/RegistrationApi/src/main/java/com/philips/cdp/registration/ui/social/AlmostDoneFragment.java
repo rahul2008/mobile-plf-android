@@ -119,9 +119,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     boolean isValidEmail;
 
-    private ConsentStates personalConsentStatus;
-
-
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
         public int isValid(boolean valid) {
@@ -157,7 +154,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mBundle = getArguments();
         if (null != mBundle) {
             trackAbtesting();
-            personalConsentStatus = (ConsentStates) mBundle.get(RegConstants.PERSONAL_CONSENT);
         }
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
