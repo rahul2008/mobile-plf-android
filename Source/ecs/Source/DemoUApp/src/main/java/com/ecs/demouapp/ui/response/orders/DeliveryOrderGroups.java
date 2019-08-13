@@ -1,5 +1,7 @@
 package com.ecs.demouapp.ui.response.orders;
 
+import com.philips.cdp.di.ecs.model.orders.Entries;
+
 import java.util.List;
 
 public class DeliveryOrderGroups {

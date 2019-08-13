@@ -10,6 +10,8 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.orders.Entries;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -28,6 +30,7 @@ import com.philips.cdp.di.ecs.request.CreateAddressRequest;
 import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.GetOrderDetailRequest;
 import com.philips.cdp.di.ecs.request.GetOrderHistoryRequest;
 import com.philips.cdp.di.ecs.request.GetPaymentsRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
@@ -59,8 +62,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
-import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
-import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 public class ECSManager {
 
@@ -602,6 +603,58 @@ public class ECSManager {
 
     }
 
+    public void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
+
+        new GetOrderDetailRequest(orderId, new ECSCallback<OrderDetail, Exception>() {
+            @Override
+            public void onResponse(OrderDetail orderDetail) {
+
+                if(orderDetail == null || orderDetail.getEntries()==null || orderDetail.getEntries().size()==0){
+                    ecsCallback.onResponse(orderDetail);
+                    return;
+                }
+
+                // Get PRX Summary Data
+
+                ArrayList<String> ctns = new ArrayList<>();
+                for(Entries entries :orderDetail.getEntries()){
+                    ctns.add(entries.getProduct().getCode());
+                }
+                ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
+
+                //get PRX summary URL
+                productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
+                    @Override
+                    public void onSuccess(String url) {
+
+                        getProductSummary(url, new ECSCallback<ECSProductSummary, Exception>() {
+                            @Override
+                            public void onResponse(ECSProductSummary ecsProductSummary) {
+                                orderDetail.setEcsProductSummary(ecsProductSummary);
+                                ecsCallback.onResponse(orderDetail);
+                            }
+
+                            @Override
+                            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+            }
+        }).executeRequest();
+    }
 }
 
 

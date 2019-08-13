@@ -446,7 +446,15 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getOrderDetailUrl(String orderId) {
-        return String.format(mOrderDetailUrl, orderId);
+
+        // mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
+        return   ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+                USER+SEPERATOR+
+                SUFFIX_CURRENT+SEPERATOR+
+                SUFFIX_ORDERS+SEPERATOR+
+                orderId+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
     }
 
     @Override

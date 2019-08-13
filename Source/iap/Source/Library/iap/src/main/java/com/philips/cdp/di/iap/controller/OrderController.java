@@ -147,8 +147,8 @@ public class OrderController implements AbstractModel.DataLoadListener {
         productItem.setOrderCode(detail.getCode());
         productItem.setSubCategory(data.getSubcategory());
         productItem.setMarketingTextHeader(data.getMarketingTextHeader());
-        ConsignmentEntries entries = getEntriesFromConsignMent(detail, entry.getProduct().getCode());
-        productItem.setTrackOrderUrl(getOrderTrackUrl(entries));
+
+        productItem.setTrackOrderUrl(getOrderTrackUrl(getEntriesFromConsignMent(detail,entry.getProduct().getCode())));
         products.add(productItem);
     }
 

@@ -30,7 +30,6 @@ import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.OrderController;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.response.orders.ContactsResponse;
-import com.ecs.demouapp.ui.response.orders.OrderDetail;
 import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
@@ -40,6 +39,9 @@ import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
+import com.philips.cdp.di.ecs.model.orders.Entries;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
@@ -196,6 +198,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                 if (msg.obj instanceof OrderDetail) {
                     mOrderDetail = (OrderDetail) msg.obj;
                     updateUIwithDetails(mOrderDetail);
+
+                    updateSummaryData(mOrderDetail);
                 }
             }
         }
@@ -204,12 +208,11 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     @Override
     public void updateUiOnProductList() {
-        ArrayList<OrderDetail> detailList = new ArrayList<>();
+   /*     ArrayList<OrderDetail> detailList = new ArrayList<>();
         detailList.add(mOrderDetail);
         if (mController == null)
             mController = new OrderController(mContext, this);
-        ArrayList<ProductData> productList = mController.getProductData(detailList);
-        mProducts.clear();
+
 
         if (productList.size() > 0) {
             mController.getPhoneContact(productList.get(0).getSubCategory());
@@ -246,24 +249,71 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         }
         mTvQuantity.setText(String.format(mContext.getString(R.string.iap_no_of_products), totalQuantity + ""));
 
-        setProductSummary(productList);
+        setProductSummary(productList);*/
     }
 
-    private void setProductSummary(ArrayList<ProductData> productList) {
-        if (!productList.isEmpty()) {
-            populateProductNameQuantityAndPrice(productList);
+
+
+
+    public void updateSummaryData(OrderDetail mOrderDetail) {
+        ArrayList<OrderDetail> detailList = new ArrayList<>();
+        detailList.add(this.mOrderDetail);
+        if (mController == null)
+            mController = new OrderController(mContext, this);
+
+
+        if (mOrderDetail.getEntries().size() > 0) {
+            mController.getPhoneContact(mOrderDetail.getEntries().get(0).getProduct().getSummary().getSubcategory());
         }
+
+        for (final Entries entries : mOrderDetail.getEntries()) {
+            View productInfo = View.inflate(mContext, R.layout.ecs_order_details_item, null);
+            mProductListView.addView(productInfo);
+            ((TextView) productInfo.findViewById(R.id.tv_productName)).setText(entries.getProduct().getSummary().getProductTitle());
+            ((TextView) productInfo.findViewById(R.id.tv_quantity)).setText(String.valueOf(entries.getQuantity()));
+            ((TextView) productInfo.findViewById(R.id.tv_total_price)).setText(entries.getTotalPrice().getFormattedValue());
+            getNetworkImage(((NetworkImageView) productInfo.findViewById(R.id.iv_product_image)), entries.getProduct().getSummary().getImageURL());
+            Button trackOrderButton = productInfo.findViewById(R.id.btn_track_order);
+
+            ConsignmentEntries consignmentEntries = mController.getEntriesFromConsignMent(mOrderDetail, entries.getProduct().getCode());
+            if (mController.getOrderTrackUrl(consignmentEntries) == null) {
+                trackOrderButton.setEnabled(false);
+            } else {
+                trackOrderButton.setEnabled(true);
+            }
+
+            trackOrderButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ECSConstant.ORDER_TRACK_URL, mController.getOrderTrackUrl(consignmentEntries));
+                    addFragment(WebTrackUrl.createInstance(bundle, AnimationType.NONE), null, true);
+                }
+            });
+        }
+
+        int totalQuantity = 0;
+        for (Entries entries : mOrderDetail.getEntries()) {
+            totalQuantity += entries.getQuantity();
+        }
+        mTvQuantity.setText(String.format(mContext.getString(R.string.iap_no_of_products), totalQuantity + ""));
+
+        setProductSummary(mOrderDetail);
     }
 
-    private void populateProductNameQuantityAndPrice(ArrayList<ProductData> productList) {
+    private void setProductSummary(OrderDetail mOrderDetail) {
+            populateProductNameQuantityAndPrice(mOrderDetail);
+    }
 
-        for (ProductData productData : productList) {
+    private void populateProductNameQuantityAndPrice(OrderDetail mOrderDetail) {
+
+        for (Entries entries : mOrderDetail.getEntries()) {
 
             View v = View.inflate(mContext, R.layout.ecs_order_detail_summary_product, null);
             TextView product_quantity_name = v.findViewById(R.id.tv_product_quantity_name);
             TextView price_product = v.findViewById(R.id.tv_price_product);
-            product_quantity_name.setText(productData.getQuantity() + "" + "x" + " " + productData.getProductTitle());
-            price_product.setText(productData.getFormatedPrice());
+            product_quantity_name.setText(entries.getQuantity() + "" + "x" + " " + entries.getProduct().getSummary().getProductTitle());
+            price_product.setText(entries.getProduct().getPrice().getFormattedValue());
             tlProductDetailContainer.addView(v);
         }
 
