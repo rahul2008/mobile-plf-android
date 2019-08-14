@@ -18,7 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.ecs.demouapp.ui.response.orders.Address;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -185,7 +184,7 @@ public class Utility {
         return fields;
     }
 
-    public static AddressFields prepareOrderAddressFields(Address address) {
+    public static AddressFields prepareOrderAddressFields(Addresses address) {
 
 
         AddressFields fields = new AddressFields();

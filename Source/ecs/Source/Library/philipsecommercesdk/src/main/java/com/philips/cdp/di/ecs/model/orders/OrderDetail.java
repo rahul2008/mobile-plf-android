@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 
 import java.util.List;
 
@@ -55,6 +56,16 @@ public class OrderDetail implements Parcelable{
     private List<Entries> entries;
 
     private List<Consignment> consignments;
+
+    public ECSProductSummary getEcsProductSummary() {
+        return ecsProductSummary;
+    }
+
+    public void setEcsProductSummary(ECSProductSummary ecsProductSummary) {
+        this.ecsProductSummary = ecsProductSummary;
+    }
+
+    ECSProductSummary ecsProductSummary;
 
     protected OrderDetail(Parcel in) {
         type = in.readString();

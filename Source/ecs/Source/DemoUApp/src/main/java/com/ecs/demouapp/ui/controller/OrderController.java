@@ -9,12 +9,6 @@ import android.os.Message;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.model.ContactCallRequest;
-import com.ecs.demouapp.ui.model.OrderDetailRequest;
-import com.ecs.demouapp.ui.model.OrderHistoryRequest;
-import com.ecs.demouapp.ui.response.orders.Consignment;
-import com.ecs.demouapp.ui.response.orders.ConsignmentEntries;
-import com.ecs.demouapp.ui.response.orders.Entries;
-import com.ecs.demouapp.ui.response.orders.OrderDetail;
 import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.RequestCode;
@@ -23,6 +17,11 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.orders.Consignment;
+import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
+import com.philips.cdp.di.ecs.model.orders.Entries;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 
 import java.util.ArrayList;
@@ -76,10 +75,27 @@ public class OrderController implements AbstractModel.DataLoadListener {
     }
 
     public void getOrderDetails(String orderNumber) {
-        HashMap<String, String> query = new HashMap<>();
+
+        Message message = new Message();
+        message.what = RequestCode.GET_ORDER_DETAIL;
+        ECSUtility.getInstance().getEcsServices().getOrderDetail(orderNumber, new ECSCallback<com.philips.cdp.di.ecs.model.orders.OrderDetail, Exception>() {
+            @Override
+            public void onResponse(OrderDetail orderDetail) {
+
+                message.obj = message;
+                mOrderListener.onGetOrderDetail(message);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                message.obj = error;
+                mOrderListener.onGetOrderDetail(message);
+            }
+        });
+       /* HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ORDER_NUMBER, orderNumber);
         OrderDetailRequest request = new OrderDetailRequest(getStore(), query, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_ORDER_DETAIL, request, request);
+        getHybrisDelegate().sendRequest(RequestCode.GET_ORDER_DETAIL, request, request);*/
     }
 
     public void getPhoneContact(String subCategory){

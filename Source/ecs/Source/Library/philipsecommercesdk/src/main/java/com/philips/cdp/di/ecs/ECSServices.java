@@ -226,6 +226,11 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
+    public void preparePayment(String CartId, ECSCallback<URL, Exception> ecsCallback) {
+        mECSManager.pa
+    }
+
+    @Override
     public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
        mECSManager.getRetailers(productID,ecsCallback);
     }
@@ -245,7 +250,12 @@ public class ECSServices implements ECSServiceProvider {
         mECSManager.makePayment(orderDetail,billingAddress,ecsCallback);
     }
 
-        private void setLangAndCountry(String locale) {
+    @Override
+    public void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
+        mECSManager.getOrderDetail(orderId,ecsCallback);
+    }
+
+    private void setLangAndCountry(String locale) {
         String[] localeArray;
         localeArray = locale.split("_");
         ECSConfig.INSTANCE.setCountry(localeArray[1]);

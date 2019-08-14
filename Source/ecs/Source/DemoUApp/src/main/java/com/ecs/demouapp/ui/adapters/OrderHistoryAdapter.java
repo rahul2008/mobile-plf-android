@@ -15,11 +15,11 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
-import com.ecs.demouapp.ui.response.orders.Orders;
 import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.order.Orders;
 
 
 import java.util.List;

@@ -24,9 +24,6 @@ import com.ecs.demouapp.ui.controller.OrderController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.response.orders.OrderDetail;
-import com.ecs.demouapp.ui.response.orders.Orders;
-import com.ecs.demouapp.ui.response.orders.OrdersData;
 import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
@@ -34,6 +31,9 @@ import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.model.order.Orders;
+import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
@@ -139,7 +139,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG,true);
                     } else {
-                        for (Orders order : orderData.getOrders())
+                        for (com.philips.cdp.di.ecs.model.order.Orders order : orderData.getOrders())
                             mOrders.add(order);
                         if (mTotalOrders == 0) {
                             mRemainingOrders = orderData.getPagination().getTotalResults();
@@ -171,9 +171,6 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                     mOrderDetails.add(orderDetail);
                 }
             }
-        }
-        if (mOrderCount == mOrders.size()) {
-            updateProductDetails(mOrderDetails);
         }
     }
 
@@ -228,11 +225,6 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         }
     }
 
-    private void updateProductDetails(List<OrderDetail> orderDetails) {
-        if (mController == null)
-            mController = new OrderController(mContext, this);
-        //call PRX summary here
-    }
 
     //TODO
     @SuppressWarnings({"rawtype", "unchecked"})

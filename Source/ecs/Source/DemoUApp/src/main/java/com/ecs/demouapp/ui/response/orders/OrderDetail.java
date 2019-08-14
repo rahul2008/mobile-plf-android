@@ -3,6 +3,8 @@ package com.ecs.demouapp.ui.response.orders;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.philips.cdp.di.ecs.model.orders.Entries;
+
 import java.util.List;
 
 public class OrderDetail implements Parcelable{
