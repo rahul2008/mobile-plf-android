@@ -19,6 +19,7 @@ import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 
 import java.util.HashMap;
@@ -111,8 +112,29 @@ public class PaymentController implements AbstractModel.DataLoadListener {
         if (pSecurityCode != null)
             query.put(ModelConstants.SECURITY_CODE, pSecurityCode);
 
-        PlaceOrderRequest request = new PlaceOrderRequest(delegate.getStore(), query, this);
-        delegate.sendRequest(RequestCode.PLACE_ORDER, request, request);
+
+        ////
+        ECSUtility.getInstance().getEcsServices().submitOrder(pSecurityCode, new ECSCallback<OrderDetail, Exception>() {
+            @Override
+            public void onResponse(OrderDetail result) {
+                Message message = new Message();
+                message.obj=result;
+                mMakePaymentListener.onPlaceOrder(message);
+
+
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                Message message = new Message();
+                message.obj=error;
+                mMakePaymentListener.onPlaceOrder(message);
+
+            }
+        });
+
+       /* PlaceOrderRequest request = new PlaceOrderRequest(delegate.getStore(), query, this);
+        delegate.sendRequest(RequestCode.PLACE_ORDER, request, request);*/
     }
 
     public void makPayment(String orderID) {
