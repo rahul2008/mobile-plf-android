@@ -3,6 +3,7 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
@@ -38,10 +39,20 @@ public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onResponse(String response) {
-        if(!response.isEmpty()){
-          
+
+        MakePaymentData makePaymentData=null;
+        Exception exception = null;
+        try {
+            makePaymentData = new Gson().fromJson(response, MakePaymentData.class);
+        }catch(Exception e){
+            exception=e;
+        }
+
+        if(null==exception && null!=makePaymentData){
+            ecsCallback.onResponse(makePaymentData);
         }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),""+response,999);
+            exception = (null!=exception)? exception : new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
+            ecsCallback.onFailure(exception,""+response,9000);
         }
 
     }

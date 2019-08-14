@@ -106,9 +106,10 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.GET_USER, model, model);
     }
 
-    private  Addresses getAddressesObject(AddressFields addressFields){
+    public static   Addresses getAddressesObject(AddressFields addressFields){
 
         Addresses addressRequest = new Addresses();
+
         addressRequest.setFirstName(addressFields.getFirstName());
         addressRequest.setLastName(addressFields.getLastName());
         addressRequest.setTitleCode(addressFields.getTitleCode());

@@ -6,6 +6,7 @@ package com.ecs.demouapp.ui.controller;
 
 import android.content.Context;
 import android.os.Message;
+import android.util.Log;
 
 
 import com.ecs.demouapp.ui.address.AddressFields;
@@ -21,6 +22,7 @@ import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
@@ -121,6 +123,7 @@ public class PaymentController implements AbstractModel.DataLoadListener {
         ECSUtility.getInstance().getEcsServices().submitOrder(pSecurityCode, new ECSCallback<OrderDetail, Exception>() {
             @Override
             public void onResponse(OrderDetail result) {
+                Log.v("submitOrder","success");
                 Message message = new Message();
                 message.obj=result;
                 mMakePaymentListener.onPlaceOrder(message);
@@ -143,29 +146,38 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
     public void makPayment(OrderDetail orderDetail) {
 
-
-     /*   HashMap<String, String> query = new HashMap<>();
+/*
+        HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ORDER_NUMBER, orderID);
 
         final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
 
 
         PaymentRequest request = new PaymentRequest(delegate.getStore(), query, this);
-        delegate.sendRequest(RequestCode.MAKE_PAYMENT, request, request);
+        delegate.sendRequest(RequestCode.MAKE_PAYMENT, request, request);*/
 
-        AddressFields billingAddress = CartModelContainer.getInstance().getBillingAddress();*/
+        AddressFields address = CartModelContainer.getInstance().getBillingAddress();
+       Addresses billingAddress = AddressController.getAddressesObject(address);
+        billingAddress.setId(CartModelContainer.getInstance().getAddressId());
+      //  params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
+        //////////////////////////////
 
-   /*   ECSUtility.getInstance().getEcsServices().makePayment(orderDetail, billingAddress, new ECSCallback<MakePaymentData, Exception>() {
+      ECSUtility.getInstance().getEcsServices().makePayment(orderDetail, billingAddress, new ECSCallback<MakePaymentData, Exception>() {
           @Override
           public void onResponse(MakePaymentData result) {
-
+              Log.v("makePayment","success");
+              Message message = new Message();
+              message.obj=result;
+              mMakePaymentListener.onMakePayment(message);
           }
 
           @Override
           public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-
+              Message message = new Message();
+              message.obj=error;
+              mMakePaymentListener.onMakePayment(message);
           }
-      });*/
+      });
 
     }
 

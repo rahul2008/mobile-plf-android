@@ -34,7 +34,7 @@ import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.response.addresses.GetShippingAddressData;
-import com.ecs.demouapp.ui.response.payment.MakePaymentData;
+
 import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.response.placeorder.PlaceOrder;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
@@ -45,11 +45,13 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
@@ -458,16 +460,16 @@ public class OrderSummaryFragment extends InAppBaseFragment
         hideProgressBar();
         if (msg.obj instanceof MakePaymentData) {
 
-            //Track new billing address added action
-            ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.SPECIAL_EVENTS,
-                    ECSAnalyticsConstant.NEW_BILLING_ADDRESS_ADDED);
-
             MakePaymentData mMakePaymentData = (MakePaymentData) msg.obj;
             Bundle bundle = new Bundle();
             bundle.putString(ModelConstants.WEB_PAY_URL, mMakePaymentData.getWorldpayUrl());
             addFragment(WebPaymentFragment.createInstance(bundle, AnimationType.NONE), null, true);
-        } else if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            //todo Anurag: after worlpay payment is done order confirmation screen has to be shown
+        } else if (msg.obj instanceof Exception) {
+            hideProgressBar();
+            Exception exception = (Exception) msg.obj;
+            ECSErrors.showECSAlertDialog(mContext,"Error",exception.getMessage());
+           // NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
@@ -491,14 +493,16 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
                 mPaymentController.makPayment(order);
             }
-        } else if (msg.obj instanceof IAPNetworkError) {
+        } else if (msg.obj instanceof Exception) {
             hideProgressBar();
-            IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
+            Exception exception = (Exception) msg.obj;
+            ECSErrors.showECSAlertDialog(mContext,"Error",exception.getMessage());
+           /* IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
-            }
+            }*/
         }
     }
 

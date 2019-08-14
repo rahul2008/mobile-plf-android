@@ -419,6 +419,7 @@ public class ECSURLBuilder extends AbstractStore {
                 ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+
+                SEPERATOR+
                 SUFFIX_ORDERS+
                 SEPERATOR+orderId+
                 SUFFIX_PAY;
@@ -431,9 +432,7 @@ public class ECSURLBuilder extends AbstractStore {
                 ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
-                SUFFIX_ORDERS
-               // + "?"+ ModelConstants.CART_ID+"=current"
-                ;
+                SUFFIX_ORDERS;
 
     }
 

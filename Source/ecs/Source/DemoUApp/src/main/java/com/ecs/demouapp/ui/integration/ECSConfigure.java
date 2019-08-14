@@ -61,7 +61,11 @@ public class ECSConfigure {
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
 
-                iapListener.onFailure(ECSConstant.IAP_ERROR_SERVER_ERROR);
+                try {
+                    iapListener.onFailure(ECSConstant.IAP_ERROR_SERVER_ERROR);
+                }catch(Exception e){
+
+                }
                 ECSLog.i(ECSLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + error.getMessage());
 
             }
