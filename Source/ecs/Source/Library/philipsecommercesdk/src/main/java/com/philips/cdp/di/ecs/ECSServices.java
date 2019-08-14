@@ -226,11 +226,6 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void preparePayment(String CartId, ECSCallback<URL, Exception> ecsCallback) {
-        mECSManager.pa
-    }
-
-    @Override
     public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
        mECSManager.getRetailers(productID,ecsCallback);
     }
