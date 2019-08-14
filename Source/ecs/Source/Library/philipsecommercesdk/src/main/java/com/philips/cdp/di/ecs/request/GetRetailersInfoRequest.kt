@@ -73,7 +73,7 @@ class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exception> ,c
             if (null != response && null != response.toString()) {
                 detailError = response.toString()
             }
-            webResults = Gson().fromJson(response!!.toString(),
+            webResults = Gson().fromJson(response.toString(),
                     WebResults::class.java)
 
 

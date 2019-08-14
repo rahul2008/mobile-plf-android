@@ -117,7 +117,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         Iterator<StoreEntity> iterator = mStoreList.iterator();
         while (iterator.hasNext()) {
             StoreEntity entity = iterator.next();
-            if (PHILIPS_STORE.equalsIgnoreCase(entity.isPhilipsStore())
+            if (PHILIPS_STORE.equalsIgnoreCase(entity.getIsPhilipsStore())
                     && !ControllerFactory.getInstance().isPlanB()) {
                 iterator.remove();
             }

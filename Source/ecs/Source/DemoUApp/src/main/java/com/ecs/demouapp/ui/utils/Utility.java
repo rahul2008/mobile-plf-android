@@ -401,7 +401,7 @@ public class Utility {
     }
 
     public boolean isPhilipsShop(StoreEntity storeEntity) {
-        return storeEntity.isPhilipsStore().equalsIgnoreCase("Y");
+        return storeEntity.getIsPhilipsStore().equalsIgnoreCase("Y");
     }
 
 }
