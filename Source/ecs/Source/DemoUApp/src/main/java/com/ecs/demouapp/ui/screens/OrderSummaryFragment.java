@@ -80,6 +80,7 @@ import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.io.Serializable;
@@ -511,8 +512,18 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onPlaceOrder(final Message msg) {
         // launchConfirmationScreen(new PlaceOrder());//need to remove
-        if (msg.obj instanceof PlaceOrder) {
-            PlaceOrder order = (PlaceOrder) msg.obj;
+        if (msg.obj instanceof OrderDetail) {
+          /*  PlaceOrder order = (PlaceOrder) msg.obj;
+            String orderID = order.getCode();
+            updateCount(0);
+            CartModelContainer.getInstance().setOrderNumber(orderID);
+            if (paymentMethodAvailable()) {
+                hideProgressBar();
+                launchConfirmationScreen((PlaceOrder) msg.obj);
+            } else {
+                mPaymentController.makPayment(orderID);
+            }*/
+            OrderDetail order = (OrderDetail) msg.obj;
             String orderID = order.getCode();
             updateCount(0);
             CartModelContainer.getInstance().setOrderNumber(orderID);

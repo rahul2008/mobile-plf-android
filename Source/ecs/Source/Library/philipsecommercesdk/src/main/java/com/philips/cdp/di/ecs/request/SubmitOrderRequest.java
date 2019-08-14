@@ -88,7 +88,9 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
     }
 
 
-
+    public Response.Listener<String> getStringSuccessResponseListener(){
+        return this;
+    }
 
 
 
