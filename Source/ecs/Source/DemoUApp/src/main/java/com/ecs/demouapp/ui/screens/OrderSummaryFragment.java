@@ -18,37 +18,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-/*import com.philips.cdp.di.iap.R;
-import com.philips.cdp.di.iap.adapters.CheckOutHistoryAdapter;
-import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.analytics.IAPAnalytics;
-import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
-import com.philips.cdp.di.iap.cart.ShoppingCartAPI;
-import com.philips.cdp.di.iap.cart.ShoppingCartData;
-import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.controller.AddressController;
-import com.philips.cdp.di.iap.controller.ControllerFactory;
-import com.philips.cdp.di.iap.controller.PaymentController;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.eventhelper.EventListener;
-import com.philips.cdp.di.iap.response.State.RegionsList;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetDeliveryModes;
-import com.philips.cdp.di.iap.response.addresses.GetShippingAddressData;
-import com.philips.cdp.di.iap.response.payment.MakePaymentData;
-import com.philips.cdp.di.iap.response.payment.PaymentMethod;
-import com.philips.cdp.di.iap.response.placeorder.PlaceOrder;
-import com.philips.cdp.di.iap.session.IAPNetworkError;
-import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.di.iap.utils.IAPLog;
-import com.philips.cdp.di.iap.utils.ModelConstants;
-import com.philips.cdp.di.iap.utils.NetworkUtility;
-import com.philips.cdp.di.iap.utils.Utility;*/
-
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.CheckOutHistoryAdapter;
 import com.ecs.demouapp.ui.address.AddressFields;
@@ -63,7 +32,6 @@ import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.controller.PaymentController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.response.State.RegionsList;
 import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.response.addresses.GetShippingAddressData;
 import com.ecs.demouapp.ui.response.payment.MakePaymentData;
@@ -80,7 +48,8 @@ import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import java.io.Serializable;
@@ -102,7 +71,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private RecyclerView mRecyclerView;
     private AddressController mAddressController;
     private ShoppingCartAPI mShoppingCartAPI;
-    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
     private List<Addresses> mAddresses = new ArrayList<>();
     private DeliveryModes mSelectedDeliveryMode;
     private TextView mNumberOfProducts;
@@ -297,12 +265,12 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     private void startProductDetailFragment() {
-        ShoppingCartData shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
+        EntriesEntity shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
-        bundle.putString(ECSConstant.PRODUCT_TITLE, shoppingCartData.getProductTitle());
-        bundle.putString(ECSConstant.PRODUCT_CTN, shoppingCartData.getCtnNumber());
-        bundle.putString(ECSConstant.PRODUCT_PRICE, shoppingCartData.getFormattedPrice());
-        bundle.putString(ECSConstant.PRODUCT_OVERVIEW, shoppingCartData.getMarketingTextHeader());
+        bundle.putString(ECSConstant.PRODUCT_TITLE, shoppingCartData.getProduct().getSummary().getProductTitle());
+        bundle.putString(ECSConstant.PRODUCT_CTN, shoppingCartData.getProduct().getCode());
+        bundle.putString(ECSConstant.PRODUCT_PRICE, shoppingCartData.getBasePrice().getFormattedValue());
+        bundle.putString(ECSConstant.PRODUCT_OVERVIEW, shoppingCartData.getProduct().getSummary().getMarketingTextHeader());
         addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG, true);
     }
 
@@ -340,8 +308,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         } else if (msg.obj instanceof Exception) {
             CartModelContainer.getInstance().setRegionList(null);
         } else if (msg.obj instanceof RegionsList) {
-            //TODO
-            //CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+            CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }
@@ -383,25 +350,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onLoadFinished(ArrayList<?> data) {
-        if (data != null && data instanceof ArrayList)
-            hideProgressBar();
-        if (getActivity() == null) return;
-        mData = (ArrayList<ShoppingCartData>) data;
-        onOutOfStock(false);
-        mAdapter = new CheckOutHistoryAdapter(mContext, mData, this);
-        mAdapter.setOrderSummaryUpdateListner(this);
-        if (mData.get(0) != null && mData.get(0).getDeliveryItemsQuantity() > 0) {
-            updateCount(mData.get(0).getDeliveryItemsQuantity());
-        }
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.tagProducts();
-        String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
-        if (mData.size() == 1) {
-            numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_product);
-        }
-        numberOfProducts = String.format(numberOfProducts, mData.size());
-        mNumberOfProducts.setText(numberOfProducts);
-        mNumberOfProducts.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -466,8 +415,24 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     @Override
-    public void onLoadFinished(ECSShoppingCart data) {
-      hideProgressBar();
+    public void onLoadFinished(ECSShoppingCart ecsShoppingCart) {
+        hideProgressBar();
+
+        if (getActivity() == null) return;
+        onOutOfStock(false);
+        mAdapter = new CheckOutHistoryAdapter(mContext, ecsShoppingCart, this);
+        mAdapter.setOrderSummaryUpdateListner(this);
+        if (ecsShoppingCart.getDeliveryItemsQuantity() > 0) {
+            updateCount(ecsShoppingCart.getDeliveryItemsQuantity());
+        }
+        mRecyclerView.setAdapter(mAdapter);
+        String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
+        if (ecsShoppingCart.getEntries().size() == 1) {
+            numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_product);
+        }
+        numberOfProducts = String.format(numberOfProducts, ecsShoppingCart.getEntries().size());
+        mNumberOfProducts.setText(numberOfProducts);
+        mNumberOfProducts.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -512,18 +477,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onPlaceOrder(final Message msg) {
         // launchConfirmationScreen(new PlaceOrder());//need to remove
-        if (msg.obj instanceof OrderDetail) {
-          /*  PlaceOrder order = (PlaceOrder) msg.obj;
-            String orderID = order.getCode();
-            updateCount(0);
-            CartModelContainer.getInstance().setOrderNumber(orderID);
-            if (paymentMethodAvailable()) {
-                hideProgressBar();
-                launchConfirmationScreen((PlaceOrder) msg.obj);
-            } else {
-                mPaymentController.makPayment(orderID);
-            }*/
-            OrderDetail order = (OrderDetail) msg.obj;
+        if (msg.obj instanceof PlaceOrder) {
+            PlaceOrder order = (PlaceOrder) msg.obj;
             String orderID = order.getCode();
             updateCount(0);
             CartModelContainer.getInstance().setOrderNumber(orderID);

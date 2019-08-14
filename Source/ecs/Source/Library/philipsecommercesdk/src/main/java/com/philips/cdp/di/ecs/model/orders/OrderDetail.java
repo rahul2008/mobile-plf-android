@@ -57,15 +57,6 @@ public class OrderDetail implements Parcelable{
 
     private List<Consignment> consignments;
 
-    public ECSProductSummary getEcsProductSummary() {
-        return ecsProductSummary;
-    }
-
-    public void setEcsProductSummary(ECSProductSummary ecsProductSummary) {
-        this.ecsProductSummary = ecsProductSummary;
-    }
-
-    ECSProductSummary ecsProductSummary;
 
     protected OrderDetail(Parcel in) {
         type = in.readString();

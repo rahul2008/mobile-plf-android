@@ -36,7 +36,7 @@
             android:layout_height="16dp"
             android:gravity="center"
             android:layout_marginEnd="@dimen/iap_product_ctn_12"
-            android:background="@drawable/ecs_info_image"
+            android:background="@drawable/no_icon"
             android:scaleType="fitXY" />
 
         <com.philips.platform.uid.view.widget.Label
