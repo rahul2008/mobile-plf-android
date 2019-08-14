@@ -49,6 +49,7 @@ import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
@@ -477,8 +478,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
     @Override
     public void onPlaceOrder(final Message msg) {
         // launchConfirmationScreen(new PlaceOrder());//need to remove
-        if (msg.obj instanceof PlaceOrder) {
-            PlaceOrder order = (PlaceOrder) msg.obj;
+        if (msg.obj instanceof OrderDetail) {
+            OrderDetail order = (OrderDetail) msg.obj;
             String orderID = order.getCode();
             updateCount(0);
             CartModelContainer.getInstance().setOrderNumber(orderID);

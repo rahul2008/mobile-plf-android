@@ -64,7 +64,6 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
     @Override
     public Map<String, String> getHeader() {
         Map<String, String> header = new HashMap<String, String>();
-        header.put("Content-Type", "application/x-www-form-urlencoded");
         header.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
         return header;
     }

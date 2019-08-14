@@ -138,13 +138,15 @@ public class PaymentController implements AbstractModel.DataLoadListener {
     }
 
     public void makPayment(String orderID) {
-        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+      //  final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
 
         HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ORDER_NUMBER, orderID);
 
-        PaymentRequest request = new PaymentRequest(delegate.getStore(), query, this);
-        delegate.sendRequest(RequestCode.MAKE_PAYMENT, request, request);
+       /* PaymentRequest request = new PaymentRequest(delegate.getStore(), query, this);
+        delegate.sendRequest(RequestCode.MAKE_PAYMENT, request, request);*/
+       ECSUtility.getInstance().getEcsServices().makePayment();
+
     }
 
     @Override

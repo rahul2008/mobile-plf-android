@@ -321,7 +321,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         if( data!=null && data.getEntries()!=null && data.getEntries().size()!=0 ) {
 
             if(ecsShoppingCart!=null && ecsShoppingCart.getDeliveryMode()==null){
-                // mAddressController.getDeliveryModes();
+                mAddressController.getDeliveryModes();
             }
 
             onOutOfStock(false);
@@ -457,11 +457,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onItemClick(int position) {
         //TODO
-        //final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
-       /* mSelectedDeliveryMode = deliveryModes.get(position);
+        final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+        mSelectedDeliveryMode = deliveryModes.get(position);
 
         createCustomProgressBar(mParentLayout,BIG);
-        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());*/
+        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
     }
 
     @Override

@@ -6,6 +6,7 @@ package com.philips.cdp.di.ecs.store;
 
 import android.util.Log;
 
+import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 
 
@@ -430,7 +431,9 @@ public class ECSURLBuilder extends AbstractStore {
                 ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
-                SUFFIX_ORDERS;
+                SUFFIX_ORDERS
+               // + "?"+ ModelConstants.CART_ID+"=current"
+                ;
 
     }
 
