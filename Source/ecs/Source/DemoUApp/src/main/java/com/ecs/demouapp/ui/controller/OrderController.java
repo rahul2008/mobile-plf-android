@@ -21,8 +21,8 @@ import com.philips.cdp.di.ecs.model.orders.Consignment;
 import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.prxclient.datamodels.summary.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +82,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
             @Override
             public void onResponse(OrderDetail orderDetail) {
 
-                message.obj = message;
+                message.obj = orderDetail;
                 mOrderListener.onGetOrderDetail(message);
             }
 
@@ -137,20 +137,15 @@ public class OrderController implements AbstractModel.DataLoadListener {
     public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {
 
         ArrayList<ProductData> products = new ArrayList<>();
-        String ctn;
         for(OrderDetail detail : orderDetail) {
             if (detail.getDeliveryOrderGroups() != null) {
                 List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
                 for (Entries entry : entries) {
-                    ctn = entry.getProduct().getCode();
                     ProductData productItem = new ProductData(entry);
-                    Data data;
-                    if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
-                        data = CartModelContainer.getInstance().getProductSummary(ctn);
-                    } else {
-                        continue;
+                    Data data = entry.getProduct().getSummary();
+                    if(data!=null) {
+                        setProductData(products, detail, entry, productItem, data);
                     }
-                    setProductData(products, detail, entry, productItem, data);
                 }
             }
         }

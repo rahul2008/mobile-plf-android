@@ -23,7 +23,6 @@ import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.OrderController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
@@ -34,13 +33,11 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderController.OrderListener, EventListener, AbstractModel.DataLoadListener {
+public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderController.OrderListener, EventListener {
 
     public static final String TAG = PurchaseHistoryFragment.class.getName();
     private OrderHistoryAdapter mAdapter;
@@ -139,7 +136,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG,true);
                     } else {
-                        for (com.philips.cdp.di.ecs.model.order.Orders order : orderData.getOrders())
+                        for (Orders order : orderData.getOrders())
                             mOrders.add(order);
                         if (mTotalOrders == 0) {
                             mRemainingOrders = orderData.getPagination().getTotalResults();
@@ -172,7 +169,11 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
                 }
             }
         }
+        if (mOrderCount == mOrders.size()) {
+            updateUiOnProductList();
+        }
     }
+
 
     @Override
     public void updateUiOnProductList() {
@@ -223,32 +224,6 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
         if (event.equalsIgnoreCase(String.valueOf(ECSConstant.PURCHASE_HISTORY_DETAIL))) {
             startOrderDetailFragment();
         }
-    }
-
-
-    //TODO
-    @SuppressWarnings({"rawtype", "unchecked"})
-    private boolean processResponseFromPRX(final Message msg) {
-        if (msg.obj instanceof HashMap) {
-            HashMap<String, SummaryModel> prxModel = (HashMap<String, SummaryModel>) msg.obj;
-            if (prxModel == null || prxModel.size() == 0) {
-                hideProgressBar();
-                return true;
-            }
-            updateUiOnProductList();
-        }
-        return false;
-    }
-
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-        if (processResponseFromPRX(msg)) return;
-        hideProgressBar();
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-        hideProgressBar();
     }
 
     private RecyclerView.OnScrollListener

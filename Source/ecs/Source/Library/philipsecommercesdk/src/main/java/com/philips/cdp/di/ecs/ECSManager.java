@@ -631,7 +631,17 @@ public class ECSManager {
                 // Get PRX Summary Data
 
                 ArrayList<String> ctns = new ArrayList<>();
+                ArrayList<Product> productsFromDirectEntry = new ArrayList<>();
+                ArrayList<Product> productsFromDeliveryGroupEntry = new ArrayList<>();
+
+                for(Entries entries :orderDetail.getDeliveryOrderGroups().get(0).getEntries()){
+                    productsFromDeliveryGroupEntry.add(entries.getProduct());
+                }
+
+
+                //Products found in direct Entries
                 for(Entries entries :orderDetail.getEntries()){
+                    productsFromDirectEntry.add(entries.getProduct());
                     ctns.add(entries.getProduct().getCode());
                 }
                 ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
@@ -644,7 +654,8 @@ public class ECSManager {
                         getProductSummary(url, new ECSCallback<ECSProductSummary, Exception>() {
                             @Override
                             public void onResponse(ECSProductSummary ecsProductSummary) {
-                                orderDetail.setEcsProductSummary(ecsProductSummary);
+                                setSummaryToProductsFromDirectEntry(ecsProductSummary,productsFromDirectEntry);
+                                setSummaryToProductsDeliveryGroupEntry(ecsProductSummary,productsFromDeliveryGroupEntry);
                                 ecsCallback.onResponse(orderDetail);
                             }
 
@@ -668,6 +679,34 @@ public class ECSManager {
 
             }
         }).executeRequest();
+    }
+
+    private void setSummaryToProductsDeliveryGroupEntry(ECSProductSummary ecsProductSummary, ArrayList<Product> productsFromDeliveryGroupEntry) {
+
+        ArrayList<Data> data = ecsProductSummary.getData();
+
+        for (Data d:data){
+            setProductData(d,productsFromDeliveryGroupEntry);
+        }
+    }
+
+    private void setProductData(Data data, ArrayList<Product> products) {
+
+        for (Product product:products){
+            if(product.getCode().equalsIgnoreCase(data.getCtn())){
+                product.setSummary(data);
+                return;
+            }
+        }
+    }
+
+    private void setSummaryToProductsFromDirectEntry(ECSProductSummary ecsProductSummary, ArrayList<Product> productsFromDirectEntry) {
+
+        ArrayList<Data> data = ecsProductSummary.getData();
+
+        for (Data d:data){
+            setProductData(d,productsFromDirectEntry);
+        }
     }
 }
 
