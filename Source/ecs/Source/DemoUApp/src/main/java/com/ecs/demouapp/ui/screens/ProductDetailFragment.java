@@ -504,7 +504,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             return;
         Bundle bundle = new Bundle();
         final ArrayList<StoreEntity> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
-        if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).isPhilipsStore().equalsIgnoreCase("Y"))) {
+        if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
             bundle.putString(ECSConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
             bundle.putString(ECSConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
             bundle.putBoolean(ECSConstant.IAP_IS_PHILIPS_SHOP, new Utility().isPhilipsShop(storeEntities.get(0)));
