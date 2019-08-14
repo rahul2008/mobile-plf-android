@@ -33,23 +33,25 @@ import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 
 public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
+    private  ECSShoppingCart mData ;
     private Context mContext;
     private Resources mResources;
-    private ArrayList<ShoppingCartData> mData = new ArrayList<>();
     private OutOfStockListener mOutOfStock;
     private UIPicker mPopupWindow;
-    private ShoppingCartData shoppingCartDataForProductDetailPage;
+    private EntriesEntity shoppingCartDataForProductDetailPage;
 
     private Drawable countArrow;
     private boolean mIsFreeDelivery;
@@ -59,6 +61,8 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private OrderSummaryUpdateListner orderSummaryUpdateListner;
     private AddressFields mBillingAddress;
     RelativeLayout mVoucherContainer;
+
+    private List<EntriesEntity> entries ;
 
     public void setOrderSummaryUpdateListner(OrderSummaryUpdateListner orderSummaryUpdateListner) {
         this.orderSummaryUpdateListner = orderSummaryUpdateListner;
@@ -72,14 +76,16 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         void onOutOfStock(boolean isOutOfStock);
     }
 
-    public CheckOutHistoryAdapter(Context context, ArrayList<ShoppingCartData> shoppingCartData,
+    public CheckOutHistoryAdapter(Context context, ECSShoppingCart mData,
                                   OutOfStockListener isOutOfStock) {
         mContext = context;
         mResources = context.getResources();
-        mData = shoppingCartData;
+        this.mData = mData;
+        this.entries = mData.getEntries();
         setCountArrow(context, true);
         mOutOfStock = isOutOfStock;
     }
+
 
     private void setCountArrow(final Context context, final boolean isEnable) {
         if (isEnable) {
@@ -103,7 +109,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private boolean isPositionFooter(final int position) {
-        return position == mData.size();
+        return position == mData.getEntries().size();
     }
 
     @Override
@@ -137,41 +143,41 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void setTheProductDataForDisplayingInProductDetailPage(int position) {
-        shoppingCartDataForProductDetailPage = mData.get(position);
+        shoppingCartDataForProductDetailPage = entries.get(position);
         EventHelper.getInstance().notifyEventOccurred(ECSConstant.PRODUCT_DETAIL_FRAGMENT_FROM_ORDER);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (mData.size() == 0)
+        if (entries.size() == 0)
             return;
 
         if (holder instanceof ShoppingCartProductHolder) {
 
-            final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
+            final EntriesEntity cartData = entries.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
-            String imageURL = cartData.getImageURL();
-            shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
-            shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedPrice());
+            String imageURL = cartData.getProduct().getSummary().getImageURL();
+            shoppingCartProductHolder.mTvPrice.setText(cartData.getProduct().getSummary().getProductTitle());
+            shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getBasePrice().getFormattedValue());
 
-            checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder, cartData.getStockLevelStatus());
+            checkForOutOfStock(cartData.getProduct().getStock().getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder, cartData.getProduct().getStock().getStockLevelStatus());
             getNetworkImage(shoppingCartProductHolder, imageURL);
         } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
-            ShoppingCartData data;
+            EntriesEntity data;
 
-            if (mData.get(0) != null) {
-                data = mData.get(0);
+            if (entries.get(0) != null) {
+                data = entries.get(0);
 
-                shoppingCartFooter.mTotalCost.setText(data.getFormattedTotalPriceWithTax());
-                shoppingCartFooter.mVatValue.setText(data.getVatValue());
-                if (null != data.getDeliveryMode()) {
+                shoppingCartFooter.mTotalCost.setText(mData.getTotalPriceWithTax().getFormattedValue());
+                shoppingCartFooter.mVatValue.setText(mData.getTotalTax().getFormattedValue()+"");
+                if (null != mData.getDeliveryMode()) {
                     handleTax(data, shoppingCartFooter);
 
-                    String deliveryCost = data.getDeliveryMode().getDeliveryCost().getFormattedValue();
-                    String deliveryMethod = data.getDeliveryMode().getName();
-                    String deliveryModeDescription=data.getDeliveryMode().getDescription();
+                    String deliveryCost = mData.getDeliveryMode().getDeliveryCost().getFormattedValue();
+                    String deliveryMethod = mData.getDeliveryMode().getName();
+                    String deliveryModeDescription=mData.getDeliveryMode().getDescription();
 
                     if ((deliveryCost.substring(1, (deliveryCost.length()))).equalsIgnoreCase("0.00")) {
                         mIsFreeDelivery = true;
@@ -203,9 +209,9 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     mIsFreeDelivery = true;
                 }
 
-                if (data.getDeliveryAddressEntity() != null) {
+                if (mData.getDeliveryAddress() != null) {
                     final AddressFields shippingAddressFields = CartModelContainer.getInstance().getShippingAddressFields();
-                    shoppingCartFooter.mShippingName.setText(data.getDeliveryAddressEntity().getFirstName() + " " + data.getDeliveryAddressEntity().getLastName());
+                    shoppingCartFooter.mShippingName.setText(mData.getDeliveryAddress().getFirstName() + " " + mData.getDeliveryAddress().getLastName());
                     if(shippingAddressFields!=null) {
                         shoppingCartFooter.mShippingAddress.setText(Utility.getAddressToDisplay(shippingAddressFields));
                     }
@@ -218,12 +224,12 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     shoppingCartFooter.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress));
                 }
 
-                for (int i = 0; i < mData.size(); i++) {
+                for (int i = 0; i < entries.size(); i++) {
                     View priceInfo = View.inflate(mContext, R.layout.ecs_price_item, null);
                     TextView mProductName = (TextView) priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = (TextView) priceInfo.findViewById(R.id.product_price);
-                    mProductName.setText(Integer.toString(mData.get(i).getQuantity()) + "x " + mData.get(i).getProductTitle().toString());
-                    mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
+                    mProductName.setText(Integer.toString(entries.get(i).getQuantity()) + "x " + entries.get(i).getProduct().getSummary().getProductTitle().toString());
+                    mProductPrice.setText(entries.get(i).getTotalPrice().getFormattedValue().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                     //shoppingCartFooter.mTotalDiscount.setText("- "+mData.get(i).getTotalDiscounts().toString());
                 }
@@ -231,26 +237,29 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
             //Show discounts ==========
-            if(mData.get(0).getAppliedOrderPromotionEntityList()!=null)
-            for(int i=0;i< mData.get(0).getAppliedOrderPromotionEntityList().size();i++){
 
-                View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
-                TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
-                TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
+            if(mData.getAppliedOrderPromotions()!=null) {
+                for (int i = 0; i < mData.getAppliedOrderPromotions().size(); i++) {
 
-                tvDiscountText .setText(mData.get(i).getAppliedOrderPromotionEntityList().get(i).getPromotion().getDescription());
-                tvDiscountValue.setText("- "+ mData.get(i).getAppliedOrderPromotionEntityList().get(i).getPromotion().getPromotionDiscount().getFormattedValue());
-                shoppingCartFooter.llDiscount.addView(discountInfo);
+                    View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
+                    TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
+                    TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
+
+                    tvDiscountText.setText(mData.getAppliedOrderPromotions().get(i).getPromotion().getDescription());
+                    tvDiscountValue.setText("- " + mData.getAppliedOrderPromotions().get(i).getPromotion().getPromotionDiscount().getFormattedValue());
+                    shoppingCartFooter.llDiscount.addView(discountInfo);
+                }
             }
-            if(mData.get(0).getAppliedVouchers()!=null)
-            for(int i=0;i< mData.get(0).getAppliedVouchers().size();i++){
+
+            if(mData.getAppliedVouchers()!=null)
+            for(int i=0;i< mData.getAppliedVouchers().size();i++){
 
                 View discountInfo = View.inflate(mContext, R.layout.item_discount, null);
                 TextView tvDiscountText = discountInfo.findViewById(R.id.tv_discount_text);
                 TextView tvDiscountValue = discountInfo.findViewById(R.id.tv_discount_value);
 
-                tvDiscountText .setText(mData.get(i).getAppliedVouchers().get(i).getDescription());
-                tvDiscountValue.setText("- "+ mData.get(i).getAppliedVouchers().get(i).getAppliedValue().getFormattedValue());
+                tvDiscountText.setText(mData.getAppliedVouchers().get(i).getDescription());
+                tvDiscountValue.setText("- " + mData.getAppliedVouchers().get(i).getAppliedValue().getFormattedValue());
                 shoppingCartFooter.llDiscount.addView(discountInfo);
             }
 
@@ -265,18 +274,18 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     }
 
-    private void handleTax(ShoppingCartData data, FooterShoppingCartViewHolder shoppingCartFooter) {
-        if (!data.isVatInclusive()) {
+    private void handleTax(EntriesEntity data, FooterShoppingCartViewHolder shoppingCartFooter) {
+        if (!mData.isNet()) {
             shoppingCartFooter.mVatValue.setVisibility(View.GONE);
-            if (data.getVatValue() != null) {
+            if (mData.getTotalTax() != null) {
                 shoppingCartFooter.mVatInclusiveValue.setVisibility(View.VISIBLE);
                 shoppingCartFooter.mDeliveryUpsVal.setVisibility(View.VISIBLE);
-                shoppingCartFooter.mDeliveryUpsVal.setText(data.getVatValue());
+                shoppingCartFooter.mDeliveryUpsVal.setText(mData.getTotalTax().getFormattedValue());
             }
         } else {
-            if (data.getVatValue() != null) {
+            if (mData.getTotalTax() != null) {
                 shoppingCartFooter.mVatValue.setVisibility(View.VISIBLE);
-                shoppingCartFooter.mVatValue.setText(data.getVatValue());
+                shoppingCartFooter.mVatValue.setText(mData.getTotalTax().getFormattedValue());
             }
         }
     }
@@ -311,7 +320,7 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public ShoppingCartData getTheProductDataForDisplayingInProductDetailPage() {
+    public EntriesEntity getTheProductDataForDisplayingInProductDetailPage() {
         return shoppingCartDataForProductDetailPage;
     }
 
@@ -321,10 +330,10 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        if (mData.size() == 0) {
+        if (entries.size() == 0) {
             return 0;
         } else {
-            return mData.size() + 1;
+            return entries.size() + 1;
         }
     }
 
@@ -390,19 +399,5 @@ public class CheckOutHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             llDiscount = itemView.findViewById(R.id.linear_layout_discount);
 
         }
-    }
-
-    public void tagProducts() {
-        StringBuilder products = new StringBuilder();
-        for (int i = 0; i < mData.size(); i++) {
-            if (i > 0) {
-                products = products.append(",");
-            }
-            products = products.append(mData.get(i).getCategory()).append(";")
-                    .append(mData.get(i).getProductTitle()).append(";").append(String.valueOf(mData.get(i).getQuantity()))
-                    .append(";").append(mData.get(i).getValuePrice());
-        }
-        ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
-                ECSAnalyticsConstant.PRODUCTS, products.toString());
     }
 }

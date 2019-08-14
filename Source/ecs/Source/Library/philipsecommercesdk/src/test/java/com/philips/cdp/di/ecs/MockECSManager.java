@@ -11,6 +11,8 @@ import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.Cart.MockUpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.Config.MockGetConfigurationRequest;
 import com.philips.cdp.di.ecs.Oath.MockOAuthRequest;
+import com.philips.cdp.di.ecs.Payment.MockGetPaymentsRequest;
+import com.philips.cdp.di.ecs.Payment.MockSetPaymentMethodRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.ProductDetail.MockGetProductAssetRequest;
@@ -31,6 +33,7 @@ import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
@@ -364,5 +367,15 @@ public class MockECSManager extends ECSManager {
     @Override
     public void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
         new MockSetDeliveryModesRequest(deliveryModeID,ecsCallback,getJsonFileNameMockECSManager()).executeRequest();
+    }
+
+    @Override
+    public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+        new MockGetPaymentsRequest(getJsonFileNameMockECSManager(),ecsCallback).executeRequest();
+    }
+
+    @Override
+    public void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback) {
+        new MockSetPaymentMethodRequest(paymentDetailsId,ecsCallback,getJsonFileNameMockECSManager()).executeRequest();
     }
 }
