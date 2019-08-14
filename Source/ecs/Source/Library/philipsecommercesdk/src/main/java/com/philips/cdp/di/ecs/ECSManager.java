@@ -13,6 +13,7 @@ import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -609,7 +610,7 @@ public class ECSManager {
     }
 
 
-    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<URL, Exception> ecsCallback){
+    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback){
         new MakePaymentRequest(orderDetail,billingAddress,ecsCallback).executeRequest();
     }
 

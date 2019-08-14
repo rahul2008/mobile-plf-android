@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
@@ -20,11 +21,11 @@ import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
 
 public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
-    private  ECSCallback<URL,Exception> ecsCallback;
+    private  ECSCallback<MakePaymentData,Exception> ecsCallback;
     private OrderDetail orderDetail;
     Addresses ecsBillingAddressRequest;
 
-    public MakePaymentRequest(OrderDetail orderDetail, Addresses ecsBillingAddressRequest, ECSCallback<URL, Exception> ecsCallback) {
+    public MakePaymentRequest(OrderDetail orderDetail, Addresses ecsBillingAddressRequest, ECSCallback<MakePaymentData, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
         this.orderDetail = orderDetail;
         this.ecsBillingAddressRequest = ecsBillingAddressRequest;
@@ -38,11 +39,7 @@ public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements 
     @Override
     public void onResponse(String response) {
         if(!response.isEmpty()){
-            try {
-                ecsCallback.onResponse(new URL(response));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+          
         }else{
             ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),""+response,999);
         }

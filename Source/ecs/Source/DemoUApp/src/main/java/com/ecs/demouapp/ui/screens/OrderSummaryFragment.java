@@ -480,6 +480,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         // launchConfirmationScreen(new PlaceOrder());//need to remove
         if (msg.obj instanceof OrderDetail) {
             OrderDetail order = (OrderDetail) msg.obj;
+
             String orderID = order.getCode();
             updateCount(0);
             CartModelContainer.getInstance().setOrderNumber(orderID);
@@ -487,7 +488,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
                 hideProgressBar();
                 launchConfirmationScreen((PlaceOrder) msg.obj);
             } else {
-                mPaymentController.makPayment(orderID);
+
+                mPaymentController.makPayment(order);
             }
         } else if (msg.obj instanceof IAPNetworkError) {
             hideProgressBar();

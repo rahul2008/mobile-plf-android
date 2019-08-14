@@ -8,6 +8,8 @@ import android.content.Context;
 import android.os.Message;
 
 
+import com.ecs.demouapp.ui.address.AddressFields;
+import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.model.GetPaymentDetailRequest;
 import com.ecs.demouapp.ui.model.PaymentRequest;
@@ -20,8 +22,10 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 
+import java.net.URL;
 import java.util.HashMap;
 
 public class PaymentController implements AbstractModel.DataLoadListener {
@@ -137,15 +141,31 @@ public class PaymentController implements AbstractModel.DataLoadListener {
         delegate.sendRequest(RequestCode.PLACE_ORDER, request, request);*/
     }
 
-    public void makPayment(String orderID) {
-      //  final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+    public void makPayment(OrderDetail orderDetail) {
 
-        HashMap<String, String> query = new HashMap<>();
+
+     /*   HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.ORDER_NUMBER, orderID);
 
-       /* PaymentRequest request = new PaymentRequest(delegate.getStore(), query, this);
-        delegate.sendRequest(RequestCode.MAKE_PAYMENT, request, request);*/
-       ECSUtility.getInstance().getEcsServices().makePayment();
+        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+
+
+        PaymentRequest request = new PaymentRequest(delegate.getStore(), query, this);
+        delegate.sendRequest(RequestCode.MAKE_PAYMENT, request, request);
+
+        AddressFields billingAddress = CartModelContainer.getInstance().getBillingAddress();*/
+
+   /*   ECSUtility.getInstance().getEcsServices().makePayment(orderDetail, billingAddress, new ECSCallback<MakePaymentData, Exception>() {
+          @Override
+          public void onResponse(MakePaymentData result) {
+
+          }
+
+          @Override
+          public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+
+          }
+      });*/
 
     }
 
