@@ -455,7 +455,7 @@ def GenerateJavaDocs() {
         ./gradlew :AppInfra:generateJavadocPublicApi \
         :securedblibrary:generateJavadocPublicApi \
         :registrationApi:generateJavadocPublicApi \
-        :pim:generateJavadocPublicApi 
+        :pim:generateJavadocPublicApi \
         :productselection:generateJavadocPublicApi \
         :pif:generateJavadocPublicApi \
         :digitalCare:generateJavadocPublicApi \
@@ -475,7 +475,7 @@ def BuildLint() {
         ./gradlew  \
          :AppInfra:lint \
          :securedblibrary:lint \
-         :pim:lint 
+         :pim:lint \
          :registrationApi:lint \
          :productselection:lint \
          :product-registration-lib:lint \
