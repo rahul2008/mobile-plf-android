@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">결제 취소</string>
   <string name="iap_Payment_failure">결제 실패</string>
+  <string name="iap_accepted_codes">승인된 코드</string>
+  <string name="iap_access_token_notfound">액세스 토큰을 찾을 수 없음</string>
   <string name="iap_add_new_address">새 주소 추가</string>
   <string name="iap_add_new_payment_method">새 결제 방법 추가</string>
   <string name="iap_add_payment_method">새 결제 방법 추가</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">주소란 1 입력</string>
   <string name="iap_address_line_two">주소란 2</string>
   <string name="iap_address_line_two_hint">(옵션)</string>
+  <string name="iap_agree_privacy">주문을 함으로써 다음의 적용을 받는 것에 동의합니다.</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">적용</string>
+  <string name="iap_apply_gift">기프트 코드 적용</string>
   <string name="iap_authentication_failure">인증 실패</string>
   <string name="iap_billing_address">대금 청구 주소</string>
   <string name="iap_billing_address_is_same">배송 주소와 동일</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">계산</string>
   <string name="iap_checkout_payment_method">결제 방법 선택</string>
   <string name="iap_checkout_steps">%s/3단계: 주소</string>
+  <string name="iap_checkout_steps_overview">%s/3단계: 개요</string>
   <string name="iap_checkoutsummary_steps_overview">3/3단계: 개요</string>
   <string name="iap_claim_voucher">상품권 받기</string>
   <string name="iap_confirm">확인</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">CVV/CVC를 입력하십시오. </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">신용/직불 카드 뒷면에 있는 3자리 코드입니다. American Express를 사용하는 경우에는 카드 앞면에 있는 4자리 숫자입니다.</string>
+  <string name="iap_daily_selling_product">데일리 컬렉션 미니블렌더</string>
   <string name="iap_delete">삭제</string>
   <string name="iap_delete_address">배송 주소 삭제 중</string>
   <string name="iap_delete_item_alert_message">항목을 삭제하시겠습니까?</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">현재 장바구니가 비어 있습니다.</string>
   <string name="iap_empty_purchase_history">이 앱으로 주문한 경우 확인 이메일이 수신되었는지 확인하십시오.</string>
   <string name="iap_empty_purchase_history_dls">이 앱으로 주문한 경우 주문 확인 이메일이 수신되었는지 확인하십시오.</string>
+  <string name="iap_enter_gift_code">프로모션 코드 또는 기프트 코드 입력</string>
   <string name="iap_enter_promo_code">프로모션 코드 또는 기프트 코드 입력</string>
   <string name="iap_enter_promotional_voucher">프로모션 상품권을 입력하십시오.</string>
   <string name="iap_expert_reviews">전문가 리뷰</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">이름</string>
   <string name="iap_first_name_error">유효한 이름을 입력하십시오.</string>
   <string name="iap_first_name_hint">이름 입력</string>
+  <string name="iap_free_Delivery">이 주문은 무료로 배송됩니다.</string>
   <string name="iap_go_to_checkout">결제하기</string>
   <string name="iap_handed_to_courier">배송 업체에 인계됨</string>
   <string name="iap_help_other_by_reviewing">다른 고객들을 위해 리뷰를 작성해 주세요.</string>
   <string name="iap_houseNumber_error">상세 주소를 입력하십시오.</string>
+  <string name="iap_house_no_error">잘못된 상세 주소</string>
   <string name="iap_house_number">상세 주소</string>
   <string name="iap_house_number_hint">상세 주소 입력</string>
   <string name="iap_in_stock">재고 있음</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">성 입력</string>
   <string name="iap_less_review">간단히 보기</string>
   <string name="iap_mastercard">Master Card</string>
+  <string name="iap_more_info">참조</string>
   <string name="iap_more_review">자세히 보기</string>
   <string name="iap_mr">[ko]Mr</string>
   <string name="iap_mrs">[ko]Ms</string>
   <string name="iap_my_orders">내 주문</string>
+  <string name="iap_no_checkout">해당 국가에서는 필립스 결제 기능을 이용할 수 없습니다.</string>
   <string name="iap_no_do_not_delete">아니요, 삭제하지 않습니다.</string>
   <string name="iap_no_internet">인터넷 연결이 작동하지 않는 것으로 보입니다. 확인 후 다시 시도하십시오.</string>
   <string name="iap_no_items">아직 상품이 없습니다...</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">아직 배송 안 됨</string>
   <string name="iap_nothing_in_cart">장바구니 비어있음</string>
   <string name="iap_number_of_product">%s 제품</string>
+  <string name="iap_number_of_products">%s 제품</string>
   <string name="iap_ok">확인</string>
   <string name="iap_one_click_buy">클릭 한 번으로 다시 구매</string>
   <string name="iap_opening_hours">콜 센터 운영 시간:\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">주문 내역</string>
   <string name="iap_order_not_received_items">주문이 접수되지 않음</string>
   <string name="iap_order_number">주문 번호: </string>
+  <string name="iap_order_number_msg">주문 번호: %s</string>
   <string name="iap_order_pending">주문 대기 중입니다.</string>
   <string name="iap_order_picked">FedEx의 주문 상품 인계 일자:</string>
   <string name="iap_order_processing">처리 중</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">우편 번호</string>
   <string name="iap_postal_code_error">유효한 우편 번호를 입력하십시오.</string>
   <string name="iap_postal_code_hint">우편 번호 입력</string>
+  <string name="iap_privacy">개인정보 보호정책</string>
   <string name="iap_proceed">진행</string>
+  <string name="iap_product">제품</string>
   <string name="iap_product_added">장바구니에 추가된 제품</string>
   <string name="iap_product_catalog">제품</string>
   <string name="iap_product_detail_title"> 제품정보</string>
   <string name="iap_product_not_found">다음에 대한 제품을 찾을 수 없습니다.</string>
+  <string name="iap_product_remove_address">주소가 영구적으로 삭제됩니다. 계속하시겠습니까?</string>
   <string name="iap_product_remove_description">제품이 장바구니에서 제거됩니다. 계속하시겠습니까?</string>
   <string name="iap_products_unavailable">사용 가능한 제품 없음</string>
+  <string name="iap_promotional_gift">프로모션 코드 또는 기프트 코드</string>
   <string name="iap_quantity">수량: %s</string>
   <string name="iap_rate_it">필립스 제품에 대한 고객님의 의견을 기대합니다!</string>
+  <string name="iap_read">자세한 내용은</string>
   <string name="iap_read_full_review">전체 리뷰 보기</string>
+  <string name="iap_read_privacy">다음 사항을 읽었습니다.</string>
   <string name="iap_recommend_this_product">고객 추천 제품</string>
   <string name="iap_redeem_voucher">상품권 사용</string>
   <string name="iap_remove">제거</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">배송됨</string>
   <string name="iap_shipped_to">다음으로 배송됨:</string>
   <string name="iap_shipping_address">배송 주소</string>
+  <string name="iap_shipping_cost">배송료</string>
   <string name="iap_shipping_to">다음으로 배송 중:</string>
   <string name="iap_shopping_cart">장바구니</string>
   <string name="iap_shopping_cart_dls">장바구니</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">시/도</string>
   <string name="iap_stock_left">남은 수량</string>
   <string name="iap_success">성공</string>
+  <string name="iap_terms_conditions">이용 약관</string>
   <string name="iap_thank_for_order">주문해 주셔서 감사합니다.</string>
   <string name="iap_time_out">시간 초과</string>
   <string name="iap_time_out_error">네트워크 시간 초과!</string>
   <string name="iap_title">제목</string>
   <string name="iap_total">전체</string>
+  <string name="iap_total_discount">총 할인액</string>
   <string name="iap_total_val">총계(0개 상품)</string>
   <string name="iap_town">구/군/시</string>
   <string name="iap_town_error">유효한 구/군/시를 입력하십시오.</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">VAT</string>
   <string name="iap_view_invoice">청구서 보기</string>
   <string name="iap_voucher">상품권</string>
+  <string name="iap_voucher_applied_success">상품권이 적용되었습니다.</string>
+  <string name="iap_voucher_applied_unsuccess">실패</string>
+  <string name="iap_voucher_code">상품권 코드:</string>
   <string name="iap_warranty">필립스에서 제공하는 모든 제품에는 최소 1년의 보증이 제공됩니다. 당사 고객 상담실을 통해 도움을 받으실 수 있습니다.</string>
   <string name="iap_write_review">리뷰 작성</string>
   <string name="iap_yes_delete">예, 삭제합니다.</string>

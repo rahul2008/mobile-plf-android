@@ -64,13 +64,23 @@ public interface AlmostDoneContract {
 
     void hideMarketingOptCheck();
 
+    void showPersonalConsentOptCheck();
+
+    void hidePersonalConsentOptCheck();
+
     boolean isAcceptTermsChecked();
+
+    boolean isAcceptPersonalConsentChecked();
+
+    void handleAcceptPersonalConsentTrue();
 
     void handleAcceptTermsTrue();
 
     void completeRegistration();
 
     void showTermsAndConditionError();
+
+    void showPersonalConsentError();
 
     boolean isAcceptTermsContainerVisible();
 
@@ -81,4 +91,9 @@ public interface AlmostDoneContract {
     void showTryAgainError();
 
     void showAnyOtherErrors(String errorDescription);
+
+    void hideTermsAndConditionError();
+
+    void hideAcceptPersonalConsentChecked();
+
 }

@@ -32,9 +32,12 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.Country;
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.utility.AIUtility;
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -118,6 +121,26 @@ public class RegUtility {
         receivePhilipsNewsView.setText(receivePhilipsNews);
         String link = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
         setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
+    }
+
+    /**
+     * @param receivePersonalConsent
+     * @param activity
+     * @param receivePersonalConsentClickListener
+     * @param contentConfiguration
+     * @since 1904
+     */
+    public static void linkifyPersonalConsent(TextView receivePersonalConsent,
+                                              final Activity activity, ClickableSpan
+                                                      receivePersonalConsentClickListener, RegistrationContentConfiguration contentConfiguration) {
+        ConsentDefinition personalConsentDefinition = contentConfiguration.getPersonalConsentDefinition();
+        if (personalConsentDefinition == null) return;
+        String receivePhilipsNews = activity.getString(personalConsentDefinition.getText());
+        String doesThisMeanStr = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
+        receivePhilipsNews = receivePhilipsNews + "\n" + doesThisMeanStr;
+        receivePersonalConsent.setText(receivePhilipsNews);
+        String link = activity.getString(R.string.USR_Receive_Philips_News_Meaning_lbltxt);
+        setupLinkify(receivePersonalConsent, activity, receivePersonalConsentClickListener, receivePhilipsNews, link);
     }
 
     /**
@@ -282,7 +305,7 @@ public class RegUtility {
         return defaultSupportedHomeCountries;
     }
 
-    private static String[] defaultSupportedHomeCountries = new String[]{"AE","BH","EG","KW","LB","OM","QA","EG","RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
+    private static String[] defaultSupportedHomeCountries = new String[]{"AE", "BH", "EG", "KW", "LB", "OM", "QA", "EG", "RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
 
 
     /**
@@ -364,7 +387,7 @@ public class RegUtility {
                 countryName = mContext.getApplicationContext().getString(identifier);
 
             } catch (Exception resourcesNotFoundException) {
-                RLog.d(TAG, "getCountry"+ resourcesNotFoundException.getMessage());
+                RLog.d(TAG, "getCountry" + resourcesNotFoundException.getMessage());
             }
         }
 

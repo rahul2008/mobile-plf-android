@@ -116,11 +116,16 @@ dependencies {
         
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
+        implementation project(strings.usr.projectName)
+
+
     } else {
         implementation philipsdeps.pif
         implementation philipsdeps.prx
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
+        implementation philipsdeps.registrationApi
+
 
     }
 

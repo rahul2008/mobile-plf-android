@@ -102,25 +102,15 @@ public class ProdRegSuccessFragment extends ProdRegBaseFragment {
 
                 ProdRegUtil prodRegUtil = new ProdRegUtil();
                 String warantyPeriod = prodRegUtil.getDisplayDate(arguments.getString(ProdRegConstants.PROD_REG_WARRANTY));
-                if (warantyPeriod.isEmpty()||warantyPeriod.equals("0")) {
+                if (warantyPeriod.isEmpty() || warantyPeriod.equals("null")) {
                     prg_success_thanks_textView.setVisibility(View.GONE);
                 } else {
-                    String defaultString = "  " + getWarantyPeriod(warantyPeriod);
                     prg_success_thanks_textView.setText(prodRegUtil.generateSpannableText
-                            (getString(R.string.PRG_Extended_Warranty_Lbltxt), defaultString));
+                            (getString(R.string.PRG_Extended_Warranty_Lbltxt), " "+warantyPeriod));
                     prg_success_thanks_textView.setVisibility(View.VISIBLE);
                 }
             }
         }
-    }
-
-    //Get warranty end date: (From no  of months to date)
-    private String getWarantyPeriod(String warantyPeriod) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, Integer.valueOf(warantyPeriod));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        dateFormat.format(calendar.getTime());
-        return dateFormat.format(calendar.getTime());
     }
 
     @Override

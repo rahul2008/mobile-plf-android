@@ -7,6 +7,8 @@
 <resources>
   <string name="iap_Payment_cancel">Betalning avbruten</string>
   <string name="iap_Payment_failure">Fel vid betalning</string>
+  <string name="iap_accepted_codes">Godkända koder</string>
+  <string name="iap_access_token_notfound">Åtkomsttecknet hittades inte</string>
   <string name="iap_add_new_address">Lägg till en ny adress</string>
   <string name="iap_add_new_payment_method">Lägg till en ny betalningsmetod</string>
   <string name="iap_add_payment_method">Lägg till en ny betalningsmetod</string>
@@ -17,8 +19,10 @@
   <string name="iap_address_line_one_hint">Ange adressrad 1</string>
   <string name="iap_address_line_two">Adressrad 2</string>
   <string name="iap_address_line_two_hint">(tillval)</string>
+  <string name="iap_agree_privacy">och genom att göra en beställning godkänner och samtycker jag till att vara bunden av Philips</string>
   <string name="iap_app_name">InAppPurchase</string>
   <string name="iap_apply">Använd</string>
+  <string name="iap_apply_gift">Använd presentkortskod</string>
   <string name="iap_authentication_failure">Autentisering misslyckades</string>
   <string name="iap_billing_address">Faktureringsadress</string>
   <string name="iap_billing_address_is_same">Samma som leveransadress</string>
@@ -44,6 +48,7 @@
   <string name="iap_checkout">Till kassan</string>
   <string name="iap_checkout_payment_method">Välj betalningsmetod</string>
   <string name="iap_checkout_steps">Steg %s av 3: adress</string>
+  <string name="iap_checkout_steps_overview">Steg %s av 3: översikt</string>
   <string name="iap_checkoutsummary_steps_overview">Steg 3 av 3: översikt</string>
   <string name="iap_claim_voucher">Använd kupong</string>
   <string name="iap_confirm">Bekräfta</string>
@@ -64,6 +69,7 @@
   <string name="iap_cvv_code">Ange CVV/CVC för </string>
   <string name="iap_cvv_cvc">CVV/CVC</string>
   <string name="iap_cvvpopup_info">Detta är den tresiffriga koden på baksidan av ditt kredit- eller betalkort. Om du har ett American Express är det det fyrsiffriga numret på kortets framsida.</string>
+  <string name="iap_daily_selling_product">Daily Collection minimixer</string>
   <string name="iap_delete">Radera</string>
   <string name="iap_delete_address">Tar bort leveransadress</string>
   <string name="iap_delete_item_alert_message">Vill du radera varan?</string>
@@ -75,7 +81,7 @@
   <string name="iap_delivery_description">Leveransen är kostnadsfri om du handlar för 100 dollar eller mer</string>
   <string name="iap_delivery_method">Leveransmetod</string>
   <string name="iap_delivery_via">Leverans via FedEx</string>
-  <string name="iap_discount">rabatt</string>
+  <string name="iap_discount">Rabatt</string>
   <string name="iap_download_invoice">Hämta din faktura</string>
   <string name="iap_edit">Redigera</string>
   <string name="iap_email">E-post</string>
@@ -84,6 +90,7 @@
   <string name="iap_empty_cart">Din kundvagn är tom för närvarande</string>
   <string name="iap_empty_purchase_history">Om du gjort en beställning med hjälp av det här programmet ska du kolla e-posten för bekräftelsemeddelandet.</string>
   <string name="iap_empty_purchase_history_dls">Om du gjorde din beställning med hjälp av den här appen ska du kontrollera att du har fått en beställningsbekräftelse via e-post.</string>
+  <string name="iap_enter_gift_code">Ange din kampanj- eller presentkortskod</string>
   <string name="iap_enter_promo_code">Ange kampanj- eller presentkod</string>
   <string name="iap_enter_promotional_voucher">Ange kampanjkoden för kupongen</string>
   <string name="iap_expert_reviews">Expertrecensioner</string>
@@ -94,10 +101,12 @@
   <string name="iap_first_name">Förnamn</string>
   <string name="iap_first_name_error">Ange ett giltigt förnamn</string>
   <string name="iap_first_name_hint">Ange ditt förnamn</string>
+  <string name="iap_free_Delivery">Fri frakt för den här beställningen</string>
   <string name="iap_go_to_checkout">Gå till kassan</string>
   <string name="iap_handed_to_courier">Överlämnas till transportören</string>
   <string name="iap_help_other_by_reviewing">Skriv en recension och hjälp andra att göra rätt val!</string>
   <string name="iap_houseNumber_error">Ange gatunummer</string>
+  <string name="iap_house_no_error">Fel gatunummer</string>
   <string name="iap_house_number">Gatunummer</string>
   <string name="iap_house_number_hint">Ange gatunummer</string>
   <string name="iap_in_stock">i lager</string>
@@ -118,10 +127,12 @@
   <string name="iap_last_name_hint">Ange efternamn</string>
   <string name="iap_less_review">visa mindre</string>
   <string name="iap_mastercard">Master Card</string>
+  <string name="iap_more_info">för mer info</string>
   <string name="iap_more_review">visa fler</string>
   <string name="iap_mr">Herr</string>
   <string name="iap_mrs">Fr.</string>
   <string name="iap_my_orders">Mina beställningar</string>
+  <string name="iap_no_checkout">Philips betalningsfunktion är inte tillgänglig för det här landet.</string>
   <string name="iap_no_do_not_delete">Nej, ta inte bort</string>
   <string name="iap_no_internet">Internetanslutningen verkar inte fungera. Kontrollera och försök igen</string>
   <string name="iap_no_items">Inga objekt här ännu...</string>
@@ -133,6 +144,7 @@
   <string name="iap_not_yet_shipped">Ännu inte levererad</string>
   <string name="iap_nothing_in_cart">Ingenting i kundvagnen</string>
   <string name="iap_number_of_product">Produkt: %s</string>
+  <string name="iap_number_of_products">%s produkter</string>
   <string name="iap_ok">[sv]OK</string>
   <string name="iap_one_click_buy">Köp igen med ett enda klick</string>
   <string name="iap_opening_hours">Öppettider kundtjänst\n</string>
@@ -148,6 +160,7 @@
   <string name="iap_order_history">Beställningshistorik</string>
   <string name="iap_order_not_received_items">Beställning ej mottagen</string>
   <string name="iap_order_number">Beställningsnummer: </string>
+  <string name="iap_order_number_msg">Beställningsnummer: %s</string>
   <string name="iap_order_pending">Din beställning är i vänteläge</string>
   <string name="iap_order_picked">Din beställning hämtades av FedEx på</string>
   <string name="iap_order_processing">Behandlas</string>
@@ -182,16 +195,22 @@
   <string name="iap_postal_code">Postadress</string>
   <string name="iap_postal_code_error">Ange ett giltigt postnummer</string>
   <string name="iap_postal_code_hint">Ange postnummer</string>
+  <string name="iap_privacy">Sekretessmeddelande</string>
   <string name="iap_proceed">Fortsätt</string>
+  <string name="iap_product">Produkt</string>
   <string name="iap_product_added">Produkt tillagd i kundvagnen</string>
   <string name="iap_product_catalog">Produkter</string>
   <string name="iap_product_detail_title">Produktinformation</string>
   <string name="iap_product_not_found">Vi kunde inte hitta några produkter för</string>
+  <string name="iap_product_remove_address">Din adress tas bort för alltid. Är du säker?</string>
   <string name="iap_product_remove_description">Produkten kommer att tas bort från kundvagnen. Är du säker?</string>
   <string name="iap_products_unavailable">Inga tillgängliga produkter</string>
+  <string name="iap_promotional_gift">Kampanj- eller presentkortskod</string>
   <string name="iap_quantity">Antal: %s</string>
   <string name="iap_rate_it">Hiss eller diss – berätta vad du tycker!</string>
+  <string name="iap_read">Läs vårt</string>
   <string name="iap_read_full_review">Läs den fullständiga recensionen</string>
+  <string name="iap_read_privacy">Jag har läst gällande</string>
   <string name="iap_recommend_this_product">kunder som skulle rekommendera den här produkten.</string>
   <string name="iap_redeem_voucher">Lös in kupong</string>
   <string name="iap_remove">Ta bort</string>
@@ -217,6 +236,7 @@
   <string name="iap_shipped">Sänt</string>
   <string name="iap_shipped_to">Levererad till:</string>
   <string name="iap_shipping_address">Leveransadress</string>
+  <string name="iap_shipping_cost">Fraktkostnad</string>
   <string name="iap_shipping_to">Levererar till</string>
   <string name="iap_shopping_cart">Kundvagn</string>
   <string name="iap_shopping_cart_dls">Kundvagn</string>
@@ -228,11 +248,13 @@
   <string name="iap_state">Delstat</string>
   <string name="iap_stock_left">kvar i lager</string>
   <string name="iap_success">Lyckat</string>
+  <string name="iap_terms_conditions">Villkor</string>
   <string name="iap_thank_for_order">Tack för din beställning</string>
   <string name="iap_time_out">Tidsgräns</string>
   <string name="iap_time_out_error">Tidsgräns för nätverk har nåtts!</string>
   <string name="iap_title">Titel</string>
   <string name="iap_total">Totalbelopp</string>
+  <string name="iap_total_discount">Total rabatt</string>
   <string name="iap_total_val">Summa (0 objekt)</string>
   <string name="iap_town">Stad/ort</string>
   <string name="iap_town_error">Ange en giltig ort</string>
@@ -259,6 +281,9 @@
   <string name="iap_vat">Moms</string>
   <string name="iap_view_invoice">Visa faktura</string>
   <string name="iap_voucher">Kupong</string>
+  <string name="iap_voucher_applied_success">Kupongen har tillämpats</string>
+  <string name="iap_voucher_applied_unsuccess">Misslyckades</string>
+  <string name="iap_voucher_code">Presentkod:</string>
   <string name="iap_warranty">För alla produkter tillhandahåller vi minst ett års garanti. Vår kundtjänst är glada över att kunna hjälpa dig.</string>
   <string name="iap_write_review">Skriv en recension</string>
   <string name="iap_yes_delete">Ja, ta bort</string>

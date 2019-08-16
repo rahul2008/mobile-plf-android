@@ -51,6 +51,7 @@ import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.ValidLoginId;
 import com.philips.cdp.registration.ui.utils.ValidPassword;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
@@ -79,6 +80,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @BindView(R2.id.usr_createscreen_termsandconditions_checkbox)
     CheckBox usrCreatescreenTermsandconditionsCheckbox;
 
+    @BindView(R2.id.usr_createscreen_personal_consent_checkbox)
+    CheckBox usrCreatescreenPersonalConsentCheckbox;
+
     @BindView(R2.id.usr_createScreen_firstName_textField)
     ValidationEditText usrCreateScreenFirstNameTextField;
 
@@ -105,6 +109,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @BindView(R2.id.usr_createscreen_termsandconditionsalert_view)
     XRegError usrCreatescreenTermsandconditionsalertView;
+
+    @BindView(R2.id.usr_createscreen_personal_consent_alert_view)
+    XRegError usrCreatescreenPersonalConsentalertView;
 
     @BindView(R2.id.usr_createScreen_rootLayout_scrollView)
     ScrollView usrCreateScreenRootLayoutScrollView;
@@ -196,6 +203,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             return 0;
         }
     });
+    private boolean consentStates;
 
     @Override
     public void onAttach(Context context) {
@@ -206,7 +214,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RegistrationConfiguration.getInstance().getComponent().inject(this);
-        RLog.i(TAG,"Screen name is "+ TAG);
+        RLog.i(TAG, "Screen name is " + TAG);
 
 
         View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
@@ -241,7 +249,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private int passwordValidation(int strength) {
 
         int strengthMedium = 2;
-        int strengthWeak= 1;
+        int strengthWeak = 1;
         int strengthMeterNone = 0;
         int strengthMeterWeak = 33;
         int strengthMeterStrong = 100;
@@ -250,13 +258,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RLog.d(TAG,
                 " register: NetworkStateListener,strength " + strength);
         if (strength > strengthMedium) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.strong_strength_progress,R.color.strong_strength_background,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Strong), strengthMeterStrong, true, R.color.strong_strength_progress, R.color.strong_strength_background,
                     R.drawable.reg_password_strength_strong, 0, true);
         } else if (strength == strengthMedium) {
             passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Medium), strengthMeterMedium, true, R.color.medium_strength_progress, R.color.medium_strength_background,
                     R.drawable.reg_password_strength_medium, 0, false);
         } else if (strength == strengthWeak) {
-            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.weak_strength_progress,R.color.weak_strength_background,
+            passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterWeak, false, R.color.weak_strength_progress, R.color.weak_strength_background,
                     R.drawable.reg_password_strength_weak, R.string.USR_InValid_PwdErrorMsg, false);
         } else {
             passwordUiUpdate(getResources().getString(R.string.USR_Password_Strength_Weak), strengthMeterNone, false, R.color.weak_strength_progress, R.color.weak_strength_background,
@@ -322,6 +330,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         setContentConfig();
         RegUtility.linkifyTermsandCondition(usrCreatescreenTermsandconditionsCheckbox, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         RegUtility.linkifyPhilipsNews(usrCreatescreenMarketingmailsCheckbox, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())
+            RegUtility.linkifyPersonalConsent(usrCreatescreenPersonalConsentCheckbox, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         usernameUihandle();
         if (RegistrationHelper.getInstance().isMobileFlow()) {
@@ -349,6 +359,23 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             }
         });
 
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
+            usrCreatescreenPersonalConsentCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                TextView tv = (TextView) buttonView;
+                usrCreatescreenPersonalConsentalertView.hideError();
+                if (!isChecked) {
+                    usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
+                }
+                if (!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)) {
+                    usrCreatescreenPersonalConsentCheckbox.setChecked(!isChecked);
+                    getRegistrationFragment().addPersonalConsentFragment();
+                }
+            });
+
+        } else {
+            usrCreatescreenPersonalConsentalertView.setVisibility(View.GONE);
+            usrCreatescreenPersonalConsentCheckbox.setVisibility(View.GONE);
+        }
         usrCreatescreenMarketingmailsCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -386,6 +413,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private void registerUserInfo() {
         showSpinner();
         usrCreatescreenTermsandconditionsalertView.setVisibility(View.GONE);
+        usrCreatescreenPersonalConsentalertView.setVisibility(View.GONE);
         usrCreateScreenFirstNameTextField.clearFocus();
         usrCreateScreenLastNameTextField.clearFocus();
         usrCreatescreenEmailormobileTextfield.clearFocus();
@@ -409,6 +437,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         }
     };
 
+    private ClickableSpan mPersonalConsentClick = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            trackPage(AppTaggingPages.PERSONAL_CONSENT);
+        }
+    };
+
     private ClickableSpan mPhilipsNewsClick = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
@@ -419,11 +454,17 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @Override
     public void trackCheckMarketing() {
         trackRemarketing();
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
             } else {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
+            }
+
+            if (usrCreatescreenPersonalConsentCheckbox.isChecked()) {
+                trackActionForPersonalConsentOption(AppTagingConstants.ACCEPT_PERSONAL_CONSENT_OPTION_IN);
+            } else {
+                trackActionForPersonalConsentOption(AppTagingConstants.ACCEPT_PERSONAL_CONSENT_OPTION_OUT);
             }
         }
     }
@@ -578,7 +619,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @OnClick(R2.id.usr_createscreen_switchtologin_button)
     public void setSwitchToLogin() {
-        RLog.i(TAG,TAG+".setSwitchToLogin");
+        RLog.i(TAG, TAG + ".setSwitchToLogin");
         getRegistrationFragment().addFragment(new SignInAccountFragment());
     }
 
@@ -647,14 +688,25 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @OnClick(R2.id.usr_createscreen_create_button)
     public void createButtonWithProgressBar() {
         RLog.d(TAG, "createButtonWithProgressBar: Create Account");
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
+            if (usrCreatescreenTermsandconditionsCheckbox.isChecked() && usrCreatescreenPersonalConsentCheckbox.isChecked()) {
+                registerUserInfo();
+            } else if (!usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
+                usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.USR_TermsAndConditionsAcceptanceText_Error));
+            } else if (!usrCreatescreenPersonalConsentCheckbox.isChecked()) {
+                usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
+            }
+//            if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && usrCreatescreenPersonalConsentCheckbox.isChecked()) {
+//                registerUserInfo();
+//            } else {
+//                usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
+//            }
+        } else if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 registerUserInfo();
             } else {
                 usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.USR_TermsAndConditionsAcceptanceText_Error));
             }
-        } else {
-            registerUserInfo();
         }
     }
 

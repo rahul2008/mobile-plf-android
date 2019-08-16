@@ -32,6 +32,7 @@ import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -67,6 +68,7 @@ public class RegistrationActivity extends UIDActivity implements
     private Toolbar toolbar;
     private TextView mTvTitle;
     private static String TAG = "RegistrationActivity";
+    private ConsentStates consentStates;
 
 
     @Override
@@ -89,6 +91,7 @@ public class RegistrationActivity extends UIDActivity implements
         if (bundle != null) {
 
             mRegistrationLaunchMode = (RegistrationLaunchMode) bundle.get(RegConstants.REGISTRATION_LAUNCH_MODE);
+            consentStates = (ConsentStates) bundle.get(RegConstants.PERSONAL_CONSENT);
             int orientation = bundle.getInt(RegConstants.ORIENTAION, -1);
             if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -200,6 +203,7 @@ public class RegistrationActivity extends UIDActivity implements
         urLaunchInput.setRegistrationFunction(RegistrationConfiguration.getInstance().getPrioritisedFunction());
         urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
         urLaunchInput.setUserRegistrationUIEventListener(RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener());
+        urLaunchInput.setUserPersonalConsentStatus(consentStates);
         urLaunchInput.setUIFlow(uiFlow);
         FragmentLauncher fragmentLauncher = new FragmentLauncher
                 (this, R.id.frame_container, this);

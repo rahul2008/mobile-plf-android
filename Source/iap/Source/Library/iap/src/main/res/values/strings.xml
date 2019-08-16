@@ -4,6 +4,17 @@
    - consent of the copyright holder. -->
 
 <resources>
+  <string name="iap_free_Delivery">Delivery is free for this order</string>
+  <string name="iap_apply_gift">Apply gift code</string>
+  <string name="iap_voucher_applied_success">Voucher Applied Successfully</string>
+  <string name="iap_voucher_applied_unsuccess">Unsuccessful</string>
+  <string name="iap_promotional_gift">Promotional or gift code</string>
+  <string name="iap_no_checkout">Philips checkout functionality not available for this country.</string>
+  <string name="iap_enter_gift_code">Enter your promotion or gift code</string>
+  <string name="iap_delevery_via">Delivery via %s</string>
+  <string name="iap_agree_privacy">and by placing the order, I accept and agree to be bound by Philips</string>
+  <string name="iap_accepted_codes">Accepted codes</string>
+  <string name="iap_access_token_notfound">Access token not found</string>
   <string name="iap_1x_daily_collection">1x daily collection Miniblender</string>
   <string name="iap_Payment_cancel">Payment cancel</string>
   <string name="iap_Payment_failure">Payment failure</string>
@@ -75,7 +86,7 @@
   <string name="iap_delivery_description">Delivery is FREE when you spend $100 or more</string>
   <string name="iap_delivery_method">Delivery Method</string>
   <string name="iap_delivery_via">Delivery via FedEx</string>
-  <string name="iap_discount">discount</string>
+  <string name="iap_discount">Discount</string>
   <string name="iap_download_invoice">Download your invoice</string>
   <string name="iap_edit">Edit</string>
   <string name="iap_email">Email</string>
@@ -131,9 +142,12 @@
   <string name="iap_read">Read our</string>
   <string name="iap_privacy">Privacy Notice</string>
   <string name="iap_more_info">for more info</string>
+  <string name="iap_questions">Questions? Please visit our</string>
+  <string name="iap_faq">FAQ</string>
+  <string name="iap_page">page</string>
   <string name="iap_read_privacy">I have read the</string>
-  <string name="iap_agree_privacy">and by placing the order, I accept and agree to be bound by Philips’</string>
-  <string name="iap_terms_privacy">I have read the <u>Privacy Notice</u>, and by placing the order, I accept and agree to be bound by Philips’ <u>Terms and Conditions</u></string>
+  <string name="iap_accept_terms">By placing the order, I accept Philips’</string>
+  <string name="iap_terms_privacy">I have read the <u>Privacy Notice</u></string>
   <string name="iap_no_result">0 results found for</string>
   <string name="iap_no_retailer_message">There are no online retailers currently available for this product.</string>
   <string name="iap_not_now">Not now</string>
@@ -276,34 +290,23 @@
   <string name="iap_your_order_number">Your order number is</string>
   <string name="iap_zero_results_found">0 results found for %s</string>
   <string name="iap_zero_results_message">This filters our product list. Please check that there are no typos in your filter term</string>
-
-  <!--Translation to be done for below strings-->
-  <string name="iap_apply_voucher">Apply gift code</string>
   <string name="iap_voucher_code">Voucher Code:</string>
   <string name="iap_house_no_error">Wrong house number</string>
-  <string name="iap_delivery_promotion">Delivery is free for this order</string>
-  <string name="iap_promotion_gift_code">Promotional or gift code</string>
-  <string name="iap_product_item_quantity">Quantity:</string>
   <string name="iap_product">Product</string>
-  <string name="iap_buy_product_from_retailers">Buy from retailer</string>
   <string name="iap_checkout_steps_overview">Steps %s of 3: Overview</string>
-  <string name="iap_continue_shopping_button_title">Continue shopping</string>
-  <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
-  <string name="iap_cvvpopup_3digit_info">The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
   <string name="iap_daily_selling_product">Daily Collection Miniblender</string>
-  <string name="iap_no_of_products">%s product(s)</string>
   <string name="iap_number_of_products">%s Products</string>
   <string name="iap_order_number_msg">Order number: %s</string>
   <string name="iap_product_remove_address">Your address will be deleted forever. Are you sure?</string>
-  <string name="iap_state_hint">State</string>
-  <string name="iap_your_order_number_is">Your order number is:</string>
-  <string name="iap_house_no_hint">Enter house number</string>
-  <string name="house_no">House number</string>
-  <string name="iap_shipping_cost">Shipping cost</string>
-  <string name="iap_total_voucher_discount">Discount</string>
-  <string name="iap_voucher_apply_label">Enter your promotion or gift code </string>
-  <string name="iap_accepted_code">Accepted codes</string>
   <string name="iap_total_discount">Total Discount</string>
+  <string name="iap_shipping_cost">Delivery cost</string>
+
+  <!--Translation to be done for below strings-->
+  <string name="iap_product_item_quantity">Quantity:</string>
+  <string name="iap_cvv_code_hint_description">The 3-digit number can be found on the back of your card.</string>
+  <string name="iap_cvvpopup_3digit_info">The CVV number is the last 3 digits on the back of your card. For Amex cards, the CVV is a 4 digit number on the front of the card.</string>
+  <string name="iap_no_of_products">%s product(s)</string>
+  <string name="iap_your_order_number_is">Your order number is:</string>
 
   <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -1,5 +1,7 @@
 package com.philips.cdp.registration.ui.utils;
 
+import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
+
 import java.io.*;
 
 
@@ -30,6 +32,27 @@ public class RegistrationContentConfiguration implements Serializable {
     private String optInActionBarText;
 
     private int showMarketImage;
+
+    private int personalConsentContentErrorResId;
+
+    private ConsentDefinition personalConsentDefinition;
+
+    public ConsentDefinition getPersonalConsentDefinition() {
+        return personalConsentDefinition;
+    }
+
+    public void setPersonalConsentDefinition(ConsentDefinition personalConsentDefinition) {
+        this.personalConsentDefinition = personalConsentDefinition;
+    }
+
+    public int getPersonalConsentContentErrorResId() {
+        if(personalConsentContentErrorResId == 0) new RuntimeException("Please set the Personal Consent Content for Error");
+        return personalConsentContentErrorResId;
+    }
+
+    public void setPersonalConsentContentErrorResId(int personalConsentContentErrorResId) {
+        this.personalConsentContentErrorResId = personalConsentContentErrorResId;
+    }
 
     public String getValueForRegistrationDescription() {
         return valueForRegistrationDescription;
@@ -131,5 +154,6 @@ public class RegistrationContentConfiguration implements Serializable {
         RLog.d(TAG, "enableImageId :" + imageId);
         this.showMarketImage = imageId;
     }
+
 
 }

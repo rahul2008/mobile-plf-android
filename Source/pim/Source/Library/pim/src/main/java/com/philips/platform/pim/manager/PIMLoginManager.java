@@ -120,14 +120,17 @@ public class PIMLoginManager {
     private Map<String, String> createAdditionalParameterForLogin() {
         Map<String, String> parameter = new HashMap<>();
         parameter.put("claims", getCustomClaims());
-        parameter.put("cookie_consent", String.valueOf(mTaggingInterface.getPrivacyConsent()));//String.valueOf(Config.getPrivacyStatus() == MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN));
+        AppTaggingInterface.PrivacyStatus privacyConsent = mTaggingInterface.getPrivacyConsent();
+        boolean bool;
+        bool = privacyConsent.equals(AppTaggingInterface.PrivacyStatus.OPTIN);
+        parameter.put("analytics_consent", String.valueOf(bool));
         if (Analytics.getTrackingIdentifier() != null) {
-            parameter.put("adobe_mc", mTaggingInterface.getTrackingIdentifier());
+            parameter.put("analytics_adobe_mc", mTaggingInterface.getTrackingIdentifier());
         } else {
             mLoggingInterface.log(DEBUG, TAG, "ADBMobile tracking Identifier is not set.");
         }
         parameter.put("ui_locales", PIMSettingManager.getInstance().getLocale());
-        parameter.put("app_rep",new PIMOIDCConfigration().getrsID());
+        parameter.put("analytics_report_suite_id",new PIMOIDCConfigration().getrsID());
         mLoggingInterface.log(DEBUG, TAG, "Additional parameters : " + parameter.toString());
         return parameter;
     }
