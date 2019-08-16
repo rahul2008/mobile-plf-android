@@ -410,7 +410,6 @@ def BuildAndUnitTest() {
         ./gradlew --refresh-dependencies --full-stacktrace clean assembleRelease \
             :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
-            :pim:testReleaseUnitTest       
             :registrationApi:testReleaseUnitTest \
             :product-registration-lib:testReleaseUnitTest \
             :iap:testReleaseUnitTest \
@@ -418,6 +417,7 @@ def BuildAndUnitTest() {
             :digitalCare:testRelease \
             :mya:testReleaseUnitTest \
             :pif:testReleaseUnitTest \
+            :pim:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest 
             
     '''
