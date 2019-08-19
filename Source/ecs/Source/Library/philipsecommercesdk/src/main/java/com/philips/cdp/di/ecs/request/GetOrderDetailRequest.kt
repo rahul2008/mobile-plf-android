@@ -13,7 +13,7 @@ import org.json.JSONObject
 import java.lang.Exception
 import java.util.HashMap
 
-class GetOrderDetailRequest (orderID: String,ecsCallback: ECSCallback<OrderDetail, Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
+open class GetOrderDetailRequest (orderID: String, ecsCallback: ECSCallback<OrderDetail, Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
 
     val orderID = orderID
     val ecsCallback = ecsCallback

@@ -15,7 +15,7 @@ import org.json.JSONObject
 import java.lang.Exception
 import java.util.HashMap
 
-class GetOrderHistoryRequest (currentPage: Int,ecsCallback: ECSCallback<OrdersData,Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
+open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<OrdersData,Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
 
     private val ecsCallback = ecsCallback
     private val currentPage = currentPage
