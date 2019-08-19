@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
-import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
 import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.util.List;

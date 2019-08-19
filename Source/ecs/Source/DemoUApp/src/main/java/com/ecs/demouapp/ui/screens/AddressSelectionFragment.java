@@ -27,9 +27,6 @@ import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.controller.PaymentController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.response.payment.PaymentMethod;
-import com.ecs.demouapp.ui.response.payment.PaymentMethods;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
@@ -42,6 +39,8 @@ import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
@@ -198,15 +197,20 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
-        if ((Boolean) msg.obj) {
-            Addresses selectedAddress = retrieveSelectedAddress();
-            mIsAddressUpdateAfterDelivery = true;
-            mAddressController.setDefaultAddress(selectedAddress);
+        if ((msg.obj instanceof Boolean) ) {
+            if((Boolean)msg.obj) {
+                Addresses selectedAddress = retrieveSelectedAddress();
+                mIsAddressUpdateAfterDelivery = true;
+                mAddressController.setDefaultAddress(selectedAddress);
             /*if (mDeliveryMode == null)
                 mAddressController.getDeliveryModes();
             else*/
                 checkPaymentDetails();
+            }
         } else {
+            //TODO remove checkPaymentDetails from here
+            //Temp work to test Payment call .
+            checkPaymentDetails();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             hideProgressBar();
         }
@@ -231,17 +235,19 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     public void onGetPaymentDetails(Message msg) {
         Addresses address = retrieveSelectedAddress();
         hideProgressBar();
-        if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
+        if (msg.obj instanceof String) {
 
-            AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
-            CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
+            if(msg.obj.equals(NetworkConstants.EMPTY_RESPONSE)) {
+                AddressFields selectedAddress = Utility.prepareAddressFields(address, mJanRainEmail);
+                CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
 
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(ECSConstant.ADD_BILLING_ADDRESS, true);
-            bundle.putSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(ECSConstant.ADD_BILLING_ADDRESS, true);
+                bundle.putSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
 
-            addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
-                    AddressFragment.TAG,true);
+                addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
+                        AddressFragment.TAG, true);
+            }
         } else if ((msg.obj instanceof Exception)) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
