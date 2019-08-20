@@ -197,15 +197,14 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onSetDeliveryAddress(final Message msg) {
-        checkPaymentDetails();
-        /*if ((msg.obj instanceof Boolean) ) {
+        if ((msg.obj instanceof Boolean) ) {
             if((Boolean)msg.obj) {
                 Addresses selectedAddress = retrieveSelectedAddress();
                 mIsAddressUpdateAfterDelivery = true;
                 mAddressController.setDefaultAddress(selectedAddress);
-            *//*if (mDeliveryMode == null)
+            /*if (mDeliveryMode == null)
                 mAddressController.getDeliveryModes();
-            else*//*
+            else*/
                 checkPaymentDetails();
             }
         } else {
@@ -214,7 +213,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             checkPaymentDetails();
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             hideProgressBar();
-        }*/
+        }
     }
 
     @Override
