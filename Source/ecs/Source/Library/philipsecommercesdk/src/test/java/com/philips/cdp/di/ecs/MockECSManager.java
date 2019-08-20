@@ -387,7 +387,7 @@ public class MockECSManager extends ECSManager {
 
     @Override
     public void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
-        new MockGetOrderHistoryRequest(getJsonFileNameMockECSManager(),pageNumber,ecsCallback);
+        new MockGetOrderHistoryRequest(getJsonFileNameMockECSManager(),pageNumber,ecsCallback).executeRequest();
     }
 
     @Override

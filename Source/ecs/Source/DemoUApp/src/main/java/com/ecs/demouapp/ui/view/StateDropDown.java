@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.UIPickerAdapter;
+import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.UIPicker;
@@ -36,8 +37,7 @@ public class StateDropDown {
         mAnchor=anchor;
         Context popupThemedContext = UIDHelper.getPopupThemedContext(context);
         mPopUp = new UIPicker(popupThemedContext);
-        //TODO
-       // mRegionList = CartModelContainer.getInstance().getRegionList();
+        mRegionList = CartModelContainer.getInstance().getRegionList();
 
         ArrayAdapter adapter = new UIPickerAdapter(popupThemedContext, R.layout.ecs_uipicker_item_text, createRowItems(mRegionList));
         mPopUp.setAdapter(adapter);

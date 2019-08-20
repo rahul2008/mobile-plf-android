@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.ecs.demouapp.ui.address.AddressFields;
+import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
@@ -58,6 +59,7 @@ public class AddressController {
         ECSUtility.getInstance().getEcsServices().getRegions(new ECSCallback<RegionsList, Exception>() {
             @Override
             public void onResponse(RegionsList result) {
+                CartModelContainer.getInstance().setRegionList(result);
                 Message message = new Message();
                 message.obj = result;
                 mAddressListener.onGetRegions(message);
@@ -235,7 +237,7 @@ public class AddressController {
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
                 Message message = new Message() ;
-                message.obj = error;
+                message.obj = detailErrorMessage;
                 mAddressListener.onSetDeliveryAddress(message);
             }
         });

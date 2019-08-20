@@ -169,10 +169,14 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 getDeliveryModes();
             else
                 mPaymentController.getPaymentDetails();
-        } else {
+        }if(msg.obj instanceof String){
+            ECSLog.d(ECSLog.LOG, msg.getData().toString());
+            ECSErrors.showECSToast(getAddressContractor().getActivityContext(),msg.obj.toString());
+
+        } else{
             // failure
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
-            ECSErrors.showECSToast(getAddressContractor().getActivityContext(),msg.getData().toString());
+            ECSErrors.showECSToast(getAddressContractor().getActivityContext(),"UNKNOWN ERROR");
            // NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
 
         }
