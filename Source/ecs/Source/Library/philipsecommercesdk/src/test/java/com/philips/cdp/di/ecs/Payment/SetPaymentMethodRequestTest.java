@@ -45,10 +45,10 @@ public class SetPaymentMethodRequestTest {
     }
 
     @Test
-    public void setDeliveryModeSuccess() {
+    public void setPaymentMethodSuccess() {
 
         mockECSServices.setJsonFileName("EmptyString.json");
-        mockECSServices.setPaymentMethod("", new ECSCallback<Boolean, Exception>() {
+        mockECSServices.setPaymentMethod("8960990117930", new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertTrue(result);
@@ -64,10 +64,10 @@ public class SetPaymentMethodRequestTest {
     }
 
     @Test
-    public void setDeliveryModeFailure() {
+    public void setPaymentMethodFailure() {
 
-        mockECSServices.setJsonFileName("SetPaymentMethodRequestTest.json");
-        mockECSServices.setPaymentMethod("", new ECSCallback<Boolean, Exception>() {
+        mockECSServices.setJsonFileName("SetPaymentFailure.json");
+        mockECSServices.setPaymentMethod("8960990117930", new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertTrue(false);

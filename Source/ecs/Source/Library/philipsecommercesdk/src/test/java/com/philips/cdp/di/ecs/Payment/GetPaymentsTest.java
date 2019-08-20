@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -49,7 +50,7 @@ public class GetPaymentsTest {
 
 
     @Test
-    public void getDeliveryModesSuccess() {
+    public void getPaymentSuccess() {
         mockECSServices.setJsonFileName("GetPaymentsSuccess.json");
         mockECSServices.getPayments(new ECSCallback<PaymentMethods, Exception>() {
             @Override
@@ -69,20 +70,17 @@ public class GetPaymentsTest {
     }
 
     @Test
-    public void getDeliveryModesFailure() {
+    public void getPaymentFailure() {
         mockECSServices.setJsonFileName("EmptyJson.json");
         mockECSServices.getPayments(new ECSCallback<PaymentMethods, Exception>() {
             @Override
             public void onResponse(PaymentMethods result) {
-                assertTrue(false);
-                //test failed
-
+                assertTrue(true);
             }
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                assertTrue(true);
-                //test passed
+                assertEquals(12999,errorCode);
             }
         });
     }

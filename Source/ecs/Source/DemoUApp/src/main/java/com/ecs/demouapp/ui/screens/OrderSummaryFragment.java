@@ -35,7 +35,6 @@ import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.response.addresses.Addresses;
 import com.ecs.demouapp.ui.response.addresses.GetShippingAddressData;
 
-import com.ecs.demouapp.ui.response.payment.PaymentMethod;
 import com.ecs.demouapp.ui.response.placeorder.PlaceOrder;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
@@ -52,6 +51,7 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSErrors;
 
@@ -120,7 +120,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         if (bundle.containsKey(ECSConstant.SELECTED_PAYMENT)) {
             mPaymentMethod = (PaymentMethod) bundle.getSerializable(ECSConstant.SELECTED_PAYMENT);
             if (mPaymentMethod != null && mPaymentMethod.getBillingAddress() != null) {
-                final Addresses billingAddress = mPaymentMethod.getBillingAddress();
+                final com.philips.cdp.di.ecs.model.address.Addresses billingAddress = mPaymentMethod.getBillingAddress();
                 final AddressFields billingAddressFields = new AddressFields();
                 billingAddressFields.setFirstName(billingAddress.getFirstName());
                 billingAddressFields.setLastName(billingAddress.getLastName());
