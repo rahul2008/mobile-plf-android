@@ -501,6 +501,9 @@ public class OrderSummaryFragment extends InAppBaseFragment
             } else {
                 NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             }*/
+        }else if(msg.obj instanceof String){
+            hideProgressBar();
+            ECSErrors.showECSAlertDialog(mContext,"Error",msg.obj.toString());
         }
     }
 

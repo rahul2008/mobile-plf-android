@@ -123,7 +123,7 @@ public class PaymentController {
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
                 Message message = new Message();
-                message.obj=error;
+                message.obj=detailErrorMessage;
                 mMakePaymentListener.onPlaceOrder(message);
 
             }
