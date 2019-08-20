@@ -28,10 +28,7 @@ import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.OrderController;
-import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.response.orders.ContactsResponse;
 import com.ecs.demouapp.ui.response.orders.ProductData;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
@@ -42,13 +39,14 @@ import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class OrderDetailsFragment extends InAppBaseFragment implements OrderController.OrderListener, View.OnClickListener, AbstractModel.DataLoadListener {
+public class OrderDetailsFragment extends InAppBaseFragment implements OrderController.OrderListener, View.OnClickListener {
 
     public static final String TAG = OrderDetailsFragment.class.getName();
     private Context mContext;
@@ -158,7 +156,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         mShippingStatus.setText(String.format(mContext.getString(R.string.iap_order_status_msg), mPhoneContact));
         btncall.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(mPhoneContact,
-                HybrisDelegate.getInstance().getStore().getCountry()));
+                ECSConfig.INSTANCE.getCountry()));
         tvOpeningTimings.setText(mOpeningHoursWeekdays + "\n" + mOpeningHoursSaturday);
     }
 
@@ -263,6 +261,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
 
         if (mOrderDetail.getEntries().size() > 0) {
+
+            //TODO
             mController.getPhoneContact(mOrderDetail.getEntries().get(0).getProduct().getSummary().getSubcategory());
         }
 
@@ -322,7 +322,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     @Override
     public void onGetPhoneContact(Message msg) {
         hideProgressBar();
-        if (msg.obj instanceof ContactsResponse) {
+        //TODO
+        /*if (msg.obj instanceof ContactsResponse) {
             ContactsResponse contactsResponse = (ContactsResponse) msg.obj;
             if (contactsResponse.getData() != null && contactsResponse.getData().getPhone()!=null) {
                 mPhoneContact = contactsResponse.getData().getPhone().get(0).getPhoneNumber();
@@ -332,7 +333,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                 setCallTimings();
                 btncall.setEnabled(true);
             }
-        }
+        }*/
     }
 
     private void getNetworkImage(final NetworkImageView networkImage, final String imageURL) {
@@ -458,17 +459,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     }
 
 
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-        if (processResponseFromPrx(msg)) return;
-        hideProgressBar();
 
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-        hideProgressBar();
-    }
 
     @SuppressWarnings("unchecked")
     private boolean processResponseFromPrx(final Message msg) {
@@ -487,7 +478,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     void dialCallCenter(String phoneNumber) {
         Intent i = new Intent(Intent.ACTION_DIAL);
         String p = "tel:" + PhoneNumberUtils.formatNumber(phoneNumber,
-                HybrisDelegate.getInstance().getStore().getCountry());
+                ECSConfig.INSTANCE.getCountry());
         i.setData(Uri.parse(p));
         startActivity(i);
     }

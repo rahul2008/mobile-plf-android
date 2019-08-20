@@ -6,7 +6,6 @@ package com.ecs.demouapp.ui.container;
 
 
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.ecs.demouapp.ui.products.ProductCatalogData;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
@@ -29,7 +28,6 @@ public class CartModelContainer {
     private String mOrderNumber;
     private RegionsList mRegionList;
 
-    private HashMap<String, ProductCatalogData> mProductList;
     private ArrayList<Data> mPRXSummaryObjects;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
     private HashMap<String, DisclaimerModel> mPRXDisclaimerObjects;
@@ -47,15 +45,11 @@ public class CartModelContainer {
     private String mAddressIdFromDelivery;
     private String voucherCode;
 
-    public void clearProductList() {
-        if(mProductList!=null) mProductList.clear();
-    }
 
     private CartModelContainer() {
         mPRXSummaryObjects = new ArrayList<>();
         mPRXAssetObjects = new HashMap<>();
         mPRXDisclaimerObjects = new HashMap<>();
-        mProductList = new HashMap<>();
     }
 
     public static CartModelContainer getInstance() {
@@ -202,31 +196,6 @@ public class CartModelContainer {
         return mPRXAssetObjects;
     }
 
-    //Product Data
-    public boolean isProductCatalogDataPresent(String ctn) {
-        return mProductList.containsKey(ctn);
-    }
-
-    public void addProduct(String ctn, ProductCatalogData data) {
-        if (!mProductList.containsKey(ctn)) {
-            mProductList.put(ctn, data);
-        }
-    }
-
-    public ProductCatalogData getProduct(String ctn) {
-        if (mProductList.containsKey(ctn)) {
-            return mProductList.get(ctn);
-        }
-        return null;
-    }
-
-    public HashMap<String, ProductCatalogData> getProductList() {
-        return mProductList;
-    }
-
-    public void clearCategorisedProductList() {
-        mProductList.clear();
-    }
 
     public AppInfraInterface getAppInfraInstance() {
         return appInfraInstance;

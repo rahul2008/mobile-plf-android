@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.ecs.demouapp.ui.response.addresses.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 
 
 

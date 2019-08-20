@@ -16,9 +16,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 
 public class CancelOrderFragment extends InAppBaseFragment {
@@ -47,8 +47,10 @@ public class CancelOrderFragment extends InAppBaseFragment {
         Bundle bundle = getArguments();
         if (null != bundle) {
             phoneNumber = bundle.getString(ECSConstant.CUSTOMER_CARE_NUMBER);
+
+            //TODO
             phoneNumberText.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(phoneNumber,
-                    HybrisDelegate.getInstance().getStore().getCountry()));
+                    ECSConfig.INSTANCE.getCountry()));
             String weekdaysTiming = bundle.getString(ECSConstant.CUSTOMER_CARE_WEEKDAYS_TIMING);
             String saturdayTiming = bundle.getString(ECSConstant.CUSTOMER_CARE_SATURDAY_TIMING);
             openingTimingText.setText(weekdaysTiming + "\n" + saturdayTiming);
@@ -60,7 +62,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
             public void onClick(View view) {
                 Intent i = new Intent(Intent.ACTION_DIAL);
                 String p = "tel:" + PhoneNumberUtils.formatNumber(phoneNumber,
-                        HybrisDelegate.getInstance().getStore().getCountry());
+                        ECSConfig.INSTANCE.getCountry());
                 i.setData(Uri.parse(p));
                 startActivity(i);
             }

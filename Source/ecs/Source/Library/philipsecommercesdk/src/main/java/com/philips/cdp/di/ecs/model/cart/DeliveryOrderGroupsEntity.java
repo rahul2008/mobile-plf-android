@@ -6,7 +6,7 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-class DeliveryOrderGroupsEntity {
+public class DeliveryOrderGroupsEntity {
 
     private TotalPriceWithTaxEntity totalPriceWithTax;
 

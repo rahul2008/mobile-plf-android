@@ -1,15 +1,12 @@
 package com.ecs.demouapp.ui.integration;
 
 
-import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class ECSConfigure {

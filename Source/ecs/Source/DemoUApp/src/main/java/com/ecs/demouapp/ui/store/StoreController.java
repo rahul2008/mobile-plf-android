@@ -9,23 +9,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.ecs.demouapp.ui.response.config.HybrisConfigResponse;
-import com.ecs.demouapp.ui.session.IAPHurlStack;
-import com.ecs.demouapp.ui.session.IAPJsonRequest;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.RequestListener;
-import com.ecs.demouapp.ui.session.SynchronizedNetwork;
-import com.ecs.demouapp.ui.session.SynchronizedNetworkListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
-import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-
-
-import org.json.JSONObject;
 
 public class StoreController {
     final Context mContext;

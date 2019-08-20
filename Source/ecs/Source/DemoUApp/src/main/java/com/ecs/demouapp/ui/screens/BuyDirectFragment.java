@@ -15,9 +15,6 @@ import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.BuyDirectController;
 
-import com.ecs.demouapp.ui.response.addresses.GetUser;
-import com.ecs.demouapp.ui.response.payment.PaymentMethod;
-import com.ecs.demouapp.ui.response.payment.PaymentMethods;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
@@ -27,6 +24,9 @@ import com.philips.cdp.di.ecs.model.address.Addresses;
 
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.GetUser;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 
 import java.util.ArrayList;
@@ -64,7 +64,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         mBuyDirectController = new BuyDirectController(mContext, this);
         mView = (ViewGroup) getView();
         createCustomProgressBar(mView, BIG);
-        mBuyDirectController.createCart();
+        //TODO
+       // mBuyDirectController.createCart();
 
     }
 
@@ -73,7 +74,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
         } else {
-            mBuyDirectController.addToCart(mCTN);
+            //TODO
+            //mBuyDirectController.addToCart(mCTN);
         }
     }
 
@@ -82,7 +84,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
         } else {
-            mBuyDirectController.getRegions();
+            //TODO
+            //mBuyDirectController.getRegions();
         }
     }
 
@@ -93,9 +96,10 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         } else if (msg.obj instanceof RegionsList) {
             //TODO
            // CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
-            mBuyDirectController.getUser();
+           // mBuyDirectController.getUser();
         } else if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
-            mBuyDirectController.getUser();
+            //TODO
+            //mBuyDirectController.getUser();
         }
     }
 
@@ -134,7 +138,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             ArrayList<DeliveryModes> deliveryModesList = (ArrayList<DeliveryModes>) deliveryModes.getDeliveryModes();
             CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
-            mBuyDirectController.setDeliveryMode(deliveryModesList.get(0).getCode());
+            //TODO
+            //mBuyDirectController.setDeliveryMode(deliveryModesList.get(0).getCode());
         }
     }
 
@@ -143,7 +148,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
         } else {
-            mBuyDirectController.getPaymentMode();
+            //TODO
+            //mBuyDirectController.getPaymentMode();
         }
     }
 
@@ -161,7 +167,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             PaymentMethods paymentMethods = (PaymentMethods) msg.obj;
             mPaymentMethod = paymentMethods.getPayments().get(0);
             if (mPaymentMethod != null) {
-                mBuyDirectController.setPaymentMode(mPaymentMethod.getId());
+                //TODO
+                //mBuyDirectController.setPaymentMode(mPaymentMethod.getId());
             }
         }
     }
@@ -204,7 +211,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         addressFields.setCountryIsocode(address.getCountry().getIsocode());
         CartModelContainer.getInstance().setShippingAddressFields(addressFields);
         CartModelContainer.getInstance().setAddressId(mAddressId);
-        mBuyDirectController.setDeliveryAddress(mAddressId);
+        //TODO
+        //mBuyDirectController.setDeliveryAddress(mAddressId);
     }
 
     private void handleError(Message msg) {

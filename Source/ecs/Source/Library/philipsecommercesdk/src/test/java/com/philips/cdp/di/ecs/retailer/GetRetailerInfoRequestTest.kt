@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.orderHistory
+package com.philips.cdp.di.ecs.retailer
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
@@ -7,6 +7,7 @@ import com.philips.cdp.di.ecs.MockECSServices
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.order.OrdersData
 import com.philips.cdp.di.ecs.model.orders.OrderDetail
+import com.philips.cdp.di.ecs.model.retailers.WebResults
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
 import org.junit.Assert.*
@@ -17,7 +18,7 @@ import org.mockito.Mock
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class GetOrderDetailRequestTest{
+class GetRetailerInfoRequestTest{
 
 
     private var mContext: Context? = null
@@ -26,7 +27,7 @@ class GetOrderDetailRequestTest{
     lateinit var mockECSServices: MockECSServices
     lateinit var ecsServices: ECSServices
 
-    lateinit var ecsCallback: ECSCallback<OrderDetail,Exception>
+    lateinit var ecsCallback: ECSCallback<WebResults,Exception>
 
 
     private var appInfra: AppInfra? = null
@@ -50,13 +51,13 @@ class GetOrderDetailRequestTest{
 
     @Test
     fun testSuccessResponse() {
-        mockECSServices.jsonFileName = "GetOrderDetailSuccess.json"
+        mockECSServices.jsonFileName = "GetRetailerInfoSuccess.json"
 
-        ecsCallback = object: ECSCallback<OrderDetail,Exception>{
+        ecsCallback = object: ECSCallback<WebResults,Exception>{
 
-             override fun onResponse(result: OrderDetail){
+             override fun onResponse(result: WebResults){
                  assertNotNull(result)
-                 assertNotNull(result.deliveryOrderGroups?.get(0)?.entries)
+                 assertNotNull(result.wrbresults?.onlineStoresForProduct)
              }
 
 
@@ -67,18 +68,18 @@ class GetOrderDetailRequestTest{
 
         }
 
-        mockECSServices.getOrderDetail("1234",ecsCallback)
+        mockECSServices.getRetailers("1234",ecsCallback)
 
     }
 
     @Test
     fun testFailureResponse() {
 
-        mockECSServices.jsonFileName = "GetOrderDetailFailure.json"
+        mockECSServices.jsonFileName = "GetRetailerInfoFailure.json"
 
-        ecsCallback = object: ECSCallback<OrderDetail,Exception>{
+        ecsCallback = object: ECSCallback<WebResults,Exception>{
 
-            override fun onResponse(result: OrderDetail){
+            override fun onResponse(result: WebResults){
                 assertTrue(true)
                 //  test case failed
             }
@@ -89,7 +90,7 @@ class GetOrderDetailRequestTest{
             }
 
         }
-        mockECSServices.getOrderDetail("1234",ecsCallback)
+        mockECSServices.getRetailers("1234",ecsCallback)
 
     }
 }

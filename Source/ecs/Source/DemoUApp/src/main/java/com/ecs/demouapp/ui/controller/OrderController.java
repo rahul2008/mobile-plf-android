@@ -6,15 +6,10 @@ package com.ecs.demouapp.ui.controller;
 
 import android.content.Context;
 import android.os.Message;
-import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.model.ContactCallRequest;
+
 import com.ecs.demouapp.ui.response.orders.ProductData;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.RequestCode;
-import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
-import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.Consignment;
@@ -22,18 +17,14 @@ import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.summary.Data;
-import com.philips.cdp.di.ecs.util.ECSConfig;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class OrderController implements AbstractModel.DataLoadListener {
+public class OrderController {
 
     private Context mContext;
     private OrderListener mOrderListener;
-    private HybrisDelegate mDelegate;
-    private StoreListener mStore;
 
     public interface OrderListener {
         void onGetOrderList(Message msg);
@@ -99,22 +90,14 @@ public class OrderController implements AbstractModel.DataLoadListener {
     }
 
     public void getPhoneContact(String subCategory){
-        HashMap<String, String> query = new HashMap<>();
+        //TODO
+       /* HashMap<String, String> query = new HashMap<>();
         query.put(ModelConstants.CATEGORY, subCategory);
 
         ContactCallRequest request = new ContactCallRequest(getStore(), query, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_PHONE_CONTACT, request, request);
+        getHybrisDelegate().sendRequest(RequestCode.GET_PHONE_CONTACT, request, request);*/
     }
 
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-        sendListener(msg);
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-        sendListener(msg);
-    }
 
     private void sendListener(Message msg) {
         if (null == mOrderListener) return;
@@ -202,25 +185,7 @@ public class OrderController implements AbstractModel.DataLoadListener {
         return traceIdOrTraceURL == null || traceIdOrTraceURL.size() == 0;
     }
 
-    public void setHybrisDelegate(HybrisDelegate delegate) {
-        mDelegate = delegate;
-    }
 
-    HybrisDelegate getHybrisDelegate() {
-        if (mDelegate == null) {
-            mDelegate = HybrisDelegate.getInstance(mContext);
-        }
-        return mDelegate;
-    }
 
-    public void setStore(StoreListener store) {
-        mStore = store;
-    }
 
-    StoreListener getStore() {
-        if (mStore == null) {
-            mStore = getHybrisDelegate().getStore();
-        }
-        return mStore;
-    }
 }
