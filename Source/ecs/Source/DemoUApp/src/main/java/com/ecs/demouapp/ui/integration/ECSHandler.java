@@ -7,27 +7,19 @@ package com.ecs.demouapp.ui.integration;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 
 
 import com.ecs.demouapp.ui.activity.ECSActivity;
-import com.ecs.demouapp.ui.analytics.ECSAnalytics;
-import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.iapHandler.HybrisHandler;
 import com.ecs.demouapp.ui.iapHandler.ECSExposedAPI;
 import com.ecs.demouapp.ui.iapHandler.LocalHandler;
-import com.ecs.demouapp.ui.networkEssential.NetworkEssentials;
-import com.ecs.demouapp.ui.networkEssential.NetworkEssentialsFactory;
 import com.ecs.demouapp.ui.screens.BuyDirectFragment;
 import com.ecs.demouapp.ui.screens.InAppBaseFragment;
 import com.ecs.demouapp.ui.screens.ProductCatalogFragment;
 import com.ecs.demouapp.ui.screens.ProductDetailFragment;
 import com.ecs.demouapp.ui.screens.PurchaseHistoryFragment;
 import com.ecs.demouapp.ui.screens.ShoppingCartFragment;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
-import com.ecs.demouapp.ui.session.IAPNetworkError;
-import com.ecs.demouapp.ui.session.RequestListener;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;

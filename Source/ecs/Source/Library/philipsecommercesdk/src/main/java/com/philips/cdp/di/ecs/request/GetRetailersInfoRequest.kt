@@ -13,7 +13,7 @@ import com.philips.cdp.di.ecs.util.ECSErrors
 import org.json.JSONObject
 import java.util.HashMap
 
-class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exception> ,ctn :String) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
+open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exception>, ctn :String) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
 
     val PREFIX_RETAILERS = "www.philips.com/api/wtb/v1"
     val RETAILERS_ALTER = "online-retailers?product=%s&lang=en"

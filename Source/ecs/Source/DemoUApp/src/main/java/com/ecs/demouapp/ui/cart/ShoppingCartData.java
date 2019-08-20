@@ -6,11 +6,13 @@ package com.ecs.demouapp.ui.cart;
 
 
 
-import com.ecs.demouapp.ui.response.carts.AppliedOrderPromotionEntity;
-import com.ecs.demouapp.ui.response.carts.AppliedVoucherEntity;
-import com.ecs.demouapp.ui.response.carts.DeliveryAddressEntity;
-import com.ecs.demouapp.ui.response.carts.DeliveryModeEntity;
-import com.ecs.demouapp.ui.response.carts.EntriesEntity;
+
+
+import com.philips.cdp.di.ecs.model.cart.AppliedOrderPromotionEntity;
+import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity;
+import com.philips.cdp.di.ecs.model.cart.DeliveryAddressEntity;
+import com.philips.cdp.di.ecs.model.cart.DeliveryModeEntity;
+import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 
 import java.io.Serializable;
 import java.util.List;

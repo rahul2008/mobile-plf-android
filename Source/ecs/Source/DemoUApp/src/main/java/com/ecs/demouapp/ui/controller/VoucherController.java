@@ -4,14 +4,13 @@ import android.content.Context;
 import android.os.Message;
 
 
-import com.ecs.demouapp.ui.model.AbstractModel;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 
 
-public class VoucherController implements AbstractModel.DataLoadListener {
+public class VoucherController {
 
     private Context mContext;
     private VoucherListener mVoucherListener ;
@@ -27,15 +26,6 @@ public class VoucherController implements AbstractModel.DataLoadListener {
         this.mVoucherListener=voucherListener;
     }
 
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-        sendListener(msg);
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-        sendListener(msg);
-    }
 
     public void applyCoupon(String voucherId) {
 

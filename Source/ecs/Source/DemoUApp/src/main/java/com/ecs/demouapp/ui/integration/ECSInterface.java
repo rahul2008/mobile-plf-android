@@ -62,7 +62,6 @@ public class ECSInterface implements UappInterface, ECSExposedAPI {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
 
         //This is added to clear pagination data from app memory . This should be taken in tech debt .
-        CartModelContainer.getInstance().clearProductList();
 
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) mIAPSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);

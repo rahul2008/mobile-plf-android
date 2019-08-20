@@ -7,14 +7,10 @@ package com.ecs.demouapp.ui.cart;
 import android.content.Context;
 import android.os.Message;
 
-import com.android.volley.Response;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
-import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
-import com.ecs.demouapp.ui.session.IAPJsonRequest;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
@@ -25,8 +21,6 @@ import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -34,7 +28,6 @@ import java.util.Iterator;
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected static final String PHILIPS_STORE = "Y";
     protected Context mContext;
-    protected HybrisDelegate mHybrisDelegate;
     protected ArrayList<StoreEntity> mStoreList;
     protected StoreListener mStore;
     protected ShoppingCartListener mLoadListener;
@@ -102,10 +95,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
         });
     }
 
-    IAPJsonRequest getIapJsonRequest(final AbstractModel model, final Response.ErrorListener error, final Response.Listener<JSONObject> response) {
-        return new IAPJsonRequest(model.getMethod(), model.getUrl(),
-                model.requestBody(), response, error);
-    }
+
 
 
     private void trackRetailer(String pCtn) {
@@ -136,17 +126,4 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                     createIAPErrorMessage("", mContext.getString(R.string.iap_no_retailer_message)));
     }
 
-    public HybrisDelegate getHybrisDelegate() {
-        if (mHybrisDelegate == null) {
-            mHybrisDelegate = HybrisDelegate.getInstance(mContext);
-        }
-        return mHybrisDelegate;
-    }
-
-    protected StoreListener getStore() {
-        if (mStore == null) {
-            mStore = getHybrisDelegate().getStore();
-        }
-        return mStore;
-    }
 }

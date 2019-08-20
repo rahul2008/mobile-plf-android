@@ -8,35 +8,7 @@ import android.content.Context;
 import android.os.Message;
 import android.util.Log;
 
-/*import com.philips.cdp.di.iap.address.AddressFields;
-import com.philips.cdp.di.iap.model.AbstractModel;
-import com.philips.cdp.di.iap.model.CreateAddressRequest;
-import com.philips.cdp.di.iap.model.DeleteAddressRequest;
-import com.philips.cdp.di.iap.model.GetAddressRequest;
-import com.philips.cdp.di.iap.model.GetDeliveryModesRequest;
-import com.philips.cdp.di.iap.model.GetRegionsRequest;
-import com.philips.cdp.di.iap.model.GetUserRequest;
-import com.philips.cdp.di.iap.model.SetDeliveryAddressModeRequest;
-import com.philips.cdp.di.iap.model.SetDeliveryAddressRequest;
-import com.philips.cdp.di.iap.model.UpdateAddressRequest;
-import com.philips.cdp.di.iap.response.addresses.Addresses;
-import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.di.iap.session.RequestCode;
-import com.philips.cdp.di.iap.store.StoreListener;
-import com.philips.cdp.di.iap.utils.ModelConstants;*/
-
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.model.CreateAddressRequest;
-import com.ecs.demouapp.ui.model.DeleteAddressRequest;
-import com.ecs.demouapp.ui.model.GetAddressRequest;
-import com.ecs.demouapp.ui.model.GetDeliveryModesRequest;
-import com.ecs.demouapp.ui.model.GetRegionsRequest;
-import com.ecs.demouapp.ui.model.GetUserRequest;
-import com.ecs.demouapp.ui.model.SetDeliveryAddressModeRequest;
-import com.ecs.demouapp.ui.model.SetDeliveryAddressRequest;
-import com.ecs.demouapp.ui.model.UpdateAddressRequest;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
@@ -54,11 +26,10 @@ import com.philips.cdp.di.ecs.util.ECSErrors;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class AddressController implements AbstractModel.DataLoadListener {
+public class AddressController {
 
     private Context mContext;
     private AddressListener mAddressListener;
-    private HybrisDelegate mDelegate;
     private StoreListener mStore;
 
     public interface AddressListener {
@@ -101,10 +72,6 @@ public class AddressController implements AbstractModel.DataLoadListener {
         });
     }
 
-    public void getUser() {
-        GetUserRequest model = new GetUserRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_USER, model, model);
-    }
 
     public static   Addresses getAddressesObject(AddressFields addressFields){
 
@@ -320,15 +287,6 @@ public class AddressController implements AbstractModel.DataLoadListener {
         getHybrisDelegate().sendRequest(RequestCode.SET_DELIVERY_MODE, model, model);*/
     }
 
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-        sendListener(msg);
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-        sendListener(msg);
-    }
 
     private void sendListener(Message msg) {
         int requestCode = msg.what;
@@ -406,25 +364,5 @@ public class AddressController implements AbstractModel.DataLoadListener {
         return addressHashMap;
     }
 
-    HybrisDelegate getHybrisDelegate() {
-        if (mDelegate == null) {
-            mDelegate = HybrisDelegate.getInstance(mContext);
-        }
-        return mDelegate;
-    }
 
-    public void setHybrisDelegate(HybrisDelegate delegate) {
-        mDelegate = delegate;
-    }
-
-    public void setStore(StoreListener store) {
-        mStore = store;
-    }
-
-    StoreListener getStore() {
-        if (mStore == null) {
-            mStore = getHybrisDelegate().getStore();
-        }
-        return mStore;
-    }
 }

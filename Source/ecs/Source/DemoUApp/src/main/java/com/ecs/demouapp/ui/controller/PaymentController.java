@@ -11,31 +11,20 @@ import android.util.Log;
 
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.ecs.demouapp.ui.model.AbstractModel;
-import com.ecs.demouapp.ui.model.GetPaymentDetailRequest;
-import com.ecs.demouapp.ui.model.PaymentRequest;
-import com.ecs.demouapp.ui.model.PlaceOrderRequest;
-import com.ecs.demouapp.ui.model.SetPaymentDetailsRequest;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
-import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 
-import java.net.URL;
-import java.util.HashMap;
-
-public class PaymentController implements AbstractModel.DataLoadListener {
+public class PaymentController {
 
     private Context mContext;
     private PaymentListener mPaymentListener;
     private MakePaymentListener mMakePaymentListener;
-    private HybrisDelegate mDelegate;
     private StoreListener mStore;
 
     public interface PaymentListener {
@@ -113,10 +102,10 @@ public class PaymentController implements AbstractModel.DataLoadListener {
     }
 
     public void placeOrder(String pSecurityCode) {
-        final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
+       /* final HybrisDelegate delegate = HybrisDelegate.getInstance(mContext);
         HashMap<String, String> query = new HashMap<>();
         if (pSecurityCode != null)
-            query.put(ModelConstants.SECURITY_CODE, pSecurityCode);
+            query.put(ModelConstants.SECURITY_CODE, pSecurityCode);*/
 
 
         ////
@@ -181,15 +170,6 @@ public class PaymentController implements AbstractModel.DataLoadListener {
 
     }
 
-    @Override
-    public void onModelDataLoadFinished(Message msg) {
-        sendListener(msg);
-    }
-
-    @Override
-    public void onModelDataError(Message msg) {
-        sendListener(msg);
-    }
 
     private void sendListener(Message msg) {
         int requestCode = msg.what;
@@ -207,27 +187,5 @@ public class PaymentController implements AbstractModel.DataLoadListener {
                 mMakePaymentListener.onMakePayment(msg);
                 break;
         }
-    }
-
-    public void setHybrisDelegate(HybrisDelegate delegate) {
-        mDelegate = delegate;
-    }
-
-    HybrisDelegate getHybrisDelegate() {
-        if (mDelegate == null) {
-            mDelegate = HybrisDelegate.getInstance(mContext);
-        }
-        return mDelegate;
-    }
-
-    public void setStore(StoreListener store) {
-        mStore = store;
-    }
-
-    StoreListener getStore() {
-        if (mStore == null) {
-            mStore = getHybrisDelegate().getStore();
-        }
-        return mStore;
     }
 }

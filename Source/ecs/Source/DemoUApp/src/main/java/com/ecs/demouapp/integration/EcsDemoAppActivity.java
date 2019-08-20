@@ -448,7 +448,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         super.onResume();
 
         //This is added to clear pagination data from app memory . This should be taken in tech debt .
-        CartModelContainer.getInstance().clearProductList();
 
         if(ECSConfig.INSTANCE.getAccessToken()!=null){
             mIapInterface.getProductCartCount(EcsDemoAppActivity.this);

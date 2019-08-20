@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
-import com.ecs.demouapp.ui.session.HybrisDelegate;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.AlertListener;
 import com.ecs.demouapp.ui.utils.ModelConstants;
@@ -118,7 +117,8 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
                 contextData.put(ECSAnalyticsConstant.PAYMENT_STATUS, ECSAnalyticsConstant.SUCCESS);
                 ECSAnalytics.trackMultipleActions(ECSAnalyticsConstant.SEND_DATA, contextData);
             }
-            String email = HybrisDelegate.getInstance(mContext).getStore().getJanRainEmail();
+            //TODO
+            String email = "pabitrakumar.sahoo@philips.com";
             if (arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }
