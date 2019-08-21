@@ -5,7 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import org.json.JSONArray;

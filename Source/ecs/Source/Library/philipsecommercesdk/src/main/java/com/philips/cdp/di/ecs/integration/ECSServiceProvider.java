@@ -13,11 +13,11 @@ import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
+import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -122,5 +122,7 @@ public interface ECSServiceProvider {
     void getOrderHistory(int pageNumber, ECSCallback<OrdersData,Exception> ecsCallback);
 
     void getOrderDetail(String orderId, ECSCallback<OrderDetail,Exception> ecsCallback);
+
+    void getUserProfile(ECSCallback<UserProfile,Exception> ecsCallback);
 
 }

@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.Config;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 
 import org.json.JSONException;

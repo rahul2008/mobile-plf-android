@@ -178,7 +178,6 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
             ECSErrors.showECSToast(getAddressContractor().getActivityContext(),"UNKNOWN ERROR");
            // NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
-
         }
     }
 
@@ -207,13 +206,6 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     public void createAddress(AddressFields shippingAddressFields) {
        mAddressController.createAddress(shippingAddressFields);
-
-
-
-
-
-       // ecsAddressRequest
-
     }
 
     public void setDeliveryAddress(Addresses address) {
@@ -235,12 +227,12 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             ECSErrors.showECSToast(addressContractor.getFragmentActivity(),exception.getMessage());
             addressContractor.hideProgressbar();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
-            /*GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
+            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
             if (deliveryModeList.size() > 0) {
                 CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
                 addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
-            }*/
+            }
         }
     }
 

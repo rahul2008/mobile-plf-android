@@ -17,9 +17,10 @@ import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
+import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSConstant;
@@ -28,7 +29,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -186,8 +186,7 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
-        mECSManager.createNewAddress(address, ecsCallback,true
-        );
+        mECSManager.createNewAddress(address, ecsCallback,true);
     }
 
     @Override
@@ -250,6 +249,12 @@ public class ECSServices implements ECSServiceProvider {
     public void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
         mECSManager.getOrderDetail(orderId,ecsCallback);
     }
+
+    @Override
+    public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
+        mECSManager.getUserProfile(ecsCallback);
+    }
+
 
     private void setLangAndCountry(String locale) {
         String[] localeArray;

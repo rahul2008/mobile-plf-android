@@ -29,7 +29,6 @@ import android.widget.ToggleButton;
 
 import com.ecs.demouapp.R;
 
-import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.integration.ECSBannerEnabler;
 import com.ecs.demouapp.ui.integration.ECSDependencies;
 import com.ecs.demouapp.ui.integration.ECSFlowInput;
@@ -45,7 +44,7 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;

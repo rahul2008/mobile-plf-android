@@ -290,8 +290,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             mAddressController.setDeliveryAddress(retrieveSelectedAddress());
             CartModelContainer.getInstance().setAddressId(retrieveSelectedAddress().getId());
             CartModelContainer.getInstance().setAddressIdFromDelivery(retrieveSelectedAddress().getId());
-
-
         }
     }
 

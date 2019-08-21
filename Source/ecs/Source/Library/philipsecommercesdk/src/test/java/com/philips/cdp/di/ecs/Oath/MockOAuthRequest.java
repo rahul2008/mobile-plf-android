@@ -4,7 +4,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
 
 import org.json.JSONException;

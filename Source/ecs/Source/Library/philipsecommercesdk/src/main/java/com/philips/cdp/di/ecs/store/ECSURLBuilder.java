@@ -57,148 +57,24 @@ public class ECSURLBuilder extends AbstractStore {
     private static final String SUFFIX_VOUCHERS = "vouchers";
     private static final String SUFFIX_LANGUAGE = "&lang=";
 
-    private boolean mIsNewUser;
-
-
-
-    private String mOauthUrl;
     private String mOauthRefreshUrl;
 
-    protected String mBaseURl,mBaseUrlCart;
-    protected String mBaseURlForProductCatalog;
 
     private String mGetProductCatalogUrl;
     private String mSearchProductUrl;
     private String mUpdateProductUrl;
 
-    private String mCreateCartUrl;
-    private String mGetCartsUrl;
     private String mGetCurrentCartUrl;
-    private String mAddToCartUrl;
     private String mDeleteCartUrl;
 
-    private String mOrderHistoryUrl;
-    private String mOrderDetailUrl;
     private String mGetPhoneContactUrl;
 
-    private String mRegionsUrl;
-    private String mGetUserUrl;
-    private String mAddressDetailsUrl;
-    private String mEditAddressUrl;
-    private String mDeliveryAddressUrl;
-
-    private String mDeliveryModeUrl;
-    private String mGetDeliveryModesUrl;
-
-    private String mGetPaymentDetailsUrl;
-    private String mSetPaymentDetailsUrl;
-
-    private String mMakePaymentUrl;
-    private String mPlaceOrderUrl;
-
-    private String mApplyVoucherUrl;
 
 
-   /* void generateStoreUrls() {
-        createOauthUrl();
-        createOAuthRefreshUrl();
-        createBaseUrl();
-        createBaseUrlForCreateCart();
-        createBaseUrlForProductCatalog();
-        generateGenericUrls();
-    }*/
 
-//    private void createOauthUrl() {
-//        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
-//        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH);
-//        mOauthUrl = String.format(builder.toString(), mIAPUser.getJanRainID());
-//    }
-//
-//    private void createOAuthRefreshUrl() {
-//        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
-//        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_REFRESH_OAUTH);
-//        mOauthRefreshUrl = builder.toString();
-//    }
-//
-//    private void createBaseUrl() {
-//        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
-//        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
-//        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-//        builder.append(USER).append(SUFFIX_CURRENT);
-//        //builder.append(USER)/*.append(SEPERATOR).append(mIAPUser.getJanRainEmail())*/;
-//        mBaseURl = builder.toString();
-//    }
-//
-//    private void createBaseUrlForCreateCart() {
-//        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
-//        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
-//        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-//        builder.append(USER);
-//        mBaseUrlCart = builder.toString();
-//    }
-//    private void createBaseUrlForProductCatalog() {
-//        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
-//        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
-//        builder.append(mStoreConfig.getSite()).append(SEPERATOR);
-//        mBaseURlForProductCatalog = builder.toString();
-//    }
-//
-//    private String createRegionsUrl() {
-//        StringBuilder builder = new StringBuilder(mStoreConfig.getHostPort());
-//        builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
-//        builder.append(METAINFO).append(SEPERATOR);
-//        builder.append(REGIONS).append(SEPERATOR);
-//        builder.append(getCountry()).append(FIELDS_FULL_LANG);
-//        return builder.toString();
-//    }
-//
-//    protected void generateGenericUrls() {
-//
-//        SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:"+mStoreConfig.getCampaign()+"&lang=";
-//
-//        //Carts
-//        String baseCartUrl = mBaseURl.concat(SUFFIX_CARTS);
-//        mGetCartsUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mGetCurrentCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//       // mCreateCartUrl = baseCartUrl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mCreateCartUrl = mBaseUrlCart.concat(SUFFIX_CURRENT).concat(SUFFIX_CARTS).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mDeleteCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(LANG) + mStoreConfig.getLocale();
-//        mAddToCartUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_ENTRIES).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//
-//        //Product
-//        mGetProductCatalogUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG).concat(mStoreConfig.getLocale()).concat("&currentPage=%s&pageSize=%s");
-//        mSearchProductUrl = mBaseURlForProductCatalog.concat(SUFFIX_PRODUCTS).concat(SUFFIX_STRING_PARAM);
-//        mUpdateProductUrl = baseCartUrl.concat(SUFFIX_CURRENT).
-//                concat(SUFFIX_ENTRIES).concat(SUFFIX_STRING_PARAM).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//
-//        //Address
-//        mRegionsUrl = createRegionsUrl().concat(mStoreConfig.getLocale());
-//        mGetUserUrl = mBaseURl.concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mAddressDetailsUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mEditAddressUrl = mBaseURl.concat(SUFFIX_ADDRESSES).concat(SUFFIX_STRING_PARAM).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mDeliveryAddressUrl = baseCartUrl.concat(SUFFIX_CURRENT).
-//                concat(SUFFIX_ADDRESSES).concat(SUFFIX_DELIVERY_ADDRESS).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//
-//        //Delivery mode
-//        mDeliveryModeUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODE).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mGetDeliveryModesUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_DELIVERY_MODES).concat(LANG) + mStoreConfig.getLocale();
-//
-//        //Payment
-//        mGetPaymentDetailsUrl = mBaseURl.concat(SUFFIX_PAYMENT_DETAILS).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mSetPaymentDetailsUrl = baseCartUrl.concat(SUFFIX_CURRENT).concat(SUFFIX_PAYMENT_DETAILS).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mMakePaymentUrl = mBaseURl.concat(SUFFIX_ORDERS).
-//                concat(SUFFIX_STRING_PARAM).concat(SUFFIX_PAY).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mPlaceOrderUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//
-//        //Orders
-//        mOrderHistoryUrl = mPlaceOrderUrl.concat(SUFFIX_CURRENT_PAGE);
-//        mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-//        mGetPhoneContactUrl = "https://www.philips.com/prx/cdls/B2C/" +
-//                mStoreConfig.getLocale() + "/CARE/".concat(SUFFIX_CONTACT_PHONE_URL);
-//
-//        //Vouchers
-//        mApplyVoucherUrl = mBaseURl.concat(SUFFIX_CARTS).concat(SUFFIX_CURRENT).concat(SUFFIX_VOUCHERS).concat(LANG)+ mStoreConfig.getLocale();
-//    }
+
+
+
 
     //OAuth
     @Override
@@ -325,7 +201,12 @@ public class ECSURLBuilder extends AbstractStore {
 
     @Override
     public String getUserUrl() {
-        return mGetUserUrl;
+
+        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
+                USER+SEPERATOR +
+                SUFFIX_CURRENT+
+                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
     }
 
     @Override

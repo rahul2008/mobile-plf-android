@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.util;
 
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.platform.appinfra.AppInfra;
 
 public enum ECSConfig {

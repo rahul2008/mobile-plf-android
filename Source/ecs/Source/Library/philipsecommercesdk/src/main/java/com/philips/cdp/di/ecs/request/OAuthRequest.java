@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.ecs.request;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 
 import com.android.volley.Response;
@@ -12,7 +11,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 

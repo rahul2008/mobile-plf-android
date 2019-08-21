@@ -12,17 +12,17 @@ import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.response.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.model.response.OAuthResponse;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
+import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
@@ -37,6 +37,7 @@ import com.philips.cdp.di.ecs.request.GetOrderHistoryRequest;
 import com.philips.cdp.di.ecs.request.GetPaymentsRequest;
 import com.philips.cdp.di.ecs.request.GetRegionsRequest;
 import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest;
+import com.philips.cdp.di.ecs.request.GetUserProfileRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.MakePaymentRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
@@ -60,7 +61,6 @@ import com.philips.cdp.di.ecs.request.OAuthRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -708,6 +708,10 @@ public class ECSManager {
         for (Data d:data){
             setProductData(d,productsFromDirectEntry);
         }
+    }
+
+    public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
+        new GetUserProfileRequest(ecsCallback).executeRequest();
     }
 }
 

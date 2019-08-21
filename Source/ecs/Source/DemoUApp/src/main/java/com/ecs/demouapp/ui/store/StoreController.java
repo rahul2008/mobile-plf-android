@@ -15,6 +15,7 @@ import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.RequestListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 
 public class StoreController {
     final Context mContext;
@@ -58,9 +59,9 @@ public class StoreController {
 
     void fetchConfiguration() {
 
-        ECSUtility.getInstance().getEcsServices().getECSConfig(new ECSCallback<com.philips.cdp.di.ecs.model.response.HybrisConfigResponse, Exception>() {
+        ECSUtility.getInstance().getEcsServices().getECSConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
             @Override
-            public void onResponse(com.philips.cdp.di.ecs.model.response.HybrisConfigResponse result) {
+            public void onResponse(HybrisConfigResponse result) {
 
                 mSiteID = result.getSiteId();
                 mCampaignID = result.getRootCategory();
