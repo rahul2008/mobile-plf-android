@@ -238,7 +238,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             }
         });
 
-        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal()) {
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive) {
             acceptPersonalConsentCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
