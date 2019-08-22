@@ -1,0 +1,42 @@
+{
+  "type": "userWsDTO",
+  "janrainUUID": "74d974dc-08cc-4176-84d0-d933a1118dfc",
+  "name": "Prasad Devadiga",
+  "uid": "prasad.devadiga@philips.com",
+  "currency": {
+    "active": true,
+    "isocode": "USD",
+    "symbol": "$"
+  },
+  "defaultAddress": {
+    "billingAddress": false,
+    "country": {
+      "isocode": "US",
+      "name": "United States"
+    },
+    "defaultAddress": false,
+    "firstName": "sangeetha",
+    "formattedAddress": "sangeetha s<\/strong><br>640 NORTH WABASH AVENUE 122 <br>NewYork 10010<br>United States",
+    "id": "9334733537303",
+    "lastName": "s",
+    "line1": "640 NORTH WABASH AVENUE 122",
+    "line2": "767",
+    "phone": "9846999378",
+    "phone1": "9846999378",
+    "phone2": "9446118148",
+    "postalCode": "10010",
+    "shippingAddress": true,
+    "titleCode": "ms.",
+    "town": "NewYork",
+    "visibleInAddressBook": true
+  },
+  "displayUid": "prasad.devadiga@philips.com",
+  "firstName": "Prasad",
+  "language": {
+    "active": true,
+    "isocode": "en_US",
+    "name": "English US",
+    "nativeName": "English US"
+  },
+  "lastName": "Devadiga"
+}

@@ -43,7 +43,7 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
 
         eCSCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),7999);
     }
-    
+
     @Override
     public void onResponse(JSONObject response) {
         if(response!=null){

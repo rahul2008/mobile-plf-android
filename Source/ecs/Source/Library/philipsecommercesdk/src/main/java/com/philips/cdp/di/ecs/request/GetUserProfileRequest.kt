@@ -32,6 +32,7 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
     override fun onResponse(response: JSONObject?) {
 
         try{
+            System.out.println(response.toString())
             val userProfile = Gson().fromJson(response.toString(),
                     UserProfile::class.java)
             ecsCallback.onResponse(userProfile)
