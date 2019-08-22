@@ -58,6 +58,9 @@ public class OrderDetail implements Parcelable{
     private List<Consignment> consignments;
 
 
+    public OrderDetail() {
+    }
+
     protected OrderDetail(Parcel in) {
         type = in.readString();
         calculated = in.readByte() != 0;
