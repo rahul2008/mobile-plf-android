@@ -26,12 +26,12 @@ public class ECSErrorBuilder {
             if (getDeliveryModes == null || getDeliveryModes.getDeliveryModes() == null || getDeliveryModes.getDeliveryModes().size() == 0) {
 
                 getDeliveryModes = null;
-                Exception e = new Exception(ECSErrors.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage());
-                ecsError = new ECSError(e, ECSErrors.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage(), ECSErrors.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorCode());
+                Exception e = new Exception(ECSErrorConstant.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage());
+                ecsError = new ECSError(e, ECSErrorConstant.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorMessage(), ECSErrorConstant.GetDeliveryModeError.NO_DELIVERY_MODES_FOUND.getErrorCode());
             }
 
         } catch (Exception e) {
-            ecsError = new ECSError(e, detailError, ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
+            ecsError = new ECSError(e, detailError, ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
         } finally {
             return new Pair<>(getDeliveryModes, ecsError);
         }
@@ -41,7 +41,7 @@ public class ECSErrorBuilder {
     public Pair<Boolean, ECSError> getEmptyResponseErrorPair(String response) {
 
         boolean isValidResponse = false;
-        String detailError = ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorMessage(); //TODO ,Message and error code for diffrent calls .
+        String detailError = ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.getErrorMessage(); //TODO ,Message and error code for diffrent calls .
         ECSError ecsError = null;
         Exception e = null;
 
@@ -56,7 +56,7 @@ public class ECSErrorBuilder {
         } else {
             e = new Exception(detailError);
         }
-        if(e!=null) ecsError = new ECSError(e, detailError, ECSErrors.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
+        if(e!=null) ecsError = new ECSError(e, detailError, ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.getErrorCode());
 
         return new Pair<>(isValidResponse, ecsError);
     }

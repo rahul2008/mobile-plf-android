@@ -65,8 +65,6 @@ public class MockECSManager extends ECSManager {
         this.jsonFileNameMockECSManager = jsonFileNameMockECSManager;
     }
 
-
-
     @Override
     void getHybrisConfigResponse(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
         new MockGetConfigurationRequest(getJsonFileNameMockECSManager(), new ECSCallback<HybrisConfigResponse, Exception>() {
