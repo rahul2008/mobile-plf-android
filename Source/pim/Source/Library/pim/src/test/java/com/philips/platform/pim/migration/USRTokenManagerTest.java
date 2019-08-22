@@ -101,7 +101,9 @@ public class USRTokenManagerTest extends TestCase {
     @Mock
     private TimeInterface mockTimeInterface;
     @Mock
-    RestInterface mockRestInterface;
+    private RestInterface mockRestInterface;
+    @Mock
+    private PIMOIDCConfigration mockPimoidcConfigration;
     @Captor
     private ArgumentCaptor<Response.Listener<String>> captorResponseListener;
     @Captor
@@ -121,6 +123,7 @@ public class USRTokenManagerTest extends TestCase {
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
         when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
         when(mockPimSettingManager.getRestClient()).thenReturn(mockRestInterface);
+        when(mockPimSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
         when(mockRestInterface.getRequestQueue()).thenReturn(mockRequestQueue);
         when(mockAppInfraInterface.getSecureStorage()).thenReturn(mockSecureStorageInterface);
         when(mockAppInfraInterface.getServiceDiscovery()).thenReturn(mockServiceDiscoveryInterface);
@@ -129,16 +132,10 @@ public class USRTokenManagerTest extends TestCase {
         when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER, mockSecureStorageError)).thenReturn(signedUserData());
         when(mockAppInfraInterface.getTime()).thenReturn(mockTimeInterface);
         when(mockTimeInterface.getUTCTime()).thenReturn(new Date());
-
-        PIMOIDCConfigration mockPimoidcConfigration = mock(PIMOIDCConfigration.class);
-        whenNew(PIMOIDCConfigration.class).withNoArguments().thenReturn(mockPimoidcConfigration);
-        when(mockPimoidcConfigration.getURClientId()).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-
+        when(mockPimoidcConfigration.getLegacyClientID()).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
 
         usrTokenManager = new USRTokenManager(mockAppInfraInterface);
         spyUsrTokenManager = spy(usrTokenManager);
-
-        //Whitebox.invokeMethod(spyUsrTokenManager,"getFlowVersion")
     }
 
     @Test

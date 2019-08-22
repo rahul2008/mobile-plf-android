@@ -19,9 +19,6 @@ public class PIMOIDCConfigration {
     private static String TAG = PIMOIDCConfigration.class.getSimpleName();
     private static final String GROUP_PIM = "PIM";
     private static final String CLIENT_ID = "clientId";
-    private static final String MIGRATION_CLIENT_ID = "clientId";
-    private static final String REDIRECT_URL = "redirectURL";
-    private static final String RS_ID = "rsid";
     private AuthorizationServiceConfiguration authorizationServiceConfiguration;
 
     private AppInfraInterface appInfraInterface;
@@ -56,15 +53,6 @@ public class PIMOIDCConfigration {
         Object obj = getProperty("migrationClientId", GROUP_PIM);
         if (obj != null) {
             return (String) obj;
-        }
-        return null;
-    }
-
-    public String getURClientId() {
-        Object obj = getProperty("JanRainConfiguration.RegistrationClientID", GROUP_PIM);
-        if (obj != null && obj instanceof Map) {
-            Map<String, String> map = (Map) obj;
-            return map.get("default");
         }
         return null;
     }

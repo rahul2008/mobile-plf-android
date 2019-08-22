@@ -67,7 +67,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @Test
     public void testGetRSID() {
-        when(mockAppConfigurationInterface.getPropertyForKey("rsid", "PIM", mockAppConfigurationError)).thenReturn("philipspimregistrationdev");
+        when(mockAppConfigurationInterface.getPropertyForKey("rsids", "PIM", mockAppConfigurationError)).thenReturn("philipspimregistrationdev");
         String rsid = pimoidcConfigration.getrsID();
         assertNotNull(rsid);
         assertEquals("philipspimregistrationdev", rsid);
@@ -80,8 +80,8 @@ public class PIMOIDCConfigrationTest extends TestCase {
     }
 
     @Test
-    public void testGetDefaultClientID() {
-        when(mockAppConfigurationInterface.getPropertyForKey("PIM.default", "PIM", mockAppConfigurationError)).thenReturn(getDefaultConfigurationResponse());
+    public void testGetClientID() {
+        when(mockAppConfigurationInterface.getPropertyForKey("clientId", "PIM", mockAppConfigurationError)).thenReturn("94e28300-565d-4110-8919-42dc4f817393");
         String clientId = pimoidcConfigration.getClientId();
         assertNotNull(clientId);
         assertEquals("94e28300-565d-4110-8919-42dc4f817393", clientId);
@@ -95,7 +95,7 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @Test
     public void testGetDefaultRedirectUrl() {
-        when(mockAppConfigurationInterface.getPropertyForKey("PIM.default", "PIM", mockAppConfigurationError)).thenReturn(getDefaultConfigurationResponse());
+        when(mockAppConfigurationInterface.getPropertyForKey("redirectUri", "PIM", mockAppConfigurationError)).thenReturn("com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect");
         String redirectUrl = pimoidcConfigration.getRedirectUrl();
         assertNotNull(redirectUrl);
         assertEquals("com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect", redirectUrl);
@@ -109,23 +109,37 @@ public class PIMOIDCConfigrationTest extends TestCase {
 
     @Test
     public void testGetURClientID() {
-        when(mockAppConfigurationInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockAppConfigurationError)).thenReturn(getURConfigurationResponse());
-        String urClientId = pimoidcConfigration.getURClientId();
+        when(mockAppConfigurationInterface.getPropertyForKey("legacyClientId", "PIM", mockAppConfigurationError)).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        String urClientId = pimoidcConfigration.getLegacyClientID();
         assertNotNull(urClientId);
         assertEquals("f2stykcygm7enbwfw2u9fbg6h6syb8yd", urClientId);
     }
 
     public void testURClientIDReturnsNull() {
-        String urClientId = pimoidcConfigration.getURClientId();
+        String urClientId = pimoidcConfigration.getLegacyClientID();
         assertNull(urClientId);
     }
 
     @Test
     public void testGetMigrationClientID() {
-        when(mockAppConfigurationInterface.getPropertyForKey("PIM.migration", "PIM", mockAppConfigurationError)).thenReturn(getMigrationConfigResponse());
+        when(mockAppConfigurationInterface.getPropertyForKey("migrationClientId", "PIM", mockAppConfigurationError)).thenReturn("7602c06b-c547-4aae-8f7c-f89e8c887a21");
         String migrationClientId = pimoidcConfigration.getMigrationClientId();
         assertNotNull(migrationClientId);
         assertEquals("7602c06b-c547-4aae-8f7c-f89e8c887a21", migrationClientId);
+    }
+
+    @Test
+    public void testGetAPIKey() {
+        when(mockAppConfigurationInterface.getPropertyForKey("apiKey", "PIM", mockAppConfigurationError)).thenReturn("nYO1gXoy5J7AaHT8KPu2D9JxN2cZo77M8zdBD2iJ");
+        String apiKey = pimoidcConfigration.getAPIKey();
+        assertNotNull(apiKey);
+        assertEquals("nYO1gXoy5J7AaHT8KPu2D9JxN2cZo77M8zdBD2iJ", apiKey);
+    }
+
+    @Test
+    public void testGetAPIKeyReturnsNull() {
+        String apiKey = pimoidcConfigration.getAPIKey();
+        assertNull(apiKey);
     }
 
     @Test
@@ -134,19 +148,14 @@ public class PIMOIDCConfigrationTest extends TestCase {
         assertNull(migrationClientId);
     }
 
-
     @Test
     public void testGetMigrationRedirectUrl() {
-        when(mockAppConfigurationInterface.getPropertyForKey("PIM.migration", "PIM", mockAppConfigurationError)).thenReturn(getMigrationConfigResponse());
+        when(mockAppConfigurationInterface.getPropertyForKey("clientId", "PIM", mockAppConfigurationError)).thenReturn("94e28300-565d-4110-8919-42dc4f817393");
+        when(mockAppConfigurationInterface.getPropertyForKey("redirectUri", "PIM", mockAppConfigurationError)).thenReturn("com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect");
+        when(mockAppConfigurationInterface.getPropertyForKey("migrationClientId", "PIM", mockAppConfigurationError)).thenReturn("7602c06b-c547-4aae-8f7c-f89e8c887a21");
         String redirectUrl = pimoidcConfigration.getMigrationRedirectUrl();
         assertNotNull(redirectUrl);
         assertEquals("com.philips.apps.7602c06b-c547-4aae-8f7c-f89e8c887a21://oauthredirect", redirectUrl);
-    }
-
-    @Test
-    public void testGetMigrationRedirectUrlReturnsNull() {
-        String redirectUrl = pimoidcConfigration.getMigrationRedirectUrl();
-        assertNull(redirectUrl);
     }
 
     @Test
@@ -156,27 +165,6 @@ public class PIMOIDCConfigrationTest extends TestCase {
         String jsonString = pimoidcConfigration.getCustomClaims();
         assertNotNull(jsonString);
         verify(mockLoggingInterface).log(DEBUG, "PIMOIDCConfigration", "PIM_KEY_CUSTOM_CLAIMS: " + jsonString);
-    }
-
-    private Map getDefaultConfigurationResponse() {
-        Map<String, String> defaulrtConfig = new HashMap<>(2);
-        defaulrtConfig.put("clientId", "94e28300-565d-4110-8919-42dc4f817393");
-        defaulrtConfig.put("redirectURL", "com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect");
-        return defaulrtConfig;
-    }
-
-    private Map getURConfigurationResponse() {
-        Map<String, String> urConfiguration = new HashMap<>(2);
-        urConfiguration.put("CN", "4rdpm7afu7bny6xnacw32etmt7htfraa");
-        urConfiguration.put("default", "f2stykcygm7enbwfw2u9fbg6h6syb8yd");
-        return urConfiguration;
-    }
-
-    private Map getMigrationConfigResponse() {
-        Map<String, String> migrationClients = new HashMap<>();
-        migrationClients.put("clientId", "7602c06b-c547-4aae-8f7c-f89e8c887a21");
-        migrationClients.put("redirectURL", "com.philips.apps.7602c06b-c547-4aae-8f7c-f89e8c887a21://oauthredirect");
-        return migrationClients;
     }
 
     @After
