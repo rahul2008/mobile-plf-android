@@ -12,6 +12,8 @@ import com.philips.cdp.di.ecs.Cart.MockUpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.Config.MockGetConfigurationRequest;
 import com.philips.cdp.di.ecs.Oath.MockOAuthRequest;
 import com.philips.cdp.di.ecs.Payment.MockGetPaymentsRequest;
+import com.philips.cdp.di.ecs.Payment.MockMakePaymentRequest;
+import com.philips.cdp.di.ecs.Payment.MockPlaceOrderRequest;
 import com.philips.cdp.di.ecs.Payment.MockSetPaymentMethodRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
 import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductSummaryListRequest;
@@ -35,6 +37,7 @@ import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -398,5 +401,15 @@ public class MockECSManager extends ECSManager {
     @Override
     public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
         new MockGetRetailersInfoRequest(getJsonFileNameMockECSManager(),ecsCallback,productID).executeRequest();
+    }
+
+    @Override
+    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+        new MockMakePaymentRequest(getJsonFileNameMockECSManager(),orderDetail,billingAddress,ecsCallback).executeRequest();
+    }
+
+    @Override
+    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+        new MockPlaceOrderRequest(getJsonFileNameMockECSManager(),cvv,ecsCallback).executeRequest();
     }
 }
