@@ -64,6 +64,7 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
 
@@ -486,18 +487,7 @@ public class ECSManager {
     }
 
     public void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
-        new SetDeliveryModesRequest(deliveryModeID, new ECSCallback<Boolean, Exception>() {
-            @Override
-            public void onResponse(Boolean result) {
-
-                ecsCallback.onResponse(result);
-            }
-
-            @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
-            }
-        }).executeRequest();
+        new SetDeliveryModesRequest(deliveryModeID,ecsCallback).executeRequest();
     }
 
     public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
