@@ -38,13 +38,6 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
     }
 
     @Override
-    public Map<String, String> getHeader() {
-        HashMap<String, String> authMap = new HashMap<>();
-        authMap.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
-        return authMap;
-    }
-
-    @Override
     public int getMethod() {
         return Request.Method.GET;
     }

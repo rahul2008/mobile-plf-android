@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
+import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
@@ -702,6 +703,22 @@ public class ECSManager {
 
     public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
         new GetUserProfileRequest(ecsCallback).executeRequest();
+    }
+
+    public void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback) {
+
+        getOrderDetail(orders.getCode(), new ECSCallback<OrderDetail, Exception>() {
+            @Override
+            public void onResponse(OrderDetail result) {
+                orders.orderDetail = result;
+                ecsCallback.onResponse(orders);
+            }
+
+            @Override
+            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            }
+        });
     }
 }
 

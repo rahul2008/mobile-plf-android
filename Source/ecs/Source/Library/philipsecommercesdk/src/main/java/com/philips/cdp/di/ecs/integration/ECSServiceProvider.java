@@ -6,6 +6,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
@@ -122,6 +123,11 @@ public interface ECSServiceProvider {
     void getOrderHistory(int pageNumber, ECSCallback<OrdersData,Exception> ecsCallback);
 
     void getOrderDetail(String orderId, ECSCallback<OrderDetail,Exception> ecsCallback);
+
+    void getOrderDetail(OrderDetail orderDetail, ECSCallback<OrderDetail,Exception> ecsCallback);
+
+    void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback);
+
 
     void getUserProfile(ECSCallback<UserProfile,Exception> ecsCallback);
 

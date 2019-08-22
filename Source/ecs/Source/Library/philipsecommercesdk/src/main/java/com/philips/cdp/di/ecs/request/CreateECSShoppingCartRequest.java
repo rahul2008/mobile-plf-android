@@ -28,18 +28,9 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
         this.eCSCallback = eCSCallback;
     }
 
-
-
     @Override
     public int getMethod() {
         return Request.Method.POST;
-    }
-
-    @Override
-    public Map<String, String> getHeader() {
-        HashMap<String, String> authMap = new HashMap<>();
-        authMap.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
-        return authMap;
     }
 
     @Override
@@ -47,23 +38,12 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
         return new ECSURLBuilder().getCreateCartUrl();
     }
 
-    /**
-     * Callback method that an error has been occurred with the provided error code and optional
-     * user-readable message.
-     *
-     * @param error
-     */
     @Override
     public void onErrorResponse(VolleyError error) {
 
         eCSCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),7999);
     }
-
-    /**
-     * Called when a response is received.
-     *
-     * @param response
-     */
+    
     @Override
     public void onResponse(JSONObject response) {
         if(response!=null){

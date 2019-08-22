@@ -61,13 +61,6 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
     }
 
     @Override
-    public Map<String, String> getHeader() {
-        HashMap<String, String> authMap = new HashMap<>();
-        authMap.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
-        return authMap;
-    }
-
-    @Override
     public void onErrorResponse(VolleyError error) {
         ecsCallback.onFailure(error, "Error fetching DeliveryMode", 9000);
     }
