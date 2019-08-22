@@ -1,23 +1,32 @@
 package com.philips.platform.pim.migration;
 
 import android.net.Uri;
+import android.support.v4.util.Pair;
+import android.text.Html;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.rest.RestInterface;
+import com.philips.platform.appinfra.rest.request.RequestQueue;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
+import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
-import com.philips.platform.pim.manager.PIMAuthManager;
-import com.philips.platform.pim.manager.PIMConfigManager;
 import com.philips.platform.pim.manager.PIMSettingManager;
+import com.philips.platform.pim.rest.PIMRestClient;
+import com.philips.platform.pim.rest.RefreshUSRTokenRequest;
 
 import junit.framework.TestCase;
 
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,28 +34,38 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
+
+import javax.crypto.spec.SecretKeySpec;
 
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.spy;
+import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
-@PrepareForTest({Uri.class, PIMSettingManager.class})
+@PrepareForTest({Uri.class, PIMSettingManager.class, USRTokenManager.class, Html.class})
+@PowerMockIgnore({"javax.crypto.*"})
 @RunWith(PowerMockRunner.class)
 public class USRTokenManagerTest extends TestCase {
     private static final String JR_CAPTURE_REFRESH_SECRET = "jr_capture_refresh_secret";
@@ -81,24 +100,45 @@ public class USRTokenManagerTest extends TestCase {
     private AppConfigurationInterface mockAppConfigurationInterface;
     @Mock
     private TimeInterface mockTimeInterface;
+    @Mock
+    RestInterface mockRestInterface;
+    @Captor
+    private ArgumentCaptor<Response.Listener<String>> captorResponseListener;
+    @Captor
+    private ArgumentCaptor<Response.ErrorListener> captorErrorListener;
+
+    private USRTokenManager spyUsrTokenManager;
+    private String accessToken = "vsu46sctqqpjwkbn";
+    private String TAG = PIMMigrationManager.class.getSimpleName();
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         MockitoAnnotations.initMocks(this);
         mockStatic(PIMSettingManager.class);
+        RequestQueue mockRequestQueue = mock(RequestQueue.class);
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
+        when(mockPimSettingManager.getAppInfraInterface()).thenReturn(mockAppInfraInterface);
+        when(mockPimSettingManager.getRestClient()).thenReturn(mockRestInterface);
+        when(mockRestInterface.getRequestQueue()).thenReturn(mockRequestQueue);
         when(mockAppInfraInterface.getSecureStorage()).thenReturn(mockSecureStorageInterface);
         when(mockAppInfraInterface.getServiceDiscovery()).thenReturn(mockServiceDiscoveryInterface);
         when(mockAppInfraInterface.getConfigInterface()).thenReturn(mockAppConfigurationInterface);
         whenNew(SecureStorageInterface.SecureStorageError.class).withNoArguments().thenReturn(mockSecureStorageError);
-        when(mockAppInfraInterface.getSecureStorage().fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER, mockSecureStorageError)).thenReturn(signedUserData());
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER, mockSecureStorageError)).thenReturn(signedUserData());
         when(mockAppInfraInterface.getTime()).thenReturn(mockTimeInterface);
         when(mockTimeInterface.getUTCTime()).thenReturn(new Date());
-        usrTokenManager = new USRTokenManager(mockAppInfraInterface);
-        //Whitebox.invokeMethod(usrTokenManagerz, "fetchDataFromSecureStorage", signedUserData());
 
+        PIMOIDCConfigration mockPimoidcConfigration = mock(PIMOIDCConfigration.class);
+        whenNew(PIMOIDCConfigration.class).withNoArguments().thenReturn(mockPimoidcConfigration);
+        when(mockPimoidcConfigration.getURClientId()).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+
+
+        usrTokenManager = new USRTokenManager(mockAppInfraInterface);
+        spyUsrTokenManager = spy(usrTokenManager);
+
+        //Whitebox.invokeMethod(spyUsrTokenManager,"getFlowVersion")
     }
 
     @Test
@@ -115,7 +155,6 @@ public class USRTokenManagerTest extends TestCase {
         verify(mockLoggingInterface).log(DEBUG, PIMMigrationManager.class.getSimpleName(), "downloadUserUrlFromSD onSuccess");
         verify(mockLoggingInterface).log(DEBUG, PIMMigrationManager.class.getSimpleName(), "Migration Failed!! " + "Signed_in_user not found");
     }
-
 
     @Test
     public void test_GetServicesWithCountryPreference_OnError() {
@@ -138,31 +177,184 @@ public class USRTokenManagerTest extends TestCase {
         mockOnGetServiceUrlMapListener.onSuccess(mockMap);
         verify(mockLoggingInterface).log(DEBUG, PIMMigrationManager.class.getSimpleName(), "Migration Failed!! " + " Error in downloadUserUrlFromSD : " + "Not able to fetch config url");
     }
-//
-//    @Test
-//    public void test_GetServicesWithCountryPreference_OnSuccess_When_UserIsSignedIn() throws Exception {
-//        Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
-//        when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
-//        when(mockServiceDiscoveryService.getConfigUrls()).thenReturn("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
-//        when(mockServiceDiscoveryService.getLocale()).thenReturn("en_US");
-//        Whitebox.setInternalState(usrTokenManager, "signedInUser", signedUserData());
-//        when(mockAppInfraInterface.getConfigInterface().getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockAppConfigurationError)).thenReturn(usrClientIds());
-//        usrTokenManager.fetchRefreshedAccessToken(mockRefreshUSRTokenListener);
-//        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
-//        mockOnGetServiceUrlMapListener = captor.getValue();
-//        mockOnGetServiceUrlMapListener.onSuccess(mockMap);
-//    }
 
-
-    private String signedUserData() {
-        return "{r\"original\":{\"lastModifiedDate\":null,\"providerMergedLast\":null,\"preferredLanguage\":\"en\",\"cloudsearch\":{\"syncAttempts\":null,\"syncUpdated\":null},\"uuidHash\":null,\"personalDataUsageAcceptance\":null,\"optIn\":{\"status\":null,\"updated\":null},\"post_login_confirmation\":[],\"streamiumServicesTCAgreed\":null,\"birthday\":\"2019-01-26\",\"consumerPoints\":null,\"batchId\":null,\"familyName\":\"\",\"friends\":[],\"weddingDate\":null,\"interestStreamiumSurveys\":null,\"interestAvent\":null,\"lastModifiedSource\":null,\"medicalProfessionalRoleSpecified\":null,\"lastLoginMethod\":null,\"catalogLocaleItem\":null,\"mobileNumberSmsRequestedAt\":null,\"mobileNumber\":null,\"receiveMarketingEmail\":true,\"familyId\":null,\"children\":[],\"campaignID\":null,\"mobileNumberSmsEnvironment\":null,\"consumerInterests\":[],\"locale\":null,\"mobileNumberNeedVerification\":true,\"profiles\":[],\"sitecatalystIDs\":[],\"marketingOptIn\":{\"locale\":\"en_GB\",\"timestamp\":\"2019-03-18 12:02:14 +0000\"},\"legacyID\":null,\"lastUsedDevice\":{\"tokenType\":null,\"deviceId\":null,\"deviceToken\":null,\"deviceType\":null},\"controlField\":null,\"id\":1533260744,\"deactivatedAccount\":null,\"consentVerifiedAt\":null,\"avmTCAgreed\":null,\"mobileNumberVerified\":null,\"interestCommunications\":null,\"campaigns\":[],\"deviceIdentification\":[],\"badgeVillePlayerIDs\":[],\"nettvTCAgreed\":null,\"clients\":[{\"clientId\":\"yfvh9udgu9zkuse8jr2nah7uk6et6yas\",\"id\":1534874626,\"name\":null,\"firstLogin\":\"2019-07-08 11:54:15 +0000\",\"lastLogin\":\"2019-07-08 11:54:15 +0000\"},{\"clientId\":\"45fhu7hhxrhqx9sm78mgzx4afm9payau\",\"id\":1534924677,\"name\":null,\"firstLogin\":\"2019-07-03 09:04:05 +0000\",\"lastLogin\":\"2019-07-03 09:04:05 +0000\"}],\"visitedMicroSites\":[{\"microSiteID\":\"77000\",\"id\":1533260746,\"timestamp\":\"2019-03-12 11:07:00 +0000\"},{\"microSiteID\":\"81783\",\"id\":1533261026,\"timestamp\":\"2019-03-12 11:07:05 +0000\"}],\"middleName\":null,\"familyRole\":null,\"emailVerified\":\"2018-11-15 06:28:44.13826 +0000\",\"primaryAddress\":{\"company\":null,\"address2\":null,\"stateAbbreviation\":null,\"zipPlus4\":null,\"city\":null,\"state\":null,\"address1\":null,\"houseNumber\":null,\"phone\":null,\"dayTimePhoneNumber\":null,\"zip\":null,\"mobile\":null,\"country\":\"US\",\"address3\":null},\"gender\":\"Male\",\"identifierInformation\":{\"questionsThree\":null,\"questionOne\":null,\"questionTwo\":null,\"answerTwo\":null,\"answerOne\":null,\"questionThree\":null},\"lastUpdated\":\"2019-07-11 04:33:55.71651 +0000\",\"termsAndConditionsAcceptance\":null,\"roles\":[{\"id\":1533260745,\"role\":\"consumer\",\"expiryDate\":null,\"role_assigned\":\"2019-03-12 11:07:05 +0000\",\"verifier\":null}],\"requiresVerification\":null,\"wishList\":null,\"photos\":[],\"email\":\"shashi.ranjan@philips.com\",\"coppaCommunicationSentAt\":null,\"givenName\":\"Shashi Ranjan\",\"retentionConsentGivenAt\":null,\"nettvTermsAgreedDate\":null,\"currentLocation\":null,\"migration\":{\"source\":null,\"migratedAt\":null},\"deactivateAccount\":null,\"janrain\":{\"cloudsearch\":{\"syncAttempts\":null,\"syncUpdated\":null},\"controlFields\":{\"one\":\"false\",\"two\":\"false\",\"three\":\"false\"},\"controlField\":\"ControlFieldReset\",\"properties\":{\"managedBy\":[]}},\"lastLogin\":\"2019-07-11 04:33:55 +0000\",\"interestPromotions\":null,\"ssn\":null,\"NRIC\":null,\"interestCampaigns\":null,\"interestSurveys\":null,\"avmTermsAgreedDate\":null,\"interestWULsounds\":null,\"consentVerified\":null,\"interestCategories\":null,\"externalId\":null,\"created\":\"2018-11-15 06:27:57.120617 +0000\",\"interestStreamiumUpgrades\":null,\"nickName\":null,\"CPF\":null,\"displayName\":null,\"uuid\":\"5f920990-0e8d-49a0-8888-1e8cdb722555\",\"olderThanAgeLimit\":true,\"secondaryPassword\":null,\"aboutMe\":null,\"consents\":[],\"personalDataMarketingProfiling\":null,\"lastNamePronunciation\":null,\"personalDataTransferAcceptance\":null,\"salutation\":null,\"display\":null,\"statuses\":[],\"maritalStatus\":null,\"firstNamePronunciation\":null},\"accessToken\":\"ct5funwca5twwtra\",\"this\":{\"CPF\":null,\"NRIC\":null,\"aboutMe\":null,\"avmTCAgreed\":null,\"avmTermsAgreedDate\":null,\"badgeVillePlayerIDs\":[],\"batchId\":null,\"birthday\":\"2019-01-26\",\"campaignID\":null,\"campaigns\":[],\"catalogLocaleItem\":null,\"children\":[],\"clients\":[{\"clientId\":\"yfvh9udgu9zkuse8jr2nah7uk6et6yas\",\"id\":1534874626,\"name\":null,\"firstLogin\":\"2019-07-08 11:54:15 +0000\",\"lastLogin\":\"2019-07-08 11:54:15 +0000\"},{\"clientId\":\"45fhu7hhxrhqx9sm78mgzx4afm9payau\",\"id\":1534924677,\"name\":null,\"firstLogin\":\"2019-07-03 09:04:05 +0000\",\"lastLogin\":\"2019-07-03 09:04:05 +0000\"}],\"cloudsearch\":{\"syncAttempts\":null,\"syncUpdated\":null},\"consentVerified\":null,\"consentVerifiedAt\":null,\"consents\":[],\"consumerInterests\":[],\"consumerPoints\":null,\"controlField\":null,\"coppaCommunicationSentAt\":null,\"created\":\"2018-11-15 06:27:57.120617 +0000\",\"currentLocation\":null,\"deactivateAccount\":null,\"deactivatedAccount\":null,\"deviceIdentification\":[],\"display\":null,\"displayName\":null,\"email\":\"shashi.ranjan@philips.com\",\"emailVerified\":\"2018-11-15 06:28:44.13826 +0000\",\"externalId\":null,\"familyId\":null,\"familyName\":\"\",\"familyRole\":null,\"firstNamePronunciation\":null,\"friends\":[],\"gender\":\"Male\",\"givenName\":\"Shashi Ranjan\",\"id\":1533260744,\"identifierInformation\":{\"questionsThree\":null,\"questionOne\":null,\"questionTwo\":null,\"answerTwo\":null,\"answerOne\":null,\"questionThree\":null},\"interestAvent\":null,\"interestCampaigns\":null,\"interestCategories\":null,\"interestCommunications\":null,\"interestPromotions\":null,\"interestStreamiumSurveys\":null,\"interestStreamiumUpgrades\":null,\"interestSurveys\":null,\"interestWULsounds\":null,\"janrain\":{\"cloudsearch\":{\"syncAttempts\":null,\"syncUpdated\":null},\"controlFields\":{\"one\":\"false\",\"two\":\"false\",\"three\":\"false\"},\"controlField\":\"ControlFieldReset\",\"properties\":{\"managedBy\":[]}},\"lastLogin\":\"2019-07-11 04:33:55 +0000\",\"lastLoginMethod\":null,\"lastModifiedDate\":null,\"lastModifiedSource\":null,\"lastNamePronunciation\":null,\"lastUpdated\":\"2019-07-11 04:33:55.71651 +0000\",\"lastUsedDevice\":{\"tokenType\":null,\"deviceId\":null,\"deviceToken\":null,\"deviceType\":null},\"legacyID\":null,\"locale\":null,\"maritalStatus\":null,\"marketingOptIn\":{\"locale\":\"en_GB\",\"timestamp\":\"2019-03-18 12:02:14 +0000\"},\"medicalProfessionalRoleSpecified\":null,\"middleName\":null,\"migration\":{\"source\":null,\"migratedAt\":null},\"mobileNumber\":null,\"mobileNumberNeedVerification\":true,\"mobileNumberSmsEnvironment\":null,\"mobileNumberSmsRequestedAt\":null,\"mobileNumberVerified\":null,\"nettvTCAgreed\":null,\"nettvTermsAgreedDate\":null,\"nickName\":null,\"olderThanAgeLimit\":true,\"optIn\":{\"status\":null,\"updated\":null},\"personalDataMarketingProfiling\":null,\"personalDataTransferAcceptance\":null,\"personalDataUsageAcceptance\":null,\"photos\":[],\"post_login_confirmation\":[],\"preferredLanguage\":\"en\",\"primaryAddress\":{\"company\":null,\"address2\":null,\"stateAbbreviation\":null,\"zipPlus4\":null,\"city\":null,\"state\":null,\"address1\":null,\"houseNumber\":null,\"phone\":null,\"dayTimePhoneNumber\":null,\"zip\":null,\"mobile\":null,\"country\":\"US\",\"address3\":null},\"profiles\":[],\"providerMergedLast\":null,\"receiveMarketingEmail\":true,\"requiresVerification\":null,\"retentionConsentGivenAt\":null,\"roles\":[{\"id\":1533260745,\"role\":\"consumer\",\"expiryDate\":null,\"role_assigned\":\"2019-03-12 11:07:05 +0000\",\"verifier\":null}],\"salutation\":null,\"secondaryPassword\":null,\"sitecatalystIDs\":[],\"ssn\":null,\"statuses\":[],\"streamiumServicesTCAgreed\":null,\"termsAndConditionsAcceptance\":null,\"uuid\":\"5f920990-0e8d-49a0-8888-1e8cdb722555\",\"uuidHash\":null,\"visitedMicroSites\":[{\"microSiteID\":\"77000\",\"id\":1533260746,\"timestamp\":\"2019-03-12 11:07:00 +0000\"},{\"microSiteID\":\"81783\",\"id\":1533261026,\"timestamp\":\"2019-03-12 11:07:05 +0000\"}],\"weddingDate\":null,\"wishList\":null}}";
+    @Test
+    public void test_GetServicesWithCountryPreference_OnSuccess_When_UserIsSignedIn() throws Exception {
+        Map<String, ServiceDiscoveryService> mockMap = mock(Map.class);
+        AppConfigurationInterface.AppConfigurationError mockConfigurationError = mock(AppConfigurationInterface.AppConfigurationError.class);
+        whenNew(AppConfigurationInterface.AppConfigurationError.class).withNoArguments().thenReturn(mockConfigurationError);
+        doReturn("signature").when(spyUsrTokenManager, "getRefreshSignature", anyString(), anyString());
+        when(mockMap.get(any())).thenReturn(mockServiceDiscoveryService);
+        when(mockServiceDiscoveryService.getConfigUrls()).thenReturn("https://stg.accounts.philips.com/c2a48310-9715-3beb-895e-000000000000/login");
+        when(mockServiceDiscoveryService.getLocale()).thenReturn("en_US");
+        Whitebox.setInternalState(spyUsrTokenManager, "signedInUser", signedUserData());
+        when(mockAppConfigurationInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockConfigurationError)).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        spyUsrTokenManager.fetchRefreshedAccessToken(mockRefreshUSRTokenListener);
+        verify(mockServiceDiscoveryInterface).getServicesWithCountryPreference(captorArrayList.capture(), captor.capture(), eq(null));
+        mockOnGetServiceUrlMapListener = captor.getValue();
+        mockOnGetServiceUrlMapListener.onSuccess(mockMap);
     }
 
-    private Object usrClientIds() {
-        return "\"JanRainConfiguration.RegistrationClientID\": {\n" +
-                "      \"CN\": \"4rdpm7afu7bny6xnacw32etmt7htfraa\",\n" +
-                "      \"default\": \"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"\n" +
-                "    }";
+    @Test
+    public void testRefreshUSRTokenRequest() throws Exception {
+        String refreshUrl = "https://philips.eval.janraincapture.com" + "/oauth/refresh_access_token";
+        Whitebox.setInternalState(spyUsrTokenManager, "signedInUser", signedUserData());
+        RefreshUSRTokenRequest mockUsrTokenRequest = mock(RefreshUSRTokenRequest.class);
+        whenNew(RefreshUSRTokenRequest.class).withAnyArguments().thenReturn(mockUsrTokenRequest);
+        PIMRestClient mockPimRestClient = mock(PIMRestClient.class);
+        PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
+        whenNew(PIMRestClient.class).withArguments(mockRestInterface).thenReturn(mockPimRestClient);
+        doReturn("signature").when(spyUsrTokenManager, "getRefreshSignature", anyString(), anyString());
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        Whitebox.invokeMethod(spyUsrTokenManager, "refreshUSRAccessToken", refreshUrl, "en-US", mockRefreshUSRTokenListener);
+        verify(mockPimRestClient).invokeRequest(eq(mockUsrTokenRequest), captorResponseListener.capture(), captorErrorListener.capture());
+
+        Response.Listener<String> responseListener = captorResponseListener.getValue();
+        responseListener.onResponse(getRefreshTokenResponse());
+        verify(mockRefreshUSRTokenListener).onRefreshTokenSuccess(anyString());
+
+        Response.ErrorListener errorListener = captorErrorListener.getValue();
+        VolleyError volleyError = new VolleyError();
+        errorListener.onErrorResponse(volleyError);
+        verify(mockRefreshUSRTokenListener).onRefreshTokenFailed(any(Error.class));
+        responseListener.onResponse(new JsonObject().toString());
+    }
+
+
+    @Test
+    public void testParamToStringThrowException() throws Exception {
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        doReturn("signature").when(spyUsrTokenManager, "getRefreshSignature", anyString(), anyString());
+        HashSet<Pair<String, String>> params = Whitebox.invokeMethod(spyUsrTokenManager, "getParams", "en-US", datetime, accessToken);
+        Whitebox.invokeMethod(spyUsrTokenManager, "paramsToString", params, "UTF");
+    }
+
+    @Test
+    public void testGetParams() throws Exception {
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        HashSet<Pair<String, String>> params = Whitebox.invokeMethod(usrTokenManager, "getParams", "en-US", datetime, accessToken);
+        assertNotNull(params);
+    }
+
+    @Test
+    public void testGetRefreshSignature() throws Exception {
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime, accessToken);
+        assertNull(refsignature);
+    }
+
+    @Test
+    public void testGetRefreshSignatureRefreshSecretNull() throws Exception {
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        String refsignature = Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime, accessToken);
+        verify(mockLoggingInterface).log(DEBUG, TAG, "refresh secret is null");
+    }
+
+    @Test
+    public void testGetRefreshSignatureThrowInvalidKeyException() throws Exception {
+        when(mockSecureStorageInterface.fetchValueForKey(JR_CAPTURE_REFRESH_SECRET, mockSecureStorageError)).thenReturn("9d945b63d7a7456ee775fddd5f32f1315cda9fed");
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        whenNew(SecretKeySpec.class).withAnyArguments().thenReturn(null);
+        Whitebox.invokeMethod(spyUsrTokenManager, "getRefreshSignature", datetime, accessToken);
+    }
+
+
+    @Test
+    public void testParseLocale() throws Exception {
+        String locale = Whitebox.invokeMethod(spyUsrTokenManager, "parseLocale", "en_US");
+        assertEquals("en-US", locale);
+    }
+
+    @Test
+    public void testGetUTCdatetimeAsString() throws Exception {
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        assertNotNull(datetime);
+    }
+
+    @Test
+    public void testGetUTCdatetimeAsStringReturnsNull() throws Exception {
+        when(mockAppInfraInterface.getTime()).thenReturn(null);
+        String datetime = Whitebox.invokeMethod(spyUsrTokenManager, "getUTCdatetimeAsString");
+        assertNull(datetime);
+    }
+
+    @Test
+    public void testGetClientIDFromConfig() throws Exception {
+        whenNew(AppConfigurationInterface.AppConfigurationError.class).withNoArguments().thenReturn(mockAppConfigurationError);
+        when(mockAppConfigurationInterface.getPropertyForKey("JanRainConfiguration.RegistrationClientID", "PIM", mockAppConfigurationError)).thenReturn("f2stykcygm7enbwfw2u9fbg6h6syb8yd");
+        String clientID = Whitebox.invokeMethod(spyUsrTokenManager, "getClientIdFromConfig");
+        assertEquals("f2stykcygm7enbwfw2u9fbg6h6syb8yd", clientID);
+    }
+
+    @Test
+    public void testGetUSRAccessTokenSignedUserNull() throws Exception {
+        String usrAccessToken = Whitebox.invokeMethod(usrTokenManager, "getUSRAccessToken");
+        assertNull(usrAccessToken);
+    }
+
+    @Test
+    public void testGetUSRAccessTokenSignedUser() throws Exception {
+        Whitebox.setInternalState(usrTokenManager, "signedInUser", signedUserData());
+        String usrAccessToken = Whitebox.invokeMethod(usrTokenManager, "getUSRAccessToken");
+        assertNotNull(usrAccessToken);
+    }
+
+    @Test
+    public void testGetUSRAccessTokenSignedUserWithError() throws Exception {
+        Whitebox.setInternalState(usrTokenManager, "signedInUser", new JsonObject().toString());
+        String usrAccessToken = Whitebox.invokeMethod(usrTokenManager, "getUSRAccessToken");
+        assertNull(usrAccessToken);
+    }
+
+    @Test
+    public void testFetchDataFromSecureStorage() throws Exception {
+        USRTokenManager spyUsrTokenManager = PowerMockito.spy(usrTokenManager);
+        String signedInUser = Whitebox.invokeMethod(spyUsrTokenManager, "fetchDataFromSecureStorage", JR_CAPTURE_SIGNED_IN_USER);
+        assertEquals(signedUserData(), signedInUser);
+        verify(mockSecureStorageInterface).fetchValueForKey(JR_CAPTURE_SIGNED_IN_USER, mockSecureStorageError);
+    }
+
+    @Test
+    public void testIsUSRUSerAvailable() throws Exception {
+        Whitebox.invokeMethod(spyUsrTokenManager, "isUSRUserAvailable");
+        verifyPrivate(spyUsrTokenManager).invoke("fetchDataFromSecureStorage", JR_CAPTURE_SIGNED_IN_USER);
+    }
+
+    @Test
+    public void testDeleteUSRFromSecureStorage() {
+        usrTokenManager.deleteUSRFromSecureStorage();
+        verify(mockSecureStorageInterface).removeValueForKey(JR_CAPTURE_SIGNED_IN_USER);
+        verify(mockSecureStorageInterface).removeValueForKey(JR_CAPTURE_FLOW);
+        verify(mockSecureStorageInterface).removeValueForKey(JR_CAPTURE_REFRESH_SECRET);
+    }
+
+    private String signedUserData() {
+        String path = "src/test/rs/usr_signedin_user.json";
+        File file = new File(path);
+        try {
+            JsonParser jsonParser = new JsonParser();
+            Object obj = jsonParser.parse(new FileReader(file));
+            JsonObject jsonObject = (JsonObject) obj;
+            return jsonObject.toString();
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    private String getRefreshTokenResponse() {
+        String path = "src/test/rs/usr_refreshtoken_response.json";
+        File file = new File(path);
+        try {
+            JsonParser jsonParser = new JsonParser();
+            Object obj = jsonParser.parse(new FileReader(file));
+            JsonObject jsonObject = (JsonObject) obj;
+            return jsonObject.toString();
+        } catch (FileNotFoundException e) {
+            return null;
+        }
     }
 
     @After

@@ -1,7 +1,5 @@
 package com.philips.platform.pim.rest;
 
-import com.android.volley.Request;
-
 import net.openid.appauth.AuthState;
 
 import java.util.HashMap;
@@ -40,7 +38,6 @@ public class LogoutRequest implements PIMRequestInterface {
 
     @Override
     public int getMethodType() {
-        return Request.Method.POST;
+        return PIMRequest.Method.POST;
     }
-
 }

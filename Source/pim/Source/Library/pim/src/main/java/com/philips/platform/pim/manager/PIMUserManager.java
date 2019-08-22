@@ -65,8 +65,7 @@ public class PIMUserManager {
         mLoggingInterface.log(DEBUG, TAG, "User  manager initialized");
     }
 
-
-    public void requestUserProfile(AuthState oidcAuthState, PIMUserProfileDownloadListener userProfileRequestListener) {
+    public void requestUserProfile(@NonNull AuthState oidcAuthState, @NonNull PIMUserProfileDownloadListener userProfileRequestListener) {
         UserProfileRequest userProfileRequest = new UserProfileRequest(oidcAuthState);
         pimRestClient.invokeRequest(userProfileRequest, response -> {
 
@@ -78,9 +77,7 @@ public class PIMUserManager {
             storeUserProfileToSecureStorage(response); //store jsonm reponse to secure storgae
             storeAuthStateToSecureStorage(oidcAuthState); //store auth state to secure storage
 
-            if (userProfileRequestListener != null) {
-                userProfileRequestListener.onUserProfileDownloadSuccess();
-            }
+            userProfileRequestListener.onUserProfileDownloadSuccess();
         }, error -> {
             mLoggingInterface.log(DEBUG, TAG, "error : " + error.getMessage());
             if (userProfileRequestListener != null)
@@ -196,7 +193,7 @@ public class PIMUserManager {
             editor.putString(PIM_ACTIVEUUID, uuid);
             editor.apply();
         } else {
-            mLoggingInterface.log(DEBUG, TAG, "UUID or context is null");
+            mLoggingInterface.log(DEBUG, TAG, "UUID is null");
         }
     }
 
@@ -205,7 +202,6 @@ public class PIMUserManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PIM_LOGIN_FLOW, login_flow.toString());
         editor.apply();
-
     }
 
     public LOGIN_FLOW getLoginFlow() {

@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IDAssertionRequest implements PIMRequestInterface {
+
     private String endpoint;
     private String accessToken;
+    private String TAG = IDAssertionRequest.class.getSimpleName();
 
     public IDAssertionRequest(String endpoint, String accessToken) {
         this.endpoint = endpoint;
@@ -40,7 +42,7 @@ public class IDAssertionRequest implements PIMRequestInterface {
             accessTokenJson.put("accessToken", accessToken);
             bodyJson.put("data", accessTokenJson);
         } catch (JSONException e) {
-            e.printStackTrace();
+            PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "Json Exception : " + e.getMessage());
         }
         return bodyJson.toString();
     }

@@ -1,7 +1,5 @@
 package com.philips.platform.pim.configration;
 
-import android.support.annotation.Nullable;
-
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -62,6 +60,15 @@ public class PIMOIDCConfigration {
         return null;
     }
 
+    public String getURClientId() {
+        Object obj = getProperty("JanRainConfiguration.RegistrationClientID", GROUP_PIM);
+        if (obj != null && obj instanceof Map) {
+            Map<String, String> map = (Map) obj;
+            return map.get("default");
+        }
+        return null;
+    }
+
     public String getRedirectUrl() {
         Object obj = getProperty("redirectUri", GROUP_PIM);
         if (obj != null) {
@@ -105,7 +112,6 @@ public class PIMOIDCConfigration {
     }
 
     private Object getProperty(String key, String group) {
-        //TODO: Deepthi  ( Low ) check impact of cloud config
         AppConfigurationInterface appConfigurationInterface = appInfraInterface.getConfigInterface();
         Object obj = appConfigurationInterface.getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
         return obj;

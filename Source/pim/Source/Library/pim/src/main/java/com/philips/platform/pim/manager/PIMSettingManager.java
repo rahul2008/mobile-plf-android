@@ -30,20 +30,20 @@ public class PIMSettingManager {
     private String locale;
     private MutableLiveData<PIMInitState> pimInitLiveData;
 
+    private PIMSettingManager() {
+    }
+
     public static PIMSettingManager getInstance() {
         return instance;
     }
-
 
     void setPimOidcConfigration(PIMOIDCConfigration pimOidcConfigration) {
         mPimoidcConfigration = pimOidcConfigration;
     }
 
-
     public PIMOIDCConfigration getPimOidcConfigration() {
         return mPimoidcConfigration;
     }
-
 
     public void init(UappDependencies pimDependencies) {
         mAppInfraInterface = pimDependencies.getAppInfra();
@@ -52,7 +52,6 @@ public class PIMSettingManager {
         mRestInterface = mAppInfraInterface.getRestClient();
         mLoggingInterface.log(DEBUG,TAG,"PIMSettingManager : dependecies initialized");
     }
-
 
     public AppInfraInterface getAppInfraInterface() {
         return mAppInfraInterface;
@@ -65,7 +64,6 @@ public class PIMSettingManager {
     public AppTaggingInterface getTaggingInterface() {
         return mTaggingInterface;
     }
-
 
     public PIMUserManager getPimUserManager() {
         return pimUserManager;
