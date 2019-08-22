@@ -46,10 +46,12 @@ import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
+import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderDetailRequest;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderHistoryRequest;
 import com.philips.cdp.di.ecs.retailer.MockGetRetailersInfoRequest;
+import com.philips.cdp.di.ecs.userProfile.MockGetUserProfileRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 
 public class MockECSManager extends ECSManager {
@@ -411,5 +413,10 @@ public class MockECSManager extends ECSManager {
     @Override
     public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
         new MockPlaceOrderRequest(getJsonFileNameMockECSManager(),cvv,ecsCallback).executeRequest();
+    }
+
+    @Override
+    public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
+        new MockGetUserProfileRequest(getJsonFileNameMockECSManager(),ecsCallback).executeRequest();
     }
 }

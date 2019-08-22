@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.util.ECSErrors
 import org.json.JSONObject
 import java.util.HashMap
 
-class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
+open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
 
     val ecsCallback = ecsCallback;
 
