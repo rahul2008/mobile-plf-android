@@ -12,12 +12,11 @@ import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
-import com.philips.cdp.di.ecs.util.ECSErrors;
 
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
-import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 public class GetProductForRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 

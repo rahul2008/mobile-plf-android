@@ -8,7 +8,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.orders.OrderDetail
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
 import com.philips.cdp.di.ecs.util.ECSConfig
-import com.philips.cdp.di.ecs.util.ECSErrors
+import com.philips.cdp.di.ecs.error.ECSErrors
 import org.json.JSONObject
 import java.lang.Exception
 import java.util.HashMap

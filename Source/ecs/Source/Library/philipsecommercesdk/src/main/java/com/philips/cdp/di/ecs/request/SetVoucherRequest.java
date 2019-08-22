@@ -11,7 +11,7 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
 
 public class SetVoucherRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 

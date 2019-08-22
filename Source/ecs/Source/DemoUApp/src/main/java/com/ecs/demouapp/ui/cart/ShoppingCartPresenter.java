@@ -11,11 +11,9 @@ import android.util.Log;
 
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.AddressController;
-import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.response.error.Error;
 import com.ecs.demouapp.ui.response.error.ServerError;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
-import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
@@ -24,7 +22,7 @@ import com.philips.cdp.di.ecs.model.address.GetUser;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.util.ECSErrors;
+import com.philips.cdp.di.ecs.error.ECSErrors;
 
 import java.util.List;
 

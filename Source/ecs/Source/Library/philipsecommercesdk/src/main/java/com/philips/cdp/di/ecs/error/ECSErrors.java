@@ -1,4 +1,4 @@
-package com.philips.cdp.di.ecs.util;
+package com.philips.cdp.di.ecs.error;
 
 import android.app.AlertDialog;
 import android.content.Context;

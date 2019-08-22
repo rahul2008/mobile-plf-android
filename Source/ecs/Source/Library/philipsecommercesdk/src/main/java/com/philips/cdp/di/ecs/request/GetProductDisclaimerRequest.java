@@ -10,8 +10,8 @@ import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
-import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 public class GetProductDisclaimerRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
