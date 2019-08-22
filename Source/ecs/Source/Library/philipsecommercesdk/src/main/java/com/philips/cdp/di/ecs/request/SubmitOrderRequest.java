@@ -61,13 +61,6 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
     }
 
     @Override
-    public Map<String, String> getHeader() {
-        Map<String, String> header = new HashMap<String, String>();
-        header.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
-        return header;
-    }
-
-    @Override
     public Map<String, String> getParams() {
         HashMap<String, String> cartId = new HashMap<>();
         cartId.put(ModelConstants.CART_ID,"current");

@@ -29,12 +29,6 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
         return Request.Method.GET
     }
 
-    override fun getHeader(): Map<String, String>? {
-        val authMap = HashMap<String, String>()
-        authMap["Authorization"] = "Bearer " + ECSConfig.INSTANCE.accessToken
-        return authMap
-    }
-
     override fun onResponse(response: JSONObject?) {
 
         try{

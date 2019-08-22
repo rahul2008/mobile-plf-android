@@ -1,8 +1,10 @@
 package com.philips.cdp.di.ecs.request;
 
-import com.android.volley.Response;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class OAuthAppInfraAbstractRequest extends AppInfraAbstractRequest {
 
@@ -25,4 +27,12 @@ public abstract class OAuthAppInfraAbstractRequest extends AppInfraAbstractReque
     public TokenProviderInterface getTokenProviderInterface() {
         return this;
     }
+
+    @Override
+    public Map<String, String> getHeader() {
+        HashMap authMap =new HashMap<String, String>();
+        authMap.put("Authorization","Bearer " + ECSConfig.INSTANCE.getAccessToken());
+        return authMap;
+    }
+
 }
