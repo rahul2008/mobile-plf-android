@@ -157,39 +157,6 @@ class USRTokenManager {
         return map.get("version");
     }
 
-    @Nullable
-    private String getConfigPropertyValue(Object property) {
-        if (property == null) {
-            return null;
-        }
-        if (property instanceof String) {
-            return (String) property;
-        }
-        if (property instanceof Map) {
-            return getPropertyValueFromMap((Map) property);
-        }
-        return null;
-    }
-
-    private String getPropertyValueFromMap(Map<?, ?> property) {
-        String locale = PIMSettingManager.getInstance().getLocale();
-        String[] splitLocal = locale.split("-");
-        String propertyValue = (String) property.get(splitLocal[1]);
-        if (propertyValue == null || propertyValue.isEmpty()) {
-            propertyValue = (String) property.get("default");
-        }
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "propertyValue: " + propertyValue);
-        return propertyValue;
-    }
-
-    private String getClientId() {
-        Object clientIdObject = getClientIdFromConfig();
-        String configPropertyValue = getConfigPropertyValue(clientIdObject);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "getclientId: " + configPropertyValue);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "hasclientId: " + (configPropertyValue != null));
-        return configPropertyValue;
-    }
-
     private <L, R> Collection<L> map(Collection<R> collection, Function<L, R> f) {
         Collection<L> retCollection;
         try {
@@ -260,7 +227,7 @@ class USRTokenManager {
         params.add(new Pair<>("flow", "standard"));
         params.add(new Pair<>("flow_version", getFlowVersion()));
         params.add(new Pair<>("access_token", legacyToken));
-        params.add(new Pair<>("client_id", getClientId()));
+        params.add(new Pair<>("client_id", PIMSettingManager.getInstance().getPimOidcConfigration().getLegacyClientID()));
         return params;
     }
 

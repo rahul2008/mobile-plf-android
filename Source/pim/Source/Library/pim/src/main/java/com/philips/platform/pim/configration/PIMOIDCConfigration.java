@@ -75,6 +75,14 @@ public class PIMOIDCConfigration {
         return redirectUri.replace(getClientId(), getMigrationClientId());
     }
 
+    public String getLegacyClientID(){
+        Object obj = getProperty("legacyClientId", GROUP_PIM);
+        if (obj != null) {
+            return (String) obj;
+        }
+        return null;
+    }
+
     /**
      * Fetch rsid from App config
      *
