@@ -61,7 +61,6 @@ public enum PIMErrorEnums {
     PIMErrorEnums(int errorCode, int stringId) {
         this.errorCode = errorCode;
         this.stringId = stringId;
-
     }
 
     PIMErrorEnums(int errorCode, int innerCode, int stringId) {

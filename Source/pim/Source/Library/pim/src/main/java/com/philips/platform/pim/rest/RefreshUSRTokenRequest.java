@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class RefreshUSRTokenRequest implements PIMRequestInterface {
 
-
     private String refreshUrl;
     private String body;
 
