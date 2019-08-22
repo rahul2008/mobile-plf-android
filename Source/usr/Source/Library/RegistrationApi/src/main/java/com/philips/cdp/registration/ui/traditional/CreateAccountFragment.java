@@ -330,7 +330,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         setContentConfig();
         RegUtility.linkifyTermsandCondition(usrCreatescreenTermsandconditionsCheckbox, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         RegUtility.linkifyPhilipsNews(usrCreatescreenMarketingmailsCheckbox, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        RegUtility.linkifyPersonalConsent(usrCreatescreenPersonalConsentCheckbox, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())
+            RegUtility.linkifyPersonalConsent(usrCreatescreenPersonalConsentCheckbox, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         usernameUihandle();
         if (RegistrationHelper.getInstance().isMobileFlow()) {
@@ -359,24 +360,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         });
 
         if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
-//            usrCreatescreenPersonalConsentCheckbox.setText(getRegistrationFragment().registrationContentConfiguration.getPersonalConsentDefinition().getText());
             usrCreatescreenPersonalConsentCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//                TextView tv = (TextView) buttonView;
-//                usrCreatescreenPersonalConsentalertView.hideError();
-//                if (tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
-//                    // No link is clicked
-//                    if (!isChecked) {
-//                        usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().registrationContentConfiguration.getPersonalConsentContentErrorResId()));
-//                    }
-//                } else {
-//                    usrCreatescreenPersonalConsentCheckbox.setChecked(!isChecked);
-//                    if (RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener() != null) {
-//                        RegistrationConfiguration.getInstance().getUserRegistrationUIEventListener().
-//                                onPersonalConsentClick(getRegistrationFragment().getParentActivity());
-//                    } else {
-//                        RegUtility.showErrorMessage(getRegistrationFragment().getParentActivity());
-//                    }
-//                }
                 TextView tv = (TextView) buttonView;
                 usrCreatescreenPersonalConsentalertView.hideError();
                 if (!isChecked) {
@@ -707,9 +691,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked() && usrCreatescreenPersonalConsentCheckbox.isChecked()) {
                 registerUserInfo();
-            } else if(!usrCreatescreenTermsandconditionsCheckbox.isChecked() ){
+            } else if (!usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 usrCreatescreenTermsandconditionsalertView.setError(context.getResources().getString(R.string.USR_TermsAndConditionsAcceptanceText_Error));
-            }else if(!usrCreatescreenPersonalConsentCheckbox.isChecked()){
+            } else if (!usrCreatescreenPersonalConsentCheckbox.isChecked()) {
                 usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
             }
 //            if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && usrCreatescreenPersonalConsentCheckbox.isChecked()) {

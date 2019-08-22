@@ -119,8 +119,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     boolean isValidEmail;
 
-    private ConsentStates personalConsentStatus;
-
 
     public LoginIdValidator loginIdValidator = new LoginIdValidator(new ValidLoginId() {
         @Override
@@ -157,7 +155,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mBundle = getArguments();
         if (null != mBundle) {
             trackAbtesting();
-            personalConsentStatus = (ConsentStates) mBundle.get(RegConstants.PERSONAL_CONSENT);
         }
         registerInlineNotificationListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
@@ -241,7 +238,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             }
         });
 
-        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal() ) {
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal()) {
             acceptPersonalConsentCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -293,7 +290,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private void updateReceiveMarketingViewStyle() {
         RLog.d(TAG, "updateReceiveMarketingViewStyle : is  called");
         RegUtility.linkifyPhilipsNews(marketingOptCheck, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        RegUtility.linkifyPersonalConsent(acceptPersonalConsentCheck, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())
+            RegUtility.linkifyPersonalConsent(acceptPersonalConsentCheck, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
     }
 
     @Override
@@ -491,6 +489,16 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
+    public void hideTermsAndConditionError() {
+        acceptTermserrorMessage.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideAcceptPersonalConsentChecked() {
+        acceptPersonalConsenterrorMessage.setVisibility(View.GONE);
+    }
+
+    @Override
     public boolean isAcceptTermsContainerVisible() {
         return acceptTermsCheck.getVisibility() == View.VISIBLE;
     }
@@ -525,7 +533,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleAcceptPersonalConsentTrue() {
-        trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
+        completeRegistration();
+        trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_PERSONAL_CONSENT_OPTION_IN);
     }
 
     @Override
@@ -653,8 +662,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     public void clearUserData() {
-        if (null != acceptTermsCheck && !acceptTermsCheck.isChecked() && RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() &&
-                RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+        if (null != acceptTermsCheck && !acceptTermsCheck.isChecked() && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+            almostDonePresenter.handleClearUserData();
+        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && !acceptPersonalConsentCheck.isChecked()) {
             almostDonePresenter.handleClearUserData();
         }
     }
