@@ -51,7 +51,7 @@ import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.util.ECSErrors;
+import com.philips.cdp.di.ecs.error.ECSErrors;
 
 import java.io.Serializable;
 import java.util.ArrayList;

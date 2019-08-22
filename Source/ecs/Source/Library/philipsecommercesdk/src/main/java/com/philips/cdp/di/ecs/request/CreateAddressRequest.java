@@ -3,25 +3,19 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
-import com.philips.cdp.di.ecs.util.ECSErrors;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
-import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 

@@ -1,7 +1,5 @@
 package com.philips.cdp.di.ecs.request;
 
-import android.content.Context;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -12,8 +10,8 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.util.ECSErrors.getDetailErrorMessage;
-import static com.philips.cdp.di.ecs.util.ECSErrors.getErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 public class AddProductToECSShoppingCartRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
