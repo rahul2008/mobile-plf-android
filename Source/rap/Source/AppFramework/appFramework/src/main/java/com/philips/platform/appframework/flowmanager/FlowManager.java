@@ -11,6 +11,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.stateimpl.DemoAILState;
 import com.philips.platform.appframework.stateimpl.DemoDCCState;
+import com.philips.platform.appframework.stateimpl.DemoECSState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
 import com.philips.platform.appframework.stateimpl.DemoPIMState;
 import com.philips.platform.appframework.stateimpl.DemoPRGState;
@@ -38,6 +39,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TESTUR, new DemoUSRState());
         uiStateMap.put(AppStates.TESTPR, new DemoPRGState());
         uiStateMap.put(AppStates.TESTIAP, new DemoIAPState());
+        uiStateMap.put(AppStates.TESTECS, new DemoECSState());
         uiStateMap.put(AppStates.TESTPIM, new DemoPIMState());
         uiStateMap.put(AppStates.TESTCC, new DemoDCCState());
         uiStateMap.put(AppStates.COOKIES_CONSENT, new CookiesConsentState());
