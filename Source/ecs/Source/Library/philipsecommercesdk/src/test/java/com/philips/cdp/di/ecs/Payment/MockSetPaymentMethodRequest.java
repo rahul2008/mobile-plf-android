@@ -4,6 +4,8 @@ import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.request.SetPaymentMethodRequest;
 
+import org.json.JSONObject;
+
 import java.io.InputStream;
 
 public class MockSetPaymentMethodRequest extends SetPaymentMethodRequest {
@@ -16,8 +18,12 @@ public class MockSetPaymentMethodRequest extends SetPaymentMethodRequest {
 
     @Override
     public void executeRequest() {
-        InputStream in = getClass().getClassLoader().getResourceAsStream("EmptyString.json");
+
+        JSONObject result = null;
+        InputStream in = getClass().getClassLoader().getResourceAsStream(jsonFile);
         String jsonString = TestUtil.loadJSONFromFile(in);
         onResponse(jsonString);
+
+
     }
 }

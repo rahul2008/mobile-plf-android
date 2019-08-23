@@ -345,5 +345,52 @@ public class ECSErrorConstant {
         }
     }
 
+    public enum GetPaymentError {
+
+        INVALID_HYBRIS_TOKEN("InvalidHybrisToken",21001),
+        NO_PAYMENT_METHOD_FOUND("NoPaymentMethodFound",21002),
+        UNKNOWN_ERROR("UnknownError",21999);
+
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+
+        public int getErrorCode() {
+            return errorCode;
+        }
+
+        private final String errorMessage;
+        private final int errorCode;
+
+        GetPaymentError(String errorMessage, int errorCode) {
+            this.errorMessage = errorMessage;
+            this.errorCode = errorCode;
+        }
+
+    }
+
+    public enum SetPaymentError {
+
+        INVALID_HYBRIS_TOKEN("InvalidHybrisToken",22001),
+        INVALID_PAYMENT_ID("InvalidPaymentID",22002),
+        UNKNOWN_ERROR("UnknownError",22999);
+
+        public String getErrorMessage() {
+            return errorMessage;
+        }
+
+        public int getErrorCode() {
+            return errorCode;
+        }
+
+        private final String errorMessage;
+        private final int errorCode;
+
+        SetPaymentError(String errorMessage, int errorCode) {
+            this.errorMessage = errorMessage;
+            this.errorCode = errorCode;
+        }
+    }
+
 
 }
