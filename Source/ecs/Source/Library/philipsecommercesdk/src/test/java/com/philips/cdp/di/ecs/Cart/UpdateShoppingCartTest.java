@@ -90,7 +90,7 @@ public class UpdateShoppingCartTest {
 
             @Override
             public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                assertEquals(10999,errorCode);
+                assertEquals(8999,errorCode);
                 // test case passed
 
             }
