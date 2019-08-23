@@ -61,9 +61,7 @@ public interface ECSServiceProvider {
 
     void getProductFor(String ctn,ECSCallback<Product,Exception> eCSCallback );
 
-
     void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback);
-
 
     void getProductDetail(Product product, ECSCallback<Product,Exception> ecsCallback);
 
@@ -127,7 +125,6 @@ public interface ECSServiceProvider {
     void getOrderDetail(OrderDetail orderDetail, ECSCallback<OrderDetail,Exception> ecsCallback);
 
     void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback);
-
 
     void getUserProfile(ECSCallback<UserProfile,Exception> ecsCallback);
 

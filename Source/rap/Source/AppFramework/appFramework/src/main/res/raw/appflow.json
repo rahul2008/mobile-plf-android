@@ -350,6 +350,15 @@
         "state": "testmicroapp",
         "events": [
           {
+            "eventId": "TestECSEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoEcsState"
+              }
+            ]
+          },
+          {
             "eventId": "TestInAppPurhcaseEvent",
             "nextStates": [
               {
@@ -358,6 +367,7 @@
               }
             ]
           },
+
           {
             "eventId": "AppInfra",
             "nextStates": [

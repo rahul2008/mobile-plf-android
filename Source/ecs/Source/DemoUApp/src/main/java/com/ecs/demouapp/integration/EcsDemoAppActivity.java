@@ -135,9 +135,6 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
 
 
-
-
-
         urInterface = new URInterface();
         urInterface.init(new EcsDemoUAppDependencies(new AppInfra.Builder().build(getApplicationContext())), new EcsDemoAppSettings(getApplicationContext()));
 
@@ -466,7 +463,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         mAddCTNLl.setVisibility(View.VISIBLE);
         mLL_voucher.setVisibility(View.VISIBLE);
         mLL_propositionId.setVisibility(View.VISIBLE);
-        mShopNowCategorizedWithRetailer.setVisibility(View.VISIBLE);
+        mShopNowCategorizedWithRetailer.setVisibility(View.GONE);
         mShopNowCategorizedWithRetailer.setText(String.format(getString(R.string.categorized_shop_now_ignore_retailer), ignorelistedRetailer.get(0)));
         mShopNowCategorized.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
@@ -531,7 +528,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
         mBackImage.setBackground(mBackDrawable);
         mTitleTextView = findViewById(R.id.iap_header_title);
-        setTitle(getString(R.string.iap_app_name));
+        setTitle("ECS Demo App");
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
