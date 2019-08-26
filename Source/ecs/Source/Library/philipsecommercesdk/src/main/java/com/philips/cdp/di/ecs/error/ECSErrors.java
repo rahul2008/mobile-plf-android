@@ -2,6 +2,7 @@ package com.philips.cdp.di.ecs.error;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -11,6 +12,8 @@ import com.android.volley.ParseError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.R;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 
 
 import org.json.JSONArray;
@@ -32,6 +35,7 @@ public class ECSErrors {
         String errorType = null;
         if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError) {
             errorType = ECS_CANNOT_CONNECT_INTERNET;
+
         } else if (volleyError instanceof AuthFailureError) {
             errorType=ECS_AUTH_FAILURE_ERROR;
             try {
@@ -100,5 +104,15 @@ public class ECSErrors {
                //.setNegativeButton(android.R.string.no, null)
                .setIcon(android.R.drawable.ic_dialog_alert)
                .show();
+   }
+
+   public static String getLocalizedErrorMessage(int stringId){
+        String localizedError="Something went wrong";
+        try{
+            localizedError =   ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getResources().getString(stringId);
+        } catch(Exception e){
+            Log.e("RES_NOT_FOUND", e.getMessage());
+        }
+        return localizedError;
    }
 }
