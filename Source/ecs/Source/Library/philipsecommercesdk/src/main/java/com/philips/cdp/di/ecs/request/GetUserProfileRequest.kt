@@ -7,10 +7,8 @@ import com.google.gson.Gson
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.user.UserProfile
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
-import com.philips.cdp.di.ecs.util.ECSConfig
 import com.philips.cdp.di.ecs.error.ECSErrors
 import org.json.JSONObject
-import java.util.HashMap
 
 open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
 
@@ -21,7 +19,7 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val errorMessage = ECSErrors.getDetailErrorMessage(error)
+        val errorMessage = ECSErrors.logDetailErrorMessage(error)
         ecsCallback.onFailure(error, errorMessage, 9000)
     }
 

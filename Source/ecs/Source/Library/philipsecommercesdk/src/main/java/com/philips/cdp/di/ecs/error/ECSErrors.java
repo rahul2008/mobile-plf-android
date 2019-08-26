@@ -35,7 +35,7 @@ public class ECSErrors {
         } else if (volleyError instanceof AuthFailureError) {
             errorType=ECS_AUTH_FAILURE_ERROR;
             try {
-                JSONObject jsonError = new JSONObject(getDetailErrorMessage(volleyError));
+                JSONObject jsonError = new JSONObject(logDetailErrorMessage(volleyError));
                 String type = jsonError.getString("type");
                 if (null != type && !type.isEmpty()) {
                     errorType = type;
@@ -59,7 +59,7 @@ public class ECSErrors {
         return exception;
     }
 
-    public static String getDetailErrorMessage(VolleyError volleyError) {
+    public static String logDetailErrorMessage(VolleyError volleyError) {
         String message = null;
         try {
             if(null!=volleyError.networkResponse && null!=volleyError.networkResponse.data) {

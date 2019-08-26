@@ -21,7 +21,7 @@ import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
 import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 public class OAuthRequest extends AppInfraAbstractRequest  implements Response.Listener<JSONObject>{
@@ -97,7 +97,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
             mRetryUrl = getLocation(error);
             executeRequest();
         } else {
-            ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),9000);
+            ecsCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),9000);
         }
     }
 

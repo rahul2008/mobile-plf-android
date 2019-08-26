@@ -1,6 +1,9 @@
 <resources>
     <string name="ecs_UnknownError">Something went wrong</string>
 
+    <string name="ecs_no_internet">Cannot connect to Internet .. Please check your connection!</string>
+
+
 
 
 

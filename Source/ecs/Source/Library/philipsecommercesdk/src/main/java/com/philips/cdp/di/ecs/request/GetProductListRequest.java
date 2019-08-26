@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
 import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 
@@ -58,7 +58,7 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),4999);
+        ecsCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),4999);
 
     }
 

@@ -11,7 +11,7 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
 import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 public class GetConfigurationRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
@@ -34,7 +34,7 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        eCSCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),3999);
+        eCSCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),3999);
     }
 
     @Override

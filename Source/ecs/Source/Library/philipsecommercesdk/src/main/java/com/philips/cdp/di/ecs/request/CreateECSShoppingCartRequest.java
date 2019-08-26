@@ -8,16 +8,12 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
-import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
 import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject>{
@@ -41,7 +37,7 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
     @Override
     public void onErrorResponse(VolleyError error) {
 
-        eCSCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),7999);
+        eCSCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),7999);
     }
 
     @Override

@@ -1,6 +1,34 @@
 package com.philips.cdp.di.ecs.error;
 
+import android.content.Context;
+
+import com.philips.cdp.di.ecs.R;
+
 public class ECSErrorConstant {
+
+
+
+    public enum ECSVolleyError{
+
+        ECS_CANNOT_CONNECT_INTERNET(R.string.ecs_no_internet, 5001);
+
+        private final int resourceID;
+
+        public int getResourceID() {
+            return resourceID;
+        }
+
+        public int getErrorCode() {
+            return errorCode;
+        }
+
+        private final int errorCode;
+
+        ECSVolleyError(int resourceID, int errorCode) {
+            this.resourceID = resourceID;
+            this.errorCode = errorCode;
+        }
+    }
 
     public enum AuthenticationError{
         UNKNOWN_ERROR("UnknownError",2999),
