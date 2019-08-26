@@ -37,7 +37,7 @@ public class GetPaymentsRequest extends OAuthAppInfraAbstractRequest implements 
         if(null!=exception && null!=getPayment) {
             ecsCallback.onResponse(getPayment);
         } else {
-            ecsCallback.onFailure(exception,""+response,9000);
+            ecsCallback.onFailure(exception, 9000);
         }
     }
 
@@ -60,7 +60,7 @@ public class GetPaymentsRequest extends OAuthAppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error, "Error fetching Payment", 9000);
+        ecsCallback.onFailure(error, 9000);
     }
 
     @Override

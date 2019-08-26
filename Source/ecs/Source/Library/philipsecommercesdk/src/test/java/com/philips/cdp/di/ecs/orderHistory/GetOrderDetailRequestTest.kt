@@ -5,7 +5,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.MockECSServices
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.order.OrdersData
 import com.philips.cdp.di.ecs.model.orders.OrderDetail
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
@@ -60,7 +59,7 @@ class GetOrderDetailRequestTest{
              }
 
 
-            override fun onFailure(error: Exception, detailErrorMessage: String, errorCode: Int){
+            override fun onFailure(error: Exception, errorCode: Int){
                 assertTrue(true)
                 //  test case failed
             }
@@ -83,7 +82,7 @@ class GetOrderDetailRequestTest{
                 //  test case failed
             }
 
-            override fun onFailure(error: Exception, detailErrorMessage: String, errorCode: Int){
+            override fun onFailure(error: Exception, errorCode: Int){
                 assertEquals(19999, errorCode.toLong())
                 //  test case passed
             }

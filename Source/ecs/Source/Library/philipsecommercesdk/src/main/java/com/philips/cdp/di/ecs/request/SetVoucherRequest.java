@@ -11,8 +11,6 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
-
 public class SetVoucherRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
     private final String voucherCode;
@@ -29,7 +27,7 @@ public class SetVoucherRequest extends OAuthAppInfraAbstractRequest implements R
             // Empty response indicate success
             ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(new Exception(response),""+response,20999);
+            ecsCallback.onFailure(new Exception(response), 20999);
         }
     }
 
@@ -47,7 +45,7 @@ public class SetVoucherRequest extends OAuthAppInfraAbstractRequest implements R
     public void onErrorResponse(VolleyError error) {
         ecsCallback.onResponse(true);
 
-        System.out.println("get string error :"+ logDetailErrorMessage(error));
+        //System.out.println("get string error :"+ logDetailErrorMessage(error));
        // ecsCallback.onFailure(error, "Error Applying voucher", 9000);
     }
 

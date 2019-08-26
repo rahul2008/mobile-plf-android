@@ -232,7 +232,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                             }
 
                             @Override
-                            public void onFailure(Exception error, String detailErrorMessage,   int errorCode) {
+                            public void onFailure(Exception error, int errorCode) {
                                 hideProgressBar();
                                 mDetailLayout.setVisibility(View.GONE);
                                 showErrorDialog(new Message());
@@ -298,7 +298,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 hideProgressBar();
                 mProgresImage.setVisibility(View.GONE);
                 ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");

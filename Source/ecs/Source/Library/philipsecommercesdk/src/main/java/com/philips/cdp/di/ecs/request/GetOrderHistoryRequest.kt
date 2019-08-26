@@ -36,8 +36,7 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val errorMessage = ECSErrors.logDetailErrorMessage(error)
-        ecsCallback.onFailure(error, errorMessage, 9000)
+        ecsCallback.onFailure(ECSErrors.getVolleyException(error), 9000)
     }
 
     override fun onResponse(response: JSONObject?) {
@@ -46,7 +45,7 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
         if (orderHistoryECSErrorPair.first != null) {
             ecsCallback.onResponse(orderHistoryECSErrorPair.first)
         } else {
-            ecsCallback.onFailure(orderHistoryECSErrorPair.second.getException(), orderHistoryECSErrorPair.second.getErrorMessage(), orderHistoryECSErrorPair.second.getErrorcode())
+            ecsCallback.onFailure(orderHistoryECSErrorPair.second.getException(), orderHistoryECSErrorPair.second.getErrorcode())
         }
     }
 

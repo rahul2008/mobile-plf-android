@@ -12,13 +12,9 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
-import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject> {
@@ -45,7 +41,7 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
             ecsCallback.onResponse(getShippingAddressData);
         }else{
             exception = (null!=exception)? exception : new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
-            ecsCallback.onFailure(exception,""+response,9000);
+            ecsCallback.onFailure(exception, 9000);
         }
 
     }
@@ -62,7 +58,7 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error, "Error fetching DeliveryMode", 9000);
+        ecsCallback.onFailure(error, 9000);
     }
 
     @Override

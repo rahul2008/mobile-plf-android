@@ -58,7 +58,7 @@ public class GetDeliveryModesRequestTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(false);
                 //  test case failed
             }
@@ -76,7 +76,7 @@ public class GetDeliveryModesRequestTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
                 //  test case passed
             }

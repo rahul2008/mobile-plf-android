@@ -70,7 +70,7 @@ public class StoreController {
             }
 
             @Override
-            public void onFailure(Exception error,String detailErrorMessage , int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
 
                 Message msg = Message.obtain();
                 mSiteID = null;

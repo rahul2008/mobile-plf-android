@@ -66,7 +66,7 @@ public class AddressController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = error;
                 mAddressListener.onGetRegions(message);
@@ -121,10 +121,9 @@ public class AddressController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 //addressContractor.hideProgressbar();
 
-                Log.v("ECS ADDRESS",""+detailErrorMessage);
             }
         },true);
 
@@ -147,7 +146,7 @@ public class AddressController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
 
                 Message message = new Message();
                 message.obj = error;
@@ -171,7 +170,7 @@ public class AddressController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
 
                 Message message = new Message();
                 message.obj= error;
@@ -205,9 +204,9 @@ public class AddressController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
 
-                ECSErrors.showECSAlertDialog(mContext,"Error",detailErrorMessage);
+                ECSErrors.showECSAlertDialog(mContext,"Error",error.getMessage());
                 Message message = new Message();
                 message.obj = error;
                 mAddressListener.onGetAddress(message);
@@ -235,9 +234,9 @@ public class AddressController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message() ;
-                message.obj = detailErrorMessage;
+                message.obj = error.getMessage();
                 mAddressListener.onSetDeliveryAddress(message);
             }
         });
@@ -254,7 +253,7 @@ public class AddressController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = error;
                 mAddressListener.onGetDeliveryModes(message);
@@ -275,7 +274,7 @@ public class AddressController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = error;
                 mAddressListener.onSetDeliveryMode(message);

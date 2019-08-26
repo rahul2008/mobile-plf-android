@@ -65,7 +65,7 @@ public class CreateShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error,String errorDetail, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assert true;
                 // test case failed
             }
@@ -84,7 +84,7 @@ public class CreateShoppingCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error,String errorDetail, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(7999,errorCode);
 
                 // test case failed
@@ -104,7 +104,7 @@ public class CreateShoppingCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error, String errorDetail, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(7999,errorCode);
 
                 // test case failed

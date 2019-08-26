@@ -63,7 +63,7 @@ public class GetVoucherListTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
                 //  test case failed
             }
@@ -82,7 +82,7 @@ public class GetVoucherListTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(19999,errorCode);
                 //  test case passed
 
@@ -102,7 +102,7 @@ public class GetVoucherListTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(19999,errorCode);
                 //  test case passed
 

@@ -64,7 +64,7 @@ public class ProductForCTNTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertFalse(true);
                 // test case passed
             }
@@ -82,7 +82,7 @@ public class ProductForCTNTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(5999, errorCode); // error code for Product List
                 // test case passed
             }

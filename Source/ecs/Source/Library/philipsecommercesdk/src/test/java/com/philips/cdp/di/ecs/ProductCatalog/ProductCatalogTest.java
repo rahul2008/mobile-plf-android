@@ -65,7 +65,7 @@ public class ProductCatalogTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertFalse(true);
                 // test case failed
 
@@ -90,7 +90,7 @@ public class ProductCatalogTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(4999, errorCode); // error code for Product List
                 // test case passed
             }
@@ -112,7 +112,7 @@ public class ProductCatalogTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(4999, errorCode); // error code for Product List
                 // test case passed
             }

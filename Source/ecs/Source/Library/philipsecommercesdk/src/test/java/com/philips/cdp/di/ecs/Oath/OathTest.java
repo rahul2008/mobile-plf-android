@@ -70,7 +70,7 @@ public class OathTest {
             }
 
             @Override
-            public void onFailure(Exception error,String errorDetail, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
                 // test case failed
             }
@@ -97,7 +97,7 @@ public class OathTest {
             }
 
             @Override
-            public void onFailure(Exception error, String errorDetail,int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
                 // test case failed
             }
@@ -124,7 +124,7 @@ public class OathTest {
             }
 
             @Override
-            public void onFailure(Exception error,String errorDetail, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
                 // test case failed
             }
@@ -151,7 +151,7 @@ public class OathTest {
             }
 
             @Override
-            public void onFailure(Exception error, String errorDetail,int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
                 // test case failed
             }

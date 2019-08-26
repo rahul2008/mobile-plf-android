@@ -4,21 +4,15 @@
  */
 package com.ecs.demouapp.ui.iapHandler;
 
-import android.os.Message;
-
-import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.integration.ECSInterface;
 import com.ecs.demouapp.ui.integration.ECSListener;
-import com.ecs.demouapp.ui.products.ProductCatalogAPI;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
@@ -39,7 +33,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
             }
 
             @Override
-            public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 iapListener.onFailure(errorCode);
             }
         });
@@ -61,7 +55,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
                 }
 
                 @Override
-                public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                public void onFailure(Exception error, int errorCode) {
 
                 }
             });

@@ -38,7 +38,7 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,"Error Fetching region",9000);
+        ecsCallback.onFailure(error, 9000);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
         if(null!=regionsList && null!=regionsList.getRegions() && regionsList.getRegions().size()>0) {
             ecsCallback.onResponse(regionsList);
         }else{
-            ecsCallback.onFailure(exception,ErrorMessage,9000);
+            ecsCallback.onFailure(exception, 9000);
         }
     }
 

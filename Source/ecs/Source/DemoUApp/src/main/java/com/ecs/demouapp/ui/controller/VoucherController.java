@@ -39,7 +39,7 @@ public class VoucherController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
 
                 Message message = new Message();
                 message.obj = error;
@@ -63,7 +63,7 @@ public class VoucherController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
 
                 Message message = new Message();
                 message.obj = error;
@@ -84,7 +84,7 @@ public class VoucherController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
 
                 Message message = new Message();
                 message.obj = error;

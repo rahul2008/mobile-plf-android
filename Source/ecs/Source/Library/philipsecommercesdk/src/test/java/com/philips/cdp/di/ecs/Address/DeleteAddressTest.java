@@ -64,7 +64,7 @@ public class DeleteAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(false);
             }
         });
@@ -84,7 +84,7 @@ public class DeleteAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
             }
         });

@@ -26,7 +26,7 @@ public class RemoveVoucherRequest extends OAuthAppInfraAbstractRequest implement
             // Empty response indicate success
             ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(new Exception(response),response,200999);
+            ecsCallback.onFailure(new Exception(response), 200999);
         }
     }
 
@@ -42,7 +42,7 @@ public class RemoveVoucherRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,"Error Deleting voucher",200999);
+        ecsCallback.onFailure(error, 200999);
     }
 
     @Override

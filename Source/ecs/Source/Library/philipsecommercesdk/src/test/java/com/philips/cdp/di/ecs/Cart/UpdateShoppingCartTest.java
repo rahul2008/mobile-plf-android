@@ -7,7 +7,6 @@ import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
-import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -67,7 +66,7 @@ public class UpdateShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
                 // test case failed
             }
@@ -89,7 +88,7 @@ public class UpdateShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(8999,errorCode);
                 // test case passed
 

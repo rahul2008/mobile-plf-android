@@ -52,7 +52,7 @@ public class OrderController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
 
                 Message message = new Message();
                 message.obj = error;
@@ -78,7 +78,7 @@ public class OrderController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 message.obj = error;
                 mOrderListener.onGetOrderDetail(message);
             }

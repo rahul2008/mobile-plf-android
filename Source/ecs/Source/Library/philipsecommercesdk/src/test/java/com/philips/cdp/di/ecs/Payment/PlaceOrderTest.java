@@ -61,7 +61,7 @@ public class PlaceOrderTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(false);
                 //test failed
             }

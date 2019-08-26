@@ -31,7 +31,7 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
         if(null!=getAppliedValue ) {
             ecsCallback.onResponse(getAppliedValue);
         }else{
-            ecsCallback.onFailure(new Exception("error fetching Voucher"),"error fetching Voucher",19999);
+            ecsCallback.onFailure(new Exception("error fetching Voucher"), 19999);
         }
     }
 
@@ -47,7 +47,7 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error,"error fetching Voucher",19999);
+        ecsCallback.onFailure(error, 19999);
     }
 
     @Override

@@ -59,7 +59,7 @@ public class ECSServices implements ECSServiceProvider {
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
 
-                ecsCallback.onFailure(new Exception(errorvalues.name()), s,9000);
+                ecsCallback.onFailure(new Exception(errorvalues.name()), 9000);
             }
 
             @Override

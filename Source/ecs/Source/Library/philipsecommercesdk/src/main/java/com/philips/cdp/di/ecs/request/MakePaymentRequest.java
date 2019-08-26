@@ -15,8 +15,7 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
-import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
 
 public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
@@ -50,7 +49,7 @@ public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements 
             ecsCallback.onResponse(makePaymentData);
         }else{
             exception = (null!=exception)? exception : new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
-            ecsCallback.onFailure(exception,""+response,9000);
+            ecsCallback.onFailure(exception, 9000);
         }
 
     }
@@ -74,7 +73,7 @@ public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),4999);
+        ecsCallback.onFailure(getVolleyException(error), 4999);
     }
 
     @Override

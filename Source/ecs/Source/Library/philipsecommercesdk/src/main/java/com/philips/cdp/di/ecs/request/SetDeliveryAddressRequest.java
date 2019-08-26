@@ -59,15 +59,13 @@ public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest imp
         if(response.isEmpty()) {
         ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),""+response,9000);
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), 9000);
         }
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        System.out.println("print error message "+ECSErrors.logDetailErrorMessage(error));
-
-        ecsCallback.onFailure(ECSErrors.getErrorMessage(error),ECSErrors.logDetailErrorMessage(error),9000);
+        ecsCallback.onFailure(ECSErrors.getVolleyException(error), 9000);
     }
 
     @Override

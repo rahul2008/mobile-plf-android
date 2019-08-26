@@ -36,8 +36,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val errorMessage = ECSErrors.logDetailErrorMessage(error)
-        callBack.onFailure(error, errorMessage, 9000)
+        callBack.onFailure(ECSErrors.getVolleyException(error), 9000)
     }
 
     override fun getMethod(): Int {
@@ -54,7 +53,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
         val webResultsECSErrorPair = getWebResultsECSErrorPair(response)
 
         if (webResultsECSErrorPair.second != null) {
-            callBack.onFailure(webResultsECSErrorPair.second.getException(), webResultsECSErrorPair.second.getErrorMessage(), webResultsECSErrorPair.second.getErrorcode())
+            callBack.onFailure(webResultsECSErrorPair.second.getException(), webResultsECSErrorPair.second.getErrorcode())
         } else {
             callBack.onResponse(webResultsECSErrorPair.first)
         }

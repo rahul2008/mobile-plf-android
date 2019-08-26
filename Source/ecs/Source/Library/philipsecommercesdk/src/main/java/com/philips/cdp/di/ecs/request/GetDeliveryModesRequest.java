@@ -28,7 +28,7 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
         if (deliveryModesECSErrorPair.first != null) {
             ecsCallback.onResponse(deliveryModesECSErrorPair.first);
         } else {
-            ecsCallback.onFailure(deliveryModesECSErrorPair.second.getException(), deliveryModesECSErrorPair.second.getErrorMessage(), deliveryModesECSErrorPair.second.getErrorcode());
+            ecsCallback.onFailure(deliveryModesECSErrorPair.second.getException(), deliveryModesECSErrorPair.second.getErrorcode());
         }
 
     }
@@ -45,8 +45,7 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        String errorMessage = ECSErrors.logDetailErrorMessage(error);
-        ecsCallback.onFailure(error, errorMessage, 9000);
+        ecsCallback.onFailure(ECSErrors.getVolleyException(error), 9000);
     }
 
     @Override

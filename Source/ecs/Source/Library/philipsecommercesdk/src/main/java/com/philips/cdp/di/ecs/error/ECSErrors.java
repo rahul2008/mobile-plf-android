@@ -14,6 +14,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.R;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 
 import org.json.JSONArray;
@@ -31,7 +32,9 @@ import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_SERVER_NOT_FOUND;
 public class ECSErrors {
 
 
-    public static Exception getErrorMessage(VolleyError volleyError) {
+    private static final String LOGGING_TAG = "DETAIL_ERROR";
+
+    public static Exception getVolleyException(VolleyError volleyError) {
         String errorType = null;
         if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError) {
             errorType = ECS_CANNOT_CONNECT_INTERNET;
@@ -83,6 +86,7 @@ public class ECSErrors {
         } catch (Exception e) {
 
         }
+        ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.DEBUG,LOGGING_TAG,message);
         return message;
     }
 
@@ -107,7 +111,7 @@ public class ECSErrors {
    }
 
    public static String getLocalizedErrorMessage(int stringId){
-        String localizedError="Something went wrong";
+        String localizedError=ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getString(R.string.something_went_wrong);
         try{
             localizedError =   ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getResources().getString(stringId);
         } catch(Exception e){

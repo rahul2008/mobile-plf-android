@@ -33,7 +33,7 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
         if(emptyResponseErrorPair.first) {
             ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(emptyResponseErrorPair.second.getException(), emptyResponseErrorPair.second.getErrorMessage(), emptyResponseErrorPair.second.getErrorcode());
+            ecsCallback.onFailure(emptyResponseErrorPair.second.getException(), emptyResponseErrorPair.second.getErrorcode());
         }
     }
 
@@ -50,7 +50,7 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
     @Override
     public void onErrorResponse(VolleyError error) {
 
-        ecsCallback.onFailure( ECSErrors.getErrorMessage(error),ECSErrors.logDetailErrorMessage(error),9000);
+        ecsCallback.onFailure( ECSErrors.getVolleyException(error), 9000);
     }
 
     @Override

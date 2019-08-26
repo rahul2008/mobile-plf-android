@@ -67,7 +67,7 @@ public class PaymentController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = error;
                 mPaymentListener.onGetPaymentDetails(message);
@@ -91,7 +91,7 @@ public class PaymentController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = error;
                 mPaymentListener.onSetPaymentDetails(message);
@@ -121,9 +121,9 @@ public class PaymentController {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
-                message.obj=detailErrorMessage;
+                message.obj=error.getMessage();
                 mMakePaymentListener.onPlaceOrder(message);
 
             }
@@ -161,7 +161,7 @@ public class PaymentController {
           }
 
           @Override
-          public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+          public void onFailure(Exception error, int errorCode) {
               Message message = new Message();
               message.obj=error;
               mMakePaymentListener.onMakePayment(message);

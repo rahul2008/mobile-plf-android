@@ -15,8 +15,7 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
-import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
 
 public class GetProductForRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
@@ -46,7 +45,7 @@ public class GetProductForRequest extends AppInfraAbstractRequest implements Res
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),5999);
+        ecsCallback.onFailure(getVolleyException(error), 5999);
     }
 
     /**
@@ -63,10 +62,10 @@ public class GetProductForRequest extends AppInfraAbstractRequest implements Res
             if (null != product && null != product.getCode()) {
                 ecsCallback.onResponse(product);
             } else {
-                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), response.toString(), 5999);
+                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
             }
         }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), null, 5999);
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
         }
     }
 

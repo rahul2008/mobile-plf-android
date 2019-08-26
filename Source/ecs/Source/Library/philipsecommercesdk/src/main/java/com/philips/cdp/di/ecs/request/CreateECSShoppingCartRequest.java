@@ -13,8 +13,7 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
-import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
 
 public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject>{
     private final ECSCallback<ECSShoppingCart, Exception> eCSCallback;
@@ -37,7 +36,7 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
     @Override
     public void onErrorResponse(VolleyError error) {
 
-        eCSCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),7999);
+        eCSCallback.onFailure(getVolleyException(error), 7999);
     }
 
     @Override
@@ -48,10 +47,10 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
             if(null!=resp && null!=resp.getGuid() && !resp.getGuid().isEmpty()) {
                 eCSCallback.onResponse(resp);
             }else {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_CART_CANNOT_BE_CREATED) ,response.toString(),7999);
+                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_CART_CANNOT_BE_CREATED) , 7999);
             }
         }else{
-            eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_CART_CANNOT_BE_CREATED) ,null,7999);
+            eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_CART_CANNOT_BE_CREATED) , 7999);
         }
     }
 

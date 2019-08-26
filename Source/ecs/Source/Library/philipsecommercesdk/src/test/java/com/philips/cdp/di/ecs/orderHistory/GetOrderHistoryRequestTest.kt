@@ -59,7 +59,7 @@ class GetOrderHistoryRequestTest{
              }
 
 
-            override fun onFailure(error: Exception, detailErrorMessage: String, errorCode: Int){
+            override fun onFailure(error: Exception, errorCode: Int){
                 assertTrue(true)
                 //  test case failed
             }
@@ -82,7 +82,7 @@ class GetOrderHistoryRequestTest{
             }
 
 
-            override fun onFailure(error: Exception, detailErrorMessage: String, errorCode: Int){
+            override fun onFailure(error: Exception, errorCode: Int){
                 assertEquals(19999, errorCode.toLong())
                 //  test case passed
             }

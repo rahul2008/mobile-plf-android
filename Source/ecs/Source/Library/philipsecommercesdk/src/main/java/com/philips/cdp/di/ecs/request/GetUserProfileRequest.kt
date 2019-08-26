@@ -19,8 +19,7 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val errorMessage = ECSErrors.logDetailErrorMessage(error)
-        ecsCallback.onFailure(error, errorMessage, 9000)
+        ecsCallback.onFailure(ECSErrors.getVolleyException(error), 9000)
     }
 
     override fun getMethod(): Int {
@@ -35,7 +34,7 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
                     UserProfile::class.java)
             ecsCallback.onResponse(userProfile)
         }catch (e :Exception){
-            ecsCallback.onFailure(e,e.message,9000);
+            ecsCallback.onFailure(e, 9000);
         }
     }
 

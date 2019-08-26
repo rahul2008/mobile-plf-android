@@ -68,7 +68,7 @@ public class GetListSavedAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 // assertEquals(12999,errorCode);
                 assertTrue(true);
             }
@@ -88,7 +88,7 @@ public class GetListSavedAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(12999,errorCode);
 
             }

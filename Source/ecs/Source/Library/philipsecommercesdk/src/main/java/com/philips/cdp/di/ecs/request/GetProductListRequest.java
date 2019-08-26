@@ -18,8 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
-import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
 
 
 public class GetProductListRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
@@ -58,7 +57,7 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),4999);
+        ecsCallback.onFailure(getVolleyException(error), 4999);
 
     }
 
@@ -77,11 +76,11 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
                 }
                 ecsCallback.onResponse(mProducts);
             }else{
-                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), response.toString(),4999);
+                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), 4999);
             }
 
         }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), null,4999);
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), 4999);
         }
     }
 

@@ -53,7 +53,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = "Could not fetch data";
                 mLoadListener.onLoadError(message);
@@ -74,7 +74,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = "Could not fetch data";
                 mLoadListener.onLoadError(message);
@@ -93,7 +93,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = "Could not fetch data";
                 mLoadListener.onLoadError(message);
@@ -135,7 +135,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error,String errorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
                 message.obj = "Error Fetching Cart";
                 iapCartListener.onFailure(message);
@@ -155,10 +155,10 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error,String errorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
-                message.obj = "Error in fetching data";
-                if(null!=errorMessage){
+                message.obj = error.getMessage();
+                if(null!=error.getMessage()){
                     message.obj = error.getMessage();
                 }
 

@@ -28,7 +28,7 @@ public class SetPaymentMethodRequest extends OAuthAppInfraAbstractRequest implem
         if(response.isEmpty()) {
             ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR),""+response,9000);
+            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), 9000);
         }
     }
 
@@ -44,7 +44,7 @@ public class SetPaymentMethodRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure( ECSErrors.getErrorMessage(error),ECSErrors.logDetailErrorMessage(error),9000);
+        ecsCallback.onFailure( ECSErrors.getVolleyException(error), 9000);
     }
 
     @Override

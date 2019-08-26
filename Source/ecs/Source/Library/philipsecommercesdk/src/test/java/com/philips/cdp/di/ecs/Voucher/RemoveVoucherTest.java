@@ -60,7 +60,7 @@ public class RemoveVoucherTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
                 //  test case failed
             }
@@ -79,7 +79,7 @@ public class RemoveVoucherTest {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 assertEquals(200999,errorCode);
             //  test case passed
             }

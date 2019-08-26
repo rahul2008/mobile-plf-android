@@ -19,8 +19,7 @@ open class GetOrderDetailRequest (orderID: String, ecsCallback: ECSCallback<Orde
     val ecsCallback = ecsCallback
 
     override fun onErrorResponse(error: VolleyError?) {
-        val errorMessage = ECSErrors.logDetailErrorMessage(error)
-        ecsCallback.onFailure(error, errorMessage, 9000)
+        ecsCallback.onFailure(ECSErrors.getVolleyException(error), 9000)
     }
 
     override fun getURL(): String {

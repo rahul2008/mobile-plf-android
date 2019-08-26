@@ -79,8 +79,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
     }
@@ -94,8 +94,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
     }
@@ -125,15 +125,15 @@ public class MockECSManager extends ECSManager {
                             }
 
                             @Override
-                            public void onFailure(Exception error,String errorMessage, int errorCode) {
+                            public void onFailure(Exception error, int errorCode) {
 
                             }
                        }).executeRequest();
                     }
 
                     @Override
-                    public void onFailure(Exception error,String errorMessage, int errorCode) {
-                        ecsCallback.onFailure(error,errorMessage,errorCode);
+                    public void onFailure(Exception error, int errorCode) {
+                        ecsCallback.onFailure(error, errorCode);
 
                     }
                 });
@@ -162,7 +162,7 @@ public class MockECSManager extends ECSManager {
                     }
 
                     @Override
-                    public void onFailure(Exception error,String errorMessage, int errorCode) {
+                    public void onFailure(Exception error, int errorCode) {
                         // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
                         ecsCallback.onResponse(product);
                     }
@@ -171,9 +171,9 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error,String errorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
-                ecsCallback.onFailure(error,errorMessage,errorCode);
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
     }
@@ -222,9 +222,9 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 //getECSShoppingCart(ecsCallback);
-                ecsCallback.onFailure(error, detailErrorMessage,errorCode);
+                ecsCallback.onFailure(error, errorCode);
 
             }
         }).executeRequest();
@@ -240,7 +240,7 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+            public void onFailure(Exception error, int errorCode) {
                 getECSShoppingCart(ecsCallback);
             }
         }, entriesEntity, quantity).executeRequest();
@@ -261,8 +261,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
     }
@@ -277,8 +277,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
     }
@@ -299,8 +299,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
 
@@ -316,8 +316,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-            ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            public void onFailure(Exception error, int errorCode) {
+            ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
     }
@@ -331,8 +331,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
     }
@@ -347,8 +347,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-                ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+            public void onFailure(Exception error, int errorCode) {
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
     }
@@ -362,8 +362,8 @@ public class MockECSManager extends ECSManager {
            }
 
            @Override
-           public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
-               ecsCallback.onFailure(error,detailErrorMessage,errorCode);
+           public void onFailure(Exception error, int errorCode) {
+               ecsCallback.onFailure(error, errorCode);
            }
        }).executeRequest();
     }
