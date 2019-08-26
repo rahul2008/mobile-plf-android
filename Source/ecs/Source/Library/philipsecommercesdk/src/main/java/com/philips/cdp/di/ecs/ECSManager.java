@@ -8,6 +8,7 @@ import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
@@ -66,12 +67,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
 
 public class ECSManager {
 
-
+    static int threadCount=0;
 
     void getHybrisConfig(ECSCallback<Boolean, Exception> ecsCallback) {
 
@@ -155,36 +157,86 @@ public class ECSManager {
     }
 
 
+    private static void  productDetail(Product product, ECSCallback<Product, Exception> ecsCallback){
+         threadCount++;
+         if(threadCount==2){
+             ecsCallback.onResponse(product);
+         }
+    }
+
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
 
-        new AssetServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
-            @Override
-            public void onSuccess(String url) {
-                getProductAsset(url, new ECSCallback<Assets, Exception>() {
-                    @Override
-                    public void onResponse(Assets result) {
-                        if (null != result) {
-                            product.setAssets(result);
-                            getDisclaimer(product, ecsCallback);
+        Thread assets = new Thread("assets") {
 
-                        } else {
-                            ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),null,5002);
-                        }
+            @Override
+            public void run() {
+                new AssetServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
+                    @Override
+                    public void onSuccess(String url) {
+                        getProductAsset(url, new ECSCallback<Assets, Exception>() {
+                            @Override
+                            public void onResponse(Assets result) {
+                                if (null != result) {
+                                    product.setAssets(result);
+                                    productDetail(product,ecsCallback);
+                                } else {
+                                    ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND), null, 5002);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                                ecsCallback.onFailure(error, detailErrorMessage, errorCode);
+                            }
+                        });
                     }
 
                     @Override
-                    public void onFailure(Exception error,String detailErrorMessage, int errorCode) {
-                        ecsCallback.onFailure(error, detailErrorMessage,errorCode);
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND), s, 5002);
                     }
                 });
             }
+        };
+
+        Thread disclaimer = new Thread("disclaimer") {
 
             @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND),s, 5002);
+            public void run() {
+                new DisclaimerServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
+                    @Override
+                    public void onSuccess(String url) {
+
+                        getProductDisclaimer(url, new ECSCallback<Disclaimers, Exception>() {
+                            @Override
+                            public void onResponse(Disclaimers result) {
+                                // here result can come as null if Disclaimer not present for given product
+                                // but still Product Detail will be success as asset is already fetched
+                                product.setDisclaimers(result);
+                                productDetail(product,ecsCallback);
+                            }
+
+                            @Override
+                            public void onFailure(Exception error, String detailErrorMessage, int errorCode) {
+                                // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
+                                productDetail(product,ecsCallback);
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onError(ERRORVALUES errorvalues, String s) {
+                        // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
+                        ecsCallback.onResponse(product);
+                    }
+                });
             }
-        });
+        };
+        assets.start();
+        disclaimer.start();
     }
+
     //=========================================End of PRX Product List, Product Detail & Product for CTN =======================================
 
 
