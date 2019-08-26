@@ -175,7 +175,7 @@ class USRTokenManager {
         params.add(new Pair<>("flow", "standard"));
         params.add(new Pair<>("flow_version", "HEAD"));
         params.add(new Pair<>("access_token", legacyToken));
-        params.add(new Pair<>("client_id", new PIMOIDCConfigration().getURClientId()));
+        params.add(new Pair<>("client_id", PIMSettingManager.getInstance().getPimOidcConfigration().getLegacyClientID()));
         return params;
     }
 

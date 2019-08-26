@@ -1,16 +1,26 @@
 package com.philips.platform.pim.rest;
 
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.manager.PIMSettingManager;
+
 import junit.framework.TestCase;
 
+import org.apache.tools.ant.taskdefs.Length;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Map;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+@PrepareForTest(PIMSettingManager.class)
 @RunWith(PowerMockRunner.class)
 public class IDAssertionRequestTest extends TestCase {
 
@@ -35,6 +45,12 @@ public class IDAssertionRequestTest extends TestCase {
 
     @Test
     public void testGetHeader() {
+        PowerMockito.mockStatic(PIMSettingManager.class);
+        PIMSettingManager mockPimSettingManager = mock(PIMSettingManager.class);
+        PIMOIDCConfigration mockPimoidcConfigration = mock(PIMOIDCConfigration.class);
+        when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
+        when(mockPimSettingManager.getPimOidcConfigration()).thenReturn(mockPimoidcConfigration);
+        when(mockPimoidcConfigration.getAPIKey()).thenReturn("nYO1gXoy5J7AaHT8KPu2D9JxN2cZo77M8zdBD2iJ");
         Map<String, String> header = idAssertionRequest.getHeader();
         int size = header.size();
         assertEquals(size, 4);
