@@ -65,9 +65,9 @@ public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest imp
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        System.out.println("print error message "+ECSErrors.getDetailErrorMessage(error));
+        System.out.println("print error message "+ECSErrors.logDetailErrorMessage(error));
 
-        ecsCallback.onFailure(ECSErrors.getErrorMessage(error),ECSErrors.getDetailErrorMessage(error),9000);
+        ecsCallback.onFailure(ECSErrors.getErrorMessage(error),ECSErrors.logDetailErrorMessage(error),9000);
     }
 
     @Override

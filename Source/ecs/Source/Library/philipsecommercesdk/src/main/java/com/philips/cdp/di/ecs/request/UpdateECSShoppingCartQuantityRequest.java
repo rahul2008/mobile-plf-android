@@ -59,7 +59,7 @@ public class UpdateECSShoppingCartQuantityRequest extends OAuthAppInfraAbstractR
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(ECSErrors.getErrorMessage(error), ECSErrors.getDetailErrorMessage(error), 10999);
+        ecsCallback.onFailure(ECSErrors.getErrorMessage(error), ECSErrors.logDetailErrorMessage(error), 10999);
     }
 
     @Override

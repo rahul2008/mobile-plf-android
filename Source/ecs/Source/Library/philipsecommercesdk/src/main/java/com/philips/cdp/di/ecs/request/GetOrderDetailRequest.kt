@@ -19,7 +19,7 @@ open class GetOrderDetailRequest (orderID: String, ecsCallback: ECSCallback<Orde
     val ecsCallback = ecsCallback
 
     override fun onErrorResponse(error: VolleyError?) {
-        val errorMessage = ECSErrors.getDetailErrorMessage(error)
+        val errorMessage = ECSErrors.logDetailErrorMessage(error)
         ecsCallback.onFailure(error, errorMessage, 9000)
     }
 

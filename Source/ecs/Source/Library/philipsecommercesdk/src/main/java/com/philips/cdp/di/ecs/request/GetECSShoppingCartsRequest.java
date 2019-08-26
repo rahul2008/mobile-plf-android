@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getDetailErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSErrors.logDetailErrorMessage;
 import static com.philips.cdp.di.ecs.error.ECSErrors.getErrorMessage;
 
 public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject>{
@@ -52,7 +52,7 @@ public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest imp
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getErrorMessage(error),getDetailErrorMessage(error),8999);
+        ecsCallback.onFailure(getErrorMessage(error), logDetailErrorMessage(error),8999);
     }
 
     @Override

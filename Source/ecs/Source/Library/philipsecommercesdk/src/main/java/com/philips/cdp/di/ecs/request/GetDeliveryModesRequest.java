@@ -10,13 +10,9 @@ import com.philips.cdp.di.ecs.error.ECSErrorBuilder;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
-import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.error.ECSErrors;
 
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject> {
 
@@ -49,7 +45,7 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        String errorMessage = ECSErrors.getDetailErrorMessage(error);
+        String errorMessage = ECSErrors.logDetailErrorMessage(error);
         ecsCallback.onFailure(error, errorMessage, 9000);
     }
 

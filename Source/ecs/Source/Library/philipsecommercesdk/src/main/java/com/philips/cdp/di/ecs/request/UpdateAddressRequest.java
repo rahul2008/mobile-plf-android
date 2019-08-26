@@ -57,8 +57,8 @@ public class UpdateAddressRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        System.out.println("Print error from updateAddress"+ECSErrors.getDetailErrorMessage(error));
-        ecsCallback.onFailure(ECSErrors.getErrorMessage(error),ECSErrors.getDetailErrorMessage(error),9000);
+        System.out.println("Print error from updateAddress"+ECSErrors.logDetailErrorMessage(error));
+        ecsCallback.onFailure(ECSErrors.getErrorMessage(error),ECSErrors.logDetailErrorMessage(error),9000);
     }
 
     @Override
