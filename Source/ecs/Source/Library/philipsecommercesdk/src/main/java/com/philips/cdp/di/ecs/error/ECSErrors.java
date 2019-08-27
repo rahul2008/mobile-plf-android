@@ -14,6 +14,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.R;
 import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConstant;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 
@@ -34,10 +35,11 @@ public class ECSErrors {
 
     private static final String LOGGING_TAG = "DETAIL_ERROR";
 
-    public static Exception getVolleyException(VolleyError volleyError) {
+    public static ECSException getVolleyException(VolleyError volleyError) {
         String errorType = null;
+        int errorCode = 0;
         if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError) {
-            errorType = ECS_CANNOT_CONNECT_INTERNET;
+            errorType = getLocalizedErrorMessage(ECSErrorConstant.ECSVolleyError.ECS_CANNOT_CONNECT_INTERNET.getResourceID());
 
         } else if (volleyError instanceof AuthFailureError) {
             errorType=ECS_AUTH_FAILURE_ERROR;
@@ -57,11 +59,11 @@ public class ECSErrors {
         } else if (volleyError instanceof TimeoutError) {
             errorType = ECS_CONNECTION_TIMEOUT;
         }
-        Exception exception =null;
+        ECSException exception =null;
         if(null!=errorType) {
-            exception = new Exception(errorType);
+            exception = new ECSException(errorType,errorCode);
         }else{
-            exception = volleyError;
+            exception = new ECSException(volleyError.getLocalizedMessage(),errorCode);
         }
         return exception;
     }

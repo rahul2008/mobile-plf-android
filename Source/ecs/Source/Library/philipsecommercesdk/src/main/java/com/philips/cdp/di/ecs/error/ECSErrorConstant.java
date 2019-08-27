@@ -7,6 +7,23 @@ import com.philips.cdp.di.ecs.R;
 public class ECSErrorConstant {
 
 
+    public static String UNKNOWN_TYPE = "UNKNOWN_TYPE";
+
+    //Error code string constants
+    public static final int IAP_SUCCESS = 0;
+    public static final int IAP_ERROR = -1;
+    public static final int IAP_ERROR_NO_CONNECTION = 2;
+    public static final int IAP_ERROR_CONNECTION_TIME_OUT = 3;
+    public static final int IAP_ERROR_AUTHENTICATION_FAILURE = 4;
+    public static final int IAP_ERROR_SERVER_ERROR = 5;
+    public static final int IAP_ERROR_INSUFFICIENT_STOCK_ERROR = 6;
+    public static final int IAP_ERROR_UNKNOWN = 7;
+    public static final int IAP_ERROR_INVALID_CTN = 8;
+
+
+
+
+
 
     public enum ECSVolleyError{
 
