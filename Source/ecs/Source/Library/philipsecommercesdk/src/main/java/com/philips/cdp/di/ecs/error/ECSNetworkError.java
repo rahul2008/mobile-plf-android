@@ -14,6 +14,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.R;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 
@@ -31,6 +32,7 @@ public class ECSNetworkError {
         if (null != serverError.getErrors() && serverError.getErrors().size() > 0 && null != serverError.getErrors().get(0).getSubject()) {
             String errorType = serverError.getErrors().get(0).getSubject();
             ECSErrorEnum ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
+
             ecsError = new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
         }
         return ecsError;
@@ -40,7 +42,7 @@ public class ECSNetworkError {
 
         String errorType = null;
         // ECSErrorEnum errorEnumFromType = ECSErrorEnum.unknown;
-        ECSErrorEnum ecsErrorEnum = ECSErrorEnum.unknown;
+        ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
         if (volleyError instanceof com.android.volley.ServerError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
