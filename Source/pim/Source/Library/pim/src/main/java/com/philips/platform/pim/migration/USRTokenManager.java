@@ -1,10 +1,8 @@
 package com.philips.platform.pim.migration;
 
-import android.support.annotation.Nullable;
-import android.text.Html;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Pair;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -14,6 +12,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
 import com.philips.platform.pim.listeners.RefreshUSRTokenListener;
 import com.philips.platform.pim.manager.PIMSettingManager;
 import com.philips.platform.pim.rest.PIMRestClient;
@@ -30,7 +29,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
@@ -95,7 +93,6 @@ class USRTokenManager {
         appInfraInterface.getServiceDiscovery().getServicesWithCountryPreference(serviceIdList, serviceUrlMapListener, null);
     }
 
-
     private String getUSRAccessToken() {
         if (signedInUser == null)
             return null;
@@ -108,86 +105,6 @@ class USRTokenManager {
                 return null;
             }
         }
-    }
-
-    private String parseLocale(String locale) {
-        if (locale.contains("_")) {
-            String[] splitLocal = locale.split("_");
-            locale = splitLocal[0] + "-" + splitLocal[1];
-        }
-        return locale;
-    }
-
-    private String getRefreshSignature(String date, String accessToken) {
-        String refresh_secret = fetchDataFromSecureStorage(JR_CAPTURE_REFRESH_SECRET);
-        if (refresh_secret == null)
-            return null;
-        String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
-        byte[] hash;
-        try {
-            Mac mac = Mac.getInstance("HmacSHA1");
-            byte[] refreshSecret = refresh_secret.getBytes(StandardCharsets.UTF_8);
-            SecretKeySpec secret = new SecretKeySpec(refreshSecret, mac.getAlgorithm());
-            mac.init(secret);
-            hash = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
-        } catch (InvalidKeyException | NoSuchAlgorithmException var7) {
-            throw new RuntimeException("Unexpected", var7);
-        }
-        return Base64.encodeToString(hash, 2);
-    }
-
-    private String getFlowVersion() {
-        String fetchedValue = fetchDataFromSecureStorage(JR_CAPTURE_FLOW);
-        if (fetchedValue == null)
-            return null;
-
-        String formattedString = Html.fromHtml(fetchedValue).toString().replaceAll("\n", "").trim();
-        Map<String, String> map = new HashMap<String, String>();
-
-        String[] nameValuePairs = formattedString.split(",");
-        for (String nameValuePair : nameValuePairs) {
-            String[] nameValue = nameValuePair.split("=");
-            try {
-                map.put(nameValue[0].trim(), nameValue.length > 1 ?
-                        nameValue[1].trim() : "");
-            } catch (Exception e) {
-                throw new RuntimeException("This method requires UTF-8 encoding support", e);
-            }
-        }
-        return map.get("version");
-    }
-
-    @Nullable
-    private String getConfigPropertyValue(Object property) {
-        if (property == null) {
-            return null;
-        }
-        if (property instanceof String) {
-            return (String) property;
-        }
-        if (property instanceof Map) {
-            return getPropertyValueFromMap((Map) property);
-        }
-        return null;
-    }
-
-    private String getPropertyValueFromMap(Map<?, ?> property) {
-        String locale = PIMSettingManager.getInstance().getLocale();
-        String[] splitLocal = locale.split("-");
-        String propertyValue = (String) property.get(splitLocal[1]);
-        if (propertyValue == null || propertyValue.isEmpty()) {
-            propertyValue = (String) property.get("default");
-        }
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "propertyValue: " + propertyValue);
-        return propertyValue;
-    }
-
-    private String getClientId() {
-        Object clientIdObject = getClientIdFromConfig();
-        String configPropertyValue = getConfigPropertyValue(clientIdObject);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "getclientId: " + configPropertyValue);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "hasclientId: " + (configPropertyValue != null));
-        return configPropertyValue;
     }
 
     private <L, R> Collection<L> map(Collection<R> collection, Function<L, R> f) {
@@ -205,13 +122,13 @@ class USRTokenManager {
         return retCollection;
     }
 
-    private String paramsToString(Set<Pair<String, String>> bodyParams) {
+    private String paramsToString(Set<Pair<String, String>> bodyParams, String encoder) {
         Collection<String> paramPairs = map(bodyParams, val -> {
-            // return ((String) val.first).concat("=").concat(AndroidUtils.urlEncode((String) val.second));
             try {
-                return val.first.concat("=").concat(URLEncoder.encode(val.second, "UTF-8"));
+                return val.first.concat("=").concat(URLEncoder.encode(val.second, encoder));
             } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e.getMessage());
+                mLoggingInterface.log(DEBUG, TAG, "paramsToString failed with error : " + e.getMessage());
+                return null;
             }
         });
         return TextUtils.join("&", paramPairs);
@@ -233,7 +150,7 @@ class USRTokenManager {
     }
 
     private void makeRefreshUSRTokenRequest(String refreshUrl, RefreshUSRTokenListener refreshUSRTokenListener, HashSet<Pair<String, String>> params) {
-        RefreshUSRTokenRequest refreshLegacyTokenRequest = new RefreshUSRTokenRequest(refreshUrl, paramsToString(params));
+        RefreshUSRTokenRequest refreshLegacyTokenRequest = new RefreshUSRTokenRequest(refreshUrl, paramsToString(params, "UTF-8"));
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         pimRestClient.invokeRequest(refreshLegacyTokenRequest, response -> {
             try {
@@ -241,8 +158,6 @@ class USRTokenManager {
                 String usrAccessToken = tokenObject.getString("access_token");
                 mLoggingInterface.log(DEBUG, TAG, "Refresh USR token success. New Access Token :" + usrAccessToken);
                 refreshUSRTokenListener.onRefreshTokenSuccess(usrAccessToken);
-                //Perform Id assertion with user access token which
-                //performIDAssertion(usrAccessToken);
             } catch (JSONException e) {
                 refreshUSRTokenListener.onRefreshTokenFailed(new Error(e.hashCode(), e.getMessage()));
             }
@@ -258,10 +173,18 @@ class USRTokenManager {
         params.add(new Pair<>("signature", getRefreshSignature(date, legacyToken)));
         params.add(new Pair<>("date", date));
         params.add(new Pair<>("flow", "standard"));
-        params.add(new Pair<>("flow_version", getFlowVersion()));
+        params.add(new Pair<>("flow_version", "HEAD"));
         params.add(new Pair<>("access_token", legacyToken));
-        params.add(new Pair<>("client_id", getClientId()));
+        params.add(new Pair<>("client_id", PIMSettingManager.getInstance().getPimOidcConfigration().getLegacyClientID()));
         return params;
+    }
+
+    private String parseLocale(String locale) {
+        if (locale.contains("_")) {
+            String[] splitLocal = locale.split("_");
+            locale = splitLocal[0] + "-" + splitLocal[1];
+        }
+        return locale;
     }
 
     private String getUTCdatetimeAsString() {
@@ -273,6 +196,27 @@ class USRTokenManager {
             return sdf.format(timeInterface.getUTCTime());
         }
         return null;
+    }
+
+    private String getRefreshSignature(String date, String accessToken) {
+        String refresh_secret = fetchDataFromSecureStorage(JR_CAPTURE_REFRESH_SECRET);
+        if (refresh_secret == null) {
+            mLoggingInterface.log(DEBUG, TAG, "refresh secret is null");
+            return null;
+        }
+        String stringToSign = "refresh_access_token\n" + date + "\n" + accessToken + "\n";
+        byte[] hash;
+        try {
+            Mac mac = Mac.getInstance("HmacSHA1");
+            byte[] refreshSecret = refresh_secret.getBytes(StandardCharsets.UTF_8);
+            SecretKeySpec secret = new SecretKeySpec(refreshSecret, mac.getAlgorithm());
+            mac.init(secret);
+            hash = mac.doFinal(stringToSign.getBytes(StandardCharsets.UTF_8));
+        } catch (InvalidKeyException | NoSuchAlgorithmException var7) {
+            mLoggingInterface.log(DEBUG, TAG, "getRefreshSignature failed");
+            return null;
+        }
+        return Base64.encodeToString(hash, 2);
     }
 
     boolean isUSRUserAvailable() {

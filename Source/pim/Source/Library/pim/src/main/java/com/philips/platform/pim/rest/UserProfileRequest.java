@@ -11,6 +11,7 @@ import java.util.Map;
  * Class to create user profile request
  */
 public class UserProfileRequest implements PIMRequestInterface {
+
     private AuthState mAuthState;
 
     public UserProfileRequest(AuthState mAuthState) {

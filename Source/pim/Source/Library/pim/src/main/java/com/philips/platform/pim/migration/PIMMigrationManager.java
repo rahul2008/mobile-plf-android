@@ -1,7 +1,6 @@
 package com.philips.platform.pim.migration;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -80,29 +79,25 @@ class PIMMigrationManager {
         pimRestClient.invokeRequest(idAssertionRequest, getSuccessListener(idAssertionRequest), getErrorListener(idAssertionRequest));
     }
 
-    @VisibleForTesting
-    void performAuthorization(String id_token_hint) {
+    private void performAuthorization(String id_token_hint) {
         authorizationRequest = pimLoginManager.createAuthRequestUriForMigration(createAdditionalParameterForMigration(id_token_hint));
         if (authorizationRequest == null) {
             mLoggingInterface.log(DEBUG, TAG, "performAuthorization failed. Cause : authorizationRequest is null.");
             pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
             return;
         }
-
         PIMMigrationAuthRequest pimMigrationAuthRequest = new PIMMigrationAuthRequest(authorizationRequest.toUri().toString());
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         HttpsURLConnection.setFollowRedirects(false);
         pimRestClient.invokeRequest(pimMigrationAuthRequest, getSuccessListener(pimMigrationAuthRequest), getErrorListener(pimMigrationAuthRequest));
     }
 
-    @VisibleForTesting
-    Response.Listener getSuccessListener(PIMRequestInterface reqType) {
+    private Response.Listener getSuccessListener(PIMRequestInterface reqType) {
         return (Response.Listener<String>) response -> {
             if (response == null) {
                 pimUserMigrationListener.onUserMigrationFailed(new Error(PIMErrorEnums.MIGRATION_FAILED.errorCode, PIMErrorEnums.MIGRATION_FAILED.getLocalisedErrorDesc(mContext, PIMErrorEnums.MIGRATION_FAILED.errorCode)));
                 return;
             }
-
             if (reqType instanceof IDAssertionRequest) {
                 String id_token_hint = parseIDAssertionFromJSONResponse(response);
                 mLoggingInterface.log(DEBUG, TAG, "ID Assertion request success. ID_token_hint : " + id_token_hint);
@@ -114,10 +109,10 @@ class PIMMigrationManager {
         };
     }
 
-    @VisibleForTesting
-    Response.ErrorListener getErrorListener(PIMRequestInterface reqType) {
+    private Response.ErrorListener getErrorListener(PIMRequestInterface reqType) {
         return error -> {
             if (error == null) {
+                mLoggingInterface.log(DEBUG, TAG, "Error response for" + reqType + "is null.");
                 return;
             }
 
@@ -138,16 +133,15 @@ class PIMMigrationManager {
         };
     }
 
-    @VisibleForTesting
-    Map<String, String> createAdditionalParameterForMigration(String id_token_hint) {
+    private Map<String, String> createAdditionalParameterForMigration(String id_token_hint) {
         Map<String, String> parameter = new HashMap<>();
         parameter.put("id_token_hint", id_token_hint);
         parameter.put("claims", PIMSettingManager.getInstance().getPimOidcConfigration().getCustomClaims());
         return parameter;
     }
 
-    @VisibleForTesting
-    String parseIDAssertionFromJSONResponse(String jsonResponse) {
+
+    private String parseIDAssertionFromJSONResponse(String jsonResponse) {
         try {
             JSONObject jsonObject = new JSONObject(jsonResponse);
             JSONObject dataObject = jsonObject.getJSONObject("data");

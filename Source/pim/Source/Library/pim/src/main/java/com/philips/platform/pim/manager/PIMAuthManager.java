@@ -37,13 +37,6 @@ public class PIMAuthManager {
     private AuthState mAuthState;
     private Context mContext;
 
-    /**
-     * Use this constructor whenever context is not required for OIDC's api call
-     */
-//    public PIMAuthManager() {
-//        mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-//    }
-
     /* *
      * Use this constructor whenever context is required for OIDC's api call
      *

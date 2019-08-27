@@ -29,7 +29,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DEBUG;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -65,7 +64,7 @@ public class PIMOidcDiscoveryManagerTest extends TestCase {
         when(PIMSettingManager.getInstance()).thenReturn(mockPimSettingManager);
         when(mockPimSettingManager.getLoggingInterface()).thenReturn(mockLoggingInterface);
         when(mockPimSettingManager.getPimInitLiveData()).thenReturn(mockPimInitViewModel);
-        PowerMockito.whenNew(PIMAuthManager.class).withNoArguments().thenReturn(mockPimAuthManager);
+        PowerMockito.whenNew(PIMAuthManager.class).withArguments(mockContext).thenReturn(mockPimAuthManager);
 
         mockStatic(Uri.class);
         Uri uri = PowerMockito.mock(Uri.class);

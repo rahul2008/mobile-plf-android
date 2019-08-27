@@ -9,6 +9,7 @@
 package com.philips.cdp.registration.hsdp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
@@ -150,6 +151,10 @@ public class HsdpUser {
                         logoutHandler.onLogoutFailure(Integer.
                                         parseInt(responseCode),
                                 message));
+                UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+                userRegistrationFailureInfo.setErrorCode(Integer.valueOf(responseCode));
+                userRegistrationFailureInfo.setErrorTagging(message);
+                AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
             } else {
                 handler.post(() -> {
                     RLog.d(TAG, "logOut: onHsdsLogoutFailure : responseCode : " +
@@ -180,7 +185,7 @@ public class HsdpUser {
             new Thread(() -> {
 
                 HsdpAuthenticationManagementClient authenticationManagementClient =
-                        new HsdpAuthenticationManagementClient(hsdpConfiguration,hsdpConfiguration.getHsdpAppName());
+                        new HsdpAuthenticationManagementClient(hsdpConfiguration, hsdpConfiguration.getHsdpAppName());
                 Map<String, Object> dhpAuthenticationResponse = null;
                 if (getHsdpUserRecord() != null &&
                         null != getHsdpUserRecord().getUserUUID() &&
@@ -225,14 +230,19 @@ public class HsdpUser {
                 } else {
                     if (responseCode != null &&
                             responseCode
-                                    .equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151) ) || responseCode
+                                    .equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1151)) || responseCode
                             .equals(String.valueOf(ErrorCodes.HSDP_INPUT_ERROR_1009))) {
+                        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo(mContext);
+                        userRegistrationFailureInfo.setErrorCode(Integer.valueOf(responseCode));
+                        userRegistrationFailureInfo.setErrorTagging(message);
+                        AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
                         handler.post(() -> {
                             RLog.d(TAG, "onHsdpRefreshFailure : responseCode : "
                                     + responseCode +
                                     " message : " + message);
                             ThreadUtils.postInMainThread(mContext, () ->
                                     refreshHandler.forcedLogout());
+
                         });
                     } else {
                         handler.post(() -> {

@@ -31,6 +31,7 @@ import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -317,9 +318,10 @@ public class HomePresenter implements NetworkStateListener, SocialLoginProviderH
             emailorMobile = user.getMobile();
         }
 
-        if (emailorMobile != null && RegistrationConfiguration.getInstance().
-                isTermsAndConditionsAcceptanceRequired() &&
-                !RegPreferenceUtility.getPreferenceValue(homeContract.getActivityContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !user.getReceiveMarketingEmail()) {
+        if (emailorMobile != null && ((RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
+                !RegPreferenceUtility.getPreferenceValue(homeContract.getActivityContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile) || !user.getReceiveMarketingEmail())
+                || (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() != null
+                && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive))) {
             homeContract.navigateToAcceptTermsScreen();
             return;
         }

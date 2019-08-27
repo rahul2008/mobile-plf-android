@@ -1,5 +1,9 @@
 package com.philips.platform.pim.rest;
 
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.pim.configration.PIMOIDCConfigration;
+import com.philips.platform.pim.manager.PIMSettingManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,8 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IDAssertionRequest implements PIMRequestInterface {
+
     private String endpoint;
     private String accessToken;
+    private String TAG = IDAssertionRequest.class.getSimpleName();
 
     public IDAssertionRequest(String endpoint, String accessToken) {
         this.endpoint = endpoint;
@@ -24,7 +30,7 @@ public class IDAssertionRequest implements PIMRequestInterface {
     public Map<String, String> getHeader() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-type", "application/x-www-form-urlencoded");
-        headers.put("Api-Key", "nYO1gXoy5J7AaHT8KPu2D9JxN2cZo77M8zdBD2iJ");
+        headers.put("Api-Key", PIMSettingManager.getInstance().getPimOidcConfigration().getAPIKey());
         headers.put("Api-Version", "1");
         headers.put("Accept", "application/json");
         return headers;
@@ -38,7 +44,7 @@ public class IDAssertionRequest implements PIMRequestInterface {
             accessTokenJson.put("accessToken", accessToken);
             bodyJson.put("data", accessTokenJson);
         } catch (JSONException e) {
-            e.printStackTrace();
+            PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "Json Exception : " + e.getMessage());
         }
         return bodyJson.toString();
     }

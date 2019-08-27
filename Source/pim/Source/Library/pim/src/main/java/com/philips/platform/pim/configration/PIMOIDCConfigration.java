@@ -1,7 +1,5 @@
 package com.philips.platform.pim.configration;
 
-import android.support.annotation.Nullable;
-
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -21,9 +19,6 @@ public class PIMOIDCConfigration {
     private static String TAG = PIMOIDCConfigration.class.getSimpleName();
     private static final String GROUP_PIM = "PIM";
     private static final String CLIENT_ID = "clientId";
-    private static final String MIGRATION_CLIENT_ID = "clientId";
-    private static final String REDIRECT_URL = "redirectURL";
-    private static final String RS_ID = "rsid";
     private AuthorizationServiceConfiguration authorizationServiceConfiguration;
 
     private AppInfraInterface appInfraInterface;
@@ -47,30 +42,39 @@ public class PIMOIDCConfigration {
      * @return client id
      */
     public String getClientId() {
-        Map<String, String> defaultConfig = getDefaultConfiguraton();
-        if (defaultConfig != null)
-            return defaultConfig.get(CLIENT_ID);
+        Object obj = getProperty(CLIENT_ID, GROUP_PIM);
+        if (obj != null) {
+            return (String) obj;
+        }
         return null;
     }
 
     public String getMigrationClientId() {
-        Map<String, String> migrationConfig = getMigrationConfiguraton();
-        if (migrationConfig != null)
-            return migrationConfig.get(CLIENT_ID);
+        Object obj = getProperty("migrationClientId", GROUP_PIM);
+        if (obj != null) {
+            return (String) obj;
+        }
         return null;
     }
 
     public String getRedirectUrl() {
-        Map<String, String> defaultConfig = getDefaultConfiguraton();
-        if (defaultConfig != null)
-            return defaultConfig.get(REDIRECT_URL);
+        Object obj = getProperty("redirectUri", GROUP_PIM);
+        if (obj != null) {
+            return (String) obj;
+        }
         return null;
     }
 
     public String getMigrationRedirectUrl() {
-        Map<String, String> migrationConfig = getMigrationConfiguraton();
-        if (migrationConfig != null)
-            return migrationConfig.get(REDIRECT_URL);
+        String redirectUri = getRedirectUrl();
+        return redirectUri.replace(getClientId(), getMigrationClientId());
+    }
+
+    public String getLegacyClientID(){
+        Object obj = getProperty("legacyClientId", GROUP_PIM);
+        if (obj != null) {
+            return (String) obj;
+        }
         return null;
     }
 
@@ -80,31 +84,22 @@ public class PIMOIDCConfigration {
      * @return rsid
      */
     public String getrsID() {
-        Object obj = getProperty(RS_ID, GROUP_PIM);
+        Object obj = getProperty("rsids", GROUP_PIM);
         if (obj != null) {
             return (String) obj;
         }
         return null;
     }
 
-    private Map<String, String> getDefaultConfiguraton() {
-        Object obj = getProperty("PIM.default", GROUP_PIM);
-        if (obj != null && obj instanceof Map) {
-            return (Map) obj;
-        }
-        return null;
-    }
-
-    private Map<String, String> getMigrationConfiguraton() {
-        Object obj = getProperty("PIM.migration", GROUP_PIM);
-        if (obj != null && obj instanceof Map) {
-            return (Map) obj;
+    public String getAPIKey() {
+        Object obj = getProperty("apiKey", GROUP_PIM);
+        if (obj != null) {
+            return (String) obj;
         }
         return null;
     }
 
     private Object getProperty(String key, String group) {
-        //TODO: Deepthi  ( Low ) check impact of cloud config
         AppConfigurationInterface appConfigurationInterface = appInfraInterface.getConfigInterface();
         Object obj = appConfigurationInterface.getPropertyForKey(key, group, new AppConfigurationInterface.AppConfigurationError());
         return obj;

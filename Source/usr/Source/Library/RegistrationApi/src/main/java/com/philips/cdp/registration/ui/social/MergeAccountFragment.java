@@ -234,7 +234,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Me
         String emailorMobile = mergeAccountPresenter.getLoginWithDetails();
         if (emailorMobile != null
                 && (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()
-                && RegistrationConfiguration.getInstance().getPersonalConsent().ordinal() == ConsentStates.inactive.ordinal())
+                && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)
                 && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()
                 && (!RegPreferenceUtility.getPreferenceValue(getContext(), RegConstants.TERMS_N_CONDITIONS_ACCEPTED, emailorMobile)
                 || !mergeAccountPresenter.getReceiveMarketingEmail())) {

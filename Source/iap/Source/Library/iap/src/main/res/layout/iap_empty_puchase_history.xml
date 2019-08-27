@@ -99,17 +99,7 @@
             android:enabled="true"
             android:text="@string/iap_continue_shopping"
             app:uidComponentType="Primary" />
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/tv_contact_customer"
-            style="@style/IAPQuietButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_continue_shopping"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/iap_margin_4dp"
-            android:gravity="center"
-            android:text="@string/iap_contact_customer_care" />
+        
     </LinearLayout>
 
 
