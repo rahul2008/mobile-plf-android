@@ -19,38 +19,38 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 public class ECSNetworkError {
 
 
-    public ECSErrorEnum getErrorLocalizedErrorMessage(VolleyError volleyError, ServerError mServerError) {
+    public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError, ServerError mServerError) {
         return getEcsErrorEnum(volleyError,mServerError);
     }
 
-    public ECSErrorEnum getErrorLocalizedErrorMessage(VolleyError volleyError) {
+    public ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
         return getEcsErrorEnum(volleyError,null);
     }
 
-    private ECSErrorEnum getEcsErrorEnum(VolleyError volleyError,ServerError mServerError) {
+    private static ECSError getEcsErrorEnum(VolleyError volleyError,ServerError mServerError) {
 
         String errorType = null;
-        ECSErrorEnum errorEnumFromType = ECSErrorEnum.unknown;
+       // ECSErrorEnum errorEnumFromType = ECSErrorEnum.unknown;
+        ECSErrorEnum ecsErrorEnum = ECSErrorEnum.unknown;
         if (volleyError instanceof com.android.volley.ServerError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
                 errorType = serverError.getErrors().get(0).getType();
-
-                errorEnumFromType = ECSErrorEnum.getErrorEnumFromType(errorType);
+                 ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
                 if(mServerError!=null) {
                     mServerError = serverError;
                 }
             }
         } else {
-
             errorType = getVolleyErrorType(volleyError);
-            errorEnumFromType = ECSErrorEnum.getErrorEnumFromType(errorType);
+            ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
         }
-        return errorEnumFromType;
+        ECSError ecsError= new ECSError(ecsErrorEnum.getLocalizedErrorString(),ecsErrorEnum.getErrorCode());
+        return ecsError;
     }
 
 
-    private String getVolleyErrorType(final VolleyError error) {
+    private static String getVolleyErrorType(final VolleyError error) {
         String errorType = ECSErrorReason.ECS_UNKNOWN_ERROR;
         if (error instanceof NoConnectionError || error instanceof NetworkError) {
 
@@ -66,7 +66,7 @@ public class ECSNetworkError {
         return errorType;
     }
 
-    private ServerError getServerError(VolleyError error) {
+    private static ServerError getServerError(VolleyError error) {
         try {
             if (error.networkResponse != null) {
                 final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
