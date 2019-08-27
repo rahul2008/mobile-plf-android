@@ -12,6 +12,7 @@ import com.philips.cdp.di.ecs.model.order.OrdersData
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
 import com.philips.cdp.di.ecs.util.ECSConfig
 import com.philips.cdp.di.ecs.error.ECSErrors
+import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 import java.lang.Exception
 import java.util.HashMap
@@ -36,7 +37,8 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        ecsCallback.onFailure(ECSErrors.getVolleyException(error), 9000)
+        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
+        ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
     }
 
     override fun onResponse(response: JSONObject?) {
@@ -67,7 +69,7 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
                     OrdersData::class.java)
 
         } catch (e: Exception) {
-            ecsError = ECSError(e, detailError, ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.errorCode)
+            //ecsError = ECSError(e, detailError, ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.errorCode)
         } finally {
             return Pair<OrdersData, ECSError>(ordersData, ecsError)
         }

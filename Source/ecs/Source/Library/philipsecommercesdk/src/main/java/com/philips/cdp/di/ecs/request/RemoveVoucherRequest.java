@@ -3,6 +3,8 @@ package com.philips.cdp.di.ecs.request;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -42,7 +44,8 @@ public class RemoveVoucherRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(error, 200999);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 
     @Override

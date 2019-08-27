@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.model.orders.OrderDetail
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
 import com.philips.cdp.di.ecs.util.ECSConfig
 import com.philips.cdp.di.ecs.error.ECSErrors
+import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 import java.lang.Exception
 import java.util.HashMap
@@ -19,7 +20,8 @@ open class GetOrderDetailRequest (orderID: String, ecsCallback: ECSCallback<Orde
     val ecsCallback = ecsCallback
 
     override fun onErrorResponse(error: VolleyError?) {
-        ecsCallback.onFailure(ECSErrors.getVolleyException(error), 9000)
+        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
+        ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
     }
 
     override fun getURL(): String {

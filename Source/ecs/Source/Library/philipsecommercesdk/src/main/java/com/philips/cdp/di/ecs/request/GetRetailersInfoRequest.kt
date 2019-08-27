@@ -11,6 +11,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.retailers.WebResults
 import com.philips.cdp.di.ecs.util.ECSConfig
 import com.philips.cdp.di.ecs.error.ECSErrors
+import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 import java.util.HashMap
 
@@ -36,7 +37,8 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        callBack.onFailure(ECSErrors.getVolleyException(error), 9000)
+        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
+        callBack.onFailure(ecsError.exception, ecsError.errorcode)
     }
 
     override fun getMethod(): Int {
@@ -78,7 +80,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
 
 
         } catch (e: Exception) {
-            ecsError = ECSError(e, detailError, ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.errorCode)
+            //ecsError = ECSError(e, detailError, ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.errorCode)
         } finally {
             return Pair<WebResults, ECSError>(webResults, ecsError)
         }

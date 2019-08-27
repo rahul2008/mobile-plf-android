@@ -4,6 +4,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
@@ -33,7 +35,8 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        eCSCallback.onFailure(getVolleyException(error), 3999);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 
     @Override
@@ -46,9 +49,6 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
                         HybrisConfigResponse.class);
 
                 eCSCallback.onResponse(resp);
-            }else if(response.has("errors") ) {
-                JSONArray errors = response.optJSONArray("errors");
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNSUPPORTED_LOCALE), 3001);
             }else if(response.has("net")) {
                 eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), 3999);
             }
