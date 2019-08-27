@@ -35,7 +35,7 @@ public class ECSErrors {
 
     private static final String LOGGING_TAG = "DETAIL_ERROR";
 
-    public static ECSException getVolleyException(VolleyError volleyError) {
+    public static Exception getVolleyException(VolleyError volleyError) {
         String errorType = null;
         int errorCode = 0;
         if (volleyError instanceof NetworkError || volleyError instanceof NoConnectionError) {
@@ -59,11 +59,11 @@ public class ECSErrors {
         } else if (volleyError instanceof TimeoutError) {
             errorType = ECS_CONNECTION_TIMEOUT;
         }
-        ECSException exception =null;
+        Exception exception =null;
         if(null!=errorType) {
-            exception = new ECSException(errorType,errorCode);
+            exception = new Exception(errorType);
         }else{
-            exception = new ECSException(volleyError.getLocalizedMessage(),errorCode);
+            exception = new Exception(volleyError.getLocalizedMessage());
         }
         return exception;
     }

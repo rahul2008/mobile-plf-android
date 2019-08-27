@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.error;
 import com.philips.cdp.di.ecs.R;
 
 public enum ECSErrorEnum {
-    
+
     invalid_grant( R.string.ail_cloud_consent_help, 3001),
     invalid_client( R.string.ail_cloud_consent_help, 3001),
     unsupported_grant_type( R.string.ail_cloud_consent_help, 3001),
@@ -35,7 +35,6 @@ public enum ECSErrorEnum {
 
 
     //client error
-
     baseURL_notfound( R.string.ail_cloud_consent_help, 3002),
     appInfra_notfound( R.string.ail_cloud_consent_help, 3002),
     locale_notfound( R.string.ail_cloud_consent_help, 3002),
@@ -48,10 +47,7 @@ public enum ECSErrorEnum {
     countryCodeNotGiven( R.string.ail_cloud_consent_help, 3002),
     orderIdNil( R.string.ail_cloud_consent_help, 3002),
     something_went_wrong( R.string.ail_cloud_consent_help, 3002),
-
-
     unknown( R.string.ail_cloud_consent_help, 3002);
-
 
 
 
@@ -73,7 +69,6 @@ public enum ECSErrorEnum {
     }
 
     ECSErrorEnum( int resourceID, int errorCode) {
-        this.errorType = errorType;
         this.resourceID = resourceID;
         this.errorCode = errorCode;
     }
