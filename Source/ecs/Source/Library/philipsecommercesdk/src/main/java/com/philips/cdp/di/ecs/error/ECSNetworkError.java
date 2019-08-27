@@ -6,6 +6,7 @@ package com.philips.cdp.di.ecs.error;
 
 import android.os.Message;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -20,32 +21,40 @@ public class ECSNetworkError {
 
 
     public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError, ServerError mServerError) {
-        return getEcsErrorEnum(volleyError,mServerError);
+        ServerError serverError = new ServerError();
+        return getEcsErrorEnum(volleyError, serverError);
     }
 
-    public ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
-        return getEcsErrorEnum(volleyError,null);
+    public static ECSError getErrorLocalizedErrorMessageForAddress(VolleyError volleyError) {
+        ServerError serverError = new ServerError();
+        ECSError ecsError = getEcsErrorEnum(volleyError, serverError);
+        if (null != serverError.getErrors() && serverError.getErrors().size() > 0 && null != serverError.getErrors().get(0).getSubject()) {
+            String errorType = serverError.getErrors().get(0).getSubject();
+            ECSErrorEnum ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
+            ecsError = new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
+        }
+        return ecsError;
     }
 
-    private static ECSError getEcsErrorEnum(VolleyError volleyError,ServerError mServerError) {
+    private static ECSError getEcsErrorEnum(VolleyError volleyError, ServerError mServerError) {
 
         String errorType = null;
-       // ECSErrorEnum errorEnumFromType = ECSErrorEnum.unknown;
+        // ECSErrorEnum errorEnumFromType = ECSErrorEnum.unknown;
         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.unknown;
         if (volleyError instanceof com.android.volley.ServerError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
+                Log.e("DETAIL_ERROR", serverError.getErrors().get(0).toString());
                 errorType = serverError.getErrors().get(0).getType();
-                 ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
-                if(mServerError!=null) {
-                    mServerError = serverError;
-                }
+                ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
+                mServerError = serverError;
+
             }
         } else {
             errorType = getVolleyErrorType(volleyError);
             ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
         }
-        ECSError ecsError= new ECSError(ecsErrorEnum.getLocalizedErrorString(),ecsErrorEnum.getErrorCode());
+        ECSError ecsError = new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
         return ecsError;
     }
 
