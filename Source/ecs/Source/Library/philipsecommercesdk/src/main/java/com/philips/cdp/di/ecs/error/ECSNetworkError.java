@@ -15,11 +15,15 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.R;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 
 public class ECSNetworkError {
 
+
+    private static final String LOGGING_TAG = "";
 
     public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
         ServerError serverError = new ServerError();
@@ -83,8 +87,10 @@ public class ECSNetworkError {
                 final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
                 final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
                 final String errorString = new String(decode);
+                ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.DEBUG,LOGGING_TAG,errorString);
 
                 return new Gson().fromJson(errorString, ServerError.class);
+
 
                 //checkInsufficientStockError(mServerError);
             }
