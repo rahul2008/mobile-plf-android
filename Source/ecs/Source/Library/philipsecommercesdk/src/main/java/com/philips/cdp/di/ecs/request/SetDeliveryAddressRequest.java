@@ -9,7 +9,6 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
-import com.philips.cdp.di.ecs.error.ECSErrors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +66,7 @@ public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest imp
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessageForAddress(error);
+        ECSError ecsError = ECSNetworkError.getECSErrorForAddress(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

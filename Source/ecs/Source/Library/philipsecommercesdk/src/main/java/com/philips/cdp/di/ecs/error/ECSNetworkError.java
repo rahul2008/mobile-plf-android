@@ -20,12 +20,12 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 public class ECSNetworkError {
 
 
-    public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
+    public static ECSError getECSError(VolleyError volleyError) {
         ServerError serverError = new ServerError();
         return getEcsErrorEnum(volleyError, serverError);
     }
 
-    public static ECSError getErrorLocalizedErrorMessageForAddress(VolleyError volleyError) {
+    public static ECSError getECSErrorForAddress(VolleyError volleyError) {
         ServerError serverError = new ServerError();
         ECSError ecsError = getEcsErrorEnum(volleyError, serverError);
         if (null != serverError.getErrors() && serverError.getErrors().size() > 0 && null != serverError.getErrors().get(0).getSubject()) {

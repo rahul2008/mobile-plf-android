@@ -17,8 +17,6 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
-
 public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
     private  ECSCallback<MakePaymentData,Exception> ecsCallback;
@@ -75,7 +73,7 @@ public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = ECSNetworkError.getECSError(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

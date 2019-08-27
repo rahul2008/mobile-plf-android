@@ -14,7 +14,6 @@ import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
-import com.philips.cdp.di.ecs.error.ECSErrors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +59,7 @@ public class DeleteAddressRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessageForAddress(error);
+        ECSError ecsError = ECSNetworkError.getECSErrorForAddress(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

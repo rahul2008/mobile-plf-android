@@ -7,7 +7,6 @@ import com.google.gson.Gson
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.user.UserProfile
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
-import com.philips.cdp.di.ecs.error.ECSErrors
 import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 
@@ -20,7 +19,7 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
+        val ecsError = ECSNetworkError.getECSError(error)
         ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
     }
 

@@ -6,12 +6,10 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSError
-import com.philips.cdp.di.ecs.error.ECSErrorConstant
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.order.OrdersData
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
 import com.philips.cdp.di.ecs.util.ECSConfig
-import com.philips.cdp.di.ecs.error.ECSErrors
 import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 import java.lang.Exception
@@ -37,7 +35,7 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
+        val ecsError = ECSNetworkError.getECSError(error)
         ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
     }
 

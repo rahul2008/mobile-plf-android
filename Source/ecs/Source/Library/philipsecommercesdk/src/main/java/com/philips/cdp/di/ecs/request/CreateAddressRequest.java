@@ -5,9 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
-import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
-import com.philips.cdp.di.ecs.error.ServerError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 
@@ -17,8 +15,6 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
 
 public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
@@ -85,7 +81,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessageForAddress(error);
+        ECSError ecsError = ECSNetworkError.getECSErrorForAddress(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
 
     }

@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
-
 
 public class GetProductListRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
@@ -59,7 +57,7 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = ECSNetworkError.getECSError(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

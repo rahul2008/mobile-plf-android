@@ -1,17 +1,14 @@
 package com.philips.cdp.di.ecs.request;
 
-import android.util.Pair;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
-import com.philips.cdp.di.ecs.error.ECSErrorBuilder;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
-import com.philips.cdp.di.ecs.error.ECSErrors;
 
 import org.json.JSONObject;
 
@@ -25,12 +22,10 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onResponse(JSONObject response) {
-        Pair<GetDeliveryModes, ECSError> deliveryModesECSErrorPair = new ECSErrorBuilder().getDeliveryModesECSErrorPair(response);
-        if (deliveryModesECSErrorPair.first != null) {
-            ecsCallback.onResponse(deliveryModesECSErrorPair.first);
-        } else {
-            ecsCallback.onFailure(deliveryModesECSErrorPair.second.getException(), deliveryModesECSErrorPair.second.getErrorcode());
-        }
+
+        GetDeliveryModes getDeliveryModes = new Gson().fromJson(response.toString(),
+                GetDeliveryModes.class);
+        ecsCallback.onResponse(getDeliveryModes);
 
     }
 
@@ -46,7 +41,7 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = ECSNetworkError.getECSError(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 
