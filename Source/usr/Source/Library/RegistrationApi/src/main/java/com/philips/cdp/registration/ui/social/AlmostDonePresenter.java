@@ -345,32 +345,44 @@ public class AlmostDonePresenter implements NetworkStateListener, SocialLoginPro
         }
     }
 
-    public void handleTraditionalTermsAndCondition() {
-        if (!RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
-                (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || RegistrationConfiguration.getInstance().getPersonalConsent() != ConsentStates.inactive)) {
-            almostDoneContract.completeRegistration();
-            return;
-        }
 
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+    public void handleTraditionalTermsAndCondition() {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
+                (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || RegistrationConfiguration.getInstance().getPersonalConsent() != ConsentStates.inactive)) {
             if (almostDoneContract.isAcceptTermsChecked()) {
                 almostDoneContract.handleAcceptTermsTrue();
             } else {
                 almostDoneContract.showTermsAndConditionError();
             }
-        }
-
-        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive) {
+        } else if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()&&
+                (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)) {
+            if (almostDoneContract.isAcceptTermsChecked() && almostDoneContract.isAcceptPersonalConsentChecked()) {
+                almostDoneContract.handleAcceptTermsTrue();
+                almostDoneContract.handleAcceptPersonalConsentTrue();
+            } else if (almostDoneContract.isAcceptTermsChecked() && !almostDoneContract.isAcceptPersonalConsentChecked()) {
+                almostDoneContract.hideTermsAndConditionError();
+                almostDoneContract.showPersonalConsentError();
+            } else if (almostDoneContract.isAcceptPersonalConsentChecked() && !almostDoneContract.isAcceptTermsChecked()) {
+                almostDoneContract.showTermsAndConditionError();
+                almostDoneContract.hideAcceptPersonalConsentChecked();
+            } else {
+                almostDoneContract.showTermsAndConditionError();
+                almostDoneContract.showPersonalConsentError();
+            }
+        } else if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive) {
             if (almostDoneContract.isAcceptPersonalConsentChecked()) {
                 almostDoneContract.handleAcceptPersonalConsentTrue();
             } else {
-                almostDoneContract.showTermsAndConditionError();
+                almostDoneContract.showPersonalConsentError();
             }
+        } else {
+            almostDoneContract.completeRegistration();
         }
     }
 
     void handleSocialTermsAndCondition() {
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && !RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
+                (!RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() || RegistrationConfiguration.getInstance().getPersonalConsent() != ConsentStates.inactive)) {
             if (almostDoneContract.isAcceptTermsChecked()) {
                 register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getEmailOrMobileNumber());
             } else {

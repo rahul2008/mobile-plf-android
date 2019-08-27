@@ -330,7 +330,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         setContentConfig();
         RegUtility.linkifyTermsandCondition(usrCreatescreenTermsandconditionsCheckbox, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         RegUtility.linkifyPhilipsNews(usrCreatescreenMarketingmailsCheckbox, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)
             RegUtility.linkifyPersonalConsent(usrCreatescreenPersonalConsentCheckbox, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         usernameUihandle();
@@ -359,7 +359,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             }
         });
 
-        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive) {
             usrCreatescreenPersonalConsentCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 TextView tv = (TextView) buttonView;
                 usrCreatescreenPersonalConsentalertView.hideError();
@@ -688,7 +688,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @OnClick(R2.id.usr_createscreen_create_button)
     public void createButtonWithProgressBar() {
         RLog.d(TAG, "createButtonWithProgressBar: Create Account");
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
+                (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked() && usrCreatescreenPersonalConsentCheckbox.isChecked()) {
                 registerUserInfo();
             } else if (!usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
@@ -696,11 +697,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             } else if (!usrCreatescreenPersonalConsentCheckbox.isChecked()) {
                 usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
             }
-//            if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && usrCreatescreenPersonalConsentCheckbox.isChecked()) {
-//                registerUserInfo();
-//            } else {
-//                usrCreatescreenPersonalConsentalertView.setError(context.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
-//            }
         } else if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             if (usrCreatescreenTermsandconditionsCheckbox.isChecked()) {
                 registerUserInfo();
