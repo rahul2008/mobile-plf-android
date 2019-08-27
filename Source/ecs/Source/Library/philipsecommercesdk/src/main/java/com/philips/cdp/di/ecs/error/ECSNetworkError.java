@@ -14,12 +14,14 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 
 public class ECSNetworkError {
 
-
+    private static final String LOGGING_TAG = "DETAIL_ERROR";
     public static ECSError getECSError(VolleyError volleyError) {
         ServerError serverError = new ServerError();
         return getEcsErrorEnum(volleyError, serverError);
@@ -44,11 +46,9 @@ public class ECSNetworkError {
         if (volleyError instanceof com.android.volley.ServerError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
-                Log.e("DETAIL_ERROR", serverError.getErrors().get(0).toString());
                 errorType = serverError.getErrors().get(0).getType();
                 ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
                 mServerError = serverError;
-
             }
         } else {
             errorType = getVolleyErrorType(volleyError);
@@ -81,10 +81,8 @@ public class ECSNetworkError {
                 final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
                 final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
                 final String errorString = new String(decode);
-
+                ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.DEBUG,LOGGING_TAG,errorString);
                 return new Gson().fromJson(errorString, ServerError.class);
-
-                //checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
 
@@ -92,15 +90,4 @@ public class ECSNetworkError {
         }
         return null;
     }
-
-    private void checkInsufficientStockError(ServerError serverError) {
-        if (serverError == null || serverError.getErrors() == null
-                || serverError.getErrors().get(0) == null) {
-            return;
-        }
-        if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
-            // ECSErrorConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
-        }
-    }
-
 }
