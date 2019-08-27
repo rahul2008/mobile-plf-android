@@ -6,11 +6,9 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSError
-import com.philips.cdp.di.ecs.error.ECSErrorConstant
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.retailers.WebResults
 import com.philips.cdp.di.ecs.util.ECSConfig
-import com.philips.cdp.di.ecs.error.ECSErrors
 import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 import java.util.HashMap
@@ -37,7 +35,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
+        val ecsError = ECSNetworkError.getECSError(error)
         callBack.onFailure(ecsError.exception, ecsError.errorcode)
     }
 

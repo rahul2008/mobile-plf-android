@@ -12,8 +12,6 @@ import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
-
 public class GetProductDisclaimerRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
     private final String assetUrl;
@@ -37,7 +35,7 @@ public class GetProductDisclaimerRequest extends AppInfraAbstractRequest impleme
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = ECSNetworkError.getECSError(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

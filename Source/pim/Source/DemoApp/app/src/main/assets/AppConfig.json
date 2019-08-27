@@ -83,19 +83,12 @@
     "hsdpUUIDUpload": "false"
   },
   "PIM": {
-    "JanRainConfiguration.RegistrationClientID": {
-      "CN": "4rdpm7afu7bny6xnacw32etmt7htfraa",
-      "default": "f2stykcygm7enbwfw2u9fbg6h6syb8yd"
-    },
-    "rsid": "philipspimregistrationdev",
-    "PIM.default": {
-      "clientId": "94e28300-565d-4110-8919-42dc4f817393",
-      "redirectURL": "com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect"
-    },
-    "PIM.migration": {
-      "clientId": "7602c06b-c547-4aae-8f7c-f89e8c887a21",
-      "redirectURL": "com.philips.apps.7602c06b-c547-4aae-8f7c-f89e8c887a21://oauthredirect"
-    }
+    "legacyClientId": "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
+    "clientId": "94e28300-565d-4110-8919-42dc4f817393",
+    "migrationClientId": "7602c06b-c547-4aae-8f7c-f89e8c887a21",
+    "redirectUri": "com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect",
+    "rsids" : "philipsmobileappsregistrationdev",
+    "apiKey": "nYO1gXoy5J7AaHT8KPu2D9JxN2cZo77M8zdBD2iJ"
   },
   "IAP": {
     "hostport": "www.occ.shop.philips.com",

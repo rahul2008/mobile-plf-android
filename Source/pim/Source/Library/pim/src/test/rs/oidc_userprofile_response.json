@@ -1,0 +1,12 @@
+{
+  "birthdate":"2019-01-26",
+  "email":"shashi.ranjan@philips.com",
+  "email_verified":true,
+  "gender":"Male",
+  "given_name":"Shashi Ranjan",
+  "global_sub":"capture-v1://philips.eval.janraincapture.com/nt5dqhp6uck5mcu57snuy8uk6c/user/5f920990-0e8d-49a0-8888-1e8cdb722555",
+  "phone_number_verified":false,
+  "sub":"5f920990-0e8d-49a0-8888-1e8cdb722555",
+  "updated_at":2164169460,
+  "uuid":"5f920990-0e8d-49a0-8888-1e8cdb722555"
+}

@@ -23,8 +23,6 @@ import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
-
 public class OAuthRequest extends AppInfraAbstractRequest  implements Response.Listener<JSONObject>{
 
     private final ECSCallback<OAuthResponse,Exception> ecsCallback;
@@ -98,7 +96,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
             mRetryUrl = getLocation(error);
             executeRequest();
         } else {
-            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+            ECSError ecsError = ECSNetworkError.getECSError(error);
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

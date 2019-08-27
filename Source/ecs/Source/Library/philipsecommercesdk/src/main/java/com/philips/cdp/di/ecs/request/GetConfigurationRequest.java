@@ -10,10 +10,8 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
+import org.json.JSONObject;
 
 public class GetConfigurationRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
@@ -35,7 +33,7 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = ECSNetworkError.getECSError(error);
         eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

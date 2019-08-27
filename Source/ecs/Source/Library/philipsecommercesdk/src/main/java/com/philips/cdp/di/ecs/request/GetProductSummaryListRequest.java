@@ -12,8 +12,6 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
-
 
 public class GetProductSummaryListRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
@@ -37,7 +35,7 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest implem
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = ECSNetworkError.getECSError(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

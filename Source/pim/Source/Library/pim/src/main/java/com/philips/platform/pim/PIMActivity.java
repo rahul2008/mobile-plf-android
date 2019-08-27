@@ -1,9 +1,13 @@
 package com.philips.platform.pim;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -30,51 +34,46 @@ public class PIMActivity extends UIDActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pim);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
-        mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "onCreate called");
-
-        // createActionBar();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fl_mainFragmentContainer, new PIMFragment(), PIMFragment.class.getSimpleName()).addToBackStack(null).commit();
+        createActionBar();
+        launchASFragment();
     }
 
+    private void createActionBar() {
+        FrameLayout frameLayout = findViewById(R.id.pim_header_back_button);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Header back button clicked");
+                onBackPressed();
+            }
+        });
+        mBackImage = findViewById(R.id.pim_iv_header_back_button);
+        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
+        mBackImage.setBackground(mBackDrawable);
+        setTitle(getString(R.string.action_bar_title_text));
+    }
 
-//    private void createActionBar() {
-//        FrameLayout frameLayout = findViewById(R.id.pim_header_back_button);
-//        frameLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(final View v) {
-//                mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Header back button clicked");
-//                onBackPressed();
-//            }
-//        });
-//
-//        mBackImage = findViewById(R.id.pim_iv_header_back_button);
-//        Drawable mBackDrawable = VectorDrawableCompat.create(getResources(), R.drawable.back_arrow, getTheme());
-//        mBackImage.setBackground(mBackDrawable);
-//        setTitle(getString(R.string.action_bar_title_text));
-//    }
+    /*@Override
+    public void updateActionBar(int resId, boolean enableBackKey) {
+        if (enableBackKey) {
+            mBackImage.setVisibility(View.VISIBLE);
+            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Back key visibility set to VISIBLE");
+        } else {
+            mBackImage.setVisibility(View.GONE);
+            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Back key visibility set to GONE");
+        }
+    }
 
-//    @Override
-//    public void updateActionBar(int resId, boolean enableBackKey) {
-//        if (enableBackKey) {
-//            mBackImage.setVisibility(View.VISIBLE);
-//            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Back key visibility set to VISIBLE");
-//        } else {
-//            mBackImage.setVisibility(View.GONE);
-//            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Back key visibility set to GONE");
-//        }
-//    }
-//
-//    @Override
-//    public void updateActionBar(String resString, boolean enableBackKey) {
-//        if (enableBackKey) {
-//            mBackImage.setVisibility(View.VISIBLE);
-//            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Back key visibility set to VISIBLE");
-//        } else {
-//            mBackImage.setVisibility(View.GONE);
-//            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Back key visibility set to GONE");
-//        }
-//    }
+    @Override
+    public void updateActionBar(String resString, boolean enableBackKey) {
+        if (enableBackKey) {
+            mBackImage.setVisibility(View.VISIBLE);
+            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Back key visibility set to VISIBLE");
+        } else {
+            mBackImage.setVisibility(View.GONE);
+            mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG, "Back key visibility set to GONE");
+        }
+    }*/
 
     private void initTheme() {
         int themeIndex = getIntent().getIntExtra(PIM_KEY_ACTIVITY_THEME, DEFAULT_THEME);
@@ -85,6 +84,10 @@ public class PIMActivity extends UIDActivity {
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
     }
 
+    private void launchASFragment() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fl_mainFragmentContainer, new PIMFragment(), PIMFragment.class.getSimpleName()).addToBackStack(null).commit();
+    }
 
     @Override
     public void onBackPressed() {

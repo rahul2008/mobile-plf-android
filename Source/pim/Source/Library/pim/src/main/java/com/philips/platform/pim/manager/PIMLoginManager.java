@@ -119,7 +119,7 @@ public class PIMLoginManager {
      */
     private Map<String, String> createAdditionalParameterForLogin() {
         Map<String, String> parameter = new HashMap<>();
-        parameter.put("claims", getCustomClaims());
+        parameter.put("claims", mPimoidcConfigration.getCustomClaims());
         AppTaggingInterface.PrivacyStatus privacyConsent = mTaggingInterface.getPrivacyConsent();
         boolean bool;
         bool = privacyConsent.equals(AppTaggingInterface.PrivacyStatus.OPTIN);
@@ -133,24 +133,6 @@ public class PIMLoginManager {
         parameter.put("analytics_report_suite_id",new PIMOIDCConfigration().getrsID());
         mLoggingInterface.log(DEBUG, TAG, "Additional parameters : " + parameter.toString());
         return parameter;
-    }
-
-    /**
-     * Construct json object to store custom claims
-     *
-     * @return json string
-     */
-    private String getCustomClaims() {
-        JsonObject customClaimObject = new JsonObject();
-        customClaimObject.add(UserCustomClaims.RECEIVE_MARKETING_EMAIL_CONSENT,null);
-        customClaimObject.add(UserCustomClaims.RECEIVE_MARKETING_EMAIL_TIMESTAMP,null);
-        customClaimObject.add(UserCustomClaims.SOCIAL_PROFILES,null);
-        customClaimObject.add(UserCustomClaims.UUID,null);
-
-        JsonObject userInfo = new JsonObject();
-        userInfo.add("userinfo", customClaimObject);
-        PIMSettingManager.getInstance().getLoggingInterface().log(LoggingInterface.LogLevel.DEBUG, TAG, "PIM_KEY_CUSTOM_CLAIMS: " + userInfo.toString());
-        return userInfo.toString();
     }
 }
 

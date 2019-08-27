@@ -5,6 +5,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
@@ -12,8 +14,6 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
 
 public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String>  {
 
@@ -73,7 +73,8 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        exceptionECSCallback.onFailure(getVolleyException(error), 4999);
+        ECSError ecsError = ECSNetworkError.getECSError(error);
+        exceptionECSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 
 
