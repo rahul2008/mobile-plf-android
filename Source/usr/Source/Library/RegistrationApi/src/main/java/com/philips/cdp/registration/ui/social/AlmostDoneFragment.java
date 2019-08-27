@@ -290,7 +290,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private void updateReceiveMarketingViewStyle() {
         RLog.d(TAG, "updateReceiveMarketingViewStyle : is  called");
         RegUtility.linkifyPhilipsNews(marketingOptCheck, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired())
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive)
             RegUtility.linkifyPersonalConsent(acceptPersonalConsentCheck, getRegistrationFragment().getParentActivity(), mPersonalConsentClick, getRegistrationFragment().getContentConfiguration());
     }
 
@@ -559,7 +559,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     private void trackPersonalConsentAccepted() {
-        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired()) {
+        if (RegistrationConfiguration.getInstance().isPersonalConsentAcceptanceRequired() && RegistrationConfiguration.getInstance().getPersonalConsent() == ConsentStates.inactive) {
             if (acceptTermsCheck.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_PERSONAL_CONSENT_OPTION_IN);
             } else {
