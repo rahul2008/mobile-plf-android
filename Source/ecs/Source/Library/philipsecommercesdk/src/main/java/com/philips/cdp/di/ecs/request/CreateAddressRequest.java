@@ -5,6 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.error.ServerError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -84,13 +85,8 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ServerError serverError = new ServerError();
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error,serverError);
-        if(null!=serverError.getErrors() && serverError.getErrors().size()>0){
-            
-        }
-
-        ecsCallback.onFailure(getVolleyException(error), 12999);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessageForAddress(error);
+        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
 
     }
 
