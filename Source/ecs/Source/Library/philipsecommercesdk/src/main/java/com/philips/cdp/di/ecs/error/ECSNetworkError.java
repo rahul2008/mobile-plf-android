@@ -20,7 +20,7 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 public class ECSNetworkError {
 
 
-    public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError, ServerError mServerError) {
+    public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
         ServerError serverError = new ServerError();
         return getEcsErrorEnum(volleyError, serverError);
     }
