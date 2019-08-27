@@ -4,6 +4,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.disclaimer.DisclaimerModel;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
@@ -35,7 +37,8 @@ public class GetProductDisclaimerRequest extends AppInfraAbstractRequest impleme
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getVolleyException(error), 5999);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 
     @Override

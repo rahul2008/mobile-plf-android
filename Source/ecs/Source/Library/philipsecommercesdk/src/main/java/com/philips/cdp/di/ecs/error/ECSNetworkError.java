@@ -23,14 +23,13 @@ public class ECSNetworkError {
         return getEcsErrorEnum(volleyError,mServerError);
     }
 
-    public ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
+    public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
         return getEcsErrorEnum(volleyError,null);
     }
 
     private static ECSError getEcsErrorEnum(VolleyError volleyError,ServerError mServerError) {
 
         String errorType = null;
-       // ECSErrorEnum errorEnumFromType = ECSErrorEnum.unknown;
         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.unknown;
         if (volleyError instanceof com.android.volley.ServerError) {
             ServerError serverError = getServerError(volleyError);

@@ -7,6 +7,8 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.summary.Data;
@@ -45,7 +47,8 @@ public class GetProductForRequest extends AppInfraAbstractRequest implements Res
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ecsCallback.onFailure(getVolleyException(error), 5999);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 
     /**

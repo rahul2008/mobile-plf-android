@@ -9,6 +9,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
@@ -96,7 +98,8 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
             mRetryUrl = getLocation(error);
             executeRequest();
         } else {
-            ecsCallback.onFailure(getVolleyException(error), 9000);
+            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }
 
