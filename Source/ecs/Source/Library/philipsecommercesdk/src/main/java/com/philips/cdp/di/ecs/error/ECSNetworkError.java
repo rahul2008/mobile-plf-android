@@ -4,6 +4,8 @@
  */
 package com.philips.cdp.di.ecs.error;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
@@ -80,7 +82,7 @@ public class ECSNetworkError {
 
 
     private static ECSErrorEnum getVolleyErrorType(final VolleyError error) {
-        Log.e("ON_VOLLEY_ERROR", error.getMessage());
+//        Log.e("ON_VOLLEY_ERROR", error.getMessage());
         ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.ERROR,"ON_VOLLEY_ERROR",error.getMessage());
          ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
         if (error instanceof NoConnectionError || error instanceof NetworkError) {
@@ -123,6 +125,16 @@ public class ECSNetworkError {
         if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
             // ECSErrorConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
         }
+    }
+
+    public static void showECSAlertDialog(Context context, String title, String message ){
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                //.setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 }

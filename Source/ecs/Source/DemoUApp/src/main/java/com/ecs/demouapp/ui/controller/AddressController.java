@@ -14,6 +14,7 @@ import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.Country;
@@ -206,7 +207,7 @@ public class AddressController {
             @Override
             public void onFailure(Exception error, int errorCode) {
 
-                ECSErrors.showECSAlertDialog(mContext,"Error",error.getMessage());
+                ECSNetworkError.showECSAlertDialog(mContext,"Error",error.getMessage());
                 Message message = new Message();
                 message.obj = error;
                 mAddressListener.onGetAddress(message);
