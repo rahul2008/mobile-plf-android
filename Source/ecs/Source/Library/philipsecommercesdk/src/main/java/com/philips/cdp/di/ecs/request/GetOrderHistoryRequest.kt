@@ -35,7 +35,7 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getECSError(error)
+        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
         ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
     }
 

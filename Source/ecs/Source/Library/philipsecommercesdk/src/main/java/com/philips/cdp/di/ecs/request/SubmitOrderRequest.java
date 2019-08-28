@@ -73,7 +73,7 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getECSError(error);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
         exceptionECSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

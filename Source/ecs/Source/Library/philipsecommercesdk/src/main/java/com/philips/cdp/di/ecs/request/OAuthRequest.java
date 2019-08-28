@@ -96,7 +96,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
             mRetryUrl = getLocation(error);
             executeRequest();
         } else {
-            ECSError ecsError = ECSNetworkError.getECSError(error);
+            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

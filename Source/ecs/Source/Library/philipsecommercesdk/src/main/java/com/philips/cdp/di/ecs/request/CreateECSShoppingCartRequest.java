@@ -36,7 +36,7 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
     @Override
     public void onErrorResponse(VolleyError error) {
 
-        ECSError ecsError = ECSNetworkError.getECSError(error);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
         eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

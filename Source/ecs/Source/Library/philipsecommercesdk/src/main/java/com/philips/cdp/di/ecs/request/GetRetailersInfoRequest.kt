@@ -35,7 +35,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getECSError(error)
+        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
         callBack.onFailure(ecsError.exception, ecsError.errorcode)
     }
 

@@ -33,7 +33,7 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getECSError(error);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
         eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

@@ -59,7 +59,7 @@ public class DeleteAddressRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getECSErrorForAddress(error);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessageForAddress(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

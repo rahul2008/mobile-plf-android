@@ -40,7 +40,7 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getECSError(error);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 

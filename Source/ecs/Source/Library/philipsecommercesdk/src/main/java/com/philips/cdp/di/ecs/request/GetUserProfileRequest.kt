@@ -19,7 +19,7 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getECSError(error)
+        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
         ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
     }
 
