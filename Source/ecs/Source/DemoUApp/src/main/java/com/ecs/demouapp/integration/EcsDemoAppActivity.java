@@ -42,6 +42,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
@@ -60,6 +61,7 @@ import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
+import com.philips.platform.pif.DataInterface.USR.listeners.RefreshSessionListener;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
@@ -320,8 +322,73 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
     }
 
 
+    void refreshOauth(){
+
+
+        mUserDataInterface.refreshSession(new RefreshSessionListener() {
+            @Override
+            public void refreshSessionSuccess() {
+
+
+                //re OAuth after refreshSession for janrain
+
+                OAuthInput oAuthInput = new OAuthInput() {
+                    @Override
+                    public String getJanRainID() {
+                        return getMyJanRainID();
+                    }
+                };
+
+
+                //ReOAuth starts =======================
+                ECSUtility.getInstance().getEcsServices().hybrisOathAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+                    @Override
+                    public void onResponse(OAuthResponse result) {
+
+
+                        ECSConfig.INSTANCE.setAuthToken(result.getAccessToken());
+                        Log.d("ECS succ",result.getAccessToken());
+
+                        try {
+                            mIapInterface.getProductCartCount(EcsDemoAppActivity.this);
+                        }catch (Exception e){
+                            ECSConfig.INSTANCE.setAuthToken(null);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, int errorCode) {
+
+                        Log.d("ECS Oauth failed",error.getMessage() +" :  "+ errorCode);
+                        ECSConfig.INSTANCE.setAuthToken(null);
+
+                    }
+                });
+
+                // ReOAuth ends  =====================
+
+            }
+
+            @Override
+            public void refreshSessionFailed(Error error) {
+
+            }
+
+            @Override
+            public void forcedLogout() {
+
+            }
+        });
+
+
+    }
+
+
 
     public String getMyJanRainID() {
+
+
         ArrayList<String> detailsKey = new ArrayList<>();
         detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
         try {
@@ -360,7 +427,16 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void onFailure(Exception error, int errorCode) {
-                    ECSConfig.INSTANCE.setAuthToken(null);
+                     if(errorCode == ECSErrorEnum.ecs_volley_auth_error.getErrorCode()
+                        || errorCode == ECSErrorEnum.InvalidTokenError.getErrorCode()){
+
+
+                        refreshOauth();
+
+                     }else {
+
+                         ECSConfig.INSTANCE.setAuthToken(null);
+                     }
                 }
             });
         }
