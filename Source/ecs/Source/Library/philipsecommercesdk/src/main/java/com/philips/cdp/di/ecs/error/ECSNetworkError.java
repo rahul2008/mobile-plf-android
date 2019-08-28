@@ -63,14 +63,13 @@ public class ECSNetworkError {
     private static ECSError getEcsErrorEnum(VolleyError volleyError, ServerError mServerError) {
 
         String errorType = null;
-        // ECSErrorEnum errorEnumFromType = ECSErrorEnum.unknown;
         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
         if (volleyError instanceof com.android.volley.ServerError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
                 Log.e("ON_FAILURE_ERROR", serverError.getErrors().get(0).toString());
                 errorType = serverError.getErrors().get(0).getType();
-                mServerError = serverError;
+                mServerError.setErrors(serverError.getErrors());
                 ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
             }
         } else {

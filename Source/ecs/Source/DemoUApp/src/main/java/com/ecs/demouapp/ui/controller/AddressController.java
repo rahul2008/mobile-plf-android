@@ -110,7 +110,7 @@ public class AddressController {
         ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses result) {
-                //addressContractor.hideProgressbar();
+               // addressContractor.hideProgressbar();
                 if(null!=result){
                     Log.v("ECS ADDRESS",""+result.toString());
 
@@ -123,6 +123,8 @@ public class AddressController {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
+
+                ECSNetworkError.showECSAlertDialog(mContext,"Error",error.getMessage());
                 //addressContractor.hideProgressbar();
 
             }
