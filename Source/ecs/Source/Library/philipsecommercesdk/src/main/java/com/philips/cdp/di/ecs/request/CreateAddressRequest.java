@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessageForAddress;
 
 public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
@@ -85,7 +86,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = getErrorLocalizedErrorMessageForAddress(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
 
     }
