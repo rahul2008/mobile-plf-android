@@ -20,6 +20,8 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 
+
+
 public class ECSNetworkError {
 
 
@@ -67,31 +69,28 @@ public class ECSNetworkError {
                 Log.e("ON_FAILURE_ERROR", serverError.getErrors().get(0).toString());
                 errorType = serverError.getErrors().get(0).getType();
                 mServerError = serverError;
-
+                ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
             }
         } else {
-            errorType = getVolleyErrorType(volleyError);
+            ecsErrorEnum = getVolleyErrorType(volleyError);
         }
-        ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
         ECSError ecsError = new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
         return ecsError;
     }
 
 
-    private static String getVolleyErrorType(final VolleyError error) {
-        String errorType = ECSErrorReason.ECS_UNKNOWN_ERROR;
+    private static ECSErrorEnum getVolleyErrorType(final VolleyError error) {
+         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
         if (error instanceof NoConnectionError || error instanceof NetworkError) {
-
-            errorType = ECSErrorReason.ECS_CANNOT_CONNECT_INTERNET;
+            ecsErrorEnum = ECSErrorEnum.ecs_no_internet;
         } else if (error instanceof AuthFailureError) {
-
+            ecsErrorEnum = ECSErrorEnum.ecs_volley_auth_error;
         } else if (error instanceof TimeoutError) {
-
+            ecsErrorEnum = ECSErrorEnum.ecs_connection_timeout;
         } else if (error instanceof com.android.volley.ServerError) {
-
+            ecsErrorEnum = ECSErrorEnum.ecs_server_not_found;
         }
-
-        return errorType;
+        return ecsErrorEnum;
     }
 
     private static ServerError getServerError(VolleyError error) {

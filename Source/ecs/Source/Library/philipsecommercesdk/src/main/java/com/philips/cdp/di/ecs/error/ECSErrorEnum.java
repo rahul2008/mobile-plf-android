@@ -7,6 +7,15 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 
 public enum ECSErrorEnum {
 
+    //volley Errors
+    ecs_no_internet( R.string.ecs_no_internet, 11001),
+    ecs_volley_auth_error( R.string.ecs_volley_auth_error, 11002),
+    ecs_server_not_found( R.string.ecs_server_not_found, 11003),
+    ecs_parse_error( R.string.ecs_parse_error, 11004),
+    ecs_connection_timeout( R.string.CartError, 11005),
+
+
+
     invalid_grant( R.string.invalid_grant, 5000),
     invalid_client(R.string.invalid_client, 5001),
     unsupported_grant_type( R.string.unsupported_grant_type, 5002),
@@ -50,6 +59,9 @@ public enum ECSErrorEnum {
     countryCodeNotGiven( R.string.countryCodeNotGiven, 5059),
     orderIdNil( R.string.orderIdNil, 5060),
     something_went_wrong( R.string.something_went_wrong, 5999);
+
+
+
 
 
 

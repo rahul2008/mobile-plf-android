@@ -1,10 +1,15 @@
 <resources>
     <string name="ecs_UnknownError">Something went wrong</string>
 
+
+
+   <!--start of Volley Errors-->
     <string name="ecs_no_internet">Cannot connect to Internet .. Please check your connection!</string>
-
-
-
+    <string name="ecs_volley_auth_error">Volley AuthFailureError</string>
+    <string name="ecs_server_not_found">The server could not be found. Please try again after some time!!</string>
+    <string name="ecs_parse_error">Parsing error! Please try again after some time!!</string>
+    <string name="ecs_connection_timeout">Connection TimeOut! Please check your internet connection.</string>
+    <!--End of Volley Errors-->
 
 
     <string name="invalid_grant" >We have encountered technical glitch (Invalid Janrain Token). Please re-login.</string>
