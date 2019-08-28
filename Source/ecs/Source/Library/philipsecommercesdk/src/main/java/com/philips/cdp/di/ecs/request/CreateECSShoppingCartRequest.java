@@ -5,6 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
@@ -14,6 +15,8 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 
 import org.json.JSONObject;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject>{
     private final ECSCallback<ECSShoppingCart, Exception> eCSCallback;
@@ -36,22 +39,26 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
     @Override
     public void onErrorResponse(VolleyError error) {
 
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = getErrorLocalizedErrorMessage(error);
         eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 
     @Override
     public void onResponse(JSONObject response) {
-        if(response!=null){
-            ECSShoppingCart resp = new Gson().fromJson(response.toString(),
+        ECSShoppingCart ecsShoppingCart = null;
+        Exception exception = null;
+        try {
+            ecsShoppingCart = new Gson().fromJson(response.toString(),
                     ECSShoppingCart.class);
-            if(null!=resp && null!=resp.getGuid() && !resp.getGuid().isEmpty()) {
-                eCSCallback.onResponse(resp);
-            }else {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_CART_CANNOT_BE_CREATED) , 7999);
-            }
+        } catch(Exception e){
+            exception = e;
+
+        }
+        if(null == exception && null!= ecsShoppingCart && null!= ecsShoppingCart.getGuid() && !ecsShoppingCart.getGuid().isEmpty() ) {
+            eCSCallback.onResponse(ecsShoppingCart);
         }else{
-            eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_CART_CANNOT_BE_CREATED) , 7999);
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+            eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }
 

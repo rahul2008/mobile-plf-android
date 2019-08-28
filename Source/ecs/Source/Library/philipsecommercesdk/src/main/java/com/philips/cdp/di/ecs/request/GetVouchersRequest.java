@@ -5,6 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
@@ -15,6 +16,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
@@ -27,13 +30,19 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
     @Override
     public void onResponse(JSONObject response) {
         GetAppliedValue getAppliedValue =null;
-        if(null!=response){
+        Exception exception = null;
+
+         try {
             getAppliedValue = new Gson().fromJson(response.toString(), GetAppliedValue.class);
-        }
-        if(null!=getAppliedValue ) {
+        } catch (Exception e) {
+             exception = e;
+         }
+
+        if(null == exception && null!=getAppliedValue ) {
             ecsCallback.onResponse(getAppliedValue);
         }else{
-            ecsCallback.onFailure(new Exception("error fetching Voucher"), 19999);
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }
 
