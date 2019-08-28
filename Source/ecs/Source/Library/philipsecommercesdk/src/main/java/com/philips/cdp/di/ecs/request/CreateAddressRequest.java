@@ -5,6 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
@@ -15,6 +16,8 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
@@ -35,7 +38,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
     @Override
     public void onResponse(String response) {
         Addresses addresses=null;
-        Exception exception = new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
+        Exception exception = null;
                 // created address response is not checked
         try {
             addresses = new Gson().fromJson(response, Addresses.class);
@@ -43,10 +46,11 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
             exception = e;
 
         }
-        if(null!= exception && null!=addresses && null!=addresses.getId() ) {
+        if(null== exception && null!=addresses && null!=addresses.getId() ) {
             ecsCallback.onResponse(addresses);
         }else{
-            ecsCallback.onFailure(exception, 12999);
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response);
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }
 
@@ -81,7 +85,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = getErrorLocalizedErrorMessage(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
 
     }

@@ -42,6 +42,20 @@ public class ECSNetworkError {
         return ecsError;
     }
 
+    public  static ECSError getErrorLocalizedErrorMessage(ECSErrorEnum ecsErrorEnum,Exception exception, String hysbrisResponse){
+        String logMessage=ecsErrorEnum.toString();
+        if(null!=exception){
+            logMessage="\n\n"+exception.getLocalizedMessage();
+        }
+        if(null!=hysbrisResponse){
+            logMessage="\n\n"+hysbrisResponse;
+        }
+        Log.e("ON_SUCCESS_ERROR", logMessage);
+        ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.ERROR,"ON_SUCCESS_ERROR",logMessage);
+        return  new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
+
+    }
+
     private static ECSError getEcsErrorEnum(VolleyError volleyError, ServerError mServerError) {
 
         String errorType = null;
@@ -50,16 +64,15 @@ public class ECSNetworkError {
         if (volleyError instanceof com.android.volley.ServerError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
-                Log.e("DETAIL_ERROR", serverError.getErrors().get(0).toString());
+                Log.e("ON_FAILURE_ERROR", serverError.getErrors().get(0).toString());
                 errorType = serverError.getErrors().get(0).getType();
-                ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
                 mServerError = serverError;
 
             }
         } else {
             errorType = getVolleyErrorType(volleyError);
-            ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
         }
+        ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
         ECSError ecsError = new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
         return ecsError;
     }
@@ -87,7 +100,7 @@ public class ECSNetworkError {
                 final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
                 final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
                 final String errorString = new String(decode);
-                ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.DEBUG,LOGGING_TAG,errorString);
+                ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.ERROR,LOGGING_TAG,errorString);
 
                 return new Gson().fromJson(errorString, ServerError.class);
 
