@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
@@ -14,6 +15,8 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String>  {
 
@@ -33,8 +36,8 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onResponse(String response) {
-        Exception exception = null;
         OrderDetail orderDetail=null;
+        Exception exception = null;
         try {
              orderDetail = new Gson().fromJson(response, OrderDetail.class);
         }catch(Exception e){
@@ -43,8 +46,8 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
         if(null==exception && null!=orderDetail){
             exceptionECSCallback.onResponse(orderDetail);
         }else{
-            exception = (null!=exception)? exception : new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
-            exceptionECSCallback.onFailure(exception, 999);
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response);
+            exceptionECSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }
 

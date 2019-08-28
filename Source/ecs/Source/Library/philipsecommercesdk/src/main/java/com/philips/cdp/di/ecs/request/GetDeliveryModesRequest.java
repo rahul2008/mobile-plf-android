@@ -5,12 +5,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
 import org.json.JSONObject;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject> {
 
@@ -22,11 +25,22 @@ public class GetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onResponse(JSONObject response) {
+        GetDeliveryModes getDeliveryModes = null;
+        Exception exception = null;
 
-        GetDeliveryModes getDeliveryModes = new Gson().fromJson(response.toString(),
-                GetDeliveryModes.class);
-        ecsCallback.onResponse(getDeliveryModes);
+        try{
+            getDeliveryModes = new Gson().fromJson(response.toString(),
+                    GetDeliveryModes.class);
+        } catch (Exception e) {
+            exception = e;
+        }
 
+        if(null == exception && null!=getDeliveryModes) {
+            ecsCallback.onResponse(getDeliveryModes);
+        } else {
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        }
     }
 
     @Override

@@ -60,7 +60,7 @@ public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest imp
         if(response.isEmpty()) {
         ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), 9000);
+            ecsCallback.onResponse(false);
         }
     }
 

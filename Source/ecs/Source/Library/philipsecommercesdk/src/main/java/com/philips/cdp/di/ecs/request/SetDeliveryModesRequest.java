@@ -30,6 +30,8 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
         if(response.trim().isEmpty()) {
             ecsCallback.onResponse(true);
+        } else {
+            ecsCallback.onResponse(false);
         }
     }
 

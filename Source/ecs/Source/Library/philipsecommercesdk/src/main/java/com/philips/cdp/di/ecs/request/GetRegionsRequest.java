@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
@@ -16,6 +17,8 @@ import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 
 public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements Response.Listener<JSONObject>{
@@ -46,21 +49,20 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
 
     @Override
     public void onResponse(JSONObject response) {
-        Exception exception = new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR);
-        RegionsList regionsList=null;
-        String ErrorMessage="";
+        RegionsList regionsList = null;
+        Exception exception = null;
+
         try {
-            if(null!=response && null!=response.toString() ){
-                ErrorMessage=response.toString();
-            }
             regionsList = new Gson().fromJson(response.toString(), RegionsList.class);
         }catch(Exception e){
             exception=e;
         }
-        if(null!=regionsList && null!=regionsList.getRegions() && regionsList.getRegions().size()>0) {
+
+        if(null == exception && null!=regionsList && null!=regionsList.getRegions() && regionsList.getRegions().size()>0) {
             ecsCallback.onResponse(regionsList);
         }else{
-            ecsCallback.onFailure(exception, 9000);
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }
 
