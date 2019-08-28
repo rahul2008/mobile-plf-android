@@ -166,7 +166,7 @@ public class ECSManager {
 
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
 
-        Thread assets = new Thread("assets") {
+        Thread assets = new Thread() {
 
             @Override
             public void run() {
@@ -199,7 +199,7 @@ public class ECSManager {
             }
         };
 
-        Thread disclaimer = new Thread("disclaimer") {
+        Thread disclaimer = new Thread() {
 
             @Override
             public void run() {
