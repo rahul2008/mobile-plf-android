@@ -46,7 +46,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
             exception = e;
 
         }
-        if(null== exception && null!=addresses && null!=addresses.getId() ) {
+        if(null== exception) {
             ecsCallback.onResponse(addresses);
         }else{
             ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response);

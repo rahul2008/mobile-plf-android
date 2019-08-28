@@ -36,6 +36,8 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
@@ -202,11 +204,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 Addresses selectedAddress = retrieveSelectedAddress();
                 mIsAddressUpdateAfterDelivery = true;
                 mAddressController.setDefaultAddress(selectedAddress);
-            /*if (mDeliveryMode == null)
-                mAddressController.getDeliveryModes();
-            else*/
                 checkPaymentDetails();
-            }
+                }
         } else {
             //TODO remove checkPaymentDetails from here
             //Temp work to test Payment call .
@@ -249,6 +248,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                         AddressFragment.TAG, true);
             }
         } else if ((msg.obj instanceof Exception)) {
+            ECSErrors.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = Utility.prepareAddressFields(retrieveSelectedAddress(), mJanRainEmail);

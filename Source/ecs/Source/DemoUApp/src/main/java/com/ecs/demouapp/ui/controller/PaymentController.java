@@ -74,13 +74,9 @@ public class PaymentController {
             }
         });
 
-        /*GetPaymentDetailRequest model = new GetPaymentDetailRequest(getStore(), null, this);
-        getHybrisDelegate().sendRequest(RequestCode.GET_PAYMENT_DETAILS, model, model);*/
     }
 
     public void setPaymentDetails(String paymentId) {
-        /*HashMap<String, String> params = new HashMap<>();
-        params.put(ModelConstants.PAYMENT_DETAILS_ID, paymentId);*/
 
         ECSUtility.getInstance().getEcsServices().setPaymentMethod(paymentId, new ECSCallback<Boolean, Exception>() {
             @Override
@@ -97,8 +93,7 @@ public class PaymentController {
                 mPaymentListener.onSetPaymentDetails(message);
             }
         });
-        /*SetPaymentDetailsRequest model = new SetPaymentDetailsRequest(getStore(), params, this);
-        getHybrisDelegate().sendRequest(RequestCode.SET_PAYMENT_DETAILS, model, model);*/
+
     }
 
     public void placeOrder(String pSecurityCode) {
