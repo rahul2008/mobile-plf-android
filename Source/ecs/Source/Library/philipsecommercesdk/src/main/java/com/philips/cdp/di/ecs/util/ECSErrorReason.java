@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.util;
 
 
 public class ECSErrorReason {
-    public static final String ECS_UNKNOWN_ERROR = "Something went wrong";
+    public static final String ECS_UNKNOWN_ERROR = "something_went_wrong";
     public static final String ECS_INITIALIZATION_FAILURE = "IAP SDK initialization Failed";
     public static final String ECS_UNSUPPORTED_LOCALE = "Unsupported locale";
     public static final String ECS_UNSUPPORTED_PROPOSITION = "Unsupported proposition id";
