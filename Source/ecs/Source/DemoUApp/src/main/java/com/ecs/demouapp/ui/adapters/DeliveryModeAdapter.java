@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ecs.demouapp.R;
+import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.screens.OnSetDeliveryModeListener;
 import com.philips.cdp.di.ecs.model.address.DeliveryCost;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
@@ -71,6 +72,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
         holder.deliveryConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CartModelContainer.getInstance().setDeliveryModes(mModes);
                 mListener.onItemClick(holder.getAdapterPosition());
             }
         });

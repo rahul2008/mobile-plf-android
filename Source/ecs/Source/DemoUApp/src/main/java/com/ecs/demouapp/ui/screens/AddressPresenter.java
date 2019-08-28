@@ -169,7 +169,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 getDeliveryModes();
             else
                 mPaymentController.getPaymentDetails();
-        }if(msg.obj instanceof String){
+        }else if(msg.obj instanceof String){
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
             ECSErrors.showECSToast(getAddressContractor().getActivityContext(),msg.obj.toString());
 
