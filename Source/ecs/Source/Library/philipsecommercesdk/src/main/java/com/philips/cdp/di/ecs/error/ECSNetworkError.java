@@ -86,7 +86,11 @@ public class ECSNetworkError {
         if(error.getMessage()!=null) {
             Log.e("ON_VOLLEY_ERROR", error.getMessage());
         }
-        ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.ERROR,"ON_VOLLEY_ERROR",error.getMessage());
+        try {
+            ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.ERROR, "ON_VOLLEY_ERROR", error.getMessage());
+        }catch (Exception e){
+
+        }
          ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
         if (error instanceof NoConnectionError || error instanceof NetworkError) {
             ecsErrorEnum = ECSErrorEnum.ecs_no_internet;

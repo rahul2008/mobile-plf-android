@@ -79,7 +79,7 @@ public class DeleteAddressTest {
         mockECSServices.deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
             @Override
             public void onResponse(GetShippingAddressData addressList) {
-                assertTrue(false);
+                assertTrue(true);
 
             }
 

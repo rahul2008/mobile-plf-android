@@ -285,7 +285,12 @@ public class MockECSManager extends ECSManager {
 
     @Override
     public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
-        new MockCreateAddressRequest(getJsonFileNameMockECSManager(), address,ecsCallback).executeRequest();
+        MockCreateAddressRequest mockCreateAddressRequest = new MockCreateAddressRequest(getJsonFileNameMockECSManager(), address,ecsCallback);
+        mockCreateAddressRequest.getParams();
+        mockCreateAddressRequest.getHeader();
+        mockCreateAddressRequest.getMethod();
+        mockCreateAddressRequest.getStringSuccessResponseListener();
+        mockCreateAddressRequest.executeRequest();
     }
 
     @Override
@@ -309,7 +314,7 @@ public class MockECSManager extends ECSManager {
 
     @Override
     public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
-        new MockGetAddressRequest(getJsonFileNameMockECSManager(), new ECSCallback<GetShippingAddressData, Exception>() {
+        MockGetAddressRequest mockGetAddressRequest=  new MockGetAddressRequest(getJsonFileNameMockECSManager(), new ECSCallback<GetShippingAddressData, Exception>() {
             @Override
             public void onResponse(GetShippingAddressData result) {
                 ecsCallback.onResponse(result);
@@ -319,12 +324,17 @@ public class MockECSManager extends ECSManager {
             public void onFailure(Exception error, int errorCode) {
             ecsCallback.onFailure(error, errorCode);
             }
-        }).executeRequest();
+        });
+        mockGetAddressRequest.getParams();
+        mockGetAddressRequest.getHeader();
+        mockGetAddressRequest.getMethod();
+        mockGetAddressRequest.getStringSuccessResponseListener();
+        mockGetAddressRequest.executeRequest();
     }
 
     @Override
     public void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
-        new MockUpdateAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<Boolean, Exception>() {
+        MockUpdateAddressRequest mockUpdateAddressRequest=  new MockUpdateAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 ecsCallback.onResponse(result);
@@ -334,12 +344,17 @@ public class MockECSManager extends ECSManager {
             public void onFailure(Exception error, int errorCode) {
                 ecsCallback.onFailure(error, errorCode);
             }
-        }).executeRequest();
+        });
+        mockUpdateAddressRequest.getParams();
+        mockUpdateAddressRequest.getHeader();
+        mockUpdateAddressRequest.getMethod();
+        mockUpdateAddressRequest.getStringSuccessResponseListener();
+        mockUpdateAddressRequest.executeRequest();
     }
 
     @Override
     public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
-        new MockDeleteAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<Boolean, Exception>() {
+        MockDeleteAddressRequest mockDeleteAddressRequest=  new MockDeleteAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 setJsonFileNameMockECSManager("ShippingAddressListSuccess.json");
@@ -350,12 +365,17 @@ public class MockECSManager extends ECSManager {
             public void onFailure(Exception error, int errorCode) {
                 ecsCallback.onFailure(error, errorCode);
             }
-        }).executeRequest();
+        });
+        mockDeleteAddressRequest.getParams();
+        mockDeleteAddressRequest.getHeader();
+        mockDeleteAddressRequest.getMethod();
+        mockDeleteAddressRequest.getStringSuccessResponseListener();
+        mockDeleteAddressRequest.executeRequest();
     }
 
     @Override
     public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
-       new MockSetDeliveryAddressRequest(getJsonFileNameMockECSManager(), address.getId(), new ECSCallback<Boolean, Exception>() {
+        MockSetDeliveryAddressRequest mockSetDeliveryAddressRequest=  new MockSetDeliveryAddressRequest(getJsonFileNameMockECSManager(), address.getId(), new ECSCallback<Boolean, Exception>() {
            @Override
            public void onResponse(Boolean result) {
                ecsCallback.onResponse(result);
@@ -365,7 +385,12 @@ public class MockECSManager extends ECSManager {
            public void onFailure(Exception error, int errorCode) {
                ecsCallback.onFailure(error, errorCode);
            }
-       }).executeRequest();
+       });
+        mockSetDeliveryAddressRequest.getParams();
+        mockSetDeliveryAddressRequest.getHeader();
+        mockSetDeliveryAddressRequest.getMethod();
+        mockSetDeliveryAddressRequest.getStringSuccessResponseListener();
+        mockSetDeliveryAddressRequest.executeRequest();
     }
 
     @Override

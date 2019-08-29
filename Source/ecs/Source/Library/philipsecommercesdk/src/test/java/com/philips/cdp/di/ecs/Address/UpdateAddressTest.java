@@ -79,7 +79,7 @@ public class UpdateAddressTest {
         mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
-                assertTrue(result);
+                assertTrue(false);
                 // test case passed
             }
 
