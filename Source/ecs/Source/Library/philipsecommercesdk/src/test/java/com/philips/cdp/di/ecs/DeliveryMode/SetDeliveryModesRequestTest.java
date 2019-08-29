@@ -2,6 +2,7 @@ package com.philips.cdp.di.ecs.DeliveryMode;
 
 import android.content.Context;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
@@ -131,5 +132,13 @@ public class SetDeliveryModesRequestTest {
         assertTrue(ActualHeader.containsKey("Authorization"));
         Assert.assertEquals("application/x-www-form-urlencoded",ActualHeader.get("Content-Type")  );
         Assert.assertEquals("Bearer "+StaticBlock.mockAccessToken, ActualHeader.get("Authorization")  );
+    }
+
+    @Test
+    public void onErrorResponseTest(){
+        AuthFailureError authFailureError = new AuthFailureError();
+        mockSetDeliveryModesRequest.onErrorResponse(authFailureError);
+
+
     }
 }
