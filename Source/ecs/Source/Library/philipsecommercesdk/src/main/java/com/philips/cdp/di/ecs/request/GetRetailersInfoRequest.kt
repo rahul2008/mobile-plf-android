@@ -6,6 +6,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.retailers.WebResults
 import com.philips.cdp.di.ecs.util.ECSConfig
@@ -50,38 +51,21 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
     }
 
     override fun onResponse(response: JSONObject?) {
-        val webResultsECSErrorPair = getWebResultsECSErrorPair(response)
 
-        if (webResultsECSErrorPair.second != null) {
-            callBack.onFailure(webResultsECSErrorPair.second.getException(), webResultsECSErrorPair.second.getErrorcode())
-        } else {
-            callBack.onResponse(webResultsECSErrorPair.first)
+        try{
+           val webResults = Gson().fromJson(response.toString(),
+                    WebResults::class.java)
+            callBack.onResponse(webResults)
+        }catch (exception:Exception){
+            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception, response.toString())
+            callBack.onFailure(ecsError.getException(), ecsError.getErrorcode())
         }
+
     }
 
     override fun getJSONSuccessResponseListener(): Response.Listener<JSONObject> {
         return this
     }
 
-    fun getWebResultsECSErrorPair(response: JSONObject?): Pair<WebResults, ECSError> {
 
-        var webResults: WebResults? = null
-        var detailError = ""
-        var ecsError: ECSError? = null
-
-        try {
-            if (null != response && null != response.toString()) {
-                detailError = response.toString()
-            }
-            webResults = Gson().fromJson(response.toString(),
-                    WebResults::class.java)
-
-
-        } catch (e: Exception) {
-            //ecsError = ECSError(e, detailError, ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.errorCode)
-        } finally {
-            return Pair<WebResults, ECSError>(webResults, ecsError)
-        }
-
-    }
 }

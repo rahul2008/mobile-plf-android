@@ -49,19 +49,12 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
 
     @Override
     public void onResponse(JSONObject response) {
-        RegionsList regionsList = null;
-        Exception exception = null;
 
         try {
-            regionsList = new Gson().fromJson(response.toString(), RegionsList.class);
-        }catch(Exception e){
-            exception=e;
-        }
-
-        if(null == exception && null!=regionsList && null!=regionsList.getRegions() && regionsList.getRegions().size()>0) {
+            RegionsList regionsList = new Gson().fromJson(response.toString(), RegionsList.class);
             ecsCallback.onResponse(regionsList);
-        }else{
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+        }catch(Exception e){
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,e,response.toString());
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }
