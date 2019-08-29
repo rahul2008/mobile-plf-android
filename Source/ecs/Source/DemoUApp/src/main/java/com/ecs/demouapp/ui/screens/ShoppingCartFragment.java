@@ -4,6 +4,7 @@
  */
 package com.ecs.demouapp.ui.screens;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
@@ -64,6 +66,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private RelativeLayout mParentLayout;
     public ShoppingCartAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private Context mContext;
     private AddressController mAddressController;
     private ShoppingCartAPI mShoppingCartAPI;
     private ECSShoppingCart ecsShoppingCart ;
@@ -113,12 +116,18 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mContinuesBtn = rootView.findViewById(R.id.continues_btn);
         mContinuesBtn.setOnClickListener(this);
         mParentLayout = rootView.findViewById(R.id.parent_layout);
-        mShoppingCartAPI = ControllerFactory.getInstance()
-                .getShoppingCartPresenter(getActivity(), this);
         mAddressController = new AddressController(getActivity(), this);
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+        mShoppingCartAPI = ControllerFactory.
+                getInstance().getShoppingCartPresenter(mContext, this);
     }
 
     @Override
@@ -265,10 +274,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onGetAddress(Message msg) {
         hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getActivity());
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         } else  if (msg.obj instanceof Exception) {
-            Exception exception = (Exception) msg.obj;
-            ECSErrors.showECSToast(getActivity(),exception.getMessage());
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
         } else{
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)
@@ -508,6 +516,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onFailure(Message msg) {
         hideProgressBar();
+        NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
     }
 
 }

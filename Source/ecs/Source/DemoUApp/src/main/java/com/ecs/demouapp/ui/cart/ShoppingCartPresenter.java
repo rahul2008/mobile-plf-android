@@ -15,6 +15,7 @@ import com.ecs.demouapp.ui.response.error.Error;
 import com.ecs.demouapp.ui.response.error.ServerError;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.utils.ECSUtility;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
@@ -157,7 +158,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             @Override
             public void onFailure(Exception error, int errorCode) {
                 Message message = new Message();
-                message.obj = error.getMessage();
+
                 if(null!=error.getMessage()){
                     message.obj = error.getMessage();
                 }
@@ -230,7 +231,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             return;
         }else if(msg.obj instanceof Exception){
             Exception exception = (Exception) msg.obj;
-            ECSErrors.showECSToast(mContext,exception.getMessage());
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
         } if ((msg.obj instanceof GetDeliveryModes)) {
             final GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             final List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
