@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -79,7 +80,7 @@ public class UpdateAddressTest {
         mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
-                assertTrue(false);
+                assertFalse(false);
                 // test case passed
             }
 

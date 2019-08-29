@@ -55,7 +55,11 @@ public class ECSNetworkError {
             logMessage="\n\n"+hysbrisResponse;
         }
         Log.e("ON_SUCCESS_ERROR", logMessage);
-        ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.ERROR,"ON_SUCCESS_ERROR",logMessage);
+        try {
+            ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE, "ON_SUCCESS_ERROR", logMessage);
+        }catch(Exception e){
+
+        }
         return  new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
 
     }
@@ -87,7 +91,7 @@ public class ECSNetworkError {
             Log.e("ON_VOLLEY_ERROR", error.getMessage());
         }
         try {
-            ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.ERROR, "ON_VOLLEY_ERROR", error.getMessage());
+            ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE, "ON_VOLLEY_ERROR", error.getMessage());
         }catch (Exception e){
 
         }
@@ -108,7 +112,7 @@ public class ECSNetworkError {
                 final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
                 final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
                 final String errorString = new String(decode);
-                ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.ERROR,LOGGING_TAG,errorString);
+                ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE,LOGGING_TAG,errorString);
 
                 return new Gson().fromJson(errorString, ServerError.class);
 
