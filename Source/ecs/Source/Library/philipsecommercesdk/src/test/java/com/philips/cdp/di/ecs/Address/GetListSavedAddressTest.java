@@ -122,4 +122,9 @@ public class GetListSavedAddressTest {
     public void isValidGetRequest() {
         Assert.assertEquals(0 ,mockGetAddressRequest.getMethod());
     }
+
+    @Test
+    public void isValidParam() {
+
+    }
 }
