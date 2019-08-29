@@ -10,6 +10,8 @@ public class StaticBlock {
         ECSConfig.INSTANCE.setSiteId("US_Tuscany");
         ECSConfig.INSTANCE.setPropositionID("Tuscany2016");
         ECSConfig.INSTANCE.setLocale("en_US");
+
+        ECSConfig.INSTANCE.setAuthToken("acceesstoken");
     }
 
     public static  String getBaseURL(){

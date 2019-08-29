@@ -8,6 +8,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -17,6 +18,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
@@ -189,5 +193,23 @@ public class CreateAddressTest {
     public void isValidURL() {
         String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/addresses?fields=FULL&lang="+StaticBlock.getLocale();
         Assert.assertEquals(excepted,mockCreateAddressRequest.getURL());
+    }
+
+    @Test
+    public void isValidPostRequest() {
+        Assert.assertEquals(1,mockCreateAddressRequest.getMethod());
+    }
+
+    @Test
+    public void isValidHeader() {
+
+        Map<String, String> expectedMap = new HashMap<String, String>();
+        expectedMap.put("Content-Type", "application/x-www-form-urlencoded");
+        expectedMap.put("Authorization", "Bearer " + "acceesstoken");
+
+        Map<String, String> actual = mockCreateAddressRequest.getHeader();
+
+
+        assertTrue(expectedMap.equals(actual));
     }
 }
