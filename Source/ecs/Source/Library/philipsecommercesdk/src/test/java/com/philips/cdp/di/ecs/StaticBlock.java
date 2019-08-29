@@ -7,6 +7,7 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 
 public class StaticBlock {
 
+public static final String  mockAccessToken = "acceesstoken";
 
     public static void initialize(){
         ECSConfig.INSTANCE.setBaseURL("acc.us.pil.shop.philips.com/");
@@ -14,7 +15,7 @@ public class StaticBlock {
         ECSConfig.INSTANCE.setPropositionID("Tuscany2016");
         ECSConfig.INSTANCE.setLocale("en_US");
 
-        ECSConfig.INSTANCE.setAuthToken("acceesstoken");
+        ECSConfig.INSTANCE.setAuthToken(mockAccessToken);
     }
 
     public static  String getBaseURL(){
