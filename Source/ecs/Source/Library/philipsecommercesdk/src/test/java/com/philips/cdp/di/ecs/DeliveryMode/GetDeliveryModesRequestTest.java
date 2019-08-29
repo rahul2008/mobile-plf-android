@@ -2,6 +2,7 @@ package com.philips.cdp.di.ecs.DeliveryMode;
 
 import android.content.Context;
 
+import com.android.volley.Request;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
@@ -106,4 +107,11 @@ public class GetDeliveryModesRequestTest {
         String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/carts/current/deliverymodes?fields=FULL&lang="+StaticBlock.getLocale();
         Assert.assertEquals(excepted,mockDeliveryModesRequest.getURL());
     }
+
+    @Test
+    public void getMethodTest(){
+        Assert.assertEquals(Request.Method.GET,mockDeliveryModesRequest.getMethod());
+    }
+
+
 }
