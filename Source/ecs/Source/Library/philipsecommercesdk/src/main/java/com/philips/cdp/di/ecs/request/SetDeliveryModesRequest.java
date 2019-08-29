@@ -47,7 +47,7 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
+        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessageForAddress(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
     }
 
