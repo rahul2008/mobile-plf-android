@@ -14,6 +14,7 @@ import com.ecs.demouapp.ui.adapters.DeliveryModeAdapter;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.session.NetworkConstants;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.error.ECSErrors;
@@ -107,7 +108,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     public void onGetDeliveryModes(Message msg) {
         if ((msg.obj instanceof Exception)) {
             Exception exception =(Exception) msg.obj;
-            ECSErrors.showECSToast(getActivity(),exception.getMessage());
+            ECSNetworkError.showECSAlertDialog(getActivity(),"Error",exception.getMessage());
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             List<DeliveryModes> deliveryModeList;
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
@@ -124,7 +125,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
         hideProgressBar();
         if ((msg.obj instanceof Exception)) {
             Exception exception =(Exception) msg.obj;
-            ECSErrors.showECSToast(getActivity(),exception.getMessage());
+            ECSNetworkError.showECSAlertDialog(getActivity(),"Error",exception.getMessage());
         }else {
             getFragmentManager().popBackStack();
         }

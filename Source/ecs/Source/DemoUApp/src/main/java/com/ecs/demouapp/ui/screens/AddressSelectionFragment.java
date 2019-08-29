@@ -162,17 +162,17 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         if(msg.obj instanceof Boolean){
 
             if((Boolean) msg.obj){
-
-                ECSErrors.showECSToast(mContext,"error setting  Default Address");
+                ECSErrors.showECSToast(mContext,"Address set successfully");
             }else{
-
+                ECSErrors.showECSToast(mContext,"error setting Default Address");
             }
 
         }else if (msg.obj instanceof IAPNetworkError) {
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             moveToShoppingCart();
         } else if (msg.obj instanceof Exception){
-            ECSErrors.showECSToast(mContext,"error feetching address");
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
             moveToShoppingCart();
          }else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
@@ -249,7 +249,6 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             }
         } else if ((msg.obj instanceof Exception)) {
             ECSNetworkError.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = Utility.prepareAddressFields(retrieveSelectedAddress(), mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);

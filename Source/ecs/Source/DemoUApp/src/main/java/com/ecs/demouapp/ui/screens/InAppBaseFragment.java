@@ -28,6 +28,7 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
@@ -233,11 +234,11 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             hideProgressBar();
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
             hideProgressBar();
         }  else if ((msg.obj instanceof Exception)) {
             Exception exception = (Exception) msg.obj;
-            ECSErrors.showECSToast(mContext,exception.getMessage());
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
             hideProgressBar();
         }else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;

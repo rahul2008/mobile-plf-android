@@ -35,6 +35,9 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.PaginationEntity;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -47,6 +50,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class ProductCatalogFragment extends InAppBaseFragment
         implements EventListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener, ECSCallback<Products, Exception> {
@@ -443,7 +448,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Override
     public void onFailure(Exception error, int errorCode) {
-        ECSErrors.showECSToast(getActivity(),error.getMessage());
+        ECSNetworkError.showECSAlertDialog(mContext,"Error", error.getMessage());
         //onLoadError(new IAPNetworkError(new VolleyError(error.getMessage()), errorCode, null));
     }
 }

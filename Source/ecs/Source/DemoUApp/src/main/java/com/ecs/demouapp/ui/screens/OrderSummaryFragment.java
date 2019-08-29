@@ -280,11 +280,11 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onGetAddress(Message msg) {
         hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         } else if (msg.obj instanceof Exception) {
 
             Exception exception = (Exception) msg.obj;
-            ECSErrors.showECSToast(mContext, exception.getMessage());
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
         } else {
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)
@@ -385,7 +385,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             updateCartDetails(mShoppingCartAPI);
         } else if ((msg.obj instanceof Exception)) {
             Exception exception = (Exception) msg.obj;
-            ECSErrors.showECSToast(mContext, exception.getMessage());
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
@@ -468,7 +468,6 @@ public class OrderSummaryFragment extends InAppBaseFragment
             hideProgressBar();
             Exception exception = (Exception) msg.obj;
             ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
-           // NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         } else {
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
@@ -504,7 +503,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             }*/
         }else if(msg.obj instanceof String){
             hideProgressBar();
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",msg.obj.toString());
+            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
         }
     }
 
