@@ -2,25 +2,24 @@ package com.philips.cdp.di.ecs.Address;
 
 import android.content.Context;
 
+import com.android.volley.NoConnectionError;
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
-import com.philips.cdp.di.ecs.model.address.Region;
-import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
 import org.junit.Assert;
-import org.apache.tools.ant.taskdefs.Length;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
@@ -28,9 +27,11 @@ import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class CreateAddressTest {
@@ -49,6 +50,10 @@ public class CreateAddressTest {
 
     MockCreateAddressRequest mockCreateAddressRequest;
 
+    Addresses address;
+
+    ECSCallback<Addresses, Exception> ecsCallback;
+
     @Before
     public void setUp() throws Exception {
 
@@ -62,8 +67,8 @@ public class CreateAddressTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
-        Addresses address = new Addresses();
-        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, new ECSCallback<Addresses, Exception>() {
+        address = StaticBlock.getAddressesObject();
+        ecsCallback = new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses result) {
 
@@ -73,7 +78,8 @@ public class CreateAddressTest {
             public void onFailure(Exception error, int errorCode) {
 
             }
-        });
+        };
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, ecsCallback);
 
     }
 
@@ -214,7 +220,41 @@ public class CreateAddressTest {
 
         Map<String, String> actual = mockCreateAddressRequest.getHeader();
 
-
         assertTrue(expectedMap.equals(actual));
+    }
+
+    @Test
+    public void isValidParam() {
+        assertNotNull(mockCreateAddressRequest.getParams());
+        assertNotEquals(0,mockCreateAddressRequest.getParams().size());
+    }
+
+
+
+
+    @Test
+    public void verifyOnResponseError() {
+        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
+        VolleyError volleyError = new NoConnectionError();
+        mockCreateAddressRequest.onErrorResponse(volleyError);
+        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+
+    }
+
+    @Test
+    public void verifyErrorMessageAndCode() {
+
+        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
+        VolleyError volleyError = new NoConnectionError();
+        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        assertEquals("Cannot connect to Internet .. Please check your connection!",ecsError.getException().getMessage());
+        assertEquals(11001,ecsError.getErrorcode());
+    }
+
+    @Test
+    public void assertResponseSuccessListenerNotNull() {
+        assertNotNull(mockCreateAddressRequest.getStringSuccessResponseListener());
     }
 }

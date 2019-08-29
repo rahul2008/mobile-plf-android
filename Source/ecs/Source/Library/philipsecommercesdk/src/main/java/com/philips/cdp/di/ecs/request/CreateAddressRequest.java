@@ -1,5 +1,7 @@
 package com.philips.cdp.di.ecs.request;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -86,7 +88,7 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = getErrorLocalizedErrorMessageForAddress(error);
+        ECSError ecsError = getECSError(error);
         ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
 
     }
@@ -94,4 +96,9 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
     public Response.Listener<String> getStringSuccessResponseListener(){
         return this;
     }
+
+    public ECSError getECSError(VolleyError error){
+        return getErrorLocalizedErrorMessageForAddress(error);
+    }
+
 }

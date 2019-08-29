@@ -6,7 +6,6 @@ package com.philips.cdp.di.ecs.error;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
 
@@ -18,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.R;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 
