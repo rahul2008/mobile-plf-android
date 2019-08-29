@@ -18,6 +18,7 @@ import org.robolectric.RobolectricTestRunner;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetShoppingCartTest {
@@ -73,15 +74,14 @@ public class GetShoppingCartTest {
         mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
-                assertNotNull(result);
-                assertNotNull(result.getGuid());
-                // test case passed
+                assertTrue(false);
+                // test case failed
             }
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertEquals(8999,errorCode);
+                assertEquals("No cart created yet.",error.getMessage());
 
-                // test case failed
+                // test case passed
             }
         });
     }
@@ -98,7 +98,7 @@ public class GetShoppingCartTest {
             }
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertEquals(8999,errorCode);
+                assertEquals("No cart created yet.",error.getMessage());
 
                 // test case failed
             }
@@ -117,7 +117,7 @@ public class GetShoppingCartTest {
             }
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertEquals(8999,errorCode);
+                assertTrue(true);
 
                 // test case failed
             }

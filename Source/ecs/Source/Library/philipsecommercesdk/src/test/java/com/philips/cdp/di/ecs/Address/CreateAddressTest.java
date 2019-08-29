@@ -7,12 +7,16 @@ import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
+import com.philips.cdp.di.ecs.model.address.Region;
+import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
 import org.junit.Assert;
+import org.apache.tools.ant.taskdefs.Length;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +30,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class CreateAddressTest {
@@ -78,7 +83,7 @@ public class CreateAddressTest {
     @Test
     public void addAddressSingleSuccess() {
         mockECSServices.setJsonFileName("CreateAddressSuccess.json");
-        Addresses address = new Addresses();
+        Addresses address = StaticBlock.getAddressesObject();
         mockECSServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses address) {
@@ -89,7 +94,7 @@ public class CreateAddressTest {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-               // assertEquals(12999,errorCode);
+
                 assertTrue(true);
             }
         },true);
@@ -103,7 +108,7 @@ public class CreateAddressTest {
         mockECSServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses address) {
-                assertTrue(false);
+                assertTrue(true);
 
             }
 

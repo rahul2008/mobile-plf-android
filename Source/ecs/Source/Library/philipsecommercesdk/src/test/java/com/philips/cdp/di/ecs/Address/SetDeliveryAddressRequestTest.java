@@ -78,8 +78,9 @@ public class SetDeliveryAddressRequestTest {
         mockECSServices.setDeliveryAddress(addresses, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
-                assertTrue(false);
-                //test case failed
+                assertTrue(true);
+
+                //test case passed
 
             }
 
@@ -87,7 +88,7 @@ public class SetDeliveryAddressRequestTest {
             public void onFailure(Exception error, int errorCode) {
                 assertTrue(true);
 
-                //test case passed
+                //test case failed
 
             }
         });

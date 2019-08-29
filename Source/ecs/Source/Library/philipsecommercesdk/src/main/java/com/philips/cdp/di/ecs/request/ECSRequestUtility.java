@@ -54,11 +54,8 @@ public class ECSRequestUtility {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, addresses.getRegion().getIsocodeShort());
         }
 
-
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, String.valueOf(addresses.isDefaultAddress()));
 
-        if(addresses.getId()!=null)
-            addressHashMap.put(ModelConstants.ADDRESS_ID, addresses.getId());
 
         return addressHashMap;
     }
