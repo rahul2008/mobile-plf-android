@@ -50,38 +50,20 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
     }
 
     override fun onResponse(response: JSONObject?) {
-        val webResultsECSErrorPair = getWebResultsECSErrorPair(response)
 
-        if (webResultsECSErrorPair.second != null) {
-            callBack.onFailure(webResultsECSErrorPair.second.getException(), webResultsECSErrorPair.second.getErrorcode())
-        } else {
-            callBack.onResponse(webResultsECSErrorPair.first)
+        try{
+           val webResults = Gson().fromJson(response.toString(),
+                    WebResults::class.java)
+            callBack.onResponse(webResults)
+        }catch (exception:Exception){
+            
         }
+
     }
 
     override fun getJSONSuccessResponseListener(): Response.Listener<JSONObject> {
         return this
     }
 
-    fun getWebResultsECSErrorPair(response: JSONObject?): Pair<WebResults, ECSError> {
 
-        var webResults: WebResults? = null
-        var detailError = ""
-        var ecsError: ECSError? = null
-
-        try {
-            if (null != response && null != response.toString()) {
-                detailError = response.toString()
-            }
-            webResults = Gson().fromJson(response.toString(),
-                    WebResults::class.java)
-
-
-        } catch (e: Exception) {
-            //ecsError = ECSError(e, detailError, ECSErrorConstant.GetDeliveryModeError.UNKNOWN_ERROR.errorCode)
-        } finally {
-            return Pair<WebResults, ECSError>(webResults, ecsError)
-        }
-
-    }
 }
