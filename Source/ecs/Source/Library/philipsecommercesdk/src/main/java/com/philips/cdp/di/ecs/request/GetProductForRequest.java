@@ -8,6 +8,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -16,6 +17,8 @@ import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class GetProductForRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
@@ -56,18 +59,22 @@ public class GetProductForRequest extends AppInfraAbstractRequest implements Res
      */
     @Override
     public void onResponse(JSONObject response) {
-        if (response != null) {
             Product product = null;
-            product = getJson().fromJson(response.toString(),
-                    Product.class);
-            if (null != product && null != product.getCode()) {
+            Exception exception = null;
+
+            try {
+                product = getJson().fromJson(response.toString(),
+                        Product.class);
+            } catch (Exception e) {
+                exception = e;
+            }
+
+            if (null == exception && null != product && null != product.getCode()) {
                 ecsCallback.onResponse(product);
             } else {
-                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
+                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+                ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
             }
-        }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
-        }
     }
 
     public Gson getJson(){

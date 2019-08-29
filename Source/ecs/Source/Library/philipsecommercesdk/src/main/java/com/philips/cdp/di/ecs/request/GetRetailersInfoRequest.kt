@@ -56,7 +56,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
                     WebResults::class.java)
             callBack.onResponse(webResults)
         }catch (exception:Exception){
-            
+
         }
 
     }

@@ -5,6 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
@@ -12,6 +13,8 @@ import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class GetConfigurationRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
@@ -39,20 +42,21 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
 
     @Override
     public void onResponse(JSONObject response) {
+        HybrisConfigResponse resp = null;
+        Exception exception = null;
 
-        if(response!=null){
-            if(response.has("catalogId") && response.has("rootCategory") && response.has("siteId")){
-
-                HybrisConfigResponse resp = new Gson().fromJson(response.toString(),
-                        HybrisConfigResponse.class);
-
+        try {
+            resp = new Gson().fromJson(response.toString(),
+                    HybrisConfigResponse.class);
+        } catch (Exception e) {
+            exception = e;
+        }
+            if(null==exception && resp.getCatalogId()!=null && resp.getRootCategory()!=null && resp.getSiteId()!=null){
                 eCSCallback.onResponse(resp);
             }else if(response.has("net")) {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), 3999);
+                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+                eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
             }
-        }else{
-            eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_UNKNOWN_ERROR), 3999);
-        }
     }
 
     @Override

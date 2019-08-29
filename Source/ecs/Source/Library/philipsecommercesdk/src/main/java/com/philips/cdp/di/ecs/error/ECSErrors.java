@@ -102,15 +102,7 @@ public class ECSErrors {
     }
 
 
-   public static void showECSAlertDialog(Context context, String title, String message ){
-       new AlertDialog.Builder(context)
-               .setTitle(title)
-               .setMessage(message)
-               .setPositiveButton(android.R.string.ok, null)
-               //.setNegativeButton(android.R.string.no, null)
-               .setIcon(android.R.drawable.ic_dialog_alert)
-               .show();
-   }
+
 
    public static String getLocalizedErrorMessage(int stringId){
         String localizedError=ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getString(R.string.something_went_wrong);

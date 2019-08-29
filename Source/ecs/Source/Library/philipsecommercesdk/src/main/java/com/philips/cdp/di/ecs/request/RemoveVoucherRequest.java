@@ -28,7 +28,7 @@ public class RemoveVoucherRequest extends OAuthAppInfraAbstractRequest implement
             // Empty response indicate success
             ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onFailure(new Exception(response), 200999);
+            ecsCallback.onResponse(false);
         }
     }
 

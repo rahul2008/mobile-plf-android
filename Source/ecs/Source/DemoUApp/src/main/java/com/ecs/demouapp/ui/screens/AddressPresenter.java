@@ -130,9 +130,10 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
                     ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
         } else if (msg.obj instanceof IAPNetworkError) {
-            addressContractor.hideProgressbar();
+           // addressContractor.hideProgressbar();
             addressContractor.showErrorMessage(msg);
         }
+        addressContractor.hideProgressbar();
     }
 
     @Override
@@ -143,18 +144,14 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 addressContractor.showErrorMessage(msg);
             }else if(msg.obj instanceof Exception){
                 addressContractor.showErrorMessage(msg);
-            }else if(msg.obj instanceof Boolean){
-                if((Boolean) msg.obj){
-                    //set Default address true
-                }
-
             } else{
                 if (addressContractor.getContinueButtonText().equalsIgnoreCase(addressContractor.getActivityContext().getString(R.string.iap_save))) {
                     addressContractor.hideProgressbar();
                     addressContractor.getFragmentActivity().getSupportFragmentManager().popBackStackImmediate();
                 } else {
-                    //TODO
-                    //setDeliveryAddress(CartModelContainer.getInstance().getAddressId());
+                    Addresses addresses = new Addresses();
+                    addresses.setId(CartModelContainer.getInstance().getAddressId());
+                    setDeliveryAddress(addresses);
                 }
             }
         }
@@ -189,7 +186,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
     @Override
     public void onSetDeliveryMode(Message msg) {
 
-        if (msg.obj.equals(ECSConstant.IAP_SUCCESS)) {
+        if (msg.obj instanceof Boolean  && (Boolean)msg.obj){
             if (CartModelContainer.getInstance().getBillingAddress() == null)
                 mPaymentController.getPaymentDetails();
             else

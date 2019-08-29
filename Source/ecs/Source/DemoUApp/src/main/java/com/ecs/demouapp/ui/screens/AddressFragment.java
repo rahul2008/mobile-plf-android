@@ -209,7 +209,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
 
         if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
-            //createCustomProgressBar(mParentContainer, BIG);
+            createCustomProgressBar(mParentContainer, BIG);
 
             if (mBtnContinue.getText().toString().equalsIgnoreCase(mContext.getString(R.string.iap_save))) {
                 saveShippingAddressToBackend();

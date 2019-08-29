@@ -5,12 +5,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONObject;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 
 public class GetProductSummaryListRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
@@ -41,18 +44,21 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest implem
 
     @Override
     public void onResponse(JSONObject response) {
+        ECSProductSummary ecsProductSummary = null;
+        Exception exception = null;
 
-        if (response != null) {
-            ECSProductSummary ecsProductSummary = new Gson().fromJson(response.toString(),
+        try {
+            ecsProductSummary = new Gson().fromJson(response.toString(),
                     ECSProductSummary.class);
-            if(null!=ecsProductSummary.getData()) {
+        } catch (Exception e) {
+            exception = e;
+        }
+            if(null == exception && null!=ecsProductSummary.getData()) {
                 ecsCallback.onResponse(ecsProductSummary);
             }else{
-                ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), 4999);
+                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+                ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
             }
-        }else{
-            ecsCallback.onFailure(new Exception(ECSErrorReason.ECS_NO_PRODUCT_FOUND), 4999);
-        }
     }
 
     @Override

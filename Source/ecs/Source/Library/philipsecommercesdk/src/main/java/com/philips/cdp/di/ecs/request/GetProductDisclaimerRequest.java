@@ -5,12 +5,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.disclaimer.DisclaimerModel;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 
 import org.json.JSONObject;
+
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class GetProductDisclaimerRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
@@ -42,16 +45,23 @@ public class GetProductDisclaimerRequest extends AppInfraAbstractRequest impleme
     @Override
     public void onResponse(JSONObject response) {
         Disclaimers disclaimers=null;
-        if(response!=null){
-            DisclaimerModel resp = new Gson().fromJson(response.toString(),
+        DisclaimerModel resp = null;
+        Exception exception = null;
+
+        try {
+            resp = new Gson().fromJson(response.toString(),
                     DisclaimerModel.class);
-            if(null!=resp.getData() && null!=resp.getData().getDisclaimers()) {
-                disclaimers = resp.getData().getDisclaimers();
-
-            }
+        } catch (Exception e) {
+            exception = e;
         }
-        ecsCallback.onResponse(disclaimers);
 
+        if(null == exception && null!=resp && null!=resp.getData() && null!=resp.getData().getDisclaimers()) {
+            disclaimers = resp.getData().getDisclaimers();
+            ecsCallback.onResponse(disclaimers);
+        } else {
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        }
     }
 
     @Override
