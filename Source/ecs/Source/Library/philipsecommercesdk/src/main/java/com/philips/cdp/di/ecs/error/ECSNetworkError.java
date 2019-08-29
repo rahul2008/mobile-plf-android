@@ -64,13 +64,15 @@ public class ECSNetworkError {
 
         String errorType = null;
         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
-        if (volleyError instanceof com.android.volley.ServerError) {
+        if (volleyError instanceof com.android.volley.ServerError || volleyError instanceof AuthFailureError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
                 Log.e("ON_FAILURE_ERROR", serverError.getErrors().get(0).toString());
                 errorType = serverError.getErrors().get(0).getType();
                 mServerError.setErrors(serverError.getErrors());
                 ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
+            }else  if(volleyError instanceof AuthFailureError) { // If it is AuthFailureError other than InvalidHybris Token
+                ecsErrorEnum = ECSErrorEnum.ecs_volley_auth_error;
             }
         } else {
             ecsErrorEnum = getVolleyErrorType(volleyError);
@@ -88,9 +90,7 @@ public class ECSNetworkError {
          ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
         if (error instanceof NoConnectionError || error instanceof NetworkError) {
             ecsErrorEnum = ECSErrorEnum.ecs_no_internet;
-        } else if (error instanceof AuthFailureError) {
-            ecsErrorEnum = ECSErrorEnum.ecs_volley_auth_error;
-        } else if (error instanceof TimeoutError) {
+        }  else if (error instanceof TimeoutError) {
             ecsErrorEnum = ECSErrorEnum.ecs_connection_timeout;
         } else if (error instanceof com.android.volley.ServerError) {
             ecsErrorEnum = ECSErrorEnum.ecs_server_not_found;
