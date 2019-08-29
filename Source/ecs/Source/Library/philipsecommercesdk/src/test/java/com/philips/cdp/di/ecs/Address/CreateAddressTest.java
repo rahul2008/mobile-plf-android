@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.Country;
@@ -13,6 +14,7 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
+import org.junit.Assert;
 import org.apache.tools.ant.taskdefs.Length;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,18 +43,33 @@ public class CreateAddressTest {
     @Mock
     RestInterface mockRestInterface;
 
+    MockCreateAddressRequest mockCreateAddressRequest;
+
     @Before
     public void setUp() throws Exception {
 
 
         mContext = getInstrumentation().getContext();
-       // appInfra = new AppInfra.Builder().setRestInterface(mockRestInterface).build(mContext);
+        appInfra = new AppInfra.Builder().setRestInterface(mockRestInterface).build(mContext);
         //appInfra.getServiceDiscovery().setHomeCountry("DE");
 
-        //when(ECSConfig.INSTANCE.getAccessToken()).thenReturn("HybrisToken");
-       // when(ECSConfig.INSTANCE.getAccessToken()).then("HybrisToken");
+
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        StaticBlock.initialize();
+        Addresses address = new Addresses();
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, new ECSCallback<Addresses, Exception>() {
+            @Override
+            public void onResponse(Addresses result) {
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        });
 
     }
 
@@ -172,6 +189,12 @@ public class CreateAddressTest {
     }
 
     //////////////////////////////End of All  Address fetch ////////////////
+
+    @Test
+    public void isValidURL() {
+        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/addresses?fields=FULL&lang="+StaticBlock.getLocale();
+        Assert.assertEquals(excepted,mockCreateAddressRequest.getURL());
+    }
 
     public static   Addresses getAddressesObject(){
 

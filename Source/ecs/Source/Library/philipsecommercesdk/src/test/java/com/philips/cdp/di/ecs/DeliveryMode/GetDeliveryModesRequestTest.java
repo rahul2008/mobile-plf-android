@@ -4,11 +4,13 @@ import android.content.Context;
 
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +36,8 @@ public class GetDeliveryModesRequestTest {
     @Mock
     RestInterface mockRestInterface;
 
+    MockDeliveryModesRequest mockDeliveryModesRequest;
+
     @Before
     public void setUp() throws Exception {
 
@@ -43,6 +47,20 @@ public class GetDeliveryModesRequestTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        StaticBlock.initialize();
+
+        mockDeliveryModesRequest = new MockDeliveryModesRequest(new ECSCallback<GetDeliveryModes, Exception>() {
+            @Override
+            public void onResponse(GetDeliveryModes result) {
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        },"deliverymodes.json");
     }
 
     @Test
@@ -83,4 +101,9 @@ public class GetDeliveryModesRequestTest {
         });
     }
 
+    @Test
+    public void isValidURL() {
+        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/carts/current/deliverymodes?fields=FULL&lang="+StaticBlock.getLocale();
+        Assert.assertEquals(excepted,mockDeliveryModesRequest.getURL());
+    }
 }

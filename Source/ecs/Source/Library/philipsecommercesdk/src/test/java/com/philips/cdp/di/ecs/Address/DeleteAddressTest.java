@@ -4,12 +4,14 @@ import android.content.Context;
 
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +39,8 @@ public class DeleteAddressTest {
     @Mock
     RestInterface mockRestInterface;
 
+    MockDeleteAddressRequest mockDeleteAddressRequest;
+
     @Before
     public void setUp() throws Exception {
 
@@ -48,6 +52,21 @@ public class DeleteAddressTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        StaticBlock.initialize();
+        Addresses addresses = new Addresses();
+        addresses.setId("1234");
+        mockDeleteAddressRequest = new MockDeleteAddressRequest("EmptyString.json", addresses, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        });
 
     }
 
@@ -91,5 +110,10 @@ public class DeleteAddressTest {
 
     }
 
+    @Test
+    public void isValidURL() {
+        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/addresses/"+"1234"+"?fields=FULL&lang="+StaticBlock.getLocale();
+        Assert.assertEquals(excepted,mockDeleteAddressRequest.getURL());
+    }
 
 }

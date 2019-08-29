@@ -4,11 +4,13 @@ import android.content.Context;
 
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +36,8 @@ public class GetConfigurationRequestTest {
     @Mock
     RestInterface mockRestInterface;
 
+    MockGetConfigurationRequest mockGetConfigurationRequest;
+
     @Before
     public void setUp() throws Exception {
 
@@ -43,6 +47,21 @@ public class GetConfigurationRequestTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        StaticBlock.initialize();
+
+        //Creating config request object
+        mockGetConfigurationRequest = new MockGetConfigurationRequest("GetConfigSuccess.json", new ECSCallback<HybrisConfigResponse, Exception>() {
+            @Override
+            public void onResponse(HybrisConfigResponse result) {
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        });
     }
 
 
@@ -84,8 +103,13 @@ public class GetConfigurationRequestTest {
                 assertTrue(true);
                 //test case passed
             }
-        });
+        });;
 
     }
 
+    @Test
+    public void isValidURL() {
+        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/inAppConfig/"+StaticBlock.getLocale()+"/"+StaticBlock.getPropositionID();
+        Assert.assertEquals(excepted,mockGetConfigurationRequest.getURL());
+    }
 }
