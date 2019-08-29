@@ -4,11 +4,13 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.google.gson.Gson
+import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.orders.OrderDetail
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
 import com.philips.cdp.di.ecs.util.ECSConfig
 import com.philips.cdp.di.ecs.error.ECSNetworkError
+import com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage
 import org.json.JSONObject
 import java.lang.Exception
 import java.util.HashMap
@@ -39,8 +41,24 @@ open class GetOrderDetailRequest (orderID: String, ecsCallback: ECSCallback<Orde
 
 
     override fun onResponse(response: JSONObject?) {
-        val orderDetail = Gson().fromJson<OrderDetail>(response.toString(), OrderDetail::class.java)
-        ecsCallback.onResponse(orderDetail)
+        var orderDetail: OrderDetail? = null
+        var exception: Exception? = null
+        try
+        {
+            orderDetail = Gson().fromJson(response.toString(), OrderDetail::class.java)
+        } catch (e:Exception) {
+            exception = e
+        }
+
+        if (null == exception && null != orderDetail)
+        {
+            ecsCallback.onResponse(orderDetail)
+        }
+        else
+        {
+            val ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception, response.toString())
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
+        }
     }
 
     override fun getJSONSuccessResponseListener(): Response.Listener<JSONObject> {
