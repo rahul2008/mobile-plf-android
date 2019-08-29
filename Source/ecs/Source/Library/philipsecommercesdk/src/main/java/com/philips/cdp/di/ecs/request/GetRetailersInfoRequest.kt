@@ -6,6 +6,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSError
+import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.retailers.WebResults
 import com.philips.cdp.di.ecs.util.ECSConfig
@@ -56,7 +57,8 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
                     WebResults::class.java)
             callBack.onResponse(webResults)
         }catch (exception:Exception){
-
+            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception, response.toString())
+            callBack.onFailure(ecsError.getException(), ecsError.getErrorcode())
         }
 
     }

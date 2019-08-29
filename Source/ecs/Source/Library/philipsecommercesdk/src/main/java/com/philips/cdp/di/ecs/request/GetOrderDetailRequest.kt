@@ -15,7 +15,7 @@ import org.json.JSONObject
 import java.lang.Exception
 import java.util.HashMap
 
-open class GetOrderDetailRequest (orderID: String, ecsCallback: ECSCallback<OrderDetail, Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
+open class GetOrderDetailRequest(orderID: String, ecsCallback: ECSCallback<OrderDetail, Exception>) : OAuthAppInfraAbstractRequest(), Response.Listener<JSONObject> {
 
     val orderID = orderID
     val ecsCallback = ecsCallback
@@ -41,22 +41,12 @@ open class GetOrderDetailRequest (orderID: String, ecsCallback: ECSCallback<Orde
 
 
     override fun onResponse(response: JSONObject?) {
-        var orderDetail: OrderDetail? = null
-        var exception: Exception? = null
-        try
-        {
-            orderDetail = Gson().fromJson(response.toString(), OrderDetail::class.java)
-        } catch (e:Exception) {
-            exception = e
-        }
 
-        if (null == exception && null != orderDetail)
-        {
+        try {
+            val orderDetail = Gson().fromJson(response.toString(), OrderDetail::class.java)
             ecsCallback.onResponse(orderDetail)
-        }
-        else
-        {
-            val ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception, response.toString())
+        } catch (e: Exception) {
+            val ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, e, response.toString())
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
         }
     }

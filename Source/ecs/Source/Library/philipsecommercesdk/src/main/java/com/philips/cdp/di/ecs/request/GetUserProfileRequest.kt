@@ -29,23 +29,13 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
     }
 
     override fun onResponse(response: JSONObject?) {
-        var userProfile: UserProfile? = null
-        var exception: Exception? = null
 
         try{
-            userProfile = Gson().fromJson(response.toString(),
+           val userProfile = Gson().fromJson(response.toString(),
                     UserProfile::class.java)
-        }catch (e :Exception){
-            exception = e
-        }
-
-        if (null == exception && null != userProfile)
-        {
             ecsCallback.onResponse(userProfile)
-        }
-        else
-        {
-            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception, response.toString())
+        }catch (e :Exception){
+            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, e, response.toString())
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
         }
     }
