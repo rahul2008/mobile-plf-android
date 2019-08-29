@@ -2,6 +2,9 @@ package com.philips.cdp.di.ecs.DeliveryMode;
 
 import android.content.Context;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
@@ -89,13 +92,13 @@ public class GetDeliveryModesRequestTest {
         mockECSServices.getDeliveryModes(new ECSCallback<GetDeliveryModes, Exception>() {
             @Override
             public void onResponse(GetDeliveryModes result) {
-                assertTrue(false);
+                assertNull(result.getDeliveryModes());
                 //  test case failed
             }
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertTrue(true);
+                assertTrue(false);
                 //  test case passed
             }
         });
@@ -105,5 +108,35 @@ public class GetDeliveryModesRequestTest {
     public void isValidURL() {
         String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/carts/current/deliverymodes?fields=FULL&lang="+StaticBlock.getLocale();
         Assert.assertEquals(excepted,mockDeliveryModesRequest.getURL());
+    }
+
+    @Test
+    public void getMethodTest(){
+        Assert.assertEquals(Request.Method.GET,mockDeliveryModesRequest.getMethod());
+    }
+
+
+    @Test
+    public void onErrorResponseTest(){
+
+       /* MyClass myClass = new MyClass();
+        myClass.out = Mockito.spy(new PrintStream(...));
+
+        // mock a call with an expected input
+        doNothing().when(myClass.out).println("expected command");
+
+        myClass.updateGreen();
+
+        // test that there was a call
+        Mockito.verify(myClass.out, Mockito.times(1)).println("expected command");*/
+
+       /* public void onErrorResponse(VolleyError error) {
+            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessageForAddress(error);
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        }*/
+        AuthFailureError authFailureError = new AuthFailureError();
+        mockDeliveryModesRequest.onErrorResponse(authFailureError);
+
+
     }
 }

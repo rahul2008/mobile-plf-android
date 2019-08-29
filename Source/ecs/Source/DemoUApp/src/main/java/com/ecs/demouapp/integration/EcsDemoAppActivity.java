@@ -43,6 +43,7 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
@@ -361,6 +362,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                     public void onFailure(Exception error, int errorCode) {
 
                         Log.d("ECS Oauth failed",error.getMessage() +" :  "+ errorCode);
+                        ECSNetworkError.showECSAlertDialog(getApplicationContext(),"Error",error.getMessage());
                         ECSConfig.INSTANCE.setAuthToken(null);
 
                     }

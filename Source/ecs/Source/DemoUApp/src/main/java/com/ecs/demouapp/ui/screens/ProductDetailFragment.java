@@ -48,6 +48,7 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.CountDropDown;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.asset.Asset;
 import com.philips.cdp.di.ecs.model.asset.Assets;
@@ -139,7 +140,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         public void onFailure(final Message msg) {
             hideProgressBar();
             mAddToCart.hideProgressIndicator();
-            ECSErrors.showECSToast(getActivity(),msg.obj.toString());
+            ECSNetworkError.showECSAlertDialog(mContext,"Error",msg.getData().toString());
         }
     };
     private Product product;
@@ -235,7 +236,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                             public void onFailure(Exception error, int errorCode) {
                                 hideProgressBar();
                                 mDetailLayout.setVisibility(View.GONE);
-                                showErrorDialog(new Message());
+                                ECSNetworkError.showECSAlertDialog(mContext,"Error",error.getMessage());
+                                //showErrorDialog(new Message());
                             }
                         });
 
@@ -309,9 +311,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     return;
                 }
                 Message msg = new Message();
-                NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
 
                 if (msg.obj instanceof IAPNetworkError) {
+                    ECSNetworkError.showECSAlertDialog(mContext,"Error", ((IAPNetworkError) msg.obj).getMessage());
                     final IAPNetworkError obj = (IAPNetworkError) msg.obj;
                     mIapListener.onFailure(obj.getIAPErrorCode());
                 }

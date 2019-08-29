@@ -36,6 +36,7 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
@@ -168,13 +169,9 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 mPaymentController.getPaymentDetails();
         }else if(msg.obj instanceof String){
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
-            ECSErrors.showECSToast(getAddressContractor().getActivityContext(),msg.obj.toString());
-
         } else{
             // failure
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
-            ECSErrors.showECSToast(getAddressContractor().getActivityContext(),"UNKNOWN ERROR");
-           // NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
         }
     }
 
@@ -217,11 +214,11 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             addressContractor.hideProgressbar();
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
+            ECSNetworkError.showECSAlertDialog(addressContractor.getActivityContext(),"Error",((IAPNetworkError) msg.obj).getMessage());
             addressContractor.hideProgressbar();
         } else if ((msg.obj instanceof Exception)) {
             Exception exception = (Exception)msg.obj;
-            ECSErrors.showECSToast(addressContractor.getFragmentActivity(),exception.getMessage());
+            ECSNetworkError.showECSAlertDialog(addressContractor.getActivityContext(),"Error",exception.getMessage());
             addressContractor.hideProgressbar();
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
@@ -245,7 +242,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             addressContractor.disableView(addressContractor.getShippingAddressView());
 
         } else if ((msg.obj instanceof Exception)) {
-            NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());
+            ECSNetworkError.showECSAlertDialog(addressContractor.getActivityContext(),"Error",((Exception) msg.obj).getMessage());
         } else if ((msg.obj instanceof PaymentMethods)) {
             //Track new address creation
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,

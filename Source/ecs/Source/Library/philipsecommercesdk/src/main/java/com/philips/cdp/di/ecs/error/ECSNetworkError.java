@@ -68,7 +68,7 @@ public class ECSNetworkError {
         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
         if (volleyError instanceof com.android.volley.ServerError || volleyError instanceof AuthFailureError) {
             ServerError serverError = getServerError(volleyError);
-            if (serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
+            if (serverError!=null && serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
                 Log.e("ON_FAILURE_ERROR", serverError.getErrors().get(0).toString());
                 errorType = serverError.getErrors().get(0).getType();
                 mServerError.setErrors(serverError.getErrors());
