@@ -4,6 +4,8 @@ package com.philips.cdp.di.ecs.Address;
 
 import android.content.Context;
 
+import com.android.volley.NoConnectionError;
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
@@ -18,12 +20,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -44,6 +52,8 @@ public class GetListSavedAddressTest {
 
     MockGetAddressRequest mockGetAddressRequest;
 
+    ECSCallback ecsCallback;
+
     @Before
     public void setUp() throws Exception {
 
@@ -57,7 +67,8 @@ public class GetListSavedAddressTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
-        mockGetAddressRequest = new MockGetAddressRequest("ShippingAddressListSuccess.json", new ECSCallback<GetShippingAddressData, Exception>() {
+
+        ecsCallback = new ECSCallback<GetShippingAddressData, Exception>() {
             @Override
             public void onResponse(GetShippingAddressData result) {
 
@@ -67,7 +78,8 @@ public class GetListSavedAddressTest {
             public void onFailure(Exception error, int errorCode) {
 
             }
-        });
+        };
+        mockGetAddressRequest = new MockGetAddressRequest("ShippingAddressListSuccess.json", ecsCallback);
     }
 
 
@@ -124,7 +136,18 @@ public class GetListSavedAddressTest {
     }
 
     @Test
-    public void isValidParam() {
+    public void assertResponseSuccessListenerNotNull() {
+        assertNotNull(mockGetAddressRequest.getJSONSuccessResponseListener());
+    }
+
+    @Test
+    public void verifyOnResponseError() {
+        ECSCallback<GetShippingAddressData, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockGetAddressRequest = new MockGetAddressRequest("CreateAddressSuccess.json", spy1);
+        VolleyError volleyError = new NoConnectionError();
+        mockGetAddressRequest.onErrorResponse(volleyError);
+        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
 
     }
+
 }

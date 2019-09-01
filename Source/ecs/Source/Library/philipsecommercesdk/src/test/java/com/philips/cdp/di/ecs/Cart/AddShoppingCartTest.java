@@ -2,24 +2,38 @@ package com.philips.cdp.di.ecs.Cart;
 
 import android.content.Context;
 
+import com.android.volley.NoConnectionError;
+import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.Address.MockCreateAddressRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class AddShoppingCartTest {
@@ -36,6 +50,13 @@ public class AddShoppingCartTest {
     @Mock
     RestInterface mockRestInterface;
 
+    MockAddProductToECSShoppingCartRequest mockAddProductToECSShoppingCartRequest;
+
+    ECSCallback ecsCallback;
+
+
+    Product product ;
+
     @Before
     public void setUp() throws Exception {
 
@@ -48,6 +69,23 @@ public class AddShoppingCartTest {
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
 
+        StaticBlock.initialize();
+
+        product = new Product();
+
+        ecsCallback = new ECSCallback<ECSShoppingCart, Exception>() {
+            @Override
+            public void onResponse(ECSShoppingCart result) {
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        };
+
+        mockAddProductToECSShoppingCartRequest = new MockAddProductToECSShoppingCartRequest("AddShoppingCartSuccess.json","1234",ecsCallback);
     }
 
     @Test
@@ -91,6 +129,60 @@ public class AddShoppingCartTest {
             }
         });
 
+    }
+
+    @Test
+    public void isValidURL() {
+        System.out.println("print the URL"+mockAddProductToECSShoppingCartRequest.getURL());
+        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/carts/current/entries?fields=FULL&lang="+StaticBlock.getLocale();
+        Assert.assertEquals(excepted,mockAddProductToECSShoppingCartRequest.getURL());
+    }
+
+    @Test
+    public void isValidPostRequest() {
+        Assert.assertEquals(1,mockAddProductToECSShoppingCartRequest.getMethod());
+    }
+
+    @Test
+    public void isValidHeader() {
+
+        Map<String, String> expectedMap = new HashMap<String, String>();
+        expectedMap.put("Content-Type", "application/x-www-form-urlencoded");
+        expectedMap.put("Authorization", "Bearer " + "acceesstoken");
+
+        Map<String, String> actual = mockAddProductToECSShoppingCartRequest.getHeader();
+
+        assertTrue(expectedMap.equals(actual));
+    }
+
+    @Test
+    public void isValidParam() {
+
+        Map<String, String> expectedMap = new HashMap<>();
+        expectedMap.put("code", "1234");
+
+
+        assertNotNull(mockAddProductToECSShoppingCartRequest.getParams());
+        assertTrue(expectedMap.equals(mockAddProductToECSShoppingCartRequest.getParams()));
+    }
+
+
+
+
+    @Test
+    public void verifyOnResponseError() {
+        ECSCallback<Boolean, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockAddProductToECSShoppingCartRequest = new MockAddProductToECSShoppingCartRequest("EmptyString.json","1234" , spy1);
+        VolleyError volleyError = new NoConnectionError();
+        mockAddProductToECSShoppingCartRequest.onErrorResponse(volleyError);
+        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+
+    }
+
+
+    @Test
+    public void assertResponseSuccessListenerNotNull() {
+        assertNotNull(mockAddProductToECSShoppingCartRequest.getStringSuccessResponseListener());
     }
 
 }

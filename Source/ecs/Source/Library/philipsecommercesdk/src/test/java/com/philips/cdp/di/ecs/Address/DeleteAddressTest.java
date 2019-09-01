@@ -2,6 +2,8 @@ package com.philips.cdp.di.ecs.Address;
 
 import android.content.Context;
 
+import com.android.volley.NoConnectionError;
+import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
@@ -16,11 +18,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class DeleteAddressTest {
@@ -41,6 +49,10 @@ public class DeleteAddressTest {
 
     MockDeleteAddressRequest mockDeleteAddressRequest;
 
+    ECSCallback ecsCallback;
+
+    Addresses addresses;
+
     @Before
     public void setUp() throws Exception {
 
@@ -54,9 +66,10 @@ public class DeleteAddressTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
-        Addresses addresses = new Addresses();
+        addresses = new Addresses();
         addresses.setId("1234");
-        mockDeleteAddressRequest = new MockDeleteAddressRequest("EmptyString.json", addresses, new ECSCallback<Boolean, Exception>() {
+
+        ecsCallback = new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
 
@@ -66,7 +79,8 @@ public class DeleteAddressTest {
             public void onFailure(Exception error, int errorCode) {
 
             }
-        });
+        };
+        mockDeleteAddressRequest = new MockDeleteAddressRequest("EmptyString.json", addresses,ecsCallback );
 
     }
 
@@ -114,6 +128,39 @@ public class DeleteAddressTest {
     public void isValidURL() {
         String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/addresses/"+"1234"+"?fields=FULL&lang="+StaticBlock.getLocale();
         Assert.assertEquals(excepted,mockDeleteAddressRequest.getURL());
+    }
+
+    @Test
+    public void isValidDeleteRequest() {
+        Assert.assertEquals(3,mockDeleteAddressRequest.getMethod());
+    }
+
+
+    @Test
+    public void isValidHeader() {
+
+        Map<String, String> expectedMap = new HashMap<String, String>();
+        expectedMap.put("Content-Type", "application/x-www-form-urlencoded");
+        expectedMap.put("Authorization", "Bearer " + "acceesstoken");
+
+        Map<String, String> actual = mockDeleteAddressRequest.getHeader();
+
+        assertTrue(expectedMap.equals(actual));
+    }
+
+    @Test
+    public void verifyOnResponseError() {
+        ECSCallback<Boolean, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockDeleteAddressRequest = new MockDeleteAddressRequest("CreateAddressSuccess.json", addresses, spy1);
+        VolleyError volleyError = new NoConnectionError();
+        mockDeleteAddressRequest.onErrorResponse(volleyError);
+        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+
+    }
+
+    @Test
+    public void assertResponseSuccessListenerNotNull() {
+        assertNotNull(mockDeleteAddressRequest.getStringSuccessResponseListener());
     }
 
 }
