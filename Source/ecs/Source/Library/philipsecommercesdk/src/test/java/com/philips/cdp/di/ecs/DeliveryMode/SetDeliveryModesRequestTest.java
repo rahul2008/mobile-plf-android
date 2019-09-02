@@ -3,12 +3,16 @@ package com.philips.cdp.di.ecs.DeliveryMode;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.Config.MockGetConfigurationRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -17,12 +21,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class SetDeliveryModesRequestTest {
@@ -35,6 +42,8 @@ public class SetDeliveryModesRequestTest {
 
 
     private AppInfra appInfra;
+
+    ECSCallback<Boolean, Exception> ecsCallback;
 
 
     @Mock
@@ -55,7 +64,7 @@ public class SetDeliveryModesRequestTest {
 
         StaticBlock.initialize();
 
-        mockSetDeliveryModesRequest = new MockSetDeliveryModesRequest(passedDeliveryMode, new ECSCallback<Boolean, Exception>() {
+        ecsCallback = new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
 
@@ -65,7 +74,9 @@ public class SetDeliveryModesRequestTest {
             public void onFailure(Exception error, int errorCode) {
 
             }
-        },"SetDeliveryModeFailure.json");
+        };
+
+        mockSetDeliveryModesRequest = new MockSetDeliveryModesRequest(passedDeliveryMode, ecsCallback,"SetDeliveryModeFailure.json");
     }
 
     @Test
@@ -94,13 +105,13 @@ public class SetDeliveryModesRequestTest {
         mockECSServices.setDeliveryMode(passedDeliveryMode, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
-                assertFalse(false);
+                assertFalse(true);
                 //test case failed
             }
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertFalse(true);
+                assertFalse(false);
                 //test case passed
 
             }
@@ -136,9 +147,16 @@ public class SetDeliveryModesRequestTest {
 
     @Test
     public void onErrorResponseTest(){
-        AuthFailureError authFailureError = new AuthFailureError();
-        mockSetDeliveryModesRequest.onErrorResponse(authFailureError);
+        ECSCallback<Boolean, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockSetDeliveryModesRequest = new MockSetDeliveryModesRequest(passedDeliveryMode, spy1,"SetDeliveryModeFailure.json");
+        VolleyError volleyError = new NoConnectionError();
+        mockSetDeliveryModesRequest.onErrorResponse(volleyError);
+        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
 
+    }
 
+    @Test
+    public void assertResponseSuccessListenerNotNull() {
+        assertNotNull(mockSetDeliveryModesRequest.getStringSuccessResponseListener());
     }
 }

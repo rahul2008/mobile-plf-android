@@ -33,6 +33,9 @@ class GetOrderDetailRequestTest{
     @Mock
     internal var mockRestInterface: RestInterface? = null
 
+    lateinit var mockGetOrderDetailRequest: MockGetOrderDetailRequest
+    val orderID : String = "123"
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
@@ -45,6 +48,22 @@ class GetOrderDetailRequestTest{
         mockECSServices = MockECSServices("", appInfra!!)
         ecsServices = ECSServices("", appInfra!!)
 
+
+        ecsCallback = object: ECSCallback<OrderDetail,Exception>{
+
+            override fun onResponse(result: OrderDetail){
+                assertNotNull(result)
+                assertNotNull(result.deliveryOrderGroups?.get(0)?.entries)
+            }
+
+
+            override fun onFailure(error: Exception, errorCode: Int){
+                assertTrue(true)
+                //  test case failed
+            }
+
+        }
+        mockGetOrderDetailRequest = MockGetOrderDetailRequest("GetOrderDetailSuccess.json",orderID,ecsCallback);
     }
 
     @Test

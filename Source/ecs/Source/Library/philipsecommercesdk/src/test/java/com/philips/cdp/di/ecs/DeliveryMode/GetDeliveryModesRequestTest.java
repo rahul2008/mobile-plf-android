@@ -3,13 +3,16 @@ package com.philips.cdp.di.ecs.DeliveryMode;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.Config.MockGetConfigurationRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -18,10 +21,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetDeliveryModesRequestTest {
@@ -41,6 +47,8 @@ public class GetDeliveryModesRequestTest {
 
     MockDeliveryModesRequest mockDeliveryModesRequest;
 
+    ECSCallback<GetDeliveryModes, Exception> ecsCallback;
+
     @Before
     public void setUp() throws Exception {
 
@@ -53,7 +61,7 @@ public class GetDeliveryModesRequestTest {
 
         StaticBlock.initialize();
 
-        mockDeliveryModesRequest = new MockDeliveryModesRequest(new ECSCallback<GetDeliveryModes, Exception>() {
+        ecsCallback = new ECSCallback<GetDeliveryModes, Exception>() {
             @Override
             public void onResponse(GetDeliveryModes result) {
 
@@ -63,7 +71,9 @@ public class GetDeliveryModesRequestTest {
             public void onFailure(Exception error, int errorCode) {
 
             }
-        },"deliverymodes.json");
+        };
+
+        mockDeliveryModesRequest = new MockDeliveryModesRequest(ecsCallback,"deliverymodes.json");
     }
 
     @Test
@@ -111,32 +121,24 @@ public class GetDeliveryModesRequestTest {
     }
 
     @Test
-    public void getMethodTest(){
-        Assert.assertEquals(Request.Method.GET,mockDeliveryModesRequest.getMethod());
+    public void isValidGetRequest() {
+        Assert.assertEquals(0,mockDeliveryModesRequest.getMethod());
     }
 
 
     @Test
-    public void onErrorResponseTest(){
+    public void verifyOnResponseError() {
+        ECSCallback<GetDeliveryModes, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockDeliveryModesRequest = new MockDeliveryModesRequest(spy1,"deliverymodes.json");
+        VolleyError volleyError = new NoConnectionError();
+        mockDeliveryModesRequest.onErrorResponse(volleyError);
+        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
 
-       /* MyClass myClass = new MyClass();
-        myClass.out = Mockito.spy(new PrintStream(...));
-
-        // mock a call with an expected input
-        doNothing().when(myClass.out).println("expected command");
-
-        myClass.updateGreen();
-
-        // test that there was a call
-        Mockito.verify(myClass.out, Mockito.times(1)).println("expected command");*/
-
-       /* public void onErrorResponse(VolleyError error) {
-            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessageForAddress(error);
-            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
-        }*/
-        AuthFailureError authFailureError = new AuthFailureError();
-        mockDeliveryModesRequest.onErrorResponse(authFailureError);
+    }
 
 
+    @Test
+    public void assertResponseSuccessListenerNotNull() {
+        assertNotNull(mockDeliveryModesRequest.getJSONSuccessResponseListener());
     }
 }

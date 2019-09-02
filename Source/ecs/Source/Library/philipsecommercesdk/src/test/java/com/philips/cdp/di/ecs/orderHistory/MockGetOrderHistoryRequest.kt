@@ -4,12 +4,12 @@ import com.android.volley.VolleyError
 import com.philips.cdp.di.ecs.TestUtil
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.order.OrdersData
+import com.philips.cdp.di.ecs.model.orders.OrderDetail
 import com.philips.cdp.di.ecs.request.GetOrderHistoryRequest
 import org.json.JSONException
 import org.json.JSONObject
-import java.lang.Exception
 
-class MockGetOrderHistoryRequest(jsonFile: String,currentPage: Int, ecsCallback: ECSCallback<OrdersData, Exception>) : GetOrderHistoryRequest(currentPage, ecsCallback) {
+class MockGetOrderHistoryRequest(jsonFile: String, currentPage: Int, ecsCallback: ECSCallback<OrdersData, Exception>) : GetOrderHistoryRequest(currentPage, ecsCallback) {
 
 
     internal var jsonFile: String = jsonFile
