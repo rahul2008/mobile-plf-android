@@ -2,18 +2,27 @@ package com.philips.cdp.di.ecs.orderHistory
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
+import com.android.volley.NoConnectionError
+import com.philips.cdp.di.ecs.Address.MockCreateAddressRequest
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.MockECSServices
+import com.philips.cdp.di.ecs.StaticBlock
 import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.address.Addresses
 import com.philips.cdp.di.ecs.model.orders.OrderDetail
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
+import java.util.HashMap
 
 @RunWith(RobolectricTestRunner::class)
 class GetOrderDetailRequestTest{
@@ -48,22 +57,21 @@ class GetOrderDetailRequestTest{
         mockECSServices = MockECSServices("", appInfra!!)
         ecsServices = ECSServices("", appInfra!!)
 
+        StaticBlock.initialize()
 
         ecsCallback = object: ECSCallback<OrderDetail,Exception>{
 
             override fun onResponse(result: OrderDetail){
-                assertNotNull(result)
-                assertNotNull(result.deliveryOrderGroups?.get(0)?.entries)
+
             }
 
 
             override fun onFailure(error: Exception, errorCode: Int){
-                assertTrue(true)
-                //  test case failed
+
             }
 
         }
-        mockGetOrderDetailRequest = MockGetOrderDetailRequest("GetOrderDetailSuccess.json",orderID,ecsCallback);
+        mockGetOrderDetailRequest = MockGetOrderDetailRequest("GetOrderDetailSuccess.json",orderID,ecsCallback)
     }
 
     @Test
@@ -109,6 +117,45 @@ class GetOrderDetailRequestTest{
         }
         mockECSServices.getOrderDetail("1234",ecsCallback)
 
+    }
+
+    @Test
+    fun isValidURL() {
+
+        System.out.println("print url: "+mockGetOrderDetailRequest.getURL())
+        val excepted = StaticBlock.getBaseURL() + "pilcommercewebservices" + "/v2/" + StaticBlock.getSiteID() + "/users/current/addresses?fields=FULL&lang=" + StaticBlock.getLocale()
+        assertEquals(excepted, mockGetOrderDetailRequest.getURL())
+    }
+
+    @Test
+    fun isValidGetRequest() {
+        assertEquals(0, mockGetOrderDetailRequest.getMethod().toLong())
+    }
+
+    @Test
+    fun isValidHeader() {
+
+        val expectedMap = HashMap<String, String>()
+        expectedMap["Authorization"] = "Bearer " + "acceesstoken"
+
+        val actual = mockGetOrderDetailRequest.getHeader()
+
+        assertTrue(expectedMap == actual)
+    }
+
+    @Test
+    fun verifyOnResponseError() {
+        val spy1 = Mockito.spy<ECSCallback<OrderDetail, Exception>>(ecsCallback)
+        mockGetOrderDetailRequest = MockGetOrderDetailRequest("GetOrderDetailSuccess.json",orderID,spy1);
+        val volleyError = NoConnectionError()
+        mockGetOrderDetailRequest.onErrorResponse(volleyError)
+        Mockito.verify(spy1).onFailure(any<Exception>(Exception::class.java), anyInt())
+
+    }
+
+    @Test
+    fun assertResponseSuccessListenerNotNull() {
+        assertNotNull(mockGetOrderDetailRequest.getJSONSuccessResponseListener())
     }
 }
 
