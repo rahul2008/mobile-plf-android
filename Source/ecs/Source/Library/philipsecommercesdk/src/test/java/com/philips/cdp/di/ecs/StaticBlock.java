@@ -18,16 +18,25 @@ public static final String  mockAccessToken = "acceesstoken";
         ECSConfig.INSTANCE.setSiteId("US_Tuscany");
         ECSConfig.INSTANCE.setPropositionID("Tuscany2016");
         ECSConfig.INSTANCE.setLocale("en_US");
+        ECSConfig.INSTANCE.setRootCategory("TuscanyCampaign");
+        ECSConfig.INSTANCE.setCountry("US");
 
         ECSConfig.INSTANCE.setAuthToken(mockAccessToken);
     }
 
+    public static  String getCountry(){
+        return ECSConfig.INSTANCE.getCountry();
+    }
     public static  String getBaseURL(){
         return ECSConfig.INSTANCE.getBaseURL();
     }
 
     public static String getSiteID(){
         return ECSConfig.INSTANCE.getSiteId();
+    }
+
+    public static String getRootCategory(){
+        return ECSConfig.INSTANCE.getRootCategory();
     }
 
     public static String getPropositionID(){

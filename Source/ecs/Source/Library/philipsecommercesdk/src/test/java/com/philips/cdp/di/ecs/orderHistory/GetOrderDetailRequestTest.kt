@@ -93,7 +93,7 @@ class GetOrderDetailRequestTest{
 
         }
 
-        mockECSServices.getOrderDetail("1234",ecsCallback)
+        mockECSServices.getOrderDetail("123",ecsCallback)
 
     }
 
@@ -115,7 +115,7 @@ class GetOrderDetailRequestTest{
             }
 
         }
-        mockECSServices.getOrderDetail("1234",ecsCallback)
+        mockECSServices.getOrderDetail("123",ecsCallback)
 
     }
 
@@ -123,7 +123,8 @@ class GetOrderDetailRequestTest{
     fun isValidURL() {
 
         System.out.println("print url: "+mockGetOrderDetailRequest.getURL())
-        val excepted = StaticBlock.getBaseURL() + "pilcommercewebservices" + "/v2/" + StaticBlock.getSiteID() + "/users/current/addresses?fields=FULL&lang=" + StaticBlock.getLocale()
+        //acc.us.pil.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/current/orders/123?fields=FULL&lang=en_US
+        val excepted = StaticBlock.getBaseURL() + "pilcommercewebservices" + "/v2/" + StaticBlock.getSiteID() + "/users/current/orders/"+orderID+"?fields=FULL&lang=" + StaticBlock.getLocale()
         assertEquals(excepted, mockGetOrderDetailRequest.getURL())
     }
 
