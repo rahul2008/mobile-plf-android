@@ -15,7 +15,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.ecs.R;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -79,8 +78,8 @@ public class ECSNetworkError {
         } else {
             ecsErrorEnum = getVolleyErrorType(volleyError);
         }
-        ECSError ecsError = new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
-        return ecsError;
+        return new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
+
     }
 
 

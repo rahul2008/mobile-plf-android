@@ -75,8 +75,7 @@ public class AssetModel extends ResponseData {
 
     @Override
     public ResponseData parseJsonResponseData(JSONObject jsonResponse) {
-        JSONObject assetResponse = jsonResponse;
-        if (assetResponse != null) {
+        if (jsonResponse != null) {
             return new Gson().fromJson(jsonResponse.toString(), AssetModel.class);
 
         }

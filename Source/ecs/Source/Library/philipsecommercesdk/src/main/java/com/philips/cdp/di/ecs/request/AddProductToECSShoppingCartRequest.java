@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.cdp.di.ecs.error.ECSErrors.getVolleyException;
+
 
 public class AddProductToECSShoppingCartRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 

@@ -30,7 +30,7 @@ public abstract class OAuthAppInfraAbstractRequest extends AppInfraAbstractReque
 
     @Override
     public Map<String, String> getHeader() {
-        HashMap authMap =new HashMap<String, String>();
+        HashMap<String, String> authMap =new HashMap<String, String>();
         authMap.put("Authorization","Bearer " + ECSConfig.INSTANCE.getAccessToken());
         return authMap;
     }

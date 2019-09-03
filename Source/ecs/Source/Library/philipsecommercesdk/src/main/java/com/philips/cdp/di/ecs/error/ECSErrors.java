@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.error;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,7 +14,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.R;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSConstant;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 
@@ -25,7 +24,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_AUTH_FAILURE_ERROR;
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_CANNOT_CONNECT_INTERNET;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_CONNECTION_TIMEOUT;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_PARSE_ERROR;
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_SERVER_NOT_FOUND;
@@ -33,7 +31,7 @@ import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_SERVER_NOT_FOUND;
 public class ECSErrors {
 
 
-    private static final String LOGGING_TAG = "DETAIL_ERROR";
+ /*   private static final String LOGGING_TAG = "DETAIL_ERROR";
 
     public static Exception getVolleyException(VolleyError volleyError) {
         String errorType = null;
@@ -112,5 +110,5 @@ public class ECSErrors {
             Log.e("RES_NOT_FOUND", e.getMessage());
         }
         return localizedError;
-   }
+   }*/
 }

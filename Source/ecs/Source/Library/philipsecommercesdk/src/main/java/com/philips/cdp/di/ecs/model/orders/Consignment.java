@@ -1,7 +1,6 @@
 package com.philips.cdp.di.ecs.model.orders;
 
 
-import android.location.Address;
 
 import com.philips.cdp.di.ecs.model.address.Addresses;
 

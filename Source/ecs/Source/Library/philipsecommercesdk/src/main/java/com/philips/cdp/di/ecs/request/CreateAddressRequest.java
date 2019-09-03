@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.request;
 
-import android.support.annotation.VisibleForTesting;
+
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -8,13 +8,13 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
+
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSErrorReason;
+
 
 import java.util.HashMap;
 import java.util.Map;

@@ -60,7 +60,7 @@ import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
 import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.error.ECSErrors;
+
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
@@ -73,9 +73,7 @@ import java.util.TreeMap;
 
 import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_UPDATE_PRODUCT_COUNT;
 
-//import com.ecs.demouapp.ui.cart.AbstractShoppingCartPresenter;
 
-//import static com.philips.cdp.di.iap.utils.IAPConstant.IAP_UPDATE_PRODUCT_COUNT;
 
 public class ProductDetailFragment extends InAppBaseFragment implements
         View.OnClickListener, EventListener, ErrorDialogFragment.ErrorDialogListener,

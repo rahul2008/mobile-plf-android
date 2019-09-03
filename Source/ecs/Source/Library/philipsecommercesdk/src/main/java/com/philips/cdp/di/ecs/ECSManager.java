@@ -8,7 +8,6 @@ import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
-import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
@@ -66,8 +65,7 @@ import com.philips.cdp.di.ecs.util.ECSErrorReason;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CountDownLatch;
+
 
 import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
 
@@ -367,8 +365,8 @@ public class ECSManager {
     }
 
     private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
-        ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = new ProductSummaryListServiceDiscoveryRequest(ctns);
-        return productSummaryListServiceDiscoveryRequest;
+        return new ProductSummaryListServiceDiscoveryRequest(ctns);
+
     }
 
     public void getSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {

@@ -4,9 +4,7 @@
  */
 package com.philips.cdp.di.ecs.store;
 
-import android.util.Log;
 
-import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 
 

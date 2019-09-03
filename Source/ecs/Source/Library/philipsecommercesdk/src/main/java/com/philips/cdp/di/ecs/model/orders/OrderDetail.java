@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
-import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
+
 
 import java.util.List;
 
