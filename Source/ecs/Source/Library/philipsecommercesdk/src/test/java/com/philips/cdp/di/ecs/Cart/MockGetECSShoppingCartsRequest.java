@@ -2,10 +2,10 @@ package com.philips.cdp.di.ecs.Cart;
 
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
-import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +31,7 @@ public class MockGetECSShoppingCartsRequest extends GetECSShoppingCartsRequest
             result = new JSONObject(jsonString);
         } catch (JSONException e) {
             e.printStackTrace();
-            VolleyError volleyError = new VolleyError(ECSErrorReason.ECS_UNKNOWN_ERROR);
+            VolleyError volleyError = new VolleyError(ECSErrorEnum.something_went_wrong.toString());
             onErrorResponse(volleyError);
         }
         onResponse(result);

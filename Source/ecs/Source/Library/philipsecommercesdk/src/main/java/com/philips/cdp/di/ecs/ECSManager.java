@@ -1,5 +1,6 @@
 package com.philips.cdp.di.ecs;
 
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.address.Addresses;
@@ -60,18 +61,15 @@ import com.philips.cdp.di.ecs.request.GetProductForRequest;
 import com.philips.cdp.di.ecs.request.GetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSErrorReason;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-import static com.philips.cdp.di.ecs.util.ECSErrorReason.ECS_NO_PRODUCT_DETAIL_FOUND;
-
 public class ECSManager {
 
-    static int threadCount=0;
+    static int threadCount = 0;
 
     void getHybrisConfig(ECSCallback<Boolean, Exception> ecsCallback) {
 
@@ -126,7 +124,6 @@ public class ECSManager {
             @Override
             public void onFailure(Exception error, int errorCode) {
                 finalEcsCallback.onFailure(error, errorCode);
-
             }
         });
         getProductListRequest.executeRequest();
@@ -135,7 +132,6 @@ public class ECSManager {
 
     public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
         if (null != ECSConfig.INSTANCE.getSiteId()) { // hybris flow
-
             new GetProductForRequest(ctn, new ECSCallback<Product, Exception>() {
                 @Override
                 public void onResponse(Product result) {
@@ -144,10 +140,10 @@ public class ECSManager {
 
                 @Override
                 public void onFailure(Exception error, int errorCode) {
-                    eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 5999);
+                    eCSCallback.onFailure(error, errorCode);
+
                 }
             }).executeRequest();
-
         } else { // Retailer flow
             getSummaryForCTN(ctn, null, eCSCallback);
         }
@@ -155,15 +151,14 @@ public class ECSManager {
     }
 
 
-    private static void  productDetail(Product product, ECSCallback<Product, Exception> ecsCallback){
-         threadCount++;
-         if(threadCount==2){
-             ecsCallback.onResponse(product);
-         }
+    private static void productDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+        threadCount++;
+        if (threadCount == 2) {
+            ecsCallback.onResponse(product);
+        }
     }
 
     public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
-
         Thread assets = new Thread() {
 
             @Override
@@ -176,9 +171,9 @@ public class ECSManager {
                             public void onResponse(Assets result) {
                                 if (null != result) {
                                     product.setAssets(result);
-                                    productDetail(product,ecsCallback);
+                                    productDetail(product, ecsCallback);
                                 } else {
-                                    ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND), 5002);
+                                    ecsCallback.onFailure(new Exception(ECSErrorEnum.something_went_wrong.getLocalizedErrorString()), 5999);
                                 }
                             }
 
@@ -191,7 +186,7 @@ public class ECSManager {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
-                        ecsCallback.onFailure(new Exception(ECS_NO_PRODUCT_DETAIL_FOUND), 5002);
+                        ecsCallback.onFailure(new Exception(ECSErrorEnum.something_went_wrong.getLocalizedErrorString()), 5002);
                     }
                 });
             }
@@ -204,23 +199,21 @@ public class ECSManager {
                 new DisclaimerServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
                     @Override
                     public void onSuccess(String url) {
-
                         getProductDisclaimer(url, new ECSCallback<Disclaimers, Exception>() {
                             @Override
                             public void onResponse(Disclaimers result) {
                                 // here result can come as null if Disclaimer not present for given product
                                 // but still Product Detail will be success as asset is already fetched
                                 product.setDisclaimers(result);
-                                productDetail(product,ecsCallback);
+                                productDetail(product, ecsCallback);
                             }
 
                             @Override
                             public void onFailure(Exception error, int errorCode) {
                                 // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
-                                productDetail(product,ecsCallback);
+                                productDetail(product, ecsCallback);
                             }
                         });
-
                     }
 
                     @Override
@@ -240,7 +233,7 @@ public class ECSManager {
 
     //============================================== Start of PRX (Summary, Asset & Disclaimer) ================================================
 
-     void getSummaryForCTN(String ctn, Product product, ECSCallback<Product, Exception> eCSCallback) {
+    void getSummaryForCTN(String ctn, Product product, ECSCallback<Product, Exception> eCSCallback) {
         Products products = new Products();
         ArrayList<String> ctns = new ArrayList<>();
         if (null == product) {
@@ -259,7 +252,7 @@ public class ECSManager {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                eCSCallback.onFailure(new Exception(ECSErrorReason.ECS_GIVEN_PRODUCT_NOT_FOUND), 28999);
+                eCSCallback.onFailure(error, errorCode);
             }
         }, ctns);
     }
@@ -267,7 +260,6 @@ public class ECSManager {
     void prepareProductSummaryURL(Products result, final ECSCallback<Products, Exception> ecsCallback) {
         List<Product> productsEntities = result.getProducts();
         ArrayList<String> ctns = new ArrayList<>();
-
         for (Product product : productsEntities) {
             ctns.add(product.getCode());
         }
@@ -292,7 +284,6 @@ public class ECSManager {
                         ecsCallback.onFailure(error, errorCode);
                     }
                 });
-
             }
 
             @Override
@@ -303,7 +294,8 @@ public class ECSManager {
     }
 
     void updateProductsWithSummary(Products products, ECSProductSummary ecsProductSummary) {
-        HashMap<String, Data> summaryCtnMap = new HashMap<>();ArrayList<Product> productArrayList = new ArrayList<>(); // set back products for which summaries are available
+        HashMap<String, Data> summaryCtnMap = new HashMap<>();
+        ArrayList<Product> productArrayList = new ArrayList<>(); // set back products for which summaries are available
         if (ecsProductSummary.isSuccess()) {
             for (Data data : ecsProductSummary.getData()) {
                 summaryCtnMap.put(data.getCtn(), data);
@@ -312,7 +304,6 @@ public class ECSManager {
 
         for (Product product : products.getProducts()) {
             Data productSummaryData = summaryCtnMap.get(product.getCode());
-
             if (productSummaryData != null) {
                 product.setSummary(productSummaryData);
                 productArrayList.add(product);
@@ -337,7 +328,6 @@ public class ECSManager {
         new DisclaimerServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
             @Override
             public void onSuccess(String url) {
-
                 getProductDisclaimer(url, new ECSCallback<Disclaimers, Exception>() {
                     @Override
                     public void onResponse(Disclaimers result) {
@@ -353,7 +343,6 @@ public class ECSManager {
                         ecsCallback.onResponse(product);
                     }
                 });
-
             }
 
             @Override
@@ -379,7 +368,6 @@ public class ECSManager {
             productArrayList.add(product);
         }
         products.setProducts(productArrayList);
-
         prepareProductSummaryURL(products, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
@@ -395,15 +383,12 @@ public class ECSManager {
     //============================================== End of PRX (Summary, Asset & Disclaimer) ================================================
 
 
-
     //=====================================================Start of Shopping Cart ===========================================================
 
     void getECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-
         new GetECSShoppingCartsRequest(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart ecsShoppingCart) {
-
                 if (null == ecsShoppingCart.getEntries()) {
                     // if no product is added to cart
                     ecsCallback.onResponse(ecsShoppingCart);
@@ -414,12 +399,9 @@ public class ECSManager {
                     for (EntriesEntity entriesEntity : ecsShoppingCart.getEntries()) {
                         productList.add(entriesEntity.getProduct());
                     }
-
                     Products products = new Products();
                     products.setProducts(productList);
-
                     //get Summary Data Here
-
                     ECSCallback<Products, Exception> ecsCallbackProduct = new ECSCallback<Products, Exception>() {
                         @Override
                         public void onResponse(Products result) {
@@ -431,10 +413,8 @@ public class ECSManager {
                             ecsCallback.onFailure(error, errorCode);
                         }
                     };
-
                     prepareProductSummaryURL(products, ecsCallbackProduct);
                 }
-
             }
 
             @Override
@@ -462,7 +442,6 @@ public class ECSManager {
 
     // AddProduct to Cart
     public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-
         new AddProductToECSShoppingCartRequest(product.getCode(), new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -471,16 +450,13 @@ public class ECSManager {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                getECSShoppingCart(ecsCallback);
-                //ecsCallback.onFailure(error, detailErrorMessage,errorCode);
-
+                // getECSShoppingCart(ecsCallback);
+                ecsCallback.onFailure(error, errorCode);
             }
         }).executeRequest();
-
     }
 
     public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-
         new UpdateECSShoppingCartQuantityRequest(new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -492,7 +468,6 @@ public class ECSManager {
                 ecsCallback.onFailure(error, errorCode);
             }
         }, entriesEntity, quantity).executeRequest();
-
     }
 
     public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
@@ -527,10 +502,8 @@ public class ECSManager {
             }
         }).executeRequest();
     }
-
-
-
     //===================================================== End of Shopping Cart ======================================================
+
 
     //===================================================== start of Delivery Mode ====================================================
     public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
@@ -538,16 +511,13 @@ public class ECSManager {
     }
 
     public void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
-        new SetDeliveryModesRequest(deliveryModeID,ecsCallback).executeRequest();
+        new SetDeliveryModesRequest(deliveryModeID, ecsCallback).executeRequest();
     }
 
     public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
         new GetRegionsRequest(ecsCallback).executeRequest();
     }
-
-
     //===================================================== End of Delivery Mode ====================================================
-
 
 
     //===================================================== Start of Address ====================================================
@@ -556,11 +526,11 @@ public class ECSManager {
     }
 
     public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
-        new SetDeliveryAddressRequest(address.getId() ,ecsCallback).executeRequest();
+        new SetDeliveryAddressRequest(address.getId(), ecsCallback).executeRequest();
     }
     //===================================================== End of Delivery Mode ====================================================
 
-    public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback,boolean singleAddress){
+    public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
         new CreateAddressRequest(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses result) {
@@ -574,11 +544,9 @@ public class ECSManager {
                 ecsCallback.onFailure(error, 12999);
             }
         }).executeRequest();
-
-
     }
 
-    public void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback){
+    public void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         new CreateAddressRequest(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses result) {
@@ -591,12 +559,10 @@ public class ECSManager {
                 ecsCallback.onFailure(error, 12999);
             }
         }).executeRequest();
-
-
     }
 
     public void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
-        new UpdateAddressRequest(address,ecsCallback).executeRequest();
+        new UpdateAddressRequest(address, ecsCallback).executeRequest();
     }
 
     public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
@@ -614,9 +580,11 @@ public class ECSManager {
     }
 
     public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
-        new GetRetailersInfoRequest(ecsCallback,productID).executeRequest();
+        new GetRetailersInfoRequest(ecsCallback, productID).executeRequest();
     }
     //===================================================== End of Address ====================================================
+
+
     //===================================================== Start of Payment ====================================================
 
     public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
@@ -639,24 +607,18 @@ public class ECSManager {
     }
 
     public void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
-        new GetOrderHistoryRequest(pageNumber,ecsCallback).executeRequest();
+        new GetOrderHistoryRequest(pageNumber, ecsCallback).executeRequest();
     }
 
 
-
-    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback){
-        new SubmitOrderRequest(cvv,ecsCallback).executeRequest();
-
-
+    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+        new SubmitOrderRequest(cvv, ecsCallback).executeRequest();
     }
 
 
-    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback){
-        new MakePaymentRequest(orderDetail,billingAddress,ecsCallback).executeRequest();
+    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+        new MakePaymentRequest(orderDetail, billingAddress, ecsCallback).executeRequest();
     }
-
-
-
 
 
     public void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
@@ -664,25 +626,19 @@ public class ECSManager {
         new GetOrderDetailRequest(orderId, new ECSCallback<OrderDetail, Exception>() {
             @Override
             public void onResponse(OrderDetail orderDetail) {
-
-                if(orderDetail == null || orderDetail.getEntries()==null || orderDetail.getEntries().size()==0){
+                if (orderDetail == null || orderDetail.getEntries() == null || orderDetail.getEntries().size() == 0) {
                     ecsCallback.onResponse(orderDetail);
                     return;
                 }
-
                 // Get PRX Summary Data
-
                 ArrayList<String> ctns = new ArrayList<>();
                 ArrayList<Product> productsFromDirectEntry = new ArrayList<>();
                 ArrayList<Product> productsFromDeliveryGroupEntry = new ArrayList<>();
-
-                for(Entries entries :orderDetail.getDeliveryOrderGroups().get(0).getEntries()){
+                for (Entries entries : orderDetail.getDeliveryOrderGroups().get(0).getEntries()) {
                     productsFromDeliveryGroupEntry.add(entries.getProduct());
                 }
-
-
                 //Products found in direct Entries
-                for(Entries entries :orderDetail.getEntries()){
+                for (Entries entries : orderDetail.getEntries()) {
                     productsFromDirectEntry.add(entries.getProduct());
                     ctns.add(entries.getProduct().getCode());
                 }
@@ -696,8 +652,8 @@ public class ECSManager {
                         getProductSummary(url, new ECSCallback<ECSProductSummary, Exception>() {
                             @Override
                             public void onResponse(ECSProductSummary ecsProductSummary) {
-                                setSummaryToProductsFromDirectEntry(ecsProductSummary,productsFromDirectEntry);
-                                setSummaryToProductsDeliveryGroupEntry(ecsProductSummary,productsFromDeliveryGroupEntry);
+                                setSummaryToProductsFromDirectEntry(ecsProductSummary, productsFromDirectEntry);
+                                setSummaryToProductsDeliveryGroupEntry(ecsProductSummary, productsFromDeliveryGroupEntry);
                                 ecsCallback.onResponse(orderDetail);
                             }
 
@@ -710,10 +666,8 @@ public class ECSManager {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
-
                     }
                 });
-
             }
 
             @Override
@@ -724,18 +678,15 @@ public class ECSManager {
     }
 
     private void setSummaryToProductsDeliveryGroupEntry(ECSProductSummary ecsProductSummary, ArrayList<Product> productsFromDeliveryGroupEntry) {
-
         ArrayList<Data> data = ecsProductSummary.getData();
-
-        for (Data d:data){
-            setProductData(d,productsFromDeliveryGroupEntry);
+        for (Data d : data) {
+            setProductData(d, productsFromDeliveryGroupEntry);
         }
     }
 
     private void setProductData(Data data, ArrayList<Product> products) {
-
-        for (Product product:products){
-            if(product.getCode().equalsIgnoreCase(data.getCtn())){
+        for (Product product : products) {
+            if (product.getCode().equalsIgnoreCase(data.getCtn())) {
                 product.setSummary(data);
                 return;
             }
@@ -743,11 +694,9 @@ public class ECSManager {
     }
 
     private void setSummaryToProductsFromDirectEntry(ECSProductSummary ecsProductSummary, ArrayList<Product> productsFromDirectEntry) {
-
         ArrayList<Data> data = ecsProductSummary.getData();
-
-        for (Data d:data){
-            setProductData(d,productsFromDirectEntry);
+        for (Data d : data) {
+            setProductData(d, productsFromDirectEntry);
         }
     }
 
@@ -756,7 +705,6 @@ public class ECSManager {
     }
 
     public void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback) {
-
         getOrderDetail(orders.getCode(), new ECSCallback<OrderDetail, Exception>() {
             @Override
             public void onResponse(OrderDetail result) {
