@@ -8,7 +8,7 @@ package com.philips.cdp.di.ecs.store;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 
 
-public class ECSURLBuilder extends AbstractStore {
+public class ECSURLBuilder implements URLProvider {
 
     private static final String SUFFIX_CONFIGURATION = "inAppConfig";
 
@@ -53,7 +53,6 @@ public class ECSURLBuilder extends AbstractStore {
     private static final String SUFFIX_CONTACT_PHONE_URL = "%s" + ".querytype.(fallback)";
 
     private static final String SUFFIX_VOUCHERS = "vouchers";
-    private static final String SUFFIX_LANGUAGE = "&lang=";
 
     private String mOauthRefreshUrl;
 
@@ -87,6 +86,11 @@ public class ECSURLBuilder extends AbstractStore {
     @Override
     public String getOauthRefreshUrl() {
         return mOauthRefreshUrl;
+    }
+
+    @Override
+    public void refreshLoginSession() {
+
     }
 
     //Product

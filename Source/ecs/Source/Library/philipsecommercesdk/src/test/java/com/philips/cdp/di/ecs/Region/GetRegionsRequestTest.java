@@ -143,6 +143,10 @@ public class GetRegionsRequestTest {
         assertNull(mockGetRegionsRequest.getParams());
     }
 
+    @Test
+    public void isValidJSONRequest() {
+        assertNull(mockGetRegionsRequest.getJSONRequest());
+    }
 
 
     @Test
