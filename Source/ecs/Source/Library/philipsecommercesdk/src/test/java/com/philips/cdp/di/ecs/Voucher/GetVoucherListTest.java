@@ -135,7 +135,7 @@ public class GetVoucherListTest {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertEquals(19999,errorCode);
+                assertEquals(5999,errorCode);
                 //  test case passed
 
             }
