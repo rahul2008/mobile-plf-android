@@ -129,7 +129,7 @@ public class GetVoucherListTest {
         mockECSServices.getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
             @Override
             public void onResponse(GetAppliedValue result) {
-                assertTrue(true);
+                assertTrue(false);
                 //  test case failed
             }
 
@@ -137,7 +137,6 @@ public class GetVoucherListTest {
             public void onFailure(Exception error, int errorCode) {
                 assertEquals(5999,errorCode);
                 //  test case passed
-
             }
         });
 
