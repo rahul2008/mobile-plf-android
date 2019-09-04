@@ -61,16 +61,8 @@ public enum ECSErrorEnum {
     something_went_wrong( R.string.something_went_wrong, 5999);
 
 
-
-
-
-
-
-
     int resourceID;
     int errorCode;
-
-
 
     public int getResourceID() {
         return resourceID;
