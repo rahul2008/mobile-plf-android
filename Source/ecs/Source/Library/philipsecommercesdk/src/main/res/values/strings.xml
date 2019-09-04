@@ -12,7 +12,7 @@
     <!--End of Volley Errors-->
 
 
-    <string name="invalid_grant" >We have encountered technical glitch (Invalid Janrain Token). Please re-login.</string>
+    <string name="invalid_grant" >We have encountered technical glitch (Invalid Janrain Token). Please re-login</string>
     <string name="invalid_client" >We have encountered technical glitch (Bad client credentials). Please re-login</string>
     <string name="unsupported_grant_type" >We have encountered technical glitch (Unsupported grant type). Please re-login</string>
     <string name="something_went_wrong" >We have encountered technical glitch. Please try after some time</string>
@@ -21,36 +21,37 @@
     <string name="locale_notfound" >Please set the locale</string>
     <string name="ctn_notProvided" >Please provide the CTN</string>
     <string name="oauth_notCalled" >User authorization is required for this action</string>
-    <string name="siteId_notfound" >Hybris is not available for the selected country, only retailer mode is available.</string>
-    <string name="hybis_notAvailable" >Hybris is not available for the selected country, only retailer mode is available.</string>
+    <string name="siteId_notfound" >Philips shop is not available for the selected country, only retailer mode is available</string>
+    <string name="hybis_notAvailable" >Philips shop is not available for the selected country, only retailer mode is available</string>
 
     //TODO: Ask srini about message
 
     <string name="propositionId_notFound" >Please set a valid Proposition ID</string>
-    <string name="CartError" >No cart created yet.</string>
-    <string name="CartEntryError" >The Product is not added in Cart.</string>
-    <string name="NoSuchElementError"  >An error occurred while querying server</string>
+    <string name="CartError" >No cart created yet</string>
+    <string name="CartEntryError" >The Product is not added in Cart</string>
+    <string name="NoSuchElementError"  >An error occurred while fetching the data from the server</string>
     <string name="InsufficientStockError" >Product cannot be shipped as it is out of stock</string>
-    <string name="UnknownIdentifierError" >Requested resource is not available.</string>
-    <string name="InvalidTokenError" >We have encountered technical glitch (Invalid access token). Please do Hybris Re-Auth.</string>
+    <string name="UnknownIdentifierError" >Requested resource is not available</string>
+    <string name="InvalidTokenError" >We have encountered technical glitch (Invalid access token). Please do Hybris Re-Auth</string>
     <string name="UnsupportedVoucherError" >Sorry, this voucher cannot be redeemed</string>
     <string name="VoucherOperationError" >Sorry, this voucher cannot be redeemed</string>
-    <string name="CommerceCartModificationError" >Please add a non-negative quantity.</string>
-    <string name="oauth_detail_error" >Please provide complete oauth detials</string>
+    <string name="CommerceCartModificationError" >Quantity must not be less than zero</string>
+    <string name="oauth_detail_error" >Please provide complete OAuth detials</string>
     <string name="countryCodeNotGiven" >Please provide valid country code</string>
-    <string name="UnsupportedDeliveryModeError" >Selected Delivery Mode is not supported</string>
-    <string name="regionisocode" >The region which you have selected in invalid.</string>
-    <string name="countryisocode" >The country which you have selected in invalid.</string>
-    <string name="postalCode" >The zip code which you have provided is invalid.</string>
+    <string name="UnsupportedDeliveryModeError" >Selected Delivery mode is not supported</string>
+    <string name="regionisocode" >Region selected is invalid</string>
+    <string name="countryisocode" >Country selected is invalid</string>
+    <string name="postalCode" >ZIP code selected is invalid</string>
     <string name="firstName" >Please notice that the following characters are not allowed: \" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
     <string name="lastName" >Please notice that the following characters are not allowed: \" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
-    <string name="phone1" >The phone number which you have entered is invalid.</string>
-    <string name="phone2" >The phone number which you have entered is invalid.</string>
+    <string name="phone1" >Phone number selected is invalid</string>
+    <string name="phone2" >Phone number selected is invalid</string>
     <string name="addressId" >Given address doesn\'t exist or belong to another user</string>
-    <string name="ValidationError" ></string>
-    <string name="sessionCart" >Please make sure that you have set your delivery address, delivery mode and payment method before submitting order</string>
+    <string name="ValidationError" >Data validation failed</string>
+    <string name="sessionCart" >Please select your delivery address, delivery mode and payment method before submitting an order</string>
     <string name="orderIdNil" >Please provide valid order</string>
-    <string name="postUrl" >The order which you are trying to pay is already completed</string>
+    <string name="postUrl" >Order is already in a paid/completed state</string>
     <string name="IllegalArgumentError" >Please provide valid input data</string>
-    <string name="InvalidPaymentInfoError" >Please provide valid payment detail</string>
+    <string name="InvalidPaymentInfoError" >Please provide valid payment details</string>
+    <string name="PaymentAuthorizationError" >Payment authorization was not successful</string>
 </resources>
