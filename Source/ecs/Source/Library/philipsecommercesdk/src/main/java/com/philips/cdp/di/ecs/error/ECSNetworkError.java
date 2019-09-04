@@ -110,37 +110,13 @@ public class ECSNetworkError {
                 final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
                 final String errorString = new String(decode);
                 ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE,LOGGING_TAG,errorString);
-
                 return new Gson().fromJson(errorString, ServerError.class);
-
-
-                //checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
 
 
         }
         return null;
-    }
-
-    private void checkInsufficientStockError(ServerError serverError) {
-        if (serverError == null || serverError.getErrors() == null
-                || serverError.getErrors().get(0) == null) {
-            return;
-        }
-        if ("InsufficientStockError".equals(serverError.getErrors().get(0).getType())) {
-            // ECSErrorConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR;
-        }
-    }
-
-    public static void showECSAlertDialog(Context context, String title, String message ){
-        new AlertDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null)
-                //.setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
     }
 
 }

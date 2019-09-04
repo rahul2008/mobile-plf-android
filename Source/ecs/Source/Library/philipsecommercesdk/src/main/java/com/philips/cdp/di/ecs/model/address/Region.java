@@ -8,7 +8,9 @@ public class Region implements Serializable{
     private String countryIso;
     private String isocode;
 
-
+    public void setIsocode(String isocode) {
+        this.isocode = isocode;
+    }
 
     private String isocodeShort;
     private String name;

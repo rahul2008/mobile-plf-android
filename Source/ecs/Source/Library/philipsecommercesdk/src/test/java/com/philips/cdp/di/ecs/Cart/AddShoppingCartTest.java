@@ -179,6 +179,29 @@ public class AddShoppingCartTest {
 
     }
 
+    @Test
+    public void verifyOnResponseSuccessError() {
+
+        ECSCallback  ecsCallback = new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+
+            }
+
+            @Override
+            public void onFailure(Exception error, int errorCode) {
+
+            }
+        };
+
+        ECSCallback<Boolean, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockAddProductToECSShoppingCartRequest = new MockAddProductToECSShoppingCartRequest("EmptyString.json","1234" , spy1);
+
+        mockAddProductToECSShoppingCartRequest.onResponse(null);
+        Mockito.verify(spy1).onResponse(false);
+
+    }
+
 
     @Test
     public void assertResponseSuccessListenerNotNull() {

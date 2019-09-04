@@ -38,6 +38,7 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.AlertListener;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
@@ -279,11 +280,11 @@ public class OrderSummaryFragment extends InAppBaseFragment
     public void onGetAddress(Message msg) {
         hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         } else if (msg.obj instanceof Exception) {
 
             Exception exception = (Exception) msg.obj;
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
         } else {
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)
@@ -384,7 +385,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             updateCartDetails(mShoppingCartAPI);
         } else if ((msg.obj instanceof Exception)) {
             Exception exception = (Exception) msg.obj;
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",exception.getMessage());
         } else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
@@ -466,7 +467,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         } else if (msg.obj instanceof Exception) {
             hideProgressBar();
             Exception exception = (Exception) msg.obj;
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",exception.getMessage());
         } else {
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
@@ -493,7 +494,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         } else if (msg.obj instanceof Exception) {
             hideProgressBar();
             Exception exception = (Exception) msg.obj;
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",exception.getMessage());
            /* IAPNetworkError iapNetworkError = (IAPNetworkError) msg.obj;
             if (null != iapNetworkError.getServerError()) {
                 checkForOutOfStock(iapNetworkError, msg);

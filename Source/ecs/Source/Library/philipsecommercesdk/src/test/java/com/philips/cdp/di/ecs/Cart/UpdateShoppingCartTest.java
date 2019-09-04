@@ -7,9 +7,11 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -78,6 +80,10 @@ public class UpdateShoppingCartTest {
         };
 
          entriesEntity = new EntriesEntity();
+        entriesEntity.setEntryNumber(123456);
+         Product product = new Product();
+         product.setCode("1234");
+        entriesEntity.setProduct(product);
 
         mockUpdateECSShoppingCartQuantityRequest = new MockUpdateECSShoppingCartQuantityRequest("UpdateShoppingCartSuccess.json",ecsCallback,entriesEntity,2);
 
@@ -136,7 +142,7 @@ public class UpdateShoppingCartTest {
     public void isValidURL() {
         //acc.us.pil.shop.philips.com/pilcommercewebservices/v2/US_Tuscany/users/current/carts/current/entries/0?fields=FULL&lang=en_US
         System.out.println("print the URL"+mockUpdateECSShoppingCartQuantityRequest.getURL());
-        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/carts/current/entries/0?fields=FULL&lang="+StaticBlock.getLocale();
+        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices"+"/v2/"+StaticBlock.getSiteID()+"/users/current/carts/current/entries/123456?fields=FULL&lang="+StaticBlock.getLocale();
         Assert.assertEquals(excepted,mockUpdateECSShoppingCartQuantityRequest.getURL());
     }
 
@@ -155,6 +161,17 @@ public class UpdateShoppingCartTest {
         Map<String, String> actual = mockUpdateECSShoppingCartQuantityRequest.getHeader();
 
         assertTrue(expectedMap.equals(actual));
+    }
+
+    @Test
+    public void isValidParam() {
+
+        Map<String, String> expected = new HashMap<>();
+        expected.put(ModelConstants.PRODUCT_CODE, "1234");
+        expected.put(ModelConstants.ENTRY_CODE, 123456+"");
+        expected.put(ModelConstants.PRODUCT_QUANTITY, String.valueOf(2));
+
+        assertTrue(expected.equals(mockUpdateECSShoppingCartQuantityRequest.getParams()));
     }
 
     @Test

@@ -29,6 +29,7 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.order.Orders;
@@ -128,7 +129,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onGetOrderList(Message msg) {
         if (msg.obj instanceof Exception) {
             hideProgressBar();
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
         } else {
                 if (msg.obj instanceof OrdersData) {
                     OrdersData orderData = (OrdersData) msg.obj;
@@ -161,7 +162,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onGetOrderDetail(Message msg) {
         mOrderCount++;
         if (msg.obj instanceof IAPNetworkError) {
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {

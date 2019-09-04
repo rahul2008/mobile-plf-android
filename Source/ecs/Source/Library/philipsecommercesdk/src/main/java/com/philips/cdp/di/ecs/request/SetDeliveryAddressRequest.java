@@ -4,6 +4,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
@@ -60,7 +61,8 @@ public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest imp
         if(null!=response && response.isEmpty()) {
         ecsCallback.onResponse(true);
         }else{
-            ecsCallback.onResponse(false);
+            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,null,response);
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }
 

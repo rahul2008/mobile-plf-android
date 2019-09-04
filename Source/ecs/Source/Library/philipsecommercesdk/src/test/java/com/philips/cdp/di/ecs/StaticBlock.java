@@ -66,7 +66,7 @@ public static final String  mockAccessToken = "acceesstoken";
         addressRequest.setPhone1("5043323");
         addressRequest.setPhone2("5043323");
         Region region = new Region();
-        region.setIsocodeShort("Region");
+        region.setIsocode("US");
         addressRequest.setRegion(region); // set Region eg State for US and Canada
         addressRequest.setHouseNumber("12A");
         addressRequest.setDefaultAddress(true);

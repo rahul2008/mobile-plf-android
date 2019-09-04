@@ -231,7 +231,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             return;
         }else if(msg.obj instanceof Exception){
             Exception exception = (Exception) msg.obj;
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",exception.getMessage());
         } if ((msg.obj instanceof GetDeliveryModes)) {
             final GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
             final List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();

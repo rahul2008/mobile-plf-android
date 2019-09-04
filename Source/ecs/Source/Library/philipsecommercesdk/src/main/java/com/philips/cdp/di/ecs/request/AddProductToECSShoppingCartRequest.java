@@ -60,7 +60,7 @@ public class AddProductToECSShoppingCartRequest extends OAuthAppInfraAbstractReq
     @Override
     public void onResponse(String response) {
 
-        if(response!=null || response.length()!=0){
+        if(null!=response && !response.isEmpty()){
             ecsCallback.onResponse(true);
         }else{
             ecsCallback.onResponse(false);

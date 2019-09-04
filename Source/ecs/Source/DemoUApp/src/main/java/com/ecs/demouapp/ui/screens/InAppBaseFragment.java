@@ -233,11 +233,11 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
             hideProgressBar();
         } else if ((msg.obj instanceof IAPNetworkError)) {
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
             hideProgressBar();
         }  else if ((msg.obj instanceof Exception)) {
             Exception exception = (Exception) msg.obj;
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",exception.getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",exception.getMessage());
             hideProgressBar();
         }else if ((msg.obj instanceof GetDeliveryModes)) {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;

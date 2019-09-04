@@ -3,6 +3,7 @@ package com.philips.cdp.di.ecs.Address;
 import android.content.Context;
 
 import com.android.volley.NoConnectionError;
+import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
@@ -244,8 +245,16 @@ public class CreateAddressTest {
     }
 
     @Test
-    public void verifyErrorMessageAndCode() {
+    public void verifyOnResponseException() {
+        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
+        mockCreateAddressRequest.onResponse("jhsvcjhsc bvsdljcsdlcjgdscgds"); // passing invalid json
+        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
 
+    }
+
+    @Test
+    public void verifyErrorMessageAndCodeForNoConnectionError() {
         ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new NoConnectionError();
@@ -253,6 +262,7 @@ public class CreateAddressTest {
         assertEquals("Cannot connect to Internet .. Please check your connection!",ecsError.getException().getMessage());
         assertEquals(11001,ecsError.getErrorcode());
     }
+
 
     @Test
     public void assertResponseSuccessListenerNotNull() {

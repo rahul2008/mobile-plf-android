@@ -26,6 +26,7 @@ import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
@@ -148,7 +149,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     public void onSetPaymentDetails(Message msg) {
         hideProgressBar();
         if (msg.obj instanceof Exception) {
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(ECSConstant.SELECTED_PAYMENT, selectedPaymentMethod());
