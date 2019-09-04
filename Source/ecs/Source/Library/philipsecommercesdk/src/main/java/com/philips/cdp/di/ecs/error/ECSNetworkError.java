@@ -51,7 +51,7 @@ public class ECSNetworkError {
         }
         Log.e("ON_SUCCESS_ERROR", logMessage);
         try {
-            ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE, "ON_SUCCESS_ERROR", logMessage);
+            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, "ON_SUCCESS_ERROR", logMessage);
         }catch(Exception e){
 
         }
@@ -86,7 +86,7 @@ public class ECSNetworkError {
             Log.e("ON_VOLLEY_ERROR", error.getMessage());
         }
         try {
-            ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE, "ON_VOLLEY_ERROR", error.getMessage());
+            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, "ON_VOLLEY_ERROR", error.getMessage());
         }catch (Exception e){
 
         }
@@ -119,7 +119,7 @@ public class ECSNetworkError {
         final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
         final String errorString = new String(decode);
         try {
-            ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG, errorString);
+            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG, errorString);
         }catch (Exception e){
 
         }
