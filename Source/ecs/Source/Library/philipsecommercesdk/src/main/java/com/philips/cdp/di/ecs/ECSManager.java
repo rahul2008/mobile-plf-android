@@ -42,6 +42,7 @@ import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.request.GetUserProfileRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.request.MakePaymentRequest;
+import com.philips.cdp.di.ecs.request.RefreshOAuthRequest;
 import com.philips.cdp.di.ecs.request.RemoveVoucherRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
@@ -727,6 +728,10 @@ public class ECSManager {
                 ecsCallback.onFailure(error, errorCode);
             }
         });
+    }
+
+    public void refreshAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
+        new OAuthRequest(oAuthInput,ecsListener).executeRequest();
     }
 }
 
