@@ -39,10 +39,12 @@ public class ECSServices implements ECSServiceProvider {
     private ECSManager mECSManager;
 
     public static final String SERVICE_ID = "iap.baseurl";
+    public static final String ECS_NOTATION = "ecs";
 
     public ECSServices(String propositionID, @NonNull AppInfra appInfra) {
         ECSConfig.INSTANCE.setAppInfra(appInfra);
         ECSConfig.INSTANCE.setPropositionID(propositionID);
+        ECSConfig.INSTANCE.setEcsLogging(appInfra.getLogging().createInstanceForComponent(ECS_NOTATION, BuildConfig.VERSION_NAME));
         mECSManager = getECSManager();
     }
 

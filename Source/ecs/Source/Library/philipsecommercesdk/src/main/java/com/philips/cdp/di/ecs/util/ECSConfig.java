@@ -3,6 +3,7 @@ package com.philips.cdp.di.ecs.util;
 import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 public enum ECSConfig {
 
@@ -12,6 +13,11 @@ public enum ECSConfig {
     String  propositionID;
     AppInfra appInfra;
     HybrisConfigResponse config;
+
+
+
+
+    private LoggingInterface ecsLoggingInterface;
     private String country;
 
     private OAuthResponse oAuthResponse;
@@ -107,5 +113,13 @@ public enum ECSConfig {
 
     public void setAuthResponse(OAuthResponse oAuthResponse) {
         this.oAuthResponse = oAuthResponse;
+    }
+
+    public LoggingInterface getEcsLogging() {
+        return ecsLoggingInterface;
+    }
+
+    public void setEcsLogging(LoggingInterface ecsLoggingInterface) {
+        this.ecsLoggingInterface = ecsLoggingInterface;
     }
 }
