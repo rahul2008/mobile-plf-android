@@ -37,6 +37,4 @@ public class MockGetProductSummaryListRequest extends GetProductSummaryListReque
         onResponse(result);
     }
 
-
-
 }

@@ -274,9 +274,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
     public void onGetAddress(Message msg) {
         hideProgressBar();
         if (msg.obj instanceof IAPNetworkError) {
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         } else  if (msg.obj instanceof Exception) {
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
         } else{
             Bundle bundle = new Bundle();
             if (mSelectedDeliveryMode != null)

@@ -20,7 +20,7 @@
     <string name="appInfra_notfound" >Please provide app infra object</string>
     <string name="locale_notfound" >Please set the locale</string>
     <string name="ctn_notProvided" >Please provide the CTN</string>
-    <string name="oauth_notCalled" >User autherization is required for this action</string>
+    <string name="oauth_notCalled" >User authorization is required for this action</string>
     <string name="siteId_notfound" >Hybris is not available for the selected country, only retailer mode is available.</string>
     <string name="hybis_notAvailable" >Hybris is not available for the selected country, only retailer mode is available.</string>
 

@@ -34,6 +34,7 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
@@ -191,7 +192,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         hideProgressBar();
         mParentView.setVisibility(View.VISIBLE);
         if (msg.obj instanceof IAPNetworkError) {
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
                 if (msg.obj instanceof OrderDetail) {

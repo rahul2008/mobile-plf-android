@@ -1,5 +1,7 @@
 package com.ecs.demouapp.ui.utils;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.view.View;
 
 
@@ -136,6 +138,16 @@ public class ECSUtility {
             }
         }
         return quantity;
+    }
+
+
+    public static void showECSAlertDialog(Context context, String title, String message ){
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 }

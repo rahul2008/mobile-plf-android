@@ -138,7 +138,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         public void onFailure(final Message msg) {
             hideProgressBar();
             mAddToCart.hideProgressIndicator();
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",msg.getData().toString());
+            ECSUtility.showECSAlertDialog(mContext,"Error",msg.getData().toString());
         }
     };
     private Product product;
@@ -234,7 +234,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                             public void onFailure(Exception error, int errorCode) {
                                 hideProgressBar();
                                 mDetailLayout.setVisibility(View.GONE);
-                                ECSNetworkError.showECSAlertDialog(mContext,"Error",error.getMessage());
+                                ECSUtility.showECSAlertDialog(mContext,"Error",error.getMessage());
                                 //showErrorDialog(new Message());
                             }
                         });
@@ -311,7 +311,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 Message msg = new Message();
 
                 if (msg.obj instanceof IAPNetworkError) {
-                    ECSNetworkError.showECSAlertDialog(mContext,"Error", ((IAPNetworkError) msg.obj).getMessage());
+                    ECSUtility.showECSAlertDialog(mContext,"Error", ((IAPNetworkError) msg.obj).getMessage());
                     final IAPNetworkError obj = (IAPNetworkError) msg.obj;
                     mIapListener.onFailure(obj.getIAPErrorCode());
                 }

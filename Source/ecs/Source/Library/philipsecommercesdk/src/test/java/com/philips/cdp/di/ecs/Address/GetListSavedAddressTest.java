@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
+import com.google.gson.JsonObject;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
@@ -15,6 +16,8 @@ import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -148,6 +151,28 @@ public class GetListSavedAddressTest {
         mockGetAddressRequest.onErrorResponse(volleyError);
         Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
 
+    }
+
+    @Test
+    public void verifyOnResponseException() {
+        ECSCallback<GetShippingAddressData, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockGetAddressRequest = new MockGetAddressRequest("CreateAddressSuccess.json", spy1);
+        mockGetAddressRequest.onResponse(null);
+        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+
+    }
+
+    @Test
+    public void verifyOnResponseJSONException() {
+        ECSCallback<GetShippingAddressData, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockGetAddressRequest = new MockGetAddressRequest("CreateAddressSuccess.json", spy1);
+        try {
+            JSONObject jsonObject = new JSONObject("123");
+            mockGetAddressRequest.onResponse(jsonObject);
+            Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        } catch (JSONException e) {
+
+        }
     }
 
 }

@@ -124,7 +124,7 @@ public class AddressController {
             @Override
             public void onFailure(Exception error, int errorCode) {
 
-                ECSNetworkError.showECSAlertDialog(mContext,"Error",error.getMessage());
+                ECSUtility.showECSAlertDialog(mContext,"Error",error.getMessage());
                 //addressContractor.hideProgressbar();
 
             }
@@ -209,7 +209,7 @@ public class AddressController {
             @Override
             public void onFailure(Exception error, int errorCode) {
 
-                ECSNetworkError.showECSAlertDialog(mContext,"Error",error.getMessage());
+                ECSUtility.showECSAlertDialog(mContext,"Error",error.getMessage());
                 Message message = new Message();
                 message.obj = error;
                 mAddressListener.onGetAddress(message);

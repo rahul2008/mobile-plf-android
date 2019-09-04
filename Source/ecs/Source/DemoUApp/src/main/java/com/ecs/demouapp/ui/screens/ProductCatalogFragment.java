@@ -444,7 +444,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Override
     public void onFailure(Exception error, int errorCode) {
-        ECSNetworkError.showECSAlertDialog(mContext,"Error", error.getMessage());
+        ECSUtility.showECSAlertDialog(mContext,"Error", error.getMessage());
         //onLoadError(new IAPNetworkError(new VolleyError(error.getMessage()), errorCode, null));
     }
 }

@@ -24,6 +24,7 @@ import com.ecs.demouapp.ui.eventhelper.EventListener;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.utils.AlertListener;
 import com.ecs.demouapp.ui.utils.ECSConstant;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
@@ -121,7 +122,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
             onGetAppliedVoucherResponse(msg);
 
         if ((msg.obj instanceof IAPNetworkError)) {
-            ECSNetworkError.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         }
     }
 

@@ -1,5 +1,7 @@
 package com.philips.cdp.di.ecs.model.cart;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.philips.cdp.di.ecs.model.products.Product;
 
 import java.io.Serializable;
@@ -27,6 +29,11 @@ public class EntriesEntity implements Serializable{
 
     public int getEntryNumber() {
         return entryNumber;
+    }
+
+    @VisibleForTesting
+    public void setEntryNumber(int entryNumber) {
+        this.entryNumber = entryNumber;
     }
 
     public Product getProduct() {
