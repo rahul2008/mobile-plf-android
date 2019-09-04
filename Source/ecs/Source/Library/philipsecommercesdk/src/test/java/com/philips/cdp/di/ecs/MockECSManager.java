@@ -50,7 +50,14 @@ import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderDetailRequest;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderHistoryRequest;
+import com.philips.cdp.di.ecs.request.AddProductToECSShoppingCartRequest;
+import com.philips.cdp.di.ecs.request.CreateAddressRequest;
+import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
+import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
+import com.philips.cdp.di.ecs.request.GetVouchersRequest;
+import com.philips.cdp.di.ecs.request.SetVoucherRequest;
+import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.retailer.MockGetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.userProfile.MockGetUserProfileRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -69,21 +76,10 @@ public class MockECSManager extends ECSManager {
         this.jsonFileNameMockECSManager = jsonFileNameMockECSManager;
     }
 
-    @Override
-    void getHybrisConfigResponse(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
-        new MockGetConfigurationRequest(getJsonFileNameMockECSManager(), new ECSCallback<HybrisConfigResponse, Exception>() {
-            @Override
-            public void onResponse(HybrisConfigResponse result) {
-                ECSConfig.INSTANCE.setSiteId(result.getSiteId());
-                ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
-                ecsCallback.onResponse(result);
-            }
 
-            @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
-            }
-        }).executeRequest();
+    @Override
+    GetConfigurationRequest getConfigurationRequestObject(ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
+        return new MockGetConfigurationRequest(getJsonFileNameMockECSManager(),eCSCallback);
     }
 
     @Override
@@ -203,19 +199,23 @@ public class MockECSManager extends ECSManager {
         }*/
     }
 
+
     @Override
-    void createECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        new MockCreateECSShoppingCartRequest(getJsonFileNameMockECSManager(),ecsCallback ).executeRequest();
+    CreateECSShoppingCartRequest createECSShoppingCartRequestObject(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        return new MockCreateECSShoppingCartRequest(getJsonFileNameMockECSManager(),ecsCallback);
     }
 
-   /* @Override
-    void getECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        new MockGetECSShoppingCartsRequest(getJsonFileNameMockECSManager(),ecsCallback ).executeRequest();
-    }*/
+
 
     @Override
-    public GetECSShoppingCartsRequest getShoppingCartsRequest(ECSCallback<ECSShoppingCart, Exception> ecsCallback1) {
+    public GetECSShoppingCartsRequest getShoppingCartsRequestObject(ECSCallback<ECSShoppingCart, Exception> ecsCallback1) {
         return new MockGetECSShoppingCartsRequest(getJsonFileNameMockECSManager(),ecsCallback1 );
+    }
+
+
+    @Override
+    AddProductToECSShoppingCartRequest addProductToECSShoppingCartRequestObject(String code, ECSCallback<Boolean, Exception> ecsCallback) {
+        return new MockAddProductToECSShoppingCartRequest(getJsonFileNameMockECSManager(),code, ecsCallback);
     }
 
     @Override
@@ -236,6 +236,7 @@ public class MockECSManager extends ECSManager {
         }).executeRequest();
     }
 
+
     @Override
     public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         new MockUpdateECSShoppingCartQuantityRequest(getJsonFileNameMockECSManager(), new ECSCallback<Boolean, Exception>() {
@@ -252,12 +253,13 @@ public class MockECSManager extends ECSManager {
         }, entriesEntity, quantity).executeRequest();
     }
 
-    @Override
-    public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
-        new MockGetVouchersRequest(getJsonFileNameMockECSManager(), ecsCallback).executeRequest();
-    }
 
     @Override
+    GetVouchersRequest getVouchersRequestObject(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        return new MockGetVouchersRequest(getJsonFileNameMockECSManager(),ecsCallback);
+    }
+
+     @Override
     public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
         new MockSetVoucherRequest(getJsonFileNameMockECSManager(),voucherCode, new ECSCallback<Boolean, Exception>() {
             @Override
@@ -272,6 +274,8 @@ public class MockECSManager extends ECSManager {
             }
         }).executeRequest();
     }
+
+
 
     @Override
     public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
@@ -289,14 +293,10 @@ public class MockECSManager extends ECSManager {
         }).executeRequest();
     }
 
+
     @Override
-    public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
-        MockCreateAddressRequest mockCreateAddressRequest = new MockCreateAddressRequest(getJsonFileNameMockECSManager(), address,ecsCallback);
-        mockCreateAddressRequest.getParams();
-        mockCreateAddressRequest.getHeader();
-        mockCreateAddressRequest.getMethod();
-        mockCreateAddressRequest.getStringSuccessResponseListener();
-        mockCreateAddressRequest.executeRequest();
+    CreateAddressRequest createAddressRequestObject(Addresses address, ECSCallback<Addresses, Exception> ecsCallback) {
+        return new MockCreateAddressRequest(getJsonFileNameMockECSManager(),address, ecsCallback);
     }
 
     @Override

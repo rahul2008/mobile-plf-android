@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
+import com.philips.cdp.di.ecs.ECSManager;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
@@ -30,6 +32,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class SetVoucherTest {
@@ -83,6 +87,8 @@ public class SetVoucherTest {
 
     @Test
     public void setVoucherSuccess() {
+
+
         mockECSServices.setJsonFileName("EmptyString.json"); // empty string is success response of Apply voucher
         mockECSServices.setVoucher("voucherCode",new ECSCallback<GetAppliedValue, Exception>() {
             @Override
@@ -114,7 +120,7 @@ public class SetVoucherTest {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertEquals(20999,errorCode);
+                assertEquals(5999,errorCode);
                 //  test case passed
 
             }

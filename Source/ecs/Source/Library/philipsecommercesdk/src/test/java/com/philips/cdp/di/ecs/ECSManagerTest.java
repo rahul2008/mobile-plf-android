@@ -161,9 +161,9 @@ public class ECSManagerTest {
             }
         };
 
-        mockGetECSShoppingCartsRequest = new MockGetECSShoppingCartsRequest("ShoppingCartSuccess.json",(any( ECSCallback.class)));
+        mockGetECSShoppingCartsRequest = new MockGetECSShoppingCartsRequest("ShoppingCartSuccess.json",(ecsCallback));
         ECSManager mocECSManager = org.mockito.Mockito.mock(ECSManager.class, CALLS_REAL_METHODS);
-        when(mocECSManager.getShoppingCartsRequest(any( ECSCallback.class))).thenReturn(mockGetECSShoppingCartsRequest);
+        when(mocECSManager.getShoppingCartsRequestObject(any( ECSCallback.class))).thenReturn(mockGetECSShoppingCartsRequest);
 
         try {
             mocECSManager.getECSShoppingCart(ecsCallback);
