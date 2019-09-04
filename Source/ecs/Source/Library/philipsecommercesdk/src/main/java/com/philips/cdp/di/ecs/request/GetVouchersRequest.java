@@ -41,7 +41,8 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
         if(null == exception && null!=getAppliedValue ) {
             ecsCallback.onResponse(getAppliedValue);
         }else{
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+            String errorMessage = (response!=null)?response.toString():null;
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,errorMessage);
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

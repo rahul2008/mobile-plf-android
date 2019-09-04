@@ -9,7 +9,7 @@ package com.philips.cdp.di.ecs.store;
  * It should be refactored again to minimize the apis, as these apis are server dependant and
  * it's not scalable to add all the apis in single config interface.
  */
-public interface StoreListener {
+public interface URLProvider {
 
     //OAuth
     String getOauthUrl(String janRainID);

@@ -24,7 +24,7 @@ public class RemoveVoucherRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public void onResponse(String response) {
-        if(response.isEmpty()) {
+        if(null!=response && response.isEmpty()) {
             // Empty response indicate success
             ecsCallback.onResponse(true);
         }else{

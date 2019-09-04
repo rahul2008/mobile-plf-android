@@ -2,6 +2,7 @@ package com.philips.cdp.di.ecs.model.orders;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
@@ -125,6 +126,11 @@ public class OrderDetail implements Parcelable{
 
     public String getCode() {
         return code;
+    }
+
+    @VisibleForTesting
+    public void setCode(String code){
+        this.code = code;
     }
 
     public Addresses getDeliveryAddress() {

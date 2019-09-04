@@ -119,7 +119,7 @@ class GetOrderHistoryRequestTest{
     fun isValidURL() {
 
         System.out.println("print url: "+mockGetOrderHistoryRequest.getURL())
-        val excepted = StaticBlock.getBaseURL() + "pilcommercewebservices" + "/v2/" + StaticBlock.getSiteID() + "/users/current/addresses?fields=FULL&lang=" + StaticBlock.getLocale()
+        val excepted = StaticBlock.getBaseURL() + "pilcommercewebservices" + "/v2/" + StaticBlock.getSiteID() + "/users/current/orders?fields=FULL&lang=" + StaticBlock.getLocale()+"&currentPage="+currentPage
         assertEquals(excepted, mockGetOrderHistoryRequest.getURL())
     }
 

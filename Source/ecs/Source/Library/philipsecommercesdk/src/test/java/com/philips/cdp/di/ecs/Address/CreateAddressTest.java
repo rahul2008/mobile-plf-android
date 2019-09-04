@@ -29,6 +29,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -256,5 +257,10 @@ public class CreateAddressTest {
     @Test
     public void assertResponseSuccessListenerNotNull() {
         assertNotNull(mockCreateAddressRequest.getStringSuccessResponseListener());
+    }
+
+    @Test
+    public void assertJSONResponseSuccessListenerNull() {
+        assertNull(mockCreateAddressRequest.getJSONSuccessResponseListener());
     }
 }
