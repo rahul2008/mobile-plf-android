@@ -5,6 +5,7 @@
 package com.philips.cdp.di.ecs.store;
 
 
+import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 
 
@@ -75,18 +76,22 @@ public class ECSURLBuilder implements URLProvider {
 
     //OAuth
     @Override
-    public String getOauthUrl(String janRainID) {
+    public String getOauthUrl(OAuthInput oAuthInput) {
         StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
         builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH)
-        .append("?janrain=").append(janRainID)
-        .append("&grant_type=janrain&client_id=mobile_android&client_secret=secret");
+                .append("?"+oAuthInput.getGrantType().getType()+"=").append(oAuthInput.getOAuthID())
+                .append("&grant_type="+oAuthInput.getGrantType().getType()+"&client_id="+oAuthInput.getClientID()+"&client_secret="+oAuthInput.getClientSecret());
         return  builder.toString();
     }
 
-    @Override
-    public String getOauthRefreshUrl() {
-        return mOauthRefreshUrl;
-    }
+   /* @Override
+    public String getOauthRefreshUrl(OAuthInput oAuthInput) {
+        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
+        builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH)
+                .append("?refresh_token=").append(oAuthInput.getOAuthID())
+                .append("&grant_type="+oAuthInput.getGrantType().getType()+"&client_id="+oAuthInput.getClientID()+"&client_secret="+oAuthInput.getClientSecret());
+        return  builder.toString();
+    }*/
 
     @Override
     public void refreshLoginSession() {

@@ -24,7 +24,6 @@ import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.util.ECSConfig;
-import com.philips.cdp.di.ecs.util.ECSConstant;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -38,6 +37,8 @@ import java.util.Map;
 public class ECSServices implements ECSServiceProvider {
 
     private ECSManager mECSManager;
+
+    public static final String SERVICE_ID = "iap.baseurl";
 
     public ECSServices(String propositionID, @NonNull AppInfra appInfra) {
         ECSConfig.INSTANCE.setAppInfra(appInfra);
@@ -53,7 +54,7 @@ public class ECSServices implements ECSServiceProvider {
     public void configureECS(ECSCallback<Boolean,Exception> ecsCallback){
 
         ArrayList<String> listOfServiceId = new ArrayList<>();
-        listOfServiceId.add(ECSConstant.SERVICE_ID);
+        listOfServiceId.add(SERVICE_ID);
 
         ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
@@ -264,6 +265,11 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
         mECSManager.getUserProfile(ecsCallback);
+    }
+
+    @Override
+    public void refreshAuth(OAuthInput oAuthInput,ECSCallback<OAuthResponse, Exception> ecsListener) {
+        mECSManager.refreshAuth(oAuthInput,ecsListener);
     }
 
 

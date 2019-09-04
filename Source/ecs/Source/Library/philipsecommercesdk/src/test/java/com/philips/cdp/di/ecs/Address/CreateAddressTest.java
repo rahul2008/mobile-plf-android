@@ -2,8 +2,11 @@ package com.philips.cdp.di.ecs.Address;
 
 import android.content.Context;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
@@ -231,9 +234,6 @@ public class CreateAddressTest {
         assertNotEquals(0,mockCreateAddressRequest.getParams().size());
     }
 
-
-
-
     @Test
     public void verifyOnResponseError() {
         ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
@@ -261,6 +261,36 @@ public class CreateAddressTest {
         ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
         assertEquals("Cannot connect to Internet .. Please check your connection!",ecsError.getException().getMessage());
         assertEquals(11001,ecsError.getErrorcode());
+    }
+
+    @Test
+    public void verifyErrorMessageAndCodeForServerError() {
+        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
+        VolleyError volleyError = new ServerError();
+        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        assertEquals("We have encountered technical glitch. Please try after some time",ecsError.getException().getMessage());
+        assertEquals(5999,ecsError.getErrorcode());
+    }
+
+    @Test
+    public void verifyErrorMessageAndCodeForTimeoutError() {
+        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
+        VolleyError volleyError = new TimeoutError();
+        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        assertEquals("No cart created yet.",ecsError.getException().getMessage());
+        assertEquals(11005,ecsError.getErrorcode());
+    }
+
+    @Test
+    public void verifyErrorMessageAndCodeForAuthFailureError() {
+        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
+        VolleyError volleyError = new AuthFailureError();
+        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        assertEquals("Volley AuthFailureError",ecsError.getException().getMessage());
+        assertEquals(11002,ecsError.getErrorcode());
     }
 
 

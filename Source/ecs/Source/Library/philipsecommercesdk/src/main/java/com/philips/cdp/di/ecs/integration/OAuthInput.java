@@ -1,20 +1,24 @@
 package com.philips.cdp.di.ecs.integration;
 
-import com.philips.cdp.di.ecs.util.ECSConstant;
+public abstract class OAuthInput{
 
-public abstract class OAuthInput {
 
-     public abstract String getJanRainID();
+     public static final String CLIENT_ID = "mobile_android";
+     public static final String CLIENT_SECRET = "secret";
 
-     public String getGrantType(){
-          return ECSConstant.GRANT_TYPE;
+
+     public abstract String getOAuthID();
+
+     public GrantType getGrantType(){
+          return GrantType.JANRAIN;
      }
 
      public String getClientID(){
-          return ECSConstant.CLIENT_ID;
+          return CLIENT_ID;
      }
 
      public String getClientSecret(){
-          return ECSConstant.CLIENT_SECRET;
+          return CLIENT_SECRET;
      }
+
 }

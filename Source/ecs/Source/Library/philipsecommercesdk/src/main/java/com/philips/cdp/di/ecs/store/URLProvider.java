@@ -4,6 +4,8 @@
  */
 package com.philips.cdp.di.ecs.store;
 
+import com.philips.cdp.di.ecs.integration.OAuthInput;
+
 /**
  * Contains generic URL required to query from Server.
  * It should be refactored again to minimize the apis, as these apis are server dependant and
@@ -12,9 +14,8 @@ package com.philips.cdp.di.ecs.store;
 public interface URLProvider {
 
     //OAuth
-    String getOauthUrl(String janRainID);
+    String getOauthUrl(OAuthInput oAuthInput);
 
-    String getOauthRefreshUrl();
 
     void refreshLoginSession();
 

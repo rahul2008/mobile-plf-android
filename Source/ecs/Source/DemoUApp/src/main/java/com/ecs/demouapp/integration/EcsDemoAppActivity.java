@@ -45,6 +45,7 @@ import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -335,19 +336,25 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
                 OAuthInput oAuthInput = new OAuthInput() {
                     @Override
-                    public String getJanRainID() {
-                        return getMyJanRainID();
+                    public String getOAuthID() {
+                        return ECSConfig.INSTANCE.getAuthResponse().getRefreshToken();
+                    }
+
+                    @Override
+                    public GrantType getGrantType() {
+                        return GrantType.REFRESH_TOKEN;
                     }
                 };
 
 
                 //ReOAuth starts =======================
-                ECSUtility.getInstance().getEcsServices().hybrisOathAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+                ECSUtility.getInstance().getEcsServices().refreshAuth(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
                     @Override
                     public void onResponse(OAuthResponse result) {
 
 
                         ECSConfig.INSTANCE.setAuthToken(result.getAccessToken());
+                        ECSConfig.INSTANCE.setAuthResponse(result);
                         Log.d("ECS succ",result.getAccessToken());
 
                         try {
@@ -409,7 +416,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
             OAuthInput oAuthInput = new OAuthInput() {
                 @Override
-                public String getJanRainID() {
+                public String getOAuthID() {
                     return getMyJanRainID();
                 }
             };

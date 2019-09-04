@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.ecs.Cart.MockAddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
@@ -85,7 +84,7 @@ public class OathTest {
 
         oAuthInput = new OAuthInput() {
             @Override
-            public String getJanRainID() {
+            public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
@@ -100,7 +99,7 @@ public class OathTest {
 
         OAuthInput oAuthInput = new OAuthInput() {
             @Override
-            public String getJanRainID() {
+            public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
@@ -127,7 +126,7 @@ public class OathTest {
 
         OAuthInput oAuthInput = new OAuthInput() {
             @Override
-            public String getJanRainID() {
+            public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
@@ -154,7 +153,7 @@ public class OathTest {
 
         OAuthInput oAuthInput = new OAuthInput() {
             @Override
-            public String getJanRainID() {
+            public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
@@ -181,7 +180,7 @@ public class OathTest {
 
         OAuthInput oAuthInput = new OAuthInput() {
             @Override
-            public String getJanRainID() {
+            public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
@@ -206,7 +205,7 @@ public class OathTest {
 
     @Test
     public void isValidURL() {
-        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices/oauth/token?janrain="+oAuthInput.getJanRainID()+"&grant_type=janrain&client_id=mobile_android&client_secret=secret";
+        String excepted = StaticBlock.getBaseURL()+"pilcommercewebservices/oauth/token?janrain="+oAuthInput.getOAuthID()+"&grant_type=janrain&client_id=mobile_android&client_secret=secret";
         Assert.assertEquals(excepted,mockOAuthRequest.getURL());
     }
 
@@ -220,7 +219,7 @@ public class OathTest {
 
         Map<String, String> expectedMap = new HashMap<String, String>();
         expectedMap.put("janrain","mock Jainrain ID");
-        expectedMap.put("grant_type",oAuthInput.getGrantType());
+        expectedMap.put("grant_type",oAuthInput.getGrantType().getType());
         expectedMap.put("client_id",oAuthInput.getClientID());
         expectedMap.put("client_secret",oAuthInput.getClientSecret());
 

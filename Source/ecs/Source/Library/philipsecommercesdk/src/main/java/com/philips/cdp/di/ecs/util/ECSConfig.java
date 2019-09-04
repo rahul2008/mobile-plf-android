@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs.util;
 
 import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.platform.appinfra.AppInfra;
 
 public enum ECSConfig {
@@ -12,6 +13,8 @@ public enum ECSConfig {
     AppInfra appInfra;
     HybrisConfigResponse config;
     private String country;
+
+    private OAuthResponse oAuthResponse;
 
     public String getAccessToken() {
         return accessToken;
@@ -96,5 +99,13 @@ public enum ECSConfig {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public OAuthResponse getAuthResponse() {
+        return oAuthResponse;
+    }
+
+    public void setAuthResponse(OAuthResponse oAuthResponse) {
+        this.oAuthResponse = oAuthResponse;
     }
 }

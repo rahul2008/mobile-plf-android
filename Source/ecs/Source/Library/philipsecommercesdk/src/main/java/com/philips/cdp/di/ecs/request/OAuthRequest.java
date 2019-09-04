@@ -27,7 +27,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
 
     private final ECSCallback<OAuthResponse,Exception> ecsCallback;
     private final  OAuthInput oAuthInput;
-    String janrainID ;
+    String oAuthID;
 
     String mRetryUrl = null;
 
@@ -37,7 +37,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
     public OAuthRequest(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
         this.ecsCallback = ecsListener;
         this.oAuthInput = oAuthInput;
-        janrainID = oAuthInput.getJanRainID();
+        oAuthID = oAuthInput.getOAuthID();
     }
 
     /*
@@ -47,9 +47,9 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
     * */
     private Map getJanrainDetail(){
         Map map = new HashMap<String,String>();
-        if(janrainID!=null)
-        map.put("janrain",janrainID);
-        map.put("grant_type",oAuthInput.getGrantType());
+        if(oAuthID !=null)
+        map.put(oAuthInput.getGrantType().getType(), oAuthID);
+        map.put("grant_type",oAuthInput.getGrantType().getType());
         map.put("client_id",oAuthInput.getClientID());
         map.put("client_secret",oAuthInput.getClientSecret());
         return  map;
@@ -72,7 +72,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
 
     @Override
     public String getURL() {
-        return  mRetryUrl!=null? mRetryUrl :new ECSURLBuilder().getOauthUrl(oAuthInput.getJanRainID());
+        return  mRetryUrl!=null? mRetryUrl :new ECSURLBuilder().getOauthUrl(oAuthInput);
     }
 
     @Override
