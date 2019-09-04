@@ -386,7 +386,7 @@ public class ECSManager {
     //=====================================================Start of Shopping Cart ===========================================================
 
     void getECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        new GetECSShoppingCartsRequest(new ECSCallback<ECSShoppingCart, Exception>() {
+        ECSCallback ecsCallback1 =  new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart ecsShoppingCart) {
                 if (null == ecsShoppingCart.getEntries()) {
@@ -421,7 +421,17 @@ public class ECSManager {
             public void onFailure(Exception error, int errorCode) {
                 ecsCallback.onFailure(error, errorCode);
             }
-        }).executeRequest();
+        };
+
+        GetECSShoppingCartsRequest  getECSShoppingCartsRequest = getShoppingCartsRequest(ecsCallback1);
+
+        getECSShoppingCartsRequest.executeRequest();
+
+    }
+
+      GetECSShoppingCartsRequest getShoppingCartsRequest( ECSCallback<ECSShoppingCart, Exception> ecsCallback1 ){
+         return  new GetECSShoppingCartsRequest(ecsCallback1);
+
 
     }
 

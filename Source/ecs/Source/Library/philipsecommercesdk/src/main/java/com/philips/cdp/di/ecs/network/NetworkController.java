@@ -21,9 +21,9 @@ public class NetworkController {
         }
     }
 
-    private JsonObjectRequest getAppInfraJSONObject(APPInfraRequest appInfraJSONRequest){
+    public JsonObjectRequest getAppInfraJSONObject(APPInfraRequest appInfraJSONRequest){
 
-        Log.d("Network Controller URL:",appInfraJSONRequest.getURL());
+//        Log.d("Network Controller URL:",appInfraJSONRequest.getURL());
         return new JsonObjectRequest(appInfraJSONRequest.getMethod(),appInfraJSONRequest.getURL(),appInfraJSONRequest.getJSONRequest()
         ,appInfraJSONRequest.getJSONSuccessResponseListener(),appInfraJSONRequest.getJSONFailureResponseListener(),
                 appInfraJSONRequest.getHeader(),appInfraJSONRequest.getParams(),appInfraJSONRequest.getTokenProviderInterface());

@@ -50,6 +50,7 @@ import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderDetailRequest;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderHistoryRequest;
+import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.retailer.MockGetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.userProfile.MockGetUserProfileRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
@@ -207,9 +208,14 @@ public class MockECSManager extends ECSManager {
         new MockCreateECSShoppingCartRequest(getJsonFileNameMockECSManager(),ecsCallback ).executeRequest();
     }
 
-    @Override
+   /* @Override
     void getECSShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         new MockGetECSShoppingCartsRequest(getJsonFileNameMockECSManager(),ecsCallback ).executeRequest();
+    }*/
+
+    @Override
+    public GetECSShoppingCartsRequest getShoppingCartsRequest(ECSCallback<ECSShoppingCart, Exception> ecsCallback1) {
+        return new MockGetECSShoppingCartsRequest(getJsonFileNameMockECSManager(),ecsCallback1 );
     }
 
     @Override

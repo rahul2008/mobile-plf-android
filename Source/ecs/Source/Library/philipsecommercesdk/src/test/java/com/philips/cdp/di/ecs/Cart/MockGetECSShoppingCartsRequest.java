@@ -29,6 +29,7 @@ public class MockGetECSShoppingCartsRequest extends GetECSShoppingCartsRequest
         String jsonString = TestUtil.loadJSONFromFile(in);
         try {
             result = new JSONObject(jsonString);
+            new  JSONObject();
         } catch (JSONException e) {
             e.printStackTrace();
             VolleyError volleyError = new VolleyError(ECSErrorEnum.something_went_wrong.toString());

@@ -48,7 +48,7 @@ public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest imp
     @Override
     public String getURL() {
        String url =  new ECSURLBuilder().getCartsUrl();
-        Log.d("Cart Url", url);
+//        Log.d("Cart Url", url);
         return url;
     }
 
