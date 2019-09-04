@@ -5,6 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
@@ -28,7 +29,12 @@ public class UpdateECSShoppingCartQuantityRequest extends OAuthAppInfraAbstractR
 
     @Override
     public void onResponse(String response) {
-        ecsCallback.onResponse(true);
+        if(null!=response && response.isEmpty()) {
+            ecsCallback.onResponse(true);
+        }else{
+            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,null,response);
+            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        }
     }
 
     @Override
