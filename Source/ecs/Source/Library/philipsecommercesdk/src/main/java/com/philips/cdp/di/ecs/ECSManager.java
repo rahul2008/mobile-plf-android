@@ -107,13 +107,13 @@ public class ECSManager {
 
     }
 
-    public void getOAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsCallback) {
+     void getOAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsCallback) {
         new OAuthRequest(oAuthInput, ecsCallback).executeRequest();
     }
 
     //========================================= Start of PRX Product List, Product Detail & Product for CTN =======================================
 
-    public void getProductList(int currentPage, int pageSize, final ECSCallback<Products, Exception> finalEcsCallback) {
+     void getProductList(int currentPage, int pageSize, final ECSCallback<Products, Exception> finalEcsCallback) {
 
         GetProductListRequest getProductListRequest = new GetProductListRequest(currentPage, pageSize, new ECSCallback<Products, Exception>() {
             @Override
@@ -130,7 +130,7 @@ public class ECSManager {
 
     }
 
-    public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
+     void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
         if (null != ECSConfig.INSTANCE.getSiteId()) { // hybris flow
             new GetProductForRequest(ctn, new ECSCallback<Product, Exception>() {
                 @Override
@@ -158,7 +158,7 @@ public class ECSManager {
         }
     }
 
-    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+     void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
         Thread assets = new Thread() {
 
             @Override
@@ -324,41 +324,13 @@ public class ECSManager {
         new GetProductDisclaimerRequest(url, eCSCallback).executeRequest();
     }
 
-    private void getDisclaimer(Product product, ECSCallback<Product, Exception> ecsCallback) {
-        new DisclaimerServiceDiscoveryRequest(product.getCode()).getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
-            @Override
-            public void onSuccess(String url) {
-                getProductDisclaimer(url, new ECSCallback<Disclaimers, Exception>() {
-                    @Override
-                    public void onResponse(Disclaimers result) {
-                        // here result can come as null if Disclaimer not present for given product
-                        // but still Product Detail will be success as asset is already fetched
-                        product.setDisclaimers(result);
-                        ecsCallback.onResponse(product);
-                    }
-
-                    @Override
-                    public void onFailure(Exception error, int errorCode) {
-                        // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
-                        ecsCallback.onResponse(product);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
-                ecsCallback.onResponse(product);
-            }
-        });
-    }
 
     private ProductSummaryListServiceDiscoveryRequest prepareProductSummaryListRequest(List<String> ctns) {
         return new ProductSummaryListServiceDiscoveryRequest(ctns);
 
     }
 
-    public void getSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
+     void getSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
 
         Products products = new Products();
         ArrayList<Product> productArrayList = new ArrayList<>();
@@ -451,7 +423,7 @@ public class ECSManager {
     }
 
     // AddProduct to Cart
-    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+     void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         new AddProductToECSShoppingCartRequest(product.getCode(), new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -466,7 +438,7 @@ public class ECSManager {
         }).executeRequest();
     }
 
-    public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+     void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         new UpdateECSShoppingCartQuantityRequest(new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -480,7 +452,7 @@ public class ECSManager {
         }, entriesEntity, quantity).executeRequest();
     }
 
-    public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+     void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
         new SetVoucherRequest(voucherCode, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -494,11 +466,11 @@ public class ECSManager {
         }).executeRequest();
     }
 
-    public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+     void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
         new GetVouchersRequest(ecsCallback).executeRequest();
     }
 
-    public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+     void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
 
         new RemoveVoucherRequest(voucherCode, new ECSCallback<Boolean, Exception>() {
             @Override
@@ -516,31 +488,31 @@ public class ECSManager {
 
 
     //===================================================== start of Delivery Mode ====================================================
-    public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+     void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
         new GetDeliveryModesRequest(ecsCallback).executeRequest();
     }
 
-    public void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
+     void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
         new SetDeliveryModesRequest(deliveryModeID, ecsCallback).executeRequest();
     }
 
-    public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
+     void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
         new GetRegionsRequest(ecsCallback).executeRequest();
     }
     //===================================================== End of Delivery Mode ====================================================
 
 
     //===================================================== Start of Address ====================================================
-    public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+     void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         new GetAddressRequest(ecsCallback).executeRequest();
     }
 
-    public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+     void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
         new SetDeliveryAddressRequest(address.getId(), ecsCallback).executeRequest();
     }
     //===================================================== End of Delivery Mode ====================================================
 
-    public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
+     void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
         new CreateAddressRequest(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses result) {
@@ -556,7 +528,7 @@ public class ECSManager {
         }).executeRequest();
     }
 
-    public void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+     void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         new CreateAddressRequest(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses result) {
@@ -571,11 +543,11 @@ public class ECSManager {
         }).executeRequest();
     }
 
-    public void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+     void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
         new UpdateAddressRequest(address, ecsCallback).executeRequest();
     }
 
-    public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+     void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         new DeleteAddressRequest(address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -589,7 +561,7 @@ public class ECSManager {
         }).executeRequest();
     }
 
-    public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+     void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
         new GetRetailersInfoRequest(ecsCallback, productID).executeRequest();
     }
     //===================================================== End of Address ====================================================
@@ -597,11 +569,11 @@ public class ECSManager {
 
     //===================================================== Start of Payment ====================================================
 
-    public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+     void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
         new GetPaymentsRequest(ecsCallback).executeRequest();
     }
 
-    public void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback) {
+     void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback) {
         new SetPaymentMethodRequest(paymentDetailsId, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -616,22 +588,22 @@ public class ECSManager {
         }).executeRequest();
     }
 
-    public void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
+     void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
         new GetOrderHistoryRequest(pageNumber, ecsCallback).executeRequest();
     }
 
 
-    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+     void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
         new SubmitOrderRequest(cvv, ecsCallback).executeRequest();
     }
 
 
-    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+     void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
         new MakePaymentRequest(orderDetail, billingAddress, ecsCallback).executeRequest();
     }
 
 
-    public void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
+     void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
 
         new GetOrderDetailRequest(orderId, new ECSCallback<OrderDetail, Exception>() {
             @Override
@@ -710,11 +682,11 @@ public class ECSManager {
         }
     }
 
-    public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
+     void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
         new GetUserProfileRequest(ecsCallback).executeRequest();
     }
 
-    public void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback) {
+     void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback) {
         getOrderDetail(orders.getCode(), new ECSCallback<OrderDetail, Exception>() {
             @Override
             public void onResponse(OrderDetail result) {
