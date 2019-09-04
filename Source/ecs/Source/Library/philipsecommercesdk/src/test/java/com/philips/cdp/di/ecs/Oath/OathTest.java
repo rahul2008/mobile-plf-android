@@ -219,7 +219,7 @@ public class OathTest {
 
         Map<String, String> expectedMap = new HashMap<String, String>();
         expectedMap.put("janrain","mock Jainrain ID");
-        expectedMap.put("grant_type",oAuthInput.getGrantType());
+        expectedMap.put("grant_type",oAuthInput.getGrantType().getType());
         expectedMap.put("client_id",oAuthInput.getClientID());
         expectedMap.put("client_secret",oAuthInput.getClientSecret());
 

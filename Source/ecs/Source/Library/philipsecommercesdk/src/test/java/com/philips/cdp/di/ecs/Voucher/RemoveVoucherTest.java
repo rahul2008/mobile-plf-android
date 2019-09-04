@@ -110,7 +110,7 @@ public class RemoveVoucherTest {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertEquals(200999,errorCode);
+                assertEquals(5999,errorCode);
             //  test case passed
             }
         });

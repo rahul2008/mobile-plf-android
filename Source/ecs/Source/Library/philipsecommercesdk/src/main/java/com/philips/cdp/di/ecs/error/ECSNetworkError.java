@@ -19,8 +19,6 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 
-
-
 public class ECSNetworkError {
 
 
@@ -106,17 +104,26 @@ public class ECSNetworkError {
     private static ServerError getServerError(VolleyError error) {
         try {
             if (error.networkResponse != null) {
+                System.out.println("print base64 byte"+error.networkResponse.data);
                 final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
-                final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
-                final String errorString = new String(decode);
-                ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE,LOGGING_TAG,errorString);
-                return new Gson().fromJson(errorString, ServerError.class);
+                return parseServerError(encodedString);
             }
         } catch (Exception e) {
 
 
         }
         return null;
+    }
+
+    public static ServerError parseServerError(String encodedString) {
+        final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
+        final String errorString = new String(decode);
+        try {
+            ECSConfig.INSTANCE.getAppInfra().getLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG, errorString);
+        }catch (Exception e){
+
+        }
+        return new Gson().fromJson(errorString, ServerError.class);
     }
 
 }

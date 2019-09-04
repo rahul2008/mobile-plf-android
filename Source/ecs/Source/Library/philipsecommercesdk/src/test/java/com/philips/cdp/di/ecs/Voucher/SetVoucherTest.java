@@ -114,7 +114,7 @@ public class SetVoucherTest {
 
             @Override
             public void onFailure(Exception error, int errorCode) {
-                assertEquals(20999,errorCode);
+                assertEquals(5999,errorCode);
                 //  test case passed
 
             }
