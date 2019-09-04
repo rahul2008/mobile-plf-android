@@ -49,7 +49,7 @@ public class UpdateAddressRequest extends OAuthAppInfraAbstractRequest implement
 
     @Override
     public void onResponse(String response) {
-        if(response.isEmpty()) {
+        if(null!=response && response.isEmpty()) {
             ecsCallback.onResponse(true);
         }else{
             ecsCallback.onResponse(false);
