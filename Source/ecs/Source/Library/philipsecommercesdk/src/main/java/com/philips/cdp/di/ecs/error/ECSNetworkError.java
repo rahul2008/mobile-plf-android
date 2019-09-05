@@ -95,8 +95,6 @@ public class ECSNetworkError {
             ecsErrorEnum = ECSErrorEnum.ecs_no_internet;
         }  else if (error instanceof TimeoutError) {
             ecsErrorEnum = ECSErrorEnum.ecs_connection_timeout;
-        } else if (error instanceof com.android.volley.ServerError) {
-            ecsErrorEnum = ECSErrorEnum.ecs_server_not_found;
         }
         return ecsErrorEnum;
     }
@@ -109,7 +107,6 @@ public class ECSNetworkError {
                 return parseServerError(encodedString);
             }
         } catch (Exception e) {
-
 
         }
         return null;

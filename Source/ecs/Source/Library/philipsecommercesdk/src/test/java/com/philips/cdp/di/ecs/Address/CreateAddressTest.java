@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs.Address;
 
 import android.content.Context;
+import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -281,6 +282,24 @@ public class CreateAddressTest {
         ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
         assertEquals("No cart created yet.",ecsError.getException().getMessage());
         assertEquals(11005,ecsError.getErrorcode());
+    }
+
+
+    @Test
+    public void verifyErrorMessageAndCodeForServer() {
+        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
+        String encodingString = "ewogICAiZXJyb3JzIiA6IFsgewogICAgICAibWVzc2FnZSIgOiAiR2ViZW4gU2llIElocmUgUG9z\n" +
+                "dGxlaXR6YWhsIGVpbi4iLAogICAgICAicmVhc29uIiA6ICJpbnZhbGlkIiwKICAgICAgInN1Ympl\n" +
+                "Y3QiIDogInBvc3RhbENvZGUiLAogICAgICAic3ViamVjdFR5cGUiIDogInBhcmFtZXRlciIsCiAg\n" +
+                "ICAgICJ0eXBlIiA6ICJWYWxpZGF0aW9uRXJyb3IiCiAgIH0gXQp9";
+
+        byte[] decode = Base64.decode(encodingString, Base64.DEFAULT);
+        NetworkResponse networkResponse = new NetworkResponse(decode);
+        VolleyError volleyError = new com.android.volley.ServerError(networkResponse);
+        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        assertEquals("The zip code which you have provided is invalid.",ecsError.getException().getMessage());
+        assertEquals(5016,ecsError.getErrorcode());
     }
 
     @Test

@@ -65,6 +65,12 @@ public class ECSNetworkErrorTest {
 
     @Test
     public void testParse() {
-        ServerError serverError = ecsNetworkError.parseServerError("eyJlcnJvciI6ImludmFsaWRfZ3JhbnQiLCJlcnJvcl9kZXNjcmlwdGlvbiI6IkludmFsaWQgSmFucmFpbiBUb2tlbiBwZXNnazJldGZ2ZjNmN2doIn0=");
+        ecsNetworkError.parseServerError("eyJlcnJvciI6ImludmFsaWRfZ3JhbnQiLCJlcnJvcl9kZXNjcmlwdGlvbiI6IkludmFsaWQgSmFucmFpbiBUb2tlbiBwZXNnazJldGZ2ZjNmN2doIn0=");
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testException() throws Exception{
+        ecsNetworkError.parseServerError("sfffsdagsdagdagsgewgs=");
+    }
+
 }
