@@ -36,7 +36,7 @@ public class ECSNetworkError {
             String errorType = serverError.getErrors().get(0).getSubject();
             ECSErrorEnum ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
 
-            ecsError = new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
+            ecsError = new ECSError(new Exception(ecsErrorEnum.getLocalizedErrorString()), ecsErrorEnum.getErrorCode());
         }
         return ecsError;
     }
@@ -55,7 +55,7 @@ public class ECSNetworkError {
         }catch(Exception e){
 
         }
-        return  new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
+        return  new ECSError(new Exception(ecsErrorEnum.getLocalizedErrorString()), ecsErrorEnum.getErrorCode());
 
     }
 
@@ -70,13 +70,15 @@ public class ECSNetworkError {
                 errorType = serverError.getErrors().get(0).getType();
                 mServerError.setErrors(serverError.getErrors());
                 ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
-            }else  if(volleyError instanceof AuthFailureError) { // If it is AuthFailureError other than InvalidHybris Token
-                ecsErrorEnum = ECSErrorEnum.ecs_volley_auth_error;
+            }else   { // If it is AuthFailureError other than InvalidHybris Token
+                ecsErrorEnum = getVolleyErrorType(volleyError);
             }
         } else {
             ecsErrorEnum = getVolleyErrorType(volleyError);
         }
-        return new ECSError(ecsErrorEnum.getLocalizedErrorString(), ecsErrorEnum.getErrorCode());
+
+        Exception exception = (ecsErrorEnum==ECSErrorEnum.ecs_volley_error)?volleyError:new Exception(ecsErrorEnum.getLocalizedErrorString());
+        return new ECSError(exception, ecsErrorEnum.getErrorCode());
 
     }
 
@@ -84,20 +86,13 @@ public class ECSNetworkError {
     private static ECSErrorEnum getVolleyErrorType(final VolleyError error) {
         if(error.getMessage()!=null) {
             Log.e(LOGGING_TAG + " Volley Error: ", error.getMessage());
-
             try {
                 ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG + " Volley Error: ", error.getMessage());
             } catch (Exception e) {
 
             }
         }
-         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.somethingWentWrong;
-        if (error instanceof NoConnectionError || error instanceof NetworkError) {
-            ecsErrorEnum = ECSErrorEnum.ecs_no_internet;
-        }  else if (error instanceof TimeoutError) {
-            ecsErrorEnum = ECSErrorEnum.ecs_connection_timeout;
-        }
-        return ecsErrorEnum;
+        return ECSErrorEnum.ecs_volley_error;
     }
 
     private static ServerError getServerError(VolleyError error) {

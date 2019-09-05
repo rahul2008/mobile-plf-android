@@ -1,26 +1,27 @@
 package com.philips.cdp.di.ecs.error;
 
 public class ECSError {
-
+    private final String componentID="ecs";
     private  Exception exception;
-    private final String errorMessage;
     private final int errorcode;
 
-    public ECSError(String errorMessage, int errorcode) {
 
-        this.errorMessage = errorMessage;
+    public ECSError(Exception exception, int errorcode) {
+
+        this.exception = exception;
         this.errorcode = errorcode;
     }
 
     public Exception getException() {
-        return new Exception(errorMessage);
+        return exception;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
 
     public int getErrorcode() {
         return errorcode;
+    }
+
+    public String getComponentID() {
+        return componentID;
     }
 }

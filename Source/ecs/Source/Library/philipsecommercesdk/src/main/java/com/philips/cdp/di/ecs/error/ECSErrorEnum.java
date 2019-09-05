@@ -8,11 +8,8 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 public enum ECSErrorEnum {
 
     //volley Errors
-    ecs_no_internet( R.string.ecs_no_internet, 11001),
-    ecs_volley_auth_error( R.string.ecs_volley_auth_error, 11002),
-    ecs_server_not_found( R.string.ecs_server_not_found, 11003),
-    ecs_parse_error( R.string.ecs_parse_error, 11004),
-    ecs_connection_timeout( R.string.CartError, 11005),
+    ecs_volley_error( R.string.ecs_volley_error, 11000),
+
 
 
 
