@@ -32,7 +32,7 @@ public class MockGetECSShoppingCartsRequest extends GetECSShoppingCartsRequest
             new  JSONObject();
         } catch (JSONException e) {
             e.printStackTrace();
-            VolleyError volleyError = new VolleyError(ECSErrorEnum.something_went_wrong.toString());
+            VolleyError volleyError = new VolleyError(ECSErrorEnum.somethingWentWrong.toString());
             onErrorResponse(volleyError);
         }
         onResponse(result);

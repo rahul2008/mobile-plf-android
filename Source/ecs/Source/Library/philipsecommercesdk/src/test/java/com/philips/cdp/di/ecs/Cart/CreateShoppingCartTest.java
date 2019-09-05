@@ -11,6 +11,7 @@ import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -29,11 +30,13 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -49,6 +52,9 @@ public class CreateShoppingCartTest {
 
 
     private AppInfra appInfra;
+
+    @Mock
+    List<AppliedVoucherEntity> list;
 
 
     @Mock
@@ -189,6 +195,55 @@ public class CreateShoppingCartTest {
                 ECSShoppingCart.class);
 
         assertNotNull(ecsShoppingCart.getGuid());
+        assertNotNull(ecsShoppingCart.getCode());
+        assertNotNull(ecsShoppingCart.getTotalItems());
+        assertNotNull(ecsShoppingCart.getStore());
+        assertNotNull(ecsShoppingCart.getDeliveryItemsQuantity());
+        assertNotNull(ecsShoppingCart.getOrderDiscounts());
+        assertNotNull(ecsShoppingCart.getProductDiscounts());
+        assertNotNull(ecsShoppingCart.getSubTotal());
+        assertNotNull(ecsShoppingCart.getTotalPrice());
+        assertNotNull(ecsShoppingCart.getTotalPriceWithTax());
+        assertNotNull(ecsShoppingCart.getTotalTax());
+        assertNotNull(ecsShoppingCart.getTotalDiscounts());
+        assertNull(ecsShoppingCart.getDeliveryOrderGroups());
+
+        assertNotNull(ecsShoppingCart.getTotalDiscounts().getCurrencyIso());
+        assertNotNull(ecsShoppingCart.getTotalDiscounts().getFormattedValue());
+        assertNotNull(ecsShoppingCart.getTotalDiscounts().getPriceType());
+        assertNotNull(ecsShoppingCart.getTotalDiscounts().getValue());
+
+        assertNotNull(ecsShoppingCart.getTotalTax().getCurrencyIso());
+        assertNotNull(ecsShoppingCart.getTotalTax().getFormattedValue());
+        assertNotNull(ecsShoppingCart.getTotalTax().getPriceType());
+        assertNotNull(ecsShoppingCart.getTotalTax().getValue());
+
+        assertNotNull(ecsShoppingCart.getTotalPriceWithTax().getCurrencyIso());
+        assertNotNull(ecsShoppingCart.getTotalPriceWithTax().getFormattedValue());
+        assertNotNull(ecsShoppingCart.getTotalPriceWithTax().getPriceType());
+        assertNotNull(ecsShoppingCart.getTotalPriceWithTax().getValue());
+
+        assertNotNull(ecsShoppingCart.getTotalPrice().getCurrencyIso());
+        assertNotNull(ecsShoppingCart.getTotalPrice().getFormattedValue());
+        assertNotNull(ecsShoppingCart.getTotalPrice().getPriceType());
+        assertNotNull(ecsShoppingCart.getTotalPrice().getValue());
+        assertNotNull(ecsShoppingCart.getSubTotal().getCurrencyIso());
+        assertNotNull(ecsShoppingCart.getSubTotal().getFormattedValue());
+        assertNotNull(ecsShoppingCart.getSubTotal().getPriceType());
+        assertNotNull(ecsShoppingCart.getSubTotal().getValue());
+        assertNotNull(ecsShoppingCart.getProductDiscounts().getCurrencyIso());
+        assertNotNull(ecsShoppingCart.getProductDiscounts().getFormattedValue());
+        assertNotNull(ecsShoppingCart.getProductDiscounts().getPriceType());
+        assertNotNull(ecsShoppingCart.getProductDiscounts().getValue());
+        assertNotNull(ecsShoppingCart.getOrderDiscounts().getCurrencyIso());
+        assertNotNull(ecsShoppingCart.getOrderDiscounts().getFormattedValue());
+        assertNotNull(ecsShoppingCart.getOrderDiscounts().getPriceType());
+        assertNotNull(ecsShoppingCart.getOrderDiscounts().getValue());
+        assertEquals("DE_Pub",ecsShoppingCart.getSite());
+        assertEquals(false,ecsShoppingCart.isNet());
+        assertEquals(0,ecsShoppingCart.getPickupItemsQuantity());
+        assertEquals(0,ecsShoppingCart.getTotalUnitCount());
+
 
         Mockito.verify(spy1).onResponse(any(ECSShoppingCart.class));
 
