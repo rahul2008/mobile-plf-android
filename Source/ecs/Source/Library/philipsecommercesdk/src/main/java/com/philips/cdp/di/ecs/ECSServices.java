@@ -78,12 +78,12 @@ public class ECSServices implements ECSServiceProvider {
                 ECSConfig.INSTANCE.setLocale(locale);
                 setLangAndCountry(locale);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
-                ECSConfig.INSTANCE.setBaseURL(configUrls+"/");
 
                 if(configUrls!=null){
+                    ECSConfig.INSTANCE.setBaseURL(configUrls+"/");
                     mECSManager.getHybrisConfig(ecsCallback);
                 }else {
-                    ecsCallback.onResponse(true);
+                    ecsCallback.onResponse(false);
                 }
             }
 
@@ -99,7 +99,9 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void getProductSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
-        mECSManager.getSummary(ctns,ecsCallback);
+        //isValidator() {
+            mECSManager.getSummary(ctns, ecsCallback);
+        //}
     }
 
     @Override

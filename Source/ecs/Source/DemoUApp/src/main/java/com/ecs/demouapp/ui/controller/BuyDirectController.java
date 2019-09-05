@@ -9,12 +9,10 @@ import android.os.Message;
 
 
 import com.ecs.demouapp.ui.session.RequestCode;
-import com.ecs.demouapp.ui.store.StoreListener;
 
 public class BuyDirectController {
     private BuyDirectListener mBuyDirectListener;
     private Context mContext;
-    private StoreListener mStore;
 
 
     public BuyDirectController(Context pContext, BuyDirectListener pBuyDirectListener) {
