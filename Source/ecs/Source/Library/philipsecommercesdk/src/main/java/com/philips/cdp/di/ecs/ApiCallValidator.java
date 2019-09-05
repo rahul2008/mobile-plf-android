@@ -142,7 +142,7 @@ public class ApiCallValidator {
     public ECSError getUpdateQuantityError(int quantity) {
 
         if(quantity<0){
-            return new ECSError(new Exception("Quantity negative"),9000);
+            return new ECSError(new Exception("Quantity can not be less than zero"),9000);
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -243,6 +243,29 @@ public class ApiCallValidator {
         if(isINValidString(cvv)){
             return new ECSError(new Exception("Invalid cvv, it can not be null or empty"),9000);
         }
+        return checkLocaleBaseURLSiteIDAndCategory();
+    }
+
+    public ECSError getMakePaymentError() {
+        return checkLocaleBaseURLSiteIDAndCategory();
+    }
+
+    public ECSError getOrderHistoryError(int pageNumber) {
+        if(pageNumber<0){
+            return new ECSError(new Exception("PageNumber can not be less than the zero"),9000);
+        }
+        return checkLocaleBaseURLSiteIDAndCategory();
+    }
+
+    public ECSError getOrderDetailError(String orderId) {
+
+        if(isINValidString(orderId)){
+            return new ECSError(new Exception("Invalid order id, it can not be null or empty"),9000);
+        }
+        return checkLocaleBaseURLSiteIDAndCategory();
+    }
+
+    public ECSError getUserProfileError() {
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 }

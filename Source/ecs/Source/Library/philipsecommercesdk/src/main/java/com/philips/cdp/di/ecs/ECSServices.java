@@ -273,37 +273,44 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+    public void makePayment(@NonNull OrderDetail orderDetail, @NonNull Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+        new ApiCallValidator().getMakePaymentError();
         mECSManager.makePayment(orderDetail,billingAddress,ecsCallback);
     }
 
     @Override
-    public void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
+    public void getOrderHistory(int pageNumber, @NonNull ECSCallback<OrdersData, Exception> ecsCallback) {
+        new ApiCallValidator().getOrderHistoryError(pageNumber);
         mECSManager.getOrderHistory(pageNumber,ecsCallback);
     }
 
     @Override
-    public void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void getOrderDetail(@NonNull String orderId, @NonNull ECSCallback<OrderDetail, Exception> ecsCallback) {
+        new ApiCallValidator().getOrderDetailError(orderId);
         mECSManager.getOrderDetail(orderId,ecsCallback);
     }
 
     @Override
-    public void getOrderDetail(OrderDetail orderDetail, ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void getOrderDetail(@NonNull OrderDetail orderDetail, @NonNull ECSCallback<OrderDetail, Exception> ecsCallback) {
+        new ApiCallValidator().getOrderDetailError(orderDetail.getCode());
         mECSManager.getOrderDetail(orderDetail.getCode(),ecsCallback);
     }
 
     @Override
-    public void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback) {
+    public void getOrderDetail(@NonNull Orders orders, @NonNull ECSCallback<Orders, Exception> ecsCallback) {
+        new ApiCallValidator().getOrderDetailError(orders.getCode());
         mECSManager.getOrderDetail(orders,ecsCallback);
     }
 
     @Override
-    public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
+    public void getUserProfile(@NonNull ECSCallback<UserProfile, Exception> ecsCallback) {
+        new ApiCallValidator().getUserProfileError();
         mECSManager.getUserProfile(ecsCallback);
     }
 
     @Override
-    public void refreshAuth(OAuthInput oAuthInput,ECSCallback<OAuthResponse, Exception> ecsListener) {
+    public void refreshAuth(@NonNull OAuthInput oAuthInput,@NonNull ECSCallback<OAuthResponse, Exception> ecsListener) {
+        new ApiCallValidator().getHybrisOathAuthenticationAPIValidateError(oAuthInput);
         mECSManager.refreshAuth(oAuthInput,ecsListener);
     }
 
