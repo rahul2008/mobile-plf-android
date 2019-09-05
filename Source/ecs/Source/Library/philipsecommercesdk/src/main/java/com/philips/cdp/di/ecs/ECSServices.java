@@ -1,5 +1,6 @@
 package com.philips.cdp.di.ecs;
 
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.integration.OAuthInput;
@@ -93,38 +94,47 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
-        mECSManager.getHybrisConfigResponse(ecsCallback);
+    public void getECSConfig(@NonNull ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+        if(new ApiCallValidator().getConfigAPIValidateError()!=null) {
+            mECSManager.getHybrisConfigResponse(ecsCallback);
+        }else{
+            ecsCallback.onFailure(new ApiCallValidator().getConfigAPIValidateError().getException(),new ApiCallValidator().getConfigAPIValidateError().getErrorcode());
+        }
     }
 
     @Override
-    public void getProductSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
-        //isValidator() {
+    public void getProductSummary(@NonNull List<String> ctns, @NonNull ECSCallback<List<Product>, Exception> ecsCallback) {
+        if(new ApiCallValidator().getProductSummaryAPIValidateError(ctns)!=null) {
             mECSManager.getSummary(ctns, ecsCallback);
-        //}
+        }
     }
 
     @Override
-    public void getShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void getShoppingCart(@NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        new ApiCallValidator().getECSShoppingCartAPIValidateError();
         mECSManager.getECSShoppingCart(ecsCallback);
     }
 
     @Override
-    public void createShoppingCart(ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void createShoppingCart(@NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        new ApiCallValidator().getCreateShoppingCartAPIValidateError();
         mECSManager.createECSShoppingCart(ecsCallback);
     }
 
-    public void hybrisOathAuthentication(OAuthInput OAuthInput, ECSCallback<OAuthResponse,Exception> ecsListener){
-        mECSManager.getOAuth(OAuthInput,ecsListener);
+    public void hybrisOathAuthentication( @NonNull OAuthInput oAuthInput, @NonNull ECSCallback<OAuthResponse,Exception> ecsListener){
+        new ApiCallValidator().getHybrisOathAuthenticationAPIValidateError(oAuthInput);
+        mECSManager.getOAuth(oAuthInput,ecsListener);
     }
 
     @Override
-    public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> eCSCallback) {
+    public void getProductList(int currentPage, int pageSize, @NonNull ECSCallback<Products, Exception> eCSCallback) {
+        new ApiCallValidator().getProductListAPIValidateError(pageSize);
         mECSManager.getProductList(currentPage,pageSize,eCSCallback);
     }
 
     @Override
-    public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
+    public void getProductFor(String ctn, @NonNull ECSCallback<Product, Exception> eCSCallback) {
+        new ApiCallValidator().getProductForAPIValidateError(ctn);
         mECSManager.getProductFor(ctn,eCSCallback);
 
     }
@@ -136,108 +146,129 @@ public class ECSServices implements ECSServiceProvider {
 
 
     @Override
-    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+    public void getProductDetail(@NonNull Product product,@NonNull ECSCallback<Product, Exception> ecsCallback) {
+        new ApiCallValidator().getProductDetailAPIValidateError(product);
         mECSManager.getProductDetail(product,ecsCallback);
     }
 
     @Override
-    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void addProductToShoppingCart(@NonNull Product product,@NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        new ApiCallValidator().getAddProductToShoppingCartError(product);
         mECSManager.addProductToShoppingCart(product,ecsCallback);
     }
 
     @Override
-    public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void updateQuantity(int quantity,@NonNull EntriesEntity entriesEntity,@NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        new ApiCallValidator().getUpdateQuantityError(quantity);
         mECSManager.updateQuantity(quantity, entriesEntity,ecsCallback);
     }
 
     @Override
-    public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void setVoucher(@NonNull String voucherCode,@NonNull ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        new ApiCallValidator().getSetVoucherError(voucherCode);
         mECSManager.setVoucher(voucherCode,ecsCallback);
     }
 
     @Override
     public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        new ApiCallValidator().getVoucherError();
         mECSManager.getVoucher(ecsCallback);
     }
 
     @Override
     public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+        new ApiCallValidator().getRemoveVoucherError(voucherCode);
         mECSManager.removeVoucher(voucherCode,ecsCallback);
     }
 
     @Override
     public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+        new ApiCallValidator().getDeliveryModesError();
         mECSManager.getDeliveryModes(ecsCallback);
     }
 
     @Override
-    public void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setDeliveryMode(@NonNull String deliveryModeID, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        new ApiCallValidator().getSetDeliveryModeError(deliveryModeID);
         mECSManager.setDeliveryMode(deliveryModeID,ecsCallback);
     }
 
     @Override
-    public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
+    public void getRegions(@NonNull ECSCallback<RegionsList, Exception> ecsCallback) {
+        new ApiCallValidator().getRegionsError();
         mECSManager.getRegions(ecsCallback);
     }
 
     @Override
-    public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void getListSavedAddress(@NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        new ApiCallValidator().getListSavedAddressError();
         mECSManager.getListSavedAddress(ecsCallback);
     }
 
     @Override
-    public void createNewAddress(Addresses ecsAddress, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void createNewAddress(@NonNull Addresses ecsAddress, @NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        new ApiCallValidator().getCreateNewAddressError();
         mECSManager.createNewAddress(ecsAddress, ecsCallback);
     }
 
     @Override
-    public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
+    public void createNewAddress(@NonNull Addresses address,@NonNull ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
+        new ApiCallValidator().getCreateNewAddressError();
         mECSManager.createNewAddress(address, ecsCallback,true);
     }
 
     @Override
-    public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setDeliveryAddress(@NonNull Addresses address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        new ApiCallValidator().getSetDeliveryAddressError(address);
         mECSManager.setDeliveryAddress(address,ecsCallback);
     }
 
     @Override
-    public void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void updateAddress(@NonNull Addresses address,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        new ApiCallValidator().getUpdateAddressError();
         mECSManager.updateAddress(address,ecsCallback);
     }
 
     @Override
-    public void setDefaultAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setDefaultAddress(@NonNull Addresses address,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        new ApiCallValidator().getSetDefaultAddressError(address);
         address.setDefaultAddress(true);
         mECSManager.updateAddress(address,ecsCallback);
     }
 
     @Override
-    public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void deleteAddress(@NonNull Addresses address,@NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        new ApiCallValidator().getDeleteAddressError(address);
         mECSManager.deleteAddress(address,ecsCallback);
     }
 
     @Override
-    public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+    public void getPayments(@NonNull ECSCallback<PaymentMethods, Exception> ecsCallback) {
+        new ApiCallValidator().getPaymentsError();
         mECSManager.getPayments(ecsCallback);
     }
 
     @Override
-    public void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setPaymentMethod(@NonNull String paymentDetailsId,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        new ApiCallValidator().getSetPaymentMethodError(paymentDetailsId);
         mECSManager.setPaymentMethod(paymentDetailsId,ecsCallback);
     }
 
     @Override
-    public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+    public void getRetailers(@NonNull String productID,@NonNull ECSCallback<WebResults, Exception> ecsCallback) {
+        new ApiCallValidator().getRetailersError(productID);
        mECSManager.getRetailers(productID,ecsCallback);
     }
 
     @Override
-    public void getRetailers(Product product, ECSCallback<WebResults, Exception> ecsCallback) {
+    public void getRetailers(@NonNull Product product,@NonNull ECSCallback<WebResults, Exception> ecsCallback) {
+        new ApiCallValidator().getRetailersError(product.getCode());
         mECSManager.getRetailers(product.getCode(),ecsCallback);
     }
 
     @Override
-    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void submitOrder(@NonNull String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+        new ApiCallValidator().getSubmitOrderError(cvv);
         mECSManager.submitOrder(cvv,ecsCallback);
     }
 
