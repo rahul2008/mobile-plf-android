@@ -56,7 +56,7 @@ public class GetProductSummaryListRequest extends AppInfraAbstractRequest implem
             if(null == exception && null!=ecsProductSummary.getData()) {
                 ecsCallback.onResponse(ecsProductSummary);
             }else{
-                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response.toString());
                 ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
             }
     }

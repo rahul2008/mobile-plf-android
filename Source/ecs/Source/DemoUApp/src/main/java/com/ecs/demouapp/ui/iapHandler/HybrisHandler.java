@@ -28,7 +28,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
                     int quantity = ECSUtility.getInstance().getQuantity(carts);
                     iapListener.onGetCartCount(quantity);
                 } else {
-                    iapListener.onFailure(9000);
+                    iapListener.onFailure(5999);
                 }
             }
 

@@ -57,7 +57,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
                     WebResults::class.java)
             callBack.onResponse(webResults)
         }catch (exception:Exception){
-            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception, response.toString())
+            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, exception, response.toString())
             callBack.onFailure(ecsError.getException(), ecsError.getErrorcode())
         }
 

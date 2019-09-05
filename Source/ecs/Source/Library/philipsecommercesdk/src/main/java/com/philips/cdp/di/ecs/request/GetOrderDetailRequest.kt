@@ -46,7 +46,7 @@ open class GetOrderDetailRequest(orderID: String, ecsCallback: ECSCallback<Order
             val orderDetail = Gson().fromJson(response.toString(), OrderDetail::class.java)
             ecsCallback.onResponse(orderDetail)
         } catch (e: Exception) {
-            val ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, e, response.toString())
+            val ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, e, response.toString())
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
         }
     }

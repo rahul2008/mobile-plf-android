@@ -51,7 +51,7 @@ public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements 
         if(null==exception && null!=makePaymentData){
             ecsCallback.onResponse(makePaymentData);
         }else{
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response);
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response);
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
 

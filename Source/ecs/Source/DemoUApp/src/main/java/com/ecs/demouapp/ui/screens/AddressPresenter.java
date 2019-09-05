@@ -143,7 +143,11 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             if (msg.obj instanceof IAPNetworkError) {
                 addressContractor.showErrorMessage(msg);
             }else if(msg.obj instanceof Exception){
-                addressContractor.showErrorMessage(msg);
+                //addressContractor.showErrorMessage(msg);
+                addressContractor.hideProgressbar();
+                addressContractor.hideProgressbar();
+                ECSUtility.showECSAlertDialog(addressContractor.getActivityContext(),"Error",((Exception) msg.obj).getMessage());
+
             } else{
                 if (addressContractor.getContinueButtonText().equalsIgnoreCase(addressContractor.getActivityContext().getString(R.string.iap_save))) {
                     addressContractor.hideProgressbar();

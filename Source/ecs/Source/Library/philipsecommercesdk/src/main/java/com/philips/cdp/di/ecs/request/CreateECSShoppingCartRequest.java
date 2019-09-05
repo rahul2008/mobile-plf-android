@@ -56,7 +56,7 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
         if(null == exception && null!= ecsShoppingCart && null!= ecsShoppingCart.getGuid() && !ecsShoppingCart.getGuid().isEmpty() ) {
             eCSCallback.onResponse(ecsShoppingCart);
         }else{
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response.toString());
             eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

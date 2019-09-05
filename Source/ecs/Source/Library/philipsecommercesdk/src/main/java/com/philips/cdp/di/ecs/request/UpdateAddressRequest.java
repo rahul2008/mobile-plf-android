@@ -53,7 +53,7 @@ public class UpdateAddressRequest extends OAuthAppInfraAbstractRequest implement
         if(null!=response && response.isEmpty()) {
             ecsCallback.onResponse(true);
         }else{
-            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,null,response);
+            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,null,response);
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

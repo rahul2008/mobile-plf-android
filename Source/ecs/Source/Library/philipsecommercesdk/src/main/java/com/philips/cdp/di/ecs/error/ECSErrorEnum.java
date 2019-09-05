@@ -8,11 +8,8 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 public enum ECSErrorEnum {
 
     //volley Errors
-    ecs_no_internet( R.string.ecs_no_internet, 11001),
-    ecs_volley_auth_error( R.string.ecs_volley_auth_error, 11002),
-    ecs_server_not_found( R.string.ecs_server_not_found, 11003),
-    ecs_parse_error( R.string.ecs_parse_error, 11004),
-    ecs_connection_timeout( R.string.CartError, 11005),
+    ecs_volley_error( R.string.ecs_volley_error, 11000),
+
 
 
 
@@ -20,7 +17,6 @@ public enum ECSErrorEnum {
     invalid_client(R.string.invalid_client, 5001),
     unsupported_grant_type( R.string.unsupported_grant_type, 5002),
     NoSuchElementError( R.string.NoSuchElementError, 5003),
-   // hybristokenerror( R.string.hybristokenerror, 3001),
     CartError( R.string.CartError, 5004),
     InsufficientStockError( R.string.InsufficientStockError, 5005),
     UnknownIdentifierError( R.string.UnknownIdentifierError, 5006),
@@ -47,18 +43,18 @@ public enum ECSErrorEnum {
 
 
     //client error
-    baseURL_notfound( R.string.baseURL_notfound, 5050),
+    baseURLNotFound( R.string.baseURLNotFound, 5050),
     appInfra_notfound( R.string.appInfra_notfound, 5051),
     locale_notfound( R.string.locale_notfound, 5052),
     propositionId_notFound( R.string.propositionId_notFound, 5053),
     siteId_notfound( R.string.siteId_notfound, 5054),
-    hybis_notAvailable( R.string.hybis_notAvailable, 5055),
+    hybris_notAvailable( R.string.hybris_notAvailable, 5055),
     ctn_notProvided( R.string.ctn_notProvided, 5056),
     oauth_notCalled( R.string.oauth_notCalled, 5057),
-    oauth_detail_error( R.string.oauth_detail_error, 5058),
+    OAuthDetailError( R.string.OAuthDetailError, 5058),
     countryCodeNotGiven( R.string.countryCodeNotGiven, 5059),
     orderIdNil( R.string.orderIdNil, 5060),
-    something_went_wrong( R.string.something_went_wrong, 5999);
+    somethingWentWrong( R.string.somethingWentWrong, 5999);
 
 
     int resourceID;
@@ -86,7 +82,7 @@ public enum ECSErrorEnum {
     }
 
     public  String getLocalizedErrorString(){
-        String localizedError= ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getString(R.string.something_went_wrong);
+        String localizedError= ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getString(R.string.somethingWentWrong);
         try{
             localizedError =   ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getResources().getString(getResourceID());
         } catch(Exception e){

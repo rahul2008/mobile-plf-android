@@ -35,7 +35,7 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
                     UserProfile::class.java)
             ecsCallback.onResponse(userProfile)
         }catch (e :Exception){
-            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, e, response.toString())
+            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, e, response.toString())
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
         }
     }

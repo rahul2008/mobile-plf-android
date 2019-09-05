@@ -183,7 +183,7 @@ public class ECSManager {
                                     product.setAssets(result);
                                     productDetail(product, ecsCallback);
                                 } else {
-                                    ecsCallback.onFailure(new Exception(ECSErrorEnum.something_went_wrong.getLocalizedErrorString()), 5999);
+                                    ecsCallback.onFailure(new Exception(ECSErrorEnum.somethingWentWrong.getLocalizedErrorString()), 5999);
                                 }
                             }
 
@@ -196,7 +196,7 @@ public class ECSManager {
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
-                        ecsCallback.onFailure(new Exception(ECSErrorEnum.something_went_wrong.getLocalizedErrorString()), 5002);
+                        ecsCallback.onFailure(new Exception(ECSErrorEnum.somethingWentWrong.getLocalizedErrorString()), 5002);
                     }
                 });
             }

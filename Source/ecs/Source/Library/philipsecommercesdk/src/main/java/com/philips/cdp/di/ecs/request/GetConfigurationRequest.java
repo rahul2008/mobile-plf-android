@@ -54,7 +54,7 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
             if(null==exception && resp.getCatalogId()!=null && resp.getRootCategory()!=null && resp.getSiteId()!=null){
                 eCSCallback.onResponse(resp);
             }else if(response.has("net")) {
-                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response.toString());
                 eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
             }
     }
