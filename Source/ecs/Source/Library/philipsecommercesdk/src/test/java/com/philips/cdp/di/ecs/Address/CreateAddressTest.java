@@ -280,7 +280,7 @@ public class CreateAddressTest {
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new TimeoutError();
         ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
-        assertEquals("No cart created yet.",ecsError.getException().getMessage());
+        assertEquals("No cart created yet",ecsError.getException().getMessage());
         assertEquals(11005,ecsError.getErrorcode());
     }
 
@@ -298,7 +298,7 @@ public class CreateAddressTest {
         NetworkResponse networkResponse = new NetworkResponse(decode);
         VolleyError volleyError = new com.android.volley.ServerError(networkResponse);
         ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
-        assertEquals("The zip code which you have provided is invalid.",ecsError.getException().getMessage());
+        assertEquals("ZIP code selected is invalid",ecsError.getException().getMessage());
         assertEquals(5016,ecsError.getErrorcode());
     }
 

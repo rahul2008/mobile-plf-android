@@ -5,15 +5,19 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +27,7 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -174,10 +179,39 @@ public class CreateShoppingCartTest {
 
     }
 
+    @Test
+    public void verifyOnResponseSuccess() {
+        ECSCallback<ECSShoppingCart, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockCreateECSShoppingCartRequest = new MockCreateECSShoppingCartRequest("ShoppingCartSuccess.json",spy1);
+        VolleyError volleyError = new NoConnectionError();
+        mockCreateECSShoppingCartRequest.onResponse(getJsonObject("ShoppingCartSuccess.json"));
+
+        ECSShoppingCart ecsShoppingCart = new Gson().fromJson(getJsonObject("ShoppingCartSuccess.json").toString(),
+                ECSShoppingCart.class);
+
+        assertNotNull(ecsShoppingCart.getGuid());
+
+        Mockito.verify(spy1).onResponse(any(ECSShoppingCart.class));
+
+
+    }
+
 
     @Test
     public void assertResponseSuccessListenerNotNull() {
         assertNotNull(mockCreateECSShoppingCartRequest.getJSONSuccessResponseListener());
+    }
+
+    JSONObject getJsonObject(String jsonfileName){
+
+        JSONObject result = null;
+        InputStream in = getClass().getClassLoader().getResourceAsStream(jsonfileName);//"PRXProductAssets.json"
+        String jsonString = TestUtil.loadJSONFromFile(in);
+        try {
+            return new JSONObject(jsonString);
+        } catch (JSONException e) {
+            return null;
+        }
     }
 
 }
