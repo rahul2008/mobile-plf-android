@@ -12,7 +12,6 @@ import android.util.Log;
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.RequestCode;
-import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
@@ -25,7 +24,6 @@ public class PaymentController {
     private Context mContext;
     private PaymentListener mPaymentListener;
     private MakePaymentListener mMakePaymentListener;
-    private StoreListener mStore;
 
     public interface PaymentListener {
         void onGetPaymentDetails(Message msg);
