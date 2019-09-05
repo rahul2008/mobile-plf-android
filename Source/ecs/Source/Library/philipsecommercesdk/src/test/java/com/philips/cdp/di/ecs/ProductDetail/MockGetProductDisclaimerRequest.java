@@ -29,7 +29,7 @@ public class MockGetProductDisclaimerRequest extends GetProductDisclaimerRequest
             result = new JSONObject(jsonString);
         } catch (JSONException e) {
             e.printStackTrace();
-            VolleyError volleyError = new VolleyError(ECSErrorEnum.something_went_wrong.toString());
+            VolleyError volleyError = new VolleyError(ECSErrorEnum.somethingWentWrong.toString());
             onErrorResponse(volleyError);
         }
         onResponse(result);

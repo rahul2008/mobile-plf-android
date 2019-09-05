@@ -100,7 +100,15 @@ public class UpdateShoppingCartTest {
             public void onResponse(ECSShoppingCart result) {
                 assertNotNull(result);
                 assertNotNull(result.getGuid());
+                assertNotNull(result.getEntries().get(0).getQuantity());
                 assertEquals(quantity,result.getEntries().get(0).getQuantity());
+                assertEquals(true,result.getEntries().get(0).isUpdateable());
+                assertNotNull(result.getEntries().get(0).getBasePrice());
+                assertNotNull(result.getEntries().get(0).getBasePrice().getCurrencyIso());
+                assertNotNull(result.getEntries().get(0).getBasePrice().getFormattedValue());
+                assertNotNull(result.getEntries().get(0).getBasePrice().getPriceType());
+                assertNotNull(result.getEntries().get(0).getBasePrice().getValue());
+                assertNotNull(result.getEntries().get(0).getTotalPrice());
                 // test case passed
             }
 

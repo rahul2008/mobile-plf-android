@@ -436,7 +436,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void onFailure(Exception error, int errorCode) {
-                     if(errorCode == ECSErrorEnum.ecs_volley_auth_error.getErrorCode()
+                     if(errorCode == ECSErrorEnum.ecs_volley_error.getErrorCode()
                         || errorCode == ECSErrorEnum.InvalidTokenError.getErrorCode()
                         || errorCode == 5999){
 
