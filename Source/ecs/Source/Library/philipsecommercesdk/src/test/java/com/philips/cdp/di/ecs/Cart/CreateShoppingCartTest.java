@@ -183,7 +183,6 @@ public class CreateShoppingCartTest {
     public void verifyOnResponseSuccess() {
         ECSCallback<ECSShoppingCart, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateECSShoppingCartRequest = new MockCreateECSShoppingCartRequest("ShoppingCartSuccess.json",spy1);
-        VolleyError volleyError = new NoConnectionError();
         mockCreateECSShoppingCartRequest.onResponse(getJsonObject("ShoppingCartSuccess.json"));
 
         ECSShoppingCart ecsShoppingCart = new Gson().fromJson(getJsonObject("ShoppingCartSuccess.json").toString(),
@@ -193,9 +192,7 @@ public class CreateShoppingCartTest {
 
         Mockito.verify(spy1).onResponse(any(ECSShoppingCart.class));
 
-
     }
-
 
     @Test
     public void assertResponseSuccessListenerNotNull() {
@@ -205,7 +202,7 @@ public class CreateShoppingCartTest {
     JSONObject getJsonObject(String jsonfileName){
 
         JSONObject result = null;
-        InputStream in = getClass().getClassLoader().getResourceAsStream(jsonfileName);//"PRXProductAssets.json"
+        InputStream in = getClass().getClassLoader().getResourceAsStream(jsonfileName);
         String jsonString = TestUtil.loadJSONFromFile(in);
         try {
             return new JSONObject(jsonString);
