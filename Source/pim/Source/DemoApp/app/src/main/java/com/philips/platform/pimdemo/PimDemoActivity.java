@@ -20,6 +20,7 @@ import com.pim.demouapp.PIMDemoUAppLaunchInput;
 import com.pim.demouapp.PIMDemoUAppSettings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -54,10 +55,9 @@ public class PimDemoActivity extends UIDActivity {
         selectLibreary.setAdapter(libraryAdapter);
 
         spinnerCountrySelection = findViewById(R.id.spinner_CountrySelection);
-        List<String> countryList = new ArrayList<>();
-        countryList.add("United States");
-        countryList.add("Netherlands");
-        countryList.add("Belgium");
+        String[] stringArray = getResources().getStringArray(R.array.countries_array);
+
+        List<String> countryList = new ArrayList<>(Arrays.asList(stringArray));
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item,countryList);
         spinnerCountrySelection.setAdapter(arrayAdapter);
         spinnerCountrySelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

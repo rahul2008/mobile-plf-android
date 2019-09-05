@@ -2,8 +2,7 @@
   "version": "1.0",
   "analytics": {
     "referrerTimeout": 5,
-    "rsids": "philipspimregistrationdev",
-    //      "server" : "localhost:50000",
+    "rsids": "philipsmobileappsregistrationdev",
     "server": "philips.112.2o7.net",
     "charset": "UTF-8",
     "ssl": true,
