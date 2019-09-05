@@ -22,7 +22,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 public class ECSNetworkError {
 
 
-    private static final String LOGGING_TAG = "";
+    private static final String LOGGING_TAG = ECSNetworkError.class.getSimpleName();
 
     public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
         ServerError serverError = new ServerError();
@@ -49,9 +49,9 @@ public class ECSNetworkError {
         if(null!=hysbrisResponse){
             logMessage="\n\n"+hysbrisResponse;
         }
-        Log.e("ON_SUCCESS_ERROR", logMessage);
+        Log.e(LOGGING_TAG, logMessage);
         try {
-            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, "ON_SUCCESS_ERROR", logMessage);
+            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG+"getErrorLocalizedErrorMessage", logMessage);
         }catch(Exception e){
 
         }
@@ -62,7 +62,7 @@ public class ECSNetworkError {
     private static ECSError getEcsErrorEnum(VolleyError volleyError, ServerError mServerError) {
 
         String errorType = null;
-        ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
+        ECSErrorEnum ecsErrorEnum = ECSErrorEnum.somethingWentWrong;
         if (volleyError instanceof com.android.volley.ServerError || volleyError instanceof AuthFailureError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError!=null && serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
@@ -83,14 +83,15 @@ public class ECSNetworkError {
 
     private static ECSErrorEnum getVolleyErrorType(final VolleyError error) {
         if(error.getMessage()!=null) {
-            Log.e("ON_VOLLEY_ERROR", error.getMessage());
-        }
-        try {
-            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, "ON_VOLLEY_ERROR", error.getMessage());
-        }catch (Exception e){
+            Log.e(LOGGING_TAG + " Volley Error: ", error.getMessage());
 
+            try {
+                ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG + " Volley Error: ", error.getMessage());
+            } catch (Exception e) {
+
+            }
         }
-         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.something_went_wrong;
+         ECSErrorEnum ecsErrorEnum = ECSErrorEnum.somethingWentWrong;
         if (error instanceof NoConnectionError || error instanceof NetworkError) {
             ecsErrorEnum = ECSErrorEnum.ecs_no_internet;
         }  else if (error instanceof TimeoutError) {

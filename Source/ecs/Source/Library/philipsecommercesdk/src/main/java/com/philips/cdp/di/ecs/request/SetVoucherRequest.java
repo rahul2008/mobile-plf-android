@@ -30,7 +30,7 @@ public class SetVoucherRequest extends OAuthAppInfraAbstractRequest implements R
             // Empty response indicate success
             ecsCallback.onResponse(true);
         }else{
-            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,null,response);
+            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,null,response);
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

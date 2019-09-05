@@ -84,7 +84,7 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
                 }
                 ecsCallback.onResponse(mProducts);
             }else{
-                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response.toString());
+                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response.toString());
                 ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
             }
     }

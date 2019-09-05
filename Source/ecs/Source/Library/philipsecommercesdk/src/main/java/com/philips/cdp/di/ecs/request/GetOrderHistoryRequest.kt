@@ -45,7 +45,7 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
                     OrdersData::class.java)
             ecsCallback.onResponse(ordersData)
         }catch (exception : Exception){
-            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception, response.toString())
+            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, exception, response.toString())
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
         }
     }

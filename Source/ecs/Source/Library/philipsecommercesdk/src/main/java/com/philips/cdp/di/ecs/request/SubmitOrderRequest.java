@@ -46,7 +46,7 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
         if(null==exception && null!=orderDetail){
             exceptionECSCallback.onResponse(orderDetail);
         }else{
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,exception,response);
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response);
             exceptionECSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

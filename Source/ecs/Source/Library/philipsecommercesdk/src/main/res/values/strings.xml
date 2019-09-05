@@ -15,14 +15,14 @@
     <string name="invalid_grant" >We have encountered technical glitch (Invalid Janrain Token). Please re-login</string>
     <string name="invalid_client" >We have encountered technical glitch (Bad client credentials). Please re-login</string>
     <string name="unsupported_grant_type" >We have encountered technical glitch (Unsupported grant type). Please re-login</string>
-    <string name="something_went_wrong" >We have encountered technical glitch. Please try after some time</string>
-    <string name="baseURL_notfound" >Base URL not found</string>
+    <string name="somethingWentWrong" >We have encountered technical glitch. Please try after some time</string>
+    <string name="baseURLNotFound" >Base URL not found</string>
     <string name="appInfra_notfound" >Please provide app infra object</string>
     <string name="locale_notfound" >Please set the locale</string>
     <string name="ctn_notProvided" >Please provide the CTN</string>
     <string name="oauth_notCalled" >User authorization is required for this action</string>
     <string name="siteId_notfound" >Philips shop is not available for the selected country, only retailer mode is available</string>
-    <string name="hybis_notAvailable" >Philips shop is not available for the selected country, only retailer mode is available</string>
+    <string name="hybris_notAvailable" >Philips shop is not available for the selected country, only retailer mode is available</string>
 
     //TODO: Ask srini about message
 
@@ -36,9 +36,9 @@
     <string name="UnsupportedVoucherError" >Sorry, this voucher cannot be redeemed</string>
     <string name="VoucherOperationError" >Sorry, this voucher cannot be redeemed</string>
     <string name="CommerceCartModificationError" >Quantity must not be less than zero</string>
-    <string name="oauth_detail_error" >Please provide complete OAuth detials</string>
+    <string name="OAuthDetailError" >Please provide complete OAuth detials</string>
     <string name="countryCodeNotGiven" >Please provide valid country code</string>
-    <string name="UnsupportedDeliveryModeError" >Selected Delivery mode is not supported</string>
+    <string name="UnsupportedDeliveryModeError" >Selected <Delive></Delive>ry mode is not supported</string>
     <string name="regionisocode" >Region selected is invalid</string>
     <string name="countryisocode" >Country selected is invalid</string>
     <string name="postalCode" >ZIP code selected is invalid</string>

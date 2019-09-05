@@ -31,7 +31,7 @@ public class SetDeliveryModesRequest extends OAuthAppInfraAbstractRequest implem
         if(null!=response && response.trim().isEmpty()) {
             ecsCallback.onResponse(true);
         } else {
-            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,null,response);
+            ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,null,response);
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

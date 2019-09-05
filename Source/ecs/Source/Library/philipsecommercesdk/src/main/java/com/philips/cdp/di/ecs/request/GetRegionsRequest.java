@@ -54,7 +54,7 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
             RegionsList regionsList = new Gson().fromJson(response.toString(), RegionsList.class);
             ecsCallback.onResponse(regionsList);
         }catch(Exception e){
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong,e,response.toString());
+            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,e,response.toString());
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }
     }

@@ -39,9 +39,9 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
         }catch(Exception exception){
             ECSError ecsError;
             if(response!=null) {
-                ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception, response.toString());
+                ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, exception, response.toString());
             }else{
-                ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.something_went_wrong, exception,exception.getMessage());
+                ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, exception,exception.getMessage());
             }
             ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
         }

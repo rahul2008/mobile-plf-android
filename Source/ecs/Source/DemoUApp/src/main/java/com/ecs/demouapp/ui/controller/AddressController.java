@@ -209,9 +209,10 @@ public class AddressController {
             @Override
             public void onFailure(Exception error, int errorCode) {
 
-                ECSUtility.showECSAlertDialog(mContext,"Error",error.getMessage());
+                //ECSUtility.showECSAlertDialog(mContext,"Error",error.getMessage());
                 Message message = new Message();
                 message.obj = error;
+                message.what = RequestCode.UPDATE_ADDRESS;
                 mAddressListener.onGetAddress(message);
             }
         });
