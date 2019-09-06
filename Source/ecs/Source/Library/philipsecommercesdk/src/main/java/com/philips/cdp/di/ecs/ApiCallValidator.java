@@ -77,11 +77,11 @@ public class ApiCallValidator {
     }
 
     private boolean isINValidString(String inputString){
-        return inputString==null && inputString.isEmpty();
+        return inputString==null || inputString.isEmpty();
     }
 
     private boolean isINValidList(List list){
-        return list==null && list.isEmpty();
+        return list==null || list.isEmpty();
     }
 
     public ECSError getProductSummaryAPIValidateError(List<String> ctns) {

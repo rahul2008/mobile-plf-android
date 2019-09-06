@@ -111,7 +111,7 @@ public class GetShoppingCartTest {
             }
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertEquals("No cart created yet.",error.getMessage());
+                assertEquals("No cart created yet",error.getMessage());
 
                 // test case passed
             }
@@ -130,7 +130,7 @@ public class GetShoppingCartTest {
             }
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertEquals("No cart created yet.",error.getMessage());
+                assertEquals("No cart created yet",error.getMessage());
 
                 // test case failed
             }
