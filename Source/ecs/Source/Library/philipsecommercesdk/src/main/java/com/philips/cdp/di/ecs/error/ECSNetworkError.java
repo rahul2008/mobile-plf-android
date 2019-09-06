@@ -60,8 +60,8 @@ public class ECSNetworkError {
             if (serverError!=null && serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
                 Log.e("ON_FAILURE_ERROR", serverError.getErrors().get(0).toString());
                 errorType = "ECS"+serverError.getErrors().get(0).getType();
-                if(requestName instanceof CreateAddressRequest || requestName instanceof DeleteAddressRequest || requestName instanceof GetDeliveryModesRequest ||
-                        requestName instanceof SetDeliveryAddressRequest || requestName instanceof SetDeliveryModesRequest || requestName instanceof UpdateAddressRequest){
+                if(requestName instanceof CreateAddressRequest || requestName instanceof DeleteAddressRequest || requestName instanceof GetDeliveryModesRequest
+                       || requestName instanceof SetDeliveryModesRequest || requestName instanceof UpdateAddressRequest){
                     // for address related request error subject will be checked
                     if(null!=serverError.getErrors().get(0).getSubject()){
                         errorType="ECS"+serverError.getErrors().get(0).getSubject();

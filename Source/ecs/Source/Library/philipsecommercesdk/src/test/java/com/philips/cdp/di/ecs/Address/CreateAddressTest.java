@@ -107,6 +107,11 @@ public class CreateAddressTest {
             public void onResponse(Addresses address) {
                 assertNotNull(address);
                 assertNotNull(address.getId());
+                assertNull(address.getTitle());
+                assertNull(address.getFormattedAddress());
+                assertNull(address.getEmail());
+                assertEquals(true,address.isShippingAddress());
+                assertEquals(true,address.isVisibleInAddressBook());
 
             }
 
