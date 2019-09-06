@@ -438,7 +438,9 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 public void onFailure(Exception error, ECSError ecsError) {
                      if(
                          ecsError.getErrorcode() == ECSErrorEnum.ECSInvalidTokenError.getErrorCode()
-                        || ecsError.getErrorcode() == 5999){
+                                 || ecsError.getErrorcode() == ECSErrorEnum.ECSinvalid_grant.getErrorCode()
+                                 || ecsError.getErrorcode() == ECSErrorEnum.ECSinvalid_client.getErrorCode()
+                                 ){
 
 
                         refreshOauth();

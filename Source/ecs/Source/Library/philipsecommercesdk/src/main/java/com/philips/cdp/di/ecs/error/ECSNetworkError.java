@@ -19,6 +19,13 @@ import com.philips.cdp.di.ecs.request.UpdateAddressRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class ECSNetworkError {
 
@@ -108,12 +115,36 @@ public class ECSNetworkError {
     public static ServerError parseServerError(String encodedString) {
         final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
         final String errorString = new String(decode);
+        JSONObject errorJsonObject =null;
         try {
             ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG, errorString);
+            errorJsonObject = new JSONObject(errorString);
         }catch (Exception e){
 
         }
-        return new Gson().fromJson(errorString, ServerError.class);
+        ServerError serverError=null;
+        if(null!=errorJsonObject && errorJsonObject.has("error") && null!=errorJsonObject.optString("error")){ // if any auth error
+            /*{
+	    "error": "invalid_grant",
+	    "error_description": "Invalid Janrain Token 47qyecdcks8uexus"
+            }*/
+            Error error = new Error();
+            List<Error> errorList = new ArrayList<Error>();
+            serverError = new ServerError();
+
+            Gson gsonObj = new Gson();
+            Map<String, String> inputMap = new HashMap<String, String>();
+            inputMap.put("type", errorJsonObject.optString("error"));
+            inputMap.put("message", errorJsonObject.optString("error_description",""));
+            String jsonStr = gsonObj.toJson(inputMap);
+            error = new Gson().fromJson(jsonStr, Error.class);
+            errorList.add(error);
+            serverError.setErrors(errorList);
+
+        }else{
+            serverError = new Gson().fromJson(errorString, ServerError.class);
+        }
+        return serverError;
     }
 
 }
