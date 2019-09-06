@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -49,6 +50,7 @@ public class GetShoppingCartTest {
     MockGetECSShoppingCartsRequest mockGetECSShoppingCartsRequest;
 
     ECSCallback<ECSShoppingCart, Exception> ecsCallback;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -61,6 +63,8 @@ public class GetShoppingCartTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        mockInputValidator = new MockInputValidator();
 
 
         StaticBlock.initialize();
@@ -83,7 +87,7 @@ public class GetShoppingCartTest {
 
     @Test
     public void getCartSuccess(){
-        mockECSServices.setJsonFileName("ShoppingCartSuccess.json");
+        mockInputValidator.setJsonFileName("ShoppingCartSuccess.json");
         mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
@@ -102,7 +106,7 @@ public class GetShoppingCartTest {
 
     @Test
     public void getCartWithoutGUID(){
-        mockECSServices.setJsonFileName("ShoppingCartWithoutGuid.json");
+        mockInputValidator.setJsonFileName("ShoppingCartWithoutGuid.json");
         mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
@@ -120,7 +124,7 @@ public class GetShoppingCartTest {
 
     @Test
     public void getCartAuthFailureResponse(){
-        mockECSServices.setJsonFileName("ShoppingCartAuthError.json");
+        mockInputValidator.setJsonFileName("ShoppingCartAuthError.json");
         mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
@@ -139,7 +143,7 @@ public class GetShoppingCartTest {
 
     @Test
     public void getCartEmptyResponse(){
-        mockECSServices.setJsonFileName("EmptyJson.json");
+        mockInputValidator.setJsonFileName("EmptyJson.json");
         mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {

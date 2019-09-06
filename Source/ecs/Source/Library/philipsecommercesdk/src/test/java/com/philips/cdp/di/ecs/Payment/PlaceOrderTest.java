@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -51,6 +52,7 @@ public class PlaceOrderTest {
 
     @Mock
     RestInterface mockRestInterface;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -65,6 +67,8 @@ public class PlaceOrderTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
+
+        mockInputValidator = new MockInputValidator();
         ecsCallback = new ECSCallback<OrderDetail, Exception>() {
             @Override
             public void onResponse(OrderDetail result) {
@@ -81,7 +85,7 @@ public class PlaceOrderTest {
 
     @Test
     public void placeOrderSuccess() {
-        mockECSServices.setJsonFileName("SubmitOrderSuccess.json");
+        mockInputValidator.setJsonFileName("SubmitOrderSuccess.json");
         mockECSServices.submitOrder("123",new ECSCallback<OrderDetail, Exception>() {
             @Override
             public void onResponse(OrderDetail result) {

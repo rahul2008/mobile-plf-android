@@ -3,10 +3,7 @@ package com.philips.cdp.di.ecs.retailer
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.android.volley.NoConnectionError
-import com.philips.cdp.di.ecs.ECSServices
-import com.philips.cdp.di.ecs.MockECSServices
-import com.philips.cdp.di.ecs.StaticBlock
-import com.philips.cdp.di.ecs.TestUtil
+import com.philips.cdp.di.ecs.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.retailers.WebResults
@@ -30,6 +27,7 @@ import java.util.HashMap
 class GetRetailerInfoRequestTest{
 
 
+    private lateinit var mockInputValidator: MockInputValidator
     private var mContext: Context? = null
 
 
@@ -72,6 +70,8 @@ class GetRetailerInfoRequestTest{
 
         StaticBlock.initialize()
 
+        mockInputValidator = MockInputValidator()
+
         ecsCallback = object: ECSCallback<WebResults,Exception>{
 
             override fun onResponse(result: WebResults){
@@ -87,7 +87,7 @@ class GetRetailerInfoRequestTest{
 
     @Test
     fun testSuccessResponse() {
-        mockECSServices.jsonFileName = "GetRetailerInfoSuccess.json"
+        mockInputValidator.jsonFileName = "GetRetailerInfoSuccess.json"
 
         ecsCallback = object: ECSCallback<WebResults,Exception>{
 
@@ -111,7 +111,7 @@ class GetRetailerInfoRequestTest{
     @Test
     fun testFailureResponse() {
 
-        mockECSServices.jsonFileName = "GetRetailerInfoFailure.json"
+        mockInputValidator.jsonFileName = "GetRetailerInfoFailure.json"
 
         ecsCallback = object: ECSCallback<WebResults,Exception>{
 

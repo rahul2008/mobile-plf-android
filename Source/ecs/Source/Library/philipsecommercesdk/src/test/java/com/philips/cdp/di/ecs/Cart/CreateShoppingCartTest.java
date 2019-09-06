@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -64,6 +65,7 @@ public class CreateShoppingCartTest {
     MockCreateECSShoppingCartRequest mockCreateECSShoppingCartRequest;
 
     ECSCallback<ECSShoppingCart, Exception>  ecsCallback;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -76,6 +78,8 @@ public class CreateShoppingCartTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        mockInputValidator = new MockInputValidator();
 
         StaticBlock.initialize();
 
@@ -97,7 +101,7 @@ public class CreateShoppingCartTest {
 
     @Test
     public void createCartSuccess(){
-        mockECSServices.setJsonFileName("ShoppingCartSuccess.json");
+        mockInputValidator.setJsonFileName("ShoppingCartSuccess.json");
         mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
@@ -116,7 +120,7 @@ public class CreateShoppingCartTest {
 
     @Test
     public void createCartFailure(){
-        mockECSServices.setJsonFileName("ShoppingCartWithoutGuid.json");
+        mockInputValidator.setJsonFileName("ShoppingCartWithoutGuid.json");
         mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
@@ -137,7 +141,7 @@ public class CreateShoppingCartTest {
 
     @Test
     public void createCartEmptyResponse(){
-        mockECSServices.setJsonFileName("EmptyJson.json");
+        mockInputValidator.setJsonFileName("EmptyJson.json");
         mockECSServices.createShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {

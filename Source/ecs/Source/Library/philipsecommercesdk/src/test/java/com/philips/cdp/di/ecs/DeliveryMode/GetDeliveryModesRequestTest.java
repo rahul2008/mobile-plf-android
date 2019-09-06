@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -45,6 +46,7 @@ public class GetDeliveryModesRequestTest {
     MockDeliveryModesRequest mockDeliveryModesRequest;
 
     ECSCallback<GetDeliveryModes, Exception> ecsCallback;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -55,6 +57,8 @@ public class GetDeliveryModesRequestTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        mockInputValidator = new MockInputValidator();
 
         StaticBlock.initialize();
 
@@ -75,7 +79,7 @@ public class GetDeliveryModesRequestTest {
 
     @Test
     public void getDeliveryModesSuccess() {
-        mockECSServices.setJsonFileName("deliverymodes.json");
+        mockInputValidator.setJsonFileName("deliverymodes.json");
         mockECSServices.getDeliveryModes(new ECSCallback<GetDeliveryModes, Exception>() {
             @Override
             public void onResponse(GetDeliveryModes result) {
@@ -95,7 +99,7 @@ public class GetDeliveryModesRequestTest {
 
     @Test
     public void getDeliveryModesFailureEmpty() {
-        mockECSServices.setJsonFileName("EmptyJson.json");
+        mockInputValidator.setJsonFileName("EmptyJson.json");
         mockECSServices.getDeliveryModes(new ECSCallback<GetDeliveryModes, Exception>() {
             @Override
             public void onResponse(GetDeliveryModes result) {

@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -52,6 +53,7 @@ public class OathTest {
     MockOAuthRequest mockOAuthRequest;
 
     OAuthInput oAuthInput;
+    private MockInputValidator mockInputValidator;
 
 
     @Before
@@ -67,6 +69,8 @@ public class OathTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
+
+        mockInputValidator = new MockInputValidator();
 
         ecsCallback = new ECSCallback<OAuthResponse, Exception>() {
             @Override
@@ -96,7 +100,7 @@ public class OathTest {
 
     @Test
     public void hybrisOathAuthenticationSuccess() {
-        mockECSServices.setJsonFileName("HybrisOauthSuccess.json");
+        mockInputValidator.setJsonFileName("HybrisOauthSuccess.json");
 
         OAuthInput oAuthInput = new OAuthInput() {
             @Override
@@ -123,7 +127,7 @@ public class OathTest {
 
     @Test
     public void hybrisOathAuthenticationFailure() {
-        mockECSServices.setJsonFileName("HybrisOauthFailure.json");
+        mockInputValidator.setJsonFileName("HybrisOauthFailure.json");
 
         OAuthInput oAuthInput = new OAuthInput() {
             @Override
@@ -150,7 +154,7 @@ public class OathTest {
 
     @Test
     public void hybrisOathAuthenticationInvalidClient() {
-        mockECSServices.setJsonFileName("HybrisInvalidClient.json");
+        mockInputValidator.setJsonFileName("HybrisInvalidClient.json");
 
         OAuthInput oAuthInput = new OAuthInput() {
             @Override

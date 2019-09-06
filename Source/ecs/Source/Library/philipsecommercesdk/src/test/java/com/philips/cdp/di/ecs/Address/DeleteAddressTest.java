@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -54,6 +55,8 @@ public class DeleteAddressTest {
 
     Addresses addresses;
 
+    MockInputValidator mockInputValidator;
+
     @Before
     public void setUp() throws Exception {
 
@@ -66,9 +69,12 @@ public class DeleteAddressTest {
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
 
+        mockInputValidator = new MockInputValidator();
+
         StaticBlock.initialize();
         addresses = new Addresses();
         addresses.setId("1234");
+
 
         ecsCallback = new ECSCallback<Boolean, Exception>() {
             @Override
@@ -87,7 +93,7 @@ public class DeleteAddressTest {
 
     @Test
     public void addAddressSingleSuccess() {
-        mockECSServices.setJsonFileName("EmptyString.json");
+        mockInputValidator.setJsonFileName("EmptyString.json");
         Addresses address = new Addresses();
         mockECSServices.deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
             @Override
@@ -108,7 +114,7 @@ public class DeleteAddressTest {
 
     @Test
     public void addAddressSingleFailureInvalidBaseSite() {
-        mockECSServices.setJsonFileName("DeleteAddressFailureInvalidBaseSite.json");
+        mockInputValidator.setJsonFileName("DeleteAddressFailureInvalidBaseSite.json");
         Addresses address = new Addresses();
         mockECSServices.deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
             @Override

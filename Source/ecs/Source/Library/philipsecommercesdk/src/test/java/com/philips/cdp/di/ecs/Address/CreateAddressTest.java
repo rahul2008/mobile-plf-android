@@ -11,6 +11,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
@@ -48,6 +49,8 @@ public class CreateAddressTest {
     MockECSServices mockECSServices;
     ECSServices ecsServices;
 
+    MockInputValidator mockInputValidator;
+
 
     private AppInfra appInfra;
 
@@ -73,6 +76,8 @@ public class CreateAddressTest {
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
 
+        mockInputValidator = new MockInputValidator();
+
         StaticBlock.initialize();
         address = StaticBlock.getAddressesObject();
         ecsCallback = new ECSCallback<Addresses, Exception>() {
@@ -95,9 +100,9 @@ public class CreateAddressTest {
 
     @Test
     public void addAddressSingleSuccess() {
-        mockECSServices.setJsonFileName("CreateAddressSuccess.json");
+        mockInputValidator.setJsonFileName("CreateAddressSuccess.json");
         Addresses address = StaticBlock.getAddressesObject();
-        mockECSServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
+        ecsServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses address) {
                 assertNotNull(address);
@@ -121,9 +126,9 @@ public class CreateAddressTest {
 
     @Test
     public void addAddressSingleFailureInvalidZipCode() {
-        mockECSServices.setJsonFileName("CreateAddressFailureInvalidZipCode.json");
+        mockInputValidator.setJsonFileName("CreateAddressFailureInvalidZipCode.json");
         Addresses address = new Addresses();
-        mockECSServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
+        ecsServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses address) {
                 assertTrue(true);
@@ -140,9 +145,9 @@ public class CreateAddressTest {
 
     @Test
     public void addAddressSingleFailure() {
-        mockECSServices.setJsonFileName("EmptyString.json");
+        mockInputValidator.setJsonFileName("EmptyString.json");
         Addresses address = new Addresses();
-        mockECSServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
+        ecsServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
             @Override
             public void onResponse(Addresses address) {
                assertTrue(true);
@@ -169,9 +174,9 @@ public class CreateAddressTest {
 
     @Test
     public void addAddressSuccess() {
-        mockECSServices.setJsonFileName("CreateAddressSuccess.json");
+        mockInputValidator.setJsonFileName("CreateAddressSuccess.json");
         Addresses addressRequest = new Addresses();
-        mockECSServices.createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
+        ecsServices.createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
             @Override
             public void onResponse(GetShippingAddressData addressList) {
                 assertNotNull(addressList);
@@ -192,9 +197,9 @@ public class CreateAddressTest {
 
     @Test
     public void addAddressFailure() {
-        mockECSServices.setJsonFileName("EmptyString.json");
+        mockInputValidator.setJsonFileName("EmptyString.json");
         Addresses addressRequest = new Addresses();
-        mockECSServices.createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
+        ecsServices.createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
             @Override
             public void onResponse(GetShippingAddressData addressList) {
                 assertTrue(true);

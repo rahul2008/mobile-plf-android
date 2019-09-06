@@ -7,6 +7,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -53,6 +54,7 @@ public class GetRegionsRequestTest {
     MockGetRegionsRequest mockGetRegionsRequest;
 
     ECSCallback<RegionsList, Exception> ecsCallback;
+    private MockInputValidator mockInputValidator;
 
 
     @Before
@@ -64,6 +66,8 @@ public class GetRegionsRequestTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        mockInputValidator = new MockInputValidator();
 
         StaticBlock.initialize();
 
@@ -84,7 +88,7 @@ public class GetRegionsRequestTest {
 
     @Test
     public void getRegionRequestSuccess() {
-        mockECSServices.setJsonFileName("GetRegionsSuccess.json");
+        mockInputValidator.setJsonFileName("GetRegionsSuccess.json");
         mockECSServices.getRegions(new ECSCallback<RegionsList, Exception>() {
             @Override
             public void onResponse(RegionsList result) {
@@ -104,7 +108,7 @@ public class GetRegionsRequestTest {
 
     @Test
     public void getRegionRequestFailure() {
-        mockECSServices.setJsonFileName("EmptyJson.json");
+        mockInputValidator.setJsonFileName("EmptyJson.json");
         mockECSServices.getRegions(new ECSCallback<RegionsList, Exception>() {
             @Override
             public void onResponse(RegionsList result) {
