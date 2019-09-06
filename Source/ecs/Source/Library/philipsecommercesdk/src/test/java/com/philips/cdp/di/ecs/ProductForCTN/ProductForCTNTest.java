@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -56,6 +57,7 @@ public class ProductForCTNTest {
     ECSCallback<Product, Exception> ecsCallback ;
 
     String ctn = "MS5030/01";
+    private MockInputValidator mockInputValidator;
 
 
     @Before
@@ -70,6 +72,8 @@ public class ProductForCTNTest {
         mockECSServices = new MockECSServices("", appInfra);
 
         StaticBlock.initialize();
+
+        mockInputValidator = new MockInputValidator();
         ecsServices = new ECSServices("",appInfra);
 
         ecsCallback = new ECSCallback<Product, Exception>() {
@@ -89,7 +93,7 @@ public class ProductForCTNTest {
 
     @Test
     public void getProductForCTNHybrissuccess(){
-        mockECSServices.setJsonFileName("GetProductForCTN.json");
+        mockInputValidator.setJsonFileName("GetProductForCTN.json");
         mockECSServices.getProductFor(ctn, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
@@ -108,7 +112,7 @@ public class ProductForCTNTest {
 
     @Test
     public void getProductForCTNHybrisFailure(){
-        mockECSServices.setJsonFileName("EmptyJson.json");
+        mockInputValidator.setJsonFileName("EmptyJson.json");
         mockECSServices.getProductFor(ctn, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {

@@ -7,6 +7,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -57,6 +58,7 @@ public class MakePaymentRequestTest {
 
     @Mock
     RestInterface mockRestInterface;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -71,6 +73,8 @@ public class MakePaymentRequestTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
+
+        mockInputValidator = new MockInputValidator();
         addresses = StaticBlock.getAddressesObject();
         ecsCallback = new ECSCallback<MakePaymentData, Exception>() {
             @Override
@@ -91,7 +95,7 @@ public class MakePaymentRequestTest {
 
     @Test
     public void makePaymentSuccess() {
-        mockECSServices.setJsonFileName("MakePaymentSuccess.json");
+        mockInputValidator.setJsonFileName("MakePaymentSuccess.json");
         OrderDetail orderDetail = new OrderDetail();
         Addresses addresses = new Addresses();
         mockECSServices.makePayment(orderDetail,addresses,new ECSCallback<MakePaymentData, Exception>() {

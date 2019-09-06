@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -55,6 +56,7 @@ public class ProductCatalogTest {
 
     int currentPage = 0;
     int pageSize = 20;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -69,6 +71,8 @@ public class ProductCatalogTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
+
+        mockInputValidator = new MockInputValidator();
 
         ecsCallback = new ECSCallback<Products, Exception>() {
             @Override
@@ -87,7 +91,7 @@ public class ProductCatalogTest {
 
     @Test
     public void getProductListSuccess() {
-        mockECSServices.setJsonFileName("GetProductList.json");
+        mockInputValidator.setJsonFileName("GetProductList.json");
         mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
@@ -114,7 +118,7 @@ public class ProductCatalogTest {
      * */
     @Test
     public void getProductListHybrisFailure() {
-        mockECSServices.setJsonFileName("GetProductListHybrisFailure.json");
+        mockInputValidator.setJsonFileName("GetProductListHybrisFailure.json");
         mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
@@ -136,7 +140,7 @@ public class ProductCatalogTest {
      * */
     @Test
     public void getProductListSummaryFailure() {
-        mockECSServices.setJsonFileName("GetProductList.json");
+        mockInputValidator.setJsonFileName("GetProductList.json");
         mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {

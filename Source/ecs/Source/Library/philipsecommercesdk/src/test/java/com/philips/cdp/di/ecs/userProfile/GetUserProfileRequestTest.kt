@@ -3,10 +3,7 @@ package com.philips.cdp.di.ecs.userProfile
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.android.volley.NoConnectionError
-import com.philips.cdp.di.ecs.ECSServices
-import com.philips.cdp.di.ecs.MockECSServices
-import com.philips.cdp.di.ecs.StaticBlock
-import com.philips.cdp.di.ecs.TestUtil
+import com.philips.cdp.di.ecs.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.user.UserProfile
@@ -27,6 +24,8 @@ import java.util.HashMap
 @RunWith(RobolectricTestRunner::class)
 class GetUserProfileRequestTest{
 
+
+    private lateinit var mockInputValidator: MockInputValidator
 
     private var mContext: Context? = null
 
@@ -63,6 +62,8 @@ class GetUserProfileRequestTest{
 
         StaticBlock.initialize()
 
+        mockInputValidator = MockInputValidator()
+
         ecsCallback = object: ECSCallback<UserProfile,Exception>{
 
             override fun onResponse(result: UserProfile){
@@ -78,7 +79,7 @@ class GetUserProfileRequestTest{
 
     @Test
     fun testSuccessResponse() {
-        mockECSServices.jsonFileName = "GetUserProfileSuccess.json"
+        mockInputValidator.jsonFileName = "GetUserProfileSuccess.json"
 
         ecsCallback = object: ECSCallback<UserProfile,Exception>{
 
@@ -101,7 +102,7 @@ class GetUserProfileRequestTest{
     @Test
     fun testFailureResponse() {
 
-        mockECSServices.jsonFileName = "GetUserProfileFailure.json"
+        mockInputValidator.jsonFileName = "GetUserProfileFailure.json"
 
         ecsCallback = object: ECSCallback<UserProfile,Exception>{
 

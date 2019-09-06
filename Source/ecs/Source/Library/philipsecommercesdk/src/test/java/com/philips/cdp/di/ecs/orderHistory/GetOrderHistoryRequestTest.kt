@@ -5,6 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.android.volley.NoConnectionError
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.MockECSServices
+import com.philips.cdp.di.ecs.MockInputValidator
 import com.philips.cdp.di.ecs.StaticBlock
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
@@ -25,6 +26,7 @@ import java.util.HashMap
 class GetOrderHistoryRequestTest{
 
 
+    private lateinit var mockInputValidator: MockInputValidator
     private var mContext: Context? = null
 
 
@@ -55,6 +57,8 @@ class GetOrderHistoryRequestTest{
         mockECSServices = MockECSServices("", appInfra!!)
         ecsServices = ECSServices("", appInfra!!)
 
+        mockInputValidator = MockInputValidator()
+
         StaticBlock.initialize()
 
         ecsCallback = object: ECSCallback<OrdersData,Exception>{
@@ -71,7 +75,7 @@ class GetOrderHistoryRequestTest{
 
     @Test
     fun testSuccessResponse() {
-        mockECSServices.jsonFileName = "GetOrderHistorySuccess.json"
+        mockInputValidator.jsonFileName = "GetOrderHistorySuccess.json"
 
         ecsCallback = object: ECSCallback<OrdersData,Exception>{
 
@@ -94,7 +98,7 @@ class GetOrderHistoryRequestTest{
     @Test
     fun testFailureResponse() {
 
-        mockECSServices.jsonFileName = "GetOrderHistoryFailure.json"
+        mockInputValidator.jsonFileName = "GetOrderHistoryFailure.json"
 
         ecsCallback = object: ECSCallback<OrdersData,Exception>{
 

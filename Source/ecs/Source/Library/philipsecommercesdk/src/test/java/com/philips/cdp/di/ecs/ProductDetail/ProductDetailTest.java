@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
+import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -37,6 +39,7 @@ public class ProductDetailTest {
 
     @Mock
     RestInterface mockRestInterface;
+    private MockInputValidator mockInputValidator;
 
 
     @Before
@@ -47,6 +50,8 @@ public class ProductDetailTest {
         appInfra = new AppInfra.Builder().setRestInterface(mockRestInterface).build(mContext);
         appInfra.getServiceDiscovery().setHomeCountry("DE");
 
+        StaticBlock.initialize();
+        mockInputValidator = new MockInputValidator();
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
@@ -59,7 +64,7 @@ public class ProductDetailTest {
     public void getProductDetailSuccess() {
         Product product = new Product();
         product.setCode("HX2345/01");
-        mockECSServices.setJsonFileName("PRXProductAssets.json");
+        mockInputValidator.setJsonFileName("PRXProductAssets.json");
         mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
@@ -82,7 +87,7 @@ public class ProductDetailTest {
     public void getProductDetailAssetFailure() {
         Product product = new Product();
         product.setCode("HX2345/01");
-        mockECSServices.setJsonFileName("EmptyJson.json");
+        mockInputValidator.setJsonFileName("EmptyJson.json");
         mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {

@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -51,6 +52,7 @@ public class GetVoucherListTest {
     MockGetVouchersRequest mockGetVouchersRequest;
 
     ECSCallback<GetAppliedValue, Exception> ecsCallback;
+    private MockInputValidator mockInputValidator;
 
 
     @Before
@@ -66,6 +68,8 @@ public class GetVoucherListTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
+
+        mockInputValidator = new MockInputValidator();
         ecsCallback = new ECSCallback<GetAppliedValue, Exception> () {
 
             @Override
@@ -85,7 +89,7 @@ public class GetVoucherListTest {
 
     @Test
     public void getAppliedVoucherListSuccess() {
-        mockECSServices.setJsonFileName("GetVoucherSuccess.json");
+        mockInputValidator.setJsonFileName("GetVoucherSuccess.json");
         mockECSServices.getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
             @Override
             public void onResponse(GetAppliedValue result) {
@@ -106,7 +110,7 @@ public class GetVoucherListTest {
 
     @Test
     public void getAppliedVoucherListSuccessWithNoVoucher() {
-        mockECSServices.setJsonFileName("EmptyJson.json");// {}
+        mockInputValidator.setJsonFileName("EmptyJson.json");// {}
         mockECSServices.getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
             @Override
             public void onResponse(GetAppliedValue result) {
@@ -126,7 +130,7 @@ public class GetVoucherListTest {
 
     @Test
     public void getAppliedVoucherListFailure() {
-        mockECSServices.setJsonFileName("EmptyString.json");
+        mockInputValidator.setJsonFileName("EmptyString.json");
         mockECSServices.getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
             @Override
             public void onResponse(GetAppliedValue result) {

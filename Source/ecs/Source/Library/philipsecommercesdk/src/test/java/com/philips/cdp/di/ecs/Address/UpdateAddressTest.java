@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -54,6 +55,7 @@ public class UpdateAddressTest {
     Addresses addresses ;
 
     ECSCallback ecsCallback;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -71,7 +73,7 @@ public class UpdateAddressTest {
 
         addresses = StaticBlock.getAddressesObject();
 
-
+        mockInputValidator = new MockInputValidator();
 
         ecsCallback = new ECSCallback<Boolean, Exception>() {
             @Override
@@ -93,7 +95,7 @@ public class UpdateAddressTest {
 
     @Test
     public void UpdateAddressSuccess() {
-        mockECSServices.setJsonFileName("EmptyString.json");
+        mockInputValidator.setJsonFileName("EmptyString.json");
         Addresses address = new Addresses();
         mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
             @Override
@@ -113,7 +115,7 @@ public class UpdateAddressTest {
 
     @Test
     public void UpdateAddressFailure() {
-        mockECSServices.setJsonFileName("UpdateAddressFailureInvalidAddress.json");
+        mockInputValidator.setJsonFileName("UpdateAddressFailureInvalidAddress.json");
         Addresses address = new Addresses();
         mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
             @Override

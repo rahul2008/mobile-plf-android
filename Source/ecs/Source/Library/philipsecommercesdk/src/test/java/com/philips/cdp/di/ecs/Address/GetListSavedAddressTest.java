@@ -8,6 +8,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -53,6 +54,7 @@ public class GetListSavedAddressTest {
     MockGetAddressRequest mockGetAddressRequest;
 
     ECSCallback ecsCallback;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -65,6 +67,7 @@ public class GetListSavedAddressTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+        mockInputValidator = new MockInputValidator();
 
         StaticBlock.initialize();
 
@@ -85,7 +88,7 @@ public class GetListSavedAddressTest {
 
     @Test
     public void GetListSavedAddressTestSuccess() {
-        mockECSServices.setJsonFileName("ShippingAddressListSuccess.json");
+        mockInputValidator.setJsonFileName("ShippingAddressListSuccess.json");
         Addresses address = new Addresses();
         mockECSServices.getListSavedAddress( new ECSCallback<GetShippingAddressData, Exception>() {
             @Override
@@ -106,7 +109,7 @@ public class GetListSavedAddressTest {
 
     @Test
     public void GetListSavedAddressTestFailure() {
-        mockECSServices.setJsonFileName("EmptyJson.json");
+        mockInputValidator.setJsonFileName("EmptyJson.json");
         Addresses address = new Addresses();
         mockECSServices.getListSavedAddress( new ECSCallback<GetShippingAddressData, Exception>() {
             @Override

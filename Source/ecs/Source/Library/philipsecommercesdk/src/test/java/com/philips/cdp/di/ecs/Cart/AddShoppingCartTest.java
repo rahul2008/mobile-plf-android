@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -54,6 +55,7 @@ public class AddShoppingCartTest {
 
 
     Product product ;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -66,6 +68,8 @@ public class AddShoppingCartTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        mockInputValidator = new MockInputValidator();
 
         StaticBlock.initialize();
 
@@ -88,7 +92,7 @@ public class AddShoppingCartTest {
 
     @Test
     public void addShoppingCartSuccess(){
-        mockECSServices.setJsonFileName("AddShoppingCartSuccess.json");
+        mockInputValidator.setJsonFileName("AddShoppingCartSuccess.json");
         Product product = new Product();
         mockECSServices.addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
@@ -110,7 +114,7 @@ public class AddShoppingCartTest {
 
     @Test
     public void addShoppingCartFailure(){
-        mockECSServices.setJsonFileName("EmptyString.json");
+        mockInputValidator.setJsonFileName("EmptyString.json");
         Product product = new Product();
         mockECSServices.addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override

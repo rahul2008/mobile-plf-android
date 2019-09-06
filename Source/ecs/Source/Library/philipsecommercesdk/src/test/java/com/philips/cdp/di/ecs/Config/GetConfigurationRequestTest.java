@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -45,6 +46,7 @@ public class GetConfigurationRequestTest {
     MockGetConfigurationRequest mockGetConfigurationRequest;
 
     ECSCallback<HybrisConfigResponse, Exception> ecsCallback;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -55,6 +57,8 @@ public class GetConfigurationRequestTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        mockInputValidator = new MockInputValidator();
 
         StaticBlock.initialize();
 
@@ -77,7 +81,7 @@ public class GetConfigurationRequestTest {
 
     @Test
     public void getConfigurationRequestSuccess() {
-        mockECSServices.setJsonFileName("GetConfigSuccess.json");
+        mockInputValidator.setJsonFileName("GetConfigSuccess.json");
         mockECSServices.getECSConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
             @Override
             public void onResponse(HybrisConfigResponse result) {
@@ -99,7 +103,7 @@ public class GetConfigurationRequestTest {
 
     @Test
     public void getConfigurationRequestFailure() {
-        mockECSServices.setJsonFileName("GetConfigFailure.json");
+        mockInputValidator.setJsonFileName("GetConfigFailure.json");
         mockECSServices.getECSConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
             @Override
             public void onResponse(HybrisConfigResponse result) {

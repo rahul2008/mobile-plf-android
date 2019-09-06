@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -50,6 +51,7 @@ public class SetPaymentMethodRequestTest {
     MockSetPaymentMethodRequest mockSetPaymentMethodRequest;
 
     ECSCallback<Boolean, Exception> ecsCallback;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -62,6 +64,8 @@ public class SetPaymentMethodRequestTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
+
+        mockInputValidator = new MockInputValidator();
 
         ecsCallback = new ECSCallback<Boolean, Exception>() {
             @Override
@@ -80,7 +84,7 @@ public class SetPaymentMethodRequestTest {
     @Test
     public void setPaymentMethodSuccess() {
 
-        mockECSServices.setJsonFileName("EmptyString.json");
+        mockInputValidator.setJsonFileName("EmptyString.json");
         mockECSServices.setPaymentMethod("8960990117930", new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -99,7 +103,7 @@ public class SetPaymentMethodRequestTest {
     @Test
     public void setPaymentMethodFailure() {
 
-        mockECSServices.setJsonFileName("SetPaymentFailure.json");
+        mockInputValidator.setJsonFileName("SetPaymentFailure.json");
         mockECSServices.setPaymentMethod("8960990117930", new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {

@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -54,6 +55,7 @@ public class UpdateShoppingCartTest {
     ECSCallback<Boolean, Exception> ecsCallback;
 
     EntriesEntity entriesEntity;
+    private MockInputValidator mockInputValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -66,6 +68,8 @@ public class UpdateShoppingCartTest {
 
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
+
+        mockInputValidator = new MockInputValidator();
 
         StaticBlock.initialize();
         ecsCallback = new ECSCallback<Boolean, Exception>() {
@@ -93,7 +97,7 @@ public class UpdateShoppingCartTest {
     @Test
     public void updateShoppingCartSuccess() {
         final int quantity= 2;
-        mockECSServices.setJsonFileName("UpdateShoppingCartSuccess.json");
+        mockInputValidator.setJsonFileName("UpdateShoppingCartSuccess.json");
 
         EntriesEntity entriesEntity = new EntriesEntity();
         mockECSServices.updateQuantity(quantity, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {

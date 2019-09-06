@@ -6,6 +6,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -51,6 +52,8 @@ public class SetVoucherTest {
 
     ECSCallback<Boolean, Exception> ecsCallback;
 
+    private MockInputValidator mockInputValidator;
+
     @Before
     public void setUp() throws Exception {
 
@@ -64,6 +67,7 @@ public class SetVoucherTest {
         ecsServices = new ECSServices("",appInfra);
 
         StaticBlock.initialize();
+        mockInputValidator = new MockInputValidator();
 
         ecsCallback = new ECSCallback<Boolean, Exception>() {
             @Override
@@ -86,7 +90,7 @@ public class SetVoucherTest {
     public void setVoucherSuccess() {
 
 
-        mockECSServices.setJsonFileName("EmptyString.json"); // empty string is success response of Apply voucher
+        mockInputValidator.setJsonFileName("EmptyString.json"); // empty string is success response of Apply voucher
         mockECSServices.setVoucher("voucherCode",new ECSCallback<GetAppliedValue, Exception>() {
             @Override
             public void onResponse(GetAppliedValue result) {
@@ -107,7 +111,7 @@ public class SetVoucherTest {
 
     @Test
     public void setVoucherFailure() {
-        mockECSServices.setJsonFileName("ApplyVoucherFailure.json"); // empty string is success response of Apply voucher
+        mockInputValidator.setJsonFileName("ApplyVoucherFailure.json"); // empty string is success response of Apply voucher
         mockECSServices.setVoucher("voucherCode",new ECSCallback<GetAppliedValue, Exception>() {
             @Override
             public void onResponse(GetAppliedValue result) {
