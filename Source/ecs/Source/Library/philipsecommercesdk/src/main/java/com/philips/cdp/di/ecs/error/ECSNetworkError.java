@@ -61,13 +61,17 @@ public class ECSNetworkError {
                 Log.e("ON_FAILURE_ERROR", serverError.getErrors().get(0).toString());
                 errorType = "ECS"+serverError.getErrors().get(0).getType();
                 if(requestName instanceof CreateAddressRequest || requestName instanceof DeleteAddressRequest || requestName instanceof GetDeliveryModesRequest
-                       || requestName instanceof SetDeliveryModesRequest || requestName instanceof UpdateAddressRequest){
+                        || requestName instanceof SetDeliveryAddressRequest || requestName instanceof SetDeliveryModesRequest || requestName instanceof UpdateAddressRequest){
                     // for address related request error subject will be checked
                     if(null!=serverError.getErrors().get(0).getSubject()){
                         errorType="ECS"+serverError.getErrors().get(0).getSubject();
                     }
                 }
-                ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
+               try {
+                   ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
+               }catch(Exception e){
+
+               }
             }else   { // If it is AuthFailureError other than InvalidHybris Token
                 ecsErrorEnum = getVolleyErrorType(volleyError);
             }
@@ -115,6 +119,12 @@ public class ECSNetworkError {
     public static ServerError parseServerError(String encodedString) {
         final byte[] decode = Base64.decode(encodedString, Base64.DEFAULT);
         final String errorString = new String(decode);
+        Log.e(LOGGING_TAG + " Server Error: ", errorString);
+        try {
+            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG + " Server Error: ", errorString);
+        } catch (Exception e) {
+
+        }
         JSONObject errorJsonObject =null;
         try {
             ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG, errorString);
