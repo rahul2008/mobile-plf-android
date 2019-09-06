@@ -103,7 +103,7 @@ public class ECSServices implements ECSServiceProvider {
         if(new ApiCallValidator().getConfigAPIValidateError()!=null) {
             mECSManager.getHybrisConfigResponse(ecsCallback);
         }else{
-            ecsCallback.onFailure(new ApiCallValidator().getConfigAPIValidateError().getException(),new ApiCallValidator().getConfigAPIValidateError().getErrorcode());
+           // ecsCallback.onFailure(new ApiCallValidator().getConfigAPIValidateError().getException(),new ApiCallValidator().getConfigAPIValidateError().getErrorcode());
         }
     }
 
