@@ -149,7 +149,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     public void onSetPaymentDetails(Message msg) {
         hideProgressBar();
         if (msg.obj instanceof Exception) {
-            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj));
         } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(ECSConstant.SELECTED_PAYMENT, selectedPaymentMethod());

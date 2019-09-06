@@ -129,7 +129,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     public void onGetOrderList(Message msg) {
         if (msg.obj instanceof Exception) {
             hideProgressBar();
-            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj));
         } else {
                 if (msg.obj instanceof OrdersData) {
                     OrdersData orderData = (OrdersData) msg.obj;

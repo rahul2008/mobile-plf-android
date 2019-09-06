@@ -170,7 +170,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             moveToShoppingCart();
         } else if (msg.obj instanceof Exception){
-            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj));
             moveToShoppingCart();
          }else {
             if (msg.what == RequestCode.DELETE_ADDRESS) {
@@ -245,7 +245,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                         AddressFragment.TAG, true);
             }
         } else if ((msg.obj instanceof Exception)) {
-            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj).getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj));
         } else if ((msg.obj instanceof PaymentMethods)) {
             AddressFields selectedAddress = Utility.prepareAddressFields(retrieveSelectedAddress(), mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);

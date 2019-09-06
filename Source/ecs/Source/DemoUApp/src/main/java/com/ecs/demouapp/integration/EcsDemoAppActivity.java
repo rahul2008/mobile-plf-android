@@ -369,7 +369,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                     public void onFailure(Exception error, ECSError ecsError) {
 
                         Log.d("ECS Oauth failed",error.getMessage() +" :  "+ ecsError);
-                        ECSUtility.showECSAlertDialog(getApplicationContext(),"Error",error.getMessage());
+                        ECSUtility.showECSAlertDialog(getApplicationContext(),"Error",error);
                         ECSConfig.INSTANCE.setAuthToken(null);
 
                     }

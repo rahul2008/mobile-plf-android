@@ -150,4 +150,19 @@ public class ECSUtility {
                 .show();
     }
 
+    public static void showECSAlertDialog(Context context, String title, Exception exception ){
+        String message= getErrorMessageFromException(exception);
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    public static String getErrorMessageFromException(Exception exception){
+        String errorMessage = null!=exception.getMessage()?exception.getMessage():exception.toString();
+        return errorMessage;
+    }
+
 }

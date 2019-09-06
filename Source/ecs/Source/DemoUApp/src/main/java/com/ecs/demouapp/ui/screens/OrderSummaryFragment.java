@@ -467,7 +467,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
         } else if (msg.obj instanceof Exception) {
             hideProgressBar();
             Exception exception = (Exception) msg.obj;
-            ECSUtility.showECSAlertDialog(mContext,"Error",exception.getMessage());
+            ECSUtility.showECSAlertDialog(mContext,"Error",exception);
         } else {
             NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));

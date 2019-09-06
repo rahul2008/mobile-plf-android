@@ -234,7 +234,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                             public void onFailure(Exception error, ECSError ecsError) {
                                 hideProgressBar();
                                 mDetailLayout.setVisibility(View.GONE);
-                                ECSUtility.showECSAlertDialog(mContext,"Error",error.getMessage());
+                                ECSUtility.showECSAlertDialog(mContext,"Error",error);
                                 //showErrorDialog(new Message());
                             }
                         });

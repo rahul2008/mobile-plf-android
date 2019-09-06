@@ -75,8 +75,9 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             return mServerError.getErrors().get(0).getMessage();
         } else if (mVolleyError != null) {
             if (mVolleyError.getMessage() != null) {
+                String volleyError = null!=mVolleyError.getMessage()?mVolleyError.getMessage():mVolleyError.toString();
                 ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
-                        ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.SERVER + mIAPErrorCode + "_" + mVolleyError.getMessage());
+                        ECSAnalyticsConstant.ERROR, ECSAnalyticsConstant.SERVER + mIAPErrorCode + "_" + volleyError);
             }
             return mVolleyError.getMessage();
         }
