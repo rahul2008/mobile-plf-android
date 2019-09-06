@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -105,7 +106,7 @@ public class AddShoppingCartTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertEquals(9999, ecsError);
+                assertEquals(ECSErrorEnum.ECSInvalidProductError.toString(), ecsError.getErrorType());
                 // test case failed
             }
         });

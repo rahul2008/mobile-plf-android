@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.philips.cdp.di.ecs.error.ECSErrorEnum.ECSInvalidAddressError;
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorMessageFromException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -156,7 +158,7 @@ public class CreateAddressTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertEquals(12999, ecsError);
+                assertEquals(ECSInvalidAddressError.toString(), ecsError.getErrorType());
             }
         },true);
 
@@ -208,7 +210,7 @@ public class CreateAddressTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                 assertEquals(12999, ecsError);
+                 assertEquals(ECSInvalidAddressError.toString(), ecsError.getErrorType());
 
             }
         });
@@ -271,8 +273,8 @@ public class CreateAddressTest {
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new NoConnectionError();
         ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
-        assertEquals("Cannot connect to Internet .. Please check your connection!",ecsError.getException().getMessage());
-        assertEquals(11001,ecsError.getEcsError().getErrorcode());
+        assertEquals("com.android.volley.NoConnectionError",getErrorMessageFromException(ecsError.getException()));
+        assertEquals(11000,ecsError.getEcsError().getErrorcode());
     }
 
     @Test
@@ -281,8 +283,8 @@ public class CreateAddressTest {
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new ServerError();
         ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
-        assertEquals("We have encountered technical glitch. Please try after some time",ecsError.getException().getMessage());
-        assertEquals(5999,ecsError.getEcsError().getErrorcode());
+        assertEquals("com.android.volley.ServerError",getErrorMessageFromException(ecsError.getException()));
+        assertEquals(11000,ecsError.getEcsError().getErrorcode());
     }
 
     @Test
@@ -291,8 +293,8 @@ public class CreateAddressTest {
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new TimeoutError();
         ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
-        assertEquals("No cart created yet",ecsError.getException().getMessage());
-        assertEquals(11005,ecsError.getEcsError().getErrorcode());
+        assertEquals("com.android.volley.TimeoutError",getErrorMessageFromException(ecsError.getException()));
+        assertEquals(11000,ecsError.getEcsError().getErrorcode());
     }
 
 
@@ -319,8 +321,8 @@ public class CreateAddressTest {
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new AuthFailureError();
         ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
-        assertEquals("Volley AuthFailureError",ecsError.getException().getMessage());
-        assertEquals(11002,ecsError.getEcsError().getErrorcode());
+        assertEquals("com.android.volley.AuthFailureError",getErrorMessageFromException(ecsError.getException()));
+        assertEquals(11000,ecsError.getEcsError().getErrorcode());
     }
 
 

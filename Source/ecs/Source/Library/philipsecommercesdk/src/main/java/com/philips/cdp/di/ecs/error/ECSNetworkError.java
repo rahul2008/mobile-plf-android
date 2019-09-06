@@ -157,4 +157,8 @@ public class ECSNetworkError {
         return serverError;
     }
 
+    public static String getErrorMessageFromException(Exception exception){
+        String errorMessage = null!=exception.getMessage()?exception.getMessage():exception.toString();
+        return errorMessage;
+    }
 }
