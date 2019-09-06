@@ -146,7 +146,7 @@ public class GetListSavedAddressTest {
         mockGetAddressRequest = new MockGetAddressRequest("CreateAddressSuccess.json", spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetAddressRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 
@@ -155,7 +155,7 @@ public class GetListSavedAddressTest {
         ECSCallback<GetShippingAddressData, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetAddressRequest = new MockGetAddressRequest("CreateAddressSuccess.json", spy1);
         mockGetAddressRequest.onResponse(null);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 
@@ -166,7 +166,7 @@ public class GetListSavedAddressTest {
         try {
             JSONObject jsonObject = new JSONObject("123");
             mockGetAddressRequest.onResponse(jsonObject);
-            Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+            Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
         } catch (JSONException e) {
 
         }

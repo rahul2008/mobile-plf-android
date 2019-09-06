@@ -153,7 +153,7 @@ public class SetPaymentMethodRequestTest {
         mockSetPaymentMethodRequest = new MockSetPaymentMethodRequest("8960990117930", spy1, "EmptyString.json");
         VolleyError volleyError = new NoConnectionError();
         mockSetPaymentMethodRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

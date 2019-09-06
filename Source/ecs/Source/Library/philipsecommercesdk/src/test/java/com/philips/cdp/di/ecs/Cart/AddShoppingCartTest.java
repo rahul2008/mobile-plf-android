@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -172,7 +173,7 @@ public class AddShoppingCartTest {
         mockAddProductToECSShoppingCartRequest = new MockAddProductToECSShoppingCartRequest("EmptyString.json","1234" , spy1);
         VolleyError volleyError = new NoConnectionError();
         mockAddProductToECSShoppingCartRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

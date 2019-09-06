@@ -155,7 +155,7 @@ public class RemoveVoucherTest {
         mockRemoveVoucherRequest = new MockRemoveVoucherRequest("EmptyString.json","voucherCode",spy1);
         VolleyError volleyError = new NoConnectionError();
         mockRemoveVoucherRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

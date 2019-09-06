@@ -105,7 +105,7 @@ class GetOrderHistoryRequestTest{
 
 
             override fun onFailure(error: Exception, ecsError: ECSError){
-                assertEquals(19999, ecsError.toLong())
+                assertEquals(19999, ecsError)
                 //  test case passed
             }
 
@@ -144,7 +144,7 @@ class GetOrderHistoryRequestTest{
         mockGetOrderHistoryRequest = MockGetOrderHistoryRequest("GetOrderHistorySuccess.json",currentPage,spy1);
         val volleyError = NoConnectionError()
         mockGetOrderHistoryRequest.onErrorResponse(volleyError)
-        Mockito.verify(spy1).onFailure(ArgumentMatchers.any<Exception>(Exception::class.java), ArgumentMatchers.anyInt())
+        Mockito.verify(spy1).onFailure(ArgumentMatchers.any<Exception>(Exception::class.java), ArgumentMatchers.any<ECSError>(ECSError::class.java))
 
     }
 
