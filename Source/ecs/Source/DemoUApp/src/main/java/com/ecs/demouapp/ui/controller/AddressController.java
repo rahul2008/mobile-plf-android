@@ -11,7 +11,6 @@ import android.util.Log;
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.RequestCode;
-import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -32,7 +31,7 @@ public class AddressController {
 
     private Context mContext;
     private AddressListener mAddressListener;
-    private StoreListener mStore;
+
 
     public interface AddressListener {
         void onGetRegions(Message msg);

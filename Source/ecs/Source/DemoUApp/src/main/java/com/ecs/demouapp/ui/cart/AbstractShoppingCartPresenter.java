@@ -12,7 +12,6 @@ import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.ControllerFactory;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
-import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
@@ -30,7 +29,6 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected static final String PHILIPS_STORE = "Y";
     protected Context mContext;
     protected ArrayList<StoreEntity> mStoreList;
-    protected StoreListener mStore;
     protected ShoppingCartListener mLoadListener;
 
     public interface ShoppingCartListener<T> {

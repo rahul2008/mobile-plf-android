@@ -4,7 +4,15 @@
  */
 package com.philips.cdp.di.ecs.model.config;
 
+import com.philips.cdp.di.ecs.util.ECSConfig;
+
 public class HybrisConfigResponse {
+
+    public String getLocale() {
+        return ECSConfig.INSTANCE.getLocale();
+    }
+
+    private String locale;
     private String catalogId;
     private String faqUrl;
     private String helpDeskEmail;
