@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 
@@ -20,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
-import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessageForAddress;
+
 
 public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
@@ -52,8 +53,8 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
         if(null== exception) {
             ecsCallback.onResponse(addresses);
         }else{
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response);
-            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+            ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response);
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
     }
 
@@ -88,8 +89,8 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = getECSError(error);
-        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(error,this);
+        ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
 
     }
 
@@ -97,8 +98,6 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
         return this;
     }
 
-    public ECSError getECSError(VolleyError error){
-        return getErrorLocalizedErrorMessageForAddress(error);
-    }
+
 
 }

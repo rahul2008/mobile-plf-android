@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.platform.appinfra.AppInfra;
@@ -71,7 +72,7 @@ public class GetShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -92,8 +93,8 @@ public class GetShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(7999,errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(7999, ecsError);
                 // test case failed
             }
         });
@@ -109,7 +110,7 @@ public class GetShoppingCartTest {
                 // test case failed
             }
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertEquals("No cart created yet.",error.getMessage());
 
                 // test case passed
@@ -128,7 +129,7 @@ public class GetShoppingCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertEquals("No cart created yet.",error.getMessage());
 
                 // test case failed
@@ -147,7 +148,7 @@ public class GetShoppingCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
 
                 // test case failed

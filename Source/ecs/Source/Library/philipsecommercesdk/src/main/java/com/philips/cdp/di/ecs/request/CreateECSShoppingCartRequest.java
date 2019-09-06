@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 
@@ -38,8 +39,8 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
     @Override
     public void onErrorResponse(VolleyError error) {
 
-        ECSError ecsError = getErrorLocalizedErrorMessage(error);
-        eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(error,this);
+        eCSCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
     }
 
     @Override
@@ -56,8 +57,8 @@ public class CreateECSShoppingCartRequest extends OAuthAppInfraAbstractRequest i
         if(null == exception && null!= ecsShoppingCart && null!= ecsShoppingCart.getGuid() && !ecsShoppingCart.getGuid().isEmpty() ) {
             eCSCallback.onResponse(ecsShoppingCart);
         }else{
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response.toString());
-            eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+            ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response.toString());
+            eCSCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
     }
 

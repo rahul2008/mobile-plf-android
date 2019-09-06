@@ -6,6 +6,7 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.ECSServices;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -56,7 +57,7 @@ public class ECSConfigure {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
                 try {
                     iapListener.onFailure(ECSConstant.IAP_ERROR_SERVER_ERROR);
@@ -103,7 +104,7 @@ public class ECSConfigure {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
                 ECSLog.i(ECSLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + error.getMessage());
                 listener.onFailure(ECSConstant.IAP_ERROR_SERVER_ERROR);

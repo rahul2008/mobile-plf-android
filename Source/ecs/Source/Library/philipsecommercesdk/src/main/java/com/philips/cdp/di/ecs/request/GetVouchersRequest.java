@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
@@ -42,8 +43,8 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
             ecsCallback.onResponse(getAppliedValue);
         }else{
             String errorMessage = (response!=null)?response.toString():null;
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,errorMessage);
-            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+            ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,errorMessage);
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
     }
 
@@ -59,8 +60,8 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
-        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        ECSErrorWrapper ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(error,this);
+        ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
     }
 
     @Override

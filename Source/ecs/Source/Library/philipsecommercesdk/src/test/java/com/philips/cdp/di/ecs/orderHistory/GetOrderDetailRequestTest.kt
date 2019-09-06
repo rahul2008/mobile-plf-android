@@ -3,16 +3,14 @@ package com.philips.cdp.di.ecs.orderHistory
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.android.volley.NoConnectionError
-import com.philips.cdp.di.ecs.Address.MockCreateAddressRequest
 import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.MockECSServices
 import com.philips.cdp.di.ecs.StaticBlock
+import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.address.Addresses
 import com.philips.cdp.di.ecs.model.orders.OrderDetail
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -66,7 +64,7 @@ class GetOrderDetailRequestTest{
             }
 
 
-            override fun onFailure(error: Exception, errorCode: Int){
+            override fun onFailure(error: Exception, ecsError: ECSError){
 
             }
 
@@ -86,7 +84,7 @@ class GetOrderDetailRequestTest{
              }
 
 
-            override fun onFailure(error: Exception, errorCode: Int){
+            override fun onFailure(error: Exception, ecsError: ECSError){
                 assertTrue(true)
                 //  test case failed
             }
@@ -109,8 +107,8 @@ class GetOrderDetailRequestTest{
                 //  test case failed
             }
 
-            override fun onFailure(error: Exception, errorCode: Int){
-                assertEquals(19999, errorCode.toLong())
+            override fun onFailure(error: Exception, ecsError: ECSError){
+                assertEquals(19999, ecsError.toLong())
                 //  test case passed
             }
 

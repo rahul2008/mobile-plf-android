@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.platform.appinfra.AppInfra;
@@ -61,7 +62,7 @@ public class SetDeliveryAddressRequestTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(false);
                 //test case failed
 
@@ -85,7 +86,7 @@ public class SetDeliveryAddressRequestTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
 
                 //test case failed

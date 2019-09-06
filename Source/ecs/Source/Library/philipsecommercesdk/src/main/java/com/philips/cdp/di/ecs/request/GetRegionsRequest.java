@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
@@ -43,8 +44,8 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
-        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        ECSErrorWrapper ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(error,this);
+        ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
     }
 
     @Override
@@ -54,8 +55,8 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
             RegionsList regionsList = new Gson().fromJson(response.toString(), RegionsList.class);
             ecsCallback.onResponse(regionsList);
         }catch(Exception e){
-            ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,e,response.toString());
-            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+            ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,e,response.toString());
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
     }
 

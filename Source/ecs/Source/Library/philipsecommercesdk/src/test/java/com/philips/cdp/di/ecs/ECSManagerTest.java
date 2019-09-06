@@ -5,30 +5,26 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.network.NetworkController;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.request.APPInfraRequest;
-import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.rest.CloudLogRequestBodyBuilder;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscovery;
 
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.when;
 
@@ -156,7 +152,7 @@ public class ECSManagerTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Log.v("tag", "");
             }
         };

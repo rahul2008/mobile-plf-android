@@ -6,6 +6,7 @@ package com.ecs.demouapp.ui.products;
 
 import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
@@ -35,8 +36,8 @@ public class LocalProductCatalog implements ProductCatalogAPI {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
             }
         });
     }

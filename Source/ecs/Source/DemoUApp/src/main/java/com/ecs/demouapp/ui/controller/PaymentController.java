@@ -14,6 +14,7 @@ import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
@@ -67,7 +68,7 @@ public class PaymentController {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Message message = new Message();
                 message.obj = error;
                 mPaymentListener.onGetPaymentDetails(message);
@@ -87,7 +88,7 @@ public class PaymentController {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Message message = new Message();
                 message.obj = error;
                 mPaymentListener.onSetPaymentDetails(message);
@@ -116,7 +117,7 @@ public class PaymentController {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Message message = new Message();
                 message.obj=error.getMessage();
                 mMakePaymentListener.onPlaceOrder(message);
@@ -156,7 +157,7 @@ public class PaymentController {
           }
 
           @Override
-          public void onFailure(Exception error, int errorCode) {
+          public void onFailure(Exception error, ECSError ecsError) {
               Message message = new Message();
               message.obj=error;
               mMakePaymentListener.onMakePayment(message);

@@ -7,10 +7,9 @@ import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.MockECSServices
 import com.philips.cdp.di.ecs.StaticBlock
 import com.philips.cdp.di.ecs.TestUtil
+import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.order.OrdersData
 import com.philips.cdp.di.ecs.model.retailers.WebResults
-import com.philips.cdp.di.ecs.orderHistory.MockGetOrderHistoryRequest
 import com.philips.cdp.di.ecs.util.ECSConfig
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
@@ -78,7 +77,7 @@ class GetRetailerInfoRequestTest{
             override fun onResponse(result: WebResults){
             }
 
-            override fun onFailure(error: Exception, errorCode: Int){
+            override fun onFailure(error: Exception, ecsError: ECSError){
             }
 
         }
@@ -98,7 +97,7 @@ class GetRetailerInfoRequestTest{
              }
 
 
-            override fun onFailure(error: Exception, errorCode: Int){
+            override fun onFailure(error: Exception, ecsError: ECSError){
                 assertTrue(true)
                 //  test case failed
             }
@@ -121,8 +120,8 @@ class GetRetailerInfoRequestTest{
                 //  test case failed
             }
 
-            override fun onFailure(error: Exception, errorCode: Int){
-                assertEquals(19999, errorCode.toLong())
+            override fun onFailure(error: Exception, ecsError: ECSError){
+                assertEquals(19999, ecsError.toLong())
                 //  test case passed
             }
 

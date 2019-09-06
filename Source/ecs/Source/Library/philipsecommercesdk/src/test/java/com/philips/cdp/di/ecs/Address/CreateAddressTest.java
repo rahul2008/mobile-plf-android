@@ -81,7 +81,7 @@ public class CreateAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -105,7 +105,7 @@ public class CreateAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
                 assertTrue(true);
             }
@@ -125,7 +125,7 @@ public class CreateAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
             }
         },true);
@@ -144,8 +144,8 @@ public class CreateAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(12999,errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(12999, ecsError);
             }
         },true);
 
@@ -175,7 +175,7 @@ public class CreateAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 // assertEquals(12999,errorCode);
                 assertTrue(true);
             }
@@ -196,8 +196,8 @@ public class CreateAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                 assertEquals(12999,errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                 assertEquals(12999, ecsError);
 
             }
         });

@@ -6,6 +6,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
@@ -36,8 +37,8 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
-        eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        ECSErrorWrapper ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(error,this);
+        eCSCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
     }
 
     @Override
@@ -54,8 +55,8 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
             if(null==exception && resp.getCatalogId()!=null && resp.getRootCategory()!=null && resp.getSiteId()!=null){
                 eCSCallback.onResponse(resp);
             }else if(response.has("net")) {
-                ECSError ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong,exception,response.toString());
-                eCSCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+                ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response.toString());
+                eCSCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
             }
     }
 

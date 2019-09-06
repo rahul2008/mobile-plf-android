@@ -6,10 +6,10 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
-import com.google.gson.JsonObject;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
@@ -25,9 +25,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
@@ -78,7 +75,7 @@ public class GetListSavedAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -99,7 +96,7 @@ public class GetListSavedAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 // assertEquals(12999,errorCode);
                 assertTrue(true);
             }
@@ -119,8 +116,8 @@ public class GetListSavedAddressTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(12999,errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(12999, ecsError);
 
             }
         });

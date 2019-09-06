@@ -34,8 +34,8 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
-        ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
+        val ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(error,this)
+        ecsCallback.onFailure(ecsErrorWrapper.exception, ecsErrorWrapper.ecsError)
     }
 
     override fun onResponse(response: JSONObject?) {
@@ -45,8 +45,8 @@ open class GetOrderHistoryRequest (currentPage: Int, ecsCallback: ECSCallback<Or
                     OrdersData::class.java)
             ecsCallback.onResponse(ordersData)
         }catch (exception : Exception){
-            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, exception, response.toString())
-            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
+            val ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong, exception, response.toString())
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.ecsError)
         }
     }
 

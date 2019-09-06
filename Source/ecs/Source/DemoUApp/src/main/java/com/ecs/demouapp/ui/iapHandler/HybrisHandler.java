@@ -7,6 +7,7 @@ package com.ecs.demouapp.ui.iapHandler;
 import com.ecs.demouapp.ui.integration.ECSInterface;
 import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.products.Product;
@@ -33,8 +34,8 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                iapListener.onFailure(errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                iapListener.onFailure(ecsError.getErrorcode());
             }
         });
     }
@@ -55,7 +56,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
                 }
 
                 @Override
-                public void onFailure(Exception error, int errorCode) {
+                public void onFailure(Exception error, ECSError ecsError) {
 
                 }
             });

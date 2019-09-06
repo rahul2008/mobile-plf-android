@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.platform.appinfra.AppInfra;
@@ -70,7 +71,7 @@ public class GetPaymentsTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -94,7 +95,7 @@ public class GetPaymentsTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(false);
                 //test failed
             }
@@ -111,8 +112,8 @@ public class GetPaymentsTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(12999,errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(12999, ecsError);
             }
         });
     }

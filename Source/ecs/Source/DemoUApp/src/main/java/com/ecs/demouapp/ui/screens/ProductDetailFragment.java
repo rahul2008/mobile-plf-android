@@ -48,7 +48,7 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.CountDropDown;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.asset.Asset;
 import com.philips.cdp.di.ecs.model.asset.Assets;
@@ -231,7 +231,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                             }
 
                             @Override
-                            public void onFailure(Exception error, int errorCode) {
+                            public void onFailure(Exception error, ECSError ecsError) {
                                 hideProgressBar();
                                 mDetailLayout.setVisibility(View.GONE);
                                 ECSUtility.showECSAlertDialog(mContext,"Error",error.getMessage());
@@ -298,7 +298,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 hideProgressBar();
                 mProgresImage.setVisibility(View.GONE);
                 ECSLog.d(ECSConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");

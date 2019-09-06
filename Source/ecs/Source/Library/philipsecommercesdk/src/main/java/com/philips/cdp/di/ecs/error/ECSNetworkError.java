@@ -4,17 +4,18 @@
  */
 package com.philips.cdp.di.ecs.error;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.philips.cdp.di.ecs.request.CreateAddressRequest;
+import com.philips.cdp.di.ecs.request.DeleteAddressRequest;
+import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
+import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.request.UpdateAddressRequest;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -24,24 +25,7 @@ public class ECSNetworkError {
 
     private static final String LOGGING_TAG = ECSNetworkError.class.getSimpleName();
 
-    public static ECSError getErrorLocalizedErrorMessage(VolleyError volleyError) {
-        ServerError serverError = new ServerError();
-        return getEcsErrorEnum(volleyError, serverError);
-    }
-
-    public static ECSError getErrorLocalizedErrorMessageForAddress(VolleyError volleyError) {
-        ServerError serverError = new ServerError();
-        ECSError ecsError = getEcsErrorEnum(volleyError, serverError);
-        if (null != serverError.getErrors() && serverError.getErrors().size() > 0 && null != serverError.getErrors().get(0).getSubject()) {
-            String errorType = serverError.getErrors().get(0).getSubject();
-            ECSErrorEnum ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
-
-            ecsError = new ECSError(new Exception(ecsErrorEnum.getLocalizedErrorString()), ecsErrorEnum.getErrorCode());
-        }
-        return ecsError;
-    }
-
-    public  static ECSError getErrorLocalizedErrorMessage(ECSErrorEnum ecsErrorEnum,Exception exception, String hysbrisResponse){
+    public  static ECSErrorWrapper getErrorLocalizedErrorMessage(ECSErrorEnum ecsErrorEnum,Exception exception, String hysbrisResponse){
         String logMessage=ecsErrorEnum.toString();
         if(null!=exception){
             logMessage="\n\n"+exception.getLocalizedMessage();
@@ -55,20 +39,27 @@ public class ECSNetworkError {
         }catch(Exception e){
 
         }
-        return  new ECSError(new Exception(ecsErrorEnum.getLocalizedErrorString()), ecsErrorEnum.getErrorCode());
+        ECSError ecsError = new ECSError(ecsErrorEnum.getErrorCode(),ecsErrorEnum.toString());
 
+        return  new  ECSErrorWrapper(new Exception(ecsErrorEnum.getLocalizedErrorString()), ecsError);
     }
 
-    private static ECSError getEcsErrorEnum(VolleyError volleyError, ServerError mServerError) {
+    public static ECSErrorWrapper getErrorLocalizedErrorMessage(VolleyError volleyError,Object requestName) {
 
         String errorType = null;
-        ECSErrorEnum ecsErrorEnum = ECSErrorEnum.somethingWentWrong;
+        ECSErrorEnum ecsErrorEnum = ECSErrorEnum.ECSsomethingWentWrong;
         if (volleyError instanceof com.android.volley.ServerError || volleyError instanceof AuthFailureError) {
             ServerError serverError = getServerError(volleyError);
             if (serverError!=null && serverError.getErrors() != null && serverError.getErrors().size() != 0 && serverError.getErrors().get(0).getType() != null) {
                 Log.e("ON_FAILURE_ERROR", serverError.getErrors().get(0).toString());
-                errorType = serverError.getErrors().get(0).getType();
-                mServerError.setErrors(serverError.getErrors());
+                errorType = "ECS"+serverError.getErrors().get(0).getType();
+                if(requestName instanceof CreateAddressRequest || requestName instanceof DeleteAddressRequest || requestName instanceof GetDeliveryModesRequest ||
+                        requestName instanceof SetDeliveryAddressRequest || requestName instanceof SetDeliveryModesRequest || requestName instanceof UpdateAddressRequest){
+                    // for address related request error subject will be checked
+                    if(null!=serverError.getErrors().get(0).getSubject()){
+                        errorType="ECS"+serverError.getErrors().get(0).getSubject();
+                    }
+                }
                 ecsErrorEnum = ECSErrorEnum.valueOf(errorType);
             }else   { // If it is AuthFailureError other than InvalidHybris Token
                 ecsErrorEnum = getVolleyErrorType(volleyError);
@@ -77,9 +68,15 @@ public class ECSNetworkError {
             ecsErrorEnum = getVolleyErrorType(volleyError);
         }
 
-        Exception exception = (ecsErrorEnum==ECSErrorEnum.ecs_volley_error)?volleyError:new Exception(ecsErrorEnum.getLocalizedErrorString());
-        return new ECSError(exception, ecsErrorEnum.getErrorCode());
-
+        Exception exception = null;
+        if(ecsErrorEnum==ECSErrorEnum.ECS_volley_error){ // if volley error
+            errorType=ECSErrorEnum.ECS_volley_error.toString();
+            exception = volleyError;
+        }else{    // if Hybris error
+            exception =   new Exception(ecsErrorEnum.getLocalizedErrorString());
+        }
+        ECSError ecsError = new ECSError( ecsErrorEnum.getErrorCode(),errorType);
+        return new ECSErrorWrapper(exception,ecsError);
     }
 
 
@@ -92,7 +89,7 @@ public class ECSNetworkError {
 
             }
         }
-        return ECSErrorEnum.ecs_volley_error;
+        return ECSErrorEnum.ECS_volley_error;
     }
 
     private static ServerError getServerError(VolleyError error) {

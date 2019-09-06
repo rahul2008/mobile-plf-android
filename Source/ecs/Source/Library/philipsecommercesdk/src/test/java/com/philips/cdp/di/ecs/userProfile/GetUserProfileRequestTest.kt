@@ -7,11 +7,9 @@ import com.philips.cdp.di.ecs.ECSServices
 import com.philips.cdp.di.ecs.MockECSServices
 import com.philips.cdp.di.ecs.StaticBlock
 import com.philips.cdp.di.ecs.TestUtil
+import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.retailers.WebResults
 import com.philips.cdp.di.ecs.model.user.UserProfile
-import com.philips.cdp.di.ecs.retailer.MockGetRetailersInfoRequest
-import com.philips.cdp.di.ecs.util.ECSConfig
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
 import org.json.JSONException
@@ -70,7 +68,7 @@ class GetUserProfileRequestTest{
             override fun onResponse(result: UserProfile){
             }
 
-            override fun onFailure(error: Exception, errorCode: Int){
+            override fun onFailure(error: Exception, ecsError: ECSError){
             }
 
         }
@@ -89,7 +87,7 @@ class GetUserProfileRequestTest{
              }
 
 
-            override fun onFailure(error: Exception, errorCode: Int){
+            override fun onFailure(error: Exception, ecsError: ECSError){
                 assertTrue(true)
                 //  test case failed
             }
@@ -112,8 +110,8 @@ class GetUserProfileRequestTest{
                 //  test case failed
             }
 
-            override fun onFailure(error: Exception, errorCode: Int){
-                assertEquals(19999, errorCode.toLong())
+            override fun onFailure(error: Exception, ecsError: ECSError){
+                assertEquals(19999, ecsError.toLong())
                 //  test case passed
             }
 

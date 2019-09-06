@@ -2,17 +2,15 @@ package com.philips.cdp.di.ecs.DeliveryMode;
 
 import android.content.Context;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.ecs.Config.MockGetConfigurationRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -71,7 +69,7 @@ public class SetDeliveryModesRequestTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -91,7 +89,7 @@ public class SetDeliveryModesRequestTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(false);
                 //test case failed
             }
@@ -110,7 +108,7 @@ public class SetDeliveryModesRequestTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertFalse(false);
                 //test case passed
 

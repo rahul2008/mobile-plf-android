@@ -8,53 +8,53 @@ import com.philips.cdp.di.ecs.util.ECSConfig;
 public enum ECSErrorEnum {
 
     //volley Errors
-    ecs_volley_error( R.string.ecs_volley_error, 11000),
+    ECS_volley_error( R.string.ECS_volley_error, 11000),
 
 
 
 
-    invalid_grant( R.string.invalid_grant, 5000),
-    invalid_client(R.string.invalid_client, 5001),
-    unsupported_grant_type( R.string.unsupported_grant_type, 5002),
-    NoSuchElementError( R.string.NoSuchElementError, 5003),
-    CartError( R.string.CartError, 5004),
-    InsufficientStockError( R.string.InsufficientStockError, 5005),
-    UnknownIdentifierError( R.string.UnknownIdentifierError, 5006),
-    CommerceCartModificationError( R.string.CommerceCartModificationError, 5007),
-    CartEntryError( R.string.CartEntryError, 5008),
-    InvalidTokenError( R.string.InvalidTokenError, 5009),
-    UnsupportedVoucherError( R.string.UnsupportedVoucherError, 5010),
-    VoucherOperationError( R.string.VoucherOperationError, 5011),
-    ValidationError( R.string.ValidationError, 5012),
-    UnsupportedDeliveryModeError( R.string.UnsupportedDeliveryModeError, 5013),
-    regionisocode( R.string.regionisocode, 5014),
-    countryisocode( R.string.countryisocode, 5015),
-    postalCode( R.string.postalCode, 5016),
-    firstName( R.string.firstName, 5017),
-    lastName( R.string.lastName, 5018),
-    phone1( R.string.phone1, 5019),
-    phone2( R.string.phone2, 5020),
-    addressId( R.string.addressId, 5021),
-    sessionCart( R.string.sessionCart, 5022),
-    postUrl( R.string.postUrl, 5023),
-    IllegalArgumentError( R.string.IllegalArgumentError, 5024),
-    InvalidPaymentInfoError( R.string.InvalidPaymentInfoError, 5025),
+    ECSinvalid_grant( R.string.ECSinvalid_grant, 5000),
+    ECSinvalid_client(R.string.ECSinvalid_client, 5001),
+    ECSunsupported_grant_type( R.string.ECSunsupported_grant_type, 5002),
+    ECSNoSuchElementError( R.string.ECSNoSuchElementError, 5003),
+    ECSCartError( R.string.ECSCartError, 5004),
+    InsufficientStockError( R.string.ECSInsufficientStockError, 5005),
+    ECSUnknownIdentifierError( R.string.ECSUnknownIdentifierError, 5006),
+    ECSCommerceCartModificationError( R.string.ECSCommerceCartModificationError, 5007),
+    ECSCartEntryError( R.string.ECSCartEntryError, 5008),
+    ECSInvalidTokenError( R.string.ECSInvalidTokenError, 5009),
+    ECSUnsupportedVoucherError( R.string.ECSUnsupportedVoucherError, 5010),
+    ECSVoucherOperationError( R.string.ECSVoucherOperationError, 5011),
+    ECSValidationError( R.string.ECSValidationError, 5012),
+    ECSUnsupportedDeliveryModeError( R.string.ECSUnsupportedDeliveryModeError, 5013),
+    ECSregionisocode( R.string.ECSregionisocode, 5014),
+    ECScountryisocode( R.string.ECScountryisocode, 5015),
+    ECSpostalCode( R.string.ECSpostalCode, 5016),
+    ECSfirstName(R.string.ECSfirstName, 5017),
+    ECSlastName( R.string.ECSlastName, 5018),
+    ECSphone1( R.string.ECSphone1, 5019),
+    ECSphone2( R.string.ECSphone2, 5020),
+    ECSaddressId( R.string.ECSaddressId, 5021),
+    ECSsessionCart( R.string.ECSsessionCart, 5022),
+    postUrl( R.string.ECSpostUrl, 5023),
+    ECSIllegalArgumentError( R.string.ECSIllegalArgumentError, 5024),
+    ECSInvalidPaymentInfoError( R.string.ECSInvalidPaymentInfoError, 5025),
 
 
 
     //client error
-    baseURLNotFound( R.string.baseURLNotFound, 5050),
-    appInfra_notfound( R.string.appInfra_notfound, 5051),
-    locale_notfound( R.string.locale_notfound, 5052),
-    propositionId_notFound( R.string.propositionId_notFound, 5053),
-    siteId_notfound( R.string.siteId_notfound, 5054),
-    hybris_notAvailable( R.string.hybris_notAvailable, 5055),
-    ctn_notProvided( R.string.ctn_notProvided, 5056),
-    oauth_notCalled( R.string.oauth_notCalled, 5057),
-    OAuthDetailError( R.string.OAuthDetailError, 5058),
-    countryCodeNotGiven( R.string.countryCodeNotGiven, 5059),
-    orderIdNil( R.string.orderIdNil, 5060),
-    somethingWentWrong( R.string.somethingWentWrong, 5999);
+    ECSBaseURLNotFound( R.string.ECSBaseURLNotFound, 5050),
+    ECSAppInfraNotFound( R.string.ECSAppInfraNotFound, 5051),
+    ECSLocaleNotFound( R.string.ECSLocaleNotFound, 5052),
+    ECSPropositionIdNotFound( R.string.ECSPropositionIdNotFound, 5053),
+    ECSSiteIdNotFound( R.string.ECSSiteIdNotFound, 5054),
+    ECSHybrisNotAvailable( R.string.ECSHybrisNotAvailable, 5055),
+    ECSCtnNotProvided( R.string.ECSCtnNotProvided, 5056),
+    ECSOAuthNotCalled( R.string.ECSOAuthNotCalled, 5057),
+    ECSOAuthDetailError( R.string.ECSOAuthDetailError, 5058),
+    ECScountryCodeNotGiven( R.string.ECScountryCodeNotGiven, 5059),
+    ECSorderIdNil( R.string.ECSorderIdNil, 5060),
+    ECSsomethingWentWrong( R.string.ECSsomethingWentWrong, 5999);
 
 
     int resourceID;
@@ -82,7 +82,7 @@ public enum ECSErrorEnum {
     }
 
     public  String getLocalizedErrorString(){
-        String localizedError= ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getString(R.string.somethingWentWrong);
+        String localizedError= ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getString(R.string.ECSsomethingWentWrong);
         try{
             localizedError =   ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getResources().getString(getResourceID());
         } catch(Exception e){

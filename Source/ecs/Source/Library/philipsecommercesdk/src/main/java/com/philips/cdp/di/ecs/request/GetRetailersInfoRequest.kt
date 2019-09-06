@@ -36,8 +36,8 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
-        callBack.onFailure(ecsError.exception, ecsError.errorcode)
+        val ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(error,this)
+        callBack.onFailure(ecsErrorWrapper.exception, ecsErrorWrapper.ecsError)
     }
 
     override fun getMethod(): Int {
@@ -57,8 +57,8 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
                     WebResults::class.java)
             callBack.onResponse(webResults)
         }catch (exception:Exception){
-            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, exception, response.toString())
-            callBack.onFailure(ecsError.getException(), ecsError.getErrorcode())
+            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong, exception, response.toString())
+            callBack.onFailure(ecsError.getException(), ecsError.ecsError)
         }
 
     }

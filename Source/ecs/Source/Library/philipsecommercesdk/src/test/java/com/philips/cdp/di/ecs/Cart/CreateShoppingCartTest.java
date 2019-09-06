@@ -10,6 +10,7 @@ import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.platform.appinfra.AppInfra;
@@ -79,7 +80,7 @@ public class CreateShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -100,7 +101,7 @@ public class CreateShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assert true;
                 // test case failed
             }
@@ -119,7 +120,7 @@ public class CreateShoppingCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
 
                 // test case failed
@@ -138,7 +139,7 @@ public class CreateShoppingCartTest {
                 // test case passed
             }
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
 
                 // test case failed

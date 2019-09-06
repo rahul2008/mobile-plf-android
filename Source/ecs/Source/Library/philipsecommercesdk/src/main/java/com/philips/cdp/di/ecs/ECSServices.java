@@ -2,6 +2,8 @@ package com.philips.cdp.di.ecs;
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
@@ -34,6 +36,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
+
 public class ECSServices implements ECSServiceProvider {
 
     private ECSManager mECSManager;
@@ -62,7 +66,8 @@ public class ECSServices implements ECSServiceProvider {
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
 
-                ecsCallback.onFailure(new Exception(errorvalues.name()), 9000);
+                ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,null,s+"\n"+errorvalues.name());
+                ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
             }
 
             @Override

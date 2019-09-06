@@ -4,6 +4,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.error.ECSError;
+
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
@@ -38,8 +40,8 @@ public class AddProductToECSShoppingCartRequest extends OAuthAppInfraAbstractReq
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error);
-        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        ECSErrorWrapper ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(error,this);
+        ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
     }
 
     @Override

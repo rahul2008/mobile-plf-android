@@ -20,8 +20,8 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
     }
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
-        ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
+        val ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(error,this)
+        ecsCallback.onFailure(ecsErrorWrapper.exception, ecsErrorWrapper.ecsError)
     }
 
     override fun getMethod(): Int {
@@ -35,8 +35,8 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
                     UserProfile::class.java)
             ecsCallback.onResponse(userProfile)
         }catch (e :Exception){
-            val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, e, response.toString())
-            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
+            val ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong, e, response.toString())
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.ecsError)
         }
     }
 

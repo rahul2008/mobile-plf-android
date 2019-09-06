@@ -15,8 +15,8 @@ import com.ecs.demouapp.ui.response.error.Error;
 import com.ecs.demouapp.ui.response.error.ServerError;
 import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.utils.ECSUtility;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
@@ -55,7 +55,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Message message = new Message();
                 String errMsg = null!=error?error.getMessage():"Could not fetch data";
                 message.obj = errMsg;
@@ -77,7 +77,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Message message = new Message();
                 message.obj = "Could not fetch data";
                 mLoadListener.onLoadError(message);
@@ -96,9 +96,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Message message = new Message();
-                String errMsg = null!=error?error.getMessage(): ECSErrorEnum.somethingWentWrong.getLocalizedErrorString();
+                String errMsg = null!=error?error.getMessage(): ECSErrorEnum.ECSsomethingWentWrong.getLocalizedErrorString();
                 message.obj = errMsg;
                 mLoadListener.onLoadError(message);
             }
@@ -139,9 +139,9 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Message message = new Message();
-                String errMsg = null!=error?error.getMessage(): ECSErrorEnum.somethingWentWrong.getLocalizedErrorString();
+                String errMsg = null!=error?error.getMessage(): ECSErrorEnum.ECSsomethingWentWrong.getLocalizedErrorString();
                 message.obj = errMsg;
                 iapCartListener.onFailure(message);
             }
@@ -160,7 +160,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 Message message = new Message();
 
                 if(null!=error.getMessage()){

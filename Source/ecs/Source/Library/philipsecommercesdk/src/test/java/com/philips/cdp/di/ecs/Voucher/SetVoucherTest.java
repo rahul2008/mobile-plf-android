@@ -4,11 +4,10 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
-import com.philips.cdp.di.ecs.ECSManager;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.platform.appinfra.AppInfra;
@@ -32,8 +31,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
-import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class SetVoucherTest {
@@ -75,7 +72,7 @@ public class SetVoucherTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -100,7 +97,7 @@ public class SetVoucherTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
                 //  test case failed
             }
@@ -119,8 +116,8 @@ public class SetVoucherTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(5999,errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(5999, ecsError);
                 //  test case passed
 
             }

@@ -10,6 +10,7 @@ import android.os.Message;
 import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSUtility;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.Consignment;
@@ -52,7 +53,7 @@ public class OrderController {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
                 Message message = new Message();
                 message.obj = error;
@@ -78,7 +79,7 @@ public class OrderController {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 message.obj = error;
                 mOrderListener.onGetOrderDetail(message);
             }

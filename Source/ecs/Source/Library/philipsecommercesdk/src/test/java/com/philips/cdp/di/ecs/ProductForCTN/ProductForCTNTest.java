@@ -6,15 +6,11 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
-import com.philips.cdp.di.ecs.ProductCatalog.MockGetProductListRequest;
-import com.philips.cdp.di.ecs.ProductDetail.MockGetProductDisclaimerRequest;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
-import com.philips.cdp.di.ecs.constants.ModelConstants;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -29,8 +25,6 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
@@ -85,7 +79,7 @@ public class ProductForCTNTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -105,7 +99,7 @@ public class ProductForCTNTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertFalse(true);
                 // test case passed
             }
@@ -123,8 +117,8 @@ public class ProductForCTNTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(5999, errorCode); // error code for Product List
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(5999, ecsError); // error code for Product List
                 // test case passed
             }
         });

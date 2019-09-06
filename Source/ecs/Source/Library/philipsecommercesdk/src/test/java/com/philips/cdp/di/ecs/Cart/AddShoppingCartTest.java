@@ -4,13 +4,11 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.ecs.Address.MockCreateAddressRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.platform.appinfra.AppInfra;
@@ -80,7 +78,7 @@ public class AddShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };
@@ -102,8 +100,8 @@ public class AddShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                assertEquals(9999,errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(9999, ecsError);
                 // test case failed
             }
         });
@@ -123,7 +121,7 @@ public class AddShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
                 // test case passed
             }
@@ -189,7 +187,7 @@ public class AddShoppingCartTest {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
             }
         };

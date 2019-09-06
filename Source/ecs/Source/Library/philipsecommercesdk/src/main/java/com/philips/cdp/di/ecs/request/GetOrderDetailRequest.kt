@@ -21,8 +21,8 @@ open class GetOrderDetailRequest(orderID: String, ecsCallback: ECSCallback<Order
     val ecsCallback = ecsCallback
 
     override fun onErrorResponse(error: VolleyError?) {
-        val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(error)
-        ecsCallback.onFailure(ecsError.exception, ecsError.errorcode)
+        val ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(error,this)
+        ecsCallback.onFailure(ecsErrorWrapper.exception, ecsErrorWrapper.ecsError)
     }
 
     override fun getURL(): String {
@@ -46,8 +46,8 @@ open class GetOrderDetailRequest(orderID: String, ecsCallback: ECSCallback<Order
             val orderDetail = Gson().fromJson(response.toString(), OrderDetail::class.java)
             ecsCallback.onResponse(orderDetail)
         } catch (e: Exception) {
-            val ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, e, response.toString())
-            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode())
+            val ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong, e, response.toString())
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.ecsError)
         }
     }
 

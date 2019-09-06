@@ -26,6 +26,7 @@ import com.philips.cdp.di.ecs.Voucher.MockRemoveVoucherRequest;
 import com.philips.cdp.di.ecs.Voucher.MockSetVoucherRequest;
 import com.philips.cdp.di.ecs.DeliveryMode.MockDeliveryModesRequest;
 import com.philips.cdp.di.ecs.DeliveryMode.MockSetDeliveryModesRequest;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.address.Addresses;
@@ -56,11 +57,8 @@ import com.philips.cdp.di.ecs.request.CreateECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
-import com.philips.cdp.di.ecs.request.SetVoucherRequest;
-import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
 import com.philips.cdp.di.ecs.retailer.MockGetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.userProfile.MockGetUserProfileRequest;
-import com.philips.cdp.di.ecs.util.ECSConfig;
 
 public class MockECSManager extends ECSManager {
 
@@ -91,8 +89,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
             }
         }).executeRequest();
     }
@@ -122,15 +120,15 @@ public class MockECSManager extends ECSManager {
                             }
 
                             @Override
-                            public void onFailure(Exception error, int errorCode) {
+                            public void onFailure(Exception error, ECSError ecsError) {
 
                             }
                        }).executeRequest();
                     }
 
                     @Override
-                    public void onFailure(Exception error, int errorCode) {
-                        ecsCallback.onFailure(error, errorCode);
+                    public void onFailure(Exception error, ECSError ecsError) {
+                        ecsCallback.onFailure(error, ecsError);
 
                     }
                 });
@@ -159,7 +157,7 @@ public class MockECSManager extends ECSManager {
                     }
 
                     @Override
-                    public void onFailure(Exception error, int errorCode) {
+                    public void onFailure(Exception error, ECSError ecsError) {
                         // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
                         ecsCallback.onResponse(product);
                     }
@@ -168,9 +166,9 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 // even if Disclaimer request fails the Product detail call be success as Asset has been already fetched
-                ecsCallback.onFailure(error, errorCode);
+                ecsCallback.onFailure(error, ecsError);
             }
         }).executeRequest();
     }
@@ -228,9 +226,9 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 //getECSShoppingCart(ecsCallback);
-                ecsCallback.onFailure(error, errorCode);
+                ecsCallback.onFailure(error, ecsError);
 
             }
         }).executeRequest();
@@ -247,7 +245,7 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 getECSShoppingCart(ecsCallback);
             }
         }, entriesEntity, quantity).executeRequest();
@@ -269,8 +267,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
             }
         }).executeRequest();
     }
@@ -287,8 +285,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
             }
         }).executeRequest();
     }
@@ -310,8 +308,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
             }
         }).executeRequest();
 
@@ -327,8 +325,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-            ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+            ecsCallback.onFailure(error, ecsError);
             }
         });
         mockGetAddressRequest.getParams();
@@ -347,8 +345,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
             }
         });
         mockUpdateAddressRequest.getParams();
@@ -368,8 +366,8 @@ public class MockECSManager extends ECSManager {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
-                ecsCallback.onFailure(error, errorCode);
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
             }
         });
         mockDeleteAddressRequest.getParams();
@@ -388,8 +386,8 @@ public class MockECSManager extends ECSManager {
            }
 
            @Override
-           public void onFailure(Exception error, int errorCode) {
-               ecsCallback.onFailure(error, errorCode);
+           public void onFailure(Exception error, ECSError ecsError) {
+               ecsCallback.onFailure(error, ecsError);
            }
        });
         mockSetDeliveryAddressRequest.getParams();

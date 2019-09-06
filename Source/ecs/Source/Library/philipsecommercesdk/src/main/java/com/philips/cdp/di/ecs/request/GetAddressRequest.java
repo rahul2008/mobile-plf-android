@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
@@ -37,13 +38,9 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
                     GetShippingAddressData.class);
             ecsCallback.onResponse(getShippingAddressData);
         }catch(Exception exception){
-            ECSError ecsError;
-            if(response!=null) {
-                ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, exception, response.toString());
-            }else{
-                ecsError = getErrorLocalizedErrorMessage(ECSErrorEnum.somethingWentWrong, exception,exception.getMessage());
-            }
-            ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+            String responseData = response!=null?response.toString():null;
+            ECSErrorWrapper ecsErrorWrapper   = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong, exception,responseData);
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
 
     }
@@ -60,8 +57,8 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSError ecsError = getErrorLocalizedErrorMessage(error);
-        ecsCallback.onFailure(ecsError.getException(), ecsError.getErrorcode());
+        ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(error,this);
+        ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
     }
 
     @Override

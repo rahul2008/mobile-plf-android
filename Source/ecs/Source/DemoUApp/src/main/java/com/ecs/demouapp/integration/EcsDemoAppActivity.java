@@ -42,8 +42,8 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.ECSServices;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
@@ -366,9 +366,9 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                     }
 
                     @Override
-                    public void onFailure(Exception error, int errorCode) {
+                    public void onFailure(Exception error, ECSError ecsError) {
 
-                        Log.d("ECS Oauth failed",error.getMessage() +" :  "+ errorCode);
+                        Log.d("ECS Oauth failed",error.getMessage() +" :  "+ ecsError);
                         ECSUtility.showECSAlertDialog(getApplicationContext(),"Error",error.getMessage());
                         ECSConfig.INSTANCE.setAuthToken(null);
 
@@ -435,10 +435,10 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 @Override
-                public void onFailure(Exception error, int errorCode) {
-                     if(errorCode == ECSErrorEnum.ecs_volley_auth_error.getErrorCode()
-                        || errorCode == ECSErrorEnum.InvalidTokenError.getErrorCode()
-                        || errorCode == 5999){
+                public void onFailure(Exception error, ECSError ecsError) {
+                     if(
+                         ecsError.getErrorcode() == ECSErrorEnum.ECSInvalidTokenError.getErrorCode()
+                        || ecsError.getErrorcode() == 5999){
 
 
                         refreshOauth();
@@ -484,7 +484,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
                 System.out.println("Configured ECS failed");
             }
         });

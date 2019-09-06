@@ -15,6 +15,7 @@ import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.store.StoreListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
+import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
@@ -86,7 +87,7 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
             }
 
             @Override
-            public void onFailure(Exception error, int errorCode) {
+            public void onFailure(Exception error, ECSError ecsError) {
 
                 Message message = new Message();
                 message.obj = error;
