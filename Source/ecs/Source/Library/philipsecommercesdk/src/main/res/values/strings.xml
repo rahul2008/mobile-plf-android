@@ -31,12 +31,12 @@
     <string name="ECSInsufficientStockError" >Product cannot be shipped as it is out of stock</string>
     <string name="ECSUnknownIdentifierError" >Requested resource is not available</string>
     <string name="ECSInvalidTokenError" >We have encountered technical glitch (Invalid access token). Please do Hybris Re-Auth</string>
-    <string name="ECSUnsupportedVoucherError" >Sorry, this voucher cannot be redeemed</string>
-    <string name="ECSVoucherOperationError" >Sorry, this voucher cannot be redeemed</string>
+    <string name="ECSUnsupportedVoucherError" >Sorry, this voucher can\'t be redeemed</string>
+    <string name="ECSVoucherOperationError" >Sorry, this voucher can\'t be redeemed</string>
     <string name="ECSCommerceCartModificationError" >Quantity must not be less than zero</string>
     <string name="ECSOAuthDetailError" >Please provide complete OAuth detials</string>
     <string name="ECScountryCodeNotGiven" >Please provide valid country code</string>
-    <string name="ECSUnsupportedDeliveryModeError" >Selected <Delive></Delive>ry mode is not supported</string>
+    <string name="ECSUnsupportedDeliveryModeError" >Selected delivery mode is not supported</string>
     <string name="ECSregionisocode" >Region selected is invalid</string>
     <string name="ECScountryisocode" >Country selected is invalid</string>
     <string name="ECSpostalCode" >ZIP code selected is invalid</string>
@@ -52,4 +52,11 @@
     <string name="ECSIllegalArgumentError" >Please provide valid input data</string>
     <string name="ECSInvalidPaymentInfoError" >Please provide valid payment details</string>
     <string name="ECSPaymentAuthorizationError" >Payment authorization was not successful</string>
+
+    //Pabitra android
+    <string name="ECSInvalidPageSizeError" >Page size can not be zero or negative</string>
+    <string name="ECSInvalidProductError" >Invalid product ,it\'s code can not be null or empty</string>
+    <string name="ECSInvalidAddressError" >"Invalid Address , it\'s ID  can not be null or empty"</string>
+    <string name="ECSInvalidCvvError" >"Invalid cvv , it  can not be null or empty"</string>
+
 </resources>

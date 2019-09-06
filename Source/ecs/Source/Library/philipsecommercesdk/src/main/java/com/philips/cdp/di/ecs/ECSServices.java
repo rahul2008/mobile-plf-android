@@ -46,11 +46,14 @@ public class ECSServices implements ECSServiceProvider {
     public static final String SERVICE_ID = "iap.baseurl";
     public static final String ECS_NOTATION = "ecs";
 
+    private ApiCallValidator apiCallValidator;
+
     public ECSServices(String propositionID, @NonNull AppInfra appInfra) {
         ECSConfig.INSTANCE.setAppInfra(appInfra);
         ECSConfig.INSTANCE.setPropositionID(propositionID);
         ECSConfig.INSTANCE.setEcsLogging(appInfra.getLogging().createInstanceForComponent(ECS_NOTATION, BuildConfig.VERSION_NAME));
         mECSManager = getECSManager();
+        apiCallValidator = new ApiCallValidator(mECSManager);
     }
 
     ECSManager getECSManager(){
@@ -100,11 +103,7 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void getECSConfig(@NonNull ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
-        if(new ApiCallValidator().getConfigAPIValidateError()!=null) {
-            mECSManager.getHybrisConfigResponse(ecsCallback);
-        }else{
-           // ecsCallback.onFailure(new ApiCallValidator().getConfigAPIValidateError().getException(),new ApiCallValidator().getConfigAPIValidateError().getErrorcode());
-        }
+        apiCallValidator.getECSConfig(ecsCallback);
     }
 
     @Override
