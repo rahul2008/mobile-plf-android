@@ -167,7 +167,7 @@ public class UpdateAddressTest {
         mockUpdateAddressRequest = new MockUpdateAddressRequest("CreateAddressSuccess.json", addresses, spy1);
         VolleyError volleyError = new NoConnectionError();
         mockUpdateAddressRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

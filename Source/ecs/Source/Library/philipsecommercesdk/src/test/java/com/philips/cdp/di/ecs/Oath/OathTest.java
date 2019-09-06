@@ -235,7 +235,7 @@ public class OathTest {
         mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json",oAuthInput,spy1);
         VolleyError volleyError = new NoConnectionError();
         mockOAuthRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

@@ -24,7 +24,7 @@ public class MockAddProductToECSShoppingCartRequest extends AddProductToECSShopp
         if(null!=jsonString && !jsonString.isEmpty()){
             onResponse(jsonString);
         }else{
-            VolleyError volleyError = new VolleyError(ECSErrorEnum.somethingWentWrong.toString());
+            VolleyError volleyError = new VolleyError(ECSErrorEnum.ECSsomethingWentWrong.toString());
             onErrorResponse(volleyError);
         }
 

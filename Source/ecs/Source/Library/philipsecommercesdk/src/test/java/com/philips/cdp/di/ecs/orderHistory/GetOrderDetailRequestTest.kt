@@ -108,7 +108,7 @@ class GetOrderDetailRequestTest{
             }
 
             override fun onFailure(error: Exception, ecsError: ECSError){
-                assertEquals(19999, ecsError.toLong())
+                assertEquals(19999, ecsError)
                 //  test case passed
             }
 
@@ -148,7 +148,7 @@ class GetOrderDetailRequestTest{
         mockGetOrderDetailRequest = MockGetOrderDetailRequest("GetOrderDetailSuccess.json",orderID,spy1);
         val volleyError = NoConnectionError()
         mockGetOrderDetailRequest.onErrorResponse(volleyError)
-        Mockito.verify(spy1).onFailure(any<Exception>(Exception::class.java), anyInt())
+        Mockito.verify(spy1).onFailure(any<Exception>(Exception::class.java), any(ECSError::class.java))
 
     }
 

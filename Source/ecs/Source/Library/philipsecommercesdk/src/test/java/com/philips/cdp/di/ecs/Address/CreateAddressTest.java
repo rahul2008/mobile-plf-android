@@ -13,6 +13,7 @@ import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
@@ -241,7 +242,7 @@ public class CreateAddressTest {
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new NoConnectionError();
         mockCreateAddressRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 
@@ -250,7 +251,7 @@ public class CreateAddressTest {
         ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         mockCreateAddressRequest.onResponse("jhsvcjhsc bvsdljcsdlcjgdscgds"); // passing invalid json
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 
@@ -259,9 +260,9 @@ public class CreateAddressTest {
         ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new NoConnectionError();
-        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
         assertEquals("Cannot connect to Internet .. Please check your connection!",ecsError.getException().getMessage());
-        assertEquals(11001,ecsError.getErrorcode());
+        assertEquals(11001,ecsError.getEcsError().getErrorcode());
     }
 
     @Test
@@ -269,9 +270,9 @@ public class CreateAddressTest {
         ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new ServerError();
-        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
         assertEquals("We have encountered technical glitch. Please try after some time",ecsError.getException().getMessage());
-        assertEquals(5999,ecsError.getErrorcode());
+        assertEquals(5999,ecsError.getEcsError().getErrorcode());
     }
 
     @Test
@@ -279,9 +280,9 @@ public class CreateAddressTest {
         ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new TimeoutError();
-        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
         assertEquals("No cart created yet",ecsError.getException().getMessage());
-        assertEquals(11005,ecsError.getErrorcode());
+        assertEquals(11005,ecsError.getEcsError().getErrorcode());
     }
 
 
@@ -297,9 +298,9 @@ public class CreateAddressTest {
         byte[] decode = Base64.decode(encodingString, Base64.DEFAULT);
         NetworkResponse networkResponse = new NetworkResponse(decode);
         VolleyError volleyError = new com.android.volley.ServerError(networkResponse);
-        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
         assertEquals("ZIP code selected is invalid",ecsError.getException().getMessage());
-        assertEquals(5016,ecsError.getErrorcode());
+        assertEquals(5016,ecsError.getEcsError().getErrorcode());
     }
 
     @Test
@@ -307,9 +308,9 @@ public class CreateAddressTest {
         ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new AuthFailureError();
-        ECSError ecsError = mockCreateAddressRequest.getECSError(volleyError);
+        ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
         assertEquals("Volley AuthFailureError",ecsError.getException().getMessage());
-        assertEquals(11002,ecsError.getErrorcode());
+        assertEquals(11002,ecsError.getEcsError().getErrorcode());
     }
 
 

@@ -155,7 +155,7 @@ public class DeleteAddressTest {
         mockDeleteAddressRequest = new MockDeleteAddressRequest("CreateAddressSuccess.json", addresses, spy1);
         VolleyError volleyError = new NoConnectionError();
         mockDeleteAddressRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

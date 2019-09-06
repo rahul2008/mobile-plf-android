@@ -188,7 +188,7 @@ public class ProductCatalogTest {
         mockGetProductListRequest = new MockGetProductListRequest("GetProductList.json",0,20,spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetProductListRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

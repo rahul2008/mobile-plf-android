@@ -129,7 +129,7 @@ public class GetDeliveryModesRequestTest {
         mockDeliveryModesRequest = new MockDeliveryModesRequest(spy1,"deliverymodes.json");
         VolleyError volleyError = new NoConnectionError();
         mockDeliveryModesRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

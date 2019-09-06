@@ -169,7 +169,7 @@ public class GetRegionsRequestTest {
         mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetRegionsRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

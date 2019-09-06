@@ -148,7 +148,7 @@ public class MakePaymentRequestTest {
         mockMakePaymentRequest = new MockMakePaymentRequest("MakePaymentSuccess.json", orderDetail, addresses, spy1);
         VolleyError volleyError = new NoConnectionError();
         mockMakePaymentRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 
