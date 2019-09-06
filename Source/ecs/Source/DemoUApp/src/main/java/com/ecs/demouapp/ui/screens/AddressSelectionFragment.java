@@ -207,9 +207,8 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         } else {
             //TODO remove checkPaymentDetails from here
             //Temp work to test Payment call .
-            checkPaymentDetails();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
             hideProgressBar();
+            ECSUtility.showECSAlertDialog(mContext,"Error", String.valueOf(msg.obj));
         }
     }
 

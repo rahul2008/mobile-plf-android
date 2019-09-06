@@ -207,7 +207,11 @@ public class CreateShoppingCartTest {
         assertNotNull(ecsShoppingCart.getTotalPriceWithTax());
         assertNotNull(ecsShoppingCart.getTotalTax());
         assertNotNull(ecsShoppingCart.getTotalDiscounts());
+        assertNull(ecsShoppingCart.getDeliveryAddress());
+        assertNull(ecsShoppingCart.getDeliveryCost());
+        assertNull(ecsShoppingCart.getDeliveryMode());
         assertNull(ecsShoppingCart.getDeliveryOrderGroups());
+        assertEquals(false,ecsShoppingCart.isCalculated());
 
         assertNotNull(ecsShoppingCart.getTotalDiscounts().getCurrencyIso());
         assertNotNull(ecsShoppingCart.getTotalDiscounts().getFormattedValue());
