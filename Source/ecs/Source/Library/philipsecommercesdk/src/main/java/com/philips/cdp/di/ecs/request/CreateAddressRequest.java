@@ -89,9 +89,13 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onErrorResponse(VolleyError error) {
-        ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(error,this);
+        ECSErrorWrapper ecsErrorWrapper = getECSError(error);
         ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
 
+    }
+
+    public ECSErrorWrapper getECSError(VolleyError error){
+        return getErrorLocalizedErrorMessage(error,this);
     }
 
     public Response.Listener<String> getStringSuccessResponseListener(){

@@ -167,7 +167,7 @@ public class ProductForCTNTest {
         mockGetProductForRequest = new MockGetProductForRequest("GetProductForCTN.json","MS5030/01",spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetProductForRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

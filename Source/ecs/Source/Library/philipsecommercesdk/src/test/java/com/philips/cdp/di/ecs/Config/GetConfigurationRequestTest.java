@@ -135,7 +135,7 @@ public class GetConfigurationRequestTest {
         mockGetConfigurationRequest = new MockGetConfigurationRequest("GetConfigSuccess.json", spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetConfigurationRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

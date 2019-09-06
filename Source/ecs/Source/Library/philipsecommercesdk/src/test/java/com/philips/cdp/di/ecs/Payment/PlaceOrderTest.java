@@ -134,7 +134,7 @@ public class PlaceOrderTest {
         mockPlaceOrderRequest = new MockPlaceOrderRequest("SubmitOrderSuccess.json","", spy1);
         VolleyError volleyError = new NoConnectionError();
         mockPlaceOrderRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 
