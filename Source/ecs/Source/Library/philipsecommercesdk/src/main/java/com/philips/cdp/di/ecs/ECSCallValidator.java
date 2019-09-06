@@ -52,7 +52,7 @@ public class ECSCallValidator {
 
         ECSErrorWrapper configAPIValidateError = new ApiInputValidator().getProductSummaryAPIValidateError(ctns);
         if (configAPIValidateError == null) {
-            new ECSManager().getSummary(ctns,ecsCallback);
+            ecsManager.getSummary(ctns,ecsCallback);
         } else {
             ecsCallback.onFailure(configAPIValidateError.getException(), configAPIValidateError.getEcsError());
         }
