@@ -189,7 +189,7 @@ public class UpdateShoppingCartTest {
         mockUpdateECSShoppingCartQuantityRequest = new MockUpdateECSShoppingCartQuantityRequest("UpdateShoppingCartSuccess.json",spy1,entriesEntity,2);
         VolleyError volleyError = new NoConnectionError();
         mockUpdateECSShoppingCartQuantityRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

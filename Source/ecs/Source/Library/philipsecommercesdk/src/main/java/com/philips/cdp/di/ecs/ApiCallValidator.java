@@ -4,8 +4,10 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.util.ECSConfig;
 
@@ -14,8 +16,17 @@ import java.util.List;
 
 public class ApiCallValidator {
 
-    ECSError getConfigAPIValidateError(){
+    ECSManager mECSManager;
 
+    public ApiCallValidator(ECSManager mECSManager) {
+        this.mECSManager = mECSManager;
+    }
+
+    public ApiCallValidator() {
+
+    }
+
+    ECSError getConfigAPIValidateError(){
         ECSError ecsError = checkLocaleAndBaseURL();
         if (ecsError != null) return ecsError;
         return null;
@@ -36,11 +47,11 @@ public class ApiCallValidator {
     @Nullable
     private ECSError checkSiteIDAndCategory() {
         if(isSiteIDNull()){
-            return new ECSError(100,"Site ID is not present");
+            return new ECSError(ECSErrorEnum.ECSSiteIdNotFound.getErrorCode(),ECSErrorEnum.ECSSiteIdNotFound.getLocalizedErrorString());
         }
 
         if(isCategoryNull()){
-            return new ECSError(101 ,"Category is not present");
+            return new ECSError(ECSErrorEnum.ECSSiteIdNotFound.getErrorCode() ,ECSErrorEnum.ECSSiteIdNotFound.getLocalizedErrorString());
         }
         return null;
     }
@@ -66,20 +77,20 @@ public class ApiCallValidator {
     }
 
     private boolean isINValidString(String inputString){
-        return inputString==null && inputString.isEmpty();
+        return inputString==null || inputString.isEmpty();
     }
 
     private boolean isINValidList(List list){
-        return list==null && list.isEmpty();
+        return list==null || list.isEmpty();
     }
 
     public ECSError getProductSummaryAPIValidateError(List<String> ctns) {
 
         if(isINValidList(ctns)){
-            return new ECSError(100,"Invalid ctn list");
+            return new ECSError(ECSErrorEnum.ECSCtnNotProvided.getErrorCode(),ECSErrorEnum.ECSCtnNotProvided.getLocalizedErrorString());
         }
         if(isLocaleNull()){
-            return new ECSError(100,"Locale is not present");
+            return new ECSError(ECSErrorEnum.ECSLocaleNotFound.getErrorCode(), ECSErrorEnum.ECSLocaleNotFound.getLocalizedErrorString());
         }
         return null;
     }
@@ -107,7 +118,7 @@ public class ApiCallValidator {
 
     public ECSError getHybrisOathAuthenticationAPIValidateError(OAuthInput oAuthInput) {
         if(isINValidString(oAuthInput.getOAuthID())){
-            return new ECSError(9000,"Token can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSOAuthDetailError.getErrorCode(),ECSErrorEnum.ECSOAuthDetailError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -115,7 +126,7 @@ public class ApiCallValidator {
     public ECSError getProductListAPIValidateError(int pageSize) {
 
         if(pageSize<=0){
-            return new ECSError(9000,"Page size can not be zero or negative");
+            return new ECSError(ECSErrorEnum.ECSInvalidPageSizeError.getErrorCode(),ECSErrorEnum.ECSInvalidPageSizeError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -123,14 +134,14 @@ public class ApiCallValidator {
     public ECSError getProductForAPIValidateError(String ctn) {
 
         if(isINValidString(ctn)){
-            return new ECSError(9000,"CTN can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSCtnNotProvided.getErrorCode(),ECSErrorEnum.ECSCtnNotProvided.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
     public ECSError getProductDetailAPIValidateError(Product product) {
         if(isINValidString(product.getCode())){
-            return new ECSError(9000,"Invalid product ,Product code can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSInvalidProductError.getErrorCode(),ECSErrorEnum.ECSInvalidProductError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -142,14 +153,14 @@ public class ApiCallValidator {
     public ECSError getUpdateQuantityError(int quantity) {
 
         if(quantity<0){
-            return new ECSError(9000,"Quantity can not be less than zero");
+            return new ECSError(ECSErrorEnum.ECSCommerceCartModificationError.getErrorCode(),ECSErrorEnum.ECSCommerceCartModificationError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
     public ECSError getSetVoucherError(String voucherCode) {
         if(isINValidString(voucherCode)){
-            return new ECSError(9000,"VoucherCode can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSUnsupportedVoucherError.getErrorCode(),ECSErrorEnum.ECSUnsupportedVoucherError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -159,11 +170,7 @@ public class ApiCallValidator {
     }
 
     public ECSError getRemoveVoucherError(String voucherCode) {
-
-        if(isINValidString(voucherCode)){
-            return new ECSError(9000,"VoucherCode can not be null or empty");
-        }
-        return checkLocaleBaseURLSiteIDAndCategory();
+        return getSetVoucherError(voucherCode);
     }
 
     public ECSError getDeliveryModesError() {
@@ -173,7 +180,7 @@ public class ApiCallValidator {
     public ECSError getSetDeliveryModeError(String deliveryModeID) {
 
         if(isINValidString(deliveryModeID)){
-            return new ECSError(9000 ,"Delivery Mode ID can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSUnsupportedDeliveryModeError.getErrorCode() ,ECSErrorEnum.ECSUnsupportedDeliveryModeError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -192,7 +199,7 @@ public class ApiCallValidator {
 
     public ECSError getSetDeliveryAddressError(Addresses address) {
         if(isINValidString(address.getId())){
-            return new ECSError(9000,"Invalid Address , Address ID  can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSInvalidAddressError.getErrorCode(),ECSErrorEnum.ECSInvalidAddressError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -202,17 +209,11 @@ public class ApiCallValidator {
     }
 
     public ECSError getSetDefaultAddressError(Addresses address) {
-        if(isINValidString(address.getId())){
-            return new ECSError(9000,"Invalid Address , Address ID  can not be null or empty");
-        }
-        return checkLocaleBaseURLSiteIDAndCategory();
+       return getSetDeliveryAddressError(address);
     }
 
     public ECSError getDeleteAddressError(Addresses address) {
-        if(isINValidString(address.getId())){
-            return new ECSError(9000,"Invalid Address , Address ID  can not be null or empty");
-        }
-        return checkLocaleBaseURLSiteIDAndCategory();
+       return getSetDeliveryAddressError(address);
     }
 
     public ECSError getPaymentsError() {
@@ -222,7 +223,7 @@ public class ApiCallValidator {
     public ECSError getSetPaymentMethodError(String paymentDetailsId) {
 
         if(isINValidString(paymentDetailsId)){
-            return new ECSError(9000 ,"Invalid paymeent method , Payment ID  can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSInvalidPaymentInfoError.getErrorCode() ,ECSErrorEnum.ECSInvalidPaymentInfoError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -230,10 +231,10 @@ public class ApiCallValidator {
     public ECSError getRetailersError(String productID) {
 
         if(isINValidString(productID)){
-            return new ECSError(9000,"Invalid product ,Product code can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSInvalidProductError.getErrorCode(),ECSErrorEnum.ECSInvalidProductError.getLocalizedErrorString());
         }
         if(isLocaleNull()){
-            return new ECSError(9000,"Locale is not present");
+            return new ECSError(ECSErrorEnum.ECSLocaleNotFound.getErrorCode(), ECSErrorEnum.ECSLocaleNotFound.getLocalizedErrorString());
         }
         return null;
     }
@@ -241,7 +242,7 @@ public class ApiCallValidator {
     public ECSError getSubmitOrderError(String cvv) {
 
         if(isINValidString(cvv)){
-            return new ECSError(9000 ,"Invalid cvv, it can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSInvalidCvvError.getErrorCode() ,ECSErrorEnum.ECSInvalidCvvError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -252,7 +253,7 @@ public class ApiCallValidator {
 
     public ECSError getOrderHistoryError(int pageNumber) {
         if(pageNumber<0){
-            return new ECSError(9000,"PageNumber can not be less than the zero");
+            return new ECSError(ECSErrorEnum.ECSInvalidPageSizeError.getErrorCode(),ECSErrorEnum.ECSInvalidPageSizeError.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -260,12 +261,21 @@ public class ApiCallValidator {
     public ECSError getOrderDetailError(String orderId) {
 
         if(isINValidString(orderId)){
-            return new ECSError(9000 ,"Invalid order id, it can not be null or empty");
+            return new ECSError(ECSErrorEnum.ECSorderIdNil.getErrorCode() ,ECSErrorEnum.ECSorderIdNil.getLocalizedErrorString());
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
     public ECSError getUserProfileError() {
         return checkLocaleBaseURLSiteIDAndCategory();
+    }
+
+    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+        ECSError configAPIValidateError = getConfigAPIValidateError();
+        if(configAPIValidateError == null){
+            mECSManager.getHybrisConfigResponse(ecsCallback);
+        }else{
+            ecsCallback.onFailure(new Exception("dchd"),configAPIValidateError);
+        }
     }
 }

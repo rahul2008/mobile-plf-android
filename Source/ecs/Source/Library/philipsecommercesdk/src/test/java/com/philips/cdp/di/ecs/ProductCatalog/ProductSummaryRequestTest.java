@@ -99,7 +99,7 @@ public class ProductSummaryRequestTest {
         mockGetProductSummaryListRequest = new MockGetProductSummaryListRequest("EmptyJson.json",samplePRXAssetUrl,spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetProductSummaryListRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 
@@ -129,7 +129,7 @@ public class ProductSummaryRequestTest {
 
             mockGetProductSummaryListRequest.onResponse(jsonObject);
 
-            Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+            Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
         } catch (JSONException e) {
             e.printStackTrace();

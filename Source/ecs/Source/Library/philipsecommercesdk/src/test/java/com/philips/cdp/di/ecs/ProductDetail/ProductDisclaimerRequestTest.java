@@ -99,7 +99,7 @@ public class ProductDisclaimerRequestTest {
         mockGetProductDisclaimerRequest = new MockGetProductDisclaimerRequest("PRXDisclaimers.json",samplePRXAssetUrl,spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetProductDisclaimerRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 

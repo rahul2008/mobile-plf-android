@@ -121,7 +121,7 @@ class GetRetailerInfoRequestTest{
             }
 
             override fun onFailure(error: Exception, ecsError: ECSError){
-                assertEquals(19999, ecsError.toLong())
+                assertEquals(19999, ecsError)
                 //  test case passed
             }
 
@@ -159,7 +159,7 @@ class GetRetailerInfoRequestTest{
         mockGetRetailersInfoRequest = MockGetRetailersInfoRequest("GetRetailerInfoSuccess.json",spy1,ctn);
         val volleyError = NoConnectionError()
         mockGetRetailersInfoRequest.onErrorResponse(volleyError)
-        Mockito.verify(spy1).onFailure(ArgumentMatchers.any<Exception>(Exception::class.java), ArgumentMatchers.anyInt())
+        Mockito.verify(spy1).onFailure(ArgumentMatchers.any<Exception>(Exception::class.java), ArgumentMatchers.any<ECSError>(ECSError::class.java))
 
     }
 

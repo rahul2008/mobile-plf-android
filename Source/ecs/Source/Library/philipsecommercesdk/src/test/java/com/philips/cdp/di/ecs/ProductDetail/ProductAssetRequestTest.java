@@ -99,7 +99,7 @@ public class ProductAssetRequestTest {
         mockGetProductAssetRequest = new MockGetProductAssetRequest("EmptyJson.json",samplePRXAssetUrl,spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetProductAssetRequest.onErrorResponse(volleyError);
-        Mockito.verify(spy1).onFailure(any(Exception.class),anyInt());
+        Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
 
