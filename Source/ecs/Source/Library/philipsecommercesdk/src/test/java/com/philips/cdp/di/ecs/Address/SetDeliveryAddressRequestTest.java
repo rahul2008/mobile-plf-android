@@ -18,6 +18,8 @@ import org.mockito.Mock;
 import org.robolectric.RobolectricTestRunner;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.philips.cdp.di.ecs.error.ECSErrorEnum.ECSInvalidAddressError;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -67,7 +69,7 @@ public class SetDeliveryAddressRequestTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertTrue(false);
+                assertEquals(ECSInvalidAddressError.toString(),ecsError.getErrorType());
                 //test case failed
 
 

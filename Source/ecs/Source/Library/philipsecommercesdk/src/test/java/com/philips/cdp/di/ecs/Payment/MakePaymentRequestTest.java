@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.philips.cdp.di.ecs.error.ECSErrorEnum.ECSorderIdNil;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -109,7 +111,7 @@ public class MakePaymentRequestTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertTrue(false);
+                assertEquals(ECSorderIdNil.toString(),ecsError.getErrorType());
                 //test failed
             }
         });

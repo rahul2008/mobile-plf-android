@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.philips.cdp.di.ecs.error.ECSErrorEnum.ECSInvalidAddressError;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -92,7 +94,7 @@ public class DeleteAddressTest {
     }
 
     @Test
-    public void addAddressSingleSuccess() {
+    public void deleteAddressSingleSuccess() {
         mockInputValidator.setJsonFileName("EmptyString.json");
         Addresses address = new Addresses();
         mockECSServices.deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
@@ -105,7 +107,7 @@ public class DeleteAddressTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertTrue(false);
+                assertEquals(ECSInvalidAddressError.toString(),ecsError.getErrorType());
             }
         });
 
@@ -113,7 +115,7 @@ public class DeleteAddressTest {
 
 
     @Test
-    public void addAddressSingleFailureInvalidBaseSite() {
+    public void deleteAddressSingleFailureInvalidBaseSite() {
         mockInputValidator.setJsonFileName("DeleteAddressFailureInvalidBaseSite.json");
         Addresses address = new Addresses();
         mockECSServices.deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
