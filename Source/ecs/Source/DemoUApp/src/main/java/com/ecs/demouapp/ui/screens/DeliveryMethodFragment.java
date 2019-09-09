@@ -15,8 +15,7 @@ import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.controller.AddressController;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSUtility;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 
 
@@ -29,7 +28,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     private RecyclerView mDeliveryRecyclerView;
     private AddressController mAddressController;
     private RelativeLayout mParentContainer;
-    List<DeliveryModes> mDeliveryModes;
+    List<ECSDeliveryMode> mDeliveryModes;
 
     public static DeliveryMethodFragment createInstance(final Bundle args, final AnimationType animType) {
         DeliveryMethodFragment fragment = new DeliveryMethodFragment();
@@ -76,7 +75,7 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
     public void onItemClick(int position) {
         createCustomProgressBar(mParentContainer, BIG);
 
-        mAddressController.setDeliveryMode(mDeliveryModes.get(position).getCode());
+        mAddressController.setDeliveryMode(mDeliveryModes.get(position));
 
     }
 
@@ -110,10 +109,8 @@ public class DeliveryMethodFragment extends InAppBaseFragment implements OnSetDe
         if ((msg.obj instanceof Exception)) {
             Exception exception =(Exception) msg.obj;
             ECSUtility.showECSAlertDialog(getActivity(),"Error",exception.getMessage());
-        } else if ((msg.obj instanceof GetDeliveryModes)) {
-            List<DeliveryModes> deliveryModeList;
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            deliveryModeList = deliveryModes.getDeliveryModes();
+        } else if ((msg.obj instanceof List )) {
+            List<ECSDeliveryMode> deliveryModeList =( List<ECSDeliveryMode>) msg.obj;
             mDeliveryModes = deliveryModeList;
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             settingDataToAdapter();

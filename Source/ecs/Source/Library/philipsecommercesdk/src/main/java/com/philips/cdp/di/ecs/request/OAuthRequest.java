@@ -13,6 +13,7 @@ import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
@@ -34,9 +35,12 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
     //For handling 307 - Temporary redirect
     public static final int HTTP_REDIRECT = 307;
 
-    public OAuthRequest(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
+    private GrantType grantType;
+
+    public OAuthRequest(GrantType grantType,ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
         this.ecsCallback = ecsListener;
         this.oAuthInput = oAuthInput;
+        this.grantType = grantType;
         oAuthID = oAuthInput.getOAuthID();
     }
 
@@ -46,10 +50,11 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
     *
     * */
     private Map getJanrainDetail(){
+
         Map map = new HashMap<String,String>();
         if(oAuthID !=null)
-        map.put(oAuthInput.getGrantType().getType(), oAuthID);
-        map.put("grant_type",oAuthInput.getGrantType().getType());
+        map.put(grantType.getType(), oAuthID);
+        map.put("grant_type",grantType.getType());
         map.put("client_id",oAuthInput.getClientID());
         map.put("client_secret",oAuthInput.getClientSecret());
         return  map;
@@ -72,7 +77,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
 
     @Override
     public String getURL() {
-        return  mRetryUrl!=null? mRetryUrl :new ECSURLBuilder().getOauthUrl(oAuthInput);
+        return  mRetryUrl!=null? mRetryUrl :new ECSURLBuilder().getOauthUrl(oAuthInput,grantType );
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class OrderDetail implements Parcelable{
     private Cost deliveryCost;
     private int deliveryItemsQuantity;
 
-    private DeliveryModes deliveryMode;
+    private ECSDeliveryMode deliveryMode;
     private String guid;
     private boolean net;
 
@@ -145,7 +145,7 @@ public class OrderDetail implements Parcelable{
         return deliveryItemsQuantity;
     }
 
-    public DeliveryModes getDeliveryMode() {
+    public ECSDeliveryMode getDeliveryMode() {
         return deliveryMode;
     }
 

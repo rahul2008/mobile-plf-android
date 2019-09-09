@@ -5,6 +5,7 @@
 package com.philips.cdp.di.ecs.store;
 
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.integration.GrantType;
 
 /**
  * Contains generic URL required to query from Server.
@@ -14,7 +15,7 @@ import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 public interface URLProvider {
 
     //OAuth
-    String getOauthUrl(ECSOAuthProvider oAuthInput);
+    String getOauthUrl(ECSOAuthProvider oAuthInput, GrantType grantType);
 
 
     void refreshLoginSession();

@@ -5,12 +5,13 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
@@ -27,7 +28,7 @@ import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
-import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ProductSummaryListServiceDiscoveryRequest;
@@ -117,7 +118,11 @@ public class ECSManager {
 
 
      void getOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsCallback) {
-        new OAuthRequest(oAuthInput, ecsCallback).executeRequest();
+        new OAuthRequest(GrantType.JANRAIN,oAuthInput, ecsCallback).executeRequest();
+    }
+
+    void refreshOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsCallback) {
+        new OAuthRequest(GrantType.REFRESH_TOKEN,oAuthInput, ecsCallback).executeRequest();
     }
 
     //========================================= Start of PRX Product List, Product Detail & Product for CTN =======================================
@@ -384,7 +389,7 @@ public class ECSManager {
                     //Preparing products to get summary Data
                     List<ECSProduct> productList = new ArrayList<>();
 
-                    for (EntriesEntity entriesEntity : ecsShoppingCart.getEntries()) {
+                    for (ECSEntries entriesEntity : ecsShoppingCart.getEntries()) {
                         productList.add(entriesEntity.getProduct());
                     }
                     ECSProducts products = new ECSProducts();
@@ -463,7 +468,7 @@ public class ECSManager {
         return new AddProductToECSShoppingCartRequest(code, ecsCallback);
     }
 
-     void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+     void updateQuantity(int quantity, ECSEntries entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
          ECSCallback<Boolean, Exception> ecsCallback1 = new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -478,12 +483,12 @@ public class ECSManager {
          updateECSShoppingCartQuantityRequestObject(ecsCallback1,entriesEntity,quantity).executeRequest();
     }
 
-    UpdateECSShoppingCartQuantityRequest updateECSShoppingCartQuantityRequestObject(ECSCallback<Boolean, Exception> ecsCallback,EntriesEntity entriesEntity,int quantity){
+    UpdateECSShoppingCartQuantityRequest updateECSShoppingCartQuantityRequestObject(ECSCallback<Boolean, Exception> ecsCallback, ECSEntries entriesEntity, int quantity){
         return new UpdateECSShoppingCartQuantityRequest (ecsCallback,entriesEntity,quantity);
     }
 
 
-     void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+     void setVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
          ECSCallback<Boolean, Exception> ecsCallback1= new  ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -499,14 +504,14 @@ public class ECSManager {
     }
 
 
-     void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+     void getVoucher(ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
          getVouchersRequestObject(ecsCallback).executeRequest();
     }
-    GetVouchersRequest getVouchersRequestObject(ECSCallback<GetAppliedValue, Exception> ecsCallback){
+    GetVouchersRequest getVouchersRequestObject(ECSCallback<List<ECSVoucher>, Exception> ecsCallback){
         return new GetVouchersRequest(ecsCallback);
     }
 
-     void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+     void removeVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
 
         new RemoveVoucherRequest(voucherCode, new ECSCallback<Boolean, Exception>() {
             @Override
@@ -524,7 +529,7 @@ public class ECSManager {
 
 
     //===================================================== start of Delivery Mode ====================================================
-     void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+     void getDeliveryModes(ECSCallback<List<ECSDeliveryMode>, Exception> ecsCallback) {
         new GetDeliveryModesRequest(ecsCallback).executeRequest();
     }
 
@@ -742,7 +747,7 @@ public class ECSManager {
     }
 
     public void refreshAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
-        new OAuthRequest(oAuthInput,ecsListener).executeRequest();
+        new OAuthRequest(GrantType.REFRESH_TOKEN,oAuthInput,ecsListener).executeRequest();
     }
 }
 

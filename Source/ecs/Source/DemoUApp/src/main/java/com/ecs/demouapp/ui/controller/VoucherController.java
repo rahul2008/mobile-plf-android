@@ -8,7 +8,10 @@ import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
+
+import java.util.List;
 
 
 public class VoucherController {
@@ -30,9 +33,9 @@ public class VoucherController {
 
     public void applyCoupon(String voucherId) {
 
-        ECSUtility.getInstance().getEcsServices().setVoucher(voucherId, new ECSCallback<GetAppliedValue, Exception>() {
+        ECSUtility.getInstance().getEcsServices().applyVoucher(voucherId, new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 Message message = new Message();
                 message.obj = result;
 
@@ -52,9 +55,9 @@ public class VoucherController {
 
     public void getAppliedVoucherCode() {
 
-        ECSUtility.getInstance().getEcsServices().getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchAppliedVouchers(new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
 
                 Message message = new Message();
                 message.obj = result;
@@ -75,9 +78,9 @@ public class VoucherController {
 
     public void getDeleteVoucher(String voucherCode){
 
-        ECSUtility.getInstance().getEcsServices().removeVoucher(voucherCode, new ECSCallback<GetAppliedValue, Exception>() {
+        ECSUtility.getInstance().getEcsServices().removeVoucher(voucherCode, new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 Message message = new Message();
                 message.obj = result;
 

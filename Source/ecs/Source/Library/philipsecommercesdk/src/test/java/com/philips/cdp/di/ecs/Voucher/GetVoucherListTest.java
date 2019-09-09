@@ -7,12 +7,11 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.MockInputValidator;
-import com.philips.cdp.di.ecs.Payment.MockGetPaymentsRequest;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -29,6 +28,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -37,7 +37,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetVoucherListTest {
@@ -57,7 +57,7 @@ public class GetVoucherListTest {
 
     MockGetVouchersRequest mockGetVouchersRequest;
 
-    ECSCallback<GetAppliedValue, Exception> ecsCallback;
+    ECSCallback<List<ECSVoucher>, Exception> ecsCallback;
     private MockInputValidator mockInputValidator;
 
 
@@ -76,10 +76,10 @@ public class GetVoucherListTest {
         StaticBlock.initialize();
 
         mockInputValidator = new MockInputValidator();
-        ecsCallback = new ECSCallback<GetAppliedValue, Exception> () {
+        ecsCallback = new ECSCallback<List<ECSVoucher>, Exception> () {
 
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
 
             }
 
@@ -96,12 +96,12 @@ public class GetVoucherListTest {
     @Test
     public void getAppliedVoucherListSuccess() {
         mockInputValidator.setJsonFileName("GetVoucherSuccess.json");
-        mockECSServices.getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
+        mockECSServices.fetchAppliedVouchers(new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 assertNotNull(result);
-                assertNotNull(result.getVouchers().get(0).getCode());
-                assertNotNull(result.getVouchers().get(0).getValue());
+                assertNotNull(result.get(0).getCode());
+                assertNotNull(result.get(0).getValue());
                 //  test case passed
             }
 
@@ -117,9 +117,9 @@ public class GetVoucherListTest {
     @Test
     public void getAppliedVoucherListSuccessWithNoVoucher() {
         mockInputValidator.setJsonFileName("EmptyJson.json");// {}
-        mockECSServices.getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
+        mockECSServices.fetchAppliedVouchers(new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 assertTrue(true);
                 //  test case failed
             }
@@ -137,9 +137,9 @@ public class GetVoucherListTest {
     @Test
     public void getAppliedVoucherListFailure() {
         mockInputValidator.setJsonFileName("EmptyString.json");
-        mockECSServices.getVoucher(new ECSCallback<GetAppliedValue, Exception>() {
+        mockECSServices.fetchAppliedVouchers(new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 assertTrue(false);
                 //  test case failed
             }
@@ -186,7 +186,7 @@ public class GetVoucherListTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<GetAppliedValue, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSVoucher>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetVouchersRequest = new MockGetVouchersRequest("GetVoucherSuccess.json",spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetVouchersRequest.onErrorResponse(volleyError);
@@ -197,14 +197,14 @@ public class GetVoucherListTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<GetAppliedValue, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSVoucher>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetVouchersRequest = new MockGetVouchersRequest("GetVoucherSuccess.json",spy1);
 
         JSONObject jsonObject = getJsonObject("GetVoucherSuccess.json");
 
         mockGetVouchersRequest.onResponse(jsonObject);
 
-        Mockito.verify(spy1).onResponse(any(GetAppliedValue.class));
+        Mockito.verify(spy1).onResponse(anyList());
 
     }
 

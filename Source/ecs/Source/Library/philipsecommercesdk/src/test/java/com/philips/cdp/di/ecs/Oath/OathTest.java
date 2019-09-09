@@ -12,6 +12,7 @@ import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -97,7 +98,7 @@ public class OathTest {
             }
         };
 
-        mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json",oAuthInput,ecsCallback);
+        mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json",GrantType.JANRAIN,oAuthInput,ecsCallback);
 
     }
 
@@ -138,7 +139,7 @@ public class OathTest {
                 return "mock Jainrain ID";
             }
         };
-        mockECSServices.refreshAuth(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
+        mockECSServices.hybrisRefreshOAuth(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
             @Override
             public void onResponse(ECSOAuthData result) {
                 assertNotNull(result);
@@ -254,7 +255,7 @@ public class OathTest {
 
         Map<String, String> expectedMap = new HashMap<String, String>();
         expectedMap.put("janrain","mock Jainrain ID");
-        expectedMap.put("grant_type",oAuthInput.getGrantType().getType());
+        expectedMap.put("grant_type",GrantType.JANRAIN.getType());
         expectedMap.put("client_id",oAuthInput.getClientID());
         expectedMap.put("client_secret",oAuthInput.getClientSecret());
 
@@ -266,7 +267,7 @@ public class OathTest {
     @Test
     public void verifyOnResponseError() {
         ECSCallback<ECSOAuthData, Exception> spy1 = Mockito.spy(ecsCallback);
-        mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json",oAuthInput,spy1);
+        mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json", GrantType.JANRAIN,oAuthInput,spy1);
         VolleyError volleyError = new NoConnectionError();
         mockOAuthRequest.onErrorResponse(volleyError);
         Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
@@ -277,7 +278,7 @@ public class OathTest {
     public void verifyOnResponseSuccess() {
 
         ECSCallback<ECSOAuthData, Exception> spy1 = Mockito.spy(ecsCallback);
-        mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json",oAuthInput,spy1);
+        mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json",GrantType.JANRAIN,oAuthInput,spy1);
 
         JSONObject jsonObject = getJsonObject("HybrisOauthSuccess.json");
 

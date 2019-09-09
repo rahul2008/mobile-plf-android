@@ -40,13 +40,12 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 
 
@@ -71,7 +70,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private ShoppingCartAPI mShoppingCartAPI;
     private ECSShoppingCart ecsShoppingCart ;
     private List<Addresses> mAddresses = new ArrayList<>();
-    private DeliveryModes mSelectedDeliveryMode;
+    private ECSDeliveryMode mSelectedDeliveryMode;
     private TextView mNumberOfProducts;
     private String voucherCode;
     VoucherController mVoucherController;
@@ -253,7 +252,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     }
 
     void startProductDetailFragment(ShoppingCartAdapter mAdapter) {
-        EntriesEntity theProductDataForDisplayingInProductDetailPage = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
+        ECSEntries theProductDataForDisplayingInProductDetailPage = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
         bundle.putString(ECSConstant.PRODUCT_TITLE, theProductDataForDisplayingInProductDetailPage.getProduct().getName());
         bundle.putString(ECSConstant.PRODUCT_CTN, theProductDataForDisplayingInProductDetailPage.getProduct().getCode());
@@ -393,7 +392,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             mNumberOfProducts.setText(numberOfProducts);
             mNumberOfProducts.setVisibility(View.VISIBLE);
         }else {
-            mAddressController.getDeliveryModes();
+            mAddressController.fetchDeliveryModes();
         }
         if(voucherCode!=null) {
 
@@ -434,10 +433,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
         if ((msg.obj instanceof Exception)) {
             updateCartDetails(mShoppingCartAPI);
-        }else if ((msg.obj instanceof GetDeliveryModes)) {
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
-            mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+        }else if((msg.obj instanceof List )) {
+            List<ECSDeliveryMode> deliveryModeList =( List<ECSDeliveryMode>) msg.obj;
+            mAddressController.setDeliveryMode(deliveryModeList.get(0));
             //TODO
             //CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             handleDeliveryMode(msg,mAddressController);
@@ -465,11 +463,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
     @Override
     public void onItemClick(int position) {
         //TODO
-        final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+        final List<ECSDeliveryMode> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         mSelectedDeliveryMode = deliveryModes.get(position);
 
         createCustomProgressBar(mParentLayout,BIG);
-        mAddressController.setDeliveryMode(deliveryModes.get(position).getCode());
+        mAddressController.setDeliveryMode(deliveryModes.get(position));
     }
 
     @Override

@@ -18,11 +18,11 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetUser;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 
@@ -69,7 +69,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     @Override
-    public void deleteProduct(EntriesEntity entriesEntity) {
+    public void deleteProduct(ECSEntries entriesEntity) {
         ECSUtility.getInstance().getEcsServices().updateQuantity(0, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
@@ -87,7 +87,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     @Override
-    public void updateProductQuantity(EntriesEntity entriesEntity, int count) {
+    public void updateProductQuantity(ECSEntries entriesEntity, int count) {
 
         ECSUtility.getInstance().getEcsServices().updateQuantity(count, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
@@ -236,12 +236,11 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
         }else if(msg.obj instanceof Exception){
             Exception exception = (Exception) msg.obj;
             ECSUtility.showECSAlertDialog(mContext,"Error",exception);
-        } if ((msg.obj instanceof GetDeliveryModes)) {
-            final GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            final List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+        } if ((msg.obj instanceof List )) {
+            List<ECSDeliveryMode> deliveryModeList =( List<ECSDeliveryMode>) msg.obj;
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             if (deliveryModeList.size() > 0) {
-                mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+                mAddressController.setDeliveryMode(deliveryModeList.get(0));
             }
         }
     }

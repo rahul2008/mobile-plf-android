@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.model.cart.AppliedOrderPromotionEntity;
 import com.philips.cdp.di.ecs.model.cart.AppliedVoucherEntity;
 import com.philips.cdp.di.ecs.model.cart.DeliveryAddressEntity;
 import com.philips.cdp.di.ecs.model.cart.DeliveryModeEntity;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ShoppingCartData implements Serializable {
 
 
     private static final long serialVersionUID = -4398831597666931802L;
-    private EntriesEntity mEntry;
+    private ECSEntries mEntry;
     private DeliveryModeEntity mDeliveryModeEntity;
     private DeliveryAddressEntity mDeliveryAddressEntity;
     private List<AppliedVoucherEntity> appliedVouchers;
@@ -113,7 +113,7 @@ public class ShoppingCartData implements Serializable {
         this.mDeliveryAddressEntity = mDeliveryAddressEntity;
     }
 
-    public ShoppingCartData(EntriesEntity entry, DeliveryModeEntity deliveryCost) {
+    public ShoppingCartData(ECSEntries entry, DeliveryModeEntity deliveryCost) {
         mEntry = entry;
         mDeliveryModeEntity = deliveryCost;
     }

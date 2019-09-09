@@ -42,13 +42,12 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
@@ -74,7 +73,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     private AddressController mAddressController;
     private ShoppingCartAPI mShoppingCartAPI;
     private List<Addresses> mAddresses = new ArrayList<>();
-    private DeliveryModes mSelectedDeliveryMode;
+    private ECSDeliveryMode mSelectedDeliveryMode;
     private TextView mNumberOfProducts;
     private PaymentMethod mPaymentMethod;
     Bundle bundle;
@@ -145,8 +144,8 @@ public class OrderSummaryFragment extends InAppBaseFragment
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
-        //    mAddressController.setDeliveryMode(CartModelContainer.getInstance().getDeliveryModes().get(0).getCode());
-        // mAddressController.getDeliveryModes();
+        //    mAddressController.setDeliveryMode(CartModelContainer.getInstance().fetchDeliveryModes().get(0).getCode());
+        // mAddressController.fetchDeliveryModes();
         mNumberOfProducts = rootView.findViewById(R.id.number_of_products);
     }
 
@@ -267,7 +266,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
     }
 
     private void startProductDetailFragment() {
-        EntriesEntity shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
+        ECSEntries shoppingCartData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
         bundle.putString(ECSConstant.PRODUCT_TITLE, shoppingCartData.getProduct().getSummary().getProductTitle());
         bundle.putString(ECSConstant.PRODUCT_CTN, shoppingCartData.getProduct().getCode());
@@ -386,11 +385,10 @@ public class OrderSummaryFragment extends InAppBaseFragment
         } else if ((msg.obj instanceof Exception)) {
             Exception exception = (Exception) msg.obj;
             ECSUtility.showECSAlertDialog(mContext,"Error",exception.getMessage());
-        } else if ((msg.obj instanceof GetDeliveryModes)) {
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+        } else if((msg.obj instanceof List )) {
+            List<ECSDeliveryMode> deliveryModeList =( List<ECSDeliveryMode>) msg.obj;
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-            mAddressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+            mAddressController.setDeliveryMode(deliveryModeList.get(0));
             updateCartDetails(mShoppingCartAPI);
         }
     }
@@ -439,7 +437,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
 
     @Override
     public void onItemClick(int position) {
-        final List<DeliveryModes> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
+        final List<ECSDeliveryMode> deliveryModes = CartModelContainer.getInstance().getDeliveryModes();
         createCustomProgressBar(mParentLayout, BIG);
         updateCartDetails(mShoppingCartAPI);
     }

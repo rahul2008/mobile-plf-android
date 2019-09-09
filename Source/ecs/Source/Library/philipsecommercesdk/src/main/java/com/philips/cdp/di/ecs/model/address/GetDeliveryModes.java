@@ -8,13 +8,13 @@ import java.util.List;
 
 public class GetDeliveryModes {
 
-    private List<DeliveryModes> deliveryModes;
+    private List<ECSDeliveryMode> deliveryModes;
 
-    public void setDeliveryModes(List<DeliveryModes> deliveryModes) {
+    public void setDeliveryModes(List<ECSDeliveryMode> deliveryModes) {
         this.deliveryModes = deliveryModes;
     }
 
-    public List<DeliveryModes> getDeliveryModes() {
+    public List<ECSDeliveryMode> getDeliveryModes() {
         return deliveryModes;
     }
 }

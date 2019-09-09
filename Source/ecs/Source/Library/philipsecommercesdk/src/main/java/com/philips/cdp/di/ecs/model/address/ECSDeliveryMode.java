@@ -7,7 +7,7 @@ package com.philips.cdp.di.ecs.model.address;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DeliveryModes implements Parcelable {
+public class ECSDeliveryMode implements Parcelable {
     private String code;
     private DeliveryCost deliveryCost;
     private String description;
@@ -24,11 +24,11 @@ public class DeliveryModes implements Parcelable {
     private boolean isSelected;
 
     //Added to write test cases
-    public DeliveryModes(){
+    public ECSDeliveryMode(){
 
     }
 
-    protected DeliveryModes(Parcel in) {
+    protected ECSDeliveryMode(Parcel in) {
         code = in.readString();
         description = in.readString();
         name = in.readString();
@@ -46,15 +46,15 @@ public class DeliveryModes implements Parcelable {
         return 0;
     }
 
-    public static final Creator<DeliveryModes> CREATOR = new Creator<DeliveryModes>() {
+    public static final Creator<ECSDeliveryMode> CREATOR = new Creator<ECSDeliveryMode>() {
         @Override
-        public DeliveryModes createFromParcel(Parcel in) {
-            return new DeliveryModes(in);
+        public ECSDeliveryMode createFromParcel(Parcel in) {
+            return new ECSDeliveryMode(in);
         }
 
         @Override
-        public DeliveryModes[] newArray(int size) {
-            return new DeliveryModes[size];
+        public ECSDeliveryMode[] newArray(int size) {
+            return new ECSDeliveryMode[size];
         }
     };
 

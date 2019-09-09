@@ -9,10 +9,6 @@ public abstract class ECSOAuthProvider {
 
      public abstract String getOAuthID();
 
-     GrantType getGrantType(){
-          return GrantType.JANRAIN;
-     }
-
      public String getClientID(){
           return CLIENT_ID;
      }

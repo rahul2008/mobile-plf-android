@@ -8,7 +8,7 @@ import android.view.View;
 import com.ecs.demouapp.ui.integration.ECSOrderFlowCompletion;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.products.PaginationEntity;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
@@ -130,7 +130,7 @@ public class ECSUtility {
         int totalItems = carts.getTotalItems();
         int quantity = 0;
         if (carts.getEntries() != null) {
-            List<EntriesEntity> entries = carts.getEntries();
+            List<ECSEntries> entries = carts.getEntries();
             if (totalItems != 0 && null != entries) {
                 for (int i = 0; i < entries.size(); i++) {
                     quantity = quantity + entries.get(i).getQuantity();

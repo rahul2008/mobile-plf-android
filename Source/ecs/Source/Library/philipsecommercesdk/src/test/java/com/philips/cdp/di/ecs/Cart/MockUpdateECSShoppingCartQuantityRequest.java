@@ -3,14 +3,14 @@ package com.philips.cdp.di.ecs.Cart;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.request.UpdateECSShoppingCartQuantityRequest;
 
 import java.io.InputStream;
 
 public class MockUpdateECSShoppingCartQuantityRequest extends UpdateECSShoppingCartQuantityRequest
 {  String jsonfileName;
-    public MockUpdateECSShoppingCartQuantityRequest(String jsonFileName, ECSCallback<Boolean, Exception> ecsCallback, EntriesEntity entriesEntity, int quantity) {
+    public MockUpdateECSShoppingCartQuantityRequest(String jsonFileName, ECSCallback<Boolean, Exception> ecsCallback, ECSEntries entriesEntity, int quantity) {
         super(ecsCallback, entriesEntity, quantity);
         this.jsonfileName=jsonFileName;
     }

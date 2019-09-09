@@ -10,13 +10,13 @@ public class DeliveryOrderGroupsEntity {
 
     private TotalPriceWithTaxEntity totalPriceWithTax;
 
-    private List<EntriesEntity> entries;
+    private List<ECSEntries> entries;
 
     public TotalPriceWithTaxEntity getTotalPriceWithTax() {
         return totalPriceWithTax;
     }
 
-    public List<EntriesEntity> getEntries() {
+    public List<ECSEntries> getEntries() {
         return entries;
     }
 }

@@ -16,17 +16,17 @@ import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.container.CartModelContainer;
 import com.ecs.demouapp.ui.screens.OnSetDeliveryModeListener;
 import com.philips.cdp.di.ecs.model.address.DeliveryCost;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 
 import java.util.List;
 
 
 public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapter.DeliverySelectionHolder> {
 
-    private List<DeliveryModes> mModes;
+    private List<ECSDeliveryMode> mModes;
     private OnSetDeliveryModeListener mListener;
 
-    public DeliveryModeAdapter(final List<DeliveryModes> modes,
+    public DeliveryModeAdapter(final List<ECSDeliveryMode> modes,
                                OnSetDeliveryModeListener listener) {
         mModes = modes;
         mListener = listener;
@@ -41,7 +41,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     @Override
     public void onBindViewHolder(final DeliverySelectionHolder holder, int position) {
 
-        DeliveryModes modes = mModes.get(position);
+        ECSDeliveryMode modes = mModes.get(position);
         if (modes.getName() != null && !modes.getName().equals(""))
             holder.deliveryModeName.setText(modes.getName());
         holder.deliveryModeDescription.setText(modes.getDescription());
@@ -79,7 +79,7 @@ public class DeliveryModeAdapter extends RecyclerView.Adapter<DeliveryModeAdapte
     }
 
     private void markDeliveryModeSelected(RecyclerView.ViewHolder holder) {
-        DeliveryModes selectedDeliveryMode = mModes.get(holder.getAdapterPosition());
+        ECSDeliveryMode selectedDeliveryMode = mModes.get(holder.getAdapterPosition());
         selectedDeliveryMode.setSelected(true);
 
         for (int i = 0; i < mModes.size(); i++) {

@@ -6,10 +6,10 @@ import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.order.Orders;
@@ -22,7 +22,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
-import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
 import java.util.List;
 
@@ -126,7 +126,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void updateQuantity(int quantity, ECSEntries entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getUpdateQuantityError(quantity);
         if (ecsErrorWrapper == null) {
@@ -136,7 +136,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void setVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getSetVoucherError(voucherCode);
         if (ecsErrorWrapper == null) {
@@ -147,7 +147,7 @@ public class ECSCallValidator {
 
     }
 
-    public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void getVoucher(ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getVoucherError();
         if (ecsErrorWrapper == null) {
@@ -157,7 +157,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void removeVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getRemoveVoucherError(voucherCode);
         if (ecsErrorWrapper == null) {
@@ -167,7 +167,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+    public void getDeliveryModes(ECSCallback<List<ECSDeliveryMode>, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getDeliveryModesError();
         if (ecsErrorWrapper == null) {

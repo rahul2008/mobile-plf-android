@@ -29,12 +29,13 @@ import com.philips.cdp.di.ecs.DeliveryMode.MockSetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
@@ -48,6 +49,7 @@ import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderDetailRequest;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderHistoryRequest;
@@ -59,6 +61,8 @@ import com.philips.cdp.di.ecs.request.GetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.request.GetVouchersRequest;
 import com.philips.cdp.di.ecs.retailer.MockGetRetailersInfoRequest;
 import com.philips.cdp.di.ecs.userProfile.MockGetUserProfileRequest;
+
+import java.util.List;
 
 public class MockECSManager extends ECSManager {
 
@@ -98,7 +102,7 @@ public class MockECSManager extends ECSManager {
     @Override
     public void getOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsCallback) {
 
-        MockOAuthRequest mockOAuthRequest = new MockOAuthRequest(getJsonFileNameMockECSManager(),oAuthInput,ecsCallback);
+        MockOAuthRequest mockOAuthRequest = new MockOAuthRequest(getJsonFileNameMockECSManager(), GrantType.JANRAIN,oAuthInput,ecsCallback);
         mockOAuthRequest.executeRequest();
     }
 
@@ -236,7 +240,7 @@ public class MockECSManager extends ECSManager {
 
 
     @Override
-    public void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void updateQuantity(int quantity, ECSEntries entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         new MockUpdateECSShoppingCartQuantityRequest(getJsonFileNameMockECSManager(), new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -253,12 +257,12 @@ public class MockECSManager extends ECSManager {
 
 
     @Override
-    GetVouchersRequest getVouchersRequestObject(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    GetVouchersRequest getVouchersRequestObject(ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         return new MockGetVouchersRequest(getJsonFileNameMockECSManager(),ecsCallback);
     }
 
      @Override
-    public void setVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void setVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         new MockSetVoucherRequest(getJsonFileNameMockECSManager(),voucherCode, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -276,7 +280,7 @@ public class MockECSManager extends ECSManager {
 
 
     @Override
-    public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void removeVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         new MockRemoveVoucherRequest(getJsonFileNameMockECSManager(),voucherCode, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -398,7 +402,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+    public void getDeliveryModes(ECSCallback<List<ECSDeliveryMode>, Exception> ecsCallback) {
         new MockDeliveryModesRequest(ecsCallback,getJsonFileNameMockECSManager()).executeRequest();
     }
 

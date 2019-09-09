@@ -17,6 +17,7 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.Country;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.address.Region;
@@ -25,6 +26,7 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class AddressController {
@@ -247,9 +249,9 @@ public class AddressController {
 
     public void getDeliveryModes() {
 
-        ECSUtility.getInstance().getEcsServices().getDeliveryModes(new ECSCallback<GetDeliveryModes, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchDeliveryModes(new ECSCallback<List<ECSDeliveryMode>, Exception>() {
             @Override
-            public void onResponse(GetDeliveryModes result) {
+            public void onResponse(List<ECSDeliveryMode> result) {
                 Message message = new Message();
                 message.obj = result;
                 mAddressListener.onGetDeliveryModes(message);
@@ -266,7 +268,7 @@ public class AddressController {
         getHybrisDelegate().sendRequest(RequestCode.GET_DELIVERY_MODE, model, model);*/
     }
 
-    public void setDeliveryMode(String deliveryMode) {
+    public void setDeliveryMode(ECSDeliveryMode deliveryMode) {
 
         ECSUtility.getInstance().getEcsServices().setDeliveryMode(deliveryMode, new ECSCallback<Boolean, Exception>() {
             @Override

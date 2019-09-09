@@ -4,11 +4,10 @@ package com.philips.cdp.di.ecs.integration;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
@@ -21,7 +20,7 @@ import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
-import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
 import java.util.List;
 
@@ -80,18 +79,18 @@ public interface ECSServiceProvider {
 
     void addProductToShoppingCart(ECSProduct product, ECSCallback<ECSShoppingCart, Exception> ecsCallback);
 
-    void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) ;
+    void updateQuantity(int quantity, ECSEntries entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) ;
 
     //voucher
-    void setVoucher(String voucherCode, ECSCallback<GetAppliedValue,Exception> ecsCallback);
+    void applyVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback);
 
-    void getVoucher(ECSCallback<GetAppliedValue,Exception> ecsCallback);
+    void fetchAppliedVouchers(ECSCallback<List<ECSVoucher>, Exception> ecsCallback);
 
-    void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue,Exception> ecsCallback);
+    void removeVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback);
 
-    void getDeliveryModes(ECSCallback<GetDeliveryModes,Exception> ecsCallback);
+    void fetchDeliveryModes(ECSCallback<List<ECSDeliveryMode>, Exception> ecsCallback);
 
-    void setDeliveryMode(DeliveryModes deliveryModes, ECSCallback<Boolean, Exception> ecsCallback);
+    void setDeliveryMode(ECSDeliveryMode deliveryModes, ECSCallback<Boolean, Exception> ecsCallback);
 
     void getRegions(ECSCallback<RegionsList, Exception> ecsCallback);
 
@@ -131,7 +130,7 @@ public interface ECSServiceProvider {
 
     void getUserProfile(ECSCallback<UserProfile,Exception> ecsCallback);
 
-    void refreshAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener);
+    void hybrisRefreshOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener);
 
     void setPropositionID(@NonNull String propositionID);
 

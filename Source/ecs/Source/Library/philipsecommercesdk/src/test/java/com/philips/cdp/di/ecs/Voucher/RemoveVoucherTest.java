@@ -14,6 +14,7 @@ import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -30,6 +31,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -94,9 +96,9 @@ public class RemoveVoucherTest {
     @Test
     public void removeVoucherSuccess() {
         mockInputValidator.setJsonFileName("EmptyString.json"); // empty string is success response of Apply voucher
-        mockECSServices.removeVoucher("voucherCode",new ECSCallback<GetAppliedValue, Exception>() {
+        mockECSServices.removeVoucher("voucherCode",new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 assertNotNull(result);
              //  test case passed
             }
@@ -113,9 +115,9 @@ public class RemoveVoucherTest {
     @Test
     public void removeVoucherFailure() {
         mockInputValidator.setJsonFileName("ApplyVoucherFailure.json"); // empty string is success response of Apply voucher
-        mockECSServices.removeVoucher("voucherCode",new ECSCallback<GetAppliedValue, Exception>() {
+        mockECSServices.removeVoucher("voucherCode",new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 assertTrue(true);
                 //  test case failed
             }

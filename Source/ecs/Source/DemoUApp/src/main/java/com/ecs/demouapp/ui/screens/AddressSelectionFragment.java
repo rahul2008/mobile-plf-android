@@ -36,9 +36,8 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
@@ -66,7 +65,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
 
-    private DeliveryModes mDeliveryMode;
+    private ECSDeliveryMode mDeliveryMode;
 
 
     @SuppressWarnings("unchecked")

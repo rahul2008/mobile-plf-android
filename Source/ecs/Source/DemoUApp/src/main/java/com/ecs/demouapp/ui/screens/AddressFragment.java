@@ -26,7 +26,7 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.uid.view.widget.CheckBox;
 
@@ -386,9 +386,9 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
     }
 
     @Override
-    public DeliveryModes getDeliveryModes() {
+    public ECSDeliveryMode getDeliveryModes() {
         Bundle bundle = getArguments();
-        DeliveryModes deliveryModes = bundle.getParcelable(ECSConstant.SET_DELIVERY_MODE);
+        ECSDeliveryMode deliveryModes = bundle.getParcelable(ECSConstant.SET_DELIVERY_MODE);
         return deliveryModes;
     }
 

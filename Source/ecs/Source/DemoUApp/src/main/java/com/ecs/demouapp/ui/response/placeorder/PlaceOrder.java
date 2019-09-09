@@ -4,7 +4,7 @@ import com.philips.cdp.di.ecs.model.cart.DeliveryAddressEntity;
 import com.philips.cdp.di.ecs.model.cart.DeliveryCostEntity;
 import com.philips.cdp.di.ecs.model.cart.DeliveryModeEntity;
 import com.philips.cdp.di.ecs.model.cart.DeliveryOrderGroupsEntity;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.cart.OrderDiscountsEntity;
 import com.philips.cdp.di.ecs.model.cart.ProductDiscountsEntity;
 import com.philips.cdp.di.ecs.model.cart.SubTotalEntity;
@@ -61,7 +61,7 @@ public class PlaceOrder {
 
     private List<DeliveryOrderGroupsEntity> deliveryOrderGroups;
 
-    private List<EntriesEntity> entries;
+    private List<ECSEntries> entries;
 
     private List<UnconsignedEntriesEntity> unconsignedEntries;
 
@@ -167,7 +167,7 @@ public class PlaceOrder {
         return deliveryOrderGroups;
     }
 
-    public List<EntriesEntity> getEntries() {
+    public List<ECSEntries> getEntries() {
         return entries;
     }
 

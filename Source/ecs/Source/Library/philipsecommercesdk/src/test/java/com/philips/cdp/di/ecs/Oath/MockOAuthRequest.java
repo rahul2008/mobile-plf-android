@@ -4,6 +4,7 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
 
@@ -15,8 +16,8 @@ import java.io.InputStream;
 public class MockOAuthRequest extends OAuthRequest {
     String jsonFile;
 
-    public MockOAuthRequest(String jsonFile, ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
-        super(oAuthInput, ecsListener);
+    public MockOAuthRequest(String jsonFile, GrantType grantType, ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
+        super(grantType,oAuthInput, ecsListener);
         this.jsonFile=jsonFile;
     }
 

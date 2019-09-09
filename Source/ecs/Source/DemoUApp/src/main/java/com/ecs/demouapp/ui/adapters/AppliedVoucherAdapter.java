@@ -19,7 +19,7 @@ import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
-import com.philips.cdp.di.ecs.model.voucher.Vouchers;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
@@ -32,7 +32,7 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int TYPE_FOOTER = 2;
     private Context mContext;
     private Resources mResources;
-    private List<Vouchers> mData = new ArrayList<>();
+    private List<ECSVoucher> mData = new ArrayList<>();
     private OutOfStockListener mOutOfStock;
     private UIPicker mPopupWindow;
     private GetAppliedValue shoppingCartDataForProductDetailPage;
@@ -47,7 +47,7 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         void onOutOfStock(boolean isOutOfStock);
     }
 
-    public AppliedVoucherAdapter(Context context, List<Vouchers> vouchers) {
+    public AppliedVoucherAdapter(Context context, List<ECSVoucher> vouchers) {
         mContext = context;
         mResources = context.getResources();
         mData = vouchers;
@@ -81,7 +81,7 @@ public class AppliedVoucherAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             return;
         }
 
-            final Vouchers vouchers = mData.get(holder.getAdapterPosition());
+            final ECSVoucher vouchers = mData.get(holder.getAdapterPosition());
 
             AppliedVoucherViewHolder appliedVoucherViewHolder = (AppliedVoucherViewHolder) holder;
             appliedVoucherViewHolder.mIapVoucherItemLabel.setText(R.string.iap_voucher_code );

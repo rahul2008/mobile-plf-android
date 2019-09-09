@@ -10,7 +10,7 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class EntriesEntity implements Serializable{
+public class ECSEntries implements Serializable{
 
 
     private static final long serialVersionUID = 9115373408948680734L;

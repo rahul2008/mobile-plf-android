@@ -61,7 +61,7 @@ public class ECSShoppingCart {
         this.appliedOrderPromotions = appliedOrderPromotions;
     }
 
-    private List<EntriesEntity> entries;
+    private List<ECSEntries> entries;
 
     public boolean isCalculated() {
         return calculated;
@@ -147,7 +147,7 @@ public class ECSShoppingCart {
         return deliveryOrderGroups;
     }
 
-    public List<EntriesEntity> getEntries() {
+    public List<ECSEntries> getEntries() {
         return entries;
     }
 }

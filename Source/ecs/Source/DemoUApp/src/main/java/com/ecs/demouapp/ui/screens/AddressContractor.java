@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 
 
 
@@ -51,7 +51,7 @@ public interface AddressContractor extends AddressFieldDecider{
 
     void showErrorMessage(Message msg);
 
-    DeliveryModes getDeliveryModes();
+    ECSDeliveryMode getDeliveryModes();
 
     void addOrderSummaryFragment();
 

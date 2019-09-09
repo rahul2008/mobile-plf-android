@@ -2,7 +2,7 @@ package com.philips.cdp.di.ecs.model.voucher;
 
 import java.io.Serializable;
 
-public class Vouchers implements Serializable {
+public class ECSVoucher implements Serializable {
 
     private static final long serialVersionUID = -7277844355281972422L;
     private String code;

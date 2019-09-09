@@ -10,6 +10,7 @@ import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -23,6 +24,7 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -31,7 +33,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class SetVoucherTest {
@@ -91,12 +92,12 @@ public class SetVoucherTest {
 
 
         mockInputValidator.setJsonFileName("EmptyString.json"); // empty string is success response of Apply voucher
-        mockECSServices.setVoucher("voucherCode",new ECSCallback<GetAppliedValue, Exception>() {
+        mockECSServices.applyVoucher("voucherCode",new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 assertNotNull(result);
-                assertNotNull(result.getVouchers().get(0).getCode());
-                assertNotNull(result.getVouchers().get(0).getValue());
+                assertNotNull(result.get(0).getCode());
+                assertNotNull(result.get(0).getValue());
                 //  test case passed
             }
 
@@ -112,9 +113,9 @@ public class SetVoucherTest {
     @Test
     public void setVoucherFailure() {
         mockInputValidator.setJsonFileName("ApplyVoucherFailure.json"); // empty string is success response of Apply voucher
-        mockECSServices.setVoucher("voucherCode",new ECSCallback<GetAppliedValue, Exception>() {
+        mockECSServices.applyVoucher("voucherCode",new ECSCallback<List<ECSVoucher>, Exception>() {
             @Override
-            public void onResponse(GetAppliedValue result) {
+            public void onResponse(List<ECSVoucher> result) {
                 assertTrue(true);
                 //  test case failed
             }

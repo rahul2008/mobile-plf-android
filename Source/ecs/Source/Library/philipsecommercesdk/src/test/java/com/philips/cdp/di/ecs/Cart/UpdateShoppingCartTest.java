@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -53,7 +53,7 @@ public class UpdateShoppingCartTest {
 
     ECSCallback<Boolean, Exception> ecsCallback;
 
-    EntriesEntity entriesEntity;
+    ECSEntries entriesEntity;
     private MockInputValidator mockInputValidator;
 
     @Before
@@ -83,7 +83,7 @@ public class UpdateShoppingCartTest {
             }
         };
 
-         entriesEntity = new EntriesEntity();
+         entriesEntity = new ECSEntries();
         entriesEntity.setEntryNumber(123456);
          ECSProduct product = new ECSProduct();
          product.setCode("1234");
@@ -98,7 +98,7 @@ public class UpdateShoppingCartTest {
         final int quantity= 2;
         mockInputValidator.setJsonFileName("UpdateShoppingCartSuccess.json");
 
-        EntriesEntity entriesEntity = new EntriesEntity();
+        ECSEntries entriesEntity = new ECSEntries();
         mockECSServices.updateQuantity(quantity, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {

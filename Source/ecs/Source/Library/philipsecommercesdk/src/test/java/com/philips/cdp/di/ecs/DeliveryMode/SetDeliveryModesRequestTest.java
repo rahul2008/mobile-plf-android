@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -29,7 +29,6 @@ import java.util.Map;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class SetDeliveryModesRequestTest {
@@ -86,7 +85,7 @@ public class SetDeliveryModesRequestTest {
     public void setDeliveryModeSuccess() {
 
         mockInputValidator.setJsonFileName("EmptyString.json");
-        DeliveryModes deliveryModes = new DeliveryModes();
+        ECSDeliveryMode deliveryModes = new ECSDeliveryMode();
         deliveryModes.setCode("UPS_PARCEL");
         mockECSServices.setDeliveryMode(deliveryModes, new ECSCallback<Boolean, Exception>() {
             @Override
@@ -108,7 +107,7 @@ public class SetDeliveryModesRequestTest {
 
         mockInputValidator.setJsonFileName("SetDeliveryModeFailure.json");
 
-        DeliveryModes deliveryModes = new DeliveryModes();
+        ECSDeliveryMode deliveryModes = new ECSDeliveryMode();
         deliveryModes.setCode("UPS_PARCEL");
 
         mockECSServices.setDeliveryMode(deliveryModes, new ECSCallback<Boolean, Exception>() {

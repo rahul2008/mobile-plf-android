@@ -143,7 +143,9 @@ public class GetPaymentsTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertTrue(false);
+                assertTrue(true);
+                assertEquals("Please provide valid order",error.getMessage());
+                assertEquals(5060,ecsError.getErrorcode());
             }
         });
     }

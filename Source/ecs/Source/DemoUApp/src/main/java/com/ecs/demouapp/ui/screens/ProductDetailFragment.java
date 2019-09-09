@@ -53,7 +53,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.asset.Asset;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
@@ -207,7 +207,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             product = productCatalogData;
 
             if(mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE)!=null){
-              EntriesEntity entriesEntity = (EntriesEntity) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
+              ECSEntries entriesEntity = (ECSEntries) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
                 product = entriesEntity.getProduct();
             }
 
@@ -735,7 +735,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         if(data.getEntries()!=null && data.getEntries().size() >0) {
 
-            for (EntriesEntity entriesEntity : data.getEntries()) {
+            for (ECSEntries entriesEntity : data.getEntries()) {
 
                 if (mCTNValue.equalsIgnoreCase(entriesEntity.getProduct().getCode())) {
                     mQuantity.setText(entriesEntity.getQuantity() + "");
@@ -752,13 +752,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             startShoppingCartFragment();
         } else if (event.equalsIgnoreCase(IAP_UPDATE_PRODUCT_COUNT)) {
             createCustomProgressBar(mParentLayout, BIG);
-            final EntriesEntity entriesEntity = (EntriesEntity) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
+            final ECSEntries entriesEntity = (ECSEntries) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
             mShoppingCartAPI.updateProductQuantity(entriesEntity, getNewCount());
 
         } else if (event.equalsIgnoreCase(ECSConstant.IAP_DELETE_PRODUCT)) {
             hideProgressBar();
             createCustomProgressBar(mParentLayout, BIG);
-            final EntriesEntity entriesEntity = (EntriesEntity) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
+            final ECSEntries entriesEntity = (ECSEntries) mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE);
             mShoppingCartAPI.deleteProduct(entriesEntity);
 
         } else if (event.equalsIgnoreCase(ECSConstant.EMPTY_CART_FRAGMENT_REPLACED)) {

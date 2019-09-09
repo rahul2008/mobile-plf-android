@@ -22,7 +22,7 @@ import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetUser;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
@@ -126,7 +126,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         if ((msg.obj instanceof IAPNetworkError)) {
             handleError(msg);
         } else {
-           // mBuyDirectController.getDeliveryModes();
+           // mBuyDirectController.fetchDeliveryModes();
         }
     }
 
@@ -136,7 +136,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             handleError(msg);
         } else {
             GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            ArrayList<DeliveryModes> deliveryModesList = (ArrayList<DeliveryModes>) deliveryModes.getDeliveryModes();
+            ArrayList<ECSDeliveryMode> deliveryModesList = (ArrayList<ECSDeliveryMode>) deliveryModes.getDeliveryModes();
             CartModelContainer.getInstance().setDeliveryModes(deliveryModesList);
             //TODO
             //mBuyDirectController.setDeliveryMode(deliveryModesList.get(0).getCode());

@@ -36,9 +36,8 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
@@ -165,7 +164,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
     public void onSetDeliveryAddress(Message msg) {
         addressContractor.hideProgressbar();
         if (msg.obj instanceof Boolean ) { // success
-            DeliveryModes deliveryMode = addressContractor.getDeliveryModes();
+            ECSDeliveryMode deliveryMode = addressContractor.getDeliveryModes();
             if (deliveryMode == null)
                 getDeliveryModes();
             else
@@ -223,12 +222,11 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             Exception exception = (Exception)msg.obj;
             ECSUtility.showECSAlertDialog(addressContractor.getActivityContext(),"Error",exception);
             addressContractor.hideProgressbar();
-        } else if ((msg.obj instanceof GetDeliveryModes)) {
-            GetDeliveryModes deliveryModes = (GetDeliveryModes) msg.obj;
-            List<DeliveryModes> deliveryModeList = deliveryModes.getDeliveryModes();
+        } else if ((msg.obj instanceof List )) {
+            List<ECSDeliveryMode> deliveryModeList =( List<ECSDeliveryMode>) msg.obj;
             if (deliveryModeList.size() > 0) {
                 CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
-                addressController.setDeliveryMode(deliveryModeList.get(0).getCode());
+                addressController.setDeliveryMode(deliveryModeList.get(0));
             }
         }
     }

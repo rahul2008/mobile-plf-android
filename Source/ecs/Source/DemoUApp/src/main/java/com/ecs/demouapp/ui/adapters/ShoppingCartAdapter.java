@@ -26,8 +26,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
 import com.ecs.demouapp.R;
-import com.ecs.demouapp.ui.analytics.ECSAnalytics;
-import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.cart.ShoppingCartData;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
@@ -36,11 +34,10 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.CountDropDown;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.ecs.demouapp.ui.utils.ECSConstant.IAP_APPLY_VOUCHER;
@@ -55,7 +52,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ECSShoppingCart mData ;
     private final OutOfStockListener mOutOfStock;
     private UIPicker mPopupWindow;
-    private EntriesEntity shoppingCartDataForProductDetailPage;
+    private ECSEntries shoppingCartDataForProductDetailPage;
 
     private Drawable countArrow;
     private boolean mIsFreeDelivery;
@@ -64,7 +61,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int mNewCount;
     private FooterShoppingCartViewHolder shoppingCartFooter;
 
-    private List<EntriesEntity> entries ;
+    private List<ECSEntries> entries ;
 
     public interface OutOfStockListener {
         void onOutOfStock(boolean isOutOfStock);
@@ -120,7 +117,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final EntriesEntity data = entries.get(position);
+                final ECSEntries data = entries.get(position);
 
                 CountDropDown countPopUp = new CountDropDown(v,v.getContext(), data.getProduct().getStock().getStockLevel(), data
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
@@ -180,7 +177,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         if (holder instanceof ShoppingCartProductHolder) {
 
-            final EntriesEntity cartData = entries.get(holder.getAdapterPosition());
+            final ECSEntries cartData = entries.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
 
             if(entries.size()==1 || position==entries.size()-1){
@@ -207,7 +204,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             //Footer Layout
             shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
-            EntriesEntity data;
+            ECSEntries data;
 
             if (entries.get(0) != null) {
                 data = entries.get(0);
@@ -330,7 +327,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    private void handleTax(EntriesEntity data, FooterShoppingCartViewHolder shoppingCartFooter) {
+    private void handleTax(ECSEntries data, FooterShoppingCartViewHolder shoppingCartFooter) {
         if (!mData.isNet()) {
             shoppingCartFooter.mVatValue.setVisibility(View.GONE);
             if (mData.getTotalTax() != null) {
@@ -388,7 +385,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public EntriesEntity getTheProductDataForDisplayingInProductDetailPage() {
+    public ECSEntries getTheProductDataForDisplayingInProductDetailPage() {
         return shoppingCartDataForProductDetailPage;
     }
 

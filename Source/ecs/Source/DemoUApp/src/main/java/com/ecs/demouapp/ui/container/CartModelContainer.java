@@ -6,7 +6,7 @@ package com.ecs.demouapp.ui.container;
 
 
 import com.ecs.demouapp.ui.address.AddressFields;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
 
@@ -33,7 +33,7 @@ public class CartModelContainer {
     private HashMap<String, DisclaimerModel> mPRXDisclaimerObjects;
 
 
-    private List<DeliveryModes> mDeliveryModes;
+    private List<ECSDeliveryMode> mDeliveryModes;
 
     private boolean switchToBillingAddress;
 
@@ -87,11 +87,11 @@ public class CartModelContainer {
         this.regionIsoCode = regionIsoCode;
     }
 
-    public List<DeliveryModes> getDeliveryModes() {
+    public List<ECSDeliveryMode> getDeliveryModes() {
         return mDeliveryModes;
     }
 
-    public void setDeliveryModes(List<DeliveryModes> mDeliveryModes) {
+    public void setDeliveryModes(List<ECSDeliveryMode> mDeliveryModes) {
         this.mDeliveryModes = mDeliveryModes;
     }
 

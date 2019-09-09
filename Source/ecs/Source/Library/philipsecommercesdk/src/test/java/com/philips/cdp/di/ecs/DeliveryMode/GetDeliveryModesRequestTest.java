@@ -11,6 +11,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -26,6 +27,7 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.io.InputStream;
+import java.util.List;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.*;
@@ -49,7 +51,7 @@ public class GetDeliveryModesRequestTest {
 
     MockDeliveryModesRequest mockDeliveryModesRequest;
 
-    ECSCallback<GetDeliveryModes, Exception> ecsCallback;
+    ECSCallback<List<ECSDeliveryMode>, Exception> ecsCallback;
     private MockInputValidator mockInputValidator;
 
     @Before
@@ -66,9 +68,9 @@ public class GetDeliveryModesRequestTest {
 
         StaticBlock.initialize();
 
-        ecsCallback = new ECSCallback<GetDeliveryModes, Exception>() {
+        ecsCallback = new ECSCallback<List<ECSDeliveryMode>, Exception>() {
             @Override
-            public void onResponse(GetDeliveryModes result) {
+            public void onResponse(List<ECSDeliveryMode> result) {
 
             }
 
@@ -81,15 +83,15 @@ public class GetDeliveryModesRequestTest {
         mockDeliveryModesRequest = new MockDeliveryModesRequest(ecsCallback,"deliverymodes.json");
     }
 
+
     @Test
     public void getDeliveryModesSuccess() {
         mockInputValidator.setJsonFileName("deliverymodes.json");
-        mockECSServices.getDeliveryModes(new ECSCallback<GetDeliveryModes, Exception>() {
+        mockECSServices.fetchDeliveryModes(new ECSCallback<List<ECSDeliveryMode>, Exception>() {
             @Override
-            public void onResponse(GetDeliveryModes result) {
+            public void onResponse(List<ECSDeliveryMode> result) {
                 assertNotNull(result);
-                assertNotNull(result.getDeliveryModes());
-                assertNotEquals(0,result.getDeliveryModes().size());
+                assertNotEquals(0,result.size());
                 //  test case passed
             }
 
@@ -104,10 +106,10 @@ public class GetDeliveryModesRequestTest {
     @Test
     public void getDeliveryModesFailureEmpty() {
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.getDeliveryModes(new ECSCallback<GetDeliveryModes, Exception>() {
+        mockECSServices.fetchDeliveryModes(new ECSCallback<List<ECSDeliveryMode>, Exception>() {
             @Override
-            public void onResponse(GetDeliveryModes result) {
-                assertNull(result.getDeliveryModes());
+            public void onResponse(List<ECSDeliveryMode> result) {
+                assertNull(result);
                 //  test case failed
             }
 
@@ -133,7 +135,7 @@ public class GetDeliveryModesRequestTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<GetDeliveryModes, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSDeliveryMode>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockDeliveryModesRequest = new MockDeliveryModesRequest(spy1,"deliverymodes.json");
         VolleyError volleyError = new NoConnectionError();
         mockDeliveryModesRequest.onErrorResponse(volleyError);
@@ -144,14 +146,14 @@ public class GetDeliveryModesRequestTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<GetDeliveryModes, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSDeliveryMode>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockDeliveryModesRequest = new MockDeliveryModesRequest(spy1,"deliverymodes.json");
 
         JSONObject jsonObject = getJsonObject("deliverymodes.json");
 
         mockDeliveryModesRequest.onResponse(jsonObject);
 
-        Mockito.verify(spy1).onResponse(any(GetDeliveryModes.class));
+        Mockito.verify(spy1).onResponse(any(List.class));
 
     }
 

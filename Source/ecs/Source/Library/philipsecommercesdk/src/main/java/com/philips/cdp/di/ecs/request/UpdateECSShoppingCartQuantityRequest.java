@@ -8,7 +8,7 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
@@ -18,10 +18,10 @@ import java.util.Map;
 public class UpdateECSShoppingCartQuantityRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
     private final ECSCallback<Boolean, Exception> ecsCallback;
-    private final EntriesEntity entriesEntity;
+    private final ECSEntries entriesEntity;
     private final int quantity;
 
-    public UpdateECSShoppingCartQuantityRequest(ECSCallback<Boolean, Exception> ecsCallback, EntriesEntity entriesEntity, int quantity) {
+    public UpdateECSShoppingCartQuantityRequest(ECSCallback<Boolean, Exception> ecsCallback, ECSEntries entriesEntity, int quantity) {
         this.ecsCallback = ecsCallback;
         this.entriesEntity = entriesEntity;
         this.quantity = quantity;

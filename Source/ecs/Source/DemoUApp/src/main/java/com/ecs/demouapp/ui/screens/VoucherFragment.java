@@ -27,9 +27,8 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
-import com.philips.cdp.di.ecs.model.voucher.Vouchers;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
@@ -50,7 +49,7 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     Label acceptedCodeLabel,totalCost;
     ScrollView headerParent;
     View line;
-    List<Vouchers> getAppliedValueList;
+    List<ECSVoucher> getAppliedValueList;
     public static final String TAG = VoucherFragment.class.getName();
 
     @Override
@@ -130,9 +129,8 @@ public class VoucherFragment extends InAppBaseFragment implements View.OnClickLi
     public void onGetAppliedVoucherResponse(Message msg) {
         hideProgressBar();
         Double count = 0.00;
-        if(msg.obj instanceof GetAppliedValue){
-            GetAppliedValue getAppliedValue = (GetAppliedValue) msg.obj;
-            getAppliedValueList = getAppliedValue.getVouchers();
+        if(msg.obj instanceof List){
+            getAppliedValueList = (List<ECSVoucher>) msg.obj;
             mAppliedVoucherAdapter=new AppliedVoucherAdapter(mContext,getAppliedValueList);
             mRecyclerView.setAdapter(mAppliedVoucherAdapter);
 

@@ -340,15 +340,11 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                         return ECSConfiguration.INSTANCE.getAuthResponse().getRefreshToken();
                     }
 
-                    @Override
-                    public GrantType getGrantType() {
-                        return GrantType.REFRESH_TOKEN;
-                    }
                 };
 
 
                 //ReOAuth starts =======================
-                ECSUtility.getInstance().getEcsServices().refreshAuth(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
+                ECSUtility.getInstance().getEcsServices().hybrisRefreshOAuth(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
                     @Override
                     public void onResponse(ECSOAuthData result) {
 

@@ -9,11 +9,10 @@ import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.address.DeliveryModes;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
+import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
+import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
@@ -26,7 +25,7 @@ import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
-import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -143,7 +142,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void refreshAuth(@NonNull ECSOAuthProvider ecsoAuthProvider, @NonNull ECSCallback<ECSOAuthData, Exception> ecsListener) {
+    public void hybrisRefreshOAuth(@NonNull ECSOAuthProvider ecsoAuthProvider, @NonNull ECSCallback<ECSOAuthData, Exception> ecsListener) {
         ecsCallValidator.refreshAuth(ecsoAuthProvider,ecsListener);
     }
 
@@ -186,25 +185,25 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void updateQuantity(int quantity,@NonNull EntriesEntity entriesEntity,@NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void updateQuantity(int quantity, @NonNull ECSEntries entriesEntity, @NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         ecsCallValidator.updateQuantity(quantity, entriesEntity,ecsCallback);
     }
 
     //GetAppliedValue = ECSVouchers
     //applyVoucher
     @Override
-    public void setVoucher(@NonNull String voucherCode,@NonNull ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void applyVoucher(@NonNull String voucherCode, @NonNull ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         ecsCallValidator.setVoucher(voucherCode,ecsCallback);
     }
 
     // fetchAppliedVouchers
     @Override
-    public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void fetchAppliedVouchers(ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         ecsCallValidator.getVoucher(ecsCallback);
     }
 
     @Override
-    public void removeVoucher(String voucherCode, ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public void removeVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         ecsCallValidator.removeVoucher(voucherCode,ecsCallback);
     }
 
@@ -213,14 +212,14 @@ public class ECSServices implements ECSServiceProvider {
     // GetDeliveryModes = private
 
     @Override
-    public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
+    public void fetchDeliveryModes(ECSCallback<List<ECSDeliveryMode>, Exception> ecsCallback) {
         ecsCallValidator.getDeliveryModes(ecsCallback);
     }
 
     //DeliveryModes = ECSDeliveryMode
 
     @Override
-    public void setDeliveryMode(@NonNull DeliveryModes deliveryModes, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setDeliveryMode(@NonNull ECSDeliveryMode deliveryModes, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
         ecsCallValidator.setDeliveryMode(deliveryModes.getCode(),ecsCallback);
     }
 

@@ -8,6 +8,7 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
@@ -15,15 +16,16 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
-    private final ECSCallback<GetAppliedValue,Exception> ecsCallback;
+    private final ECSCallback<List<ECSVoucher>, Exception> ecsCallback;
 
-    public GetVouchersRequest(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
+    public GetVouchersRequest(ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
     }
 
@@ -38,8 +40,8 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
              exception = e;
          }
 
-        if(null == exception && null!=getAppliedValue ) {
-            ecsCallback.onResponse(getAppliedValue);
+        if(null == exception && null!=getAppliedValue && null!=getAppliedValue.getVouchers()) {
+            ecsCallback.onResponse(getAppliedValue.getVouchers());
         }else{
             String errorMessage = (response!=null)?response.toString():null;
             ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,errorMessage);

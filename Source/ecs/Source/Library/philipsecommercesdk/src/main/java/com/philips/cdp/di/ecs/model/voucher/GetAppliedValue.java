@@ -9,13 +9,13 @@ import java.util.List;
 
 public class GetAppliedValue {
 
-    private List<Vouchers> vouchers;
+    private List<ECSVoucher> vouchers;
 
-    public void setVouchers(List<Vouchers> vouchers) {
+    public void setVouchers(List<ECSVoucher> vouchers) {
         this.vouchers = vouchers;
     }
 
-    public List<Vouchers> getVouchers() {
+    public List<ECSVoucher> getVouchers() {
         return vouchers;
     }
 }
