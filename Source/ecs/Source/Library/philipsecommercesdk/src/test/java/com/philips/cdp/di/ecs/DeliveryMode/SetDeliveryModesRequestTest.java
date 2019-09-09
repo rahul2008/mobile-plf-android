@@ -12,6 +12,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -85,7 +86,9 @@ public class SetDeliveryModesRequestTest {
     public void setDeliveryModeSuccess() {
 
         mockInputValidator.setJsonFileName("EmptyString.json");
-        mockECSServices.setDeliveryMode("UPS_PARCEL", new ECSCallback<Boolean, Exception>() {
+        DeliveryModes deliveryModes = new DeliveryModes();
+        deliveryModes.setCode("UPS_PARCEL");
+        mockECSServices.setDeliveryMode(deliveryModes, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertTrue(result);
@@ -104,7 +107,11 @@ public class SetDeliveryModesRequestTest {
     public void setDeliveryModeFailure() {
 
         mockInputValidator.setJsonFileName("SetDeliveryModeFailure.json");
-        mockECSServices.setDeliveryMode(passedDeliveryMode, new ECSCallback<Boolean, Exception>() {
+
+        DeliveryModes deliveryModes = new DeliveryModes();
+        deliveryModes.setCode("UPS_PARCEL");
+
+        mockECSServices.setDeliveryMode(deliveryModes, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertFalse(true);
