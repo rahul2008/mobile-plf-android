@@ -22,12 +22,12 @@ import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -50,9 +50,9 @@ public class ECSServices implements ECSServiceProvider {
     private ECSCallValidator ecsCallValidator;
 
     public ECSServices(@Nullable String propositionID, @NonNull AppInfra appInfra) {
-        ECSConfig.INSTANCE.setAppInfra(appInfra);
-        ECSConfig.INSTANCE.setPropositionID(propositionID);
-        ECSConfig.INSTANCE.setEcsLogging(appInfra.getLogging().createInstanceForComponent(ECS_NOTATION, BuildConfig.VERSION_NAME));
+        ECSConfiguration.INSTANCE.setAppInfra(appInfra);
+        ECSConfiguration.INSTANCE.setPropositionID(propositionID);
+        ECSConfiguration.INSTANCE.setEcsLogging(appInfra.getLogging().createInstanceForComponent(ECS_NOTATION, BuildConfig.VERSION_NAME));
         ecsCallValidator = new ECSCallValidator();
     }
 
@@ -80,12 +80,11 @@ public class ECSServices implements ECSServiceProvider {
                 ServiceDiscoveryService serviceDiscoveryService = serviceDiscoveryServiceArrayList.get(0);
 
                 String locale = serviceDiscoveryService.getLocale();
-                ECSConfig.INSTANCE.setLocale(locale);
-                setLangAndCountry(locale);
+                ECSConfiguration.INSTANCE.setLocale(locale);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
 
                 if(configUrls!=null){
-                    ECSConfig.INSTANCE.setBaseURL(configUrls+"/");
+                    ECSConfiguration.INSTANCE.setBaseURL(configUrls+"/");
                     ecsCallValidator.getHybrisConfig(ecsCallback);
                 }else {
                     ecsCallback.onResponse(false);
@@ -94,11 +93,11 @@ public class ECSServices implements ECSServiceProvider {
 
     };
 
-        ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
+        ECSConfiguration.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
     @Override
-    public void configureECSToGetConfiguration(@NonNull ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+    public void configureECSToGetConfiguration(@NonNull ECSCallback<ECSConfig, Exception> ecsCallback) {
 
         ArrayList<String> listOfServiceId = new ArrayList<>();
         listOfServiceId.add(SERVICE_ID);
@@ -121,15 +120,14 @@ public class ECSServices implements ECSServiceProvider {
                 ServiceDiscoveryService serviceDiscoveryService = serviceDiscoveryServiceArrayList.get(0);
 
                 String locale = serviceDiscoveryService.getLocale();
-                ECSConfig.INSTANCE.setLocale(locale);
-                setLangAndCountry(locale);
+                ECSConfiguration.INSTANCE.setLocale(locale);
                 String configUrls = serviceDiscoveryService.getConfigUrls();
 
                 if(configUrls!=null){
-                    ECSConfig.INSTANCE.setBaseURL(configUrls+"/");
+                    ECSConfiguration.INSTANCE.setBaseURL(configUrls+"/");
                     ecsCallValidator.getECSConfig(ecsCallback);
                 }else {
-                    HybrisConfigResponse hybrisConfigResponse = new HybrisConfigResponse();
+                    ECSConfig hybrisConfigResponse = new ECSConfig();
                     hybrisConfigResponse.setLocale(locale);
                     ecsCallback.onResponse(hybrisConfigResponse);
                 }
@@ -137,7 +135,7 @@ public class ECSServices implements ECSServiceProvider {
 
         };
 
-        ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
+        ECSConfiguration.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
     public void hybrisOAthAuthentication(@NonNull OAuthInput oAuthInput, @NonNull ECSCallback<OAuthResponse,Exception> ecsListener){
@@ -378,14 +376,7 @@ public class ECSServices implements ECSServiceProvider {
 
     @Override
     public void setPropositionID(@NonNull String propositionID) {
-        ECSConfig.INSTANCE.setPropositionID(propositionID);
-    }
-
-
-    private void setLangAndCountry(String locale) {
-        String[] localeArray;
-        localeArray = locale.split("_");
-        ECSConfig.INSTANCE.setCountry(localeArray[1]);
+        ECSConfiguration.INSTANCE.setPropositionID(propositionID);
     }
 
 }

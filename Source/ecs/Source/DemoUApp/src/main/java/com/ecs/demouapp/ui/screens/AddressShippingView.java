@@ -22,7 +22,7 @@ import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.SalutationDropDown;
 import com.ecs.demouapp.ui.view.StateDropDown;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -250,7 +250,7 @@ public class AddressShippingView
             setViewVisible(mLlCountry,tvCountry,mEtCountry);
             inputValidatorCountry = new InputValidator(Validator.COUNTRY_PATTERN);
             mLlCountry.setValidator(inputValidatorCountry);
-            mEtCountry.setText(ECSConfig.INSTANCE.getCountry());
+            mEtCountry.setText(ECSConfiguration.INSTANCE.getCountry());
             mEtCountry.setEnabled(false);
             mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         }else{
@@ -416,7 +416,7 @@ public class AddressShippingView
             }
         }
         if (editText.getId() == R.id.et_phone1 && !hasFocus && mEtPhone1.getText() != null && addressContractor.isPhoneNumberEnabled()) {
-            result = addressPresenter.validatePhoneNumber(mEtPhone1, ECSConfig.INSTANCE.getCountry()
+            result = addressPresenter.validatePhoneNumber(mEtPhone1, ECSConfiguration.INSTANCE.getCountry()
                     , mEtPhone1.getText().toString());
             if (!result) {
                 mLlPhone1.setErrorMessage(R.string.iap_phone_error);

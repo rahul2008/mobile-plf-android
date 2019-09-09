@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.error;
 import android.util.Log;
 
 import com.philips.cdp.di.ecs.R;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 public enum ECSErrorEnum {
 
@@ -90,9 +90,9 @@ public enum ECSErrorEnum {
     }
 
     public  String getLocalizedErrorString(){
-        String localizedError= ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getString(R.string.ECSsomethingWentWrong);
+        String localizedError= ECSConfiguration.INSTANCE.getAppInfra().getAppInfraContext().getString(R.string.ECSsomethingWentWrong);
         try{
-            localizedError =   ECSConfig.INSTANCE.getAppInfra().getAppInfraContext().getResources().getString(getResourceID());
+            localizedError =   ECSConfiguration.INSTANCE.getAppInfra().getAppInfraContext().getResources().getString(getResourceID());
         } catch(Exception e){
             Log.e("RES_NOT_FOUND", e.getMessage());
         }

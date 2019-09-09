@@ -18,7 +18,7 @@ import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
 import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
@@ -70,7 +70,7 @@ public interface ECSServiceProvider {
 
     void configureECS(ECSCallback<Boolean,Exception> ecsCallback);
 
-    void configureECSToGetConfiguration(ECSCallback<HybrisConfigResponse, Exception> ecsCallback);
+    void configureECSToGetConfiguration(ECSCallback<ECSConfig, Exception> ecsCallback);
 
     void fetchProductSummeries(List<String> ctns, ECSCallback<List<Product>,Exception> ecsCallback);
 

@@ -27,7 +27,7 @@ import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.address.DeliveryModes;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.uid.view.widget.CheckBox;
 
 import java.util.HashMap;
@@ -100,7 +100,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
         if(mAddressFieldsHashmap!=null){
             country = mAddressFieldsHashmap.get(COUNTRY_ISOCODE);
         }else{
-            country = ECSConfig.INSTANCE.getCountry();
+            country = ECSConfiguration.INSTANCE.getCountry();
         }
        /* if( !mAddressFieldsHashmap.get(COUNTRY_ISOCODE).equalsIgnoreCase(HybrisDelegate.getInstance(getActivityContext()).getStore().getCountry())){
             addressPresenter.getRegions(country);

@@ -59,7 +59,7 @@ import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
 import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 import com.philips.cdp.di.ecs.model.summary.Data;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
@@ -268,7 +268,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mBundle.getString(ECSConstant.PRODUCT_VALUE_PRICE) != null) {
             productPrice = mBundle.getString(ECSConstant.PRODUCT_VALUE_PRICE);
         }
-        product = product.append(ECSConfig.INSTANCE.getRootCategory()).append(";")
+        product = product.append(ECSConfiguration.INSTANCE.getRootCategory()).append(";")
                 .append(mProductTitle).append(";").append(";")
                 .append(productPrice);
         contextData.put(ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.PROD_VIEW);

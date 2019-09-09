@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.prx.serviceDiscovery;
 
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -54,7 +54,7 @@ public abstract class ServiceDiscoveryRequest {
 
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(mServiceId);
-        ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        ECSConfiguration.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 listener.onSuccess(urlMap.get(mServiceId).getConfigUrls());

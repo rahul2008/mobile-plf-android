@@ -8,7 +8,7 @@ import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.util.List;
 
@@ -53,19 +53,19 @@ public class ApiInputValidator {
     }
 
     private boolean isLocaleNull(){
-       return ECSConfig.INSTANCE.getLocale() == null;
+       return ECSConfiguration.INSTANCE.getLocale() == null;
     }
 
     private boolean isBaseURLNull(){
-        return ECSConfig.INSTANCE.getBaseURL() == null;
+        return ECSConfiguration.INSTANCE.getBaseURL() == null;
     }
 
     private boolean isCategoryNull(){
-        return ECSConfig.INSTANCE.getRootCategory() == null;
+        return ECSConfiguration.INSTANCE.getRootCategory() == null;
     }
 
     private boolean isSiteIDNull(){
-        return ECSConfig.INSTANCE.getSiteId() == null;
+        return ECSConfiguration.INSTANCE.getSiteId() == null;
     }
 
     private boolean isINValidString(String inputString){

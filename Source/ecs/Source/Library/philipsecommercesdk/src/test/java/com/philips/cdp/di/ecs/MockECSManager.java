@@ -43,7 +43,7 @@ import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
@@ -76,7 +76,7 @@ public class MockECSManager extends ECSManager {
 
 
     @Override
-    GetConfigurationRequest getConfigurationRequestObject(ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
+    GetConfigurationRequest getConfigurationRequestObject(ECSCallback<ECSConfig, Exception> eCSCallback) {
         return new MockGetConfigurationRequest(getJsonFileNameMockECSManager(),eCSCallback);
     }
 

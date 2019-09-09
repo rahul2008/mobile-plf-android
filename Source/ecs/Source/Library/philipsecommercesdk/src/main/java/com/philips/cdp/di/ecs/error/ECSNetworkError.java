@@ -16,7 +16,7 @@ import com.philips.cdp.di.ecs.request.GetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryAddressRequest;
 import com.philips.cdp.di.ecs.request.SetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.request.UpdateAddressRequest;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import org.json.JSONObject;
@@ -42,7 +42,7 @@ public class ECSNetworkError {
         }
         Log.e(LOGGING_TAG, logMessage);
         try {
-            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG+"getErrorLocalizedErrorMessage", logMessage);
+            ECSConfiguration.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG+"getErrorLocalizedErrorMessage", logMessage);
         }catch(Exception e){
 
         }
@@ -95,7 +95,7 @@ public class ECSNetworkError {
         if(error.getMessage()!=null) {
             Log.e(LOGGING_TAG + " Volley Error: ", error.getMessage());
             try {
-                ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG + " Volley Error: ", error.getMessage());
+                ECSConfiguration.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG + " Volley Error: ", error.getMessage());
             } catch (Exception e) {
 
             }
@@ -121,13 +121,13 @@ public class ECSNetworkError {
         final String errorString = new String(decode);
         Log.e(LOGGING_TAG + " Server Error: ", errorString);
         try {
-            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG + " Server Error: ", errorString);
+            ECSConfiguration.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG + " Server Error: ", errorString);
         } catch (Exception e) {
 
         }
         JSONObject errorJsonObject =null;
         try {
-            ECSConfig.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG, errorString);
+            ECSConfiguration.INSTANCE.getEcsLogging().log(LoggingInterface.LogLevel.VERBOSE, LOGGING_TAG, errorString);
             errorJsonObject = new JSONObject(errorString);
         }catch (Exception e){
 

@@ -10,7 +10,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
@@ -39,7 +39,7 @@ public class ECSCallValidator {
         ecsManager = new ECSManager();
     }
 
-    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+    public void getECSConfig(ECSCallback<ECSConfig, Exception> ecsCallback) {
         ECSErrorWrapper configAPIValidateError = new ApiInputValidator().getConfigAPIValidateError();
         if (configAPIValidateError == null) {
             new ECSManager().getHybrisConfigResponse(ecsCallback);

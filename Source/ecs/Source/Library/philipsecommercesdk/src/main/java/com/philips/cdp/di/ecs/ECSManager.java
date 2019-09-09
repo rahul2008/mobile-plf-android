@@ -21,7 +21,7 @@ import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.Product;
 import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.Data;
@@ -62,7 +62,7 @@ import com.philips.cdp.di.ecs.request.GetProductListRequest;
 import com.philips.cdp.di.ecs.request.GetProductForRequest;
 import com.philips.cdp.di.ecs.request.GetProductSummaryListRequest;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,11 +77,11 @@ public class ECSManager {
 
     void getHybrisConfig(ECSCallback<Boolean, Exception> ecsCallback) {
 
-        new GetConfigurationRequest(new ECSCallback<HybrisConfigResponse, Exception>() {
+        new GetConfigurationRequest(new ECSCallback<ECSConfig, Exception>() {
             @Override
-            public void onResponse(HybrisConfigResponse result) {
-                ECSConfig.INSTANCE.setSiteId(result.getSiteId());
-                ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
+            public void onResponse(ECSConfig result) {
+                ECSConfiguration.INSTANCE.setSiteId(result.getSiteId());
+                ECSConfiguration.INSTANCE.setRootCategory(result.getRootCategory());
                 ecsCallback.onResponse(true);
             }
 
@@ -93,13 +93,13 @@ public class ECSManager {
 
     }
 
-    void getHybrisConfigResponse(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+    void getHybrisConfigResponse(ECSCallback<ECSConfig, Exception> ecsCallback) {
 
-        ECSCallback ecsCallback1 =  new ECSCallback<HybrisConfigResponse, Exception>() {
+        ECSCallback ecsCallback1 =  new ECSCallback<ECSConfig, Exception>() {
             @Override
-            public void onResponse(HybrisConfigResponse result) {
-                ECSConfig.INSTANCE.setSiteId(result.getSiteId());
-                ECSConfig.INSTANCE.setRootCategory(result.getRootCategory());
+            public void onResponse(ECSConfig result) {
+                ECSConfiguration.INSTANCE.setSiteId(result.getSiteId());
+                ECSConfiguration.INSTANCE.setRootCategory(result.getRootCategory());
                 ecsCallback.onResponse(result);
             }
 
@@ -111,7 +111,7 @@ public class ECSManager {
         GetConfigurationRequest getConfigurationRequest = getConfigurationRequestObject(ecsCallback1);
         getConfigurationRequest.executeRequest();
     }
-    GetConfigurationRequest getConfigurationRequestObject(ECSCallback<HybrisConfigResponse, Exception> eCSCallback){
+    GetConfigurationRequest getConfigurationRequestObject(ECSCallback<ECSConfig, Exception> eCSCallback){
         return new GetConfigurationRequest(eCSCallback);
     }
 
@@ -140,7 +140,7 @@ public class ECSManager {
     }
 
      void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
-        if (null != ECSConfig.INSTANCE.getSiteId()) { // hybris flow
+        if (null != ECSConfiguration.INSTANCE.getSiteId()) { // hybris flow
             ECSCallback ecsCallback1 =  new ECSCallback<Product, Exception>() {
                 @Override
                 public void onResponse(Product result) {

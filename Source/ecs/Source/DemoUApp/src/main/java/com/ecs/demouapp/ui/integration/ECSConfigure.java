@@ -8,6 +8,7 @@ import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class ECSConfigure {
@@ -30,13 +31,13 @@ public class ECSConfigure {
 
                 //Condition for launching IAP screens
                 if (iapListener == null && entry == null) {
-                    if (com.philips.cdp.di.ecs.util.ECSConfig.INSTANCE.getBaseURL() == null || com.philips.cdp.di.ecs.util.ECSConfig.INSTANCE.getBaseURL().isEmpty() || !ECSUtility.getInstance().isHybrisSupported()) {
+                    if (ECSConfiguration.INSTANCE.getBaseURL() == null || ECSConfiguration.INSTANCE.getBaseURL().isEmpty() || !ECSUtility.getInstance().isHybrisSupported()) {
                         mIAPSettings.setUseLocalData(true);
                     }
                     launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
                 } else {
                     //Condition for returning gatCartCount API and getCompleteProductlist API
-                    if (com.philips.cdp.di.ecs.util.ECSConfig.INSTANCE.getBaseURL() == null || !ECSUtility.getInstance().isHybrisSupported()) {
+                    if (ECSConfiguration.INSTANCE.getBaseURL() == null || !ECSUtility.getInstance().isHybrisSupported()) {
                         mIAPSettings.setUseLocalData(true);
                     } else {
                         // TODO Retailer view hence making the userLocalData to true
@@ -93,7 +94,7 @@ public class ECSConfigure {
             @Override
             public void onResponse(Boolean result) {
 
-                if (com.philips.cdp.di.ecs.util.ECSConfig.INSTANCE.getBaseURL() == null || ECSUtility.getInstance().isHybrisSupported() == false) {
+                if (ECSConfiguration.INSTANCE.getBaseURL() == null || ECSUtility.getInstance().isHybrisSupported() == false) {
                     mIAPSettings.setUseLocalData(true);
                     isCartVisible = false;
                 } else {

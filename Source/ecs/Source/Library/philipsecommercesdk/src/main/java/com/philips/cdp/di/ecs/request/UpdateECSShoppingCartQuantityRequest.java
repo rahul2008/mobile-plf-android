@@ -4,14 +4,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
-import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class UpdateECSShoppingCartQuantityRequest extends OAuthAppInfraAbstractR
     public Map<String, String> getHeader() {
         Map<String, String> header = new HashMap<String, String>();
         header.put("Content-Type", "application/x-www-form-urlencoded");
-        header.put("Authorization", "Bearer " + ECSConfig.INSTANCE.getAccessToken());
+        header.put("Authorization", "Bearer " + ECSConfiguration.INSTANCE.getAccessToken());
         return header;
     }
 

@@ -1,9 +1,7 @@
 package com.philips.cdp.di.ecs.network;
 
-import android.util.Log;
-
 import com.philips.cdp.di.ecs.request.APPInfraRequest;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.rest.request.StringRequest;
 
@@ -31,9 +29,9 @@ public class NetworkController {
 
     public void executeRequest(){
         if(jsonObjectRequest!=null) {
-            ECSConfig.INSTANCE.getAppInfra().getRestClient().getRequestQueue().add(jsonObjectRequest);
+            ECSConfiguration.INSTANCE.getAppInfra().getRestClient().getRequestQueue().add(jsonObjectRequest);
         }else if (stringRequest!=null){
-            ECSConfig.INSTANCE.getAppInfra().getRestClient().getRequestQueue().add(stringRequest);
+            ECSConfiguration.INSTANCE.getAppInfra().getRestClient().getRequestQueue().add(stringRequest);
         }
     }
 

@@ -4,12 +4,12 @@
  */
 package com.philips.cdp.di.ecs.model.config;
 
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
-public class HybrisConfigResponse {
+public class ECSConfig {
 
     public String getLocale() {
-        return ECSConfig.INSTANCE.getLocale();
+        return ECSConfiguration.INSTANCE.getLocale();
     }
 
     public void setLocale(String locale) {

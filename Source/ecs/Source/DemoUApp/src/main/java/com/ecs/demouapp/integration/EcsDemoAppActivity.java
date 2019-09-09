@@ -48,7 +48,7 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -337,7 +337,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 OAuthInput oAuthInput = new OAuthInput() {
                     @Override
                     public String getOAuthID() {
-                        return ECSConfig.INSTANCE.getAuthResponse().getRefreshToken();
+                        return ECSConfiguration.INSTANCE.getAuthResponse().getRefreshToken();
                     }
 
                     @Override
@@ -353,14 +353,14 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                     public void onResponse(OAuthResponse result) {
 
 
-                        ECSConfig.INSTANCE.setAuthToken(result.getAccessToken());
-                        ECSConfig.INSTANCE.setAuthResponse(result);
+                        ECSConfiguration.INSTANCE.setAuthToken(result.getAccessToken());
+                        ECSConfiguration.INSTANCE.setAuthResponse(result);
                         Log.d("ECS succ",result.getAccessToken());
 
                         try {
                             mIapInterface.getProductCartCount(EcsDemoAppActivity.this);
                         }catch (Exception e){
-                            ECSConfig.INSTANCE.setAuthToken(null);
+                            ECSConfiguration.INSTANCE.setAuthToken(null);
                         }
 
                     }
@@ -370,7 +370,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
                         Log.d("ECS Oauth failed",error.getMessage() +" :  "+ ecsError);
                         ECSUtility.showECSAlertDialog(getApplicationContext(),"Error",error);
-                        ECSConfig.INSTANCE.setAuthToken(null);
+                        ECSConfiguration.INSTANCE.setAuthToken(null);
 
                     }
                 });
@@ -424,13 +424,13 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             ECSUtility.getInstance().getEcsServices().hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
                 @Override
                 public void onResponse(OAuthResponse result) {
-                    ECSConfig.INSTANCE.setAuthToken(result.getAccessToken());
+                    ECSConfiguration.INSTANCE.setAuthToken(result.getAccessToken());
                     Log.d("ECS succ",result.getAccessToken());
 
                     try {
                         mIapInterface.getProductCartCount(EcsDemoAppActivity.this);
                     }catch (Exception e){
-                    ECSConfig.INSTANCE.setAuthToken(null);
+                    ECSConfiguration.INSTANCE.setAuthToken(null);
                     }
                 }
 
@@ -447,7 +447,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
                      }else {
 
-                         ECSConfig.INSTANCE.setAuthToken(null);
+                         ECSConfiguration.INSTANCE.setAuthToken(null);
                      }
                 }
             });
@@ -475,7 +475,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
             public void onResponse(Boolean result) {
                 System.out.println("Configured ECS Success");
 
-                if (com.philips.cdp.di.ecs.util.ECSConfig.INSTANCE.getBaseURL() == null || ECSUtility.getInstance().isHybrisSupported() == false) {
+                if (ECSConfiguration.INSTANCE.getBaseURL() == null || ECSUtility.getInstance().isHybrisSupported() == false) {
                     isCartVisible = false;
                 } else {
                     isCartVisible = true;
@@ -532,7 +532,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
         //This is added to clear pagination data from app memory . This should be taken in tech debt .
 
-        if(ECSConfig.INSTANCE.getAccessToken()!=null){
+        if(ECSConfiguration.INSTANCE.getAccessToken()!=null){
             mIapInterface.getProductCartCount(EcsDemoAppActivity.this);
         }
 
