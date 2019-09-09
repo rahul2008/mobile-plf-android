@@ -284,7 +284,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void makeAssetsAndDisclaimerRequest() {
         createCustomProgressBar(mParentLayout, BIG);
-        ECSUtility.getInstance().getEcsServices().getProductDetail(product, new ECSCallback<Product, Exception>() {
+        ECSUtility.getInstance().getEcsServices().getProductDetails(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product result) {
 

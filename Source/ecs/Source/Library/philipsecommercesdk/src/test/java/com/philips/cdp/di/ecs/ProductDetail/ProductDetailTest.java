@@ -65,7 +65,7 @@ public class ProductDetailTest {
         Product product = new Product();
         product.setCode("HX2345/01");
         mockInputValidator.setJsonFileName("PRXProductAssets.json");
-        mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
+        mockECSServices.getProductDetails(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
                 assertNotNull(product);
@@ -88,7 +88,7 @@ public class ProductDetailTest {
         Product product = new Product();
         product.setCode("HX2345/01");
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.getProductDetail(product, new ECSCallback<Product, Exception>() {
+        mockECSServices.getProductDetails(product, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
                 assertTrue(true);
