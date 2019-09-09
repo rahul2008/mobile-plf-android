@@ -139,10 +139,12 @@ public class GetPaymentsTest {
         });
     }
 
+
     @Test
-    public void getOrderDetailSuccess() {
+    public void getOrderDetailSuccessError() {
         mockInputValidator.setJsonFileName("GetOrderDetailSuccess.json");
         Orders orders = new Orders();
+
         mockECSServices.getOrderDetail(orders, new ECSCallback<Orders, Exception>() {
             @Override
             public void onResponse(Orders result) {
@@ -151,7 +153,25 @@ public class GetPaymentsTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
-                assertTrue(false);
+                assertEquals(ECSorderIdNil.toString(),ecsError.getErrorType());
+            }
+        });
+    }
+
+    @Test
+    public void getOrderDetailsSuccessError() {
+        mockInputValidator.setJsonFileName("GetOrderDetailSuccess.json");
+        OrderDetail orderDetail = new OrderDetail();
+
+        mockECSServices.getOrderDetail(orderDetail, new ECSCallback<OrderDetail, Exception>() {
+            @Override
+            public void onResponse(OrderDetail result) {
+                assertNotNull(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(ECSorderIdNil.toString(),ecsError.getErrorType());
             }
         });
     }
