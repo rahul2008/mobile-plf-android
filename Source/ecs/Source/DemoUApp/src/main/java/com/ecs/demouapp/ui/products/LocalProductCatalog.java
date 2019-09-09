@@ -26,7 +26,7 @@ public class LocalProductCatalog implements ProductCatalogAPI {
     public void getCategorizedProductList(final ArrayList<String> productList , ECSCallback<Products, Exception> ecsCallback) {
 
 
-        ECSUtility.getInstance().getEcsServices().getProductSummary(productList, new ECSCallback<List<Product>, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchProductList(productList, new ECSCallback<List<Product>, Exception>() {
             @Override
             public void onResponse(List<Product> result) {
 

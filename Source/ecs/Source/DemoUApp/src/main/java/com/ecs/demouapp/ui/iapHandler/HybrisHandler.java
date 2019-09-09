@@ -43,7 +43,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
     @Override
     public void getCompleteProductList(final ECSListener iapListener) {
 
-            ECSUtility.getInstance().getEcsServices().getProductList(0, 20, new ECSCallback<Products, Exception>() {
+            ECSUtility.getInstance().getEcsServices().fetchProducts(0, 20, new ECSCallback<Products, Exception>() {
                 @Override
                 public void onResponse(Products result) {
 

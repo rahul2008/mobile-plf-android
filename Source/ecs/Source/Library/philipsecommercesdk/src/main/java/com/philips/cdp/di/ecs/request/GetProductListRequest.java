@@ -28,7 +28,7 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 public class GetProductListRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
     private final int currentPage;
-    private int pageSize = 20;
+    private int pageSize = 0;
     private final ECSCallback<Products, Exception> ecsCallback;
     private Products mProducts;
 
@@ -36,9 +36,7 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
     public GetProductListRequest(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
         this.currentPage = currentPage;
         this.ecsCallback = ecsCallback;
-        if (pageSize != 0) {
             this.pageSize = pageSize;
-        }
     }
 
     @Override

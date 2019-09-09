@@ -12,7 +12,6 @@ import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -36,7 +35,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductSummaryRequestTest {
@@ -103,9 +101,7 @@ public class ProductSummaryRequestTest {
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add("1234");
 
-
-
-        mockECSServices.getProductSummary(ctnList, new ECSCallback<List<Product>, Exception>() {
+        mockECSServices.fetchProductList(ctnList, new ECSCallback<List<Product>, Exception>() {
             @Override
             public void onResponse(List<Product> result) {
                 assertTrue(true);
@@ -127,14 +123,11 @@ public class ProductSummaryRequestTest {
     @Test
     public void getProductListHybrisFailure() {
 
-
         mockInputValidator.setJsonFileName("EmptyJson.json");
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add("1234");
 
-
-
-        mockECSServices.getProductSummary(ctnList, new ECSCallback<List<Product>, Exception>() {
+        mockECSServices.fetchProductList(ctnList, new ECSCallback<List<Product>, Exception>() {
             @Override
             public void onResponse(List<Product> result) {
                 assertTrue(true);

@@ -221,7 +221,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
 
-                        ECSUtility.getInstance().getEcsServices().getProductFor(mCTNValue, new ECSCallback<Product, Exception>() {
+                        ECSUtility.getInstance().getEcsServices().getProduct(mCTNValue, new ECSCallback<Product, Exception>() {
                             @Override
                             public void onResponse(Product result) {
                                 product = result;

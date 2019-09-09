@@ -34,7 +34,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductForCTNTest {
@@ -94,7 +93,7 @@ public class ProductForCTNTest {
     @Test
     public void getProductForCTNHybrissuccess(){
         mockInputValidator.setJsonFileName("GetProductForCTN.json");
-        mockECSServices.getProductFor(ctn, new ECSCallback<Product, Exception>() {
+        mockECSServices.getProduct(ctn, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
                 assertNotNull(product);
@@ -113,7 +112,7 @@ public class ProductForCTNTest {
     @Test
     public void getProductForCTNHybrisFailure(){
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.getProductFor(ctn, new ECSCallback<Product, Exception>() {
+        mockECSServices.getProduct(ctn, new ECSCallback<Product, Exception>() {
             @Override
             public void onResponse(Product product) {
                 assertTrue(true);

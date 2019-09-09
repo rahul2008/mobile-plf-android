@@ -1,6 +1,7 @@
 package com.philips.cdp.di.ecs;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
@@ -47,7 +48,7 @@ public class ECSServices implements ECSServiceProvider {
 
     private ECSCallValidator ecsCallValidator;
 
-    public ECSServices(String propositionID, @NonNull AppInfra appInfra) {
+    public ECSServices(@Nullable String propositionID, @NonNull AppInfra appInfra) {
         ECSConfig.INSTANCE.setAppInfra(appInfra);
         ECSConfig.INSTANCE.setPropositionID(propositionID);
         ECSConfig.INSTANCE.setEcsLogging(appInfra.getLogging().createInstanceForComponent(ECS_NOTATION, BuildConfig.VERSION_NAME));
@@ -96,12 +97,72 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void getECSConfig(@NonNull ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
-        ecsCallValidator.getECSConfig(ecsCallback);
+    public void configureECSToGetConfiguration(@NonNull ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+
+        ArrayList<String> listOfServiceId = new ArrayList<>();
+        listOfServiceId.add(SERVICE_ID);
+
+        ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+
+                ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,null,s+"\n"+errorvalues.name());
+                ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
+            }
+
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+
+                Collection<ServiceDiscoveryService> values = map.values();
+
+                ArrayList<ServiceDiscoveryService> serviceDiscoveryServiceArrayList = new ArrayList<>(values);
+
+                ServiceDiscoveryService serviceDiscoveryService = serviceDiscoveryServiceArrayList.get(0);
+
+                String locale = serviceDiscoveryService.getLocale();
+                ECSConfig.INSTANCE.setLocale(locale);
+                setLangAndCountry(locale);
+                String configUrls = serviceDiscoveryService.getConfigUrls();
+
+                if(configUrls!=null){
+                    ECSConfig.INSTANCE.setBaseURL(configUrls+"/");
+                    ecsCallValidator.getECSConfig(ecsCallback);
+                }else {
+                    HybrisConfigResponse hybrisConfigResponse = new HybrisConfigResponse();
+                    hybrisConfigResponse.setLocale(locale);
+                    ecsCallback.onResponse(hybrisConfigResponse);
+                }
+            }
+
+        };
+
+        ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
+    }
+
+    public void hybrisOAthAuthentication(@NonNull OAuthInput oAuthInput, @NonNull ECSCallback<OAuthResponse,Exception> ecsListener){
+        ecsCallValidator.getOAuth(oAuthInput,ecsListener);
     }
 
     @Override
-    public void getProductSummary(@NonNull List<String> ctns, @NonNull ECSCallback<List<Product>, Exception> ecsCallback) {
+    public void refreshAuth(@NonNull OAuthInput oAuthInput,@NonNull ECSCallback<OAuthResponse, Exception> ecsListener) {
+        ecsCallValidator.refreshAuth(oAuthInput,ecsListener);
+    }
+
+    @Override
+    public void fetchProducts(int currentPage, int pageSize, @NonNull ECSCallback<Products, Exception> eCSCallback) {
+        ecsCallValidator.getProductList(currentPage,pageSize,eCSCallback);
+    }
+
+    @Override
+    public void getProduct(@NonNull String ctn, @NonNull ECSCallback<Product, Exception> eCSCallback) {
+        ecsCallValidator.getProductFor(ctn,eCSCallback);
+
+    }
+
+    // ============
+
+    @Override
+    public void fetchProductList(@NonNull List<String> ctns, @NonNull ECSCallback<List<Product>, Exception> ecsCallback) {
         ecsCallValidator.getProductSummary(ctns,ecsCallback);
     }
 
@@ -115,20 +176,7 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.createECSShoppingCart(ecsCallback);
     }
 
-    public void hybrisOathAuthentication( @NonNull OAuthInput oAuthInput, @NonNull ECSCallback<OAuthResponse,Exception> ecsListener){
-        ecsCallValidator.getOAuth(oAuthInput,ecsListener);
-    }
 
-    @Override
-    public void getProductList(int currentPage, int pageSize, @NonNull ECSCallback<Products, Exception> eCSCallback) {
-        ecsCallValidator.getProductList(currentPage,pageSize,eCSCallback);
-    }
-
-    @Override
-    public void getProductFor(String ctn, @NonNull ECSCallback<Product, Exception> eCSCallback) {
-        ecsCallValidator.getProductFor(ctn,eCSCallback);
-
-    }
 
     @Override
     public void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback) {
@@ -272,9 +320,11 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.getUserProfile(ecsCallback);
     }
 
+
+
     @Override
-    public void refreshAuth(@NonNull OAuthInput oAuthInput,@NonNull ECSCallback<OAuthResponse, Exception> ecsListener) {
-        ecsCallValidator.refreshAuth(oAuthInput,ecsListener);
+    public void setPropositionID(@NonNull String propositionID) {
+
     }
 
 

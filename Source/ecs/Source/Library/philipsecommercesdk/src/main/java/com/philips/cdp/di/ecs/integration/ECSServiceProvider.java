@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.integration;
 
 
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
@@ -34,7 +36,7 @@ public interface ECSServiceProvider {
      * @param oauthData      the oauth data (Janrain token details)
      * @param ECSCallback the iapsdk callback success block containing boolean
      *//*
-    public void  hybrisOathAuthentication(Map<String, String> oauthData, ECSCallback ECSCallback);
+    public void  hybrisOAthAuthentication(Map<String, String> oauthData, ECSCallback ECSCallback);
 */
 
     /**
@@ -42,7 +44,7 @@ public interface ECSServiceProvider {
      *
      * @param eCSCallback the iapsdk callback success block containing IAPConfiguration object
      */
-     //public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> eCSCallback);
+     //public void configureECSToGetConfiguration(ECSCallback<HybrisConfigResponse, Exception> eCSCallback);
 
 
     /**
@@ -50,7 +52,7 @@ public interface ECSServiceProvider {
      *
      * @param ECSCallback the iapsdk callback success block containing Products object (a list of ProductsEntity and other fields)
      *//*
-    public void getProductList(ECSCallback ECSCallback);
+    public void fetchProducts(ECSCallback ECSCallback);
 
 
     *//**
@@ -58,9 +60,9 @@ public interface ECSServiceProvider {
      *
      * @param eCSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
      */
-    void getProductList(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
+    void fetchProducts(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
 
-    void getProductFor(String ctn,ECSCallback<Product,Exception> eCSCallback );
+    void getProduct(String ctn, ECSCallback<Product,Exception> eCSCallback );
 
     void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback);
 
@@ -68,9 +70,9 @@ public interface ECSServiceProvider {
 
     void configureECS(ECSCallback<Boolean,Exception> ecsCallback);
 
-    void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback);
+    void configureECSToGetConfiguration(ECSCallback<HybrisConfigResponse, Exception> ecsCallback);
 
-    void getProductSummary(List<String> ctns, ECSCallback<List<Product>,Exception> ecsCallback);
+    void fetchProductList(List<String> ctns, ECSCallback<List<Product>,Exception> ecsCallback);
 
     void getShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
 
@@ -130,5 +132,7 @@ public interface ECSServiceProvider {
     void getUserProfile(ECSCallback<UserProfile,Exception> ecsCallback);
 
     void refreshAuth(OAuthInput oAuthInput,ECSCallback<OAuthResponse, Exception> ecsListener);
+
+    void setPropositionID(@NonNull String propositionID);
 
 }

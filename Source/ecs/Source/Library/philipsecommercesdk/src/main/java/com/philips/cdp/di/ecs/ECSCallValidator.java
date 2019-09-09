@@ -90,7 +90,7 @@ public class ECSCallValidator {
 
     public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
 
-        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getProductListAPIValidateError(pageSize);
+        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getProductListAPIValidateError();
         if (ecsErrorWrapper == null) {
             ecsManager.getProductList(currentPage,pageSize,ecsCallback);
         } else {

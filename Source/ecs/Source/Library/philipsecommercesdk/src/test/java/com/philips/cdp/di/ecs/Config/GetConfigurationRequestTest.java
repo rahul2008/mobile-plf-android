@@ -26,7 +26,6 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetConfigurationRequestTest {
@@ -82,7 +81,7 @@ public class GetConfigurationRequestTest {
     @Test
     public void getConfigurationRequestSuccess() {
         mockInputValidator.setJsonFileName("GetConfigSuccess.json");
-        mockECSServices.getECSConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
+        mockECSServices.configureECSToGetConfiguration(new ECSCallback<HybrisConfigResponse, Exception>() {
             @Override
             public void onResponse(HybrisConfigResponse result) {
                 assertNotNull(result);
@@ -104,7 +103,7 @@ public class GetConfigurationRequestTest {
     @Test
     public void getConfigurationRequestFailure() {
         mockInputValidator.setJsonFileName("GetConfigFailure.json");
-        mockECSServices.getECSConfig(new ECSCallback<HybrisConfigResponse, Exception>() {
+        mockECSServices.configureECSToGetConfiguration(new ECSCallback<HybrisConfigResponse, Exception>() {
             @Override
             public void onResponse(HybrisConfigResponse result) {
                 assertTrue(false);

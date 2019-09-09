@@ -23,7 +23,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI {
 
     @Override
     public void getProductCatalog(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
-        ECSUtility.getInstance().getEcsServices().getProductList(currentPage, pageSize, ecsCallback);
+        ECSUtility.getInstance().getEcsServices().fetchProducts(currentPage, pageSize, ecsCallback);
     }
 
     @Override

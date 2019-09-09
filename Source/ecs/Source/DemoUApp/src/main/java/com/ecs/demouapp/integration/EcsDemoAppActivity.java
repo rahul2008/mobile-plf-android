@@ -421,7 +421,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 }
             };
 
-            ECSUtility.getInstance().getEcsServices().hybrisOathAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+            ECSUtility.getInstance().getEcsServices().hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
                 @Override
                 public void onResponse(OAuthResponse result) {
                     ECSConfig.INSTANCE.setAuthToken(result.getAccessToken());

@@ -31,7 +31,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class OathTest {
@@ -108,7 +107,7 @@ public class OathTest {
                 return "mock Jainrain ID";
             }
         };
-        mockECSServices.hybrisOathAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
             @Override
             public void onResponse(OAuthResponse result) {
                 assertNotNull(result);
@@ -135,7 +134,7 @@ public class OathTest {
                 return "mock Jainrain ID";
             }
         };
-        mockECSServices.hybrisOathAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
             @Override
             public void onResponse(OAuthResponse result) {
                 assertNotNull(result);
@@ -162,7 +161,7 @@ public class OathTest {
                 return "mock Jainrain ID";
             }
         };
-        mockECSServices.hybrisOathAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
             @Override
             public void onResponse(OAuthResponse result) {
                 assertNotNull(result);
@@ -189,7 +188,7 @@ public class OathTest {
                 return "mock Jainrain ID";
             }
         };
-        ecsServices.hybrisOathAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        ecsServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
             @Override
             public void onResponse(OAuthResponse result) {
                 assertNotNull(result);

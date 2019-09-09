@@ -115,11 +115,52 @@ public class UpdateAddressTest {
 
     }
 
+
+    @Test
+    public void UpdateDefeaultAddressSuccess() {
+        mockInputValidator.setJsonFileName("EmptyString.json");
+        Addresses address = new Addresses();
+        mockECSServices.setDefaultAddress(address, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                assertTrue(result);
+                // test case passed
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(ECSInvalidAddressError.toString(),ecsError.getErrorType());
+                // test case failed
+            }
+        });
+
+    }
+
     @Test
     public void UpdateAddressFailure() {
         mockInputValidator.setJsonFileName("UpdateAddressFailureInvalidAddress.json");
         Addresses address = new Addresses();
         mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                assertFalse(false);
+                // test case passed
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertTrue(true);
+                // test case failed
+            }
+        });
+
+    }
+
+    @Test
+    public void UpdateDefeaultFailure() {
+        mockInputValidator.setJsonFileName("UpdateAddressFailureInvalidAddress.json");
+        Addresses address = new Addresses();
+        mockECSServices.setDefaultAddress(address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertFalse(false);

@@ -12,6 +12,10 @@ public class HybrisConfigResponse {
         return ECSConfig.INSTANCE.getLocale();
     }
 
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
     private String locale;
     private String catalogId;
     private String faqUrl;

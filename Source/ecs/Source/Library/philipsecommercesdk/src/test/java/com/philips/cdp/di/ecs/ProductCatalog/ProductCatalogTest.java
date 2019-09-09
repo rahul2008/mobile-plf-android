@@ -33,7 +33,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogTest {
@@ -92,7 +91,7 @@ public class ProductCatalogTest {
     @Test
     public void getProductListSuccess() {
         mockInputValidator.setJsonFileName("GetProductList.json");
-        mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
+        mockECSServices.fetchProducts(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
                 assertNotNull(result);
@@ -119,7 +118,7 @@ public class ProductCatalogTest {
     @Test
     public void getProductListHybrisFailure() {
         mockInputValidator.setJsonFileName("GetProductListHybrisFailure.json");
-        mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
+        mockECSServices.fetchProducts(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
                 assertTrue(true);
@@ -141,7 +140,7 @@ public class ProductCatalogTest {
     @Test
     public void getProductListSummaryFailure() {
         mockInputValidator.setJsonFileName("GetProductList.json");
-        mockECSServices.getProductList(0, 1, new ECSCallback<Products, Exception>() {
+        mockECSServices.fetchProducts(0, 1, new ECSCallback<Products, Exception>() {
             @Override
             public void onResponse(Products result) {
                 assertTrue(true);

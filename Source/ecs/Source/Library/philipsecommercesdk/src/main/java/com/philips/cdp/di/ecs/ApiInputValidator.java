@@ -111,11 +111,7 @@ public class ApiInputValidator {
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
-    public ECSErrorWrapper getProductListAPIValidateError(int pageSize) {
-
-        if(pageSize<=0){
-            return getECSErrorWrapper(ECSErrorEnum.ECSInvalidPageSizeError);
-        }
+    public ECSErrorWrapper getProductListAPIValidateError() {
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
