@@ -4,16 +4,23 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
+import com.philips.cdp.di.ecs.Cart.MockAddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.MockInputValidator;
+import com.philips.cdp.di.ecs.ProductDetail.MockGetProductAssetRequest;
 import com.philips.cdp.di.ecs.StaticBlock;
+import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.asset.Assets;
+import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +29,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,6 +114,24 @@ public class GetPaymentsTest {
         });
     }
 
+    //doing for kotlin order detail file
+
+    @Test
+    public void getOrderHistrorySuccess() {
+        mockInputValidator.setJsonFileName("GetOrderHistorySuccess.json");
+        mockECSServices.getOrderHistory(1, new ECSCallback<OrdersData, Exception>() {
+            @Override
+            public void onResponse(OrdersData result) {
+                assertNotNull(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertTrue(false);
+            }
+        });
+    }
+
     @Test
     public void getPaymentFailure() {
         mockInputValidator.setJsonFileName("EmptyJson.json");
@@ -161,6 +187,34 @@ public class GetPaymentsTest {
         Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
 
     }
+
+    @Test
+    public void verifyOnResponseSuccess() {
+
+        ECSCallback<PaymentMethods, Exception> spy1 = Mockito.spy(ecsCallback);
+        mockGetPaymentsRequest = new MockGetPaymentsRequest("GetPaymentsSuccess.json",spy1);
+
+        JSONObject jsonObject = getJsonObject("GetPaymentsSuccess.json");
+
+        mockGetPaymentsRequest.onResponse(jsonObject);
+
+        Mockito.verify(spy1).onResponse(any(PaymentMethods.class));
+
+    }
+
+
+    JSONObject getJsonObject(String jsonfileName){
+
+        JSONObject result = null;
+        InputStream in = getClass().getClassLoader().getResourceAsStream(jsonfileName);
+        String jsonString = TestUtil.loadJSONFromFile(in);
+        try {
+            return new JSONObject(jsonString);
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
 
     @Test
     public void assertResponseSuccessListenerNotNull() {
