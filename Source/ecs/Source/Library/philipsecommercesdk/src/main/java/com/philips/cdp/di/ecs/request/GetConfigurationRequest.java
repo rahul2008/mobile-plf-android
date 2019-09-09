@@ -4,12 +4,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
 
@@ -19,9 +18,9 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 
 public class GetConfigurationRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
-    private final ECSCallback<HybrisConfigResponse, Exception> eCSCallback;
+    private final ECSCallback<ECSConfig, Exception> eCSCallback;
 
-    public GetConfigurationRequest(ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
+    public GetConfigurationRequest(ECSCallback<ECSConfig, Exception> eCSCallback) {
         this.eCSCallback = eCSCallback;
     }
 
@@ -43,12 +42,12 @@ public class GetConfigurationRequest extends AppInfraAbstractRequest implements 
 
     @Override
     public void onResponse(JSONObject response) {
-        HybrisConfigResponse resp = null;
+        ECSConfig resp = null;
         Exception exception = null;
 
         try {
             resp = new Gson().fromJson(response.toString(),
-                    HybrisConfigResponse.class);
+                    ECSConfig.class);
         } catch (Exception e) {
             exception = e;
         }

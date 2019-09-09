@@ -11,7 +11,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -101,9 +101,9 @@ public class ProductSummaryRequestTest {
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add("1234");
 
-        mockECSServices.fetchProductSummeries(ctnList, new ECSCallback<List<Product>, Exception>() {
+        mockECSServices.fetchProductSummaries(ctnList, new ECSCallback<List<ECSProduct>, Exception>() {
             @Override
-            public void onResponse(List<Product> result) {
+            public void onResponse(List<ECSProduct> result) {
                 assertTrue(true);
                 // test case failed
 
@@ -127,9 +127,9 @@ public class ProductSummaryRequestTest {
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add("1234");
 
-        mockECSServices.fetchProductSummeries(ctnList, new ECSCallback<List<Product>, Exception>() {
+        mockECSServices.fetchProductSummaries(ctnList, new ECSCallback<List<ECSProduct>, Exception>() {
             @Override
-            public void onResponse(List<Product> result) {
+            public void onResponse(List<ECSProduct> result) {
                 assertTrue(true);
                 // test case failed
 

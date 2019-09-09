@@ -30,7 +30,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetShoppingCartTest {
@@ -88,7 +87,7 @@ public class GetShoppingCartTest {
     @Test
     public void getCartSuccess(){
         mockInputValidator.setJsonFileName("ShoppingCartSuccess.json");
-        mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+        mockECSServices.fetchShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 assertNotNull(result);
@@ -107,7 +106,7 @@ public class GetShoppingCartTest {
     @Test
     public void getCartWithoutGUID(){
         mockInputValidator.setJsonFileName("ShoppingCartWithoutGuid.json");
-        mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+        mockECSServices.fetchShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 assertTrue(false);
@@ -125,7 +124,7 @@ public class GetShoppingCartTest {
     @Test
     public void getCartAuthFailureResponse(){
         mockInputValidator.setJsonFileName("ShoppingCartAuthError.json");
-        mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+        mockECSServices.fetchShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 assertNotNull(result);
@@ -144,7 +143,7 @@ public class GetShoppingCartTest {
     @Test
     public void getCartEmptyResponse(){
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+        mockECSServices.fetchShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 assertNotNull(result);

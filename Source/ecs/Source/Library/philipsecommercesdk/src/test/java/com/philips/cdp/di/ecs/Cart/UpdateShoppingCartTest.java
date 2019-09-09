@@ -13,7 +13,7 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -33,7 +33,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class UpdateShoppingCartTest {
@@ -86,7 +85,7 @@ public class UpdateShoppingCartTest {
 
          entriesEntity = new EntriesEntity();
         entriesEntity.setEntryNumber(123456);
-         Product product = new Product();
+         ECSProduct product = new ECSProduct();
          product.setCode("1234");
         entriesEntity.setProduct(product);
 

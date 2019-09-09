@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.ecs.Config.MockGetConfigurationRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.MockInputValidator;
@@ -13,7 +12,6 @@ import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -32,7 +30,6 @@ import java.io.InputStream;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetDeliveryModesRequestTest {

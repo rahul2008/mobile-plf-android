@@ -9,12 +9,12 @@ import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 
 import java.util.List;
 
-public class Products {
+public class ECSProducts {
     private String type;
     private CurrentQueryEntity currentQuery;
     private String freeTextSearch;
     private PaginationEntity pagination;
-    private List<Product> products;
+    private List<ECSProduct> products;
     private List<SortsEntity> sorts;
     private ECSProductSummary ecsProductSummary;
 
@@ -34,11 +34,11 @@ public class Products {
         return pagination;
     }
 
-    public List<Product> getProducts() {
+    public List<ECSProduct> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<ECSProduct> products) {
         this.products = products;
     }
 

@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.integration;
 
-public abstract class OAuthInput{
+public abstract class ECSOAuthProvider {
 
 
      public static final String CLIENT_ID = "mobile_android";
@@ -9,7 +9,7 @@ public abstract class OAuthInput{
 
      public abstract String getOAuthID();
 
-     public GrantType getGrantType(){
+     GrantType getGrantType(){
           return GrantType.JANRAIN;
      }
 

@@ -1,26 +1,20 @@
 package com.philips.cdp.di.ecs.util;
 
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-public enum ECSConfig {
+public enum ECSConfiguration {
 
     INSTANCE;
 
 
     String  propositionID;
     AppInfra appInfra;
-    HybrisConfigResponse config;
-
-
-
 
     private LoggingInterface ecsLoggingInterface;
-    private String country;
 
-    private OAuthResponse oAuthResponse;
+    private ECSOAuthData oAuthResponse;
 
     public String getAccessToken() {
         return accessToken;
@@ -47,11 +41,6 @@ public enum ECSConfig {
     }
 
     String locale;
-
-    public boolean isAppConfigured() {
-        return rootCategory!=null && siteId!=null;
-    }
-
 
     public String getRootCategory() {
         return rootCategory;
@@ -83,10 +72,6 @@ public enum ECSConfig {
     }
 
 
-    public  boolean isHybrisFlow(){
-        return this.baseURL!=null;
-    }
-
     public String getPropositionID() {
         return propositionID;
     }
@@ -100,18 +85,14 @@ public enum ECSConfig {
     }
 
     public String getCountry() {
-        return country;
+        return getCountryFromLocale(ECSConfiguration.INSTANCE.getLocale());
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public OAuthResponse getAuthResponse() {
+    public ECSOAuthData getAuthResponse() {
         return oAuthResponse;
     }
 
-    public void setAuthResponse(OAuthResponse oAuthResponse) {
+    public void setAuthResponse(ECSOAuthData oAuthResponse) {
         this.oAuthResponse = oAuthResponse;
     }
 
@@ -121,5 +102,11 @@ public enum ECSConfig {
 
     public void setEcsLogging(LoggingInterface ecsLoggingInterface) {
         this.ecsLoggingInterface = ecsLoggingInterface;
+    }
+
+    private String getCountryFromLocale(String locale) {
+        String[] localeArray;
+        localeArray = locale.split("_");
+        return localeArray[1];
     }
 }

@@ -4,21 +4,21 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
-import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
@@ -39,7 +39,7 @@ public class ECSCallValidator {
         ecsManager = new ECSManager();
     }
 
-    public void getECSConfig(ECSCallback<HybrisConfigResponse, Exception> ecsCallback) {
+    public void getECSConfig(ECSCallback<ECSConfig, Exception> ecsCallback) {
         ECSErrorWrapper configAPIValidateError = new ApiInputValidator().getConfigAPIValidateError();
         if (configAPIValidateError == null) {
             new ECSManager().getHybrisConfigResponse(ecsCallback);
@@ -48,7 +48,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getProductSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
+    public void getProductSummary(List<String> ctns, ECSCallback<List<ECSProduct>, Exception> ecsCallback) {
 
         ECSErrorWrapper configAPIValidateError = new ApiInputValidator().getProductSummaryAPIValidateError(ctns);
         if (configAPIValidateError == null) {
@@ -78,7 +78,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getOAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsCallback) {
+    public void getOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getHybrisOathAuthenticationAPIValidateError(oAuthInput);
         if (ecsErrorWrapper == null) {
@@ -88,7 +88,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public void getProductList(int currentPage, int pageSize, ECSCallback<ECSProducts, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getProductListAPIValidateError();
         if (ecsErrorWrapper == null) {
@@ -98,7 +98,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getProductFor(String ctn, ECSCallback<Product, Exception> ecsCallback) {
+    public void getProductFor(String ctn, ECSCallback<ECSProduct, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getProductForAPIValidateError(ctn);
         if (ecsErrorWrapper == null) {
@@ -108,7 +108,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+    public void getProductDetail(ECSProduct product, ECSCallback<ECSProduct, Exception> ecsCallback) {
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getProductDetailAPIValidateError(product);
         if (ecsErrorWrapper == null) {
             ecsManager.getProductDetail(product,ecsCallback);
@@ -117,7 +117,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void addProductToShoppingCart(ECSProduct product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getAddProductToShoppingCartError(product);
         if (ecsErrorWrapper == null) {
             ecsManager.addProductToShoppingCart(product,ecsCallback);
@@ -351,7 +351,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void refreshAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsCallback) {
+    public void refreshAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsCallback) {
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getHybrisOathAuthenticationAPIValidateError(oAuthInput);
 
         if (ecsErrorWrapper == null) {

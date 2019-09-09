@@ -2,7 +2,7 @@ package com.philips.cdp.di.ecs.model.cart;
 
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 import java.io.Serializable;
 
@@ -17,7 +17,7 @@ public class EntriesEntity implements Serializable{
     private BasePriceEntity basePrice;
     private int entryNumber;
 
-    private Product product;
+    private ECSProduct product;
     private int quantity;
 
     private TotalPriceEntity totalPrice;
@@ -36,7 +36,7 @@ public class EntriesEntity implements Serializable{
         this.entryNumber = entryNumber;
     }
 
-    public Product getProduct() {
+    public ECSProduct getProduct() {
         return product;
     }
 
@@ -52,7 +52,7 @@ public class EntriesEntity implements Serializable{
         return updateable;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ECSProduct product) {
         this.product = product;
     }
 }

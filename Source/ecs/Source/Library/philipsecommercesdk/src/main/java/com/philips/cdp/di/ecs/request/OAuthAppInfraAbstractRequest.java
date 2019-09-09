@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.request;
 
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ public abstract class OAuthAppInfraAbstractRequest extends AppInfraAbstractReque
 
             @Override
             public String getTokenValue() {
-                return ECSConfig.INSTANCE.getAccessToken();
+                return ECSConfiguration.INSTANCE.getAccessToken();
             }
         };
     }
@@ -31,7 +31,7 @@ public abstract class OAuthAppInfraAbstractRequest extends AppInfraAbstractReque
     @Override
     public Map<String, String> getHeader() {
         HashMap<String, String> authMap =new HashMap<String, String>();
-        authMap.put("Authorization","Bearer " + ECSConfig.INSTANCE.getAccessToken());
+        authMap.put("Authorization","Bearer " + ECSConfiguration.INSTANCE.getAccessToken());
         return authMap;
     }
 

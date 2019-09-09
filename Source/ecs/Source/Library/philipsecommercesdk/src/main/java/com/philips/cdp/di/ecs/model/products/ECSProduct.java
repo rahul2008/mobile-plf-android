@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.model.summary.Data;
 
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class ECSProduct implements Serializable {
 
     private boolean availableForPickup;
     private String code;

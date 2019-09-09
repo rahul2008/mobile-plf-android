@@ -4,7 +4,7 @@ import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.Region;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -14,37 +14,35 @@ public class StaticBlock {
 public static final String  mockAccessToken = "acceesstoken";
 
     public static void initialize(){
-        ECSConfig.INSTANCE.setBaseURL("acc.us.pil.shop.philips.com/");
-        ECSConfig.INSTANCE.setSiteId("US_Tuscany");
-        ECSConfig.INSTANCE.setPropositionID("Tuscany2016");
-        ECSConfig.INSTANCE.setLocale("en_US");
-        ECSConfig.INSTANCE.setRootCategory("TuscanyCampaign");
-        ECSConfig.INSTANCE.setCountry("US");
-
-        ECSConfig.INSTANCE.setAuthToken(mockAccessToken);
+        ECSConfiguration.INSTANCE.setBaseURL("acc.us.pil.shop.philips.com/");
+        ECSConfiguration.INSTANCE.setSiteId("US_Tuscany");
+        ECSConfiguration.INSTANCE.setPropositionID("Tuscany2016");
+        ECSConfiguration.INSTANCE.setLocale("en_US");
+        ECSConfiguration.INSTANCE.setRootCategory("TuscanyCampaign");
+        ECSConfiguration.INSTANCE.setAuthToken(mockAccessToken);
     }
 
     public static  String getCountry(){
-        return ECSConfig.INSTANCE.getCountry();
+        return ECSConfiguration.INSTANCE.getCountry();
     }
     public static  String getBaseURL(){
-        return ECSConfig.INSTANCE.getBaseURL();
+        return ECSConfiguration.INSTANCE.getBaseURL();
     }
 
     public static String getSiteID(){
-        return ECSConfig.INSTANCE.getSiteId();
+        return ECSConfiguration.INSTANCE.getSiteId();
     }
 
     public static String getRootCategory(){
-        return ECSConfig.INSTANCE.getRootCategory();
+        return ECSConfiguration.INSTANCE.getRootCategory();
     }
 
     public static String getPropositionID(){
-        return ECSConfig.INSTANCE.getPropositionID();
+        return ECSConfiguration.INSTANCE.getPropositionID();
     }
 
     public static String getLocale(){
-        return ECSConfig.INSTANCE.getLocale();
+        return ECSConfiguration.INSTANCE.getLocale();
     }
 
 

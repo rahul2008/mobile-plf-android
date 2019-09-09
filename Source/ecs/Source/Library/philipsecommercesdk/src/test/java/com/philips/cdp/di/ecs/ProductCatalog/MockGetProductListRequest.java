@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.ProductCatalog;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.request.GetProductListRequest;
 
 import org.json.JSONException;
@@ -15,7 +15,7 @@ public class MockGetProductListRequest extends GetProductListRequest {
 
 String jsonFile;
 
-    public MockGetProductListRequest(String jsonFile, int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public MockGetProductListRequest(String jsonFile, int currentPage, int pageSize, ECSCallback<ECSProducts, Exception> ecsCallback) {
         super(currentPage, pageSize, ecsCallback);
         this.jsonFile=jsonFile;
 

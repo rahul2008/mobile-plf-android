@@ -37,11 +37,10 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
 import java.util.ArrayList;
@@ -158,7 +157,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         mShippingStatus.setText(String.format(mContext.getString(R.string.iap_order_status_msg), mPhoneContact));
         btncall.setText(mContext.getString(R.string.iap_call) + " " + PhoneNumberUtils.formatNumber(mPhoneContact,
-                ECSConfig.INSTANCE.getCountry()));
+                ECSConfiguration.INSTANCE.getCountry()));
         tvOpeningTimings.setText(mOpeningHoursWeekdays + "\n" + mOpeningHoursSaturday);
     }
 
@@ -480,7 +479,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     void dialCallCenter(String phoneNumber) {
         Intent i = new Intent(Intent.ACTION_DIAL);
         String p = "tel:" + PhoneNumberUtils.formatNumber(phoneNumber,
-                ECSConfig.INSTANCE.getCountry());
+                ECSConfiguration.INSTANCE.getCountry());
         i.setData(Uri.parse(p));
         startActivity(i);
     }

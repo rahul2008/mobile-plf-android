@@ -38,8 +38,8 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.products.PaginationEntity;
-import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -50,7 +50,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class ProductCatalogFragment extends InAppBaseFragment
-        implements EventListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener, ECSCallback<Products, Exception> {
+        implements EventListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener, ECSCallback<ECSProducts, Exception> {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -63,7 +63,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private RecyclerView mRecyclerView;
     private SearchBox mSearchBox;
     private ProductCatalogAPI mPresenter;
-    private List<Product> mProduct = new CopyOnWriteArrayList<>();
+    private List<ECSProduct> mProduct = new CopyOnWriteArrayList<>();
 
     private final int page_size = 20;
     private int mTotalResults = 0;
@@ -75,7 +75,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private RelativeLayout mParentLayout;
     private AppCompatAutoCompleteTextView mSearchTextView;
     private LinearLayout mBannerLayout;
-    private Products products;
+    private ECSProducts products;
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
@@ -215,7 +215,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     }
 
     private void launchProductDetailFragment() {
-        Product productCatalogData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
+        ECSProduct productCatalogData = mAdapter.getTheProductDataForDisplayingInProductDetailPage();
         Bundle bundle = new Bundle();
         if (productCatalogData != null) {
             bundle.putString(ECSConstant.PRODUCT_TITLE, productCatalogData.getName());
@@ -399,7 +399,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
 
     @Override
-    public void onResponse(Products result) {
+    public void onResponse(ECSProducts result) {
 
         PaginationEntity paginationEntity = result.getPagination();
         ECSUtility.getInstance().setPaginationEntity(paginationEntity);

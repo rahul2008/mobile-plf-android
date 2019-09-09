@@ -21,7 +21,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.address.Region;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 
 import java.util.HashMap;
@@ -83,7 +83,7 @@ public class AddressController {
         addressRequest.setLastName(addressFields.getLastName());
         addressRequest.setTitleCode(addressFields.getTitleCode());
         Country country= new Country();
-        country.setIsocode(ECSConfig.INSTANCE.getCountry());
+        country.setIsocode(ECSConfiguration.INSTANCE.getCountry());
         //country.se
         addressRequest.setCountry(country); // iso
         addressRequest.setLine1(addressFields.getLine1());

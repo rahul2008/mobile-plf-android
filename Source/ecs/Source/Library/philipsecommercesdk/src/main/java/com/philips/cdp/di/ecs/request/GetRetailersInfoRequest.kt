@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.retailers.WebResults
-import com.philips.cdp.di.ecs.util.ECSConfig
+import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 import java.util.HashMap
@@ -30,7 +30,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
             val builder = StringBuilder("https://")
             builder.append(PREFIX_RETAILERS).append("/")
             builder.append(PRX_SECTOR_CODE).append("/")
-            builder.append(ECSConfig.INSTANCE.locale).append("/")
+            builder.append(ECSConfiguration.INSTANCE.locale).append("/")
             builder.append(RETAILERS_ALTER)
             return String.format(builder.toString(), ctn)
     }
@@ -46,7 +46,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
 
     override fun getHeader(): Map<String, String>? {
         val authMap = HashMap<String, String>()
-        authMap["Authorization"] = "Bearer " + ECSConfig.INSTANCE.accessToken
+        authMap["Authorization"] = "Bearer " + ECSConfiguration.INSTANCE.accessToken
         return authMap
     }
 

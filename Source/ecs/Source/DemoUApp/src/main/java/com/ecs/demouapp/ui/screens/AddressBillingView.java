@@ -20,7 +20,7 @@ import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.ecs.demouapp.ui.view.SalutationDropDown;
 import com.ecs.demouapp.ui.view.StateDropDown;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -278,7 +278,7 @@ public class AddressBillingView
             inputValidatorCountryBilling = new InputValidator(Validator.COUNTRY_PATTERN);
             mLlCountryBilling.setValidator(inputValidatorCountryBilling);
             mEtCountryBilling.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-            mEtCountryBilling.setText(ECSConfig.INSTANCE.getCountry());
+            mEtCountryBilling.setText(ECSConfiguration.INSTANCE.getCountry());
             mEtCountryBilling.setEnabled(false);
         }else{
             setViewInVisible(mLlCountryBilling, tvCountry, mEtCountryBilling);
@@ -442,7 +442,7 @@ public class AddressBillingView
             }
         }
         if (editText.getId() == R.id.et_billing_phone1 && !hasFocus && addressContractor.isPhoneNumberEnabled()) {
-            result = addressPresenter.validatePhoneNumber(mEtPhone1Billing, ECSConfig.INSTANCE.getCountry()
+            result = addressPresenter.validatePhoneNumber(mEtPhone1Billing, ECSConfiguration.INSTANCE.getCountry()
                     , mEtPhone1Billing.getText().toString());
             if (!result) {
                 mLlPhone1Billing.setErrorMessage(R.string.iap_phone_error);
@@ -676,7 +676,7 @@ public class AddressBillingView
             mEtHouseNoBilling.setText(billingAddressFields.getHouseNumber());
             mEtTownBilling.setText(billingAddressFields.getTown());
             mEtPostalCodeBilling.setText(billingAddressFields.getPostalCode());
-            mEtCountryBilling.setText(ECSConfig.INSTANCE.getCountry());
+            mEtCountryBilling.setText(ECSConfiguration.INSTANCE.getCountry());
             String email=  (String) userDetails.get(UserDetailConstants.EMAIL);
             mEtEmailBilling.setText(email);
 

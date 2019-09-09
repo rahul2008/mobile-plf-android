@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.Config;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.request.GetConfigurationRequest;
 
 import org.json.JSONException;
@@ -15,7 +15,7 @@ public class MockGetConfigurationRequest extends GetConfigurationRequest {
 
     private   String jsonFile;
 
-    public MockGetConfigurationRequest(String jsonFile, ECSCallback<HybrisConfigResponse, Exception> eCSCallback) {
+    public MockGetConfigurationRequest(String jsonFile, ECSCallback<ECSConfig, Exception> eCSCallback) {
         super(eCSCallback);
         this.jsonFile = jsonFile;
     }

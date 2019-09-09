@@ -4,7 +4,7 @@
  */
 package com.philips.cdp.di.ecs.model.oauth;
 
-public class OAuthResponse {
+public class ECSOAuthData {
     private String access_token;
     private String token_type;
     private String refresh_token;

@@ -7,7 +7,7 @@ import com.philips.cdp.di.ecs.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.retailers.WebResults
-import com.philips.cdp.di.ecs.util.ECSConfig
+import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
 import org.json.JSONException
@@ -181,7 +181,7 @@ class GetRetailerInfoRequestTest{
         val builder = StringBuilder("https://")
         builder.append(PREFIX_RETAILERS).append("/")
         builder.append(PRX_SECTOR_CODE).append("/")
-        builder.append(ECSConfig.INSTANCE.locale).append("/")
+        builder.append(ECSConfiguration.INSTANCE.locale).append("/")
         builder.append(RETAILERS_ALTER)
         return String.format(builder.toString(), ctn)
     }

@@ -5,8 +5,8 @@
 package com.philips.cdp.di.ecs.store;
 
 
-import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 
 public class ECSURLBuilder implements URLProvider {
@@ -76,8 +76,8 @@ public class ECSURLBuilder implements URLProvider {
 
     //OAuth
     @Override
-    public String getOauthUrl(OAuthInput oAuthInput) {
-        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
+    public String getOauthUrl(ECSOAuthProvider oAuthInput) {
+        StringBuilder builder = new StringBuilder(ECSConfiguration.INSTANCE.getBaseURL());
         builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH)
                 .append("?"+oAuthInput.getGrantType().getType()+"=").append(oAuthInput.getOAuthID())
                 .append("&grant_type="+oAuthInput.getGrantType().getType()+"&client_id="+oAuthInput.getClientID()+"&client_secret="+oAuthInput.getClientSecret());
@@ -102,13 +102,13 @@ public class ECSURLBuilder implements URLProvider {
     @Override
     public String getProductCatalogUrl(int currentPage, int pageSize) {
 
-        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
+        StringBuilder builder = new StringBuilder(ECSConfiguration.INSTANCE.getBaseURL());
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
-        builder.append(ECSConfig.INSTANCE.getSiteId()).append(SEPERATOR);
+        builder.append(ECSConfiguration.INSTANCE.getSiteId()).append(SEPERATOR);
         String baseURlForProductCatalog = builder.toString();
 
-        String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:"+ECSConfig.INSTANCE.getRootCategory()+"&lang=";
-        mGetProductCatalogUrl = baseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG).concat(ECSConfig.INSTANCE.getLocale()).concat("&currentPage=%s&pageSize=%s");
+        String SUFFIX_PRODUCT_CATALOG = "products/search?query=::category:"+ ECSConfiguration.INSTANCE.getRootCategory()+"&lang=";
+        mGetProductCatalogUrl = baseURlForProductCatalog.concat(SUFFIX_PRODUCT_CATALOG).concat(ECSConfiguration.INSTANCE.getLocale()).concat("&currentPage=%s&pageSize=%s");
 
         if (mGetProductCatalogUrl != null)
             return String.format(mGetProductCatalogUrl, currentPage, pageSize);
@@ -120,25 +120,25 @@ public class ECSURLBuilder implements URLProvider {
     @Override
     public String getProduct(String ctnNumber) {
         String formattedCtnNumber = ctnNumber.replace('/', '_');
-        StringBuilder builder = new StringBuilder(ECSConfig.INSTANCE.getBaseURL());
+        StringBuilder builder = new StringBuilder(ECSConfiguration.INSTANCE.getBaseURL());
         builder.append(WEBROOT).append(SEPERATOR).append(V2).append(SEPERATOR);
-        builder.append(ECSConfig.INSTANCE.getSiteId()).append(SEPERATOR).append(SUFFIX_PRODUCTS)
-                .append(SEPERATOR).append(formattedCtnNumber).append(SUFFIX_LANG_QUESTION).append(ECSConfig.INSTANCE.getLocale());
+        builder.append(ECSConfiguration.INSTANCE.getSiteId()).append(SEPERATOR).append(SUFFIX_PRODUCTS)
+                .append(SEPERATOR).append(formattedCtnNumber).append(SUFFIX_LANG_QUESTION).append(ECSConfiguration.INSTANCE.getLocale());
 
         return builder.toString();
     }
 
     @Override
     public String getUpdateProductUrl(String productID) {
-        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
-                +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
+        return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
+                + ECSConfiguration.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
                 +USER+SEPERATOR
                 +SUFFIX_CURRENT+SEPERATOR
                 +SUFFIX_CARTS+SEPERATOR
                 +SUFFIX_CURRENT+SEPERATOR
                 +SUFFIX_ENTRIES+SEPERATOR
                 +productID+FIELDS_FULL_LANG
-                +ECSConfig.INSTANCE.getLocale();
+                + ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override
@@ -155,13 +155,13 @@ public class ECSURLBuilder implements URLProvider {
     //Carts
     @Override
     public String getCartsUrl() {
-        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
-                +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
+        return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
+                + ECSConfiguration.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
                 +USER+ECSURLBuilder.SEPERATOR
                 +SUFFIX_CURRENT+ECSURLBuilder.SEPERATOR
                 +SUFFIX_CARTS+ECSURLBuilder.SEPERATOR
                 +SUFFIX_CURRENT+SUFFIX_LANG_QUESTION
-                +ECSConfig.INSTANCE.getLocale();
+                + ECSConfiguration.INSTANCE.getLocale();
 
     }
 
@@ -172,12 +172,12 @@ public class ECSURLBuilder implements URLProvider {
 
     @Override
     public String getCreateCartUrl() {
-        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
-                +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
+        return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
+                + ECSConfiguration.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
                 +USER+ECSURLBuilder.SEPERATOR
                 +SUFFIX_CURRENT+ECSURLBuilder.SEPERATOR
                 +SUFFIX_CARTS+SUFFIX_LANG_QUESTION
-                +ECSConfig.INSTANCE.getLocale();
+                + ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override
@@ -187,124 +187,124 @@ public class ECSURLBuilder implements URLProvider {
 
     @Override
     public String getAddToCartUrl() {
-        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
-                +ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
+        return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR
+                + ECSConfiguration.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR
                 +USER+ECSURLBuilder.SEPERATOR
                 +SUFFIX_CURRENT+ECSURLBuilder.SEPERATOR
                 +SUFFIX_CARTS+ECSURLBuilder.SEPERATOR
                 +SUFFIX_CURRENT+ECSURLBuilder.SEPERATOR
                 +SUFFIX_ENTRIES+FIELDS_FULL_LANG
-                +ECSConfig.INSTANCE.getLocale();
+                + ECSConfiguration.INSTANCE.getLocale();
     }
 
     //Address
     @Override
     public String getRegionsUrl() {
-       return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+       return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
                  METAINFO+SEPERATOR+
                  REGIONS+SEPERATOR+
-                 ECSConfig.INSTANCE.getCountry()+FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
+                 ECSConfiguration.INSTANCE.getCountry()+FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override
     public String getUserUrl() {
 
-        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
                 USER+SEPERATOR +
                 SUFFIX_CURRENT+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale() ;
     }
 
     @Override
     public String getAddressesUrl() {
-       return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
+       return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
                 USER+SEPERATOR +
                 SUFFIX_CURRENT+SEPERATOR +
-                SUFFIX_ADDRESSES+ FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
+                SUFFIX_ADDRESSES+ FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale() ;
     }
 
     @Override
     public String getEditAddressUrl(String addressID) {
 
-       return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
+       return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
                 USER+SEPERATOR +
                 SUFFIX_CURRENT+SEPERATOR +
                 SUFFIX_ADDRESSES+SEPERATOR+
                 addressID+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale() ;
     }
 
     @Override
     public String getSetDeliveryAddressUrl() {
 
-      return   ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
+      return   ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+ECSURLBuilder.SEPERATOR+
                 USER+SEPERATOR +
                 SUFFIX_CURRENT+SEPERATOR +
                 SUFFIX_CARTS+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR +
                 SUFFIX_ADDRESSES+SEPERATOR+
                 SUFFIX_DELIVERY_ADDRESS+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale() ;
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale() ;
     }
 
     //Delivery mode
     @Override
     public String getDeliveryModesUrl() {
-        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_CARTS+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_DELIVERY_MODES+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override
     public String getSetDeliveryModeUrl() {
 
-        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_CARTS+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_DELIVERY_MODE+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale();
     }
 
     //Payment
     @Override
     public String getPaymentDetailsUrl() {
 
-        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+
                 SUFFIX_PAYMENT_DETAILS+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override
     public String getSetPaymentDetailsUrl() {
-        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_CARTS+SEPERATOR+
                 SUFFIX_CURRENT+
                 SUFFIX_PAYMENT_DETAILS+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override
     public String getMakePaymentUrl(String orderId) {
-        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+
                 SEPERATOR+
@@ -316,8 +316,8 @@ public class ECSURLBuilder implements URLProvider {
     @Override
     public String getPlaceOrderUrl() {
 
-        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_ORDERS;
@@ -329,12 +329,12 @@ public class ECSURLBuilder implements URLProvider {
     public String getOrderHistoryUrl(String pageNumber) {
 
         ///pilcommercewebservices/v2/US_Pub/users/current/orders
-      return   ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+      return   ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_ORDERS+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale()+ SUFFIX_CURRENT_PAGE+pageNumber;
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale()+ SUFFIX_CURRENT_PAGE+pageNumber;
 
     }
 
@@ -342,13 +342,13 @@ public class ECSURLBuilder implements URLProvider {
     public String getOrderDetailUrl(String orderId) {
 
         // mOrderDetailUrl = mBaseURl.concat(SUFFIX_ORDERS).concat(SUFFIX_STRING_PARAM).concat(FIELDS_FULL_LANG) + mStoreConfig.getLocale();
-        return   ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return   ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_ORDERS+SEPERATOR+
                 orderId+
-                FIELDS_FULL_LANG +ECSConfig.INSTANCE.getLocale();
+                FIELDS_FULL_LANG + ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override
@@ -358,47 +358,47 @@ public class ECSURLBuilder implements URLProvider {
 
     @Override
     public String getApplyVoucherUrl() {
-       return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-               ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+       return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+               ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                USER+SEPERATOR+
                SUFFIX_CURRENT+SEPERATOR+
                SUFFIX_CARTS+SEPERATOR+
                SUFFIX_CURRENT+SEPERATOR+
                SUFFIX_VOUCHERS+SUFFIX_LANG_QUESTION+
-               ECSConfig.INSTANCE.getLocale();
+               ECSConfiguration.INSTANCE.getLocale();
     }
 
     @Override
     public String getDeleteVoucherUrl(String voucherId) {
-        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_CARTS+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_VOUCHERS+SEPERATOR+
                 voucherId+
-                SUFFIX_LANG_QUESTION+ ECSConfig.INSTANCE.getLocale();
+                SUFFIX_LANG_QUESTION+ ECSConfiguration.INSTANCE.getLocale();
 
     }
 
     @Override
     public String getAppliedVoucherUrl() {
-        return ECSConfig.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
-                ECSConfig.INSTANCE.getSiteId()+SEPERATOR+
+        return ECSConfiguration.INSTANCE.getBaseURL()+ WEBROOT + SEPERATOR + V2 + SEPERATOR+
+                ECSConfiguration.INSTANCE.getSiteId()+SEPERATOR+
                 USER+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_CARTS+SEPERATOR+
                 SUFFIX_CURRENT+SEPERATOR+
                 SUFFIX_VOUCHERS+
-                SUFFIX_LANG_QUESTION+ ECSConfig.INSTANCE.getLocale();
+                SUFFIX_LANG_QUESTION+ ECSConfiguration.INSTANCE.getLocale();
     }
 
     public String getRawConfigUrl() {
-        return ECSConfig.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR +
+        return ECSConfiguration.INSTANCE.getBaseURL() + ECSURLBuilder.WEBROOT + ECSURLBuilder.SEPERATOR + ECSURLBuilder.V2 + ECSURLBuilder.SEPERATOR +
                 SUFFIX_CONFIGURATION + ECSURLBuilder.SEPERATOR +
-                ECSConfig.INSTANCE.getLocale() + ECSURLBuilder.SEPERATOR +
-                ECSConfig.INSTANCE.getPropositionID();
+                ECSConfiguration.INSTANCE.getLocale() + ECSURLBuilder.SEPERATOR +
+                ECSConfiguration.INSTANCE.getPropositionID();
     }
 
 }

@@ -7,13 +7,11 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.MockInputValidator;
-import com.philips.cdp.di.ecs.Payment.MockGetPaymentsRequest;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.config.HybrisConfigResponse;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -51,7 +49,7 @@ public class GetConfigurationRequestTest {
 
     MockGetConfigurationRequest mockGetConfigurationRequest;
 
-    ECSCallback<HybrisConfigResponse, Exception> ecsCallback;
+    ECSCallback<ECSConfig, Exception> ecsCallback;
     private MockInputValidator mockInputValidator;
 
     @Before
@@ -68,9 +66,9 @@ public class GetConfigurationRequestTest {
 
         StaticBlock.initialize();
 
-        ecsCallback = new ECSCallback<HybrisConfigResponse, Exception>() {
+        ecsCallback = new ECSCallback<ECSConfig, Exception>() {
             @Override
-            public void onResponse(HybrisConfigResponse result) {
+            public void onResponse(ECSConfig result) {
 
             }
 
@@ -88,9 +86,9 @@ public class GetConfigurationRequestTest {
     @Test
     public void getConfigurationRequestSuccess() {
         mockInputValidator.setJsonFileName("GetConfigSuccess.json");
-        mockECSServices.configureECSToGetConfiguration(new ECSCallback<HybrisConfigResponse, Exception>() {
+        mockECSServices.configureECSToGetConfiguration(new ECSCallback<ECSConfig, Exception>() {
             @Override
-            public void onResponse(HybrisConfigResponse result) {
+            public void onResponse(ECSConfig result) {
                 assertNotNull(result);
                 assertNotNull(result.getSiteId());
                 assertNotNull(result.getRootCategory());
@@ -110,9 +108,9 @@ public class GetConfigurationRequestTest {
     @Test
     public void getConfigurationRequestFailure() {
         mockInputValidator.setJsonFileName("GetConfigFailure.json");
-        mockECSServices.configureECSToGetConfiguration(new ECSCallback<HybrisConfigResponse, Exception>() {
+        mockECSServices.configureECSToGetConfiguration(new ECSCallback<ECSConfig, Exception>() {
             @Override
-            public void onResponse(HybrisConfigResponse result) {
+            public void onResponse(ECSConfig result) {
                 assertTrue(false);
                 //test case failed
 
@@ -141,7 +139,7 @@ public class GetConfigurationRequestTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<HybrisConfigResponse, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSConfig, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetConfigurationRequest = new MockGetConfigurationRequest("GetConfigSuccess.json", spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetConfigurationRequest.onErrorResponse(volleyError);
@@ -152,14 +150,14 @@ public class GetConfigurationRequestTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<HybrisConfigResponse, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSConfig, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetConfigurationRequest = new MockGetConfigurationRequest("GetConfigSuccess.json",spy1);
 
         JSONObject jsonObject = getJsonObject("GetConfigSuccess.json");
 
         mockGetConfigurationRequest.onResponse(jsonObject);
 
-        Mockito.verify(spy1).onResponse(any(HybrisConfigResponse.class));
+        Mockito.verify(spy1).onResponse(any(ECSConfig.class));
 
     }
 

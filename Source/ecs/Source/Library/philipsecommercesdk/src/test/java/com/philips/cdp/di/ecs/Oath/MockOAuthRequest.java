@@ -3,8 +3,8 @@ package com.philips.cdp.di.ecs.Oath;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.request.OAuthRequest;
 
 import org.json.JSONException;
@@ -15,7 +15,7 @@ import java.io.InputStream;
 public class MockOAuthRequest extends OAuthRequest {
     String jsonFile;
 
-    public MockOAuthRequest(String jsonFile, OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
+    public MockOAuthRequest(String jsonFile, ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
         super(oAuthInput, ecsListener);
         this.jsonFile=jsonFile;
     }

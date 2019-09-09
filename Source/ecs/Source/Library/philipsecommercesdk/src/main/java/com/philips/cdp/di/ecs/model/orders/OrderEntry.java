@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.model.orders;
 
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 /**
  * Created by philips on 5/15/19.
@@ -8,13 +8,13 @@ import com.philips.cdp.di.ecs.model.products.Product;
 
 public class OrderEntry {
 
-    private Product product;
+    private ECSProduct product;
 
-    public Product getProduct() {
+    public ECSProduct getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ECSProduct product) {
         this.product = product;
     }
 }

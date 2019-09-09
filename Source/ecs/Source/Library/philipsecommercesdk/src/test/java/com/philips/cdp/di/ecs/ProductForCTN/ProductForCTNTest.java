@@ -11,7 +11,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -53,7 +53,7 @@ public class ProductForCTNTest {
 
     MockGetProductForRequest mockGetProductForRequest;
 
-    ECSCallback<Product, Exception> ecsCallback ;
+    ECSCallback<ECSProduct, Exception> ecsCallback ;
 
     String ctn = "MS5030/01";
     private MockInputValidator mockInputValidator;
@@ -75,9 +75,9 @@ public class ProductForCTNTest {
         mockInputValidator = new MockInputValidator();
         ecsServices = new ECSServices("",appInfra);
 
-        ecsCallback = new ECSCallback<Product, Exception>() {
+        ecsCallback = new ECSCallback<ECSProduct, Exception>() {
             @Override
-            public void onResponse(Product result) {
+            public void onResponse(ECSProduct result) {
 
             }
 
@@ -93,9 +93,9 @@ public class ProductForCTNTest {
     @Test
     public void getProductForCTNHybrissuccess(){
         mockInputValidator.setJsonFileName("GetProductForCTN.json");
-        mockECSServices.getProduct(ctn, new ECSCallback<Product, Exception>() {
+        mockECSServices.fetchProduct(ctn, new ECSCallback<ECSProduct, Exception>() {
             @Override
-            public void onResponse(Product product) {
+            public void onResponse(ECSProduct product) {
                 assertNotNull(product);
                 //assertNotNull(product.getSummary());
                 // test case passed
@@ -112,9 +112,9 @@ public class ProductForCTNTest {
     @Test
     public void getProductForCTNHybrisFailure(){
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.getProduct(ctn, new ECSCallback<Product, Exception>() {
+        mockECSServices.fetchProduct(ctn, new ECSCallback<ECSProduct, Exception>() {
             @Override
-            public void onResponse(Product product) {
+            public void onResponse(ECSProduct product) {
                 assertTrue(true);
                 // test case failed
             }
@@ -152,21 +152,21 @@ public class ProductForCTNTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<Product, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSProduct, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetProductForRequest = new MockGetProductForRequest("GetProductForCTN.json","MS5030/01",spy1);
 
         JSONObject jsonObject = getJsonObject("GetProductForCTN.json");
 
         mockGetProductForRequest.onResponse(jsonObject);
 
-        Mockito.verify(spy1).onResponse(any(Product.class));
+        Mockito.verify(spy1).onResponse(any(ECSProduct.class));
 
     }
 
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<Product, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSProduct, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetProductForRequest = new MockGetProductForRequest("GetProductForCTN.json","MS5030/01",spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetProductForRequest.onErrorResponse(volleyError);

@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.prx.serviceDiscovery;
 
 import android.text.TextUtils;
 
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
@@ -34,7 +34,7 @@ public class ProductSummaryListServiceDiscoveryRequest extends ServiceDiscoveryR
 
         ArrayList<String> serviceIDList = new ArrayList<>();
         serviceIDList.add(PRXSummaryDataServiceID);
-        ECSConfig.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        ECSConfiguration.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(serviceIDList, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
                 listener.onSuccess(urlMap.get(PRXSummaryDataServiceID).getConfigUrls());

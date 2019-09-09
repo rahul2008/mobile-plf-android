@@ -8,7 +8,7 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
 import com.philips.cdp.di.ecs.model.orders.OrderDetail
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
-import com.philips.cdp.di.ecs.util.ECSConfig
+import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.ecs.error.ECSNetworkError
 import com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage
 import org.json.JSONObject
@@ -31,7 +31,7 @@ open class GetOrderDetailRequest(orderID: String, ecsCallback: ECSCallback<Order
 
     override fun getHeader(): Map<String, String>? {
         val authMap = HashMap<String, String>()
-        authMap["Authorization"] = "Bearer " + ECSConfig.INSTANCE.accessToken
+        authMap["Authorization"] = "Bearer " + ECSConfiguration.INSTANCE.accessToken
         return authMap
     }
 

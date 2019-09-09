@@ -24,7 +24,7 @@ import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.stock.ECSStockAvailabilityHelper;
 import com.ecs.demouapp.ui.utils.ECSConstant;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 
 import java.util.ArrayList;
@@ -37,9 +37,9 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final ImageLoader mImageLoader;
     private Context mContext;
 
-    private List<Product> mProductCatalogList;
-    private List<Product> mProductCatalogListToFilter;
-    private Product mSelectedProduct;
+    private List<ECSProduct> mProductCatalogList;
+    private List<ECSProduct> mProductCatalogListToFilter;
+    private ECSProduct mSelectedProduct;
     private String mCharacterText = "";
 
     private boolean isSearchFocused() {
@@ -52,7 +52,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private boolean isSearchFocused = false;
 
-    public ProductCatalogAdapter(Context pContext, List<Product> products) {
+    public ProductCatalogAdapter(Context pContext, List<ECSProduct> products) {
         mContext = pContext;
         this.mProductCatalogList = products;
         mProductCatalogListToFilter = products;
@@ -89,7 +89,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         }
 
-        Product productCatalogData = mProductCatalogList.get(holder.getAdapterPosition());
+        ECSProduct productCatalogData = mProductCatalogList.get(holder.getAdapterPosition());
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
 
         String imageURL = productCatalogData.getSummary().getImageURL();
@@ -154,7 +154,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         EventHelper.getInstance().notifyEventOccurred(ECSConstant.IAP_LAUNCH_PRODUCT_DETAIL);
     }
 
-    public Product getTheProductDataForDisplayingInProductDetailPage() {
+    public ECSProduct getTheProductDataForDisplayingInProductDetailPage() {
         return mSelectedProduct;
     }
 
@@ -198,7 +198,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (mProductCatalogList.size() != 0) {
             StringBuilder products = new StringBuilder();
             for (int i = 0; i < mProductCatalogList.size(); i++) {
-                Product catalogData = mProductCatalogList.get(i);
+                ECSProduct catalogData = mProductCatalogList.get(i);
                 if (i > 0) {
                     products = products.append(",");
                 }
@@ -215,7 +215,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    public void setData(List<Product> mProductCatalogList) {
+    public void setData(List<ECSProduct> mProductCatalogList) {
         this.mProductCatalogList = mProductCatalogList;
     }
 
@@ -224,11 +224,11 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         setSearchFocused(true);
         mCharacterText = charText;
         charText = charText.toLowerCase(Locale.getDefault());
-        ArrayList<Product> lFilteredProductList = new ArrayList<>();
+        ArrayList<ECSProduct> lFilteredProductList = new ArrayList<>();
         if (charText.length() == 0) {
             // Show no product found view
         } else {
-            for (Product wp : mProductCatalogListToFilter) {
+            for (ECSProduct wp : mProductCatalogListToFilter) {
                 if (wp.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
                     lFilteredProductList.add(wp);
                 }

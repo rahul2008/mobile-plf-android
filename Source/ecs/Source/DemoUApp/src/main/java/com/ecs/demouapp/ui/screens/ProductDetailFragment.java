@@ -55,11 +55,11 @@ import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
 import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
 import com.philips.cdp.di.ecs.model.summary.Data;
-import com.philips.cdp.di.ecs.util.ECSConfig;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.philips.platform.uid.view.widget.Label;
@@ -141,7 +141,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             ECSUtility.showECSAlertDialog(mContext,"Error",msg.obj.toString());
         }
     };
-    private Product product;
+    private ECSProduct product;
 
 
     public static ProductDetailFragment createInstance(Bundle args, AnimationType animType) {
@@ -203,7 +203,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mBundle = getArguments();
         if (mBundle != null) {
 
-            Product productCatalogData = (Product) mBundle.getSerializable("ProductCatalogData");
+            ECSProduct productCatalogData = (ECSProduct) mBundle.getSerializable("ProductCatalogData");
             product = productCatalogData;
 
             if(mBundle.getSerializable(ECSConstant.SHOPPING_CART_CODE)!=null){
@@ -215,15 +215,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mIsFromVertical = true;
                 mCTNValue = mBundle.getString(ECSConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL);
                 if(product == null){
-                    product = new Product();
+                    product = new ECSProduct();
                 }
                 product.setCode(mCTNValue);
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
 
-                        ECSUtility.getInstance().getEcsServices().getProduct(mCTNValue, new ECSCallback<Product, Exception>() {
+                        ECSUtility.getInstance().getEcsServices().fetchProduct(mCTNValue, new ECSCallback<ECSProduct, Exception>() {
                             @Override
-                            public void onResponse(Product result) {
+                            public void onResponse(ECSProduct result) {
                                 product = result;
                                 hideProgressBar();
                                 fetchProductDetailFromPrx();
@@ -268,7 +268,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mBundle.getString(ECSConstant.PRODUCT_VALUE_PRICE) != null) {
             productPrice = mBundle.getString(ECSConstant.PRODUCT_VALUE_PRICE);
         }
-        product = product.append(ECSConfig.INSTANCE.getRootCategory()).append(";")
+        product = product.append(ECSConfiguration.INSTANCE.getRootCategory()).append(";")
                 .append(mProductTitle).append(";").append(";")
                 .append(productPrice);
         contextData.put(ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.PROD_VIEW);
@@ -284,9 +284,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void makeAssetsAndDisclaimerRequest() {
         createCustomProgressBar(mParentLayout, BIG);
-        ECSUtility.getInstance().getEcsServices().getProductDetails(product, new ECSCallback<Product, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchProductDetails(product, new ECSCallback<ECSProduct, Exception>() {
             @Override
-            public void onResponse(Product result) {
+            public void onResponse(ECSProduct result) {
 
                 if(result.getDisclaimers()!=null || !result.getDisclaimers().getDisclaimer().isEmpty()) {
                     showDisclaimer(result.getDisclaimers().getDisclaimer());
@@ -731,7 +731,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     }
 
-    private Product getProductFromCTN(ECSShoppingCart data) {
+    private ECSProduct getProductFromCTN(ECSShoppingCart data) {
 
         if(data.getEntries()!=null && data.getEntries().size() >0) {
 
