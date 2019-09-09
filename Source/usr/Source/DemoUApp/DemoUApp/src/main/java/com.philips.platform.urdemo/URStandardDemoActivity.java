@@ -59,6 +59,11 @@ import com.philips.platform.pif.DataInterface.USR.listeners.UpdateUserDetailsHan
 import com.philips.platform.pif.chi.datamodel.ConsentDefinition;
 import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.Switch;
@@ -100,6 +105,8 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        initTheme();
         Config.setDebugLogging(true);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
@@ -869,5 +876,16 @@ public class URStandardDemoActivity extends UIDActivity implements OnClickListen
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
+    }
+
+    private void initTheme() {
+        int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+        int themeIndex = themeResourceID;
+        if (themeIndex <= 0) {
+            themeIndex = R.style.Theme_DLS_Blue_UltraLight;
+        }
+        getTheme().applyStyle(themeIndex, true);
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+
     }
 }
