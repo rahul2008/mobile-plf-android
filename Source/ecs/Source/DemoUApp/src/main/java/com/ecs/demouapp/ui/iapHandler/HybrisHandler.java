@@ -10,8 +10,8 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
     @Override
     public void getProductCartCount(final ECSListener iapListener) {
 
-        ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart carts) {
 
@@ -43,13 +43,13 @@ public class HybrisHandler extends ECSInterface implements ECSExposedAPI {
     @Override
     public void getCompleteProductList(final ECSListener iapListener) {
 
-            ECSUtility.getInstance().getEcsServices().fetchProducts(0, 20, new ECSCallback<Products, Exception>() {
+            ECSUtility.getInstance().getEcsServices().fetchProducts(0, 20, new ECSCallback<ECSProducts, Exception>() {
                 @Override
-                public void onResponse(Products result) {
+                public void onResponse(ECSProducts result) {
 
                     ArrayList<String> ctns = new ArrayList<>();
 
-                    for(Product product:result.getProducts()){
+                    for(ECSProduct product:result.getProducts()){
                         ctns.add(product.getCode());
                     }
                     iapListener.onGetCompleteProductList(ctns);

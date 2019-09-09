@@ -23,7 +23,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetUser;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     @Override
     public void getCurrentCartDetails() {
 
-        ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 mLoadListener.onLoadFinished(result);
@@ -122,7 +122,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void getProductCartCount(final Context context, final ECSCartListener
             iapCartListener) {
 
-        ECSUtility.getInstance().getEcsServices().getShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchShoppingCart(new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart carts) {
 
@@ -150,7 +150,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     }
 
     @Override
-    public void addProductToCart(Product product, final ECSCartListener
+    public void addProductToCart(ECSProduct product, final ECSCartListener
             iapHandlerListener) {
 
         ECSUtility.getInstance().getEcsServices().addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {

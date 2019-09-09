@@ -8,7 +8,7 @@ import com.philips.cdp.di.ecs.Cart.MockGetECSShoppingCartsRequest;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.network.NetworkController;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.ServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.request.APPInfraRequest;
@@ -37,8 +37,8 @@ public class ECSManagerTest {
     MockGetECSShoppingCartsRequest mockGetECSShoppingCartsRequest;
 
 
-    Product product;
-    ECSCallback<Product, Exception> ecsCallback;
+    ECSProduct product;
+    ECSCallback<ECSProduct, Exception> ecsCallback;
     @Mock
     private AppInfraInterface appInfra;
 
@@ -124,7 +124,7 @@ public class ECSManagerTest {
     public void setUp() throws Exception {
        networkControllerMock= new NetworkController(appInfraRequest);
         ecsManager = new ECSManager();
-        product = new Product();
+        product = new ECSProduct();
         product.setCode("abcd");
         //when(networkControllerMock.getAppInfraJSONObject(any(APPInfraRequest.class))).thenReturn(jsonObjectRequest);
 

@@ -12,8 +12,8 @@ import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
@@ -25,8 +25,8 @@ import java.util.Map;
 
 public class OAuthRequest extends AppInfraAbstractRequest  implements Response.Listener<JSONObject>{
 
-    private final ECSCallback<OAuthResponse,Exception> ecsCallback;
-    private final  OAuthInput oAuthInput;
+    private final ECSCallback<ECSOAuthData,Exception> ecsCallback;
+    private final ECSOAuthProvider oAuthInput;
     String oAuthID;
 
     String mRetryUrl = null;
@@ -34,7 +34,7 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
     //For handling 307 - Temporary redirect
     public static final int HTTP_REDIRECT = 307;
 
-    public OAuthRequest(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
+    public OAuthRequest(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
         this.ecsCallback = ecsListener;
         this.oAuthInput = oAuthInput;
         oAuthID = oAuthInput.getOAuthID();
@@ -83,8 +83,8 @@ public class OAuthRequest extends AppInfraAbstractRequest  implements Response.L
     @Override
     public void onResponse(JSONObject response) {
         if (response != null) {
-            OAuthResponse oAuthResponse = new Gson().fromJson(response.toString(),
-                    OAuthResponse.class);
+            ECSOAuthData oAuthResponse = new Gson().fromJson(response.toString(),
+                    ECSOAuthData.class);
             ECSConfiguration.INSTANCE.setAuthToken( oAuthResponse.getAccessToken());
             ecsCallback.onResponse(oAuthResponse);
         }

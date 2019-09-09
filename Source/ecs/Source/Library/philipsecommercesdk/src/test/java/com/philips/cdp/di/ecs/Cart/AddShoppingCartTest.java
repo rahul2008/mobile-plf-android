@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -33,7 +33,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class AddShoppingCartTest {
@@ -55,7 +54,7 @@ public class AddShoppingCartTest {
     ECSCallback ecsCallback;
 
 
-    Product product ;
+    ECSProduct product ;
     private MockInputValidator mockInputValidator;
 
     @Before
@@ -74,7 +73,7 @@ public class AddShoppingCartTest {
 
         StaticBlock.initialize();
 
-        product = new Product();
+        product = new ECSProduct();
 
         ecsCallback = new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
@@ -94,7 +93,7 @@ public class AddShoppingCartTest {
     @Test
     public void addShoppingCartSuccess(){
         mockInputValidator.setJsonFileName("AddShoppingCartSuccess.json");
-        Product product = new Product();
+        ECSProduct product = new ECSProduct();
         mockECSServices.addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
@@ -116,7 +115,7 @@ public class AddShoppingCartTest {
     @Test
     public void addShoppingCartFailure(){
         mockInputValidator.setJsonFileName("EmptyString.json");
-        Product product = new Product();
+        ECSProduct product = new ECSProduct();
         mockECSServices.addProductToShoppingCart(product, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {

@@ -5,7 +5,7 @@
 package com.philips.cdp.di.ecs.store;
 
 
-import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 
@@ -76,7 +76,7 @@ public class ECSURLBuilder implements URLProvider {
 
     //OAuth
     @Override
-    public String getOauthUrl(OAuthInput oAuthInput) {
+    public String getOauthUrl(ECSOAuthProvider oAuthInput) {
         StringBuilder builder = new StringBuilder(ECSConfiguration.INSTANCE.getBaseURL());
         builder.append(WEBROOT).append(SEPERATOR).append(SUFFIX_OAUTH)
                 .append("?"+oAuthInput.getGrantType().getType()+"=").append(oAuthInput.getOAuthID())

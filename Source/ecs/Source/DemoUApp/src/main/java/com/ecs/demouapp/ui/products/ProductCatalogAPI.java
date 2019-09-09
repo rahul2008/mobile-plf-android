@@ -8,14 +8,14 @@ package com.ecs.demouapp.ui.products;
 
 import com.ecs.demouapp.ui.integration.ECSListener;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 
 import java.util.ArrayList;
 
 public interface ProductCatalogAPI {
-    void getProductCatalog(int currentPage, int pageSize, ECSCallback<Products,Exception> ecsCallback);
+    void getProductCatalog(int currentPage, int pageSize, ECSCallback<ECSProducts,Exception> ecsCallback);
 
-    void getCategorizedProductList(ArrayList<String> productList,ECSCallback<Products, Exception> ecsCallback);
+    void getCategorizedProductList(ArrayList<String> productList,ECSCallback<ECSProducts, Exception> ecsCallback);
 
     void getCompleteProductList(ECSListener iapListener);
 

@@ -1,11 +1,11 @@
 package com.philips.cdp.di.ecs.model.orders;
 
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 public class Entries {
     private int entryNumber;
 
-    private Product product;
+    private ECSProduct product;
     private int quantity;
 
     private Cost totalPrice;
@@ -16,7 +16,7 @@ public class Entries {
         return entryNumber;
     }
 
-    public Product getProduct() {
+    public ECSProduct getProduct() {
         return product;
     }
 

@@ -5,13 +5,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
-import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Products;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
 
@@ -29,11 +28,11 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
 
     private final int currentPage;
     private int pageSize = 0;
-    private final ECSCallback<Products, Exception> ecsCallback;
-    private Products mProducts;
+    private final ECSCallback<ECSProducts, Exception> ecsCallback;
+    private ECSProducts mProducts;
 
 
-    public GetProductListRequest(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public GetProductListRequest(int currentPage, int pageSize, ECSCallback<ECSProducts, Exception> ecsCallback) {
         this.currentPage = currentPage;
         this.ecsCallback = ecsCallback;
             this.pageSize = pageSize;
@@ -69,16 +68,16 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
 
         try {
             mProducts = new Gson().fromJson(response.toString(),
-                    Products.class);
+                    ECSProducts.class);
         } catch (Exception e) {
             exception = e;
         }
 
-            List<Product> productsEntities = mProducts.getProducts();
+            List<ECSProduct> productsEntities = mProducts.getProducts();
             ArrayList<String> ctns = new ArrayList<>();
 
             if( null == exception && null!=productsEntities && !productsEntities.isEmpty()) {
-                for (Product product : productsEntities) {
+                for (ECSProduct product : productsEntities) {
                     ctns.add(product.getCode());
                 }
                 ecsCallback.onResponse(mProducts);

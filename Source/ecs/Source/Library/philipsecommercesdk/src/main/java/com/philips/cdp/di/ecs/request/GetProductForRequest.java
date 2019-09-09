@@ -7,12 +7,11 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
@@ -24,9 +23,9 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 public class GetProductForRequest extends AppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
     private String ctn;
-    private final ECSCallback<Product, Exception> ecsCallback;
+    private final ECSCallback<ECSProduct, Exception> ecsCallback;
 
-    public GetProductForRequest(String ctn, ECSCallback<Product, Exception> ecsCallback) {
+    public GetProductForRequest(String ctn, ECSCallback<ECSProduct, Exception> ecsCallback) {
         this.ctn = ctn;
         this.ecsCallback = ecsCallback;
     }
@@ -60,12 +59,12 @@ public class GetProductForRequest extends AppInfraAbstractRequest implements Res
      */
     @Override
     public void onResponse(JSONObject response) {
-            Product product = null;
+            ECSProduct product = null;
             Exception exception = null;
 
             try {
                 product = getJson().fromJson(response.toString(),
-                        Product.class);
+                        ECSProduct.class);
             } catch (Exception e) {
                 exception = e;
             }

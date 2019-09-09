@@ -4,7 +4,7 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
@@ -18,11 +18,11 @@ import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
-import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
@@ -116,17 +116,17 @@ public class ECSManager {
     }
 
 
-     void getOAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsCallback) {
+     void getOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsCallback) {
         new OAuthRequest(oAuthInput, ecsCallback).executeRequest();
     }
 
     //========================================= Start of PRX Product List, Product Detail & Product for CTN =======================================
 
-     void getProductList(int currentPage, int pageSize, final ECSCallback<Products, Exception> finalEcsCallback) {
+     void getProductList(int currentPage, int pageSize, final ECSCallback<ECSProducts, Exception> finalEcsCallback) {
 
-        GetProductListRequest getProductListRequest = new GetProductListRequest(currentPage, pageSize, new ECSCallback<Products, Exception>() {
+        GetProductListRequest getProductListRequest = new GetProductListRequest(currentPage, pageSize, new ECSCallback<ECSProducts, Exception>() {
             @Override
-            public void onResponse(Products result) {
+            public void onResponse(ECSProducts result) {
                 prepareProductSummaryURL(result, finalEcsCallback);
             }
 
@@ -139,11 +139,11 @@ public class ECSManager {
 
     }
 
-     void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
+     void getProductFor(String ctn, ECSCallback<ECSProduct, Exception> eCSCallback) {
         if (null != ECSConfiguration.INSTANCE.getSiteId()) { // hybris flow
-            ECSCallback ecsCallback1 =  new ECSCallback<Product, Exception>() {
+            ECSCallback ecsCallback1 =  new ECSCallback<ECSProduct, Exception>() {
                 @Override
-                public void onResponse(Product result) {
+                public void onResponse(ECSProduct result) {
                     getSummaryForCTN(ctn, result, eCSCallback);
                 }
 
@@ -160,19 +160,19 @@ public class ECSManager {
 
 
     }
-    GetProductForRequest getProductForRequestObject(String ctn, ECSCallback<Product, Exception> ecsCallback){
+    GetProductForRequest getProductForRequestObject(String ctn, ECSCallback<ECSProduct, Exception> ecsCallback){
         return new GetProductForRequest(ctn,  ecsCallback);
     }
 
 
-    private static void productDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+    private static void productDetail(ECSProduct product, ECSCallback<ECSProduct, Exception> ecsCallback) {
         threadCount++;
         if (threadCount == 2) {
             ecsCallback.onResponse(product);
         }
     }
 
-     void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+     void getProductDetail(ECSProduct product, ECSCallback<ECSProduct, Exception> ecsCallback) {
         Thread assets = new Thread() {
 
             @Override
@@ -249,20 +249,20 @@ public class ECSManager {
 
     //============================================== Start of PRX (Summary, Asset & Disclaimer) ================================================
 
-    void getSummaryForCTN(String ctn, Product product, ECSCallback<Product, Exception> eCSCallback) {
-        Products products = new Products();
+    void getSummaryForCTN(String ctn, ECSProduct product, ECSCallback<ECSProduct, Exception> eCSCallback) {
+        ECSProducts products = new ECSProducts();
         ArrayList<String> ctns = new ArrayList<>();
         if (null == product) {
-            product = new Product();
+            product = new ECSProduct();
             product.setCode(ctn);
         }
-        List<Product> productList = new ArrayList<Product>();
+        List<ECSProduct> productList = new ArrayList<ECSProduct>();
         products.setProducts(productList);
         products.getProducts().add(product);
         ctns.add(ctn);
-        getProductSummary(products, new ECSCallback<Products, Exception>() {
+        getProductSummary(products, new ECSCallback<ECSProducts, Exception>() {
             @Override
-            public void onResponse(Products result) {
+            public void onResponse(ECSProducts result) {
                 eCSCallback.onResponse(result.getProducts().get(0)); // one and only product
             }
 
@@ -273,16 +273,16 @@ public class ECSManager {
         }, ctns);
     }
 
-    void prepareProductSummaryURL(Products result, final ECSCallback<Products, Exception> ecsCallback) {
-        List<Product> productsEntities = result.getProducts();
+    void prepareProductSummaryURL(ECSProducts result, final ECSCallback<ECSProducts, Exception> ecsCallback) {
+        List<ECSProduct> productsEntities = result.getProducts();
         ArrayList<String> ctns = new ArrayList<>();
-        for (Product product : productsEntities) {
+        for (ECSProduct product : productsEntities) {
             ctns.add(product.getCode());
         }
         getProductSummary(result, ecsCallback, ctns);
     }
 
-    private void getProductSummary(Products result, ECSCallback<Products, Exception> ecsCallback, ArrayList<String> ctns) {
+    private void getProductSummary(ECSProducts result, ECSCallback<ECSProducts, Exception> ecsCallback, ArrayList<String> ctns) {
         //Call PRX here
         ProductSummaryListServiceDiscoveryRequest productSummaryListServiceDiscoveryRequest = prepareProductSummaryListRequest(ctns);
         productSummaryListServiceDiscoveryRequest.getRequestUrlFromAppInfra(new ServiceDiscoveryRequest.OnUrlReceived() {
@@ -309,16 +309,16 @@ public class ECSManager {
         });
     }
 
-    void updateProductsWithSummary(Products products, ECSProductSummary ecsProductSummary) {
+    void updateProductsWithSummary(ECSProducts products, ECSProductSummary ecsProductSummary) {
         HashMap<String, Data> summaryCtnMap = new HashMap<>();
-        ArrayList<Product> productArrayList = new ArrayList<>(); // set back products for which summaries are available
+        ArrayList<ECSProduct> productArrayList = new ArrayList<>(); // set back products for which summaries are available
         if (ecsProductSummary.isSuccess()) {
             for (Data data : ecsProductSummary.getData()) {
                 summaryCtnMap.put(data.getCtn(), data);
             }
         }
 
-        for (Product product : products.getProducts()) {
+        for (ECSProduct product : products.getProducts()) {
             Data productSummaryData = summaryCtnMap.get(product.getCode());
             if (productSummaryData != null) {
                 product.setSummary(productSummaryData);
@@ -346,19 +346,19 @@ public class ECSManager {
 
     }
 
-     void getSummary(List<String> ctns, ECSCallback<List<Product>, Exception> ecsCallback) {
+     void getSummary(List<String> ctns, ECSCallback<List<ECSProduct>, Exception> ecsCallback) {
 
-        Products products = new Products();
-        ArrayList<Product> productArrayList = new ArrayList<>();
+        ECSProducts products = new ECSProducts();
+        ArrayList<ECSProduct> productArrayList = new ArrayList<>();
         for (String ctn : ctns) {
-            Product product = new Product();
+            ECSProduct product = new ECSProduct();
             product.setCode(ctn);
             productArrayList.add(product);
         }
         products.setProducts(productArrayList);
-        prepareProductSummaryURL(products, new ECSCallback<Products, Exception>() {
+        prepareProductSummaryURL(products, new ECSCallback<ECSProducts, Exception>() {
             @Override
-            public void onResponse(Products result) {
+            public void onResponse(ECSProducts result) {
                 ecsCallback.onResponse(result.getProducts());
             }
 
@@ -382,17 +382,17 @@ public class ECSManager {
                     ecsCallback.onResponse(ecsShoppingCart);
                 } else {
                     //Preparing products to get summary Data
-                    List<Product> productList = new ArrayList<>();
+                    List<ECSProduct> productList = new ArrayList<>();
 
                     for (EntriesEntity entriesEntity : ecsShoppingCart.getEntries()) {
                         productList.add(entriesEntity.getProduct());
                     }
-                    Products products = new Products();
+                    ECSProducts products = new ECSProducts();
                     products.setProducts(productList);
                     //get Summary Data Here
-                    ECSCallback<Products, Exception> ecsCallbackProduct = new ECSCallback<Products, Exception>() {
+                    ECSCallback<ECSProducts, Exception> ecsCallbackProduct = new ECSCallback<ECSProducts, Exception>() {
                         @Override
-                        public void onResponse(Products result) {
+                        public void onResponse(ECSProducts result) {
                             ecsCallback.onResponse(ecsShoppingCart);
                         }
 
@@ -443,7 +443,7 @@ public class ECSManager {
         return new CreateECSShoppingCartRequest(ecsCallback);
     }
     // AddProduct to Cart
-     void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+     void addProductToShoppingCart(ECSProduct product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
          ECSCallback<Boolean, Exception> ecsCallback1= new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -654,8 +654,8 @@ public class ECSManager {
                 }
                 // Get PRX Summary Data
                 ArrayList<String> ctns = new ArrayList<>();
-                ArrayList<Product> productsFromDirectEntry = new ArrayList<>();
-                ArrayList<Product> productsFromDeliveryGroupEntry = new ArrayList<>();
+                ArrayList<ECSProduct> productsFromDirectEntry = new ArrayList<>();
+                ArrayList<ECSProduct> productsFromDeliveryGroupEntry = new ArrayList<>();
                 for (Entries entries : orderDetail.getDeliveryOrderGroups().get(0).getEntries()) {
                     productsFromDeliveryGroupEntry.add(entries.getProduct());
                 }
@@ -699,15 +699,15 @@ public class ECSManager {
         }).executeRequest();
     }
 
-    private void setSummaryToProductsDeliveryGroupEntry(ECSProductSummary ecsProductSummary, ArrayList<Product> productsFromDeliveryGroupEntry) {
+    private void setSummaryToProductsDeliveryGroupEntry(ECSProductSummary ecsProductSummary, ArrayList<ECSProduct> productsFromDeliveryGroupEntry) {
         ArrayList<Data> data = ecsProductSummary.getData();
         for (Data d : data) {
             setProductData(d, productsFromDeliveryGroupEntry);
         }
     }
 
-    private void setProductData(Data data, ArrayList<Product> products) {
-        for (Product product : products) {
+    private void setProductData(Data data, ArrayList<ECSProduct> products) {
+        for (ECSProduct product : products) {
             if (product.getCode().equalsIgnoreCase(data.getCtn())) {
                 product.setSummary(data);
                 return;
@@ -715,7 +715,7 @@ public class ECSManager {
         }
     }
 
-    private void setSummaryToProductsFromDirectEntry(ECSProductSummary ecsProductSummary, ArrayList<Product> productsFromDirectEntry) {
+    private void setSummaryToProductsFromDirectEntry(ECSProductSummary ecsProductSummary, ArrayList<ECSProduct> productsFromDirectEntry) {
         ArrayList<Data> data = ecsProductSummary.getData();
         for (Data d : data) {
             setProductData(d, productsFromDirectEntry);
@@ -741,7 +741,7 @@ public class ECSManager {
         });
     }
 
-    public void refreshAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsListener) {
+    public void refreshAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
         new OAuthRequest(oAuthInput,ecsListener).executeRequest();
     }
 }

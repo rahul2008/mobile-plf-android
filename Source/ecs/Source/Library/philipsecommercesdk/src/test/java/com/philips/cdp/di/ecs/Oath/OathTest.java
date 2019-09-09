@@ -7,14 +7,12 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.MockInputValidator;
-import com.philips.cdp.di.ecs.Payment.MockGetPaymentsRequest;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -53,11 +51,11 @@ public class OathTest {
     @Mock
     RestInterface mockRestInterface;
 
-    ECSCallback<OAuthResponse, Exception> ecsCallback;
+    ECSCallback<ECSOAuthData, Exception> ecsCallback;
 
     MockOAuthRequest mockOAuthRequest;
 
-    OAuthInput oAuthInput;
+    ECSOAuthProvider oAuthInput;
     private MockInputValidator mockInputValidator;
 
 
@@ -77,9 +75,9 @@ public class OathTest {
 
         mockInputValidator = new MockInputValidator();
 
-        ecsCallback = new ECSCallback<OAuthResponse, Exception>() {
+        ecsCallback = new ECSCallback<ECSOAuthData, Exception>() {
             @Override
-            public void onResponse(OAuthResponse result) {
+            public void onResponse(ECSOAuthData result) {
                 assertNotNull(result);
                 assertNotNull(result.getAccessToken());
                 // test case passed
@@ -92,7 +90,7 @@ public class OathTest {
             }
         };
 
-        oAuthInput = new OAuthInput() {
+        oAuthInput = new ECSOAuthProvider() {
             @Override
             public String getOAuthID() {
                 return "mock Jainrain ID";
@@ -107,15 +105,15 @@ public class OathTest {
     public void hybrisOathAuthenticationSuccess() {
         mockInputValidator.setJsonFileName("HybrisOauthSuccess.json");
 
-        OAuthInput oAuthInput = new OAuthInput() {
+        ECSOAuthProvider oAuthInput = new ECSOAuthProvider() {
             @Override
             public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
-        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
             @Override
-            public void onResponse(OAuthResponse result) {
+            public void onResponse(ECSOAuthData result) {
                 assertNotNull(result);
                 assertNotNull(result.getAccessToken());
                 // test case passed
@@ -134,15 +132,15 @@ public class OathTest {
     public void refreshOAuthSuccess() {
         mockInputValidator.setJsonFileName("HybrisOauthSuccess.json");
 
-        OAuthInput oAuthInput = new OAuthInput() {
+        ECSOAuthProvider oAuthInput = new ECSOAuthProvider() {
             @Override
             public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
-        mockECSServices.refreshAuth(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        mockECSServices.refreshAuth(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
             @Override
-            public void onResponse(OAuthResponse result) {
+            public void onResponse(ECSOAuthData result) {
                 assertNotNull(result);
                 assertNotNull(result.getAccessToken());
                 // test case passed
@@ -161,15 +159,15 @@ public class OathTest {
     public void hybrisOathAuthenticationFailure() {
         mockInputValidator.setJsonFileName("HybrisOauthFailure.json");
 
-        OAuthInput oAuthInput = new OAuthInput() {
+        ECSOAuthProvider oAuthInput = new ECSOAuthProvider() {
             @Override
             public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
-        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
             @Override
-            public void onResponse(OAuthResponse result) {
+            public void onResponse(ECSOAuthData result) {
                 assertNotNull(result);
                 assertNull(result.getAccessToken());
                 // test case passed
@@ -188,15 +186,15 @@ public class OathTest {
     public void hybrisOathAuthenticationInvalidClient() {
         mockInputValidator.setJsonFileName("HybrisInvalidClient.json");
 
-        OAuthInput oAuthInput = new OAuthInput() {
+        ECSOAuthProvider oAuthInput = new ECSOAuthProvider() {
             @Override
             public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
-        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        mockECSServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
             @Override
-            public void onResponse(OAuthResponse result) {
+            public void onResponse(ECSOAuthData result) {
                 assertNotNull(result);
                 assertNull(result.getAccessToken());
                 // test case passed
@@ -215,15 +213,15 @@ public class OathTest {
     public void hybrisOathAuthenticationInvalidClientReal() {
         //mockECSServices.setJsonFileName("HybrisInvalidClient.json");
 
-        OAuthInput oAuthInput = new OAuthInput() {
+        ECSOAuthProvider oAuthInput = new ECSOAuthProvider() {
             @Override
             public String getOAuthID() {
                 return "mock Jainrain ID";
             }
         };
-        ecsServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+        ecsServices.hybrisOAthAuthentication(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
             @Override
-            public void onResponse(OAuthResponse result) {
+            public void onResponse(ECSOAuthData result) {
                 assertNotNull(result);
                 assertNull(result.getAccessToken());
                 // test case passed
@@ -267,7 +265,7 @@ public class OathTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<OAuthResponse, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSOAuthData, Exception> spy1 = Mockito.spy(ecsCallback);
         mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json",oAuthInput,spy1);
         VolleyError volleyError = new NoConnectionError();
         mockOAuthRequest.onErrorResponse(volleyError);
@@ -278,14 +276,14 @@ public class OathTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<OAuthResponse, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSOAuthData, Exception> spy1 = Mockito.spy(ecsCallback);
         mockOAuthRequest = new MockOAuthRequest("HybrisOauthSuccess.json",oAuthInput,spy1);
 
         JSONObject jsonObject = getJsonObject("HybrisOauthSuccess.json");
 
         mockOAuthRequest.onResponse(jsonObject);
 
-        Mockito.verify(spy1).onResponse(any(OAuthResponse.class));
+        Mockito.verify(spy1).onResponse(any(ECSOAuthData.class));
 
     }
 

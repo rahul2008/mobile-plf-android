@@ -46,8 +46,8 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.GrantType;
-import com.philips.cdp.di.ecs.integration.OAuthInput;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -334,7 +334,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
                 //re OAuth after refreshSession for janrain
 
-                OAuthInput oAuthInput = new OAuthInput() {
+                ECSOAuthProvider oAuthInput = new ECSOAuthProvider() {
                     @Override
                     public String getOAuthID() {
                         return ECSConfiguration.INSTANCE.getAuthResponse().getRefreshToken();
@@ -348,9 +348,9 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
 
                 //ReOAuth starts =======================
-                ECSUtility.getInstance().getEcsServices().refreshAuth(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+                ECSUtility.getInstance().getEcsServices().refreshAuth(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
                     @Override
-                    public void onResponse(OAuthResponse result) {
+                    public void onResponse(ECSOAuthData result) {
 
 
                         ECSConfiguration.INSTANCE.setAuthToken(result.getAccessToken());
@@ -414,16 +414,16 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         if(isUserLoggedIn()) {
 
 
-            OAuthInput oAuthInput = new OAuthInput() {
+            ECSOAuthProvider oAuthInput = new ECSOAuthProvider() {
                 @Override
                 public String getOAuthID() {
                     return getMyJanRainID();
                 }
             };
 
-            ECSUtility.getInstance().getEcsServices().hybrisOAthAuthentication(oAuthInput, new ECSCallback<OAuthResponse, Exception>() {
+            ECSUtility.getInstance().getEcsServices().hybrisOAthAuthentication(oAuthInput, new ECSCallback<ECSOAuthData, Exception>() {
                 @Override
-                public void onResponse(OAuthResponse result) {
+                public void onResponse(ECSOAuthData result) {
                     ECSConfiguration.INSTANCE.setAuthToken(result.getAccessToken());
                     Log.d("ECS succ",result.getAccessToken());
 

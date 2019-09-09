@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.util;
 
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -14,7 +14,7 @@ public enum ECSConfiguration {
 
     private LoggingInterface ecsLoggingInterface;
 
-    private OAuthResponse oAuthResponse;
+    private ECSOAuthData oAuthResponse;
 
     public String getAccessToken() {
         return accessToken;
@@ -41,7 +41,7 @@ public enum ECSConfiguration {
     }
 
     String locale;
-    
+
     public String getRootCategory() {
         return rootCategory;
     }
@@ -88,11 +88,11 @@ public enum ECSConfiguration {
         return getCountryFromLocale(ECSConfiguration.INSTANCE.getLocale());
     }
 
-    public OAuthResponse getAuthResponse() {
+    public ECSOAuthData getAuthResponse() {
         return oAuthResponse;
     }
 
-    public void setAuthResponse(OAuthResponse oAuthResponse) {
+    public void setAuthResponse(ECSOAuthData oAuthResponse) {
         this.oAuthResponse = oAuthResponse;
     }
 

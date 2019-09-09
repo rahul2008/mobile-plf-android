@@ -8,7 +8,7 @@ import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -62,12 +62,12 @@ public class ProductDetailTest {
     // This will fetch Product detail:  Asset and Disclaimer
     @Test
     public void getProductDetailSuccess() {
-        Product product = new Product();
+        ECSProduct product = new ECSProduct();
         product.setCode("HX2345/01");
         mockInputValidator.setJsonFileName("PRXProductAssets.json");
-        mockECSServices.getProductDetails(product, new ECSCallback<Product, Exception>() {
+        mockECSServices.fetchProductDetails(product, new ECSCallback<ECSProduct, Exception>() {
             @Override
-            public void onResponse(Product product) {
+            public void onResponse(ECSProduct product) {
                 assertNotNull(product);
                 assertNotNull(product.getAssets());
                 assertNotNull(product.getDisclaimers());
@@ -85,12 +85,12 @@ public class ProductDetailTest {
 
     @Test
     public void getProductDetailAssetFailure() {
-        Product product = new Product();
+        ECSProduct product = new ECSProduct();
         product.setCode("HX2345/01");
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.getProductDetails(product, new ECSCallback<Product, Exception>() {
+        mockECSServices.fetchProductDetails(product, new ECSCallback<ECSProduct, Exception>() {
             @Override
-            public void onResponse(Product product) {
+            public void onResponse(ECSProduct product) {
                 assertTrue(true);
                 // test case failed
             }

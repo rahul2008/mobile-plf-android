@@ -8,8 +8,8 @@ import com.ecs.demouapp.ui.integration.ECSListener;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +18,19 @@ public class LocalProductCatalog implements ProductCatalogAPI {
 
 
     @Override
-    public void getProductCatalog(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public void getProductCatalog(int currentPage, int pageSize, ECSCallback<ECSProducts, Exception> ecsCallback) {
 
     }
 
     @Override
-    public void getCategorizedProductList(final ArrayList<String> productList , ECSCallback<Products, Exception> ecsCallback) {
+    public void getCategorizedProductList(final ArrayList<String> productList , ECSCallback<ECSProducts, Exception> ecsCallback) {
 
 
-        ECSUtility.getInstance().getEcsServices().fetchProductSummeries(productList, new ECSCallback<List<Product>, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchProductSummaries(productList, new ECSCallback<List<ECSProduct>, Exception>() {
             @Override
-            public void onResponse(List<Product> result) {
+            public void onResponse(List<ECSProduct> result) {
 
-                Products products = new Products();
+                ECSProducts products = new ECSProducts();
                 products.setProducts(result);
                 ecsCallback.onResponse(products);
             }

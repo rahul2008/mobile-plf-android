@@ -9,14 +9,14 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.EntriesEntity;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.order.Orders;
 import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
-import com.philips.cdp.di.ecs.model.products.Products;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
@@ -61,24 +61,24 @@ public interface ECSServiceProvider {
      *
      * @param eCSCallback the iapsdk callback success block containing AssetModel and DisclaimerModel
      */
-    void fetchProducts(int currentPage, int pageSize, ECSCallback<Products,Exception> eCSCallback);
+    void fetchProducts(int currentPage, int pageSize, ECSCallback<ECSProducts,Exception> eCSCallback);
 
-    void getProduct(String ctn, ECSCallback<Product,Exception> eCSCallback );
+    void fetchProduct(String ctn, ECSCallback<ECSProduct,Exception> eCSCallback );
 
 
-    void getProductDetails(Product product, ECSCallback<Product,Exception> ecsCallback);
+    void fetchProductDetails(ECSProduct product, ECSCallback<ECSProduct,Exception> ecsCallback);
 
     void configureECS(ECSCallback<Boolean,Exception> ecsCallback);
 
     void configureECSToGetConfiguration(ECSCallback<ECSConfig, Exception> ecsCallback);
 
-    void fetchProductSummeries(List<String> ctns, ECSCallback<List<Product>,Exception> ecsCallback);
+    void fetchProductSummaries(List<String> ctns, ECSCallback<List<ECSProduct>,Exception> ecsCallback);
 
-    void getShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
+    void fetchShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
 
     void createShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
 
-    void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback);
+    void addProductToShoppingCart(ECSProduct product, ECSCallback<ECSShoppingCart, Exception> ecsCallback);
 
     void updateQuantity(int quantity, EntriesEntity entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) ;
 
@@ -111,7 +111,7 @@ public interface ECSServiceProvider {
 
     void getRetailers(String productID, ECSCallback<WebResults,Exception> ecsCallback);
 
-    void getRetailers(Product product, ECSCallback<WebResults,Exception> ecsCallback);
+    void getRetailers(ECSProduct product, ECSCallback<WebResults,Exception> ecsCallback);
 
     void getPayments(ECSCallback<PaymentMethods,Exception> ecsCallback);
 
@@ -131,7 +131,7 @@ public interface ECSServiceProvider {
 
     void getUserProfile(ECSCallback<UserProfile,Exception> ecsCallback);
 
-    void refreshAuth(OAuthInput oAuthInput,ECSCallback<OAuthResponse, Exception> ecsListener);
+    void refreshAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener);
 
     void setPropositionID(@NonNull String propositionID);
 

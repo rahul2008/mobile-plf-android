@@ -28,7 +28,7 @@ import com.philips.cdp.di.ecs.DeliveryMode.MockDeliveryModesRequest;
 import com.philips.cdp.di.ecs.DeliveryMode.MockSetDeliveryModesRequest;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
@@ -40,11 +40,11 @@ import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
-import com.philips.cdp.di.ecs.model.products.Product;
-import com.philips.cdp.di.ecs.model.products.Products;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
-import com.philips.cdp.di.ecs.model.oauth.OAuthResponse;
+import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
@@ -96,19 +96,19 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getOAuth(OAuthInput oAuthInput, ECSCallback<OAuthResponse, Exception> ecsCallback) {
+    public void getOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsCallback) {
 
         MockOAuthRequest mockOAuthRequest = new MockOAuthRequest(getJsonFileNameMockECSManager(),oAuthInput,ecsCallback);
         mockOAuthRequest.executeRequest();
     }
 
     @Override
-    public void getProductList(int currentPage, int pageSize, ECSCallback<Products, Exception> ecsCallback) {
+    public void getProductList(int currentPage, int pageSize, ECSCallback<ECSProducts, Exception> ecsCallback) {
 
 
-                MockGetProductListRequest getMockGetProductRequest = new MockGetProductListRequest(getJsonFileNameMockECSManager(),currentPage, pageSize, new ECSCallback<Products, Exception>() {
+                MockGetProductListRequest getMockGetProductRequest = new MockGetProductListRequest(getJsonFileNameMockECSManager(),currentPage, pageSize, new ECSCallback<ECSProducts, Exception>() {
                     @Override
-                    public void onResponse(Products result) {
+                    public void onResponse(ECSProducts result) {
                         //prepareProductSummaryURL(result,ecsCallback);
                         setJsonFileNameMockECSManager("PRXSummaryResponse.json");
                         new MockGetProductSummaryListRequest(getJsonFileNameMockECSManager(),"", new ECSCallback<ECSProductSummary, Exception>() {
@@ -143,7 +143,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getProductDetail(Product product, ECSCallback<Product, Exception> ecsCallback) {
+    public void getProductDetail(ECSProduct product, ECSCallback<ECSProduct, Exception> ecsCallback) {
         new MockGetProductAssetRequest(getJsonFileNameMockECSManager(),"mockURL", new ECSCallback<Assets, Exception>() {
             @Override
             public void onResponse(Assets result) {
@@ -174,7 +174,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getProductFor(String ctn, ECSCallback<Product, Exception> eCSCallback) {
+    public void getProductFor(String ctn, ECSCallback<ECSProduct, Exception> eCSCallback) {
         new MockGetProductForRequest(getJsonFileNameMockECSManager(),ctn,eCSCallback).executeRequest();
 
      /*   if (null != ECSConfig.INSTANCE.getSiteId()) { // hybris flow
@@ -217,7 +217,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void addProductToShoppingCart(Product product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void addProductToShoppingCart(ECSProduct product, ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         new MockAddProductToECSShoppingCartRequest(getJsonFileNameMockECSManager(),product.getCode(), new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {

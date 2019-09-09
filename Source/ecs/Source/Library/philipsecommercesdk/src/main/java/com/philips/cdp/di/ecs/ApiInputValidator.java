@@ -4,10 +4,10 @@ import android.support.annotation.Nullable;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
-import com.philips.cdp.di.ecs.integration.OAuthInput;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.util.List;
@@ -104,7 +104,7 @@ public class ApiInputValidator {
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
-    public ECSErrorWrapper getHybrisOathAuthenticationAPIValidateError(OAuthInput oAuthInput) {
+    public ECSErrorWrapper getHybrisOathAuthenticationAPIValidateError(ECSOAuthProvider oAuthInput) {
         if(isINValidString(oAuthInput.getOAuthID())){
             return getECSErrorWrapper(ECSErrorEnum.ECSOAuthDetailError);
         }
@@ -123,14 +123,14 @@ public class ApiInputValidator {
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
-    public ECSErrorWrapper getProductDetailAPIValidateError(Product product) {
+    public ECSErrorWrapper getProductDetailAPIValidateError(ECSProduct product) {
         if(isINValidString(product.getCode())){
             return getECSErrorWrapper(ECSErrorEnum.ECSInvalidProductError);
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
-    public ECSErrorWrapper getAddProductToShoppingCartError(Product product) {
+    public ECSErrorWrapper getAddProductToShoppingCartError(ECSProduct product) {
         return getProductDetailAPIValidateError(product);
     }
 
