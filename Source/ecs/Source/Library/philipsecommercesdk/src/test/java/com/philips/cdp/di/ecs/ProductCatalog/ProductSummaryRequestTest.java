@@ -6,10 +6,13 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
+import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.products.Products;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -24,10 +27,14 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
@@ -39,6 +46,8 @@ public class ProductSummaryRequestTest {
 
     MockECSServices mockECSServices;
     ECSServices ecsServices;
+
+    MockInputValidator mockInputValidator;
 
 
     private AppInfra appInfra;
@@ -66,6 +75,8 @@ public class ProductSummaryRequestTest {
         mockECSServices = new MockECSServices("", appInfra);
         ecsServices = new ECSServices("",appInfra);
 
+        mockInputValidator = new MockInputValidator();
+
 
         StaticBlock.initialize();
         ecsCallback = new ECSCallback<ECSProductSummary, Exception>() {
@@ -81,6 +92,62 @@ public class ProductSummaryRequestTest {
         };
         mockGetProductSummaryListRequest = new MockGetProductSummaryListRequest("EmptyJson.json",samplePRXAssetUrl,ecsCallback);
 
+    }
+
+
+    @Test
+    public void getProductListSuccess() {
+
+
+        mockInputValidator.setJsonFileName("PRXSummaryResponse.json");
+        ArrayList<String> ctnList = new ArrayList<>();
+        ctnList.add("1234");
+
+
+
+        mockECSServices.getProductSummary(ctnList, new ECSCallback<List<Product>, Exception>() {
+            @Override
+            public void onResponse(List<Product> result) {
+                assertTrue(true);
+                // test case failed
+
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(5999, ecsError); // error code for Product List
+                // test case passed
+            }
+        });
+    }
+
+    /*
+     * In this test case Get Product list API (Hybris) is failed
+     * */
+    @Test
+    public void getProductListHybrisFailure() {
+
+
+        mockInputValidator.setJsonFileName("EmptyJson.json");
+        ArrayList<String> ctnList = new ArrayList<>();
+        ctnList.add("1234");
+
+
+
+        mockECSServices.getProductSummary(ctnList, new ECSCallback<List<Product>, Exception>() {
+            @Override
+            public void onResponse(List<Product> result) {
+                assertTrue(true);
+                // test case failed
+
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertEquals(5999, ecsError); // error code for Product List
+                // test case passed
+            }
+        });
     }
 
     @Test

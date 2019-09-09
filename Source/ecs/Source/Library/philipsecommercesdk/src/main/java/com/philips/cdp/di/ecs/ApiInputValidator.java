@@ -52,10 +52,6 @@ public class ApiInputValidator {
         return null;
     }
 
-    private boolean isAppInfraNull(){
-        return ECSConfig.INSTANCE.getAppInfra() == null;
-    }
-
     private boolean isLocaleNull(){
        return ECSConfig.INSTANCE.getLocale() == null;
     }
