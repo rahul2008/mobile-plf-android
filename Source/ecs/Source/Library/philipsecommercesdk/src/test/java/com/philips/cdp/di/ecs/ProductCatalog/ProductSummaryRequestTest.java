@@ -101,7 +101,7 @@ public class ProductSummaryRequestTest {
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add("1234");
 
-        mockECSServices.fetchProductList(ctnList, new ECSCallback<List<Product>, Exception>() {
+        mockECSServices.fetchProductSummeries(ctnList, new ECSCallback<List<Product>, Exception>() {
             @Override
             public void onResponse(List<Product> result) {
                 assertTrue(true);
@@ -127,7 +127,7 @@ public class ProductSummaryRequestTest {
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add("1234");
 
-        mockECSServices.fetchProductList(ctnList, new ECSCallback<List<Product>, Exception>() {
+        mockECSServices.fetchProductSummeries(ctnList, new ECSCallback<List<Product>, Exception>() {
             @Override
             public void onResponse(List<Product> result) {
                 assertTrue(true);

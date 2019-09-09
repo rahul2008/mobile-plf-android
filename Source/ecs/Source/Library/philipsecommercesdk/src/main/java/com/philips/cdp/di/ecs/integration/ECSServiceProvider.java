@@ -4,6 +4,7 @@ package com.philips.cdp.di.ecs.integration;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
@@ -64,15 +65,14 @@ public interface ECSServiceProvider {
 
     void getProduct(String ctn, ECSCallback<Product,Exception> eCSCallback );
 
-    void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback);
 
-    void getProductDetail(Product product, ECSCallback<Product,Exception> ecsCallback);
+    void getProductDetails(Product product, ECSCallback<Product,Exception> ecsCallback);
 
     void configureECS(ECSCallback<Boolean,Exception> ecsCallback);
 
     void configureECSToGetConfiguration(ECSCallback<HybrisConfigResponse, Exception> ecsCallback);
 
-    void fetchProductList(List<String> ctns, ECSCallback<List<Product>,Exception> ecsCallback);
+    void fetchProductSummeries(List<String> ctns, ECSCallback<List<Product>,Exception> ecsCallback);
 
     void getShoppingCart(ECSCallback<ECSShoppingCart,Exception> ecsCallback);
 
@@ -91,7 +91,7 @@ public interface ECSServiceProvider {
 
     void getDeliveryModes(ECSCallback<GetDeliveryModes,Exception> ecsCallback);
 
-    void setDeliveryMode(String deliveryModeID, ECSCallback<Boolean, Exception> ecsCallback);
+    void setDeliveryMode(DeliveryModes deliveryModes, ECSCallback<Boolean, Exception> ecsCallback);
 
     void getRegions(ECSCallback<RegionsList, Exception> ecsCallback);
 

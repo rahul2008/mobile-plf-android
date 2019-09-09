@@ -160,6 +160,7 @@ public class GetPaymentsTest {
     public void getRetailerSuccess() {
         mockInputValidator.setJsonFileName("GetRetailerInfoSuccess.json");
         Product product = new Product();
+        product.setCode("1234");
         mockECSServices.getRetailers(product, new ECSCallback<WebResults, Exception>() {
             @Override
             public void onResponse(WebResults result) {

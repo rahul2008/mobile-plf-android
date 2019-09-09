@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.integration.OAuthInput;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.DeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
@@ -153,17 +154,21 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.getProductList(currentPage,pageSize,eCSCallback);
     }
 
+
+    @Override
+    public void fetchProductSummeries(@NonNull List<String> ctns, @NonNull ECSCallback<List<Product>, Exception> ecsCallback) {
+        ecsCallValidator.getProductSummary(ctns,ecsCallback);
+    }
+
     @Override
     public void getProduct(@NonNull String ctn, @NonNull ECSCallback<Product, Exception> eCSCallback) {
         ecsCallValidator.getProductFor(ctn,eCSCallback);
 
     }
 
-    // ============
-
     @Override
-    public void fetchProductList(@NonNull List<String> ctns, @NonNull ECSCallback<List<Product>, Exception> ecsCallback) {
-        ecsCallValidator.getProductSummary(ctns,ecsCallback);
+    public void getProductDetails(@NonNull Product product, @NonNull ECSCallback<Product, Exception> ecsCallback) {
+        ecsCallValidator.getProductDetail(product,ecsCallback);
     }
 
     @Override
@@ -172,26 +177,14 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void createShoppingCart(@NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
-        ecsCallValidator.createECSShoppingCart(ecsCallback);
-    }
-
-
-
-    @Override
-    public void InvalidateECS(ECSCallback<Boolean, Exception> eCSCallback) {
-
-    }
-
-
-    @Override
-    public void getProductDetail(@NonNull Product product,@NonNull ECSCallback<Product, Exception> ecsCallback) {
-        ecsCallValidator.getProductDetail(product,ecsCallback);
-    }
-
-    @Override
     public void addProductToShoppingCart(@NonNull Product product,@NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         ecsCallValidator.addProductToShoppingCart(product,ecsCallback);
+    }
+
+
+    @Override
+    public void createShoppingCart(@NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+        ecsCallValidator.createECSShoppingCart(ecsCallback);
     }
 
     @Override
@@ -199,11 +192,14 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.updateQuantity(quantity, entriesEntity,ecsCallback);
     }
 
+    //GetAppliedValue = ECSVouchers
+    //applyVoucher
     @Override
     public void setVoucher(@NonNull String voucherCode,@NonNull ECSCallback<GetAppliedValue, Exception> ecsCallback) {
         ecsCallValidator.setVoucher(voucherCode,ecsCallback);
     }
 
+    // fetchAppliedVouchers
     @Override
     public void getVoucher(ECSCallback<GetAppliedValue, Exception> ecsCallback) {
         ecsCallValidator.getVoucher(ecsCallback);
@@ -214,46 +210,73 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.removeVoucher(voucherCode,ecsCallback);
     }
 
+    //GetDeliveryModes = ECSDeliveryModes
+    // DeliveryModes = List<ECSDeliveryModes>
+    // GetDeliveryModes = private
+
     @Override
     public void getDeliveryModes(ECSCallback<GetDeliveryModes, Exception> ecsCallback) {
         ecsCallValidator.getDeliveryModes(ecsCallback);
     }
 
+    //DeliveryModes = ECSDeliveryMode
+
     @Override
-    public void setDeliveryMode(@NonNull String deliveryModeID, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
-        ecsCallValidator.setDeliveryMode(deliveryModeID,ecsCallback);
+    public void setDeliveryMode(@NonNull DeliveryModes deliveryModes, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        ecsCallValidator.setDeliveryMode(deliveryModes.getCode(),ecsCallback);
     }
 
+    //fetch Regions  List<ECSRegion>
     @Override
     public void getRegions(@NonNull ECSCallback<RegionsList, Exception> ecsCallback) {
         ecsCallValidator.getRegions(ecsCallback);
     }
 
+    //fetchSavedAddresses   returns List<ECSAddress>  GetShippingAddressData :- private
     @Override
     public void getListSavedAddress(@NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         ecsCallValidator.getListSavedAddress(ecsCallback);
     }
 
+    //Addresses - List<ECSAddress>  returns List<ECSAddress>
     @Override
     public void createNewAddress(@NonNull Addresses ecsAddress, @NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
         ecsCallValidator.createNewAddress(ecsAddress, ecsCallback);
     }
 
+    // createAddress createNewAddress , ECSAddress  returns ECSAddress
     @Override
     public void createNewAddress(@NonNull Addresses address,@NonNull ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
         ecsCallValidator.createNewAddress(address, ecsCallback,true);
     }
 
-    @Override
-    public void setDeliveryAddress(@NonNull Addresses address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
-        ecsCallValidator.setDeliveryAddress(address,ecsCallback);
-    }
+    // updateAddress  takes ECSAddress ,returns boolean
+
+    // pass 3 parameter = boolean - is Deafalault Address
 
     @Override
     public void updateAddress(@NonNull Addresses address,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
         ecsCallValidator.updateAddress(address,ecsCallback);
     }
 
+    // TODO
+   /* @Override
+    public void updateAddress(@NonNull Addresses address,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        ecsCallValidator.updateAddress(address,ecsCallback);
+    }
+*/
+    @Override
+    public void setDeliveryAddress(@NonNull Addresses address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        ecsCallValidator.setDeliveryAddress(address,ecsCallback);
+    }
+
+    // TODO
+   /* @Override
+    public void setDeliveryAddress(@NonNull Addresses address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        ecsCallValidator.setDeliveryAddress(address,ecsCallback);
+    }*/
+
+   // Remove below
     @Override
     public void setDefaultAddress(@NonNull Addresses address,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
         address.setDefaultAddress(true);
@@ -265,10 +288,23 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.deleteAddress(address,ecsCallback);
     }
 
+    // TODO  fetch address
+   /* @Override
+    public void deleteAddress(@NonNull Addresses address,@NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+        ecsCallValidator.deleteAddress(address,ecsCallback);
+    }*/
+
+
+   // return list of PaymentMethod - ECSPayment
+    // getPayments - FetchPaymentDetails
+
     @Override
     public void getPayments(@NonNull ECSCallback<PaymentMethods, Exception> ecsCallback) {
         ecsCallValidator.getPayments(ecsCallback);
     }
+
+    // setPaymentMethod  - setPayment
+    // setPaymentDetails
 
     @Override
     public void setPaymentMethod(@NonNull String paymentDetailsId,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
@@ -282,23 +318,39 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.makePayment(orderDetail,billingAddress,ecsCallback);
     }
 
+
+
+    // OrderDetail - ECSOrderDetail
+
+    // look for the implementation where cvv is not there
     @Override
     public void submitOrder(@NonNull String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
         ecsCallValidator.submitOrder(cvv,ecsCallback);
     }
 
+    //WebResults -
+    // StoresEntity - ECSRetailers
+    //StoreEntity - ECSRetailer
 
+    // WebResults - ECSRetailerList
+    //TODo - write a utility
 
     @Override
-    public void getRetailers(@NonNull String productID,@NonNull ECSCallback<WebResults, Exception> ecsCallback) {
-        ecsCallValidator.getRetailers(productID,ecsCallback);
+    public void getRetailers(@NonNull String ctn,@NonNull ECSCallback<WebResults, Exception> ecsCallback) {
+        ecsCallValidator.getRetailers(ctn,ecsCallback);
     }
 
+    //Product - ECSProduct
     @Override
     public void getRetailers(@NonNull Product product,@NonNull ECSCallback<WebResults, Exception> ecsCallback) {
         ecsCallValidator.getRetailers(product.getCode(),ecsCallback);
     }
 
+
+
+    //getOrderHistory = fetchOrderHistory
+    // currentAPge and pageSize
+    // OrdersData - ECSOrderHistory
 
     @Override
     public void getOrderHistory(int pageNumber, @NonNull ECSCallback<OrdersData, Exception> ecsCallback) {
@@ -310,26 +362,27 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.getOrderDetail(orderId,ecsCallback);
     }
 
+    // OrderDetail - ECSOrderDetail
     @Override
     public void getOrderDetail(@NonNull OrderDetail orderDetail, @NonNull ECSCallback<OrderDetail, Exception> ecsCallback) {
         ecsCallValidator.getOrderDetail(orderDetail.getCode(),ecsCallback);
     }
 
+    // Orders - ECSOrder
     @Override
     public void getOrderDetail(@NonNull Orders orders, @NonNull ECSCallback<Orders, Exception> ecsCallback) {
         ecsCallValidator.getOrderDetail(orders,ecsCallback);
     }
 
+    // getUserProfile -fetchUserProfile , UserProfile - ECSUserProfile
     @Override
     public void getUserProfile(@NonNull ECSCallback<UserProfile, Exception> ecsCallback) {
         ecsCallValidator.getUserProfile(ecsCallback);
     }
 
-
-
     @Override
     public void setPropositionID(@NonNull String propositionID) {
-
+        ECSConfig.INSTANCE.setPropositionID(propositionID);
     }
 
 
