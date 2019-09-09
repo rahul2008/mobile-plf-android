@@ -309,6 +309,15 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.setPaymentMethod(paymentDetailsId,ecsCallback);
     }
 
+
+    //  OrderDetail - ECSOrderDetail - ECSAddress MakePaymentData - ECSPaymentProvider
+    @Override
+    public void makePayment(@NonNull OrderDetail orderDetail, @NonNull Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+        ecsCallValidator.makePayment(orderDetail,billingAddress,ecsCallback);
+    }
+
+
+
     // OrderDetail - ECSOrderDetail
 
     // look for the implementation where cvv is not there
@@ -336,11 +345,6 @@ public class ECSServices implements ECSServiceProvider {
     }
 
 
-
-    @Override
-    public void makePayment(@NonNull OrderDetail orderDetail, @NonNull Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
-        ecsCallValidator.makePayment(orderDetail,billingAddress,ecsCallback);
-    }
 
     //getOrderHistory = fetchOrderHistory
     // currentAPge and pageSize

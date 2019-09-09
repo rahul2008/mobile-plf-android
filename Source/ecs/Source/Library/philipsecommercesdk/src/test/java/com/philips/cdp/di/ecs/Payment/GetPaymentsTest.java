@@ -20,6 +20,8 @@ import com.philips.cdp.di.ecs.model.order.OrdersData;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.products.Product;
+import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -127,6 +129,41 @@ public class GetPaymentsTest {
         mockECSServices.getOrderHistory(1, new ECSCallback<OrdersData, Exception>() {
             @Override
             public void onResponse(OrdersData result) {
+                assertNotNull(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertTrue(false);
+            }
+        });
+    }
+
+    @Test
+    public void getOrderDetailSuccess() {
+        mockInputValidator.setJsonFileName("GetOrderDetailSuccess.json");
+        Orders orders = new Orders();
+        mockECSServices.getOrderDetail(orders, new ECSCallback<Orders, Exception>() {
+            @Override
+            public void onResponse(Orders result) {
+                assertNotNull(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertTrue(false);
+            }
+        });
+    }
+
+    @Test
+    public void getRetailerSuccess() {
+        mockInputValidator.setJsonFileName("GetRetailerInfoSuccess.json");
+        Product product = new Product();
+        product.setCode("1234");
+        mockECSServices.getRetailers(product, new ECSCallback<WebResults, Exception>() {
+            @Override
+            public void onResponse(WebResults result) {
                 assertNotNull(result);
             }
 
