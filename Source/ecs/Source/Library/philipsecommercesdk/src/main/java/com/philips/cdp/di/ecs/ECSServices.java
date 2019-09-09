@@ -275,6 +275,20 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.setPaymentMethod(paymentDetailsId,ecsCallback);
     }
 
+
+    //  OrderDetail - ECSOrderDetail - ECSAddress MakePaymentData - ECSPaymentProvider
+    @Override
+    public void makePayment(@NonNull OrderDetail orderDetail, @NonNull Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+        ecsCallValidator.makePayment(orderDetail,billingAddress,ecsCallback);
+    }
+
+    @Override
+    public void submitOrder(@NonNull String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+        ecsCallValidator.submitOrder(cvv,ecsCallback);
+    }
+
+
+
     @Override
     public void getRetailers(@NonNull String productID,@NonNull ECSCallback<WebResults, Exception> ecsCallback) {
         ecsCallValidator.getRetailers(productID,ecsCallback);
@@ -285,15 +299,6 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.getRetailers(product.getCode(),ecsCallback);
     }
 
-    @Override
-    public void submitOrder(@NonNull String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
-        ecsCallValidator.submitOrder(cvv,ecsCallback);
-    }
-
-    @Override
-    public void makePayment(@NonNull OrderDetail orderDetail, @NonNull Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
-        ecsCallValidator.makePayment(orderDetail,billingAddress,ecsCallback);
-    }
 
     @Override
     public void getOrderHistory(int pageNumber, @NonNull ECSCallback<OrdersData, Exception> ecsCallback) {
