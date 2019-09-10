@@ -29,6 +29,7 @@ import org.robolectric.RobolectricTestRunner;
 import java.io.InputStream;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -94,6 +95,8 @@ public class GetRegionsRequestTest {
             public void onResponse(RegionsList result) {
                 assertNotNull(result);
                 assertNotNull(result.getRegions().size()>0);
+                assertEquals("US-AL",result.getRegions().get(0).getIsocode());
+                assertEquals("Alabama",result.getRegions().get(0).getName());
 
                 //test case passed
             }

@@ -86,7 +86,7 @@ public class SetDeliveryAddressRequestTest {
 
 
     @Test
-    public void GetListSavedAddressTestSuccess() {
+    public void GetResponseSuccess() {
         mockInputValidator.setJsonFileName("EmptyString.json");
         Addresses addresses = new Addresses();
         mockECSServices.setDeliveryAddress(addresses, new ECSCallback<Boolean, Exception>() {
