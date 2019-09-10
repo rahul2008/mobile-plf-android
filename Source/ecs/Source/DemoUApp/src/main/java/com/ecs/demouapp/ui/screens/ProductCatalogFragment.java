@@ -380,6 +380,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mSearchBox.setSearchCollapsed(true);
         mProduct.clear();
         resetAdapter();
+        mCurrentPage = -1;
         super.onStop();
     }
 
