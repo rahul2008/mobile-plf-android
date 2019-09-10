@@ -409,7 +409,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), getActivity());
-        } else {
+        }
+        else if(msg.obj instanceof String){
+            NetworkUtility.getInstance().showErrorDialog(getActivity(), getFragmentManager(), getActivity().getString(R.string.iap_ok),
+                    getActivity().getString(R.string.iap_server_error), (String) msg.obj);
+        }else {
             NetworkUtility.getInstance().showErrorDialog(getActivity(), getFragmentManager(), getActivity().getString(R.string.iap_ok),
                     getActivity().getString(R.string.iap_server_error), getActivity().getString(R.string.iap_something_went_wrong));
         }

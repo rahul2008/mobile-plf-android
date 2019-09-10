@@ -144,7 +144,6 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             }else if(msg.obj instanceof Exception){
                 //addressContractor.showErrorMessage(msg);
                 addressContractor.hideProgressbar();
-                addressContractor.hideProgressbar();
                 ECSUtility.showECSAlertDialog(addressContractor.getActivityContext(),"Error",((Exception) msg.obj));
 
             } else{
@@ -186,10 +185,11 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
     public void onSetDeliveryMode(Message msg) {
 
         if (msg.obj instanceof Boolean  && (Boolean)msg.obj){
-            if (CartModelContainer.getInstance().getBillingAddress() == null)
+            if (CartModelContainer.getInstance().getBillingAddress() == null) {
                 mPaymentController.getPaymentDetails();
-            else
+            }else {
                 setBillingAddressAndOpenOrderSummary();
+            }
         } else {
             addressContractor.hideProgressbar();
             NetworkUtility.getInstance().showErrorMessage(msg, addressContractor.getFragmentActivity().getSupportFragmentManager(), addressContractor.getActivityContext());

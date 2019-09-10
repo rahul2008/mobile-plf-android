@@ -701,7 +701,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mBuyFromRetailers.hideProgressIndicator();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
-        } else {
+        }
+        else if(msg.obj instanceof String){
+            NetworkUtility.getInstance().showErrorDialog(getActivity(), getFragmentManager(), getActivity().getString(R.string.iap_ok),
+                    getActivity().getString(R.string.iap_server_error), (String) msg.obj);
+        }else {
             NetworkUtility.getInstance().showErrorDialog(mContext, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext.getString(R.string.iap_ok),
                     mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
         }

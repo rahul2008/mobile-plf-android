@@ -174,6 +174,7 @@ public class ECSManager {
         threadCount++;
         if (threadCount == 2) {
             ecsCallback.onResponse(product);
+            threadCount =0;
         }
     }
 
