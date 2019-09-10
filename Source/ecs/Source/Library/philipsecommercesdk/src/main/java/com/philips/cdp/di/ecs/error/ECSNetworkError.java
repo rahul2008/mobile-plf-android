@@ -106,7 +106,6 @@ public class ECSNetworkError {
     private static ServerError getServerError(VolleyError error) {
         try {
             if (error.networkResponse != null) {
-                System.out.println("print base64 byte"+error.networkResponse.data);
                 final String encodedString = Base64.encodeToString(error.networkResponse.data, Base64.DEFAULT);
                 return parseServerError(encodedString);
             }
