@@ -170,8 +170,8 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 mPaymentController.getPaymentDetails();
         }else if(msg.obj instanceof String){
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
+            ECSUtility.showECSAlertDialog(addressContractor.getActivityContext(),"ECS Error", msg.getData().toString());
         } else{
-            // failure
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
         }
     }
