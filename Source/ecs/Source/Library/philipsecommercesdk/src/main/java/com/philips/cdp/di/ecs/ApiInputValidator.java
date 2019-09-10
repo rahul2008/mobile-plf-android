@@ -194,9 +194,6 @@ public class ApiInputValidator {
     }
 
     private ECSErrorWrapper getAddressValidator(Addresses address){
-        if(isINValidString(address.getId())){
-            return getECSErrorWrapper(ECSErrorEnum.ECSInvalidAddressError);
-        }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
