@@ -138,6 +138,7 @@ public class GetPaymentsTest {
         mockECSServices.getOrderDetail(orders, new ECSCallback<Orders, Exception>() {
             @Override
             public void onResponse(Orders result) {
+                assertEquals("US",result.getOrderDetail().getDeliveryAddress().getCountry().getName());
                 assertNotNull(result);
                 assertEquals("US",result.getOrderDetail().getDeliveryAddress().getCountry().getName());
                 assertEquals("US",result.getOrderDetail().getDeliveryAddress().getRegion().getCountryIso());

@@ -245,10 +245,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                     {
                         TextView tv = (TextView) buttonView;
                         acceptPersonalConsenterrorMessage.hideError();
-                        if (!isChecked) {
-                            acceptPersonalConsenterrorMessage.setError(mContext.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
-                        }
-                        if (!(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1)) {
+                        if(tv.getSelectionStart() == -1 && tv.getSelectionEnd() == -1) {
+                            if (!isChecked) {
+                                acceptPersonalConsenterrorMessage.setError(mContext.getResources().getString(getRegistrationFragment().getContentConfiguration().getPersonalConsentContentErrorResId()));
+                            }
+                        }else {
                             acceptPersonalConsentCheck.setChecked(!isChecked);
                             getRegistrationFragment().addPersonalConsentFragment();
                         }

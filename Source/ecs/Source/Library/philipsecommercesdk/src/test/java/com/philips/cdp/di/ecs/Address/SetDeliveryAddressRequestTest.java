@@ -98,10 +98,10 @@ public class SetDeliveryAddressRequestTest {
 
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
+                assertTrue(true);
+
                 assertEquals(ECSInvalidAddressError.toString(),ecsError.getErrorType());
-                //test case failed
-
-
+                //test case faile
             }
         });
 

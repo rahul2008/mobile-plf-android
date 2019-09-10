@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="?attr/uidContentPrimaryBackgroundColor"
-              android:focusable="true"
-              android:focusableInTouchMode="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:id="@+id/usr_almostDoneScreen_rootLayout_scrollView"
@@ -93,11 +93,6 @@
                 android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:text="@string/USR_DLS_TermsAndConditionsAcceptanceText"/>
 
-            <!--temp: Actual value yet to be given by designer-->
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_dimen_12dp"/>
-
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_almostDoneScreen_acceptTerms_error"
                 android:layout_width="wrap_content"
@@ -105,22 +100,12 @@
                 android:layout_marginTop="@dimen/reg_dimen_16dp"
                 android:visibility="gone"/>
 
-            <!--temp: Actual value yet to be given by designer-->
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_dimen_12dp"/>
-
             <com.philips.platform.uid.view.widget.CheckBox
                 android:id="@+id/usr_almostDoneScreen_personalconsent_checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_dimen_8dp"
                 android:text="Personal consent"/>
-
-            <!--temp: Actual value yet to be given by designer-->
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/reg_dimen_12dp"/>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_almostDoneScreen_personalconsent_error"
