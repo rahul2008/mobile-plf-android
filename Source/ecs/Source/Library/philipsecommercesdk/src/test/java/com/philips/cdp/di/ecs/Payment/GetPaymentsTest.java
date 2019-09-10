@@ -140,6 +140,9 @@ public class GetPaymentsTest {
             public void onResponse(Orders result) {
                 assertEquals("US",result.getOrderDetail().getDeliveryAddress().getCountry().getName());
                 assertNotNull(result);
+                assertEquals("US",result.getOrderDetail().getDeliveryAddress().getCountry().getName());
+                assertEquals("US",result.getOrderDetail().getDeliveryAddress().getRegion().getCountryIso());
+                assertEquals("US-IL",result.getOrderDetail().getDeliveryAddress().getRegion().getIsocode());
             }
 
             @Override
@@ -165,6 +168,24 @@ public class GetPaymentsTest {
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(false);
+            }
+        });
+    }
+
+    @Test
+    public void getRetailerSuccessError() {
+        mockInputValidator.setJsonFileName("GetRetailerInfoSuccess.json");
+        ECSProduct product = new ECSProduct();
+        mockECSServices.getRetailers(product, new ECSCallback<WebResults, Exception>() {
+            @Override
+            public void onResponse(WebResults result) {
+                assertNotNull(result);
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                assertTrue(true);
+                assertEquals("Invalid product, it's code can not be null or empty", error.getMessage());
             }
         });
     }

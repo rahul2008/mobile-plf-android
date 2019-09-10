@@ -102,6 +102,12 @@ public class ProductCatalogTest {
                 assert (result.getProducts().size() > 0); // at least 1 product should come
                 assertNotNull(result.getProducts().get(0).getSummary());
                 assertNotNull(result.getProducts().get(1).getSummary());
+                assertEquals("USD",result.getProducts().get(0).getPrice().getCurrencyIso());
+                assertEquals("$ 7.99",result.getProducts().get(0).getPrice().getFormattedValue());
+                assertEquals("BUY",result.getProducts().get(0).getPrice().getPriceType());
+                assertEquals(7.99,result.getProducts().get(0).getPrice().getValue());
+                assertEquals(false,result.getProducts().get(0).isAvailableForPickup());
+                assertEquals("productCategorySearchPageWsDTO",result.getType());
                 // test case passed
             }
 
