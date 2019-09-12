@@ -57,7 +57,6 @@ public class MyAccountState extends BaseState{
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         actContext = fragmentLauncher.getFragmentActivity();
-        final boolean isHybrisAvailable = ((AppFrameworkApplication) actContext.getApplicationContext()).isShopingCartVisible;
         ((AbstractAppFrameworkBaseActivity) actContext).handleFragmentBackStack(null, "", getUiStateData().getFragmentLaunchState());
 
         MyaInterface myaInterface = getInterface();
@@ -68,11 +67,9 @@ public class MyAccountState extends BaseState{
         MyaTabConfig myaTabConfig = new MyaTabConfig(actContext.getString(R.string.mya_config_tab), new TabTestFragment());
         launchInput.setMyaTabConfig(myaTabConfig);
         String[] profileItems;
-        if (isHybrisAvailable) {
-            profileItems = new String[]{"MYA_My_details", "MYA_My_orders"};
-        } else {
+
             profileItems = new String[]{"MYA_My_details", "MYA_Marketing_Optin"};
-        }
+
         String[] settingItems = {"MYA_Country", "MYA_Privacy_Settings"};
         launchInput.setUserDataInterface(getApplicationContext().getUserRegistrationState().getUserDataInterface());
         launchInput.setProfileMenuList(Arrays.asList(profileItems));
