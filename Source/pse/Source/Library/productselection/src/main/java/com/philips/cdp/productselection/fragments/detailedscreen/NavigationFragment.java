@@ -1,7 +1,10 @@
 package com.philips.cdp.productselection.fragments.detailedscreen;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -86,9 +89,7 @@ public final class NavigationFragment extends Fragment {
     }
 
     public Bitmap getBlankThumbnail(int width) {
-        Bitmap imageBitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
-
-        imageBitmap.eraseColor(Color.BLACK);
+        Bitmap imageBitmap = drawableToBitmap(width,getContext().getDrawable(R.drawable.no_icon));
         return imageBitmap;
     }
 
@@ -97,5 +98,19 @@ public final class NavigationFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_CONTENT, message);
+    }
+
+    public static Bitmap drawableToBitmap (int width, Drawable drawable) {
+        Bitmap bitmap = null;
+        try {
+            bitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
+
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+        } catch (Exception e){
+            bitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
+        }
+        return bitmap;
     }
 }
