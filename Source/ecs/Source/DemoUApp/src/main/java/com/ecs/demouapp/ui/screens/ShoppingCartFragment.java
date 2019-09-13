@@ -46,6 +46,7 @@ import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 
 
@@ -301,9 +302,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
             CartModelContainer.getInstance().setRegionList(null);
         }else if (msg.obj instanceof Exception) {
             CartModelContainer.getInstance().setRegionList(null);
-        } else if (msg.obj instanceof RegionsList) {
-            //TODO
-           // CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+        } else if (msg.obj instanceof List) {
+            List list = (List)msg.obj;
+            if(list != null && !list.isEmpty() && list.get(0) instanceof ECSRegion){
+                CartModelContainer.getInstance().setRegionList(list);
+            }
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }

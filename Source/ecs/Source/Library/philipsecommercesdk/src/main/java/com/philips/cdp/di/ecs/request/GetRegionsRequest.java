@@ -13,20 +13,23 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 
 public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements Response.Listener<JSONObject>{
 
-    private final ECSCallback<RegionsList,Exception> ecsCallback;
+    private final ECSCallback<List<ECSRegion>,Exception> ecsCallback;
 
-    public GetRegionsRequest(ECSCallback<RegionsList, Exception> ecsCallback) {
+    public GetRegionsRequest(ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
     }
 
@@ -53,7 +56,7 @@ public class GetRegionsRequest extends OAuthAppInfraAbstractRequest  implements 
 
         try {
             RegionsList regionsList = new Gson().fromJson(response.toString(), RegionsList.class);
-            ecsCallback.onResponse(regionsList);
+            ecsCallback.onResponse(regionsList.getRegions());
         }catch(Exception e){
             ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,e,response.toString());
             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());

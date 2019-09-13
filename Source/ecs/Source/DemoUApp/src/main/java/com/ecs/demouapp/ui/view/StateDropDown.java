@@ -9,9 +9,13 @@ import android.widget.ArrayAdapter;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.adapters.UIPickerAdapter;
 import com.ecs.demouapp.ui.container.CartModelContainer;
+import com.philips.cdp.di.ecs.model.address.Region;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.UIPicker;
+
+import java.util.List;
 
 public class StateDropDown {
 
@@ -25,7 +29,7 @@ public class StateDropDown {
     private View mAnchor;
     private StateListener mStateListener;
     private Context mContext;
-    private RegionsList mRegionList;
+    private List<ECSRegion> mRegionList;
 
 
     public StateDropDown(StateListener stateListener) {
@@ -46,12 +50,12 @@ public class StateDropDown {
         mPopUp.setOnItemClickListener(mListener);
     }
 
-    String[] createRowItems(RegionsList regionsList) {
-        String[] rowItems = new String[regionsList.getRegions().size()];
+    String[] createRowItems(List<ECSRegion> regionsList) {
+        String[] rowItems = new String[regionsList.size()];
 
         if (regionsList != null) {
-            for (int i = 0; i < regionsList.getRegions().size(); i++) {
-                rowItems[i] = regionsList.getRegions().get(i).getName();
+            for (int i = 0; i < regionsList.size(); i++) {
+                rowItems[i] = regionsList.get(i).getName();
             }
         }
         return rowItems;
@@ -61,7 +65,7 @@ public class StateDropDown {
         @Override
         public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
 
-            String isocode = mRegionList.getRegions().get(position).getIsocode();
+            String isocode = mRegionList.get(position).getIsocode();
             callOnStateSelect(isocode);
         }
     };

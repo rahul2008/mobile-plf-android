@@ -21,6 +21,7 @@ import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
@@ -538,7 +539,7 @@ public class ECSManager {
         new SetDeliveryModesRequest(deliveryModeID, ecsCallback).executeRequest();
     }
 
-     void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
+     void getRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
         new GetRegionsRequest(ecsCallback).executeRequest();
     }
     //===================================================== End of Delivery Mode ====================================================

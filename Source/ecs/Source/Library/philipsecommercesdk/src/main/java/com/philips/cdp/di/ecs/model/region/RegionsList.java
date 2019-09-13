@@ -4,9 +4,9 @@ import java.util.List;
 
 public class RegionsList {
 
-    private List<Region> regions;
+    private List<ECSRegion> regions;
 
-    public List<Region> getRegions() {
+    public List<ECSRegion> getRegions() {
         return regions;
     }
 }

@@ -7,6 +7,7 @@ package com.ecs.demouapp.ui.container;
 
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.prxclient.datamodels.Disclaimer.DisclaimerModel;
 
@@ -26,7 +27,7 @@ public class CartModelContainer {
     private String regionIsoCode;
     private String mAddressId;
     private String mOrderNumber;
-    private RegionsList mRegionList;
+    private List<ECSRegion> mRegionList;
 
     private ArrayList<Data> mPRXSummaryObjects;
     private HashMap<String, ArrayList<String>> mPRXAssetObjects;
@@ -127,11 +128,11 @@ public class CartModelContainer {
         return switchToBillingAddress;
     }
 
-    public void setRegionList(RegionsList regionList) {
+    public void setRegionList(List<ECSRegion> regionList) {
         mRegionList = regionList;
     }
 
-    public RegionsList getRegionList() {
+    public List<ECSRegion> getRegionList() {
         return mRegionList;
     }
 

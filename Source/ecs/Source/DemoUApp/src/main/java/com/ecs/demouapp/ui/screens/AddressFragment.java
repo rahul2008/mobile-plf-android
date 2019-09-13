@@ -103,7 +103,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
             country = ECSConfiguration.INSTANCE.getCountry();
         }
        /* if( !mAddressFieldsHashmap.get(COUNTRY_ISOCODE).equalsIgnoreCase(HybrisDelegate.getInstance(getActivityContext()).getStore().getCountry())){
-            addressPresenter.getRegions(country);
+            addressPresenter.fetchRegions(country);
         }*/
 
         addressFieldEnabler = addressPresenter.getAddressFieldEnabler(country);

@@ -19,6 +19,7 @@ import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
@@ -188,7 +189,7 @@ public class ECSCallValidator {
 
     }
 
-    public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
+    public void getRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getRegionsError();
         if (ecsErrorWrapper == null) {

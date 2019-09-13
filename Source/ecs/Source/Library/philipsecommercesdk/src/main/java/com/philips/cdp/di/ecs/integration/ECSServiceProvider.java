@@ -16,7 +16,7 @@ import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
 import com.philips.cdp.di.ecs.model.user.UserProfile;
@@ -92,7 +92,7 @@ public interface ECSServiceProvider {
 
     void setDeliveryMode(ECSDeliveryMode deliveryModes, ECSCallback<Boolean, Exception> ecsCallback);
 
-    void getRegions(ECSCallback<RegionsList, Exception> ecsCallback);
+    void fetchRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback);
 
     void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback);
 

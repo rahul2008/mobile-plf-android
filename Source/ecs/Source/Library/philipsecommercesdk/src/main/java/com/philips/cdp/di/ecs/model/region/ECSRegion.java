@@ -1,6 +1,6 @@
 package com.philips.cdp.di.ecs.model.region;
 
-public class Region {
+public class ECSRegion {
     private String isocode;
     private String name;
 

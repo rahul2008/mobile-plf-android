@@ -18,9 +18,9 @@ import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.Addresses;
 import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.address.Region;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
@@ -58,9 +58,9 @@ public class AddressController {
 
     public void getRegions() {
 
-        ECSUtility.getInstance().getEcsServices().getRegions(new ECSCallback<RegionsList, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchRegions(new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
-            public void onResponse(RegionsList result) {
+            public void onResponse(List<ECSRegion> result) {
                 CartModelContainer.getInstance().setRegionList(result);
                 Message message = new Message();
                 message.obj = result;

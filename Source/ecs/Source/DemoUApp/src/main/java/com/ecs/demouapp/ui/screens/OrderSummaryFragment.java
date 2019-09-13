@@ -51,6 +51,7 @@ import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.orders.OrderDetail;
 import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 
 import java.io.Serializable;
@@ -308,8 +309,13 @@ public class OrderSummaryFragment extends InAppBaseFragment
             CartModelContainer.getInstance().setRegionList(null);
         } else if (msg.obj instanceof Exception) {
             CartModelContainer.getInstance().setRegionList(null);
-        } else if (msg.obj instanceof RegionsList) {
-            CartModelContainer.getInstance().setRegionList((RegionsList) msg.obj);
+        } else if (msg.obj instanceof List) {
+            List list = (List)msg.obj;
+            if(list != null && !list.isEmpty() && list.get(0) instanceof ECSRegion){
+                CartModelContainer.getInstance().setRegionList(list);
+            }else{
+                CartModelContainer.getInstance().setRegionList(null);
+            }
         } else {
             CartModelContainer.getInstance().setRegionList(null);
         }

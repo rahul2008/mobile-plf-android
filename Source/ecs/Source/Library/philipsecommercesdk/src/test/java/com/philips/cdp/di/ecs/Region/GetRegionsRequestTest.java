@@ -34,7 +34,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetRegionsRequestTest {
@@ -90,7 +89,7 @@ public class GetRegionsRequestTest {
     @Test
     public void getRegionRequestSuccess() {
         mockInputValidator.setJsonFileName("GetRegionsSuccess.json");
-        mockECSServices.getRegions(new ECSCallback<RegionsList, Exception>() {
+        mockECSServices.fetchRegions(new ECSCallback<RegionsList, Exception>() {
             @Override
             public void onResponse(RegionsList result) {
                 assertNotNull(result);
@@ -112,7 +111,7 @@ public class GetRegionsRequestTest {
     @Test
     public void getRegionRequestFailure() {
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.getRegions(new ECSCallback<RegionsList, Exception>() {
+        mockECSServices.fetchRegions(new ECSCallback<RegionsList, Exception>() {
             @Override
             public void onResponse(RegionsList result) {
                 assertTrue(true);

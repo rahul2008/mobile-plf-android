@@ -85,7 +85,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             handleError(msg);
         } else {
             //TODO
-            //mBuyDirectController.getRegions();
+            //mBuyDirectController.fetchRegions();
         }
     }
 

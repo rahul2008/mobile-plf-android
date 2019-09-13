@@ -1,7 +1,5 @@
 package com.philips.cdp.di.ecs;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
@@ -20,7 +18,7 @@ import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.retailers.WebResults;
@@ -36,6 +34,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
 
 import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
@@ -189,14 +190,11 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.updateQuantity(quantity, entriesEntity,ecsCallback);
     }
 
-    //GetAppliedValue = ECSVouchers
-    //applyVoucher
     @Override
     public void applyVoucher(@NonNull String voucherCode, @NonNull ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         ecsCallValidator.setVoucher(voucherCode,ecsCallback);
     }
 
-    // fetchAppliedVouchers
     @Override
     public void fetchAppliedVouchers(ECSCallback<List<ECSVoucher>, Exception> ecsCallback) {
         ecsCallValidator.getVoucher(ecsCallback);
@@ -216,8 +214,6 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.getDeliveryModes(ecsCallback);
     }
 
-    //DeliveryModes = ECSDeliveryMode
-
     @Override
     public void setDeliveryMode(@NonNull ECSDeliveryMode deliveryModes, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
         ecsCallValidator.setDeliveryMode(deliveryModes.getCode(),ecsCallback);
@@ -225,7 +221,7 @@ public class ECSServices implements ECSServiceProvider {
 
     //fetch Regions  List<ECSRegion>
     @Override
-    public void getRegions(@NonNull ECSCallback<RegionsList, Exception> ecsCallback) {
+    public void fetchRegions(@NonNull ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
         ecsCallValidator.getRegions(ecsCallback);
     }
 
