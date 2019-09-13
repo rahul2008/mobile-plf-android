@@ -124,8 +124,9 @@ public class AddressController {
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
 
-                ECSUtility.showECSAlertDialog(mContext,"Error",error);
-                //addressContractor.hideProgressbar();
+                Message message = new Message();
+                message.obj=error.getMessage();
+                mAddressListener.onCreateAddress(message);
 
             }
         });
