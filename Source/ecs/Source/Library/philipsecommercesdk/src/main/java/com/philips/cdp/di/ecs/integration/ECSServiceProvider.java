@@ -78,7 +78,7 @@ public interface ECSServiceProvider {
 
     void addProductToShoppingCart(ECSProduct product, ECSCallback<ECSShoppingCart, Exception> ecsCallback);
 
-    void updateQuantity(int quantity, ECSEntries entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) ;
+    void updateShoppingCart(int quantity, ECSEntries entriesEntity, ECSCallback<ECSShoppingCart, Exception> ecsCallback) ;
 
     //voucher
     void applyVoucher(String voucherCode, ECSCallback<List<ECSVoucher>, Exception> ecsCallback);

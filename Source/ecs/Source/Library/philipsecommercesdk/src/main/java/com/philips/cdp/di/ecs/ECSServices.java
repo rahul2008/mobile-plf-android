@@ -185,7 +185,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     @Override
-    public void updateQuantity(int quantity, @NonNull ECSEntries entriesEntity, @NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
+    public void updateShoppingCart(int quantity, @NonNull ECSEntries entriesEntity, @NonNull ECSCallback<ECSShoppingCart, Exception> ecsCallback) {
         ecsCallValidator.updateQuantity(quantity, entriesEntity,ecsCallback);
     }
 

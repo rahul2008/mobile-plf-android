@@ -19,7 +19,6 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetUser;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
@@ -70,7 +69,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
 
     @Override
     public void deleteProduct(ECSEntries entriesEntity) {
-        ECSUtility.getInstance().getEcsServices().updateQuantity(0, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
+        ECSUtility.getInstance().getEcsServices().updateShoppingCart(0, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 mLoadListener.onLoadFinished(result);
@@ -89,7 +88,7 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     @Override
     public void updateProductQuantity(ECSEntries entriesEntity, int count) {
 
-        ECSUtility.getInstance().getEcsServices().updateQuantity(count, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
+        ECSUtility.getInstance().getEcsServices().updateShoppingCart(count, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 mLoadListener.onLoadFinished(result);

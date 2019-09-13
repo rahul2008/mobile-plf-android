@@ -99,7 +99,7 @@ public class UpdateShoppingCartTest {
         mockInputValidator.setJsonFileName("UpdateShoppingCartSuccess.json");
 
         ECSEntries entriesEntity = new ECSEntries();
-        mockECSServices.updateQuantity(quantity, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
+        mockECSServices.updateShoppingCart(quantity, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                 assertNotNull(result);
@@ -133,7 +133,7 @@ public class UpdateShoppingCartTest {
         mockECSServices.setJsonFileName("EmptyString.json");
 
         EntriesEntity entriesEntity = new EntriesEntity();
-        mockECSServices.updateQuantity(quantity, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
+        mockECSServices.updateShoppingCart(quantity, entriesEntity, new ECSCallback<ECSShoppingCart, Exception>() {
             @Override
             public void onResponse(ECSShoppingCart result) {
                // assertTrue(false);
