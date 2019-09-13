@@ -9,9 +9,9 @@ import java.util.List;
 
 public class GetShippingAddressData {
 
-    private List<Addresses> addresses;
+    private List<ECSAddress> addresses;
 
-    public List<Addresses> getAddresses() {
+    public List<ECSAddress> getAddresses() {
         return addresses;
     }
 }

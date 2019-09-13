@@ -8,7 +8,7 @@ public class OnlineStoresForProductEntity {
     private String excludePhilipsShopInWTB;
     private String showPrice;
     private String ctn;
-    private StoresEntity Stores;
+    private ECSRetailers Stores;
 
     public String getExcludePhilipsShopInWTB() {
         return excludePhilipsShopInWTB;
@@ -22,7 +22,7 @@ public class OnlineStoresForProductEntity {
         return ctn;
     }
 
-    public StoresEntity getStores() {
+    public ECSRetailers getStores() {
         return Stores;
     }
 }

@@ -12,6 +12,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -27,6 +28,7 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.io.InputStream;
+import java.util.List;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
@@ -34,6 +36,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetRegionsRequestTest {
@@ -53,7 +56,7 @@ public class GetRegionsRequestTest {
 
     MockGetRegionsRequest mockGetRegionsRequest;
 
-    ECSCallback<RegionsList, Exception> ecsCallback;
+    ECSCallback<List<ECSRegion>, Exception> ecsCallback;
     private MockInputValidator mockInputValidator;
 
 
@@ -71,9 +74,9 @@ public class GetRegionsRequestTest {
 
         StaticBlock.initialize();
 
-        ecsCallback = new ECSCallback<RegionsList, Exception>() {
+        ecsCallback = new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
-            public void onResponse(RegionsList result) {
+            public void onResponse(List<ECSRegion> result) {
 
             }
 
@@ -89,13 +92,11 @@ public class GetRegionsRequestTest {
     @Test
     public void getRegionRequestSuccess() {
         mockInputValidator.setJsonFileName("GetRegionsSuccess.json");
-        mockECSServices.fetchRegions(new ECSCallback<RegionsList, Exception>() {
+        mockECSServices.fetchRegions(new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
-            public void onResponse(RegionsList result) {
+            public void onResponse(List<ECSRegion> result) {
                 assertNotNull(result);
-                assertNotNull(result.getRegions().size()>0);
-                assertEquals("US-AL",result.getRegions().get(0).getIsocode());
-                assertEquals("Alabama",result.getRegions().get(0).getName());
+
 
                 //test case passed
             }
@@ -111,9 +112,9 @@ public class GetRegionsRequestTest {
     @Test
     public void getRegionRequestFailure() {
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.fetchRegions(new ECSCallback<RegionsList, Exception>() {
+        mockECSServices.fetchRegions(new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
-            public void onResponse(RegionsList result) {
+            public void onResponse(List<ECSRegion> result) {
                 assertTrue(true);
 
                 //test case failed
@@ -157,21 +158,21 @@ public class GetRegionsRequestTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<RegionsList, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSRegion>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",spy1);
 
         JSONObject jsonObject = getJsonObject("GetProductForCTN.json");
 
         mockGetRegionsRequest.onResponse(jsonObject);
 
-        Mockito.verify(spy1).onResponse(any(RegionsList.class));
+        Mockito.verify(spy1).onResponse(anyList());
 
     }
 
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<RegionsList, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSRegion>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetRegionsRequest = new MockGetRegionsRequest("GetRegionsSuccess.json",spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetRegionsRequest.onErrorResponse(volleyError);

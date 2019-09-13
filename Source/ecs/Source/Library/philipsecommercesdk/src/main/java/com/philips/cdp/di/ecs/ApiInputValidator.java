@@ -5,8 +5,8 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
-import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
@@ -177,27 +177,27 @@ public class ApiInputValidator {
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
-    public ECSErrorWrapper getCreateNewAddressError(Addresses address) {
+    public ECSErrorWrapper getCreateNewAddressError(ECSAddress address) {
         return getAddressValidator(address);
     }
 
-    public ECSErrorWrapper getSetDeliveryAddressError(Addresses address) {
+    public ECSErrorWrapper getSetDeliveryAddressError(ECSAddress address) {
         return getAddressValidator(address);
     }
 
-    public ECSErrorWrapper getUpdateAddressError(Addresses address) {
+    public ECSErrorWrapper getUpdateAddressError(ECSAddress address) {
         return getAddressValidator(address);
     }
 
-    public ECSErrorWrapper getSetDefaultAddressError(Addresses address) {
+    public ECSErrorWrapper getSetDefaultAddressError(ECSAddress address) {
         return getAddressValidator(address);
     }
 
-    private ECSErrorWrapper getAddressValidator(Addresses address){
+    private ECSErrorWrapper getAddressValidator(ECSAddress address){
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
-    public ECSErrorWrapper getDeleteAddressError(Addresses address) {
+    public ECSErrorWrapper getDeleteAddressError(ECSAddress address) {
         return getAddressValidator(address);
     }
 
@@ -232,7 +232,7 @@ public class ApiInputValidator {
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
-    public ECSErrorWrapper getMakePaymentError(OrderDetail orderDetail, Addresses billingAddress) {
+    public ECSErrorWrapper getMakePaymentError(ECSOrderDetail orderDetail, ECSAddress billingAddress) {
         if(isINValidString(orderDetail.getCode())){
             return getECSErrorWrapper(ECSErrorEnum.ECSorderIdNil);
         }

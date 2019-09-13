@@ -36,13 +36,11 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
@@ -113,8 +111,8 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
     @Override
     public void onCreateAddress(Message msg) {
-        if (msg.obj instanceof Addresses) {
-            Addresses mAddresses = (Addresses) msg.obj;
+        if (msg.obj instanceof ECSAddress) {
+            ECSAddress mAddresses = (ECSAddress) msg.obj;
             CartModelContainer.getInstance().setAddressId(mAddresses.getId());
             ArrayList<String> userDataMap = new ArrayList<>();
 
@@ -157,7 +155,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                     addressContractor.hideProgressbar();
                     addressContractor.getFragmentActivity().getSupportFragmentManager().popBackStackImmediate();
                 } else {
-                    Addresses addresses = new Addresses();
+                    ECSAddress addresses = new ECSAddress();
                     addresses.setId(CartModelContainer.getInstance().getAddressId());
                     setDeliveryAddress(addresses);
                 }
@@ -210,7 +208,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
        mAddressController.createAddress(shippingAddressFields);
     }
 
-    public void setDeliveryAddress(Addresses address) {
+    public void setDeliveryAddress(ECSAddress address) {
         mAddressController.setDeliveryAddress(address);
     }
 
@@ -250,12 +248,11 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
 
         } else if ((msg.obj instanceof Exception)) {
             ECSUtility.showECSAlertDialog(addressContractor.getActivityContext(),"Error",((Exception) msg.obj));
-        } else if ((msg.obj instanceof PaymentMethods)) {
+        } else if ((msg.obj instanceof List)) {
             //Track new address creation
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
                     ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
-            PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
-            List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
+            List<ECSPayment> mPaymentMethodsList = (List<ECSPayment>) msg.obj;
             CartModelContainer.getInstance().setShippingAddressFields(addressContractor.getShippingAddressFields());
             Bundle bundle = new Bundle();
             bundle.putSerializable(ECSConstant.PAYMENT_METHOD_LIST, (Serializable) mPaymentMethodsList);

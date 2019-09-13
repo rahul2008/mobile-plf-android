@@ -1,8 +1,8 @@
 package com.philips.cdp.di.ecs.model.order
 
-import com.philips.cdp.di.ecs.model.orders.OrderDetail
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
 
-class Orders {
+class ECSOrders {
 
     val code: String? = null
     val guid: String? = null
@@ -12,7 +12,7 @@ class Orders {
 
     val total: Total? = null
 
-    lateinit var orderDetail: OrderDetail
+    lateinit var orderDetail: ECSOrderDetail
 
 
 }

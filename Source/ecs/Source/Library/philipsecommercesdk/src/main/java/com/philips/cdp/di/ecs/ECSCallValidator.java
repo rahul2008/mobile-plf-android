@@ -5,24 +5,22 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
-import com.philips.cdp.di.ecs.model.order.Orders;
-import com.philips.cdp.di.ecs.model.order.OrdersData;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.order.ECSOrders;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
-import com.philips.cdp.di.ecs.model.retailers.WebResults;
-import com.philips.cdp.di.ecs.model.user.UserProfile;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
+import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
 import java.util.List;
@@ -199,7 +197,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void getListSavedAddress(ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getListSavedAddressError();
         if (ecsErrorWrapper == null) {
@@ -209,7 +207,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void createNewAddress(Addresses ecsAddress, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void createNewAddress(ECSAddress ecsAddress, ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
 
         ECSErrorWrapper hybrisOathAuthenticationAPIValidateError = new ApiInputValidator().getCreateNewAddressError(ecsAddress);
 
@@ -220,7 +218,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean b) {
+    public void createNewAddress(ECSAddress address, ECSCallback<ECSAddress, Exception> ecsCallback, boolean b) {
 
         ECSErrorWrapper hybrisOathAuthenticationAPIValidateError = new ApiInputValidator().getCreateNewAddressError(address);
 
@@ -231,7 +229,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setDeliveryAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getSetDeliveryAddressError(address);
 
@@ -242,17 +240,38 @@ public class ECSCallValidator {
         }
     }
 
-    public void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setAndFetchDeliveryAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
 
-        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getUpdateAddressError(address);
+        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getSetDeliveryAddressError(address);
+
         if (ecsErrorWrapper == null) {
-            ecsManager.setDeliveryAddress(address,ecsCallback);
+            ecsManager.setAndFetchDeliveryAddress(address,ecsCallback);
         } else {
             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
     }
 
-    public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void updateAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
+
+        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getUpdateAddressError(address);
+        if (ecsErrorWrapper == null) {
+            ecsManager.updateAddress(address,ecsCallback);
+        } else {
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
+        }
+    }
+
+    public void updateAndFetchAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+
+        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getUpdateAddressError(address);
+        if (ecsErrorWrapper == null) {
+            ecsManager.updateAndFetchAddress(address,ecsCallback);
+        } else {
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
+        }
+    }
+
+    public void deleteAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getDeleteAddressError(address);
         if (ecsErrorWrapper == null) {
@@ -262,7 +281,17 @@ public class ECSCallValidator {
         }
     }
 
-    public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+    public void deleteAndFetchAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+
+        ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getDeleteAddressError(address);
+        if (ecsErrorWrapper == null) {
+            ecsManager.deleteAndFetchAddress(address,ecsCallback);
+        } else {
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
+        }
+    }
+
+    public void getPayments(ECSCallback<List<ECSPayment>, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getPaymentsError();
         if (ecsErrorWrapper == null) {
@@ -282,7 +311,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+    public void getRetailers(String productID, ECSCallback<ECSRetailerList, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getRetailersError(productID);
         if (ecsErrorWrapper == null) {
@@ -292,7 +321,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void submitOrder(String cvv, ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getSubmitOrderError(cvv);
         if (ecsErrorWrapper == null) {
@@ -302,7 +331,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+    public void makePayment(ECSOrderDetail orderDetail, ECSAddress billingAddress, ECSCallback<ECSPaymentProvider, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getMakePaymentError(orderDetail,billingAddress);
         if (ecsErrorWrapper == null) {
@@ -312,7 +341,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
+    public void getOrderHistory(int pageNumber, ECSCallback<ECSOrderHistory, Exception> ecsCallback) {
 
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getOrderHistoryError(pageNumber);
         if (ecsErrorWrapper == null) {
@@ -322,7 +351,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void getOrderDetail(String orderId, ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getOrderDetailError(orderId);
 
         if (ecsErrorWrapper == null) {
@@ -332,7 +361,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback) {
+    public void getOrderDetail(ECSOrders orders, ECSCallback<ECSOrders, Exception> ecsCallback) {
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getOrderDetailError(orders.getCode());
 
         if (ecsErrorWrapper == null) {
@@ -342,7 +371,7 @@ public class ECSCallValidator {
         }
     }
 
-    public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
+    public void getUserProfile(ECSCallback<ECSUserProfile, Exception> ecsCallback) {
         ECSErrorWrapper ecsErrorWrapper = new ApiInputValidator().getUserProfileError();
 
         if (ecsErrorWrapper == null) {
@@ -371,4 +400,6 @@ public class ECSCallValidator {
             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
     }
+
+
 }

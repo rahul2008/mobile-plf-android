@@ -12,11 +12,11 @@ import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
 import com.philips.cdp.di.ecs.model.orders.Consignment;
 import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
 import com.philips.cdp.di.ecs.model.orders.Entries;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.model.summary.Data;
 
 import java.util.ArrayList;
@@ -44,9 +44,9 @@ public class OrderController {
 
     public void getOrderList(int pageNo) {
 
-        ECSUtility.getInstance().getEcsServices().getOrderHistory(pageNo, new ECSCallback<OrdersData, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchOrderHistory(pageNo, 0, new ECSCallback<ECSOrderHistory, Exception>() {
             @Override
-            public void onResponse(OrdersData result) {
+            public void onResponse(ECSOrderHistory result) {
                 Message message = new Message();
                 message.obj = result;
                 mOrderListener.onGetOrderList(message);
@@ -70,9 +70,9 @@ public class OrderController {
 
         Message message = new Message();
         message.what = RequestCode.GET_ORDER_DETAIL;
-        ECSUtility.getInstance().getEcsServices().getOrderDetail(orderNumber, new ECSCallback<com.philips.cdp.di.ecs.model.orders.OrderDetail, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchOrderDetail(orderNumber, new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
-            public void onResponse(OrderDetail orderDetail) {
+            public void onResponse(ECSOrderDetail orderDetail) {
 
                 message.obj = orderDetail;
                 mOrderListener.onGetOrderDetail(message);
@@ -118,10 +118,10 @@ public class OrderController {
         }
     }
 
-    public ArrayList<ProductData> getProductData(List<OrderDetail> orderDetail) {
+    public ArrayList<ProductData> getProductData(List<ECSOrderDetail> orderDetail) {
 
         ArrayList<ProductData> products = new ArrayList<>();
-        for(OrderDetail detail : orderDetail) {
+        for(ECSOrderDetail detail : orderDetail) {
             if (detail.getDeliveryOrderGroups() != null) {
                 List<Entries> entries = detail.getDeliveryOrderGroups().get(0).getEntries();
                 for (Entries entry : entries) {
@@ -137,7 +137,7 @@ public class OrderController {
         return products;
     }
 
-    public void setProductData(ArrayList<ProductData> products, OrderDetail detail, Entries entry, ProductData productItem, Data data) {
+    public void setProductData(ArrayList<ProductData> products, ECSOrderDetail detail, Entries entry, ProductData productItem, Data data) {
         productItem.setImageURL(data.getImageURL());
         productItem.setProductTitle(data.getProductTitle());
         productItem.setQuantity(entry.getQuantity());
@@ -151,7 +151,7 @@ public class OrderController {
         products.add(productItem);
     }
 
-    public ConsignmentEntries getEntriesFromConsignMent(OrderDetail detail, String ctn) {
+    public ConsignmentEntries getEntriesFromConsignMent(ECSOrderDetail detail, String ctn) {
         if (detail.getConsignments() == null) return null;
         for (Consignment consignment : detail.getConsignments()) {
             for (ConsignmentEntries entries : consignment.getEntries()) {

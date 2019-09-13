@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
-import com.philips.cdp.di.ecs.Cart.MockAddProductToECSShoppingCartRequest;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.MockInputValidator;
@@ -12,8 +11,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -37,7 +35,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class PlaceOrderTest {
@@ -53,7 +50,7 @@ public class PlaceOrderTest {
 
     MockPlaceOrderRequest mockPlaceOrderRequest;
 
-    ECSCallback<OrderDetail, Exception> ecsCallback;
+    ECSCallback<ECSOrderDetail, Exception> ecsCallback;
 
 
     @Mock
@@ -75,9 +72,9 @@ public class PlaceOrderTest {
         StaticBlock.initialize();
 
         mockInputValidator = new MockInputValidator();
-        ecsCallback = new ECSCallback<OrderDetail, Exception>() {
+        ecsCallback = new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
-            public void onResponse(OrderDetail result) {
+            public void onResponse(ECSOrderDetail result) {
 
             }
 
@@ -92,9 +89,9 @@ public class PlaceOrderTest {
     @Test
     public void placeOrderSuccess() {
         mockInputValidator.setJsonFileName("SubmitOrderSuccess.json");
-        mockECSServices.submitOrder("123",new ECSCallback<OrderDetail, Exception>() {
+        mockECSServices.submitOrder("123",new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
-            public void onResponse(OrderDetail result) {
+            public void onResponse(ECSOrderDetail result) {
                 assertNotNull(result);
                 //test passed
 
@@ -140,7 +137,7 @@ public class PlaceOrderTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<OrderDetail, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSOrderDetail, Exception> spy1 = Mockito.spy(ecsCallback);
         mockPlaceOrderRequest = new MockPlaceOrderRequest("SubmitOrderSuccess.json","", spy1);
         VolleyError volleyError = new NoConnectionError();
         mockPlaceOrderRequest.onErrorResponse(volleyError);
@@ -151,14 +148,14 @@ public class PlaceOrderTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<OrderDetail, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSOrderDetail, Exception> spy1 = Mockito.spy(ecsCallback);
         mockPlaceOrderRequest = new MockPlaceOrderRequest("SubmitOrderSuccess.json","",spy1);
 
         JSONObject jsonObject = getJsonObject("SubmitOrderSuccess.json");
 
         mockPlaceOrderRequest.onResponse(String.valueOf(jsonObject));
 
-        Mockito.verify(spy1).onResponse(any(OrderDetail.class));
+        Mockito.verify(spy1).onResponse(any(ECSOrderDetail.class));
 
     }
 

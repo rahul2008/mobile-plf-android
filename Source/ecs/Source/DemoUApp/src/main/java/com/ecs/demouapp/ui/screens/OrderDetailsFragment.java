@@ -39,7 +39,7 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
 import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
 import com.philips.cdp.di.ecs.model.orders.Entries;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -65,7 +65,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     private TextView mBillingAddress;
     private ScrollView mParentView;
     private TextView mPaymentCardType;
-    OrderDetail mOrderDetail;
+    ECSOrderDetail mOrderDetail;
     private LinearLayout mPaymentModeLayout;
     private OrderController mController;
     private TextView mShippingStatus;
@@ -194,8 +194,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             ECSUtility.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
-                if (msg.obj instanceof OrderDetail) {
-                    mOrderDetail = (OrderDetail) msg.obj;
+                if (msg.obj instanceof ECSOrderDetail) {
+                    mOrderDetail = (ECSOrderDetail) msg.obj;
                     updateUIwithDetails(mOrderDetail);
 
                     updateSummaryData(mOrderDetail);
@@ -254,8 +254,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
 
 
-    public void updateSummaryData(OrderDetail mOrderDetail) {
-        ArrayList<OrderDetail> detailList = new ArrayList<>();
+    public void updateSummaryData(ECSOrderDetail mOrderDetail) {
+        ArrayList<ECSOrderDetail> detailList = new ArrayList<>();
         detailList.add(this.mOrderDetail);
         if (mController == null)
             mController = new OrderController(mContext, this);
@@ -302,11 +302,11 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         setProductSummary(mOrderDetail);
     }
 
-    private void setProductSummary(OrderDetail mOrderDetail) {
+    private void setProductSummary(ECSOrderDetail mOrderDetail) {
             populateProductNameQuantityAndPrice(mOrderDetail);
     }
 
-    private void populateProductNameQuantityAndPrice(OrderDetail mOrderDetail) {
+    private void populateProductNameQuantityAndPrice(ECSOrderDetail mOrderDetail) {
 
         for (Entries entries : mOrderDetail.getEntries()) {
 
@@ -373,7 +373,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
     }
 
-    public void updateUIwithDetails(OrderDetail detail) {
+    public void updateUIwithDetails(ECSOrderDetail detail) {
         mTime.setText(Utility.getFormattedDate(detail.getCreated()));
         String orderStatus = detail.getStatusDisplay();
         String statusString = orderStatus.substring(0, 1).toLowerCase() + orderStatus.substring(1);
@@ -390,7 +390,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             if (mController == null)
                 mController = new OrderController(mContext, this);
 
-            ArrayList<OrderDetail> detailList = new ArrayList<>();
+            ArrayList<ECSOrderDetail> detailList = new ArrayList<>();
             detailList.add(detail);
 
             //call prx here

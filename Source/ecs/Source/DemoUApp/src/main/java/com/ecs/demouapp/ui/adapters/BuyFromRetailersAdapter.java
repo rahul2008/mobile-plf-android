@@ -17,7 +17,7 @@ import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
-import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailer;
 
 
 import java.util.ArrayList;
@@ -26,15 +26,15 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
     private  Context mContext;
     private  FragmentManager mFragmentManager;
     private  ImageLoader mImageLoader;
-    private ArrayList<StoreEntity> mStoreList;
+    private ArrayList<ECSRetailer> mStoreList;
     private BuyFromRetailersListener mBuyFromRetailersListener;
 
     public interface BuyFromRetailersListener {
-        void onClickAtRetailer(String buyURL, StoreEntity storeEntity);
+        void onClickAtRetailer(String buyURL, ECSRetailer storeEntity);
     }
 
     public BuyFromRetailersAdapter(Context context, FragmentManager fragmentManager,
-                                   ArrayList<StoreEntity> storeList, BuyFromRetailersListener pBuyFromRetailersListener) {
+                                   ArrayList<ECSRetailer> storeList, BuyFromRetailersListener pBuyFromRetailersListener) {
         mContext = context;
         mFragmentManager = fragmentManager;
         mStoreList = storeList;
@@ -49,7 +49,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
 
     @Override
     public void onBindViewHolder(final RetailerViewHolder holder, final int position) {
-        final StoreEntity storeEntity = mStoreList.get(position);
+        final ECSRetailer storeEntity = mStoreList.get(position);
         String imageURL = storeEntity.getLogoURL();
         holder.mStoreName.setText(storeEntity.getName());
         holder.mLogo.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
@@ -82,7 +82,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         getNetworkImage(holder, imageURL);
     }
 
-    void tagOnSelectRetailer(StoreEntity storeEntity) {
+    void tagOnSelectRetailer(ECSRetailer storeEntity) {
         ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA, ECSAnalyticsConstant.RETAILER_SELECTED,
                 storeEntity.getName());
     }

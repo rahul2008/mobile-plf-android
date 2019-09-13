@@ -19,7 +19,7 @@ import com.ecs.demouapp.ui.response.orders.ProductData;
 import com.ecs.demouapp.ui.session.NetworkImageLoader;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.model.order.Orders;
+import com.philips.cdp.di.ecs.model.order.ECSOrders;
 
 
 import java.util.List;
@@ -28,11 +28,11 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public static final String TAG = OrderHistoryAdapter.class.getName();
     final private Context mContext;
-    final private List<Orders> mOrders;
+    final private List<ECSOrders> mOrders;
     final private List<ProductData> mProductDetails;
     private int mSelectedIndex;
 
-    public OrderHistoryAdapter(final Context context, final List<Orders> orders, final List<ProductData> product) {
+    public OrderHistoryAdapter(final Context context, final List<ECSOrders> orders, final List<ProductData> product) {
         mContext = context;
         mOrders = orders;
         mProductDetails = product;
@@ -47,7 +47,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Orders order = mOrders.get(position);
+        ECSOrders order = mOrders.get(position);
         OrderHistoryHolder orderHistoryHolder = (OrderHistoryHolder) holder;
         orderHistoryHolder.mTime.setText(Utility.getFormattedDate(order.getPlaced()));
         String orderStatus = order.getStatusDisplay();

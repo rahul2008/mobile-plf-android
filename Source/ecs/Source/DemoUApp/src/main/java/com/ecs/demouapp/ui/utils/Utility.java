@@ -18,8 +18,8 @@ import android.view.inputmethod.InputMethodManager;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.container.CartModelContainer;
-import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailer;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.utils.DialogConstants;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
@@ -130,7 +130,7 @@ public class Utility {
         return !TextUtils.isEmpty(field);
     }
 
-    public static AddressFields prepareAddressFields(Addresses addresses, String janRainEmail) {
+    public static AddressFields prepareAddressFields(ECSAddress addresses, String janRainEmail) {
         AddressFields fields = new AddressFields();
 
         if (isNotNullNorEmpty(addresses.getFirstName())) {
@@ -184,7 +184,7 @@ public class Utility {
         return fields;
     }
 
-    public static AddressFields prepareOrderAddressFields(Addresses address) {
+    public static AddressFields prepareOrderAddressFields(ECSAddress address) {
 
 
         AddressFields fields = new AddressFields();
@@ -400,7 +400,7 @@ public class Utility {
         return false;
     }
 
-    public boolean isPhilipsShop(StoreEntity storeEntity) {
+    public boolean isPhilipsShop(ECSRetailer storeEntity) {
         return storeEntity.getIsPhilipsStore().equalsIgnoreCase("Y");
     }
 

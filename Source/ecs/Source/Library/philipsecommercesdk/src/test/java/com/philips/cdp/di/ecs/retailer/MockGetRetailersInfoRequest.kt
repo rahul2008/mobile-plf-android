@@ -3,12 +3,12 @@ package com.philips.cdp.di.ecs.retailer
 import com.android.volley.VolleyError
 import com.philips.cdp.di.ecs.TestUtil
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.retailers.WebResults
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.ecs.request.GetRetailersInfoRequest
 import org.json.JSONException
 import org.json.JSONObject
 
-class MockGetRetailersInfoRequest(jsonFileName: String,ecsCallback: ECSCallback<WebResults, Exception>, ctn :String) : GetRetailersInfoRequest(ecsCallback,ctn) {
+class MockGetRetailersInfoRequest(jsonFileName: String, ecsCallback: ECSCallback<ECSRetailerList, Exception>, ctn :String) : GetRetailersInfoRequest(ecsCallback,ctn) {
 
 
     internal var jsonFile: String = jsonFileName

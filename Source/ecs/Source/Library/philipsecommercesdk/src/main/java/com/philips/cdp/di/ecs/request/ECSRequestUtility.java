@@ -1,7 +1,7 @@
 package com.philips.cdp.di.ecs.request;
 
 import com.philips.cdp.di.ecs.constants.ModelConstants;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class ECSRequestUtility {
 
-    public static HashMap<String, String>  getAddressParams(Addresses addresses){
+    public static HashMap<String, String>  getAddressParams(ECSAddress addresses){
         HashMap<String, String> addressHashMap = new HashMap<>();
 
 

@@ -6,29 +6,27 @@ import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.GrantType;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
-import com.philips.cdp.di.ecs.model.order.Orders;
-import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.order.ECSOrders;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
 import com.philips.cdp.di.ecs.model.orders.Entries;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
-import com.philips.cdp.di.ecs.model.retailers.WebResults;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
-import com.philips.cdp.di.ecs.model.user.UserProfile;
+import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
@@ -546,19 +544,19 @@ public class ECSManager {
 
 
     //===================================================== Start of Address ====================================================
-     void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+     void getListSavedAddress(ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
         new GetAddressRequest(ecsCallback).executeRequest();
     }
 
-     void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+     void setDeliveryAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
         new SetDeliveryAddressRequest(address.getId(), ecsCallback).executeRequest();
     }
     //===================================================== End of Delivery Mode ====================================================
 
-     void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
-         ECSCallback<Addresses, Exception> ecsCallback1= new  ECSCallback<Addresses, Exception>() {
+     void createNewAddress(ECSAddress address, ECSCallback<ECSAddress, Exception> ecsCallback, boolean singleAddress) {
+         ECSCallback<ECSAddress, Exception> ecsCallback1= new  ECSCallback<ECSAddress, Exception>() {
             @Override
-            public void onResponse(Addresses result) {
+            public void onResponse(ECSAddress result) {
                 // Address is created and now Address list needs to be called
                 ecsCallback.onResponse(result);
 
@@ -572,14 +570,14 @@ public class ECSManager {
          createAddressRequestObject(address,ecsCallback1).executeRequest();
     }
 
-    CreateAddressRequest createAddressRequestObject(Addresses address, ECSCallback<Addresses, Exception> ecsCallback){
+    CreateAddressRequest createAddressRequestObject(ECSAddress address, ECSCallback<ECSAddress, Exception> ecsCallback){
         return new CreateAddressRequest(address,ecsCallback);
     }
 
-     void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
-        new CreateAddressRequest(address, new ECSCallback<Addresses, Exception>() {
+     void createNewAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+        new CreateAddressRequest(address, new ECSCallback<ECSAddress, Exception>() {
             @Override
-            public void onResponse(Addresses result) {
+            public void onResponse(ECSAddress result) {
                 // Address is created and now Address list needs to be called
                 getListSavedAddress(ecsCallback);
             }
@@ -591,15 +589,15 @@ public class ECSManager {
         }).executeRequest();
     }
 
-     void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+     void updateAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
         new UpdateAddressRequest(address, ecsCallback).executeRequest();
     }
 
-     void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+     void deleteAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
         new DeleteAddressRequest(address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
-                getListSavedAddress(ecsCallback);
+                ecsCallback.onResponse(result);
             }
 
             @Override
@@ -609,7 +607,21 @@ public class ECSManager {
         }).executeRequest();
     }
 
-     void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+    public void deleteAndFetchAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+        deleteAddress(address, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                getListSavedAddress(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
+            }
+        });
+    }
+
+     void getRetailers(String productID, ECSCallback<ECSRetailerList, Exception> ecsCallback) {
         new GetRetailersInfoRequest(ecsCallback, productID).executeRequest();
     }
     //===================================================== End of Address ====================================================
@@ -617,7 +629,7 @@ public class ECSManager {
 
     //===================================================== Start of Payment ====================================================
 
-     void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+     void getPayments(ECSCallback<List<ECSPayment>, Exception> ecsCallback) {
         new GetPaymentsRequest(ecsCallback).executeRequest();
     }
 
@@ -635,26 +647,26 @@ public class ECSManager {
         }).executeRequest();
     }
 
-     void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
+     void getOrderHistory(int pageNumber, ECSCallback<ECSOrderHistory, Exception> ecsCallback) {
         new GetOrderHistoryRequest(pageNumber, ecsCallback).executeRequest();
     }
 
 
-     void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+     void submitOrder(String cvv, ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
         new SubmitOrderRequest(cvv, ecsCallback).executeRequest();
     }
 
 
-     void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+     void makePayment(ECSOrderDetail orderDetail, ECSAddress billingAddress, ECSCallback<ECSPaymentProvider, Exception> ecsCallback) {
         new MakePaymentRequest(orderDetail, billingAddress, ecsCallback).executeRequest();
     }
 
 
-     void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
+     void getOrderDetail(String orderId, ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
 
-        new GetOrderDetailRequest(orderId, new ECSCallback<OrderDetail, Exception>() {
+        new GetOrderDetailRequest(orderId, new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
-            public void onResponse(OrderDetail orderDetail) {
+            public void onResponse(ECSOrderDetail orderDetail) {
                 if (orderDetail == null || orderDetail.getEntries() == null || orderDetail.getEntries().size() == 0) {
                     ecsCallback.onResponse(orderDetail);
                     return;
@@ -729,14 +741,14 @@ public class ECSManager {
         }
     }
 
-     void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
+     void getUserProfile(ECSCallback<ECSUserProfile, Exception> ecsCallback) {
         new GetUserProfileRequest(ecsCallback).executeRequest();
     }
 
-     void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback) {
-        getOrderDetail(orders.getCode(), new ECSCallback<OrderDetail, Exception>() {
+     void getOrderDetail(ECSOrders orders, ECSCallback<ECSOrders, Exception> ecsCallback) {
+        getOrderDetail(orders.getCode(), new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
-            public void onResponse(OrderDetail result) {
+            public void onResponse(ECSOrderDetail result) {
                 orders.orderDetail = result;
                 ecsCallback.onResponse(orders);
             }
@@ -751,6 +763,38 @@ public class ECSManager {
     public void refreshAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener) {
         new OAuthRequest(GrantType.REFRESH_TOKEN,oAuthInput,ecsListener).executeRequest();
     }
+
+    public void updateAndFetchAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+       updateAddress(address, new ECSCallback<Boolean, Exception>() {
+           @Override
+           public void onResponse(Boolean result) {
+               getListSavedAddress(ecsCallback);
+           }
+
+           @Override
+           public void onFailure(Exception error, ECSError ecsError) {
+               ecsCallback.onFailure(error, ecsError);
+           }
+       });
+
+    }
+
+    public void setAndFetchDeliveryAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+
+        setDeliveryAddress(address, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean result) {
+                getListSavedAddress(ecsCallback);
+            }
+
+            @Override
+            public void onFailure(Exception error, ECSError ecsError) {
+                ecsCallback.onFailure(error, ecsError);
+            }
+        });
+    }
+
+
 }
 
 

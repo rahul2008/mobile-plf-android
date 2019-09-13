@@ -9,7 +9,7 @@ import com.philips.cdp.di.ecs.MockInputValidator
 import com.philips.cdp.di.ecs.StaticBlock
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.order.OrdersData
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
 import org.junit.Assert.*
@@ -33,7 +33,7 @@ class GetOrderHistoryRequestTest{
     lateinit var mockECSServices: MockECSServices
     lateinit var ecsServices: ECSServices
 
-    lateinit var ecsCallback: ECSCallback<OrdersData,Exception>
+    lateinit var ecsCallback: ECSCallback<ECSOrderHistory,Exception>
 
 
     private var appInfra: AppInfra? = null
@@ -61,9 +61,9 @@ class GetOrderHistoryRequestTest{
 
         StaticBlock.initialize()
 
-        ecsCallback = object: ECSCallback<OrdersData,Exception>{
+        ecsCallback = object: ECSCallback<ECSOrderHistory,Exception>{
 
-            override fun onResponse(result: OrdersData){
+            override fun onResponse(result: ECSOrderHistory){
             }
 
             override fun onFailure(error: Exception, ecsError: ECSError){
@@ -77,9 +77,9 @@ class GetOrderHistoryRequestTest{
     fun testSuccessResponse() {
         mockInputValidator.jsonFileName = "GetOrderHistorySuccess.json"
 
-        ecsCallback = object: ECSCallback<OrdersData,Exception>{
+        ecsCallback = object: ECSCallback<ECSOrderHistory,Exception>{
 
-             override fun onResponse(result: OrdersData){
+             override fun onResponse(result: ECSOrderHistory){
                  assertNotNull(result)
                  assertNotNull(result.orders?.get(0)?.code)
              }
@@ -91,7 +91,7 @@ class GetOrderHistoryRequestTest{
             }
 
         }
-        mockECSServices.getOrderHistory(0,ecsCallback)
+        mockECSServices.fetchOrderHistory(0,1, ecsCallback)
 
     }
 
@@ -100,9 +100,9 @@ class GetOrderHistoryRequestTest{
 
         mockInputValidator.jsonFileName = "GetOrderHistoryFailure.json"
 
-        ecsCallback = object: ECSCallback<OrdersData,Exception>{
+        ecsCallback = object: ECSCallback<ECSOrderHistory,Exception>{
 
-            override fun onResponse(result: OrdersData){
+            override fun onResponse(result: ECSOrderHistory){
                 assertTrue(true)
                 //  test case failed
             }
@@ -114,7 +114,7 @@ class GetOrderHistoryRequestTest{
             }
 
         }
-        mockECSServices.getOrderHistory(0,ecsCallback)
+        mockECSServices.fetchOrderHistory(0,1, ecsCallback)
 
     }
 
@@ -144,7 +144,7 @@ class GetOrderHistoryRequestTest{
 
     @Test
     fun verifyOnResponseError() {
-        val spy1 = Mockito.spy<ECSCallback<OrdersData, Exception>>(ecsCallback)
+        val spy1 = Mockito.spy<ECSCallback<ECSOrderHistory, Exception>>(ecsCallback)
         mockGetOrderHistoryRequest = MockGetOrderHistoryRequest("GetOrderHistorySuccess.json",currentPage,spy1);
         val volleyError = NoConnectionError()
         mockGetOrderHistoryRequest.onErrorResponse(volleyError)

@@ -15,13 +15,12 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.address.Region;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 
@@ -77,9 +76,9 @@ public class AddressController {
     }
 
 
-    public static   Addresses getAddressesObject(AddressFields addressFields){
+    public static ECSAddress getAddressesObject(AddressFields addressFields){
 
-        Addresses addressRequest = new Addresses();
+        ECSAddress addressRequest = new ECSAddress();
 
         addressRequest.setFirstName(addressFields.getFirstName());
         addressRequest.setLastName(addressFields.getLastName());
@@ -105,12 +104,12 @@ public class AddressController {
       /*  HashMap<String, String> params = getAddressHashMap(addressFields);
         CreateAddressRequest model = new CreateAddressRequest(getStore(), params, this);
         getHybrisDelegate().sendRequest(RequestCode.CREATE_ADDRESS, model, model);*/
-        Addresses addressRequest=getAddressesObject(addressFields);
+        ECSAddress addressRequest=getAddressesObject(addressFields);
 
 
-        ECSUtility.getInstance().getEcsServices().createNewAddress(addressRequest, new ECSCallback<Addresses, Exception>() {
+        ECSUtility.getInstance().getEcsServices().createAddress(addressRequest, new ECSCallback<ECSAddress, Exception>() {
             @Override
-            public void onResponse(Addresses result) {
+            public void onResponse(ECSAddress result) {
                // addressContractor.hideProgressbar();
                 if(null!=result){
                     Log.v("ECS ADDRESS",""+result.toString());
@@ -129,19 +128,19 @@ public class AddressController {
                 //addressContractor.hideProgressbar();
 
             }
-        },true);
+        });
 
     }
 
     public void getAddresses() {
 
-        ECSUtility.getInstance().getEcsServices().getListSavedAddress(new ECSCallback<GetShippingAddressData, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchSavedAddresses(new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData result) {
+            public void onResponse(List<ECSAddress> result) {
 
 
                 Message message = new Message();
-                if(result==null || result.getAddresses() ==null || result.getAddresses().size() ==0){
+                if(result ==null || result.size() ==0){
                     message.obj ="";
                 }else{
                     message.obj = result;
@@ -162,11 +161,11 @@ public class AddressController {
         //getHybrisDelegate().sendRequest(RequestCode.GET_ADDRESS, model, model);
     }
 
-    public void deleteAddress(Addresses address) {
+    public void deleteAddress(ECSAddress address) {
 
-        ECSUtility.getInstance().getEcsServices().deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
+        ECSUtility.getInstance().getEcsServices().deleteAndFetchAddress(address, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData result) {
+            public void onResponse(List<ECSAddress> result) {
 
                 Message message = new Message();
                 message.obj = result;
@@ -190,14 +189,14 @@ public class AddressController {
     }
 
     public void updateAddress(AddressFields addressFields, String addressID) {
-        Addresses addresses=getAddressesObject(addressFields);
+        ECSAddress addresses=getAddressesObject(addressFields);
         addresses.setId(addressID);
         updateAddress(addresses);
 
     }
 
-    public void updateAddress(Addresses addresses){
-        ECSUtility.getInstance().getEcsServices().updateAddress(addresses, new ECSCallback<Boolean, Exception>() {
+    public void updateAddress(ECSAddress addresses){
+        ECSUtility.getInstance().getEcsServices().updateAddress(false, addresses, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
 
@@ -220,7 +219,7 @@ public class AddressController {
 
     }
 
-    public void setDeliveryAddress(Addresses addresses) {
+    public void setDeliveryAddress(ECSAddress addresses) {
         addresses.setDefaultAddress(true);
        /* address.getId()
         if (null != pAddressId) {
@@ -346,11 +345,11 @@ public class AddressController {
         return params;
     }
 
-    public void setDefaultAddress(Addresses address) {
+    public void setDefaultAddress(ECSAddress address) {
         updateAddress(address);
     }
 
-    public HashMap<String, String> getAddressesMap(Addresses addr, Boolean isDefaultAddress) {
+    public HashMap<String, String> getAddressesMap(ECSAddress addr, Boolean isDefaultAddress) {
         HashMap<String, String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, addr.getFirstName());
         addressHashMap.put(ModelConstants.LAST_NAME, addr.getLastName());

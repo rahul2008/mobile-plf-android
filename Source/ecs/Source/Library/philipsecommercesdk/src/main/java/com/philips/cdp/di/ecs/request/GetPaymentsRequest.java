@@ -8,6 +8,7 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
@@ -16,15 +17,16 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 public class GetPaymentsRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject>{
 
-    private final ECSCallback<PaymentMethods , Exception> ecsCallback;
+    private final ECSCallback<List<ECSPayment> , Exception> ecsCallback;
 
-    public GetPaymentsRequest(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+    public GetPaymentsRequest(ECSCallback<List<ECSPayment>, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
     }
 
@@ -40,7 +42,7 @@ public class GetPaymentsRequest extends OAuthAppInfraAbstractRequest implements 
         }
         // TODO to check response json when there is no payment added
         if(null==exception && null!=getPayment) {
-            ecsCallback.onResponse(getPayment);
+            ecsCallback.onResponse(getPayment.getPayments());
         } else {
             ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response.toString());
             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());

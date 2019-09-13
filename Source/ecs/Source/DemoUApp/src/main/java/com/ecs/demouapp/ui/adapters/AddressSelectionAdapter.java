@@ -19,13 +19,13 @@ import com.ecs.demouapp.ui.address.AddressFields;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.util.List;
 
 public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Addresses> mAddresses;
+    private List<ECSAddress> mAddresses;
 
     private int mSelectedIndex = 0; //As Oth position is taken by header
     private static final int TYPE_ITEM = 1;
@@ -33,7 +33,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Context mContext;
     private String mJanRainEmail;
 
-    public AddressSelectionAdapter(final List<Addresses> addresses,String mJanRainEmail) {
+    public AddressSelectionAdapter(final List<ECSAddress> addresses, String mJanRainEmail) {
         mAddresses = addresses;
         mSelectedIndex = 0; //As Oth position is taken by header
         this.mJanRainEmail=mJanRainEmail;
@@ -66,7 +66,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (holder == null) return;
 
         if (holder instanceof AddressSelectionHolder) {
-            Addresses address = mAddresses.get(position);
+            ECSAddress address = mAddresses.get(position);
             AddressSelectionHolder addressSelectionHolder = (AddressSelectionHolder) holder;
             addressSelectionHolder.tvToggle.setText(address.getFirstName() + " " + address.getLastName());
             //addressSelectionHolder.address.setText(Utility.formatAddress(address.getFormattedAddress() + "\n" + address.getCountry().getName()));
@@ -153,7 +153,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
 
-    public void setAddresses(final List<Addresses> data) {
+    public void setAddresses(final List<ECSAddress> data) {
         mSelectedIndex = 0;
         mAddresses = data;
     }

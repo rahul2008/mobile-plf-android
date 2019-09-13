@@ -10,7 +10,7 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
@@ -25,10 +25,10 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
 
-    Addresses ecsAddressRequest;
-    private  ECSCallback<Addresses,Exception> ecsCallback;
+    ECSAddress ecsAddressRequest;
+    private  ECSCallback<ECSAddress,Exception> ecsCallback;
 
-    public CreateAddressRequest(Addresses ecsAddressRequest, ECSCallback<Addresses, Exception> ecsCallback) {
+    public CreateAddressRequest(ECSAddress ecsAddressRequest, ECSCallback<ECSAddress, Exception> ecsCallback) {
         this.ecsAddressRequest = ecsAddressRequest;
         this.ecsCallback = ecsCallback;
     }
@@ -40,11 +40,11 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
      */
     @Override
     public void onResponse(String response) {
-        Addresses addresses=null;
+        ECSAddress addresses=null;
         Exception exception = null;
                 // created address response is not checked
         try {
-            addresses = new Gson().fromJson(response, Addresses.class);
+            addresses = new Gson().fromJson(response, ECSAddress.class);
         }catch(Exception e){
             exception = e;
 

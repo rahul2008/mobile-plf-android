@@ -10,7 +10,7 @@ import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -32,7 +32,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class DeleteAddressTest {
@@ -55,7 +54,7 @@ public class DeleteAddressTest {
 
     ECSCallback ecsCallback;
 
-    Addresses addresses;
+    ECSAddress addresses;
 
     MockInputValidator mockInputValidator;
 
@@ -74,7 +73,7 @@ public class DeleteAddressTest {
         mockInputValidator = new MockInputValidator();
 
         StaticBlock.initialize();
-        addresses = new Addresses();
+        addresses = new ECSAddress();
         addresses.setId("1234");
 
 
@@ -96,12 +95,11 @@ public class DeleteAddressTest {
     @Test
     public void deleteAddressSingleSuccess() {
         mockInputValidator.setJsonFileName("EmptyString.json");
-        Addresses address = new Addresses();
-        mockECSServices.deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
+        ECSAddress address = new ECSAddress();
+        mockECSServices.deleteAddress(address, new ECSCallback<Boolean, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData addressList) {
+            public void onResponse(Boolean addressList) {
                 assertNotNull(addressList);
-                assertNotNull(addressList.getAddresses());
 
             }
 
@@ -117,12 +115,11 @@ public class DeleteAddressTest {
     @Test
     public void deleteAddressSingleFailureInvalidBaseSite() {
         mockInputValidator.setJsonFileName("DeleteAddressFailureInvalidBaseSite.json");
-        Addresses address = new Addresses();
-        mockECSServices.deleteAddress(address, new ECSCallback<GetShippingAddressData, Exception>() {
+        ECSAddress address = new ECSAddress();
+        mockECSServices.deleteAddress(address, new ECSCallback<Boolean, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData addressList) {
+            public void onResponse(Boolean addressList) {
                 assertTrue(true);
-
             }
 
             @Override

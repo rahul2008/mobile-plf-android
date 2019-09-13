@@ -4,20 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 
 
 import java.util.List;
 
-public class OrderDetail implements Parcelable{
+public class ECSOrderDetail implements Parcelable{
 
 
     private String type;
     private boolean calculated;
     private String code;
 
-    private Addresses deliveryAddress;
+    private ECSAddress deliveryAddress;
     private Cost deliveryCost;
     private int deliveryItemsQuantity;
 
@@ -59,10 +59,10 @@ public class OrderDetail implements Parcelable{
     private List<Consignment> consignments;
 
 
-    public OrderDetail() {
+    public ECSOrderDetail() {
     }
 
-    protected OrderDetail(Parcel in) {
+    protected ECSOrderDetail(Parcel in) {
         type = in.readString();
         calculated = in.readByte() != 0;
         code = in.readString();
@@ -104,15 +104,15 @@ public class OrderDetail implements Parcelable{
         return 0;
     }
 
-    public static final Creator<OrderDetail> CREATOR = new Creator<OrderDetail>() {
+    public static final Creator<ECSOrderDetail> CREATOR = new Creator<ECSOrderDetail>() {
         @Override
-        public OrderDetail createFromParcel(Parcel in) {
-            return new OrderDetail(in);
+        public ECSOrderDetail createFromParcel(Parcel in) {
+            return new ECSOrderDetail(in);
         }
 
         @Override
-        public OrderDetail[] newArray(int size) {
-            return new OrderDetail[size];
+        public ECSOrderDetail[] newArray(int size) {
+            return new ECSOrderDetail[size];
         }
     };
 
@@ -133,7 +133,7 @@ public class OrderDetail implements Parcelable{
         this.code = code;
     }
 
-    public Addresses getDeliveryAddress() {
+    public ECSAddress getDeliveryAddress() {
         return deliveryAddress;
     }
 

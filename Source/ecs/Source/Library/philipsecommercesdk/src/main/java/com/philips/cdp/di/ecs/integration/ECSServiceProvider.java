@@ -3,23 +3,22 @@ package com.philips.cdp.di.ecs.integration;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
-import com.philips.cdp.di.ecs.model.order.Orders;
-import com.philips.cdp.di.ecs.model.order.OrdersData;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.order.ECSOrders;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
-import com.philips.cdp.di.ecs.model.retailers.WebResults;
-import com.philips.cdp.di.ecs.model.user.UserProfile;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
+import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
 import java.util.List;
@@ -94,41 +93,46 @@ public interface ECSServiceProvider {
 
     void fetchRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback);
 
-    void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback);
+    void fetchSavedAddresses(ECSCallback<List<ECSAddress>, Exception> ecsCallback);
 
-    void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback);
+    void createAndFetchAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback);
 
-    void createNewAddress(Addresses address, ECSCallback<Addresses, Exception> ecsCallback,boolean singleAddress);
+    void createAddress(ECSAddress address, ECSCallback<ECSAddress, Exception> ecsCallback);
 
-    void setDeliveryAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
 
-    void updateAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
+    void setDeliveryAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback);
 
-    void setDefaultAddress(Addresses address,ECSCallback<Boolean, Exception> ecsCallback);
+    void setAndFetchDeliveryAddress(ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback);
 
-    void deleteAddress(Addresses address,ECSCallback<GetShippingAddressData, Exception> ecsCallback);
+    void updateAddress(boolean isDefaultAddress, ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback);
 
-    void getRetailers(String productID, ECSCallback<WebResults,Exception> ecsCallback);
+    void updateAndFetchAddress(boolean isDefaultAddress, ECSAddress address, ECSCallback<List<ECSAddress>, Exception> ecsCallback);
 
-    void getRetailers(ECSProduct product, ECSCallback<WebResults,Exception> ecsCallback);
+    void deleteAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback);
 
-    void getPayments(ECSCallback<PaymentMethods,Exception> ecsCallback);
+    void deleteAndFetchAddress(@NonNull ECSAddress address,@NonNull ECSCallback<List<ECSAddress>, Exception> ecsCallback);
 
-    void setPaymentMethod(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback);
+    void fetchRetailers(String productID, ECSCallback<ECSRetailerList,Exception> ecsCallback);
 
-    void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback);
+    void fetchRetailers(ECSProduct product, ECSCallback<ECSRetailerList,Exception> ecsCallback);
 
-    void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback);
+    void fetchPaymentsDetails(ECSCallback<List<ECSPayment>, Exception> ecsCallback);
 
-    void getOrderHistory(int pageNumber, ECSCallback<OrdersData,Exception> ecsCallback);
+    void setPaymentDetails(String paymentDetailsId, ECSCallback<Boolean, Exception> ecsCallback);
 
-    void getOrderDetail(String orderId, ECSCallback<OrderDetail,Exception> ecsCallback);
+    void submitOrder(String cvv, ECSCallback<ECSOrderDetail, Exception> ecsCallback);
 
-    void getOrderDetail(OrderDetail orderDetail, ECSCallback<OrderDetail,Exception> ecsCallback);
+    void makePayment(ECSOrderDetail orderDetail, ECSAddress billingAddress, ECSCallback<ECSPaymentProvider, Exception> ecsCallback);
 
-    void getOrderDetail(Orders orders, ECSCallback<Orders, Exception> ecsCallback);
+    void fetchOrderHistory(int pageNumber, int pageSize, ECSCallback<ECSOrderHistory, Exception> ecsCallback);
 
-    void getUserProfile(ECSCallback<UserProfile,Exception> ecsCallback);
+    void fetchOrderDetail(String orderId, ECSCallback<ECSOrderDetail,Exception> ecsCallback);
+
+    void fetchOrderDetail(ECSOrderDetail orderDetail, ECSCallback<ECSOrderDetail,Exception> ecsCallback);
+
+    void fetchOrderDetail(ECSOrders orders, ECSCallback<ECSOrders, Exception> ecsCallback);
+
+    void fetchUserProfile(ECSCallback<ECSUserProfile,Exception> ecsCallback);
 
     void hybrisRefreshOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener);
 

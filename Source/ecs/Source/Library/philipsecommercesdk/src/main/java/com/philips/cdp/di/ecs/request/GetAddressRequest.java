@@ -13,20 +13,23 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 
 public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<JSONObject> {
 
-    private final ECSCallback<GetShippingAddressData, Exception> ecsCallback;
+    private final ECSCallback<List<ECSAddress>, Exception> ecsCallback;
 
-    public GetAddressRequest(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public GetAddressRequest(ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
     }
 
@@ -36,7 +39,7 @@ public class GetAddressRequest extends OAuthAppInfraAbstractRequest implements R
         try {
             GetShippingAddressData  getShippingAddressData = new Gson().fromJson(response.toString(),
                     GetShippingAddressData.class);
-            ecsCallback.onResponse(getShippingAddressData);
+            ecsCallback.onResponse(getShippingAddressData.getAddresses());
         }catch(Exception exception){
             String responseData = response!=null?response.toString():null;
             ECSErrorWrapper ecsErrorWrapper   = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong, exception,responseData);

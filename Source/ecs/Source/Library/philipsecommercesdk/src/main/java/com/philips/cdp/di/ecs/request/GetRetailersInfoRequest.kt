@@ -8,13 +8,13 @@ import com.google.gson.Gson
 
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.retailers.WebResults
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 import java.util.HashMap
 
-open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exception>, ctn :String) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
+open class GetRetailersInfoRequest (ecsCallback: ECSCallback<ECSRetailerList,Exception>, ctn :String) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
 
     val PREFIX_RETAILERS = "www.philips.com/api/wtb/v1"
     val RETAILERS_ALTER = "online-retailers?product=%s&lang=en"
@@ -54,7 +54,7 @@ open class GetRetailersInfoRequest (ecsCallback: ECSCallback<WebResults,Exceptio
 
         try{
            val webResults = Gson().fromJson(response.toString(),
-                    WebResults::class.java)
+                    ECSRetailerList::class.java)
             callBack.onResponse(webResults)
         }catch (exception:Exception){
             val ecsError = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong, exception, response.toString())

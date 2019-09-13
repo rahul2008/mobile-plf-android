@@ -8,9 +8,9 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
@@ -22,11 +22,11 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 
 public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
-    private  ECSCallback<MakePaymentData,Exception> ecsCallback;
-    private OrderDetail orderDetail;
-    Addresses ecsBillingAddressRequest;
+    private  ECSCallback<ECSPaymentProvider,Exception> ecsCallback;
+    private ECSOrderDetail orderDetail;
+    ECSAddress ecsBillingAddressRequest;
 
-    public MakePaymentRequest(OrderDetail orderDetail, Addresses ecsBillingAddressRequest, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+    public MakePaymentRequest(ECSOrderDetail orderDetail, ECSAddress ecsBillingAddressRequest, ECSCallback<ECSPaymentProvider, Exception> ecsCallback) {
         this.ecsCallback = ecsCallback;
         this.orderDetail = orderDetail;
         this.ecsBillingAddressRequest = ecsBillingAddressRequest;
@@ -40,10 +40,10 @@ public class MakePaymentRequest extends OAuthAppInfraAbstractRequest implements 
     @Override
     public void onResponse(String response) {
 
-        MakePaymentData makePaymentData=null;
+        ECSPaymentProvider makePaymentData=null;
         Exception exception = null;
         try {
-            makePaymentData = new Gson().fromJson(response, MakePaymentData.class);
+            makePaymentData = new Gson().fromJson(response, ECSPaymentProvider.class);
         }catch(Exception e){
             exception=e;
         }

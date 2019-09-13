@@ -36,10 +36,9 @@ import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
 import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
@@ -60,7 +59,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     private AddressController mAddressController;
     private RelativeLayout mLinearLayout;
     AddressSelectionAdapter mAdapter;
-    List<Addresses> mAddresses = new ArrayList<>();
+    List<ECSAddress> mAddresses = new ArrayList<>();
 
     private boolean mIsAddressUpdateAfterDelivery;
     private String mJanRainEmail;
@@ -179,9 +178,12 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 mAdapter.notifyDataSetChanged();
                 return;
             } else if (isVisible()) {
-                if (msg.obj instanceof GetShippingAddressData) {
-                    GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-                    mAddresses = shippingAddresses.getAddresses();
+                if (msg.obj instanceof List) {
+                    List list = (List) msg.obj;
+
+                    if(list.get(0) instanceof ECSAddress){
+                        mAddresses = (List<ECSAddress>)  list;
+                    }
                 }
             }
             mAdapter.setAddresses(mAddresses);
@@ -198,7 +200,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
     public void onSetDeliveryAddress(final Message msg) {
         if ((msg.obj instanceof Boolean) ) {
             if((Boolean)msg.obj) {
-                Addresses selectedAddress = retrieveSelectedAddress();
+                ECSAddress selectedAddress = retrieveSelectedAddress();
                 mIsAddressUpdateAfterDelivery = true;
                 mAddressController.setDefaultAddress(selectedAddress);
                 checkPaymentDetails();
@@ -228,7 +230,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
 
     @Override
     public void onGetPaymentDetails(Message msg) {
-        Addresses address = retrieveSelectedAddress();
+        ECSAddress address = retrieveSelectedAddress();
         hideProgressBar();
         if (msg.obj instanceof String) {
 
@@ -245,11 +247,10 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             }
         } else if ((msg.obj instanceof Exception)) {
             ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj));
-        } else if ((msg.obj instanceof PaymentMethods)) {
+        } else if ((msg.obj instanceof List)) {
             AddressFields selectedAddress = Utility.prepareAddressFields(retrieveSelectedAddress(), mJanRainEmail);
             CartModelContainer.getInstance().setShippingAddressFields(selectedAddress);
-            PaymentMethods mPaymentMethods = (PaymentMethods) msg.obj;
-            List<PaymentMethod> mPaymentMethodsList = mPaymentMethods.getPayments();
+            List<ECSPayment> mPaymentMethodsList = (List<ECSPayment>) msg.obj;
 
             Bundle bundle = new Bundle();
             bundle.putSerializable(ECSConstant.UPDATE_BILLING_ADDRESS_KEY, updateAddress(address));
@@ -263,7 +264,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         if (!TextUtils.isEmpty(event)) {
             if (ECSConstant.ADDRESS_SELECTION_EVENT_EDIT.equals(event)) {
                 int pos = mAdapter.getOptionsClickPosition();
-                Addresses address = mAddresses.get(pos);
+                ECSAddress address = mAddresses.get(pos);
                 HashMap<String, String> addressHashMap = updateAddress(address);
                 moveToShippingAddressFragment(addressHashMap);
             } else if (ECSConstant.ADDRESS_SELECTION_EVENT_DELETE.equals(event) && isNetworkConnected()) {
@@ -299,7 +300,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         mAddressController.deleteAddress(mAddresses.get(pos));
     }
 
-    private HashMap<String, String> updateAddress(Addresses address) {
+    private HashMap<String, String> updateAddress(ECSAddress address) {
         HashMap<String, String> addressHashMap = new HashMap<>();
 
         String titleCode = address.getTitleCode();
@@ -342,7 +343,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
                 AddressFragment.TAG,true);
     }
 
-    private Addresses retrieveSelectedAddress() {
+    private ECSAddress retrieveSelectedAddress() {
         int pos = mAdapter.getSelectedPosition();
         return mAddresses.get(pos);
     }

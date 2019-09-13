@@ -1,12 +1,12 @@
 package com.philips.cdp.di.ecs.model.orders;
 
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.payment.CardType;
 
 public class PaymentInfo {
 
 
-    private Addresses billingAddress;
+    private ECSAddress billingAddress;
     private String cardNumber;
     private CardType cardType;
     private boolean defaultPayment;
@@ -14,7 +14,7 @@ public class PaymentInfo {
     private String expiryYear;
     private boolean saved;
 
-    public Addresses getBillingAddress() {
+    public ECSAddress getBillingAddress() {
         return billingAddress;
     }
 

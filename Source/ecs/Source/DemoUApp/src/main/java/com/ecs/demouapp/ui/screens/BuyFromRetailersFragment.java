@@ -22,7 +22,7 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailer;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -35,7 +35,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
     private Context mContext;
     private RecyclerView mRecyclerView;
-    private ArrayList<StoreEntity> mStoreEntity;
+    private ArrayList<ECSRetailer> mStoreEntity;
     private static final String ICELEADS_HATCH = "iceleads";
     private static final String CHANNEL_ADVISOR = "wheretobuy";
     private static final String CHANNEL_SIGHT = "channelsight";
@@ -69,7 +69,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
         mRecyclerView = rootView.findViewById(R.id.iap_retailer_list);
         if (getArguments().getSerializable(ECSConstant.IAP_RETAILER_INFO) != null)
-            mStoreEntity = (ArrayList<StoreEntity>) getArguments().getSerializable(ECSConstant.IAP_RETAILER_INFO);
+            mStoreEntity = (ArrayList<ECSRetailer>) getArguments().getSerializable(ECSConstant.IAP_RETAILER_INFO);
 
         return rootView;
     }
@@ -88,7 +88,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     }
 
     @Override
-    public void onClickAtRetailer(String buyURL,  StoreEntity storeEntity) {
+    public void onClickAtRetailer(String buyURL,  ECSRetailer storeEntity) {
         Bundle bundle = new Bundle();
         bundle.putString(ECSConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
         bundle.putString(ECSConstant.IAP_STORE_NAME, storeEntity.getName());

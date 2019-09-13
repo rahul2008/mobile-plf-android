@@ -20,12 +20,12 @@ import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetUser;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 
@@ -38,7 +38,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
     BuyDirectController mBuyDirectController;
     Context mContext;
     private String mCTN;
-    private PaymentMethod mPaymentMethod;
+    private ECSPayment mPaymentMethod;
     private ErrorDialogFragment mErrorDialogFragment;
     private ViewGroup mView;
 
@@ -110,7 +110,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
             handleError(msg);
         } else if (msg.obj instanceof GetUser) {
             GetUser user = (GetUser) msg.obj;
-            Addresses defaultAddress = user.getDefaultAddress();
+            ECSAddress defaultAddress = user.getDefaultAddress();
             if (defaultAddress != null) {
                 setAddressField(defaultAddress);
             } else {
@@ -190,7 +190,7 @@ public class BuyDirectFragment extends InAppBaseFragment implements
 
     }
 
-    private void setAddressField(Addresses address) {
+    private void setAddressField(ECSAddress address) {
         String mAddressId = address.getId();
         AddressFields addressFields = new AddressFields();
         addressFields.setFirstName(address.getFirstName());

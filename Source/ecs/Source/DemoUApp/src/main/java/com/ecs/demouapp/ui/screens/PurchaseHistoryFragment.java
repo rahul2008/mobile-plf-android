@@ -30,11 +30,9 @@ import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSLog;
 import com.ecs.demouapp.ui.utils.ECSUtility;
-import com.ecs.demouapp.ui.utils.NetworkUtility;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
-import com.philips.cdp.di.ecs.model.order.Orders;
-import com.philips.cdp.di.ecs.model.order.OrdersData;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.order.ECSOrders;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     private OrderHistoryAdapter mAdapter;
     private Context mContext;
     private RecyclerView mOrderHistoryView;
-    private List<Orders> mOrders = new ArrayList<>();
+    private List<ECSOrders> mOrders = new ArrayList<>();
     private OrderController mController;
     private int mTotalOrders = 0;
     private int mPageSize = 0;
@@ -54,7 +52,7 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     private boolean mIsLoading = false;
     private int mOrderCount = 0;
     private RelativeLayout mParentLayout;
-    ArrayList<OrderDetail> mOrderDetails = new ArrayList<>();
+    ArrayList<ECSOrderDetail> mOrderDetails = new ArrayList<>();
     ArrayList<ProductData> mProducts = new ArrayList<>();
 
 
@@ -131,14 +129,14 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
             hideProgressBar();
             ECSUtility.showECSAlertDialog(mContext,"Error",((Exception) msg.obj));
         } else {
-                if (msg.obj instanceof OrdersData) {
-                    OrdersData orderData = (OrdersData) msg.obj;
+                if (msg.obj instanceof ECSOrderHistory) {
+                    ECSOrderHistory orderData = (ECSOrderHistory) msg.obj;
                     if (orderData.getOrders() == null || orderData.getOrders().size() == 0) {
                         hideProgressBar();
                         addFragment(EmptyPurchaseHistoryFragment.createInstance(new Bundle(),
                                 InAppBaseFragment.AnimationType.NONE), EmptyPurchaseHistoryFragment.TAG,true);
                     } else {
-                        for (Orders order : orderData.getOrders())
+                        for (ECSOrders order : orderData.getOrders())
                             mOrders.add(order);
                         if (mTotalOrders == 0) {
                             mRemainingOrders = orderData.getPagination().getTotalResults();
@@ -165,8 +163,8 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
             ECSUtility.showECSAlertDialog(mContext,"Error",((IAPNetworkError) msg.obj).getMessage());
         } else {
             if (msg.what == RequestCode.GET_ORDER_DETAIL) {
-                if (msg.obj instanceof OrderDetail) {
-                    OrderDetail orderDetail = (OrderDetail) msg.obj;
+                if (msg.obj instanceof ECSOrderDetail) {
+                    ECSOrderDetail orderDetail = (ECSOrderDetail) msg.obj;
                     mOrderDetails.add(orderDetail);
                 }
             }
@@ -197,12 +195,12 @@ public class PurchaseHistoryFragment extends InAppBaseFragment implements OrderC
     private void startOrderDetailFragment() {
         if (!isNetworkConnected()) return;
         int pos = mAdapter.getSelectedPosition();
-        Orders order = mOrders.get(pos);
+        ECSOrders order = mOrders.get(pos);
         Bundle bundle = new Bundle();
         if (order != null) {
             bundle.putString(ECSConstant.PURCHASE_ID, order.getCode());
             bundle.putString(ECSConstant.ORDER_STATUS, order.getStatusDisplay());
-            for (OrderDetail detail : mOrderDetails) {
+            for (ECSOrderDetail detail : mOrderDetails) {
                 if (detail.getCode().equals(order.getCode())) {
                     bundle.putParcelable(ECSConstant.ORDER_DETAIL, detail);
                     break;

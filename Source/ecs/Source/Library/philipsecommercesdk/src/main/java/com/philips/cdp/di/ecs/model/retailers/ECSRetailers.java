@@ -6,10 +6,10 @@ package com.philips.cdp.di.ecs.model.retailers;
 
 import java.util.List;
 
-public class StoresEntity {
-    private List<StoreEntity> Store;
+public class ECSRetailers {
+    private List<ECSRetailer> Store;
 
-    public List<StoreEntity> getStore() {
+    public List<ECSRetailer> getRetailerList() {
         return Store;
     }
 }

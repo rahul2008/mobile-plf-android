@@ -30,27 +30,28 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.GrantType;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
-import com.philips.cdp.di.ecs.model.order.OrdersData;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
-import com.philips.cdp.di.ecs.model.retailers.WebResults;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
-import com.philips.cdp.di.ecs.model.user.UserProfile;
+import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
-import com.philips.cdp.di.ecs.model.voucher.GetAppliedValue;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderDetailRequest;
 import com.philips.cdp.di.ecs.orderHistory.MockGetOrderHistoryRequest;
 import com.philips.cdp.di.ecs.request.AddProductToECSShoppingCartRequest;
@@ -85,10 +86,10 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getRegions(ECSCallback<RegionsList, Exception> ecsCallback) {
-        new MockGetRegionsRequest(getJsonFileNameMockECSManager(), new ECSCallback<RegionsList, Exception>() {
+    public void getRegions(ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
+        new MockGetRegionsRequest(getJsonFileNameMockECSManager(), new ECSCallback<List<ECSRegion>, Exception>() {
             @Override
-            public void onResponse(RegionsList result) {
+            public void onResponse(List<ECSRegion> result) {
                 ecsCallback.onResponse(result);
             }
 
@@ -297,17 +298,16 @@ public class MockECSManager extends ECSManager {
 
 
     @Override
-    CreateAddressRequest createAddressRequestObject(Addresses address, ECSCallback<Addresses, Exception> ecsCallback) {
+    CreateAddressRequest createAddressRequestObject(ECSAddress address, ECSCallback<ECSAddress, Exception> ecsCallback) {
         return new MockCreateAddressRequest(getJsonFileNameMockECSManager(),address, ecsCallback);
     }
 
     @Override
-    public void createNewAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
-        new MockCreateAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<Addresses, Exception>() {
+    public void createNewAddress(ECSAddress address, ECSCallback<ECSAddress, Exception> ecsCallback ,boolean newAddress) {
+        new MockCreateAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<ECSAddress, Exception>() {
             @Override
-            public void onResponse(Addresses result) {
+            public void onResponse(ECSAddress result) {
                 setJsonFileNameMockECSManager("ShippingAddressListSuccess.json");
-                getListSavedAddress(ecsCallback);
 
             }
 
@@ -321,10 +321,10 @@ public class MockECSManager extends ECSManager {
 
 
     @Override
-    public void getListSavedAddress(ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
-        MockGetAddressRequest mockGetAddressRequest=  new MockGetAddressRequest(getJsonFileNameMockECSManager(), new ECSCallback<GetShippingAddressData, Exception>() {
+    public void getListSavedAddress(ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+        MockGetAddressRequest mockGetAddressRequest=  new MockGetAddressRequest(getJsonFileNameMockECSManager(), new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData result) {
+            public void onResponse(List<ECSAddress> result) {
                 ecsCallback.onResponse(result);
             }
 
@@ -341,7 +341,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void updateAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void updateAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
         MockUpdateAddressRequest mockUpdateAddressRequest=  new MockUpdateAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -361,12 +361,11 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void deleteAddress(Addresses address, ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void deleteAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
         MockDeleteAddressRequest mockDeleteAddressRequest=  new MockDeleteAddressRequest(getJsonFileNameMockECSManager(), address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 setJsonFileNameMockECSManager("ShippingAddressListSuccess.json");
-                getListSavedAddress(ecsCallback);
             }
 
             @Override
@@ -382,7 +381,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void setDeliveryAddress(Addresses address, ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setDeliveryAddress(ECSAddress address, ECSCallback<Boolean, Exception> ecsCallback) {
         MockSetDeliveryAddressRequest mockSetDeliveryAddressRequest=  new MockSetDeliveryAddressRequest(getJsonFileNameMockECSManager(), address.getId(), new ECSCallback<Boolean, Exception>() {
            @Override
            public void onResponse(Boolean result) {
@@ -412,7 +411,7 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getPayments(ECSCallback<PaymentMethods, Exception> ecsCallback) {
+    public void getPayments(ECSCallback<List<ECSPayment>, Exception> ecsCallback) {
         new MockGetPaymentsRequest(getJsonFileNameMockECSManager(),ecsCallback).executeRequest();
     }
 
@@ -422,32 +421,32 @@ public class MockECSManager extends ECSManager {
     }
 
     @Override
-    public void getOrderHistory(int pageNumber, ECSCallback<OrdersData, Exception> ecsCallback) {
+    public void getOrderHistory(int pageNumber, ECSCallback<ECSOrderHistory, Exception> ecsCallback) {
         new MockGetOrderHistoryRequest(getJsonFileNameMockECSManager(),pageNumber,ecsCallback).executeRequest();
     }
 
     @Override
-    public void getOrderDetail(String orderId, ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void getOrderDetail(String orderId, ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
         new MockGetOrderDetailRequest(getJsonFileNameMockECSManager(),orderId,ecsCallback).executeRequest();
     }
 
     @Override
-    public void getRetailers(String productID, ECSCallback<WebResults, Exception> ecsCallback) {
+    public void getRetailers(String productID, ECSCallback<ECSRetailerList, Exception> ecsCallback) {
         new MockGetRetailersInfoRequest(getJsonFileNameMockECSManager(),ecsCallback,productID).executeRequest();
     }
 
     @Override
-    public void makePayment(OrderDetail orderDetail, Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+    public void makePayment(ECSOrderDetail orderDetail, ECSAddress billingAddress, ECSCallback<ECSPaymentProvider, Exception> ecsCallback) {
         new MockMakePaymentRequest(getJsonFileNameMockECSManager(),orderDetail,billingAddress,ecsCallback).executeRequest();
     }
 
     @Override
-    public void submitOrder(String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void submitOrder(String cvv, ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
         new MockPlaceOrderRequest(getJsonFileNameMockECSManager(),cvv,ecsCallback).executeRequest();
     }
 
     @Override
-    public void getUserProfile(ECSCallback<UserProfile, Exception> ecsCallback) {
+    public void getUserProfile(ECSCallback<ECSUserProfile, Exception> ecsCallback) {
         new MockGetUserProfileRequest(getJsonFileNameMockECSManager(),ecsCallback).executeRequest();
     }
 }

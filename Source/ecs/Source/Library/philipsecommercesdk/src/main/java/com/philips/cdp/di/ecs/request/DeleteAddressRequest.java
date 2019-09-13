@@ -11,7 +11,7 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
@@ -21,12 +21,12 @@ import java.util.Map;
 
 public class DeleteAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String> {
 
-    private final Addresses addresses;
+    private final ECSAddress addresses;
 
     private final ECSCallback<Boolean, Exception> ecsCallback;
 
 
-    public DeleteAddressRequest(Addresses addresses, ECSCallback<Boolean, Exception> ecsCallback) {
+    public DeleteAddressRequest(ECSAddress addresses, ECSCallback<Boolean, Exception> ecsCallback) {
         this.addresses = addresses;
         this.ecsCallback = ecsCallback;
     }

@@ -40,14 +40,12 @@ import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.ecs.demouapp.ui.utils.Utility;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
-import com.philips.cdp.di.ecs.model.region.RegionsList;
 
 
 import java.io.Serializable;
@@ -70,7 +68,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private AddressController mAddressController;
     private ShoppingCartAPI mShoppingCartAPI;
     private ECSShoppingCart ecsShoppingCart ;
-    private List<Addresses> mAddresses = new ArrayList<>();
+    private List<ECSAddress> mAddresses = new ArrayList<>();
     private ECSDeliveryMode mSelectedDeliveryMode;
     private TextView mNumberOfProducts;
     private String voucherCode;
@@ -285,9 +283,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
             if ((msg.obj).equals(NetworkConstants.EMPTY_RESPONSE)) {
                 addFragment(AddressFragment.createInstance(bundle, AnimationType.NONE),
                         AddressSelectionFragment.TAG,true);
-            } else if (msg.obj instanceof GetShippingAddressData) {
-                GetShippingAddressData shippingAddresses = (GetShippingAddressData) msg.obj;
-                mAddresses = shippingAddresses.getAddresses();
+            } else if (msg.obj instanceof List) {
+                List list = (List) msg.obj;
+                if(list.get(0) instanceof ECSAddress){
+                    mAddresses = (List<ECSAddress>)  list;
+                }
                 bundle.putSerializable(ECSConstant.ADDRESS_LIST, (Serializable) mAddresses);
                 addFragment(AddressSelectionFragment.createInstance(bundle, AnimationType.NONE),
                         AddressSelectionFragment.TAG,true);

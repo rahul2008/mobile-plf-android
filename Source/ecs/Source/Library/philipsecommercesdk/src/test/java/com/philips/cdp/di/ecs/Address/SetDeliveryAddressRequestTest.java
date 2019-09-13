@@ -7,11 +7,10 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.MockECSServices;
 import com.philips.cdp.di.ecs.MockInputValidator;
-import com.philips.cdp.di.ecs.Payment.MockSetPaymentMethodRequest;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -88,7 +87,7 @@ public class SetDeliveryAddressRequestTest {
     @Test
     public void GetResponseSuccess() {
         mockInputValidator.setJsonFileName("EmptyString.json");
-        Addresses addresses = new Addresses();
+        ECSAddress addresses = new ECSAddress();
         mockECSServices.setDeliveryAddress(addresses, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
@@ -110,7 +109,7 @@ public class SetDeliveryAddressRequestTest {
     @Test
     public void GetListSavedAddressTestFailue() {
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        Addresses addresses = new Addresses();
+        ECSAddress addresses = new ECSAddress();
         mockECSServices.setDeliveryAddress(addresses, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {

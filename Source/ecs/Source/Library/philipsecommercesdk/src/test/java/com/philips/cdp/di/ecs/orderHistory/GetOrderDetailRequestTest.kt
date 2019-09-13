@@ -9,7 +9,7 @@ import com.philips.cdp.di.ecs.MockInputValidator
 import com.philips.cdp.di.ecs.StaticBlock
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.orders.OrderDetail
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
 import org.junit.Assert.*
@@ -17,7 +17,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
@@ -34,7 +33,7 @@ class GetOrderDetailRequestTest{
     lateinit var mockECSServices: MockECSServices
     lateinit var ecsServices: ECSServices
 
-    lateinit var ecsCallback: ECSCallback<OrderDetail,Exception>
+    lateinit var ecsCallback: ECSCallback<ECSOrderDetail,Exception>
 
 
     private var appInfra: AppInfra? = null
@@ -61,9 +60,9 @@ class GetOrderDetailRequestTest{
 
         StaticBlock.initialize()
 
-        ecsCallback = object: ECSCallback<OrderDetail,Exception>{
+        ecsCallback = object: ECSCallback<ECSOrderDetail,Exception>{
 
-            override fun onResponse(result: OrderDetail){
+            override fun onResponse(result: ECSOrderDetail){
 
             }
 
@@ -80,9 +79,9 @@ class GetOrderDetailRequestTest{
     fun testSuccessResponse() {
         mockInputValidator.jsonFileName = "GetOrderDetailSuccess.json"
 
-        ecsCallback = object: ECSCallback<OrderDetail,Exception>{
+        ecsCallback = object: ECSCallback<ECSOrderDetail,Exception>{
 
-             override fun onResponse(result: OrderDetail){
+             override fun onResponse(result: ECSOrderDetail){
                  assertNotNull(result)
                  assertNotNull(result.deliveryOrderGroups?.get(0)?.entries)
              }
@@ -95,7 +94,7 @@ class GetOrderDetailRequestTest{
 
         }
 
-        mockECSServices.getOrderDetail("123",ecsCallback)
+        mockECSServices.fetchOrderDetail("123",ecsCallback)
 
     }
 
@@ -104,9 +103,9 @@ class GetOrderDetailRequestTest{
 
         mockInputValidator.jsonFileName = "GetOrderDetailFailure.json"
 
-        ecsCallback = object: ECSCallback<OrderDetail,Exception>{
+        ecsCallback = object: ECSCallback<ECSOrderDetail,Exception>{
 
-            override fun onResponse(result: OrderDetail){
+            override fun onResponse(result: ECSOrderDetail){
                 assertTrue(true)
                 //  test case failed
             }
@@ -117,7 +116,7 @@ class GetOrderDetailRequestTest{
             }
 
         }
-        mockECSServices.getOrderDetail("123",ecsCallback)
+        mockECSServices.fetchOrderDetail("123",ecsCallback)
 
     }
 
@@ -148,7 +147,7 @@ class GetOrderDetailRequestTest{
 
     @Test
     fun verifyOnResponseError() {
-        val spy1 = Mockito.spy<ECSCallback<OrderDetail, Exception>>(ecsCallback)
+        val spy1 = Mockito.spy<ECSCallback<ECSOrderDetail, Exception>>(ecsCallback)
         mockGetOrderDetailRequest = MockGetOrderDetailRequest("GetOrderDetailSuccess.json",orderID,spy1);
         val volleyError = NoConnectionError()
         mockGetOrderDetailRequest.onErrorResponse(volleyError)

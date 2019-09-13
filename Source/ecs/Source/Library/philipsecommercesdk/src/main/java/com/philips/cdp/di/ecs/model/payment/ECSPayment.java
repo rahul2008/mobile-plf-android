@@ -1,19 +1,19 @@
 package com.philips.cdp.di.ecs.model.payment;
 
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 
 import java.io.Serializable;
 
-public class PaymentMethod implements Serializable {
+public class ECSPayment implements Serializable {
 
     private static final long serialVersionUID = 1083630169028052247L;
     private String accountHolderName;
 
-    public void setBillingAddress(Addresses billingAddress) {
+    public void setBillingAddress(ECSAddress billingAddress) {
         this.billingAddress = billingAddress;
     }
 
-    private Addresses billingAddress;
+    private ECSAddress billingAddress;
     private String cardNumber;
     private CardType cardType;
     private boolean defaultPayment;
@@ -27,7 +27,7 @@ public class PaymentMethod implements Serializable {
         return accountHolderName;
     }
 
-    public Addresses getBillingAddress() {
+    public ECSAddress getBillingAddress() {
         return billingAddress;
     }
 

@@ -30,7 +30,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class SetPaymentMethodRequestTest {
@@ -85,7 +84,7 @@ public class SetPaymentMethodRequestTest {
     public void setPaymentMethodSuccess() {
 
         mockInputValidator.setJsonFileName("EmptyString.json");
-        mockECSServices.setPaymentMethod("8960990117930", new ECSCallback<Boolean, Exception>() {
+        mockECSServices.setPaymentDetails("8960990117930", new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertTrue(result);
@@ -104,7 +103,7 @@ public class SetPaymentMethodRequestTest {
     public void setPaymentMethodFailure() {
 
         mockInputValidator.setJsonFileName("SetPaymentFailure.json");
-        mockECSServices.setPaymentMethod("8960990117930", new ECSCallback<Boolean, Exception>() {
+        mockECSServices.setPaymentDetails("8960990117930", new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertTrue(false);

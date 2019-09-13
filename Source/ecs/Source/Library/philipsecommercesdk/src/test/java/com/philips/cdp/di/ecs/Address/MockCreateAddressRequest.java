@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.Address;
 
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.request.CreateAddressRequest;
 
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ public class MockCreateAddressRequest extends CreateAddressRequest {
     String jsonfileName;
 
 
-    public MockCreateAddressRequest(String jsonFileName,Addresses ecsAddressRequest, ECSCallback<Addresses, Exception> ecsCallback) {
+    public MockCreateAddressRequest(String jsonFileName, ECSAddress ecsAddressRequest, ECSCallback<ECSAddress, Exception> ecsCallback) {
         super(ecsAddressRequest, ecsCallback);
         this.jsonfileName=jsonFileName;
     }

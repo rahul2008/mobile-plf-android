@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.utils.ECSConstant;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.platform.uid.view.widget.RadioButton;
 
 import java.util.List;
@@ -22,10 +22,10 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
     private Context mContext;
-    private List<PaymentMethod> mPaymentMethodList;
+    private List<ECSPayment> mPaymentMethodList;
     private int mSelectedIndex;
 
-    public PaymentMethodsAdapter(final Context context, final List<PaymentMethod> paymentMethods) {
+    public PaymentMethodsAdapter(final Context context, final List<ECSPayment> paymentMethods) {
         mContext = context;
         mPaymentMethodList = paymentMethods;
         mSelectedIndex = 0;
@@ -57,7 +57,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (holder instanceof PaymentMethodsHolder) {
 
             PaymentMethodsHolder paymentMethodsHolder = (PaymentMethodsHolder) holder;
-            PaymentMethod paymentMethod = mPaymentMethodList.get(position);
+            ECSPayment paymentMethod = mPaymentMethodList.get(position);
 
             paymentMethodsHolder.cardName.setText(paymentMethod.getCardType().getCode() + " " + paymentMethod.getCardNumber());
             paymentMethodsHolder.cardHoldername.setText(paymentMethod.getAccountHolderName());

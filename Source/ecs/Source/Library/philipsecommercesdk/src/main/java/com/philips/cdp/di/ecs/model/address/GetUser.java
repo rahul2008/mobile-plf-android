@@ -1,7 +1,7 @@
 package com.philips.cdp.di.ecs.model.address;
 
 public class GetUser {
-    private Addresses defaultAddress;
+    private ECSAddress defaultAddress;
 
     private String type;
     private String name;
@@ -22,11 +22,11 @@ public class GetUser {
         return uid;
     }
 
-    public Addresses getDefaultAddress() {
+    public ECSAddress getDefaultAddress() {
         return defaultAddress;
     }
 
-    public void setDefaultAddress(Addresses defaultAddress) {
+    public void setDefaultAddress(ECSAddress defaultAddress) {
         this.defaultAddress = defaultAddress;
     }
 

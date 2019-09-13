@@ -6,23 +6,22 @@ import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
-import com.philips.cdp.di.ecs.model.order.Orders;
-import com.philips.cdp.di.ecs.model.order.OrdersData;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.order.ECSOrders;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
-import com.philips.cdp.di.ecs.model.retailers.WebResults;
-import com.philips.cdp.di.ecs.model.user.UserProfile;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
+import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import com.philips.platform.appinfra.AppInfra;
@@ -205,10 +204,6 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.removeVoucher(voucherCode,ecsCallback);
     }
 
-    //GetDeliveryModes = ECSDeliveryModes
-    // DeliveryModes = List<ECSDeliveryModes>
-    // GetDeliveryModes = private
-
     @Override
     public void fetchDeliveryModes(ECSCallback<List<ECSDeliveryMode>, Exception> ecsCallback) {
         ecsCallValidator.getDeliveryModes(ecsCallback);
@@ -219,157 +214,114 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.setDeliveryMode(deliveryModes.getCode(),ecsCallback);
     }
 
-    //fetch Regions  List<ECSRegion>
     @Override
     public void fetchRegions(@NonNull ECSCallback<List<ECSRegion>, Exception> ecsCallback) {
         ecsCallValidator.getRegions(ecsCallback);
     }
 
-    //fetchSavedAddresses   returns List<ECSAddress>  GetShippingAddressData :- private
+    // ==== Address starts
+
     @Override
-    public void getListSavedAddress(@NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void fetchSavedAddresses(@NonNull ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
         ecsCallValidator.getListSavedAddress(ecsCallback);
     }
 
-    //Addresses - List<ECSAddress>  returns List<ECSAddress>
     @Override
-    public void createNewAddress(@NonNull Addresses ecsAddress, @NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
-        ecsCallValidator.createNewAddress(ecsAddress, ecsCallback);
-    }
-
-    // createAddress createNewAddress , ECSAddress  returns ECSAddress
-    @Override
-    public void createNewAddress(@NonNull Addresses address,@NonNull ECSCallback<Addresses, Exception> ecsCallback, boolean singleAddress) {
+    public void createAddress(ECSAddress address, ECSCallback<ECSAddress, Exception> ecsCallback){
         ecsCallValidator.createNewAddress(address, ecsCallback,true);
     }
 
-    // updateAddress  takes ECSAddress ,returns boolean
-
-    // pass 3 parameter = boolean - is Deafalault Address
+    @Override
+    public void createAndFetchAddress(@NonNull ECSAddress ecsAddress, @NonNull ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+        ecsCallValidator.createNewAddress(ecsAddress, ecsCallback);
+    }
 
     @Override
-    public void updateAddress(@NonNull Addresses address,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+    public void updateAddress(boolean isDefaultAddress, @NonNull ECSAddress address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+        address.setDefaultAddress(isDefaultAddress);
         ecsCallValidator.updateAddress(address,ecsCallback);
     }
 
-    // TODO
-   /* @Override
-    public void updateAddress(@NonNull Addresses address,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
-        ecsCallValidator.updateAddress(address,ecsCallback);
-    }
-*/
     @Override
-    public void setDeliveryAddress(@NonNull Addresses address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+    public void updateAndFetchAddress(boolean isDefaultAddress, @NonNull ECSAddress address, @NonNull ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+        address.setDefaultAddress(isDefaultAddress);
+        ecsCallValidator.updateAndFetchAddress(address,ecsCallback);
+    }
+
+    @Override
+    public void setDeliveryAddress(@NonNull ECSAddress address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
         ecsCallValidator.setDeliveryAddress(address,ecsCallback);
     }
 
-    // TODO
-   /* @Override
-    public void setDeliveryAddress(@NonNull Addresses address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
-        ecsCallValidator.setDeliveryAddress(address,ecsCallback);
-    }*/
-
-   // Remove below
     @Override
-    public void setDefaultAddress(@NonNull Addresses address,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
-        address.setDefaultAddress(true);
-        ecsCallValidator.updateAddress(address,ecsCallback);
+    public void setAndFetchDeliveryAddress( @NonNull ECSAddress address,@NonNull  ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+        ecsCallValidator.setAndFetchDeliveryAddress(address,ecsCallback);
     }
 
     @Override
-    public void deleteAddress(@NonNull Addresses address,@NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
+    public void deleteAddress(@NonNull ECSAddress address, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
         ecsCallValidator.deleteAddress(address,ecsCallback);
     }
 
-    // TODO  fetch address
-   /* @Override
-    public void deleteAddress(@NonNull Addresses address,@NonNull ECSCallback<GetShippingAddressData, Exception> ecsCallback) {
-        ecsCallValidator.deleteAddress(address,ecsCallback);
-    }*/
+    @Override
+    public void deleteAndFetchAddress(@NonNull ECSAddress address,@NonNull ECSCallback<List<ECSAddress>, Exception> ecsCallback) {
+        ecsCallValidator.deleteAndFetchAddress(address,ecsCallback);
+    }
 
-
-   // return list of PaymentMethod - ECSPayment
-    // getPayments - FetchPaymentDetails
+    //Address ends
 
     @Override
-    public void getPayments(@NonNull ECSCallback<PaymentMethods, Exception> ecsCallback) {
+    public void fetchPaymentsDetails(@NonNull ECSCallback<List<ECSPayment>, Exception> ecsCallback) {
         ecsCallValidator.getPayments(ecsCallback);
     }
 
-    // setPaymentMethod  - setPayment
-    // setPaymentDetails
-
     @Override
-    public void setPaymentMethod(@NonNull String paymentDetailsId,@NonNull ECSCallback<Boolean, Exception> ecsCallback) {
+    public void setPaymentDetails(@NonNull String paymentDetailsId, @NonNull ECSCallback<Boolean, Exception> ecsCallback) {
         ecsCallValidator.setPaymentMethod(paymentDetailsId,ecsCallback);
     }
 
-
-    //  OrderDetail - ECSOrderDetail - ECSAddress MakePaymentData - ECSPaymentProvider
     @Override
-    public void makePayment(@NonNull OrderDetail orderDetail, @NonNull Addresses billingAddress, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+    public void makePayment(@NonNull ECSOrderDetail orderDetail, @NonNull ECSAddress billingAddress, ECSCallback<ECSPaymentProvider, Exception> ecsCallback) {
         ecsCallValidator.makePayment(orderDetail,billingAddress,ecsCallback);
     }
 
-
-
-    // OrderDetail - ECSOrderDetail
-
-    // look for the implementation where cvv is not there
     @Override
-    public void submitOrder(@NonNull String cvv, ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void submitOrder(@Nullable String cvv, ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
         ecsCallValidator.submitOrder(cvv,ecsCallback);
     }
 
-    //WebResults -
-    // StoresEntity - ECSRetailers
-    //StoreEntity - ECSRetailer
-
-    // WebResults - ECSRetailerList
-    //TODo - write a utility
-
     @Override
-    public void getRetailers(@NonNull String ctn,@NonNull ECSCallback<WebResults, Exception> ecsCallback) {
+    public void fetchRetailers(@NonNull String ctn, @NonNull ECSCallback<ECSRetailerList, Exception> ecsCallback) {
         ecsCallValidator.getRetailers(ctn,ecsCallback);
     }
 
-    //Product - ECSProduct
     @Override
-    public void getRetailers(@NonNull ECSProduct product, @NonNull ECSCallback<WebResults, Exception> ecsCallback) {
+    public void fetchRetailers(@NonNull ECSProduct product, @NonNull ECSCallback<ECSRetailerList, Exception> ecsCallback) {
         ecsCallValidator.getRetailers(product.getCode(),ecsCallback);
     }
 
-
-
-    //getOrderHistory = fetchOrderHistory
-    // currentAPge and pageSize
-    // OrdersData - ECSOrderHistory
-
     @Override
-    public void getOrderHistory(int pageNumber, @NonNull ECSCallback<OrdersData, Exception> ecsCallback) {
+    public void fetchOrderHistory(int pageNumber, int pageSize, @NonNull ECSCallback<ECSOrderHistory, Exception> ecsCallback) {
         ecsCallValidator.getOrderHistory(pageNumber,ecsCallback);
     }
 
     @Override
-    public void getOrderDetail(@NonNull String orderId, @NonNull ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void fetchOrderDetail(@NonNull String orderId, @NonNull ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
         ecsCallValidator.getOrderDetail(orderId,ecsCallback);
     }
 
-    // OrderDetail - ECSOrderDetail
     @Override
-    public void getOrderDetail(@NonNull OrderDetail orderDetail, @NonNull ECSCallback<OrderDetail, Exception> ecsCallback) {
+    public void fetchOrderDetail(@NonNull ECSOrderDetail orderDetail, @NonNull ECSCallback<ECSOrderDetail, Exception> ecsCallback) {
         ecsCallValidator.getOrderDetail(orderDetail.getCode(),ecsCallback);
     }
 
-    // Orders - ECSOrder
     @Override
-    public void getOrderDetail(@NonNull Orders orders, @NonNull ECSCallback<Orders, Exception> ecsCallback) {
+    public void fetchOrderDetail(@NonNull ECSOrders orders, @NonNull ECSCallback<ECSOrders, Exception> ecsCallback) {
         ecsCallValidator.getOrderDetail(orders,ecsCallback);
     }
 
-    // getUserProfile -fetchUserProfile , UserProfile - ECSUserProfile
     @Override
-    public void getUserProfile(@NonNull ECSCallback<UserProfile, Exception> ecsCallback) {
+    public void fetchUserProfile(@NonNull ECSCallback<ECSUserProfile, Exception> ecsCallback) {
         ecsCallValidator.getUserProfile(ecsCallback);
     }
 

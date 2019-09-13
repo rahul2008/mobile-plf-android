@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.constants.NetworkConstants;
 
 import java.io.Serializable;
 
-public class Addresses implements Serializable{
+public class ECSAddress implements Serializable{
     private static final long serialVersionUID = -2423291510688767513L;
     private Region region;
     private Country country;

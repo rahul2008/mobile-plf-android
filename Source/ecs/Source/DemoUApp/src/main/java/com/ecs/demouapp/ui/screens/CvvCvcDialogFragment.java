@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.ecs.demouapp.R;
 import com.ecs.demouapp.ui.utils.ECSConstant;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 
 
 public class CvvCvcDialogFragment extends DialogFragment {
@@ -42,9 +42,9 @@ public class CvvCvcDialogFragment extends DialogFragment {
 
     void initializeViews(View view) {
         Bundle bundle = getArguments();
-        PaymentMethod mPaymentMethod = null;
+        ECSPayment mPaymentMethod = null;
         if (bundle.containsKey(ECSConstant.SELECTED_PAYMENT)) {
-            mPaymentMethod = (PaymentMethod) bundle.getSerializable(ECSConstant.SELECTED_PAYMENT);
+            mPaymentMethod = (ECSPayment) bundle.getSerializable(ECSConstant.SELECTED_PAYMENT);
         }
         TextView cardNumber = view.findViewById(R.id.tv_cvv_card_number);
         if (mPaymentMethod != null) {

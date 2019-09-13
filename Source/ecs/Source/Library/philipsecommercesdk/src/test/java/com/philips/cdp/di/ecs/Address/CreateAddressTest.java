@@ -16,7 +16,7 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -30,6 +30,7 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -41,7 +42,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 public class CreateAddressTest {
@@ -62,9 +62,9 @@ public class CreateAddressTest {
 
     MockCreateAddressRequest mockCreateAddressRequest;
 
-    Addresses address;
+    ECSAddress address;
 
-    ECSCallback<Addresses, Exception> ecsCallback;
+    ECSCallback<ECSAddress, Exception> ecsCallback;
 
     @Before
     public void setUp() throws Exception {
@@ -82,9 +82,9 @@ public class CreateAddressTest {
 
         StaticBlock.initialize();
         address = StaticBlock.getAddressesObject();
-        ecsCallback = new ECSCallback<Addresses, Exception>() {
+        ecsCallback = new ECSCallback<ECSAddress, Exception>() {
             @Override
-            public void onResponse(Addresses result) {
+            public void onResponse(ECSAddress result) {
 
             }
 
@@ -103,18 +103,11 @@ public class CreateAddressTest {
     @Test
     public void addAddressSingleSuccess() {
         mockInputValidator.setJsonFileName("CreateAddressSuccess.json");
-        Addresses address = StaticBlock.getAddressesObject();
-        ecsServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
+        ECSAddress address = StaticBlock.getAddressesObject();
+        ecsServices.createAndFetchAddress(address, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(Addresses address) {
+            public void onResponse(List<ECSAddress> address) {
                 assertNotNull(address);
-                assertNotNull(address.getId());
-                assertNull(address.getTitle());
-                assertNull(address.getFormattedAddress());
-                assertNull(address.getEmail());
-                assertEquals(true,address.isShippingAddress());
-                assertEquals(true,address.isVisibleInAddressBook());
-
             }
 
             @Override
@@ -122,17 +115,17 @@ public class CreateAddressTest {
 
                 assertTrue(true);
             }
-        },true);
+        });
 
     }
 
     @Test
     public void addAddressSingleFailureInvalidZipCode() {
         mockInputValidator.setJsonFileName("CreateAddressFailureInvalidZipCode.json");
-        Addresses address = new Addresses();
-        ecsServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
+        ECSAddress address = new ECSAddress();
+        ecsServices.createAndFetchAddress(address, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(Addresses address) {
+            public void onResponse(List<ECSAddress> address) {
                 assertTrue(true);
 
             }
@@ -141,17 +134,17 @@ public class CreateAddressTest {
             public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
             }
-        },true);
+        });
 
     }
 
     @Test
     public void addAddressSingleFailure() {
         mockInputValidator.setJsonFileName("EmptyString.json");
-        Addresses address = new Addresses();
-        ecsServices.createNewAddress(address, new ECSCallback<Addresses, Exception>() {
+        ECSAddress address = new ECSAddress();
+        ecsServices.createAndFetchAddress(address, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(Addresses address) {
+            public void onResponse(List<ECSAddress> address) {
                assertTrue(true);
 
             }
@@ -160,7 +153,7 @@ public class CreateAddressTest {
             public void onFailure(Exception error, ECSError ecsError) {
                 assertEquals(ECSInvalidAddressError.toString(), ecsError.getErrorType());
             }
-        },true);
+        });
 
     }
 
@@ -177,13 +170,13 @@ public class CreateAddressTest {
     @Test
     public void addAddressSuccess() {
         mockInputValidator.setJsonFileName("CreateAddressSuccess.json");
-        Addresses addressRequest = new Addresses();
-        ecsServices.createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
+        ECSAddress addressRequest = new ECSAddress();
+        ecsServices.createAndFetchAddress(addressRequest, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData addressList) {
+            public void onResponse(List<ECSAddress> addressList) {
                 assertNotNull(addressList);
-                assertNotNull(addressList.getAddresses().size()>0);
-                assertNotNull(addressList.getAddresses().get(0).getId());
+                assertNotNull(addressList.size()>0);
+                assertNotNull(addressList.get(0).getId());
 
             }
 
@@ -200,10 +193,10 @@ public class CreateAddressTest {
     @Test
     public void addAddressFailure() {
         mockInputValidator.setJsonFileName("EmptyString.json");
-        Addresses addressRequest = new Addresses();
-        ecsServices.createNewAddress(addressRequest, new ECSCallback<GetShippingAddressData, Exception>() {
+        ECSAddress addressRequest = new ECSAddress();
+        ecsServices.createAndFetchAddress(addressRequest, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData addressList) {
+            public void onResponse(List<ECSAddress> addressList) {
                 assertTrue(true);
 
             }
@@ -250,7 +243,7 @@ public class CreateAddressTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSAddress, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new NoConnectionError();
         mockCreateAddressRequest.onErrorResponse(volleyError);
@@ -260,7 +253,7 @@ public class CreateAddressTest {
 
     @Test
     public void verifyOnResponseException() {
-        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSAddress, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         mockCreateAddressRequest.onResponse("jhsvcjhsc bvsdljcsdlcjgdscgds"); // passing invalid json
         Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
@@ -269,7 +262,7 @@ public class CreateAddressTest {
 
     @Test
     public void verifyErrorMessageAndCodeForNoConnectionError() {
-        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSAddress, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new NoConnectionError();
         ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
@@ -279,7 +272,7 @@ public class CreateAddressTest {
 
     @Test
     public void verifyErrorMessageAndCodeForServerError() {
-        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSAddress, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new ServerError();
         ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
@@ -289,7 +282,7 @@ public class CreateAddressTest {
 
     @Test
     public void verifyErrorMessageAndCodeForTimeoutError() {
-        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSAddress, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new TimeoutError();
         ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);
@@ -300,7 +293,7 @@ public class CreateAddressTest {
 
     @Test
     public void verifyErrorMessageAndCodeForServer() {
-        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSAddress, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         String encodingString = "ewogICAiZXJyb3JzIiA6IFsgewogICAgICAibWVzc2FnZSIgOiAiR2ViZW4gU2llIElocmUgUG9z\n" +
                 "dGxlaXR6YWhsIGVpbi4iLAogICAgICAicmVhc29uIiA6ICJpbnZhbGlkIiwKICAgICAgInN1Ympl\n" +
@@ -317,7 +310,7 @@ public class CreateAddressTest {
 
     @Test
     public void verifyErrorMessageAndCodeForAuthFailureError() {
-        ECSCallback<Addresses, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSAddress, Exception> spy1 = Mockito.spy(ecsCallback);
         mockCreateAddressRequest = new MockCreateAddressRequest("CreateAddressSuccess.json", address, spy1);
         VolleyError volleyError = new AuthFailureError();
         ECSErrorWrapper ecsError = mockCreateAddressRequest.getECSError(volleyError);

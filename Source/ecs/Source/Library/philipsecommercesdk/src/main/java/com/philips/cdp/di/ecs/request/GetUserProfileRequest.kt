@@ -6,12 +6,12 @@ import com.android.volley.VolleyError
 import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.user.UserProfile
+import com.philips.cdp.di.ecs.model.user.ECSUserProfile
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
 import com.philips.cdp.di.ecs.error.ECSNetworkError
 import org.json.JSONObject
 
-open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
+open class GetUserProfileRequest(ecsCallback: ECSCallback<ECSUserProfile,Exception>) :OAuthAppInfraAbstractRequest() , Response.Listener<JSONObject> {
 
     val ecsCallback = ecsCallback;
 
@@ -32,7 +32,7 @@ open class GetUserProfileRequest(ecsCallback: ECSCallback<UserProfile,Exception>
 
         try{
            val userProfile = Gson().fromJson(response.toString(),
-                    UserProfile::class.java)
+                    ECSUserProfile::class.java)
             ecsCallback.onResponse(userProfile)
         }catch (e :Exception){
             val ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong, e, response.toString())

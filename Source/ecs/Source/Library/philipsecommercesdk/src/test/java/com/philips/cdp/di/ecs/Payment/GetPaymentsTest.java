@@ -11,11 +11,12 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.order.Orders;
-import com.philips.cdp.di.ecs.model.order.OrdersData;
+import com.philips.cdp.di.ecs.model.order.ECSOrders;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
-import com.philips.cdp.di.ecs.model.retailers.WebResults;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -31,6 +32,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -39,6 +41,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 
 @RunWith(RobolectricTestRunner.class)
 public class GetPaymentsTest {
@@ -58,7 +61,7 @@ public class GetPaymentsTest {
 
     MockGetPaymentsRequest mockGetPaymentsRequest;
 
-    ECSCallback<PaymentMethods, Exception> ecsCallback;
+    ECSCallback<List<ECSPayment>, Exception> ecsCallback;
     private MockInputValidator mockInputValidator;
 
     @Before
@@ -75,9 +78,9 @@ public class GetPaymentsTest {
 
         mockInputValidator = new MockInputValidator();
 
-        ecsCallback = new ECSCallback<PaymentMethods, Exception>() {
+        ecsCallback = new ECSCallback<List<ECSPayment>, Exception>() {
             @Override
-            public void onResponse(PaymentMethods result) {
+            public void onResponse(List<ECSPayment> result) {
 
             }
 
@@ -96,11 +99,11 @@ public class GetPaymentsTest {
     @Test
     public void getPaymentSuccess() {
         mockInputValidator.setJsonFileName("GetPaymentsSuccess.json");
-        mockECSServices.getPayments(new ECSCallback<PaymentMethods, Exception>() {
+        mockECSServices.fetchPaymentsDetails(new ECSCallback<List<ECSPayment>, Exception>() {
             @Override
-            public void onResponse(PaymentMethods result) {
+            public void onResponse(List<ECSPayment> result) {
                 assertNotNull(result);
-                assertNotNull(result.getPayments().size()>0);
+                assertNotNull(result.size()>0);
                 //test passed
 
             }
@@ -118,9 +121,9 @@ public class GetPaymentsTest {
     @Test
     public void getOrderHistrorySuccess() {
         mockInputValidator.setJsonFileName("GetOrderHistorySuccess.json");
-        mockECSServices.getOrderHistory(1, new ECSCallback<OrdersData, Exception>() {
+        mockECSServices.fetchOrderHistory(1, 0, new ECSCallback<ECSOrderHistory, Exception>() {
             @Override
-            public void onResponse(OrdersData result) {
+            public void onResponse(ECSOrderHistory result) {
                 assertNotNull(result);
             }
 
@@ -134,10 +137,10 @@ public class GetPaymentsTest {
     @Test
     public void getOrderDetailSuccess() {
         mockInputValidator.setJsonFileName("GetOrderDetailSuccess.json");
-        Orders orders = new Orders();
-        mockECSServices.getOrderDetail(orders, new ECSCallback<Orders, Exception>() {
+        ECSOrders orders = new ECSOrders();
+        mockECSServices.fetchOrderDetail(orders, new ECSCallback<ECSOrders, Exception>() {
             @Override
-            public void onResponse(Orders result) {
+            public void onResponse(ECSOrders result) {
                 assertEquals("US",result.getOrderDetail().getDeliveryAddress().getCountry().getName());
                 assertNotNull(result);
                 assertEquals("US",result.getOrderDetail().getDeliveryAddress().getCountry().getName());
@@ -159,9 +162,9 @@ public class GetPaymentsTest {
         mockInputValidator.setJsonFileName("GetRetailerInfoSuccess.json");
         ECSProduct product = new ECSProduct();
         product.setCode("1234");
-        mockECSServices.getRetailers(product, new ECSCallback<WebResults, Exception>() {
+        mockECSServices.fetchRetailers(product, new ECSCallback<ECSRetailerList, Exception>() {
             @Override
-            public void onResponse(WebResults result) {
+            public void onResponse(ECSRetailerList result) {
                 assertNotNull(result);
             }
 
@@ -176,9 +179,9 @@ public class GetPaymentsTest {
     public void getRetailerSuccessError() {
         mockInputValidator.setJsonFileName("GetRetailerInfoSuccess.json");
         ECSProduct product = new ECSProduct();
-        mockECSServices.getRetailers(product, new ECSCallback<WebResults, Exception>() {
+        mockECSServices.fetchRetailers(product, new ECSCallback<ECSRetailerList, Exception>() {
             @Override
-            public void onResponse(WebResults result) {
+            public void onResponse(ECSRetailerList result) {
                 assertNotNull(result);
             }
 
@@ -194,9 +197,9 @@ public class GetPaymentsTest {
     @Test
     public void getPaymentFailure() {
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        mockECSServices.getPayments(new ECSCallback<PaymentMethods, Exception>() {
+        mockECSServices.fetchPaymentsDetails(new ECSCallback<List<ECSPayment>, Exception>() {
             @Override
-            public void onResponse(PaymentMethods result) {
+            public void onResponse(List<ECSPayment> result) {
                 assertTrue(true);
             }
 
@@ -239,7 +242,7 @@ public class GetPaymentsTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<PaymentMethods, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSPayment>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetPaymentsRequest = new MockGetPaymentsRequest("GetPaymentsSuccess.json",spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetPaymentsRequest.onErrorResponse(volleyError);
@@ -250,14 +253,14 @@ public class GetPaymentsTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<PaymentMethods, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSPayment>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetPaymentsRequest = new MockGetPaymentsRequest("GetPaymentsSuccess.json",spy1);
 
         JSONObject jsonObject = getJsonObject("GetPaymentsSuccess.json");
 
         mockGetPaymentsRequest.onResponse(jsonObject);
 
-        Mockito.verify(spy1).onResponse(any(PaymentMethods.class));
+        Mockito.verify(spy1).onResponse(anyList());
 
     }
 

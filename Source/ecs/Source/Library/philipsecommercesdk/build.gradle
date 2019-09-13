@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 archivesBaseName = 'philipsecommercesdk'
 

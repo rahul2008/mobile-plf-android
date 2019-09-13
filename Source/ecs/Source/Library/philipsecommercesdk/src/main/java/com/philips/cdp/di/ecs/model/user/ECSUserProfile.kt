@@ -1,9 +1,9 @@
 package com.philips.cdp.di.ecs.model.user
 
-import com.philips.cdp.di.ecs.model.address.Addresses
+import com.philips.cdp.di.ecs.model.address.ECSAddress
 
-class UserProfile {
-    var defaultAddress: Addresses? = null
+class ECSUserProfile {
+    var defaultAddress: ECSAddress? = null
 
     val type: String? = null
     val name: String? = null

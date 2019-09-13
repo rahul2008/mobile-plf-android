@@ -1,7 +1,7 @@
 package com.philips.cdp.di.ecs;
 
 import com.philips.cdp.di.ecs.constants.ModelConstants;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.Region;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
@@ -46,9 +46,9 @@ public static final String  mockAccessToken = "acceesstoken";
     }
 
 
-    public static Addresses getAddressesObject(){
+    public static ECSAddress getAddressesObject(){
 
-        Addresses addressRequest = new Addresses();
+        ECSAddress addressRequest = new ECSAddress();
         addressRequest.setId("1234567");
         addressRequest.setFirstName("First name");
         addressRequest.setLastName("Second name");
@@ -71,7 +71,7 @@ public static final String  mockAccessToken = "acceesstoken";
         return addressRequest;
     }
 
-    public static HashMap<String, String> getAddressParams(Addresses addresses){
+    public static HashMap<String, String> getAddressParams(ECSAddress addresses){
         HashMap<String, String> addressHashMap = new HashMap<>();
 
 

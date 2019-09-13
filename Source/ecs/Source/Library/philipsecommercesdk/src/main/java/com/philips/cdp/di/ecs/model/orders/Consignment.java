@@ -2,14 +2,14 @@ package com.philips.cdp.di.ecs.model.orders;
 
 
 
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 
 import java.util.List;
 
 public class Consignment {
     private String code;
 
-    private Addresses shippingAddress;
+    private ECSAddress shippingAddress;
     private String status;
     private String statusDate;
     private List<ConsignmentEntries> entries;
@@ -19,7 +19,7 @@ public class Consignment {
     }
 
 
-    public Addresses getShippingAddress() {
+    public ECSAddress getShippingAddress() {
         return shippingAddress;
     }
 

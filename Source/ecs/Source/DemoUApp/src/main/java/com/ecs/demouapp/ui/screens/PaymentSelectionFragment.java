@@ -23,13 +23,10 @@ import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.controller.PaymentController;
 import com.ecs.demouapp.ui.eventhelper.EventHelper;
 import com.ecs.demouapp.ui.eventhelper.EventListener;
-import com.ecs.demouapp.ui.session.IAPNetworkError;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.ECSConstant;
 import com.ecs.demouapp.ui.utils.ECSUtility;
-import com.ecs.demouapp.ui.utils.NetworkUtility;
-import com.philips.cdp.di.ecs.error.ECSNetworkError;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethod;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +37,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
     private Context mContext;
     private RecyclerView mPaymentMethodsRecyclerView;
     private PaymentMethodsAdapter mPaymentMethodsAdapter;
-    private List<PaymentMethod> mPaymentMethodList;
+    private List<ECSPayment> mPaymentMethodList;
     private PaymentController mPaymentController;
     private LinearLayout mParentLayout;
     TextView tvCheckOutSteps;
@@ -61,7 +58,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         mParentLayout = view.findViewById(R.id.payment_container);
         Bundle bundle = getArguments();
         if (bundle.containsKey(ECSConstant.PAYMENT_METHOD_LIST)) {
-            mPaymentMethodList = (List<PaymentMethod>) bundle.getSerializable(ECSConstant.PAYMENT_METHOD_LIST);
+            mPaymentMethodList = (List<ECSPayment>) bundle.getSerializable(ECSConstant.PAYMENT_METHOD_LIST);
         }
 
         mPaymentMethodsAdapter = new PaymentMethodsAdapter(mContext, mPaymentMethodList);
@@ -110,7 +107,7 @@ public class PaymentSelectionFragment extends InAppBaseFragment
         return fragment;
     }
 
-    private PaymentMethod selectedPaymentMethod() {
+    private ECSPayment selectedPaymentMethod() {
         int selectedPosition = mPaymentMethodsAdapter.getSelectedPosition();
         return mPaymentMethodList.get(selectedPosition);
     }

@@ -12,7 +12,7 @@ import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -27,12 +27,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 
+import java.util.List;
+
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -89,13 +90,11 @@ public class GetListSavedAddressTest {
     @Test
     public void GetListSavedAddressTestSuccess() {
         mockInputValidator.setJsonFileName("ShippingAddressListSuccess.json");
-        Addresses address = new Addresses();
-        mockECSServices.getListSavedAddress( new ECSCallback<GetShippingAddressData, Exception>() {
+        ECSAddress address = new ECSAddress();
+        mockECSServices.fetchSavedAddresses(new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData addressList) {
+            public void onResponse(List<ECSAddress> addressList) {
                 assertNotNull(addressList);
-                assertNotNull(addressList.getAddresses());
-
             }
 
             @Override
@@ -110,10 +109,10 @@ public class GetListSavedAddressTest {
     @Test
     public void GetListSavedAddressTestFailure() {
         mockInputValidator.setJsonFileName("EmptyJson.json");
-        Addresses address = new Addresses();
-        mockECSServices.getListSavedAddress( new ECSCallback<GetShippingAddressData, Exception>() {
+        ECSAddress address = new ECSAddress();
+        mockECSServices.fetchSavedAddresses(new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
-            public void onResponse(GetShippingAddressData addressList) {
+            public void onResponse(List<ECSAddress> addressList) {
                 assertTrue(true);
 
             }
@@ -145,7 +144,7 @@ public class GetListSavedAddressTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<GetShippingAddressData, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSAddress>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetAddressRequest = new MockGetAddressRequest("CreateAddressSuccess.json", spy1);
         VolleyError volleyError = new NoConnectionError();
         mockGetAddressRequest.onErrorResponse(volleyError);
@@ -155,7 +154,7 @@ public class GetListSavedAddressTest {
 
     @Test
     public void verifyOnResponseException() {
-        ECSCallback<GetShippingAddressData, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSAddress>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetAddressRequest = new MockGetAddressRequest("CreateAddressSuccess.json", spy1);
         mockGetAddressRequest.onResponse(null);
         Mockito.verify(spy1).onFailure(any(Exception.class),any(ECSError.class));
@@ -164,7 +163,7 @@ public class GetListSavedAddressTest {
 
     @Test
     public void verifyOnResponseJSONException() {
-        ECSCallback<GetShippingAddressData, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<List<ECSAddress>, Exception> spy1 = Mockito.spy(ecsCallback);
         mockGetAddressRequest = new MockGetAddressRequest("CreateAddressSuccess.json", spy1);
         try {
             JSONObject jsonObject = new JSONObject("123");

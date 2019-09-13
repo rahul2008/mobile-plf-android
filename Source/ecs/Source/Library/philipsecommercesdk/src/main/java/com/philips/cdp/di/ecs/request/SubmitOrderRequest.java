@@ -5,12 +5,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.constants.ModelConstants;
-import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.error.ECSNetworkError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.store.ECSURLBuilder;
 
 
@@ -22,10 +21,10 @@ import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErro
 public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String>  {
 
 
-    ECSCallback<OrderDetail,Exception> exceptionECSCallback;
+    ECSCallback<ECSOrderDetail,Exception> exceptionECSCallback;
     String cvv;
 
-    public SubmitOrderRequest(String cvv,ECSCallback<OrderDetail, Exception> exceptionECSCallback) {
+    public SubmitOrderRequest(String cvv,ECSCallback<ECSOrderDetail, Exception> exceptionECSCallback) {
         this.cvv=cvv; // todo   reproduce returning user with saved payment method
         this.exceptionECSCallback = exceptionECSCallback;
     }
@@ -37,10 +36,10 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onResponse(String response) {
-        OrderDetail orderDetail=null;
+        ECSOrderDetail orderDetail=null;
         Exception exception = null;
         try {
-             orderDetail = new Gson().fromJson(response, OrderDetail.class);
+             orderDetail = new Gson().fromJson(response, ECSOrderDetail.class);
         }catch(Exception e){
             exception=e;
         }

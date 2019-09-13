@@ -12,10 +12,9 @@ import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -40,7 +39,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @RunWith(RobolectricTestRunner.class)
 
@@ -57,10 +55,10 @@ public class MakePaymentRequestTest {
 
     MockMakePaymentRequest mockMakePaymentRequest;
 
-    OrderDetail orderDetail;
-    Addresses addresses;
+    ECSOrderDetail orderDetail;
+    ECSAddress addresses;
 
-    ECSCallback<MakePaymentData, Exception> ecsCallback;
+    ECSCallback<ECSPaymentProvider, Exception> ecsCallback;
 
 
     @Mock
@@ -83,9 +81,9 @@ public class MakePaymentRequestTest {
 
         mockInputValidator = new MockInputValidator();
         addresses = StaticBlock.getAddressesObject();
-        ecsCallback = new ECSCallback<MakePaymentData, Exception>() {
+        ecsCallback = new ECSCallback<ECSPaymentProvider, Exception>() {
             @Override
-            public void onResponse(MakePaymentData result) {
+            public void onResponse(ECSPaymentProvider result) {
 
             }
 
@@ -94,7 +92,7 @@ public class MakePaymentRequestTest {
 
             }
         };
-        orderDetail = new OrderDetail();
+        orderDetail = new ECSOrderDetail();
         orderDetail.setCode("123");
         mockMakePaymentRequest = new MockMakePaymentRequest("MakePaymentSuccess.json",orderDetail,addresses,ecsCallback);
 
@@ -103,11 +101,11 @@ public class MakePaymentRequestTest {
     @Test
     public void makePaymentSuccess() {
         mockInputValidator.setJsonFileName("MakePaymentSuccess.json");
-        OrderDetail orderDetail = new OrderDetail();
-        Addresses addresses = new Addresses();
-        mockECSServices.makePayment(orderDetail,addresses,new ECSCallback<MakePaymentData, Exception>() {
+        ECSOrderDetail orderDetail = new ECSOrderDetail();
+        ECSAddress addresses = new ECSAddress();
+        mockECSServices.makePayment(orderDetail,addresses,new ECSCallback<ECSPaymentProvider, Exception>() {
             @Override
-            public void onResponse(MakePaymentData result) {
+            public void onResponse(ECSPaymentProvider result) {
                 assertNotNull(result);
                 assertNotNull(result.getWorldpayUrl());
                 //test passed
@@ -155,7 +153,7 @@ public class MakePaymentRequestTest {
 
     @Test
     public void verifyOnResponseError() {
-        ECSCallback<MakePaymentData, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSPaymentProvider, Exception> spy1 = Mockito.spy(ecsCallback);
         mockMakePaymentRequest = new MockMakePaymentRequest("MakePaymentSuccess.json", orderDetail, addresses, spy1);
         VolleyError volleyError = new NoConnectionError();
         mockMakePaymentRequest.onErrorResponse(volleyError);
@@ -166,14 +164,14 @@ public class MakePaymentRequestTest {
     @Test
     public void verifyOnResponseSuccess() {
 
-        ECSCallback<MakePaymentData, Exception> spy1 = Mockito.spy(ecsCallback);
+        ECSCallback<ECSPaymentProvider, Exception> spy1 = Mockito.spy(ecsCallback);
         mockMakePaymentRequest = new MockMakePaymentRequest("MakePaymentSuccess.json",orderDetail, addresses,spy1);
 
         JSONObject jsonObject = getJsonObject("MakePaymentSuccess.json");
 
         mockMakePaymentRequest.onResponse(String.valueOf(jsonObject));
 
-        Mockito.verify(spy1).onResponse(any(MakePaymentData.class));
+        Mockito.verify(spy1).onResponse(any(ECSPaymentProvider.class));
 
     }
 

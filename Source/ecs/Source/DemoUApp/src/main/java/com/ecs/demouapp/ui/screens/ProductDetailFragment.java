@@ -57,7 +57,7 @@ import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
-import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailer;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
@@ -117,7 +117,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private String mProductTitle;
     private ErrorDialogFragment mErrorDialogFragment;
     private boolean mIsFromVertical;
-    private ArrayList<StoreEntity> mUpdtedStoreEntity;
+    private ArrayList<ECSRetailer> mUpdtedStoreEntity;
     private RelativeLayout mParentLayout;
     private ProgressBar mProgresImage;
 
@@ -499,11 +499,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     }
 
-    private void buyFromRetailers(ArrayList<StoreEntity> storeEntities) {
+    private void buyFromRetailers(ArrayList<ECSRetailer> storeEntities) {
         if (!isNetworkConnected())
             return;
         Bundle bundle = new Bundle();
-        final ArrayList<StoreEntity> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
+        final ArrayList<ECSRetailer> removedBlacklistedRetailers = removedBlacklistedRetailers(storeEntities);
         if (removedBlacklistedRetailers.size() == 1 && (removedBlacklistedRetailers.get(0).getIsPhilipsStore().equalsIgnoreCase("Y"))) {
             bundle.putString(ECSConstant.IAP_BUY_URL, storeEntities.get(0).getBuyURL());
             bundle.putString(ECSConstant.IAP_STORE_NAME, storeEntities.get(0).getName());
@@ -679,9 +679,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         }
 
-        if (!data.isEmpty() && data.get(0) instanceof StoreEntity) {
+        if (!data.isEmpty() && data.get(0) instanceof ECSRetailer) {
             mBuyFromRetailers.hideProgressIndicator();
-            buyFromRetailers((ArrayList<StoreEntity>) data);
+            buyFromRetailers((ArrayList<ECSRetailer>) data);
         }
     }
 
@@ -835,11 +835,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         return super.handleBackEvent();
     }
 
-    private ArrayList<StoreEntity> removedBlacklistedRetailers(ArrayList<StoreEntity> pStoreEntity) {
+    private ArrayList<ECSRetailer> removedBlacklistedRetailers(ArrayList<ECSRetailer> pStoreEntity) {
         final ArrayList<String> list = getArguments().getStringArrayList(ECSConstant.IAP_IGNORE_RETAILER_LIST);
         mUpdtedStoreEntity = new ArrayList<>();
         mUpdtedStoreEntity.addAll(pStoreEntity);
-        for (StoreEntity storeEntity : pStoreEntity) {
+        for (ECSRetailer storeEntity : pStoreEntity) {
             final String retailerName = storeEntity.getName().replaceAll("\\s+", "");
             for (int i = 0; i < (list != null ? list.size() : 0); i++) {
                 if (Utility.indexOfSubString(true, retailerName, list.get(i)) >= 0) {

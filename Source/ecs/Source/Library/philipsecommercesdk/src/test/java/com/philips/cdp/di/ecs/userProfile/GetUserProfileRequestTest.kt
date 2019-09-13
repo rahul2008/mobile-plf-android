@@ -6,7 +6,7 @@ import com.android.volley.NoConnectionError
 import com.philips.cdp.di.ecs.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.user.UserProfile
+import com.philips.cdp.di.ecs.model.user.ECSUserProfile
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
 import org.json.JSONException
@@ -33,7 +33,7 @@ class GetUserProfileRequestTest{
     lateinit var mockECSServices: MockECSServices
     lateinit var ecsServices: ECSServices
 
-    lateinit var ecsCallback: ECSCallback<UserProfile,Exception>
+    lateinit var ecsCallback: ECSCallback<ECSUserProfile,Exception>
 
 
     private var appInfra: AppInfra? = null
@@ -64,9 +64,9 @@ class GetUserProfileRequestTest{
 
         mockInputValidator = MockInputValidator()
 
-        ecsCallback = object: ECSCallback<UserProfile,Exception>{
+        ecsCallback = object: ECSCallback<ECSUserProfile,Exception>{
 
-            override fun onResponse(result: UserProfile){
+            override fun onResponse(result: ECSUserProfile){
             }
 
             override fun onFailure(error: Exception, ecsError: ECSError){
@@ -81,9 +81,9 @@ class GetUserProfileRequestTest{
     fun testSuccessResponse() {
         mockInputValidator.jsonFileName = "GetUserProfileSuccess.json"
 
-        ecsCallback = object: ECSCallback<UserProfile,Exception>{
+        ecsCallback = object: ECSCallback<ECSUserProfile,Exception>{
 
-             override fun onResponse(result: UserProfile){
+             override fun onResponse(result: ECSUserProfile){
                  assertNotNull(result)
              }
 
@@ -95,7 +95,7 @@ class GetUserProfileRequestTest{
 
         }
 
-        mockECSServices.getUserProfile(ecsCallback)
+        mockECSServices.fetchUserProfile(ecsCallback)
 
     }
 
@@ -104,9 +104,9 @@ class GetUserProfileRequestTest{
 
         mockInputValidator.jsonFileName = "GetUserProfileFailure.json"
 
-        ecsCallback = object: ECSCallback<UserProfile,Exception>{
+        ecsCallback = object: ECSCallback<ECSUserProfile,Exception>{
 
-            override fun onResponse(result: UserProfile){
+            override fun onResponse(result: ECSUserProfile){
                 assertTrue(true)
                 //  test case failed
             }
@@ -117,7 +117,7 @@ class GetUserProfileRequestTest{
             }
 
         }
-        mockECSServices.getUserProfile(ecsCallback)
+        mockECSServices.fetchUserProfile(ecsCallback)
 
     }
 
@@ -145,7 +145,7 @@ class GetUserProfileRequestTest{
 
     @Test
     fun verifyOnResponseError() {
-        val spy1 = Mockito.spy<ECSCallback<UserProfile, Exception>>(ecsCallback)
+        val spy1 = Mockito.spy<ECSCallback<ECSUserProfile, Exception>>(ecsCallback)
         mockGetUserProfileRequest = MockGetUserProfileRequest("GetUserProfileSuccess.json",spy1)
         val volleyError = NoConnectionError()
         mockGetUserProfileRequest.onErrorResponse(volleyError)
@@ -155,11 +155,11 @@ class GetUserProfileRequestTest{
 
     @Test
     fun verifyOnResponseSuccess(){
-        val spy1 = Mockito.spy<ECSCallback<UserProfile, Exception>>(ecsCallback)
+        val spy1 = Mockito.spy<ECSCallback<ECSUserProfile, Exception>>(ecsCallback)
         mockGetUserProfileRequest = MockGetUserProfileRequest("GetUserProfileSuccess.json",spy1)
 
         mockGetUserProfileRequest.onResponse(getJsonObject("GetRetailerInfoSuccess.json"));
-        Mockito.verify(spy1).onResponse(ArgumentMatchers.any(UserProfile::class.java))
+        Mockito.verify(spy1).onResponse(ArgumentMatchers.any(ECSUserProfile::class.java))
     }
 
     @Test

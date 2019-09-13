@@ -17,8 +17,8 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.retailers.StoreEntity;
-import com.philips.cdp.di.ecs.model.retailers.WebResults;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailer;
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
 
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.Iterator;
 public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     protected static final String PHILIPS_STORE = "Y";
     protected Context mContext;
-    protected ArrayList<StoreEntity> mStoreList;
+    protected ArrayList<ECSRetailer> mStoreList;
     protected ShoppingCartListener mLoadListener;
 
     public interface ShoppingCartListener<T> {
@@ -56,9 +56,9 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     @Override
     public void getRetailersInformation(final String ctn) {
 
-        ECSUtility.getInstance().getEcsServices().getRetailers(ctn, new ECSCallback<WebResults, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchRetailers(ctn, new ECSCallback<ECSRetailerList, Exception>() {
             @Override
-            public void onResponse(WebResults webResults) {
+            public void onResponse(ECSRetailerList webResults) {
 
                 if (webResults == null) {
                     trackRetailer(ctn);
@@ -68,8 +68,8 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                 }
 
                 if (webResults.getWrbresults().getOnlineStoresForProduct() == null ||
-                        webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore() == null ||
-                        webResults.getWrbresults().getOnlineStoresForProduct().getStores().getStore().size() == 0) {
+                        webResults.getWrbresults().getOnlineStoresForProduct().getStores().getRetailerList() == null ||
+                        webResults.getWrbresults().getOnlineStoresForProduct().getStores().getRetailerList().size() == 0) {
                     if (mLoadListener != null) {
                         trackRetailer(ctn);
                         mLoadListener.onRetailerError(NetworkUtility.getInstance().
@@ -78,8 +78,8 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
                     return;
                 }
 
-                mStoreList = (ArrayList<StoreEntity>) webResults.getWrbresults().
-                        getOnlineStoresForProduct().getStores().getStore();
+                mStoreList = (ArrayList<ECSRetailer>) webResults.getWrbresults().
+                        getOnlineStoresForProduct().getStores().getRetailerList();
                 handlePhilipsFlagShipStore();
                 refreshList(mStoreList);
             }
@@ -103,9 +103,9 @@ public abstract class AbstractShoppingCartPresenter implements ShoppingCartAPI {
     }
 
     private void handlePhilipsFlagShipStore() {
-        Iterator<StoreEntity> iterator = mStoreList.iterator();
+        Iterator<ECSRetailer> iterator = mStoreList.iterator();
         while (iterator.hasNext()) {
-            StoreEntity entity = iterator.next();
+            ECSRetailer entity = iterator.next();
             if (PHILIPS_STORE.equalsIgnoreCase(entity.getIsPhilipsStore())
                     && !ControllerFactory.getInstance().isPlanB()) {
                 iterator.remove();

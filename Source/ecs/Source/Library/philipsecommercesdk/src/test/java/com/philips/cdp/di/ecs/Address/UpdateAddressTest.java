@@ -10,7 +10,7 @@ import com.philips.cdp.di.ecs.MockInputValidator;
 import com.philips.cdp.di.ecs.StaticBlock;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.rest.RestInterface;
 
@@ -33,7 +33,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -54,7 +53,7 @@ public class UpdateAddressTest {
 
     MockUpdateAddressRequest mockUpdateAddressRequest;
 
-    Addresses addresses ;
+    ECSAddress addresses ;
 
     ECSCallback ecsCallback;
     private MockInputValidator mockInputValidator;
@@ -98,8 +97,8 @@ public class UpdateAddressTest {
     @Test
     public void UpdateAddressSuccess() {
         mockInputValidator.setJsonFileName("EmptyString.json");
-        Addresses address = new Addresses();
-        mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
+        ECSAddress address = new ECSAddress();
+        mockECSServices.updateAddress(false, address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertTrue(result);
@@ -119,8 +118,8 @@ public class UpdateAddressTest {
     @Test
     public void UpdateDefeaultAddressSuccess() {
         mockInputValidator.setJsonFileName("EmptyString.json");
-        Addresses address = new Addresses();
-        mockECSServices.setDefaultAddress(address, new ECSCallback<Boolean, Exception>() {
+        ECSAddress address = new ECSAddress();
+        mockECSServices.updateAddress(true,address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertTrue(result);
@@ -139,8 +138,8 @@ public class UpdateAddressTest {
     @Test
     public void UpdateAddressFailure() {
         mockInputValidator.setJsonFileName("UpdateAddressFailureInvalidAddress.json");
-        Addresses address = new Addresses();
-        mockECSServices.updateAddress(address, new ECSCallback<Boolean, Exception>() {
+        ECSAddress address = new ECSAddress();
+        mockECSServices.updateAddress(false, address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertFalse(false);
@@ -159,8 +158,8 @@ public class UpdateAddressTest {
     @Test
     public void UpdateDefeaultFailure() {
         mockInputValidator.setJsonFileName("UpdateAddressFailureInvalidAddress.json");
-        Addresses address = new Addresses();
-        mockECSServices.setDefaultAddress(address, new ECSCallback<Boolean, Exception>() {
+        ECSAddress address = new ECSAddress();
+        mockECSServices.updateAddress(true,address, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 assertFalse(false);

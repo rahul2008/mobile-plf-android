@@ -2,9 +2,9 @@ package com.philips.cdp.di.ecs.Payment;
 
 import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import com.philips.cdp.di.ecs.request.MakePaymentRequest;
 
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ public class MockMakePaymentRequest extends MakePaymentRequest {
 
     String jsonfileName;
 
-    public MockMakePaymentRequest(String jsonFileName, OrderDetail orderDetail, Addresses ecsBillingAddressRequest, ECSCallback<MakePaymentData, Exception> ecsCallback) {
+    public MockMakePaymentRequest(String jsonFileName, ECSOrderDetail orderDetail, ECSAddress ecsBillingAddressRequest, ECSCallback<ECSPaymentProvider, Exception> ecsCallback) {
         super(orderDetail, ecsBillingAddressRequest, ecsCallback);
         this.jsonfileName=jsonFileName;
     }

@@ -15,10 +15,12 @@ import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.Addresses;
-import com.philips.cdp.di.ecs.model.orders.OrderDetail;
-import com.philips.cdp.di.ecs.model.payment.MakePaymentData;
-import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
+import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
+
+import java.util.List;
 
 public class PaymentController {
 
@@ -50,13 +52,13 @@ public class PaymentController {
 
     public void getPaymentDetails() {
 
-        ECSUtility.getInstance().getEcsServices().getPayments(new ECSCallback<PaymentMethods, Exception>() {
+        ECSUtility.getInstance().getEcsServices().fetchPaymentsDetails(new ECSCallback<List<ECSPayment>, Exception>() {
             @Override
-            public void onResponse(PaymentMethods result) {
+            public void onResponse(List<ECSPayment> result) {
 
 
                 Message message = new Message();
-                if( result.getPayments()==null || result.getPayments().isEmpty()){
+                if( result==null || result.isEmpty()){
                     message.obj = "";
                 }else{
                     message.obj = result;
@@ -77,7 +79,7 @@ public class PaymentController {
 
     public void setPaymentDetails(String paymentId) {
 
-        ECSUtility.getInstance().getEcsServices().setPaymentMethod(paymentId, new ECSCallback<Boolean, Exception>() {
+        ECSUtility.getInstance().getEcsServices().setPaymentDetails(paymentId, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
                 Message message = new Message();
@@ -103,9 +105,9 @@ public class PaymentController {
 
 
         ////
-        ECSUtility.getInstance().getEcsServices().submitOrder(pSecurityCode, new ECSCallback<OrderDetail, Exception>() {
+        ECSUtility.getInstance().getEcsServices().submitOrder(pSecurityCode, new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
-            public void onResponse(OrderDetail result) {
+            public void onResponse(ECSOrderDetail result) {
                 Log.v("submitOrder","success");
                 Message message = new Message();
                 message.obj=result;
@@ -127,7 +129,7 @@ public class PaymentController {
         delegate.sendRequest(RequestCode.PLACE_ORDER, request, request);*/
     }
 
-    public void makPayment(OrderDetail orderDetail) {
+    public void makPayment(ECSOrderDetail orderDetail) {
 
 /*
         HashMap<String, String> query = new HashMap<>();
@@ -140,14 +142,14 @@ public class PaymentController {
         delegate.sendRequest(RequestCode.MAKE_PAYMENT, request, request);*/
 
         AddressFields address = CartModelContainer.getInstance().getBillingAddress();
-       Addresses billingAddress = AddressController.getAddressesObject(address);
+       ECSAddress billingAddress = AddressController.getAddressesObject(address);
         billingAddress.setId(CartModelContainer.getInstance().getAddressId());
       //  params.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
         //////////////////////////////
 
-      ECSUtility.getInstance().getEcsServices().makePayment(orderDetail, billingAddress, new ECSCallback<MakePaymentData, Exception>() {
+      ECSUtility.getInstance().getEcsServices().makePayment(orderDetail, billingAddress, new ECSCallback<ECSPaymentProvider, Exception>() {
           @Override
-          public void onResponse(MakePaymentData result) {
+          public void onResponse(ECSPaymentProvider result) {
               Log.v("makePayment","success");
               Message message = new Message();
               message.obj=result;

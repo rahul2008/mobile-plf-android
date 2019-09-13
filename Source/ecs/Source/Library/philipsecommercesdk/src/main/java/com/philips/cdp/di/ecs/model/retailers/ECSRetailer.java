@@ -6,7 +6,7 @@ package com.philips.cdp.di.ecs.model.retailers;
 
 import java.io.Serializable;
 
-public class StoreEntity implements Serializable{
+public class ECSRetailer implements Serializable{
 
     private static final long serialVersionUID = -4549397314749988036L;
     private String name;

@@ -6,7 +6,7 @@ import com.android.volley.NoConnectionError
 import com.philips.cdp.di.ecs.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.retailers.WebResults
+import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
@@ -34,7 +34,7 @@ class GetRetailerInfoRequestTest{
     lateinit var mockECSServices: MockECSServices
     lateinit var ecsServices: ECSServices
 
-    lateinit var ecsCallback: ECSCallback<WebResults,Exception>
+    lateinit var ecsCallback: ECSCallback<ECSRetailerList,Exception>
 
 
     private var appInfra: AppInfra? = null
@@ -72,9 +72,9 @@ class GetRetailerInfoRequestTest{
 
         mockInputValidator = MockInputValidator()
 
-        ecsCallback = object: ECSCallback<WebResults,Exception>{
+        ecsCallback = object: ECSCallback<ECSRetailerList,Exception>{
 
-            override fun onResponse(result: WebResults){
+            override fun onResponse(result: ECSRetailerList){
             }
 
             override fun onFailure(error: Exception, ecsError: ECSError){
@@ -89,9 +89,9 @@ class GetRetailerInfoRequestTest{
     fun testSuccessResponse() {
         mockInputValidator.jsonFileName = "GetRetailerInfoSuccess.json"
 
-        ecsCallback = object: ECSCallback<WebResults,Exception>{
+        ecsCallback = object: ECSCallback<ECSRetailerList,Exception>{
 
-             override fun onResponse(result: WebResults){
+             override fun onResponse(result: ECSRetailerList){
                  assertNotNull(result)
                  assertNotNull(result.wrbresults?.onlineStoresForProduct)
              }
@@ -104,7 +104,7 @@ class GetRetailerInfoRequestTest{
 
         }
 
-        mockECSServices.getRetailers("1234",ecsCallback)
+        mockECSServices.fetchRetailers("1234",ecsCallback)
 
     }
 
@@ -113,9 +113,9 @@ class GetRetailerInfoRequestTest{
 
         mockInputValidator.jsonFileName = "GetRetailerInfoFailure.json"
 
-        ecsCallback = object: ECSCallback<WebResults,Exception>{
+        ecsCallback = object: ECSCallback<ECSRetailerList,Exception>{
 
-            override fun onResponse(result: WebResults){
+            override fun onResponse(result: ECSRetailerList){
                 assertTrue(true)
                 //  test case failed
             }
@@ -126,7 +126,7 @@ class GetRetailerInfoRequestTest{
             }
 
         }
-        mockECSServices.getRetailers("1234",ecsCallback)
+        mockECSServices.fetchRetailers("1234",ecsCallback)
 
     }
 
@@ -155,7 +155,7 @@ class GetRetailerInfoRequestTest{
 
     @Test
     fun verifyOnResponseError() {
-        val spy1 = Mockito.spy<ECSCallback<WebResults, Exception>>(ecsCallback)
+        val spy1 = Mockito.spy<ECSCallback<ECSRetailerList, Exception>>(ecsCallback)
         mockGetRetailersInfoRequest = MockGetRetailersInfoRequest("GetRetailerInfoSuccess.json",spy1,ctn);
         val volleyError = NoConnectionError()
         mockGetRetailersInfoRequest.onErrorResponse(volleyError)
@@ -165,11 +165,11 @@ class GetRetailerInfoRequestTest{
 
     @Test
     fun verifyOnResponseSuccess(){
-        val spy1 = Mockito.spy<ECSCallback<WebResults, Exception>>(ecsCallback)
+        val spy1 = Mockito.spy<ECSCallback<ECSRetailerList, Exception>>(ecsCallback)
         mockGetRetailersInfoRequest = MockGetRetailersInfoRequest("GetRetailerInfoSuccess.json",spy1,ctn);
 
         mockGetRetailersInfoRequest.onResponse(getJsonObject("GetRetailerInfoSuccess.json"));
-        Mockito.verify(spy1).onResponse(any(WebResults::class.java))
+        Mockito.verify(spy1).onResponse(any(ECSRetailerList::class.java))
     }
 
     @Test
