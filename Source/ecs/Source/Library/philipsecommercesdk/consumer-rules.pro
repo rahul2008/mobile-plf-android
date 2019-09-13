@@ -1,0 +1,1 @@
+-keep class !com.philips.cdp.di.ecs.** { *; }
