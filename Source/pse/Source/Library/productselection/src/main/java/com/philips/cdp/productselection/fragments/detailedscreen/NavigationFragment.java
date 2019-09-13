@@ -110,6 +110,8 @@ public final class NavigationFragment extends Fragment {
             drawable.draw(canvas);
         } catch (Exception e){
             bitmap = Bitmap.createBitmap(width, width, Bitmap.Config.ARGB_8888);
+            bitmap.eraseColor(Color.BLACK);
+
         }
         return bitmap;
     }
