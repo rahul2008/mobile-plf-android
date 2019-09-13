@@ -29,7 +29,7 @@ public class UpdateECSShoppingCartQuantityRequest extends OAuthAppInfraAbstractR
 
     @Override
     public void onResponse(String response) {
-        if(null!=response && response.isEmpty()) {
+        if(null!=response && !response.isEmpty()) {
             ecsCallback.onResponse(true);
         }else{
             ECSErrorWrapper ecsErrorWrapper = ECSNetworkError.getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,null,response);
