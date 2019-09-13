@@ -132,9 +132,10 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
             //Track new address creation
             ECSAnalytics.trackAction(ECSAnalyticsConstant.SEND_DATA,
                     ECSAnalyticsConstant.SPECIAL_EVENTS, ECSAnalyticsConstant.NEW_SHIPPING_ADDRESS_ADDED);
-        } else if (msg.obj instanceof IAPNetworkError) {
-           // addressContractor.hideProgressbar();
-            addressContractor.showErrorMessage(msg);
+        } else if (msg.obj instanceof String) {
+            addressContractor.hideProgressbar();
+            //addressContractor.showErrorMessage(msg);
+            ECSUtility.showECSAlertDialog(getAddressContractor().getActivityContext(),"ECS Error",(String)msg.obj);
         }
         addressContractor.hideProgressbar();
     }
@@ -174,7 +175,7 @@ public class AddressPresenter implements AddressController.AddressListener, Paym
                 mPaymentController.getPaymentDetails();
         }else if(msg.obj instanceof String){
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
-            ECSUtility.showECSAlertDialog(addressContractor.getActivityContext(),"ECS Error", msg.getData().toString());
+            ECSUtility.showECSAlertDialog(addressContractor.getActivityContext(),"ECS Error",(String) msg.obj);
         } else{
             ECSLog.d(ECSLog.LOG, msg.getData().toString());
         }
