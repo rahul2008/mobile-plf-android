@@ -32,8 +32,6 @@ import static com.philips.platform.appinfra.logging.LoggingInterface.LogLevel.DE
 
 class PIMMigrationManager {
 
-    //TODO: Shashi, This is temporary, Need to fetch from OIDC configuration later.
-    private String ID_ASSERTION_ENDPOINT = "https://stg.api.eu-west-1.philips.com/consumerIdentityService/identityAssertions/";
     private final String TAG = PIMMigrationManager.class.getSimpleName();
     private LoggingInterface mLoggingInterface;
     private Context mContext;
@@ -74,7 +72,7 @@ class PIMMigrationManager {
     }
 
     private void performIDAssertion(String idAssertionUrl, String usrAccessToken) {
-        IDAssertionRequest idAssertionRequest = new IDAssertionRequest(ID_ASSERTION_ENDPOINT, usrAccessToken);
+        IDAssertionRequest idAssertionRequest = new IDAssertionRequest(idAssertionUrl, usrAccessToken);
         PIMRestClient pimRestClient = new PIMRestClient(PIMSettingManager.getInstance().getRestClient());
         pimRestClient.invokeRequest(idAssertionRequest, getSuccessListener(idAssertionRequest), getErrorListener(idAssertionRequest));
     }

@@ -158,6 +158,7 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching user profile page failed."
                     + " url: " + url + " exception: " + ex.getMessage());
+            disableProgressBar();
         }
     }
 

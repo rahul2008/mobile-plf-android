@@ -2,6 +2,7 @@
 package com.pim.demouapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,6 +33,9 @@ import com.philips.platform.pif.DataInterface.USR.listeners.UserLoginListener;
 import com.philips.platform.pif.DataInterface.USR.listeners.UserMigrationListener;
 import com.philips.platform.pim.PIMInterface;
 import com.philips.platform.pim.PIMLaunchInput;
+import com.philips.platform.pim.manager.PIMSettingManager;
+import com.philips.platform.pim.rest.PIMRestClient;
+import com.philips.platform.pim.rest.PRTestRequest;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
@@ -58,14 +62,17 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     private PIMInterface pimInterface;
     private URInterface urInterface;
     private boolean isUSR;
+    private Context mContext;
     @NonNull
-    AppInfraInterface appInfraInterface;
+    private AppInfraInterface appInfraInterface;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pim_demo_uapp);
+
+        mContext = this;
         Label appversion = findViewById(R.id.appversion);
         appversion.setText("Version : " + BuildConfig.VERSION_NAME);
 
@@ -103,6 +110,11 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         if (getIntent().getExtras() != null && getIntent().getExtras().get("SelectedLib").equals("USR")) {
             isUSR = true;
             Log.i(TAG, "Selected Liberary : USR");
+            btnLaunchAsActivity.setVisibility(View.GONE);
+            btn_RegistrationPR.setVisibility(View.GONE);
+            btnMigrator.setVisibility(View.GONE);
+            btnISOIDCToken.setVisibility(View.GONE);
+            btnLaunchAsFragment.setText("Launch USR");
             urInterface = new URInterface();
             urInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
             userDataInterface = urInterface.getUserDataInterface();
@@ -112,8 +124,14 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             pimInterface = new PIMInterface();
             pimInterface.init(pimDemoUAppDependencies, pimDemoUAppSettings);
             userDataInterface = pimInterface.getUserDataInterface();
+            if (userDataInterface.getUserLoggedInState() == UserLoggedInState.USER_LOGGED_IN) {
+                btnLaunchAsActivity.setVisibility(View.GONE);
+                btnLaunchAsFragment.setText("Launch User Profile");
+            } else {
+                btnLaunchAsActivity.setText("Launch PIM As Activity");
+                btnLaunchAsFragment.setText("Launch PIM As Fragment");
+            }
         }
-
     }
 
     private void initTheme() {
@@ -124,7 +142,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
         getTheme().applyStyle(themeIndex, true);
         UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
     }
-
 
     @Override
     public void onClick(View v) {
@@ -182,7 +199,6 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
             Fragment fragment = new PRGFragment(pimInterface);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.pimDemoU_mainFragmentContainer, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
-
         } else if (v == btnMigrator) {
             userDataInterface.migrateUserToPIM(new UserMigrationListener() {
                 @Override
@@ -225,6 +241,7 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+
     private void launchPIM() {
         PIMLaunchInput launchInput = new PIMLaunchInput();
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.pimDemoU_mainFragmentContainer, null);
@@ -265,8 +282,13 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    private void showToast(String toastMsg) {
-        Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+    private void showToast(final String toastMsg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(mContext, toastMsg, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 
@@ -289,6 +311,8 @@ public class PIMDemoUAppActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onLoginSuccess() {
         showToast("PIM Login Success");
+        btnLaunchAsActivity.setVisibility(View.GONE);
+        btnLaunchAsFragment.setText("Launch User Profile");
     }
 
     @Override
