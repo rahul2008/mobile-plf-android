@@ -147,6 +147,7 @@ public class ECSServices implements ECSServiceProvider {
         ECSConfiguration.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
+    @Override
 
     /**
      * Hybris oath authentication, Janrain basic token is used to obtain Hybris oath token and save it within ECSKService and return true if success.
@@ -180,18 +181,6 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.getProductList(currentPage,pageSize,eCSCallback);
     }
 
-
-    /**
-     * Fetch product summaries for retailer flow
-     *
-     * @param ctns        the list of ctns
-     * @param ecsCallback the ecs callback containing list of ECSProduct object
-     */
-    @Override
-    public void fetchProductSummaries(@NonNull List<String> ctns, @NonNull ECSCallback<List<ECSProduct>, Exception> ecsCallback) {
-        ecsCallValidator.getProductSummary(ctns,ecsCallback);
-    }
-
     /**
      * Fetch product specific to ctn
      *
@@ -202,6 +191,17 @@ public class ECSServices implements ECSServiceProvider {
     public void fetchProduct(@NonNull String ctn, @NonNull ECSCallback<ECSProduct, Exception> eCSCallback) {
         ecsCallValidator.getProductFor(ctn,eCSCallback);
 
+    }
+
+    /**
+     * Fetch product summaries for retailer flow
+     *
+     * @param ctns        the list of ctns
+     * @param ecsCallback the ecs callback containing list of ECSProduct object
+     */
+    @Override
+    public void fetchProductSummaries(@NonNull List<String> ctns, @NonNull ECSCallback<List<ECSProduct>, Exception> ecsCallback) {
+        ecsCallValidator.getProductSummary(ctns,ecsCallback);
     }
 
     /**

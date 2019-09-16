@@ -20,4 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class !com.philips.cdp.di.ecs.** { *; }
 
+# OkHttp required for volley
+#-keep class com.squareup.okhttp.** { *; }
+#-keep interface com.squareup.okhttp.** { *; }
+#-dontwarn com.squareup.okhttp.**

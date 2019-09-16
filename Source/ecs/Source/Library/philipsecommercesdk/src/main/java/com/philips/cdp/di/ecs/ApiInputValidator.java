@@ -125,7 +125,7 @@ public class ApiInputValidator {
 
     public ECSErrorWrapper getProductDetailAPIValidateError(ECSProduct product) {
         if(isINValidString(product.getCode())){
-            return getECSErrorWrapper(ECSErrorEnum.ECSInvalidProductError);
+            return getECSErrorWrapper(ECSErrorEnum.ECSCtnNotProvided);
         }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
@@ -216,7 +216,7 @@ public class ApiInputValidator {
     public ECSErrorWrapper getRetailersError(String productID) {
 
         if(isINValidString(productID)){
-            return getECSErrorWrapper(ECSErrorEnum.ECSInvalidProductError);
+            return getECSErrorWrapper(ECSErrorEnum.ECSCtnNotProvided);
         }
         if(isLocaleNull()){
             return getECSErrorWrapper(ECSErrorEnum.ECSLocaleNotFound);
@@ -226,9 +226,6 @@ public class ApiInputValidator {
 
     public ECSErrorWrapper getSubmitOrderError(String cvv) {
 
-        if(isINValidString(cvv)){
-            return getECSErrorWrapper(ECSErrorEnum.ECSInvalidCvvError);
-        }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 
@@ -240,9 +237,6 @@ public class ApiInputValidator {
     }
 
     public ECSErrorWrapper getOrderHistoryError(int pageNumber) {
-        if(pageNumber<0){
-            return getECSErrorWrapper(ECSErrorEnum.ECSInvalidPageSizeError);
-        }
         return checkLocaleBaseURLSiteIDAndCategory();
     }
 

@@ -28,22 +28,29 @@ import java.util.List;
  */
 public interface ECSServiceProvider {
 
-
-   /* *//**
-     * Hybris oath authentication, Janrain basic token is used to obtain Hybris oath token and save it within IAPSDKService and return true if success.
-     *
-     * @param oauthData      the oauth data (Janrain token details)
-     * @param ECSCallback the iapsdk callback success block containing boolean
-     *//*
-    public void  hybrisOAthAuthentication(Map<String, String> oauthData, ECSCallback ECSCallback);
-*/
+    /**
+     * Configure ecs.
+     * @since 1.0
+     * @param ecsCallback the ecs callback containing boolean response. If configuration is success returns true else false
+     */
+    void configureECS(ECSCallback<Boolean,Exception> ecsCallback);
 
     /**
-     * Gets iap config data including catalogId, rootCategory, net , siteId, faqUrl, helpDeskEmail, helpDeskPhone and helpUrl
+     * Configure ecs to get configuration.
      *
-     * @param eCSCallback the iapsdk callback success block containing IAPConfiguration object
+     * @param ecsCallback the ecs callback containing ECSConfig object
      */
-     //public void configureECSToGetConfiguration(ECSCallback<HybrisConfigResponse, Exception> eCSCallback);
+    void configureECSToGetConfiguration(ECSCallback<ECSConfig, Exception> ecsCallback);
+
+    void hybrisOAthAuthentication(@NonNull  ECSOAuthProvider ecsoAuthProvider, @NonNull ECSCallback<ECSOAuthData,Exception> ecsListener);
+
+    /**
+     * Hybris refresh o auth.
+     *
+     * @param oAuthInput  the ECSOAuthProvider object
+     * @param ecsListener the ecs listener containing ECSOAuthData object
+     */
+    void hybrisRefreshOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener);
 
 
     /**
@@ -72,26 +79,13 @@ public interface ECSServiceProvider {
     void fetchProductDetails(ECSProduct product, ECSCallback<ECSProduct,Exception> ecsCallback);
 
     /**
-     * Configure ecs.
-     * @since 1.0
-     * @param ecsCallback the ecs callback containing boolean response. If configuration is success returns true else false
-     */
-    void configureECS(ECSCallback<Boolean,Exception> ecsCallback);
-
-    /**
-     * Configure ecs to get configuration.
-     *
-     * @param ecsCallback the ecs callback containing ECSConfig object
-     */
-    void configureECSToGetConfiguration(ECSCallback<ECSConfig, Exception> ecsCallback);
-
-    /**
      * Fetch product summaries for retailer flow
      *
      * @param ctns        the list of ctns
      * @param ecsCallback the ecs callback containing list of ECSProduct object
      */
     void fetchProductSummaries(List<String> ctns, ECSCallback<List<ECSProduct>,Exception> ecsCallback);
+
 
     /**
      * Fetch existing shopping cart.
@@ -332,13 +326,6 @@ public interface ECSServiceProvider {
      */
     void fetchUserProfile(ECSCallback<ECSUserProfile,Exception> ecsCallback);
 
-    /**
-     * Hybris refresh o auth.
-     *
-     * @param oAuthInput  the ECSOAuthProvider object
-     * @param ecsListener the ecs listener containing ECSOAuthData object
-     */
-    void hybrisRefreshOAuth(ECSOAuthProvider oAuthInput, ECSCallback<ECSOAuthData, Exception> ecsListener);
 
     /**
      * Sets proposition id.
