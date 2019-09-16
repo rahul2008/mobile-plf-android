@@ -35,4 +35,10 @@ public class EcsLauncherActivity extends Activity {
         iapDemoUAppInterface.init(new EcsDemoUAppDependencies(appInfra), new EcsDemoAppSettings(this));
         iapDemoUAppInterface.launch(new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), new EcsLaunchInput());
     }
+
+
+    public void launchTest(View view) {
+
+
+    }
 }

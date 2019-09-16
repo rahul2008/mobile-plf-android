@@ -12,4 +12,13 @@
         android:onClick="launch"
         android:text="Launch SDK Activity"
         android:visibility="visible" />
+
+    <Button
+        android:id="@+id/btn_launch_sdk_test"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:onClick="launchTest"
+        android:text="Launch SDK Test Screen"
+        android:visibility="visible" />
 </LinearLayout>
