@@ -95,6 +95,9 @@ project(':ecsApp').projectDir = new File('./Source/ecs/Source/DemoApp/app')
 include(':ecsUApp')
 project(':ecsUApp').projectDir = new File('./Source/ecs/Source/DemoUApp')
 
+include(':ecsTestUApp')
+project(':ecsTestUApp').projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
+
 include(':philipsecommercesdk')
 project(':philipsecommercesdk').projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
 

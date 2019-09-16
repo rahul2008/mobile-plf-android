@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 
+import com.ecs.demotestuapp.TestAPI;
 import com.ecs.demouapp.integration.EcsDemoAppSettings;
 import com.ecs.demouapp.integration.EcsDemoUAppDependencies;
 import com.ecs.demouapp.integration.EcsDemoUAppInterface;
@@ -39,6 +40,6 @@ public class EcsLauncherActivity extends Activity {
 
     public void launchTest(View view) {
 
-
+        new TestAPI().indraBhaiJindaBad();
     }
 }
