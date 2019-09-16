@@ -260,6 +260,13 @@ pipeline {
             }
         }
 
+          /* Blackduck Analytics */
+        stage('Blackduck Analytics') {
+            steps {
+                analyzeWithBlackduck()
+            }
+        }
+
         //stage to publish PSRA apk
         stage('Publish PSRA apk') {
             //steps will executed only for PSRA build
@@ -736,5 +743,21 @@ def PublishJavaDocs() {
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/rap/Documents/External/referenceApp-api", reportFiles: 'index.html', reportName: "Reference app API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/usr/Documents/External/registrationApi-api", reportFiles: 'index.html', reportName: "User registration Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/sdb/Documents/External/securedblibrary-api", reportFiles: 'index.html', reportName: "Secure db Library API documentation"])
+}
+
+def analyzeWithBlackduck() {
+    def runBlackduck = """
+        #!/bin/bash -l
+        
+        java -jar /Users/philipsiet/Softwares/synopsys-detect-5.6.2.jar --detect.project.name=EMS --detect.project.version.name=Android_23 --detect.source.path=/Users/philipsiet/workspace/workspace/ource_iet-mobile-android_develop --blackduck.url=https://blackduck.philips.com/ --blackduck.trust.cert=true --blackduck.api.token=ZGY1NzY4YWEtMWEzYi00Y2U2LTgzY2QtZjI0NjFkZTQxNTliOjc2ZmYzMzViLTBmMTMtNDlhYy05ZjhmLTViNjgxOTkxMDVmNA== --detect.gradle.inspector.air.gap.path=/Users/philipsiet/synopsys-detect-5.6.2-air-gap-gradle-nuget/packaged-inspectors/gradle
+    """
+
+    echo "-----------------------------"
+    echo "Starting Blackduck Analytics"
+    echo "-----------------------------"
+    sh runBlackduck
+    echo "-----------------------------"
+    echo "Completing Blackduck Analytics"
+    echo "-----------------------------"
 }
 
