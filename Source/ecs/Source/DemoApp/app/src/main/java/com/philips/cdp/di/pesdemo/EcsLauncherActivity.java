@@ -7,6 +7,10 @@ import android.view.View;
 
 
 import com.ecs.demotestuapp.TestAPI;
+import com.ecs.demotestuapp.integration.EcsDemoTestAppSettings;
+import com.ecs.demotestuapp.integration.EcsDemoTestUAppDependencies;
+import com.ecs.demotestuapp.integration.EcsDemoTestUAppInterface;
+import com.ecs.demotestuapp.integration.EcsTestLaunchInput;
 import com.ecs.demouapp.integration.EcsDemoAppSettings;
 import com.ecs.demouapp.integration.EcsDemoUAppDependencies;
 import com.ecs.demouapp.integration.EcsDemoUAppInterface;
@@ -22,10 +26,11 @@ public class EcsLauncherActivity extends Activity {
 
     private EcsDemoUAppInterface iapDemoUAppInterface;
 
+    private EcsDemoTestUAppInterface iapDemoTestUAppInterface;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.pes_activity_luncher);
         setContentView(R.layout.pes_activity_luncher);
     }
 
@@ -40,6 +45,10 @@ public class EcsLauncherActivity extends Activity {
 
     public void launchTest(View view) {
 
-        new TestAPI().indraBhaiJindaBad();
+        EcsDemoApplication pesDemoApplication = (EcsDemoApplication) getApplicationContext();
+        AppInfra appInfra = pesDemoApplication.getAppInfra();
+        iapDemoTestUAppInterface = new EcsDemoTestUAppInterface();
+        iapDemoTestUAppInterface.init(new EcsDemoTestUAppDependencies(appInfra), new EcsDemoTestAppSettings(this));
+        iapDemoTestUAppInterface.launch(new ActivityLauncher(this,ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,null, 0,null), new EcsTestLaunchInput());
     }
 }

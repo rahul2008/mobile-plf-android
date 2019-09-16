@@ -1,0 +1,166 @@
+{
+  "buttonConfig": {
+    "id": 12345,
+    "property": [{
+      "type": "button",
+      "name": "isHybris"
+    },
+      {
+        "type": "button",
+        "name": "fetch Config"
+      },
+      {
+        "type": "button",
+        "name": "Authenticate"
+      },
+      {
+        "type": "button",
+        "name": "Refresh OAuth"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Product"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Product for CTN"
+      },
+      {
+        "type": "toggle button",
+        "name": "Enable hybris"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Product Summary"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Product Detail"
+      },
+      {
+        "type": "button",
+        "name": "cart",
+        "property": [{
+          "type": "button",
+          "name": "Fetch Shopping Cart"
+        },
+          {
+            "type": "button",
+            "name": "Create ShoppingCart"
+          },
+          {
+            "type": "button",
+            "name": "Add Product To ShoppingCart"
+          },
+          {
+            "type": "button",
+            "name": "Update Shopping Cart"
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "name": "Voucher",
+        "property": [{
+          "type": "button",
+          "name": "Apply Voucher"
+        },
+          {
+            "type": "button",
+            "name": "Fetch Applied Vouchers"
+          },
+          {
+            "type": "button",
+            "name": "Remove Voucher"
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "name": "Delivery Mode",
+        "property": [{
+          "type": "button",
+          "name": "Fetch Delivery Mode"
+        },
+          {
+            "type": "button",
+            "name": "Set Delivery Mode"
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "name": "Address",
+        "property": [{
+          "type": "button",
+          "name": "Fetch Saved Addresses"
+        },
+          {
+            "type": "button",
+            "name": "Create Address"
+          },
+          {
+            "type": "button",
+            "name": "Create and Fetch Address"
+          },
+          {
+            "type": "button",
+            "name": "Set Delivery Address"
+          },
+          {
+            "type": "button",
+            "name": "Set and Fetch Delivery Address"
+          },
+          {
+            "type": "button",
+            "name": "Update Address"
+          },
+          {
+            "type": "button",
+            "name": "Update and Fetch Address"
+          },
+          {
+            "type": "button",
+            "name": "Delete Address"
+          },
+          {
+            "type": "button",
+            "name": "Delete and Fetch Address"
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "name": "Payment"
+      },
+      {
+        "type": "button",
+        "name": "Submit Order"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Retailers for CTN"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Retailers for Product"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Order history"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Order Detail"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Profile"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Profile"
+      }
+    ]
+  }
+}
