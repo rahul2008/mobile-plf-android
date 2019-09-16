@@ -17,6 +17,12 @@ buildscript {
     }
 }
 
+buildTypes {
+    release {
+        minifyEnabled false
+    }
+}
+
 allprojects {
     repositories {
         maven { url repos.jcenter
