@@ -137,6 +137,7 @@ public class ECSServices implements ECSServiceProvider {
         ECSConfiguration.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
+    @Override
     public void hybrisOAthAuthentication(@NonNull ECSOAuthProvider ecsoAuthProvider, @NonNull ECSCallback<ECSOAuthData,Exception> ecsListener){
         ecsCallValidator.getOAuth(ecsoAuthProvider,ecsListener);
     }
@@ -151,17 +152,18 @@ public class ECSServices implements ECSServiceProvider {
         ecsCallValidator.getProductList(currentPage,pageSize,eCSCallback);
     }
 
+    @Override
+    public void fetchProduct(@NonNull String ctn, @NonNull ECSCallback<ECSProduct, Exception> eCSCallback) {
+        ecsCallValidator.getProductFor(ctn,eCSCallback);
+
+    }
 
     @Override
     public void fetchProductSummaries(@NonNull List<String> ctns, @NonNull ECSCallback<List<ECSProduct>, Exception> ecsCallback) {
         ecsCallValidator.getProductSummary(ctns,ecsCallback);
     }
 
-    @Override
-    public void fetchProduct(@NonNull String ctn, @NonNull ECSCallback<ECSProduct, Exception> eCSCallback) {
-        ecsCallValidator.getProductFor(ctn,eCSCallback);
 
-    }
 
     @Override
     public void fetchProductDetails(@NonNull ECSProduct product, @NonNull ECSCallback<ECSProduct, Exception> ecsCallback) {
