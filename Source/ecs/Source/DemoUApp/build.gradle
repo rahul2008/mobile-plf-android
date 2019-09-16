@@ -32,12 +32,6 @@ android {
 
 }
 
-buildTypes {
-    release {
-        minifyEnabled false
-    }
-}
-
 
 /*packagingOptions {
     exclude 'META-INF/DEPENDENCIES.txt'
