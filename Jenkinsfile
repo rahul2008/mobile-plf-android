@@ -140,7 +140,7 @@ pipeline {
             steps {
                 sh '''#!/bin/bash -l
                     set -e
-                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :pim:zipcClogs :registrationApi:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs 
+                    ./gradlew --full-stacktrace saveResDep saveAllResolvedDependenciesGradleFormat zipDocuments artifactoryPublish :referenceApp:printArtifactoryApkPath :AppInfra:zipcClogs :securedblibrary:zipcClogs :pim:zipcClogs :registrationApi:zipcClogs :productselection:zipcClogs :digitalCareUApp:zipcClogs :digitalCare:zipcClogs :philipsecommercesdk:zipcClogs
 
                     apkname=`xargs < apkname.txt`
                     dependenciesName=${apkname/.apk/.gradledependencies.gz}
@@ -420,6 +420,7 @@ def BuildAndUnitTest() {
             :mya:testReleaseUnitTest \
             :pif:testReleaseUnitTest \
             :pim:testReleaseUnitTest \
+            :philipsecommercesdk:testReleaseUnitTest \
             :referenceApp:testReleaseUnitTest 
             
     '''
@@ -463,6 +464,7 @@ def GenerateJavaDocs() {
         :digitalCare:generateJavadocPublicApi \
         :iap:generateJavadocPublicApi \
         :product-registration-lib:generateJavadocPublicApi \
+        :philipsecommercesdk:generateJavadocPublicApi \
         :referenceApp:generateJavadocPublicApi \
 '''
 }
@@ -485,6 +487,7 @@ def BuildLint() {
          :digitalCare:lint \
          :mya:lint \
          :pif:lint \
+         :philipsecommercesdk:lint \
          :themesettings:lintRelease
         #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
     '''
@@ -641,7 +644,7 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :referenceApp:printPlatformVersion
+        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :referenceApp:printPlatformVersion :philipsecommercesdk:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
  
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/AppInfra/$platformVersion/ -T ./Source/ail/Documents/External/AppInfra-api.zip
@@ -652,7 +655,8 @@ def DeployingJavaDocs() {
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/product-registration-lib/$platformVersion/ -T ./Source/prg/Documents/External/product-registration-lib-api.zip
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/productselection/$platformVersion/ -T ./Source/pse/Documents/External/productselection-api.zip
         
-        
+        curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/philipsecommercesdk/$platformVersion/ -T ./Source/ecs/Documents/External/philipsecommercesdk-api.zip
+
 
         if [ $? != 0 ]
         then
@@ -668,6 +672,7 @@ def DeployingJavaDocs() {
  * publishing junit test case report
  */
 def PublishUnitTestsResults() {
+    junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/philipsecommercesdk/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ail/Source/Library/AppInfra/build/test-results/testReleaseUnitTest/*.xml'
     junit allowEmptyResults: true, testResults: 'Source/ufw/Source/Library/*/build/test-results/*/*.xml'
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/ufw/Source/Library/uAppFwLib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'ufw unit test release'])
@@ -726,6 +731,7 @@ def PublishAcceptanceTestsResults() {
  * reportName: The name of the report to display.
  */
 def PublishJavaDocs() {
+    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ail/Documents/External/philipsecommercesdk-api", reportFiles: 'index.html', reportName: "philipsecommercesdk Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ail/Documents/External/AppInfra-api", reportFiles: 'index.html', reportName: "AppInfra Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/dcc/Documents/External/digitalCare-api", reportFiles: 'index.html', reportName: "dcc Digital careLibrary API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/iap/Documents/External/iap-api", reportFiles: 'index.html', reportName: "iapp Inapp purchase Library API documentation"])
