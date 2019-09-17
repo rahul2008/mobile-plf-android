@@ -90,8 +90,8 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 //project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include(':iapApp')
 //project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
-include(':ecsApp')
-project(':ecsApp').projectDir = new File('./Source/ecs/Source/DemoApp/app')
+//include(':ecsApp')
+//project(':ecsApp').projectDir = new File('./Source/ecs/Source/DemoApp/app')
 include(':ecsUApp')
 project(':ecsUApp').projectDir = new File('./Source/ecs/Source/DemoUApp')
 
