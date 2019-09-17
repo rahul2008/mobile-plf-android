@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 
-archivesBaseName = 'ecsuapp'
+archivesBaseName = strings.ecsuapp.artifactName
 
 buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
