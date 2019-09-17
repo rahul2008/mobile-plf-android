@@ -81,7 +81,9 @@ ext.philipsdeps = [
         uid                         : [group: 'com.philips.hsdp-cp', name: strings.uid.artifactName, version: '2.0.+', changing: true],
         pim                         : [group: 'com.philips.platform', name: strings.pim.artifactName, version: platformversionsuffix, changing: true],
         pimUApp                     : [group: 'com.philips.platform', name: strings.pimuapp.artifactName, version: platformversionsuffix, changing: true],
-        UserRegistrationUApp        : [group: 'com.philips.platform', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true]
+        UserRegistrationUApp        : [group: 'com.philips.platform', name: strings.usruapp.artifactName, version: platformversionsuffix, changing: true],
+        philipsecommercesdk         : [group: 'com.philips.platform', name: strings.ecs.artifactName, version: platformversionsuffix, changing: true],
+        ecsUapp                     : [group: 'com.philips.platform', name: strings.ecsuapp.artifactName, version: platformversionsuffix, changing: true]
 ]
 
 /**
