@@ -27,14 +27,8 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.di.pesdemo"
-        multiDexEnabled true
-        renderscriptTargetApi versions.renderscriptTargetApi
-        renderscriptSupportModeEnabled true
-        // replace the below string with your own Google client ID. Make sure this is consistent
-        // with the values used in openid_appauth_idp_configs.xml
-        manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
-        ]
+        versionName version + "(" + commitHash+ ")"
+        versionCode 1
     }
 
 
@@ -55,47 +49,11 @@ android {
     }
 
 
-    flavorDimensions "default"
 
-    productFlavors {
-        simulator {
-            applicationId 'com.philips.cdp.di.pesdemo'
-            versionCode 2
-            versionName "0.17.8"
-        }
-        device {
-            applicationId 'com.philips.cdp.di.pesdemo'
-            versionCode 2
-            versionName "0.17.8"
-        }
-    }
 
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'InvalidPackage'
-        disable 'GradleCompatible'
-        disable 'MissingTranslation'
-        disable 'TypographyFractions', 'TypographyQuotes'
-        absolutePaths false
-        lintConfig file('lint.xml')
-    }
 
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-    }
 
-    dataBinding {
-        enabled = true
-    }
+
 }
 
 dependencies {
