@@ -37,16 +37,13 @@ android {
         ]
     }
 
-    signingConfigs {
-        release
-    }
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+
         }
 
         debug {
@@ -57,32 +54,7 @@ android {
         }
     }
 
-    /*
-    This defined for signing the apk -- start
-     */
-    def Properties props = new Properties()
-    println "  projectDir:   " + project.projectDir;
-    def propFile = new File("${project.projectDir}/signing.properties")
-    if (propFile.canRead()) {
-        props.load(new FileInputStream(propFile))
 
-        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
-            println 'signing.properties found and fully filled in'
-            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
-            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
-            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
-            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
-        } else {
-            println 'iap NOPE - signing.properties NOT found'
-            android.buildTypes.release.signingConfig = null
-        }
-    } else {
-        println 'iap signing.properties not found'
-        android.buildTypes.release.signingConfig = null
-    }
-    /*
-    This defined for signing the apk -- end
-    */
     flavorDimensions "default"
 
     productFlavors {
@@ -157,16 +129,7 @@ dependencies {
 
     }
 
-    androidTestImplementation deps.espresso_core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
 
-    androidTestImplementation deps.espresso_contrib, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'design'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-    }
 }
 
 tasks.withType(Test) {
