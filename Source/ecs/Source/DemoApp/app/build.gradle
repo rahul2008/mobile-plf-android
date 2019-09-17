@@ -18,6 +18,7 @@ buildscript {
     }
 }
 
+archivesBaseName = 'ecsApp'
 
 android {
     compileSdkVersion versions.sdk
@@ -42,7 +43,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -56,7 +57,32 @@ android {
         }
     }
 
+    /*
+    This defined for signing the apk -- start
+     */
+    def Properties props = new Properties()
+    println "  projectDir:   " + project.projectDir;
+    def propFile = new File("${project.projectDir}/signing.properties")
+    if (propFile.canRead()) {
+        props.load(new FileInputStream(propFile))
 
+        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            println 'signing.properties found and fully filled in'
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'iap NOPE - signing.properties NOT found'
+            android.buildTypes.release.signingConfig = null
+        }
+    } else {
+        println 'iap signing.properties not found'
+        android.buildTypes.release.signingConfig = null
+    }
+    /*
+    This defined for signing the apk -- end
+    */
     flavorDimensions "default"
 
     productFlavors {
@@ -72,7 +98,32 @@ android {
         }
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+        disable 'GradleCompatible'
+        disable 'MissingTranslation'
+        disable 'TypographyFractions', 'TypographyQuotes'
+        absolutePaths false
+        lintConfig file('lint.xml')
+    }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -106,7 +157,16 @@ dependencies {
 
     }
 
+    androidTestImplementation deps.espresso_core, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
+    androidTestImplementation deps.espresso_contrib, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
 }
 
 tasks.withType(Test) {
