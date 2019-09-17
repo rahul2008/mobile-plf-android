@@ -26,7 +26,7 @@ public class ApiInputValidator {
     }
 
     ECSErrorWrapper getConfigAPIValidateError(){
-        return checkLocaleAndBaseURL();
+        return checkLocalePropositionIDAndBaseURL();
     }
 
     @Nullable
@@ -39,6 +39,14 @@ public class ApiInputValidator {
         }
         return null;
     }
+
+    private ECSErrorWrapper checkLocalePropositionIDAndBaseURL() {
+       if(isPropositionIDNull()){
+           return getECSErrorWrapper(ECSErrorEnum.ECSPropositionIdNotFound);
+       }
+       return checkLocaleAndBaseURL() ;
+    }
+
 
     private ECSErrorWrapper getECSErrorWrapper(ECSErrorEnum ecsErrorEnum) {
         return new ECSErrorWrapper(new Exception(ecsErrorEnum.getLocalizedErrorString()),new ECSError(ecsErrorEnum.getErrorCode(),ecsErrorEnum.toString()));
@@ -58,6 +66,10 @@ public class ApiInputValidator {
 
     private boolean isBaseURLNull(){
         return ECSConfiguration.INSTANCE.getBaseURL() == null;
+    }
+
+    private boolean isPropositionIDNull(){
+        return ECSConfiguration.INSTANCE.getPropositionID() == null;
     }
 
     private boolean isCategoryNull(){

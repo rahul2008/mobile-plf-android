@@ -9,13 +9,15 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.adapter.EcsExpandableListAdapter;
 import com.ecs.demotestuapp.model.Config;
+import com.ecs.demotestuapp.model.PropertyItem;
+import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -26,6 +28,7 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 import com.philips.platform.pif.DataInterface.USR.enums.Error;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListener;
@@ -37,7 +40,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class EcsDemoTestAppActivity extends AppCompatActivity implements View.OnClickListener,
@@ -55,6 +61,8 @@ public class EcsDemoTestAppActivity extends AppCompatActivity implements View.On
 
     ExpandableListView expandableListView;
 
+    EditText etPropositionID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +74,12 @@ public class EcsDemoTestAppActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.demo_app_test_layout);
         mRegister = findViewById(R.id.btn_register);
 
+        ECSServices ecsServices = new ECSServices(null, new AppInfra.Builder().build(getApplicationContext()));
+
+        ECSDataHolder.INSTANCE.setECSService(ecsServices);
+
+        etPropositionID = findViewById(R.id.et_propositionID);
+
         showAppVersion();
 
         mUserDataInterface = urInterface.getUserDataInterface();
@@ -75,8 +89,43 @@ public class EcsDemoTestAppActivity extends AppCompatActivity implements View.On
 
         expandableListView = findViewById(R.id.expandable_list);
 
-        EcsExpandableListAdapter expandableListAdapter = new EcsExpandableListAdapter(this,config.buttonConfig);
+        //Prepare Data
+
+        HashMap<String, List<PropertyItem>> hashMap = new HashMap<>();
+        for(PropertyItem propertyItem:config.buttonConfig.property){
+            hashMap.put(propertyItem.name,propertyItem.getProperty());
+        }
+        LinkedList listDataHeader = new LinkedList<>(hashMap.keySet());
+
+
+
+        EcsExpandableListAdapter expandableListAdapter = new EcsExpandableListAdapter(this,listDataHeader,hashMap);
         expandableListView.setAdapter(expandableListAdapter);
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                PropertyItem propertyItem = (PropertyItem) expandableListAdapter.getChild(groupPosition, childPosition);
+                expandableListAdapter.gotoResultScreen(propertyItem);
+                return false;
+            }
+        });
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                int count = parent.getExpandableListAdapter().getChildrenCount(groupPosition);
+                if(count == 0){
+
+                    String headerTitle = (String) expandableListAdapter.getGroup(groupPosition);
+                    PropertyItem propertyItem = expandableListAdapter.getPropertyItemFromButtonHeaderName(config.buttonConfig, headerTitle);
+                    expandableListAdapter.gotoResultScreen(propertyItem);
+                }
+                return false;
+            }
+        });
     }
 
     private Config readConfigJsonFile(String file) {
@@ -93,6 +142,7 @@ public class EcsDemoTestAppActivity extends AppCompatActivity implements View.On
 
     private void initializeRegistrationComponant() {
         if (isUserLoggedIn()) {
+            setJanRainID();
             mRegister.setText("Log out");
         } else {
             mRegister.setText("Log in");
@@ -147,6 +197,7 @@ public class EcsDemoTestAppActivity extends AppCompatActivity implements View.On
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
         mRegister.setText("Log out");
+        setJanRainID();
         initializeRegistrationComponant();
     }
 
@@ -191,19 +242,6 @@ public class EcsDemoTestAppActivity extends AppCompatActivity implements View.On
         mLastClickTime = SystemClock.elapsedRealtime();
 
         return true;
-    }
-
-    public JSONObject getResponseJson(String fileName) {
-
-        String jsonString = loadJSONFromAsset(fileName);
-
-        try {
-            return new JSONObject(jsonString);
-        } catch (JSONException e) {
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public String loadJSONFromAsset(String fileName) {
@@ -256,4 +294,28 @@ public class EcsDemoTestAppActivity extends AppCompatActivity implements View.On
     public void register(View view) {
         register();
     }
+
+    public void set(View view) {
+
+        ECSDataHolder.INSTANCE.getEcsServices().setPropositionID(etPropositionID.getText().toString().trim());
+    }
+
+    public void remove(View view) {
+        ECSDataHolder.INSTANCE.getEcsServices().setPropositionID(null);
+    }
+
+    public void setJanRainID() {
+
+        ArrayList<String> detailsKey = new ArrayList<>();
+        detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
+        try {
+            HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+            String janrainID = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
+            ECSDataHolder.INSTANCE.setJanrainID(janrainID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

@@ -1,13 +1,14 @@
 package com.ecs.demotestuapp.adapter;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,33 +16,28 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.ecs.demotestuapp.R;
+import com.ecs.demotestuapp.activity.EcsDemoResultActivity;
 import com.ecs.demotestuapp.model.ButtonConfig;
 import com.ecs.demotestuapp.model.PropertyItem;
 
 public class EcsExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
-    private LinkedList<String> _listDataHeader; // header titles
-    // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
-
+    private LinkedList<String> _listDataHeader;
 
     private HashMap<String, List<PropertyItem>> hashMap;
 
-    public EcsExpandableListAdapter(Context context, ButtonConfig buttonConfig) {
-        this._context = context;
-        hashMap = new HashMap<>();
 
-        for(PropertyItem propertyItem:buttonConfig.property){
-            hashMap.put(propertyItem.name,propertyItem.getProperty());
-        }
-        this._listDataHeader = new LinkedList<>(hashMap.keySet());
+    public EcsExpandableListAdapter(Context context,LinkedList<String> _listDataHeader,HashMap<String, List<PropertyItem>> hashMap) {
+        this._context = context;
+        this.hashMap = hashMap;
+        this._listDataHeader = _listDataHeader;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
+    public Object getChild(int groupPosition, int childPosition) {
         return hashMap.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+                .get(childPosition);
     }
 
     @Override
@@ -56,9 +52,9 @@ public class EcsExpandableListAdapter extends BaseExpandableListAdapter {
         final PropertyItem propertyItem = (PropertyItem) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater inflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.item_child, null);
+            convertView = inflater.inflate(R.layout.item_child, null);
         }
 
         TextView txtListChild = (TextView) convertView
@@ -70,8 +66,6 @@ public class EcsExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-
-
         return hashMap.get(this._listDataHeader.get(groupPosition))
                 .size();
     }
@@ -107,6 +101,28 @@ public class EcsExpandableListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(headerTitle);
 
         return convertView;
+    }
+
+    public void gotoResultScreen(PropertyItem propertyItem) {
+        Intent intent = new Intent(_context, EcsDemoResultActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("property",propertyItem);
+
+        intent.putExtras(bundle);
+        _context.startActivity(intent);
+    }
+
+    public PropertyItem getPropertyItemFromButtonHeaderName(ButtonConfig buttonConfig,String headerTitle) {
+
+        List<PropertyItem> property = buttonConfig.property;
+
+        for(PropertyItem propertyItem:property){
+            if(propertyItem.name.equalsIgnoreCase(headerTitle)){
+                return propertyItem;
+            }
+        }
+        return null;
     }
 
     @Override

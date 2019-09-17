@@ -14,14 +14,13 @@ public class PropertyItem implements Serializable {
 	@SerializedName("type")
 	public String type;
 
+	@SerializedName("apiNumber")
+	public int apiNumber;
+
 	@SerializedName("property")
-	public List<PropertyItem> property;
+	public List<PropertyItem> property = new ArrayList<>();
 
 	public List<PropertyItem> getProperty() {
-		if(property == null){
-			property = new ArrayList<>();
-		}
 		return property;
 	}
-
 }

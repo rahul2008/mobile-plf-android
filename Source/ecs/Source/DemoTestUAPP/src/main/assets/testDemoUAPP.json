@@ -3,58 +3,66 @@
     "id": 12345,
     "property": [{
       "type": "button",
-      "name": "isHybris"
+      "name": "isHybris",
+      "apiNumber": 0
     },
       {
         "type": "button",
-        "name": "fetch Config"
+        "name": "fetch Config",
+        "apiNumber": 1
       },
       {
         "type": "button",
-        "name": "Authenticate"
+        "name": "Authenticate",
+        "apiNumber": 2
       },
       {
         "type": "button",
-        "name": "Refresh OAuth"
+        "name": "Refresh OAuth",
+        "apiNumber": 3
       },
       {
         "type": "button",
-        "name": "Fetch Product"
+        "name": "Fetch Product",
+        "apiNumber": 4
       },
       {
         "type": "button",
-        "name": "Fetch Product for CTN"
-      },
-      {
-        "type": "toggle button",
-        "name": "Enable hybris"
+        "name": "Fetch Product for CTN",
+        "apiNumber": 5
       },
       {
         "type": "button",
-        "name": "Fetch Product Summary"
+        "name": "Fetch Product Summary",
+        "apiNumber": 6
       },
       {
         "type": "button",
-        "name": "Fetch Product Detail"
+        "name": "Fetch Product Detail",
+        "apiNumber": 7
       },
       {
         "type": "button",
         "name": "cart",
         "property": [{
           "type": "button",
-          "name": "Fetch Shopping Cart"
+          "name": "Fetch Shopping Cart",
+          "apiNumber": 8
         },
           {
             "type": "button",
-            "name": "Create ShoppingCart"
+            "name": "Create ShoppingCart",
+            "apiNumber": 9
           },
           {
             "type": "button",
-            "name": "Add Product To ShoppingCart"
+            "name": "Add Product To ShoppingCart",
+            "apiNumber": 10
           },
           {
             "type": "button",
-            "name": "Update Shopping Cart"
+            "name": "Update Shopping Cart",
+            "apiNumber": 11
           }
         ]
       },
@@ -67,11 +75,13 @@
         },
           {
             "type": "button",
-            "name": "Fetch Applied Vouchers"
+            "name": "Fetch Applied Vouchers",
+            "apiNumber": 12
           },
           {
             "type": "button",
-            "name": "Remove Voucher"
+            "name": "Remove Voucher",
+            "apiNumber": 13
           }
         ]
       },
@@ -80,11 +90,13 @@
         "name": "Delivery Mode",
         "property": [{
           "type": "button",
-          "name": "Fetch Delivery Mode"
+          "name": "Fetch Delivery Mode",
+          "apiNumber": 14
         },
           {
             "type": "button",
-            "name": "Set Delivery Mode"
+            "name": "Set Delivery Mode",
+            "apiNumber": 15
           }
         ]
       },
@@ -93,73 +105,85 @@
         "name": "Address",
         "property": [{
           "type": "button",
-          "name": "Fetch Saved Addresses"
+          "name": "Fetch Saved Addresses",
+          "apiNumber": 16
         },
           {
             "type": "button",
-            "name": "Create Address"
+            "name": "Create Address",
+            "apiNumber": 17
           },
           {
             "type": "button",
-            "name": "Create and Fetch Address"
+            "name": "Create and Fetch Address",
+            "apiNumber": 18
           },
           {
             "type": "button",
-            "name": "Set Delivery Address"
+            "name": "Set Delivery Address",
+            "apiNumber": 19
           },
           {
             "type": "button",
-            "name": "Set and Fetch Delivery Address"
+            "name": "Set and Fetch Delivery Address",
+            "apiNumber": 20
           },
           {
             "type": "button",
-            "name": "Update Address"
+            "name": "Update Address",
+            "apiNumber": 21
           },
           {
             "type": "button",
-            "name": "Update and Fetch Address"
+            "name": "Update and Fetch Address",
+            "apiNumber": 22
           },
           {
             "type": "button",
-            "name": "Delete Address"
+            "name": "Delete Address",
+            "apiNumber": 23
           },
           {
             "type": "button",
-            "name": "Delete and Fetch Address"
+            "name": "Delete and Fetch Address",
+            "apiNumber": 24
           }
         ]
       },
       {
         "type": "button",
-        "name": "Payment"
+        "name": "Payment",
+        "apiNumber": 25
       },
       {
         "type": "button",
-        "name": "Submit Order"
+        "name": "Submit Order",
+        "apiNumber": 26
       },
       {
         "type": "button",
-        "name": "Fetch Retailers for CTN"
+        "name": "Fetch Retailers for CTN",
+        "apiNumber": 27
       },
       {
         "type": "button",
-        "name": "Fetch Retailers for Product"
+        "name": "Fetch Retailers for Product",
+        "apiNumber": 28
       },
       {
         "type": "button",
-        "name": "Fetch Order history"
+        "name": "Fetch Order history",
+        "apiNumber": 29
       },
       {
         "type": "button",
-        "name": "Fetch Order Detail"
+        "name": "Fetch Order Detail",
+        "apiNumber": 30
       },
       {
         "type": "button",
-        "name": "Fetch Profile"
-      },
-      {
-        "type": "button",
-        "name": "Fetch Profile"
+        "name": "Fetch Profile",
+        "apiNumber": 31
       }
     ]
   }
