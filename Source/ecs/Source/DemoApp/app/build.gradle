@@ -20,6 +20,10 @@ buildscript {
 
 archivesBaseName = 'ecsApp'
 
+signingConfigs {
+    release
+}
+
 android {
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
@@ -34,9 +38,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            shrinkResources false
-            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
 
         }
 

@@ -52,9 +52,7 @@ artifactory {
     // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
-task (hello) << {
-    println objcdp.getArtifactoryResolveRepoKey()
-}
+
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
