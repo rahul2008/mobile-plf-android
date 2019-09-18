@@ -38,15 +38,15 @@ android {
 
     buildTypes {
         release {
+            inifyEnabled false
             signingConfig signingConfigs.debug
 
         }
 
         debug {
             minifyEnabled false
-            shrinkResources false
             debuggable true
-            proguardFile 'proguard-rules.pro'
+
         }
     }
 
@@ -59,9 +59,7 @@ android {
 }
 
 dependencies {
-    debugImplementation deps.leakcanary
-    releaseImplementation deps.leakcanary_no_op
-    testImplementation deps.leakcanary_no_op
+
 
     implementation project(strings.ecsuapp.projectName)
 
