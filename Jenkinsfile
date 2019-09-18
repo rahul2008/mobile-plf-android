@@ -487,7 +487,6 @@ def BuildLint() {
          :digitalCare:lint \
          :mya:lint \
          :pif:lint \
-         :philipsecommercesdk:lint \
          :themesettings:lintRelease
         #prx:lint and rap:lintRelease are not working and we are keeping it as known issues
     '''
