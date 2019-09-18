@@ -77,8 +77,8 @@ project(ext.strings.pimuapp.projectName).projectDir = new File('./Source/pim/Sou
 project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/Library/pim')
 
 
-/*project(ext.strings.ecsuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoUApp')
-project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')*/
+project(ext.strings.ecsuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoUApp')
+project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
 
 
 
@@ -103,11 +103,11 @@ project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/
 //project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
 //include(':ecsApp')
 //project(':ecsApp').projectDir = new File('./Source/ecs/Source/DemoApp/app')
-include(':ecsUApp')
+/*include(':ecsUApp')
 project(':ecsUApp').projectDir = new File('./Source/ecs/Source/DemoUApp')
 
 include(':philipsecommercesdk')
-project(':philipsecommercesdk').projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
+project(':philipsecommercesdk').projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')*/
 
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
