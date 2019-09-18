@@ -220,10 +220,10 @@ public interface AppTaggingInterface extends Serializable {
 	 */
 	String getTrackingIdentifier();
 	/**
-	 * @return an String value containing the tracking identifier
-	 * @brief Retrieves the analytics tracking identifier
+	 * @return an String value containing the Visitor identifier to append with given URL
+	 * @brief Retrieves the analytics Visitor identifier
 	 * @note This method can cause a blocking network call and should not be used from a UI thread.
-	 * @since 1.0.0
+	 * @since 1904
 	 */
 	String getVisitorIDAppendToURL(String url);
 
