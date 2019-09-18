@@ -63,8 +63,6 @@ public class PIMFragmentTest extends TestCase {
     private PIMFragment pimFragment;
 
     @Mock
-    AppTaggingInterface mockTaggingInterface;
-    @Mock
     private AppInfraInterface mockAppInfraInterface;
     @Mock
     private PIMOIDCConfigration mockPimoidcConfigration;
@@ -129,8 +127,11 @@ public class PIMFragmentTest extends TestCase {
 
     @Test
     public void testInitSuccessUserLoggedIn() throws Exception {
-        when(mockUserManager.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
+        AppTaggingInterface mockTaggingInterface = mock(AppTaggingInterface.class);
+        when(mockPimSettingManager.getTaggingInterface()).thenReturn(mockTaggingInterface);
         when(mockTaggingInterface.getVisitorIDAppendToURL("http://")).thenReturn("adobe_mc=TS%3D1568801124%7CMCMID%3D08423335634566345415592103512568266387%7CMCORGID%3D7D976F3055DC96AB7F000101%40AdobeOrg");
+
+        when(mockUserManager.getUserLoggedInState()).thenReturn(UserLoggedInState.USER_LOGGED_IN);
 
         Map<String, ServiceDiscoveryService> serviceIdList = new HashMap<>();
         serviceIdList.put("userreg.janrainoidc.userprofile", new ServiceDiscoveryService());
