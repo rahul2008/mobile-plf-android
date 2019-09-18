@@ -6,14 +6,14 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = strings.ecsuapp.artifactName
 
-buildscript {
+/*buildscript {
     apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
 
     dependencies {
         classpath builddeps.gradle
         classpath builddeps.buildinfoextractor
     }
-}
+}*/
 
 android {
     compileSdkVersion versions.sdk
@@ -70,6 +70,7 @@ dependencies {
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.ecs.projectName)
+       // implementation project(path: strings.ecs.projectName, configuration: 'default')
     } else {
        // implementation philipsdeps.iap
         implementation philipsdeps.prx

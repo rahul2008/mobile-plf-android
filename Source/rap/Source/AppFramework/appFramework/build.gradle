@@ -245,6 +245,7 @@ dependencies {
         implementation philipsdeps.pif
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
+        implementation philipsdeps.philipsecommercesdk
 
         implementation philipsdeps.productselection
         implementation philipsdeps.prx

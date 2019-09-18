@@ -80,6 +80,9 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 project(ext.strings.ecsuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoUApp')
 project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
 
+
+
+
 //demoapps to be published to artifactory
 //include ':UserRegistrationApp'
 //project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
