@@ -9,6 +9,16 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
 archivesBaseName =  strings.ecs.artifactName
 
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        //classpath builddeps.cdpSCM
+    }
+}
+
 android {
     signingConfigs {
         release
@@ -19,7 +29,7 @@ android {
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-
+        multiDexEnabled true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionName version + "(" + commitHash+ ")"
@@ -31,9 +41,7 @@ android {
         debug {
             testCoverageEnabled = true
         }
-        release {
-            testCoverageEnabled = true
-        }
+
     }
 
     sourceSets {
@@ -74,7 +82,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation deps.json
 
-}
-repositories {
-    mavenCentral()
 }
