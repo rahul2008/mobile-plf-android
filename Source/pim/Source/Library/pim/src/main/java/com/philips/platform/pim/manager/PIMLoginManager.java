@@ -39,7 +39,7 @@ public class PIMLoginManager {
     private AppTaggingInterface mTaggingInterface;
     private PIMUserManager mPimUserManager;
 
-    public PIMLoginManager(Context context,PIMOIDCConfigration pimoidcConfigration) {
+    public PIMLoginManager(Context context, PIMOIDCConfigration pimoidcConfigration) {
         mPimoidcConfigration = pimoidcConfigration;
         mPimAuthManager = new PIMAuthManager(context);
         mLoggingInterface = PIMSettingManager.getInstance().getLoggingInterface();
@@ -47,14 +47,14 @@ public class PIMLoginManager {
         mPimUserManager = PIMSettingManager.getInstance().getPimUserManager();
     }
 
-     public Intent getAuthReqIntent(@NonNull PIMLoginListener pimLoginListener) throws ActivityNotFoundException {
+    public Intent getAuthReqIntent(@NonNull PIMLoginListener pimLoginListener) throws ActivityNotFoundException {
         mPimLoginListener = pimLoginListener;
         String clientID = mPimoidcConfigration.getClientId();
         String redirectUrl = mPimoidcConfigration.getRedirectUrl();
-        return mPimAuthManager.getAuthorizationRequestIntent(mPimoidcConfigration.getAuthorizationServiceConfiguration(), clientID, redirectUrl,createAdditionalParameterForLogin());
+        return mPimAuthManager.getAuthorizationRequestIntent(mPimoidcConfigration.getAuthorizationServiceConfiguration(), clientID, redirectUrl, createAdditionalParameterForLogin());
     }
 
-    public boolean isAuthorizationSuccess(Intent intentData){
+    public boolean isAuthorizationSuccess(Intent intentData) {
         return mPimAuthManager.isAuthorizationSuccess(intentData);
     }
 
@@ -66,7 +66,7 @@ public class PIMLoginManager {
                     @Override
                     public void onUserProfileDownloadSuccess() {
                         mPimUserManager.saveLoginFlowType(PIMUserManager.LOGIN_FLOW.DEFAULT);
-                           mPimLoginListener.onLoginSuccess();
+                        mPimLoginListener.onLoginSuccess();
                     }
 
                     @Override
@@ -84,11 +84,11 @@ public class PIMLoginManager {
         });
     }
 
-    public AuthorizationRequest createAuthRequestUriForMigration(Map additionalParameter){
+    public AuthorizationRequest createAuthRequestUriForMigration(Map additionalParameter) {
         return mPimAuthManager.createAuthRequestUriForMigration(additionalParameter);
     }
 
-    public void exchangeAuthorizationCodeForMigration(AuthorizationRequest authorizationRequest, String authResponse, PIMUserMigrationListener pimUserMigrationListener){
+    public void exchangeAuthorizationCodeForMigration(AuthorizationRequest authorizationRequest, String authResponse, PIMUserMigrationListener pimUserMigrationListener) {
         mPimAuthManager.performTokenRequest(authorizationRequest, authResponse, new PIMTokenRequestListener() {
             @Override
             public void onTokenRequestSuccess() {
@@ -117,6 +117,7 @@ public class PIMLoginManager {
 
     /**
      * Creates additional parameter for authorization request intent
+     *
      * @return map containing additional parameter in key-value pair
      */
     private Map<String, String> createAdditionalParameterForLogin() {
@@ -128,10 +129,10 @@ public class PIMLoginManager {
         parameter.put("analytics_consent", String.valueOf(bool));
         String urlString = "http://";
         String[] urlStringWithVisitorData = mTaggingInterface.getVisitorIDAppendToURL(urlString).split("=");
-        mLoggingInterface.log(DEBUG, TAG, "External URL with Adobe_mc : "+urlStringWithVisitorData[1]);
-        parameter.put("adobe_mc",urlStringWithVisitorData[1] );
+        mLoggingInterface.log(DEBUG, TAG, "External URL with Adobe_mc : " + urlStringWithVisitorData[1]);
+        parameter.put("adobe_mc", urlStringWithVisitorData[1]);
         parameter.put("ui_locales", PIMSettingManager.getInstance().getLocale());
-        parameter.put("analytics_report_suite_id",new PIMOIDCConfigration().getrsID());
+        parameter.put("analytics_report_suite_id", new PIMOIDCConfigration().getrsID());
         mLoggingInterface.log(DEBUG, TAG, "Additional parameters : " + parameter.toString());
         return parameter;
     }
