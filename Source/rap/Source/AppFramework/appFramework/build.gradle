@@ -268,6 +268,7 @@ dependencies {
 
         implementation project(strings.tse.projectName)
         implementation philipsdeps.AppInfraUApp
+        implementation philipsdeps.ecsuapp
     }
     testImplementation deps.json
     testImplementation deps.junit

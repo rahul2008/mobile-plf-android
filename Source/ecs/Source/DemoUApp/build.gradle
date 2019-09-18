@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/lib.gradle'
 
 archivesBaseName = strings.ecsuapp.artifactName
 
@@ -19,12 +20,8 @@ android {
     buildToolsVersion versions.buildtools
 
     defaultConfig {
-        minSdkVersion versions.minsdk
-        targetSdkVersion versions.target
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionName version + "(" + commitHash+ ")"
+        multiDexEnabled true
 
     }
 
@@ -63,7 +60,7 @@ dependencies {
 
     testImplementation deps.junit
     implementation philipsdeps.uid
-    implementation project(strings.ecs.projectName)
+
    // implementation project(path: ':philipsecommercesdk')
     if (useprojectdependencies) {
        // implementation project(strings.iap.projectName)
@@ -72,6 +69,7 @@ dependencies {
         implementation project(strings.ail.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
+        implementation project(strings.ecs.projectName)
     } else {
        // implementation philipsdeps.iap
         implementation philipsdeps.prx
@@ -79,6 +77,7 @@ dependencies {
         implementation philipsdeps.registrationApi
         implementation philipsdeps.AppInfra
         implementation philipsdeps.uAppFwLib
+        implementation philipsdeps.philipsecommercesdk
     }
 }
 
