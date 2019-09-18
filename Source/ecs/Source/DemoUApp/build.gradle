@@ -48,10 +48,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation deps.support.appcompatv7
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
 
     implementation deps.volley
     implementation deps.calligraphy
@@ -61,7 +60,7 @@ dependencies {
     testImplementation deps.junit
     implementation philipsdeps.uid
 
-   // implementation project(path: ':philipsecommercesdk')
+   implementation project(path: ':philipsecommercesdk' , configuration: 'default')
     if (useprojectdependencies) {
        // implementation project(strings.iap.projectName)
         implementation project(strings.prx.projectName)
@@ -69,7 +68,7 @@ dependencies {
         implementation project(strings.ail.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.pif.projectName)
-        implementation project(strings.ecs.projectName)
+      //  implementation project(strings.ecs.projectName)
        // implementation project(path: strings.ecs.projectName, configuration: 'default')
     } else {
        // implementation philipsdeps.iap

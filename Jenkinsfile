@@ -464,7 +464,6 @@ def GenerateJavaDocs() {
         :digitalCare:generateJavadocPublicApi \
         :iap:generateJavadocPublicApi \
         :product-registration-lib:generateJavadocPublicApi \
-        :philipsecommercesdk:generateJavadocPublicApi \
         :referenceApp:generateJavadocPublicApi \
 '''
 }
@@ -643,7 +642,7 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :referenceApp:printPlatformVersion :philipsecommercesdk:printPlatformVersion
+        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :referenceApp:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
  
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/AppInfra/$platformVersion/ -T ./Source/ail/Documents/External/AppInfra-api.zip
@@ -654,7 +653,6 @@ def DeployingJavaDocs() {
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/product-registration-lib/$platformVersion/ -T ./Source/prg/Documents/External/product-registration-lib-api.zip
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/productselection/$platformVersion/ -T ./Source/pse/Documents/External/productselection-api.zip
         
-        curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/philipsecommercesdk/$platformVersion/ -T ./Source/ecs/Documents/External/philipsecommercesdk-api.zip
 
 
         if [ $? != 0 ]
@@ -730,7 +728,6 @@ def PublishAcceptanceTestsResults() {
  * reportName: The name of the report to display.
  */
 def PublishJavaDocs() {
-    publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ail/Documents/External/philipsecommercesdk-api", reportFiles: 'index.html', reportName: "philipsecommercesdk Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/ail/Documents/External/AppInfra-api", reportFiles: 'index.html', reportName: "AppInfra Library API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/dcc/Documents/External/digitalCare-api", reportFiles: 'index.html', reportName: "dcc Digital careLibrary API documentation"])
     publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Source/iap/Documents/External/iap-api", reportFiles: 'index.html', reportName: "iapp Inapp purchase Library API documentation"])
