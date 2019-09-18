@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.adobe.mobile.Visitor;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -143,17 +144,20 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
      */
     private void launchUserProfilePage(String userProfileUrl) {
         String clientId;
-        if (PIMSettingManager.getInstance().getPimUserManager().getLoginFlow() == PIMUserManager.LOGIN_FLOW.MIGRATION) {
+        PIMSettingManager pimSettingManager = PIMSettingManager.getInstance();
+        if (pimSettingManager.getPimUserManager().getLoginFlow() == PIMUserManager.LOGIN_FLOW.MIGRATION) {
             clientId = pimoidcConfigration.getMigrationClientId();
         } else
             clientId = pimoidcConfigration.getClientId();
         StringBuilder url = new StringBuilder();
+        String urlWithVisitorId = pimSettingManager.getTaggingInterface().getVisitorIDAppendToURL(url.toString());
+
         try {
             Formatter fmt = new Formatter(url);
-            fmt.format(userProfileUrl, clientId, PIMSettingManager.getInstance().getLocale());
+            fmt.format(userProfileUrl, clientId, pimSettingManager.getLocale());
             Intent authReqIntent = new Intent(Intent.ACTION_VIEW);
             authReqIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            authReqIntent.setData(Uri.parse(url.toString()));
+            authReqIntent.setData(Uri.parse(urlWithVisitorId));
             startActivityForResult(authReqIntent, 200);
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching user profile page failed."

@@ -1,4 +1,7 @@
 {
+  "marketingCloud": {
+    "org": "7D976F3055DC96AB7F000101@AdobeOrg"
+  },
   "version": "1.0",
   "acquisition": {
     "server": "c00.adobe.com"

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.adobe.mobile.Analytics;
+import com.adobe.mobile.Visitor;
 import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
@@ -124,11 +125,15 @@ public class PIMLoginManager {
         boolean bool;
         bool = privacyConsent.equals(AppTaggingInterface.PrivacyStatus.OPTIN);
         parameter.put("analytics_consent", String.valueOf(bool));
-        if (Analytics.getTrackingIdentifier() != null) {
-            parameter.put("analytics_adobe_mc", mTaggingInterface.getTrackingIdentifier());
-        } else {
-            mLoggingInterface.log(DEBUG, TAG, "ADBMobile tracking Identifier is not set.");
-        }
+        String urlString = "http://";
+        String[] urlStringWithVisitorData = mTaggingInterface.getVisitorIDAppendToURL(urlString).split("=");
+        parameter.put("adobe_mc",urlStringWithVisitorData[1] );
+
+//        if (Analytics.getTrackingIdentifier() != null) {
+//            parameter.put("analytics_adobe_mc", mTaggingInterface.getTrackingIdentifier());
+//        } else {
+//            mLoggingInterface.log(DEBUG, TAG, "ADBMobile tracking Identifier is not set.");
+//        }
         parameter.put("ui_locales", PIMSettingManager.getInstance().getLocale());
         parameter.put("analytics_report_suite_id",new PIMOIDCConfigration().getrsID());
         mLoggingInterface.log(DEBUG, TAG, "Additional parameters : " + parameter.toString());

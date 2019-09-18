@@ -219,6 +219,13 @@ public interface AppTaggingInterface extends Serializable {
 	 * @since 1.0.0
 	 */
 	String getTrackingIdentifier();
+	/**
+	 * @return an String value containing the tracking identifier
+	 * @brief Retrieves the analytics tracking identifier
+	 * @note This method can cause a blocking network call and should not be used from a UI thread.
+	 * @since 1.0.0
+	 */
+	String getVisitorIDAppendToURL(String url);
 
 	/**
 	 * UnRegister for the Tagging data .
