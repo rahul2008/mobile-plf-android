@@ -11,6 +11,4 @@ public class ButtonConfig implements Serializable {
 
 	@SerializedName("id")
 	public int id;
-
-
 }

@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.activity.EcsDemoResultActivity;
+import com.ecs.demotestuapp.activity.FetchProductsInputActivity;
+import com.ecs.demotestuapp.activity.SetDeliveryModeInputActivity;
 import com.ecs.demotestuapp.model.ButtonConfig;
 import com.ecs.demotestuapp.model.PropertyItem;
 
@@ -104,7 +106,12 @@ public class EcsExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public void gotoResultScreen(PropertyItem propertyItem) {
+
         Intent intent = new Intent(_context, EcsDemoResultActivity.class);
+        if(propertyItem.needInput){
+            intent = getInputScreenIntent(propertyItem);
+        }
+
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("property",propertyItem);
@@ -113,7 +120,21 @@ public class EcsExpandableListAdapter extends BaseExpandableListAdapter {
         _context.startActivity(intent);
     }
 
-    public PropertyItem getPropertyItemFromButtonHeaderName(ButtonConfig buttonConfig,String headerTitle) {
+    private Intent getInputScreenIntent(PropertyItem propertyItem) {
+
+        switch (propertyItem.apiNumber){
+
+            case 4:
+                return new Intent(_context, FetchProductsInputActivity.class);
+
+            case 15:
+                return new Intent(_context, SetDeliveryModeInputActivity.class);
+
+        }
+        return new Intent(_context, EcsDemoResultActivity.class);
+    }
+
+    public PropertyItem getPropertyItemFromButtonHeaderName(ButtonConfig buttonConfig, String headerTitle) {
 
         List<PropertyItem> property = buttonConfig.property;
 

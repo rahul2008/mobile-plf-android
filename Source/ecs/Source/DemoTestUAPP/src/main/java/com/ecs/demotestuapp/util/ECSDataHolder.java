@@ -6,6 +6,7 @@ import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
@@ -14,6 +15,19 @@ import java.util.List;
 public enum  ECSDataHolder {
 
     INSTANCE;
+
+    ECSConfig ecsConfig;
+    ECSOAuthData ecsoAuthData;
+    String propositionID;
+    ECSUserProfile ecsUserProfile;
+    List<ECSDeliveryMode> ecsDeliveryModes;
+    ECSDeliveryMode ecsDeliveryMode;
+    ECSProducts ecsProducts;
+    List<ECSAddress> ecsAddressList;
+    ECSShoppingCart ecsShoppingCart;
+    String janrainID;
+
+
 
     public ECSServices getEcsServices() {
         return ecsServices;
@@ -53,11 +67,26 @@ public enum  ECSDataHolder {
         this.ecsUserProfile = ecsUserProfile;
     }
 
-    ECSConfig ecsConfig;
-    ECSOAuthData ecsoAuthData;
-    String propositionID;
-    ECSUserProfile ecsUserProfile;
-    List<ECSDeliveryMode> ecsDeliveryModes;
+
+
+    public ECSDeliveryMode getEcsDeliveryMode() {
+        return ecsDeliveryMode;
+    }
+
+    public void setEcsDeliveryMode(ECSDeliveryMode ecsDeliveryMode) {
+        this.ecsDeliveryMode = ecsDeliveryMode;
+    }
+
+    public ECSProducts getEcsProducts() {
+        return ecsProducts;
+    }
+
+    public void setEcsProducts(ECSProducts ecsProducts) {
+        this.ecsProducts = ecsProducts;
+    }
+
+
+
 
     public List<ECSAddress> getEcsAddressList() {
         return ecsAddressList;
@@ -67,7 +96,7 @@ public enum  ECSDataHolder {
         this.ecsAddressList = ecsAddressList;
     }
 
-    List<ECSAddress> ecsAddressList;
+
 
     public List<ECSDeliveryMode> getEcsDeliveryModes() {
         return ecsDeliveryModes;
@@ -97,13 +126,13 @@ public enum  ECSDataHolder {
         this.ecsShoppingCart = ecsShoppingCart;
     }
 
-    ECSShoppingCart ecsShoppingCart;
+
 
     public String getJanrainID() {
         return janrainID;
     }
 
-    String janrainID;
+
 
     public void setECSService(ECSServices ecsServices) {
         this.ecsServices = ecsServices;
@@ -111,5 +140,19 @@ public enum  ECSDataHolder {
 
     public void setJanrainID(String janrainID) {
         this.janrainID = janrainID;
+    }
+
+    public void resetData(){
+
+        ecsConfig = null;
+        ecsoAuthData = null;
+        propositionID = null;
+        ecsUserProfile = null;
+        ecsDeliveryModes = null;
+        ecsDeliveryMode = null;
+        ecsProducts = null;
+        ecsAddressList = null;
+        ecsShoppingCart = null;
+        janrainID = null;
     }
 }

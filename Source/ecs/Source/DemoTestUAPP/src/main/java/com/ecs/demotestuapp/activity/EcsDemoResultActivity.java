@@ -21,6 +21,7 @@ import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
@@ -150,6 +151,18 @@ public class EcsDemoResultActivity extends AppCompatActivity {
 
             case 4:
 
+                ECSDataHolder.INSTANCE.getEcsServices().fetchProducts(propertyItem.fetchProductInput.pageNumber, propertyItem.fetchProductInput.pageSize, new ECSCallback<ECSProducts, Exception>() {
+                    @Override
+                    public void onResponse(ECSProducts result) {
+                        ECSDataHolder.INSTANCE.setEcsProducts(result);
+                        showSuccess(getJsonStringFromObject(result));
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, ECSError ecsError) {
+                        showError(error, ecsError);
+                    }
+                });
                 break;
 
             case 5:
@@ -227,6 +240,19 @@ public class EcsDemoResultActivity extends AppCompatActivity {
                 break;
             case 15:
 
+                ECSDataHolder.INSTANCE.getEcsServices().setDeliveryMode(ECSDataHolder.INSTANCE.getEcsDeliveryMode(), new ECSCallback<Boolean, Exception>() {
+                    @Override
+                    public void onResponse(Boolean result) {
+                        progressBar.setVisibility(View.GONE);
+                        tvResult.setVisibility(View.VISIBLE);
+                        tvResult.setText("Success\n\n"+result);
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, ECSError ecsError) {
+                        showError(error, ecsError);
+                    }
+                });
                 break;
             case 16:
 

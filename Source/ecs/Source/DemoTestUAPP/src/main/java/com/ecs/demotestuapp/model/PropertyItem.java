@@ -17,6 +17,12 @@ public class PropertyItem implements Serializable {
 	@SerializedName("apiNumber")
 	public int apiNumber;
 
+	@SerializedName("needInput")
+	public boolean needInput;
+
+	@SerializedName("fetchProductInput")
+	public FetchProductInput fetchProductInput;
+
 	@SerializedName("property")
 	public List<PropertyItem> property = new ArrayList<>();
 

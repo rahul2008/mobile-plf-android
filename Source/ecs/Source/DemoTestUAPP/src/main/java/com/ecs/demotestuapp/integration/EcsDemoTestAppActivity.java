@@ -35,9 +35,6 @@ import com.philips.platform.pif.DataInterface.USR.listeners.LogoutSessionListene
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.view.widget.Button;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -297,10 +294,13 @@ public class EcsDemoTestAppActivity extends AppCompatActivity implements View.On
 
     public void set(View view) {
 
+        ECSDataHolder.INSTANCE.resetData();
         ECSDataHolder.INSTANCE.getEcsServices().setPropositionID(etPropositionID.getText().toString().trim());
     }
 
     public void remove(View view) {
+        etPropositionID.setText("");
+        ECSDataHolder.INSTANCE.resetData();
         ECSDataHolder.INSTANCE.getEcsServices().setPropositionID(null);
     }
 
