@@ -1,0 +1,193 @@
+{
+  "type": "cartWsDTO",
+  "calculated": true,
+  "code": "24012645491",
+  "deliveryItemsQuantity": 2,
+  "deliveryOrderGroups": [
+    {
+      "entries": [
+        {
+          "basePrice": {
+            "currencyIso": "EUR",
+            "formattedValue": "129,99 €",
+            "priceType": "BUY",
+            "value": 129.99
+          },
+          "entryNumber": 0,
+          "product": {
+            "availableForPickup": false,
+            "categories": [
+              {
+                "code": "BLENDERS_SU2",
+                "url": "/haushaltsgeraete/kuechengeraete/c/BLENDERS_SU2"
+              }
+            ],
+            "code": "HR3652/00",
+            "configurable": false,
+            "isTaxExemptionApplicable": false,
+            "name": "HR3652/00",
+            "price": {
+              "currencyIso": "EUR",
+              "formattedValue": "189,99 €",
+              "priceType": "BUY",
+              "value": 189.99
+            },
+            "productType": "Normal",
+            "purchasable": true,
+            "stock": {
+              "stockLevel": 58,
+              "stockLevelStatus": "inStock"
+            },
+            "url": "/haushaltsgeraete/kuechengeraete/avance-collection-standmixer/p/HR3652_00"
+          },
+          "quantity": 2,
+          "totalPrice": {
+            "currencyIso": "EUR",
+            "formattedValue": "259,98 €",
+            "priceType": "BUY",
+            "value": 259.98
+          },
+          "updateable": true,
+          "vertexTaxAmount": {
+            "currencyIso": "EUR",
+            "formattedValue": "41,51 €",
+            "priceType": "BUY",
+            "value": 41.51
+          },
+          "vertexTaxPercent": 19
+        }
+      ],
+      "totalPriceWithTax": {
+        "currencyIso": "EUR",
+        "formattedValue": "301,49 €",
+        "priceType": "BUY",
+        "value": 301.49
+      }
+    }
+  ],
+  "entries": [
+    {
+      "basePrice": {
+        "currencyIso": "EUR",
+        "formattedValue": "129,99 €",
+        "priceType": "BUY",
+        "value": 129.99
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [
+          {
+            "code": "BLENDERS_SU2",
+            "url": "/haushaltsgeraete/kuechengeraete/c/BLENDERS_SU2"
+          }
+        ],
+        "code": "HR3652/00",
+        "configurable": false,
+        "isTaxExemptionApplicable": false,
+        "name": "HR3652/00",
+        "price": {
+          "currencyIso": "EUR",
+          "formattedValue": "189,99 €",
+          "priceType": "BUY",
+          "value": 189.99
+        },
+        "productType": "Normal",
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 58,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "/haushaltsgeraete/kuechengeraete/avance-collection-standmixer/p/HR3652_00"
+      },
+      "quantity": 2,
+      "totalPrice": {
+        "currencyIso": "EUR",
+        "formattedValue": "259,98 €",
+        "priceType": "BUY",
+        "value": 259.98
+      },
+      "updateable": true,
+      "vertexTaxAmount": {
+        "currencyIso": "EUR",
+        "formattedValue": "41,51 €",
+        "priceType": "BUY",
+        "value": 41.51
+      },
+      "vertexTaxPercent": 19
+    }
+  ],
+  "guid": "4bb046ba-aa70-429b-830b-27253f1dc453",
+  "net": false,
+  "orderDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "pickupItemsQuantity": 0,
+  "productDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "site": "DE_Pub",
+  "store": "DE_Pub",
+  "subTotal": {
+    "currencyIso": "EUR",
+    "formattedValue": "259,98 €",
+    "priceType": "BUY",
+    "value": 259.98
+  },
+  "totalDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "totalItems": 1,
+  "totalPrice": {
+    "currencyIso": "EUR",
+    "formattedValue": "259,98 €",
+    "priceType": "BUY",
+    "value": 259.98
+  },
+  "totalPriceWithTax": {
+    "currencyIso": "EUR",
+    "formattedValue": "259,98 €",
+    "priceType": "BUY",
+    "value": 259.98
+  },
+  "totalTax": {
+    "currencyIso": "EUR",
+    "formattedValue": "41,51 €",
+    "priceType": "BUY",
+    "value": 41.51
+  },
+  "totalDiscountsWithoutDelivery": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "totalOrderDiscountsWithoutDelivery": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "totalPriceWithoutDelivery": {
+    "currencyIso": "EUR",
+    "formattedValue": "259,98 €",
+    "priceType": "BUY",
+    "value": 259.98
+  },
+  "totalProductDiscountsWithoutDelivery": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 €",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "totalUnitCount": 2
+}

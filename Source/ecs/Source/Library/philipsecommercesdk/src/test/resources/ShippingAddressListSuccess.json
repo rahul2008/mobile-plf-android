@@ -1,0 +1,110 @@
+{
+  "addresses": [
+    {
+      "billingAddress": false,
+      "country": {
+        "isocode": "DE"
+      },
+      "defaultAddress": true,
+      "firstName": "Prasad",
+      "formattedAddress": "<strong>Pani Prasad Germany</strong><br>Avenue Louise 101 101<br>10178 Berlin<br>",
+      "houseNumber": "101",
+      "id": "9316698750999",
+      "lastName": "Germany",
+      "line1": "Avenue Louise 101",
+      "phone": "0491234",
+      "phone1": "0491234",
+      "phone2": "0491234",
+      "postalCode": "10178",
+      "shippingAddress": true,
+      "title": "Pani",
+      "titleCode": "ms.",
+      "town": "Berlin",
+      "visibleInAddressBook": true
+    },
+    {
+      "billingAddress": false,
+      "country": {
+        "isocode": "US"
+      },
+      "defaultAddress": false,
+      "firstName": "New",
+      "formattedAddress": "<strong>Frau New User</strong><br>750 Castries Street <br>Mountain View 94044<br>",
+      "id": "9333206351895",
+      "lastName": "User",
+      "line1": "750 Castries Street",
+      "phone": "9073487890",
+      "phone1": "9073487890",
+      "phone2": "9073487890",
+      "postalCode": "94044",
+      "shippingAddress": true,
+      "title": "Frau",
+      "titleCode": "ms.",
+      "town": "Mountain View",
+      "visibleInAddressBook": true
+    },
+    {
+      "billingAddress": false,
+      "country": {
+        "isocode": "US"
+      },
+      "defaultAddress": false,
+      "firstName": "New",
+      "formattedAddress": "<strong>Frau New User</strong><br>750 Castries Street <br>Mountain View 94044<br>",
+      "id": "9333178925079",
+      "lastName": "User",
+      "line1": "750 Castries Street",
+      "phone": "9073487890",
+      "phone1": "9073487890",
+      "phone2": "9073487890",
+      "postalCode": "94044",
+      "shippingAddress": true,
+      "title": "Frau",
+      "titleCode": "ms.",
+      "town": "Mountain View",
+      "visibleInAddressBook": true
+    },
+    {
+      "billingAddress": false,
+      "country": {
+        "isocode": "US"
+      },
+      "defaultAddress": false,
+      "firstName": "New",
+      "formattedAddress": "<strong>Frau New User</strong><br>750 Castries Street <br>Mountain View 94044<br>",
+      "id": "9333642854423",
+      "lastName": "User",
+      "line1": "750 Castries Street",
+      "phone": "9073487890",
+      "phone1": "9073487890",
+      "phone2": "9073487890",
+      "postalCode": "94044",
+      "shippingAddress": true,
+      "title": "Frau",
+      "titleCode": "ms.",
+      "town": "Mountain View",
+      "visibleInAddressBook": true
+    },
+    {
+      "billingAddress": false,
+      "country": {
+        "isocode": "US"
+      },
+      "defaultAddress": false,
+      "firstName": "New",
+      "formattedAddress": "<strong>Frau New User</strong><br>750 Castries Street <br>Mountain View 94044<br>",
+      "id": "9333882290199",
+      "lastName": "User",
+      "line1": "750 Castries Street",
+      "phone": "9073487890",
+      "phone1": "9073487890",
+      "phone2": "9073487890",
+      "postalCode": "94044",
+      "shippingAddress": true,
+      "title": "Frau",
+      "titleCode": "ms.",
+      "town": "Mountain View",
+      "visibleInAddressBook": true
+    }
+  ]
+}

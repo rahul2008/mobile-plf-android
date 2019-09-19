@@ -1,0 +1,81 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
+
+
+archivesBaseName =  strings.ecs.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        //classpath builddeps.cdpSCM
+    }
+}
+
+android {
+    signingConfigs {
+        release
+    }
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+    defaultConfig {
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.target
+        multiDexEnabled true
+
+
+        versionName version + "(" + commitHash+ ")"
+
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+
+    }
+
+    sourceSets {
+        test {
+            resources.srcDirs += ['src/test/resources']
+        }
+
+    }
+
+}
+
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.support.appcompatv7
+    testImplementation deps.junit
+
+    implementation philipsdeps.AppInfra
+
+
+
+    // Tests
+    testImplementation deps.junit
+    testImplementation deps.mockito
+    testImplementation deps.powermock_api_mockito
+    testImplementation deps.powermock_junit
+    testImplementation deps.powermock_junit_rule
+    testImplementation deps.powermock_classloading_xstream
+    testImplementation deps.robolectric
+    testImplementation deps.robolectric_junit
+    testImplementation deps.robolectric_shadows
+    testImplementation deps.robolectric_utils
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation deps.json
+
+}

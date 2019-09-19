@@ -1,0 +1,294 @@
+{
+  "type": "orderWsDTO",
+  "calculated": true,
+  "code": "24013394293",
+  "deliveryAddress": {
+    "billingAddress": false,
+    "country": {
+      "isocode": "US",
+      "name": "United States"
+    },
+    "defaultAddress": false,
+    "firstName": "Prasad",
+    "formattedAddress": "Prasad Devadiga<\/strong><br>640 NORTH WABASH AVENUE <br>Chicago 60611<br>United States",
+    "id": "9334727639063",
+    "lastName": "Devadiga",
+    "line1": "640 NORTH WABASH AVENUE",
+    "phone": "9999999999",
+    "phone1": "9999999999",
+    "phone2": "9999999999",
+    "postalCode": "60611",
+    "region": {
+      "countryIso": "US",
+      "isocode": "US-IL",
+      "isocodeShort": "IL"
+    },
+    "shippingAddress": true,
+    "titleCode": "mr.",
+    "town": "Chicago",
+    "visibleInAddressBook": true
+  },
+  "deliveryCost": {
+    "currencyIso": "USD",
+    "formattedValue": "10.00 $",
+    "priceType": "BUY",
+    "value": 10
+  },
+  "deliveryItemsQuantity": 1,
+  "deliveryMode": {
+    "code": "STANDARD-GROUND",
+    "deliveryCost": {
+      "currencyIso": "USD",
+      "formattedValue": "10.00 $",
+      "priceType": "BUY",
+      "value": 10
+    },
+    "description": "3-9 business days",
+    "name": "standard ground"
+  },
+  "deliveryOrderGroups": [{
+    "entries": [{
+      "basePrice": {
+        "currencyIso": "USD",
+        "formattedValue": "19.95 $",
+        "priceType": "BUY",
+        "value": 19.95
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [{
+          "code": "AIR_FRYER_ACC_SU",
+          "url": "\/household-products\/cooking-accessories\/c\/AIR_FRYER_ACC_SU"
+        }],
+        "code": "HD9904\/00",
+        "configurable": false,
+        "deliveryTime": "3-9 business days",
+        "isTaxExemptionApplicable": false,
+        "name": "HD9904\/00",
+        "price": {
+          "currencyIso": "USD",
+          "formattedValue": "24.95 $",
+          "priceType": "BUY",
+          "value": 24.95
+        },
+        "productType": "CRP",
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 82,
+          "stockLevelStatus": "inStock"
+        },
+        "url": "\/household-products\/cooking-accessories\/viva-collection-airfryer-double-layer-rack-with-skewers\/p\/HD9904_00"
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "19.95 $",
+        "priceType": "BUY",
+        "value": 19.95
+      },
+      "updateable": true,
+      "vertexTaxAmount": {
+        "currencyIso": "USD",
+        "formattedValue": "0.00 $",
+        "priceType": "BUY",
+        "value": 0
+      },
+      "vertexTaxPercent": 0
+    }],
+    "totalPriceWithTax": {
+      "currencyIso": "USD",
+      "formattedValue": "21.20 $",
+      "priceType": "BUY",
+      "value": 21.2
+    }
+  }],
+  "entries": [{
+    "basePrice": {
+      "currencyIso": "USD",
+      "formattedValue": "19.95 $",
+      "priceType": "BUY",
+      "value": 19.95
+    },
+    "entryNumber": 0,
+    "product": {
+      "availableForPickup": false,
+      "categories": [{
+        "code": "AIR_FRYER_ACC_SU",
+        "url": "\/household-products\/cooking-accessories\/c\/AIR_FRYER_ACC_SU"
+      }],
+      "code": "HD9904\/00",
+      "configurable": false,
+      "deliveryTime": "3-9 business days",
+      "isTaxExemptionApplicable": false,
+      "name": "HD9904\/00",
+      "price": {
+        "currencyIso": "USD",
+        "formattedValue": "24.95 $",
+        "priceType": "BUY",
+        "value": 24.95
+      },
+      "productType": "CRP",
+      "purchasable": true,
+      "stock": {
+        "stockLevel": 82,
+        "stockLevelStatus": "inStock"
+      },
+      "url": "\/household-products\/cooking-accessories\/viva-collection-airfryer-double-layer-rack-with-skewers\/p\/HD9904_00"
+    },
+    "quantity": 1,
+    "totalPrice": {
+      "currencyIso": "USD",
+      "formattedValue": "19.95 $",
+      "priceType": "BUY",
+      "value": 19.95
+    },
+    "updateable": true,
+    "vertexTaxAmount": {
+      "currencyIso": "USD",
+      "formattedValue": "0.00 $",
+      "priceType": "BUY",
+      "value": 0
+    },
+    "vertexTaxPercent": 0
+  }],
+  "guid": "dffdd019-5207-4cd2-9e88-c6cb78e68c80",
+  "net": true,
+  "orderDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "0.00 $",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "paymentInfo": {
+    "billingAddress": {
+      "billingAddress": true,
+      "country": {
+        "isocode": "US",
+        "name": "United States"
+      },
+      "defaultAddress": false,
+      "firstName": "sangeetha",
+      "formattedAddress": "sangeetha s<\/strong><br>640 NORTH WABASH AVENUE 122 <br>NewYork 10010<br>United States",
+      "id": "9334727737367",
+      "lastName": "s",
+      "line1": "640 NORTH WABASH AVENUE 122",
+      "line2": "767",
+      "phone": "9846999378",
+      "phone1": "9846999378",
+      "phone2": "9446118148",
+      "postalCode": "10010",
+      "shippingAddress": false,
+      "titleCode": "ms.",
+      "town": "NewYork",
+      "visibleInAddressBook": true
+    },
+    "cardNumber": "4111********1111",
+    "cardType": {
+      "code": "VISA"
+    },
+    "defaultPayment": false,
+    "expiryMonth": "02",
+    "expiryYear": "2020",
+    "saved": false
+  },
+  "pickupItemsQuantity": 0,
+  "productDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "0.00 $",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "site": "US_Pub",
+  "store": "US_Pub",
+  "subTotal": {
+    "currencyIso": "USD",
+    "formattedValue": "19.95 $",
+    "priceType": "BUY",
+    "value": 19.95
+  },
+  "totalDiscounts": {
+    "currencyIso": "USD",
+    "formattedValue": "0.00 $",
+    "priceType": "BUY",
+    "value": 0
+  },
+  "totalItems": 1,
+  "totalPrice": {
+    "currencyIso": "USD",
+    "formattedValue": "29.95 $",
+    "priceType": "BUY",
+    "value": 29.95
+  },
+  "totalPriceWithTax": {
+    "currencyIso": "USD",
+    "formattedValue": "31.20 $",
+    "priceType": "BUY",
+    "value": 31.2
+  },
+  "totalTax": {
+    "currencyIso": "USD",
+    "formattedValue": "1.25 $",
+    "priceType": "BUY",
+    "value": 1.25
+  },
+  "user": {
+    "janrainUUID": "74d974dc-08cc-4176-84d0-d933a1118dfc",
+    "name": "Prasad Devadiga",
+    "uid": "prasad.devadiga@philips.com"
+  },
+  "created": "2019-08-16T10:39:29+0000",
+  "deliveryStatus": "NOTSHIPPED",
+  "guestCustomer": false,
+  "status": "CREATED",
+  "statusDisplay": "created",
+  "unconsignedEntries": [{
+    "basePrice": {
+      "currencyIso": "USD",
+      "formattedValue": "19.95 $",
+      "priceType": "BUY",
+      "value": 19.95
+    },
+    "entryNumber": 0,
+    "product": {
+      "availableForPickup": false,
+      "categories": [{
+        "code": "AIR_FRYER_ACC_SU",
+        "url": "\/household-products\/cooking-accessories\/c\/AIR_FRYER_ACC_SU"
+      }],
+      "code": "HD9904\/00",
+      "configurable": false,
+      "deliveryTime": "3-9 business days",
+      "isTaxExemptionApplicable": false,
+      "name": "HD9904\/00",
+      "price": {
+        "currencyIso": "USD",
+        "formattedValue": "24.95 $",
+        "priceType": "BUY",
+        "value": 24.95
+      },
+      "productType": "CRP",
+      "purchasable": true,
+      "stock": {
+        "stockLevel": 82,
+        "stockLevelStatus": "inStock"
+      },
+      "url": "\/household-products\/cooking-accessories\/viva-collection-airfryer-double-layer-rack-with-skewers\/p\/HD9904_00"
+    },
+    "quantity": 1,
+    "totalPrice": {
+      "currencyIso": "USD",
+      "formattedValue": "19.95 $",
+      "priceType": "BUY",
+      "value": 19.95
+    },
+    "updateable": true,
+    "vertexTaxAmount": {
+      "currencyIso": "USD",
+      "formattedValue": "0.00 $",
+      "priceType": "BUY",
+      "value": 0
+    },
+    "vertexTaxPercent": 0
+  }]
+}

@@ -92,7 +92,7 @@ public class AddressSelectionAdapterTest {
 
         when(viewGroupMock.getContext()).thenReturn(contextMock);
         when(contextMock.getSystemService(contextMock.LAYOUT_INFLATER_SERVICE)).thenReturn(layoutInflaterMock);
-        //when(layoutInflaterMock.inflate(R.layout.iap_address_selection_item, viewGroupMock, false)).thenReturn(viewMock);
+        //when(layoutInflaterMock.inflate(R.layout.ecs_address_selection_item, viewGroupMock, false)).thenReturn(viewMock);
         addressSelectionAdapter.onCreateViewHolder(viewGroupMock, TYPE_ITEM);
 
     }
@@ -102,7 +102,7 @@ public class AddressSelectionAdapterTest {
 
         when(viewGroupMock.getContext()).thenReturn(contextMock);
         when(contextMock.getSystemService(contextMock.LAYOUT_INFLATER_SERVICE)).thenReturn(layoutInflaterMock);
-        //when(layoutInflaterMock.inflate(R.layout.iap_address_selection_item, viewGroupMock, false)).thenReturn(viewMock);
+        //when(layoutInflaterMock.inflate(R.layout.ecs_address_selection_item, viewGroupMock, false)).thenReturn(viewMock);
         addressSelectionAdapter.onCreateViewHolder(viewGroupMock, TYPE_FOOTER);
 
     }

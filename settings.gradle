@@ -1,3 +1,6 @@
+
+
+
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
@@ -39,6 +42,10 @@ include ext.strings.prguapp.projectName
 include ext.strings.pim.projectName
 include ext.strings.pimuapp.projectName
 
+include ext.strings.ecs.projectName
+include ext.strings.ecsuapp.projectName
+
+
 //opa archive references:
 project(ext.strings.ail.projectName).projectDir = new File('./Source/ail/Source/Library/AppInfra')
 project(ext.strings.ailuapp.projectName).projectDir = new File('./Source/ail/Source/DemoUApp/')
@@ -69,6 +76,13 @@ project(ext.strings.pif.projectName).projectDir = new File('./Source/pif/Source/
 project(ext.strings.pimuapp.projectName).projectDir = new File('./Source/pim/Source/DemoUApp')
 project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/Library/pim')
 
+
+project(ext.strings.ecsuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoUApp')
+project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
+
+
+
+
 //demoapps to be published to artifactory
 //include ':UserRegistrationApp'
 //project(':UserRegistrationApp').projectDir = new File('./Source/usr/Source/DemoApp/app')
@@ -87,6 +101,14 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 //project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
 //include(':iapApp')
 //project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
+//include(':ecsApp')
+//project(':ecsApp').projectDir = new File('./Source/ecs/Source/DemoApp/app')
+/*include(':ecsUApp')
+project(':ecsUApp').projectDir = new File('./Source/ecs/Source/DemoUApp')
+
+include(':philipsecommercesdk')
+project(':philipsecommercesdk').projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')*/
+
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')
 //include ':product-registration-libApp'

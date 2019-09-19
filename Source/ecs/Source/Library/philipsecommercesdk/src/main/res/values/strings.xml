@@ -1,0 +1,57 @@
+<resources>
+
+
+
+   <!--start of Volley Errors-->
+
+    <string name="ECS_volley_error">Volley rest Error!</string>
+
+    <!--End of Volley Errors-->
+
+
+    <string name="ECSinvalid_grant" >We have encountered technical glitch (Invalid Janrain Token). Please re-login</string>
+    <string name="ECSinvalid_client" >We have encountered technical glitch (Bad client credentials). Please re-login</string>
+    <string name="ECSunsupported_grant_type" >We have encountered technical glitch (Unsupported grant type). Please re-login</string>
+    <string name="ECSsomethingWentWrong" >We have encountered technical glitch. Please try after some time</string>
+    <string name="ECSBaseURLNotFound" >Base URL not found</string>
+    <string name="ECSAppInfraNotFound" >Please provide app infra object</string>
+    <string name="ECSLocaleNotFound" >Please set the locale</string>
+    <string name="ECSCtnNotProvided" >Please provide the CTN</string>
+    <string name="ECSOAuthNotCalled" >User authorization is required for this action</string>
+    <string name="ECSSiteIdNotFound" >Philips shop is not available for the selected country, only retailer mode is available</string>
+    <string name="ECSHybrisNotAvailable" >Philips shop is not available for the selected country, only retailer mode is available</string>
+
+    //TODO: Ask srini about message
+
+    <string name="ECSPropositionIdNotFound" >Please set a valid Proposition ID</string>
+    <string name="ECSCartError" >No cart created yet</string>
+    <string name="ECSCartEntryError" >The Product is not added in Cart</string>
+    <string name="ECSNoSuchElementError"  >An error occurred while fetching the data from the server</string>
+    <string name="ECSInsufficientStockError" >Product cannot be shipped as it is out of stock</string>
+    <string name="ECSUnknownIdentifierError" >Requested resource is not available</string>
+    <string name="ECSInvalidTokenError" >We have encountered technical glitch (Invalid access token). Please do Hybris Re-Auth</string>
+    <string name="ECSUnsupportedVoucherError" >Sorry, this voucher can\'t be redeemed</string>
+    <string name="ECSVoucherOperationError" >Sorry, this voucher can\'t be redeemed</string>
+    <string name="ECSCommerceCartModificationError" >Quantity must not be less than zero</string>
+    <string name="ECSOAuthDetailError" >Please provide complete OAuth detials</string>
+    <string name="ECScountryCodeNotGiven" >Please provide valid country code</string>
+    <string name="ECSUnsupportedDeliveryModeError" >Selected delivery mode is not supported</string>
+    <string name="ECSregionisocode" >Region selected is invalid</string>
+    <string name="ECScountryisocode" >Country selected is invalid</string>
+    <string name="ECSpostalCode" >ZIP code selected is invalid</string>
+    <string name="ECSfirstName" >Please notice that the following characters are not allowed: \" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+    <string name="ECSlastName" >Please notice that the following characters are not allowed: \" &lt; &gt; ) ( * ^ % $ # @ ! &amp; + , . ? /  : ; { } [ ] ` ~ =</string>
+    <string name="ECSphone1" >Phone number selected is invalid</string>
+    <string name="ECSphone2" >Phone number selected is invalid</string>
+    <string name="ECSaddressId" >Given address doesn\'t exist or belong to another user</string>
+    <string name="ECSValidationError" >Data validation failed</string>
+    <string name="ECSsessionCart" >Please select your delivery address, delivery mode and payment method before submitting an order</string>
+    <string name="ECSorderIdNil" >Please provide valid order</string>
+    <string name="ECSpostUrl" >Order is already in a paid/completed state</string>
+    <string name="ECSIllegalArgumentError" >Please provide valid input data</string>
+    <string name="ECSInvalidPaymentInfoError" >Please provide valid payment details</string>
+    <string name="ECSPaymentAuthorizationError" >Payment authorization was not successful</string>
+
+    //Pabitra android
+
+</resources>

@@ -1,0 +1,8 @@
+{
+  "errors": [
+    {
+      "message": "Delivery Mode [2ND-DAY-AIR] is not supported for the current cart",
+      "type": "UnsupportedDeliveryModeError"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "message": "Address with given id: [931669875099] doesnt exist or belong to another user",
+      "reason": "invalid",
+      "subject": "addressId",
+      "subjectType": "parameter",
+      "type": "ValidationError"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+/*
+ * Copyright (c) 2015-2018 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+apply plugin: 'com.android.application'
+
+apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
+apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        //classpath builddeps.cdpSCM
+    }
+}
+
+archivesBaseName = 'ecsApp'
+
+signingConfigs {
+    release
+}
+
+android {
+    compileSdkVersion versions.sdk
+    buildToolsVersion versions.buildtools
+
+
+    defaultConfig {
+        applicationId "com.philips.cdp.di.pesdemo"
+        versionName version + "(" + commitHash+ ")"
+        versionCode 1
+    }
+
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+
+
+
+
+
+
+}
+
+dependencies {
+
+
+    implementation project(strings.ecsuapp.projectName)
+
+    implementation deps.constraintlayout
+    implementation deps.support.design
+    implementation deps.support.supportv4
+    implementation deps.support.annotations
+    implementation deps.support.appcompatv7
+    implementation philipsdeps.uid
+   // implementation project('ecsuapp')
+    if (useprojectdependencies) {
+        implementation project(strings.usr.projectName)
+
+        implementation project(strings.prx.projectName)
+        implementation project(strings.ufw.projectName)
+        implementation project(strings.ail.projectName)
+    } else {
+        implementation(philipsdeps.registrationApi) {
+            exclude group: 'com.android.support', module: 'support-design'
+            exclude group: 'com.android.support', module: 'support-supportv4'
+            exclude group: 'com.android.support', module: 'support-appcompatv7'
+            exclude group: 'com.android.support', module: 'support-annotations'
+        }
+        implementation philipsdeps.prx
+
+    }
+
+
+}
+
+tasks.withType(Test) {
+    ignoreFailures = true
+}
+
+

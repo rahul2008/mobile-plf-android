@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "message": "Error while getting the tax for the cart.",
+      "reason": "invalid",
+      "subject": "totalTax",
+      "subjectType": "parameter",
+      "type": "ValidationError"
+    }
+  ]
+}

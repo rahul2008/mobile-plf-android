@@ -1,0 +1,283 @@
+{
+  "type": "orderWsDTO",
+  "appliedOrderPromotions": [{
+    "description": "You spent over 150,00 â¬ to qualify for free shipping",
+    "promotion": {
+      "code": "0509B",
+      "description": "You spent over â¬150.00 to qualify for free shipping",
+      "enabled": false,
+      "endDate": "2099-01-01T00:00:00Z",
+      "firedMessages": ["You spent over 150,00 â¬ to qualify for free shipping"],
+      "itemType": "OrderThresholdShippingPromotion",
+      "promotionDiscount": {
+        "currencyIso": "EUR",
+        "formattedValue": "0,00 â¬",
+        "priceType": "BUY",
+        "value": 0.00
+      }
+    }
+  }],
+  "calculated": true,
+  "code": "24013390896",
+  "deliveryAddress": {
+    "billingAddress": false,
+    "country": {
+      "isocode": "DE",
+      "name": "Deutschland"
+    },
+    "defaultAddress": false,
+    "firstName": "amit",
+    "formattedAddress": "<strong>Herr amit kumar</strong><br>My Street 76 23<br>10114 Berlin<br>Deutschland",
+    "houseNumber": "23",
+    "id": "9334699163671",
+    "lastName": "kumar",
+    "line1": "23,My Street 76",
+    "phone": "05286358",
+    "phone1": "05286358",
+    "phone2": "05286358",
+    "postalCode": "10114",
+    "shippingAddress": true,
+    "title": "Herr",
+    "titleCode": "mr.",
+    "town": "Berlin",
+    "visibleInAddressBook": true
+  },
+  "deliveryCost": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 â¬",
+    "priceType": "BUY",
+    "value": 0.00
+  },
+  "deliveryItemsQuantity": 3,
+  "deliveryMode": {
+    "code": "UPS_COLLECTION_POINT",
+    "deliveryCost": {
+      "currencyIso": "EUR",
+      "formattedValue": "0,00 â¬",
+      "priceType": "BUY",
+      "value": 0.00
+    },
+    "description": "2-4 Werktage",
+    "name": "UPS Access Point"
+  },
+  "deliveryOrderGroups": [{
+    "entries": [{
+      "basePrice": {
+        "currencyIso": "EUR",
+        "formattedValue": "209,99 â¬",
+        "priceType": "BUY",
+        "value": 209.99
+      },
+      "entryNumber": 0,
+      "product": {
+        "availableForPickup": false,
+        "categories": [{
+          "code": "BLENDERS_SU2",
+          "url": "/haushaltsgeraete/kuechengeraete/c/BLENDERS_SU2"
+        }, {
+          "code": "SUB_DE_IAP_MOB_DKA",
+          "url": "//c/SUB_DE_IAP_MOB_DKA"
+        }],
+        "code": "HR2091/30",
+        "configurable": false,
+        "deliveryTime": "1-2 business days",
+        "isTaxExemptionApplicable": false,
+        "name": "HR2091/30",
+        "price": {
+          "currencyIso": "EUR",
+          "formattedValue": "229,99 â¬",
+          "priceType": "BUY",
+          "value": 229.99
+        },
+        "productType": "Normal",
+        "purchasable": true,
+        "stock": {
+          "stockLevel": 5,
+          "stockLevelStatus": "lowStock"
+        },
+        "url": "/haushaltsgeraete/kuechengeraete/avance-collection-standmixer-mit-kochfunktion/p/HR2091_30"
+      },
+      "quantity": 3,
+      "totalPrice": {
+        "currencyIso": "EUR",
+        "formattedValue": "629,97 â¬",
+        "priceType": "BUY",
+        "value": 629.97
+      },
+      "updateable": true,
+      "vertexTaxAmount": {
+        "currencyIso": "EUR",
+        "formattedValue": "100,58 â¬",
+        "priceType": "BUY",
+        "value": 100.58
+      },
+      "vertexTaxPercent": 19.0
+    }],
+    "totalPriceWithTax": {
+      "currencyIso": "EUR",
+      "formattedValue": "931,71 â¬",
+      "priceType": "BUY",
+      "value": 931.71
+    }
+  }],
+  "entries": [{
+    "basePrice": {
+      "currencyIso": "EUR",
+      "formattedValue": "209,99 â¬",
+      "priceType": "BUY",
+      "value": 209.99
+    },
+    "entryNumber": 0,
+    "product": {
+      "availableForPickup": false,
+      "categories": [{
+        "code": "BLENDERS_SU2",
+        "url": "/haushaltsgeraete/kuechengeraete/c/BLENDERS_SU2"
+      }, {
+        "code": "SUB_DE_IAP_MOB_DKA",
+        "url": "//c/SUB_DE_IAP_MOB_DKA"
+      }],
+      "code": "HR2091/30",
+      "configurable": false,
+      "deliveryTime": "1-2 business days",
+      "isTaxExemptionApplicable": false,
+      "name": "HR2091/30",
+      "price": {
+        "currencyIso": "EUR",
+        "formattedValue": "229,99 â¬",
+        "priceType": "BUY",
+        "value": 229.99
+      },
+      "productType": "Normal",
+      "purchasable": true,
+      "stock": {
+        "stockLevel": 5,
+        "stockLevelStatus": "lowStock"
+      },
+      "url": "/haushaltsgeraete/kuechengeraete/avance-collection-standmixer-mit-kochfunktion/p/HR2091_30"
+    },
+    "quantity": 3,
+    "totalPrice": {
+      "currencyIso": "EUR",
+      "formattedValue": "629,97 â¬",
+      "priceType": "BUY",
+      "value": 629.97
+    },
+    "updateable": true,
+    "vertexTaxAmount": {
+      "currencyIso": "EUR",
+      "formattedValue": "100,58 â¬",
+      "priceType": "BUY",
+      "value": 100.58
+    },
+    "vertexTaxPercent": 19.0
+  }],
+  "guid": "95ac83bf-05b1-4822-ae81-90342e26df46",
+  "net": false,
+  "orderDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 â¬",
+    "priceType": "BUY",
+    "value": 0.00
+  },
+  "pickupItemsQuantity": 0,
+  "productDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 â¬",
+    "priceType": "BUY",
+    "value": 0.00
+  },
+  "site": "DE_Pub",
+  "store": "DE_Pub",
+  "subTotal": {
+    "currencyIso": "EUR",
+    "formattedValue": "629,97 â¬",
+    "priceType": "BUY",
+    "value": 629.97
+  },
+  "totalDiscounts": {
+    "currencyIso": "EUR",
+    "formattedValue": "0,00 â¬",
+    "priceType": "BUY",
+    "value": 0.00
+  },
+  "totalItems": 1,
+  "totalPrice": {
+    "currencyIso": "EUR",
+    "formattedValue": "629,97 â¬",
+    "priceType": "BUY",
+    "value": 629.97
+  },
+  "totalPriceWithTax": {
+    "currencyIso": "EUR",
+    "formattedValue": "629,97 â¬",
+    "priceType": "BUY",
+    "value": 629.97
+  },
+  "totalTax": {
+    "currencyIso": "EUR",
+    "formattedValue": "100,58 â¬",
+    "priceType": "BUY",
+    "value": 100.58
+  },
+  "user": {
+    "janrainUUID": "0372ac14-b54a-4165-a72f-8fd7fbf801f7",
+    "name": "amit kumar",
+    "uid": "iapstg112@mailinator.com"
+  },
+  "created": "2019-08-14T12:54:55+0000",
+  "guestCustomer": false,
+  "statusDisplay": "processing",
+  "unconsignedEntries": [{
+    "basePrice": {
+      "currencyIso": "EUR",
+      "formattedValue": "209,99 â¬",
+      "priceType": "BUY",
+      "value": 209.99
+    },
+    "entryNumber": 0,
+    "product": {
+      "availableForPickup": false,
+      "categories": [{
+        "code": "BLENDERS_SU2",
+        "url": "/haushaltsgeraete/kuechengeraete/c/BLENDERS_SU2"
+      }, {
+        "code": "SUB_DE_IAP_MOB_DKA",
+        "url": "//c/SUB_DE_IAP_MOB_DKA"
+      }],
+      "code": "HR2091/30",
+      "configurable": false,
+      "deliveryTime": "1-2 business days",
+      "isTaxExemptionApplicable": false,
+      "name": "HR2091/30",
+      "price": {
+        "currencyIso": "EUR",
+        "formattedValue": "229,99 â¬",
+        "priceType": "BUY",
+        "value": 229.99
+      },
+      "productType": "Normal",
+      "purchasable": true,
+      "stock": {
+        "stockLevel": 5,
+        "stockLevelStatus": "lowStock"
+      },
+      "url": "/haushaltsgeraete/kuechengeraete/avance-collection-standmixer-mit-kochfunktion/p/HR2091_30"
+    },
+    "quantity": 3,
+    "totalPrice": {
+      "currencyIso": "EUR",
+      "formattedValue": "629,97 â¬",
+      "priceType": "BUY",
+      "value": 629.97
+    },
+    "updateable": true,
+    "vertexTaxAmount": {
+      "currencyIso": "EUR",
+      "formattedValue": "100,58 â¬",
+      "priceType": "BUY",
+      "value": 100.58
+    },
+    "vertexTaxPercent": 19.0
+  }]
+}

@@ -1,0 +1,94 @@
+{
+  "buttonConfig": {
+    "id": 12345,
+    "property": [{
+      "type": "button",
+      "name": "isHybris"
+    },
+      {
+        "type": "button",
+        "name": "fetch Config"
+      },
+      {
+        "type": "button",
+        "name": "Authenticate"
+      },
+      {
+        "type": "button",
+        "name": "Refresh OAuth"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Product"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Product for CTN"
+      },
+      {
+        "type": "toggle button",
+        "name": "Enable hybris"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Product Summary"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Product Detail"
+      },
+      {
+        "type": "button",
+        "name": "cart"
+      },
+      {
+        "type": "button",
+        "name": "Voucher"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Delivery Mode"
+      },
+      {
+        "type": "button",
+        "name": "Address"
+      },
+      {
+        "type": "button",
+        "name": "Address"
+      },
+      {
+        "type": "button",
+        "name": "Payment"
+      },
+      {
+        "type": "button",
+        "name": "Submit Order"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Retailers for CTN"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Retailers for Product"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Order history"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Order Detail"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Profile"
+      },
+      {
+        "type": "button",
+        "name": "Fetch Profile"
+      }
+    ]
+  }
+}
