@@ -1,0 +1,308 @@
+{
+
+  "group": [
+
+    {
+      "name": "OAuth",
+      "subgroup": [{
+        "name": "hybrisOAthAuthentication",
+        "apiNumber": 1,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "hybrisRefreshOAuth",
+          "apiNumber": 2,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+      ]
+
+    },
+
+    {
+      "name": "Config",
+      "subgroup": [{
+        "name": "configureECS",
+        "apiNumber": 3,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "configureECSToGetConfiguration",
+          "apiNumber": 4,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+      ]
+
+    },
+
+    {
+      "name": "Product",
+      "subgroup": [{
+        "name": "fetchProducts",
+        "apiNumber": 5,
+        "editText": 2,
+        "spinner": 0,
+        "button": 0
+
+      },
+        {
+          "name": "fetchProduct",
+          "apiNumber": 6,
+          "editText": 1,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "fetchProductSummaries",
+          "apiNumber": 7,
+          "editText": 1,
+          "spinner": 0,
+          "button": 1
+        },
+        {
+          "name": "fetchProductDetails",
+          "apiNumber": 8,
+          "editText": 0,
+          "spinner": 1,
+          "button": 0
+        }
+      ]
+
+    },
+
+    {
+      "name": "Cart",
+      "subgroup": [{
+        "name": "fetchShoppingCart",
+        "apiNumber": 9,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "addProductToShoppingCart",
+          "apiNumber": 10,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "createShoppingCart",
+          "apiNumber": 11,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "updateShoppingCart",
+          "apiNumber": 12,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+      ]
+
+    },
+
+    {
+      "name": "Voucher",
+      "subgroup": [{
+        "name": "applyVoucher",
+        "apiNumber": 13,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "fetchAppliedVouchers",
+          "apiNumber": 14,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "removeVoucher",
+          "apiNumber": 15,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+      ]
+
+    },
+
+    {
+      "name": "DeliveryMode",
+      "subgroup": [{
+        "name": "fetchDeliveryModes",
+        "apiNumber": 16,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "setDeliveryMode",
+          "apiNumber": 17,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+      ]
+
+    },
+
+    {
+      "name": "Region",
+      "subgroup": [{
+        "name": "fetchRegions",
+        "apiNumber": 18,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      }]
+    },
+
+    {
+      "name": "Address",
+      "subgroup": [{
+        "name": "fetchSavedAddresses",
+        "apiNumber": 19,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "createAddress",
+          "apiNumber": 20,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "createAndFetchAddress",
+          "apiNumber": 21,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "updateAddress",
+          "apiNumber": 22,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "updateAndFetchAddress",
+          "apiNumber": 23,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "setDeliveryAddress",
+          "apiNumber": 24,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "setAndFetchDeliveryAddress",
+          "apiNumber": 25,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "deleteAddress",
+          "apiNumber": 26,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "deleteAndFetchAddress",
+          "apiNumber": 27,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+
+      ]
+    },
+
+    {
+      "name": "Retailer",
+      "subgroup": [{
+        "name": "fetchRetailers for ctn",
+        "apiNumber": 28,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "fetchRetailers for product",
+          "apiNumber": 29,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+      ]
+
+    },
+
+    {
+      "name": "Order",
+      "subgroup": [{
+        "name": "fetchOrderHistory",
+        "apiNumber": 30,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "fetchOrderDetail for oderDetail ID",
+          "apiNumber": 31,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "fetchOrderDetail for OrderDetail",
+          "apiNumber": 32,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "fetchOrderDetail for Orders",
+          "apiNumber": 33,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+
+      ]
+    },
+
+    {
+      "name": "Profile",
+      "subgroup": [{
+        "name": "Fetch Profile",
+        "apiNumber": 34,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      }]
+    }
+
+  ]
+
+}
