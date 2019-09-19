@@ -135,6 +135,18 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Setup handler for uncaught exceptions.
+        Thread.setDefaultUncaughtExceptionHandler (new Thread.UncaughtExceptionHandler()
+        {
+            @Override
+            public void uncaughtException (Thread thread, Throwable e)
+            {
+                e.printStackTrace();
+                Log.e("ECS_DEMO_EXCEPTION",e.getMessage());
+            }
+        });
+
         initTheme();
         super.onCreate(savedInstanceState);
 
