@@ -6,37 +6,50 @@ apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/tasks.gradle'
 
-archivesBaseName = 'philipsecommercesdk'
+
+archivesBaseName =  strings.ecs.artifactName
+
+buildscript {
+    apply from: project.rootDir.absolutePath + '/build-support/gradle/versions.gradle'
+
+    dependencies {
+        classpath builddeps.gradle
+        classpath builddeps.buildinfoextractor
+        //classpath builddeps.cdpSCM
+    }
+}
 
 android {
+    signingConfigs {
+        release
+    }
     compileSdkVersion versions.sdk
     buildToolsVersion versions.buildtools
 
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-        versionCode 1
-        versionName "1.0"
+        multiDexEnabled true
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
+
+        versionName version + "(" + commitHash+ ")"
+
     }
 
     buildTypes {
         debug {
             testCoverageEnabled = true
         }
+
     }
 
     sourceSets {
         test {
             resources.srcDirs += ['src/test/resources']
         }
-        androidTest {
-            resources.srcDirs += ['src/androidTest/resources']
-        }
+
     }
-    testOptions.unitTests.includeAndroidResources = true
+
 }
 
 
@@ -44,10 +57,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation deps.support.appcompatv7
+    testImplementation deps.junit
+
     implementation philipsdeps.AppInfra
 
 
@@ -66,7 +78,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation deps.json
 
-}
-repositories {
-    mavenCentral()
 }

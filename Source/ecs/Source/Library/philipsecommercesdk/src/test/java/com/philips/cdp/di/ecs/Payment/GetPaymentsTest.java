@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.philips.cdp.di.ecs.error.ECSErrorEnum.ECSCtnNotProvided;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -188,7 +189,7 @@ public class GetPaymentsTest {
             @Override
             public void onFailure(Exception error, ECSError ecsError) {
                 assertTrue(true);
-                assertEquals("Invalid product, it's code can not be null or empty", error.getMessage());
+                assertEquals(ECSCtnNotProvided.toString(), ecsError.getErrorType());
             }
         });
     }

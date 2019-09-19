@@ -110,9 +110,10 @@ public class PrxWrapper {
 
                     listener.onSuccess(assetModel);
 
-                } else
+                } else {
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
                     listener.onFail("Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
+                }
 
             }
 

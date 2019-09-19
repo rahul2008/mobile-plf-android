@@ -1,5 +1,4 @@
 <resources>
-    <string name="ecs_UnknownError">Something went wrong</string>
 
 
 
@@ -54,9 +53,5 @@
     <string name="ECSPaymentAuthorizationError" >Payment authorization was not successful</string>
 
     //Pabitra android
-    <string name="ECSInvalidPageSizeError" >Page size can not be zero or negative</string>
-    <string name="ECSInvalidProductError" >Invalid product, it\'s code can not be null or empty</string>
-    <string name="ECSInvalidAddressError" >"Invalid Address, it\'s ID  can not be null or empty"</string>
-    <string name="ECSInvalidCvvError" >"Invalid cvv, it can not be null or empty"</string>
 
 </resources>

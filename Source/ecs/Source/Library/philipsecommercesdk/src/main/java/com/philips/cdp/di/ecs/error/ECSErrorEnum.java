@@ -54,10 +54,7 @@ public enum ECSErrorEnum {
     ECSOAuthDetailError( R.string.ECSOAuthDetailError, 5058),
     ECScountryCodeNotGiven( R.string.ECScountryCodeNotGiven, 5059),
     ECSorderIdNil( R.string.ECSorderIdNil, 5060),
-    ECSInvalidPageSizeError(R.string.ECSInvalidPageSizeError,5061),
-    ECSInvalidProductError(R.string.ECSInvalidProductError,5062),
-    ECSInvalidAddressError(R.string.ECSInvalidAddressError,5063),
-    ECSInvalidCvvError(R.string.ECSInvalidCvvError,5064),
+
 
 
 

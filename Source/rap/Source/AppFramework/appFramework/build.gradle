@@ -52,9 +52,7 @@ artifactory {
     // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
-task (hello) << {
-    println objcdp.getArtifactoryResolveRepoKey()
-}
+
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -245,6 +243,7 @@ dependencies {
         implementation philipsdeps.pif
         implementation philipsdeps.uAppFwLib
         implementation philipsdeps.AppInfra
+       // implementation philipsdeps.philipsecommercesdk
 
         implementation philipsdeps.productselection
         implementation philipsdeps.prx
@@ -268,6 +267,7 @@ dependencies {
 
         implementation project(strings.tse.projectName)
         implementation philipsdeps.AppInfraUApp
+        implementation philipsdeps.ecsuapp
     }
     testImplementation deps.json
     testImplementation deps.junit
