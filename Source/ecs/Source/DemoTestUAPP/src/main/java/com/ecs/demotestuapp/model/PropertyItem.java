@@ -29,4 +29,14 @@ public class PropertyItem implements Serializable {
 	public List<PropertyItem> getProperty() {
 		return property;
 	}
+
+	private List<String> ctns;
+
+	public List<String> getCtns() {
+		return ctns;
+	}
+
+	public void setCtns(List<String> ctns) {
+		this.ctns = ctns;
+	}
 }

@@ -21,6 +21,7 @@ import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
@@ -167,8 +168,32 @@ public class EcsDemoResultActivity extends AppCompatActivity {
 
             case 5:
 
+                ECSDataHolder.INSTANCE.getEcsServices().fetchProduct(propertyItem.getCtns().get(0), new ECSCallback<ECSProduct, Exception>() {
+                    @Override
+                    public void onResponse(ECSProduct result) {
+                        showSuccess(getJsonStringFromObject(result));
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, ECSError ecsError) {
+                        showError(error, ecsError);
+                    }
+                });
+
                 break;
             case 6:
+
+                ECSDataHolder.INSTANCE.getEcsServices().fetchProductSummaries(propertyItem.getCtns(), new ECSCallback<List<ECSProduct>, Exception>() {
+                    @Override
+                    public void onResponse(List<ECSProduct> result) {
+                        showSuccess(getJsonStringFromObject(result));
+                    }
+
+                    @Override
+                    public void onFailure(Exception error, ECSError ecsError) {
+                        showError(error, ecsError);
+                    }
+                });
 
                 break;
             case 7:

@@ -131,7 +131,13 @@ public class ECSManager {
         GetProductListRequest getProductListRequest = new GetProductListRequest(currentPage, pageSize, new ECSCallback<ECSProducts, Exception>() {
             @Override
             public void onResponse(ECSProducts result) {
-                prepareProductSummaryURL(result, finalEcsCallback);
+
+                if(result.getProducts()!=null && result.getProducts().size()!=0) {
+                    prepareProductSummaryURL(result, finalEcsCallback);
+                }else{
+                    finalEcsCallback.onResponse(result);
+                }
+
             }
 
             @Override
@@ -158,6 +164,7 @@ public class ECSManager {
                 }
             };
             GetProductForRequest getProductForRequest = getProductForRequestObject(ctn,ecsCallback1);
+            getProductForRequest.executeRequest();
         } else { // Retailer flow
             getSummaryForCTN(ctn, null, eCSCallback);
         }

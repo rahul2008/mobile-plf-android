@@ -20,9 +20,9 @@ buildscript {
 
 archivesBaseName = 'ecsApp'
 
-signingConfigs {
+/*signingConfigs {
     release
-}
+}*/
 
 android {
     compileSdkVersion versions.sdk
@@ -33,6 +33,10 @@ android {
         applicationId "com.philips.cdp.di.pesdemo"
         versionName version + "(" + commitHash+ ")"
         versionCode 1
+
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
     }
 
 
@@ -41,11 +45,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-
-
-
-
-
 
 
 }

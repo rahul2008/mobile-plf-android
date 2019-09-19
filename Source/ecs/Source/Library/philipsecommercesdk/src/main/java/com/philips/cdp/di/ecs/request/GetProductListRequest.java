@@ -64,27 +64,17 @@ public class GetProductListRequest extends AppInfraAbstractRequest implements Re
 
     @Override
     public void onResponse(JSONObject response) {
-        Exception exception = null;
 
         try {
             mProducts = new Gson().fromJson(response.toString(),
                     ECSProducts.class);
-        } catch (Exception e) {
-            exception = e;
+            ecsCallback.onResponse(mProducts);
+
+        } catch (Exception exception) {
+            ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response.toString());
+            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
 
-            List<ECSProduct> productsEntities = mProducts.getProducts();
-            ArrayList<String> ctns = new ArrayList<>();
-
-            if( null == exception && null!=productsEntities && !productsEntities.isEmpty()) {
-                for (ECSProduct product : productsEntities) {
-                    ctns.add(product.getCode());
-                }
-                ecsCallback.onResponse(mProducts);
-            }else{
-                ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response.toString());
-                ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
-            }
     }
 
     @Override

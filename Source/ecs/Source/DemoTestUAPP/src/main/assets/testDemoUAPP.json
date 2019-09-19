@@ -36,19 +36,19 @@
         }
       },
       {
-        "needInput": false,
+        "needInput": true,
         "type": "button",
         "name": "Fetch Product for CTN",
         "apiNumber": 5
       },
       {
-        "needInput": false,
+        "needInput": true,
         "type": "button",
         "name": "Fetch Product Summary",
         "apiNumber": 6
       },
       {
-        "needInput": false,
+        "needInput": true,
         "type": "button",
         "name": "Fetch Product Detail",
         "apiNumber": 7

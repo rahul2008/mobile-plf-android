@@ -16,11 +16,13 @@ import com.ecs.demotestuapp.model.FetchProductInput;
 import com.ecs.demotestuapp.model.PropertyItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
+import com.philips.cdp.di.ecs.model.products.ECSProduct;
+import com.philips.cdp.di.ecs.model.products.ECSProducts;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetDeliveryModeInputActivity extends AppCompatActivity {
+public class SpinnerInputActivity extends AppCompatActivity {
 
     private PropertyItem propertyItem;
 
@@ -40,6 +42,50 @@ public class SetDeliveryModeInputActivity extends AppCompatActivity {
         propertyItem = (PropertyItem) bundle.getSerializable("property");
 
         List<ECSDeliveryMode> ecsDeliveryModes = ECSDataHolder.INSTANCE.getEcsDeliveryModes();
+
+
+        List<ECSProduct> ecsProducts = ECSDataHolder.INSTANCE.getEcsProducts().getProducts();
+
+        List<String> selectedCTNs = new ArrayList<>();
+
+        if(propertyItem.apiNumber == 7){
+
+
+            if(ecsProducts!=null && !ecsProducts.isEmpty()) {
+                List<String> ctns = new ArrayList<>();
+
+                for (ECSProduct ecsProduct : ecsProducts) {
+                    ctns.add(ecsProduct.getCode());
+                }
+
+
+                //Creating the ArrayAdapter instance having the country list
+                ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ctns);
+                aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                //Setting the ArrayAdapter data on the Spinner
+                spinner.setAdapter(aa);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        String selectedCTN = ctns.get(position);
+                        selectedCTNs.add(selectedCTN);
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        String selectedCTN = ctns.get(0);
+                        selectedCTNs.add(selectedCTN);
+
+                    }
+                });
+            }
+
+
+        }
+
 
         if(ecsDeliveryModes!=null && !ecsDeliveryModes.isEmpty()) {
             List<String> deliveryModeIDs = new ArrayList<>();

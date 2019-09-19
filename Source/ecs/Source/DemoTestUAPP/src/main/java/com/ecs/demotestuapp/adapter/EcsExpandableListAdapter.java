@@ -18,7 +18,8 @@ import android.widget.TextView;
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.activity.EcsDemoResultActivity;
 import com.ecs.demotestuapp.activity.FetchProductsInputActivity;
-import com.ecs.demotestuapp.activity.SetDeliveryModeInputActivity;
+import com.ecs.demotestuapp.activity.FetchSummariesInputActivity;
+import com.ecs.demotestuapp.activity.SpinnerInputActivity;
 import com.ecs.demotestuapp.model.ButtonConfig;
 import com.ecs.demotestuapp.model.PropertyItem;
 
@@ -127,8 +128,15 @@ public class EcsExpandableListAdapter extends BaseExpandableListAdapter {
             case 4:
                 return new Intent(_context, FetchProductsInputActivity.class);
 
+            case 5:
+                return new Intent(_context, FetchSummariesInputActivity.class);
+
+            case 6:
+                return new Intent(_context, FetchSummariesInputActivity.class);
+
             case 15:
-                return new Intent(_context, SetDeliveryModeInputActivity.class);
+                return new Intent(_context, SpinnerInputActivity.class);
+
 
         }
         return new Intent(_context, EcsDemoResultActivity.class);
