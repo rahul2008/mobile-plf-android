@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.model.region;
 
-public class ECSRegion {
+import java.io.Serializable;
+
+public class ECSRegion implements Serializable {
     private String isocode;
     private String name;
 

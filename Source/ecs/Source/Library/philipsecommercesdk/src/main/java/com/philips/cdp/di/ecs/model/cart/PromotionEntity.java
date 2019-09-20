@@ -6,7 +6,9 @@
  */
 package com.philips.cdp.di.ecs.model.cart;
 
-public class PromotionEntity {
+import java.io.Serializable;
+
+public class PromotionEntity  implements Serializable {
 
     private String code;
     private String description;

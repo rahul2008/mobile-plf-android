@@ -4,7 +4,9 @@
  */
 package com.philips.cdp.di.ecs.model.retailers;
 
-public class WrbresultsEntity {
+import java.io.Serializable;
+
+public class WrbresultsEntity implements Serializable {
     private String Ctn;
     private String storeLocatorUrl;
     private String EloquaSiteURL;

@@ -1,13 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
-package com.philips.cdp.di.ecs.model.products;
+package com.philips.cdp.di.ecs.model.orders;
 
 import java.io.Serializable;
 
-public class SortsEntity  implements Serializable {
+public class Sorts implements Serializable {
     private String code;
     private boolean selected;
 
@@ -18,4 +13,5 @@ public class SortsEntity  implements Serializable {
     public boolean isSelected() {
         return selected;
     }
+
 }

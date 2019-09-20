@@ -4,7 +4,9 @@
  */
 package com.philips.cdp.di.ecs.model.oauth;
 
-public class ECSOAuthData {
+import java.io.Serializable;
+
+public class ECSOAuthData  implements Serializable {
     private String access_token;
     private String token_type;
     private String refresh_token;

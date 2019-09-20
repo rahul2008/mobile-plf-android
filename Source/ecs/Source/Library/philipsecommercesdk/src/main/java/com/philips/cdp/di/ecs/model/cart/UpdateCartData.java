@@ -1,9 +1,11 @@
 package com.philips.cdp.di.ecs.model.cart;
 
+import java.io.Serializable;
+
 /**
  * Created by 310228564 on 2/9/2016.
  */
-public class UpdateCartData {
+public class UpdateCartData implements Serializable {
     private Entry entry;
     private int quantity;
     private int quantityAdded;

@@ -4,9 +4,10 @@
  */
 package com.philips.cdp.di.ecs.model.address;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GetDeliveryModes {
+public class GetDeliveryModes implements Serializable {
 
     private List<ECSDeliveryMode> deliveryModes;
 

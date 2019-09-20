@@ -1,8 +1,9 @@
 package com.philips.cdp.di.ecs.model.orders;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ConsignmentEntries {
+public class ConsignmentEntries implements Serializable {
     private int entryNumber;
 
     private int quantity;

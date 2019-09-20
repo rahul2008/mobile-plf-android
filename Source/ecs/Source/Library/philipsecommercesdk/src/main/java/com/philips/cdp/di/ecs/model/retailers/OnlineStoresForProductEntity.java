@@ -4,7 +4,9 @@
  */
 package com.philips.cdp.di.ecs.model.retailers;
 
-public class OnlineStoresForProductEntity {
+import java.io.Serializable;
+
+public class OnlineStoresForProductEntity implements Serializable {
     private String excludePhilipsShopInWTB;
     private String showPrice;
     private String ctn;

@@ -5,12 +5,13 @@ import com.philips.cdp.di.ecs.model.products.DiscountPriceEntity;
 import com.philips.cdp.di.ecs.model.products.PriceEntity;
 import com.philips.cdp.di.ecs.model.products.PriceRangeEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by 310241054 on 6/21/2016.
  */
-public class ProductDetailEntity {
+public class ProductDetailEntity implements Serializable {
 
 
     private boolean availableForPickup;

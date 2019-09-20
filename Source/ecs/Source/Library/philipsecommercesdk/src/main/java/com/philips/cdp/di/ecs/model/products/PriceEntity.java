@@ -5,7 +5,9 @@
 
 package com.philips.cdp.di.ecs.model.products;
 
-public class PriceEntity {
+import java.io.Serializable;
+
+public class PriceEntity implements Serializable {
     public String getCurrencyIso() {
         return currencyIso;
     }

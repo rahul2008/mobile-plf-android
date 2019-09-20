@@ -8,12 +8,13 @@ import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.GrantType;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
+import com.philips.cdp.di.ecs.model.address.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.asset.Assets;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimers;
-import com.philips.cdp.di.ecs.model.order.ECSOrders;
-import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrders;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.model.payment.ECSPayment;
@@ -26,7 +27,6 @@ import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailerList;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
-import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.AssetServiceDiscoveryRequest;
 import com.philips.cdp.di.ecs.prx.serviceDiscovery.DisclaimerServiceDiscoveryRequest;
@@ -190,6 +190,7 @@ public class ECSManager {
                             public void onResponse(Assets result) {
                                 if (null != result) {
                                     product.setAssets(result);
+                                    System.out.println("getProductAsset Success");
                                     productDetail(product, ecsCallback);
                                 } else {
                                     ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,null,null);
@@ -199,6 +200,7 @@ public class ECSManager {
 
                             @Override
                             public void onFailure(Exception error, ECSError ecsError) {
+                                System.out.println("getProductAsset failure");
                                 ecsCallback.onFailure(error, ecsError);
                             }
                         });
@@ -297,11 +299,14 @@ public class ECSManager {
                     @Override
                     public void onResponse(ECSProductSummary ecsProductSummary) {
                         updateProductsWithSummary(result, ecsProductSummary);
+                        System.out.println("getProductSummary Success");
                         ecsCallback.onResponse(result);
+
                     }
 
                     @Override
                     public void onFailure(Exception error, ECSError ecsError) {
+                        System.out.println("getProductSummary fail");
                         ecsCallback.onFailure(error, ecsError);
                     }
                 });
@@ -749,7 +754,7 @@ public class ECSManager {
         getOrderDetail(orders.getCode(), new ECSCallback<ECSOrderDetail, Exception>() {
             @Override
             public void onResponse(ECSOrderDetail result) {
-                orders.orderDetail = result;
+                orders.setOrderDetail(result);
                 ecsCallback.onResponse(orders);
             }
 
