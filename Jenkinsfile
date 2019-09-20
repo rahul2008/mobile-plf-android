@@ -506,7 +506,7 @@ def BuildHPFortify() {
         echo "*** sourceanalyzer -b 001 -scan -f results.fpr ***"
         sourceanalyzer -b 001 -scan -f results.fpr
         echo "*** fortifyclient -url https://fortify.philips.com/ssc ***"
-        fortifyclient -url https://fortify.philips.com/ssc -authtoken b7f82273-bec3-4cbf-a2df-539274e37cca uploadFPR -file results.fpr -project CDPP_CoCo -version plf_android
+        fortifyclient -url https://fortify.philips.com/ssc -authtoken ea532fe0-0cc0-4111-9c9c-f8e5425c78b1 uploadFPR -file results.fpr -project EMS -version PIM_Android
     '''
 }
 
