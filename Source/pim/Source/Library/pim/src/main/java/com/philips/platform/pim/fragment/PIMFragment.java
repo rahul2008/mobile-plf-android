@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.adobe.mobile.Visitor;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -31,6 +32,7 @@ import com.philips.platform.pim.utilities.PIMInitState;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Map;
 
@@ -143,17 +145,22 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
      */
     private void launchUserProfilePage(String userProfileUrl) {
         String clientId;
-        if (PIMSettingManager.getInstance().getPimUserManager().getLoginFlow() == PIMUserManager.LOGIN_FLOW.MIGRATION) {
+        PIMSettingManager pimSettingManager = PIMSettingManager.getInstance();
+        if (pimSettingManager.getPimUserManager().getLoginFlow() == PIMUserManager.LOGIN_FLOW.MIGRATION) {
             clientId = pimoidcConfigration.getMigrationClientId();
         } else
             clientId = pimoidcConfigration.getClientId();
         StringBuilder url = new StringBuilder();
+        String urlString = "http://";
+        String[] urlStringWithVisitorId = pimSettingManager.getTaggingInterface().getVisitorIDAppendToURL(urlString).split("=");
+        mLoggingInterface.log(DEBUG, TAG, "External URL with Adobe_mc : "+ urlStringWithVisitorId[1]);
+
         try {
             Formatter fmt = new Formatter(url);
-            fmt.format(userProfileUrl, clientId, PIMSettingManager.getInstance().getLocale());
+            fmt.format(userProfileUrl, clientId, pimSettingManager.getLocale());
             Intent authReqIntent = new Intent(Intent.ACTION_VIEW);
             authReqIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            authReqIntent.setData(Uri.parse(url.toString()));
+            authReqIntent.setData(Uri.parse(urlStringWithVisitorId[1]));
             startActivityForResult(authReqIntent, 200);
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching user profile page failed."
