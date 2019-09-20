@@ -13,6 +13,13 @@
     android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
     android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
+
+    <activity
+        android:label="ECS Demo Activity"
+        android:name=".integration.EcsDemoTestActivity"
+        android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+
     <activity
         android:label="ECS Demo Activity"
         android:name=".activity.EcsDemoResultActivity"
@@ -35,6 +42,24 @@
     <activity
         android:label="ECS Demo Activity"
         android:name=".activity.FetchSummariesInputActivity"
+        android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+
+    <activity
+        android:label="ECS Demo Activity"
+        android:name=".activity.SubGroupActivity"
+        android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+
+    <activity
+        android:label="ECS Demo Activity"
+        android:name=".activity.InputActivity"
+        android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
+
+    <activity
+        android:label="ECS Demo Activity"
+        android:name=".activity.ResultActivity"
         android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 

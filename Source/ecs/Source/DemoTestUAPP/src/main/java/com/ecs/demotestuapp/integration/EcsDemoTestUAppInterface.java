@@ -27,7 +27,7 @@ public class EcsDemoTestUAppInterface implements UappInterface {
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 
         if(uiLauncher instanceof ActivityLauncher){
-            Intent intent=new Intent(mContext, EcsDemoTestAppActivity.class);
+            Intent intent=new Intent(mContext, EcsDemoTestActivity.class);
             mContext.startActivity(intent);
         }
     }

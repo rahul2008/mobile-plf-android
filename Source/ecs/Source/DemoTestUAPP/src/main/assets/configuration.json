@@ -3,16 +3,16 @@
   "group": [
 
     {
-      "name": "OAuth",
+      "name": "Config",
       "subgroup": [{
-        "name": "hybrisOAthAuthentication",
+        "name": "configureECS",
         "apiNumber": 1,
         "editText": 0,
         "spinner": 0,
         "button": 0
       },
         {
-          "name": "hybrisRefreshOAuth",
+          "name": "configureECSToGetConfiguration",
           "apiNumber": 2,
           "editText": 0,
           "spinner": 0,
@@ -23,18 +23,18 @@
     },
 
     {
-      "name": "Config",
+      "name": "OAuth",
       "subgroup": [{
-        "name": "configureECS",
+        "name": "hybrisOAthAuthentication",
         "apiNumber": 3,
-        "editText": 0,
+        "editText": 3,
         "spinner": 0,
         "button": 0
       },
         {
-          "name": "configureECSToGetConfiguration",
+          "name": "hybrisRefreshOAuth",
           "apiNumber": 4,
-          "editText": 0,
+          "editText": 3,
           "spinner": 0,
           "button": 0
         }
@@ -60,19 +60,20 @@
           "button": 0
         },
         {
-          "name": "fetchProductSummaries",
-          "apiNumber": 7,
-          "editText": 1,
-          "spinner": 0,
-          "button": 1
-        },
-        {
           "name": "fetchProductDetails",
-          "apiNumber": 8,
+          "apiNumber": 7,
           "editText": 0,
           "spinner": 1,
           "button": 0
+        },
+        {
+          "name": "fetchProductSummaries",
+          "apiNumber": 8,
+          "editText": 1,
+          "spinner": 0,
+          "button": 0
         }
+
       ]
 
     },
@@ -90,7 +91,7 @@
           "name": "addProductToShoppingCart",
           "apiNumber": 10,
           "editText": 0,
-          "spinner": 0,
+          "spinner": 1,
           "button": 0
         },
         {
@@ -103,8 +104,8 @@
         {
           "name": "updateShoppingCart",
           "apiNumber": 12,
-          "editText": 0,
-          "spinner": 0,
+          "editText": 1,
+          "spinner": 1,
           "button": 0
         }
       ]
@@ -259,31 +260,65 @@
     },
 
     {
-      "name": "Order",
+      "name": "Payment",
       "subgroup": [{
-        "name": "fetchOrderHistory",
+        "name": "FetchPayments Details",
         "apiNumber": 30,
         "editText": 0,
         "spinner": 0,
         "button": 0
       },
         {
-          "name": "fetchOrderDetail for oderDetail ID",
+          "name": "SetPaymentDetails",
           "apiNumber": 31,
           "editText": 0,
           "spinner": 0,
           "button": 0
         },
         {
-          "name": "fetchOrderDetail for OrderDetail",
+          "name": "Make Payment",
           "apiNumber": 32,
           "editText": 0,
           "spinner": 0,
           "button": 0
         },
         {
-          "name": "fetchOrderDetail for Orders",
+          "name": "Submit Order",
           "apiNumber": 33,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        }
+
+      ]
+    },
+
+    {
+      "name": "Order",
+      "subgroup": [{
+        "name": "fetchOrderHistory",
+        "apiNumber": 34,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0
+      },
+        {
+          "name": "fetchOrderDetail for oderDetail ID",
+          "apiNumber": 35,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "fetchOrderDetail for OrderDetail",
+          "apiNumber": 36,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0
+        },
+        {
+          "name": "fetchOrderDetail for Orders",
+          "apiNumber": 37,
           "editText": 0,
           "spinner": 0,
           "button": 0
@@ -296,7 +331,7 @@
       "name": "Profile",
       "subgroup": [{
         "name": "Fetch Profile",
-        "apiNumber": 34,
+        "apiNumber": 38,
         "editText": 0,
         "spinner": 0,
         "button": 0

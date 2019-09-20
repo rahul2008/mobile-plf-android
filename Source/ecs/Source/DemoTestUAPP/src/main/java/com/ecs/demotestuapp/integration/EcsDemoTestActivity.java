@@ -18,11 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecs.demotestuapp.R;
-import com.ecs.demotestuapp.adapter.EcsExpandableListAdapter;
-import com.ecs.demotestuapp.adapter.TestRecyclerViewAdapter;
+import com.ecs.demotestuapp.adapter.GroupAdapter;
 import com.ecs.demotestuapp.jsonmodel.JSONConfiguration;
-import com.ecs.demotestuapp.model.Config;
-import com.ecs.demotestuapp.model.PropertyItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.google.gson.Gson;
 import com.philips.cdp.di.ecs.ECSServices;
@@ -45,8 +42,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class EcsDemoTestActivity extends AppCompatActivity implements View.OnClickListener,
@@ -88,16 +83,14 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
         mUserDataInterface = urInterface.getUserDataInterface();
         actionBar();
 
-        JSONConfiguration jsonConfiguration = readConfigJsonFile("testDemoUAPP.json");
+        JSONConfiguration jsonConfiguration = readConfigJsonFile("configuration.json");
 
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        TestRecyclerViewAdapter adapter = new TestRecyclerViewAdapter(jsonConfiguration.getGroup());
+        GroupAdapter adapter = new GroupAdapter(jsonConfiguration.getGroup(), this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-
     }
 
     private JSONConfiguration readConfigJsonFile(String file) {

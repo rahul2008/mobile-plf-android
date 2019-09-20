@@ -50,7 +50,6 @@ public class EcsDemoResultActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         propertyItem = (PropertyItem) bundle.getSerializable("property");
 
-
     }
 
     @Override

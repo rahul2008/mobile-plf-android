@@ -1,26 +1,31 @@
 package com.ecs.demotestuapp.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
 import com.ecs.demotestuapp.R;
+import com.ecs.demotestuapp.activity.EcsDemoResultActivity;
+import com.ecs.demotestuapp.activity.SubGroupActivity;
 import com.ecs.demotestuapp.jsonmodel.GroupItem;
 
 import java.util.List;
 
-public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerViewAdapter.ViewHolder> {
+public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
 
     private List<GroupItem> groupItemList;
+    private final Context context;
 
     // RecyclerView recyclerView;
-    public TestRecyclerViewAdapter(List<GroupItem> groupItemList) {
+    public GroupAdapter(List<GroupItem> groupItemList, Context context) {
         this.groupItemList = groupItemList;
+        this.context = context;
     }
 
     @Override
@@ -33,9 +38,25 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final GroupItem myListData = groupItemList.get(position);
-        holder.textView.setText(myListData.getName());
+        final GroupItem groupItem = groupItemList.get(position);
+        holder.textView.setText(groupItem.getName());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoSubGroupActivity(groupItem);
+            }
+        });
+
+    }
+
+    private void gotoSubGroupActivity(GroupItem groupItem) {
+        Intent intent = new Intent(context, SubGroupActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("group",groupItem);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
 
@@ -45,12 +66,12 @@ public class TestRecyclerViewAdapter extends RecyclerView.Adapter<TestRecyclerVi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView imageView;
         public TextView textView;
-        public RelativeLayout relativeLayout;
+        public  View itemView ;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             this.textView = (TextView) itemView.findViewById(R.id.tv_item);
         }
     }
