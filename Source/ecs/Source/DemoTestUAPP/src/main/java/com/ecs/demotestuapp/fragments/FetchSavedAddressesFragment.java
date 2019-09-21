@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class FetchSavedAddressesFragment extends Fragment {
+public class FetchSavedAddressesFragment extends BaseFragment {
 
     @Nullable
     @Override

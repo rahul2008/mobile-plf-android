@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class SetAndFetchDeliveryAddressFragment extends Fragment {
+public class SetAndFetchDeliveryAddressFragment extends BaseFragment {
 
     @Nullable
     @Override

@@ -1,5 +1,4 @@
 {
-
   "group": [
 
     {
@@ -9,14 +8,21 @@
         "apiNumber": 1,
         "editText": 0,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
       },
         {
           "name": "configureECSToGetConfiguration",
           "apiNumber": 2,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [],
+          "spinners": [],
+          "switches": []
         }
       ]
 
@@ -29,14 +35,51 @@
         "apiNumber": 3,
         "editText": 3,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [{
+          "tag": "et_one",
+          "text": "secret",
+          "hint": "hint"
+        },
+          {
+            "tag": "et_two",
+            "text": "secret",
+            "hint": "hint"
+          },
+          {
+            "tag": "et_three",
+            "text": "secret",
+            "hint": "hint"
+          }
+        ],
+        "spinners": [],
+        "switches": []
       },
         {
           "name": "hybrisRefreshOAuth",
           "apiNumber": 4,
           "editText": 3,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "hint"
+          },
+            {
+              "tag": "et_two",
+              "text": "secret",
+              "hint": "hint"
+            },
+            {
+              "tag": "et_three",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
+          "spinners": [],
+          "switches": []
         }
       ]
 
@@ -49,7 +92,22 @@
         "apiNumber": 5,
         "editText": 2,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [{
+          "tag": "et_one",
+          "inputType": 2,
+          "text": "secret",
+          "hint": "hint"
+        },
+          {
+            "tag": "et_two",
+            "text": "secret",
+            "inputType": 2,
+            "hint": "hint"
+          }
+        ],
+        "spinners": [],
+        "switches": []
 
       },
         {
@@ -57,21 +115,44 @@
           "apiNumber": 6,
           "editText": 1,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "spinners": [],
+          "switches": []
         },
         {
           "name": "fetchProductDetails",
           "apiNumber": 7,
           "editText": 0,
           "spinner": 1,
-          "button": 0
+          "button": 0,
+
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "fetchProductSummaries",
           "apiNumber": 8,
           "editText": 1,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "spinners": [],
+          "switches": []
         }
 
       ]
@@ -85,28 +166,51 @@
         "apiNumber": 9,
         "editText": 0,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
       },
         {
           "name": "addProductToShoppingCart",
           "apiNumber": 10,
           "editText": 0,
           "spinner": 1,
-          "button": 0
+          "button": 0,
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "createShoppingCart",
           "apiNumber": 11,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [],
+          "spinners": [
+
+          ],
+          "switches": []
         },
         {
           "name": "updateShoppingCart",
           "apiNumber": 12,
           "editText": 1,
           "spinner": 1,
-          "button": 0
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "spinners": [],
+          "switches": []
         }
       ]
 
@@ -117,23 +221,43 @@
       "subgroup": [{
         "name": "applyVoucher",
         "apiNumber": 13,
-        "editText": 0,
+        "editText": 1,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+
+        "editTexts": [{
+          "tag": "et_one",
+          "text": "secret",
+          "hint": "hint"
+        }],
+        "spinners": [],
+        "switches": []
+
       },
         {
           "name": "fetchAppliedVouchers",
           "apiNumber": 14,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [],
+          "spinners": [],
+          "switches": []
         },
         {
           "name": "removeVoucher",
           "apiNumber": 15,
-          "editText": 0,
+          "editText": 1,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "spinners": [],
+          "switches": []
         }
       ]
 
@@ -146,14 +270,24 @@
         "apiNumber": 16,
         "editText": 0,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
       },
         {
           "name": "setDeliveryMode",
           "apiNumber": 17,
           "editText": 0,
-          "spinner": 0,
-          "button": 0
+          "spinner": 1,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         }
       ]
 
@@ -166,7 +300,10 @@
         "apiNumber": 18,
         "editText": 0,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
       }]
     },
 
@@ -177,63 +314,139 @@
         "apiNumber": 19,
         "editText": 0,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
       },
         {
           "name": "createAddress",
           "apiNumber": 20,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+
+          "editTexts": [
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "createAndFetchAddress",
           "apiNumber": 21,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "updateAddress",
           "apiNumber": 22,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "updateAndFetchAddress",
           "apiNumber": 23,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "secret",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "setDeliveryAddress",
           "apiNumber": 24,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "setAndFetchDeliveryAddress",
           "apiNumber": 25,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "deleteAddress",
           "apiNumber": 26,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "deleteAndFetchAddress",
           "apiNumber": 27,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         }
 
       ]
@@ -246,14 +459,30 @@
         "apiNumber": 28,
         "editText": 0,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [{
+          "tag": "et_one",
+          "text": "secret",
+          "hint": "hint"
+        }],
+        "spinners": [],
+        "switches": []
       },
         {
           "name": "fetchRetailers for product",
           "apiNumber": 29,
-          "editText": 0,
+          "editText": 1,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         }
       ]
 
@@ -266,28 +495,62 @@
         "apiNumber": 30,
         "editText": 0,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [
+
+        ],
+        "spinners": [
+
+        ],
+        "switches": []
       },
         {
           "name": "SetPaymentDetails",
           "apiNumber": 31,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "spinners": [
+
+          ],
+          "switches": []
         },
         {
           "name": "Make Payment",
           "apiNumber": 32,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "Submit Order",
           "apiNumber": 33,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "spinners": [
+
+          ],
+          "switches": []
         }
 
       ]
@@ -298,30 +561,71 @@
       "subgroup": [{
         "name": "fetchOrderHistory",
         "apiNumber": 34,
-        "editText": 0,
+        "editText": 2,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [{
+          "tag": "et_one",
+          "inputType": 2,
+          "text": "secret",
+          "hint": "hint"
+        },
+          {
+            "tag": "et_two",
+            "inputType": 2,
+            "text": "secret",
+            "hint": "hint"
+          }
+        ],
+        "spinners": [
+
+        ],
+        "switches": []
       },
         {
           "name": "fetchOrderDetail for oderDetail ID",
           "apiNumber": 35,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "spinners": [
+
+          ],
+          "switches": []
+
         },
         {
           "name": "fetchOrderDetail for OrderDetail",
           "apiNumber": 36,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         },
         {
           "name": "fetchOrderDetail for Orders",
           "apiNumber": 37,
           "editText": 0,
           "spinner": 0,
-          "button": 0
+          "button": 0,
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
         }
 
       ]
@@ -334,7 +638,12 @@
         "apiNumber": 38,
         "editText": 0,
         "spinner": 0,
-        "button": 0
+        "button": 0,
+        "editTexts": [],
+        "spinners": [
+
+        ],
+        "switches": []
       }]
     }
 

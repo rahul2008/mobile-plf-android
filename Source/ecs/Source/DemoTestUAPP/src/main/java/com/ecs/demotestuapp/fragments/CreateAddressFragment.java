@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class CreateAddressFragment extends Fragment {
+public class CreateAddressFragment extends BaseFragment {
 
     @Nullable
     @Override

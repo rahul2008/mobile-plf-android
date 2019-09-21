@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-
 public class GroupItem implements Serializable {
 
 	@SerializedName("subgroup")

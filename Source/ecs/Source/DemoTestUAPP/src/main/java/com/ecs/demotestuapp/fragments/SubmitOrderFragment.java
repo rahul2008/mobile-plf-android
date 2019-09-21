@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class SubmitOrderFragment extends Fragment {
+public class SubmitOrderFragment extends BaseFragment {
 
     @Nullable
     @Override

@@ -3,7 +3,6 @@ package com.ecs.demotestuapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
@@ -43,10 +41,19 @@ public class HybrisOAthAuthenticationFragment extends BaseFragment {
         subgroupItem = (SubgroupItem) bundle.getSerializable("sub_group");
         inflateLayout(linearLayout,subgroupItem);
 
+        if(ECSDataHolder.INSTANCE.getJanrainID()!=null){
+            refreshToken = ECSDataHolder.INSTANCE.getJanrainID();
+        }
 
-        etSecret = linearLayout.findViewWithTag("secret");
-        etClient = linearLayout.findViewWithTag("mobile_android");
-        etOAuthID = linearLayout.findViewWithTag(refreshToken);
+        etSecret = linearLayout.findViewWithTag("et_one");
+        etSecret.setText("secret");
+
+        etClient = linearLayout.findViewWithTag("et_two");
+        etClient.setText("mobile_android");
+
+        etOAuthID = linearLayout.findViewWithTag("et_three");
+        etOAuthID.setText(refreshToken);
+
 
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -105,39 +112,4 @@ public class HybrisOAthAuthenticationFragment extends BaseFragment {
 
     }
 
-    private void inflateLayout(LinearLayout linearLayout, SubgroupItem subgroupItem) {
-
-        int noOfEditText = subgroupItem.getEditText();
-
-        for (int i = 0; i < noOfEditText; i++) {
-
-            EditText myEditText = new EditText(getActivity());
-            myEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            myEditText.setTag(getTag(i));
-            myEditText.setText(getTag(i));
-
-            linearLayout.addView(myEditText);
-        }
-
-
-    }
-
-    private String getTag(int i) {
-
-        if(ECSDataHolder.INSTANCE.getJanrainID()!=null){
-            refreshToken = ECSDataHolder.INSTANCE.getJanrainID();
-        }
-
-        switch (i) {
-
-            case 0:
-                return "mobile_android";
-            case 1:
-                return "secret";
-            case 2:
-                return refreshToken;
-
-        }
-        return refreshToken;
-    }
 }

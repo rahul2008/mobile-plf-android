@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class FetchRetailersForProductFragment extends Fragment {
+public class FetchRetailersForProductFragment extends BaseFragment {
 
     @Nullable
     @Override

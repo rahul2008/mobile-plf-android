@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.activity.InputActivity;
-import com.ecs.demotestuapp.activity.ResultActivity;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
 
 import java.util.List;

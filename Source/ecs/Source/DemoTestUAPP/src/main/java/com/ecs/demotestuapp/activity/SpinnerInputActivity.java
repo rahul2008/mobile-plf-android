@@ -138,10 +138,6 @@ public class SpinnerInputActivity extends AppCompatActivity {
 
     public void execute(View view) {
 
-        if(ecsDeliveryMode ==null){
-            Toast.makeText(this,"Delivery mode is not set",Toast.LENGTH_SHORT).show();
-
-        }else {
 
             Intent intent = new Intent(this, EcsDemoResultActivity.class);
 
@@ -149,6 +145,6 @@ public class SpinnerInputActivity extends AppCompatActivity {
             bundle.putSerializable("property", propertyItem);
             intent.putExtras(bundle);
             startActivity(intent);
-        }
+
     }
 }

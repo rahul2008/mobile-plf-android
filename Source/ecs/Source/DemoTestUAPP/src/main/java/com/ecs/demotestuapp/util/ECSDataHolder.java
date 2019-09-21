@@ -25,7 +25,12 @@ public enum  ECSDataHolder {
     ECSProducts ecsProducts;
     List<ECSAddress> ecsAddressList;
     ECSShoppingCart ecsShoppingCart;
+
     String janrainID;
+
+
+
+
 
 
 

@@ -3,7 +3,6 @@ package com.ecs.demotestuapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
-import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 public class HybrisRefreshOAuthFragment extends BaseFragment {
 
@@ -45,9 +43,21 @@ public class HybrisRefreshOAuthFragment extends BaseFragment {
         inflateLayout(linearLayout,subgroupItem);
 
 
-        etSecret = linearLayout.findViewWithTag("secret");
-        etClient = linearLayout.findViewWithTag("mobile_android");
-        etOAuthID = linearLayout.findViewWithTag(refreshToken);
+        if(ECSDataHolder.INSTANCE.getEcsoAuthData()!=null){
+            refreshToken = ECSDataHolder.INSTANCE.getEcsoAuthData().getRefreshToken();
+        }
+
+
+        etSecret = linearLayout.findViewWithTag("et_one");
+        etSecret.setText("secret");
+
+        etClient = linearLayout.findViewWithTag("et_two");
+        etClient.setText("mobile_android");
+
+        etOAuthID = linearLayout.findViewWithTag("et_three");
+        etOAuthID.setText(refreshToken);
+
+
 
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -106,57 +116,7 @@ public class HybrisRefreshOAuthFragment extends BaseFragment {
 
     }
 
-    private void inflateLayout(LinearLayout linearLayout, SubgroupItem subgroupItem) {
 
-        int noOfEditText = subgroupItem.getEditText();
-        int noOFSpinner = subgroupItem.getSpinner();
-        int noButton = subgroupItem.getButton();
-
-        for (int i = 0; i < noOfEditText; i++) {
-
-            EditText myEditText = new EditText(getActivity());
-            myEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            myEditText.setTag(getTag(i));
-            myEditText.setText(getTag(i));
-
-            linearLayout.addView(myEditText);
-        }
-
-        for (int i = 0; i < noOFSpinner; i++) {
-
-            Spinner spinner = new Spinner(getActivity());
-            spinner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(spinner);
-        }
-
-
-        for (int i = 0; i < noButton; i++) {
-
-            Button button = new Button(getActivity());
-            button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(button);
-        }
-
-    }
-
-    private String getTag(int i) {
-
-        if(ECSDataHolder.INSTANCE.getEcsoAuthData()!=null){
-            refreshToken = ECSDataHolder.INSTANCE.getEcsoAuthData().getRefreshToken();
-        }
-
-        switch (i) {
-
-            case 0:
-                return "mobile_android";
-            case 1:
-                return "secret";
-            case 2:
-                return refreshToken;
-
-        }
-        return refreshToken;
-    }
 
 }
 

@@ -1,18 +1,25 @@
 package com.ecs.demotestuapp.jsonmodel;
 
-
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
-
+import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 public class SubgroupItem implements Serializable {
 
 	@SerializedName("button")
 	private int button;
 
+	@SerializedName("spinners")
+	private List<Property> spinners;
+
 	@SerializedName("name")
 	private String name;
+
+	@SerializedName("switches")
+	private List<Property> switches;
+
+	@SerializedName("editTexts")
+	private List<Property> editTexts;
 
 	@SerializedName("editText")
 	private int editText;
@@ -31,12 +38,36 @@ public class SubgroupItem implements Serializable {
 		return button;
 	}
 
+	public void setSpinners(List<Property> spinners){
+		this.spinners = spinners;
+	}
+
+	public List<Property> getSpinners(){
+		return spinners;
+	}
+
 	public void setName(String name){
 		this.name = name;
 	}
 
 	public String getName(){
 		return name;
+	}
+
+	public void setSwitches(List<Property> switches){
+		this.switches = switches;
+	}
+
+	public List<Property> getSwitches(){
+		return switches;
+	}
+
+	public void setEditTexts(List<Property> editTexts){
+		this.editTexts = editTexts;
+	}
+
+	public List<Property> getEditTexts(){
+		return editTexts;
 	}
 
 	public void setEditText(int editText){

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class FetchOrderHistoryFragment extends Fragment {
+public class FetchOrderHistoryFragment extends BaseFragment {
 
     @Nullable
     @Override

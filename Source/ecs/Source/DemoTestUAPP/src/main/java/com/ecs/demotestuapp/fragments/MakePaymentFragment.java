@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class MakePaymentFragment extends Fragment {
+public class MakePaymentFragment extends BaseFragment {
 
     @Nullable
     @Override

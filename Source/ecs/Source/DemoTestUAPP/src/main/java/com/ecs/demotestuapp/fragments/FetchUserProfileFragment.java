@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class FetchUserProfileFragment extends Fragment {
+public class FetchUserProfileFragment extends BaseFragment {
 
     @Nullable
     @Override

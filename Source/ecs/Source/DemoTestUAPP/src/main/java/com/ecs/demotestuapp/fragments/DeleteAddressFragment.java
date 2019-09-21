@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.ecs.demotestuapp.R;
 
-public class DeleteAddressFragment extends Fragment {
+public class DeleteAddressFragment extends BaseFragment {
 
     @Nullable
     @Override

@@ -3,7 +3,6 @@ package com.ecs.demotestuapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +42,9 @@ public class FetchProductsFragment extends BaseFragment {
         subgroupItem = (SubgroupItem) bundle.getSerializable("sub_group");
         inflateLayout(linearLayout,subgroupItem);
 
-        etPageNumber = linearLayout.findViewWithTag("currentPage");
-        etPageSize = linearLayout.findViewWithTag("pageSize");
+        etPageNumber = linearLayout.findViewWithTag("et_one");
+        etPageSize = linearLayout.findViewWithTag("et_two");
+
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
 
@@ -82,50 +82,6 @@ public class FetchProductsFragment extends BaseFragment {
         });
     }
 
-    private void inflateLayout(LinearLayout linearLayout, SubgroupItem subgroupItem) {
 
-        int noOfEditText =  subgroupItem.getEditText();
-        int noOFSpinner = subgroupItem.getSpinner();
-        int noButton = subgroupItem.getButton();
-
-        for (int i=0;i<noOfEditText;i++){
-
-            EditText myEditText = new EditText(getActivity());
-            myEditText.setLayoutParams(new ViewGroup.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            myEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-            myEditText.setTag(getTag(i));
-            myEditText.setHint(getTag(i));
-
-            linearLayout.addView(myEditText);
-        }
-
-        for (int i=0;i<noOFSpinner;i++){
-
-            Spinner spinner = new Spinner(getActivity());
-            spinner.setLayoutParams(new ViewGroup.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(spinner);
-        }
-
-
-        for (int i=0;i<noButton;i++){
-
-            Button button = new Button(getActivity());
-            button.setLayoutParams(new ViewGroup.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(button);
-        }
-
-    }
-
-    private String getTag(int i) {
-        switch (i){
-
-            case 0:
-                return "currentPage";
-            case 1:
-                return "pageSize";
-
-        }
-        return null;
-    }
 
 }

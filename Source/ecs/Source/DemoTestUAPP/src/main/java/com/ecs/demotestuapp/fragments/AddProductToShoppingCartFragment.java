@@ -3,7 +3,6 @@ package com.ecs.demotestuapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,7 @@ public class AddProductToShoppingCartFragment extends BaseFragment {
         inflateLayout(linearLayout,subgroupItem);
 
 
-        spinner = linearLayout.findViewWithTag("spinner");
+        spinner = linearLayout.findViewWithTag("spinner_one");
 
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -90,61 +89,24 @@ public class AddProductToShoppingCartFragment extends BaseFragment {
 
     }
 
-    private void inflateLayout(LinearLayout linearLayout, SubgroupItem subgroupItem) {
 
-        int noOfEditText = subgroupItem.getEditText();
-        int noOFSpinner = subgroupItem.getSpinner();
-        int noButton = subgroupItem.getButton();
 
-        for (int i = 0; i < noOfEditText; i++) {
-        }
+    private void fillSpinnerData(Spinner spinner) {
+        ArrayList<String> ctns = new ArrayList<>();
 
-        for (int i = 0; i < noOFSpinner; i++) {
+        if(ECSDataHolder.INSTANCE.getEcsProducts()!=null){
 
-            Spinner spinner = new Spinner(getActivity());
+            List<ECSProduct> products = ECSDataHolder.INSTANCE.getEcsProducts().getProducts();
+            if(products.size()!=0) {
 
-            ArrayList<String> ctns = new ArrayList<>();
-
-            if(ECSDataHolder.INSTANCE.getEcsProducts()!=null){
-
-                List<ECSProduct> products = ECSDataHolder.INSTANCE.getEcsProducts().getProducts();
-                if(products.size()!=0) {
-
-                    for(ECSProduct ecsProduct:products){
-                        ctns.add(ecsProduct.getCode());
-                    }
-
-                    fillSpinner(spinner,ctns);
+                for(ECSProduct ecsProduct:products){
+                    ctns.add(ecsProduct.getCode());
                 }
+
+                fillSpinner(spinner,ctns);
             }
-
-            spinner.setTag(getTag(i));
-            spinner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(spinner);
         }
-
-
-        for (int i = 0; i < noButton; i++) {
-
-            Button button = new Button(getActivity());
-            button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(button);
-        }
-
     }
-
-    private String getTag(int i) {
-        switch (i) {
-
-            case 0:
-                return "spinner";
-
-        }
-        return null;
-    }
-
-
-
 
     private ECSProduct getECSProductFromID(String ctn) {
 

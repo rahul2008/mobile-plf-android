@@ -3,8 +3,6 @@ package com.ecs.demotestuapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +44,12 @@ public class FetchProductSummariesFragment extends BaseFragment {
         inflateLayout(linearLayout,subgroupItem);
 
 
-        etCTN = linearLayout.findViewWithTag("ctn");
+        etCTN = linearLayout.findViewWithTag("et_one");
+        if(ECSDataHolder.INSTANCE.getEcsProducts()!=null){
+            if(ECSDataHolder.INSTANCE.getEcsProducts().getProducts().size()!=0){
+                etCTN.setText(ECSDataHolder.INSTANCE.getEcsProducts().getProducts().get(0).getCode());
+            }
+        }
 
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
@@ -86,56 +89,6 @@ public class FetchProductSummariesFragment extends BaseFragment {
             }
         });
 
-
-    }
-
-    private void inflateLayout(LinearLayout linearLayout, SubgroupItem subgroupItem) {
-
-        int noOfEditText = subgroupItem.getEditText();
-        int noOFSpinner = subgroupItem.getSpinner();
-        int noButton = subgroupItem.getButton();
-
-        for (int i = 0; i < noOfEditText; i++) {
-
-            EditText myEditText = new EditText(getActivity());
-            myEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            myEditText.setTag("ctn");
-            myEditText.setHint(getTag(i));
-
-            if(ECSDataHolder.INSTANCE.getEcsProducts()!=null){
-                if(ECSDataHolder.INSTANCE.getEcsProducts().getProducts().size()!=0){
-                    myEditText.setText(ECSDataHolder.INSTANCE.getEcsProducts().getProducts().get(0).getCode());
-                }
-            }
-
-            linearLayout.addView(myEditText);
-        }
-
-        for (int i = 0; i < noOFSpinner; i++) {
-
-            Spinner spinner = new Spinner(getActivity());
-            spinner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(spinner);
-        }
-
-
-        for (int i = 0; i < noButton; i++) {
-
-            Button button = new Button(getActivity());
-            button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(button);
-        }
-
-    }
-
-    private String getTag(int i) {
-        switch (i) {
-
-            case 0:
-                return "Enter comma separated CTNS";
-
-        }
-        return null;
     }
 
 }

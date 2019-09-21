@@ -3,7 +3,6 @@ package com.ecs.demotestuapp.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
-import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +50,10 @@ public class UpdateShoppingCartFragment extends BaseFragment {
         inflateLayout(linearLayout, subgroupItem);
 
 
-        etQuantity = linearLayout.findViewWithTag("quantity");
-        spinner = linearLayout.findViewWithTag("spinner");
+        etQuantity = linearLayout.findViewWithTag("et_one");
+        spinner = linearLayout.findViewWithTag("spinner_one");
 
+        fillSpinnerData(spinner);
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
 
@@ -106,87 +105,22 @@ public class UpdateShoppingCartFragment extends BaseFragment {
 
     }
 
-    private void inflateLayout(LinearLayout linearLayout, SubgroupItem subgroupItem) {
 
-        int noOfEditText = subgroupItem.getEditText();
-        int noOFSpinner = subgroupItem.getSpinner();
-        int noButton = subgroupItem.getButton();
+    private void fillSpinnerData(Spinner spinner) {
+        ArrayList<String> ctns = new ArrayList<>();
 
-        for (int i = 0; i < noOfEditText; i++) {
+        if (ECSDataHolder.INSTANCE.getEcsProducts() != null) {
 
-            EditText myEditText = new EditText(getActivity());
-            myEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            myEditText.setTag(getTag(i));
-            myEditText.setHint(getTag(i));
-            myEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            List<ECSEntries> entries = ECSDataHolder.INSTANCE.getEcsShoppingCart().getEntries();
+            if (entries.size() != 0) {
 
-
-            linearLayout.addView(myEditText);
-        }
-        for (int i = 0; i < noOFSpinner; i++) {
-
-            Spinner spinner = new Spinner(getActivity());
-
-            ArrayList<String> ctns = new ArrayList<>();
-
-            if (ECSDataHolder.INSTANCE.getEcsProducts() != null) {
-
-                List<ECSEntries> entries = ECSDataHolder.INSTANCE.getEcsShoppingCart().getEntries();
-                if (entries.size() != 0) {
-
-                    for (ECSEntries ecsEntries : entries) {
-                        ctns.add(ecsEntries.getEntryNumber() + "");
-                    }
-
-                    fillSpinner(spinner, ctns);
+                for (ECSEntries ecsEntries : entries) {
+                    ctns.add(ecsEntries.getEntryNumber() + "");
                 }
+
+                fillSpinner(spinner, ctns);
             }
-
-            spinner.setTag("spinner");
-            spinner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(spinner);
         }
-
-
-        for (int i = 0; i < noButton; i++) {
-
-            Button button = new Button(getActivity());
-            button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayout.addView(button);
-        }
-
-    }
-
-    private String getTag(int i) {
-        switch (i) {
-
-            case 0:
-                return "quantity";
-
-        }
-        return null;
-    }
-
-    public void fillSpinner(Spinner spinner, List<String> ctns) {
-        //Creating the ArrayAdapter instance having the country list
-        ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, ctns);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        spinner.setAdapter(aa);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-        });
     }
 
     private ECSEntries getECSEntriesFromID(String ctn) {
