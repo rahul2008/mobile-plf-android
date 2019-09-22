@@ -5,7 +5,6 @@ import com.philips.cdp.di.ecs.TestUtil;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
-import com.philips.cdp.di.ecs.model.address.GetShippingAddressData;
 import com.philips.cdp.di.ecs.request.GetAddressRequest;
 
 import org.json.JSONException;
