@@ -9,6 +9,7 @@ import com.philips.cdp.di.ecs.MockInputValidator
 import com.philips.cdp.di.ecs.StaticBlock
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
+import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
 import org.junit.Assert.*
