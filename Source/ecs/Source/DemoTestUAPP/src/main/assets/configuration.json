@@ -380,6 +380,11 @@
               "tag": "et_town",
               "text": "secret",
               "hint": "enter city"
+            },
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
             }
           ],
           "spinners": [{
@@ -453,7 +458,13 @@
               "tag": "et_town",
               "text": "secret",
               "hint": "enter city"
+            },
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
             }
+
           ],
           "spinners": [{
             "tag": "spinner_salutation",
@@ -525,6 +536,11 @@
               "tag": "et_town",
               "text": "secret",
               "hint": "enter city"
+            },
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
             }
           ],
           "spinners": [{
@@ -602,6 +618,11 @@
               "tag": "et_town",
               "text": "secret",
               "hint": "enter city"
+            },
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
             }
           ],
           "spinners": [{

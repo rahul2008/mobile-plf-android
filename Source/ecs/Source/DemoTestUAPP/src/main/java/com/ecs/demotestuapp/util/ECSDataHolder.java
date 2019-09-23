@@ -7,6 +7,7 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
@@ -30,6 +31,17 @@ public enum  ECSDataHolder {
     List<ECSAddress> ecsAddressList = new ArrayList<>();
     ECSShoppingCart ecsShoppingCart;
     ECSOrderHistory ecsOrderHistory;
+
+    public ECSOrderDetail getEcsOrderDetail() {
+        return ecsOrderDetail;
+    }
+
+    public void setEcsOrderDetail(ECSOrderDetail ecsOrderDetail) {
+        this.ecsOrderDetail = ecsOrderDetail;
+    }
+
+    ECSOrderDetail ecsOrderDetail;
+
 
     public List<ECSPayment> getEcsPayments() {
         return ecsPayments;

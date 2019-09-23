@@ -63,5 +63,6 @@ public class MakePaymentFragment extends BaseFragment {
     }
 
     private void fillSpinnerData(Spinner spinner) {
+
     }
 }

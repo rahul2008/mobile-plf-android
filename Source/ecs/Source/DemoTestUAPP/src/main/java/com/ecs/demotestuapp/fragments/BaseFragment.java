@@ -21,9 +21,11 @@ import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.Region;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
+import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.util.List;
 
@@ -132,6 +134,7 @@ public class BaseFragment extends Fragment {
         EditText etPhoneTwo = linearLayout.findViewWithTag("et_phone_two");
         EditText etEmail = linearLayout.findViewWithTag("et_email");
         EditText etTown = linearLayout.findViewWithTag("et_town");
+        EditText etHouseNumber = linearLayout.findViewWithTag("et_house_no");
 
 
         Spinner spinnerSalutation = linearLayout.findViewWithTag("spinner_salutation");
@@ -141,7 +144,11 @@ public class BaseFragment extends Fragment {
 
         ecsAddress.setFirstName(getTextFromEditText(etFirstName));
         ecsAddress.setLastName(getTextFromEditText(etLastName));
-        ecsAddress.setCountry(null);
+
+        Country country= new Country();
+        country.setIsocode(ECSConfiguration.INSTANCE.getCountry());
+        ecsAddress.setCountry(country);
+
         ecsAddress.setLine1(getTextFromEditText(etAddressLineOne));
         ecsAddress.setLine2(getTextFromEditText(etAddressLineTwo));
         ecsAddress.setPostalCode(getTextFromEditText(etPostalCode));
@@ -149,6 +156,7 @@ public class BaseFragment extends Fragment {
         ecsAddress.setPhone2(getTextFromEditText(etPhoneTwo));
         ecsAddress.setEmail(getTextFromEditText(etEmail));
         ecsAddress.setEmail(getTextFromEditText(etTown));
+        ecsAddress.setHouseNumber(getTextFromEditText(etHouseNumber));
 
         ecsAddress.setTitleCode(getTextFromSpinner(spinnerSalutation));
         ecsAddress.setRegion(getRegionFromName(getTextFromSpinner(spinnerState)));
@@ -156,6 +164,35 @@ public class BaseFragment extends Fragment {
         getTextFromSpinner(spinnerState);
 
         return ecsAddress;
+    }
+
+    public void populateAddress(LinearLayout linearLayout,ECSAddress ecsAddress){
+
+        EditText etFirstName = linearLayout.findViewWithTag("et_first_name");
+        EditText etLastName = linearLayout.findViewWithTag("et_last_name");
+        EditText etCountryCode = linearLayout.findViewWithTag("et_country_code");
+        EditText etAddressLineOne = linearLayout.findViewWithTag("et_address_one");
+        EditText etAddressLineTwo = linearLayout.findViewWithTag("et_address_two");
+        EditText etPostalCode = linearLayout.findViewWithTag("et_postal_code");
+        EditText etPhoneOne = linearLayout.findViewWithTag("et_phone_one");
+        EditText etPhoneTwo = linearLayout.findViewWithTag("et_phone_two");
+        EditText etEmail = linearLayout.findViewWithTag("et_email");
+        EditText etTown = linearLayout.findViewWithTag("et_town");
+        EditText etHouseNumber = linearLayout.findViewWithTag("et_house_no");
+
+        etFirstName.setText(ecsAddress.getFirstName());
+        etLastName.setText(ecsAddress.getFirstName());
+        etCountryCode.setText(ECSConfiguration.INSTANCE.getCountry());
+        etAddressLineOne.setText(ecsAddress.getLine1());
+        etAddressLineTwo.setText(ecsAddress.getLine2());
+
+        etPostalCode.setText(ecsAddress.getPostalCode());
+        etPhoneOne.setText(ecsAddress.getPhone1());
+        etPhoneTwo.setText(ecsAddress.getPhone2());
+
+        etEmail.setText(ecsAddress.getEmail());
+        etTown.setText(ecsAddress.getTown());
+        etHouseNumber.setText(ecsAddress.getHouseNumber());
 
     }
 
@@ -166,7 +203,7 @@ public class BaseFragment extends Fragment {
             if(stateName.equalsIgnoreCase(ecsRegion.getName())){
 
                 Region region = new Region();
-                region.setIsocode(ecsRegion.getIsocode());
+                region.setIsocodeShort(ecsRegion.getIsocode());
                 return region;
             }
         }
@@ -183,6 +220,35 @@ public class BaseFragment extends Fragment {
             return  et.getText().toString();
         }
         return null;
+
+
+        /*
+
+        ,
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
+            }
+
+        addressRequest.setFirstName(addressFields.getFirstName());
+        addressRequest.setLastName(addressFields.getLastName());
+        addressRequest.setTitleCode(addressFields.getTitleCode());
+        Country country= new Country();
+        country.setIsocode(ECSConfiguration.INSTANCE.getCountry());
+        //country.se
+        addressRequest.setCountry(country); // iso
+        addressRequest.setLine1(addressFields.getLine1());
+        //   addressRequest.setLine2(shippingAddressFields.getLine2());
+        addressRequest.setPostalCode(addressFields.getPostalCode());
+        addressRequest.setTown(addressFields.getTown());
+        addressRequest.setPhone1(addressFields.getPhone1());
+        addressRequest.setPhone2(addressFields.getPhone2());
+        Region region = new Region();
+        region.setIsocodeShort(addressFields.getRegionIsoCode());
+        addressRequest.setRegion(region); // set Region eg State for US and Canada
+        addressRequest.setHouseNumber(addressFields.getHouseNumber());
+        */
     }
 
 }

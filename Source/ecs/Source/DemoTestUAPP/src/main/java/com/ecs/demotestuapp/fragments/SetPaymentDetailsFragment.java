@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
+import com.ecs.demotestuapp.util.ECSDataHolder;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
 
 public class SetPaymentDetailsFragment extends BaseFragment {
 
@@ -24,7 +28,11 @@ public class SetPaymentDetailsFragment extends BaseFragment {
 
     private Button btn_execute;
     private ProgressBar progressBar;
-    private Spinner spinner;
+
+    private EditText etPaymentDetail;
+
+    String paymentDetailID = null;
+
 
     @Nullable
     @Override
@@ -39,6 +47,7 @@ public class SetPaymentDetailsFragment extends BaseFragment {
 
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
+        etPaymentDetail = rootView.findViewWithTag("et_one");
 
 
         btn_execute.setOnClickListener(new View.OnClickListener() {
@@ -54,8 +63,21 @@ public class SetPaymentDetailsFragment extends BaseFragment {
 
     private void executeRequest() {
 
+        if(etPaymentDetail.getText()!=null){
+            paymentDetailID = etPaymentDetail.getText().toString();
+        }
+
+        ECSDataHolder.INSTANCE.getEcsServices().setPaymentDetails(paymentDetailID, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean aBoolean) {
+
+            }
+
+            @Override
+            public void onFailure(Exception e, ECSError ecsError) {
+
+            }
+        });
     }
 
-    private void fillSpinnerData(Spinner spinner) {
-    }
 }

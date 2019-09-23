@@ -8,12 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
+import com.ecs.demotestuapp.util.ECSDataHolder;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 
 public class SubmitOrderFragment extends BaseFragment {
 
@@ -23,6 +28,10 @@ public class SubmitOrderFragment extends BaseFragment {
 
     private Button btn_execute;
     private ProgressBar progressBar;
+
+    private EditText etCvv;
+
+    String cvv = null;
 
     @Nullable
     @Override
@@ -35,6 +44,8 @@ public class SubmitOrderFragment extends BaseFragment {
         Bundle bundle = getActivity().getIntent().getExtras();
         subgroupItem = (SubgroupItem) bundle.getSerializable("sub_group");
         inflateLayout(linearLayout,subgroupItem);
+
+        etCvv = linearLayout.findViewWithTag("et_one");
 
 
         btn_execute = rootView.findViewById(R.id.btn_execute);
@@ -55,8 +66,27 @@ public class SubmitOrderFragment extends BaseFragment {
 
     private void executeRequest() {
 
+        if(etCvv.getText()!=null){
+            cvv = etCvv.getText().toString();
+        }
+
+        ECSDataHolder.INSTANCE.getEcsServices().submitOrder(cvv, new ECSCallback<ECSOrderDetail, Exception>() {
+            @Override
+            public void onResponse(ECSOrderDetail ecsOrderDetail) {
+                ECSDataHolder.INSTANCE.setEcsOrderDetail(ecsOrderDetail);
+                gotoResultActivity(getJsonStringFromObject(ecsOrderDetail));
+                progressBar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Exception e, ECSError ecsError) {
+                String errorString = getFailureString(e, ecsError);
+                gotoResultActivity(errorString);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
-    private void fillSpinnerData(Spinner spinner) {
-    }
+
 }

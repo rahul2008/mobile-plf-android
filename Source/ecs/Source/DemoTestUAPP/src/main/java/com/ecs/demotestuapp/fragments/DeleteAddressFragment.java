@@ -108,7 +108,7 @@ public class DeleteAddressFragment extends BaseFragment {
             }
         }
 
-            return ecsAddress;
+        return ecsAddress;
    }
 
 }

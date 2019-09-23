@@ -33,6 +33,8 @@ public class SetDeliveryModeFragment extends BaseFragment {
     private ProgressBar progressBar;
     private Spinner spinner;
 
+    String deliveryMode = "";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,9 +83,48 @@ public class SetDeliveryModeFragment extends BaseFragment {
         }
     }
 
+    private ECSDeliveryMode getDeliveryMode(String deliveryModeID){
+
+        if (ECSDataHolder.INSTANCE.getEcsProducts() != null) {
+
+            List<ECSDeliveryMode> ecsDeliveryModes = ECSDataHolder.INSTANCE.getEcsDeliveryModes();
+            if (ecsDeliveryModes.size() != 0) {
+
+                for (ECSDeliveryMode ecsDeliveryMode : ecsDeliveryModes) {
+
+                    if(ecsDeliveryMode.getCode().equalsIgnoreCase(deliveryModeID)){
+                        return ecsDeliveryMode;
+                    }
+                }
+
+
+            }
+        }
+        return null;
+    }
+
     private void executeRequest() {
 
+        String selectedDeliveryID = (String)spinner.getSelectedItem();
+
+        ECSDeliveryMode deliveryMode = getDeliveryMode(selectedDeliveryID);
 
 
+        ECSDataHolder.INSTANCE.getEcsServices().setDeliveryMode(deliveryMode, new ECSCallback<Boolean, Exception>() {
+            @Override
+            public void onResponse(Boolean aBoolean) {
+
+                gotoResultActivity(aBoolean+"");
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Exception e, ECSError ecsError) {
+
+                String errorString = getFailureString(e, ecsError);
+                gotoResultActivity(errorString);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 }
