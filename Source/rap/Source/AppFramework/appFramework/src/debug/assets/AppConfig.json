@@ -59,7 +59,7 @@
       "0.cn.pool.ntp.org"
     ],
     "LANGUAGEPACK.SERVICEID": "app.languagepack",
-    "servicediscovery.propositionEnabled": false,
+    "servicediscovery.propositionEnabled": true,
     "enableAdobeLogs": true,
     "servicediscovery.countryMapping": {
       "LU": "BE",

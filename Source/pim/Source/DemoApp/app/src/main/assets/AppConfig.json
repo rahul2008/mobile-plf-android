@@ -115,7 +115,7 @@
     },
     "servicediscovery.platformMicrositeId": "70000",
     "servicediscovery.platformEnvironment": "production",
-    "servicediscovery.propositionEnabled": false,
+    "servicediscovery.propositionEnabled": true,
     "appconfig.cloudServiceId": "appinfra.appconfigdownload",
     "timesync.ntp.hosts": [
       "time1.google.com",
