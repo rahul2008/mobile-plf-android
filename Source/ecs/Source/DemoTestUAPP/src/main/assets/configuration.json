@@ -39,17 +39,17 @@
         "editTexts": [{
           "tag": "et_one",
           "text": "secret",
-          "hint": "hint"
+          "hint": "client secret"
         },
           {
             "tag": "et_two",
-            "text": "secret",
-            "hint": "hint"
+            "text": "mobile_android",
+            "hint": "client ID"
           },
           {
             "tag": "et_three",
-            "text": "secret",
-            "hint": "hint"
+            "text": "refreshToken",
+            "hint": "refresh Token"
           }
         ],
         "spinners": [],
@@ -65,17 +65,17 @@
           "editTexts": [{
             "tag": "et_one",
             "text": "secret",
-            "hint": "hint"
+            "hint": "client secret"
           },
             {
               "tag": "et_two",
-              "text": "secret",
-              "hint": "hint"
+              "text": "mobile_android",
+              "hint": "client ID"
             },
             {
               "tag": "et_three",
-              "text": "secret",
-              "hint": "hint"
+              "text": "refreshToken",
+              "hint": "refresh Token"
             }
           ],
           "spinners": [],
@@ -96,14 +96,13 @@
         "editTexts": [{
           "tag": "et_one",
           "inputType": 2,
-          "text": "secret",
-          "hint": "hint"
+          "hint": "enter current pagee"
         },
           {
             "tag": "et_two",
             "text": "secret",
             "inputType": 2,
-            "hint": "hint"
+            "hint": "enter page size"
           }
         ],
         "spinners": [],
@@ -119,7 +118,7 @@
           "editTexts": [{
             "tag": "et_one",
             "text": "secret",
-            "hint": "hint"
+            "hint": "enter product ctn"
           }],
           "spinners": [],
           "switches": []
@@ -149,7 +148,7 @@
           "editTexts": [{
             "tag": "et_one",
             "text": "secret",
-            "hint": "hint"
+            "hint": "enter ctns in comma separated"
           }],
           "spinners": [],
           "switches": []
@@ -207,9 +206,15 @@
           "editTexts": [{
             "tag": "et_one",
             "text": "secret",
-            "hint": "hint"
+            "hint": "enter quantity"
           }],
-          "spinners": [],
+          "spinners": [
+            {
+              "tag": "spinner_one",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
           "switches": []
         }
       ]
@@ -228,7 +233,7 @@
         "editTexts": [{
           "tag": "et_one",
           "text": "secret",
-          "hint": "hint"
+          "hint": "enter voucher code"
         }],
         "spinners": [],
         "switches": []
@@ -254,7 +259,7 @@
           "editTexts": [{
             "tag": "et_one",
             "text": "secret",
-            "hint": "hint"
+            "hint": "enter voucher code"
           }],
           "spinners": [],
           "switches": []
@@ -463,7 +468,7 @@
         "editTexts": [{
           "tag": "et_one",
           "text": "secret",
-          "hint": "hint"
+          "hint": "enter ctn to get available retailers"
         }],
         "spinners": [],
         "switches": []
@@ -513,7 +518,7 @@
           "editTexts": [{
             "tag": "et_one",
             "text": "secret",
-            "hint": "hint"
+            "hint": "enter payment detail ID"
           }],
           "spinners": [
 
@@ -533,7 +538,13 @@
             "tag": "spinner_one",
             "text": "secret",
             "hint": "hint"
-          }],
+          },
+            {
+            "tag": "spinner_two",
+            "text": "secret",
+            "hint": "hint"
+            }
+          ],
           "switches": []
         },
         {
@@ -545,7 +556,7 @@
           "editTexts": [{
             "tag": "et_one",
             "text": "secret",
-            "hint": "hint"
+            "hint": "enter cvv number"
           }],
           "spinners": [
 
@@ -568,13 +579,13 @@
           "tag": "et_one",
           "inputType": 2,
           "text": "secret",
-          "hint": "hint"
+          "hint": "enter current page "
         },
           {
             "tag": "et_two",
             "inputType": 2,
             "text": "secret",
-            "hint": "hint"
+            "hint": "enter current page sizee"
           }
         ],
         "spinners": [
@@ -591,7 +602,7 @@
           "editTexts": [{
             "tag": "et_one",
             "text": "secret",
-            "hint": "hint"
+            "hint": "enter order Detail ID"
           }],
           "spinners": [
 

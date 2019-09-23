@@ -62,6 +62,10 @@ public class BaseFragment extends Fragment {
 
             EditText myEditText = new EditText(getActivity());
             myEditText.setTag(property.tag);
+            if(property.hint!=null){
+                myEditText.setHint(property.hint);
+            }
+
             if(typeClassNumber!=-1){
                 myEditText.setInputType(typeClassNumber);
             }
