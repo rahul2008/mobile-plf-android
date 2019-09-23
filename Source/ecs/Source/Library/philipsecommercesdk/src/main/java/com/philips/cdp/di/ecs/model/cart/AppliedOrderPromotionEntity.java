@@ -6,7 +6,9 @@
 
 package com.philips.cdp.di.ecs.model.cart;
 
-public class AppliedOrderPromotionEntity {
+import java.io.Serializable;
+
+public class AppliedOrderPromotionEntity  implements Serializable {
 
 
     private String description;

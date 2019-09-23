@@ -1,8 +1,9 @@
 package com.philips.cdp.di.ecs.model.orders;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DeliveryOrderGroups {
+public class DeliveryOrderGroups implements Serializable {
 
     private Cost totalPriceWithTax;
 

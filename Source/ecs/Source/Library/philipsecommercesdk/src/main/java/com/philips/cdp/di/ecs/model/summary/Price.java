@@ -9,8 +9,10 @@ package com.philips.cdp.di.ecs.model.summary;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 
-public class Price {
+
+public class Price implements Serializable {
 
     @SerializedName("productPrice")
     @Expose

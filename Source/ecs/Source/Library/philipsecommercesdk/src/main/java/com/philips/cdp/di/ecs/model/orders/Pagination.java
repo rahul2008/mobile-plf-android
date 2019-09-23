@@ -1,14 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-
-package com.philips.cdp.di.ecs.model.products;
+package com.philips.cdp.di.ecs.model.orders;
 
 import java.io.Serializable;
 
-public class PaginationEntity implements Serializable {
-
+public class Pagination  implements Serializable {
     private int currentPage;
     private int pageSize;
     private String sort;
@@ -19,6 +13,7 @@ public class PaginationEntity implements Serializable {
         return currentPage;
     }
 
+
     public int getPageSize() {
         return pageSize;
     }
@@ -27,11 +22,14 @@ public class PaginationEntity implements Serializable {
         return sort;
     }
 
+
     public int getTotalPages() {
         return totalPages;
     }
 
+
     public int getTotalResults() {
         return totalResults;
     }
+
 }

@@ -12,9 +12,9 @@ import com.ecs.demouapp.ui.session.RequestCode;
 import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
 import com.philips.cdp.di.ecs.model.orders.Consignment;
 import com.philips.cdp.di.ecs.model.orders.ConsignmentEntries;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory;
 import com.philips.cdp.di.ecs.model.orders.Entries;
 import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
 import com.philips.cdp.di.ecs.model.summary.Data;
@@ -49,6 +49,7 @@ public class OrderController {
             public void onResponse(ECSOrderHistory result) {
                 Message message = new Message();
                 message.obj = result;
+
                 mOrderListener.onGetOrderList(message);
             }
 

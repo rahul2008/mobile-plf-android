@@ -3,9 +3,10 @@ package com.philips.cdp.di.ecs.model.disclaimer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Disclaimer {
+public class Disclaimer implements Serializable {
 
 
     @SerializedName("disclaimerText")

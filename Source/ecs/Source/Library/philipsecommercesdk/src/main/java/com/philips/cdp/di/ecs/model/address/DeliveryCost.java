@@ -4,7 +4,9 @@
  */
 package com.philips.cdp.di.ecs.model.address;
 
-public class DeliveryCost {
+import java.io.Serializable;
+
+public class DeliveryCost implements Serializable {
     private String currencyIso;
     private String formattedValue;
     private String priceType;

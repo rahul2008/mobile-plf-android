@@ -5,9 +5,10 @@
 
 package com.philips.cdp.di.ecs.model.address;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GetShippingAddressData {
+public class GetShippingAddressData implements Serializable {
 
     private List<ECSAddress> addresses;
 

@@ -4,9 +4,10 @@
  */
 package com.philips.cdp.di.ecs.model.retailers;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ECSRetailerList {
+public class ECSRetailerList implements Serializable {
 
     private WrbresultsEntity wrbresults;
 

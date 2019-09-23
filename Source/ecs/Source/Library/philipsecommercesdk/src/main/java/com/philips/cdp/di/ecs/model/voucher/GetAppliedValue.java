@@ -5,9 +5,10 @@
 package com.philips.cdp.di.ecs.model.voucher;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GetAppliedValue {
+public class GetAppliedValue implements Serializable {
 
     private List<ECSVoucher> vouchers;
 

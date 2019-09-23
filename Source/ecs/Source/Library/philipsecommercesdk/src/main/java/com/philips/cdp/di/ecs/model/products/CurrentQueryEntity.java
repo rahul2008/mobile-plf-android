@@ -5,7 +5,9 @@
 
 package com.philips.cdp.di.ecs.model.products;
 
-public class CurrentQueryEntity {
+import java.io.Serializable;
+
+public class CurrentQueryEntity implements Serializable {
 
     QueryEntity query;
     private String url;

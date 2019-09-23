@@ -6,7 +6,7 @@ import com.android.volley.NoConnectionError
 import com.philips.cdp.di.ecs.*
 import com.philips.cdp.di.ecs.error.ECSError
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.user.ECSUserProfile
+import com.philips.cdp.di.ecs.model.address.ECSUserProfile
 import com.philips.platform.appinfra.AppInfra
 import com.philips.platform.appinfra.rest.RestInterface
 import org.json.JSONException
@@ -22,7 +22,7 @@ import org.robolectric.RobolectricTestRunner
 import java.util.HashMap
 
 @RunWith(RobolectricTestRunner::class)
-class GetUserProfileRequestTest{
+class ECSUserProfileProfileRequestTest{
 
 
     private lateinit var mockInputValidator: MockInputValidator

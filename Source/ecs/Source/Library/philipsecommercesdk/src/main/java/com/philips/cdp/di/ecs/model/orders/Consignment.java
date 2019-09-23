@@ -4,9 +4,10 @@ package com.philips.cdp.di.ecs.model.orders;
 
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Consignment {
+public class Consignment  implements Serializable {
     private String code;
 
     private ECSAddress shippingAddress;

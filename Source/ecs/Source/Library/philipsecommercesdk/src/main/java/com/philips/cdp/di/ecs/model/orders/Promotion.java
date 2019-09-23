@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.model.orders;
 
-public class Promotion {
+import java.io.Serializable;
+
+public class Promotion implements Serializable {
     private String code;
     private String description;
     private String endDate;

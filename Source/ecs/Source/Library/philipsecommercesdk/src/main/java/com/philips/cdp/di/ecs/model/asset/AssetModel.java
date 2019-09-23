@@ -8,13 +8,15 @@ import com.philips.cdp.di.ecs.prx.response.ResponseData;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 
 /**
  * Description :
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 02-Nov-15.
  */
-public class AssetModel extends ResponseData {
+public class AssetModel extends ResponseData implements Serializable {
     private boolean success;
     @SerializedName("data")
     @Expose

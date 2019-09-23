@@ -6,10 +6,10 @@ import com.android.volley.VolleyError
 import com.google.gson.Gson
 import com.philips.cdp.di.ecs.error.ECSErrorEnum
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.order.ECSOrderHistory
 import com.philips.cdp.di.ecs.store.ECSURLBuilder
 import com.philips.cdp.di.ecs.util.ECSConfiguration
 import com.philips.cdp.di.ecs.error.ECSNetworkError
+import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory
 import org.json.JSONObject
 import java.util.HashMap
 import kotlin.Exception
