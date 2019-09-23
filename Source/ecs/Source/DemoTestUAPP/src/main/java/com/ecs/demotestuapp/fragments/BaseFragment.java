@@ -17,9 +17,13 @@ import android.widget.Spinner;
 import com.ecs.demotestuapp.activity.ResultActivity;
 import com.ecs.demotestuapp.jsonmodel.Property;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
+import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
+import com.philips.cdp.di.ecs.model.address.Region;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 
 import java.util.List;
 
@@ -113,4 +117,72 @@ public class BaseFragment extends Fragment {
             }
         });
     }
+
+
+
+    public ECSAddress getECSAddress(LinearLayout linearLayout){
+
+        EditText etFirstName = linearLayout.findViewWithTag("et_first_name");
+        EditText etLastName = linearLayout.findViewWithTag("et_last_name");
+        EditText etCountryCode = linearLayout.findViewWithTag("et_country_code");
+        EditText etAddressLineOne = linearLayout.findViewWithTag("et_address_one");
+        EditText etAddressLineTwo = linearLayout.findViewWithTag("et_address_two");
+        EditText etPostalCode = linearLayout.findViewWithTag("et_postal_code");
+        EditText etPhoneOne = linearLayout.findViewWithTag("et_phone_one");
+        EditText etPhoneTwo = linearLayout.findViewWithTag("et_phone_two");
+        EditText etEmail = linearLayout.findViewWithTag("et_email");
+        EditText etTown = linearLayout.findViewWithTag("et_town");
+
+
+        Spinner spinnerSalutation = linearLayout.findViewWithTag("spinner_salutation");
+        Spinner spinnerState= linearLayout.findViewWithTag("spinner_state");
+
+        ECSAddress ecsAddress = new ECSAddress();
+
+        ecsAddress.setFirstName(getTextFromEditText(etFirstName));
+        ecsAddress.setLastName(getTextFromEditText(etLastName));
+        ecsAddress.setCountry(null);
+        ecsAddress.setLine1(getTextFromEditText(etAddressLineOne));
+        ecsAddress.setLine2(getTextFromEditText(etAddressLineTwo));
+        ecsAddress.setPostalCode(getTextFromEditText(etPostalCode));
+        ecsAddress.setPhone1(getTextFromEditText(etPhoneOne));
+        ecsAddress.setPhone2(getTextFromEditText(etPhoneTwo));
+        ecsAddress.setEmail(getTextFromEditText(etEmail));
+        ecsAddress.setEmail(getTextFromEditText(etTown));
+
+        ecsAddress.setTitleCode(getTextFromSpinner(spinnerSalutation));
+        ecsAddress.setRegion(getRegionFromName(getTextFromSpinner(spinnerState)));
+
+        getTextFromSpinner(spinnerState);
+
+        return ecsAddress;
+
+    }
+
+    private Region getRegionFromName(String stateName) {
+
+        for(ECSRegion ecsRegion: ECSDataHolder.INSTANCE.getEcsRegions()){
+
+            if(stateName.equalsIgnoreCase(ecsRegion.getName())){
+
+                Region region = new Region();
+                region.setIsocode(ecsRegion.getIsocode());
+                return region;
+            }
+        }
+      return null;
+    }
+
+    private String getTextFromSpinner(Spinner spinner) {
+       return  (String)spinner.getSelectedItem();
+    }
+
+    String getTextFromEditText(EditText et){
+
+        if(et.getText()!=null){
+            return  et.getText().toString();
+        }
+        return null;
+    }
+
 }

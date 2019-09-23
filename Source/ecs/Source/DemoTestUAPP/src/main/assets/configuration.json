@@ -208,13 +208,11 @@
             "text": "secret",
             "hint": "enter quantity"
           }],
-          "spinners": [
-            {
-              "tag": "spinner_one",
-              "text": "secret",
-              "hint": "hint"
-            }
-          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
           "switches": []
         }
       ]
@@ -332,12 +330,69 @@
           "button": 0,
 
           "editTexts": [
+
+            {
+              "tag": "et_first_name",
+              "text": "secret",
+              "hint": "enter first name"
+            },
+            {
+              "tag": "et_last_name",
+              "text": "secret",
+              "hint": "enter last name"
+            },
+            {
+              "tag": "et_country_code",
+              "text": "secret",
+              "hint": "enter country ISO code"
+            },
+            {
+              "tag": "et_address_one",
+              "text": "secret",
+              "hint": "enter Address line one"
+            },
+            {
+              "tag": "et_address_two",
+              "text": "secret",
+              "hint": "enter house number"
+            },
+            {
+              "tag": "et_postal_code",
+              "text": "secret",
+              "hint": "enter postal code"
+            },
+            {
+              "tag": "et_phone_one",
+              "text": "secret",
+              "hint": "enter phone one "
+            },
+            {
+              "tag": "et_phone_two",
+              "text": "secret",
+              "hint": "enter phone two"
+            },
+            {
+              "tag": "et_email",
+              "text": "secret",
+              "hint": "enter email"
+            },
+            {
+              "tag": "et_town",
+              "text": "secret",
+              "hint": "enter city"
+            }
           ],
           "spinners": [{
-            "tag": "spinner_one",
+            "tag": "spinner_salutation",
             "text": "secret",
             "hint": "hint"
-          }],
+          },
+            {
+              "tag": "spinner_state",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
           "switches": []
         },
         {
@@ -349,12 +404,68 @@
 
           "editTexts": [
 
+            {
+              "tag": "et_first_name",
+              "text": "secret",
+              "hint": "enter first name"
+            },
+            {
+              "tag": "et_last_name",
+              "text": "secret",
+              "hint": "enter last name"
+            },
+            {
+              "tag": "et_country_code",
+              "text": "secret",
+              "hint": "enter country ISO code"
+            },
+            {
+              "tag": "et_address_one",
+              "text": "secret",
+              "hint": "enter Address line one"
+            },
+            {
+              "tag": "et_address_two",
+              "text": "secret",
+              "hint": "enter house number"
+            },
+            {
+              "tag": "et_postal_code",
+              "text": "secret",
+              "hint": "enter postal code"
+            },
+            {
+              "tag": "et_phone_one",
+              "text": "secret",
+              "hint": "enter phone one "
+            },
+            {
+              "tag": "et_phone_two",
+              "text": "secret",
+              "hint": "enter phone two"
+            },
+            {
+              "tag": "et_email",
+              "text": "secret",
+              "hint": "enter email"
+            },
+            {
+              "tag": "et_town",
+              "text": "secret",
+              "hint": "enter city"
+            }
           ],
           "spinners": [{
-            "tag": "spinner_one",
+            "tag": "spinner_salutation",
             "text": "secret",
             "hint": "hint"
-          }],
+          },
+            {
+              "tag": "spinner_state",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
           "switches": []
         },
         {
@@ -365,12 +476,73 @@
           "button": 0,
           "editTexts": [
 
+            {
+              "tag": "et_first_name",
+              "text": "secret",
+              "hint": "enter first name"
+            },
+            {
+              "tag": "et_last_name",
+              "text": "secret",
+              "hint": "enter last name"
+            },
+            {
+              "tag": "et_country_code",
+              "text": "secret",
+              "hint": "enter country ISO code"
+            },
+            {
+              "tag": "et_address_one",
+              "text": "secret",
+              "hint": "enter Address line one"
+            },
+            {
+              "tag": "et_address_two",
+              "text": "secret",
+              "hint": "enter house number"
+            },
+            {
+              "tag": "et_postal_code",
+              "text": "secret",
+              "hint": "enter postal code"
+            },
+            {
+              "tag": "et_phone_one",
+              "text": "secret",
+              "hint": "enter phone one "
+            },
+            {
+              "tag": "et_phone_two",
+              "text": "secret",
+              "hint": "enter phone two"
+            },
+            {
+              "tag": "et_email",
+              "text": "secret",
+              "hint": "enter email"
+            },
+            {
+              "tag": "et_town",
+              "text": "secret",
+              "hint": "enter city"
+            }
           ],
           "spinners": [{
-            "tag": "spinner_one",
+            "tag": "spinner_salutation",
             "text": "secret",
             "hint": "hint"
-          }],
+          },
+            {
+              "tag": "spinner_state",
+              "text": "secret",
+              "hint": "hint"
+            },
+            {
+              "tag": "spinner_address_id",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
           "switches": []
         },
         {
@@ -381,12 +553,73 @@
           "button": 0,
           "editTexts": [
 
+            {
+              "tag": "et_first_name",
+              "text": "secret",
+              "hint": "enter first name"
+            },
+            {
+              "tag": "et_last_name",
+              "text": "secret",
+              "hint": "enter last name"
+            },
+            {
+              "tag": "et_country_code",
+              "text": "secret",
+              "hint": "enter country ISO code"
+            },
+            {
+              "tag": "et_address_one",
+              "text": "secret",
+              "hint": "enter Address line one"
+            },
+            {
+              "tag": "et_address_two",
+              "text": "secret",
+              "hint": "enter house number"
+            },
+            {
+              "tag": "et_postal_code",
+              "text": "secret",
+              "hint": "enter postal code"
+            },
+            {
+              "tag": "et_phone_one",
+              "text": "secret",
+              "hint": "enter phone one "
+            },
+            {
+              "tag": "et_phone_two",
+              "text": "secret",
+              "hint": "enter phone two"
+            },
+            {
+              "tag": "et_email",
+              "text": "secret",
+              "hint": "enter email"
+            },
+            {
+              "tag": "et_town",
+              "text": "secret",
+              "hint": "enter city"
+            }
           ],
           "spinners": [{
-            "tag": "secret",
+            "tag": "spinner_salutation",
             "text": "secret",
             "hint": "hint"
-          }],
+          },
+            {
+              "tag": "spinner_state",
+              "text": "secret",
+              "hint": "hint"
+            },
+            {
+              "tag": "spinner_address_id",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
           "switches": []
         },
         {
@@ -540,9 +773,9 @@
             "hint": "hint"
           },
             {
-            "tag": "spinner_two",
-            "text": "secret",
-            "hint": "hint"
+              "tag": "spinner_two",
+              "text": "secret",
+              "hint": "hint"
             }
           ],
           "switches": []

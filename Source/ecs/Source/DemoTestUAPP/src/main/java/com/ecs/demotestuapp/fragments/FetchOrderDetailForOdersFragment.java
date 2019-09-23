@@ -23,6 +23,8 @@ public class FetchOrderDetailForOdersFragment extends BaseFragment {
     private Button btn_execute;
     private ProgressBar progressBar;
 
+    private Spinner spinnerOrders;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class FetchOrderDetailForOdersFragment extends BaseFragment {
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
 
+
+        spinnerOrders  = linearLayout.findViewWithTag("spinner_one");
 
 
         btn_execute.setOnClickListener(new View.OnClickListener() {

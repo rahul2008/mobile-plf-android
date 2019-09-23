@@ -58,6 +58,7 @@ public class FetchDeliveryModesFragment extends BaseFragment {
             @Override
             public void onResponse(List<ECSDeliveryMode> ecsDeliveryModes) {
 
+                ECSDataHolder.INSTANCE.setEcsDeliveryModes(ecsDeliveryModes);
                 String jsonString = getJsonStringFromObject(ecsDeliveryModes);
                 gotoResultActivity(jsonString);
                 progressBar.setVisibility(View.GONE);

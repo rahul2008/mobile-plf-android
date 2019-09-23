@@ -47,6 +47,8 @@ public class AddProductToShoppingCartFragment extends BaseFragment {
 
         spinner = linearLayout.findViewWithTag("spinner_one");
 
+        fillSpinnerData(spinner);
+
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
 

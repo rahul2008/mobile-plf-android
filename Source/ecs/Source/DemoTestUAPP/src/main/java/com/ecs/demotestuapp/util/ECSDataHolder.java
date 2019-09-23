@@ -6,10 +6,14 @@ import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public enum  ECSDataHolder {
@@ -20,19 +24,46 @@ public enum  ECSDataHolder {
     ECSOAuthData ecsoAuthData;
     String propositionID;
     ECSUserProfile ecsUserProfile;
-    List<ECSDeliveryMode> ecsDeliveryModes;
+    List<ECSDeliveryMode> ecsDeliveryModes = new ArrayList<>();
     ECSDeliveryMode ecsDeliveryMode;
     ECSProducts ecsProducts;
-    List<ECSAddress> ecsAddressList;
+    List<ECSAddress> ecsAddressList = new ArrayList<>();
     ECSShoppingCart ecsShoppingCart;
+    ECSOrderHistory ecsOrderHistory;
+
+    public List<ECSPayment> getEcsPayments() {
+        return ecsPayments;
+    }
+
+    public void setEcsPayments(List<ECSPayment> ecsPayments) {
+        this.ecsPayments = ecsPayments;
+    }
+
+    List<ECSPayment> ecsPayments = new ArrayList<>();
+
+    public ECSOrderHistory getEcsOrderHistory() {
+        return ecsOrderHistory;
+    }
+
+    public void setEcsOrderHistory(ECSOrderHistory ecsOrderHistory) {
+        this.ecsOrderHistory = ecsOrderHistory;
+    }
+
+
+
+    public List<ECSRegion> getEcsRegions() {
+        return ecsRegions;
+    }
+
+    public void setEcsRegions(List<ECSRegion> ecsRegions) {
+        this.ecsRegions = ecsRegions;
+    }
+
+    List<ECSRegion> ecsRegions = new ArrayList<>();
+
+
 
     String janrainID;
-
-
-
-
-
-
 
     public ECSServices getEcsServices() {
         return ecsServices;

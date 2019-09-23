@@ -58,6 +58,7 @@ public class FetchAppliedVouchersFragment extends BaseFragment {
             @Override
             public void onResponse(List<ECSVoucher> ecsVouchers) {
 
+                ECSDataHolder.INSTANCE.setVouchers(ecsVouchers);
                 String jsonString = getJsonStringFromObject(ecsVouchers);
                 gotoResultActivity(jsonString);
                 progressBar.setVisibility(View.GONE);
