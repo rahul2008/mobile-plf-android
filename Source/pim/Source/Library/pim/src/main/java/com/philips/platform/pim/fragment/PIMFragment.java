@@ -151,16 +151,16 @@ public class PIMFragment extends Fragment implements PIMLoginListener, Observer<
         } else
             clientId = pimoidcConfigration.getClientId();
         StringBuilder url = new StringBuilder();
-        String urlString = "http://";
-        String[] urlStringWithVisitorId = pimSettingManager.getTaggingInterface().getVisitorIDAppendToURL(urlString).split("=");
-        mLoggingInterface.log(DEBUG, TAG, "External URL with Adobe_mc : "+ urlStringWithVisitorId[1]);
+//        String urlString = "http://";
+//        String[] urlStringWithVisitorId = pimSettingManager.getTaggingInterface().getVisitorIDAppendToURL(urlString).split("//");
+//        mLoggingInterface.log(DEBUG, TAG, "External URL with Adobe_mc : " + urlStringWithVisitorId[1]);
 
         try {
             Formatter fmt = new Formatter(url);
             fmt.format(userProfileUrl, clientId, pimSettingManager.getLocale());
             Intent authReqIntent = new Intent(Intent.ACTION_VIEW);
             authReqIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            authReqIntent.setData(Uri.parse(urlStringWithVisitorId[1]));
+            authReqIntent.setData(Uri.parse(url.toString()));
             startActivityForResult(authReqIntent, 200);
         } catch (Exception ex) {
             mLoggingInterface.log(DEBUG, TAG, "Launching user profile page failed."
