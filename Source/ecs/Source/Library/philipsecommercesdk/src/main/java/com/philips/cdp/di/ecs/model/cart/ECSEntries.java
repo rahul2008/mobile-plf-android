@@ -6,9 +6,10 @@ import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
 import java.io.Serializable;
 
+
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * The type Ecs entries which contains product for which cart has to be updated.
+ * This object is passed as input parameter for updateShoppingCart
  */
 public class ECSEntries implements Serializable{
 

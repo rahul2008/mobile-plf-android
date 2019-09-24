@@ -8,6 +8,9 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs config which contains philips e-commerce configuration data. This object is returned when configureECS is called.
+ */
 public class ECSConfig implements Serializable {
 
     public String getLocale() {

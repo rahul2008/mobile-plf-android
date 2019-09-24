@@ -3,11 +3,13 @@ package com.philips.cdp.di.ecs.model.cart;
 import java.io.Serializable;
 import java.util.List;
 
+
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * The type Ecs shopping cart which contains all the cart related data including price, delivery mode, delivery address, tax.
+ * This object is returned when fetching shopping cart, after adding product to cart, the updated data is returned
+ * It is passed as parameter when creating cart
  */
-public class ECSShoppingCart  implements Serializable {
+public class ECSShoppingCart implements Serializable {
     private boolean calculated;
     private String code;
 
@@ -68,6 +70,11 @@ public class ECSShoppingCart  implements Serializable {
         return calculated;
     }
 
+    /**
+     * Gets code.
+     *
+     * @return the code which is unique cart id
+     */
     public String getCode() {
         return code;
     }

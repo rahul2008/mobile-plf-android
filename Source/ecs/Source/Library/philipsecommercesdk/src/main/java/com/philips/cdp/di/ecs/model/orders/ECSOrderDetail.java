@@ -10,6 +10,12 @@ import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 
 import java.util.List;
 
+/**
+ * The type Ecs order detail contains details of each order including address, delivery mode, payment info, tax.
+ * It is passed as input parameter while making payment specifying the order for which payment is to be made
+ * This object is returned when order is submitted
+ * It returns the order detail by passing the orderId for fetchOrderDetail
+ */
 public class ECSOrderDetail implements Parcelable{
 
 

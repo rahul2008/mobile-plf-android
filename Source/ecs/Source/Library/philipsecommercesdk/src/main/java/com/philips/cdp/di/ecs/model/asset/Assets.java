@@ -12,6 +12,11 @@ import java.util.List;
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 02-Nov-15.
  */
+
+
+/**
+ * The type Assets contains list of assets
+ */
 public class Assets implements Serializable {
 
     @SerializedName("asset")

@@ -6,7 +6,11 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class OrderDiscountsEntity   implements Serializable {
+
+/**
+ * The type Order discounts entity which contains discount data
+ */
+public class OrderDiscountsEntity implements Serializable {
     private String currencyIso;
     private String formattedValue;
     private String priceType;

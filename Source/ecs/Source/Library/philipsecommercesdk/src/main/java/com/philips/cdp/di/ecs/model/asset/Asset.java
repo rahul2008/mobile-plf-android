@@ -10,6 +10,10 @@ import java.io.Serializable;
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 02-Nov-15.
  */
+
+/**
+ * The type Asset contains details of asset
+ */
 public class Asset  implements Serializable {
 
     @SerializedName("code")
