@@ -2,7 +2,9 @@ package com.philips.cdp.di.ecs.model.orders;
 
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 
-public class Entries {
+import java.io.Serializable;
+
+public class Entries implements Serializable {
     private int entryNumber;
 
     private ECSProduct product;

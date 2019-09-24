@@ -4,9 +4,10 @@
  */
 package com.philips.cdp.di.ecs.model.retailers;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ECSRetailers {
+public class ECSRetailers implements Serializable {
     private List<ECSRetailer> Store;
 
     public List<ECSRetailer> getRetailerList() {

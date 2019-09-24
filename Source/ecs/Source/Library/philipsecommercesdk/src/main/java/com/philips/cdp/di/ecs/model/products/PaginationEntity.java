@@ -5,7 +5,9 @@
 
 package com.philips.cdp.di.ecs.model.products;
 
-public class PaginationEntity {
+import java.io.Serializable;
+
+public class PaginationEntity implements Serializable {
 
     private int currentPage;
     private int pageSize;

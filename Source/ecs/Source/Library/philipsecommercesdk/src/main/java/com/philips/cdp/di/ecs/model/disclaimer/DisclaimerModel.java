@@ -7,7 +7,9 @@ import com.philips.cdp.di.ecs.prx.response.ResponseData;
 
 import org.json.JSONObject;
 
-public class DisclaimerModel extends ResponseData {
+import java.io.Serializable;
+
+public class DisclaimerModel extends ResponseData implements Serializable {
 
     @SerializedName("success")
     @Expose

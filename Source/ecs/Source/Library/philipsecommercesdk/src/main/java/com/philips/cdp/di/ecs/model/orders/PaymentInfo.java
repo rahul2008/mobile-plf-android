@@ -3,7 +3,9 @@ package com.philips.cdp.di.ecs.model.orders;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.payment.CardType;
 
-public class PaymentInfo {
+import java.io.Serializable;
+
+public class PaymentInfo  implements Serializable {
 
 
     private ECSAddress billingAddress;

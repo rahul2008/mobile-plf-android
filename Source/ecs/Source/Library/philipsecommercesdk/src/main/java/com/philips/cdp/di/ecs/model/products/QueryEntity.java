@@ -5,7 +5,9 @@
 
 package com.philips.cdp.di.ecs.model.products;
 
-public class QueryEntity {
+import java.io.Serializable;
+
+public class QueryEntity implements Serializable {
     private String value;
 
     public String getValue() {

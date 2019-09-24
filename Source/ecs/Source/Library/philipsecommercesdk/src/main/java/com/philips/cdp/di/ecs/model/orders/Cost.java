@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.model.orders;
 
-public class Cost {
+import java.io.Serializable;
+
+public class Cost implements Serializable {
     private String currencyIso;
     private String formattedValue;
     private String priceType;

@@ -19,7 +19,8 @@ import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.address.GetUser;
+
+import com.philips.cdp.di.ecs.model.address.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
@@ -202,8 +203,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
     public void onGetUser(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
             return;
-        } else if (msg.obj instanceof GetUser) {
-            final GetUser user = (GetUser) msg.obj;
+        } else if (msg.obj instanceof ECSUserProfile) {
+            final ECSUserProfile user = (ECSUserProfile) msg.obj;
             if (user.getDefaultAddress() != null) {
                  //TODO
                 //mAddressController.setDeliveryAddress(user.getDefaultAddress());

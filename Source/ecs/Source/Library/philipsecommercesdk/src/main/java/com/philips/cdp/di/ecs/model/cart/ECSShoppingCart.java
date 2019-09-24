@@ -1,12 +1,13 @@
 package com.philips.cdp.di.ecs.model.cart;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ECSShoppingCart {
+public class ECSShoppingCart  implements Serializable {
     private boolean calculated;
     private String code;
 

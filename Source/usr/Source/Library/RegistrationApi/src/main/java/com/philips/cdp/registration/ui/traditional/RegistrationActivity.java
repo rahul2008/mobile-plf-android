@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.ThemeHelper;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -36,6 +37,10 @@ import com.philips.platform.pif.chi.datamodel.ConsentStates;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.UIDActivity;
 
@@ -73,12 +78,7 @@ public class RegistrationActivity extends UIDActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (RegistrationHelper.getInstance().getThemeConfiguration() != null) {
-            UIDHelper.init(RegistrationHelper.getInstance().getThemeConfiguration());
-        }
-        if (RegistrationHelper.getInstance().getTheme() != 0) {
-            setTheme(RegistrationHelper.getInstance().getTheme());
-        }
+        initTheme();
         super.onCreate(savedInstanceState);
 
         //Handle launch by dynamic permission change
@@ -254,5 +254,15 @@ public class RegistrationActivity extends UIDActivity implements
         return registrationContentConfiguration;
     }
 
+    private void initTheme() {
+        int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+        int themeIndex = themeResourceID;
+        if (themeIndex <= 0) {
+            themeIndex = R.style.Theme_DLS_Blue_UltraLight;
+        }
+        getTheme().applyStyle(themeIndex, true);
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.model.products;
 
-public class CategoriesEntity {
+import java.io.Serializable;
+
+public class CategoriesEntity implements Serializable {
 
     private String code;
 

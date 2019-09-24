@@ -20,6 +20,11 @@ import android.widget.TextView;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
 
@@ -36,6 +41,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initTheme();
         setContentView(R.layout.activity_app_infra_main);
         mAppInfra = AILDemouAppInterface.getInstance().getAppInfra();
         final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
@@ -276,5 +282,16 @@ public class AppInfraMainActivity extends AppCompatActivity {
         class ViewHolder {
             TextView testModeLabel;
         }
+    }
+
+    private void initTheme() {
+        int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+        int themeIndex = themeResourceID;
+        if (themeIndex <= 0) {
+            themeIndex = R.style.Theme_DLS_Blue_UltraLight;
+        }
+        getTheme().applyStyle(themeIndex, true);
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+
     }
 }

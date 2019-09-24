@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.model.address;
 
-public class GetUser {
+import java.io.Serializable;
+
+public class ECSUserProfile implements Serializable {
     private ECSAddress defaultAddress;
 
     private String type;

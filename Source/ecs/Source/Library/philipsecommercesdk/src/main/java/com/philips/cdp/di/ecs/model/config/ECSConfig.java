@@ -6,7 +6,9 @@ package com.philips.cdp.di.ecs.model.config;
 
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
-public class ECSConfig {
+import java.io.Serializable;
+
+public class ECSConfig implements Serializable {
 
     public String getLocale() {
         return ECSConfiguration.INSTANCE.getLocale();

@@ -25,7 +25,7 @@ public  class PIMOidcDiscoveryManager implements PIMAuthServiceConfigListener {
     void downloadOidcUrls(Context context, String baseUrl) {
         mLoggingInterface.log(DEBUG,TAG,"downloadOidcUrls called with baseUrl : "+baseUrl);
         PIMAuthManager pimAuthManager = new PIMAuthManager(context);
-        pimAuthManager.fetchAuthWellKnownConfiguration(baseUrl, this); //TODO: Shashi, remove issuer once its uploaded to service discovery
+        pimAuthManager.fetchAuthWellKnownConfiguration(baseUrl, this);
     }
 
     @Override

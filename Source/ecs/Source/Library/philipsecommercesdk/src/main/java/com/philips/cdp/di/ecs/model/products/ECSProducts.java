@@ -7,9 +7,10 @@ package com.philips.cdp.di.ecs.model.products;
 
 import com.philips.cdp.di.ecs.model.summary.ECSProductSummary;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ECSProducts {
+public class ECSProducts  implements Serializable {
     private String type;
     private CurrentQueryEntity currentQuery;
     private String freeTextSearch;

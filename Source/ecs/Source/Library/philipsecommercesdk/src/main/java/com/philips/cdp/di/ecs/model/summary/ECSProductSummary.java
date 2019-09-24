@@ -7,13 +7,14 @@ import com.philips.cdp.di.ecs.prx.response.ResponseData;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by philips on 2/28/19.
  */
 
-public class ECSProductSummary extends ResponseData {
+public class ECSProductSummary extends ResponseData implements Serializable {
 
     @SerializedName("success")
     @Expose

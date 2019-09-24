@@ -3,11 +3,13 @@ package com.philips.cdp.di.ecs.model.cart;
 
 import com.philips.cdp.di.ecs.model.address.Country;
 
+import java.io.Serializable;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class DeliveryAddressEntity {
+public class DeliveryAddressEntity  implements Serializable {
 
     private Country country;
     private String firstName;

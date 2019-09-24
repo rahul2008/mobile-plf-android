@@ -3,6 +3,7 @@ package com.philips.cdp.di.ecs.model.asset;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 02-Nov-15.
  */
-public class Assets {
+public class Assets implements Serializable {
 
     @SerializedName("asset")
     @Expose

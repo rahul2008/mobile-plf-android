@@ -1,38 +1,29 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
 
 
 
--keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+ #ECS
+ -keep class com.philips.cdp.di.ecs.ECSServices {*;}
+ -keep class com.philips.cdp.di.ecs.ECSManager {*;}
+ -keep class com.philips.cdp.di.ecs.ECSCallValidator {*;}
+ -keep class com.philips.cdp.di.ecs.ApiInputValidator {*;}
+-keep class com.philips.cdp.di.ecs.model** {*;}
+-keep class com.philips.cdp.di.ecs.integration** {*;}
+-keep class com.philips.cdp.di.ecs.error** {*;}
+-keep interface com.philips.cdp.di.ecs.integration.ECSServiceProvider** {*;}
 
--assumenosideeffects class com.android.volley.VolleyLog {
-    public static void v(...);
-    public static void d(...);
-    public static void i(...);
-    public static void w(...);
-    public static void e(...);
-}
 
-# OkHttp required for volley
--keep class com.squareup.okhttp.** { *; }
--keep interface com.squareup.okhttp.** { *; }
--dontwarn com.squareup.okhttp.**
+#JSACKSON
+-keep  class com.fasterxml.jackson.annotation.** {*;}
+-keep  class com.fasterxml.jackson.core.** {*;}
+-keep  class com.fasterxml.jackson.databind.** {*;}
+-keepattributes *Annotation*,EnclosingMethod,Signature
+-keepnames class com.fasterxml.jackson.** { *; }
+-dontwarn com.fasterxml.jackson.databind.**
+-keep class org.codehaus.** { *; }
+-keepclassmembers public final enum org.codehaus.jackson.annotate.JsonAutoDetect$Visibility {
+    public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *; }
+-keep public class your.class.** {
+    public void set*(***);
+    public *** get*();
+    }
+

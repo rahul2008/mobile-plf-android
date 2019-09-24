@@ -23,8 +23,8 @@ import com.ecs.demouapp.ui.utils.NetworkUtility;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
+import com.philips.cdp.di.ecs.model.address.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.address.GetDeliveryModes;
-import com.philips.cdp.di.ecs.model.address.GetUser;
 import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.payment.PaymentMethods;
 import com.philips.cdp.di.ecs.model.region.RegionsList;
@@ -108,8 +108,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
 
         if (msg.obj instanceof IAPNetworkError) {
             handleError(msg);
-        } else if (msg.obj instanceof GetUser) {
-            GetUser user = (GetUser) msg.obj;
+        } else if (msg.obj instanceof ECSUserProfile) {
+            ECSUserProfile user = (ECSUserProfile) msg.obj;
             ECSAddress defaultAddress = user.getDefaultAddress();
             if (defaultAddress != null) {
                 setAddressField(defaultAddress);

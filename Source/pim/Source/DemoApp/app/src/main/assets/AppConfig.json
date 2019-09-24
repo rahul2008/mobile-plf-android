@@ -88,14 +88,14 @@
     "migrationClientId": "7602c06b-c547-4aae-8f7c-f89e8c887a21",
     "redirectUri": "com.philips.apps.94e28300-565d-4110-8919-42dc4f817393://oauthredirect",
     "rsids" : "philipsmobileappsjanraindev",
-    "apiKey": "nYO1gXoy5J7AaHT8KPu2D9JxN2cZo77M8zdBD2iJ"
+    "apiKey": "Euqjw7YWRa5pc7c6jKliv1odg5vLUT2m465k7FJ8"
   },
   "IAP": {
     "hostport": "www.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
   "ProductRegistration": {
-    "ApiKey":"9a8FEaKygJ6js2fo5TI6P8W1Q06zwZ3x1ow3H1rn"
+    "ApiKey":"Euqjw7YWRa5pc7c6jKliv1odg5vLUT2m465k7FJ8"
   },
   "appinfra": {
     "appidentity.micrositeId": "77000",

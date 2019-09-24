@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.model.products;
 
-public class StockBeanEntity {
+import java.io.Serializable;
+
+public class StockBeanEntity implements Serializable {
     private int stockLevel;
     private String stockLevelStatus;
 

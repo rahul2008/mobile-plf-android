@@ -3,10 +3,12 @@ package com.philips.cdp.di.ecs.model.cart;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
 import com.philips.cdp.di.ecs.model.summary.Price;
 
+import java.io.Serializable;
+
 /**
  * Created by 310228564 on 2/9/2016.
  */
-public class Entry {
+public class Entry implements Serializable {
     private int entryNumber;
     private ECSProduct product;
     private int quantity;

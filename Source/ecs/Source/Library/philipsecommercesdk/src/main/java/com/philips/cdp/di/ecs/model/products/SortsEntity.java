@@ -5,7 +5,9 @@
 
 package com.philips.cdp.di.ecs.model.products;
 
-public class SortsEntity {
+import java.io.Serializable;
+
+public class SortsEntity  implements Serializable {
     private String code;
     private boolean selected;
 

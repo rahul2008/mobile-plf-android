@@ -138,7 +138,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         public void onFailure(final Message msg) {
             hideProgressBar();
             mAddToCart.hideProgressIndicator();
-            ECSUtility.showECSAlertDialog(mContext,"Error",msg.obj.toString());
+            if(null!=msg && null!=msg.obj ) {
+                ECSUtility.showECSAlertDialog(mContext, "Error", msg.obj.toString());
+            }
         }
     };
     private ECSProduct product;

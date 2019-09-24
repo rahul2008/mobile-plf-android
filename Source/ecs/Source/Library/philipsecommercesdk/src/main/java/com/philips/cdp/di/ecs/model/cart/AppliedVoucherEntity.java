@@ -3,7 +3,9 @@ package com.philips.cdp.di.ecs.model.cart;
 
 import com.philips.cdp.di.ecs.model.voucher.AppliedValue;
 
-public class AppliedVoucherEntity {
+import java.io.Serializable;
+
+public class AppliedVoucherEntity  implements Serializable {
 
     String description;
     String freeShipping;

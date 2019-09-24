@@ -3,7 +3,7 @@ package com.philips.cdp.di.ecs.userProfile
 import com.android.volley.VolleyError
 import com.philips.cdp.di.ecs.TestUtil
 import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.user.ECSUserProfile
+import com.philips.cdp.di.ecs.model.address.ECSUserProfile
 import com.philips.cdp.di.ecs.request.GetUserProfileRequest
 import org.json.JSONException
 import org.json.JSONObject

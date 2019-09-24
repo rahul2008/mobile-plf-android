@@ -10,6 +10,7 @@ import android.content.Context;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
+import com.adobe.mobile.Visitor;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.consentmanager.ConsentManagerInterface;
 import com.philips.platform.pif.chi.ConsentHandlerInterface;
@@ -63,6 +64,11 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public String getTrackingIdentifier() {
         return Analytics.getTrackingIdentifier();
+    }
+
+    @Override
+    public String getVisitorIDAppendToURL(String url) {
+        return Visitor.appendToURL(url);
     }
 
 

@@ -217,22 +217,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         }
     }
 
-
-    protected boolean isTablet() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        try {
-            if (getActivity().getWindowManager() != null)
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        } catch (NullPointerException e) {
-            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
-        } finally {
-            float yInches = metrics.heightPixels / metrics.ydpi;
-            float xInches = metrics.widthPixels / metrics.xdpi;
-            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-            return diagonalInches >= 6.5;
-        }
-    }
-
     protected void hideActionBarIcons(ImageView hambergermenu, ImageView backarrow) {
         ProductSelectionLogger.d(TAG, "Hide menu & arrow icons");
         if (hambergermenu != null && backarrow != null) {

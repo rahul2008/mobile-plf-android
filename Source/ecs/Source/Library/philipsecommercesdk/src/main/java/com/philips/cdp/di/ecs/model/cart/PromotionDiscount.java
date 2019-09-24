@@ -1,6 +1,8 @@
 package com.philips.cdp.di.ecs.model.cart;
 
-public class PromotionDiscount {
+import java.io.Serializable;
+
+public class PromotionDiscount implements Serializable {
 
     String formattedValue;
     String priceType;
