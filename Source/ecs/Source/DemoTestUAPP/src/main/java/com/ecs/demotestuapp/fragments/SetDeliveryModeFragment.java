@@ -73,13 +73,15 @@ public class SetDeliveryModeFragment extends BaseFragment {
         if (ECSDataHolder.INSTANCE.getEcsProducts() != null) {
 
             List<ECSDeliveryMode> ecsDeliveryModes = ECSDataHolder.INSTANCE.getEcsDeliveryModes();
-            if (ecsDeliveryModes.size() != 0) {
+            if(ecsDeliveryModes!=null) {
+                if (ecsDeliveryModes.size() != 0) {
 
-                for (ECSDeliveryMode ecsDeliveryMode : ecsDeliveryModes) {
-                    deliveryModeCodes.add(ecsDeliveryMode.getCode() + "");
+                    for (ECSDeliveryMode ecsDeliveryMode : ecsDeliveryModes) {
+                        deliveryModeCodes.add(ecsDeliveryMode.getCode() + "");
+                    }
+
+                    fillSpinner(spinner, deliveryModeCodes);
                 }
-
-                fillSpinner(spinner, deliveryModeCodes);
             }
         }
     }

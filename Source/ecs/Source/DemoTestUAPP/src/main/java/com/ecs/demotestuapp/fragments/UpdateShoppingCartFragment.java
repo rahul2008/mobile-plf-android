@@ -109,7 +109,7 @@ public class UpdateShoppingCartFragment extends BaseFragment {
     private void fillSpinnerData(Spinner spinner) {
         ArrayList<String> ctns = new ArrayList<>();
 
-        if (ECSDataHolder.INSTANCE.getEcsProducts() != null) {
+        if (ECSDataHolder.INSTANCE.getEcsShoppingCart() != null) {
 
             List<ECSEntries> entries = ECSDataHolder.INSTANCE.getEcsShoppingCart().getEntries();
 
