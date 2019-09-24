@@ -71,11 +71,16 @@ public class SetPaymentDetailsFragment extends BaseFragment {
             @Override
             public void onResponse(Boolean aBoolean) {
 
+                gotoResultActivity(aBoolean+"");
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Exception e, ECSError ecsError) {
 
+                String errorString = getFailureString(e, ecsError);
+                gotoResultActivity(errorString);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

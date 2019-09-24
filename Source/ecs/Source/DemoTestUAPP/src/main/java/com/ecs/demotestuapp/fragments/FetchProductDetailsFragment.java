@@ -33,6 +33,8 @@ public class FetchProductDetailsFragment extends BaseFragment {
 
     Spinner spinner;
 
+    String ctn = null;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,7 +67,8 @@ public class FetchProductDetailsFragment extends BaseFragment {
     private void executeRequest() {
 
         if(spinner.getSelectedItem()!=null) {
-            String ctn = spinner.getSelectedItem().toString();
+             ctn = spinner.getSelectedItem().toString();
+        }
 
             ECSProduct ecsProduct = getECSProductFromID(ctn);
 
@@ -83,7 +86,7 @@ public class FetchProductDetailsFragment extends BaseFragment {
                     progressBar.setVisibility(View.GONE);
                 }
             });
-        }
+
 
     }
 

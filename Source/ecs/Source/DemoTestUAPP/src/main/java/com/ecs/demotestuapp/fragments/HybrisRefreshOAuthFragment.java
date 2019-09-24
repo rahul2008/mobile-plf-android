@@ -31,6 +31,9 @@ public class HybrisRefreshOAuthFragment extends BaseFragment {
     String refreshToken = "refreshToken";
 
     EditText etSecret,etClient,etOAuthID;
+    private String secret;
+    private String client;
+    private String AuthID;
 
     @Nullable
     @Override
@@ -75,9 +78,9 @@ public class HybrisRefreshOAuthFragment extends BaseFragment {
 
     private void executeRequest() {
 
-        String secret = etSecret.getText().toString().trim();
-        String client = etClient.getText().toString().trim();
-        String AuthID = etOAuthID.getText().toString().trim();
+        secret =getTextFromEditText(etSecret);
+        client  = getTextFromEditText(etClient);
+        AuthID= getTextFromEditText(etOAuthID);
 
         ECSOAuthProvider ecsoAuthProvider = new ECSOAuthProvider() {
             @Override

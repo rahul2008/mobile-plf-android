@@ -14,6 +14,15 @@ import android.widget.Spinner;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
+import com.ecs.demotestuapp.util.ECSDataHolder;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.address.ECSAddress;
+import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.order.ECSOrders;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FetchOrderDetailForOdersFragment extends BaseFragment {
 
@@ -24,6 +33,8 @@ public class FetchOrderDetailForOdersFragment extends BaseFragment {
     private ProgressBar progressBar;
 
     private Spinner spinnerOrders;
+
+    String orderID = "unknown";
 
     @Nullable
     @Override
@@ -56,10 +67,77 @@ public class FetchOrderDetailForOdersFragment extends BaseFragment {
         return rootView;
     }
 
-    private void executeRequest() {
-
-    }
 
     private void fillSpinnerData(Spinner spinner) {
+
+        ECSOrderHistory ecsOrderHistory = ECSDataHolder.INSTANCE.getEcsOrderHistory();
+
+        if(ecsOrderHistory!=null){
+
+            List<String> list = new ArrayList<>();
+            List<ECSOrders> orders = ecsOrderHistory.getOrders();
+
+            if(orders !=null){
+
+                for(ECSOrders ecsOrders:orders){
+                    list.add(ecsOrders.getCode());
+                }
+            }
+            fillSpinner(spinner,list);
+        }
+
     }
+
+    private ECSOrders getOrderFromOrderID(String orderID){
+
+        ECSOrderHistory ecsOrderHistory = ECSDataHolder.INSTANCE.getEcsOrderHistory();
+
+        if(ecsOrderHistory!=null){
+
+            List<ECSOrders> orders = ecsOrderHistory.getOrders();
+
+            if(orders !=null){
+
+                for(ECSOrders ecsOrders:orders){
+
+                    if(orderID.equalsIgnoreCase(ecsOrders.getCode())){
+                        return ecsOrders;
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+
+
+
+    private void executeRequest() {
+
+        if(spinnerOrders.getSelectedItem()!=null) {
+            orderID = (String) spinnerOrders.getSelectedItem();
+        }
+
+        ECSOrders ecsOrders = getOrderFromOrderID(orderID);
+
+        ECSDataHolder.INSTANCE.getEcsServices().fetchOrderDetail(ecsOrders, new ECSCallback<ECSOrders, Exception>() {
+            @Override
+            public void onResponse(ECSOrders ecsOrders) {
+
+                String jsonString = getJsonStringFromObject(ecsOrders);
+                gotoResultActivity(jsonString);
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Exception e, ECSError ecsError) {
+
+                String errorString = getFailureString(e, ecsError);
+                gotoResultActivity(errorString);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
 }

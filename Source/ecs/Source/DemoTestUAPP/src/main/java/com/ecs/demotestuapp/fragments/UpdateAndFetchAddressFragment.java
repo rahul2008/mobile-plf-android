@@ -91,13 +91,15 @@ public class UpdateAndFetchAddressFragment extends BaseFragment {
 
         List<ECSAddress> ecsAddressList = ECSDataHolder.INSTANCE.getEcsAddressList();
 
-        List<String> list = new ArrayList<>();
+        if(ecsAddressList!=null) {
+            List<String> list = new ArrayList<>();
 
-        for(ECSAddress ecsAddress:ecsAddressList){
-            list.add(ecsAddress.getId());
+            for (ECSAddress ecsAddress : ecsAddressList) {
+                list.add(ecsAddress.getId());
+            }
+
+            fillSpinner(spinner, list);
         }
-
-        fillSpinner(spinner,list);
     }
 
     private ECSAddress getECSAddress(String addressID){

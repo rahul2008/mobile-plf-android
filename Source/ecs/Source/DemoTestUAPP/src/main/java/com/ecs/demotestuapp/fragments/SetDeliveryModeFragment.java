@@ -34,6 +34,7 @@ public class SetDeliveryModeFragment extends BaseFragment {
     private Spinner spinner;
 
     String deliveryMode = "";
+    private String selectedDeliveryID = "xyz";
 
     @Nullable
     @Override
@@ -105,7 +106,9 @@ public class SetDeliveryModeFragment extends BaseFragment {
 
     private void executeRequest() {
 
-        String selectedDeliveryID = (String)spinner.getSelectedItem();
+        if(spinner.getSelectedItem()!=null) {
+            selectedDeliveryID = (String) spinner.getSelectedItem();
+        }
 
         ECSDeliveryMode deliveryMode = getDeliveryMode(selectedDeliveryID);
 

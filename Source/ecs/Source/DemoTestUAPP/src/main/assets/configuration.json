@@ -649,14 +649,14 @@
           "editText": 0,
           "spinner": 0,
           "button": 0,
-          "editTexts": [
-
-          ],
-          "spinners": [{
+          "editTexts": [],
+          "spinners": [
+            {
             "tag": "spinner_one",
             "text": "secret",
             "hint": "hint"
-          }],
+             }
+          ],
           "switches": []
         },
         {
@@ -668,11 +668,12 @@
           "editTexts": [
 
           ],
-          "spinners": [{
-            "tag": "spinner_one",
-            "text": "secret",
-            "hint": "hint"
-          }],
+          "spinners": [
+            {
+              "tag": "spinner_one",
+              "text": "secret",
+              "hint": "hint"
+            }],
           "switches": []
         },
         {
@@ -787,17 +788,18 @@
           "button": 0,
           "editTexts": [
 
+            {
+              "tag": "et_one",
+              "text": "secret",
+              "hint": "order detail ID"
+            }
           ],
           "spinners": [{
             "tag": "spinner_one",
             "text": "secret",
             "hint": "hint"
-          },
-            {
-              "tag": "spinner_two",
-              "text": "secret",
-              "hint": "hint"
-            }
+          }
+
           ],
           "switches": []
         },

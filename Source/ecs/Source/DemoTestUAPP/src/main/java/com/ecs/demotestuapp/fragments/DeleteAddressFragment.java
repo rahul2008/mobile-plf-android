@@ -30,6 +30,7 @@ public class DeleteAddressFragment extends BaseFragment {
     private Button btn_execute;
     private ProgressBar progressBar;
     private Spinner spinner;
+    private String selectedItem = "xyz";
 
     @Nullable
     @Override
@@ -62,7 +63,10 @@ public class DeleteAddressFragment extends BaseFragment {
 
     private void executeRequest() {
 
-        String selectedItem = (String) spinner.getSelectedItem();
+        if(spinner.getSelectedItem()!=null) {
+            selectedItem = (String) spinner.getSelectedItem();
+        }
+
         ECSAddress ecsAddress = getECSAddress(selectedItem);
 
         ECSDataHolder.INSTANCE.getEcsServices().deleteAddress(ecsAddress, new ECSCallback<Boolean, Exception>() {

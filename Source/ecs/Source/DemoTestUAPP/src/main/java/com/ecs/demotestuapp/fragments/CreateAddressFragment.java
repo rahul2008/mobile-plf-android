@@ -85,8 +85,8 @@ public class CreateAddressFragment extends BaseFragment {
 
     private void fillSpinnerDataForSalutation(Spinner spinner) {
         List<String> list = new ArrayList<>();
-        list.add("Mr");
-        list.add("Mrs");
+        list.add("Mr.");
+        list.add("Ms.");
 
         fillSpinner(spinner,list);
     }

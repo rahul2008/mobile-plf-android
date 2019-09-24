@@ -31,6 +31,8 @@ public class HybrisOAthAuthenticationFragment extends BaseFragment {
 
     EditText etSecret,etClient,etOAuthID;
 
+    String secret,client,AuthID;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,9 +73,12 @@ public class HybrisOAthAuthenticationFragment extends BaseFragment {
 
     private void executeRequest() {
 
-        String secret = etSecret.getText().toString().trim();
-        String client = etClient.getText().toString().trim();
-        String AuthID = etOAuthID.getText().toString().trim();
+
+            secret =getTextFromEditText(etSecret);
+            client  = getTextFromEditText(etClient);
+            AuthID= getTextFromEditText(etOAuthID);
+
+
 
         ECSOAuthProvider ecsoAuthProvider = new ECSOAuthProvider() {
             @Override
