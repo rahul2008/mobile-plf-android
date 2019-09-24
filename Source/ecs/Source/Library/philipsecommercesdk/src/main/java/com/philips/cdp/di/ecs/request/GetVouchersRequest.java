@@ -31,22 +31,16 @@ public class GetVouchersRequest extends OAuthAppInfraAbstractRequest implements 
 
     @Override
     public void onResponse(JSONObject response) {
-        GetAppliedValue getAppliedValue =null;
-        Exception exception = null;
 
          try {
-            getAppliedValue = new Gson().fromJson(response.toString(), GetAppliedValue.class);
-        } catch (Exception e) {
-             exception = e;
+             GetAppliedValue getAppliedValue = new Gson().fromJson(response.toString(), GetAppliedValue.class);
+             ecsCallback.onResponse(getAppliedValue.getVouchers());
+        } catch (Exception exception) {
+             String errorMessage = (response!=null)?response.toString():null;
+             ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,errorMessage);
+             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
          }
 
-        if(null == exception && null!=getAppliedValue && null!=getAppliedValue.getVouchers()) {
-            ecsCallback.onResponse(getAppliedValue.getVouchers());
-        }else{
-            String errorMessage = (response!=null)?response.toString():null;
-            ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,errorMessage);
-            ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
-        }
     }
 
     @Override

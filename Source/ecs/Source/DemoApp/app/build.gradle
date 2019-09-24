@@ -128,6 +128,7 @@ dependencies {
 
 
     implementation project(strings.ecsuapp.projectName)
+    implementation project(strings.ecstestuapp.projectName)
 
     implementation deps.constraintlayout
     implementation deps.support.design

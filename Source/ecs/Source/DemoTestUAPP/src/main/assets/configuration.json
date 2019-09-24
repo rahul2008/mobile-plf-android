@@ -1,0 +1,919 @@
+{
+  "group": [
+
+    {
+      "name": "Config",
+      "subgroup": [{
+        "name": "configureECS",
+        "apiNumber": 1,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0,
+
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
+      },
+        {
+          "name": "configureECSToGetConfiguration",
+          "apiNumber": 2,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [],
+          "switches": []
+        }
+      ]
+
+    },
+
+    {
+      "name": "OAuth",
+      "subgroup": [{
+        "name": "hybrisOAthAuthentication",
+        "apiNumber": 3,
+        "editText": 3,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [{
+          "tag": "et_one",
+          "text": "secret",
+          "hint": "client secret"
+        },
+          {
+            "tag": "et_two",
+            "text": "mobile_android",
+            "hint": "client ID"
+          },
+          {
+            "tag": "et_three",
+            "text": "refreshToken",
+            "hint": "refresh Token"
+          }
+        ],
+        "spinners": [],
+        "switches": []
+      },
+        {
+          "name": "hybrisRefreshOAuth",
+          "apiNumber": 4,
+          "editText": 3,
+          "spinner": 0,
+          "button": 0,
+
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "client secret"
+          },
+            {
+              "tag": "et_two",
+              "text": "mobile_android",
+              "hint": "client ID"
+            },
+            {
+              "tag": "et_three",
+              "text": "refreshToken",
+              "hint": "refresh Token"
+            }
+          ],
+          "spinners": [],
+          "switches": []
+        }
+      ]
+
+    },
+
+    {
+      "name": "Product",
+      "subgroup": [{
+        "name": "fetchProducts",
+        "apiNumber": 5,
+        "editText": 2,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [{
+          "tag": "et_one",
+          "inputType": 2,
+          "hint": "enter current pagee"
+        },
+          {
+            "tag": "et_two",
+            "text": "secret",
+            "inputType": 2,
+            "hint": "enter page size"
+          }
+        ],
+        "spinners": [],
+        "switches": []
+
+      },
+        {
+          "name": "fetchProduct",
+          "apiNumber": 6,
+          "editText": 1,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "enter product ctn"
+          }],
+          "spinners": [],
+          "switches": []
+        },
+        {
+          "name": "fetchProductDetails",
+          "apiNumber": 7,
+          "editText": 0,
+          "spinner": 1,
+          "button": 0,
+
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        },
+        {
+          "name": "fetchProductSummaries",
+          "apiNumber": 8,
+          "editText": 1,
+          "spinner": 0,
+          "button": 0,
+
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "enter ctns in comma separated"
+          }],
+          "spinners": [],
+          "switches": []
+        }
+
+      ]
+
+    },
+
+    {
+      "name": "Cart",
+      "subgroup": [{
+        "name": "fetchShoppingCart",
+        "apiNumber": 9,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0,
+
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
+      },
+        {
+          "name": "addProductToShoppingCart",
+          "apiNumber": 10,
+          "editText": 0,
+          "spinner": 1,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        },
+        {
+          "name": "createShoppingCart",
+          "apiNumber": 11,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [
+
+          ],
+          "switches": []
+        },
+        {
+          "name": "updateShoppingCart",
+          "apiNumber": 12,
+          "editText": 1,
+          "spinner": 1,
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "enter quantity"
+          }],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        }
+      ]
+
+    },
+
+    {
+      "name": "Voucher",
+      "subgroup": [{
+        "name": "applyVoucher",
+        "apiNumber": 13,
+        "editText": 1,
+        "spinner": 0,
+        "button": 0,
+
+        "editTexts": [{
+          "tag": "et_one",
+          "text": "secret",
+          "hint": "enter voucher code"
+        }],
+        "spinners": [],
+        "switches": []
+
+      },
+        {
+          "name": "fetchAppliedVouchers",
+          "apiNumber": 14,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [],
+          "switches": []
+        },
+        {
+          "name": "removeVoucher",
+          "apiNumber": 15,
+          "editText": 1,
+          "spinner": 0,
+          "button": 0,
+
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "enter voucher code"
+          }],
+          "spinners": [],
+          "switches": []
+        }
+      ]
+
+    },
+
+    {
+      "name": "DeliveryMode",
+      "subgroup": [{
+        "name": "fetchDeliveryModes",
+        "apiNumber": 16,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
+      },
+        {
+          "name": "setDeliveryMode",
+          "apiNumber": 17,
+          "editText": 0,
+          "spinner": 1,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        }
+      ]
+
+    },
+
+    {
+      "name": "Region",
+      "subgroup": [{
+        "name": "fetchRegions",
+        "apiNumber": 18,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
+      }]
+    },
+
+    {
+      "name": "Address",
+      "subgroup": [{
+        "name": "fetchSavedAddresses",
+        "apiNumber": 19,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [],
+        "spinners": [],
+        "switches": []
+      },
+        {
+          "name": "createAddress",
+          "apiNumber": 20,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+
+          "editTexts": [
+
+            {
+              "tag": "et_first_name",
+              "text": "secret",
+              "hint": "enter first name"
+            },
+            {
+              "tag": "et_last_name",
+              "text": "secret",
+              "hint": "enter last name"
+            },
+            {
+              "tag": "et_country_code",
+              "text": "secret",
+              "hint": "enter country ISO code"
+            },
+            {
+              "tag": "et_address_one",
+              "text": "secret",
+              "hint": "enter Address line one"
+            },
+            {
+              "tag": "et_address_two",
+              "text": "secret",
+              "hint": "enter house number"
+            },
+            {
+              "tag": "et_postal_code",
+              "text": "secret",
+              "hint": "enter postal code"
+            },
+            {
+              "tag": "et_phone_one",
+              "text": "secret",
+              "hint": "enter phone one "
+            },
+            {
+              "tag": "et_phone_two",
+              "text": "secret",
+              "hint": "enter phone two"
+            },
+            {
+              "tag": "et_email",
+              "text": "secret",
+              "hint": "enter email"
+            },
+            {
+              "tag": "et_town",
+              "text": "secret",
+              "hint": "enter city"
+            },
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
+            }
+          ],
+          "spinners": [{
+            "tag": "spinner_salutation",
+            "text": "secret",
+            "hint": "hint"
+          },
+            {
+              "tag": "spinner_state",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
+          "switches": []
+        },
+        {
+          "name": "createAndFetchAddress",
+          "apiNumber": 21,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+
+          "editTexts": [
+
+            {
+              "tag": "et_first_name",
+              "text": "secret",
+              "hint": "enter first name"
+            },
+            {
+              "tag": "et_last_name",
+              "text": "secret",
+              "hint": "enter last name"
+            },
+            {
+              "tag": "et_country_code",
+              "text": "secret",
+              "hint": "enter country ISO code"
+            },
+            {
+              "tag": "et_address_one",
+              "text": "secret",
+              "hint": "enter Address line one"
+            },
+            {
+              "tag": "et_address_two",
+              "text": "secret",
+              "hint": "enter house number"
+            },
+            {
+              "tag": "et_postal_code",
+              "text": "secret",
+              "hint": "enter postal code"
+            },
+            {
+              "tag": "et_phone_one",
+              "text": "secret",
+              "hint": "enter phone one "
+            },
+            {
+              "tag": "et_phone_two",
+              "text": "secret",
+              "hint": "enter phone two"
+            },
+            {
+              "tag": "et_email",
+              "text": "secret",
+              "hint": "enter email"
+            },
+            {
+              "tag": "et_town",
+              "text": "secret",
+              "hint": "enter city"
+            },
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
+            }
+
+          ],
+          "spinners": [{
+            "tag": "spinner_salutation",
+            "text": "secret",
+            "hint": "hint"
+          },
+            {
+              "tag": "spinner_state",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
+          "switches": []
+        },
+        {
+          "name": "updateAddress",
+          "apiNumber": 22,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [
+
+            {
+              "tag": "et_first_name",
+              "text": "secret",
+              "hint": "enter first name"
+            },
+            {
+              "tag": "et_last_name",
+              "text": "secret",
+              "hint": "enter last name"
+            },
+            {
+              "tag": "et_country_code",
+              "text": "secret",
+              "hint": "enter country ISO code"
+            },
+            {
+              "tag": "et_address_one",
+              "text": "secret",
+              "hint": "enter Address line one"
+            },
+            {
+              "tag": "et_address_two",
+              "text": "secret",
+              "hint": "enter house number"
+            },
+            {
+              "tag": "et_postal_code",
+              "text": "secret",
+              "hint": "enter postal code"
+            },
+            {
+              "tag": "et_phone_one",
+              "text": "secret",
+              "hint": "enter phone one "
+            },
+            {
+              "tag": "et_phone_two",
+              "text": "secret",
+              "hint": "enter phone two"
+            },
+            {
+              "tag": "et_email",
+              "text": "secret",
+              "hint": "enter email"
+            },
+            {
+              "tag": "et_town",
+              "text": "secret",
+              "hint": "enter city"
+            },
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
+            }
+          ],
+          "spinners": [{
+            "tag": "spinner_salutation",
+            "text": "secret",
+            "hint": "hint"
+          },
+            {
+              "tag": "spinner_state",
+              "text": "secret",
+              "hint": "hint"
+            },
+            {
+              "tag": "spinner_address_id",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
+          "switches": []
+        },
+        {
+          "name": "updateAndFetchAddress",
+          "apiNumber": 23,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [
+
+            {
+              "tag": "et_first_name",
+              "text": "secret",
+              "hint": "enter first name"
+            },
+            {
+              "tag": "et_last_name",
+              "text": "secret",
+              "hint": "enter last name"
+            },
+            {
+              "tag": "et_country_code",
+              "text": "secret",
+              "hint": "enter country ISO code"
+            },
+            {
+              "tag": "et_address_one",
+              "text": "secret",
+              "hint": "enter Address line one"
+            },
+            {
+              "tag": "et_address_two",
+              "text": "secret",
+              "hint": "enter house number"
+            },
+            {
+              "tag": "et_postal_code",
+              "text": "secret",
+              "hint": "enter postal code"
+            },
+            {
+              "tag": "et_phone_one",
+              "text": "secret",
+              "hint": "enter phone one "
+            },
+            {
+              "tag": "et_phone_two",
+              "text": "secret",
+              "hint": "enter phone two"
+            },
+            {
+              "tag": "et_email",
+              "text": "secret",
+              "hint": "enter email"
+            },
+            {
+              "tag": "et_town",
+              "text": "secret",
+              "hint": "enter city"
+            },
+            {
+              "tag": "et_house_no",
+              "text": "secret",
+              "hint": "enter house number"
+            }
+          ],
+          "spinners": [{
+            "tag": "spinner_salutation",
+            "text": "secret",
+            "hint": "hint"
+          },
+            {
+              "tag": "spinner_state",
+              "text": "secret",
+              "hint": "hint"
+            },
+            {
+              "tag": "spinner_address_id",
+              "text": "secret",
+              "hint": "hint"
+            }
+          ],
+          "switches": []
+        },
+        {
+          "name": "setDeliveryAddress",
+          "apiNumber": 24,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [
+            {
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+             }
+          ],
+          "switches": []
+        },
+        {
+          "name": "setAndFetchDeliveryAddress",
+          "apiNumber": 25,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [
+            {
+              "tag": "spinner_one",
+              "text": "secret",
+              "hint": "hint"
+            }],
+          "switches": []
+        },
+        {
+          "name": "deleteAddress",
+          "apiNumber": 26,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        },
+        {
+          "name": "deleteAndFetchAddress",
+          "apiNumber": 27,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        }
+
+      ]
+    },
+
+    {
+      "name": "Retailer",
+      "subgroup": [{
+        "name": "fetchRetailers for ctn",
+        "apiNumber": 28,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [{
+          "tag": "et_one",
+          "text": "secret",
+          "hint": "enter ctn to get available retailers"
+        }],
+        "spinners": [],
+        "switches": []
+      },
+        {
+          "name": "fetchRetailers for product",
+          "apiNumber": 29,
+          "editText": 1,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [
+
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        }
+      ]
+
+    },
+
+    {
+      "name": "Payment",
+      "subgroup": [{
+        "name": "FetchPayments Details",
+        "apiNumber": 30,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [
+
+        ],
+        "spinners": [
+
+        ],
+        "switches": []
+      },
+        {
+          "name": "SetPaymentDetails",
+          "apiNumber": 31,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "enter payment detail ID"
+          }],
+          "spinners": [
+
+          ],
+          "switches": []
+        },
+        {
+          "name": "Make Payment",
+          "apiNumber": 32,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [
+
+            {
+              "tag": "et_one",
+              "text": "secret",
+              "hint": "order detail ID"
+            }
+          ],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }
+
+          ],
+          "switches": []
+        },
+        {
+          "name": "Submit Order",
+          "apiNumber": 33,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "enter cvv number"
+          }],
+          "spinners": [
+
+          ],
+          "switches": []
+        }
+
+      ]
+    },
+
+    {
+      "name": "Order",
+      "subgroup": [{
+        "name": "fetchOrderHistory",
+        "apiNumber": 34,
+        "editText": 2,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [{
+          "tag": "et_one",
+          "inputType": 2,
+          "text": "secret",
+          "hint": "enter current page "
+        },
+          {
+            "tag": "et_two",
+            "inputType": 2,
+            "text": "secret",
+            "hint": "enter current page sizee"
+          }
+        ],
+        "spinners": [
+
+        ],
+        "switches": []
+      },
+        {
+          "name": "fetchOrderDetail for oderDetail ID",
+          "apiNumber": 35,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [{
+            "tag": "et_one",
+            "text": "secret",
+            "hint": "enter order Detail ID"
+          }],
+          "spinners": [
+
+          ],
+          "switches": []
+
+        },
+        {
+          "name": "fetchOrderDetail for OrderDetail",
+          "apiNumber": 36,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        },
+        {
+          "name": "fetchOrderDetail for Orders",
+          "apiNumber": 37,
+          "editText": 0,
+          "spinner": 0,
+          "button": 0,
+          "editTexts": [],
+          "spinners": [{
+            "tag": "spinner_one",
+            "text": "secret",
+            "hint": "hint"
+          }],
+          "switches": []
+        }
+
+      ]
+    },
+
+    {
+      "name": "Profile",
+      "subgroup": [{
+        "name": "Fetch Profile",
+        "apiNumber": 38,
+        "editText": 0,
+        "spinner": 0,
+        "button": 0,
+        "editTexts": [],
+        "spinners": [
+
+        ],
+        "switches": []
+      }]
+    }
+
+  ]
+
+}

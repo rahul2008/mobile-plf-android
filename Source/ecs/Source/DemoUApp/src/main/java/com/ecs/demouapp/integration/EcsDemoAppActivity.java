@@ -133,6 +133,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
 
     private ECSServices ecsServices;
 
+    AppInfraInterface appInfra;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -168,7 +170,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         mBtnSetPropositionId = findViewById(R.id.btn_set_proposition_id);
 
 
-        AppInfraInterface appInfra = new AppInfra.Builder().build(getApplicationContext());
+        appInfra = new AppInfra.Builder().build(getApplicationContext());
         AppConfigurationInterface configInterface = appInfra.getConfigInterface();
         AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
 
@@ -349,6 +351,8 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
                 ECSOAuthProvider oAuthInput = new ECSOAuthProvider() {
                     @Override
                     public String getOAuthID() {
+
+
                         return ECSConfiguration.INSTANCE.getAuthResponse().getRefreshToken();
                     }
 
@@ -505,7 +509,7 @@ public class EcsDemoAppActivity extends AppCompatActivity implements View.OnClic
         ignorelistedRetailer.add("Amazon - US");
         ignorelistedRetailer.add("BestBuy.com");
 
-        UappDependencies uappDependencies = new UappDependencies(new AppInfra.Builder().build(this));
+        UappDependencies uappDependencies = new UappDependencies(appInfra);
         UappSettings uappSettings = new UappSettings(getApplicationContext());
 
         urInterface.init(uappDependencies, uappSettings);

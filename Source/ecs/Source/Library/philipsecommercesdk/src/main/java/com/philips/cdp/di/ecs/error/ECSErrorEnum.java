@@ -16,6 +16,7 @@ public enum ECSErrorEnum {
     ECSinvalid_grant( R.string.ECSinvalid_grant, 5000),
     ECSinvalid_client(R.string.ECSinvalid_client, 5001),
     ECSunsupported_grant_type( R.string.ECSunsupported_grant_type, 5002),
+
     ECSNoSuchElementError( R.string.ECSNoSuchElementError, 5003),
     ECSCartError( R.string.ECSCartError, 5004),
     InsufficientStockError( R.string.ECSInsufficientStockError, 5005),

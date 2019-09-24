@@ -1,0 +1,232 @@
+{
+  "buttonConfig": {
+    "id": 12345,
+    "property": [{
+      "needInput": false,
+      "type": "button",
+      "name": "isHybris",
+      "apiNumber": 0
+    },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "fetch Config",
+        "apiNumber": 1
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Authenticate",
+        "apiNumber": 2
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Refresh OAuth",
+        "apiNumber": 3
+      },
+      {
+        "needInput": true,
+        "type": "button",
+        "name": "Fetch Product",
+        "apiNumber": 4,
+        "fetchProductInput": {
+          "pageNumber": 0,
+          "pageSize": 20
+        }
+      },
+      {
+        "needInput": true,
+        "type": "button",
+        "name": "Fetch Product for CTN",
+        "apiNumber": 5
+      },
+      {
+        "needInput": true,
+        "type": "button",
+        "name": "Fetch Product Summary",
+        "apiNumber": 6
+      },
+      {
+        "needInput": true,
+        "type": "button",
+        "name": "Fetch Product Detail",
+        "apiNumber": 7
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "cart",
+        "property": [{
+          "needInput": false,
+          "type": "button",
+          "name": "Fetch Shopping Cart",
+          "apiNumber": 8
+        },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Create ShoppingCart",
+            "apiNumber": 9
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Add Product To ShoppingCart",
+            "apiNumber": 10
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Update Shopping Cart",
+            "apiNumber": 11
+          }
+        ]
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Voucher",
+        "property": [{
+          "needInput": false,
+          "type": "button",
+          "name": "Apply Voucher",
+          "apiNumber": 101
+        },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Fetch Applied Vouchers",
+            "apiNumber": 12
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Remove Voucher",
+            "apiNumber": 13
+          }
+        ]
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Delivery Mode",
+        "property": [{
+          "needInput": false,
+          "type": "button",
+          "name": "Fetch Delivery Mode",
+          "apiNumber": 14
+        },
+          {
+            "needInput": true,
+            "type": "button",
+            "name": "Set Delivery Mode",
+            "apiNumber": 15
+          }
+        ]
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Address",
+        "property": [{
+          "needInput": false,
+          "type": "button",
+          "name": "Fetch Saved Addresses",
+          "apiNumber": 16
+        },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Create Address",
+            "apiNumber": 17
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Create and Fetch Address",
+            "apiNumber": 18
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Set Delivery Address",
+            "apiNumber": 19
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Set and Fetch Delivery Address",
+            "apiNumber": 20
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Update Address",
+            "apiNumber": 21
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Update and Fetch Address",
+            "apiNumber": 22
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Delete Address",
+            "apiNumber": 23
+          },
+          {
+            "needInput": false,
+            "type": "button",
+            "name": "Delete and Fetch Address",
+            "apiNumber": 24
+          }
+        ]
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Payment",
+        "apiNumber": 25
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Submit Order",
+        "apiNumber": 26
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Fetch Retailers for CTN",
+        "apiNumber": 27
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Fetch Retailers for Product",
+        "apiNumber": 28
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Fetch Order history",
+        "apiNumber": 29
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Fetch Order Detail",
+        "apiNumber": 30
+      },
+      {
+        "needInput": false,
+        "type": "button",
+        "name": "Fetch Profile",
+        "apiNumber": 31
+      }
+    ]
+  }
+}
