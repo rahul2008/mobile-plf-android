@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_margin="20dp"
         android:layout_above="@+id/btn_execute"
         android:layout_width="match_parent"
