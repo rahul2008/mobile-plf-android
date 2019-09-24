@@ -78,6 +78,7 @@ project(ext.strings.pim.projectName).projectDir = new File('./Source/pim/Source/
 
 
 project(ext.strings.ecsuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoUApp')
+//project(ext.strings.ecstestuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
 project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
 
 
@@ -99,18 +100,18 @@ project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
 //include ':launchDigitalCare'
 //project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
-include(':iapApp')
-project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
-include(':ecsApp')
-project(':ecsApp').projectDir = new File('./Source/ecs/Source/DemoApp/app')
-include(':ecsUApp')
-project(':ecsUApp').projectDir = new File('./Source/ecs/Source/DemoUApp')
+//include(':iapApp')
+//project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
+//include(':ecsApp')
+//project(':ecsApp').projectDir = new File('./Source/ecs/Source/DemoApp/app')
+//include(':ecsUApp')
+//project(':ecsUApp').projectDir = new File('./Source/ecs/Source/DemoUApp')
 
 include(':ecsTestUApp')
 project(':ecsTestUApp').projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
 
-include(':philipsecommercesdk')
-project(':philipsecommercesdk').projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
+//include(':philipsecommercesdk')
+//project(':philipsecommercesdk').projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
 
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')

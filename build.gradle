@@ -52,7 +52,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-ext.commitHash = objcdp.getCommitHash()
+ext.commitHash=objcdp.getCommitHash()
 
 println "Working branch: ${objcdp.getWorkingBranch()}"
 
@@ -131,12 +131,12 @@ subprojects {
                     // As per Robolectric documentation
                     includeAndroidResources true
 
-                    all {
-                        jvmArgs '-noverify'
-                        systemProperty 'robolectric.enabledSdks', '27'
+                        all {
+                            jvmArgs '-noverify'
+                            systemProperty 'robolectric.enabledSdks', '27'
+                        }
                     }
                 }
-            }
 
             packagingOptions {
                 exclude 'META-INF/proguard/androidx-annotations.pro'
