@@ -112,7 +112,8 @@ public class UpdateShoppingCartFragment extends BaseFragment {
         if (ECSDataHolder.INSTANCE.getEcsProducts() != null) {
 
             List<ECSEntries> entries = ECSDataHolder.INSTANCE.getEcsShoppingCart().getEntries();
-            if (entries.size() != 0) {
+
+            if (entries!=null && entries.size() != 0) {
 
                 for (ECSEntries ecsEntries : entries) {
                     ctns.add(ecsEntries.getEntryNumber() + "");
