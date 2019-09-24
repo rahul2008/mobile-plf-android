@@ -359,6 +359,15 @@
             ]
           },
           {
+            "eventId": "TestECSTestEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoEcsTestState"
+              }
+            ]
+          },
+          {
             "eventId": "TestInAppPurhcaseEvent",
             "nextStates": [
               {

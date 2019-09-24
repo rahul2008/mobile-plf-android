@@ -17,10 +17,8 @@ import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.ECSAddress;
-import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
-import com.philips.cdp.di.ecs.model.order.ECSOrders;
-
+import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory;
+import com.philips.cdp.di.ecs.model.orders.ECSOrders;
 import java.util.ArrayList;
 import java.util.List;
 

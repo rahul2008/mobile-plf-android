@@ -17,11 +17,8 @@ import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
-import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
-import com.philips.cdp.di.ecs.model.products.ECSProducts;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory;
 
-import java.util.List;
 
 public class FetchOrderHistoryFragment extends BaseFragment {
 

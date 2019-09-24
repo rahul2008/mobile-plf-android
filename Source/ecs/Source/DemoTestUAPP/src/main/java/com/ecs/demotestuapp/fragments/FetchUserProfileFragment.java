@@ -17,10 +17,7 @@ import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.model.address.ECSAddress;
-import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
-
-import java.util.List;
+import com.philips.cdp.di.ecs.model.address.ECSUserProfile;
 
 public class FetchUserProfileFragment extends BaseFragment {
 

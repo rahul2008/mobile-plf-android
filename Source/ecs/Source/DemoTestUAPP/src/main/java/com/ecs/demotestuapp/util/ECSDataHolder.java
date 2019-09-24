@@ -3,15 +3,15 @@ package com.ecs.demotestuapp.util;
 import com.philips.cdp.di.ecs.ECSServices;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
+import com.philips.cdp.di.ecs.model.address.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.config.ECSConfig;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
-import com.philips.cdp.di.ecs.model.order.ECSOrderHistory;
 import com.philips.cdp.di.ecs.model.orders.ECSOrderDetail;
+import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory;
 import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
-import com.philips.cdp.di.ecs.model.user.ECSUserProfile;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
 import java.util.ArrayList;
