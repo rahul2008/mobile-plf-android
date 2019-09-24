@@ -146,31 +146,31 @@ public class InputActivity extends AppCompatActivity {
             case 19:
                 return new FetchSavedAddressesFragment();
             case 20:
-                return new CreateAndFetchAddressFragment();
-            case 21:
                 return new CreateAddressFragment();
+
+            case 21:
+                return new CreateAndFetchAddressFragment();
             case 22:
-                return new SetDeliveryAddressFragment();
-            case 23:
-                return new SetAndFetchDeliveryAddressFragment();
-            case 24:
                 return new UpdateAddressFragment();
-            case 25:
+
+            case 23:
                 return new UpdateAndFetchAddressFragment();
+
+
+            case 24:
+                return new SetDeliveryAddressFragment();
+            case 25:
+                return new SetAndFetchDeliveryAddressFragment();
             case 26:
                 return new DeleteAddressFragment();
             case 27:
                 return new DeleteAndFetchAddressFragment();
 
 
-
-
             case 28:
                 return new FetchRetailersFragment();
             case 29:
                 return new FetchRetailersForProductFragment();
-
-
 
                 case 30:
                 return new FetchPaymentsDetailsFragment();

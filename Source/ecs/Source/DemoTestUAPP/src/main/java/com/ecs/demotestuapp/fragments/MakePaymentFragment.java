@@ -32,7 +32,7 @@ public class MakePaymentFragment extends BaseFragment {
 
     private Button btn_execute;
     private ProgressBar progressBar;
-    private Spinner spinner1,spinner2;
+    private Spinner spinner2;
 
     private EditText  etOrderDetailID;
 
@@ -66,7 +66,7 @@ public class MakePaymentFragment extends BaseFragment {
 
         spinner2 = linearLayout.findViewWithTag("spinner_one");
 
-        fillSpinnerData(spinner1);
+        fillSpinnerData(spinner2);
 
         btn_execute.setOnClickListener(new View.OnClickListener() {
             @Override
