@@ -177,21 +177,6 @@ public class ProductModelSelectionHelper {
         }
     }
 
-    private boolean isTablet(FragmentActivity context) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        try {
-            if (context.getWindowManager() != null)
-                context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        } catch (NullPointerException e) {
-            ProductSelectionLogger.e(TAG, "V4 library issue catch ");
-        } finally {
-            float yInches = metrics.heightPixels / metrics.ydpi;
-            float xInches = metrics.widthPixels / metrics.xdpi;
-            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-            return diagonalInches >= 6.5;
-        }
-    }
-
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
         if (mContext == null) {
             throw new RuntimeException("Please initialise context before component invocation");

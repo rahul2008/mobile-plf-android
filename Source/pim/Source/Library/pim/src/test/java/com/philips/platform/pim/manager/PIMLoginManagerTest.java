@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.adobe.mobile.Analytics;
+import com.adobe.mobile.Visitor;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -126,8 +127,7 @@ public class PIMLoginManagerTest extends TestCase {
         mockStatic(Uri.class);
         Uri mockUri = Mockito.mock(Uri.class);
         when(Uri.class, "parse", anyString()).thenReturn(mockUri);
-        when(Analytics.getTrackingIdentifier()).thenReturn("66512F65BFEF4D06-060C8F54D06DE6AF");
-        when(mockTaggingInterface.getTrackingIdentifier()).thenReturn("66512F65BFEF4D06-060C8F54D06DE6AF");
+        when(mockTaggingInterface.getVisitorIDAppendToURL("http://")).thenReturn("adobe_mc=TS%3D1568801124%7CMCMID%3D08423335634566345415592103512568266387%7CMCORGID%3D7D976F3055DC96AB7F000101%40AdobeOrg");
         PIMLoginListener mockPimLoginListener = mock(PIMLoginListener.class);
         pimLoginManager.getAuthReqIntent(mockPimLoginListener);
         verify(mockAuthManager).getAuthorizationRequestIntent(eq(mockAuthorizationServiceConfiguration), anyString(), anyString(), any(HashMap.class));
@@ -195,6 +195,7 @@ public class PIMLoginManagerTest extends TestCase {
 
     @Test
     public void testCreateAdditionalParameterForLogin() throws Exception {
+        when(mockTaggingInterface.getVisitorIDAppendToURL("http://")).thenReturn("adobe_mc=TS%3D1568801124%7CMCMID%3D08423335634566345415592103512568266387%7CMCORGID%3D7D976F3055DC96AB7F000101%40AdobeOrg");
         Object additionalParameterForLogin = Whitebox.invokeMethod(pimLoginManager, "createAdditionalParameterForLogin");
         assertNotNull(additionalParameterForLogin);
     }
