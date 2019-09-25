@@ -6,6 +6,10 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+
+/**
+ * The type Delivery mode entity which contains delivery mode description, name, unique code
+ */
 public class DeliveryModeEntity implements Serializable{
 
 

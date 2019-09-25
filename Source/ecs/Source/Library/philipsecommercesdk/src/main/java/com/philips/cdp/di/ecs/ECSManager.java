@@ -306,14 +306,12 @@ public class ECSManager {
                     @Override
                     public void onResponse(ECSProductSummary ecsProductSummary) {
                         updateProductsWithSummary(result, ecsProductSummary);
-                        System.out.println("getProductSummary Success");
                         ecsCallback.onResponse(result);
 
                     }
 
                     @Override
                     public void onFailure(Exception error, ECSError ecsError) {
-                        System.out.println("getProductSummary fail");
                         ecsCallback.onFailure(error, ecsError);
                     }
                 });

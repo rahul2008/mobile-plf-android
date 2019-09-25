@@ -6,6 +6,10 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+
+/**
+ * The type Delivery cost entity which contains price related data
+ */
 public class DeliveryCostEntity implements Serializable {
 
 

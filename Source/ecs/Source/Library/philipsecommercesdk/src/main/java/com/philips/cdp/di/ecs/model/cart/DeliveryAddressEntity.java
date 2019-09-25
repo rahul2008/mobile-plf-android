@@ -9,6 +9,10 @@ import java.io.Serializable;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+
+/**
+ * The type Delivery address entity which contains address related data
+ */
 public class DeliveryAddressEntity  implements Serializable {
 
     private Country country;

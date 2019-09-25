@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * The type Data contains data from prx
+ */
 public class Data implements Serializable {
 
     @SerializedName("locale")

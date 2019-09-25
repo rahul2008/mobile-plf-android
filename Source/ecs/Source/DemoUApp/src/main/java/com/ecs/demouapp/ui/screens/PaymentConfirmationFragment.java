@@ -24,8 +24,12 @@ import com.ecs.demouapp.ui.analytics.ECSAnalytics;
 import com.ecs.demouapp.ui.analytics.ECSAnalyticsConstant;
 import com.ecs.demouapp.ui.session.NetworkConstants;
 import com.ecs.demouapp.ui.utils.AlertListener;
+import com.ecs.demouapp.ui.utils.ECSUtility;
 import com.ecs.demouapp.ui.utils.ModelConstants;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PaymentConfirmationFragment extends InAppBaseFragment
@@ -118,7 +122,18 @@ public class PaymentConfirmationFragment extends InAppBaseFragment
                 ECSAnalytics.trackMultipleActions(ECSAnalyticsConstant.SEND_DATA, contextData);
             }
             //TODO
-            String email = "pabitrakumar.sahoo@philips.com";
+            HashMap<String, Object> userDetails = null;
+            ArrayList<String> userDataMap = new ArrayList<>();
+
+            userDataMap.add(UserDetailConstants.GIVEN_NAME);
+            userDataMap.add(UserDetailConstants.FAMILY_NAME);
+            userDataMap.add(UserDetailConstants.EMAIL);
+            try{
+                userDetails =   ECSUtility.getInstance().getUserDataInterface().getUserDetails(userDataMap);
+            } catch (UserDataInterfaceException e) {
+                e.printStackTrace();
+            }
+            String email=  (String) userDetails.get(UserDetailConstants.EMAIL);
             if (arguments.containsKey(ModelConstants.EMAIL_ADDRESS)) {
                 email = arguments.getString(ModelConstants.EMAIL_ADDRESS);
             }

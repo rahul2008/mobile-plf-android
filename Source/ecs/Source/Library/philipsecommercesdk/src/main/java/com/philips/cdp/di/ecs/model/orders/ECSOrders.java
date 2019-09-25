@@ -4,6 +4,9 @@ package com.philips.cdp.di.ecs.model.orders;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs orders contains orders which is passed as input to fetch order details.
+ */
 public class ECSOrders implements Serializable {
     private String code;
     private String guid;
@@ -27,6 +30,11 @@ public class ECSOrders implements Serializable {
         return code;
     }
 
+    /**
+     * Gets guid.
+     *
+     * @return the guid which is the unique order id
+     */
     public String getGuid() {
         return guid;
     }

@@ -2,6 +2,11 @@ package com.philips.cdp.di.ecs.model.address;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs user profile contains user details.
+ *This object is returned when fetching user details
+ *
+ */
 public class ECSUserProfile implements Serializable {
     private ECSAddress defaultAddress;
 

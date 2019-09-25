@@ -12,6 +12,14 @@ import com.philips.cdp.di.ecs.constants.NetworkConstants;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs address which contains all the data related to address.
+ * The values here are set to createAddress
+ * This object is returned when fetchSavedAddresses
+ * When address is updated in updateAddress, the updated list is returned
+ * It is passed as input to set it as delivery address, to delete the address and while making payment it is passed as billing address
+ *
+ */
 public class ECSAddress implements Serializable{
     private static final long serialVersionUID = -2423291510688767513L;
     private Region region;
@@ -199,6 +207,11 @@ public class ECSAddress implements Serializable{
         return isDefaultAddress;
     }
 
+    /**
+     * Sets default address.
+     *
+     * @param defaultAddress is set to true, to make it as default delivery address
+     */
     public void setDefaultAddress(boolean defaultAddress) {
         isDefaultAddress = defaultAddress;
     }
