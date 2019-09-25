@@ -61,6 +61,14 @@ public class CreateAndFetchAddressFragment extends BaseFragment {
             }
         });
 
+        Button btnClear = rootView.findViewById(R.id.btn_clear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ECSDataHolder.INSTANCE.setEcsAddressList(null);
+            }
+        });
+
         return rootView;
     }
 
@@ -69,6 +77,7 @@ public class CreateAndFetchAddressFragment extends BaseFragment {
         ECSDataHolder.INSTANCE.getEcsServices().createAndFetchAddress(getECSAddress(linearLayout), new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
             public void onResponse(List<ECSAddress> ecsAddressList) {
+                ECSDataHolder.INSTANCE.setEcsAddressList(ecsAddressList);
                 gotoResultActivity(getJsonStringFromObject(ecsAddressList));
                 progressBar.setVisibility(View.GONE);
             }

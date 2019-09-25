@@ -46,6 +46,14 @@ public class CreateShoppingCartFragment extends BaseFragment {
             }
         });
 
+        Button btnClear = rootView.findViewById(R.id.btn_clear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ECSDataHolder.INSTANCE.setEcsShoppingCart(null);
+            }
+        });
+
         return rootView;
     }
 

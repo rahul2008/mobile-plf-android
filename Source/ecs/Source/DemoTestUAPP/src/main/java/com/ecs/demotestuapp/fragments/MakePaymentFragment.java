@@ -76,6 +76,8 @@ public class MakePaymentFragment extends BaseFragment {
             }
         });
 
+
+
         return rootView;
     }
 

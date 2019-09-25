@@ -60,6 +60,14 @@ public class UpdateAndFetchAddressFragment extends BaseFragment {
             }
         });
 
+        Button btnClear = rootView.findViewById(R.id.btn_clear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ECSDataHolder.INSTANCE.setEcsAddressList(null);
+            }
+        });
+
         return rootView;
     }
 

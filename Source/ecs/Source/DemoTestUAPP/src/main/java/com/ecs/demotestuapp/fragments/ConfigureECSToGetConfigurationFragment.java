@@ -53,7 +53,6 @@ public class ConfigureECSToGetConfigurationFragment extends BaseFragment {
         ECSDataHolder.INSTANCE.getEcsServices().configureECSToGetConfiguration(new ECSCallback<ECSConfig, Exception>() {
             @Override
             public void onResponse(ECSConfig ecsConfig) {
-                ECSDataHolder.INSTANCE.setEcsConfig(ecsConfig);
                 gotoResultActivity(getJsonStringFromObject(ecsConfig));
                 progressBar.setVisibility(View.GONE);
             }

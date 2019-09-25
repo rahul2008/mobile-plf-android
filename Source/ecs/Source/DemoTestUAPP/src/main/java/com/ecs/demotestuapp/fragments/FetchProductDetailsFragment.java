@@ -61,6 +61,8 @@ public class FetchProductDetailsFragment extends BaseFragment {
             }
         });
 
+
+
         return rootView;
     }
 
