@@ -1,6 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.cdp.di.ecs.model.address;
@@ -8,6 +9,9 @@ package com.philips.cdp.di.ecs.model.address;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The type Get shipping address data contains list of addresses.
+ */
 public class GetShippingAddressData implements Serializable {
 
     private List<ECSAddress> addresses;
