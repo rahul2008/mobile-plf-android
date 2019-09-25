@@ -510,7 +510,7 @@ public class OrderSummaryFragment extends InAppBaseFragment
             }*/
         }else if(msg.obj instanceof String){
             hideProgressBar();
-            NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
+            ECSUtility.showECSAlertDialog(mContext,"Error",(String)msg.obj);
         }
     }
 

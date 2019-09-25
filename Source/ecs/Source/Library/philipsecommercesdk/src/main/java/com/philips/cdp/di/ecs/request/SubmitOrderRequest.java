@@ -41,16 +41,11 @@ public class SubmitOrderRequest extends OAuthAppInfraAbstractRequest implements 
      */
     @Override
     public void onResponse(String response) {
-        ECSOrderDetail orderDetail=null;
-        Exception exception = null;
+
         try {
-             orderDetail = new Gson().fromJson(response, ECSOrderDetail.class);
-        }catch(Exception e){
-            exception=e;
-        }
-        if(null==exception && null!=orderDetail){
+            ECSOrderDetail orderDetail = new Gson().fromJson(response, ECSOrderDetail.class);
             exceptionECSCallback.onResponse(orderDetail);
-        }else{
+        }catch(Exception exception){
             ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response);
             exceptionECSCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
