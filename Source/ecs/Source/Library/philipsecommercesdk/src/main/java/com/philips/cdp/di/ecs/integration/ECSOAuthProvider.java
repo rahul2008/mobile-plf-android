@@ -1,5 +1,8 @@
 package com.philips.cdp.di.ecs.integration;
 
+/**
+ * The type Ecs oauth provider contains OAuth related data. It is passed as input parameter for hybrisOAthAuthentication and hybrisRefreshOAuth
+ */
 public abstract class ECSOAuthProvider {
 
 

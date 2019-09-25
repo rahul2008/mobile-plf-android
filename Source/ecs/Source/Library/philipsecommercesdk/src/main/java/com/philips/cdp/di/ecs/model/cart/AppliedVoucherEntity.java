@@ -5,6 +5,9 @@ import com.philips.cdp.di.ecs.model.voucher.AppliedValue;
 
 import java.io.Serializable;
 
+/**
+ * The type Applied voucher entity which contains voucher related data.
+ */
 public class AppliedVoucherEntity  implements Serializable {
 
     String description;

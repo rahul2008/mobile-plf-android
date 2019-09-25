@@ -2,6 +2,9 @@ package com.philips.cdp.di.ecs.model.voucher;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs voucher contains the voucher details. This object is returned with updated value when user do applyVoucher,fetchAppliedVouchers,removeVoucher
+ */
 public class ECSVoucher implements Serializable {
 
     private static final long serialVersionUID = -7277844355281972422L;

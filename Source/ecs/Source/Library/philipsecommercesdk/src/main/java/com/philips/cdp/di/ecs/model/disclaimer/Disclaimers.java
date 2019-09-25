@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Disclaimers contains list of disclaimers.
+ */
 public class Disclaimers implements Serializable {
     @SerializedName("disclaimer")
     @Expose

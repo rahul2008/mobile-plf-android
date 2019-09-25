@@ -3,6 +3,10 @@ package com.philips.cdp.di.ecs.model.orders;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The type Ecs order history contains details of order placed.
+ * This object is returned when fetchOrderHistory
+ */
 public class ECSOrderHistory implements Serializable {
 
 

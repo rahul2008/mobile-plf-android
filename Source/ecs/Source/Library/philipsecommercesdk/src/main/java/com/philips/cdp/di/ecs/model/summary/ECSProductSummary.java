@@ -14,6 +14,10 @@ import java.util.ArrayList;
  * Created by philips on 2/28/19.
  */
 
+/**
+ * The type ECS product summary contains summary data fetched from prx
+ */
+
 public class ECSProductSummary extends ResponseData implements Serializable {
 
     @SerializedName("success")
