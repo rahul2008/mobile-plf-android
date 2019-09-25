@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Request;
@@ -15,11 +20,6 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 public class UpdateAddressRequest extends OAuthAppInfraAbstractRequest implements Response.Listener<String>  {
 
     private final ECSAddress addresses;

@@ -9,7 +9,7 @@
 -keep class com.philips.cdp.di.ecs.model** {*;}
 -keep class com.philips.cdp.di.ecs.integration** {*;}
 -keep class com.philips.cdp.di.ecs.error** {*;}
--keep interface com.philips.cdp.di.ecs.integration.ECSServiceProvider** {*;}
+-keep interface com.philips.cdp.di.ecs.ECSServiceProvider** {*;}
 
 
 #JSACKSON

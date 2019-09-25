@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs;
 
 
@@ -5,7 +10,6 @@ import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
@@ -150,7 +154,7 @@ public class ECSServices implements ECSServiceProvider {
         ECSConfiguration.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
-    @Override
+
 
     /**
      * @since 1905.0.0
@@ -159,6 +163,7 @@ public class ECSServices implements ECSServiceProvider {
      * @param ecsoAuthProvider      the ECSOAuthProvider object (Janrain token details)
      * @param ecsListener           the iapsdk callback success block containing ECSOAuthData object
      */
+    @Override
     public void hybrisOAthAuthentication(@NonNull ECSOAuthProvider ecsoAuthProvider, @NonNull ECSCallback<ECSOAuthData,Exception> ecsListener){
         ecsCallValidator.getOAuth(ecsoAuthProvider,ecsListener);
     }
