@@ -234,6 +234,8 @@ dependencies {
         implementation project(strings.prguapp.projectName)
         implementation project(strings.usruapp.projectName)
 
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
 
 
 
