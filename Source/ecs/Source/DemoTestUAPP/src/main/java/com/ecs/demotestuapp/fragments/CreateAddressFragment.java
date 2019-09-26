@@ -49,6 +49,7 @@ public class CreateAddressFragment extends BaseFragment {
         fillSpinnerDataForSalutation(spinnerSalutation);
         fillSpinnerDataForState(spinnerState);
 
+        prepopulateText(linearLayout);
         btn_execute = rootView.findViewById(R.id.btn_execute);
         progressBar = rootView.findViewById(R.id.progressBar);
 

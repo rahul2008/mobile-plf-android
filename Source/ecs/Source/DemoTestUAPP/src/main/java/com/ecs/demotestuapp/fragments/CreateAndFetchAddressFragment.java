@@ -42,6 +42,7 @@ public class CreateAndFetchAddressFragment extends BaseFragment {
         Bundle bundle = getActivity().getIntent().getExtras();
         subgroupItem = (SubgroupItem) bundle.getSerializable("sub_group");
         inflateLayout(linearLayout,subgroupItem);
+        prepopulateText(linearLayout);
 
         spinnerSalutation = linearLayout.findViewWithTag("spinner_salutation");
         spinnerState = linearLayout.findViewWithTag("spinner_state");

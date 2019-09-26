@@ -13,6 +13,7 @@ import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,17 @@ public enum  ECSDataHolder {
     List<ECSAddress> ecsAddressList = new ArrayList<>();
     ECSShoppingCart ecsShoppingCart;
     ECSOrderHistory ecsOrderHistory;
+
+    public UserDataInterface getUserDataInterface() {
+        return userDataInterface;
+    }
+
+    public void setUserDataInterface(UserDataInterface userDataInterface) {
+        this.userDataInterface = userDataInterface;
+    }
+
+    UserDataInterface userDataInterface;
+
 
     public ECSOrderDetail getEcsOrderDetail() {
         return ecsOrderDetail;

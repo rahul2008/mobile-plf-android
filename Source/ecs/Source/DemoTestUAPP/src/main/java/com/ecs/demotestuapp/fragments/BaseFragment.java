@@ -20,14 +20,20 @@ import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.philips.cdp.di.ecs.constants.ModelConstants;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.model.address.Country;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.Region;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterfaceException;
+import com.philips.platform.pif.DataInterface.USR.UserDetailConstants;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class BaseFragment extends Fragment {
 
@@ -42,7 +48,6 @@ public class BaseFragment extends Fragment {
         Intent intent = new Intent(getActivity(), ResultActivity.class);
         intent.putExtra("result",result);
         startActivity(intent);
-        getActivity().finish();
     }
 
     public  String getFailureString(Exception exception, ECSError ecsError){
@@ -121,18 +126,50 @@ public class BaseFragment extends Fragment {
     }
 
 
+    public void prepopulateText(LinearLayout linearLayout){
+
+        EditText etFirstName = linearLayout.findViewWithTag("et_first_name");
+        EditText etLastName = linearLayout.findViewWithTag("et_last_name");
+        EditText etEmail = linearLayout.findViewWithTag("et_email");
+        EditText etCountryCode = linearLayout.findViewWithTag("et_country_code");
+
+        ArrayList<String> userDataMap = new ArrayList<>();
+        HashMap<String, Object> userDetails = null;
+
+        userDataMap.add(UserDetailConstants.GIVEN_NAME);
+        userDataMap.add(UserDetailConstants.FAMILY_NAME);
+        userDataMap.add(UserDetailConstants.EMAIL);
+        try{
+            userDetails = ECSDataHolder.INSTANCE.getUserDataInterface().getUserDetails(userDataMap);
+
+        } catch (UserDataInterfaceException e) {
+            e.printStackTrace();
+        }
+
+        if(userDetails!=null){
+            String firstname=  (String) userDetails.get(UserDetailConstants.GIVEN_NAME);
+            String lastName=  (String) userDetails.get(UserDetailConstants.FAMILY_NAME);
+            String email=  (String) userDetails.get(UserDetailConstants.EMAIL);
+
+            etFirstName.setText(firstname);
+            etLastName.setText(lastName);
+            etEmail.setText(email);
+            etCountryCode.setText(ECSConfiguration.INSTANCE.getCountry());
+        }
+
+    }
 
     public ECSAddress getECSAddress(LinearLayout linearLayout){
 
         EditText etFirstName = linearLayout.findViewWithTag("et_first_name");
         EditText etLastName = linearLayout.findViewWithTag("et_last_name");
+        EditText etEmail = linearLayout.findViewWithTag("et_email");
         EditText etCountryCode = linearLayout.findViewWithTag("et_country_code");
         EditText etAddressLineOne = linearLayout.findViewWithTag("et_address_one");
         EditText etAddressLineTwo = linearLayout.findViewWithTag("et_address_two");
         EditText etPostalCode = linearLayout.findViewWithTag("et_postal_code");
         EditText etPhoneOne = linearLayout.findViewWithTag("et_phone_one");
         EditText etPhoneTwo = linearLayout.findViewWithTag("et_phone_two");
-        EditText etEmail = linearLayout.findViewWithTag("et_email");
         EditText etTown = linearLayout.findViewWithTag("et_town");
         EditText etHouseNumber = linearLayout.findViewWithTag("et_house_no");
 
@@ -155,10 +192,10 @@ public class BaseFragment extends Fragment {
         ecsAddress.setPhone1(getTextFromEditText(etPhoneOne));
         ecsAddress.setPhone2(getTextFromEditText(etPhoneTwo));
         ecsAddress.setEmail(getTextFromEditText(etEmail));
-        ecsAddress.setEmail(getTextFromEditText(etTown));
+        ecsAddress.setTown(getTextFromEditText(etTown));
         ecsAddress.setHouseNumber(getTextFromEditText(etHouseNumber));
 
-        ecsAddress.setTitleCode(getTextFromSpinner(spinnerSalutation));
+        ecsAddress.setTitleCode(getTextFromSpinner(spinnerSalutation).toLowerCase(Locale.getDefault()));
         ecsAddress.setRegion(getRegionFromName(getTextFromSpinner(spinnerState)));
 
         getTextFromSpinner(spinnerState);
@@ -194,6 +231,53 @@ public class BaseFragment extends Fragment {
         etTown.setText(ecsAddress.getTown());
         etHouseNumber.setText(ecsAddress.getHouseNumber());
 
+        Spinner spinnerSalutation = linearLayout.findViewWithTag("spinner_salutation");
+        Spinner spinnerState = linearLayout.findViewWithTag("spinner_state");
+
+        fillSpinnerDataForSalutation(spinnerSalutation,ecsAddress);
+        fillSpinnerDataForState(spinnerState,ecsAddress);
+
+    }
+
+    private void fillSpinnerDataForSalutation(Spinner spinner,ECSAddress ecsAddress) {
+
+        String salutation = ecsAddress.getTitle();
+
+        List<String> list = new ArrayList<>();
+        list.add("Mr.");
+        list.add("Ms.");
+
+        int position =0;
+        for (int i =0;i<list.size();i++){
+            if(salutation.equalsIgnoreCase(list.get(i))){
+                position = i;
+            }
+        }
+
+        fillSpinner(spinner,list);
+
+        spinner.setSelection(position);
+    }
+
+    private void fillSpinnerDataForState(Spinner spinner,ECSAddress ecsAddress) {
+
+        List<ECSRegion> ecsRegions = ECSDataHolder.INSTANCE.getEcsRegions();
+        List<String> list = new ArrayList<String>();
+        Region region = ecsAddress.getRegion();
+
+        int position = 0;
+
+        for (int i=0;i< ecsRegions.size();i++){
+
+            list.add(ecsRegions.get(i).getName());
+            if(region!=null && region.getIsocodeShort().equalsIgnoreCase(ecsRegions.get(i).getIsocode())){
+
+                position = i;
+            }
+        }
+
+        fillSpinner(spinner,list);
+        spinner.setSelection(position);
     }
 
     private Region getRegionFromName(String stateName) {
@@ -216,39 +300,10 @@ public class BaseFragment extends Fragment {
 
     String getTextFromEditText(EditText et){
 
-        if(et.getText()!=null){
+        if(et.getText()!=null && !et.getText().toString().isEmpty()){
             return  et.getText().toString();
         }
         return null;
-
-
-        /*
-
-        ,
-            {
-              "tag": "et_house_no",
-              "text": "secret",
-              "hint": "enter house number"
-            }
-
-        addressRequest.setFirstName(addressFields.getFirstName());
-        addressRequest.setLastName(addressFields.getLastName());
-        addressRequest.setTitleCode(addressFields.getTitleCode());
-        Country country= new Country();
-        country.setIsocode(ECSConfiguration.INSTANCE.getCountry());
-        //country.se
-        addressRequest.setCountry(country); // iso
-        addressRequest.setLine1(addressFields.getLine1());
-        //   addressRequest.setLine2(shippingAddressFields.getLine2());
-        addressRequest.setPostalCode(addressFields.getPostalCode());
-        addressRequest.setTown(addressFields.getTown());
-        addressRequest.setPhone1(addressFields.getPhone1());
-        addressRequest.setPhone2(addressFields.getPhone2());
-        Region region = new Region();
-        region.setIsocodeShort(addressFields.getRegionIsoCode());
-        addressRequest.setRegion(region); // set Region eg State for US and Canada
-        addressRequest.setHouseNumber(addressFields.getHouseNumber());
-        */
     }
 
 }

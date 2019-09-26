@@ -280,6 +280,7 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
             HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
             String janrainID = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
             ECSDataHolder.INSTANCE.setJanrainID(janrainID);
+            ECSDataHolder.INSTANCE.setUserDataInterface(mUserDataInterface);;
         } catch (Exception e) {
             e.printStackTrace();
         }

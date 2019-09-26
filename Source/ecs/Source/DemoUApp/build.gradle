@@ -96,10 +96,11 @@ dependencies {
     testImplementation deps.junit
     implementation philipsdeps.uid
 
-   implementation project(path: ':philipsecommercesdk' , configuration: 'default')
+ //  implementation project(path: ':philipsecommercesdk' , configuration: 'default')
     if (useprojectdependencies) {
        // implementation project(strings.iap.projectName)
         implementation project(strings.prx.projectName)
+        implementation project(strings.philipsecommercesdk.projectName)
         implementation project(strings.usr.projectName)
         implementation project(strings.ail.projectName)
         implementation project(strings.ufw.projectName)
