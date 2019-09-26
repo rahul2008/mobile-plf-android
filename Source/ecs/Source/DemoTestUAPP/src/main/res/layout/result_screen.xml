@@ -13,6 +13,7 @@
         android:fillViewport="true">
 
     <TextView
+        android:padding="10dp"
         android:background="@drawable/tv_border"
         android:id="@+id/tv_result"
         android:textSize="20sp"

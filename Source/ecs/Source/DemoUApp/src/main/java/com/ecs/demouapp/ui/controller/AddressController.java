@@ -125,7 +125,7 @@ public class AddressController {
             public void onFailure(Exception error, ECSError ecsError) {
 
                 Message message = new Message();
-                message.obj=error.getMessage();
+                message.obj=ecsError.getErrorType();
                 mAddressListener.onCreateAddress(message);
 
             }
