@@ -55,7 +55,7 @@ public class ECSRequestUtility {
             addressHashMap.put(ModelConstants.PHONE_2, addresses.getPhone2());
 
 
-        if(addresses.getRegion()!=null && addresses.getRegion().getIsocode()!=null) {
+        if(addresses.getRegion()!=null && addresses.getRegion().getIsocodeShort()!=null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, addresses.getRegion().getIsocodeShort());
         }
 
