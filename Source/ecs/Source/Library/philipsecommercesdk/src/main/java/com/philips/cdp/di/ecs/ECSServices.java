@@ -6,6 +6,7 @@
 package com.philips.cdp.di.ecs;
 
 
+import com.android.volley.DefaultRetryPolicy;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
@@ -599,6 +600,15 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void setPropositionID(@NonNull String propositionID) {
         ECSConfiguration.INSTANCE.setPropositionID(propositionID);
+    }
+
+    /**
+     * Set volley timeout and retry count.
+     *
+     * @param defaultRetryPolicy the default retry policy
+     */
+    public void setVolleyTimeoutAndRetryCount(DefaultRetryPolicy defaultRetryPolicy){
+        ECSConfiguration.INSTANCE.setDefaultRetryPolicy(defaultRetryPolicy);
     }
 
 }
