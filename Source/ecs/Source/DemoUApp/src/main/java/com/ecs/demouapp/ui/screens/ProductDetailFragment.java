@@ -56,7 +56,6 @@ import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
 import com.philips.cdp.di.ecs.model.cart.ECSEntries;
 import com.philips.cdp.di.ecs.model.disclaimer.Disclaimer;
 import com.philips.cdp.di.ecs.model.products.ECSProduct;
-import com.philips.cdp.di.ecs.model.products.ProductDetailEntity;
 import com.philips.cdp.di.ecs.model.retailers.ECSRetailer;
 import com.philips.cdp.di.ecs.model.summary.Data;
 import com.philips.cdp.di.ecs.util.ECSConfiguration;
@@ -93,7 +92,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private Bundle mBundle;
     private Data mProductSummary;
     private ShoppingCartAPI mShoppingCartAPI;
-    private ProductDetailEntity mProductDetail;
     private ImageAdapter mImageAdapter;
     private ViewPager mViewPager;
 
@@ -590,11 +588,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 mCTN.setText(mCTNValue);
                 mProductOverview.setText(data.getMarketingTextHeader());
                 trackErrorTag(ECSAnalyticsConstant.PRX + mCTNValue + "_" + ECSAnalyticsConstant.PRODUCT_DESCRIPTION_MISSING);
-                if (mProductDetail != null) {
-                    actualPrice = mProductDetail.getPrice().getFormattedValue();
-                    discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
+                if (product != null) {
+                    actualPrice = product.getPrice().getFormattedValue();
+                    discountedPrice = product.getDiscountPrice().getFormattedValue();
                     setPrice(actualPrice, discountedPrice);
-                    setStockInfo(mProductDetail.getStock().getStockLevelStatus(), mProductDetail.getStock().getStockLevel());
+                    setStockInfo(product.getStock().getStockLevelStatus(), product.getStock().getStockLevel());
                 } else {
                     mPrice.setVisibility(View.GONE);
                     mProductDiscountedPrice.setVisibility(View.GONE);
