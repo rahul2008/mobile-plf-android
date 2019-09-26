@@ -30,7 +30,7 @@ import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
 
 import java.util.List;
 
-public class ECSCallValidator {
+ class ECSCallValidator {
 
     ECSManager ecsManager;
 
