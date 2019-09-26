@@ -50,6 +50,7 @@ public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest imp
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(ADDRESS_ID, addressID);
+        params.put("defaultAddress",String.valueOf(true));
         return params;
     }
 
