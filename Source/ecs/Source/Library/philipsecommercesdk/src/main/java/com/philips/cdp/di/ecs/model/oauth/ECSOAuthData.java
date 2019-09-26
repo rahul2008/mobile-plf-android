@@ -1,11 +1,15 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 package com.philips.cdp.di.ecs.model.oauth;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs oauth data which contains OAuth data ad returns Janrain id for hybrisOAthAuthentication and returns refresh token for hybrisRefreshOAuth.
+ */
 public class ECSOAuthData  implements Serializable {
     private String access_token;
     private String token_type;

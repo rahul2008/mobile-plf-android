@@ -1,8 +1,17 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs.model.orders;
 
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The type Ecs order history contains details of order placed.
+ * This object is returned when fetchOrderHistory
+ */
 public class ECSOrderHistory implements Serializable {
 
 

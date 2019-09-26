@@ -202,7 +202,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
             if((Boolean)msg.obj) {
                 ECSAddress selectedAddress = retrieveSelectedAddress();
                 mIsAddressUpdateAfterDelivery = true;
-                mAddressController.setDefaultAddress(selectedAddress);
+               // mAddressController.setDefaultAddress(selectedAddress);
                 checkPaymentDetails();
                 }
         } else {

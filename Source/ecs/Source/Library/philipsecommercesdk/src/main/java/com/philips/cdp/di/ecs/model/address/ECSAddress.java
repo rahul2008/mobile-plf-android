@@ -1,6 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.cdp.di.ecs.model.address;
@@ -12,6 +13,15 @@ import com.philips.cdp.di.ecs.constants.NetworkConstants;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs address which contains all the data related to address.
+ * The values here are set to createAddress
+ * This object is returned when fetchSavedAddresses
+ * When address is updated in updateAddress, the updated list is returned
+ * It is passed as input to set it as delivery address, to delete the address and
+ * while making payment it is passed as billing address and shipping address
+ *
+ */
 public class ECSAddress implements Serializable{
     private static final long serialVersionUID = -2423291510688767513L;
     private Region region;
@@ -199,6 +209,11 @@ public class ECSAddress implements Serializable{
         return isDefaultAddress;
     }
 
+    /**
+     * Sets default address.
+     *
+     * @param defaultAddress is set to true, to make it as default delivery address
+     */
     public void setDefaultAddress(boolean defaultAddress) {
         isDefaultAddress = defaultAddress;
     }

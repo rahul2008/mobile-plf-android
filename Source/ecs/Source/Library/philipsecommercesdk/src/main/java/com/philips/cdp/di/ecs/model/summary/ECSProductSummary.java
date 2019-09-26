@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs.model.summary;
 
 import com.google.gson.Gson;
@@ -12,6 +17,10 @@ import java.util.ArrayList;
 
 /**
  * Created by philips on 2/28/19.
+ */
+
+/**
+ * The type ECS product summary contains summary data fetched from prx
  */
 
 public class ECSProductSummary extends ResponseData implements Serializable {

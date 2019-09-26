@@ -262,8 +262,7 @@ public class AddressFragment extends InAppBaseFragment implements View.OnClickLi
                     mBtnContinue.setEnabled(true);
                 } else {
                     updateAddressPayload.put(ModelConstants.ADDRESS_ID, CartModelContainer.getInstance().getAddressId());
-                    //TODO
-                    //addressPresenter.updateAddress(updateAdadddressPayload);
+                    addressPresenter.updateAddress(billingAddressFields,CartModelContainer.getInstance().getAddressId());
                     mBtnContinue.setEnabled(false);
                 }
                 CartModelContainer.getInstance().setAddressIdFromDelivery(null);

@@ -1,5 +1,11 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs.util;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -60,6 +66,17 @@ public enum ECSConfiguration {
 
     String rootCategory;
     String siteId;
+    DefaultRetryPolicy defaultRetryPolicy;
+
+    public DefaultRetryPolicy getDefaultRetryPolicy() {
+        return defaultRetryPolicy;
+    }
+
+    public void setDefaultRetryPolicy(DefaultRetryPolicy defaultRetryPolicy) {
+        this.defaultRetryPolicy = defaultRetryPolicy;
+    }
+
+
 
 
 

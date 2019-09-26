@@ -1,9 +1,18 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs.model.payment;
 
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs payment contains all the payment details including address which is a billing address during payment.
+ * This object is returned when fetchPaymentsDetails and makePayment is called
+ */
 public class ECSPayment implements Serializable {
 
     private static final long serialVersionUID = 1083630169028052247L;

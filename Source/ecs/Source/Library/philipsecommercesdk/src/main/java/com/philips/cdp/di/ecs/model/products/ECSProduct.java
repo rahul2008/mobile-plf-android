@@ -1,6 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 
 package com.philips.cdp.di.ecs.model.products;
@@ -12,6 +13,11 @@ import com.philips.cdp.di.ecs.model.summary.Data;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs product contains summary data fetched from prx. This object is returned for fetchProduct and fetchProductSummaries.
+ * It is passed as input parameter to get the product details including assets and disclaimer.
+ * It is passed as input parameter for adding product to cart and to get list of retailers.
+ */
 public class ECSProduct implements Serializable {
 
     private boolean availableForPickup;
@@ -48,6 +54,11 @@ public class ECSProduct implements Serializable {
         return availableForPickup;
     }
 
+    /**
+     * Gets code.
+     *
+     * @return the product unique code (CTN)
+     */
     public String getCode() {
         return code;
     }

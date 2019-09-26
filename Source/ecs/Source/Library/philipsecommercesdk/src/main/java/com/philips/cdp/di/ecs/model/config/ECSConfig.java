@@ -1,6 +1,7 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
  */
 package com.philips.cdp.di.ecs.model.config;
 
@@ -8,6 +9,9 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration;
 
 import java.io.Serializable;
 
+/**
+ * The type Ecs config which contains philips e-commerce configuration data. This object is returned when configureECS is called.
+ */
 public class ECSConfig implements Serializable {
 
     public String getLocale() {

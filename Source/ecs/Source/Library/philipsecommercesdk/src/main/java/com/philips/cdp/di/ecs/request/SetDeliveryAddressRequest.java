@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs.request;
 
 import com.android.volley.Request;
@@ -45,6 +50,7 @@ public class SetDeliveryAddressRequest  extends OAuthAppInfraAbstractRequest imp
     public Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
         params.put(ADDRESS_ID, addressID);
+        params.put("defaultAddress",String.valueOf(true));
         return params;
     }
 

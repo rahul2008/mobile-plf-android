@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs.model.asset;
 
 import com.google.gson.annotations.Expose;
@@ -11,6 +16,11 @@ import java.util.List;
  * Description :
  * Project : PRX Common Component.
  * Created by naveen@philips.com on 02-Nov-15.
+ */
+
+
+/**
+ * The type Assets contains list of assets
  */
 public class Assets implements Serializable {
 

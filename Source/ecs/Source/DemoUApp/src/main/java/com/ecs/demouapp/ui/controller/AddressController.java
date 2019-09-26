@@ -125,7 +125,7 @@ public class AddressController {
             public void onFailure(Exception error, ECSError ecsError) {
 
                 Message message = new Message();
-                message.obj=error.getMessage();
+                message.obj=ecsError.getErrorType();
                 mAddressListener.onCreateAddress(message);
 
             }
@@ -197,7 +197,7 @@ public class AddressController {
     }
 
     public void updateAddress(ECSAddress addresses){
-        ECSUtility.getInstance().getEcsServices().updateAddress(false, addresses, new ECSCallback<Boolean, Exception>() {
+        ECSUtility.getInstance().getEcsServices().updateAddress(addresses.isDefaultAddress(), addresses, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean result) {
 

@@ -1,8 +1,15 @@
-package com.philips.cdp.di.ecs.integration;
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+package com.philips.cdp.di.ecs;
 
 
 import android.support.annotation.NonNull;
 
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.address.ECSUserProfile;
@@ -29,7 +36,7 @@ import java.util.List;
 /**
  * The interface Iap services.
  */
-public interface ECSServiceProvider {
+ interface ECSServiceProvider {
 
     /**
      * Configure ecs.
@@ -45,7 +52,7 @@ public interface ECSServiceProvider {
      */
     void configureECSToGetConfiguration(ECSCallback<ECSConfig, Exception> ecsCallback);
 
-    void hybrisOAthAuthentication(@NonNull  ECSOAuthProvider ecsoAuthProvider, @NonNull ECSCallback<ECSOAuthData,Exception> ecsListener);
+    void hybrisOAthAuthentication(@NonNull ECSOAuthProvider ecsoAuthProvider, @NonNull ECSCallback<ECSOAuthData,Exception> ecsListener);
 
     /**
      * Hybris refresh o auth.

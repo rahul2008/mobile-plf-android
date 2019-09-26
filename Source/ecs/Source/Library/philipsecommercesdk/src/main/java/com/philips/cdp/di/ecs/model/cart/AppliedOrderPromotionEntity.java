@@ -4,6 +4,7 @@
  * consent of the copyright holder.
  */
 
+
 package com.philips.cdp.di.ecs.model.cart;
 
 import java.io.Serializable;

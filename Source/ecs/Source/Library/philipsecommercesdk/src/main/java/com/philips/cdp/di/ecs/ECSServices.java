@@ -1,11 +1,16 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs;
 
 
+import com.android.volley.DefaultRetryPolicy;
 import com.philips.cdp.di.ecs.error.ECSErrorEnum;
 import com.philips.cdp.di.ecs.error.ECSErrorWrapper;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
-import com.philips.cdp.di.ecs.integration.ECSServiceProvider;
 import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import com.philips.cdp.di.ecs.model.address.ECSDeliveryMode;
 import com.philips.cdp.di.ecs.model.cart.ECSShoppingCart;
@@ -57,6 +62,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Configure ecs.
      *
      * @param ecsCallback the ecs callback containing boolean response. If configuration is success returns true else false
@@ -102,6 +108,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Configure ecs to get configuration.
      *
      * @param ecsCallback the ecs callback containing ECSConfig object
@@ -148,19 +155,22 @@ public class ECSServices implements ECSServiceProvider {
         ECSConfiguration.INSTANCE.getAppInfra().getServiceDiscovery().getServicesWithCountryPreference(listOfServiceId, onGetServiceUrlMapListener,null);
     }
 
-    @Override
+
 
     /**
+     * @since 1905.0.0
      * Hybris oath authentication, Janrain basic token is used to obtain Hybris oath token and save it within ECSKService and return true if success.
      *
      * @param ecsoAuthProvider      the ECSOAuthProvider object (Janrain token details)
      * @param ecsListener           the iapsdk callback success block containing ECSOAuthData object
      */
+    @Override
     public void hybrisOAthAuthentication(@NonNull ECSOAuthProvider ecsoAuthProvider, @NonNull ECSCallback<ECSOAuthData,Exception> ecsListener){
         ecsCallValidator.getOAuth(ecsoAuthProvider,ecsListener);
     }
 
     /**
+     * @since 1905.0.0
      * Hybris refresh o auth.
      *
      * @param ecsoAuthProvider  the ECSOAuthProvider object
@@ -172,6 +182,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch Products with summary for hybris flow
      * @param currentPage the current page
      * @param pageSize    the page size
@@ -183,6 +194,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch product specific to ctn
      *
      * @param ctn         the ctn
@@ -195,6 +207,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch product summaries for retailer flow
      *
      * @param ctns        the list of ctns
@@ -206,6 +219,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch product details containing assets and disclaimer details
      *
      * @param product     the ECSProduct object
@@ -217,6 +231,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch existing shopping cart.
      *
      * @param ecsCallback the ecs callback containing ECSShoppingCart object
@@ -227,6 +242,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Add product to existing shopping cart.
      *
      * @param product     the ECSProduct object
@@ -238,6 +254,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Create new shopping cart
      *
      * @param ecsCallback the ecs callback containing ECSShoppingCart object
@@ -248,6 +265,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Update shopping cart product quantity
      *
      * @param quantity      the quantity
@@ -260,6 +278,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Apply voucher.
      *
      * @param voucherCode the voucher code
@@ -271,6 +290,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch applied vouchers.
      *
      * @param ecsCallback the ecs callback containing list of ECSVoucher object
@@ -281,6 +301,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Remove voucher.
      *
      * @param voucherCode the voucher code
@@ -292,6 +313,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch delivery modes.
      *
      * @param ecsCallback the ecs callback containing list of ECSDeliveryMode object
@@ -302,6 +324,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Sets delivery mode.
      *
      * @param deliveryModes the ECSDeliveryMode object
@@ -313,6 +336,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch regions.
      *
      * @param ecsCallback the ecs callback containing list of ECSRegion object
@@ -324,6 +348,7 @@ public class ECSServices implements ECSServiceProvider {
 
     // ==== Address starts
     /**
+     * @since 1905.0.0
      * Fetch saved addresses.
      *
      * @param ecsCallback the ecs callback containing list of ECSAddress object
@@ -334,6 +359,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Create address.
      *
      * @param address     the ECSAddress object
@@ -345,6 +371,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Create and fetch address.
      *
      * @param ecsAddress     the ECSAddress object
@@ -356,6 +383,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Update address.
      *
      * @param isDefaultAddress the is default address boolean value
@@ -369,6 +397,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Update and fetch address.
      *
      * @param isDefaultAddress the is default address boolean value
@@ -382,6 +411,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Sets delivery address.
      *
      * @param address     the ECSAddress object
@@ -393,6 +423,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Sets and fetch delivery address.
      *
      * @param address     the ECSAddress object
@@ -404,6 +435,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Delete address.
      *
      * @param address     the ECSAddress object
@@ -415,6 +447,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Delete and fetch address.
      *
      * @param address     the ECSAddress object
@@ -427,6 +460,7 @@ public class ECSServices implements ECSServiceProvider {
 
     //Address ends
     /**
+     * @since 1905.0.0
      * Fetch payments details.
      *
      * @param ecsCallback the ecs callback containing list of ECSPayment object
@@ -437,6 +471,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Sets payment details.
      *
      * @param paymentDetailsId the payment details id
@@ -448,6 +483,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Make payment.
      *
      * @param orderDetail    the ECSOrderDetail object
@@ -460,6 +496,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Submit order.
      *
      * @param cvv         the cvv
@@ -471,6 +508,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch retailers.
      *
      * @param ctn   the ctn
@@ -482,6 +520,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch retailers.
      *
      * @param product     the ECSProduct object
@@ -493,6 +532,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch order history.
      *
      * @param pageNumber  the page number
@@ -505,6 +545,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch order detail.
      *
      * @param orderId     the order id
@@ -516,6 +557,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch order detail.
      *
      * @param orderDetail the ECSOrderDetail object
@@ -527,6 +569,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch order detail.
      *
      * @param orders      the ECSOrders object
@@ -538,6 +581,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Fetch user profile.
      *
      * @param ecsCallback the ecs callback containing ECSUserProfile object
@@ -548,6 +592,7 @@ public class ECSServices implements ECSServiceProvider {
     }
 
     /**
+     * @since 1905.0.0
      * Sets proposition id.
      *
      * @param propositionID the proposition id
@@ -555,6 +600,15 @@ public class ECSServices implements ECSServiceProvider {
     @Override
     public void setPropositionID(@NonNull String propositionID) {
         ECSConfiguration.INSTANCE.setPropositionID(propositionID);
+    }
+
+    /**
+     * Set volley timeout and retry count.
+     *
+     * @param defaultRetryPolicy the default retry policy
+     */
+    public void setVolleyTimeoutAndRetryCount(DefaultRetryPolicy defaultRetryPolicy){
+        ECSConfiguration.INSTANCE.setDefaultRetryPolicy(defaultRetryPolicy);
     }
 
 }

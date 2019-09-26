@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2018
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.cdp.di.ecs.model.disclaimer;
 
 import com.google.gson.annotations.Expose;
@@ -6,6 +11,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * The type Disclaimer contains disclaimer contents.
+ */
 public class Disclaimer implements Serializable {
 
 
