@@ -18,7 +18,7 @@ import com.philips.cdp.di.ecs.util.ECSConfiguration;
 import java.util.List;
 
 
-public class ApiInputValidator {
+ class ApiInputValidator {
 
     ECSManager mECSManager;
 

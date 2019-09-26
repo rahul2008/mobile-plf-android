@@ -76,7 +76,7 @@ import java.util.List;
 import static com.philips.cdp.di.ecs.error.ECSNetworkError.getErrorLocalizedErrorMessage;
 
 
-public class ECSManager {
+ class ECSManager {
 
     static int threadCount = 0;
 
