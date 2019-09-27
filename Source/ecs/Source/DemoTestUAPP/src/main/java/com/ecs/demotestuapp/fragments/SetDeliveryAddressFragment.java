@@ -109,6 +109,7 @@ public class SetDeliveryAddressFragment extends BaseFragment {
     public ECSAddress getECSAddress(){
 
         ECSAddress ecsAddress = new ECSAddress() ;
+        ecsAddress.setId(selectedItem);
 
         List<ECSAddress> ecsAddressList = ECSDataHolder.INSTANCE.getEcsAddressList();
         for(ECSAddress ecsAddress1:ecsAddressList){
