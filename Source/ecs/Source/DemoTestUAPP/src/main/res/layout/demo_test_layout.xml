@@ -19,8 +19,8 @@
         android:orientation="horizontal"
         android:weightSum="3">
 
-    <EditText
-        android:id="@+id/et_propositionID"
+    <AutoCompleteTextView
+        android:id="@+id/at_propositionID"
         android:layout_width="0dp"
         android:hint="Set proposition ID"
         android:focusableInTouchMode="true"
