@@ -4,7 +4,6 @@ package com.ecs.demotestuapp.integration;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -13,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,10 +52,6 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
 
     URInterface urInterface;
     private long mLastClickTime = 0;
-
-    private ECSServices ecsServices;
-
-    ExpandableListView expandableListView;
 
     EditText etPropositionID;
 
@@ -280,6 +274,7 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
             HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
             String janrainID = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
             ECSDataHolder.INSTANCE.setJanrainID(janrainID);
+            ECSDataHolder.INSTANCE.setUserDataInterface(mUserDataInterface);;
         } catch (Exception e) {
             e.printStackTrace();
         }

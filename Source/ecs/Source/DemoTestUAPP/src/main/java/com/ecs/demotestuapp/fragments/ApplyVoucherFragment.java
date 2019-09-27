@@ -57,6 +57,14 @@ public class ApplyVoucherFragment  extends BaseFragment{
             }
         });
 
+        Button btnClear = rootView.findViewById(R.id.btn_clear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearData();
+            }
+        });
+
         return rootView;
     }
 
@@ -83,5 +91,9 @@ public class ApplyVoucherFragment  extends BaseFragment{
 
     }
 
+    @Override
+    public void clearData() {
+        ECSDataHolder.INSTANCE.setVouchers(null);
+    }
 }
 

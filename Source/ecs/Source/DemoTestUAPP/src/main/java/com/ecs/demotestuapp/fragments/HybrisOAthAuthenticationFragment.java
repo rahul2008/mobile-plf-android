@@ -1,89 +1,76 @@
 package com.ecs.demotestuapp.fragments;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
-import com.ecs.demotestuapp.R;
-import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
 import com.philips.cdp.di.ecs.integration.ECSOAuthProvider;
 import com.philips.cdp.di.ecs.model.oauth.ECSOAuthData;
 
-public class HybrisOAthAuthenticationFragment extends BaseFragment {
-
-    private LinearLayout linearLayout;
-    private SubgroupItem subgroupItem;
-
-    private Button btn_execute;
-    private ProgressBar progressBar;
+public class HybrisOAthAuthenticationFragment extends BaseAPIFragment {
 
     String refreshToken = "refreshToken";
 
     EditText etSecret,etClient,etOAuthID;
 
-    String secret,client,AuthID;
+    String secret,client;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.input_fragment, container, false);
-        linearLayout = rootView.findViewById(R.id.ll_container);
-
-        Bundle bundle = getActivity().getIntent().getExtras();
-        subgroupItem = (SubgroupItem) bundle.getSerializable("sub_group");
-        inflateLayout(linearLayout,subgroupItem);
+    public void onResume() {
+        super.onResume();
 
         if(ECSDataHolder.INSTANCE.getJanrainID()!=null){
             refreshToken = ECSDataHolder.INSTANCE.getJanrainID();
         }
 
-        etSecret = linearLayout.findViewWithTag("et_one");
+        etSecret = getLinearLayout().findViewWithTag("et_one");
         etSecret.setText("secret");
 
-        etClient = linearLayout.findViewWithTag("et_two");
+        etClient = getLinearLayout().findViewWithTag("et_two");
         etClient.setText("mobile_android");
 
-        etOAuthID = linearLayout.findViewWithTag("et_three");
+        etOAuthID = getLinearLayout().findViewWithTag("et_three");
         etOAuthID.setText(refreshToken);
+    }
 
 
-        btn_execute = rootView.findViewById(R.id.btn_execute);
-        progressBar = rootView.findViewById(R.id.progressBar);
+    public void executeRequest() {
 
-        btn_execute.setOnClickListener(new View.OnClickListener() {
+        ECSDataHolder.INSTANCE.getEcsServices().hybrisOAthAuthentication(getECSOAuthProvider(), new ECSCallback<ECSOAuthData, Exception>() {
             @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                executeRequest();
+            public void onResponse(ECSOAuthData ecsoAuthData) {
+
+                ECSDataHolder.INSTANCE.setEcsoAuthData(ecsoAuthData);
+                gotoResultActivity(getJsonStringFromObject(ecsoAuthData));
+                getProgressBar().setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Exception e, ECSError ecsError) {
+
+                String errorString = getFailureString(e, ecsError);
+                gotoResultActivity(errorString);
+                getProgressBar().setVisibility(View.GONE);
             }
         });
 
-        return rootView;
     }
 
-    private void executeRequest() {
+   public String getAuthID(){
+        return   getTextFromEditText(etOAuthID);
+    }
 
+    public ECSOAuthProvider getECSOAuthProvider(){
 
-            secret =getTextFromEditText(etSecret);
-            client  = getTextFromEditText(etClient);
-            AuthID= getTextFromEditText(etOAuthID);
-
-
+        secret =getTextFromEditText(etSecret);
+        client  = getTextFromEditText(etClient);
 
         ECSOAuthProvider ecsoAuthProvider = new ECSOAuthProvider() {
             @Override
             public String getOAuthID() {
-                return AuthID;
+                return getAuthID();
             }
 
             @Override
@@ -97,24 +84,11 @@ public class HybrisOAthAuthenticationFragment extends BaseFragment {
             }
         };
 
-        ECSDataHolder.INSTANCE.getEcsServices().hybrisOAthAuthentication(ecsoAuthProvider, new ECSCallback<ECSOAuthData, Exception>() {
-            @Override
-            public void onResponse(ECSOAuthData ecsoAuthData) {
-
-                ECSDataHolder.INSTANCE.setEcsoAuthData(ecsoAuthData);
-                gotoResultActivity(getJsonStringFromObject(ecsoAuthData));
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Exception e, ECSError ecsError) {
-
-                String errorString = getFailureString(e, ecsError);
-                gotoResultActivity(errorString);
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-
+        return ecsoAuthProvider;
     }
 
+    @Override
+    public void clearData() {
+        ECSDataHolder.INSTANCE.setEcsoAuthData(null);
+    }
 }
