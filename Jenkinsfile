@@ -421,7 +421,7 @@ def BuildAndUnitTest() {
             :pif:testReleaseUnitTest \
             :pim:testReleaseUnitTest \
             :philipsecommercesdk:testReleaseUnitTest \
-            :referenceApp:testReleaseUnitTest \
+            :referenceApp:testReleaseUnitTest
             
     '''
 
