@@ -61,7 +61,7 @@ public class ApplyVoucherFragment  extends BaseFragment{
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ECSDataHolder.INSTANCE.setVouchers(null);
+                clearData();
             }
         });
 
@@ -91,5 +91,9 @@ public class ApplyVoucherFragment  extends BaseFragment{
 
     }
 
+    @Override
+    public void clearData() {
+        ECSDataHolder.INSTANCE.setVouchers(null);
+    }
 }
 

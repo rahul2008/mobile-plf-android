@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
 
     @Override
@@ -291,5 +291,7 @@ public class BaseFragment extends Fragment {
         }
         return null;
     }
+
+   abstract public void clearData();
 
 }

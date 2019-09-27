@@ -23,64 +23,18 @@ import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateAndFetchAddressFragment extends BaseFragment {
-
-    private LinearLayout linearLayout;
-    private SubgroupItem subgroupItem;
-
-    private Button btn_execute;
-    private ProgressBar progressBar;
-    private Spinner spinnerSalutation,spinnerState;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.input_fragment, container, false);
-
-        linearLayout = rootView.findViewById(R.id.ll_container);
-
-        Bundle bundle = getActivity().getIntent().getExtras();
-        subgroupItem = (SubgroupItem) bundle.getSerializable("sub_group");
-        inflateLayout(linearLayout,subgroupItem);
-        prepopulateText(linearLayout);
-
-        spinnerSalutation = linearLayout.findViewWithTag("spinner_salutation");
-        spinnerState = linearLayout.findViewWithTag("spinner_state");
-
-        fillSpinnerDataForSalutation(spinnerSalutation);
-        fillSpinnerDataForState(spinnerState);
-
-        btn_execute = rootView.findViewById(R.id.btn_execute);
-        progressBar = rootView.findViewById(R.id.progressBar);
+public class CreateAndFetchAddressFragment extends CreateAddressFragment {
 
 
-        btn_execute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                executeRequest();
-            }
-        });
 
-        Button btnClear = rootView.findViewById(R.id.btn_clear);
-        btnClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ECSDataHolder.INSTANCE.setEcsAddressList(null);
-            }
-        });
+    public void executeRequest() {
 
-        return rootView;
-    }
-
-    private void executeRequest() {
-
-        ECSDataHolder.INSTANCE.getEcsServices().createAndFetchAddress(getECSAddress(linearLayout), new ECSCallback<List<ECSAddress>, Exception>() {
+        ECSDataHolder.INSTANCE.getEcsServices().createAndFetchAddress(getCreatedAddress(), new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
             public void onResponse(List<ECSAddress> ecsAddressList) {
                 ECSDataHolder.INSTANCE.setEcsAddressList(ecsAddressList);
                 gotoResultActivity(getJsonStringFromObject(ecsAddressList));
-                progressBar.setVisibility(View.GONE);
+                getProgressBar().setVisibility(View.GONE);
             }
 
             @Override
@@ -88,30 +42,9 @@ public class CreateAndFetchAddressFragment extends BaseFragment {
 
                 String errorString = getFailureString(e,ecsError);
                 gotoResultActivity(errorString);
-                progressBar.setVisibility(View.GONE);
+                getProgressBar().setVisibility(View.GONE);
             }
         });
     }
-
-    private void fillSpinnerDataForSalutation(Spinner spinner) {
-        List<String> list = new ArrayList<>();
-        list.add("Mr.");
-        list.add("Mr.");
-
-        fillSpinner(spinner,list);
-    }
-
-    private void fillSpinnerDataForState(Spinner spinner) {
-
-        List<ECSRegion> ecsRegions = ECSDataHolder.INSTANCE.getEcsRegions();
-        List<String> list = new ArrayList<String>();
-
-        for(ECSRegion ecsRegion:ecsRegions){
-            list.add(ecsRegion.getName());
-        }
-
-        fillSpinner(spinner,list);
-    }
-
 
 }

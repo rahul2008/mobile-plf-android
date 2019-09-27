@@ -1,20 +1,9 @@
 package com.ecs.demotestuapp.fragments;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import com.ecs.demotestuapp.R;
-import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -25,13 +14,8 @@ import com.philips.cdp.di.ecs.model.payment.ECSPaymentProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MakePaymentFragment extends BaseFragment {
+public class MakePaymentFragment extends BaseAPIFragment {
 
-    private LinearLayout linearLayout;
-    private SubgroupItem subgroupItem;
-
-    private Button btn_execute;
-    private ProgressBar progressBar;
     private Spinner spinner2;
 
     private EditText  etOrderDetailID;
@@ -41,47 +25,24 @@ public class MakePaymentFragment extends BaseFragment {
 
     ECSOrderDetail ecsOrderDetail =null;
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.input_fragment, container, false);
+    public void onResume() {
+        super.onResume();
 
-
-        linearLayout = rootView.findViewById(R.id.ll_container);
-
-        Bundle bundle = getActivity().getIntent().getExtras();
-        subgroupItem = (SubgroupItem) bundle.getSerializable("sub_group");
-        inflateLayout(linearLayout,subgroupItem);
-
-
-        btn_execute = rootView.findViewById(R.id.btn_execute);
-        progressBar = rootView.findViewById(R.id.progressBar);
-
-        etOrderDetailID = linearLayout.findViewWithTag("et_one");
+        etOrderDetailID = getLinearLayout().findViewWithTag("et_one");
 
         if(ECSDataHolder.INSTANCE.getEcsOrderDetail()!=null){
             ecsOrderDetail = ECSDataHolder.INSTANCE.getEcsOrderDetail();
             etOrderDetailID.setText(ECSDataHolder.INSTANCE.getEcsOrderDetail().getCode());
         }
 
-        spinner2 = linearLayout.findViewWithTag("spinner_one");
+        spinner2 = getLinearLayout().findViewWithTag("spinner_one");
 
         fillSpinnerData(spinner2);
-
-        btn_execute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                executeRequest();
-            }
-        });
-
-
-
-        return rootView;
     }
 
-    private void executeRequest() {
+    public void executeRequest() {
 
         orderDetailID = getTextFromEditText(etOrderDetailID);
 
@@ -97,7 +58,7 @@ public class MakePaymentFragment extends BaseFragment {
 
                 String jsonString = getJsonStringFromObject(ecsPaymentProvider);
                 gotoResultActivity(jsonString);
-                progressBar.setVisibility(View.GONE);
+                getProgressBar().setVisibility(View.GONE);
             }
 
             @Override
@@ -105,7 +66,7 @@ public class MakePaymentFragment extends BaseFragment {
 
                 String errorString = getFailureString(e, ecsError);
                 gotoResultActivity(errorString);
-                progressBar.setVisibility(View.GONE);
+                getProgressBar().setVisibility(View.GONE);
             }
         });
     }
@@ -137,5 +98,10 @@ public class MakePaymentFragment extends BaseFragment {
         }
 
         return ecsAddress;
+    }
+
+    @Override
+    public void clearData() {
+
     }
 }

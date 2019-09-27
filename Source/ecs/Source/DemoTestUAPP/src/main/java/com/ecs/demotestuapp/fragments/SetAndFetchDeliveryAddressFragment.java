@@ -10,10 +10,7 @@ import java.util.List;
 
 public class SetAndFetchDeliveryAddressFragment extends SetDeliveryAddressFragment {
 
-
-
     public void executeRequest() {
-
 
         ECSDataHolder.INSTANCE.getEcsServices().setAndFetchDeliveryAddress(getECSAddress(), new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
