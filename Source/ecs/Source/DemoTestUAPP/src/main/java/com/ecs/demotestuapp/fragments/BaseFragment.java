@@ -109,20 +109,6 @@ public class BaseFragment extends Fragment {
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         spinner.setAdapter(aa);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-        });
     }
 
 
@@ -241,7 +227,7 @@ public class BaseFragment extends Fragment {
 
     private void fillSpinnerDataForSalutation(Spinner spinner,ECSAddress ecsAddress) {
 
-        String salutation = ecsAddress.getTitle();
+        String salutation = ecsAddress.getTitleCode();
 
         List<String> list = new ArrayList<>();
         list.add("Mr.");
@@ -270,7 +256,7 @@ public class BaseFragment extends Fragment {
         for (int i=0;i< ecsRegions.size();i++){
 
             list.add(ecsRegions.get(i).getName());
-            if(region!=null && region.getIsocodeShort().equalsIgnoreCase(ecsRegions.get(i).getIsocode())){
+            if(region!=null && region.getIsocode().equalsIgnoreCase(ecsRegions.get(i).getIsocode())){
 
                 position = i;
             }

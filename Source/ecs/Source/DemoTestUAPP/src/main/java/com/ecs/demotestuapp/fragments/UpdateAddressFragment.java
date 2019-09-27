@@ -34,6 +34,7 @@ public class UpdateAddressFragment extends BaseFragment {
     private Button btn_execute;
     private ProgressBar progressBar;
     private Spinner spinnerAddressID;
+    private String addressID;
 
     @Nullable
     @Override
@@ -65,9 +66,9 @@ public class UpdateAddressFragment extends BaseFragment {
         return rootView;
     }
 
-    private void executeRequest() {
+    public void executeRequest() {
 
-        ECSAddress ecsAddress = getECSAddress(linearLayout);
+        ECSAddress ecsAddress = getUpdatedAddress();
 
         ECSDataHolder.INSTANCE.getEcsServices().updateAddress(true, ecsAddress, new ECSCallback<Boolean, Exception>() {
             @Override
@@ -102,7 +103,7 @@ public class UpdateAddressFragment extends BaseFragment {
                 list.add(ecsAddress.getId());
             }
 
-            fillSpinner(spinner, list);
+            fillSpinnerForAddressID(spinner, list);
         }
     }
 
@@ -120,7 +121,7 @@ public class UpdateAddressFragment extends BaseFragment {
         return ecsAddress;
     }
 
-    public void fillSpinner(Spinner spinner, List<String> list){
+    private void fillSpinnerForAddressID(Spinner spinner, List<String> list){
         //Creating the ArrayAdapter instance having the country list
         ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, list);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -131,7 +132,7 @@ public class UpdateAddressFragment extends BaseFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                String addressID = list.get(position);
+                addressID = list.get(position);
                 ECSAddress ecsAddress = getECSAddress(addressID);
                 populateAddress(linearLayout,ecsAddress);
 
@@ -147,4 +148,13 @@ public class UpdateAddressFragment extends BaseFragment {
 
 
 
+    public ECSAddress getUpdatedAddress(){
+        ECSAddress ecsAddress = getECSAddress(linearLayout);
+        ecsAddress.setId(addressID);
+        return ecsAddress;
+    }
+
+    public  ProgressBar getProgressBar(){
+        return progressBar;
+    }
 }

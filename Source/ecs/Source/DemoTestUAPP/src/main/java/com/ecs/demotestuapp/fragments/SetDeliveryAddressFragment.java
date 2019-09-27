@@ -28,6 +28,11 @@ public class SetDeliveryAddressFragment extends BaseFragment {
     private SubgroupItem subgroupItem;
 
     private Button btn_execute;
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
     private ProgressBar progressBar;
     private Spinner spinner;
 
@@ -62,13 +67,13 @@ public class SetDeliveryAddressFragment extends BaseFragment {
         return rootView;
     }
 
-    private void executeRequest() {
+    public void executeRequest() {
 
         if(spinner.getSelectedItem()!=null) {
            selectedItem = (String) spinner.getSelectedItem();
         }
 
-        ECSAddress ecsAddress = getECSAddress(selectedItem);
+        ECSAddress ecsAddress = getECSAddress();
 
         ECSDataHolder.INSTANCE.getEcsServices().setDeliveryAddress(ecsAddress, new ECSCallback<Boolean, Exception>() {
             @Override
@@ -101,18 +106,19 @@ public class SetDeliveryAddressFragment extends BaseFragment {
         fillSpinner(spinner,list);
     }
 
-    private ECSAddress getECSAddress(String addressID){
+    public ECSAddress getECSAddress(){
 
         ECSAddress ecsAddress = new ECSAddress() ;
 
         List<ECSAddress> ecsAddressList = ECSDataHolder.INSTANCE.getEcsAddressList();
         for(ECSAddress ecsAddress1:ecsAddressList){
-            if(ecsAddress1.getId().equalsIgnoreCase(addressID)){
+            if(ecsAddress1.getId().equalsIgnoreCase(selectedItem)){
                 return ecsAddress1;
             }
         }
 
         return ecsAddress;
     }
+
 
 }
