@@ -408,7 +408,7 @@ def InitialiseBuild() {
 def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
-        chmod -R 755 .
+        /bin/chmod -R 755 .
         ./gradlew --refresh-dependencies --full-stacktrace clean assembleRelease \
             :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
@@ -421,7 +421,7 @@ def BuildAndUnitTest() {
             :pif:testReleaseUnitTest \
             :pim:testReleaseUnitTest \
             :philipsecommercesdk:testReleaseUnitTest \
-            :referenceApp:testReleaseUnitTest 
+            :referenceApp:testReleaseUnitTest \
             
     '''
 
