@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:maxWidth="648dp"
+    android:layout_width="648dp"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_launch"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:onClick="launch"
+        android:text="Launch Activity"
+        android:visibility="visible" />
+</LinearLayout>

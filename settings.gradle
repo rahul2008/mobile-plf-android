@@ -1,6 +1,3 @@
-
-
-
 /*
  * Copyright (c) 2015-2018 Koninklijke Philips N.V.
  * All rights reserved.
@@ -23,6 +20,7 @@ include ext.strings.mya.projectName
 include ext.strings.ail.projectName
 include ext.strings.prx.projectName
 include ext.strings.iap.projectName
+include ext.strings.ian.projectName
 include ext.strings.usr.projectName
 include ext.strings.pse.projectName
 
@@ -33,7 +31,8 @@ include ext.strings.prg.projectName
 
 
 include ext.strings.ailuapp.projectName
-include ext.strings.iapuapp.projectName
+include ext.strings.ianuapp.projectName
+//include ext.strings.DemoUApp.projectName
 include ext.strings.usruapp.projectName
 include ext.strings.dccuapp.projectName
 //include ext.strings.ufwuapp.projectName
@@ -44,6 +43,7 @@ include ext.strings.pimuapp.projectName
 
 include ext.strings.ecs.projectName
 include ext.strings.ecsuapp.projectName
+include ext.strings.iapuapp.projectName
 
 
 //opa archive references:
@@ -81,6 +81,9 @@ project(ext.strings.ecsuapp.projectName).projectDir = new File('./Source/ecs/Sou
 //project(ext.strings.ecstestuapp.projectName).projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
 project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
 
+project(ext.strings.ian.projectName).projectDir = new File('./Source/ian/Source/Library/ian')
+project(ext.strings.ianuapp.projectName).projectDir = new File('./Source/ian/Source/DemoUApp')
+
 
 
 
@@ -100,8 +103,8 @@ project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/
 //project(':securedblibraryApp').projectDir = new File('./Source/sdb/Source/DemoApp/app')
 //include ':launchDigitalCare'
 //project(':launchDigitalCare').projectDir = new File('./Source/dcc/Source/DemoApp/launchDigitalCare')
-//include(':iapApp')
-//project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
+include(':iapApp')
+project(':iapApp').projectDir = new File('./Source/iap/Source/DemoApp/app')
 //include(':ecsApp')
 //project(':ecsApp').projectDir = new File('./Source/ecs/Source/DemoApp/app')
 //include(':ecsUApp')
@@ -110,8 +113,16 @@ project(ext.strings.ecs.projectName).projectDir = new File('./Source/ecs/Source/
 include(':ecsTestUApp')
 project(':ecsTestUApp').projectDir = new File('./Source/ecs/Source/DemoTestUAPP')
 
+//include(':ianUApp')
+//project(':ianUApp').projectDir = new File('./Source/ian/Source/DemoUApp')
+
+include(':ianApp')
+project(':ianApp').projectDir = new File('./Source/ian/Source/DemoApp/app')
+
+
 //include(':philipsecommercesdk')
 //project(':philipsecommercesdk').projectDir = new File('./Source/ecs/Source/Library/philipsecommercesdk')
+
 
 //include ':productselectionApp'
 //project(':productselectionApp').projectDir = new File('./Source/pse/Source/Library/app')

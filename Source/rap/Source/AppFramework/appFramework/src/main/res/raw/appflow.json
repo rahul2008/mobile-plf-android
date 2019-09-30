@@ -376,6 +376,15 @@
               }
             ]
           },
+          {
+            "eventId": "TestInAppPurhcase2Event",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoInAppNState"
+              }
+            ]
+          },
 
           {
             "eventId": "AppInfra",
