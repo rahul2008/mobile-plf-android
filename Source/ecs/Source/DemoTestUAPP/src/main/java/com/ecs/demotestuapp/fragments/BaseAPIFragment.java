@@ -9,24 +9,42 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 
 import com.ecs.demotestuapp.R;
 import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
+import com.ecs.demotestuapp.util.ECSDataHolder;
+import com.philips.cdp.di.ecs.error.ECSError;
+import com.philips.cdp.di.ecs.integration.ECSCallback;
+import com.philips.cdp.di.ecs.model.region.ECSRegion;
 
-public class FetchOrderDetailForOrderDetailFragment extends BaseAPIFragment {
+import java.util.List;
+
+public abstract class BaseAPIFragment extends BaseFragment {
+
+    public LinearLayout getLinearLayout() {
+        return linearLayout;
+    }
+
+    public void setLinearLayout(LinearLayout linearLayout) {
+        this.linearLayout = linearLayout;
+    }
 
     private LinearLayout linearLayout;
     private SubgroupItem subgroupItem;
 
     private Button btn_execute;
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
     private ProgressBar progressBar;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.input_fragment, container, false);
-
 
         linearLayout = rootView.findViewById(R.id.ll_container);
 
@@ -39,7 +57,6 @@ public class FetchOrderDetailForOrderDetailFragment extends BaseAPIFragment {
         progressBar = rootView.findViewById(R.id.progressBar);
 
 
-
         btn_execute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,18 +65,20 @@ public class FetchOrderDetailForOrderDetailFragment extends BaseAPIFragment {
             }
         });
 
+        Button btnClear = rootView.findViewById(R.id.btn_clear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearData();
+            }
+        });
+
+
         return rootView;
     }
 
-    public void executeRequest() {
 
-    }
+    abstract void executeRequest() ;
 
-    private void fillSpinnerData(Spinner spinner) {
-    }
-
-    @Override
-    public void clearData() {
-
-    }
 }
+

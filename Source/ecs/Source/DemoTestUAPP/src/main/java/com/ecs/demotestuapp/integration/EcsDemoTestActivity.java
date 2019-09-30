@@ -4,7 +4,6 @@ package com.ecs.demotestuapp.integration;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -12,8 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,11 +55,9 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
     URInterface urInterface;
     private long mLastClickTime = 0;
 
-    private ECSServices ecsServices;
+    AutoCompleteTextView atPropositionID;
 
-    ExpandableListView expandableListView;
-
-    EditText etPropositionID;
+    String[] propositionIDs = {"Tuscany2016","IAP_MOB_DKA","IAP_MOB_OHC","IAP_MOB_PHC"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +74,13 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
 
         ECSDataHolder.INSTANCE.setECSService(ecsServices);
 
-        etPropositionID = findViewById(R.id.et_propositionID);
+        atPropositionID = findViewById(R.id.at_propositionID);
+
+        ArrayAdapter<String> atAdapter = new ArrayAdapter<String>
+                (this,android.R.layout.select_dialog_item,propositionIDs);
+
+        atPropositionID.setThreshold(1);
+        atPropositionID.setAdapter(atAdapter);
 
         showAppVersion();
 
@@ -263,11 +267,11 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
     public void set(View view) {
 
         ECSDataHolder.INSTANCE.resetData();
-        ECSDataHolder.INSTANCE.getEcsServices().setPropositionID(etPropositionID.getText().toString().trim());
+        ECSDataHolder.INSTANCE.getEcsServices().setPropositionID(atPropositionID.getText().toString().trim());
     }
 
     public void remove(View view) {
-        etPropositionID.setText("");
+        atPropositionID.setText("");
         ECSDataHolder.INSTANCE.resetData();
         ECSDataHolder.INSTANCE.getEcsServices().setPropositionID(null);
     }
@@ -280,6 +284,7 @@ public class EcsDemoTestActivity extends AppCompatActivity implements View.OnCli
             HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
             String janrainID = userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
             ECSDataHolder.INSTANCE.setJanrainID(janrainID);
+            ECSDataHolder.INSTANCE.setUserDataInterface(mUserDataInterface);;
         } catch (Exception e) {
             e.printStackTrace();
         }

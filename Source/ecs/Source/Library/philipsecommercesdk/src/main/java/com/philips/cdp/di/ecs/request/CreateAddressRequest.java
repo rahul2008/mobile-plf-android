@@ -49,16 +49,12 @@ public class CreateAddressRequest extends OAuthAppInfraAbstractRequest implement
                 // created address response is not checked
         try {
             addresses = new Gson().fromJson(response, ECSAddress.class);
-        }catch(Exception e){
-            exception = e;
-
-        }
-        if(null== exception) {
             ecsCallback.onResponse(addresses);
-        }else{
+        }catch(Exception e){
             ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response);
             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
+
     }
 
     @Override

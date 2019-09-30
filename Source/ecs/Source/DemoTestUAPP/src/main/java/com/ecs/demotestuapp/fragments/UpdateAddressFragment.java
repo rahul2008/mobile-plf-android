@@ -1,21 +1,10 @@
 package com.ecs.demotestuapp.fragments;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import com.ecs.demotestuapp.R;
-import com.ecs.demotestuapp.jsonmodel.SubgroupItem;
 import com.ecs.demotestuapp.util.ECSDataHolder;
 import com.philips.cdp.di.ecs.error.ECSError;
 import com.philips.cdp.di.ecs.integration.ECSCallback;
@@ -24,55 +13,33 @@ import com.philips.cdp.di.ecs.model.address.ECSAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateAddressFragment extends BaseFragment {
+public class UpdateAddressFragment extends BaseAPIFragment {
 
-    private LinearLayout linearLayout;
-    private SubgroupItem subgroupItem;
 
-    private Button btn_execute;
-    private ProgressBar progressBar;
     private Spinner spinnerAddressID;
+    private String addressID;
 
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.input_fragment, container, false);
+    public void onResume() {
+        super.onResume();
 
-        linearLayout = rootView.findViewById(R.id.ll_container);
-
-        Bundle bundle = getActivity().getIntent().getExtras();
-        subgroupItem = (SubgroupItem) bundle.getSerializable("sub_group");
-        inflateLayout(linearLayout,subgroupItem);
-
-        spinnerAddressID = linearLayout.findViewWithTag("spinner_address_id");
+        spinnerAddressID = getLinearLayout().findViewWithTag("spinner_address_id");
 
         fillSpinnerData(spinnerAddressID);
-
-        btn_execute = rootView.findViewById(R.id.btn_execute);
-        progressBar = rootView.findViewById(R.id.progressBar);
-
-
-        btn_execute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                executeRequest();
-            }
-        });
-
-        return rootView;
     }
 
-    private void executeRequest() {
+    public void executeRequest() {
 
-        ECSAddress ecsAddress = getECSAddress(linearLayout);
+        ECSAddress ecsAddress = getUpdatedAddress();
 
         ECSDataHolder.INSTANCE.getEcsServices().updateAddress(true, ecsAddress, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean aBoolean) {
 
                 gotoResultActivity(aBoolean+"");
-                progressBar.setVisibility(View.GONE);
+                getProgressBar().setVisibility(View.GONE);
             }
 
             @Override
@@ -80,7 +47,7 @@ public class UpdateAddressFragment extends BaseFragment {
 
                 String errorString = getFailureString(e, ecsError);
                 gotoResultActivity(errorString);
-                progressBar.setVisibility(View.GONE);
+                getProgressBar().setVisibility(View.GONE);
             }
         });
 
@@ -100,7 +67,7 @@ public class UpdateAddressFragment extends BaseFragment {
                 list.add(ecsAddress.getId());
             }
 
-            fillSpinner(spinner, list);
+            fillSpinnerForAddressID(spinner, list);
         }
     }
 
@@ -118,7 +85,7 @@ public class UpdateAddressFragment extends BaseFragment {
         return ecsAddress;
     }
 
-    public void fillSpinner(Spinner spinner, List<String> list){
+    private void fillSpinnerForAddressID(Spinner spinner, List<String> list){
         //Creating the ArrayAdapter instance having the country list
         ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, list);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -129,9 +96,9 @@ public class UpdateAddressFragment extends BaseFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                String addressID = list.get(position);
+                addressID = list.get(position);
                 ECSAddress ecsAddress = getECSAddress(addressID);
-                populateAddress(linearLayout,ecsAddress);
+                populateAddress(getLinearLayout(),ecsAddress);
 
             }
 
@@ -143,4 +110,16 @@ public class UpdateAddressFragment extends BaseFragment {
         });
     }
 
+
+
+    public ECSAddress getUpdatedAddress(){
+        ECSAddress ecsAddress = getECSAddress(getLinearLayout());
+        ecsAddress.setId(addressID);
+        return ecsAddress;
+    }
+
+    @Override
+    public void clearData() {
+
+    }
 }

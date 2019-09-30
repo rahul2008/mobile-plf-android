@@ -408,7 +408,7 @@ def InitialiseBuild() {
 def BuildAndUnitTest() {
     sh '''#!/bin/bash -l
         set -e
-        chmod -R 755 .
+        /bin/chmod -R 755 .
         ./gradlew --refresh-dependencies --full-stacktrace clean assembleRelease \
             :AppInfra:testReleaseUnitTest \
             :uAppFwLib:testReleaseUnitTest \
@@ -421,7 +421,7 @@ def BuildAndUnitTest() {
             :pif:testReleaseUnitTest \
             :pim:testReleaseUnitTest \
             :philipsecommercesdk:testReleaseUnitTest \
-            :referenceApp:testReleaseUnitTest 
+            :referenceApp:testReleaseUnitTest
             
     '''
 
@@ -643,7 +643,7 @@ def DeployingJavaDocs() {
             echo "Not published JavaDoc as build is not on a master, develop or release branch" . $BranchName
         fi
 
-        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :referenceApp:printPlatformVersion :philipsecommercesdk:printPlatformVersion
+        ./gradlew  :AppInfra:zipJavadoc :digitalCare:zipJavadoc :iap:zipJavadoc :pif:zipJavadoc :product-registration-lib:zipJavadoc :productselection:zipJavadoc :prx:zipJavadoc  :referenceApp:zipJavadoc :pim:zipJavadoc :registrationApi:zipJavadoc :philipsecommercesdk:zipJavadoc :referenceApp:printPlatformVersion
         platformVersion=`xargs < platformversion.txt`
  
         curl -L -u 320049003:AP4ZB7JSmiC4pZmeKfKTGLsFvV9 -X PUT $ARTIFACTORY_URL/$ARTIFACTORY_REPO/com/philips/cdp/AppInfra/$platformVersion/ -T ./Source/ail/Documents/External/AppInfra-api.zip

@@ -37,18 +37,12 @@ public class GetPaymentsRequest extends OAuthAppInfraAbstractRequest implements 
 
     @Override
     public void onResponse(JSONObject response) {
-        PaymentMethods getPayment = null;
-        Exception exception = null;
+
         try {
-                getPayment = new Gson().fromJson(response.toString(),
+            PaymentMethods getPayment = new Gson().fromJson(response.toString(),
                         PaymentMethods.class);
-        }catch(Exception e){
-            exception=e;
-        }
-        // TODO to check response json when there is no payment added
-        if(null==exception && null!=getPayment) {
             ecsCallback.onResponse(getPayment.getPayments());
-        } else {
+        }catch(Exception exception){
             ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSsomethingWentWrong,exception,response.toString());
             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }

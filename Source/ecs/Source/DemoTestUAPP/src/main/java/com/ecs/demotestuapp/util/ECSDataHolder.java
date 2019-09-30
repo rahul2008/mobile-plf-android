@@ -13,11 +13,12 @@ import com.philips.cdp.di.ecs.model.payment.ECSPayment;
 import com.philips.cdp.di.ecs.model.products.ECSProducts;
 import com.philips.cdp.di.ecs.model.region.ECSRegion;
 import com.philips.cdp.di.ecs.model.voucher.ECSVoucher;
+import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public enum  ECSDataHolder {
+public enum ECSDataHolder {
 
     INSTANCE;
 
@@ -31,6 +32,22 @@ public enum  ECSDataHolder {
     List<ECSAddress> ecsAddressList = new ArrayList<>();
     ECSShoppingCart ecsShoppingCart;
     ECSOrderHistory ecsOrderHistory;
+    ECSOrderDetail ecsOrderDetail;
+    List<ECSPayment> ecsPayments = new ArrayList<>();
+    List<ECSRegion> ecsRegions = new ArrayList<>();
+    String janrainID;
+    List<ECSVoucher> vouchers = new ArrayList<>();
+
+    public UserDataInterface getUserDataInterface() {
+        return userDataInterface;
+    }
+
+    public void setUserDataInterface(UserDataInterface userDataInterface) {
+        this.userDataInterface = userDataInterface;
+    }
+
+    UserDataInterface userDataInterface;
+
 
     public ECSOrderDetail getEcsOrderDetail() {
         return ecsOrderDetail;
@@ -39,8 +56,6 @@ public enum  ECSDataHolder {
     public void setEcsOrderDetail(ECSOrderDetail ecsOrderDetail) {
         this.ecsOrderDetail = ecsOrderDetail;
     }
-
-    ECSOrderDetail ecsOrderDetail;
 
 
     public List<ECSPayment> getEcsPayments() {
@@ -51,7 +66,6 @@ public enum  ECSDataHolder {
         this.ecsPayments = ecsPayments;
     }
 
-    List<ECSPayment> ecsPayments = new ArrayList<>();
 
     public ECSOrderHistory getEcsOrderHistory() {
         return ecsOrderHistory;
@@ -62,7 +76,6 @@ public enum  ECSDataHolder {
     }
 
 
-
     public List<ECSRegion> getEcsRegions() {
         return ecsRegions;
     }
@@ -71,11 +84,6 @@ public enum  ECSDataHolder {
         this.ecsRegions = ecsRegions;
     }
 
-    List<ECSRegion> ecsRegions = new ArrayList<>();
-
-
-
-    String janrainID;
 
     public ECSServices getEcsServices() {
         return ecsServices;
@@ -116,7 +124,6 @@ public enum  ECSDataHolder {
     }
 
 
-
     public ECSDeliveryMode getEcsDeliveryMode() {
         return ecsDeliveryMode;
     }
@@ -134,8 +141,6 @@ public enum  ECSDataHolder {
     }
 
 
-
-
     public List<ECSAddress> getEcsAddressList() {
         return ecsAddressList;
     }
@@ -143,7 +148,6 @@ public enum  ECSDataHolder {
     public void setEcsAddressList(List<ECSAddress> ecsAddressList) {
         this.ecsAddressList = ecsAddressList;
     }
-
 
 
     public List<ECSDeliveryMode> getEcsDeliveryModes() {
@@ -155,7 +159,6 @@ public enum  ECSDataHolder {
     }
 
 
-
     public List<ECSVoucher> getVouchers() {
         return vouchers;
     }
@@ -164,7 +167,6 @@ public enum  ECSDataHolder {
         this.vouchers = vouchers;
     }
 
-    List<ECSVoucher> vouchers;
 
     public ECSShoppingCart getEcsShoppingCart() {
         return ecsShoppingCart;
@@ -175,11 +177,9 @@ public enum  ECSDataHolder {
     }
 
 
-
     public String getJanrainID() {
         return janrainID;
     }
-
 
 
     public void setECSService(ECSServices ecsServices) {
@@ -190,7 +190,7 @@ public enum  ECSDataHolder {
         this.janrainID = janrainID;
     }
 
-    public void resetData(){
+    public void resetData() {
 
         ecsConfig = null;
         ecsoAuthData = null;
@@ -201,6 +201,13 @@ public enum  ECSDataHolder {
         ecsProducts = null;
         ecsAddressList = null;
         ecsShoppingCart = null;
+        ecsShoppingCart = null;
         janrainID = null;
+
+        ecsOrderHistory = null;
+        ecsOrderDetail = null;
+        ecsPayments = new ArrayList<>();
+        ecsRegions = new ArrayList<>();
+        vouchers = new ArrayList<>();
     }
 }
