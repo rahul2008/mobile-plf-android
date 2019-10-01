@@ -40,6 +40,6 @@ ext.strings = [
 
         pimuapp:[projectName:':pimUApp', artifactName:'pimUApp'],
         pim: [projectName:':pim', artifactName:'pim'],
-        ian: [projectName:':ian', artifactName:'ian'],
-        ianuapp:[projectName:':ianUApp', artifactName:'ianUApp']
+        mec: [projectName:':mec', artifactName:'mec'],
+        mecuapp:[projectName:':mecUApp', artifactName:'mecUApp']
 ]

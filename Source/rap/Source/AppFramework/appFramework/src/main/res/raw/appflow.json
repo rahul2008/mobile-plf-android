@@ -377,11 +377,11 @@
             ]
           },
           {
-            "eventId": "TestInAppPurhcase2Event",
+            "eventId": "TestMobileEcommerceEvent",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "demoInAppNState"
+                "nextState": "demoMecState"
               }
             ]
           },

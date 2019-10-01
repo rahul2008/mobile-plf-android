@@ -1,5 +1,0 @@
-include ':app', ':ianUApp'
-project(':ianUApp').projectDir = new File('../DemoUApp')
-
-include ':ian'
-project(':ian').projectDir = new File('../Library/ian')
