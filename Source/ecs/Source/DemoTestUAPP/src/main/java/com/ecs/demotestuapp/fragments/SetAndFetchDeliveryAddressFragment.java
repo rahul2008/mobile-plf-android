@@ -12,7 +12,7 @@ public class SetAndFetchDeliveryAddressFragment extends SetDeliveryAddressFragme
 
     public void executeRequest() {
 
-        ECSDataHolder.INSTANCE.getEcsServices().setAndFetchDeliveryAddress(getECSAddress(), new ECSCallback<List<ECSAddress>, Exception>() {
+        ECSDataHolder.INSTANCE.getEcsServices().setAndFetchDeliveryAddress(true,getECSAddress(), new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
             public void onResponse(List<ECSAddress> ecsAddresses) {
 
