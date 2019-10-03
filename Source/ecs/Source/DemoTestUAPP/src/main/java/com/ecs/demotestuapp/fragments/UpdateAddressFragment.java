@@ -34,7 +34,7 @@ public class UpdateAddressFragment extends BaseAPIFragment {
 
         ECSAddress ecsAddress = getUpdatedAddress();
 
-        ECSDataHolder.INSTANCE.getEcsServices().updateAddress(true, ecsAddress, new ECSCallback<Boolean, Exception>() {
+        ECSDataHolder.INSTANCE.getEcsServices().updateAddress( ecsAddress, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean aBoolean) {
 
