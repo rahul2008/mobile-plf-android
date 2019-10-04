@@ -14,7 +14,7 @@ public class UpdateAndFetchAddressFragment extends UpdateAddressFragment {
 
         ECSAddress ecsAddress = getUpdatedAddress();
 
-        ECSDataHolder.INSTANCE.getEcsServices().updateAndFetchAddress(true, ecsAddress, new ECSCallback<List<ECSAddress>, Exception>() {
+        ECSDataHolder.INSTANCE.getEcsServices().updateAndFetchAddress( ecsAddress, new ECSCallback<List<ECSAddress>, Exception>() {
             @Override
             public void onResponse(List<ECSAddress> ecsAddresses) {
 

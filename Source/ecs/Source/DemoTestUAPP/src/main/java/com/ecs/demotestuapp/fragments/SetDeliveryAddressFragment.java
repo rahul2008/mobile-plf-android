@@ -28,7 +28,7 @@ public class SetDeliveryAddressFragment extends BaseAPIFragment {
     public void executeRequest() {
 
         ECSAddress ecsAddress = getECSAddress();
-        ECSDataHolder.INSTANCE.getEcsServices().setDeliveryAddress(ecsAddress, new ECSCallback<Boolean, Exception>() {
+        ECSDataHolder.INSTANCE.getEcsServices().setDeliveryAddress(true,ecsAddress, new ECSCallback<Boolean, Exception>() {
             @Override
             public void onResponse(Boolean aBoolean) {
                 gotoResultActivity(aBoolean+"");
