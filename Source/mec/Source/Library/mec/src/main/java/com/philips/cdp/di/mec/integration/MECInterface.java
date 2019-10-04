@@ -7,9 +7,11 @@ import android.net.ConnectivityManager;
 import com.philips.cdp.di.mec.R;
 import com.philips.cdp.di.mec.container.CartModelContainer;
 import com.philips.cdp.di.mec.mecHandler.MECExposedAPI;
+import com.philips.cdp.di.mec.screens.catalog.ECSServiceRepository;
 import com.philips.cdp.di.mec.utils.MECConstant;
 import com.philips.cdp.di.mec.utils.MECUtility;
 import com.philips.cdp.di.mec.utils.NetworkUtility;
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.pif.DataInterface.USR.UserDataInterface;
 import com.philips.platform.pif.DataInterface.USR.enums.UserLoggedInState;
 import com.philips.platform.uappframework.UappInterface;
@@ -41,8 +43,12 @@ public class MECInterface implements UappInterface, MECExposedAPI {
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         MECDependencies MECDependencies = (MECDependencies) uappDependencies;
         mUserDataInterface = MECDependencies.getUserDataInterface();
+
+        ECSServiceRepository.INSTANCE.appInfra = new AppInfra.Builder().build(uappDependencies.getAppInfra().getAppInfraContext());
+
         if (null == mUserDataInterface)
             throw new RuntimeException("UserDataInterface is not injected in IAPDependencies.");
+
         MECUtility.getInstance().setUserDataInterface(mUserDataInterface);
         MECUtility.getInstance().setAppName(uappDependencies.getAppInfra().getAppIdentity().getAppName());
         MECUtility.getInstance().setLocaleTag(uappDependencies.getAppInfra().getInternationalization().getUILocaleString());
@@ -72,10 +78,7 @@ public class MECInterface implements UappInterface, MECExposedAPI {
 
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) mMECSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (!NetworkUtility.getInstance().isNetworkAvailable(connectivityManager)) {
-            ((MECLaunchInput) uappLaunchInput).getMecListener().onFailure(MECConstant.MEC_ERROR_NO_CONNECTION);
-            throw new RuntimeException(mMECSettings.getContext().getString(R.string.mec_no_internet));// Confirm the behaviour on error Callback
-        }
+
         mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(uiLauncher, mMECHandler, (MECLaunchInput) uappLaunchInput, null, null);
     }
 

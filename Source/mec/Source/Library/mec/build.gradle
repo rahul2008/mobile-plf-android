@@ -4,6 +4,8 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
@@ -111,6 +113,9 @@ dependencies {
     implementation deps.support.appcompatv7
     implementation deps.support.supportv4
     implementation deps.volley
+    implementation deps.livedata
+    implementation deps.livedata_compiler
+    implementation deps.livedata_extensions
     implementation deps.calligraphy
     implementation deps.gson
     implementation deps.libphonenumber
@@ -119,12 +124,13 @@ dependencies {
     // Philips components
     implementation philipsdeps.uid
     if (useprojectdependencies) {
-
+        implementation project(strings.ecs.projectName)
         implementation project(strings.pif.projectName)
         implementation project(strings.prx.projectName)
         implementation project(strings.ufw.projectName)
         implementation project(strings.ail.projectName)
     } else {
+        implementation philipsdeps.ecs
         implementation philipsdeps.pif
         implementation philipsdeps.prx
         implementation philipsdeps.uAppFwLib
@@ -168,6 +174,7 @@ dependencies {
 
     // add this for webview testing support
     androidTestImplementation deps.espresso_web
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -199,4 +206,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 tasks.withType(Test) {
     ignoreFailures = true
+}
+repositories {
+    mavenCentral()
 }

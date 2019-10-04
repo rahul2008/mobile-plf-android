@@ -6,16 +6,8 @@
     android:orientation="vertical"
     tools:context=".activity.MECActivity">
 
-    <include
-        android:id="@+id/action_bar_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/mec_action_bar" />
-
     <FrameLayout
-        android:id="@+id/fl_mainFragmentContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/rl_header"
-        android:orientation="vertical" />
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -19,7 +19,7 @@ import com.philips.cdp.di.mec.mecHandler.MECExposedAPI;
 import com.philips.cdp.di.mec.networkEssentials.NetworkEssentials;
 import com.philips.cdp.di.mec.networkEssentials.NetworkEssentialsFactory;
 import com.philips.cdp.di.mec.screens.InAppBaseFragment;
-import com.philips.cdp.di.mec.screens.MECProductCatalogFragment;
+import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment;
 import com.philips.cdp.di.mec.session.HybrisDelegate;
 import com.philips.cdp.di.mec.session.MECNetworkError;
 import com.philips.cdp.di.mec.session.RequestListener;
@@ -206,7 +206,7 @@ class MECHandler {
     }
 
     protected void addFragment(InAppBaseFragment newFragment, FragmentLauncher fragmentLauncher, MECListener mecListener) {
-        newFragment.setActionBarListener(fragmentLauncher.getActionbarListener(), mecListener);
+        //newFragment.setActionBarListener(fragmentLauncher.getActionbarListener(), mecListener);
         String tag = newFragment.getClass().getName();
         FragmentTransaction transaction = fragmentLauncher.getFragmentActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(fragmentLauncher.getParentContainerResourceID(), newFragment, tag);
