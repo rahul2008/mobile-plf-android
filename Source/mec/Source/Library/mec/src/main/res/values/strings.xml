@@ -1,4 +1,18 @@
 <resources>
     <string name="mec_app_name">Mobile Ecommerce</string>
     <string name="mec_please_wait">Please Wait</string>
+    <string name="mec_something_went_wrong">Our apologies. Something unexpected happened and we are not able to do what you asked. Please try again, or if the problem persists: contact Philips Consumer Care</string>
+    <string name="mec_you_are_offline">You are offline</string>
+    <string name="mec_server_error">Server Error</string>
+    <string name="mec_ok">OK</string>
+    <string name="mec_no_internet">Your internet connection does not seem to be working. Please check and try again</string>
+    <string name="mec_time_out_error">Network timeout reached!</string>
+    <string name="mec_authentication_failure">Authentication failed</string>
+    <string name="mec_redeem_voucher">Redeem voucher</string>
+    <string name="mec_delivery_via">Delivery via FedEx</string>
+    <string name="mec_delivery_description">Delivery is FREE when you spend $100 or more</string>
+    <string name="mec_product_catalog">Products</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

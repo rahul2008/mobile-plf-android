@@ -2,6 +2,7 @@ package com.mec.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -23,6 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.philips.cdp.di.mec.container.CartModelContainer;
+import com.philips.cdp.di.mec.integration.MECBannerEnabler;
+import com.philips.cdp.di.mec.integration.MECDependencies;
+import com.philips.cdp.di.mec.integration.MECFlowInput;
+import com.philips.cdp.di.mec.integration.MECInterface;
+import com.philips.cdp.di.mec.integration.MECLaunchInput;
+import com.philips.cdp.di.mec.integration.MECListener;
+import com.philips.cdp.di.mec.integration.MECMockInterface;
+import com.philips.cdp.di.mec.integration.MECOrderFlowCompletion;
+import com.philips.cdp.di.mec.integration.MECSettings;
+import com.philips.cdp.di.mec.utils.MECConstant;
+import com.philips.cdp.di.mec.utils.MECLog;
+import com.philips.cdp.di.mec.utils.MECUtility;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -54,8 +69,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class DemoActivity extends AppCompatActivity implements View.OnClickListener,
-        UserRegistrationUIEventListener {
+public class DemoActivity extends AppCompatActivity implements View.OnClickListener, MECListener,
+        UserRegistrationUIEventListener, MECMockInterface, MECOrderFlowCompletion, MECBannerEnabler {
 
     private final String TAG = DemoActivity.class.getSimpleName();
     private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
@@ -75,6 +90,10 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> mCategorizedProductList;
     private TextView mTitleTextView;
     private TextView mCountText;
+
+    private MECInterface mMecInterface;
+    private MECLaunchInput mMecLaunchInput;
+    private MECSettings mMecSettings;
 
     private UserDataInterface mUserDataInterface;
     ImageView mCartIcon;
@@ -105,6 +124,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         urInterface.init(new MecDemoUAppDependencies(new AppInfra.Builder().build(getApplicationContext())), new MecDemoAppSettings(getApplicationContext()));
 
         ignorelistedRetailer = new ArrayList<>();
+        MECLog.enableLogging(true);
         setContentView(R.layout.activity_demo);
 
         showAppVersion();
@@ -143,6 +163,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 enableMock = isChecked;
+                mMecSettings.setMecMockInterface((MECMockInterface) DemoActivity.this);
                 initializeMECComponant();
             }
         });
@@ -175,13 +196,13 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.rb_null) {
-
+                    MECUtility.getInstance().setVoucherEnable(false);
                 }
                 if (checkedId == R.id.rb_disable) {
-
+                    MECUtility.getInstance().setVoucherEnable(false);
                 }
                 if (checkedId == R.id.rb_enabble) {
-                    
+                    MECUtility.getInstance().setVoucherEnable(true);
                 }
             }
         });
@@ -284,6 +305,10 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         mUserDataInterface = urInterface.getUserDataInterface();
 
+
+        mMecInterface = new MECInterface();
+        mMecSettings = new MECSettings(this);
+        mMecSettings.setMecMockInterface(this);
         actionBar();
         initializeMECComponant();
     }
@@ -310,7 +335,37 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         urInterface.init(uappDependencies, uappSettings);
 
+        MECDependencies mIapDependencies = new MECDependencies(new AppInfra.Builder().build(this), urInterface.getUserDataInterface());
+
+        try {
+            mMecInterface.init(mIapDependencies, mMecSettings);
+        } catch (RuntimeException ex) {
+            MECLog.d(TAG, ex.getMessage());
+        }
+        mMecLaunchInput = new MECLaunchInput();
+
+        mMecLaunchInput.setHybrisSupported(isHybrisEnable);
+        if (!TextUtils.isEmpty(mEtMaxCartCount.getText().toString().trim())) {
+            mMecLaunchInput.setMaxCartCount(Integer.parseInt(mEtMaxCartCount.getText().toString().trim()));
+        }
+        mMecLaunchInput.setMecBannerEnabler(this);
+        mMecLaunchInput.setMecListener(this);
+        if (isToggleListener) {
+            mMecLaunchInput.setMecOrderFlowCompletion(this);
+        } else {
+            mMecLaunchInput.setMecOrderFlowCompletion(null);
+        }
+        MECUtility.getInstance().setHybrisSupported(isHybrisEnable);
+        //displayUIOnCartVisible();
     }
+
+    /*private void displayUIOnCartVisible() {
+        if(isUserLoggedIn()) {
+            showProgressDialog();
+            mMecInterface.isCartVisible(this);
+        }
+    }
+
 
 
     @Override
@@ -319,7 +374,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
         //This is added to clear pagination data from app memory . This should be taken in tech debt .
         //CartModelContainer.getInstance().clearProductList();
-        //IAPUtility.getInstance().resetPegination();
+        MECUtility.getInstance().resetPegination();
 
 
         if(isUserLoggedIn()) {
@@ -329,7 +384,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }
-    }
+    }*/
 
     @Override
     protected void onStart() {
@@ -429,8 +484,8 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if (isClickable())
-                    //launchMEC(MECLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null, null);
+                if (isClickable())
+                    launchMEC(MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW, null, null);
             }
         });
     }
@@ -441,6 +496,24 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         mTitleTextView.setText(title);
     }
 
+    private void launchMEC(int pLandingViews, MECFlowInput pMecFlowInput, ArrayList<String> pIgnoreRetailerList) {
+
+        if (pIgnoreRetailerList == null)
+            mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode);
+        else
+            mMecLaunchInput.setMECFlow(pLandingViews, pMecFlowInput, voucherCode, pIgnoreRetailerList);
+
+        try {
+            int themeResourceID = new ThemeHelper(this).getThemeResourceId();
+            mMecInterface.launch(new ActivityLauncher
+                            (this, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, null, themeResourceID, null),
+                    mMecLaunchInput);
+
+        } catch (RuntimeException exception) {
+            Toast.makeText(DemoActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onClick(final View view) {
@@ -449,7 +522,7 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         if (view == mShoppingCart) {
 
         } else if (view == mShopNow) {
-            Toast.makeText(DemoActivity.this, "Shop Now", Toast.LENGTH_SHORT).show();
+            launchMEC(MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW, null, null);
         } else if (view == mPurchaseHistory) {
 
         } else if (view == mLaunchProductDetail) {
@@ -560,23 +633,83 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
 
     private void showToast(int errorCode) {
         String errorText = null;
-        /*if (IAPConstant.IAP_ERROR_NO_CONNECTION == errorCode) {
+        if (MECConstant.MEC_ERROR_NO_CONNECTION == errorCode) {
             errorText = "No connection";
-        } else if (IAPConstant.IAP_ERROR_CONNECTION_TIME_OUT == errorCode) {
+        } else if (MECConstant.MEC_ERROR_CONNECTION_TIME_OUT == errorCode) {
             errorText = "Connection time out";
-        } else if (IAPConstant.IAP_ERROR_AUTHENTICATION_FAILURE == errorCode) {
+        } else if (MECConstant.MEC_ERROR_AUTHENTICATION_FAILURE == errorCode) {
             errorText = "Authentication failure";
-        } else if (IAPConstant.IAP_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
+        } else if (MECConstant.MEC_ERROR_INSUFFICIENT_STOCK_ERROR == errorCode) {
             errorText = "Product out of stock";
-        } else if (IAPConstant.IAP_ERROR_INVALID_CTN == errorCode) {
+        } else if (MECConstant.MEC_ERROR_INVALID_CTN == errorCode) {
             errorText = "Invalid ctn";
-        }*/
+        }
         if (errorText != null) {
             Toast toast = Toast.makeText(this, errorText, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
     }
+
+    //In-App listener functions
+    @Override
+    public void onGetCartCount(int count) {
+        if (count > 0) {
+            mCountText.setText(count + "");
+            mCountText.setVisibility(View.VISIBLE);
+        } else if (count == 0) {
+            mCountText.setVisibility(View.GONE);
+        } else if (count == -1) {
+            //Plan B
+            mShoppingCart.setVisibility(View.GONE);
+        }
+
+        try {
+            mMecInterface.getCompleteProductList(this);
+        } catch (Exception e) {
+            MECLog.e(MECLog.LOG, e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void onUpdateCartCount() {
+        mMecInterface.getProductCartCount(this);
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean shouldShow) {
+        if (shouldShow) {
+            mShoppingCart.setVisibility(View.VISIBLE);
+            mCountText.setVisibility(View.VISIBLE);
+        } else {
+            mShoppingCart.setVisibility(View.GONE);
+            mCountText.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> productList) {
+        mShoppingCart.setOnClickListener(this);
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void onSuccess() {
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void onSuccess(boolean bool) {
+        displayFlowViews(bool);
+    }
+
+    @Override
+    public void onFailure(int errorCode) {
+        showToast(errorCode);
+        dismissProgressDialog();
+    }
+
 
 
     //User Registration interface functions
@@ -653,6 +786,28 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+
+    @Override
+    public boolean isMockEnabled() {
+        return enableMock;
+    }
+
+    @Override
+    public JSONObject GetMockJson(String fileName) {
+        fileName = fileName + ".json";
+        return getResponseJson(fileName);
+    }
+
+    @Override
+    public JSONObject GetProductCatalogResponse() {
+        return getResponseJson("product.json");
+    }
+
+    @Override
+    public JSONObject OAuthResponse() {
+        return getResponseJson("bearerAuth.json");
+    }
+
     public JSONObject getResponseJson(String fileName) {
 
         String jsonString = loadJSONFromAsset(fileName);
@@ -681,6 +836,22 @@ public class DemoActivity extends AppCompatActivity implements View.OnClickListe
             return null;
         }
         return json;
+    }
+
+
+    @Override
+    public boolean shouldPopToProductList() {
+        return false;
+    }
+
+    @Override
+    public View getBannerView() {
+        if (isBannerEnabled) {
+            LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = inflater.inflate(R.layout.banner_view, null);
+            return v;
+        }
+        return null;
     }
 
     boolean isUserLoggedIn(){

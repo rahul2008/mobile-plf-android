@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cdp.di.mec">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application>
-        <activity android:name="com.philips.cdp.di.mec.activity.MainActivity"></activity>
+        <activity android:name=".activity.MECActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
     </application>
 
 </manifest>
