@@ -28,7 +28,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
     override fun onChanged(ecsProductsList:MutableList<ECSProducts>?) {
 
-
+      System.out.println("Size of products"+ (ecsProductsList?.size ?: 0))
     }
 
     val TAG = MECProductCatalogFragment::class.java.name
@@ -44,7 +44,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
         ecsProductViewModel.mecError.observe(this, object :Observer<MecError>{
 
             override fun onChanged(mecError: MecError?) {
-
+                System.out.println("Error while  fetching")
 
             }
         })

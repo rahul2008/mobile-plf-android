@@ -175,6 +175,7 @@ dependencies {
     // add this for webview testing support
     androidTestImplementation deps.espresso_web
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    annotationProcessor deps.livedata_compiler
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
