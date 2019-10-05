@@ -52,6 +52,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         versionCode 1
         versionName version + "(" + commitHash + ")"

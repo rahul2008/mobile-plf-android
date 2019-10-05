@@ -32,6 +32,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
     }
 
     val TAG = MECProductCatalogFragment::class.java.name
+
     lateinit var ecsProductViewModel :EcsProductViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
