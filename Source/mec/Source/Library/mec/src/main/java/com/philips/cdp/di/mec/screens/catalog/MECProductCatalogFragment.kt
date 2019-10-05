@@ -3,20 +3,18 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.philips.cdp.di.ecs.error.ECSError
-import com.philips.cdp.di.ecs.integration.ECSCallback
-import com.philips.cdp.di.ecs.model.orders.ECSOrderHistory
+import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.activity.MecError
+import com.philips.cdp.di.mec.databinding.MecProductCatalogFragmentBinding
 import com.philips.cdp.di.mec.screens.InAppBaseFragment
 
 /**
@@ -35,6 +33,10 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
     lateinit var ecsProductViewModel :EcsProductViewModel
 
+    lateinit var ecsProducts : List<ECSProduct>
+
+    private lateinit var binding: MecProductCatalogFragmentBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -52,7 +54,14 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
         ecsProductViewModel.init(0,20);
 
-        return inflater.inflate(R.layout.fragment_mecproduct_catalog, container, false)
+        binding = DataBindingUtil.inflate(inflater ,R.layout.mec_product_catalog_fragment,container , false)
+        var myView : View  = binding.root
+
+        //ecsProducts = List<ECSProduct>();
+
+       // MECProductCatalogAdapter()
+
+        return myView;
     }
 
     override fun onResume() {
