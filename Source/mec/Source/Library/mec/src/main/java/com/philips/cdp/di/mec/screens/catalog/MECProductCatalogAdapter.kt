@@ -12,7 +12,7 @@ class MECProductCatalogAdapter(private val items: MutableList<Pojo>) : RecyclerV
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MecProductCatalogItemBinding.inflate(inflater)
-        return ViewHolder(binding)
+        return ViewHolder(binding!!)
     }
 
     override fun getItemCount(): Int = items.size
