@@ -121,6 +121,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     applicationVariants.all { variant ->
         buildType = variant.buildType.name // sets the current build type
         println "*****BuildType****" + buildType
@@ -228,7 +232,7 @@ dependencies {
         implementation project(strings.dccuapp.projectName)
 //        implementation project(strings.ufwuapp.projectName)
         implementation project(strings.iapuapp.projectName)
-        implementation project(strings.mecuapp.projectName)
+       // implementation project(strings.mecuapp.projectName)
         implementation project(strings.ecsuapp.projectName)
         implementation project(strings.ecstestuapp.projectName)
 
@@ -261,9 +265,9 @@ dependencies {
         implementation(philipsdeps.iapUApp) {
             exclude group: 'com.android.support'
         }
-        implementation(philipsdeps.mecUApp) {
-            exclude group: 'com.android.support'
-        }
+//        implementation(philipsdeps.mecUApp) {
+//            exclude group: 'com.android.support'
+//        }
         implementation(philipsdeps.product_registration_libUApp) {
             exclude group: 'com.android.support'
         }

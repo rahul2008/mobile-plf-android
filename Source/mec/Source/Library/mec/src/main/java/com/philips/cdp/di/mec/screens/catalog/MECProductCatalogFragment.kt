@@ -15,7 +15,7 @@ import com.philips.cdp.di.ecs.model.products.ECSProducts
 
 import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.activity.MecError
-import com.philips.cdp.di.mec.databinding.MecProductCatalogFragmentBinding
+import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import com.philips.cdp.di.mec.screens.InAppBaseFragment
 
 
@@ -51,16 +51,15 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
     lateinit var ecsProductViewModel :EcsProductViewModel
 
-    lateinit var ecsProducts : List<ECSProduct>
 
     lateinit var pojoList : MutableList<Pojo>
 
-    private lateinit var binding: MecProductCatalogFragmentBinding
+    private lateinit var binding: MecCatalogFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = DataBindingUtil.inflate<MecProductCatalogFragmentBinding>(inflater, R.layout.mec_product_catalog_fragment, container, false);
+        binding = MecCatalogFragmentBinding.inflate(inflater, container, false);
 
 
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
@@ -76,9 +75,6 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
         })
 
         ecsProductViewModel.init(0,20);
-
-
-
 
         pojoList = mutableListOf<Pojo>()
 

@@ -4,6 +4,8 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
@@ -58,6 +60,11 @@ android {
             debuggable true
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
+
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
