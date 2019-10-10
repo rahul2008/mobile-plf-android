@@ -17,7 +17,7 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.squareup.leakcanary.LeakCanary;
+
 
 public class DemoApplication extends Application{
     final String UR = "UserRegistration";
