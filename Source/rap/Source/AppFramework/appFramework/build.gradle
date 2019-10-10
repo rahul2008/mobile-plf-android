@@ -207,7 +207,7 @@ dependencies {
 
     implementation project(strings.pim.projectName)
     implementation project(strings.pimuapp.projectName)
-    implementation project(strings.mecuapp.projectName)
+    //implementation project(strings.mecuapp.projectName)
     implementation (philipsdeps.csw){
         exclude group: 'com.philips.platform'
     }

@@ -132,6 +132,7 @@ dependencies {
     testImplementation deps.leakcanary_no_op
 
     implementation project(strings.mecuapp.projectName)
+    implementation project(strings.mec.projectName)
 
     implementation deps.constraintlayout
     implementation deps.support.design

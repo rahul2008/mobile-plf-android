@@ -59,7 +59,11 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        binding = MecCatalogFragmentBinding.inflate(inflater, container, false);
+        binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
+
+        val pojo = Pojo("Anurag Testing", "Pabitra", "UrL not Found")
+
+        binding.product = pojo
 
 
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
