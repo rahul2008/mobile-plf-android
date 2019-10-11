@@ -1,5 +1,5 @@
  <resources>
-        <string name="demo_app_name">InApp</string>
+        <string name="demo_app_name">Mec App</string>
         <string name="buy_now">Buy Now</string>
         <string name="add_to_cart">Add To Cart</string>
         <string name="no_stock">No Stock</string>

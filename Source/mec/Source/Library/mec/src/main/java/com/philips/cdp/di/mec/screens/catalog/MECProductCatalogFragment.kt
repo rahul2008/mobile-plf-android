@@ -32,13 +32,15 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
       System.out.println("Size of products"+ (ecsProductsList?.size ?: 0))
 
-        for (ecsProducts in ecsProductsList!!){
+        if (ecsProductsList != null) {
+            for (ecsProducts in ecsProductsList){
 
 
-            for(ecsProduct in ecsProducts.products){
+                for(ecsProduct in ecsProducts.products){
 
-                pojoList.add(Pojo(ecsProduct.summary.productTitle,ecsProduct.summary.price.formattedDisplayPrice,ecsProduct.summary.imageURL))
+                    pojoList.add(Pojo(ecsProduct.summary.productTitle,ecsProduct.summary.price.formattedDisplayPrice,ecsProduct.summary.imageURL))
 
+                }
             }
         }
 

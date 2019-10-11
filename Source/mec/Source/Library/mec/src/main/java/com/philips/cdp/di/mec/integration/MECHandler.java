@@ -99,7 +99,7 @@ class MECHandler {
 
 
     void launchMEC(UiLauncher uiLauncher, MECLaunchInput pLaunchInput) {
-        if(!verifyInput(pLaunchInput, pLaunchInput.mMECFlowInput))return;
+       // if(!verifyInput(pLaunchInput, pLaunchInput.mMECFlowInput))return;
         Utility.setVoucherCode(pLaunchInput.getVoucher());
         if (uiLauncher instanceof ActivityLauncher) {
             launchAsActivity(mMECSetting.getContext(), pLaunchInput, (ActivityLauncher) uiLauncher);

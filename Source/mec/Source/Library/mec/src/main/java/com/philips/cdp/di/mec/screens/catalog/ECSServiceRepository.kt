@@ -48,9 +48,14 @@ enum class ECSServiceRepository {
 
                 override fun onResponse(ecsProducts: ECSProducts) {
 
-                    val mutableLiveData = ecsProductViewModel.ecsProductsList;
+                    val mutableLiveData = ecsProductViewModel.ecsProductsList
+
+
 
                     var value = mutableLiveData.value;
+
+                    if(value == null) value = mutableListOf<ECSProducts>()
+
                     value?.add(ecsProducts)
                     mutableLiveData.value = value
                 }
