@@ -7,6 +7,8 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -123,8 +125,11 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
         if(isChecked){
             adapter = MECProductCatalogGridAdapter(pojoList)
+            binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
+
         }else{
             adapter = MECProductCatalogListAdapter(pojoList)
+            binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL ,false)
         }
         adapter.notifyDataSetChanged()
     }
