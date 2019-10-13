@@ -10,6 +10,6 @@ class MECProductCatalogGridAdapter(private val items: MutableList<Pojo>) : MECPr
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MECProductCatalogHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MecProductCatalogItemGridBinding.inflate(inflater)
-        return MECProductCatalogHolder(false ,binding!!)
+        return MECProductCatalogHolder(true ,binding!!)
     }
 }

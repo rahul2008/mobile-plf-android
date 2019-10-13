@@ -12,7 +12,6 @@ class MECProductCatalogHolder (val isGrid: Boolean, val binding: ViewDataBinding
     fun bind(item: Pojo) {
 
         if(isGrid){
-
             val mecProductCatalogItemGridBinding = binding as MecProductCatalogItemGridBinding
             mecProductCatalogItemGridBinding.product = item
             mecProductCatalogItemGridBinding.executePendingBindings()
