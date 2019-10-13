@@ -4,6 +4,10 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
@@ -139,6 +143,7 @@ dependencies {
     implementation deps.support.supportv4
     implementation deps.support.annotations
     implementation deps.support.appcompatv7
+    implementation deps.volley
     implementation philipsdeps.uid
     if (useprojectdependencies) {
         implementation project(strings.usr.projectName)

@@ -4,8 +4,9 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+
 
 apply from: project.rootDir.absolutePath + '/build-support/gradle/cdpscm.gradle'
 apply from: project.rootDir.absolutePath + '/build-support/gradle/projectnames.gradle'
@@ -105,6 +106,7 @@ dependencies {
 
     testImplementation deps.junit
     implementation philipsdeps.uid
+    implementation deps.volley
     if (useprojectdependencies) {
         implementation project(strings.mec.projectName)
         implementation project(strings.usr.projectName)

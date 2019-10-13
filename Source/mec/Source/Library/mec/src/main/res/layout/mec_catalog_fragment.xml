@@ -3,23 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-            name="product"
-            type="com.philips.cdp.di.mec.screens.catalog.Pojo" />
+            name="fragment"
+            type="com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment" />
+
+        <variable
+            name="catalog"
+            type="com.philips.cdp.di.mec.screens.catalog.ProductCatalogData" />
     </data>
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Switch
+        android:id="@+id/switch_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:textSize="15sp"
+        android:onCheckedChanged="@{fragment::onLayoutChanged}"
+        android:text="Switch Layout"/>
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/switch_layout"
         android:layout_margin="20dp"
         android:id="@+id/product_catalog_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:listitem="@layout/mec_product_catalog_item"
+
+        tools:listitem="@layout/mec_product_catalog_item_list"
         />
+
+
+   <!-- "@{age > 13 ? View.GONE : View.VISIBLE}"
+ app:layoutManager="@{catalog.checked ? android.support.v7.widget.GridLayoutManager : android.support.v7.widget.LinearLayoutManager}"
+    "@{user.displayName != null ? user.displayName : user.lastName}"-->
 
 
 

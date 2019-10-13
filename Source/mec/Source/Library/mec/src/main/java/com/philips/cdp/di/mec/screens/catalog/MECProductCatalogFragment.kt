@@ -10,6 +10,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
@@ -48,7 +49,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
     }
 
-    private lateinit var adapter: MECProductCatalogAdapter
+    private lateinit var adapter: MECProductCatalogBaseAbstractAdapter
     val TAG = MECProductCatalogFragment::class.java.name
 
     lateinit var ecsProductViewModel :EcsProductViewModel
@@ -63,9 +64,10 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
         binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
 
-        val pojo = Pojo("Anurag Testing", "Pabitra", "UrL not Found")
+        val pojo = ProductCatalogData(false)
 
-        binding.product = pojo
+        binding.catalog = pojo
+        binding.fragment = this
 
 
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
@@ -106,7 +108,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = MECProductCatalogAdapter(pojoList)
+        adapter = MECProductCatalogListAdapter(pojoList)
 
         binding.productCatalogRecyclerView.adapter = adapter
 
@@ -116,5 +118,14 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
     }
 
+    fun onLayoutChanged(buttonView: CompoundButton, isChecked: Boolean) {
 
+
+        if(isChecked){
+            adapter = MECProductCatalogGridAdapter(pojoList)
+        }else{
+            adapter = MECProductCatalogListAdapter(pojoList)
+        }
+        adapter.notifyDataSetChanged()
+    }
 }
