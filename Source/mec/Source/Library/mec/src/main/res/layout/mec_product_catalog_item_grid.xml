@@ -9,51 +9,49 @@
 
 
     <RelativeLayout
-    android:id="@+id/product_catalog_parent_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/border16_margin_left_right">
+        android:id="@+id/product_catalog_parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/border16_margin_left_right">
+
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/image"
             android:layout_width="@dimen/iap_network_image_width_height"
             android:layout_height="@dimen/iap_network_image_width_height"
-            android:layout_marginEnd="@dimen/border12_margin"
-            android:tooltipText="@{ product.name}"
-            app:image_url="@{ product.imageUrl}"
-           />
+            android:layout_centerHorizontal="true"
+            app:image_url="@{ product.imageUrl}" />
 
 
-    <LinearLayout
-        android:id="@+id/iap_retailerItem_product_layout"
-        android:layout_toRightOf="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/border16_margin_left_right"
-        android:orientation="vertical">
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/iap_retailerItem_productName_lebel"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/iap_retailerItem_product_layout"
+            android:layout_below="@+id/image"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
-            android:text="@{ product.name}"
-            android:textSize="16sp" />
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/iap_retailerItem_productName_lebel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
+                android:text="@{ product.name}"
+                android:textSize="16sp" />
 
 
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/iap_retailerItem_price_lebel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/iap_margin_4dp"
-            android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
-            android:text="@{ product.price}"
-            android:textSize="@dimen/iap_product_original_price" />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/iap_retailerItem_price_lebel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/iap_margin_4dp"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:text="@{ product.price}"
+                android:textSize="@dimen/iap_product_original_price" />
 
-    </LinearLayout>
+        </LinearLayout>
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </layout>

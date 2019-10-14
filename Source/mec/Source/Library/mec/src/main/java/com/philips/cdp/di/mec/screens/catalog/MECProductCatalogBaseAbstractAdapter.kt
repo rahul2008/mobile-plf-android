@@ -3,7 +3,6 @@ package com.philips.cdp.di.mec.screens.catalog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.philips.cdp.di.mec.databinding.MecProductCatalogItemListBinding
 
 
 abstract class MECProductCatalogBaseAbstractAdapter(private val items: MutableList<Pojo>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>() {
