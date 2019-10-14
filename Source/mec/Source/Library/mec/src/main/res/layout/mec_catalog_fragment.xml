@@ -1,5 +1,4 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -8,9 +7,6 @@
             name="fragment"
             type="com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment" />
 
-        <variable
-            name="catalog"
-            type="com.philips.cdp.di.mec.screens.catalog.ProductCatalogData" />
     </data>
 
 <RelativeLayout

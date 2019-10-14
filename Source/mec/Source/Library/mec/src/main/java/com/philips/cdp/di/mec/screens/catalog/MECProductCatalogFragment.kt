@@ -37,7 +37,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
                 for(ecsProduct in ecsProducts.products){
 
-                    pojoList.add(Pojo(ecsProduct.summary.productTitle,ecsProduct.summary.price.formattedDisplayPrice,ecsProduct.summary.imageURL))
+                    mecProductList.add(MECProduct(ecsProduct.summary.productTitle,ecsProduct.summary.price.formattedDisplayPrice,ecsProduct.summary.imageURL))
 
                 }
             }
@@ -53,7 +53,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
     lateinit var ecsProductViewModel :EcsProductViewModel
 
 
-    lateinit var pojoList : MutableList<Pojo>
+    lateinit var mecProductList : MutableList<MECProduct>
 
     private lateinit var binding: MecCatalogFragmentBinding
 
@@ -62,11 +62,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
         binding = MecCatalogFragmentBinding.inflate(inflater, container, false)
 
-        val pojo = ProductCatalogData(false)
-
-        binding.catalog = pojo
         binding.fragment = this
-
 
         ecsProductViewModel = ViewModelProviders.of(this).get(EcsProductViewModel::class.java)
 
@@ -82,7 +78,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
         ecsProductViewModel.init(0,20);
 
-        pojoList = mutableListOf<Pojo>()
+        mecProductList = mutableListOf<MECProduct>()
 
 
         return binding.root
@@ -106,7 +102,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = MECProductCatalogListAdapter(pojoList)
+        adapter = MECProductCatalogListAdapter(mecProductList)
 
         binding.productCatalogRecyclerView.adapter = adapter
 
@@ -119,11 +115,11 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
     fun onLayoutChanged(isChecked: Boolean) {
 
         if(isChecked){
-            adapter = MECProductCatalogGridAdapter(pojoList)
+            adapter = MECProductCatalogGridAdapter(mecProductList)
             binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
 
         }else{
-            adapter = MECProductCatalogListAdapter(pojoList)
+            adapter = MECProductCatalogListAdapter(mecProductList)
             binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL ,false)
         }
         binding.productCatalogRecyclerView.adapter = adapter
