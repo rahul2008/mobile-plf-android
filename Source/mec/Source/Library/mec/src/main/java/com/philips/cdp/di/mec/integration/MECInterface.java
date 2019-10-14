@@ -29,6 +29,10 @@ import static com.philips.cdp.di.mec.integration.MECLaunchInput.MECFlows.MEC_SHO
 public class MECInterface implements UappInterface, MECExposedAPI {
     protected MECHandler mMECHandler;
     protected MECSettings mMECSettings;
+    private UappDependencies mUappDependencies;
+
+
+
     private MECServiceDiscoveryWrapper mMecServiceDiscoveryWrapper;
     private UserDataInterface mUserDataInterface;
 
@@ -49,13 +53,12 @@ public class MECInterface implements UappInterface, MECExposedAPI {
         if (null == mUserDataInterface)
             throw new RuntimeException("UserDataInterface is not injected in IAPDependencies.");
 
-        MECUtility.getInstance().setUserDataInterface(mUserDataInterface);
-        MECUtility.getInstance().setAppName(uappDependencies.getAppInfra().getAppIdentity().getAppName());
-        MECUtility.getInstance().setLocaleTag(uappDependencies.getAppInfra().getInternationalization().getUILocaleString());
+
         mMECSettings = (MECSettings) uappSettings;
-        mMECHandler = new MECHandler(MECDependencies,mMECSettings);
-        mMECHandler.initPreRequisite();
-        mMecServiceDiscoveryWrapper = new MECServiceDiscoveryWrapper(mMECSettings);
+        mUappDependencies = uappDependencies;
+
+
+
     }
 
     /**
@@ -69,17 +72,10 @@ public class MECInterface implements UappInterface, MECExposedAPI {
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) throws RuntimeException {
 
-        //This is added to clear pagination data from app memory . This should be taken in tech debt .
 
-        /*if( ((MECLaunchInput) uappLaunchInput).mLandingView!=MEC_SHOPPING_CART_VIEW) {
-            CartModelContainer.getInstance().clearProductList();
-        }*/
-        MECUtility.getInstance().resetPegination();
 
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) mMECSettings.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(uiLauncher, mMECHandler, (MECLaunchInput) uappLaunchInput, null, null);
+        MECHandler mecHandler = new MECHandler((MECDependencies)mUappDependencies,mMECSettings,uiLauncher,(MECLaunchInput) uappLaunchInput);
+        mecHandler.launchMEC();
     }
 
     /**
