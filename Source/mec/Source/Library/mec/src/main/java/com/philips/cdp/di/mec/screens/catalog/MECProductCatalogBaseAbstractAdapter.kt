@@ -13,4 +13,5 @@ abstract class MECProductCatalogBaseAbstractAdapter(private val items: MutableLi
 
     override fun onBindViewHolder(holder: MECProductCatalogAbstractViewHolder, position: Int) = holder.bind(items[position])
 
+
 }

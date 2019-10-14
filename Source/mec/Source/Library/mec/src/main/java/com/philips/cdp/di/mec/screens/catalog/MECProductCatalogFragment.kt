@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
 import com.philips.cdp.di.mec.activity.MecError
@@ -107,7 +106,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = MECProductCatalogAdapter(false,pojoList)
+        adapter = MECProductCatalogListAdapter(pojoList)
 
         binding.productCatalogRecyclerView.adapter = adapter
 
@@ -117,17 +116,17 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
     }
 
-    fun onLayoutChanged(buttonView: CompoundButton, isChecked: Boolean) {
+    fun onLayoutChanged(isChecked: Boolean) {
 
-        adapter = MECProductCatalogAdapter(isChecked,pojoList)
         if(isChecked){
-            binding.productCatalogRecyclerView.adapter = adapter
+            adapter = MECProductCatalogGridAdapter(pojoList)
             binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
 
         }else{
-            binding.productCatalogRecyclerView.adapter = adapter
+            adapter = MECProductCatalogListAdapter(pojoList)
             binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL ,false)
         }
+        binding.productCatalogRecyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
     }
 }
