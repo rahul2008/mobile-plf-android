@@ -3,7 +3,6 @@ package com.philips.cdp.di.mec.screens.catalog
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -13,10 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import com.philips.cdp.di.ecs.model.products.ECSProduct
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
-import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.activity.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import com.philips.cdp.di.mec.screens.InAppBaseFragment
@@ -110,7 +107,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        adapter = MECProductCatalogListAdapter(pojoList)
+        adapter = MECProductCatalogAdapter(false,pojoList)
 
         binding.productCatalogRecyclerView.adapter = adapter
 
@@ -122,13 +119,13 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
     fun onLayoutChanged(buttonView: CompoundButton, isChecked: Boolean) {
 
-
+        adapter = MECProductCatalogAdapter(isChecked,pojoList)
         if(isChecked){
-            adapter = MECProductCatalogGridAdapter(pojoList)
+            binding.productCatalogRecyclerView.adapter = adapter
             binding.productCatalogRecyclerView.layoutManager = GridLayoutManager(activity, 2)
 
         }else{
-            adapter = MECProductCatalogListAdapter(pojoList)
+            binding.productCatalogRecyclerView.adapter = adapter
             binding.productCatalogRecyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL ,false)
         }
         adapter.notifyDataSetChanged()
