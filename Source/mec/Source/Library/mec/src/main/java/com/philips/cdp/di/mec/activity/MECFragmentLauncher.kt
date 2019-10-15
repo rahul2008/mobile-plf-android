@@ -12,6 +12,7 @@ import com.philips.cdp.di.mec.screens.catalog.MECProductCatalogFragment
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.cdp.di.mec.utils.Utility
 import com.philips.platform.uappframework.launcher.FragmentLauncher
+import com.philips.platform.uappframework.launcher.UiLauncher
 
 class MECFragmentLauncher : Fragment() {
     val TAG = MECFragmentLauncher::class.java!!.getName()
@@ -26,11 +27,12 @@ class MECFragmentLauncher : Fragment() {
         val bundle = arguments
         val landingFragment:Int =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN);
         var mECLaunchInput = bundle.getSerializable("LaunchInput") as MECLaunchInput
-        launchMECasFragment(landingFragment, mECLaunchInput);
+        var mUiLauncher = bundle.getSerializable("UILauncher") as UiLauncher
+        launchMECasFragment(landingFragment, mECLaunchInput,mUiLauncher);
     }
 
 
-    protected fun launchMECasFragment(landingFragment: Int, mLaunchInput: MECLaunchInput) {
+    protected fun launchMECasFragment(landingFragment: Int, mLaunchInput: MECLaunchInput, mUiLauncher: UiLauncher) {
         val target = getFragment(landingFragment, mLaunchInput)
         addFragment(target!!, mUiLauncher as FragmentLauncher, mLaunchInput.getMecListener())
     }

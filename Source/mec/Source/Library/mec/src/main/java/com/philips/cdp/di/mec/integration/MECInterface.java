@@ -33,7 +33,7 @@ public class MECInterface implements UappInterface, MECExposedAPI {
 
 
 
-    private MECServiceDiscoveryWrapper mMecServiceDiscoveryWrapper;
+   // private MECServiceDiscoveryWrapper mMecServiceDiscoveryWrapper;
     private UserDataInterface mUserDataInterface;
 
     /**
@@ -86,11 +86,11 @@ public class MECInterface implements UappInterface, MECExposedAPI {
      */
     @Override
     public void getProductCartCount(MECListener mecListener) {
-        if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()){
+       /* if (mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()){
             mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mMECHandler, null, mecListener, "productCartCount");
         } else {
             mecListener.onFailure(MECConstant.MEC_ERROR_AUTHENTICATION_FAILURE);
-        }
+        }*/
     }
 
     /**
@@ -101,7 +101,7 @@ public class MECInterface implements UappInterface, MECExposedAPI {
      */
     @Override
     public void getCompleteProductList(MECListener mecListener) {
-        mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mMECHandler, null, mecListener, "completeProductList");
+       // mMecServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(null, mMECHandler, null, mecListener, "completeProductList");
     }
 
     /**
@@ -113,12 +113,12 @@ public class MECInterface implements UappInterface, MECExposedAPI {
      */
     @Override
     public void isCartVisible(MECListener mecListener) {
-        if (mMECHandler != null && mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
+      /*  if (mMECHandler != null && mUserDataInterface != null && mUserDataInterface.getUserLoggedInState().ordinal() >= UserLoggedInState.PENDING_HSDP_LOGIN.ordinal()) {
              mMecServiceDiscoveryWrapper.getCartVisiblityByConfigUrl(mecListener, mMECHandler);
         } else {
             mecListener.onSuccess(false);
             mecListener.onFailure(MECConstant.MEC_ERROR_AUTHENTICATION_FAILURE);
-        }
+        }*/
 
     }
 }

@@ -50,6 +50,7 @@ class MECHandler {
         ActivityLauncher activityLauncher =  (ActivityLauncher) mUiLauncher;
         Bundle mBundle = new Bundle();
         mBundle.putSerializable("LaunchInput",mLaunchInput);
+        mBundle.putSerializable("UILauncher",mUiLauncher);
         mBundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         intent.putExtras(mBundle);
         mMECSetting.getContext().startActivity(intent);
