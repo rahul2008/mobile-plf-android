@@ -109,7 +109,6 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<RecyclerView.V
         deliver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Utility.isDelvieryFirstTimeUser=true;
                 EventHelper.getInstance().notifyEventOccurred(ECSConstant.DELIVER_TO_THIS_ADDRESS);
             }
         });

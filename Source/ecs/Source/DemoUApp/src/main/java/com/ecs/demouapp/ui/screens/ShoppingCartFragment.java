@@ -330,9 +330,9 @@ public class ShoppingCartFragment extends InAppBaseFragment
 
         if( data!=null && data.getEntries()!=null && data.getEntries().size()!=0 ) {
 
-            if(ecsShoppingCart!=null && ecsShoppingCart.getDeliveryMode()==null){
+           /* if(ecsShoppingCart!=null && ecsShoppingCart.getDeliveryMode()==null){
                 mAddressController.getDeliveryModes();
-            }
+            }*/
 
             onOutOfStock(false);
             mAdapter = new ShoppingCartAdapter(getActivity(), data, this);

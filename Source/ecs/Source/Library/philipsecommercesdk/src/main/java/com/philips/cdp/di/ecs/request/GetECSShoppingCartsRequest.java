@@ -63,19 +63,11 @@ public class GetECSShoppingCartsRequest extends OAuthAppInfraAbstractRequest imp
 
     @Override
     public void onResponse(JSONObject response) {
-        ECSShoppingCart resp = null;
-        Exception exception = null;
-
         try{
-            resp = new Gson().fromJson(response.toString(),
+            ECSShoppingCart  resp = new Gson().fromJson(response.toString(),
                     ECSShoppingCart.class);
-        } catch (Exception e) {
-            exception = e;
-        }
-
-        if(null == exception && null!=resp && null!=resp.getGuid() && !resp.getGuid().isEmpty()) {
             ecsCallback.onResponse(resp);
-        } else {
+        } catch (Exception exception) {
             ECSErrorWrapper ecsErrorWrapper = getErrorLocalizedErrorMessage(ECSErrorEnum.ECSCartError,exception,response.toString());
             ecsCallback.onFailure(ecsErrorWrapper.getException(), ecsErrorWrapper.getEcsError());
         }
