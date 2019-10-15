@@ -17,6 +17,7 @@ import com.philips.cdp.di.mec.utils.Utility;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import java.util.ArrayList;
 
@@ -49,8 +50,8 @@ class MECHandler {
         intent.putExtra(MECConstant.MEC_LANDING_SCREEN, mLaunchInput.mLandingView);
         ActivityLauncher activityLauncher =  (ActivityLauncher) mUiLauncher;
         Bundle mBundle = new Bundle();
-        mBundle.putSerializable("LaunchInput",mLaunchInput);
-        mBundle.putSerializable("UILauncher",mUiLauncher);
+        //mBundle.putSerializable("LaunchInput",(UappLaunchInput)mLaunchInput);
+       // mBundle.putSerializable("UILauncher",mUiLauncher);
         mBundle.putInt(MECConstant.MEC_KEY_ACTIVITY_THEME, activityLauncher.getUiKitTheme());
         intent.putExtras(mBundle);
         mMECSetting.getContext().startActivity(intent);

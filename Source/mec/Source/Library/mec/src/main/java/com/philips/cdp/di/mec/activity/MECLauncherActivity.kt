@@ -1,27 +1,19 @@
 package com.philips.cdp.di.mec.activity
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import com.philips.cdp.di.mec.utils.MECConstant
 import com.philips.platform.uid.utils.UIDActivity
-
-
-import com.philips.cdp.di.mec.integration.MECLaunchInput
-
-
-
-
 
 
 class MECLauncherActivity : UIDActivity() {
       lateinit var bundle: Bundle
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContentView(com.philips.cdp.di.mec.R.layout.mec_activity)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(com.philips.cdp.di.mec.R.layout.mec_activity_launcher)
         bundle = intent.getExtras()
         val landingScreen:Int = bundle.getInt(MECConstant.MEC_LANDING_SCREEN)
-        var mECLaunchInput = bundle.getSerializable("LaunchInput") as MECLaunchInput
+       // var mECLaunchInput = bundle.getSerializable("LaunchInput") as MECLaunchInput
         loadDecisionFragment();
     }
 

@@ -1,10 +1,12 @@
 package com.philips.cdp.di.mec.activity
 
+import android.databinding.DataBindingUtil.setContentView
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.philips.cdp.di.mec.R
 import com.philips.cdp.di.mec.integration.MECLaunchInput
 import com.philips.cdp.di.mec.integration.MECListener
 import com.philips.cdp.di.mec.screens.InAppBaseFragment
@@ -18,23 +20,24 @@ class MECFragmentLauncher : Fragment() {
     val TAG = MECFragmentLauncher::class.java!!.getName()
     lateinit var bundleInput: Bundle
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+
         val bundle = arguments
         val landingFragment:Int =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN);
         var mECLaunchInput = bundle.getSerializable("LaunchInput") as MECLaunchInput
         var mUiLauncher = bundle.getSerializable("UILauncher") as UiLauncher
         launchMECasFragment(landingFragment, mECLaunchInput,mUiLauncher);
+
+        return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
+       // return super.onCreateView(inflater, container, savedInstanceState)
     }
 
 
-    protected fun launchMECasFragment(landingFragment: Int, mLaunchInput: MECLaunchInput, mUiLauncher: UiLauncher) {
-        val target = getFragment(landingFragment, mLaunchInput)
-        addFragment(target!!, mUiLauncher as FragmentLauncher, mLaunchInput.getMecListener())
+    protected fun launchMECasFragment(landingFragment: Int) {
+        val target = getFragment(landingFragment)
+       // addFragment(target!!, mUiLauncher as FragmentLauncher, mLaunchInput.getMecListener())
     }
 
 
