@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:textSize="15sp"
+        android:onCheckedChanged="@{fragment::onLayoutChanged}"
         android:text="Switch Layout"/>
 
     <android.support.v7.widget.RecyclerView

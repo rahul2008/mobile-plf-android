@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import com.philips.cdp.di.ecs.model.products.ECSProducts
 
 import com.philips.cdp.di.mec.activity.MecError
@@ -112,7 +113,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
     }
 
-    fun onLayoutChanged(isChecked: Boolean) {
+    fun onLayoutChanged(compoundButton: CompoundButton,isChecked: Boolean) {
 
         if(isChecked){
             adapter = MECProductCatalogGridAdapter(mecProductList)
