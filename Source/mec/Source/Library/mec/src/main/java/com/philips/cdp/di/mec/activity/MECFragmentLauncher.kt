@@ -21,36 +21,51 @@ class MECFragmentLauncher : Fragment() {
     lateinit var bundleInput: Bundle
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val bundle = arguments
-        val landingFragment:Int =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN);
-        var mECLaunchInput = bundle.getSerializable("LaunchInput") as MECLaunchInput
-        var mUiLauncher = bundle.getSerializable("UILauncher") as UiLauncher
-        launchMECasFragment(landingFragment, mECLaunchInput,mUiLauncher);
+
 
         return inflater.inflate(R.layout.mec_fragment_launcher, container, false)
        // return super.onCreateView(inflater, container, savedInstanceState)
     }
 
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val bundle = arguments
+        val landingFragment:Int =  bundle!!.getInt(MECConstant.MEC_LANDING_SCREEN);
+        //var mECLaunchInput = bundle.getSerializable("LaunchInput") as MECLaunchInput
+       // var mUiLauncher = bundle.getSerializable("UILauncher") as UiLauncher
+        launchMECasFragment(landingFragment);
+    }
+
+
     protected fun launchMECasFragment(landingFragment: Int) {
-        val target = getFragment(landingFragment)
+        val fragment = getFragment(landingFragment)
+        val fragmentTransaction =  getActivity()!!.supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container_launcher, fragment!!).commit()
        // addFragment(target!!, mUiLauncher as FragmentLauncher, mLaunchInput.getMecListener())
     }
 
 
-    protected fun getFragment(screen: Int, mecLaunchInput: MECLaunchInput): InAppBaseFragment? {
+
+
+    protected fun getFragment(screen: Int): InAppBaseFragment? {
         var fragment: InAppBaseFragment? = null
         val bundle = Bundle()
-        val ignoreRetailers = mecLaunchInput.ignoreRetailers
-        val voucherCode = mecLaunchInput.voucher
+       // val ignoreRetailers = mecLaunchInput.ignoreRetailers
+       // val voucherCode = mecLaunchInput.voucher
         when (screen) {
             MECLaunchInput.MECFlows.MEC_SHOPPING_CART_VIEW -> {
                 //fragment = new ShoppingCartFragment();
-                bundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, ignoreRetailers)
-                Utility.setVoucherCode(mecLaunchInput.voucher)
+               // bundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, ignoreRetailers)
+               // Utility.setVoucherCode(mecLaunchInput.voucher)
             }
             MECLaunchInput.MECFlows.MEC_PURCHASE_HISTORY_VIEW -> {
             }
@@ -60,18 +75,19 @@ class MECFragmentLauncher : Fragment() {
             }
             MECLaunchInput.MECFlows.MEC_PRODUCT_CATALOG_VIEW -> {
                 fragment = MECProductCatalogFragment()
-                if (mecLaunchInput.mMECFlowInput != null && mecLaunchInput.mMECFlowInput.productCTNs != null) {
+               /* if (mecLaunchInput.mMECFlowInput != null && mecLaunchInput.mMECFlowInput.productCTNs != null) {
                     val CTNs = mecLaunchInput.mMECFlowInput.productCTNs
                     bundle.putStringArrayList(MECConstant.CATEGORISED_PRODUCT_CTNS, CTNs)
-                }
+                }*/
 
-                bundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, ignoreRetailers)
+               // bundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, ignoreRetailers)
                 fragment.arguments = bundle
             }
             else -> {
-                fragment = MECProductCatalogFragment()
-                bundle.putString(MECConstant.CATEGORISED_PRODUCT_CTNS, null)
-                bundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, ignoreRetailers)
+                fragment = MECProductCatalogFragment().createInstance(Bundle())
+
+                //bundle.putString(MECConstant.CATEGORISED_PRODUCT_CTNS, null)
+              //  bundle.putStringArrayList(MECConstant.MEC_IGNORE_RETAILER_LIST, ignoreRetailers)
                 fragment.arguments = bundle
             }
         }//fragment = new PurchaseHistoryFragment();
