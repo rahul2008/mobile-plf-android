@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +19,6 @@ import com.philips.cdp.di.ecs.model.products.ECSProducts
 import com.philips.cdp.di.mec.activity.MecError
 import com.philips.cdp.di.mec.databinding.MecCatalogFragmentBinding
 import com.philips.cdp.di.mec.screens.InAppBaseFragment
-
-
 
 
 /**
@@ -38,7 +38,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
                 for(ecsProduct in ecsProducts.products){
 
-                    mecProductList.add(MECProduct(ecsProduct.summary.productTitle,ecsProduct.summary.price.formattedDisplayPrice,ecsProduct.summary.imageURL))
+                    mecProductList.add(MECProduct(ecsProduct.code, ecsProduct.summary.price.formattedDisplayPrice, ecsProduct.summary.imageURL, ecsProduct.summary.productTitle))
 
                 }
             }
@@ -80,6 +80,19 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
         ecsProductViewModel.init(0,20);
 
         mecProductList = mutableListOf<MECProduct>()
+
+        binding.mecSearchBox.searchTextView.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                adapter.filter.filter(s)
+            }
+
+        })
 
 
         return binding.root
@@ -126,4 +139,5 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
         binding.productCatalogRecyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
     }
+
 }

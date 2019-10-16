@@ -6,7 +6,7 @@ import android.view.View
 import com.philips.cdp.di.mec.networkEssentials.NetworkImageLoader
 
 
-class MECProduct (val name: String, val price: String, val imageUrl: String){
+class MECProduct(val code: String, val price: String, val imageUrl: String, val name: String){
 
 
     companion object DataBindingAdapter {
