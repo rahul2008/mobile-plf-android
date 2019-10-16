@@ -49,7 +49,6 @@ public class WebPaymentFragment extends WebFragment implements AlertListener {
         super.onResume();
         ECSAnalytics.trackPage(ECSAnalyticsConstant.WORLD_PAY_PAGE_NAME);
         setTitleAndBackButtonVisibility(R.string.iap_payment, true);
-        Utility.isDelvieryFirstTimeUser=false;
         setCartIconVisibility(false);
     }
 
