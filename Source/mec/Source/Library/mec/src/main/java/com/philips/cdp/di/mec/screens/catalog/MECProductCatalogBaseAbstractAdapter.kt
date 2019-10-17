@@ -25,7 +25,7 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
                 var filteredList :MutableList<MECProduct> = mutableListOf()
 
                 if(searchString.isEmpty()){
-
+                    filteredList = items
                 }else{
 
                     for(mecProducts in items){
@@ -34,8 +34,8 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
                             filteredList.add(mecProducts)
                         }
                     }
-                    filterResults.values = filteredList
                 }
+                filterResults.values = filteredList
                 return filterResults
             }
 
