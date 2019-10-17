@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -26,11 +27,15 @@ import com.philips.cdp.di.mec.screens.InAppBaseFragment
  */
 class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSProducts>> {
 
-
+    var totalPages:Int = 0
+    var currentPage:Int = 0
+    var pageSize:Int = 8
 
     override fun onChanged(ecsProductsList:MutableList<ECSProducts>?) {
 
       System.out.println("Size of products"+ (ecsProductsList?.size ?: 0))
+
+        totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
 
         if (ecsProductsList != null) {
             for (ecsProducts in ecsProductsList){
@@ -77,7 +82,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
             }
         })
 
-        ecsProductViewModel.init(0,20);
+        ecsProductViewModel.init(currentPage,pageSize);
 
         mecProductList = mutableListOf<MECProduct>()
 
@@ -94,6 +99,17 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
         })
 
+
+        binding.productCatalogRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if(currentPage<totalPages) {
+                    currentPage++
+                    ecsProductViewModel.init(currentPage, pageSize)
+                }
+            }
+        })
 
         return binding.root
     }

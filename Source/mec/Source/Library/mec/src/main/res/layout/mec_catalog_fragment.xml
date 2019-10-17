@@ -16,6 +16,7 @@
 
     <LinearLayout
         android:id="@+id/iap_ll_search_box"
+        android:layout_below="@+id/switch_layout"
         android:layout_width="match_parent"
         android:layout_margin="20dp"
         android:layout_height="wrap_content">
@@ -38,7 +39,7 @@
         android:text="Switch Layout"/>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/switch_layout"
+        android:layout_below="@+id/iap_ll_search_box"
         android:layout_margin="20dp"
         android:id="@+id/product_catalog_recycler_view"
         android:layout_width="match_parent"
