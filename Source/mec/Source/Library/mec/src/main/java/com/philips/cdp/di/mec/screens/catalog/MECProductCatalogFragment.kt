@@ -122,6 +122,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
         return binding.root
     }
 
+
     override fun onResume() {
         super.onResume()
     }

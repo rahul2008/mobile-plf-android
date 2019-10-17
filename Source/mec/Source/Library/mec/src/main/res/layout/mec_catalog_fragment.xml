@@ -15,10 +15,34 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/mec_ll_layout"
+        android:layout_width="match_parent"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:layout_height="wrap_content"
+        android:background="#DCDCDC">
+
+    <ImageView
+        android:id="@+id/mec_list"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:paddingEnd="3dp"
+        android:src="@drawable/mec_list"/>
+
+        <ImageView
+            android:id="@+id/mec_grid"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:paddingStart="7dp"
+            android:src="@drawable/mec_grid" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/iap_ll_search_box"
         android:layout_below="@+id/switch_layout"
         android:layout_width="match_parent"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:layout_height="wrap_content">
 
         <com.philips.platform.uid.view.widget.SearchBox
@@ -33,6 +57,7 @@
         android:id="@+id/switch_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/mec_ll_layout"
         android:layout_margin="20dp"
         android:textSize="15sp"
         android:onCheckedChanged="@{fragment::onLayoutChanged}"

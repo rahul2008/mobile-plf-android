@@ -39,15 +39,58 @@
                 android:text="@{ product.name}"
                 android:textSize="16sp" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/iap_margin_4dp">
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/iap_rating_lebel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:text="4"
+                    android:textColorHint="@color/cardview_dark_background"
+                    android:textSize="@dimen/iap_product_original_price" />
+
+                <RatingBar
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:numStars="1"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:isIndicator="false"
+                    android:progressTint="@color/cardview_dark_background"/>
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/iap_review_lebel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                    android:text=" (3 reviews)"
+                    android:textSize="@dimen/iap_product_original_price" />
+
+            </LinearLayout>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/iap_retailerItem_ctn_lebel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/iap_margin_4dp"
+                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:text="@{ product.code}"
+                android:textSize="@dimen/iap_product_original_price" />
+
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/iap_retailerItem_price_lebel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/iap_margin_4dp"
-                android:textColor="?attr/uidContentItemTertiaryNormalTextColor"
+                android:layout_gravity="right"
+                android:textColor="?attr/uidContentItemPrimaryNormalTextColor"
                 android:text="@{ product.price}"
-                android:textSize="@dimen/iap_product_original_price" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
