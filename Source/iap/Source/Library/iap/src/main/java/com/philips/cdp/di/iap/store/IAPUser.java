@@ -16,6 +16,7 @@ import com.philips.platform.pif.DataInterface.USR.listeners.UserDataListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 public class IAPUser implements UserDataListener {
@@ -37,12 +38,31 @@ public class IAPUser implements UserDataListener {
         mStore = store;
     }
 
+    /*
+     * Janrain detail has to be send in request body
+     * Note: These janrain details should not be passed in request url as query string
+     *
+     * */
+    public Map<String, String> getJanrainOAuth() {
+        Map<String, String> map = new HashMap<>();
+        if (mUserDataInterface.isOIDCToken()) {
+            map.put("oidc", getJanRainID());
+            map.put("grant_type", "oidc");
+        } else {
+            map.put("janrain", getJanRainID());
+            map.put("grant_type", "janrain");
+        }
+        map.put("client_id", "mobile_android");
+        map.put("client_secret", "secret");
+        return map;
+    }
+
     public String getJanRainID() {
         ArrayList<String> detailsKey = new ArrayList<>();
         detailsKey.add(UserDetailConstants.ACCESS_TOKEN);
         try {
-           HashMap<String,Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
-           return userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
+            HashMap<String, Object> userDetailsMap = mUserDataInterface.getUserDetails(detailsKey);
+            return userDetailsMap.get(UserDetailConstants.ACCESS_TOKEN).toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +74,7 @@ public class IAPUser implements UserDataListener {
         detailsKey.add(UserDetailConstants.EMAIL);
         String janrainEmail = null;
         try {
-               janrainEmail = mUserDataInterface.getUserDetails(detailsKey).get(UserDetailConstants.EMAIL).toString();
+            janrainEmail = mUserDataInterface.getUserDetails(detailsKey).get(UserDetailConstants.EMAIL).toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,7 +161,7 @@ public class IAPUser implements UserDataListener {
     public void logoutSessionSuccess() {
         IAPLog.d(TAG, "logoutSessionSuccess");
         mStore.setNewUser(true);
-        mUserDataInterface.removeUserDataInterfaceListener( this);
+        mUserDataInterface.removeUserDataInterfaceListener(this);
     }
 
     @Override
@@ -152,7 +172,7 @@ public class IAPUser implements UserDataListener {
 
     @Override
     public void onRefetchSuccess() {
-    // NOP
+        // NOP
     }
 
     @Override
@@ -167,13 +187,13 @@ public class IAPUser implements UserDataListener {
 
     @Override
     public void refreshSessionFailed(Error error) {
-    // NOP since handled by inline listener
+        // NOP since handled by inline listener
     }
 
     @Override
     public void forcedLogout() {
         mStore.setNewUser(true);
-        mUserDataInterface.removeUserDataInterfaceListener( this);
+        mUserDataInterface.removeUserDataInterfaceListener(this);
 
     }
 }
