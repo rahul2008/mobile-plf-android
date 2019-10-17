@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
       System.out.println("Size of products"+ (ecsProductsList?.size ?: 0))
 
         totalPages = ecsProductsList?.get(0)?.pagination?.totalPages ?: 0
+
 
         if (ecsProductsList != null) {
             for (ecsProducts in ecsProductsList){
@@ -101,12 +103,18 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
 
 
         binding.productCatalogRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
 
-                if(currentPage<totalPages) {
-                    currentPage++
-                    ecsProductViewModel.init(currentPage, pageSize)
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                val lay = recyclerView
+                        .layoutManager as LinearLayoutManager
+
+                if(isScrollDown(lay)){
+                    if(currentPage<totalPages) {
+                        ++currentPage
+                        ecsProductViewModel.init(currentPage, pageSize)
+                    }
                 }
             }
         })
@@ -154,6 +162,12 @@ class MECProductCatalogFragment : InAppBaseFragment(),Observer<MutableList<ECSPr
         }
         binding.productCatalogRecyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
+    }
+
+    private fun isScrollDown(lay: LinearLayoutManager): Boolean {
+        val visibleItemCount = lay.childCount
+        val firstVisibleItemPosition = lay.findFirstVisibleItemPosition()
+        return visibleItemCount + firstVisibleItemPosition >= lay.itemCount && firstVisibleItemPosition >= 0
     }
 
 }

@@ -8,6 +8,8 @@ import android.widget.Filterable
 
 abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableList<MECProduct>) : RecyclerView.Adapter<MECProductCatalogAbstractViewHolder>(),Filterable {
 
+    val originalList = items
+
     abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MECProductCatalogAbstractViewHolder
 
     override fun getItemCount(): Int = items.size
@@ -17,20 +19,21 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
     override fun getFilter(): Filter {
 
+        var filteredList :MutableList<MECProduct> = mutableListOf()
+
         return object:Filter(){
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val searchString = constraint.toString()
                 val filterResults = FilterResults()
-                filterResults.values = items
-                var filteredList :MutableList<MECProduct> = mutableListOf()
+                filterResults.values = originalList
 
                 if(searchString.isEmpty()){
-                    filteredList = items
+                    filteredList = originalList
                 }else{
 
-                    for(mecProducts in items){
+                    for(mecProducts in originalList){
 
-                        if(mecProducts.code.contains(searchString,false)){
+                        if(mecProducts.code.contains(searchString,true)){
                             filteredList.add(mecProducts)
                         }
                     }
@@ -41,7 +44,7 @@ abstract class MECProductCatalogBaseAbstractAdapter(private var items: MutableLi
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 items = results?.values as MutableList<MECProduct>
-               notifyDataSetChanged()
+                notifyDataSetChanged()
             }
 
         }
